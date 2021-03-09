@@ -4,21 +4,21 @@ include ActiveJob::TestHelper
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   def blocks
     {
-      "type": 'app_package',
-      "schema": [
+      type: 'app_package',
+      schema: [
         {
-          "name": 'calendly',
-          "type": 'button',
-          "label": 'book a metting',
-          "element": 'button',
-          "placeholder": 'click button to open calendar'
+          name: 'calendly',
+          type: 'button',
+          label: 'book a metting',
+          element: 'button',
+          placeholder: 'click button to open calendar'
         }
       ],
-      "values": {
-        "src": 'https://calendly.com/miguelmichelson/15min'
+      values: {
+        src: 'https://calendly.com/miguelmichelson/15min'
       },
-      "app_package": 'calendly',
-      "wait_for_input": true
+      app_package: 'calendly',
+      wait_for_input: true
     }
   end
 

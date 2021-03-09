@@ -5,24 +5,24 @@ require 'app_packages_catalog'
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   def blocks
     {
-      "type": 'app_package',
-      "schema": [
+      type: 'app_package',
+      schema: [
         {
-          "type": 'button',
-          "align": 'left',
-          "label": 'Join',
-          "width": 'full',
-          "action": {
+          type: 'button',
+          align: 'left',
+          label: 'Join',
+          width: 'full',
+          action: {
             type: 'url',
             url: 'http://something.cl'
           }
         }
       ],
-      "values": {
-        "src": nil
+      values: {
+        src: nil
       },
-      "app_package": 'zoom',
-      "wait_for_input": true
+      app_package: 'zoom',
+      wait_for_input: true
     }
   end
 

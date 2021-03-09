@@ -43,8 +43,8 @@ class AssignmentRule < ApplicationRecord
     cond = case rule['comparison']
            when 'eq' then rule['value'] == part
            when 'not_eq' then rule['value'] != part
-           when 'contains_start' then rule['value'] == part
-           when 'contains_ends' then rule['value'].start_with?(part)
+           when 'contains_start' then rule['value'].start_with?(part)
+           when 'contains_ends' then rule['value'].end_with?(part)
            when 'contains' then rule['value'].include?(part)
            when 'not_contains' then !rule['value'].include?(part)
            when 'is_null' then rule['value'].empty?

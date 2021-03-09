@@ -74,19 +74,19 @@ class ActionTrigger
     )
 
     # for factory triggers this is needed, as they are dynamic
-    if !path
+    if path
+      next_index = path['steps'].index do |o|
+        o['step_uid'].to_s == message.step_id
+      end + 1
+      next_step = path['steps'][next_index]
+    else
+      # normal flow , get next step from next index on the static trigger
       paths = trigger.paths.map do |o|
         o[:steps].find do |s|
           s[:step_uid].to_s == message&.message&.blocks&.dig('next_step_uuid')
         end
       end
       next_step = paths.find { |o| o }.with_indifferent_access
-    else
-      # normal flow , get next step from next index on the static trigger
-      next_index = path['steps'].index do |o|
-        o['step_uid'].to_s == message.step_id
-      end + 1
-      next_step = path['steps'][next_index]
     end
 
     if next_step.blank?

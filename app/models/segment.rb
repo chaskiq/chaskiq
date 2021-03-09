@@ -204,7 +204,13 @@ class Segment < ApplicationRecord
       # check = field.eq(nil)
       init = tags_query.nil? || inverse ? result.arel_table : tags_query
 
-      if !or_predicate
+      if or_predicate
+        tags_query = if tags_query.blank?
+                       check
+                     else
+                       tags_query.or(check)
+                     end
+      else
         q = taggings[:tag_id].in(tags.project(tags[:id]).where(check))
         # q = taggings[:tag_id].not_in( tags.project(tags[:id]).where(check)) if inverse
         j = init.join(taggings).on(
@@ -214,12 +220,6 @@ class Segment < ApplicationRecord
         )
         to_exclude << j if inverse
         tags_query = j unless inverse
-      else
-        tags_query = if tags_query.blank?
-                       check
-                     else
-                       tags_query.or(check)
-                     end
       end
     end
 

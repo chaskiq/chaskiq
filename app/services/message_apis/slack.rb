@@ -52,8 +52,8 @@ module MessageApis
       @base_url = BASE_URL
 
       {
-        "access_token": @keys['access_token'],
-        "access_token_secret": @keys['access_token_secret']
+        access_token: @keys['access_token'],
+        access_token_secret: @keys['access_token_secret']
       }.with_indifferent_access
     end
 
@@ -87,9 +87,9 @@ module MessageApis
       authorize_bot!
 
       data = {
-        "channel": options[:channel] || @keys['channel'],
-        "text": message,
-        "blocks": blocks
+        channel: options[:channel] || @keys['channel'],
+        text: message,
+        blocks: blocks
       }
 
       data.merge!(options) if options.present?
@@ -112,8 +112,8 @@ module MessageApis
       authorize_bot!
 
       data = {
-        "name": name || @keys['channel'],
-        "user_ids": user_ids
+        name: name || @keys['channel'],
+        user_ids: user_ids
       }
 
       url = url('/api/conversations.create')
@@ -130,7 +130,7 @@ module MessageApis
 
     def join_channel(id)
       data = {
-        "channel": id
+        channel: id
       }
 
       url = url('/api/conversations.join')
@@ -178,59 +178,59 @@ module MessageApis
 
       data = [
         {
-          "type": 'section',
-          "text": {
-            "type": 'mrkdwn',
-            "text": "Conversation initiated by #{links}"
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: "Conversation initiated by #{links}"
           }
         },
 
         {
-          "type": 'section',
-          "fields": [
+          type: 'section',
+          fields: [
             {
-              "type": 'mrkdwn',
-              "text": "*Info:* #{participant.display_name} #{participant.email}"
+              type: 'mrkdwn',
+              text: "*Info:* #{participant.display_name} #{participant.email}"
             },
             {
-              "type": 'mrkdwn',
-              "text": "*From:* #{participant.city}, #{participant.region} "
+              type: 'mrkdwn',
+              text: "*From:* #{participant.city}, #{participant.region} "
             },
             {
-              "type": 'mrkdwn',
-              "text": "*When:* #{I18n.l(conversation.created_at, format: :short)}"
+              type: 'mrkdwn',
+              text: "*When:* #{I18n.l(conversation.created_at, format: :short)}"
             },
             {
-              "type": 'mrkdwn',
-              "text": "*Seen:* #{participant.last_visited_at ? I18n.l(participant.last_visited_at, format: :short) : 'unknown'}"
+              type: 'mrkdwn',
+              text: "*Seen:* #{participant.last_visited_at ? I18n.l(participant.last_visited_at, format: :short) : 'unknown'}"
             },
             {
-              "type": 'mrkdwn',
-              "text": "*Assignee:* #{assignee_display(conversation.assignee) || 'Unassigned'}"
+              type: 'mrkdwn',
+              text: "*Assignee:* #{assignee_display(conversation.assignee) || 'Unassigned'}"
             },
             {
-              "type": 'mrkdwn',
-              "text": "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
+              type: 'mrkdwn',
+              text: "*Device:*\n#{participant.browser} #{participant.browser_version} / #{participant.os}"
             },
 
             {
-              "type": 'mrkdwn',
-              "text": "*From:*\n<#{participant.referrer} | URL: #{participant.referrer}>"
+              type: 'mrkdwn',
+              text: "*From:*\n<#{participant.referrer} | URL: #{participant.referrer}>"
             }
 
           ]
         },
 
         {
-          "type": 'divider'
+          type: 'divider'
         },
 
         {
-          "type": 'context',
-          "elements": [
+          type: 'context',
+          elements: [
             {
-              "type": 'mrkdwn',
-              "text": 'Message'
+              type: 'mrkdwn',
+              text: 'Message'
             }
           ]
         }
@@ -240,15 +240,15 @@ module MessageApis
 
       data << [
         {
-          "type": 'divider'
+          type: 'divider'
         },
 
         {
-          "type": 'context',
-          "elements": [
+          type: 'context',
+          elements: [
             {
-              "type": 'mrkdwn',
-              "text": 'To reply just reply on a thread'
+              type: 'mrkdwn',
+              text: 'To reply just reply on a thread'
             }
           ]
         }
@@ -261,8 +261,8 @@ module MessageApis
           'New conversation from Chaskiq',
           data.flatten.as_json,
           {
-            "channel": @keys['channel'],
-            "text": 'New conversation from Chaskiq'
+            channel: @keys['channel'],
+            text: 'New conversation from Chaskiq'
           }
         )
       )
@@ -290,35 +290,35 @@ module MessageApis
         'new lead!',
         [
           {
-            "type": 'section',
-            "text": {
-              "type": 'mrkdwn',
-              "text": "a new Lead! #{user.name}"
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: "a new Lead! #{user.name}"
             }
           },
           {
-            "type": 'divider'
+            type: 'divider'
           },
           {
-            "type": 'actions',
-            "elements": [
+            type: 'actions',
+            elements: [
               {
-                "type": 'button',
-                "text": {
-                  "type": 'plain_text',
-                  "text": 'Close',
-                  "emoji": true
+                type: 'button',
+                text: {
+                  type: 'plain_text',
+                  text: 'Close',
+                  emoji: true
                 },
-                "value": 'click_me_123'
+                value: 'click_me_123'
               },
               {
-                "type": 'button',
-                "text": {
-                  "type": 'plain_text',
-                  "text": 'Reply in channel',
-                  "emoji": true
+                type: 'button',
+                text: {
+                  type: 'plain_text',
+                  text: 'Reply in channel',
+                  emoji: true
                 },
-                "value": 'click_me_123'
+                value: 'click_me_123'
               }
             ]
           }
@@ -498,12 +498,12 @@ module MessageApis
                    end
 
         blocks = [{
-          "type": 'section',
-          "text": {
-            "type": 'mrkdwn',
-            "text": "*replied*: #{data_label || data_fmt}"
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: "*replied*: #{data_label || data_fmt}"
           },
-          "block_id": 'replied-1'
+          block_id: 'replied-1'
         }]
 
         user = conversation.main_participant
@@ -534,12 +534,12 @@ module MessageApis
         end
 
         blocks = [{
-          "type": 'section',
-          "text": {
-            "type": 'mrkdwn',
-            "text": "*event*: #{messageable.action} \n #{data_fmt}"
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: "*event*: #{messageable.action} \n #{data_fmt}"
           },
-          "block_id": 'replied-1'
+          block_id: 'replied-1'
         }]
 
         user = conversation.main_participant
@@ -601,56 +601,56 @@ module MessageApis
               return nil if block['text'].blank?
 
               {
-                "type": 'section',
-                "text": {
-                  "type": 'mrkdwn',
-                  "text": block['text']
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: block['text']
                 },
-                "block_id": block['key']
+                block_id: block['key']
               }
             when 'divider'
               {
-                "type": 'divider'
+                type: 'divider'
               }
             when 'image'
               image_url = block['data']['url']
               image_url = "#{ENV['HOST']}#{block['data']['url']}" unless block['data']['url'].include?('://')
               {
-                "type": 'image',
-                "title": {
-                  "type": 'plain_text',
-                  "text": 'image1',
-                  "emoji": true
+                type: 'image',
+                title: {
+                  type: 'plain_text',
+                  text: 'image1',
+                  emoji: true
                 },
-                "image_url": image_url,
-                "alt_text": 'image1'
+                image_url: image_url,
+                alt_text: 'image1'
               }
             when 'file'
               {
-                "type": 'section',
-                "text": {
-                  "type": 'mrkdwn',
-                  "text": "*File sent*: <#{ENV['HOST']}#{block['data']['url']}|go to file>"
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: "*File sent*: <#{ENV['HOST']}#{block['data']['url']}|go to file>"
                 },
-                "block_id": block['key']
+                block_id: block['key']
               }
             when 'header-one', 'header-two', 'header-three', 'header-four'
               {
-                "type": 'section',
-                "text": {
-                  "type": 'mrkdwn',
-                  "text": "*#{block['text']}*"
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: "*#{block['text']}*"
                 },
-                "block_id": block['key']
+                block_id: block['key']
               }
             else
               {
-                "type": 'section',
-                "text": {
-                  "type": 'mrkdwn',
-                  "text": block['text']
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: block['text']
                 },
-                "block_id": block['key']
+                block_id: block['key']
               }
             end
     end
@@ -752,8 +752,8 @@ module MessageApis
       text_blocks = lines.map { |o| serialized_block(o) }
 
       {
-        "blocks": [text_blocks, serialized_blocks].flatten.compact,
-        "entityMap": {}
+        blocks: [text_blocks, serialized_blocks].flatten.compact,
+        entityMap: {}
       }.to_json
     end
 

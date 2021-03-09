@@ -97,10 +97,10 @@ module MessageApis
             }
           },
           {
-            "type": 'text',
-            "text": 'This will open the Reveniu.com secure payment gateway.',
-            "style": 'muted',
-            "align": 'center'
+            type: 'text',
+            text: 'This will open the Reveniu.com secure payment gateway.',
+            style: 'muted',
+            align: 'center'
           }
         ]
       end
@@ -225,10 +225,10 @@ module MessageApis
         )
 
         button = {
-          "type": 'input',
-          "id": 'url',
-          "placeholder": 'Enter your gumroad link https://reveniu.com/...',
-          "label": 'payment url',
+          type: 'input',
+          id: 'url',
+          placeholder: 'Enter your gumroad link https://reveniu.com/...',
+          label: 'payment url',
           value: ''
         }
 

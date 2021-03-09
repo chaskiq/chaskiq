@@ -203,13 +203,13 @@ Human:'''"
 
       def default_schema
         [
-          { "type": 'text', "text": 'GPT-3 Chatbot', "style": 'header' },
-          { "type": 'text', "text": 'This is a GPT-3 for Chatbots', "style": 'muted' },
-          { "type": 'textarea',
-            "id": 'prompt',
-            "name": 'prompt',
-            "label": 'Prompt data',
-            "placeholder": 'Enter text here...',
+          { type: 'text', text: 'GPT-3 Chatbot', style: 'header' },
+          { type: 'text', text: 'This is a GPT-3 for Chatbots', style: 'muted' },
+          { type: 'textarea',
+            id: 'prompt',
+            name: 'prompt',
+            label: 'Prompt data',
+            placeholder: 'Enter text here...',
             value: prompt,
             errors: errors[:prompt]&.uniq&.join(', ') },
           {
@@ -227,13 +227,13 @@ Human:'''"
 
       def error_schema
         [
-          { "type": 'text', "text": 'This is a header', "style": 'header' },
-          { "type": 'text', "text": 'This is a header', "style": 'muted' },
-          { "type": 'textarea',
-            "id": 'textarea-3',
-            "name": 'textarea-3',
-            "label": 'Error',
-            "placeholder": 'Enter text here...',
+          { type: 'text', text: 'This is a header', style: 'header' },
+          { type: 'text', text: 'This is a header', style: 'muted' },
+          { type: 'textarea',
+            id: 'textarea-3',
+            name: 'textarea-3',
+            label: 'Error',
+            placeholder: 'Enter text here...',
             value: send(:prompt),
             errors: errors[:prompt]&.uniq&.join(', ') },
           {
@@ -251,15 +251,15 @@ Human:'''"
 
       def schema
         [
-          { "type": 'text', "text": 'This is a header', "style": 'header' },
-          { "type": 'text', "text": 'This is a header', "style": 'muted' }
+          { type: 'text', text: 'This is a header', style: 'header' },
+          { type: 'text', text: 'This is a header', style: 'muted' }
         ]
       end
 
       def success_schema
         [
-          { "type": 'text', "text": 'Open AI conversation', "style": 'header' },
-          { "type": 'text', "text": 'you are going to start a conversation with GPT-3 bot', "style": 'muted' },
+          { type: 'text', text: 'Open AI conversation', style: 'header' },
+          { type: 'text', text: 'you are going to start a conversation with GPT-3 bot', style: 'muted' },
           {
             type: 'button',
             id: 'prompt-ok',
@@ -318,7 +318,7 @@ Human:'''"
               start: 'yes'
             },
             definitions: [
-              { "type": 'text', "text": 'You have started the conversation', "style": 'header' }
+              { type: 'text', text: 'You have started the conversation', style: 'header' }
             ]
           }
 
@@ -330,7 +330,7 @@ Human:'''"
               start: 'no'
             },
             definitions: [
-              { "type": 'text', "text": 'you cancelled the conversation', "style": 'header' }
+              { type: 'text', text: 'you cancelled the conversation', style: 'header' }
             ]
           }
         end

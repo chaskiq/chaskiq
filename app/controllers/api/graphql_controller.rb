@@ -43,9 +43,9 @@ class Api::GraphqlController < ApiController
   rescue ActiveRecord::RecordInvalid => e
     error_messages = e.record.errors.full_messages.join("\n")
     json_error e.record
-  rescue OriginValidator::NonAcceptedOrigin => e
+  rescue EULocationError,
+         OriginValidator::NonAcceptedOrigin => e
     # GraphQL::ExecutionError.new e.message
-
     render json: {
       errors: [{
         message: e.message,
@@ -53,13 +53,6 @@ class Api::GraphqlController < ApiController
       }]
     }, status: 422
     # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
-  rescue EULocationError => e
-    render json: {
-      errors: [{
-        message: e.message,
-        data: {}
-      }]
-    }, status: 422
   rescue StandardError => e
     # GraphQL::ExecutionError.new e.message
     # raise e unless Rails.env.development?

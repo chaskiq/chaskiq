@@ -27,9 +27,9 @@ module MessageApis
       def self.search_definitions
         [
           {
-            "type": 'text',
-            "text": 'Help Center',
-            "style": 'header'
+            type: 'text',
+            text: 'Help Center',
+            style: 'header'
           },
           {
             name: 'a',
@@ -38,19 +38,19 @@ module MessageApis
             type: 'separator'
           },
           {
-            "type": 'input',
-            "id": 'unsaved-2',
-            "name": 'search_articles',
-            "label": 'Find Answers Quickly',
-            "placeholder": 'Search for an article...',
-            "save_state": 'unsaved',
-            "action": {
-              "type": 'submit'
+            type: 'input',
+            id: 'unsaved-2',
+            name: 'search_articles',
+            label: 'Find Answers Quickly',
+            placeholder: 'Search for an article...',
+            save_state: 'unsaved',
+            action: {
+              type: 'submit'
             }
           },
           {
-            "type": 'spacer',
-            "size": 'm'
+            type: 'spacer',
+            size: 'm'
           }
         ]
       end
@@ -94,18 +94,18 @@ module MessageApis
 
         results = [
           {
-            "type": 'spacer',
-            "size": 'm'
+            type: 'spacer',
+            size: 'm'
           },
           {
             type: 'list',
             disabled: false,
             items: articles.map do |o|
               {
-                "type": 'item',
-                "id": o.slug.to_s,
-                "title": o.title || '---',
-                "subtitle": o.description,
+                type: 'item',
+                id: o.slug.to_s,
+                title: o.title || '---',
+                subtitle: o.description,
                 action: {
                   type: 'frame',
                   url: '/package_iframe_internal/ArticleSearch'
@@ -114,8 +114,8 @@ module MessageApis
             end
           },
           {
-            "type": 'spacer',
-            "size": 'm'
+            type: 'spacer',
+            size: 'm'
           }
         ]
 
@@ -135,16 +135,16 @@ module MessageApis
       def self.configure_hook(kind:, ctx:)
         definitions = [
           {
-            "type": 'text',
-            "text": 'The Article Search',
-            "style": 'header',
-            "align": 'center'
+            type: 'text',
+            text: 'The Article Search',
+            style: 'header',
+            align: 'center'
           },
           {
-            "type": 'text',
-            "text": 'The Article Search app gives a new home for your Help Center right inside the Messenger.',
-            "style": 'muted',
-            "align": 'center'
+            type: 'text',
+            text: 'The Article Search app gives a new home for your Help Center right inside the Messenger.',
+            style: 'muted',
+            align: 'center'
           },
           {
             id: 'activate-action',

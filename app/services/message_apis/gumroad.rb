@@ -49,10 +49,10 @@ module MessageApis
             }
           },
           {
-            "type": 'text',
-            "text": 'This will open the Gumroad.com secure payment gateway.',
-            "style": 'muted',
-            "align": 'center'
+            type: 'text',
+            text: 'This will open the Gumroad.com secure payment gateway.',
+            style: 'muted',
+            align: 'center'
           }
         ]
       end
@@ -85,22 +85,22 @@ module MessageApis
 
         definitions = [
           {
-            "type": 'text',
-            "text": 'Gumroad',
-            "align": 'center',
-            "style": 'header'
+            type: 'text',
+            text: 'Gumroad',
+            align: 'center',
+            style: 'header'
           },
           {
-            "type": 'text',
-            "text": "Product #{d['product_name']}",
-            "align": 'center',
-            "style": 'paragraph'
+            type: 'text',
+            text: "Product #{d['product_name']}",
+            align: 'center',
+            style: 'paragraph'
           },
           {
-            "type": 'text',
-            "text": 'manage your membership',
-            "align": 'center',
-            "style": 'paragraph'
+            type: 'text',
+            text: 'manage your membership',
+            align: 'center',
+            style: 'paragraph'
           },
           {
             id: 'manage-subscription',
@@ -142,10 +142,10 @@ module MessageApis
         )
 
         button = {
-          "type": 'input',
-          "id": 'url',
-          "placeholder": 'Enter your gumroad link https://gum.co/...',
-          "label": 'payment url',
+          type: 'input',
+          id: 'url',
+          placeholder: 'Enter your gumroad link https://gum.co/...',
+          label: 'payment url',
           value: ''
         }
 

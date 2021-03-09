@@ -42,8 +42,8 @@ module MessageApis
 
       full_name = response.fullName
       user.name = full_name
-      user.first_name = full_name.split(' ')[0]
-      user.last_name  = full_name.split(' ')[1]
+      user.first_name = full_name.split[0]
+      user.last_name  = full_name.split[1]
       user.twitter    = response.twitter
       user.facebook   = response.facebook
       user.linkedin   = response.linkedin
@@ -117,11 +117,11 @@ module MessageApis
         ]
 
         definitions << {
-          "type": 'data-table',
-          "items": user_attrs.map do |o|
-            { "type": 'field-value',
-              "field": o[:label],
-              "value": o[:call].call(user) }
+          type: 'data-table',
+          items: user_attrs.map do |o|
+            { type: 'field-value',
+              field: o[:label],
+              value: o[:call].call(user) }
           end
         }
 
@@ -167,11 +167,11 @@ module MessageApis
           }
         ]
         definitions << {
-          "type": 'data-table',
-          "items": user_attrs.map do |o|
-            { "type": 'field-value',
-              "field": o[:label],
-              "value": o[:call].call(user) }
+          type: 'data-table',
+          items: user_attrs.map do |o|
+            { type: 'field-value',
+              field: o[:label],
+              value: o[:call].call(user) }
           end
         }
 

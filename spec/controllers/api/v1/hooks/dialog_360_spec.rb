@@ -12,23 +12,23 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "messages": [
+      messages: [
         {
-          "from": sender,
-          "id": message_id,
-          "text": {
-            "body": message_data.blank? ? 'hola' : message_data['text']
+          from: sender,
+          id: message_id,
+          text: {
+            body: message_data.blank? ? 'hola' : message_data['text']
           },
-          "timestamp": '1612635177',
-          "type": 'text'
+          timestamp: '1612635177',
+          type: 'text'
         }
       ],
-      "contacts": [
+      contacts: [
         {
-          "profile": {
-            "name": 'Miguel Michelson'
+          profile: {
+            name: 'Miguel Michelson'
           },
-          "wa_id": '1111'
+          wa_id: '1111'
         }
       ],
       'controller' => 'api/v1/hooks/provider',
@@ -42,27 +42,27 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   def data_for_media(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
 
-      "contacts": [
+      contacts: [
         {
-          "profile": {
-            "name": 'Miguel Michelson'
+          profile: {
+            name: 'Miguel Michelson'
           },
-          "wa_id": '56992302305'
+          wa_id: '56992302305'
         }
       ],
 
-      "messages": [{
-        "from": sender,
-        "id": message_id,
-        "image": {
-          "file": '/usr/local/wamedia/shared/b1cf38-8734-4ad3-b4a1-ef0c10d0d683',
-          "id": 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
-          "mime_type": 'image/jpeg',
-          "sha256": '29ed500fa64eb55fc19dc4124acb300e5dcc54a0f822a301ae99944db',
-          "caption": 'Check out my new phone!'
+      messages: [{
+        from: sender,
+        id: message_id,
+        image: {
+          file: '/usr/local/wamedia/shared/b1cf38-8734-4ad3-b4a1-ef0c10d0d683',
+          id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+          mime_type: 'image/jpeg',
+          sha256: '29ed500fa64eb55fc19dc4124acb300e5dcc54a0f822a301ae99944db',
+          caption: 'Check out my new phone!'
         },
-        "timestamp": '1521497954',
-        "type": 'image'
+        timestamp: '1521497954',
+        type: 'image'
       }],
 
       'controller' => 'api/v1/hooks/provider',
@@ -75,26 +75,26 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_audio(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "messages": [
+      messages: [
         {
-          "from": sender,
-          "id": message_id,
-          "timestamp": '1612635177',
-          "type": 'voice',
-          "voice": {
-            "file": '/usr/local/wamedia/shared/463e/b7ec/ff4e4d9bb1101879cbd411b2',
-            "id": '463eb7ec-ff4e-4d9b-b110-1879cbd411b2',
-            "mime_type": 'audio/ogg; codecs=opus',
-            "sha256": 'fa9e1807d936b7cebe63654ea3a7912b1fa9479220258d823590521ef53b0710'
+          from: sender,
+          id: message_id,
+          timestamp: '1612635177',
+          type: 'voice',
+          voice: {
+            file: '/usr/local/wamedia/shared/463e/b7ec/ff4e4d9bb1101879cbd411b2',
+            id: '463eb7ec-ff4e-4d9b-b110-1879cbd411b2',
+            mime_type: 'audio/ogg; codecs=opus',
+            sha256: 'fa9e1807d936b7cebe63654ea3a7912b1fa9479220258d823590521ef53b0710'
           }
         }
       ],
-      "contacts": [
+      contacts: [
         {
-          "profile": {
-            "name": 'Miguel Michelson'
+          profile: {
+            name: 'Miguel Michelson'
           },
-          "wa_id": '56992302305'
+          wa_id: '56992302305'
         }
       ],
       'controller' => 'api/v1/hooks/provider',
@@ -107,26 +107,26 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_video(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "messages": [
+      messages: [
         {
-          "from": sender,
-          "id": message_id,
-          "timestamp": '1612635177',
-          "type": 'video',
-          "video": {
-            "file": '/usr/local/wamedia/shared/463e/b7ec/ff4e4d9bb1101879cbd411b2',
-            "id": '463eb7ec-ff4e-4d9b-b110-1879cbd411b2',
-            "mime_type": 'audio/ogg; codecs=opus',
-            "sha256": 'fa9e1807d936b7cebe63654ea3a7912b1fa9479220258d823590521ef53b0710'
+          from: sender,
+          id: message_id,
+          timestamp: '1612635177',
+          type: 'video',
+          video: {
+            file: '/usr/local/wamedia/shared/463e/b7ec/ff4e4d9bb1101879cbd411b2',
+            id: '463eb7ec-ff4e-4d9b-b110-1879cbd411b2',
+            mime_type: 'audio/ogg; codecs=opus',
+            sha256: 'fa9e1807d936b7cebe63654ea3a7912b1fa9479220258d823590521ef53b0710'
           }
         }
       ],
-      "contacts": [
+      contacts: [
         {
-          "profile": {
-            "name": 'Miguel Michelson'
+          profile: {
+            name: 'Miguel Michelson'
           },
-          "wa_id": '56992302305'
+          wa_id: '56992302305'
         }
       ],
       'controller' => 'api/v1/hooks/provider',
@@ -139,12 +139,12 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_read(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "statuses": [
+      statuses: [
         {
-          "id": message_id,
-          "recipient_id": '56992302305',
-          "status": 'delivered',
-          "timestamp": '1612646286'
+          id: message_id,
+          recipient_id: '56992302305',
+          status: 'delivered',
+          timestamp: '1612646286'
         }
       ],
       'controller' => 'api/v1/hooks/provider',
@@ -157,32 +157,32 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_sticker(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "messages": [
+      messages: [
         {
-          "from": sender,
-          "id": id,
-          "sticker": {
-            "id": '2d0eb523-84cd-4bec-ba73-9e06f0721918',
-            "metadata": {
+          from: sender,
+          id: id,
+          sticker: {
+            id: '2d0eb523-84cd-4bec-ba73-9e06f0721918',
+            metadata: {
               "android-app-store-link": 'https://play.google.com/store/apps/details?id=com.dstukalov.walocalstoragestickers',
               "is-first-party-sticker": 0,
               "sticker-pack-id": 'com.dstukalov.walocalstoragestickers.provider cc31886d051b823c638e2ee1e9d763f4',
               "sticker-pack-name": 'Stickers',
               "sticker-pack-publisher": 'You'
             },
-            "mime_type": 'image/webp',
-            "sha256": '0a7d1c4ddac8547ee866f2b5366443ba8eddbc130acfaf7fc9b5d66a860f84f6'
+            mime_type: 'image/webp',
+            sha256: '0a7d1c4ddac8547ee866f2b5366443ba8eddbc130acfaf7fc9b5d66a860f84f6'
           },
-          "timestamp": '1612664666',
-          "type": 'sticker'
+          timestamp: '1612664666',
+          type: 'sticker'
         }
       ],
-      "contacts": [
+      contacts: [
         {
-          "profile": {
-            "name": 'Miguel Michelson'
+          profile: {
+            name: 'Miguel Michelson'
           },
-          "wa_id": sender
+          wa_id: sender
         }
       ],
       'controller' => 'api/v1/hooks/provider',

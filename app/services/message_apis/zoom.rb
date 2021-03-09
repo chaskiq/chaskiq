@@ -34,19 +34,19 @@ module MessageApis
       response = @conn.post(
         "https://api.zoom.us/v2/users/#{value}/meetings",
         {
-          "duration": 20,
-          "password": DummyName::Name.new,
-          "settings": {
-            "audio": true,
-            "host_video": true,
-            "join_before_host": false,
-            "enforce_login": false,
-            "mute_upon_entry": false,
-            "participant_video": true
+          duration: 20,
+          password: DummyName::Name.new,
+          settings: {
+            audio: true,
+            host_video: true,
+            join_before_host: false,
+            enforce_login: false,
+            mute_upon_entry: false,
+            participant_video: true
           },
-          "timezone": 'string',
-          "topic": message.conversation_part.key,
-          "type": 1
+          timezone: 'string',
+          topic: message.conversation_part.key,
+          type: 1
         }.to_json
       )
 
@@ -55,31 +55,31 @@ module MessageApis
 
       definitions = [
         {
-          "type": 'text',
-          "style": 'header',
-          "text": 'Your zoom meeting is ready',
-          "align": 'left'
+          type: 'text',
+          style: 'header',
+          text: 'Your zoom meeting is ready',
+          align: 'left'
         },
         {
-          "type": 'text',
-          "text": "pass: #{json['password']}",
-          "align": 'left'
+          type: 'text',
+          text: "pass: #{json['password']}",
+          align: 'left'
         },
         {
-          "id": 'join-url',
-          "type": 'button',
-          "align": 'left',
-          "label": 'Join',
-          "width": 'full',
-          "action": {
+          id: 'join-url',
+          type: 'button',
+          align: 'left',
+          label: 'Join',
+          width: 'full',
+          action: {
             type: 'url',
             url: json['join_url']
           }
         },
         {
-          "type": 'text',
-          "text": "Status: #{json['status']}",
-          "align": 'left'
+          type: 'text',
+          text: "Status: #{json['status']}",
+          align: 'left'
         }
       ]
 
@@ -161,16 +161,16 @@ module MessageApis
 
       if data['message'].present?
         return {
-          'formatted_text': data['message']
+          formatted_text: data['message']
         }
       end
 
       {
-        "opener": data['join_url'],
-        "status": data['status'],
-        "password": data['password'],
-        "meeting_id": data['id'],
-        "formatted_text": "<span>
+        opener: data['join_url'],
+        status: data['status'],
+        password: data['password'],
+        meeting_id: data['id'],
+        formatted_text: "<span>
           <a href=#{data['join_url']} target='blank'> Zoom meeting: #{data['id']}</a>
           <br/> password: #{data['password']}
           <br/> status: #{data['status']}
@@ -187,31 +187,31 @@ module MessageApis
 
         definitions = [
           {
-            "type": 'text',
-            "style": 'header',
-            "text": 'Your zoom meeting is ready',
-            "align": 'left'
+            type: 'text',
+            style: 'header',
+            text: 'Your zoom meeting is ready',
+            align: 'left'
           },
           {
-            "type": 'text',
-            "text": "pass: #{params[:ctx][:values][:password]}",
-            "align": 'left'
+            type: 'text',
+            text: "pass: #{params[:ctx][:values][:password]}",
+            align: 'left'
           },
           {
-            "id": 'join-url',
-            "type": 'button',
-            "align": 'left',
-            "label": 'Join',
-            "width": 'full',
-            "action": {
+            id: 'join-url',
+            type: 'button',
+            align: 'left',
+            label: 'Join',
+            width: 'full',
+            action: {
               type: 'url',
               url: params[:ctx][:values][:join_url]
             }
           },
           {
-            "type": 'text',
-            "text": "Status: #{params[:ctx][:values][:status]}",
-            "align": 'left'
+            type: 'text',
+            text: "Status: #{params[:ctx][:values][:status]}",
+            align: 'left'
           }
         ]
 

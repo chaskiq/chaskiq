@@ -291,8 +291,8 @@ module MessageApis
     def text_block(text)
       lines = text.split("\n").delete_if(&:empty?)
       {
-        "blocks": lines.map { |o| serialized_block(o) },
-        "entityMap": {}
+        blocks: lines.map { |o| serialized_block(o) },
+        entityMap: {}
       }.to_json
     end
 
@@ -308,8 +308,8 @@ module MessageApis
       text_blocks = lines.map { |o| serialized_block(o) }
 
       {
-        "blocks": [a, *text_blocks].compact,
-        "entityMap": {}
+        blocks: [a, *text_blocks].compact,
+        entityMap: {}
       }.to_json
     end
 
@@ -330,25 +330,25 @@ module MessageApis
 
       url = direct_upload(variant['url'], variant['content_type'])
 
-      text = data['text'].split(' ').last
+      text = data['text'].split.last
 
       {
-        "key": keygen,
-        "text": text,
-        "type": 'recorded-video',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "rejectedReason": '',
-          "secondsLeft": 0,
-          "fileReady": true,
-          "paused": false,
-          "url": url,
-          "recording": false,
-          "granted": true,
-          "loading": false,
-          "direction": 'center'
+        key: keygen,
+        text: text,
+        type: 'recorded-video',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          rejectedReason: '',
+          secondsLeft: 0,
+          fileReady: true,
+          paused: false,
+          url: url,
+          recording: false,
+          granted: true,
+          loading: false,
+          direction: 'center'
         }
       }
     end
@@ -372,44 +372,44 @@ module MessageApis
 
       url = direct_upload(media['media_url_https'])
 
-      text = data['text'].split(' ').last
+      text = data['text'].split.last
 
       {
-        "key": keygen,
-        "text": text,
-        "type": 'image',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "aspect_ratio": {
-            "width": media['sizes']['small']['w'].to_i,
-            "height": media['sizes']['small']['h'].to_i,
-            "ratio": 100
+        key: keygen,
+        text: text,
+        type: 'image',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          aspect_ratio: {
+            width: media['sizes']['small']['w'].to_i,
+            height: media['sizes']['small']['h'].to_i,
+            ratio: 100
           },
-          "width": media['sizes']['small']['w'].to_i,
-          "height": media['sizes']['small']['h'].to_i,
-          "caption": data['text'],
-          "forceUpload": false,
-          "url": url,
-          "loading_progress": 0,
-          "selected": false,
-          "loading": true,
-          "file": {},
-          "direction": 'center'
+          width: media['sizes']['small']['w'].to_i,
+          height: media['sizes']['small']['h'].to_i,
+          caption: data['text'],
+          forceUpload: false,
+          url: url,
+          loading_progress: 0,
+          selected: false,
+          loading: true,
+          file: {},
+          direction: 'center'
         }
       }
     end
 
     def serialized_block(text)
       {
-        "key": 'f1qmb',
-        "text": text,
-        "type": 'unstyled',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
+        key: 'f1qmb',
+        text: text,
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
       }
     end
 

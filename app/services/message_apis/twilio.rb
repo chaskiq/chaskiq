@@ -207,28 +207,28 @@ module MessageApis
       end
 
       {
-        "blocks": media_blocks,
-        "entityMap": {}
+        blocks: media_blocks,
+        entityMap: {}
       }.to_json
     end
 
     def text_block(text)
       lines = text.split("\n").delete_if(&:empty?)
       {
-        "blocks": lines.map { |o| serialized_block(o) },
-        "entityMap": {}
+        blocks: lines.map { |o| serialized_block(o) },
+        entityMap: {}
       }.to_json
     end
 
     def serialized_block(text)
       {
-        "key": 'f1qmb',
-        "text": text,
-        "type": 'unstyled',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
+        key: 'f1qmb',
+        text: text,
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
       }
     end
 
@@ -238,8 +238,7 @@ module MessageApis
       text = data['Body']
 
       case media_type
-      when 'image/gif' then photo_block(attachment, text)
-      when 'image/jpeg' then photo_block(attachment, text)
+      when 'image/gif', 'image/jpeg' then photo_block(attachment, text)
       when 'video/mp4' then gif_block(attachment, text)
         # TODO: support audio as content block
         # "audio/ogg" then ....
@@ -253,71 +252,71 @@ module MessageApis
       # url = direct_upload(variant["url"], variant["content_type"])
       # text = data['text'].split(" ").last
       {
-        "key": keygen,
-        "text": text,
-        "type": 'recorded-video',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "rejectedReason": '',
-          "secondsLeft": 0,
-          "fileReady": true,
-          "paused": false,
-          "url": url,
-          "recording": false,
-          "granted": true,
-          "loading": false,
-          "direction": 'center'
+        key: keygen,
+        text: text,
+        type: 'recorded-video',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          rejectedReason: '',
+          secondsLeft: 0,
+          fileReady: true,
+          paused: false,
+          url: url,
+          recording: false,
+          granted: true,
+          loading: false,
+          direction: 'center'
         }
       }
     end
 
     def file_block(url, text)
       {
-        "key": keygen,
-        "text": text,
-        "type": 'file',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "caption": text,
-          "forceUpload": false,
-          "url": url,
-          "loading_progress": 0,
-          "selected": false,
-          "loading": true,
-          "file": {},
-          "direction": 'center'
+        key: keygen,
+        text: text,
+        type: 'file',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          caption: text,
+          forceUpload: false,
+          url: url,
+          loading_progress: 0,
+          selected: false,
+          loading: true,
+          file: {},
+          direction: 'center'
         }
       }
     end
 
     def photo_block(url, text)
       {
-        "key": keygen,
-        "text": text,
-        "type": 'image',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
+        key: keygen,
+        text: text,
+        type: 'image',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
           # "aspect_ratio":{
           #  "width": media["sizes"]["small"]["w"].to_i,
           #  "height": media["sizes"]["small"]["h"].to_i,
           #  "ratio":100
           # },
-          "width": 100, # media["sizes"]["small"]["w"].to_i,
-          "height": 100, # media["sizes"]["small"]["h"].to_i,
-          "caption": text,
-          "forceUpload": false,
-          "url": url,
-          "loading_progress": 0,
-          "selected": false,
-          "loading": true,
-          "file": {},
-          "direction": 'center'
+          width: 100, # media["sizes"]["small"]["w"].to_i,
+          height: 100, # media["sizes"]["small"]["h"].to_i,
+          caption: text,
+          forceUpload: false,
+          url: url,
+          loading_progress: 0,
+          selected: false,
+          loading: true,
+          file: {},
+          direction: 'center'
         }
       }
     end

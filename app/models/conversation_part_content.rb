@@ -7,8 +7,7 @@ class ConversationPartContent < ApplicationRecord
     super.except('created_at',
                  'updated_at',
                  'id',
-                 'conversation_part_id').tap do |hash|
-    end
+                 'conversation_part_id')
   end
 
   def parsed_content

@@ -161,10 +161,10 @@ module MessageApis
       def self.submit_hook(params)
         definitions = [
           {
-            "type": 'text',
-            "text": 'Calendly',
-            "align": 'center',
-            "style": 'header'
+            type: 'text',
+            text: 'Calendly',
+            align: 'center',
+            style: 'header'
           }
         ]
 
@@ -172,10 +172,10 @@ module MessageApis
           case event
           when 'calendly.event_scheduled'
             definitions << {
-              "type": 'text',
-              "text": 'Scheduled!',
-              "align": 'center',
-              "style": 'header'
+              type: 'text',
+              text: 'Scheduled!',
+              align: 'center',
+              style: 'header'
             }
           end
         end
@@ -235,16 +235,16 @@ module MessageApis
            ctx.dig(:field, :action, :type) === 'submit'
 
           url = ctx.dig(:values, :calendar)
-          label = if !ctx.dig(:values, :label).blank?
-                    ctx.dig(:values, :label)
-                  else
+          label = if ctx.dig(:values, :label).blank?
                     'Book a meeting'
+                  else
+                    ctx.dig(:values, :label)
                   end
 
-          invitation = if !ctx.dig(:values, :invitation_text).blank?
-                         ctx.dig(:values, :invitation_text)
-                       else
+          invitation = if ctx.dig(:values, :invitation_text).blank?
                          "meet with #{ctx.dig(:app).name} team"
+                       else
+                         ctx.dig(:values, :invitation_text)
                        end
 
           unless valid_url?(url)

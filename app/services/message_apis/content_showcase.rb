@@ -99,14 +99,14 @@ module MessageApis
 
         definitions = [
           {
-            "type": 'text',
-            "text": 'yes!!!!!',
-            "style": 'header'
+            type: 'text',
+            text: 'yes!!!!!',
+            style: 'header'
           },
           {
-            "type": 'text',
-            "text": "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-            "style": 'paragraph'
+            type: 'text',
+            text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
+            style: 'paragraph'
           }
         ]
 
@@ -351,19 +351,19 @@ class AnnouncementRecord
 
   def base_title(title:, subtitle:)
     [{
-      "type": 'text',
-      "text": title,
-      "style": 'header',
-      "align": 'center'
+      type: 'text',
+      text: title,
+      style: 'header',
+      align: 'center'
     },
      {
-       "type": 'text',
-       "text": subtitle,
-       "style": 'muted',
-       "align": 'center'
+       type: 'text',
+       text: subtitle,
+       style: 'muted',
+       align: 'center'
      },
      {
-       "type": 'separator'
+       type: 'separator'
      }]
   end
 
@@ -395,9 +395,9 @@ class AnnouncementRecord
     [
 
       {
-        "type": 'text',
-        "text": 'Pick a template',
-        "style": 'header'
+        type: 'text',
+        text: 'Pick a template',
+        style: 'header'
       },
 
       {
@@ -405,21 +405,21 @@ class AnnouncementRecord
         disabled: false,
         items: [
           {
-            "type": 'item',
-            "id": 'announcement',
-            "title": 'Announcement',
-            "subtitle": 'Broadcast a new message',
-            "action": {
-              "type": 'submit'
+            type: 'item',
+            id: 'announcement',
+            title: 'Announcement',
+            subtitle: 'Broadcast a new message',
+            action: {
+              type: 'submit'
             }
           },
           {
-            "type": 'item',
-            "id": 'top-articles',
-            "title": 'Top Articles',
-            "subtitle": 'Suggest helpful articles',
-            "action": {
-              "type": 'submit'
+            type: 'item',
+            id: 'top-articles',
+            title: 'Top Articles',
+            subtitle: 'Suggest helpful articles',
+            action: {
+              type: 'submit'
             }
           }
         ]
@@ -430,7 +430,7 @@ class AnnouncementRecord
   def schema
     [
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'input',
@@ -441,7 +441,7 @@ class AnnouncementRecord
         value: heading
       },
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'input',
@@ -492,7 +492,7 @@ class AnnouncementRecord
         id: 'cover_image'
       },
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'button',
@@ -508,7 +508,7 @@ class AnnouncementRecord
 
   def top_articles_up
     [
-      { "type": 'separator' },
+      { type: 'separator' },
       {
         type: 'spacer',
         size: 'sm'
@@ -526,7 +526,7 @@ class AnnouncementRecord
         size: 'sm'
       },
       {
-        "type": 'separator'
+        type: 'separator'
       }
     ]
   end
@@ -544,7 +544,7 @@ class AnnouncementRecord
         }
       },
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'button',
@@ -621,7 +621,7 @@ class AnnouncementRecord
         id: 'cover_image'
       },
       {
-        "type": 'separator'
+        type: 'separator'
       }
     ]
   end
@@ -630,7 +630,7 @@ class AnnouncementRecord
   def presentation_schema
     [
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'text',
@@ -638,27 +638,27 @@ class AnnouncementRecord
         text: heading
       },
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
-        "type": 'image',
-        "url": cover_image,
-        "height": 200,
-        "width": '100%',
-        "align": 'center'
+        type: 'image',
+        url: cover_image,
+        height: 200,
+        width: '100%',
+        align: 'center'
       },
       {
         type: 'list',
         disabled: false,
         items: [
           {
-            "type": 'item',
-            "id": 'list-item-1',
-            "title": title,
-            "subtitle": description,
-            "action": {
-              "type": 'url',
-              "url": page_url
+            type: 'item',
+            id: 'list-item-1',
+            title: title,
+            subtitle: description,
+            action: {
+              type: 'url',
+              url: page_url
             }
           }
         ]
@@ -670,7 +670,7 @@ class AnnouncementRecord
   def presentation_schema_list
     [
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'text',
@@ -678,21 +678,21 @@ class AnnouncementRecord
         text: heading
       },
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'list',
         disabled: false,
         items: [
           {
-            "type": 'item',
-            "id": 'list-item-1',
-            "title": title,
-            "subtitle": description,
-            "image": cover_image,
-            "action": {
-              "type": 'url',
-              "url": page_url
+            type: 'item',
+            id: 'list-item-1',
+            title: title,
+            subtitle: description,
+            image: cover_image,
+            action: {
+              type: 'url',
+              url: page_url
             }
           }
         ]
@@ -748,7 +748,7 @@ class AnnouncementRecord
   def article_presentation_fields(items)
     [
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'text',
@@ -756,7 +756,7 @@ class AnnouncementRecord
         text: heading
       },
       {
-        "type": 'separator'
+        type: 'separator'
       },
       {
         type: 'list',
@@ -768,14 +768,14 @@ class AnnouncementRecord
 
   def list_item
     {
-      "type": 'item',
-      "id": 'list-item-1',
-      "title": title,
-      "subtitle": description,
-      "image": cover_image,
-      "action": {
-        "type": 'url',
-        "url": page_url
+      type: 'item',
+      id: 'list-item-1',
+      title: title,
+      subtitle: description,
+      image: cover_image,
+      action: {
+        type: 'url',
+        url: page_url
       }
     }
   end

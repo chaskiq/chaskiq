@@ -739,149 +739,149 @@ RSpec.describe Api::V1::HooksController, type: :controller do
 
   let(:raw_email_params) do
     {
-      "notificationType": 'Received',
-      "mail": {
-        "timestamp": '2020-08-14T19:49:44.895Z',
-        "source": 'miguelmichelson@gmail.com',
-        "messageId": '4f2f8gu2t8fkov1aidn6vb92k10gsrp1doa8de01',
-        "destination": [
+      notificationType: 'Received',
+      mail: {
+        timestamp: '2020-08-14T19:49:44.895Z',
+        source: 'miguelmichelson@gmail.com',
+        messageId: '4f2f8gu2t8fkov1aidn6vb92k10gsrp1doa8de01',
+        destination: [
           'messages+g2vt341@mail.chaskiq.io'
         ],
-        "headersTruncated": false,
-        "headers": [
+        headersTruncated: false,
+        headers: [
           {
-            "name": 'Return-Path',
-            "value": '<miguelmichelson@gmail.com>'
+            name: 'Return-Path',
+            value: '<miguelmichelson@gmail.com>'
           },
           {
-            "name": 'Received',
-            "value": 'from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41]) by inbound-smtp.us-east-1.amazonaws.com with SMTP id 4f2f8gu2t8fkov1aidn6vb92k10gsrp1doa8de01 for messages+g2vt341@mail.chaskiq.io; Fri, 14 Aug 2020 19:49:44 +0000 (UTC)'
+            name: 'Received',
+            value: 'from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41]) by inbound-smtp.us-east-1.amazonaws.com with SMTP id 4f2f8gu2t8fkov1aidn6vb92k10gsrp1doa8de01 for messages+g2vt341@mail.chaskiq.io; Fri, 14 Aug 2020 19:49:44 +0000 (UTC)'
           },
           {
-            "name": 'X-SES-Spam-Verdict',
-            "value": 'PASS'
+            name: 'X-SES-Spam-Verdict',
+            value: 'PASS'
           },
           {
-            "name": 'X-SES-Virus-Verdict',
-            "value": 'PASS'
+            name: 'X-SES-Virus-Verdict',
+            value: 'PASS'
           },
           {
-            "name": 'Received-SPF',
-            "value": 'pass (spfCheck: domain of _spf.google.com designates 209.85.166.41 as permitted sender) client-ip=209.85.166.41; envelope-from=miguelmichelson@gmail.com; helo=mail-io1-f41.google.com;'
+            name: 'Received-SPF',
+            value: 'pass (spfCheck: domain of _spf.google.com designates 209.85.166.41 as permitted sender) client-ip=209.85.166.41; envelope-from=miguelmichelson@gmail.com; helo=mail-io1-f41.google.com;'
           },
           {
-            "name": 'Authentication-Results',
-            "value": 'amazonses.com; spf=pass (spfCheck: domain of _spf.google.com designates 209.85.166.41 as permitted sender) client-ip=209.85.166.41; envelope-from=miguelmichelson@gmail.com; helo=mail-io1-f41.google.com; dkim=pass header.i=@gmail.com; dmarc=pass header.from=gmail.com;'
+            name: 'Authentication-Results',
+            value: 'amazonses.com; spf=pass (spfCheck: domain of _spf.google.com designates 209.85.166.41 as permitted sender) client-ip=209.85.166.41; envelope-from=miguelmichelson@gmail.com; helo=mail-io1-f41.google.com; dkim=pass header.i=@gmail.com; dmarc=pass header.from=gmail.com;'
           },
           {
-            "name": 'X-SES-RECEIPT',
-            "value": 'AEFBQUFBQUFBQUFGTzVoYUFaRGY5Q2NLZ3Nma0loTVp5QXVuUzlYL3hTUVptdUtDNUZWSDJTS1ZIVTFhaDA4T1h3YUs3a29CQ2dRWWRCS1RKd3Y1YStvQk5KOHE0WmM5dGFsc3hGOFdCTDlqL3EwR0RwU29ZblB4Slp5eVoxaTdKS3FnLzhLZzdMdDh2N0FGR3Y3RzB1T0xTa2daNTdoVkNGaFRsYTN4N0xUcWVCNFB0NWF5bWd0c0R6dW1KUkVycHZrTHZUWHp1MytTcUhnK2NlZEVobzUwQVduWG1jY1RPNmdxSlhNMUtVZlJpL1Q3OGhPdGRLWDRUYnZwL3B1VFc1YlA5TUFxa1ZzemZXUlloSVBWYWViS0VDRUFtcWVabkp0bjFRYTZjaWV1QmF5TDV4SlFhbUE9PQ=='
+            name: 'X-SES-RECEIPT',
+            value: 'AEFBQUFBQUFBQUFGTzVoYUFaRGY5Q2NLZ3Nma0loTVp5QXVuUzlYL3hTUVptdUtDNUZWSDJTS1ZIVTFhaDA4T1h3YUs3a29CQ2dRWWRCS1RKd3Y1YStvQk5KOHE0WmM5dGFsc3hGOFdCTDlqL3EwR0RwU29ZblB4Slp5eVoxaTdKS3FnLzhLZzdMdDh2N0FGR3Y3RzB1T0xTa2daNTdoVkNGaFRsYTN4N0xUcWVCNFB0NWF5bWd0c0R6dW1KUkVycHZrTHZUWHp1MytTcUhnK2NlZEVobzUwQVduWG1jY1RPNmdxSlhNMUtVZlJpL1Q3OGhPdGRLWDRUYnZwL3B1VFc1YlA5TUFxa1ZzemZXUlloSVBWYWViS0VDRUFtcWVabkp0bjFRYTZjaWV1QmF5TDV4SlFhbUE9PQ=='
           },
           {
-            "name": 'X-SES-DKIM-SIGNATURE',
-            "value": 'a=rsa-sha256; q=dns/txt; b=IlBDYhfKqB+bu75lXGIcMPMdFNADTp+/jfMJseVyxpiL6Fo3N3svwxs28HTu8Yfo9nynxKUZf5vOgFzefeCNTBLO/DWpWK5zfFWU6/03pfdtexYczyIUk0KELudULezf/Q2sfvXsI87IIurVW9UlKpDJ3jnkUFfsUFlj+zN4Ly4=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1597434585; v=1; bh=EHhulQ4FeXWlglHhsEJHZvmTi6Mua7yQbb2zgjT/kA4=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;'
+            name: 'X-SES-DKIM-SIGNATURE',
+            value: 'a=rsa-sha256; q=dns/txt; b=IlBDYhfKqB+bu75lXGIcMPMdFNADTp+/jfMJseVyxpiL6Fo3N3svwxs28HTu8Yfo9nynxKUZf5vOgFzefeCNTBLO/DWpWK5zfFWU6/03pfdtexYczyIUk0KELudULezf/Q2sfvXsI87IIurVW9UlKpDJ3jnkUFfsUFlj+zN4Ly4=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1597434585; v=1; bh=EHhulQ4FeXWlglHhsEJHZvmTi6Mua7yQbb2zgjT/kA4=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;'
           },
           {
-            "name": 'Received',
-            "value": 'by mail-io1-f41.google.com with SMTP id v6so11827618iow.11 for <messages+g2vt341@mail.chaskiq.io>; Fri, 14 Aug 2020 12:49:44 -0700 (PDT)'
+            name: 'Received',
+            value: 'by mail-io1-f41.google.com with SMTP id v6so11827618iow.11 for <messages+g2vt341@mail.chaskiq.io>; Fri, 14 Aug 2020 12:49:44 -0700 (PDT)'
           },
           {
-            "name": 'DKIM-Signature',
-            "value": 'v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025; h=mime-version:references:in-reply-to:from:date:message-id:subject:to; bh=jOoWUuJuzaGMX5SOXHO/V+1PzwRke0eeBX/6vIyBKtc=; b=Y8KSY28G28U70b4uLeErPTIM95ZUI8LLACAOL48InRJM61JDJvvbC726exafajnwylnD0l437HyTK2/gkHr4GhQ9ebZMmaJ30/pgK7O+2pSvrJyN56gM+sCGOvt/hi0tVRI2P69IJ4MAEKfc8mq9Uc4bdsA2SYdKtm/tiS67x5hoYHMUUOD+WD8sXXeMz5OGOVSbPSIa+EBo91mDbdL7eBYAyOLeYOsxvMNhyERFUq0t4ymqYtLGIqApRTf0p+mol4HZRJSiyPZaJDtjsWx3dlD8F62NwG6/Jock+QgP6fsphks5V/THdZ3FNqHpAoUvO4sWgk2XbLGjlmqcFyiHoQ=='
+            name: 'DKIM-Signature',
+            value: 'v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025; h=mime-version:references:in-reply-to:from:date:message-id:subject:to; bh=jOoWUuJuzaGMX5SOXHO/V+1PzwRke0eeBX/6vIyBKtc=; b=Y8KSY28G28U70b4uLeErPTIM95ZUI8LLACAOL48InRJM61JDJvvbC726exafajnwylnD0l437HyTK2/gkHr4GhQ9ebZMmaJ30/pgK7O+2pSvrJyN56gM+sCGOvt/hi0tVRI2P69IJ4MAEKfc8mq9Uc4bdsA2SYdKtm/tiS67x5hoYHMUUOD+WD8sXXeMz5OGOVSbPSIa+EBo91mDbdL7eBYAyOLeYOsxvMNhyERFUq0t4ymqYtLGIqApRTf0p+mol4HZRJSiyPZaJDtjsWx3dlD8F62NwG6/Jock+QgP6fsphks5V/THdZ3FNqHpAoUvO4sWgk2XbLGjlmqcFyiHoQ=='
           },
           {
-            "name": 'X-Google-DKIM-Signature',
-            "value": 'v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; s=20161025; h=x-gm-message-state:mime-version:references:in-reply-to:from:date :message-id:subject:to; bh=jOoWUuJuzaGMX5SOXHO/V+1PzwRke0eeBX/6vIyBKtc=; b=ng6O4dz8WNFe99eFj14u/2KZzaJ8wuURTBLyxmHNJKF3EF389d+hwCS3AVGFbb2oxC W4cgnEgG3FQwvkOS7G+50OQFkXU5HXqDA8isxQPoELxZ/Ok6gRsl+DAR1PFl1pZXN+dA iREXNFiy7WiAwtqc9Bjz/pMOVZI7ctWE7xhd5TF6N0KT5WjGbjCgMCLeu/aIXY2uWpjX wPwhOFijrpV05dUdRJrnKkoJKKy36S+rqAM6q+Sv/yxbKE54FRcs6vcNCRmkF4ByFu1O T0YMwgOrpB7Zfjdks1S9nDLz5kcsKsXJ/R+MQpJURXqtDaF3hoqRU8a5D2vGOqslqlFg WPLA=='
+            name: 'X-Google-DKIM-Signature',
+            value: 'v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; s=20161025; h=x-gm-message-state:mime-version:references:in-reply-to:from:date :message-id:subject:to; bh=jOoWUuJuzaGMX5SOXHO/V+1PzwRke0eeBX/6vIyBKtc=; b=ng6O4dz8WNFe99eFj14u/2KZzaJ8wuURTBLyxmHNJKF3EF389d+hwCS3AVGFbb2oxC W4cgnEgG3FQwvkOS7G+50OQFkXU5HXqDA8isxQPoELxZ/Ok6gRsl+DAR1PFl1pZXN+dA iREXNFiy7WiAwtqc9Bjz/pMOVZI7ctWE7xhd5TF6N0KT5WjGbjCgMCLeu/aIXY2uWpjX wPwhOFijrpV05dUdRJrnKkoJKKy36S+rqAM6q+Sv/yxbKE54FRcs6vcNCRmkF4ByFu1O T0YMwgOrpB7Zfjdks1S9nDLz5kcsKsXJ/R+MQpJURXqtDaF3hoqRU8a5D2vGOqslqlFg WPLA=='
           },
           {
-            "name": 'X-Gm-Message-State',
-            "value": 'AOAM533uOjdZZZgCz882nW0yeXg1B+WGLfw2lwEnGHvbiECGuMeSrqn8 zwA4Hm3UtuYZN1cNctyHEqyZLYAulGzL6MXuvgQ7+SXPC4A='
+            name: 'X-Gm-Message-State',
+            value: 'AOAM533uOjdZZZgCz882nW0yeXg1B+WGLfw2lwEnGHvbiECGuMeSrqn8 zwA4Hm3UtuYZN1cNctyHEqyZLYAulGzL6MXuvgQ7+SXPC4A='
           },
           {
-            "name": 'X-Google-Smtp-Source',
-            "value": 'ABdhPJw7bvg6C7I4WLDG3Golv7t6DyEzfq5v6LaABUtPO/Tzjq5yS9hgdcRjRo+8JS7aXwBiqaDPRZ305VuzB6nDYCc='
+            name: 'X-Google-Smtp-Source',
+            value: 'ABdhPJw7bvg6C7I4WLDG3Golv7t6DyEzfq5v6LaABUtPO/Tzjq5yS9hgdcRjRo+8JS7aXwBiqaDPRZ305VuzB6nDYCc='
           },
           {
-            "name": 'X-Received',
-            "value": 'by 2002:a6b:e40b:: with SMTP id u11mr3510676iog.123.1597434583900; Fri, 14 Aug 2020 12:49:43 -0700 (PDT)'
+            name: 'X-Received',
+            value: 'by 2002:a6b:e40b:: with SMTP id u11mr3510676iog.123.1597434583900; Fri, 14 Aug 2020 12:49:43 -0700 (PDT)'
           },
           {
-            "name": 'MIME-Version',
-            "value": '1.0'
+            name: 'MIME-Version',
+            value: '1.0'
           },
           {
-            "name": 'References',
-            "value": '<01000173ee6a1381-35b23b52-c7a7-47f2-b019-fb7eed12e7e7-000000@email.amazonses.com> <01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000@email.amazonses.com> <CAC-9WweqznessGUn9CS47x4A1ZBw8Q31yQyoxfoVs3aG3pA+1A@mail.gmail.com>'
+            name: 'References',
+            value: '<01000173ee6a1381-35b23b52-c7a7-47f2-b019-fb7eed12e7e7-000000@email.amazonses.com> <01000173ee7a4bb6-1f0e6ce6-059a-45ed-99ac-ec1168a98d56-000000@email.amazonses.com> <CAC-9WweqznessGUn9CS47x4A1ZBw8Q31yQyoxfoVs3aG3pA+1A@mail.gmail.com>'
           },
           {
-            "name": 'In-Reply-To',
-            "value": '<CAC-9WweqznessGUn9CS47x4A1ZBw8Q31yQyoxfoVs3aG3pA+1A@mail.gmail.com>'
+            name: 'In-Reply-To',
+            value: '<CAC-9WweqznessGUn9CS47x4A1ZBw8Q31yQyoxfoVs3aG3pA+1A@mail.gmail.com>'
           },
           {
-            "name": 'From',
-            "value": 'Miguel Michelsongs <miguelmichelson@gmail.com>'
+            name: 'From',
+            value: 'Miguel Michelsongs <miguelmichelson@gmail.com>'
           },
           {
-            "name": 'Date',
-            "value": 'Fri, 14 Aug 2020 15:49:32 -0400'
+            name: 'Date',
+            value: 'Fri, 14 Aug 2020 15:49:32 -0400'
           },
           {
-            "name": 'Message-ID',
-            "value": '<CAC-9WwdGMLqU1jv7xHOwxs3hNXaGt9EZLE2foJ5V4cAS2U+XrQ@mail.gmail.com>'
+            name: 'Message-ID',
+            value: '<CAC-9WwdGMLqU1jv7xHOwxs3hNXaGt9EZLE2foJ5V4cAS2U+XrQ@mail.gmail.com>'
           },
           {
-            "name": 'Subject',
-            "value": 'Re: new message from Some App'
+            name: 'Subject',
+            value: 'Re: new message from Some App'
           },
           {
-            "name": 'To',
-            "value": 'Visitor Hj338 Some App <messages+g2vt341@mail.chaskiq.io>'
+            name: 'To',
+            value: 'Visitor Hj338 Some App <messages+g2vt341@mail.chaskiq.io>'
           },
           {
-            "name": 'Content-Type',
-            "value": 'multipart/alternative; boundary="000000000000ece54005acdbb888"'
+            name: 'Content-Type',
+            value: 'multipart/alternative; boundary="000000000000ece54005acdbb888"'
           }
         ],
-        "commonHeaders": {
-          "returnPath": 'miguelmichelson@gmail.com',
-          "from": [
+        commonHeaders: {
+          returnPath: 'miguelmichelson@gmail.com',
+          from: [
             'Miguel Michelsongs <miguelmichelson@gmail.com>'
           ],
-          "date": 'Fri, 14 Aug 2020 15:49:32 -0400',
-          "to": [
+          date: 'Fri, 14 Aug 2020 15:49:32 -0400',
+          to: [
             'Visitor Hj338 Some App <messages+g2vt341@mail.chaskiq.io>'
           ],
-          "messageId": '<CAC-9WwdGMLqU1jv7xHOwxs3hNXaGt9EZLE2foJ5V4cAS2U+XrQ@mail.gmail.com>',
-          "subject": 'Re: new message from Some App'
+          messageId: '<CAC-9WwdGMLqU1jv7xHOwxs3hNXaGt9EZLE2foJ5V4cAS2U+XrQ@mail.gmail.com>',
+          subject: 'Re: new message from Some App'
         }
       },
-      "receipt": {
-        "timestamp": '2020-08-14T19:49:44.895Z',
-        "processingTimeMillis": 636,
-        "recipients": [
+      receipt: {
+        timestamp: '2020-08-14T19:49:44.895Z',
+        processingTimeMillis: 636,
+        recipients: [
           'messages+g2vt341@mail.chaskiq.io'
         ],
-        "spamVerdict": {
-          "status": 'PASS'
+        spamVerdict: {
+          status: 'PASS'
         },
-        "virusVerdict": {
-          "status": 'PASS'
+        virusVerdict: {
+          status: 'PASS'
         },
-        "spfVerdict": {
-          "status": 'PASS'
+        spfVerdict: {
+          status: 'PASS'
         },
-        "dkimVerdict": {
-          "status": 'PASS'
+        dkimVerdict: {
+          status: 'PASS'
         },
-        "dmarcVerdict": {
-          "status": 'PASS'
+        dmarcVerdict: {
+          status: 'PASS'
         },
-        "action": {
-          "type": 'S3',
-          "topicArn": 'arn:aws:sns:us-east-1:255612241338:hermes-test',
-          "bucketName": 'chaskiq-test-bucket',
-          "objectKeyPrefix": 'mail',
-          "objectKey": 'mail/4f2f8gu2t8fkov1aidn6vb92k10gsrp1doa8de01'
+        action: {
+          type: 'S3',
+          topicArn: 'arn:aws:sns:us-east-1:255612241338:hermes-test',
+          bucketName: 'chaskiq-test-bucket',
+          objectKeyPrefix: 'mail',
+          objectKey: 'mail/4f2f8gu2t8fkov1aidn6vb92k10gsrp1doa8de01'
         }
       }
     }

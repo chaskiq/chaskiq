@@ -39,11 +39,11 @@ module MessageApis
     class PresenterManager
       def self.user_data
         [
-          { "type": 'data-table',
-            "items": [
-              { "type": 'field-value', "field": 'Key', "value": 'Value 1' },
-              { "type": 'field-value', "field": 'Key', "value": 'Value 2' },
-              { "type": 'field-value', "field": 'Key', "value": 'Value 3 which is a very long value that will exhibit different behaviours to the other values' }
+          { type: 'data-table',
+            items: [
+              { type: 'field-value', field: 'Key', value: 'Value 1' },
+              { type: 'field-value', field: 'Key', value: 'Value 2' },
+              { type: 'field-value', field: 'Key', value: 'Value 3 which is a very long value that will exhibit different behaviours to the other values' }
             ] }
         ]
       end
@@ -115,9 +115,9 @@ module MessageApis
         [
 
           {
-            "type": 'text',
-            "text": 'Pick a template',
-            "style": 'header'
+            type: 'text',
+            text: 'Pick a template',
+            style: 'header'
           },
 
           {
@@ -125,57 +125,57 @@ module MessageApis
             disabled: false,
             items: [
               {
-                "type": 'item',
-                "id": 'user-blocks',
-                "title": 'UserBlock',
-                "subtitle": 'Put some user blocks',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'user-blocks',
+                title: 'UserBlock',
+                subtitle: 'Put some user blocks',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'item',
-                "id": 'tag-blocks',
-                "title": 'TagBlocks',
-                "subtitle": 'put some TagBlocks',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'tag-blocks',
+                title: 'TagBlocks',
+                subtitle: 'put some TagBlocks',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'item',
-                "id": 'user-properties-block',
-                "title": 'User Properties',
-                "subtitle": 'put some ConversationBlock',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'user-properties-block',
+                title: 'User Properties',
+                subtitle: 'put some ConversationBlock',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'item',
-                "id": 'external-profiles',
-                "title": 'External Profiles',
-                "subtitle": 'put some ConversationBlock',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'external-profiles',
+                title: 'External Profiles',
+                subtitle: 'put some ConversationBlock',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'item',
-                "id": 'assignee-block',
-                "title": 'AssigneeBlock',
-                "subtitle": 'put some AssigneeBlock',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'assignee-block',
+                title: 'AssigneeBlock',
+                subtitle: 'put some AssigneeBlock',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'item',
-                "id": 'conversation-events',
-                "title": 'Conversation Events',
-                "subtitle": 'put some Events on the sidebar',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'conversation-events',
+                title: 'Conversation Events',
+                subtitle: 'put some Events on the sidebar',
+                action: {
+                  type: 'submit'
                 }
               }
             ]
@@ -311,12 +311,12 @@ module MessageApis
               type: 'list',
               items: conversation.events.order('events.id asc').map do |e|
                 {
-                  "type": 'item',
-                  "id": "event-#{e.id}",
-                  "title": e.action,
-                  "subtitle": I18n.l(e.created_at, format: :short),
-                  "action": {
-                    "type": 'submit'
+                  type: 'item',
+                  id: "event-#{e.id}",
+                  title: e.action,
+                  subtitle: I18n.l(e.created_at, format: :short),
+                  action: {
+                    type: 'submit'
                   }
                 }
               end
@@ -349,12 +349,12 @@ module MessageApis
               text: 'Contact\'s browsing properties',
               style: 'header'
             },
-            { "type": 'data-table',
-              "items": items_attrs.map do |i|
+            { type: 'data-table',
+              items: items_attrs.map do |i|
                 {
-                  "type": 'field-value',
-                  "field": i[:label],
-                  "value": i[:call].call(user)
+                  type: 'field-value',
+                  field: i[:label],
+                  value: i[:call].call(user)
                 }
               end }
           ]
@@ -363,10 +363,10 @@ module MessageApis
         if ctx.dig(:values, :block_type) == 'external-profiles'
 
           tables = user.external_profiles.map do |o|
-            { "type": 'data-table',
-              "items": [
-                { "type": 'field-value', "field": 'Name', "value": o['provider'] },
-                { "type": 'field-value', "field": 'External id', "value": o['profile_id'] }
+            { type: 'data-table',
+              items: [
+                { type: 'field-value', field: 'Name', value: o['provider'] },
+                { type: 'field-value', field: 'External id', value: o['profile_id'] }
               ] }
           end
 

@@ -97,8 +97,7 @@ module Types
             .friendly.find(id)
     end
 
-    field :collections, [Types::CollectionType], null: true do
-    end
+    field :collections, [Types::CollectionType], null: true
 
     def collections
       object.app.article_collections

@@ -11,33 +11,33 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   def contact
-    { "contact": {
-      "id": '75ef52b66cf24ebcbac8727cd4316ea8',
-      "href": '',
-      "msisdn": 56_992_302_305,
-      "displayName": 'Miguel Michelson',
-      "firstName": '',
-      "lastName": '',
-      "customDetails": {},
-      "attributes": {},
-      "createdDatetime": '2021-02-02T20:37:30Z',
-      "updatedDatetime": '2021-02-02T20:37:30Z'
+    { contact: {
+      id: '75ef52b66cf24ebcbac8727cd4316ea8',
+      href: '',
+      msisdn: 56_992_302_305,
+      displayName: 'Miguel Michelson',
+      firstName: '',
+      lastName: '',
+      customDetails: {},
+      attributes: {},
+      createdDatetime: '2021-02-02T20:37:30Z',
+      updatedDatetime: '2021-02-02T20:37:30Z'
     } }
   end
 
   def conversation
     {
-      "conversation": {
-        "id": '7b2223447c3441e7961aab583ebe8d14',
-        "contactId": '75ef52b66cf24ebcbac8727cd4316ea8',
-        "status": 'active',
-        "createdDatetime": '2021-02-02T20:37:30Z',
-        "updatedDatetime": '2021-02-08T13:18:43Z',
-        "lastReceivedDatetime": '2021-02-09T01:17:57.518405608Z',
-        "lastUsedChannelId": 'f457361cf59348129ca387a52d4d7fe2',
-        "messages": {
-          "totalCount": 0,
-          "href": 'https://whatsapp-sandbox.messagebird.com//v1/conversations/7b2223447c3441e7961aab583ebe8d14/messages'
+      conversation: {
+        id: '7b2223447c3441e7961aab583ebe8d14',
+        contactId: '75ef52b66cf24ebcbac8727cd4316ea8',
+        status: 'active',
+        createdDatetime: '2021-02-02T20:37:30Z',
+        updatedDatetime: '2021-02-08T13:18:43Z',
+        lastReceivedDatetime: '2021-02-09T01:17:57.518405608Z',
+        lastUsedChannelId: 'f457361cf59348129ca387a52d4d7fe2',
+        messages: {
+          totalCount: 0,
+          href: 'https://whatsapp-sandbox.messagebird.com//v1/conversations/7b2223447c3441e7961aab583ebe8d14/messages'
         }
       }
     }
@@ -45,21 +45,21 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for(id:, sender:, recipient:, message_id: nil, message_data: { 'text' => 'pokk' })
     {
-      "message": {
-        "id": message_id,
-        "conversationId": '7b2223447c3441e7961aab583ebe8d14',
-        "platform": 'whatsapp',
-        "to": recipient,
-        "from": sender,
-        "channelId": 'f457361cf59348129ca387a52d4d7fe2',
-        "type": 'text',
-        "content": message_data,
-        "direction": 'received',
-        "status": 'received',
-        "createdDatetime": '2021-02-09T01:17:57Z',
-        "updatedDatetime": '2021-02-09T01:17:57.527914771Z'
+      message: {
+        id: message_id,
+        conversationId: '7b2223447c3441e7961aab583ebe8d14',
+        platform: 'whatsapp',
+        to: recipient,
+        from: sender,
+        channelId: 'f457361cf59348129ca387a52d4d7fe2',
+        type: 'text',
+        content: message_data,
+        direction: 'received',
+        status: 'received',
+        createdDatetime: '2021-02-09T01:17:57Z',
+        updatedDatetime: '2021-02-09T01:17:57.527914771Z'
       },
-      "type": 'message.created',
+      type: 'message.created',
       'controller' => 'api/v1/hooks/provider',
       'action' => 'process_event',
       'provider' => 'message_bird',
@@ -70,26 +70,26 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_media(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message": {
-        "id": message_id,
-        "conversationId": '7b2223447c3441e7961aab583ebe8d14',
-        "platform": 'whatsapp',
-        "to": recipient,
-        "from": sender,
-        "channelId": 'f457361cf59348129ca387a52d4d7fe2',
-        "type": 'image',
-        "content": {
-          "image": {
-            "url": 'https://media.messagebird.com/v1/media/ab397184-a03a-42de-a2c7-69abc4a0ceaa',
-            "caption": 'jij'
+      message: {
+        id: message_id,
+        conversationId: '7b2223447c3441e7961aab583ebe8d14',
+        platform: 'whatsapp',
+        to: recipient,
+        from: sender,
+        channelId: 'f457361cf59348129ca387a52d4d7fe2',
+        type: 'image',
+        content: {
+          image: {
+            url: 'https://media.messagebird.com/v1/media/ab397184-a03a-42de-a2c7-69abc4a0ceaa',
+            caption: 'jij'
           }
         },
-        "direction": 'received',
-        "status": 'received',
-        "createdDatetime": '2021-02-09T01:22:59Z',
-        "updatedDatetime": '2021-02-09T01:23:01.353236248Z'
+        direction: 'received',
+        status: 'received',
+        createdDatetime: '2021-02-09T01:22:59Z',
+        updatedDatetime: '2021-02-09T01:23:01.353236248Z'
       },
-      "type": 'message.created',
+      type: 'message.created',
       'controller' => 'api/v1/hooks/provider',
       'action' => 'process_event',
       'provider' => 'message_bird',
@@ -100,25 +100,25 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_audio(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message": {
-        "id": message_id,
-        "conversationId": '7b2223447c3441e7961aab583ebe8d14',
-        "platform": 'whatsapp',
-        "to": recipient,
-        "from": sender,
-        "channelId": 'f457361cf59348129ca387a52d4d7fe2',
-        "type": 'audio',
-        "content": {
-          "audio": {
-            "url": 'https://media.messagebird.com/v1/media/fa1ca4d6-5aa6-4379-a6ef-8d6ecbeb2617'
+      message: {
+        id: message_id,
+        conversationId: '7b2223447c3441e7961aab583ebe8d14',
+        platform: 'whatsapp',
+        to: recipient,
+        from: sender,
+        channelId: 'f457361cf59348129ca387a52d4d7fe2',
+        type: 'audio',
+        content: {
+          audio: {
+            url: 'https://media.messagebird.com/v1/media/fa1ca4d6-5aa6-4379-a6ef-8d6ecbeb2617'
           }
         },
-        "direction": 'received',
-        "status": 'received',
-        "createdDatetime": '2021-02-09T01:22:59Z',
-        "updatedDatetime": '2021-02-09T01:23:01.353236248Z'
+        direction: 'received',
+        status: 'received',
+        createdDatetime: '2021-02-09T01:22:59Z',
+        updatedDatetime: '2021-02-09T01:23:01.353236248Z'
       },
-      "type": 'message.created',
+      type: 'message.created',
       'controller' => 'api/v1/hooks/provider',
       'action' => 'process_event',
       'provider' => 'message_bird',
@@ -129,26 +129,26 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_video(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message": {
-        "id": message_id,
-        "conversationId": '7b2223447c3441e7961aab583ebe8d14',
-        "platform": 'whatsapp',
-        "to": recipient,
-        "from": sender,
-        "channelId": 'f457361cf59348129ca387a52d4d7fe2',
-        "type": 'video',
-        "content": {
-          "video": {
-            "url": 'https://media.messagebird.com/v1/media/2566f6eb-aa00-47fd-9608-604e08bb537d',
-            "caption": 'hello'
+      message: {
+        id: message_id,
+        conversationId: '7b2223447c3441e7961aab583ebe8d14',
+        platform: 'whatsapp',
+        to: recipient,
+        from: sender,
+        channelId: 'f457361cf59348129ca387a52d4d7fe2',
+        type: 'video',
+        content: {
+          video: {
+            url: 'https://media.messagebird.com/v1/media/2566f6eb-aa00-47fd-9608-604e08bb537d',
+            caption: 'hello'
           }
         },
-        "direction": 'received',
-        "status": 'received',
-        "createdDatetime": '2021-02-09T01:17:57Z',
-        "updatedDatetime": '2021-02-09T01:17:57.527914771Z'
+        direction: 'received',
+        status: 'received',
+        createdDatetime: '2021-02-09T01:17:57Z',
+        updatedDatetime: '2021-02-09T01:17:57.527914771Z'
       },
-      "type": 'message.created',
+      type: 'message.created',
       'controller' => 'api/v1/hooks/provider',
       'action' => 'process_event',
       'provider' => 'message_bird',
@@ -159,12 +159,12 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_read(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "statuses": [
+      statuses: [
         {
-          "id": message_id,
-          "recipient_id": '56992302305',
-          "status": 'delivered',
-          "timestamp": '1612646286'
+          id: message_id,
+          recipient_id: '56992302305',
+          status: 'delivered',
+          timestamp: '1612646286'
         }
       ],
       'controller' => 'api/v1/hooks/provider',

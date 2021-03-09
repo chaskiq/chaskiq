@@ -82,14 +82,14 @@ module MessageApis
 
         definitions = [
           {
-            "type": 'text',
-            "text": 'yes!!!!!',
-            "style": 'header'
+            type: 'text',
+            text: 'yes!!!!!',
+            style: 'header'
           },
           {
-            "type": 'text',
-            "text": "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-            "style": 'paragraph'
+            type: 'text',
+            text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
+            style: 'paragraph'
           }
         ]
 
@@ -207,60 +207,60 @@ module MessageApis
                 disabled: false,
                 items: [
                   {
-                    "type": 'item',
-                    "id": 'list-item-1',
-                    "title": 'Item 1',
-                    "action": {
-                      "type": 'submit'
+                    type: 'item',
+                    id: 'list-item-1',
+                    title: 'Item 1',
+                    action: {
+                      type: 'submit'
                     }
                   },
                   {
-                    "type": 'item',
-                    "id": 'list-item-4',
-                    "title": 'Item 4',
-                    "subtitle": 'With Action',
-                    "action": {
-                      "type": 'submit'
+                    type: 'item',
+                    id: 'list-item-4',
+                    title: 'Item 4',
+                    subtitle: 'With Action',
+                    action: {
+                      type: 'submit'
                     }
                   },
                   {
-                    "type": 'item',
-                    "id": 'list-item-2',
-                    "title": 'Item 2',
-                    "subtitle": 'Show Text areas',
-                    "tertiary_text": 'With Tertiary Text',
-                    "action": {
-                      "type": 'submit'
+                    type: 'item',
+                    id: 'list-item-2',
+                    title: 'Item 2',
+                    subtitle: 'Show Text areas',
+                    tertiary_text: 'With Tertiary Text',
+                    action: {
+                      type: 'submit'
                     }
                   },
                   {
-                    "type": 'item',
-                    "id": 'list-item-6',
-                    "title": 'Item 6',
-                    "subtitle": 'Show dropdowns',
-                    "tertiary_text": 'With Tertiary Text',
-                    "action": {
-                      "type": 'submit'
+                    type: 'item',
+                    id: 'list-item-6',
+                    title: 'Item 6',
+                    subtitle: 'Show dropdowns',
+                    tertiary_text: 'With Tertiary Text',
+                    action: {
+                      type: 'submit'
                     }
                   },
                   {
-                    "type": 'item',
-                    "id": 'list-item-7',
-                    "title": 'Item 7',
-                    "subtitle": 'Checkboxes',
-                    "tertiary_text": 'With Tertiary Text',
-                    "action": {
-                      "type": 'submit'
+                    type: 'item',
+                    id: 'list-item-7',
+                    title: 'Item 7',
+                    subtitle: 'Checkboxes',
+                    tertiary_text: 'With Tertiary Text',
+                    action: {
+                      type: 'submit'
                     }
                   },
                   {
-                    "type": 'item',
-                    "id": 'list-item-8',
-                    "title": 'Item 8',
-                    "subtitle": 'Inputs',
-                    "tertiary_text": 'With inputut pupx',
-                    "action": {
-                      "type": 'submit'
+                    type: 'item',
+                    id: 'list-item-8',
+                    title: 'Item 8',
+                    subtitle: 'Inputs',
+                    tertiary_text: 'With inputut pupx',
+                    action: {
+                      type: 'submit'
                     }
                   }
                 ]
@@ -271,128 +271,128 @@ module MessageApis
           if ctx.dig(:field, :type) == 'item' && ctx.dig(:field, :id) == 'list-item-1'
             definitions = [
               {
-                "type": 'text',
-                "text": 'This is a header',
-                "style": 'header'
+                type: 'text',
+                text: 'This is a header',
+                style: 'header'
               },
               {
-                "type": 'text',
-                "text": "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-                "style": 'paragraph'
+                type: 'text',
+                text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
+                style: 'paragraph'
               },
               {
-                "type": 'text',
-                "text": 'Left aligned',
-                "align": 'left'
+                type: 'text',
+                text: 'Left aligned',
+                align: 'left'
               },
               {
-                "type": 'text',
-                "text": 'Center aligned',
-                "align": 'center'
+                type: 'text',
+                text: 'Center aligned',
+                align: 'center'
               },
               {
-                "type": 'text',
-                "text": 'Right aligned',
-                "align": 'right'
+                type: 'text',
+                text: 'Right aligned',
+                align: 'right'
               },
 
               {
-                "type": 'data-table',
-                "items": [
+                type: 'data-table',
+                items: [
                   {
-                    "type": 'field-value',
-                    "field": 'Key',
-                    "value": 'Value 1'
+                    type: 'field-value',
+                    field: 'Key',
+                    value: 'Value 1'
                   },
                   {
-                    "type": 'field-value',
-                    "field": 'Key',
-                    "value": 'Value 2'
+                    type: 'field-value',
+                    field: 'Key',
+                    value: 'Value 2'
                   },
                   {
-                    "type": 'field-value',
-                    "field": 'Key',
-                    "value": 'Value 3 which is a very long value that will exhibit different behaviours to the other values'
+                    type: 'field-value',
+                    field: 'Key',
+                    value: 'Value 3 which is a very long value that will exhibit different behaviours to the other values'
                   }
                 ]
               },
 
               {
-                "type": 'image',
-                "url": 'https://via.placeholder.com/150',
-                "height": 50,
-                "width": 130
+                type: 'image',
+                url: 'https://via.placeholder.com/150',
+                height: 50,
+                width: 130
               },
               {
-                "type": 'image',
-                "url": 'https://via.placeholder.com/150',
-                "height": 64,
-                "width": 64,
-                "align": 'left',
-                "rounded": true
-              },
-
-              {
-                "type": 'image',
-                "url": 'https://via.placeholder.com/150',
-                "height": 64,
-                "width": 64,
-                "align": 'center',
-                "rounded": true
+                type: 'image',
+                url: 'https://via.placeholder.com/150',
+                height: 64,
+                width: 64,
+                align: 'left',
+                rounded: true
               },
 
               {
-                "type": 'image',
-                "url": 'https://via.placeholder.com/150',
-                "height": 64,
-                "width": 64,
-                "align": 'right',
-                "rounded": true
+                type: 'image',
+                url: 'https://via.placeholder.com/150',
+                height: 64,
+                width: 64,
+                align: 'center',
+                rounded: true
               },
 
               {
-                "type": 'text',
-                "text": 'Size as *xs* is below.'
+                type: 'image',
+                url: 'https://via.placeholder.com/150',
+                height: 64,
+                width: 64,
+                align: 'right',
+                rounded: true
+              },
+
+              {
+                type: 'text',
+                text: 'Size as *xs* is below.'
               },
               {
-                "type": 'spacer',
-                "size": 'xs'
+                type: 'spacer',
+                size: 'xs'
               },
               {
-                "type": 'text',
-                "text": 'Size as *s* is below.'
+                type: 'text',
+                text: 'Size as *s* is below.'
               },
               {
-                "type": 'spacer',
-                "size": 's'
+                type: 'spacer',
+                size: 's'
               },
               {
-                "type": 'text',
-                "text": 'Size as *m* is below.'
+                type: 'text',
+                text: 'Size as *m* is below.'
               },
               {
-                "type": 'spacer',
-                "size": 'm'
+                type: 'spacer',
+                size: 'm'
               },
               {
-                "type": 'text',
-                "text": 'Size as *l* is below.'
+                type: 'text',
+                text: 'Size as *l* is below.'
               },
               {
-                "type": 'spacer',
-                "size": 'l'
+                type: 'spacer',
+                size: 'l'
               },
               {
-                "type": 'text',
-                "text": 'Size as *xl* is below.'
+                type: 'text',
+                text: 'Size as *xl* is below.'
               },
               {
-                "type": 'spacer',
-                "size": 'xl'
+                type: 'spacer',
+                size: 'xl'
               },
               {
-                "type": 'text',
-                "text": 'This is the last component.'
+                type: 'text',
+                text: 'This is the last component.'
               }
 
             ]
@@ -401,145 +401,145 @@ module MessageApis
           if ctx.dig(:field, :type) == 'item' && ctx.dig(:field, :id) == 'list-item-4'
             definitions = [
               {
-                "type": 'single-select',
-                "id": 'single-select-1',
-                "label": 'Unsaved Options',
-                "options": [
+                type: 'single-select',
+                id: 'single-select-1',
+                label: 'Unsaved Options',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1',
-                    "action": {
-                      "type": 'submit'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1',
+                    action: {
+                      type: 'submit'
                     }
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'single-select',
-                "id": 'single-select-2',
-                "label": 'Pre-selected Option',
-                "value": 'option-1',
-                "options": [
+                type: 'single-select',
+                id: 'single-select-2',
+                label: 'Pre-selected Option',
+                value: 'option-1',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1',
-                    "action": {
-                      "type": 'submit'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1',
+                    action: {
+                      type: 'submit'
                     }
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'single-select',
-                "id": 'single-select-3',
-                "label": 'Saved Options',
-                "save_state": 'saved',
-                "options": [
+                type: 'single-select',
+                id: 'single-select-3',
+                label: 'Saved Options',
+                save_state: 'saved',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'single-select',
-                "id": 'single-select-4',
-                "label": 'Failed Options',
-                "save_state": 'failed',
-                "options": [
+                type: 'single-select',
+                id: 'single-select-4',
+                label: 'Failed Options',
+                save_state: 'failed',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'single-select',
-                "id": 'single-select-5',
-                "label": 'Disabled Options',
-                "disabled": true,
-                "options": [
+                type: 'single-select',
+                id: 'single-select-5',
+                label: 'Disabled Options',
+                disabled: true,
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'single-select',
-                "id": 'single-select-6',
-                "label": 'Disabled Option',
-                "options": [
+                type: 'single-select',
+                id: 'single-select-6',
+                label: 'Disabled Option',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Disabled',
-                    "disabled": true
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Disabled',
+                    disabled: true
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               }
@@ -549,34 +549,34 @@ module MessageApis
           if ctx.dig(:field, :type) == 'item' && ctx.dig(:field, :id) == 'list-item-2'
             definitions = [
               {
-                "type": 'textarea',
-                "id": 'textarea-1',
-                "label": 'Normal',
-                "placeholder": 'Enter text here...'
+                type: 'textarea',
+                id: 'textarea-1',
+                label: 'Normal',
+                placeholder: 'Enter text here...'
               },
               {
-                "type": 'textarea',
-                "id": 'textarea-2',
-                "label": 'With Value',
-                "placeholder": 'Enter text here...',
-                "value": 'Value entered in JSON.'
+                type: 'textarea',
+                id: 'textarea-2',
+                label: 'With Value',
+                placeholder: 'Enter text here...',
+                value: 'Value entered in JSON.'
               },
               {
-                "type": 'textarea',
-                "id": 'textarea-3',
-                "name": 'textarea-3',
-                "label": 'Error',
-                "placeholder": 'Enter text here...',
-                "value": 'Value entered in JSON.',
-                "error": true,
-                "errors": { "textarea-3": ['uno error'] }
+                type: 'textarea',
+                id: 'textarea-3',
+                name: 'textarea-3',
+                label: 'Error',
+                placeholder: 'Enter text here...',
+                value: 'Value entered in JSON.',
+                error: true,
+                errors: { "textarea-3": ['uno error'] }
               },
               {
-                "type": 'textarea',
-                "id": 'textarea-4',
-                "label": 'Disabled',
-                "placeholder": 'Unable to enter text',
-                "disabled": true
+                type: 'textarea',
+                id: 'textarea-4',
+                label: 'Disabled',
+                placeholder: 'Unable to enter text',
+                disabled: true
               }
             ]
           end
@@ -584,139 +584,139 @@ module MessageApis
           if ctx.dig(:field, :type) == 'item' && ctx.dig(:field, :id) == 'list-item-6'
             definitions = [
               {
-                "type": 'dropdown',
-                "id": 'dropdown-1',
-                "label": 'Unsaved Options',
-                "options": [
+                type: 'dropdown',
+                id: 'dropdown-1',
+                label: 'Unsaved Options',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'dropdown',
-                "id": 'dropdown-2',
-                "label": 'Pre-selected Option',
-                "value": 'option-1',
-                "options": [
+                type: 'dropdown',
+                id: 'dropdown-2',
+                label: 'Pre-selected Option',
+                value: 'option-1',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'dropdown',
-                "id": 'dropdown-3',
-                "label": 'Saved Options',
-                "save_state": 'saved',
-                "options": [
+                type: 'dropdown',
+                id: 'dropdown-3',
+                label: 'Saved Options',
+                save_state: 'saved',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'dropdown',
-                "id": 'dropdown-4',
-                "label": 'Failed Options',
-                "save_state": 'failed',
-                "options": [
+                type: 'dropdown',
+                id: 'dropdown-4',
+                label: 'Failed Options',
+                save_state: 'failed',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'dropdown',
-                "id": 'dropdown-5',
-                "label": 'Disabled Options',
-                "disabled": true,
-                "options": [
+                type: 'dropdown',
+                id: 'dropdown-5',
+                label: 'Disabled Options',
+                disabled: true,
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'dropdown',
-                "id": 'dropdown-6',
-                "label": 'Disabled Option',
-                "options": [
+                type: 'dropdown',
+                id: 'dropdown-6',
+                label: 'Disabled Option',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Disabled',
-                    "disabled": true
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Disabled',
+                    disabled: true
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               }
@@ -726,139 +726,139 @@ module MessageApis
           if ctx.dig(:field, :type) == 'item' && ctx.dig(:field, :id) == 'list-item-7'
             definitions = [
               {
-                "type": 'checkbox',
-                "id": 'checkbox-1',
-                "label": 'Unsaved Options',
-                "options": [
+                type: 'checkbox',
+                id: 'checkbox-1',
+                label: 'Unsaved Options',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'checkbox',
-                "id": 'checkbox-2',
-                "label": 'Pre-selected Option(s)',
-                "value": %w[option-1 option-2],
-                "options": [
+                type: 'checkbox',
+                id: 'checkbox-2',
+                label: 'Pre-selected Option(s)',
+                value: %w[option-1 option-2],
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'checkbox',
-                "id": 'checkbox-3',
-                "label": 'Saved Options',
-                "save_state": 'saved',
-                "options": [
+                type: 'checkbox',
+                id: 'checkbox-3',
+                label: 'Saved Options',
+                save_state: 'saved',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'checkbox',
-                "id": 'checkbox-4',
-                "label": 'Failed Options',
-                "save_state": 'failed',
-                "options": [
+                type: 'checkbox',
+                id: 'checkbox-4',
+                label: 'Failed Options',
+                save_state: 'failed',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'checkbox',
-                "id": 'checkbox-5',
-                "label": 'Disabled Options',
-                "disabled": true,
-                "options": [
+                type: 'checkbox',
+                id: 'checkbox-5',
+                label: 'Disabled Options',
+                disabled: true,
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1'
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               },
               {
-                "type": 'checkbox',
-                "id": 'checkbox-6',
-                "label": 'Disabled Option',
-                "options": [
+                type: 'checkbox',
+                id: 'checkbox-6',
+                label: 'Disabled Option',
+                options: [
                   {
-                    "type": 'option',
-                    "id": 'option-1',
-                    "text": 'Option 1',
-                    "disabled": true
+                    type: 'option',
+                    id: 'option-1',
+                    text: 'Option 1',
+                    disabled: true
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-2',
-                    "text": 'Option 2'
+                    type: 'option',
+                    id: 'option-2',
+                    text: 'Option 2'
                   },
                   {
-                    "type": 'option',
-                    "id": 'option-3',
-                    "text": 'Option 3'
+                    type: 'option',
+                    id: 'option-3',
+                    text: 'Option 3'
                   }
                 ]
               }
@@ -869,71 +869,71 @@ module MessageApis
 
             definitions = [
               {
-                "type": 'input',
-                "id": 'unsaved-1',
-                "label": 'Unsaved',
-                "placeholder": 'Enter input here...',
-                "save_state": 'unsaved'
+                type: 'input',
+                id: 'unsaved-1',
+                label: 'Unsaved',
+                placeholder: 'Enter input here...',
+                save_state: 'unsaved'
               },
               {
-                "type": 'input',
-                "id": 'unsaved-2',
-                "label": 'Unsaved (Action)',
-                "placeholder": 'Enter input here...',
-                "save_state": 'unsaved',
-                "action": {
-                  "type": 'submit'
+                type: 'input',
+                id: 'unsaved-2',
+                label: 'Unsaved (Action)',
+                placeholder: 'Enter input here...',
+                save_state: 'unsaved',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'input',
-                "id": 'unsaved-3',
-                "label": 'Unsaved (Disabled)',
-                "placeholder": 'Enter input here...',
-                "save_state": 'unsaved',
-                "disabled": true,
-                "action": {
-                  "type": 'submit'
+                type: 'input',
+                id: 'unsaved-3',
+                label: 'Unsaved (Disabled)',
+                placeholder: 'Enter input here...',
+                save_state: 'unsaved',
+                disabled: true,
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'input',
-                "id": 'failed-1',
-                "label": 'Failed',
-                "placeholder": 'Enter input here...',
-                "value": 'Value is given in JSON',
-                "save_state": 'failed'
+                type: 'input',
+                id: 'failed-1',
+                label: 'Failed',
+                placeholder: 'Enter input here...',
+                value: 'Value is given in JSON',
+                save_state: 'failed'
               },
               {
-                "type": 'input',
-                "id": 'failed-2',
-                "label": 'Failed (Action)',
-                "placeholder": 'Enter input here...',
-                "value": 'Value is given in JSON',
-                "save_state": 'failed',
-                "action": {
-                  "type": 'submit'
+                type: 'input',
+                id: 'failed-2',
+                label: 'Failed (Action)',
+                placeholder: 'Enter input here...',
+                value: 'Value is given in JSON',
+                save_state: 'failed',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'input',
-                "id": 'failed-3',
-                "label": 'Failed (Disabled)',
-                "placeholder": 'Enter input here...',
-                "value": 'Value is given in JSON',
-                "save_state": 'failed',
-                "disabled": true,
-                "action": {
-                  "type": 'submit'
+                type: 'input',
+                id: 'failed-3',
+                label: 'Failed (Disabled)',
+                placeholder: 'Enter input here...',
+                value: 'Value is given in JSON',
+                save_state: 'failed',
+                disabled: true,
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'input',
-                "id": 'saved-1',
-                "label": 'Saved',
-                "placeholder": 'Enter input here...',
-                "value": 'Value is given in JSON',
-                "save_state": 'saved'
+                type: 'input',
+                id: 'saved-1',
+                label: 'Saved',
+                placeholder: 'Enter input here...',
+                value: 'Value is given in JSON',
+                save_state: 'saved'
               }
             ]
 

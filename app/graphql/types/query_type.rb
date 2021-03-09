@@ -40,10 +40,10 @@ module Types
     def campaign_subscription_toggle(encoded:, op:)
       subscriber_email = URLcrypt.decode(encoded)
       app_user = AppUser.find_by(email: subscriber_email)
-      if !op
-        app_user.unsubscribe! unless app_user.unsubscribed?
-      else
+      if op
         app_user.subscribe! unless app_user.subscribed?
+      else
+        app_user.unsubscribe! unless app_user.unsubscribed?
       end
 
       {

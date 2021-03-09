@@ -22,10 +22,7 @@ class Agents::SessionsController < Devise::SessionsController
     # like customize /oauth/applications
     # sign_in(resource_name, resource, {store: true})
 
-    if !session[:return_to].blank?
-      redirect_to session[:return_to]
-      session[:return_to] = nil
-    else
+    if session[:return_to].blank?
       a = Doorkeeper::Application.first
 
       access_token = Doorkeeper::AccessToken.find_or_create_for(
@@ -39,6 +36,9 @@ class Agents::SessionsController < Devise::SessionsController
           expires_in: access_token.expires_in
         }
       end
+    else
+      redirect_to session[:return_to]
+      session[:return_to] = nil
     end
   end
 

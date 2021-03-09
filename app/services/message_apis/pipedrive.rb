@@ -162,7 +162,7 @@ module MessageApis
       url = url("/persons/#{id}")
 
       data = {
-        "visible_to": '3'
+        visible_to: '3'
       }.merge!(params)
 
       response = @conn.put do |req|

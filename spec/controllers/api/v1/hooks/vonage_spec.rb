@@ -12,16 +12,16 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message_uuid": message_id,
-      "from": {	"type": 'whatsapp',	"number": sender },
-      "to": { "type": 'whatsapp', "number": recipient },
-      "message": {
-        "content": {
-          "type": 'text',
-          "text": message_data.blank? ? 'hola' : message_data['text']
+      message_uuid: message_id,
+      from: {	type: 'whatsapp',	number: sender },
+      to: { type: 'whatsapp', number: recipient },
+      message: {
+        content: {
+          type: 'text',
+          text: message_data.blank? ? 'hola' : message_data['text']
         }
       },
-      "timestamp": '2021-02-03T18:04:52.936Z',
+      timestamp: '2021-02-03T18:04:52.936Z',
 
       'controller' => 'api/v1/hooks/provider',
       'action' => 'process_event',
@@ -33,19 +33,19 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_media(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message_uuid": message_id,
-      "from": {	"type": 'whatsapp',	"number": sender },
-      "to": { "type": 'whatsapp', "number": recipient },
-      "message": {
-        "content": {
-          "type": 'image',
-          "image": {
-            "url": 'https://api.nexmo.com/v3/media/c7e601e8-708b-4fc3-b7cf-92f60c185cd4',
-            "caption": 'hola'
+      message_uuid: message_id,
+      from: {	type: 'whatsapp',	number: sender },
+      to: { type: 'whatsapp', number: recipient },
+      message: {
+        content: {
+          type: 'image',
+          image: {
+            url: 'https://api.nexmo.com/v3/media/c7e601e8-708b-4fc3-b7cf-92f60c185cd4',
+            caption: 'hola'
           }
         }
       },
-      "timestamp": '2021-02-03T18:10:40.311Z',
+      timestamp: '2021-02-03T18:10:40.311Z',
 
       # "MediaContentType0"=>"image/jpeg",
       # "SmsMessageSid"=>message_id,
@@ -70,18 +70,18 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_audio(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message_uuid": message_id,
-      "from": {	"type": 'whatsapp',	"number": sender },
-      "to": { "type": 'whatsapp', "number": recipient },
-      "message": {
-        "content": {
-          "type": 'audio',
-          "audio": {
-            "url": 'https://api.nexmo.com/v3/media/7a620c45-3d75-4b42-a29f-0379a3798169'
+      message_uuid: message_id,
+      from: {	type: 'whatsapp',	number: sender },
+      to: { type: 'whatsapp', number: recipient },
+      message: {
+        content: {
+          type: 'audio',
+          audio: {
+            url: 'https://api.nexmo.com/v3/media/7a620c45-3d75-4b42-a29f-0379a3798169'
           }
         }
       },
-      "timestamp": '2021-02-03T18:10:40.311Z',
+      timestamp: '2021-02-03T18:10:40.311Z',
       'action' => 'process_event',
       'provider' => 'vonage',
       'controller' => 'api/v1/hooks/provider',
@@ -92,19 +92,19 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_video(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message_uuid": message_id,
-      "from": {	"type": 'whatsapp',	"number": sender },
-      "to": { "type": 'whatsapp', "number": recipient },
-      "message": {
-        "content": {
-          "type": 'video',
-          "video": {
-            "url": 'https://api.nexmo.com/v3/media/ae78f99c-4dde-4dd7-81e0-81b71a6dba13',
-            "caption": 'iojij'
+      message_uuid: message_id,
+      from: {	type: 'whatsapp',	number: sender },
+      to: { type: 'whatsapp', number: recipient },
+      message: {
+        content: {
+          type: 'video',
+          video: {
+            url: 'https://api.nexmo.com/v3/media/ae78f99c-4dde-4dd7-81e0-81b71a6dba13',
+            caption: 'iojij'
           }
         }
       },
-      "timestamp": '2021-02-03T18:10:40.311Z',
+      timestamp: '2021-02-03T18:10:40.311Z',
       'action' => 'process_event',
       'provider' => 'vonage',
       'controller' => 'api/v1/hooks/provider',
@@ -115,17 +115,17 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_read(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      "message_uuid": '1f882e4c-75d1-4625-aa0a-2e5f8e068de9',
-      "from": {
-        "type": 'whatsapp',
-        "number": '14157386170'
+      message_uuid: '1f882e4c-75d1-4625-aa0a-2e5f8e068de9',
+      from: {
+        type: 'whatsapp',
+        number: '14157386170'
       },
-      "to": {
-        "type": 'whatsapp',
-        "number": '56992302305'
+      to: {
+        type: 'whatsapp',
+        number: '56992302305'
       },
-      "timestamp": '2021-02-04T03:05:17.616Z',
-      "status": 'read'
+      timestamp: '2021-02-04T03:05:17.616Z',
+      status: 'read'
     }
   end
 

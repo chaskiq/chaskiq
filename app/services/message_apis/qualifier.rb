@@ -44,23 +44,23 @@ module MessageApis
       def item(name:, label:, index:)
         [
           {
-            "type": 'input',
-            "id": "item[#{index}][label]",
-            "placeholder": 'enter your data',
-            "label": 'Label',
+            type: 'input',
+            id: "item[#{index}][label]",
+            placeholder: 'enter your data',
+            label: 'Label',
             value: label
           },
           {
-            "type": 'dropdown',
-            "id": "item[#{index}][name]",
-            "label": 'Value',
+            type: 'dropdown',
+            id: "item[#{index}][name]",
+            label: 'Value',
             value: name,
-            "options": options.each_with_index.map do |o, _i|
+            options: options.each_with_index.map do |o, _i|
               {
-                "type": 'option',
-                "text": o['name'],
-                "name": o['name'],
-                "id": o['name']
+                type: 'option',
+                text: o['name'],
+                name: o['name'],
+                id: o['name']
               }
             end
           }
@@ -154,14 +154,14 @@ module MessageApis
         return []
         [
           {
-            "type": 'text',
-            "text": "yes!!!!! your email is #{email}",
-            "style": 'header'
+            type: 'text',
+            text: "yes!!!!! your email is #{email}",
+            style: 'header'
           },
           {
-            "type": 'text',
-            "text": "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-            "style": 'paragraph'
+            type: 'text',
+            text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
+            style: 'paragraph'
           }
         ]
       end
@@ -285,9 +285,9 @@ module MessageApis
             type: 'separator'
           },
           {
-            "type": 'text',
-            "text": 'Pick a template',
-            "style": 'header'
+            type: 'text',
+            text: 'Pick a template',
+            style: 'header'
           },
 
           {
@@ -295,21 +295,21 @@ module MessageApis
             disabled: false,
             items: [
               {
-                "type": 'item',
-                "id": 'contact-fields',
-                "title": 'Contact fields',
-                "subtitle": 'Ask for name , email & company',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'contact-fields',
+                title: 'Contact fields',
+                subtitle: 'Ask for name , email & company',
+                action: {
+                  type: 'submit'
                 }
               },
               {
-                "type": 'item',
-                "id": 'any-field',
-                "title": 'Custom Fields',
-                "subtitle": 'Ask for custom field data',
-                "action": {
-                  "type": 'submit'
+                type: 'item',
+                id: 'any-field',
+                title: 'Custom Fields',
+                subtitle: 'Ask for custom field data',
+                action: {
+                  type: 'submit'
                 }
               }
             ]

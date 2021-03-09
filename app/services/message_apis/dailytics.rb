@@ -53,13 +53,13 @@ module MessageApis
       data = get_report(@report_id)['data']
 
       output = {
-        "id": data['id'],
-        "title": data['name'],
-        "subtitle": data['periodicity'],
+        id: data['id'],
+        title: data['name'],
+        subtitle: data['periodicity'],
         attributes: {
-          "ga_account_name": 'VADB',
-          "ga_web_property_name": 'vadb.info',
-          "ga_profile_name": 'Todos los datos de sitios web'
+          ga_account_name: 'VADB',
+          ga_web_property_name: 'vadb.info',
+          ga_profile_name: 'Todos los datos de sitios web'
         },
 
         values: [

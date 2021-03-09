@@ -30,7 +30,7 @@ module MessageApis
 
     def register_webhook(app_package, integration)
       data = {
-        "url": integration.hook_url
+        url: integration.hook_url
       }
 
       response = @conn.post("#{@url}/configs/webhook", data.to_json)
@@ -130,8 +130,8 @@ module MessageApis
       return if profile_id.blank?
 
       message_params = {
-        "from": { "type": 'whatsapp', "number": @phone },
-        "to": profile_id
+        from: { type: 'whatsapp', number: @phone },
+        to: profile_id
       }
 
       if is_plain
@@ -181,7 +181,7 @@ module MessageApis
     # not used fro now
     def mark_as_read(id)
       message_params = {
-        "status": 'read'
+        status: 'read'
       }
       @conn.post(
         "#{@url}/messages/#{id}",
@@ -284,28 +284,28 @@ module MessageApis
 
     def attachment_block(data)
       {
-        "blocks": [media_block(data)],
-        "entityMap": {}
+        blocks: [media_block(data)],
+        entityMap: {}
       }.to_json
     end
 
     def text_block(text)
       lines = text.split("\n").delete_if(&:empty?)
       {
-        "blocks": lines.map { |o| serialized_block(o) },
-        "entityMap": {}
+        blocks: lines.map { |o| serialized_block(o) },
+        entityMap: {}
       }.to_json
     end
 
     def serialized_block(text)
       {
-        "key": 'f1qmb',
-        "text": text,
-        "type": 'unstyled',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
+        key: 'f1qmb',
+        text: text,
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
       }
     end
 
@@ -339,22 +339,22 @@ module MessageApis
     def gif_block(url, text)
       file = direct_upload(url['id'], url['mime_type'])
       {
-        "key": keygen,
-        "text": text,
-        "type": 'recorded-video',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "rejectedReason": '',
-          "secondsLeft": 0,
-          "fileReady": true,
-          "paused": false,
-          "url": file,
-          "recording": false,
-          "granted": true,
-          "loading": false,
-          "direction": 'center'
+        key: keygen,
+        text: text,
+        type: 'recorded-video',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          rejectedReason: '',
+          secondsLeft: 0,
+          fileReady: true,
+          paused: false,
+          url: file,
+          recording: false,
+          granted: true,
+          loading: false,
+          direction: 'center'
         }
       }
     end
@@ -362,21 +362,21 @@ module MessageApis
     def file_block(url, text)
       file = direct_upload(url['id'], url['mime_type'])
       {
-        "key": keygen,
-        "text": text,
-        "type": 'file',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "caption": text,
-          "forceUpload": false,
-          "url": file,
-          "loading_progress": 0,
-          "selected": false,
-          "loading": true,
-          "file": {},
-          "direction": 'center'
+        key: keygen,
+        text: text,
+        type: 'file',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          caption: text,
+          forceUpload: false,
+          url: file,
+          loading_progress: 0,
+          selected: false,
+          loading: true,
+          file: {},
+          direction: 'center'
         }
       }
     end
@@ -384,28 +384,28 @@ module MessageApis
     def photo_block(url, text)
       file = direct_upload(url['id'], url['mime_type'])
       {
-        "key": keygen,
-        "text": text,
-        "type": 'image',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
+        key: keygen,
+        text: text,
+        type: 'image',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
           # "aspect_ratio":{
           #  "width": media["sizes"]["small"]["w"].to_i,
           #  "height": media["sizes"]["small"]["h"].to_i,
           #  "ratio":100
           # },
-          "width": 100, # media["sizes"]["small"]["w"].to_i,
-          "height": 100, # media["sizes"]["small"]["h"].to_i,
-          "caption": text,
-          "forceUpload": false,
-          "url": file,
-          "loading_progress": 0,
-          "selected": false,
-          "loading": true,
-          "file": {},
-          "direction": 'center'
+          width: 100, # media["sizes"]["small"]["w"].to_i,
+          height: 100, # media["sizes"]["small"]["h"].to_i,
+          caption: text,
+          forceUpload: false,
+          url: file,
+          loading_progress: 0,
+          selected: false,
+          loading: true,
+          file: {},
+          direction: 'center'
         }
       }
     end

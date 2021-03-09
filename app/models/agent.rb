@@ -84,9 +84,9 @@ class Agent < ApplicationRecord
 
   def avatar_url
     unless avatar.attached?
-      return !bot? ?
-          gravatar :
-          default_avatar
+      return bot? ?
+          default_avatar :
+          gravatar
     end
 
     # return '' unless object.avatar_blob.present?

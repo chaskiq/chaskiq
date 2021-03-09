@@ -108,12 +108,12 @@ module MessageApis
       end.join("\r\n")
 
       request_body = {
-        "recipient": {
-          "id": provider_channel_id
+        recipient: {
+          id: provider_channel_id
         },
-        "message": { "text": plain_message },
-        "messaging_type": 'MESSAGE_TAG',
-        "tag": 'ACCOUNT_UPDATE'
+        message: { text: plain_message },
+        messaging_type: 'MESSAGE_TAG',
+        tag: 'ACCOUNT_UPDATE'
       }
 
       @conn.post(
@@ -217,28 +217,28 @@ module MessageApis
       end
 
       {
-        "blocks": media_blocks,
-        "entityMap": {}
+        blocks: media_blocks,
+        entityMap: {}
       }.to_json
     end
 
     def text_block(text)
       lines = text.split("\n").delete_if(&:empty?)
       {
-        "blocks": lines.map { |o| serialized_block(o) },
-        "entityMap": {}
+        blocks: lines.map { |o| serialized_block(o) },
+        entityMap: {}
       }.to_json
     end
 
     def serialized_block(text)
       {
-        "key": 'f1qmb',
-        "text": text,
-        "type": 'unstyled',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
+        key: 'f1qmb',
+        text: text,
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
       }
     end
 
@@ -259,50 +259,50 @@ module MessageApis
       # url = direct_upload(variant["url"], variant["content_type"])
       # text = data['text'].split(" ").last
       {
-        "key": keygen,
-        "text": text,
-        "type": 'recorded-video',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "rejectedReason": '',
-          "secondsLeft": 0,
-          "fileReady": true,
-          "paused": false,
-          "url": url,
-          "recording": false,
-          "granted": true,
-          "loading": false,
-          "direction": 'center'
+        key: keygen,
+        text: text,
+        type: 'recorded-video',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          rejectedReason: '',
+          secondsLeft: 0,
+          fileReady: true,
+          paused: false,
+          url: url,
+          recording: false,
+          granted: true,
+          loading: false,
+          direction: 'center'
         }
       }
     end
 
     def photo_block(url)
       {
-        "key": keygen,
-        "text": '',
-        "type": 'image',
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
+        key: keygen,
+        text: '',
+        type: 'image',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
           # "aspect_ratio":{
           #  "width": media["sizes"]["small"]["w"].to_i,
           #  "height": media["sizes"]["small"]["h"].to_i,
           #  "ratio":100
           # },
-          "width": 100, # media["sizes"]["small"]["w"].to_i,
-          "height": 100, # media["sizes"]["small"]["h"].to_i,
-          "caption": '',
-          "forceUpload": false,
-          "url": url,
-          "loading_progress": 0,
-          "selected": false,
-          "loading": true,
-          "file": {},
-          "direction": 'center'
+          width: 100, # media["sizes"]["small"]["w"].to_i,
+          height: 100, # media["sizes"]["small"]["h"].to_i,
+          caption: '',
+          forceUpload: false,
+          url: url,
+          loading_progress: 0,
+          selected: false,
+          loading: true,
+          file: {},
+          direction: 'center'
         }
       }
     end
