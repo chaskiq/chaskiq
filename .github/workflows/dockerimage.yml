@@ -5,8 +5,6 @@ on:
     branches:
       - master
       - stage
-  pull_request:
-    types: [ opened, synchronize, reopened ]
 
 jobs:
 
