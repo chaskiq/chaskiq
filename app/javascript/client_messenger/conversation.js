@@ -13,6 +13,7 @@ import {isEmpty} from 'lodash'
 import Loader from './loader'
 import {toCamelCase} from './shared/caseConverter'
 import ErrorBoundary from '../src/components/ErrorBoundary'
+import autolink from './autolink'
 import {
   EditorSection,
   CommentsWrapper,
@@ -842,9 +843,9 @@ class AppPackageBlock extends Component {
     
     {
       this.props.message.message.blocks.label && 
-      <AppPackageBlockTextItem>
-        {this.props.message.message.blocks.label}
-      </AppPackageBlockTextItem>
+      <AppPackageBlockTextItem dangerouslySetInnerHTML={
+          {__html: autolink(this.props.message.message.blocks.label) }}
+      />
     }
 
     {

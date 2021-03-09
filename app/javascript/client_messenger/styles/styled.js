@@ -448,16 +448,6 @@ export const AppPackageBlockContainer = styled.div`
       align-items: center;
       flex-wrap: wrap;
 
-      /*button {
-        margin: 1px;
-        padding: 5px;
-        white-space: normal;
-        background: transparent;
-        border: 1px solid #007bff;
-        color: #007bff;
-        font-size: 0.9em;
-      }*/
-
       .form-group {
         display: flex;
         flex-direction: column;
@@ -531,7 +521,11 @@ export const AppPackageBlockButtonItem = styled.div`
 `
 
 export const AppPackageBlockTextItem = styled.div`
-  ${() => tw`flex justify-end mx-4 my-1.5 text-sm text-gray-400 font-light`}
+  ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-400 font-light`}
+  a{
+    ${() => tw`text-sm text-gray-600 font-normal hover:text-gray-900`}
+  }
+
 `
 
 export const UserAutoMessage = styled.div`
