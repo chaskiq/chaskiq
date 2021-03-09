@@ -11,6 +11,17 @@ plugins:
 checks:
   similar-code:
     enabled: false
+
+checks:
+  file-lines:
+    enabled: false
+  method-lines:
+    enabled: false
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: false
+
 exclude_patterns:
   - "spec/"
   - "db/*"
