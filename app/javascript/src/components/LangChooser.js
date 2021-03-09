@@ -7,20 +7,18 @@ import FormDialog from '../components/FormDialog'
 
 import graphql from '../graphql/client'
 import { getCurrentUser } from '../actions/current_user'
-import Button from '../components/Button'
-import Input from "../components/forms/Input";
-import CircularProgress from '../components/Progress';
 
+import Input from '../components/forms/Input'
+import CircularProgress from '../components/Progress'
 
-function LangChooser ({ 
-  open, 
+function LangChooser ({
+  open,
   handleClose,
   auth,
   current_user,
   app,
   dispatch
 }) {
-
   const [setted, setSetted] = React.useState(false)
 
   function setLang (lang) {
@@ -32,7 +30,7 @@ function LangChooser ({
       }
     }, {
       success: (data) => {
-        // This dispatch will trigger an effect on AppRoutes.js 
+        // This dispatch will trigger an effect on AppRoutes.js
         // which will refresh the components
         dispatch(getCurrentUser())
         setSetted(true)
@@ -43,7 +41,7 @@ function LangChooser ({
     })
   }
 
-  function handleChange(e){
+  function handleChange (e) {
     setLang(e.value)
   }
 
@@ -59,27 +57,28 @@ function LangChooser ({
       titleContent={'select language'}
       formComponent={
         <div>
-        
+
           {
             setted && <div>
-                        <CircularProgress/>
-                      </div>
+              <CircularProgress/>
+            </div>
           }
 
           {!setted && <Input
             type="select"
-            //value={ selectedAgent() }
+            // value={ selectedAgent() }
             onChange={handleChange}
             defaultValue={{
-              value: I18n.locale, 
-              label: I18n.t(`common.langs.${I18n.locale}`) 
+              value: I18n.locale,
+              label: I18n.t(`common.langs.${I18n.locale}`)
             }}
-            label={"select language"}
+            label={'select language'}
             data={{}}
             options={
               [
-                { label: I18n.t('common.langs.es'), value: "es" },
-                { label: I18n.t('common.langs.en'), value: "en" },
+                { label: I18n.t('common.langs.en'), value: 'en' },
+                { label: I18n.t('common.langs.es'), value: 'es' },
+                { label: I18n.t('common.langs.pt'), value: 'pt' }
               ]
             }>
           </Input>}
@@ -92,21 +91,18 @@ function LangChooser ({
   )
 }
 
-
-
 function mapStateToProps (state) {
   const {
     auth,
     app,
-    current_user,
+    current_user
   } = state
   const { loading, isAuthenticated } = auth
   return {
     auth,
     current_user,
-    app,
+    app
   }
 }
 
 export default connect(mapStateToProps)(LangChooser)
-
