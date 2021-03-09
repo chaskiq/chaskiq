@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class BotTask < Message
-
   # acts_as_list scope: %i[app_id]
 
   belongs_to :app
@@ -22,21 +21,21 @@ class BotTask < Message
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
 
-  scope :for_new_conversations, -> { 
-    # where(type: 'leads') 
-    where("settings->>'bot_type' = ?", 'new_conversations' )
+  scope :for_new_conversations, lambda {
+    # where(type: 'leads')
+    where("settings->>'bot_type' = ?", 'new_conversations')
   }
-  scope :for_outbound, -> { 
+  scope :for_outbound, lambda {
     # where(type: 'users')
-    where("settings->>'bot_type' = ?", 'outbound' )
+    where("settings->>'bot_type' = ?", 'outbound')
   }
-  scope :for_leads, -> { 
-    # where(type: 'leads') 
-    where("settings->>'user_type' = ?", 'leads' )
+  scope :for_leads, lambda {
+    # where(type: 'leads')
+    where("settings->>'user_type' = ?", 'leads')
   }
-  scope :for_users, -> { 
+  scope :for_users, lambda {
     # where(type: 'users')
-    where("settings->>'user_type' = ?", 'users' )
+    where("settings->>'user_type' = ?", 'users')
   }
 
   alias_attribute :title, :name
@@ -46,60 +45,54 @@ class BotTask < Message
       on metrics.trackable_type = 'Message'
       AND metrics.trackable_id = campaigns.id
       AND metrics.app_user_id = #{user.id}")
-      .where('metrics.id is null')
+           .where('metrics.id is null')
   }
 
   def initialize_default_controls
-    self.tap do
-
-      unless self.segments.present?
+    tap do
+      unless segments.present?
         self.segments = [
-          {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
-          {"type"=>"string", "value"=>"AppUser", "attribute"=>"type", "comparison"=>"eq"}
+          { 'type' => 'match', 'value' => 'and', 'attribute' => 'match', 'comparison' => 'and' },
+          { 'type' => 'string', 'value' => 'AppUser', 'attribute' => 'type', 'comparison' => 'eq' }
         ]
       end
 
-      return self unless bot_type == "new_conversations"
+      return self unless bot_type == 'new_conversations'
 
-      if self.paths.blank?
-        self.paths = default_new_conversation_path
-      end
+      self.paths = default_new_conversation_path if paths.blank?
     end
   end
 
   def default_new_conversation_path
     [
-      "title"=> "default step",
-      "id"=>"3418f148-6c67-4789-b7ae-8fb3758a4cf9", 
-      "steps"=> [
+      'title' => 'default step',
+      'id' => '3418f148-6c67-4789-b7ae-8fb3758a4cf9',
+      'steps' => [
         {
-          "type"=>"messages", 
-          "controls"=>{
-            "type"=>"ask_option", 
-            "schema"=>[
-              {"id"=>"0dc3559e-4eab-43d9-ab60-7325219a3f6f", 
-                "label"=>"see more?", 
-                "element"=>"button", 
-                "next_step_uuid"=>"2bff4dec-f8c1-4a8b-9601-68c66356ba06"
-              }, 
-              {"type"=>"messages", 
-                "controls"=>{
-                  "type"=>"ask_option", 
-                  "schema"=>[
-                    {"id"=>"0dc3559e-4eab-43d9-ab60-7325219a3f6f", 
-                      "label"=>"write here", 
-                      "element"=>"button"
-                    }
+          'type' => 'messages',
+          'controls' => {
+            'type' => 'ask_option',
+            'schema' => [
+              { 'id' => '0dc3559e-4eab-43d9-ab60-7325219a3f6f',
+                'label' => 'see more?',
+                'element' => 'button',
+                'next_step_uuid' => '2bff4dec-f8c1-4a8b-9601-68c66356ba06' },
+              { 'type' => 'messages',
+                'controls' => {
+                  'type' => 'ask_option',
+                  'schema' => [
+                    { 'id' => '0dc3559e-4eab-43d9-ab60-7325219a3f6f',
+                      'label' => 'write here',
+                      'element' => 'button' }
                   ]
-                }, 
-                "messages"=>[], 
-                "step_uid"=>"30e48aed-19c0-4b62-8afa-9a0392deb0b8"
-              }
-            ], 
-            "wait_for_input"=>true
-          }, 
-          "messages"=>[], 
-          "step_uid"=>"30e48aed-19c0-4b62-8afa-9a0392deb0b8"
+                },
+                'messages' => [],
+                'step_uid' => '30e48aed-19c0-4b62-8afa-9a0392deb0b8' }
+            ],
+            'wait_for_input' => true
+          },
+          'messages' => [],
+          'step_uid' => '30e48aed-19c0-4b62-8afa-9a0392deb0b8'
         }
       ]
     ]
@@ -129,14 +122,14 @@ class BotTask < Message
   end
 
   # idea 1: just return a collection of predicates and do it in the client
-    # TODO: think how could we set this on client side effectively
+  # TODO: think how could we set this on client side effectively
   # idea 2: backend implementation , the following code
   def self.get_welcome_bots_for_user(user)
     selected = nil
     for_new_conversations.enabled.ordered.each do |bot_task|
       if bot_task.available_for_user?(user)
         selected = bot_task
-        break 
+        break
       end
     end
     selected
@@ -229,6 +222,6 @@ class BotTask < Message
   end
 
   def self.duplicate(record)
-    self.create(record.dup)
+    create(record.dup)
   end
 end

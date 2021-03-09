@@ -4,11 +4,11 @@ class MessengerEventsChannel < ApplicationCable::Channel
   include UserFinder
 
   def subscribed
-    if current_user.blank? || self.app.blank?   
-      reject 
+    if current_user.blank? || app.blank?
+      reject
       return
-    end 
-    stream_from "messenger_events:#{self.app.key}-#{self.current_user.session_id}"
+    end
+    stream_from "messenger_events:#{app.key}-#{current_user.session_id}"
   end
 
   def unsubscribed
@@ -28,19 +28,19 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   #### experimental
-  def get_banners_for_user()
+  def get_banners_for_user
     Banner.broadcast_banner_to_user(current_user)
   end
 
-  def get_tours_for_user()
+  def get_tours_for_user
     Tour.broadcast_tour_to_user(current_user)
   end
 
-  def get_tasks_for_user()
+  def get_tasks_for_user
     BotTask.broadcast_task_to_user(current_user)
   end
 
-  def get_messages_for_user()
+  def get_messages_for_user
     UserAutoMessage.broadcast_message_to_user(current_user)
   end
   #####
@@ -70,10 +70,10 @@ class MessengerEventsChannel < ApplicationCable::Channel
     message = @conversation.messages.find_by(key: data['message_key'])
 
     app_package = app.app_package_integrations
-                      .joins(:app_package)
-                      .find_by(
-                        "app_packages.name": data['data']['type'].capitalize
-                      )
+                     .joins(:app_package)
+                     .find_by(
+                       "app_packages.name": data['data']['type'].capitalize
+                     )
 
     response = app_package&.call_hook(
       kind: 'submit',
@@ -158,5 +158,4 @@ class MessengerEventsChannel < ApplicationCable::Channel
       trackable_type: 'Message'
     )
   end
-
 end

@@ -34,15 +34,15 @@ class AppPolicy < ActionPolicy::Base
   end
 
   def update_agent?
-    role.app.owner_id == user.id || 
-    role.agent.id == record.id || 
-    role.access_list.include?("manage")
+    role.app.owner_id == user.id ||
+      role.agent.id == record.id ||
+      role.access_list.include?('manage')
   end
 
   def update_agent_role?
     role.app.owner_id == user.id ||
-    role.access_list.include?("manage") || 
-    role.access_list.include?("admin")
+      role.access_list.include?('manage') ||
+      role.access_list.include?('admin')
   end
 
   def update?

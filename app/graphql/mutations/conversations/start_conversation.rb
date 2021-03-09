@@ -31,7 +31,7 @@ module Mutations
         }
 
         # in reply block will create convo without append message
-        if message["reply"].present?
+        if message['reply'].present?
           options = {
             from: author,
             participant: participant
@@ -43,17 +43,17 @@ module Mutations
 
         # in reply mode we create separated message
         # meybe we could refactor this an put this into app.start_conversation method
-        if message["reply"].present?
-          trigger = app.bot_tasks.find(message["trigger"])
-          message_reply = message["reply"]
-          first_step = trigger.paths[0]["steps"][0] 
-          step_uid = first_step["step_uid"]
+        if message['reply'].present?
+          trigger = app.bot_tasks.find(message['trigger'])
+          message_reply = message['reply']
+          first_step = trigger.paths[0]['steps'][0]
+          step_uid = first_step['step_uid']
 
           message = conversation.add_message(
             step_id: step_uid,
             trigger_id: trigger.id,
             from: app.agent_bots.first,
-            controls: first_step["controls"]
+            controls: first_step['controls']
           )
 
           data = message_reply.permit(
@@ -68,13 +68,13 @@ module Mutations
             conversation_key: conversation.key,
             message_key: message.key,
             trigger: message.trigger_id,
-            step: message.messageable.data["next_step_uuid"],
+            step: message.messageable.data['next_step_uuid'],
             reply: message.messageable.data
           }.with_indifferent_access
 
           ActionTrigger.trigger_step(
             attributes,
-            app, 
+            app,
             app_user
           )
         end

@@ -10,7 +10,7 @@ module MessageApis
     def initialize(config:)
       @secret = secret
 
-      @api_token = config["api_secret"]
+      @api_token = config['api_secret']
 
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder
@@ -29,32 +29,32 @@ module MessageApis
 
     def enqueue_process_event(params, package)
       HookMessageReceiverJob.perform_now(
-        id: package.id, 
+        id: package.id,
         params: params.permit!.to_h
       )
     end
 
     def process_event(params, package)
       @package = package
-      current = params["current"]
-      case params["meta"]["action"]
-      when "updated" then update_app_user_profile(current)
-      when "deleted" then delete_app_user_profile(params)
+      current = params['current']
+      case params['meta']['action']
+      when 'updated' then update_app_user_profile(current)
+      when 'deleted' then delete_app_user_profile(params)
       end
     end
 
     def delete_app_user_profile(data)
-      id = data["meta"]["id"]
+      id = data['meta']['id']
       profile = @package.app.external_profiles.find_by(profile_id: id)
       return if profile.blank?
+
       profile.destroy
     end
 
     def update_app_user_profile(data)
-
       external_profile = @package.app.external_profiles.find_by(
-        provider: "pipedrive", 
-        profile_id: data["id"]
+        provider: 'pipedrive',
+        profile_id: data['id']
       )
 
       return if external_profile.blank?
@@ -64,18 +64,18 @@ module MessageApis
       # we skip users that are not in chaskiq, right ?
       return if app_user.blank?
 
-      first_name = data["first_name"]
-      last_name  = data["last_name"]
+      first_name = data['first_name']
+      last_name  = data['last_name']
 
       name = "#{first_name} #{last_name}"
 
       update_params = {
-        email: data["email"][0]["value"],
+        email: data['email'][0]['value'],
         name: name,
         last_name: last_name,
         first_name: first_name,
-        phone: data["phone"][0]["value"]
-      }.reject{|k,v| v.blank? }
+        phone: data['phone'][0]['value']
+      }.reject { |_k, v| v.blank? }
 
       app_user.update(update_params)
 
@@ -85,42 +85,43 @@ module MessageApis
     def self.tester
       MessageApis::Pipedrive.new(
         secret: @api_token
-        #secret: Rails.application.credentials.integrations.dig(:pipedrive, :secret)
+        # secret: Rails.application.credentials.integrations.dig(:pipedrive, :secret)
       )
     end
 
     def register_contact(user)
       external_profile = user.external_profiles.find_or_create_by(
-        provider: "pipedrive"
+        provider: 'pipedrive'
       )
 
-      if( external_profile and 
-          external_profile.profile_id.present? and
-          find_response = person(external_profile.profile_id) and
-          find_response["success"].present?
-        )
+      if external_profile &&
+         external_profile.profile_id.present? &&
+         (find_response = person(external_profile.profile_id)) &&
+         find_response['success'].present?
 
-        id = find_response["data"]["id"]
+        id = find_response['data']['id']
         external_profile.update(
-          data: find_response["data"]
+          data: find_response['data']
         )
 
       else
 
         response = create_person(params: {
-          email: user.email, 
-          name: user.name
-        })
+                                   email: user.email,
+                                   name: user.name
+                                 })
 
-        external_profile.update(
-          profile_id: response["data"]["id"] ,
-          data: response["data"]
-        ) if response["success"]
+        if response['success']
+          external_profile.update(
+            profile_id: response['data']['id'],
+            data: response['data']
+          )
+        end
 
       end
     end
 
-    def find_user(term:, search_by_email: false, start: 0 )
+    def find_user(term:, search_by_email: false, start: 0)
       url = url('/persons/find')
       data = {
         term: term,
@@ -128,25 +129,25 @@ module MessageApis
         limit: 20
       }
 
-      response = @conn.get(url, data, 
-        {'Content-Type'=> 'application/json'})
+      response = @conn.get(url, data,
+                           { 'Content-Type' => 'application/json' })
 
       JSON.parse(response.body)
     end
 
     def person(id)
       url = url("/persons/#{id}")
-      response = @conn.get(url, {}, {'Content-Type'=> 'application/json'})
+      response = @conn.get(url, {}, { 'Content-Type' => 'application/json' })
       JSON.parse(response.body)
     end
 
     def create_person(params:)
       url = url('/persons')
       data = {
-        #"name": 'jojoijoji michelson m',
-        #"email": 'miguejoijolmichelson@gmail.com',
-        #"phone": '0992302305',
-        #"visible_to": '3'
+        # "name": 'jojoijoji michelson m',
+        # "email": 'miguejoijolmichelson@gmail.com',
+        # "phone": '0992302305',
+        # "visible_to": '3'
       }
       response = @conn.post do |req|
         req.url url
@@ -157,10 +158,10 @@ module MessageApis
       data = JSON.parse(response.body)
     end
 
-    def update_person(id: , params:)
+    def update_person(id:, params:)
       url = url("/persons/#{id}")
 
-      data = {  
+      data = {
         "visible_to": '3'
       }.merge!(params)
 
@@ -175,10 +176,10 @@ module MessageApis
 
     def register_webhook(app_package, integration)
       subscription_url = integration.hook_url
-      #"#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
+      # "#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
       data = {
         subscription_url: subscription_url,
-        event_action: "*",
+        event_action: '*',
         event_object: 'person'
       }
       url = url('/webhooks')
@@ -190,19 +191,18 @@ module MessageApis
     end
 
     def get_webhooks
-      url = url("/webhooks")
-      response = @conn.get(url, nil, {'Content-Type'=> 'application/json'} )
+      url = url('/webhooks')
+      response = @conn.get(url, nil, { 'Content-Type' => 'application/json' })
       JSON.parse(response.body)
     end
 
     def delete_webhook(id)
       url = url("/webhooks/#{id}")
-      response = @conn.delete(url, nil, {'Content-Type'=> 'application/json'} )
+      response = @conn.delete(url, nil, { 'Content-Type' => 'application/json' })
     end
 
     def delete_webhooks
-      get_webhooks["data"].map{|o| delete_webhook(o["id"])}
+      get_webhooks['data'].map { |o| delete_webhook(o['id']) }
     end
-  
   end
 end

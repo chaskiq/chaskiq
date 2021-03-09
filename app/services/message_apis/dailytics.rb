@@ -12,16 +12,16 @@ module MessageApis
     def initialize(config:)
       @secret = secret
 
-      @api_key   = config["api_key"] 
-      @api_token = config["api_secret"]
-      @report_id = config["report_id"]
+      @api_key   = config['api_key']
+      @api_token = config['api_secret']
+      @report_id = config['report_id']
 
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder
       }
 
-      @conn.headers = { 
-        'Content-Type'=> 'application/json'
+      @conn.headers = {
+        'Content-Type' => 'application/json'
       }
     end
 
@@ -29,73 +29,69 @@ module MessageApis
       "#{BASE_URL}#{url}?app=#{@api_key}&access_token=#{@api_token}"
     end
 
-    def trigger(event)
-    end
+    def trigger(event); end
 
     def get_reports
-      url = url("/reports")
-      response = @conn.get(url, nil )
+      url = url('/reports')
+      response = @conn.get(url, nil)
       JSON.parse(response.body)
     end
 
     def get_report(id)
       url = url("/reports/#{id}")
-      response = @conn.get(url, nil )
+      response = @conn.get(url, nil)
       JSON.parse(response.body)
     end
 
-
     def comparison_format(value)
       return "#{value}%" if value.zero?
+
       value > 0 ? "▲ #{value}%" : "▼ #{value}%"
     end
 
     def get_stats
-      data = get_report(@report_id)["data"]
+      data = get_report(@report_id)['data']
 
       output = {
-        "id": data["id"],
-        "title": data["name"],
-        "subtitle": data["periodicity"],
+        "id": data['id'],
+        "title": data['name'],
+        "subtitle": data['periodicity'],
         attributes: {
-          "ga_account_name": "VADB",
-          "ga_web_property_name": "vadb.info",
-          "ga_profile_name": "Todos los datos de sitios web"
-          },
+          "ga_account_name": 'VADB',
+          "ga_web_property_name": 'vadb.info',
+          "ga_profile_name": 'Todos los datos de sitios web'
+        },
 
         values: [
           {
-            label: "Sessions", 
-            name: "last_sessions", 
-            value: data["last_sessions"], 
-            value2: comparison_format(data["last_sessions_comparisson"]) 
+            label: 'Sessions',
+            name: 'last_sessions',
+            value: data['last_sessions'],
+            value2: comparison_format(data['last_sessions_comparisson'])
           },
 
           {
-            label: "Pageviews", 
-            name: "last_pageviews", 
-            value: data["last_pageviews"], 
-            value2: comparison_format(data["last_pageviews_comparisson"])
+            label: 'Pageviews',
+            name: 'last_pageviews',
+            value: data['last_pageviews'],
+            value2: comparison_format(data['last_pageviews_comparisson'])
           },
 
           {
-            label: "Bounce Rate", 
-            name: "last_bounce_rate", 
-            value: data["last_bounce_rate"], 
-            value2: comparison_format(data["last_bounce_rate_comparisson"])
+            label: 'Bounce Rate',
+            name: 'last_bounce_rate',
+            value: data['last_bounce_rate'],
+            value2: comparison_format(data['last_bounce_rate_comparisson'])
           },
 
           {
-            label: "Avg session duration", 
-            name: "last_avg_session_duration", 
-            value: data["last_avg_session_duration"], 
-            value2: comparison_format(data["last_avg_session_duration_comparisson"])
+            label: 'Avg session duration',
+            name: 'last_avg_session_duration',
+            value: data['last_avg_session_duration'],
+            value2: comparison_format(data['last_avg_session_duration_comparisson'])
           }
         ]
       }
-
-
     end
-  
   end
 end

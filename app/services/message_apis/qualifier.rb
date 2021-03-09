@@ -2,33 +2,27 @@
 
 module MessageApis
   class Qualifier
-
     attr_accessor :secret
 
-    def initialize(config:)
-
-    end
+    def initialize(config:); end
 
     def trigger(event)
-      #case event.action
-      #when 'email_changed' then register_contact(event.eventable)
-      #end
+      # case event.action
+      # when 'email_changed' then register_contact(event.eventable)
+      # end
     end
 
     def enqueue_process_event(params, package)
       HookMessageReceiverJob.perform_now(
-        id: package.id, 
+        id: package.id,
         params: params.permit!.to_h
       )
     end
 
-    def process_event(params, package)
-      
-    end
+    def process_event(params, package); end
 
     # for display in replied message
-    def self.display_data(data)
-    end
+    def self.display_data(data); end
 
     class QualifierRecordItem
       include ActiveModel::Model
@@ -47,23 +41,23 @@ module MessageApis
         items << { name: name, label: '' }
       end
 
-      def item (name:, label:, index:)
+      def item(name:, label:, index:)
         [
           {
-            "type": "input",
+            "type": 'input',
             "id": "item[#{index}][label]",
             "placeholder": 'enter your data',
-            "label": "Label",
-            value: label,
+            "label": 'Label',
+            value: label
           },
           {
-            "type": "dropdown",
+            "type": 'dropdown',
             "id": "item[#{index}][name]",
-            "label": "Value",
+            "label": 'Value',
             value: name,
-            "options": options.each_with_index.map do |o, i|
+            "options": options.each_with_index.map do |o, _i|
               {
-                "type": "option",
+                "type": 'option',
                 "text": o['name'],
                 "name": o['name'],
                 "id": o['name']
@@ -74,28 +68,27 @@ module MessageApis
       end
 
       def schema
-
         fields = [
           {
             type: 'text',
             style: 'header',
             align: 'center',
-            text: "qualify users"
+            text: 'qualify users'
           },
           {
             type: 'text',
             style: 'muted',
             align: 'center',
-            text: "Compose forms for qualificators"
+            text: 'Compose forms for qualificators'
           },
           {
             type: 'separator'
-          },
+          }
         ]
 
-        fields << @items.each_with_index.map{|o, i| 
-          item(name: o[:name], label: o[:label] , index: i) 
-        }
+        fields << @items.each_with_index.map do |o, i|
+          item(name: o[:name], label: o[:label], index: i)
+        end
 
         fields << [{
           type: 'button',
@@ -107,15 +100,15 @@ module MessageApis
             type: 'submit'
           }
         },
-        {
-          type: 'button',
-          id: 'confirm',
-          label: 'Confirm Fields',
-          align: 'center',
-          action: {
-            type: 'submit'
-          }
-        }]
+                   {
+                     type: 'button',
+                     id: 'confirm',
+                     label: 'Confirm Fields',
+                     align: 'center',
+                     action: {
+                       type: 'submit'
+                     }
+                   }]
 
         fields.flatten
       end
@@ -125,7 +118,7 @@ module MessageApis
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_accessor :items
-      
+
       def self.configure(opts)
         opts.each do |o|
           attr_accessor o
@@ -143,16 +136,16 @@ module MessageApis
         @items ||= []
       end
 
-      def add_item(name, label=nil)
+      def add_item(name, label = nil)
         @items = items << {
           type: 'input',
           id: name,
           placeholder: "type your #{label}",
           label: label,
-          value: self.send(name.to_sym),
-          errors: errors[name.to_sym]&.uniq&.join(", "),
+          value: send(name.to_sym),
+          errors: errors[name.to_sym]&.uniq&.join(', '),
           action: {
-            type: "submit" 
+            type: 'submit'
           }
         }
       end
@@ -161,65 +154,62 @@ module MessageApis
         return []
         [
           {
-            "type":  "text",
-            "text":  "yes!!!!! your email is #{self.email}",
-            "style": "header"
+            "type": 'text',
+            "text": "yes!!!!! your email is #{email}",
+            "style": 'header'
           },
           {
-            "type":  "text",
-            "text":  "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-            "style": "paragraph"
+            "type": 'text',
+            "text": "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
+            "style": 'paragraph'
           }
         ]
       end
 
       def schema
-        return @items
+        @items
       end
 
       def confirmed_definitions
-        @items.map{ |o|
+        @items.map  do |o|
           o[:disabled] = true
           o
-        }
+        end
       end
-
     end
 
     class PresenterManager
       # Initialize flow webhook URL
-      # Sent when an app has been inserted into a conversation, message or 
+      # Sent when an app has been inserted into a conversation, message or
       # the home screen, so that you can render the app.
-      def self.initialize_hook(kind: , ctx:)
-
-        options = ctx[:values][:item].map{|o| o[:name]}
+      def self.initialize_hook(kind:, ctx:)
+        options = ctx[:values][:item].map { |o| o[:name] }
 
         QualifierRecord.configure(
           options
         )
 
-        record = QualifierRecord.new( items: [] )
+        record = QualifierRecord.new(items: [])
 
-        ctx[:values][:item].map{|o|
+        ctx[:values][:item].map do |o|
           record.add_item(o[:name], o[:label])
-        }
+        end
 
         {
-          kind: kind, 
-          #ctx: ctx, 
-          definitions: record.schema 
+          kind: kind,
+          # ctx: ctx,
+          definitions: record.schema
         }
       end
 
       # Submit flow webhook URL
-      # Sent when an end-user interacts with your app, via a button, 
-      # link, or text input. This flow can occur multiple times as an 
+      # Sent when an end-user interacts with your app, via a button,
+      # link, or text input. This flow can occur multiple times as an
       # end-user interacts with your app.
       def self.submit_hook(kind:, ctx:)
-
-        fields = ctx[:app].searcheable_fields.map{|o| 
-          o["name"].to_sym 
-        }
+        fields = ctx[:app].searcheable_fields.map do |o|
+          o['name'].to_sym
+        end
 
         QualifierRecord.configure(
           fields
@@ -247,32 +237,34 @@ module MessageApis
           record.add_item(o)
         end
 
-        record.items.each{|o| 
-          o[:label] = ctx.dig(:definitions)&.find{|d| d[:id] == o[:id] }&.dig(:label)
-          o[:value] = ctx.dig(:values, o[:id].to_sym )
+        record.items.each do |o|
+          o[:label] = ctx.dig(:definitions)&.find { |d| d[:id] == o[:id] }&.dig(:label)
+          o[:value] = ctx.dig(:values, o[:id].to_sym)
           o[:placeholder] = "type your #{o[:label]}"
-        } #unless record.valid?
+        end
 
         definitions = record.schema
 
         result = {
-          #kind: 'initialize', 
-          definitions: definitions,
+          # kind: 'initialize',
+          definitions: definitions
         }
 
-        result.merge!(
-          results: ctx.dig(:values),
-          definitions: record.confirmed_definitions
-        ) if record.valid?
+        if record.valid?
+          result.merge!(
+            results: ctx.dig(:values),
+            definitions: record.confirmed_definitions
+          )
+        end
 
         result
       end
 
       # Configure flow webhook URL (optional)
-      # Sent when a teammate wants to use your app, so that you can show 
-      # them configuration options before it’s inserted. Leaving this option 
+      # Sent when a teammate wants to use your app, so that you can show
+      # them configuration options before it’s inserted. Leaving this option
       # blank will skip configuration.
-      def self.configure_hook(kind: , ctx:)
+      def self.configure_hook(kind:, ctx:)
         app = ctx[:app]
         fields = app.searcheable_fields
 
@@ -281,50 +273,50 @@ module MessageApis
             type: 'text',
             style: 'header',
             align: 'center',
-            text: "qualify users"
+            text: 'qualify users'
           },
           {
             type: 'text',
             style: 'muted',
             align: 'center',
-            text: "Compose forms for qualificators"
+            text: 'Compose forms for qualificators'
           },
           {
             type: 'separator'
           },
           {
-            "type":  "text",
-            "text":  "Pick a template",
-            "style": "header"
+            "type": 'text',
+            "text": 'Pick a template',
+            "style": 'header'
           },
-    
+
           {
-            type: "list",
+            type: 'list',
             disabled: false,
             items: [
               {
-                "type": "item",
-                "id": "contact-fields",
-                "title": "Contact fields",
-                "subtitle": "Ask for name , email & company",
+                "type": 'item',
+                "id": 'contact-fields',
+                "title": 'Contact fields',
+                "subtitle": 'Ask for name , email & company',
                 "action": {
-                  "type": "submit"
+                  "type": 'submit'
                 }
               },
               {
-                "type": "item",
-                "id": "any-field",
-                "title": "Custom Fields",
-                "subtitle": "Ask for custom field data",
+                "type": 'item',
+                "id": 'any-field',
+                "title": 'Custom Fields',
+                "subtitle": 'Ask for custom field data',
                 "action": {
-                  "type": "submit"
+                  "type": 'submit'
                 }
               }
             ]
           }
         ]
 
-        if ctx.dig(:field, :id) == "contact-fields"
+        if ctx.dig(:field, :id) == 'contact-fields'
 
           r = QualifierRecordItem.new(
             options: fields
@@ -332,64 +324,65 @@ module MessageApis
           r.add_item('name')
           r.add_item('email')
           r.add_item('company_name')
-        
-          return { 
+
+          return {
             kind: kind,
             definitions: r.schema
           }
         end
 
-        if ctx.dig(:field, :id) == "any-field"
+        if ctx.dig(:field, :id) == 'any-field'
           r = QualifierRecordItem.new(
-              options: fields)
+            options: fields
+          )
 
           r.add_item(nil)
 
-          return { 
+          return {
             kind: kind,
             definitions: r.schema
           }
         end
 
-        if ctx.dig(:field, :id) == "add-field"
+        if ctx.dig(:field, :id) == 'add-field'
 
           r = QualifierRecordItem.new(
-              options: fields)
+            options: fields
+          )
 
-          ctx[:values].require(:item).each{|o|
+          ctx[:values].require(:item).each do |o|
             r.add_item(o[:name])
-          }
+          end
 
           r.add_item(nil)
 
-          return { 
+          return {
             kind: kind,
             definitions: r.schema
           }
         end
-    
-        if ctx.dig(:field, :id) == "confirm" && 
-          ctx.dig(:field, :action, :type) === "submit"
 
-          # todo validate
+        if ctx.dig(:field, :id) == 'confirm' &&
+           ctx.dig(:field, :action, :type) === 'submit'
 
-          return { 
-            kind: 'initialize', 
+          # TODO: validate
+
+          return {
+            kind: 'initialize',
             definitions: definitions,
             results: ctx[:values]
           }
         end
 
-
-        return {
-          #kind: kind, 
-          #ctx: ctx, 
-          definitions: definitions 
+        {
+          # kind: kind,
+          # ctx: ctx,
+          definitions: definitions
         }
       end
 
-      #Submit Sheet flow webhook URL (optional)
-      #Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.
+      # Submit Sheet flow webhook URL (optional)
+      # Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.
       def self.sheet_hook(params)
         []
       end

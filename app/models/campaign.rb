@@ -170,8 +170,11 @@ class Campaign < Message
   end
 
   def campaign_outgoing_email
-    self[:from_email] || 
-    (app.outgoing_email_domain.present? ?
-    "campaigns-#{self.app.key}-#{self.id}@#{app.outgoing_email_domain}" : '')
+    self[:from_email] ||
+      (if app.outgoing_email_domain.present?
+         "campaigns-#{app.key}-#{id}@#{app.outgoing_email_domain}"
+       else
+         ''
+       end)
   end
 end

@@ -1,2 +1,1 @@
-
-#Webpacker::Compiler.env['HOST'] = ENV['HOST']
+# Webpacker::Compiler.env['HOST'] = ENV['HOST']

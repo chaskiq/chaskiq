@@ -12,14 +12,12 @@ class ConversationPartContent < ApplicationRecord
   end
 
   def parsed_content
-    JSON.parse(self.serialized_content)
+    JSON.parse(serialized_content)
   end
 
   def text_from_serialized
-    begin
-    parsed_content["blocks"].map{|o| o["text"]}.join(" ")
-    rescue 
-      html_content
-    end
+    parsed_content['blocks'].map { |o| o['text'] }.join(' ')
+  rescue StandardError
+    html_content
   end
 end

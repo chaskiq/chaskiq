@@ -17,26 +17,24 @@ Geocoder::Lookup::Test.set_default_stub(
   ]
 )
 
-
 app = FactoryBot.create(:app,
-  domain_url: 'http://localhost:5002', 
-  encryption_key: 'unodostrescuatro',
-  active_messenger: 'true',
-  state: 'enabled')
-        
+                        domain_url: 'http://localhost:5002',
+                        encryption_key: 'unodostrescuatro',
+                        active_messenger: 'true',
+                        state: 'enabled')
+
 agent = app.add_agent({
-  email: 'test@test.cl', 
-  name: 'sharleena',
-  password: "123456",
-  password_confirmation: "123456"
-})
+                        email: 'test@test.cl',
+                        name: 'sharleena',
+                        password: '123456',
+                        password_confirmation: '123456'
+                      })
 
 agent.agent
 
-
 Doorkeeper::Application.create(
-  :name => 'authapp', 
-  :redirect_uri => 'http://localhost:5002'
+  name: 'authapp',
+  redirect_uri: 'http://localhost:5002'
 )
 
 true

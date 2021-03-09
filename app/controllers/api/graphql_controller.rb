@@ -11,9 +11,9 @@ class Api::GraphqlController < ApiController
     query = params[:query]
     operation_name = params[:operationName]
 
-    scout_transaction_name = "GraphQLAPI" + (operation_name || 'unknown')
+    scout_transaction_name = 'GraphQLAPI' + (operation_name || 'unknown')
     ScoutApm::Transaction.rename(scout_transaction_name)
-  
+
     context = {
       # Query context goes here, for example:
       user_data: user_data,
@@ -53,9 +53,7 @@ class Api::GraphqlController < ApiController
       }]
     }, status: 422
     # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
-
   rescue EULocationError => e
-
     render json: {
       errors: [{
         message: e.message,

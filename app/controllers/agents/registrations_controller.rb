@@ -1,7 +1,6 @@
 # app/controllers/registrations_controller.rb
 class Agents::RegistrationsController < Devise::RegistrationsController
-
-	before_action :check_registrable
+  before_action :check_registrable
 
   def new
     super
@@ -13,11 +12,11 @@ class Agents::RegistrationsController < Devise::RegistrationsController
 
   def update
     super
-	end
-	
-	private
+  end
 
-	def check_registrable
-		return redirect_to root_url unless enabled_subscriptions?
-	end
-end 
+  private
+
+  def check_registrable
+    return redirect_to root_url unless enabled_subscriptions?
+  end
+end

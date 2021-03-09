@@ -4,20 +4,17 @@ require 'sidekiq/web'
 require 'active_support/security_utils'
 require 'subdomain_routes'
 Rails.application.routes.draw do
-  
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
-    #controllers applications: 'agents/authorizations',
-                #tokens: 'agents/custom_authorizations'
-                #authorizations: 'custom_authorizations',
-                #    tokens: 'custom_authorizations',
-                #    applications: 'custom_authorizations',
-                #    token_info: 'custom_authorizations'
+    # controllers applications: 'agents/authorizations',
+    # tokens: 'agents/custom_authorizations'
+    # authorizations: 'custom_authorizations',
+    #    tokens: 'custom_authorizations',
+    #    applications: 'custom_authorizations',
+    #    token_info: 'custom_authorizations'
   end
 
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql'
-  end
+  mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
 
   post '/graphql', to: 'graphql#execute'
   post '/api/graphql', to: 'api/graphql#execute'
@@ -31,11 +28,11 @@ Rails.application.routes.draw do
     # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
     # - Use & (do not use &&) so that it doesn't short circuit.
     # - Use digests to stop length information leaking
-    ActiveSupport::SecurityUtils.secure_compare(user, ENV["ADMIN_EMAIL"]) &
-    ActiveSupport::SecurityUtils.secure_compare(password, ENV["ADMIN_PASSWORD"])
+    ActiveSupport::SecurityUtils.secure_compare(user, ENV['ADMIN_EMAIL']) &
+      ActiveSupport::SecurityUtils.secure_compare(password, ENV['ADMIN_PASSWORD'])
   end
 
-  mount Sidekiq::Web, at: "/sidekiq"
+  mount Sidekiq::Web, at: '/sidekiq'
 
   devise_for :agents, controllers: {
     registrations: 'agents/registrations',
@@ -74,7 +71,6 @@ Rails.application.routes.draw do
   get 'tester/:id/:id2/id3/:id4' => 'client_tester#show'
 
   get '/' => 'home#show', as: :agents
-  
 
   scope path: '/api' do
     scope path: '/v1' do
@@ -89,9 +85,9 @@ Rails.application.routes.draw do
       post 'oauth/callback/:id' => 'api/v1/hooks/provider#oauth'
       get 'oauth/callback/:id' => 'api/v1/hooks/provider#oauth'
 
-      #get 'oauth/:app_key/:provider/:id' => 'api/v1/hooks/provider#oauth'
-      #get 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#create'
-      #post 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#process_event'
+      # get 'oauth/:app_key/:provider/:id' => 'api/v1/hooks/provider#oauth'
+      # get 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#create'
+      # post 'hooks/:app_key/:provider/:id' => 'api/v1/hooks/provider#process_event'
 
       resources :direct_uploads, only: [:create], controller: 'api/v1/direct_uploads'
 

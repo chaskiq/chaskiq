@@ -24,7 +24,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
       t.text     :redirect_uri,      null: false
       t.datetime :created_at,        null: false
       t.datetime :revoked_at
-      t.string   :scopes,            null: false, default: ''
+      t.string   :scopes, null: false, default: ''
     end
 
     add_index :oauth_access_grants, :token, unique: true
@@ -61,7 +61,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
       # previous tokens are revoked as soon as a new access token is created.
       # Comment out this line if you'd rather have refresh tokens
       # instantly revoked.
-      t.string   :previous_refresh_token, null: false, default: ""
+      t.string   :previous_refresh_token, null: false, default: ''
     end
 
     add_index :oauth_access_tokens, :token, unique: true

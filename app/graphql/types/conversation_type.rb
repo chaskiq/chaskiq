@@ -2,9 +2,8 @@
 
 module Types
   class ConversationType < Types::BaseObject
-
     field :assignee, Types::AppUserType, null: true
-    #association_field :assignee, Types::AgentType, null: true
+    # association_field :assignee, Types::AgentType, null: true
 
     field :id, Integer, null: true
     field :key, String, null: true
@@ -18,7 +17,7 @@ module Types
     field :latest_user_visible_comment_at, GraphQL::Types::ISO8601DateTime, null: true
 
     field :main_participant, Types::AppUserType, null: true
-    #association_field :main_participant, Types::AppUserType, null: false
+    # association_field :main_participant, Types::AppUserType, null: false
 
     field :last_message, Types::ConversationPartType, null: true
 
