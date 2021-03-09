@@ -1,103 +1,103 @@
 pt:
   subscriptions:
-    upgrade: Upgrade
+    upgrade: Atualizar
     tabs:
-      - Plans
-      - Transaction history
+      - Planos
+      - Histórico de transações
     features:
       Segments:
-        title: Segments
+        title: Segmentos
         description: true
-        upgrade_message: Enable contact segments and targeting
+        upgrade_message: Habilitar segmentos de contato e direcionamento
       Leads:
-        title: Leads
+        title: Contactos
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtenha aplicativos externos, muitos aplicativos
       AppUsers:
-        title: AppUsers
+        title: Usuarios
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtenha aplicativos externos, muitos aplicativos
       Conversations:
-        title: Conversations
+        title: Conversas
         description: true
-        upgrade_message: Enable conversations
+        upgrade_message: Ativar conversas
       BotTasks:
-        title: BotTasks
+        title: Tarefas Bot
         description: true
-        upgrade_message: Add automated chatflows to your app
+        upgrade_message: Adicionar chatflows automatizados ao seu aplicativo
       Integrations:
-        title: Integrations
+        title: Integrações
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtenha aplicativos externos, muitos aplicativos
       Campaigns:
-        title: Campaigns
+        title: Campanhas
         active: false
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Receba mensagens, boletim informativo e passeios!
       Tours:
-        title: Tours
+        title: Visitas Guiadas
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Receba mensagens, boletim informativo e passeios!
       UserAutoMessages:
         title: UserAutoMessages
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Receba mensagens, boletim informativo e passeios!
       OutgoingWebhooks:
         title: OutgoingWebhooks
         active: false
-        upgrade_message: Enable outgoing webhooks
+        upgrade_message: Ativar webhooks de saída
       OauthApplications:
         title: OauthApplications
         description: true
-        upgrade_message: Enable API access support through OAUTH
+        upgrade_message: Ativar suporte a API através de OAUTH
       Articles:
-        title: Articles
+        title: Artigos
         active: false
-        upgrade_message: Enable Documentation & Help Center
+        upgrade_message: Ativar centro de documentação e ajuda
       QuickReplies:
-        title: QuickReplies
+        title: Respostas Rápidas
         description: true
-        upgrade_message: add Quick replies to your conversations
+        upgrade_message: adicionar respostas rápidas para suas conversas
       CustomAttributes:
-        title: CustomAttributes
-        upgrade_message: Enable custom attributes
+        title: Personalizar Atributos
+        upgrade_message: Ordenar atributos personalizados
     plans:
       - 
-        name: "free one"
-        description: This is a frebie plan!
+        name: "livre um"
+        description: Este é um plano gratuito!
         id: 618560
       - 
-        name: "rookie"
-        description: This is the simple plan
+        name: "calouros"
+        description: Este é o plano simples
         id: 616249
       - 
         name: "super"
         id: 596123
-        description: This is the super plan
+        description: Este é o plano simples
     plan:
-      included: What's included
-      pay_by: Pay by %{billing_type}
-      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
-      get_access: Get access
+      included: O que está incluído
+      pay_by: Pagar via %{billing_type}
+      trial_days: Experimente este plano gratuitamente por <span class="font-bold"> %{trial_days} dias </span>
+      get_access: Consiga acesso
     alerts:
       subscription_updated:
-        title: Subscription updated
-        desc: The Subscription was updated successfully, You will receive an email notification
+        title: A subscrição foi atualizada
+        desc: A assinatura foi atualizada com sucesso, você receberá uma notificação por e-mail
       subscription_created:
-        title: Subscription Created
-        desc: The subscription was created successfully, You will receive a receipt soon
+        title: A subscrição foi atualizada
+        desc: A assinatura foi atualizada com sucesso, você receberá uma notificação por e-mail
       subscription_cancelled:
-        title: Subscription Cancelled
-        desc: The subscription was cancelled
-      close: Close this dialog
+        title: Assinatura cancelada
+        desc: A assinatura foi cancelada
+      close: Bloquear este diálogo
     billing_information:
-      title: Billing plan information
-      description: You are currently using "%{plan_name}" plan.
-      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
-      cancel_plan: cancel plan
-      update_payment_method: Update payment method
-      subscription_state: Estado de subscripción %{state}
+      title: Informação de faturação
+      description: Você está atualmente usando o plano "%{plan_name}".
+      next_billing: Próxima faturação em %{next_payment_date} por $%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: cancelar Plano
+      update_payment_method: Atualizar método de pagamento
+      subscription_state: Estado de subscrição n %{state}
     update_subscription:
-      cta: Update subscription
-      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
-      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
-      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
+      cta: Atualizar a minha Subscrição
+      billed_on: Você será cobrado a cada <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: Com o valor de <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: O próximo pagamento será realizado em <span class="font-bold">%{next_payment_date}</span>
