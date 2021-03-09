@@ -33,6 +33,8 @@ import {
   ConversationsFooter,
   MessageSpinner,
   AppPackageBlockContainer,
+  AppPackageBlockButtonItem,
+  AppPackageBlockTextItem,
   ConversationEventContainer,
   InlineConversationWrapper,
   FooterAckInline,
@@ -43,6 +45,8 @@ import {
 import {
   DefinitionRenderer
 } from '../src/components/packageBlocks/components'
+import Button from '../src/components/Button'
+
 
 const DanteStylesExtend  = styled(DanteContainer)`
 .graf--code{
@@ -764,7 +768,7 @@ class AppPackageBlock extends Component {
     const isDisabled = this.props.message.message.state === "replied" || this.state.loading
     const {t} = this.props
     const key = `${item.type}-${index}`
-    switch(item.element){
+    switch(element){
       case "separator":
         return <hr key={key}/>
       case "input":
@@ -807,22 +811,23 @@ class AppPackageBlock extends Component {
               </div>
 
       case "submit":
-        return <button disabled={isDisabled}
+        return <Button disabled={isDisabled}
                        key={key} 
                        style={{alignSelf: 'flex-end'}} 
                        type={"submit"}>
             {t("submit")}
-          </button>
+          </Button>
       case "button":
-        return <div style={{ padding: '0.2em 0.6em 0.4em 0.5em'}}>
-                  <button 
+        return <AppPackageBlockButtonItem>
+                  <Button
+                    //variant="outlined"
                     disabled={isDisabled}
                     onClick={()=> this.handleStepControlClick(item)}
                     key={key} 
                     type={"button"}>
                     {item.label}
-                  </button>
-                </div>
+                  </Button>
+                </AppPackageBlockButtonItem>
       default:
         return null
     }
@@ -833,15 +838,13 @@ class AppPackageBlock extends Component {
     if(isDisabled) return <DisabledElement>
                             { this.renderDisabledElement() }
                           </DisabledElement>
-    return <div>
+    return <div className="elementsContainer">
     
     {
       this.props.message.message.blocks.label && 
-      <p style={{
-        padding: '0.2em 0.6em 0.4em 0.5em'
-      }}>
+      <AppPackageBlockTextItem>
         {this.props.message.message.blocks.label}
-      </p>
+      </AppPackageBlockTextItem>
     }
 
     {
