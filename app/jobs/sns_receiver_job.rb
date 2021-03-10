@@ -19,7 +19,6 @@ class SnsReceiverJob < ApplicationJob
     # handle campaign
     handle_campaign_message(track_type, m, _referrer) if campaign.present?
 
-
     unsubscribe_user(track_type, m)
   end
 
@@ -56,26 +55,29 @@ class SnsReceiverJob < ApplicationJob
 
     conversation = Conversation.find_by(id: conversation_id)
     return if conversation.blank?
+
     message = conversation.messages.find(part_id)
     return if message.blank?
+
     message.read!
   end
 
-private
+  private
 
   def unsubscribe_user(track_type, m)
-    case track_type 
-    when "complaint"
-      email = m.dig("complaint", "complainedRecipients").map{|o| o["emailAddress"]}
-      users = AppUser.where(email: email ) 
+    case track_type
+    when 'complaint'
+      email = m.dig('complaint', 'complainedRecipients').map { |o| o['emailAddress'] }
+      users = AppUser.where(email: email)
       users.map(&:unsubscribe!)
-      return true
-    when "bounce"
-      return unless m["bounce"]["bounceType"] == "Permanent"
-      email = m.dig("bounce", "bouncedRecipients").map{|o| o["emailAddress"]}
-      users = AppUser.where(email: email ) if email.present?    
+      true
+    when 'bounce'
+      return unless m['bounce']['bounceType'] == 'Permanent'
+
+      email = m.dig('bounce', 'bouncedRecipients').map { |o| o['emailAddress'] }
+      users = AppUser.where(email: email) if email.present?
       users.map(&:unsubscribe!)
-      return true
+      true
     end
   end
 
@@ -86,6 +88,6 @@ private
   end
 
   def get_email_from_notification(m)
-    m.dig("mail", "commonHeaders", "to")
+    m.dig('mail', 'commonHeaders', 'to')
   end
 end

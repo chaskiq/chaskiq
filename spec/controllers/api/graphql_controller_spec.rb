@@ -40,12 +40,9 @@ RSpec.describe Api::GraphqlController, type: :controller do
     GraphQL::TestClient.configure(file)
     app.update(encryption_key: 'unodostrescuatro')
 
-    
     allow_any_instance_of(GeocoderRequestOverride).to receive(
       :default_geocoder_service
     ).and_return(:test)
-
-    
   end
 
   after do
@@ -61,8 +58,8 @@ RSpec.describe Api::GraphqlController, type: :controller do
       )
 
       OriginValidator.any_instance
-      .stub(:is_valid?)
-      .and_return(true)
+                     .stub(:is_valid?)
+                     .and_return(true)
     end
 
     it 'auth encrypted will create registered user' do
@@ -100,7 +97,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
 
     it 'visit without geo code' do
-
       Geocoder.stub(:search).and_return([])
 
       graphql_post(type: 'AUTH', variables: {})
@@ -124,8 +120,8 @@ RSpec.describe Api::GraphqlController, type: :controller do
       )
 
       OriginValidator.any_instance
-      .stub(:host)
-      .and_return("http://other.domain")
+                     .stub(:host)
+                     .and_return('http://other.domain')
     end
 
     it 'will return 422' do
@@ -138,15 +134,13 @@ RSpec.describe Api::GraphqlController, type: :controller do
       graphql_post(type: 'PING', variables: {})
 
       expect(response.status).to be == 422
-
     end
   end
 
   it 'sessionless will create Lead' do
-
     OriginValidator.any_instance
-    .stub(:is_valid?)
-    .and_return(true)
+                   .stub(:is_valid?)
+                   .and_return(true)
 
     request.headers.merge!(
       'HTTP_APP' => app.key
@@ -160,17 +154,14 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
   describe 'unregistered' do
-    
     before :each do
-
       @user = app.add_anonymous_user({})
 
       expect(app.app_users.count).to be == 1
 
-
       OriginValidator.any_instance
-      .stub(:host)
-      .and_return("http://localhost:3000")
+                     .stub(:host)
+                     .and_return('http://localhost:3000')
 
       request.headers.merge!(
         'HTTP_APP' => app.key,
@@ -179,9 +170,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
       expect(app.reload.app_users.count).to be == 1
       graphql_post(type: 'AUTH', variables: {})
-
     end
-
 
     it 'sessionless will return Lead' do
       expect(graphql_response.data.messenger.user.kind).to be == 'Visitor'
@@ -191,33 +180,31 @@ RSpec.describe Api::GraphqlController, type: :controller do
 
     it 'convert will return Lead' do
       graphql_post(type: 'CONVERT', variables: {
-        appKey: app.key,
-        email: "foo@bar.com"
-      })
+                     appKey: app.key,
+                     email: 'foo@bar.com'
+                   })
 
       expect(graphql_response.data.convertUser.status).to be == 'ok'
       expect(app.app_users.first).is_a?(Lead)
     end
-
   end
 
   describe 'app security, forbidden fields' do
-
     before :each do
       @user = app.add_anonymous_user({})
 
       expect(app.app_users.count).to be == 1
 
       OriginValidator.any_instance
-      .stub(:host)
-      .and_return("http://localhost:3000")
+                     .stub(:host)
+                     .and_return('http://localhost:3000')
 
       request.headers.merge!(
         'HTTP_APP' => app.key,
         'HTTP_SESSION_ID' => @user.session_id
       )
     end
-    
+
     it 'get agents' do
       q = "query Messenger{
         messenger {
@@ -249,7 +236,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
 
     it 'secure on oauthApplications' do
-      
       q = "query Messenger{
         messenger {
           user
@@ -267,7 +253,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
 
     it 'secure on authorizedOauthApplications' do
-      
       q = "query Messenger{
         messenger {
           user
@@ -302,7 +287,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
     end
 
     it 'conversations' do
-      
       app.start_conversation(
         message: { text_content: 'aa' },
         from: app.app_users.first
@@ -329,14 +313,13 @@ RSpec.describe Api::GraphqlController, type: :controller do
       }"
 
       graphql_raw_post(raw: q, variables: {
-        page: 1, per: 20
-      })
+                         page: 1, per: 20
+                       })
 
       expect(graphql_response.errors).to be_present
     end
 
     describe 'app access' do
-      
       before :each do
         app.start_conversation(
           message: { text_content: 'aa' },
@@ -345,7 +328,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
         agent_role
       end
 
-      it "messenger" do
+      it 'messenger' do
         q = "query Messenger{
           messenger {
             user
@@ -367,7 +350,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
         expect(graphql_response.errors).to be_present
       end
 
-      it "messenger" do
+      it 'messenger' do
         q = "query Messenger{
           messenger {
             user
@@ -389,7 +372,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
         expect(graphql_response.errors).to be_present
       end
 
-      it "messenger" do
+      it 'messenger' do
         q = "query Messenger{
           messenger {
             user
@@ -406,8 +389,6 @@ RSpec.describe Api::GraphqlController, type: :controller do
         puts graphql_response.errors
         expect(graphql_response.errors).to be_present
       end
-
     end
-
   end
 end

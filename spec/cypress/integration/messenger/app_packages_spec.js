@@ -266,22 +266,20 @@ describe('Visitor home apps', function () {
 
       cy.visit(`/tester/${appKey}?sessionless=true`)
 
-        getIframeBody('iframe:first').find('#chaskiq-prime').click()
+      getIframeBody('iframe:first').find('#chaskiq-prime').click()
 
-        getIframeBody('iframe:first').xpath(
-          '//*[@id="mountHere"]/div/div[2]/div[2]/div[1]/div[2]/div/form/div[2]/div/ul/div'
-        ).click()
+      getIframeBody('iframe:first').xpath(
+        '//*[@id="mountHere"]/div/div[2]/div[2]/div[1]/div[2]/div/form/div[2]/div/ul/div'
+      ).click()
 
-        cy.wait(1000)
-        getIframeBody('iframe:first')
+      cy.wait(1000)
+      getIframeBody('iframe:first')
         .find('#package-frame')
         .its('0.contentDocument').should('exist')
         .its('body').should('not.be.undefined')
-        .then(($iframe)=>{
+        .then(($iframe) => {
           cy.wrap($iframe).contains('my friend')
         })
     })
   })
 })
-
-

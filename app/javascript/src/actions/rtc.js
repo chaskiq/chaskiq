@@ -3,7 +3,7 @@ const initialState = { }
 export function updateRtcEvents (data) {
   return (dispatch, getState) => {
     const conversation = getState().conversation
-    if (conversation && conversation.key === data.conversation_id ) { 
+    if (conversation && conversation.key === data.conversation_id) {
       dispatch(dispatchRtcEvent(data))
     }
   }

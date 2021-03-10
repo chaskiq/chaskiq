@@ -55,18 +55,18 @@ export default function UnSubscribe ({ match }) {
                 !loading &&
                 <div>
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    {I18n.t("campaign.unsubscribe.status", {state: data.state})}
+                    {I18n.t('campaign.unsubscribe.status', { state: data.state })}
                   </h3>
                   <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
 
                     {
                       data.state === 'unsubscribed' && <p>
-                      {I18n.t("campaign.unsubscribe.success", {email: data.email })}
-                      <Button
+                        {I18n.t('campaign.unsubscribe.success', { email: data.email })}
+                        <Button
                           onClick={reSubscribe}
                           className="ml-4 my-3"
                           size="small">
-                          { I18n.t("campaign.unsubscribe.resubscribe") }
+                          { I18n.t('campaign.unsubscribe.resubscribe') }
                         </Button>
                       </p>
                     }
@@ -77,7 +77,7 @@ export default function UnSubscribe ({ match }) {
                           onClick={subscribe}
                           className="ml-4 my-3"
                           size="small">
-                          {I18n.t("campaign.unsubscribe.cancel")}
+                          {I18n.t('campaign.unsubscribe.cancel')}
                         </Button>
                       </p>
                     }

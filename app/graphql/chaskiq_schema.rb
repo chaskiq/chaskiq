@@ -31,5 +31,4 @@ class ChaskiqSchema < GraphQL::Schema
       }
     )
   end
-
 end

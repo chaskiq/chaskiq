@@ -9,7 +9,7 @@ class Agent < ApplicationRecord
 
   devise  :invitable,
           :database_authenticatable,
-          :registerable, #disabled registrations
+          :registerable, # disabled registrations
           :recoverable,
           :rememberable,
           :validatable,
@@ -84,9 +84,9 @@ class Agent < ApplicationRecord
 
   def avatar_url
     unless avatar.attached?
-      return !bot? ?
-          gravatar :
-          default_avatar
+      return bot? ?
+          default_avatar :
+          gravatar
     end
 
     # return '' unless object.avatar_blob.present?

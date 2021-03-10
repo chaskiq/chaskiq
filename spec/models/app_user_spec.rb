@@ -7,7 +7,7 @@ RSpec.describe AppUser, type: :model do
 
   let(:app) { FactoryBot.create :app }
   let(:app_user) do
-    app.add_user({email: 'test@test.cl', first_name: 'dsdsa'})
+    app.add_user({ email: 'test@test.cl', first_name: 'dsdsa' })
   end
 
   let(:visitor) do

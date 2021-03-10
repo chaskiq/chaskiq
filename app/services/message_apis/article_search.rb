@@ -27,9 +27,9 @@ module MessageApis
       def self.search_definitions
         [
           {
-            "type": 'text',
-            "text": 'Help Center',
-            "style": 'header'
+            type: 'text',
+            text: 'Help Center',
+            style: 'header'
           },
           {
             name: 'a',
@@ -38,19 +38,19 @@ module MessageApis
             type: 'separator'
           },
           {
-            "type": 'input',
-            "id": 'unsaved-2',
-            "name": 'search_articles',
-            "label": 'Find Answers Quickly',
-            "placeholder": 'Search for an article...',
-            "save_state": 'unsaved',
-            "action": {
-              "type": 'submit'
+            type: 'input',
+            id: 'unsaved-2',
+            name: 'search_articles',
+            label: 'Find Answers Quickly',
+            placeholder: 'Search for an article...',
+            save_state: 'unsaved',
+            action: {
+              type: 'submit'
             }
           },
           {
-            "type": 'spacer',
-            "size": 'm'
+            type: 'spacer',
+            size: 'm'
           }
         ]
       end
@@ -94,18 +94,18 @@ module MessageApis
 
         results = [
           {
-            "type": 'spacer',
-            "size": 'm'
+            type: 'spacer',
+            size: 'm'
           },
           {
             type: 'list',
             disabled: false,
             items: articles.map do |o|
               {
-                "type": 'item',
-                "id": o.slug.to_s,
-                "title": o.title || '---',
-                "subtitle": o.description,
+                type: 'item',
+                id: o.slug.to_s,
+                title: o.title || '---',
+                subtitle: o.description,
                 action: {
                   type: 'frame',
                   url: '/package_iframe_internal/ArticleSearch'
@@ -114,8 +114,8 @@ module MessageApis
             end
           },
           {
-            "type": 'spacer',
-            "size": 'm'
+            type: 'spacer',
+            size: 'm'
           }
         ]
 
@@ -135,16 +135,16 @@ module MessageApis
       def self.configure_hook(kind:, ctx:)
         definitions = [
           {
-            "type": 'text',
-            "text": 'The Article Search',
-            "style": 'header',
-            "align": 'center'
+            type: 'text',
+            text: 'The Article Search',
+            style: 'header',
+            align: 'center'
           },
           {
-            "type": 'text',
-            "text": 'The Article Search app gives a new home for your Help Center right inside the Messenger.',
-            "style": 'muted',
-            "align": 'center'
+            type: 'text',
+            text: 'The Article Search app gives a new home for your Help Center right inside the Messenger.',
+            style: 'muted',
+            align: 'center'
           },
           {
             id: 'activate-action',
@@ -157,20 +157,18 @@ module MessageApis
           }
         ]
 
-        if ctx.dig(:field, :action, :type) === 'submit'
-          if ctx.dig(:field, :id) == 'activate-action'
-            results = {
-              foo: 'bar',
-              baz: 'baaz'
-            }
+        if ctx.dig(:field, :action, :type) === 'submit' && (ctx.dig(:field, :id) == 'activate-action')
+          results = {
+            foo: 'bar',
+            baz: 'baaz'
+          }
 
-            return  {
-              kind: 'initialize',
-              # ctx: ctx,
-              definitions: definitions,
-              results: results
-            }
-          end
+          return  {
+            kind: 'initialize',
+            # ctx: ctx,
+            definitions: definitions,
+            results: results
+          }
         end
 
         {
@@ -201,39 +199,39 @@ module MessageApis
           include: %i[author collection]
         )
 
-        template = ERB.new <<-EOF
-          <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <meta http-equiv="X-UA-Compatible" content="ie=edge">
-              <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800;900&display=swap" rel="stylesheet">
-              <title>[Chaskiq Article]</title>
-
-              <style>
-                body {
-                  font-family: 'Inter', sans-serif;
-                }
-              </style>
-
-              <script>
-
-                window.articleJson=<%= @json_article.to_json %>
-                window.domain="<%= Rails.application.config.action_controller.asset_host %>";
-              #{}
-              </script>
-              <script src="<%= "#{Rails.application.config.action_controller.asset_host}#{asset_pack_url('article.js')}" %>"></script>
-
-            </head>
-
-            <body>
-              <div class="container">
-                <div id="main-page">
-                </div>
-              </div>
-
-            </body>
-          </html>
+        template = ERB.new <<~EOF
+                              <html lang="en">
+                                <head>
+                                  <meta charset="UTF-8">
+                                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                                  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800;900&display=swap" rel="stylesheet">
+                                  <title>[Chaskiq Article]</title>
+          #{'          '}
+                                  <style>
+                                    body {
+                                      font-family: 'Inter', sans-serif;
+                                    }
+                                  </style>
+          #{'          '}
+                                  <script>
+          #{'          '}
+                                    window.articleJson=<%= @json_article.to_json %>
+                                    window.domain="<%= Rails.application.config.action_controller.asset_host %>";
+                    #{'              '}
+                                  </script>
+                                  <script src="<%= "#{Rails.application.config.action_controller.asset_host}#{asset_pack_url('article.js')}" %>"></script>
+          #{'          '}
+                                </head>
+          #{'          '}
+                                <body>
+                                  <div class="container">
+                                    <div id="main-page">
+                                    </div>
+                                  </div>
+          #{'          '}
+                                </body>
+                              </html>
         EOF
 
         template.result(binding)

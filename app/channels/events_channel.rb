@@ -2,11 +2,10 @@
 
 class EventsChannel < ApplicationCable::Channel
   def subscribed
-    #self.app = App.find_by(key: params[:app])
-    stream_from "events:#{self.app.key}"
+    # self.app = App.find_by(key: params[:app])
+    stream_from "events:#{app.key}"
     # @app_user = @app.agents.find_by(email: @user_data[:email])
   end
-
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
@@ -30,7 +29,7 @@ class EventsChannel < ApplicationCable::Channel
   end
 
   def receive_conversation_part(data)
-    #@app = App.find_by(key: params[:app])
+    # @app = App.find_by(key: params[:app])
     conversation = app.conversations.find_by(key: data['conversation_key'])
     message = conversation.messages.find_by(key: data['message_key'])
     message.read! if message.authorable_type == 'AppUser' # read anyway #!= @app_user

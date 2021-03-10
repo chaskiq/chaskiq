@@ -10,5 +10,4 @@ map '/health' do
   run Rack::HealthCheck.new
 end
 
-
 run Rails.application

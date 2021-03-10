@@ -320,9 +320,9 @@ class ActionTriggerFactory
 
   def self.find_factory_template(app:, app_user:, data:)
     case data['trigger']
-    when 'infer'   
-      trigger = ActionTriggerFactory.infer_for(app: app, user: app_user)   
-      #trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) ||
+    when 'infer'
+      trigger = ActionTriggerFactory.infer_for(app: app, user: app_user)
+      # trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) ||
       #          ActionTriggerFactory.infer_for(app: app, user: app_user)
     when 'request_for_email'
       ActionTriggerFactory.request_for_email(app: app)
@@ -370,18 +370,18 @@ class ActionTriggerFactory
 
   def message(text:, uuid:, agent:)
     {
-      "step_uid": uuid,
-      "type": 'messages',
-      "messages": [
+      step_uid: uuid,
+      type: 'messages',
+      messages: [
         {
-          "app_user": {
-            "display_name": agent.name,
-            "email": agent.email,
-            "id": agent.id,
-            "kind": 'agent'
+          app_user: {
+            display_name: agent.name,
+            email: agent.email,
+            id: agent.id,
+            kind: 'agent'
           },
-          "serialized_content": "{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
-          "html_content": text
+          serialized_content: "{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+          html_content: text
         }
       ]
     }
@@ -389,24 +389,24 @@ class ActionTriggerFactory
 
   def controls(uuid:, type:, schema: [], next_step_uuid: nil, app_package: nil, wait_for_input: true)
     {
-      "step_uid": uuid,
-      "type": 'messages',
-      "messages": [],
-      "controls": {
-        "type": type,
-        "schema": schema,
-        "next_step_uuid": next_step_uuid,
-        "app_package": app_package,
-        "wait_for_input": wait_for_input
+      step_uid: uuid,
+      type: 'messages',
+      messages: [],
+      controls: {
+        type: type,
+        schema: schema,
+        next_step_uuid: next_step_uuid,
+        app_package: app_package,
+        wait_for_input: wait_for_input
       }
     }
   end
 
   def button(label:, next_uuid:)
     {
-      "element": 'button',
-      "label": label,
-      "next_step_uuid": next_uuid
+      element: 'button',
+      label: label,
+      next_step_uuid: next_uuid
     }
   end
 
@@ -423,16 +423,16 @@ class ActionTriggerFactory
 
   def assign(id)
     {
-      "key": 'assign',
-      "name": 'assign',
-      "value": id
+      key: 'assign',
+      name: 'assign',
+      value: id
     }
   end
 
   def close
     {
-      "key": 'close',
-      "name": 'close'
+      key: 'close',
+      name: 'close'
     }
   end
 

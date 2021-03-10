@@ -14,7 +14,7 @@ const Loader = styled.div`
   border-top-color: white;
 `
 
-export default function CircularIndeterminate ({size}) {
+export default function CircularIndeterminate ({ size }) {
   const sizeVariant = size || 16
   return (
     <div className="flex justify-center items-center">

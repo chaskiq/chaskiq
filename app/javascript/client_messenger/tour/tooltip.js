@@ -4,7 +4,7 @@ import DanteContainer from '../textEditor/editorStyles'
 import 'draft-js/dist/Draft.css'
 import theme from '../textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
-import {CloseIcon} from '../icons'
+import { CloseIcon } from '../icons'
 
 export const TooltipBody = styled.div`
   background-color: rgb(255, 255, 255);
@@ -23,7 +23,7 @@ export const TooltipFooter = styled.div`
   display: flex; 
   justify-content: flex-end;
   margin-top: 15px;
-`;
+`
 
 export const TooltipButton = styled.button`
   background-color: rgb(255, 0, 68);
@@ -78,20 +78,20 @@ const Tooltip = ({
   isLastStep,
   size
 }) => {
-  const { back, close, last, next, skip } = step.locale;
+  const { back, close, last, next, skip } = step.locale
   const output = {
-    primary: close,
-  };
+    primary: close
+  }
 
   if (continuous) {
-    output.primary = isLastStep ? last : next;
+    output.primary = isLastStep ? last : next
 
     if (step.showProgress) {
       output.primary = (
         <span>
           {output.primary} ({index + 1}/{size})
         </span>
-      );
+      )
     }
   }
 
@@ -99,13 +99,13 @@ const Tooltip = ({
     {(step && step.title) && <div>{step.title}</div>}
     <div>
 
-      <ThemeProvider 
+      <ThemeProvider
         theme={ theme }>
         <DanteContainer>
           {step.content}
         </DanteContainer>
-      </ThemeProvider> 
-    
+      </ThemeProvider>
+
     </div>
     <TooltipFooter>
       {index > 0 && (
@@ -117,7 +117,6 @@ const Tooltip = ({
       <TooltipBackButton {...skipProps}>
         skip
       </TooltipBackButton>
-     
 
       {continuous && (
         <TooltipButton {...primaryProps}>

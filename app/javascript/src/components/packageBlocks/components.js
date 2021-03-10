@@ -76,8 +76,7 @@ const SingleSelectButton = styled.button`
   ${(props) => props.isSelected ? tw`bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none` : ''}
 `
 
-//const Button = styled(BaseButton)``
-
+// const Button = styled(BaseButton)``
 
 const Button = styled(BaseButton)`
   ${(props) => !props.variant && props.theme && props.theme.palette && !props.disabled

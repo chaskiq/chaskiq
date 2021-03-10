@@ -155,7 +155,7 @@ function Platform ({
 
   return (
     <Content>
-      <PageHeader 
+      <PageHeader
         title={segment && segment.name}
         actions={
           <ContactManager app={app}/>

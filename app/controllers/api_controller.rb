@@ -63,12 +63,10 @@ class ApiController < ActionController::API
 
     locale = if lang_available?(user_locale)
                user_locale
+             elsif lang_available?(http_locale)
+               http_locale
              else
-               if lang_available?(http_locale)
-                 http_locale
-               else
-                 lang_available?(http_splitted_locale) ? http_splitted_locale : nil
-               end
+               lang_available?(http_splitted_locale) ? http_splitted_locale : nil
              end
 
     I18n.locale = begin
@@ -84,12 +82,11 @@ class ApiController < ActionController::API
     u = @app.add_anonymous_user(options)
   end
 
-
   class EULocationError < StandardError; end
 
   def get_app_user
     valid_origin?
-    #raise EULocationError.new("GDPR consent needed") if eu_location?
+    # raise EULocationError.new("GDPR consent needed") if eu_location?
     @app_user ||= get_user_by_email || get_user_by_session
   end
 
@@ -108,15 +105,16 @@ class ApiController < ActionController::API
 
   def eu_location?
     return true
-    eu_countries = [
-      "DE", "AT", "BE", "BG", "CY", "HR", "DK", "ES", "EE", "FI", "FR", "GR", "HU", "IE",
-      "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "CZ", "RO", "GB", "SK", "SI", "SE"
+    eu_countries = %w[
+      DE AT BE BG CY HR DK ES EE FI FR GR HU IE
+      IT LV LT LU MT NL PL PT CZ RO GB SK SI SE
     ].include?(request.location&.country_code)
   end
 
   def get_user_by_session
     session_id = request.headers['HTTP_SESSION_ID']
     return nil if session_id.blank?
+
     @app.get_non_users_by_session(session_id)
   end
 

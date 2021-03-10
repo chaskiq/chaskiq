@@ -7,7 +7,7 @@ Rails.application.configure do
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
-  config.cache_classes = false #ENV['CI'].present?
+  config.cache_classes = false # ENV['CI'].present?
 
   ENV['HOST'] = 'http://localhost:5002'
   ENV['WS'] = 'ws://localhost:5002/cable'

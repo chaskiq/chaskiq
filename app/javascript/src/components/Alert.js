@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTransition, animated } from 'react-spring'
+import { useTransition } from 'react-spring'
 import { Transition } from '@headlessui/react'
 
 import { connect } from 'react-redux'

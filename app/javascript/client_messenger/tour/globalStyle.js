@@ -1,10 +1,9 @@
 import { Global, css } from '@emotion/core'
 import React from 'react'
 
-export default function GlobalStyle() {
-  
+export default function GlobalStyle () {
   return (<Global
-          styles={css`
+    styles={css`
             .focus-outline-hidden :focus {
               outline: none;
             }
@@ -17,5 +16,5 @@ export default function GlobalStyle() {
               outline: none;
             }
           `}
-        />)
+  />)
 }

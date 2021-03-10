@@ -7,19 +7,16 @@ class ConversationPartContent < ApplicationRecord
     super.except('created_at',
                  'updated_at',
                  'id',
-                 'conversation_part_id').tap do |hash|
-    end
+                 'conversation_part_id')
   end
 
   def parsed_content
-    JSON.parse(self.serialized_content)
+    JSON.parse(serialized_content)
   end
 
   def text_from_serialized
-    begin
-    parsed_content["blocks"].map{|o| o["text"]}.join(" ")
-    rescue 
-      html_content
-    end
+    parsed_content['blocks'].map { |o| o['text'] }.join(' ')
+  rescue StandardError
+    html_content
   end
 end

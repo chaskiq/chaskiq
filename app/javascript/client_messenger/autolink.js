@@ -35,4 +35,4 @@ const autoLink = function (text, ...options) {
 }
 
 export default autoLink
-//String.prototype.autoLink = autoLink
+// String.prototype.autoLink = autoLink

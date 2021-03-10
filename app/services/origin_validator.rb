@@ -1,7 +1,7 @@
 class OriginValidator
   attr_accessor :app, :host
 
-  def initialize(app: , host:)
+  def initialize(app:, host:)
     @app = app
     @host = host
   end
@@ -13,29 +13,28 @@ class OriginValidator
   end
 
   def is_valid?
-    
     return true if @app.blank?
-    return true if @app == "*"
+    return true if @app == '*'
 
-    raise NonAcceptedOrigin if @app.split(",").map{ |domain|
+    raise NonAcceptedOrigin if @app.split(',').map do |domain|
       validate_domain(domain)
-    }.none?{ |r| 
-      r == true 
-    }
+    end.none?  do |r|
+      r == true
+    end
 
     true
   end
 
-
   def validate_domain(domain)
     env_domain = Addressable::URI.parse(
-      self.host
+      host
     )
 
     app_domain = Addressable::URI.parse(domain)
 
     # for now we will check for domain
     return false if app_domain.normalized_site != env_domain.normalized_site
+
     true
   end
 end

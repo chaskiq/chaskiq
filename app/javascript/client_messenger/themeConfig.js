@@ -1,6 +1,6 @@
 import { complement } from 'polished'
 
-let themeConfig = {
+const themeConfig = {
   desaturation: 0,
   lightness: 0,
   hue: 0,

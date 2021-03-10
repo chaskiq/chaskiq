@@ -1,11 +1,9 @@
-require "execjs"
+require 'execjs'
 require 'rspec/expectations'
 
 module GraphQL
-
   class TestClient
-
-    def self.configure( entry= Rails.root + "app/javascript/src/graphql/testEntry.mjs")
+    def self.configure(entry = Rails.root + 'app/javascript/src/graphql/testEntry.mjs')
       @entry = entry
     end
 
@@ -14,7 +12,6 @@ module GraphQL
       `npx babel-node #{@entry} #{type}`
     end
   end
-
 end
 
 def graphql_query(type)
@@ -37,14 +34,14 @@ def graphql_raw_post(raw:, variables: {})
   post :execute, body: data.to_json, as: :json, xhr: true
 end
 
-#def graphql_errors
+# def graphql_errors
 #  data = graphql_data
 #  data[data.keys.first]["errors"]
-#end
+# end
 
 def graphql_error?
   data = graphql_data
-  data[data.keys.first].keys.include?("errors")
+  data[data.keys.first].keys.include?('errors')
 end
 
 def graphql_response
@@ -52,19 +49,20 @@ def graphql_response
 end
 
 def graphql_data
-  JSON.parse(response.body)["data"]
+  JSON.parse(response.body)['data']
 end
 
 def graphql_errors
-  JSON.parse(response.body)["errors"].first rescue nil
+  JSON.parse(response.body)['errors'].first
+rescue StandardError
+  nil
 end
 
 module GraphqlMatchers
   extend RSpec::Matchers::DSL
 
   matcher :has_graphql_errors do
-    data = JSON.parse(response.body)["data"]
-    data[data.keys.first]["errors"]
+    data = JSON.parse(response.body)['data']
+    data[data.keys.first]['errors']
   end
-
 end

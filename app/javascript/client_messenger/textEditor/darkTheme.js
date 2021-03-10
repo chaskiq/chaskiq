@@ -1,8 +1,8 @@
-const dante_font_family_sans = 'inherit' //`'jaf-bernino-sans', 'Open Sans', "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans_serif;`;
+const dante_font_family_sans = 'inherit' // `'jaf-bernino-sans', 'Open Sans', "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans_serif;`;
 const dante_font_family_serif = 'inherit' // `'freight-text-pro', 'Merriweather', Georgia, Cambria, "Times New Roman", Times, serif;`;
 const dante_font_family_mono = 'inherit' // `Menlo, Monaco, Consolas, "Courier New", "Courier", monospace;`;
 
-const tooltip_size  = '32px'
+const tooltip_size = '32px'
 const dante_control_color = '#333333'
 const dante_inversed_color = '#000'
 const dante_accent_color = '#5BD974'
@@ -16,8 +16,8 @@ const theme = {
   dante_font_family_base: dante_font_family_sans,
 
   // Editor
-  dante_editor_font_size: '1rem' ,
-  dante_editor_line_height: '1.9' ,
+  dante_editor_font_size: '1rem',
+  dante_editor_line_height: '1.9',
 
   dante_font_family_sans_serif: 'comic-sans',
   dante_visual_debugger: 'false',
@@ -27,8 +27,8 @@ const theme = {
   dante_control_color: dante_control_color,
   dante_popover_color: dante_inversed_color,
 
-  //dante_font_size_base:  '24px',
-  //line_height_base:     '1.428571429', // 20/14
+  // dante_font_size_base:  '24px',
+  // line_height_base:     '1.428571429', // 20/14
 
   tooltip_color: '#fff',
   tooltip_background_color: '#000',
@@ -38,7 +38,7 @@ const theme = {
   tooltip_border_radius: '999em',
 
   tooltip_caret_size: '12px',
-  menu_tone: "#444",
+  menu_tone: '#444',
   tooltip_size: '32px',
 
   tooltip_button_spacing: '9px',
@@ -53,13 +53,12 @@ const theme = {
   tooltip_forward_transition: 'transform 100ms',
   tooltip_backward_transition: 'transform 250ms',
 
-
   dante_code_background: '#444',
   dante_code_color: '#fff',
 
   // Menu
 
-  //background: #2A2B32;
+  // background: #2A2B32;
 
   dante_menu_height: '42px',
   dante_menu_background: '#fff',
@@ -72,6 +71,6 @@ const theme = {
   dante_menu_divider_color: dante_control_color,
   dante_menu_border_width: '0px',
   dante_menu_border_color: 'none',
-  dante_menu_caret_size: '8px',
+  dante_menu_caret_size: '8px'
 }
 export default theme

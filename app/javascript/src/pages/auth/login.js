@@ -39,7 +39,7 @@ function Login ({ dispatch }) {
         <h2 className="mt-6 text-center text-1xl leading-3 font-light text-gray-400">
           Sign in to your account
         </h2>
-        {/*<p className="mt-2 text-center text-sm leading-5 text-gray-600 max-w">
+        {/* <p className="mt-2 text-center text-sm leading-5 text-gray-600 max-w">
           Or {' '}
           <a
             href="#"
@@ -47,7 +47,7 @@ function Login ({ dispatch }) {
           >
             start your 14-day free trial
           </a>
-        </p>*/}
+        </p> */}
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

@@ -53,8 +53,7 @@ class UserAutoMessage < Message
   def attributes_for_template(subscriber)
     { email: subscriber.email,
       campaign_url: campaign_url,
-      campaign_description: description.to_s
-    }
+      campaign_description: description.to_s }
   end
 
   def mustache_template_for(subscriber)
@@ -90,5 +89,4 @@ class UserAutoMessage < Message
 
     messages.any?
   end
-
 end
