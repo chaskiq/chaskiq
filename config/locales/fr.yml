@@ -34,26 +34,26 @@ fr:
     welcome: Bienvenue à
     welcome_site: Chaskiq
     tagline: Trouvez vos applications actuelles ici
-    create_new: Create new app
-    choose_lang: Choose language
-    edit_profile: Edit profile
-    go_to_doc: Go to documentation
+    create_new: Créer une nouvelle app
+    choose_lang: Choisissez la langue
+    edit_profile: Éditer profil
+    go_to_doc: Accéder à la documentation
   dashboard:
-    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Response Time avg
-    new_conversations: New conversations
-    resolutions: Resolutions
-    incoming_messages: Incoming Messages
-    visit_activity: Visit activity
-    users_browser: Users browser
+    hey: "👋 Hé !, vous regardez le tableau de bord <strong>du</strong> de%{name}! <br /> Obtenez un snippet d'installation pour la configuration du web <br />"
+    response_avg: Moyenne du temps de réponse
+    new_conversations: Nouvelle conversation
+    resolutions: Résolution
+    incoming_messages: Messages reçus
+    visit_activity: Visiter l'activité
+    users_browser: Navigateur d'utilisateurs
     lead_os: Lead Os
-    user_os: User Os
+    user_os: Os utilisateur
     mac_os: Mac OS
-    user_country: User country
-    snippet: Put the following script on the end of your html <body> tag
+    user_country: Pays de l'utilisateur
+    snippet: Mettez le script suivant à la fin de votre balise html <body>
   navigator:
-    dashboard: Dashboard
-    platform: Platform
+    dashboard: Tableau de Bord
+    platform: Plateforme
     conversations: Conversations
     campaigns: Campaigns
     routing_bots: Routing Bots
@@ -109,8 +109,8 @@ fr:
     actions:
       priorize: Priorize conversation
       remove_priority: Remove priority
-      close: Close
-      reopen: Reopen
+      close: Fermer
+      reopen: Rouvrir
       start_call: Start videocall
       end_call: End Call
       assign_agent: Assign Agent
