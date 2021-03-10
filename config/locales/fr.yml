@@ -55,60 +55,60 @@ fr:
     dashboard: Tableau de Bord
     platform: Plateforme
     conversations: Conversations
-    campaigns: Campaigns
+    campaigns: Campagnes
     routing_bots: Routing Bots
-    help_center: Help Center
-    settings: Settings
+    help_center: Centre d'assistance
+    settings: Paramètres
     childs:
       conversations: Conversations
-      assignment_rules: Assignment Rules
-      mailing_campaigns: Mailing Campaigns
-      in_app_messages: In App Messages
+      assignment_rules: Règles de devoir
+      mailing_campaigns: Campagnes de mailing
+      in_app_messages: Messages dans l'application
       banners: Banners
-      guided_tours: Guided Tours
+      guided_tours: Visites guidées
       for_leads: For Leads
-      for_users: For Users
-      bot_settings: Bot Tasks
-      outbound: Outbound
-      new_conversations: New conversations
+      for_users: Pour les utilisateurs
+      bot_settings: Tâches du bot
+      outbound: Sortant
+      new_conversations: Nouvelle conversation
       articles: Articles
       collections: Collections
-      article_settings: Settings
-      app_settings: App Settings
+      article_settings: Paramètres
+      app_settings: Paramètres de l'Application
       team: Team
-      messenger_settings: Messenger settings
-      integrations: Integrations
+      messenger_settings: Paramètres de Messenger
+      integrations: Intégrations
       webhooks: Webhooks
-      api_access: API access
+      api_access: Accès API
     user_menu:
-      create_app: 'Create new app'
-      create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      create_app: 'Créer une nouvelle app'
+      create_app_description: 'Créez l''application Chaskiq de votre entreprise'
+      signout: Se déconnecter
+      title: Menu Utilisateur
   conversations:
-    start_conversation: Start conversation
+    start_conversation: Démarrer une conversation
     title: Conversations
     menu:
       conversations: Conversations
       assignment_rules: Agent routing Rules
     states:
-      opened: Opened
-      closed: Closed
+      opened: Ouvert
+      closed: Fermé
     sorts:
-      newest: Newest
-      oldest: Oldest
-      waiting: Waiting
-      priority_first: Priorized
-      all: All
-      unfiltered: All
+      newest: Plus récent
+      oldest: Plus ancien
+      waiting: En attente
+      priority_first: Priorisé
+      all: Tous
+      unfiltered: Tous
     empty:
-      title: No conversations
+      title: Aucune conversation
       text: Choose conversations on the side
   conversation:
-    with: Conversation with
+    with: Conversation avec
     actions:
       priorize: Priorize conversation
-      remove_priority: Remove priority
+      remove_priority: Supprimer la priorité
       close: Fermer
       reopen: Rouvrir
       start_call: Start videocall
