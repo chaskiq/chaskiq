@@ -1,39 +1,39 @@
 fr:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    preview: Preview
-    cancel: Cancel
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
-    get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: "Confirm deletion ?"
-    next: Next
-    prev: Prev
+    edit: Éditer
+    new: Nouveau
+    add: Ajouter
+    update: Mise à jour
+    remove: Supprimer
+    delete: Effacer
+    create: Créer
+    save: Enregistrer
+    preview: Prévisualisation
+    cancel: Annuler
+    back_to_site: Retour au site
+    not_found: La page que vous cherchez n'existe pas.
+    get_snippet: Obtenir le snippet
+    submit: Valider
+    confirm_deletion: "Confirmer la suppression ?"
+    next: Suivant
+    prev: Précédent
     showing: Mostrando
-    to: to
-    of: of
+    to: vers
+    of: de
     results: resultados
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
+    tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
+    send: Envoyer
     langs:
-      en: English
-      es: Spanish
-      pt: Portuguese
-      redirecting: Redirecting
-      select_language: Select Language
+      en: Anglais
+      es: Espagnol
+      pt: Portugais
+      redirecting: Redirection
+      select_language: Sélectionnez une langue
     send_on_enter: Publish on enter
   home:
-    welcome: Welcome to
+    welcome: Bienvenue à
     welcome_site: Chaskiq
-    tagline: Find your current applications here
+    tagline: Trouvez vos applications actuelles ici
     create_new: Create new app
     choose_lang: Choose language
     edit_profile: Edit profile
