@@ -19,11 +19,11 @@ RSpec.describe Conversation, type: :model do
   end
 
   let!(:agent_role) do
-    app.add_agent({email: 'agent1@test.cl'})
+    app.add_agent({ email: 'agent1@test.cl' })
   end
 
   let!(:agent_role2) do
-    app.add_agent({email: 'agent2@test.cl'})
+    app.add_agent({ email: 'agent2@test.cl' })
   end
 
   let(:assignment_rule) do
@@ -120,8 +120,7 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'add message' do
-
-      #expect(conversation.events.count).to be == 1
+      # expect(conversation.events.count).to be == 1
       expect(conversation.messages.count).to be == 1
 
       message = conversation.messages.last
@@ -147,7 +146,7 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'add block message' do
-      #expect(conversation.events.count).to be == 1
+      # expect(conversation.events.count).to be == 1
       expect(conversation.messages.count).to be == 1
       expect(EventsChannel).to receive(:broadcast_to)
 
@@ -212,7 +211,7 @@ RSpec.describe Conversation, type: :model do
 
       expect(app.stats_for('resolution_avg')).to be_present
 
-      events = conversation.events.pluck(:action) & ["conversations.closed", "conversations.started", "conversations.added"]
+      events = conversation.events.pluck(:action) & ['conversations.closed', 'conversations.started', 'conversations.added']
       expect(events.size).to be == 3
 
       expect(conversation.events.last.action).to be == Event.action_for(:conversation_closed)
@@ -384,21 +383,20 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
-
   let(:app_package) do
-    #definitions = [
+    # definitions = [
     #  {
     #    name: 'access_token_secret',
     #    type: 'string',
     #    grid: { xs: 12, sm: 12 }
     #  }
-    #]
+    # ]
 
-    fields = AppPackagesCatalog.packages.find{|o| o[:name] == "Slack"}
+    fields = AppPackagesCatalog.packages.find { |o| o[:name] == 'Slack' }
 
     AppPackage.create(fields)
-    #name: 'Slack', definitions: definitions
-    #)
+    # name: 'Slack', definitions: definitions
+    # )
   end
 
   before do
@@ -406,22 +404,20 @@ RSpec.describe Conversation, type: :model do
   end
 
   context 'app package integration' do
-
     before :each do
-      AppPackage.find_by(name: "Slack").destroy
+      AppPackage.find_by(name: 'Slack').destroy
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "aaa",
-        api_key: "aaa",
-        access_token: "aaa",
-        access_token_secret: "aaa",
+        api_secret: 'aaa',
+        api_key: 'aaa',
+        access_token: 'aaa',
+        access_token_secret: 'aaa',
         app_package: app_package
       )
       app_user
     end
 
-
-    it "create conversation will call slack app" do
+    it 'create conversation will call slack app' do
       expect_any_instance_of(MessageApis::Slack).to receive(:trigger).with(any_args)
       perform_enqueued_jobs do
         app.start_conversation(

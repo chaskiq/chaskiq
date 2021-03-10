@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-let theme = {
+const theme = {
   desaturation: 0,
   lightness: 0,
   hue: 0,
@@ -25,9 +25,9 @@ const IntroStyle = styled.div`
 `
 
 const InnerStyle = styled.div`
-  ${(props)=>{
-    return props.theme.mode === "dark" ?
-    `background: rgba(0, 0, 0, 0.80);
+  ${(props) => {
+    return props.theme.mode === 'dark'
+    ? `background: rgba(0, 0, 0, 0.80);
      color: rgba(200, 200, 200, 0.80);` : ''
   }}
   position: relative;
@@ -73,8 +73,8 @@ const InnerStyle = styled.div`
 const Header = styled.div`
 
   ${(props) => {
-    return props.theme.mode === "dark" ?
-      `` : `
+    return props.theme.mode === 'dark'
+      ? '' : `
         background: rgba(253, 253, 253, 0.9);
         box-shadow: 0px 0px 3px 0px #eaeaea;
       `
@@ -92,29 +92,27 @@ const Content = styled.div`
   padding: 1rem;
 `
 
-export default class Quest extends React.Component  {
-  
-  constructor(props) {
+export default class Quest extends React.Component {
+  constructor (props) {
     super(props)
     this.state = {
       isMinimized: false
     }
   }
 
-  render(){
+  render () {
     return <IntroStyle>
-            <InnerStyle>
-              
-              <Header>
+      <InnerStyle>
 
-              </Header>
+        <Header>
 
-              <Content>
-                {this.props.children}
-              </Content>
+        </Header>
 
-            </InnerStyle>
-          </IntroStyle>
+        <Content>
+          {this.props.children}
+        </Content>
+
+      </InnerStyle>
+    </IntroStyle>
   }
-
 }

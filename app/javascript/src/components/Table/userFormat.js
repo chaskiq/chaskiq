@@ -71,16 +71,16 @@ const userFormat = function (showUserDrawer, app) {
         <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
 
           <div className="flex flex-wrap space-y-1">
-          {
-            row.tagList.map((tag, i) => (
-              <Badge 
-                key={`tags-${row.id}-${i}`}
-                size="sm"
-                variant={ 'gray'}>
-                {tag}
-              </Badge>
-            ))
-          }
+            {
+              row.tagList.map((tag, i) => (
+                <Badge
+                  key={`tags-${row.id}-${i}`}
+                  size="sm"
+                  variant={ 'gray'}>
+                  {tag}
+                </Badge>
+              ))
+            }
           </div>
         </td>
       )

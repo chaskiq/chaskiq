@@ -30,6 +30,7 @@ module Types
 
     def plan
       return { disabled: true } unless context[:enabled_subscriptions]
+
       object.plan
     end
 
@@ -88,7 +89,7 @@ module Types
     field :outgoing_webhooks, [Types::JsonType], null: true
 
     def outgoing_webhooks
-      #object.plan.allow_feature!('OutgoingWebhooks')
+      # object.plan.allow_feature!('OutgoingWebhooks')
       authorize! object, to: :manage?, with: AppPolicy
       object.outgoing_webhooks
     end
@@ -124,10 +125,10 @@ module Types
       authorize! object, to: :show?, with: AppPolicy
 
       object.app_package_integrations
-        .joins(:app_package)
-        .where(
-        app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities')
-      ).order('app_packages.name desc')
+            .joins(:app_package)
+            .where(
+              app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities')
+            ).order('app_packages.name desc')
     end
 
     def gather_social_data
@@ -158,7 +159,7 @@ module Types
     field :app_package_integrations, [Types::AppPackageIntegrationType], null: true
 
     def app_package_integrations
-      #object.plan.allow_feature!('Integrations')
+      # object.plan.allow_feature!('Integrations')
       authorize! object, to: :manage?, with: AppPolicy
       object.app_package_integrations
     end
@@ -181,7 +182,7 @@ module Types
     end
 
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
-      #object.plan.allow_feature!("Conversations")
+      # object.plan.allow_feature!("Conversations")
       authorize! object, to: :show?, with: AppPolicy
 
       @collection = object.conversations
@@ -217,10 +218,12 @@ module Types
 
       @collection = @collection.tagged_with(tag) if tag.present?
 
-      # todo: add _or_main_participant_name_cont, or do this with Arel
-      @collection =  @collection.ransack(
-        messages_messageable_of_ConversationPartContent_type_text_content_cont: term,
-      ).result if term
+      # TODO: add _or_main_participant_name_cont, or do this with Arel
+      if term
+        @collection = @collection.ransack(
+          messages_messageable_of_ConversationPartContent_type_text_content_cont: term
+        ).result
+      end
 
       @collection
     end
@@ -265,7 +268,7 @@ module Types
     end
 
     def campaigns(mode:)
-      #object.plan.allow_feature!(mode.classify.pluralize)
+      # object.plan.allow_feature!(mode.classify.pluralize)
       authorize! object, to: :show?, with: AppPolicy
       collection = object.send(mode) if Message.allowed_types.include?(mode)
       collection.page(1).per(20)
@@ -315,7 +318,7 @@ module Types
     field :segments, [Types::SegmentType], null: true
 
     def segments
-      #object.plan.allow_feature!('Segments')
+      # object.plan.allow_feature!('Segments')
       authorize! object, to: :show?, with: AppPolicy
       Segment.union_scope(
         object.segments.all, Segment.where('app_id is null')
@@ -335,7 +338,7 @@ module Types
     field :assignment_rules, [Types::AssignmentRuleType], null: true
 
     def assignment_rules
-      #object.plan.allow_feature!('AssignmentRules')
+      # object.plan.allow_feature!('AssignmentRules')
       authorize! object, to: :show?, with: AppPolicy
       object.assignment_rules.order('priority asc')
     end
@@ -377,7 +380,7 @@ module Types
     end
 
     def articles(page:, per:, lang:, mode:, search:)
-      #object.plan.allow_feature!('Articles')
+      # object.plan.allow_feature!('Articles')
       authorize! object, to: :show?, with: AppPolicy
       I18n.locale = lang
       if mode == 'all'
@@ -400,7 +403,7 @@ module Types
     end
 
     def articles_uncategorized(page:, per:, lang:)
-      #object.plan.allow_feature!('Articles')
+      # object.plan.allow_feature!('Articles')
       I18n.locale = lang
       authorize! object, to: :show?, with: AppPolicy
       object.articles.without_collection.page(page).per(per)
@@ -412,7 +415,7 @@ module Types
     end
 
     def article(id:, lang:)
-      #object.plan.allow_feature!('Articles')
+      # object.plan.allow_feature!('Articles')
       I18n.locale = lang
       authorize! object, to: :show?, with: AppPolicy
       object.articles.friendly.find(id)
@@ -423,7 +426,7 @@ module Types
     end
 
     def collections(lang:)
-      #object.plan.allow_feature!('Articles')
+      # object.plan.allow_feature!('Articles')
       I18n.locale = lang.to_sym
       authorize! object, to: :show?, with: AppPolicy
       object.article_collections
@@ -443,11 +446,11 @@ module Types
     field :bot_tasks, [Types::BotTaskType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
       argument :mode, String, required: false, default_value: 'outbound'
-      argument :filters, Types::JsonType, required: false, default_value: { }
+      argument :filters, Types::JsonType, required: false, default_value: {}
     end
 
     def bot_tasks(lang:, mode:, filters:)
-      #object.plan.allow_feature!('BotTasks')
+      # object.plan.allow_feature!('BotTasks')
       authorize! object, to: :show?, with: AppPolicy
 
       object.bot_tasks
@@ -456,16 +459,16 @@ module Types
 
       collection = object.bot_tasks.for_outbound if mode == 'outbound'
 
-      collection = collection.where(state: filters["state"]) if filters["state"].present?
+      collection = collection.where(state: filters['state']) if filters['state'].present?
 
-      if filters["users"].present?
+      if filters['users'].present?
         ors = nil
-        filters["users"].each_with_index do |filter, index|
-          if ors.nil?
-            ors = BotTask.infix(filter)
-          else
-            ors = ors.or(BotTask.infix(filter))
-          end
+        filters['users'].each_with_index do |filter, _index|
+          ors = if ors.nil?
+                  BotTask.infix(filter)
+                else
+                  ors.or(BotTask.infix(filter))
+                end
         end
         collection = collection.where(ors) if ors.present?
       end
@@ -517,7 +520,7 @@ module Types
     # OAUTH
     field :oauth_applications, [OauthApplicationType], null: true
     def oauth_applications
-      #object.plan.allow_feature!('OauthApplications')
+      # object.plan.allow_feature!('OauthApplications')
       authorize! object, to: :manage?, with: AppPolicy
       object.oauth_applications.ordered_by(:created_at)
     end

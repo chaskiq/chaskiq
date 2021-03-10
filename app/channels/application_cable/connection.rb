@@ -2,7 +2,6 @@
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
-
     identified_by :current_user, :app
 
     def connect
@@ -11,28 +10,30 @@ module ApplicationCable
 
     # finds agent or app user
     def find_resource
-      params = request.query_parameters()
+      params = request.query_parameters
       return find_verified_agent if params[:token]
+
       get_session_data
     end
 
     def find_verified_agent
-      user = Agent.find_by(id: access_token.resource_owner_id) if access_token 
+      user = Agent.find_by(id: access_token.resource_owner_id) if access_token
       return user if user
-      raise "invalid user"
+
+      raise 'invalid user'
     end
-  
+
     def access_token
-      params = request.query_parameters()
+      params = request.query_parameters
       self.app = App.find_by(key: params[:app])
       @access_token ||= Doorkeeper::AccessToken.by_token(params[:token])
     end
 
     def get_session_data
-      params = request.query_parameters()
+      params = request.query_parameters
       self.app = App.find_by(key: params[:app])
 
-      if self.app.blank?
+      if app.blank?
         # Bugsnag.notify("error getting session data") do |report|
         #   report.add_tab(
         #     :context,
@@ -42,14 +43,14 @@ module ApplicationCable
         #     }
         #   )
         # end
-        # return 
+        # return
       end
 
       OriginValidator.new(
         app: app.domain_url,
         host: env['HTTP_ORIGIN']
       ).is_valid?
-  
+
       find_user(get_user_data)
     end
 
@@ -62,10 +63,10 @@ module ApplicationCable
         report.add_tab(
           :context,
           {
-            app: self.app&.key,
+            app: app&.key,
             env: env['HTTP_ORIGIN'],
             params: request.query_parameters,
-            current_user: self.current_user&.key
+            current_user: current_user&.key
           }
         )
       end
@@ -80,12 +81,12 @@ module ApplicationCable
     end
 
     def authorize_by_encrypted_params
-      params = request.query_parameters()
+      params = request.query_parameters
       app.decrypt(params[:enc])
     end
 
     def find_user(user_data)
-      params = request.query_parameters()
+      params = request.query_parameters
 
       if user_data.blank?
         app.get_non_users_by_session(params[:session_id])

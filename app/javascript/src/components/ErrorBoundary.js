@@ -48,10 +48,10 @@ export default class ErrorBoundary extends React.Component {
           <span className="block">Unfortunately 🤯</span>
         </h2>
 
-        <p class="mt-4 text-lg leading-6 text-indigo-600">
+        <p className="mt-4 text-lg leading-6 text-indigo-600">
           try refreshing the page
         </p>
-        <a href="/" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-800 sm:w-auto">
+        <a href="/" className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-800 sm:w-auto">
           try to go home
         </a>
       </div>

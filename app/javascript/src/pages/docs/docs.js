@@ -188,7 +188,7 @@ function Docs (props) {
         {/* Footer */}
 
         <footer className={'py-8'}>
-          { 
+          {
             settings.siteTitle &&
             <p className="mt-2 leading-6 text-gray-500 text-center">
               {settings.siteTitle}

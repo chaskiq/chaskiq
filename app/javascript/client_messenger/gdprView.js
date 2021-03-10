@@ -36,7 +36,7 @@ export default function View ({ confirm, cancel, t, app }) {
 
       <Padder>
         <Title>
-					{t('gdpr_title')}
+          {t('gdpr_title')}
         </Title>
         <TextContent dangerouslySetInnerHTML={
           { __html: t('gdpr', { name: app.name }) }
@@ -56,9 +56,9 @@ export default function View ({ confirm, cancel, t, app }) {
 
         </ButtonWrapped>
 
-        {/*<Link href="#">
+        {/* <Link href="#">
 					View our privacy police here <span aria-hidden="true">&rarr;</span>
-        </Link>*/}
+        </Link> */}
       </Padder>
 
     </Wrapper>

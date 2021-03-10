@@ -181,10 +181,10 @@ function Settings ({ app, dispatch }) {
           setWebhooks(newIntegrations)
 
           setOpen(null)
-          dispatch(successMessage(I18n.t("settings.webhooks.create_success")))
+          dispatch(successMessage(I18n.t('settings.webhooks.create_success')))
         },
         error: () => {
-          dispatch(errorMessage(I18n.t("settings.webhooks.create_error")))
+          dispatch(errorMessage(I18n.t('settings.webhooks.create_error')))
         }
       }
     )
@@ -217,10 +217,10 @@ function Settings ({ app, dispatch }) {
           setWebhooks(newIntegrations)
           // getAppPackageIntegration()
           setOpen(null)
-          dispatch(successMessage(I18n.t("settings.webhooks.update_success")))
+          dispatch(successMessage(I18n.t('settings.webhooks.update_success')))
         },
         error: () => {
-          dispatch(errorMessage(I18n.t("settings.webhooks.update_error")))
+          dispatch(errorMessage(I18n.t('settings.webhooks.update_error')))
         }
       }
     )
@@ -246,10 +246,10 @@ function Settings ({ app, dispatch }) {
           setWebhooks(newIntegrations)
           setOpen(null)
           setOpenDeleteDialog(null)
-          dispatch(successMessage(I18n.t("settings.webhooks.delete_success")))
+          dispatch(successMessage(I18n.t('settings.webhooks.delete_success')))
         },
         error: () => {
-          dispatch(errorMessage(I18n.t("settings.webhooks.delete_error")))
+          dispatch(errorMessage(I18n.t('settings.webhooks.delete_error')))
         }
       }
     )
@@ -270,7 +270,7 @@ function Settings ({ app, dispatch }) {
   return (
     <Content>
       <PageHeader
-        title={I18n.t("settings.webhooks.outgoing_webhooks")}
+        title={I18n.t('settings.webhooks.outgoing_webhooks')}
         actions={
           <UpgradeButton
             classes={
@@ -279,7 +279,7 @@ function Settings ({ app, dispatch }) {
               md:-ml-4 sm:px-0 lg:ml-0
               lg:right-2/6 lg:translate-x-1/6`
             }
-            label={I18n.t("settings.webhooks.new_webhook")}
+            label={I18n.t('settings.webhooks.new_webhook')}
             feature="OutgoingWebhooks">
             <Button
               className={'transition duration-150 ease-in-out'}
@@ -287,8 +287,8 @@ function Settings ({ app, dispatch }) {
               color={'primary'}
               onClick={newWebhook}
             >
-              {I18n.t("settings.webhooks.new_webhook")}
-            </Button>          
+              {I18n.t('settings.webhooks.new_webhook')}
+            </Button>
           </UpgradeButton>
 
         }
@@ -298,11 +298,11 @@ function Settings ({ app, dispatch }) {
         currentTab={tabValue}
         tabs={[
           {
-            label: I18n.t("settings.webhooks.active_webhooks"),
-            //icon: <HomeIcon />,
+            label: I18n.t('settings.webhooks.active_webhooks'),
+            // icon: <HomeIcon />,
             content: (
               <React.Fragment>
-                
+
                 <Hints type="webhooks"/>
 
                 {activeWebhooks().length > 0 && (
@@ -320,13 +320,13 @@ function Settings ({ app, dispatch }) {
 
                 {activeWebhooks().length === 0 && !loading && (
                   <EmptyView
-                    title={I18n.t("settings.webhooks.empty.title")}
+                    title={I18n.t('settings.webhooks.empty.title')}
                     subtitle={
                       <span>
-                        {I18n.t("settings.webhooks.empty.desc")}
+                        {I18n.t('settings.webhooks.empty.desc')}
                         {' '}
                         <a href="#" onClick={() => setTabValue(1)}>
-                          {I18n.t("settings.webhooks.empty.disabled_webhooks")}
+                          {I18n.t('settings.webhooks.empty.disabled_webhooks')}
                         </a>
                       </span>
                     }
@@ -336,12 +336,12 @@ function Settings ({ app, dispatch }) {
             )
           },
           {
-            label: I18n.t("settings.webhooks.disabled_webhooks"),
+            label: I18n.t('settings.webhooks.disabled_webhooks'),
             content: (
               <React.Fragment>
                 <div className="pb-2 pt-2">
                   <Panel
-                    title={I18n.t("settings.webhooks.disabled_webhooks")}
+                    title={I18n.t('settings.webhooks.disabled_webhooks')}
                     // text={'lorem bobob'}
                     variant="shadowless"
                   />
@@ -369,7 +369,7 @@ function Settings ({ app, dispatch }) {
         <FormDialog
           open={open}
           handleClose={close}
-          titleContent={`${open.id ? I18n.t("common.update") : I18n.t("common.add")
+          titleContent={`${open.id ? I18n.t('common.update') : I18n.t('common.add')
           } webhook`}
           formComponent={
             <form ref={form}>
@@ -398,11 +398,11 @@ function Settings ({ app, dispatch }) {
           dialogButtons={
             <React.Fragment>
               <Button onClick={close} variant="outlined">
-                {I18n.t("common.cancel")}
+                {I18n.t('common.cancel')}
               </Button>
 
               <Button onClick={submit} className="mr-1">
-                {open ? I18n.t("common.update") : I18n.t("common.add")}
+                {open ? I18n.t('common.update') : I18n.t('common.add')}
               </Button>
             </React.Fragment>
           }
@@ -412,7 +412,7 @@ function Settings ({ app, dispatch }) {
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={I18n.t("settings.webhooks.delete.title")}
+          title={I18n.t('settings.webhooks.delete.title')}
           closeHandler={() => {
             setOpenDeleteDialog(null)
           }}
@@ -421,7 +421,7 @@ function Settings ({ app, dispatch }) {
           }}
         >
           <p variant="subtitle2">
-            {I18n.t("settings.webhooks.delete.text", {name: openDeleteDialog.dialog})}
+            {I18n.t('settings.webhooks.delete.text', { name: openDeleteDialog.dialog })}
           </p>
         </DeleteDialog>
       )}

@@ -8,6 +8,7 @@ class Api::V1::SubscriptionHooksController < ApplicationController
   def create
     @app = App.find_by(key: params['passthrough'])
     render plain: 'OK' and return unless @app.present?
+
     process_event
     render plain: 'OK'
   end

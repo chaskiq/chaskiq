@@ -56,22 +56,21 @@ describe('AppPackages', function () {
         })
     })
 
-    it('Home apps app packages', function () {  
+    it('Home apps app packages', function () {
       cy.visit('/apps')
       cy.contains('my app').click()
       cy.get("a[aria-label='Settings']")
         .click({ force: true }).then(() => {
-
           cy.contains('Messenger settings').click().then(() => {
             cy.wait(500)
-            cy.contains("Apps").click()
+            cy.contains('Apps').click()
             cy.contains('Add apps to your Messenger')
             findButtonByName('Add app').click()
 
             cy.contains('Add apps to chat home')
 
-            cy.contains("ContentShowcase").then(($d)=>{
-              $d.parent().parent().find("button").click()
+            cy.contains('ContentShowcase').then(($d) => {
+              $d.parent().parent().find('button').click()
             })
 
             cy.contains('Pick a template')

@@ -45,7 +45,7 @@ function AcceptInvitation (props) {
       .then(function (response) {
         props.dispatch(
           successAuthentication(
-            response.data.token, 
+            response.data.token,
             response.data.refreshToken
           )
         )

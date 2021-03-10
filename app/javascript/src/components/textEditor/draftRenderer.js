@@ -274,7 +274,7 @@ const renderers = {
   ], */
 }
 
-function ImageRenderer ({children, blockKey, data}) {
+function ImageRenderer ({ children, blockKey, data }) {
   const data2 = data
   const { url, aspect_ratio, caption } = data2
 

@@ -122,7 +122,7 @@ class Campaign < Message
 
   # will remove content blocks text
   def clean_inline_css(url)
-    html = open(url).readlines.join('')
+    html = open(url).readlines.join
     document = Roadie::Document.new html
     new_html = document.transform
 
@@ -170,8 +170,11 @@ class Campaign < Message
   end
 
   def campaign_outgoing_email
-    self[:from_email] || 
-    (app.outgoing_email_domain.present? ?
-    "campaigns-#{self.app.key}-#{self.id}@#{app.outgoing_email_domain}" : '')
+    self[:from_email] ||
+      (if app.outgoing_email_domain.present?
+         "campaigns-#{app.key}-#{id}@#{app.outgoing_email_domain}"
+       else
+         ''
+       end)
   end
 end

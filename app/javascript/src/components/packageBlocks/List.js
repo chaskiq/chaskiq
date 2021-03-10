@@ -8,19 +8,19 @@ const ListWrapper = styled.div`
   ${() => tw`my-2`}
 
   ${(props) => {}
-    //props.shadowless ? '' : tw`shadow`
+  // props.shadowless ? '' : tw`shadow`
   }
 
   ${(props) => {
     return tw`border-b border-gray-200`
-  } }
+  }}
 
   ul{
-    ${()=> tw`m-0 p-0`}
+    ${() => tw`m-0 p-0`}
   }
 
   .list-item {
-    ${(props) =>  tw`border-b border-gray-200` }
+    ${(props) => tw`border-b border-gray-200`}
   }
 
   .list-item:last-child { 
@@ -38,9 +38,9 @@ const ListItemWrapper = styled.div`
 
   .content {
 
-    ${(props) => props.theme.size === 'sm' ?
-      tw`px-1 py-2` :
-      tw`px-4 py-4`
+    ${(props) => props.theme.size === 'sm'
+      ? tw`px-1 py-2`
+      : tw`px-4 py-4`
     };
     
     ${() => tw`flex items-center`}
@@ -57,9 +57,9 @@ const ListItemWrapper = styled.div`
 
 const ListItemTextWrapper = styled.div`
 
-  ${(props) => props.theme.size === 'sm' ?
-    tw`px-1` :
-    tw`px-4 md:gap-4`
+  ${(props) => props.theme.size === 'sm'
+    ? tw`px-1`
+    : tw`px-4 md:gap-4`
   };
 
   ${() => tw`min-w-0 flex-1 md:grid md:grid-cols-1`}
@@ -78,8 +78,8 @@ const ItemAvatarWrapper = styled.div`
 
 const ItemListPrimaryContentWrapper = styled.div`
   ${() => tw`text-sm leading-5 font-bold truncate`}
-  ${(props)=> props.theme.palette ? 
-    `color: ${props.theme.palette.primary};` : tw`text-gray-800`
+  ${(props) => props.theme.palette
+    ? `color: ${props.theme.palette.primary};` : tw`text-gray-800`
   }
 `
 
@@ -89,7 +89,6 @@ const ItemListSecondaryContentWrapper = styled.div`
     ${() => tw`truncate`}
   }
 `
-
 
 export default function List ({ children, shadowless }) {
   return (
@@ -141,7 +140,6 @@ export function ListItem ({ avatar, action, children, onClick, divider }) {
 }
 
 export function ListItemText ({ primary, secondary, terciary }) {
-
   return (
     <ListItemTextWrapper >
       <div>

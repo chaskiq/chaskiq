@@ -20,7 +20,7 @@ export default class ChaskiqMessengerEncrypted {
 
     this.cookieNamespace = () => {
       // old app keys have hypens, we get rid of this
-      const app_id = this.props.app_id.replace("-", "")
+      const app_id = this.props.app_id.replace('-', '')
       return `chaskiq_session_id_${app_id}`
     }
 

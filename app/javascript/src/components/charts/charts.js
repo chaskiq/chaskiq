@@ -52,7 +52,7 @@ export default function CampaignPie ({ data }) {
           spacing: 10
         }
       ]}
-      
+
       legends={[
         {
           anchor: 'bottom',

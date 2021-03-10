@@ -29,20 +29,20 @@ class ListImporter < ActiveImporter::Base
   end
 
   on :row_processed do
-    meth = @contact_type == "leads" ? 'add_lead' : 'add_user'
+    meth = @contact_type == 'leads' ? 'add_lead' : 'add_user'
 
-    data = row.transform_keys{ |key| key.to_s.parameterize.underscore.to_sym }
+    data = row.transform_keys { |key| key.to_s.parameterize.underscore.to_sym }
 
-    if user = @app.send( meth.to_sym,
-        disable_callbacks: true,
-        email: row.delete('email'),
-        properties: data)
+    if user = @app.send(meth.to_sym,
+                        disable_callbacks: true,
+                        email: row.delete('email'),
+                        properties: data)
 
       # add an import tag to contact
       user.tag_list.add(@tag)
       user.save
-      
-      @row_count += 1 
+
+      @row_count += 1
     end
   end
 

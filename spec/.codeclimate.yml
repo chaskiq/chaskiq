@@ -1,0 +1,34 @@
+
+version: "2"
+plugins:
+  rubocop:
+    enabled: true
+    channel: rubocop-1-11
+  eslint:
+    enabled: false
+  brakeman:
+    enabled: false
+checks:
+  similar-code:
+    enabled: false
+
+checks:
+  file-lines:
+    enabled: false
+  method-lines:
+    enabled: false
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: false
+
+exclude_patterns:
+  - "spec/"
+  - "db/*"
+  - "bin/**/*"
+  - "db/**/*"
+  - "config/**/*"
+  - "public/**/*"
+  - "vendor/**/*"
+  - "node_modules/**/*"
+  - "**/*.yml"

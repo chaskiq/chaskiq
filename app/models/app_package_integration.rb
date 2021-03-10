@@ -51,6 +51,7 @@ class AppPackageIntegration < ApplicationRecord
 
   def handle_registration
     return if app_package.is_external?
+
     register_hook if message_api_klass && message_api_klass.respond_to?(:register_webhook)
     message_api_klass.after_install if message_api_klass.respond_to?(:after_install)
   end
@@ -91,6 +92,7 @@ class AppPackageIntegration < ApplicationRecord
 
   def oauth_authorize
     return if app_package.is_external?
+
     message_api_klass.oauth_authorize(app, self) if message_api_klass.respond_to?(:oauth_authorize)
   end
 
@@ -146,7 +148,7 @@ class AppPackageIntegration < ApplicationRecord
                end
 
     response = response.with_indifferent_access
-    
+
     package_schema = PluginSchemaValidator.new(response[:definitions])
     raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
 

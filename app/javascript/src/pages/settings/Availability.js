@@ -129,8 +129,8 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
       </div>
 
       <div className="py-4">
-        <Button onClick={handleSubmit} 
-          variant={'success'} 
+        <Button onClick={handleSubmit}
+          variant={'success'}
           color={'primary'}
           size="md">
           {I18n.t('common.save')}

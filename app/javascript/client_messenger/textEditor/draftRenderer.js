@@ -120,13 +120,13 @@ function renderers (props) {
       }</ol>,
 
       file: (children, { keys, data }) => {
-        const fileName = data[0].url.split("/").pop()
+        const fileName = data[0].url.split('/').pop()
         return (
           <div>
             <a href={data[0].url}
-              target="blank" 
+              target="blank"
               className="graf graf--attachment">
-              <AttachmentIcon2 width={20} height={20}/> 
+              <AttachmentIcon2 width={20} height={20}/>
               {fileName}
             </a>
           </div>
@@ -258,8 +258,7 @@ function renderers (props) {
   }
 }
 
-
-function ImageRenderer ({children, blockKey, data, props}) {
+function ImageRenderer ({ children, blockKey, data, props }) {
   const data2 = data
   const { url, aspect_ratio, caption } = data2
 
@@ -272,7 +271,7 @@ function ImageRenderer ({children, blockKey, data, props}) {
   }
 
   const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
-  
+
   return (
     <figure key={blockKey} className="graf graf--figure">
       <div>
@@ -285,13 +284,13 @@ function ImageRenderer ({children, blockKey, data, props}) {
             style={{ paddingBottom: `${ratio}%` }}
           ></div>
 
-          {/*<ConnectedImage url={url} width={width} height={height} />*/}
+          {/* <ConnectedImage url={url} width={width} height={height} /> */}
 
           <img src={getImageUrl(url, props)}
-                className="graf-image"
-                width={width}
-                height={height}
-                contentEditable="false"/>
+            className="graf-image"
+            width={width}
+            height={height}
+            contentEditable="false"/>
         </div>
       </div>
 

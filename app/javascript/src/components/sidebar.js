@@ -11,29 +11,14 @@ import LangChooser from '../components/LangChooser'
 import Toggle from '../components/forms/Toggle'
 import {
   MoreIcon,
-  BookMarkIcon,
-  MessageBubbleIcon,
-  ConversationIcon,
 
-  FlagIcon,
-  LoadBalancerIcon,
-  FactoryIcon,
+  MessageBubbleIcon,
+
   ShuffleIcon,
 
-  BuildingIcon,
-  IntegrationsIcon,
   WebhooksIcon,
-  TeamIcon,
-  SettingsIcon,
-  FolderIcon,
-  UserWalkIcon,
-  UserIcon,
-  TourIcon,
-  MessageIcon,
-  EmailIcon,
-  ApiIcon,
-  CardIcon,
-  PictureInPicture
+
+  ApiIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
