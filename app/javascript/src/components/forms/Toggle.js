@@ -63,18 +63,17 @@ const ToggleStyle = styled.div`
 
 `
 
-export default function Toggle ({ 
+export default function Toggle ({
   id,
   text,
   disabled,
   checked,
   onChange
 }) {
+  // const [checked, setChecked] = React.useState(false)
 
-  //const [checked, setChecked] = React.useState(false)
-
-  function handleChecked (e){
-    //setChecked(!checked)
+  function handleChecked (e) {
+    // setChecked(!checked)
     onChange && onChange(e)
   }
 

@@ -39,9 +39,9 @@ export default function CustomizedExpansionPanels (props) {
         <article
           className="border-b"
           key={`expansion-panel-${i}`}
-          //square
-          //expanded={expanded === o.name}
-          //onChange={handleChange(o.name)}
+          // square
+          // expanded={expanded === o.name}
+          // onChange={handleChange(o.name)}
         >
           <div
             className={expandedClasses(o)}

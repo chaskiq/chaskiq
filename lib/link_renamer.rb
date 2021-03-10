@@ -6,9 +6,7 @@ class LinkRenamer
   def self.convert(html, url_prefix = '')
     content = Nokogiri::HTML(html)
     content.css('a').each do |link|
-      if link.attr('class').present? && link.attr('class').include?('tpl-block')
-        next
-      end
+      next if link.attr('class').present? && link.attr('class').include?('tpl-block')
 
       val = link.attributes['href'].value
       link.attributes['href'].value = rename_link(val, url_prefix)

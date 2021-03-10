@@ -59,32 +59,32 @@ class AppUser < ApplicationRecord
 
   after_save :enqueue_social_enrichment, if: :saved_change_to_email?
 
-  ALLOWED_PROPERTIES = [
-    :ip, 
-    :city, 
-    :region, 
-    :country, 
-    :session_id, 
-    :email, 
-    :lat,
-    :lng,
-    :postal, 
-    :web_sessions, 
-    :timezone, 
-    :browser, 
-    :browser_version, 
-    :os, 
-    :os_version, 
-    :browser_language, 
-    :lang, 
-    :created_at,
-    :updated_at,
-    :last_seen, 
-    :first_seen, 
-    :signed_up, 
-    :last_contacted, 
-    :last_heard_from
-  ]
+  ALLOWED_PROPERTIES = %i[
+    ip
+    city
+    region
+    country
+    session_id
+    email
+    lat
+    lng
+    postal
+    web_sessions
+    timezone
+    browser
+    browser_version
+    os
+    os_version
+    browser_language
+    lang
+    created_at
+    updated_at
+    last_seen
+    first_seen
+    signed_up
+    last_contacted
+    last_heard_from
+  ].freeze
 
   ACCESSOR_PROPERTIES = [
     :name,
@@ -104,7 +104,7 @@ class AppUser < ApplicationRecord
     :company_name,
     :company_size,
     :privacy_consent
-  ]
+  ].freeze
 
   store_accessor :properties, ACCESSOR_PROPERTIES
 
@@ -178,16 +178,19 @@ class AppUser < ApplicationRecord
 
   def add_created_event
     return unless calbackable?
+
     events.log(action: :user_created)
   end
 
   def add_email_changed_event
     return unless calbackable?
+
     events.log(action: :email_changed)
   end
 
   def lead_event
     return unless calbackable?
+
     events.log(action: :visitors_convert)
   end
 
@@ -292,6 +295,7 @@ class AppUser < ApplicationRecord
   def avatar_url
     ui_avatar_url = "https://ui-avatars.com/api/#{URI.encode_www_form_component(display_name)}/128"
     return "#{ui_avatar_url}/f5f5dc/888/4" if email.blank?
+
     email_address = email.downcase
     hash = Digest::MD5.hexdigest(email_address)
     image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{ui_avatar_url}/7fffd4"
@@ -314,6 +318,7 @@ class AppUser < ApplicationRecord
 
   def enqueue_social_enrichment
     return unless calbackable?
+
     add_email_changed_event
   end
 

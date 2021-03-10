@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
@@ -12,28 +13,25 @@ Doorkeeper.configure do
     #   # Put your resource owner authentication logic here.
     #   # Example implementation:
     #   #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
-    warden.authenticate!(scope: :agent) or raise "not authorized"
+    warden.authenticate!(scope: :agent) or raise 'not authorized'
   end
-# 
-  resource_owner_from_credentials do |routes|
-    user = Agent.find_for_database_authentication(:email => params[:email] || params[:username])
-    if user && user.valid_for_authentication? { user.valid_password?(params[:password]) }
-      user
-    end
+  resource_owner_from_credentials do |_routes|
+    user = Agent.find_for_database_authentication(email: params[:email] || params[:username])
+    user if user && user.valid_for_authentication? { user.valid_password?(params[:password]) }
   end
 
-  admin_authenticator do |routes|
+  admin_authenticator do |_routes|
     current_agent || warden.authenticate!(scope: :agent)
   end
 
-  #api_only
+  # api_only
   use_refresh_token
-  grant_flows %w(password authorization_code client_credentials)
-  #skip_authorization { true }
+  grant_flows %w[password authorization_code client_credentials]
+  # skip_authorization { true }
 
   default_scopes :read
-  optional_scopes :write,:admin
-    
+  optional_scopes :write, :admin
+
   enforce_configured_scopes
 
   allow_blank_redirect_uri true
@@ -44,12 +42,12 @@ Doorkeeper.configure do
   #  # context.grant_type for grant_type, context.client for client, context.scopes for scopes
   #  if context.grant_type == Doorkeeper::OAuth::CLIENT_CREDENTIALS # see Doorkeeper::OAuth::GRANT_TYPES for other types
   #    2.hours.to_i
-  #  else 
+  #  else
   #    15.minutes.to_i
   #  end
-  #end
+  # end
 
-  enable_application_owner :confirmation => false
+  enable_application_owner confirmation: false
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
@@ -443,7 +441,6 @@ Doorkeeper.configure do
   # realm "Doorkeeper"
 end
 
-
 module CustomTokenErrorResponse
   def body
     {
@@ -460,13 +457,13 @@ module CustomTokenResponse
   def body
     user_details = Agent.find(@token.resource_owner_id)
     # call original `#body` method and merge its result with the additional data hash
-   	super.merge({
-   		status_code: 200,
-   		message: I18n.t('devise.sessions.signed_in'),
-   		result: user_details
-   	})
+    super.merge({
+                  status_code: 200,
+                  message: I18n.t('devise.sessions.signed_in'),
+                  result: user_details
+                })
   end
 end
 
-Doorkeeper::OAuth::TokenResponse.send :prepend, CustomTokenResponse
+Doorkeeper::OAuth::TokenResponse.prepend CustomTokenResponse
 # Doorkeeper::OAuth::ErrorResponse.send :prepend, CustomTokenErrorResponse

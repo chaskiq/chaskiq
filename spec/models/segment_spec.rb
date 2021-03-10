@@ -111,10 +111,9 @@ RSpec.describe Segment, type: :model do
         allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates)
         expect(app.segments.first.execute_query.count).to be == 1
 
-
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: predicates 
+          user: app.app_users.last,
+          predicates: predicates
         )
 
         comparator.compare
@@ -126,22 +125,21 @@ RSpec.describe Segment, type: :model do
         expect(app.segments.first.execute_query.count).to be == 0
 
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: predicates_for_empty 
+          user: app.app_users.last,
+          predicates: predicates_for_empty
         )
 
         comparator.compare
         expect(comparator.compare).to be_falsey
       end
-      
 
       it 'with multiple predicates concat or' do
         allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates_with_or)
         expect(app.segments.first.execute_query.count).to be == 1
 
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: predicates_with_or 
+          user: app.app_users.last,
+          predicates: predicates_with_or
         )
 
         comparator.compare
@@ -153,8 +151,8 @@ RSpec.describe Segment, type: :model do
         expect(app.segments.first.execute_query.count).to be == 0
 
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: predicates_with_and 
+          user: app.app_users.last,
+          predicates: predicates_with_and
         )
 
         comparator.compare
@@ -164,10 +162,10 @@ RSpec.describe Segment, type: :model do
       it 'with jsonb' do
         allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates_on_jsonb)
         expect(app.segments.first.execute_query.count).to be == 1
-        
+
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: predicates_on_jsonb 
+          user: app.app_users.last,
+          predicates: predicates_on_jsonb
         )
 
         comparator.compare
@@ -179,8 +177,8 @@ RSpec.describe Segment, type: :model do
 
         expect(app.segments.first.execute_query.count).to be == 1
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: email_predicate 
+          user: app.app_users.last,
+          predicates: email_predicate
         )
 
         comparator.compare
@@ -191,8 +189,8 @@ RSpec.describe Segment, type: :model do
         allow_any_instance_of(Segment).to receive(:predicates).and_return(not_email_predicate)
         expect(app.segments.first.execute_query.count).to be == 0
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: not_email_predicate 
+          user: app.app_users.last,
+          predicates: not_email_predicate
         )
 
         comparator.compare
@@ -213,36 +211,32 @@ RSpec.describe Segment, type: :model do
             value: 'or'
           }.with_indifferent_access,
           { attribute: 'tags',
-           comparison: 'contains_ends',
-           type: 'string',
-           value: 'oo' 
-          }.with_indifferent_access,
+            comparison: 'contains_ends',
+            type: 'string',
+            value: 'oo' }.with_indifferent_access,
           { attribute: 'tags',
             comparison: 'contains_ends',
             type: 'string',
-            value: 'aa' 
-           }.with_indifferent_access
+            value: 'aa' }.with_indifferent_access
         ]
       end
 
       let(:predicates_on_tags_contains) do
         predicates << { attribute: 'tags',
-           comparison: 'contains_ends',
-           type: 'string',
-           value: 'oo' 
-          }.with_indifferent_access
-        
+                        comparison: 'contains_ends',
+                        type: 'string',
+                        value: 'oo' }.with_indifferent_access
       end
 
       it 'with user tag' do
-        app.app_users.each{|o| o.tag_list << "foo" ; o.save }
+        app.app_users.each { |o| o.tag_list << 'foo'; o.save }
 
         allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates_on_tags)
         expect(app.segments.first.execute_query.size).to be == 1
-        
+
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: predicates_on_tags 
+          user: app.app_users.last,
+          predicates: predicates_on_tags
         )
 
         comparator.compare
@@ -250,17 +244,17 @@ RSpec.describe Segment, type: :model do
       end
 
       it 'with user tag contains ends' do
-        app.app_users.each{|o| o.tag_list << "foo" ; o.save }
+        app.app_users.each { |o| o.tag_list << 'foo'; o.save }
 
         allow_any_instance_of(Segment).to receive(:predicates).and_return(
           predicates_on_tags_contains
         )
 
         expect(app.segments.first.execute_query.size).to be == 1
-        
+
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
-          predicates: predicates_on_tags_contains 
+          user: app.app_users.last,
+          predicates: predicates_on_tags_contains
         )
 
         comparator.compare
@@ -268,16 +262,16 @@ RSpec.describe Segment, type: :model do
       end
 
       it 'with user tag multiple' do
-        app.app_users.each{|o| o.tag_list << "foo" ; o.save }
+        app.app_users.each { |o| o.tag_list << 'foo'; o.save }
 
         allow_any_instance_of(Segment).to receive(:predicates).and_return(
           predicates_on_tags_contains_multiple
         )
 
         expect(app.segments.first.execute_query.size).to be == 1
-        
+
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
+          user: app.app_users.last,
           predicates: predicates_on_tags_contains_multiple
         )
 
@@ -292,31 +286,29 @@ RSpec.describe Segment, type: :model do
             value: 'or'
           }.with_indifferent_access,
           { attribute: 'name',
-           comparison: 'contains_ends',
-           type: 'string',
-           value: 'arilyn' 
-          }.with_indifferent_access,
+            comparison: 'contains_ends',
+            type: 'string',
+            value: 'arilyn' }.with_indifferent_access,
           { attribute: 'tags',
             comparison: 'contains_ends',
             type: 'string',
-            value: 'foo' 
-           }.with_indifferent_access
+            value: 'foo' }.with_indifferent_access
         ]
       end
 
       it 'OR with user tag multiple and by name ' do
-        app.app_users.each{|o| o.tag_list << "foo" ; o.save }
+        app.app_users.each { |o| o.tag_list << 'foo'; o.save }
 
-        app.app_users.first.update(name: "marilyn")
+        app.app_users.first.update(name: 'marilyn')
 
         allow_any_instance_of(Segment).to receive(:predicates).and_return(
           predicates_on_tags_contains_multiple_2
         )
 
         expect(app.segments.first.execute_query.size).to be == 1
-        
+
         comparator = SegmentComparator.new(
-          user: app.app_users.last, 
+          user: app.app_users.last,
           predicates: predicates_on_tags_contains_multiple_2
         )
 
@@ -324,27 +316,25 @@ RSpec.describe Segment, type: :model do
         expect(comparator.compare).to be_truthy
       end
 
-
       it 'AND with user tag multiple with exclude' do
-
         predicates = predicates_on_tags
-        predicates << { 
+        predicates << {
           attribute: 'tags',
           comparison: 'not_contains',
           type: 'string',
-          value: 'marilyn' 
-         }.with_indifferent_access
+          value: 'marilyn'
+        }.with_indifferent_access
 
-        app.app_users.each{|o| o.tag_list.add("foo") }
+        app.app_users.each { |o| o.tag_list.add('foo') }
 
-        app.app_users.first.tag_list.add( "marilyn")
+        app.app_users.first.tag_list.add('marilyn')
 
         allow_any_instance_of(Segment).to receive(:predicates).and_return(
           predicates
         )
 
         expect(app.segments.first.execute_query.size).to be == 0
-        
+
         comparator = SegmentComparator.new(
           user: app.app_users.last,
           predicates: predicates
@@ -353,9 +343,6 @@ RSpec.describe Segment, type: :model do
         comparator.compare
         expect(comparator.compare).to be_falsey
       end
-
-
-
     end
   end
 end

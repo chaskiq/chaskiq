@@ -96,7 +96,7 @@ export const EditorPad = styled.div`
 					overflow: auto;
 				}
 			`
-		
+
 	}
 
 	${(props) =>
@@ -130,14 +130,14 @@ export const EditorPad = styled.div`
 				margin: 2em;
 			}
 			`
-		
+
 	}
 `
 
 export const EditorMessengerEmulatorHeader = styled.div`
   ${(props) =>
     props.mode === 'user_auto_messages'
-      ? `padding: 1em; border-bottom: 1px solid #ccc;`
+      ? 'padding: 1em; border-bottom: 1px solid #ccc;'
 		: ''
 	}
 `

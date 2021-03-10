@@ -88,7 +88,7 @@ class App < ApplicationRecord
     default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections]
     AppPackage.where(name: default_packages).each do |app_package|
       app_packages << app_package unless app_package_integrations.exists?(
-        app_package_id: app_package.id 
+        app_package_id: app_package.id
       )
     end
   end
@@ -98,9 +98,11 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    self.preferences[:outgoing_email_domain].present? ?
-      self.preferences[:outgoing_email_domain] :
+    if preferences[:outgoing_email_domain].present?
+      preferences[:outgoing_email_domain]
+    else
       ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
+    end
   end
 
   def config_fields
@@ -165,13 +167,13 @@ class App < ApplicationRecord
 
   def add_anonymous_user(attrs)
     session_id = attrs.delete(:session_id)
-    callbacks = attrs.delete(:disable_callbacks) 
+    callbacks = attrs.delete(:disable_callbacks)
 
     next_id = attrs[:name].blank? ? "visitor #{DummyName::Name.new}" : attrs[:name]
 
     unless attrs.dig(:properties, :name).present?
       attrs.merge!(
-        name: "#{next_id}"
+        name: next_id.to_s
       )
     end
 
@@ -185,7 +187,7 @@ class App < ApplicationRecord
 
   def add_lead(attrs)
     email = attrs.delete(:email)
-    callbacks = attrs.delete(:disable_callbacks) 
+    callbacks = attrs.delete(:disable_callbacks)
     ap = app_users.leads.find_or_initialize_by(email: email)
     ap = handle_app_user_params(ap, attrs)
     ap.disable_callbacks = true if callbacks.present?
@@ -198,7 +200,7 @@ class App < ApplicationRecord
   def add_user(attrs)
     email = attrs.delete(:email)
 
-    callbacks = attrs.delete(:disable_callbacks) 
+    callbacks = attrs.delete(:disable_callbacks)
     # page_url = attrs.delete(:page_url)
     ap = app_users.find_or_initialize_by(email: email)
     ap.disable_callbacks = true if callbacks.present?
@@ -213,13 +215,13 @@ class App < ApplicationRecord
 
   def handle_app_user_params(ap, attrs)
     attrs = { properties: attrs } unless attrs.key?(:properties)
-    
+
     keys = attrs[:properties].keys & app_user_updateable_fields
-    data_keys  = attrs[:properties].slice(*keys)
+    data_keys = attrs[:properties].slice(*keys)
 
     property_keys = attrs[:properties].keys - keys
     property_params = attrs[:properties].slice(*property_keys)
-  
+
     data = { properties: ap.properties.merge(property_params) }
     ap.assign_attributes(data)
     ap.assign_attributes(data_keys)
@@ -253,11 +255,11 @@ class App < ApplicationRecord
   end
 
   def get_non_users_by_session(session_id)
-    self.app_users.non_users.find_by(session_id: session_id)
+    app_users.non_users.find_by(session_id: session_id)
   end
 
   def get_app_user_by_email(email)
-    self.app_users.users.find_by(email: email)
+    app_users.users.find_by(email: email)
   end
 
   def create_agent_bot
@@ -291,12 +293,14 @@ class App < ApplicationRecord
       assignee: options[:assignee]
     )
 
-    conversation.add_message(
-      from: user,
-      message: message,
-      message_source: message_source,
-      check_assignment_rules: true
-    ) unless message.blank?
+    unless message.blank?
+      conversation.add_message(
+        from: user,
+        message: message,
+        message_source: message_source,
+        check_assignment_rules: true
+      )
+    end
 
     conversation.add_started_event
     conversation
@@ -321,13 +325,13 @@ class App < ApplicationRecord
     diff = a - time
     days = diff.to_f / (24 * 60 * 60)
     { at: a, diff: diff, days: days }
-  rescue #Biz::Error::Configuration
+  rescue StandardError # Biz::Error::Configuration
     nil
   end
 
   def in_business_hours?(time)
     availability.in_hours?(time)
-  rescue #Biz::Error::Configuration
+  rescue StandardError # Biz::Error::Configuration
     nil
   end
 
@@ -384,7 +388,7 @@ class App < ApplicationRecord
   end
 
   def app_user_updateable_fields
-    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES 
+    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
   end
 
   def searcheable_fields_list
@@ -392,25 +396,32 @@ class App < ApplicationRecord
   end
 
   def default_home_apps
-    pkg_id = app_package_integrations
-    .joins(:app_package)
-    .where(
-      "app_packages.name": 'InboxSections'
-    ).first.id rescue nil
+    pkg_id = begin
+      app_package_integrations
+        .joins(:app_package)
+        .where(
+          "app_packages.name": 'InboxSections'
+        ).first.id
+    rescue StandardError
+      nil
+    end
 
-    pkg_id.present? ? [
-      {"hooKind"=>"initialize", 
-        "definitions"=>[{"type"=>"content"}], 
-        "values"=>{"block_type"=>"user-blocks"}, 
-        "id"=> pkg_id, 
-        "name"=>"InboxSections"
-      }, 
-      {"hooKind"=>"initialize", 
-        "definitions"=>[{"type"=>"content"}], 
-        "values"=>{"block_type"=>"user-properties-block"}, 
-        "id"=> pkg_id, 
-        "name"=>"InboxSections"
-    }] : []
+    if pkg_id.present?
+      [
+        { 'hooKind' => 'initialize',
+          'definitions' => [{ 'type' => 'content' }],
+          'values' => { 'block_type' => 'user-blocks' },
+          'id' => pkg_id,
+          'name' => 'InboxSections' },
+        { 'hooKind' => 'initialize',
+          'definitions' => [{ 'type' => 'content' }],
+          'values' => { 'block_type' => 'user-properties-block' },
+          'id' => pkg_id,
+          'name' => 'InboxSections' }
+      ]
+    else
+      []
+    end
   end
 
   def plan
@@ -422,8 +433,6 @@ class App < ApplicationRecord
       @plan = Plan.get('free')
     end
   end
-
-
 
   private
 

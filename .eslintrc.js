@@ -20,12 +20,13 @@ module.exports = {
   },
   plugins: [
     'react',
-    'unused-imports'
+    'unused-imports',
   ],
   rules: {
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": 2,
-    "unused-imports/no-unused-vars": 1
+    "unused-imports/no-unused-vars": 1,
+    "react/prop-types": 0
   },
 
   /*"overrides": [

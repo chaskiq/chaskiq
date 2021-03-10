@@ -19,7 +19,7 @@ class Message < ApplicationRecord
 
   scope :enabled, -> { where(state: 'enabled') }
   scope :disabled, -> { where(state: 'disabled') }
-  scope :ordered, -> { order("position asc") }
+  scope :ordered, -> { order('position asc') }
   scope :in_time, -> { where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
   # before_save :detect_changed_template
   before_create :add_default_predicate
@@ -32,7 +32,7 @@ class Message < ApplicationRecord
       AND metrics.trackable_id = campaigns.id
       AND metrics.app_user_id = #{user.id}
       AND settings->'hidden_constraints' ? metrics.action")
-    .where('metrics.id is null')
+           .where('metrics.id is null')
   }
 
   def available_for_user?(user)
@@ -78,8 +78,9 @@ class Message < ApplicationRecord
   end
 
   def initial_state
-    return if self.state.present?
-    self.state = 'disabled' 
+    return if state.present?
+
+    self.state = 'disabled'
   end
 
   def add_default_predicate
@@ -104,17 +105,17 @@ class Message < ApplicationRecord
     }
 
     [{
-      value: types[type_predicate.to_sym], 
-      type: "string",
-      attribute: "type", 
-      comparison: "eq"
+      value: types[type_predicate.to_sym],
+      type: 'string',
+      attribute: 'type',
+      comparison: 'eq'
     }]
   end
 
   def self.infix(filter)
     Arel::Nodes::InfixOperation.new('@>',
-      arel_table[:segments],
-      Arel::Nodes.build_quoted(( BotTask.type_predicate_for(filter).to_json ).to_s))
+                                    arel_table[:segments],
+                                    Arel::Nodes.build_quoted(BotTask.type_predicate_for(filter).to_json.to_s))
   end
 
   def step_1?

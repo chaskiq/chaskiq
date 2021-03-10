@@ -33,9 +33,9 @@ function UpgradeButton ({ classes, size, app, label, feature, children }) {
 				  toggle={toggle}>
 				  <div className="rounded-lg shadow-lg overflow-hidden border-2 border-black">
 				    <MenuItems
-              app={app}
-              feature={feature}
-            />
+				      app={app}
+				      feature={feature}
+				    />
 				  </div>
 				</FeaturesMenu>
     }

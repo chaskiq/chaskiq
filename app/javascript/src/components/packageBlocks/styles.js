@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 
-
 const Styles = styled.div`
 /* src/tailwind.css */
 

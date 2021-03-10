@@ -11,7 +11,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
 
-    scout_transaction_name = "GraphQL/" + (operation_name || 'unknown')
+    scout_transaction_name = 'GraphQL/' + (operation_name || 'unknown')
     ScoutApm::Transaction.rename(scout_transaction_name)
 
     context = {
@@ -73,12 +73,6 @@ class GraphqlController < ApplicationController
         details: e.result.reasons.details
       }
     )
-  
-  
-  
-  
-  
-  
   rescue StandardError => e
     # GraphQL::ExecutionError.new e.message
     # raise e unless Rails.env.development?
@@ -89,7 +83,8 @@ class GraphqlController < ApplicationController
 
   def api_authorize!
     resource = current_resource_owner
-    raise OauthExeption.new('Oauth Exception!') unless resource
+    raise OauthExeption, 'Oauth Exception!' unless resource
+
     # doorkeeper_authorize!
     resource
   end

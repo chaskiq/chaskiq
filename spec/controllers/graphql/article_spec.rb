@@ -12,7 +12,7 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let!(:agent)  do
-    role = app.add_agent({email: 'test2@test.cl'})
+    role = app.add_agent({ email: 'test2@test.cl' })
     role.agent
   end
 

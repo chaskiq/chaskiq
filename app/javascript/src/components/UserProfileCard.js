@@ -144,7 +144,7 @@ function UserProfileCard ({ app, app_user }) {
                 Tags
               </dt>
               <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-                { app_user.tagList.map((tag, i)=> ( <Badge size="sm" key={`tag-${i}`}> {tag} </Badge> ))}
+                { app_user.tagList.map((tag, i) => (<Badge size="sm" key={`tag-${i}`}> {tag} </Badge>))}
               </dd>
             </div>
           }

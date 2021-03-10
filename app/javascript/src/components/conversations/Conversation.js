@@ -666,7 +666,7 @@ function Conversation ({
         <div className="flex bg-gray-900- h-44
           justify-center items-center
           shadow-lg text-black"
-          style={{ backdropFilter: 'blur(4px)' }}>
+        style={{ backdropFilter: 'blur(4px)' }}>
           <RtcDisplayWrapper
             videoSession={videoSession}
             relativePosition={true}
