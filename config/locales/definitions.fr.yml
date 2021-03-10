@@ -2,39 +2,39 @@ fr:
   definitions:
     articles:
       title:
-        label: Title
+        label: Titre
       author:
-        label: Author
+        label: Auteur
       state:
-        label: State
+        label: Etat
       collection:
         label: Collection
       actions:
         label: Actions
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Site Internet
+        hint: Site web de votre domaine principal
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Domaine
+        hint: Domaine du Centre d'Aide
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Sous-domaines
+        hint: Sous-domaine dans lequel le Centre d'Aide sera disponible
       google_code:
         label: Google Code
-        hint: Google tracking ID
+        hint: ID Google Tracking
       credits:
-        label: show credits
+        label: montrer les crédits
         hint: ""
     settings:
       name:
-        label: Name
+        label: Nom
         hint:
       logo:
         label: Logo
         hint:
       enable_articles:
-        label: "Display article on chat window"
+        label: "Afficher l'article dans la fenêtre de chat"
         hint: "This option will display the articles in the home section of the messenger"
       inline_conversation:
         label: Display new messages in floating box
