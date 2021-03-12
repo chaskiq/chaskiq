@@ -107,21 +107,21 @@ fr:
   conversation:
     with: Conversation avec
     actions:
-      priorize: Priorize conversation
+      priorize: Prioriser la conversation
       remove_priority: Supprimer la priorité
       close: Fermer
       reopen: Rouvrir
-      start_call: Start videocall
-      end_call: End Call
+      start_call: Démarrer un appel vidéo
+      end_call: Terminer l’appel
       assign_agent: Assign Agent
     messages:
-      seen: Seen
-      not_seen: Not seen
+      seen: Vu
+      not_seen: Non vu
       note: Note
     sidebar:
-      show_profile: Show profile
-      location: Location
-      browser: User Browser
+      show_profile: Voir le profil
+      location: Localisation
+      browser: Navigateur de l’utilisateur
       latest_user_visible_comment_at: Last comment
       created_at: Created at
       assignee: Assignee
