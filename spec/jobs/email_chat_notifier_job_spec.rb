@@ -3,5 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe EmailChatNotifierJob, type: :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "enqueue job" do
+    ActiveJob::Base.queue_adapter = :test
+    expect {
+      EmailChatNotifierJob.perform_later({})
+    }.to have_enqueued_job
+  end
 end
