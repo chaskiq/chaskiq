@@ -18,7 +18,7 @@ module Types
     field :avatar_url, String, null: true
     field :lang, String, null: true
     field :available, Boolean, null: true
-    field :inbound_email_address
+    field :inbound_email_address, String, null: true
 
     field :owner, Boolean, null: true
     def owner
