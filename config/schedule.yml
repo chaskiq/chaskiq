@@ -1,0 +1,5 @@
+my_first_job:
+  cron: "0 */72 * * *"
+  # cron: "*/5 * * * *"
+  class: "VisitorCleanerJob"
+  queue: cron_tasks

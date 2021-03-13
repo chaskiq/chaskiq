@@ -3,5 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe MailImporterJob, type: :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "enqueue job" do
+    ActiveJob::Base.queue_adapter = :test
+    expect {
+      MailImporterJob.perform_later({})
+    }.to have_enqueued_job
+  end
 end
