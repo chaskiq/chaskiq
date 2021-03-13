@@ -781,7 +781,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
                   This is your current plan
                 </p>
               }
-              
+
               {
                 !appPlan || appPlan.id != plan.id &&
                 <button

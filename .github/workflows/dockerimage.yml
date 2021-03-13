@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
       - stage
-    types: [ opened, synchronize, reopened ]
 
 jobs:
 

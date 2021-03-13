@@ -13,16 +13,16 @@ RSpec.describe GraphqlController, type: :controller do
 
   let!(:agent_role) do
     app.add_agent(
-      {email: 'test2@test.cl'}, 
-      bot: nil, 
-      role_attrs: {access_list: ['manage']}
+      { email: 'test2@test.cl' },
+      bot: nil,
+      role_attrs: { access_list: ['manage'] }
     )
   end
 
   let!(:unprivileged_agent_role) do
     app.add_agent(
       {
-        email: 'test3@test.cl', 
+        email: 'test3@test.cl',
         bot: nil
       }
     )
@@ -33,7 +33,6 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   describe 'apps' do
-
     before :each do
       stub_current_user(agent_role)
     end
@@ -46,7 +45,6 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   describe 'app' do
-
     before :each do
       stub_current_user(agent_role)
     end
@@ -70,7 +68,7 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     before :each do
-      #stub_current_user(agent_role)
+      # stub_current_user(agent_role)
     end
 
     it 'agents' do
@@ -126,9 +124,8 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     describe 'mutations on app' do
-
       before :each do
-        #stub_current_user(agent_role)
+        # stub_current_user(agent_role)
       end
 
       it 'create app' do
@@ -163,7 +160,7 @@ RSpec.describe GraphqlController, type: :controller do
         expect(campaign.name).to be_present
 
         graphql_post(
-          type: 'CREATE_APP', 
+          type: 'CREATE_APP',
           variables: {
             appParams: {
               name: 'my app',
@@ -184,13 +181,14 @@ RSpec.describe GraphqlController, type: :controller do
         new_name = 'my app edited'
 
         graphql_post(
-          type: 'UPDATE_APP', 
+          type: 'UPDATE_APP',
           variables: {
-          appKey: app.key,
-          appParams: {
-            name: new_name
+            appKey: app.key,
+            appParams: {
+              name: new_name
+            }
           }
-        })
+        )
 
         expect(graphql_response.errors).to be_nil
         expect(graphql_response.data.appsUpdate.app.name).to be_eql new_name
@@ -200,7 +198,7 @@ RSpec.describe GraphqlController, type: :controller do
         stub_current_user(agent_role)
 
         graphql_post(
-          type: 'DESTROY_APP', 
+          type: 'DESTROY_APP',
           variables: {
             appKey: app.key
           }
@@ -217,15 +215,13 @@ RSpec.describe GraphqlController, type: :controller do
 
         expect(graphql_response.errors).to be_present
       end
-
     end
   end
 
   describe 'invite agent' do
-
     it 'return app' do
       stub_current_user(agent_role)
-      count = app.agents.count 
+      count = app.agents.count
       graphql_post(type: 'INVITE_AGENT', variables: {
                      appKey: app.key,
                      email: 'aa@aa.cl'
@@ -233,21 +229,21 @@ RSpec.describe GraphqlController, type: :controller do
 
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.inviteAgent.agent.email).to be_present
-      expect(app.agents.count).to be == (count+1)
+      expect(app.agents.count).to be == (count + 1)
     end
 
     it 'return app unprivileged' do
-
       stub_current_user(unprivileged_agent_role)
 
       count = app.agents.count
 
       graphql_post(
-        type: 'INVITE_AGENT', 
+        type: 'INVITE_AGENT',
         variables: {
           appKey: app.key,
           email: 'aa@aa.cl'
-        })
+        }
+      )
 
       expect(graphql_response.errors).to be_present
     end

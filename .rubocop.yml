@@ -1,0 +1,9 @@
+inherit_from: .rubocop_todo.yml
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'node_modules/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/{rails,rake}'

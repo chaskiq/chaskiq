@@ -44,6 +44,7 @@ class ArticleSetting < ApplicationRecord
 
   def logo_url
     return 'https://via.placeholder.com/100x100' unless logo_blob.present?
+
     url = begin
       logo.variant(resize_to_limit: [300, 100]).processed
     rescue StandardError

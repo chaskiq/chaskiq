@@ -211,14 +211,14 @@ class Api::V1::HooksController < ActionController::API
     lines = lines.split("\n").delete_if(&:empty?)
 
     {
-      "blocks": lines.map do |o|
+      blocks: lines.map do |o|
         if o.include?('<img src=')
           process_image(o)
         else
           serialized_block(o)
         end
       end,
-      "entityMap": {}
+      entityMap: {}
     }.to_json
   end
 

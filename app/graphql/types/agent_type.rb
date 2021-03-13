@@ -3,7 +3,7 @@
 module Types
   class AgentType < Types::BaseObject
     field :id, Int, null: false
-    field :email, String, null: true, authorize: {to: :agent_only?, with: AppPolicy}
+    field :email, String, null: true, authorize: { to: :agent_only?, with: AppPolicy }
     # field :user, [Types::UserType], null: true
     field :name, String, null: true
     field :first_name, String, null: true
@@ -39,9 +39,9 @@ module Types
 
     field :properties, Types::JsonType, null: true
 
-    field :conversations, 
-      type: Types::PaginatedConversationsType, 
-      null: true do
+    field :conversations,
+          type: Types::PaginatedConversationsType,
+          null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
     end
@@ -61,10 +61,10 @@ module Types
       ).send(kind)
     end
 
-    field :dashboard, 
-      Types::JsonType, 
-      null: true, 
-      authorized_scope: {with: AppPolicy} do
+    field :dashboard,
+          Types::JsonType,
+          null: true,
+          authorized_scope: { with: AppPolicy } do
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
     end

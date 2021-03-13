@@ -26,6 +26,7 @@ en:
     langs:
       en: English
       es: Spanish
+      pt: Portuguese
       redirecting: Redirecting
       select_language: Select Language
     send_on_enter: Publish on enter

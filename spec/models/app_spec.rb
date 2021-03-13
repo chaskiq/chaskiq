@@ -15,9 +15,9 @@ RSpec.describe App, type: :model do
 
   let(:default_content) do
     {
-      "entityMap": {},
-      "blocks": [
-        { "key": 'f1qmb', "text": '', "type": 'unstyled', "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }
+      entityMap: {},
+      blocks: [
+        { key: 'f1qmb', text: '', type: 'unstyled', depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} }
       ]
     }.to_json.to_s
   end
@@ -34,10 +34,10 @@ RSpec.describe App, type: :model do
   end
 
   it 'create an agent' do
-    app.add_agent({email: 'test@test.cl', first_name: 'dsdsa'})
+    app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' })
     app.reload
     expect(app.agents).to be_any
-    expect( app.agents.find_by(email: "test@test.cl").first_name ).to be_present
+    expect(app.agents.find_by(email: 'test@test.cl').first_name).to be_present
   end
 
   it 'crean an agent bot' do
@@ -109,8 +109,8 @@ RSpec.describe App, type: :model do
 
   it 'create_conversation' do
     app_user = app.add_user(email: 'test@test.cl', first_name: 'dsdsa')
-    agent1 = app.add_agent({email: 'test@test.cl', first_name: 'dsdsa'}).agent
-    agent2 = app.add_agent({email: 'test2@test.cl', first_name: 'dsdsa'}).agent
+    agent1 = app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' }).agent
+    agent2 = app.add_agent({ email: 'test2@test.cl', first_name: 'dsdsa' }).agent
     conversations = app.start_conversation(
       message: { serialized_content: default_content },
       from: app_user
@@ -121,8 +121,8 @@ RSpec.describe App, type: :model do
 
   it 'create_conversation assignee override' do
     app_user = app.add_user(email: 'test@test.cl', first_name: 'dsdsa')
-    agent1 = app.add_agent({email: 'test@test.cl', first_name: 'dsdsa'}).agent
-    agent2 = app.add_agent({email: 'test2@test.cl', first_name: 'dsdsa'}).agent
+    agent1 = app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' }).agent
+    agent2 = app.add_agent({ email: 'test2@test.cl', first_name: 'dsdsa' }).agent
 
     conversations = app.start_conversation(
       assignee: agent2,
@@ -135,7 +135,7 @@ RSpec.describe App, type: :model do
 
   describe 'assignment rules' do
     it 'assign rule' do
-      role = app.add_agent({email: 'test@test.cl', first_name: 'dsdsa'})
+      role = app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' })
       agent = role.agent
       app.assignment_rules.create(
         title: 'test',
@@ -151,7 +151,7 @@ RSpec.describe App, type: :model do
 
   describe 'agents, availability' do
     before :each do
-      app.add_agent({email: 'test@test.cl'})
+      app.add_agent({ email: 'test@test.cl' })
       app.team_schedule = [
         { day: 'mon', from: '09:00', to: '17:00' },
         { day: 'tue', from: '09:00', to: '17:00' },
@@ -256,25 +256,25 @@ RSpec.describe App, type: :model do
     end
 
     it 'return for user user' do
-      user_options = [{ "attribute": 'email', "comparison": 'contains', "type": 'string', "value": 'test' }]
+      user_options = [{ attribute: 'email', comparison: 'contains', type: 'string', value: 'test' }]
       setting_for_user(user_options: user_options)
       expect(app.query_segment('users')).to be_any
     end
 
     it 'no return for user' do
-      user_options = [{ "attribute": 'email', "comparison": 'not_contains', "type": 'string', "value": 'test' }]
+      user_options = [{ attribute: 'email', comparison: 'not_contains', type: 'string', value: 'test' }]
       setting_for_user(user_options: user_options)
       expect(app.query_segment('users')).to_not be_any
     end
 
     it 'return for visitor ' do
-      visitor_options = [{ "attribute": 'email', "comparison": 'contains', "type": 'string', "value": 'test' }]
+      visitor_options = [{ attribute: 'email', comparison: 'contains', type: 'string', value: 'test' }]
       setting_for_user(visitor_options: visitor_options)
       expect(app.query_segment('visitors')).to be_any
     end
 
     it 'no return for visitors' do
-      visitor_options = [{ "attribute": 'email', "comparison": 'not_contains', "type": 'string', "value": 'test' }]
+      visitor_options = [{ attribute: 'email', comparison: 'not_contains', type: 'string', value: 'test' }]
       setting_for_user(visitor_options: visitor_options)
       expect(app.query_segment('visitors')).to_not be_any
     end

@@ -14,7 +14,6 @@ export default function List ({ children, shadowless }) {
 }
 
 export function ListItem ({ avatar, action, children, onClick, divider }) {
-
   const clicableClasses = onClick && 'cursor-pointer'
   return (
     <li className={`${divider ? 'border-b' : ''}`}>

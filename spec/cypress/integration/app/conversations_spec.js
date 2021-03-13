@@ -1,11 +1,6 @@
 
-
-
-
 import {
-  login,
-  findButtonByName,
-  findElementByName
+  login
 } from '../../support/utils'
 
 describe('Conversations Spec', function () {
@@ -14,9 +9,7 @@ describe('Conversations Spec', function () {
       require 'app_packages_catalog'
       AppPackagesCatalog.update_all 
     `)
-    
   })
-
 
   it('Send app package on conversation', function () {
     login()
@@ -50,15 +43,14 @@ describe('Conversations Spec', function () {
     cy.get("a[aria-label='Conversations']")
       .click({ force: true }).then(() => {
         cy.xpath('/html/body/div/div[2]/div[2]/div[2]/div[2]/div[2]/div[2]/a')
-        .click()
+          .click()
 
         cy.contains('some text from backend')
 
         cy.get('[contenteditable]').click()
 
         cy.get('[contenteditable]')
-          .type(`foo \r\n`)
-
+          .type('foo \r\n')
 
         // selects package button
         cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div[3]/div/button[8]')
@@ -80,15 +72,14 @@ describe('Conversations Spec', function () {
         cy.get('input[name="title"]').should('have.value', 'rails/rails')
         cy.get('input[name="cover_image"]').should('not.have.value', '')
 
-        cy.contains('Add to messenger home').click().then(()=>{
-          cy.contains('Send App').should('not.be.disabled').then(()=>{
+        cy.contains('Add to messenger home').click().then(() => {
+          cy.contains('Send App').should('not.be.disabled').then(() => {
             cy.wait(2000)
             cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/button[2]')
               .click()
-            cy.get("#message-id-2").contains('Hello, World')
+            cy.get('#message-id-2').contains('Hello, World')
           })
         })
       })
   })
-
 })

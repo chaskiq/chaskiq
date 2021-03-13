@@ -11,8 +11,7 @@ import Avatar from '../../components/Avatar'
 import { Link } from 'react-router-dom'
 import List, {
   ListItem,
-  ListItemText,
-  ItemAvatar
+  ListItemText
 } from '../../components/List'
 
 import styled from '@emotion/styled'
@@ -159,7 +158,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                 </OverlapAvatars>
 
                 {
-                  collections.baseArticles.length > 0 &&                  
+                  collections.baseArticles.length > 0 &&
                   <p className="max-w-2xl text-md leading-7 text-gray-500">
                     {collections.baseArticles.length} articles in this collection
                   </p>

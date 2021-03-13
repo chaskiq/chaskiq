@@ -5,23 +5,23 @@ import { CacheProvider } from '@emotion/core'
 import baseStyles from './styles/reset'
 
 class CssInjector extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    //const iframe = document.getElementsByTagName('iframe')[0]
-    //const iframe = document.getElementsByTagName('iframe')[0]
-    //const iframeHead = iframe.contentDocument.head
+    // const iframe = document.getElementsByTagName('iframe')[0]
+    // const iframe = document.getElementsByTagName('iframe')[0]
+    // const iframeHead = iframe.contentDocument.head
     const iframeHead = this.props.document.head
     this.cache = createCache({ container: iframeHead })
   }
 
-  render() {
+  render () {
     return (
       <CacheProvider value={this.cache}>
         {React.cloneElement(this.props.children, {
           document: this.props.document,
           window: this.props.window
         })}
-        {/*this.props.children*/}
+        {/* this.props.children */}
       </CacheProvider>
     )
   }
@@ -48,7 +48,7 @@ const initialFrameContent = `<!DOCTYPE html>
                                 <div id="mountHere">
                                 </body>
                               </html>`
-const mountTarget='#mountHere'
+const mountTarget = '#mountHere'
 
 const StyledFrame = ({ className, style, children, id, ...props }) => (
 
@@ -62,11 +62,11 @@ const StyledFrame = ({ className, style, children, id, ...props }) => (
     <FrameContextConsumer>
       {
         // Callback is invoked with iframe's window and document instances
-        ({document, window}) => {
+        ({ document, window }) => {
           // Render Children
           return <CssInjector document={document} window={window}>
-                    {children}
-                  </CssInjector>
+            {children}
+          </CssInjector>
         }
       }
     </FrameContextConsumer>

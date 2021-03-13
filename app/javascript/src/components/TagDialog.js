@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import FormDialog from './FormDialog'
 import Button from './Button'
-//import { Creatable } from 'react-select'
+// import { Creatable } from 'react-select'
 import Select from 'react-select'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
@@ -31,7 +31,7 @@ function TagDialog ({
     closeHandler && closeHandler()
   }
 
-  const colourOptions = app.tagList.map( (o) => ({
+  const colourOptions = app.tagList.map((o) => ({
     label: o.name, value: o.name, color: o.color
   }))
 
@@ -61,7 +61,7 @@ function TagDialog ({
 
               <p className="text-sm leading-5 text-gray-500">
                 { I18n.t('settings.tags.modal.hint') } {' '}
-                <Link to={`/apps/${app.key}/settings`} 
+                <Link to={`/apps/${app.key}/settings`}
                   className="no-underline hover:underline text-green-500">
                   { I18n.t('settings.tags.modal.link') }
                 </Link>
@@ -90,7 +90,7 @@ function TagDialog ({
 }
 
 function mapStateToProps (state) {
-  const {app } = state
+  const { app } = state
   return {
     app
   }

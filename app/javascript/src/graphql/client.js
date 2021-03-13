@@ -4,11 +4,11 @@ import store from '../store'
 import { errorMessage } from '../actions/status_messages'
 import { lockPage } from '../actions/upgradePages'
 
-import { expireAuthentication, refreshToken } from '../actions/auth'
-//import history from "../history.js";
+import { refreshToken } from '../actions/auth'
+// import history from "../history.js";
 
 const graphql = (query, variables, callbacks) => {
-  const {auth, current_user} = store.getState()
+  const { auth, current_user } = store.getState()
 
   const locale = current_user.lang || I18n.defaultLocale
 
@@ -36,8 +36,7 @@ const graphql = (query, variables, callbacks) => {
       // const errors = data[Object.keys(data)[0]];
       // callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
         if (errors[0].extensions &&
-          errors[0].extensions.code === 'unauthorized')
-          return store.dispatch(errorMessage(errors[0].message))
+          errors[0].extensions.code === 'unauthorized') { return store.dispatch(errorMessage(errors[0].message)) }
         if (callbacks.error) {
           return callbacks.error(res, errors)
         }
@@ -58,14 +57,14 @@ const graphql = (query, variables, callbacks) => {
           store.dispatch(
             lockPage(req.response.data.error.message)
           )
-          //store.dispatch(errorMessage('server error ocurred'))
+          // store.dispatch(errorMessage('server error ocurred'))
           break
         case 401:
-          //history.push("/")
+          // history.push("/")
           store.dispatch(errorMessage('session expired'))
           store.dispatch(refreshToken(auth))
-          //store.dispatch(expireAuthentication())
-          //refreshToken(auth)
+          // store.dispatch(expireAuthentication())
+          // refreshToken(auth)
           break
         default:
           break
@@ -77,7 +76,5 @@ const graphql = (query, variables, callbacks) => {
       callbacks.always ? callbacks.always() : null
     })
 }
-
-
 
 export default graphql

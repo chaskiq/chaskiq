@@ -42,8 +42,8 @@ class AppUserDashboard
             .all.group_by_day(:created_at)
             .count.map do |o|
       {
-        "day": o.first.strftime('%F'),
-        "value": o.last
+        day: o.first.strftime('%F'),
+        value: o.last
       }
     end
   end
@@ -52,6 +52,6 @@ class AppUserDashboard
 
   def colors
     array = %w[265 20 30 110 120 160 260 270 290 330 400]
-    array.shuffle.each { |x| }[0]
+    array.sample
   end
 end

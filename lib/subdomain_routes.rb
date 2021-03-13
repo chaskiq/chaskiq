@@ -30,9 +30,9 @@ end
 class NoSubdomain
   def self.matches?(request)
     # si no hay subdominio o si es www
-    !request.subdomain.present? || 
-    (request.subdomain == 'www') || 
-    (request.host != 'www.#{DOMAIN}') || 
-    (request.host != '#{DOMAIN}')
+    !request.subdomain.present? ||
+      (request.subdomain == 'www') ||
+      (request.host != 'www.#{DOMAIN}') ||
+      (request.host != '#{DOMAIN}')
   end
 end

@@ -236,7 +236,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               <Button
                 color="inherit"
                 onClick={toggleTaskForm}
-                variant={"success"}
+                variant={'success'}
               >
                 {I18n.t('task_bots.new')}
               </Button>

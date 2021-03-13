@@ -133,9 +133,8 @@ export default function RtcViewWrapper ({
 
           </div>
 
-
           <div id="status-information" className="block lg:hidden">
-              <div id="info"></div>
+            <div id="info"></div>
           </div>
 
           <div className="justify-end hidden">

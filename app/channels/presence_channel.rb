@@ -5,10 +5,10 @@ class PresenceChannel < ApplicationCable::Channel
   before_unsubscribe :offline
 
   def subscribed
-    if current_user.blank? || self.app.blank?   
-      reject 
+    if current_user.blank? || app.blank?
+      reject
       return
-    end 
+    end
     stream_from key
     pingback
   end

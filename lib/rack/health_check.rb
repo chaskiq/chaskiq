@@ -4,7 +4,7 @@
 # from https://medium.com/@goncalvesjoao/how-to-have-a-working-health-endpoint-while-rails-is-500ring-509efc1da42c
 
 module Rack
-  class  HealthCheck
+  class HealthCheck
     def call(env)
       status = {
         redis: {
@@ -12,15 +12,17 @@ module Rack
         }
       }
 
-      return [503, {}, [status.to_json]] if !redis_connected
+      return [503, {}, [status.to_json]] unless redis_connected
 
-      return [200, {}, [status.to_json]]
+      [200, {}, [status.to_json]]
     end
 
     protected
 
     def redis_connected
-      Redis.current.ping == 'PONG' rescue false
+      Redis.current.ping == 'PONG'
+    rescue StandardError
+      false
     end
   end
 end

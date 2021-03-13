@@ -23,7 +23,7 @@ export function imageUpload (
       } else {
         if (props) {
           props.onSuccess(
-            { 
+            {
               link: blob.service_url,
               filename: blob.filename,
               content_type: blob.content_type

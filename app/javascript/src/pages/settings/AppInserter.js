@@ -57,11 +57,11 @@ const SortableItem = sortableElement(
 
           <div className="border-md bg-white p-4 shadow w-full mx-2 ">
             <p>{object.name}</p>
-            
+
             <DefinitionRenderer
               schema={object.definitions}
               disabled={true}
-              //updatePackage={(params, cb) => updatePackage(params, object, cb)}
+              // updatePackage={(params, cb) => updatePackage(params, object, cb)}
             />
           </div>
 
@@ -270,7 +270,7 @@ function AppInserter2 ({ app, update, option, capability }) {
               index={index}
               value={o.id}
               object={o}
-              //updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
+              // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
               deleteItem={() => deleteItem(o, index)}
             />
           ))}
@@ -290,7 +290,7 @@ function AppInserter2 ({ app, update, option, capability }) {
 
 function getPackage (data, cb) {
   graphql(APP_PACKAGE_HOOK,
-    {...data, location: 'home'},
+    { ...data, location: 'home' },
     {
       success: (data) => {
         cb && cb(data)

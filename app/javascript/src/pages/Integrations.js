@@ -412,9 +412,6 @@ function Integrations ({ app, dispatch }) {
   )
 }
 
-
-
-
 function EmptyCard ({ goTo }) {
   return (
     <div style={{ marginTop: '2em' }}>
@@ -679,7 +676,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
             <ListItem
               key={`my-apps-${service.id}`}
               // onClick={ () => getAppPackage({ id: service.id }) }
-              >
+            >
               <ListItemText
                 primary={
                   <ItemListPrimaryContent variant="h5">
@@ -980,10 +977,10 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
     <div className="border bg-white rounded shadow">
       <div className="flex">
         <div className="w-1/3 bg-gray-100 px-4 py-2">
-          {/*<ul>
+          {/* <ul>
             <li>ijij</li>
             <li>aaa</li>
-          </ul>*/}
+          </ul> */}
         </div>
         <form ref={form} className="px-4 py-2">
           <div>

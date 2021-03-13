@@ -1,53 +1,51 @@
 class PluginSchemaValidator
   attr_accessor :schema
+
   def initialize(elements)
-    self.schema = elements.map{|o| BaseSchema.new(o)}
+    self.schema = elements.map { |o| BaseSchema.new(o) }
   end
 
   def valid?
-    !schema.map{|o| o.valid?}.any?{|o| !o }
+    !schema.map { |o| o.valid? }.any? { |o| !o }
   end
 end
 
 class BaseSchema
-
   attr_accessor :model
 
   def initialize(params)
     self.model = case params[:type]
-    when 'text' then TextSchema.new(params)
-    when 'button' then ButtonSchema.new(params)
-    when 'image' then ImageSchema.new(params)
-    when 'data-table' then DataTableSchema.new(params)
-    when 'spacer' then SpacerSchema.new(params)
-    when 'separator' then DividerSchema.new(params)
-    when 'input' then InputSchema.new(params)
-    when 'textarea' then TextAreaSchema.new(params)
-    when 'list' then ListSchema.new(params)
-    when 'single-select' then SingleSelectSchema.new(params)
-    when 'checkbox' then CheckboxSchema.new(params)
-    when 'dropdown' then DropdownSchema.new(params)
+                 when 'text' then TextSchema.new(params)
+                 when 'button' then ButtonSchema.new(params)
+                 when 'image' then ImageSchema.new(params)
+                 when 'data-table' then DataTableSchema.new(params)
+                 when 'spacer' then SpacerSchema.new(params)
+                 when 'separator' then DividerSchema.new(params)
+                 when 'input' then InputSchema.new(params)
+                 when 'textarea' then TextAreaSchema.new(params)
+                 when 'list' then ListSchema.new(params)
+                 when 'single-select' then SingleSelectSchema.new(params)
+                 when 'checkbox' then CheckboxSchema.new(params)
+                 when 'dropdown' then DropdownSchema.new(params)
 
-    else
-      
-    end
+                 end
   end
 
   def valid?
-    #response = self.model.valid?
-    #puts self.model.errors.inspect
-    #response
-    self.model.valid?
+    # response = self.model.valid?
+    # puts self.model.errors.inspect
+    # response
+    model.valid?
   end
 end
 
 class TextSchema
   include ActiveModel::Validations
 
-  validates :type , presence: :true
-  validates :text , presence: :true
-  validates :style, presence: :true, inclusion: { in: %w(paragraph muted header) }
-  validates :align, presence: :true, inclusion: { in: %w(left center right) }
+  validates :type, presence: :true
+  validates :text, presence: :true
+  validates :style, presence: :true, inclusion: { in: %w[paragraph muted header] }
+  validates :align, presence: :true, inclusion: { in: %w[left center right] }
 
   attr_accessor :type, :text, :style, :align
 
@@ -76,22 +74,21 @@ class ButtonSchema
   end
 
   def action_hash
-    if self.action.present? && !ActionSchema.new(self.action).valid?
-      errors.add(:action, 'action format error') 
-    end
+    errors.add(:action, 'action format error') if action.present? && !ActionSchema.new(action).valid?
   end
 end
 
 class ActionSchema
   include ActiveModel::Validations
   attr_accessor :type, :content_url, :url
-  validates :type, presence: :true, inclusion: { in: %w(frame content submit link url) }
-  validates :content_url, presence: :true , if: ->{ type == 'content'}
-  validates :url, presence: :true , if: ->{ ['frame', 'link', 'url'].include?(type)}
+
+  validates :type, presence: :true, inclusion: { in: %w[frame content submit link url] }
+  validates :content_url, presence: :true, if: -> { type == 'content' }
+  validates :url, presence: :true, if: -> { %w[frame link url].include?(type) }
 
   def initialize(params)
-    self.url  = params[:url] if params[:url].present?
-    self.type   = params[:type] if params[:type].present?
+    self.url = params[:url] if params[:url].present?
+    self.type = params[:type] if params[:type].present?
     self.content_url = params[:content_url] if params[:content_url].present?
   end
 end
@@ -99,11 +96,12 @@ end
 class ImageSchema
   include ActiveModel::Validations
   attr_accessor :type, :url, :width, :height, :align, :rounded
-  validates :type, presence: :true, inclusion: { in: %w(image) }
-  validates :height, presence: :true , numericality: { only_integer: true }
-  validates :width, presence: :true , numericality: { only_integer: true }
-  validates :url, presence: :true, format: { with: URI.regexp }
-  validates :align, inclusion: { in: %w(left center right) }
+
+  validates :type, presence: :true, inclusion: { in: %w[image] }
+  validates :height, presence: :true, numericality: { only_integer: true }
+  validates :width, presence: :true, numericality: { only_integer: true }
+  validates :url, presence: :true, format: { with: URI::DEFAULT_PARSER.make_regexp }
+  validates :align, inclusion: { in: %w[left center right] }
   validates :rounded, inclusion: { in: [true, false] }
 
   def initialize(params)
@@ -124,13 +122,11 @@ class DataTableSchema
 
   def initialize(params)
     self.type = params[:type]
-    self.items = params[:items].map{|o| DataTableItemSchema.new(o)}
+    self.items = params[:items].map { |o| DataTableItemSchema.new(o) }
   end
 
   def validate_items
-    if self.items.present? && items.any?{|o| !o.valid? }
-      errors.add(:items, 'items format error')
-    end
+    errors.add(:items, 'items format error') if items.present? && items.any? { |o| !o.valid? }
   end
 end
 
@@ -150,7 +146,8 @@ end
 class SpacerSchema
   include ActiveModel::Validations
   attr_accessor :type, :size
-  validates :size, presence: :true, inclusion: { in: %w(xs s sm m l xl) }
+
+  validates :size, presence: :true, inclusion: { in: %w[xs s sm m l xl] }
 
   def initialize(params)
     self.size = params[:size] || 'm'
@@ -161,6 +158,7 @@ end
 class DividerSchema
   include ActiveModel::Validations
   attr_accessor :type
+
   def initialize(params)
     self.type = params[:type]
   end
@@ -169,12 +167,12 @@ end
 class InputSchema
   include ActiveModel::Validations
 
-  attr_accessor :id, :name, :label, :type, 
-  :placeholder, :value,  :save_state, :action, :self_errors
+  attr_accessor :id, :name, :label, :type,
+                :placeholder, :value, :save_state, :action, :self_errors
 
-  validates :type, :id , presence: :true
+  validates :type, :id, presence: :true
   # validates :name, :label, presence: :true
-  validates :save_state, inclusion: { in: %w(saved failed unsaved) }, if: ->{ 
+  validates :save_state, inclusion: { in: %w[saved failed unsaved] }, if: lambda {
     save_state.present?
   }
 
@@ -193,21 +191,18 @@ class InputSchema
   end
 
   def action_hash
-    if self.action.present? && !ActionSchema.new(self.action).valid?
-      errors.add(:action, 'action format error') 
-    end
+    errors.add(:action, 'action format error') if action.present? && !ActionSchema.new(action).valid?
   end
-
 end
 
 class TextAreaSchema
   include ActiveModel::Validations
-  attr_accessor :id, :name, :label, :type, 
-  :placeholder, :value, :self_errors, :save_state
+  attr_accessor :id, :name, :label, :type,
+                :placeholder, :value, :self_errors, :save_state
 
   validates :type, :id, presence: :true
-  validates :save_state, inclusion: { in: %w(saved failed unsaved) }, if: ->{ 
-    self.save_state.present? 
+  validates :save_state, inclusion: { in: %w[saved failed unsaved] }, if: lambda {
+    save_state.present?
   }
 
   def initialize(params)
@@ -227,20 +222,18 @@ class ListSchema
 
   validates :type, :items, presence: :true
   validate :validate_items
-  validates :disabled, inclusion: { in: [true, false] }, if: ->{ disabled.present? }
+  validates :disabled, inclusion: { in: [true, false] }, if: -> { disabled.present? }
 
   attr_accessor :type, :disabled, :items
 
   def initialize(params)
     self.type = params[:type]
-    self.items = params[:items].map{ |o| ListItemSchema.new(o) }
+    self.items = params[:items].map { |o| ListItemSchema.new(o) }
     self.disabled = params[:disabled]
   end
 
   def validate_items
-    if self.items.any?{|o| !o.valid? }
-      errors.add(:items, 'items format error')
-    end
+    errors.add(:items, 'items format error') if items.any? { |o| !o.valid? }
   end
 end
 
@@ -261,9 +254,7 @@ class ListItemSchema
   end
 
   def action_hash
-    if self.action.present? && !ActionSchema.new(self.action).valid?
-      errors.add(:action, 'items format error')
-    end
+    errors.add(:action, 'items format error') if action.present? && !ActionSchema.new(action).valid?
   end
 end
 
@@ -277,14 +268,12 @@ class SingleSelectSchema
 
   def initialize(params)
     self.type = params[:type]
-    self.options = params[:options].map{ |o| SingleSelectItemSchema.new(o) }
+    self.options = params[:options].map { |o| SingleSelectItemSchema.new(o) }
     self.disabled = params[:disabled]
   end
 
   def validate_options
-    if self.options.any?{|o| !o.valid? }
-      errors.add(:options, 'options format error')
-    end
+    errors.add(:options, 'options format error') if options.any? { |o| !o.valid? }
   end
 end
 
@@ -303,15 +292,14 @@ class SingleSelectItemSchema
   end
 
   def action_hash
-    if self.action.present? && !ActionSchema.new(self.action).valid?
-      errors.add(:items, 'action format error')
-    end
+    errors.add(:items, 'action format error') if action.present? && !ActionSchema.new(action).valid?
   end
 end
 
 class CheckboxSchema
   include ActiveModel::Validations
   attr_accessor :type, :id, :label, :value, :options
+
   validates :type, :id, presence: :true
   validate :validate_options
 
@@ -319,20 +307,19 @@ class CheckboxSchema
     self.type = params[:type]
     self.id = params[:id]
     self.label = params[:text]
-    self.options = params[:options].map{|o| CheckboxItemSchema.new(o)}
+    self.options = params[:options].map { |o| CheckboxItemSchema.new(o) }
     self.value = params[:value]
   end
 
   def validate_options
-    if self.options.present? && self.options.any?{|o| !o.valid? }
-      errors.add(:options, 'items format error')
-    end
+    errors.add(:options, 'items format error') if options.present? && options.any? { |o| !o.valid? }
   end
 end
 
 class CheckboxItemSchema
   include ActiveModel::Validations
   attr_accessor :type, :id, :text
+
   validates :type, :id, :text, presence: :true
   def initialize(params)
     self.type = params[:type]
@@ -344,6 +331,7 @@ end
 class DropdownSchema
   include ActiveModel::Validations
   attr_accessor :type, :id, :label, :value, :options
+
   validates :type, :id, :label, presence: :true
   validate :validate_options
 
@@ -351,20 +339,19 @@ class DropdownSchema
     self.type = params[:type]
     self.id = params[:id]
     self.label = params[:label]
-    self.options = params[:options].map{|o| DropdownItemSchema.new(o)}
+    self.options = params[:options].map { |o| DropdownItemSchema.new(o) }
     self.value = params[:value]
   end
 
   def validate_options
-    if self.options.present? && self.options.any?{|o| !o.valid? }
-      errors.add(:options, 'items format error')
-    end
+    errors.add(:options, 'items format error') if options.present? && options.any? { |o| !o.valid? }
   end
 end
 
 class DropdownItemSchema
   include ActiveModel::Validations
   attr_accessor :type, :id, :text
+
   validates :type, :id, :text, presence: :true
   def initialize(params)
     self.type = params[:type]

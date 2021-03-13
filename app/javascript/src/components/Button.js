@@ -1,6 +1,6 @@
 // src/components/button.js
 import React from 'react'
-//import tw from 'tailwind.macro'
+// import tw from 'tailwind.macro'
 import styled from '@emotion/styled'
 import tw from 'twin.macro'
 // https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components

@@ -11,15 +11,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import '../src/styles/tailwind.css'
-import 'rc-tooltip/assets/bootstrap.css';
-import App from '../src/App';
+import 'rc-tooltip/assets/bootstrap.css'
+import App from '../src/App'
 
-//import MainRouter from '../src/modules/MainRouter';
+// import MainRouter from '../src/modules/MainRouter';
 
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <App />,
-    document.body.appendChild(document.getElementById('main-page')),
+    document.body.appendChild(document.getElementById('main-page'))
   )
 })

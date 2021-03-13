@@ -17,8 +17,10 @@ module ApplicationHelper
   def support_app_data
     app_key = ENV['SUPPORT_APP_KEY']
     return if app_key.blank?
+
     support_app = App.find_by(key: app_key)
     return if support_app.blank?
+
     key = support_app.encryption_key
     json_payload = {}
 
@@ -26,13 +28,13 @@ module ApplicationHelper
       user_options = {
         email: current_agent.email,
         properties: {
-          name: current_agent.display_name,
+          name: current_agent.display_name
         }
       }
       json_payload.merge!(user_options)
     end
 
     encrypted_data = JWE.encrypt(json_payload.to_json, key, alg: 'dir')
-    {enc: encrypted_data, app: support_app}
+    { enc: encrypted_data, app: support_app }
   end
 end

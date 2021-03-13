@@ -20,10 +20,10 @@ class ChatNotifierMailer < ApplicationMailer
     message_author = conversation_part.app_user
     @author_name = message_author.display_name || message_author.email.split('@').first
     @author_email = message_author.email
-    recipient = if message_author.id != conversation.main_participant.id
-                  conversation.main_participant
-                else
+    recipient = if message_author.id == conversation.main_participant.id
                   conversation.assignee
+                else
+                  conversation.main_participant
                 end
 
     return if recipient.blank?
