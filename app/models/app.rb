@@ -85,21 +85,6 @@ class App < ApplicationRecord
     agents.where('bot =?', true)
   end
 
-  def inbound_email_address
-    part = URLcrypt.encode("#{key}")
-    domain = outgoing_email_domain
-    "inbound+app-#{part}@#{domain}"
-  end
-
-  def self.decode_email_address(email)
-    # "inbound+app-#{part}@#{domain}"
-    if matches = email.match(/inbound\+app-(\S+)@\S+/) and matches&.captures.any?
-      App.find_by(
-        key: URLcrypt.decode(matches.captures.first)
-      )
-    end
-  end
-
   def attach_default_packages
     default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections]
     AppPackage.where(name: default_packages).each do |app_package|
@@ -121,16 +106,37 @@ class App < ApplicationRecord
     end
   end
 
-  # used in email inbox
-  def self.decode_inbound_address(address)
-    return unless address.starts_with?("inbound")
+
+  def inbound_email_address
+    part = URLcrypt.encode("#{key}")
+    domain = outgoing_email_domain
+    "inbound+app-#{part}@#{domain}"
+  end
+
+  def self.decode_app_inbound_address(email)
+    # "inbound+app-#{part}@#{domain}"
+    if matches = email.match(/inbound\+app-(\S+)@\S+/) and matches&.captures.any?
+      app = App.find_by(
+        key: URLcrypt.decode(matches.captures.first)
+      )
+      return [app]
+    end
+  end
+
+  def self.decode_agent_inbound_address(address)
     parts = address.split("+")
     app = App.find_by(key: parts[1])
     return unless app.present?
     agent_id = parts[2].split("@").first
     agent = app.agents.find(URLcrypt.decode(agent_id))
-    return unless agent.present?
     [app, agent]
+  end
+
+  # used in email inbox
+  def self.decode_inbound_address(address)
+    return decode_app_inbound_address(address) if address.starts_with?("inbound+app")
+    return decode_agent_inbound_address(address) if address.starts_with?("inbound")
+    []
   end
 
   def config_fields

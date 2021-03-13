@@ -282,13 +282,34 @@ RSpec.describe App, type: :model do
 
   describe 'inbound email' do
 
-    it "exists" do
+    before :each do
+      @role = app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' })
+    end
+
+    it "app has address" do
       expect(app.inbound_email_address).to be_present
     end
 
-    it "exists" do
+    it "decode app email address" do
       expect(
-        App.decode_email_address(app.inbound_email_address)
+        App.decode_app_inbound_address(app.inbound_email_address).first
+      ).to be == app
+    end
+
+    it "decode agent email address" do
+      expect(
+        App.decode_agent_inbound_address(@role.inbound_email_address).first
+      ).to be == app
+    end
+
+    it "decode any email address" do
+      expect(@role.inbound_email_address).to be_present
+      expect(
+        App.decode_inbound_address(@role.inbound_email_address).first
+      ).to be == app
+
+      expect(
+        App.decode_inbound_address(app.inbound_email_address).first
       ).to be == app
     end
   end
