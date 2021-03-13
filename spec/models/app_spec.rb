@@ -279,4 +279,17 @@ RSpec.describe App, type: :model do
       expect(app.query_segment('visitors')).to_not be_any
     end
   end
+
+  describe 'inbound email' do
+
+    it "exists" do
+      expect(app.inbound_email_address).to be_present
+    end
+
+    it "exists" do
+      expect(
+        App.decode_email_address(app.inbound_email_address)
+      ).to be == app
+    end
+  end
 end

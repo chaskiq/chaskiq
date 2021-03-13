@@ -32,6 +32,7 @@ class App < ApplicationRecord
     paddle_subscription_plan_id
     paddle_subscription_status
     privacy_consent_required
+    inbound_email_address
   ], coder: JSON
 
   translates :greetings, :intro, :tagline
@@ -82,6 +83,21 @@ class App < ApplicationRecord
 
   def agent_bots
     agents.where('bot =?', true)
+  end
+
+  def inbound_email_address
+    part = URLcrypt.encode("#{key}")
+    domain = outgoing_email_domain
+    "inbound+app-#{part}@#{domain}"
+  end
+
+  def self.decode_email_address(email)
+    # "inbound+app-#{part}@#{domain}"
+    if matches = email.match(/inbound\+app-(\S+)@\S+/) and matches&.captures.any?
+      App.find_by(
+        key: URLcrypt.decode(matches.captures.first)
+      )
+    end
   end
 
   def attach_default_packages

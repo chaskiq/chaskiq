@@ -1,34 +1,59 @@
-
 version: "2"
-plugins:
-  rubocop:
+checks:
+  argument-count:
     enabled: true
-    channel: rubocop-1-11
-  eslint:
-    enabled: false
-  brakeman:
-    enabled: false
-checks:
-  similar-code:
-    enabled: false
-
-checks:
+    config:
+      threshold: 4
+  complex-logic:
+    enabled: true
+    config:
+      threshold: 4
   file-lines:
-    enabled: false
+    enabled: true
+    config:
+      threshold: 1000
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 5
+  method-count:
+    enabled: true
+    config:
+      threshold: 20
   method-lines:
-    enabled: false
+    enabled: true
+    config:
+      threshold: 25
+  nested-control-flow:
+    enabled: true
+    config:
+      threshold: 4
+  return-statements:
+    enabled: true
+    config:
+      threshold: 4
   similar-code:
-    enabled: false
+    enabled: true
+    config:
+      threshold: #language-specific defaults. overrides affect all languages.
   identical-code:
-    enabled: false
-
+    enabled: true
+    config:
+      threshold: #language-specific defaults. overrides affect all languages.
+plugins:
+ rubocop:
+  enabled: true
+ eslint:
+  enabled: true
 exclude_patterns:
-  - "spec/"
-  - "db/*"
-  - "bin/**/*"
-  - "db/**/*"
-  - "config/**/*"
-  - "public/**/*"
-  - "vendor/**/*"
-  - "node_modules/**/*"
-  - "**/*.yml"
+- "config/"
+- "db/"
+- "dist/"
+- "features/"
+- "**/node_modules/"
+- "script/"
+- "**/spec/"
+- "**/test/"
+- "**/tests/"
+- "**/vendor/"
+- "**/*.d.ts"
