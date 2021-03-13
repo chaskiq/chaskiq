@@ -23,6 +23,7 @@ module Types
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
     field :plan, Types::JsonType, null: true
+    field :inbound_email_address, String, null: true
 
     def outgoing_email_domain
       object.outgoing_email_domain || ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
