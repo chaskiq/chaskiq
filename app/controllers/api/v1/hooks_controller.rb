@@ -171,7 +171,7 @@ class Api::V1::HooksController < ActionController::API
   end
 
   def decode_inbound_address(address)
-    role, app = App.decode_inbound_address(address)
+    app, role = App.decode_inbound_address(address)
   end
 
   def read_mail_file(action)

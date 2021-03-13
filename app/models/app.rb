@@ -135,7 +135,7 @@ class App < ApplicationRecord
   # used in email inbox
   def self.decode_inbound_address(address)
     return decode_app_inbound_address(address) if address.starts_with?("inbound+app")
-    return decode_agent_inbound_address(address) if address.starts_with?("inbound")
+    return decode_agent_inbound_address(address) if address.starts_with?("inbound+")
     []
   end
 
