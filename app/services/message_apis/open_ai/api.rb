@@ -107,7 +107,7 @@ Human:'''"
         human_input = part&.message&.parsed_content['blocks']
         human_input = human_input&.map do |o|
           o['text']
-        end.join(' ')
+        end&.join(' ')
 
         prompt = "#{start_log}\nHuman: #{human_input}\nAI:"
 

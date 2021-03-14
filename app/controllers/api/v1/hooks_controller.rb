@@ -6,56 +6,49 @@ class Api::V1::HooksController < ActionController::API
   include MessageApis::Helpers
   include ActionView::Helpers::SanitizeHelper
 
+  before_action :check_aws_confirmation
+  before_action :handle_notification, if: :is_notification_message?
+
   def create
-    # get amazon message type and topic
-    amz_message_type = request.headers['x-amz-sns-message-type']
-    amz_sns_topic = request.headers['x-amz-sns-topic-arn']
-
-    # return unless !amz_sns_topic.nil? &&
-    # amz_sns_topic.to_s.downcase == 'arn:aws:sns:us-west-2:867544872691:User_Data_Updates'
-    request_body = JSON.parse request.body.read
-    # if this is the first time confirmation of subscription, then confirm it
-    check_aws_confirmation(request_body, amz_message_type)
-
-    if is_notification_message?(request_body)
-
-      handle_notification(request_body)
-    end
-
-    # process_notification(request_body)
-    render(plain: 'ok') && return
+    render(plain: 'ok')
   end
 
   private
 
-  def handle_notification(request_body)
-    if request_body['Subject'] == 'Amazon SES Email Receipt Notification'
-      process_email_notification(request_body['Message'])
-      render(plain: 'ok') && return
+  def handle_notification
+    if @request_body['Subject'] == 'Amazon SES Email Receipt Notification'
+      process_email_notification(@request_body['Message'])
+      render(plain: 'ok') and return
     end
 
-    if request_body['Message'] == 'Successfully validated SNS topic for Amazon SES event publishing.'
-      render(plain: 'ok') && return
+    if @request_body['Message'] == 'Successfully validated SNS topic for Amazon SES event publishing.'
+      render(plain: 'ok') and return
     else
-      process_event_notification(request_body)
-      render(plain: 'ok') && return
+      process_event_notification
+      render(plain: 'ok') and return
     end
   end
 
-  def check_aws_confirmation(request_body, amz_message_type)
-    if amz_message_type.to_s.downcase == 'subscriptionconfirmation' || request_body['notificationType'] === 'AmazonSnsSubscriptionSucceeded'
-      send_subscription_confirmation request_body
-      render(plain: 'ok') && return
-    end
-  end
-
-  def is_notification_message?(request_body)
+  def check_aws_confirmation
+    # get amazon message type and topic
     amz_message_type = request.headers['x-amz-sns-message-type']
-    (amz_message_type == 'Notification') || (request_body['Type'] == 'Notification')
+    amz_sns_topic = request.headers['x-amz-sns-topic-arn']
+    # return unless !amz_sns_topic.nil? &&
+    # amz_sns_topic.to_s.downcase == 'arn:aws:sns:us-west-2:867544872691:User_Data_Updates'
+    @request_body = JSON.parse request.body.read
+    # if this is the first time confirmation of subscription, then confirm it
+    if amz_message_type.to_s.downcase == 'subscriptionconfirmation' || @request_body['notificationType'] === 'AmazonSnsSubscriptionSucceeded'
+      send_subscription_confirmation
+      render(plain: 'ok') and return
+    end
+  end
+
+  def is_notification_message?
+    amz_message_type = request.headers['x-amz-sns-message-type']
+    (amz_message_type == 'Notification') || (@request_body['Type'] == 'Notification')
   end
 
   # TODO: add some tests mdfk!
-
   def process_email_notification(message)
     json_message = JSON.parse(message)
     json_message['receipt']
@@ -146,8 +139,8 @@ class Api::V1::HooksController < ActionController::API
     message
   end
 
-  def process_event_notification(request_body)
-    message = parse_body_message(request_body['Message'])
+  def process_event_notification
+    message = parse_body_message(@request_body['Message'])
     return if message.blank?
     return if message['eventType'].blank?
 
@@ -164,11 +157,11 @@ class Api::V1::HooksController < ActionController::API
     SnsReceiverJob.perform_later(track_type, m, request.remote_ip)
   end
 
-  def send_subscription_confirmation(request_body)
-    subscribe_url = request_body['SubscribeURL']
+  def send_subscription_confirmation
+    subscribe_url = @request_body['SubscribeURL']
     return nil unless !subscribe_url.to_s.empty? && !subscribe_url.nil?
 
-    open subscribe_url
+    URI.parse(subscribe_url).open
   end
 
   def find_resources_in_recipient_parts(recipient_parts)
