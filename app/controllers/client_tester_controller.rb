@@ -13,14 +13,8 @@ class ClientTesterController < ApplicationController
     @app = get_app
     key = @app.encryption_key
     @sessionless = params[:sessionless]
-
-    @h = {
-      http: Rails.env.production? ? 'https://' : 'http://',
-      ws: Rails.env.production? ? 'wss://' : 'ws://'
-    }
-
     @json_payload = {}
-
+    @h = endpoints
     @json_payload.merge!(user_options) unless params[:sessionless]
     @json_payload = @json_payload.to_json
     @encrypted_data = JWE.encrypt(@json_payload, key, alg: 'dir')
@@ -47,6 +41,13 @@ class ClientTesterController < ApplicationController
         plan: params[:plan] || 'pro',
         last_sign_in: params[:last_sign_in] || 2.days.ago
       } }
+  end
+
+  def endpoints
+    {
+      http: Rails.env.production? ? 'https://' : 'http://',
+      ws: Rails.env.production? ? 'wss://' : 'ws://'
+    }
   end
 
   def get_app

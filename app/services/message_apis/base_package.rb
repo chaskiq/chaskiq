@@ -1,6 +1,6 @@
 module MessageApis
   class BasePackage
-    # def initialize(config:); end
+    def initialize(config:); end
 
     def trigger(event); end
 
