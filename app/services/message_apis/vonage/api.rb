@@ -12,7 +12,7 @@ module MessageApis::Vonage
       @api_token = config['api_secret']
       @phone = config['user_id']
 
-      @url = if true # config["sandbox"]
+      @url = if config['sandbox']
                'https://messages-sandbox.nexmo.com/v0.1/messages'
              else
                'https://api.nexmo.com/v0.1/messages'
@@ -45,8 +45,6 @@ module MessageApis::Vonage
         case params['status']
         when 'read'
           process_read(params)
-          return
-        else
           return
         end
       end

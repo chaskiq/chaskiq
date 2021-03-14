@@ -12,7 +12,7 @@ module MessageApis::MessageBird
       @api_token = config['api_secret']
       @phone = config['user_id']
 
-      @url = if true # config["sandbox"]
+      @url = if config['sandbox']
                'https://whatsapp-sandbox.messagebird.com/v1/'
              else
                'https://conversations.messagebird.com/v1/'
@@ -84,7 +84,7 @@ module MessageApis::MessageBird
     end
 
     def get_message_id(response_data)
-      response_data.dig('messages').first['id']
+      response_data['messages'].first['id']
     end
 
     def send_message(conversation, message)
@@ -251,7 +251,7 @@ module MessageApis::MessageBird
     end
 
     def serialize_content(data)
-      if text = data.dig('content', 'text')
+      if (text = data.dig('content', 'text')) && text
         text_block(text) if text.present?
       else
         attachment_block(data)

@@ -1,5 +1,8 @@
 module MessageApis::ArticleSearch
   class Presenter
+    include ActionView::Helpers::AssetUrlHelper
+    include Webpacker::Helper
+
     def self.search_definitions
       [
         {

@@ -94,8 +94,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .and_return({})
 
       MessageApis::Zoom::Api.any_instance
-                       .stub(:create_fase)
-                       .and_return({ definitions: blocks[:schema] })
+                            .stub(:create_fase)
+                            .and_return({ definitions: blocks[:schema] })
 
       @pkg = app.app_package_integrations.create(
         api_secret: 'aaa',

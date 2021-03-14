@@ -13,7 +13,7 @@ module MessageApis::Dialog360
       @api_token = config['api_secret']
       @phone = config['user_id']
 
-      @url = 'https://waba-sandbox.360dialog.io/v1' if true # config["sandbox"]
+      @url = 'https://waba-sandbox.360dialog.io/v1' # if config["sandbox"]
 
       @conn = Faraday.new(
         request: {
@@ -79,7 +79,7 @@ module MessageApis::Dialog360
     end
 
     def get_message_id(response_data)
-      response_data.dig('messages').first['id']
+      response_data['messages'].first['id']
     end
 
     def send_message(conversation, message)
@@ -202,8 +202,8 @@ module MessageApis::Dialog360
 
         conversation = find_conversation_by_channel(channel_id)
 
-        return if conversation && conversation.conversation_part_channel_sources
-                                              .find_by(message_source_id: message_id).present?
+        next if conversation && conversation.conversation_part_channel_sources
+                                            .find_by(message_source_id: message_id).present?
 
         text = message.dig('text', 'body')
 
@@ -248,7 +248,7 @@ module MessageApis::Dialog360
     end
 
     def serialize_content(data)
-      if text = data.dig('text', 'body')
+      if (text = data.dig('text', 'body')) && text
         text_block(text) if text.present?
       else
         attachment_block(data)

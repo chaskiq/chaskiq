@@ -8,7 +8,7 @@ module MessageApis::Slack
     include MessageApis::Helpers
 
     BASE_URL = 'https://slack.com'
-    HEADERS = { 'content-type' => 'application/json' } # Suggested set? Any?
+    HEADERS = { 'content-type' => 'application/json' }.freeze # Suggested set? Any?
 
     attr_accessor :key, :secret, :access_token, :keys, :client, :base_url
 
@@ -328,7 +328,7 @@ module MessageApis::Slack
 
     # this call process event in async job
     def enqueue_process_event(params, package)
-      return handle_challenge(params) if is_challenge?(params)
+      return handle_challenge(params) if challenge?(params)
 
       # process_event(params, package)
       HookMessageReceiverJob.perform_now(
@@ -413,7 +413,7 @@ module MessageApis::Slack
       params[:challenge]
     end
 
-    def is_challenge?(params)
+    def challenge?(params)
       params.keys.include?('challenge')
     end
 
@@ -460,7 +460,7 @@ module MessageApis::Slack
 
     def after_authorize
       response = create_channel
-      if !response['error'] && (chann_id = response.dig('channel').dig('id'))
+      if !response['error'] && (chann_id = response.dig('channel', 'id'))
         authorize_user!
         join_channel(chann_id)
       end
@@ -704,7 +704,8 @@ module MessageApis::Slack
     def process_blocks(data)
       images = data['blocks'].select do |o|
         o['type'] === 'image'
-      end.map do |block|
+      end
+      images = images.map do |block|
         media_block(
           {
             url: block['image_url'],

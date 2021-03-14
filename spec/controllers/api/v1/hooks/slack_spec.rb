@@ -360,24 +360,24 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .and_return({})
 
       MessageApis::Slack::Api.any_instance
-                        .stub(:direct_upload)
-                        .and_return('foobar')
+                             .stub(:direct_upload)
+                             .and_return('foobar')
 
       MessageApis::Slack::Api.any_instance
-                        .stub(:create_channel)
-                        .and_return({
-                                      'channel' => { 'id' => 'abc' }
-                                    })
+                             .stub(:create_channel)
+                             .and_return({
+                                           'channel' => { 'id' => 'abc' }
+                                         })
 
       MessageApis::Slack::Api.any_instance
-                        .stub(:join_channel)
-                        .and_return({
-                                      'channel' => { 'id' => 'abc' }
-                                    })
+                             .stub(:join_channel)
+                             .and_return({
+                                           'channel' => { 'id' => 'abc' }
+                                         })
 
       MessageApis::Slack::Api.any_instance
-                        .stub(:update_reply_in_channel_message)
-                        .and_return(OpenStruct.new(body: ':)'))
+                             .stub(:update_reply_in_channel_message)
+                             .and_return(OpenStruct.new(body: ':)'))
 
       @pkg = app.app_package_integrations.create(
         api_secret: 'aaa',
@@ -417,8 +417,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
         r = { ok: true, ts: '1234', thread_ts: '123' }
         MessageApis::Slack::Api.any_instance
-                          .stub(:post_message)
-                          .and_return(OpenStruct.new(body: r.to_json))
+                               .stub(:post_message)
+                               .and_return(OpenStruct.new(body: r.to_json))
 
         perform_enqueued_jobs do
           message = conversation.add_message(
@@ -439,8 +439,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
         r = { ok: false, ts: '1234' }
         MessageApis::Slack::Api.any_instance
-                          .stub(:post_message)
-                          .and_return(OpenStruct.new(body: r.to_json))
+                               .stub(:post_message)
+                               .and_return(OpenStruct.new(body: r.to_json))
 
         perform_enqueued_jobs do
           message = conversation.add_message(
@@ -535,8 +535,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
         r = { ok: true, ts: '1234', thread_ts: '123' }
         MessageApis::Slack::Api.any_instance
-                          .stub(:post_message)
-                          .and_return(OpenStruct.new(body: r.to_json))
+                               .stub(:post_message)
+                               .and_return(OpenStruct.new(body: r.to_json))
 
         perform_enqueued_jobs do
           message = conversation.add_message(
@@ -557,8 +557,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
         r = { ok: false, ts: '1234', thread_ts: '123' }
         MessageApis::Slack::Api.any_instance
-                          .stub(:post_message)
-                          .and_return(OpenStruct.new(body: r.to_json))
+                               .stub(:post_message)
+                               .and_return(OpenStruct.new(body: r.to_json))
 
         perform_enqueued_jobs do
           message = conversation.add_message(

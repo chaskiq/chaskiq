@@ -104,8 +104,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .and_return({})
 
       MessageApis::Messenger::Api.any_instance
-                            .stub(:get_fb_profile)
-                            .and_return(profile_data)
+                                 .stub(:get_fb_profile)
+                                 .and_return(profile_data)
 
       @pkg = app.app_package_integrations.create(
         access_token: 'aaa',

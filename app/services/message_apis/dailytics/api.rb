@@ -46,7 +46,7 @@ module MessageApis::Dailytics
     def comparison_format(value)
       return "#{value}%" if value.zero?
 
-      value > 0 ? "▲ #{value}%" : "▼ #{value}%"
+      value.positive? ? "▲ #{value}%" : "▼ #{value}%"
     end
 
     def get_stats

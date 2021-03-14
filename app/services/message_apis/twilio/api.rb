@@ -182,7 +182,7 @@ module MessageApis::Twilio
     def serialize_content(data)
       text = data['Body']
 
-      if data['NumMedia'].to_i > 0
+      if data['NumMedia'].to_i.positive?
         attachment_block(data)
       else
         text_block(data['Body'])

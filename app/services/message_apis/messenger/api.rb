@@ -51,13 +51,9 @@ module MessageApis::Messenger
       @package = package
       current = params['current']
 
-      if params['hub.verify_token'].present? && params['hub.mode'] == 'subscribe'
-        return create_hook_from_params(params, package)
-      end
+      return create_hook_from_params(params, package) if params['hub.verify_token'].present? && params['hub.mode'] == 'subscribe'
 
-      if params['object'] == 'page' && params['entry'].present?
-        process_message(params, @package)
-      end
+      process_message(params, @package) if params['object'] == 'page' && params['entry'].present?
     end
 
     def get_message_id(response_data)

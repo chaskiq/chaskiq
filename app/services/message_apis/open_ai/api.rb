@@ -93,8 +93,9 @@ module MessageApis::OpenAi
             text: m.message.text_from_serialized,
             from: m.authorable_type
           }
-        end.map  do |part|
-          "#{part[:from] == 'Agent' ? "\nAI:" : "\nHuman:"}#{part[:text]}"
+        end
+        previous = previous.map do |item|
+          "#{item[:from] == 'Agent' ? "\nAI:" : "\nHuman:"}#{item[:text]}"
         end.join("\n")
 
         start_log = "'''The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
@@ -103,7 +104,8 @@ AI: I am an AI created by OpenAI. How can I help you today?
 #{previous}
 Human:'''"
 
-        human_input = part.message&.parsed_content['blocks'].map do |o|
+        human_input = part&.message&.parsed_content['blocks']
+        human_input = human_input&.map do |o|
           o['text']
         end.join(' ')
 
@@ -114,7 +116,7 @@ Human:'''"
 
         gpt_result = get_gpt_response(data)
 
-        text = gpt_result.dig(:text)
+        text = gpt_result[:text]
         return if text.nil?
 
         blocks = {
@@ -181,7 +183,7 @@ Human:'''"
 
       return nil unless response.success?
 
-      if json_body = JSON.parse(response.body)
+      if (json_body = JSON.parse(response.body)) && json_body
         json_body
         puts "GOT RESPONSE FROM GPT-3: #{json_body}"
       end

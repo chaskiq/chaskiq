@@ -48,7 +48,7 @@ module MessageApis::Dialogflow
       key_file   = Rails.application.credentials.integrations.dig(:dialogflow, :key_file)
       project_id = Rails.application.credentials.integrations.dig(:dialogflow, :project_id)
 
-      json_credentials = JSON.parse(open(key_file).readlines.join)
+      json_credentials = JSON.parse(URI.parse(key_file)&.open&.readlines&.join)
       # project_id = "faq-fhmkon"
 
       a = MessageApis::Dialogflow.new(

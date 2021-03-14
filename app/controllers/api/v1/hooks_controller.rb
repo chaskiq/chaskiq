@@ -15,24 +15,11 @@ class Api::V1::HooksController < ActionController::API
     # amz_sns_topic.to_s.downcase == 'arn:aws:sns:us-west-2:867544872691:User_Data_Updates'
     request_body = JSON.parse request.body.read
     # if this is the first time confirmation of subscription, then confirm it
-    if amz_message_type.to_s.downcase == 'subscriptionconfirmation' || request_body['notificationType'] === 'AmazonSnsSubscriptionSucceeded'
-      send_subscription_confirmation request_body
-      render(plain: 'ok') && return
-    end
+    check_aws_confirmation(request_body, amz_message_type)
 
     if is_notification_message?(request_body)
 
-      if request_body['Subject'] == 'Amazon SES Email Receipt Notification'
-        process_email_notification(request_body['Message'])
-        render(plain: 'ok') && return
-      end
-
-      if request_body['Message'] == 'Successfully validated SNS topic for Amazon SES event publishing.'
-        render(plain: 'ok') && return
-      else
-        process_event_notification(request_body)
-        render(plain: 'ok') && return
-      end
+      handle_notification(request_body)
     end
 
     # process_notification(request_body)
@@ -40,6 +27,27 @@ class Api::V1::HooksController < ActionController::API
   end
 
   private
+
+  def handle_notification(request_body)
+    if request_body['Subject'] == 'Amazon SES Email Receipt Notification'
+      process_email_notification(request_body['Message'])
+      render(plain: 'ok') && return
+    end
+
+    if request_body['Message'] == 'Successfully validated SNS topic for Amazon SES event publishing.'
+      render(plain: 'ok') && return
+    else
+      process_event_notification(request_body)
+      render(plain: 'ok') && return
+    end
+  end
+
+  def check_aws_confirmation(request_body, amz_message_type)
+    if amz_message_type.to_s.downcase == 'subscriptionconfirmation' || request_body['notificationType'] === 'AmazonSnsSubscriptionSucceeded'
+      send_subscription_confirmation request_body
+      render(plain: 'ok') && return
+    end
+  end
 
   def is_notification_message?(request_body)
     amz_message_type = request.headers['x-amz-sns-message-type']

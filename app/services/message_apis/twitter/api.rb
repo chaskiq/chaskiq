@@ -38,7 +38,7 @@ module MessageApis::Twitter
   class Api < MessageApis::BasePackage
     BASE_URL = 'https://api.twitter.com'
     PROVIDER = 'twitter'
-    HEADERS = { 'content-type' => 'application/json' } # Suggested set? Any?
+    HEADERS = { 'content-type' => 'application/json' }.freeze # Suggested set? Any?
     include MessageApis::Helpers
     attr_accessor :keys,
                   :twitter_api,
@@ -345,7 +345,7 @@ module MessageApis::Twitter
     # @see https://dev.twitter.com/rest/public/uploading-media
     # idea taken from twitter gem twitter/rest/upload_utils.rb
     def upload_media(media, media_category_prefix: 'dm')
-      file = open(media)
+      file = URI.parse(media).open
       # TODO: try to get the id of blob in case of Active storage
       mime = MimeMagic.by_magic(file)
 

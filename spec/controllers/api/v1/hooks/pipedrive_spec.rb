@@ -176,8 +176,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         success = '{"success":true,"data":{"id":1,"company_id":7468915,"owner_id":{"id":11379745,"name":"miguel","email":"miguelmichelson@gmail.com","has_pic":true,"pic_hash":"0e3becb525c2be58ab427d3e269d2c83","active_flag":true,"value":11379745},"org_id":null,"name":"migue","first_name":"migue","last_name":"","open_deals_count":0,"related_open_deals_count":0,"closed_deals_count":0,"related_closed_deals_count":0,"participant_open_deals_count":0,"participant_closed_deals_count":0,"email_messages_count":0,"activities_count":0,"done_activities_count":0,"undone_activities_count":0,"reference_activities_count":0,"files_count":0,"notes_count":0,"followers_count":1,"won_deals_count":0,"related_won_deals_count":0,"lost_deals_count":0,"related_lost_deals_count":0,"active_flag":true,"phone":[{"label":"","value":"0992302305","primary":true}],"email":[{"label":"","value":"miguejoijolmichelson@gmail.com","primary":true}],"first_char":"m","update_time":"2020-02-12 02:42:18","add_time":"2020-02-12 02:27:09","visible_to":"3","picture_id":null,"next_activity_date":null,"next_activity_time":null,"next_activity_id":null,"last_activity_id":null,"last_activity_date":null,"last_incoming_mail_time":null,"last_outgoing_mail_time":null,"label":null,"org_name":null,"cc_email":"michelson@pipedrivemail.com"},"related_objects":{"user":{"11379745":{"id":11379745,"name":"miguel","email":"miguelmichelson@gmail.com","has_pic":true,"pic_hash":"0e3becb525c2be58ab427d3e269d2c83","active_flag":true}}}}'
 
         MessageApis::Pipedrive::Api.any_instance
-                              .stub(:create_person)
-                              .and_return(JSON.parse(success))
+                                   .stub(:create_person)
+                                   .and_return(JSON.parse(success))
 
         perform_enqueued_jobs do
           visitor.update(email: 'aaa@aa.cl')
@@ -195,8 +195,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         visitor.external_profiles.create(provider: 'pipedrive', profile_id: 1)
 
         MessageApis::Pipedrive::Api.any_instance
-                              .stub(:create_person)
-                              .and_return(JSON.parse(success))
+                                   .stub(:create_person)
+                                   .and_return(JSON.parse(success))
 
         perform_enqueued_jobs do
           visitor.update(email: 'aaa@aa.cl')
