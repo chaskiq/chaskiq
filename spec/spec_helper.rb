@@ -22,7 +22,7 @@ require 'app_packages_catalog'
 # require 'shoulda'
 # require 'shoulda-matchers'
 
-ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN'] = "mail.chaskiq.test"
+ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN'] = 'mail.chaskiq.test'
 
 def inline_job(&block)
   ActiveJob::Base.queue_adapter = :inline
