@@ -69,21 +69,21 @@ class Banner < Message
 
   def stats_fields
     [
-      {
+      add_stat_field(
         name: 'CloseRateCount', label: 'Open/Close rate',
         keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'close', color: '#0747A6' }]
-      },
-      {
-        name: 'ClickRateCount', label: 'Open/Click rate',
-        keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'click', color: '#0747A6' }]
-      },
-      {
-        name: 'ClickCloseRateCount', label: 'Click/Close rate',
-        keys: [{ name: 'close', color: '#F4F5F7' },
-               { name: 'click', color: '#0747A6' }]
-      }
+          { name: 'close', color: '#0747A6' }]
+        ),
+        add_stat_field(
+          name: 'ClickRateCount', label: 'Open/Click rate',
+          keys: [{ name: 'open', color: '#F4F5F7' },
+            { name: 'click', color: '#0747A6' }]
+          ),
+          add_stat_field(
+            name: 'ClickCloseRateCount', label: 'Click/Close rate',
+            keys: [{ name: 'close', color: '#F4F5F7' },
+              { name: 'click', color: '#0747A6' }]
+            )
     ]
   end
 

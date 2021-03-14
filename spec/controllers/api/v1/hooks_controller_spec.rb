@@ -1045,7 +1045,6 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         expect(ConversationPart.last).to_not be_read
 
         response = send_data(message_notification_params)
-
         # expect(response.status).to be == 200
         expect(ConversationPart.last.messageable.serialized_content).to be_present
       end

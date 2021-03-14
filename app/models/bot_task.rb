@@ -49,18 +49,20 @@ class BotTask < Message
   }
 
   def initialize_default_controls
-    tap do
-      unless segments.present?
-        self.segments = [
-          { 'type' => 'match', 'value' => 'and', 'attribute' => 'match', 'comparison' => 'and' },
-          { 'type' => 'string', 'value' => 'AppUser', 'attribute' => 'type', 'comparison' => 'eq' }
-        ]
-      end
-
-      return self unless bot_type == 'new_conversations'
-
-      self.paths = default_new_conversation_path if paths.blank?
+    unless segments.present?
+      self.segments = default_type_segments
     end
+
+    return self unless bot_type == 'new_conversations'
+
+    self.paths = default_new_conversation_path if paths.blank?
+  end
+
+  def default_type_segments
+    [
+      { 'type' => 'match', 'value' => 'and', 'attribute' => 'match', 'comparison' => 'and' },
+      { 'type' => 'string', 'value' => 'AppUser', 'attribute' => 'type', 'comparison' => 'eq' }
+    ]
   end
 
   def default_new_conversation_path
@@ -210,14 +212,12 @@ class BotTask < Message
 
   def stats_fields
     [
-      {
+      add_stat_field(
         name: 'DeliverRateCount',
         label: 'DeliverRateCount',
-        keys: [
-          { name: 'send', color: '#444' },
-          { name: 'open', color: '#ccc' }
-        ]
-      }
+        keys: [{ name: 'open', color: '#F4F5F7' },
+          { name: 'close', color: '#0747A6' }]
+        )
     ]
   end
 

@@ -725,7 +725,7 @@ module MessageApis
     def attachment_block(data)
       files = data['files'].map do |o|
         begin
-          url = direct_upload(
+          url = handle_direct_upload(
             o['url_private_download'],
             o['mimetype']
           )
@@ -758,22 +758,21 @@ module MessageApis
     end
 
     def media_block(data)
-      params = data.slice(:url, :title, :w, :h)
-      return photo_block(params) if data[:mimetype].include?('image/')
-
-      file_block(url: data[:url], text: data[:title])
+      params = data.slice(:url, :text, :w, :h)
+      params[:text] = params[:title]
+      return photo_block(**params) if data[:mimetype].include?('image/')
+      file_block(url: data[:url], text: data[:text])
     end
 
-    def direct_upload(url, content_type = nil)
+    def handle_direct_upload(url, content_type = nil)
       authorize_bot!
       file = StringIO.new(get_data(url, {}).body)
-      blob = ActiveStorage::Blob.create_and_upload!(
-        io: file,
+
+      direct_upload(
+        file: file,
         filename: File.basename(url),
-        content_type: content_type || 'image/jpeg',
-        identify: false
+        content_type: content_type || 'image/jpeg'
       )
-      Rails.application.routes.url_helpers.rails_blob_path(blob)
     end
 
     def replace_emojis(text)

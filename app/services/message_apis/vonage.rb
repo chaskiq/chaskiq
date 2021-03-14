@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module MessageApis
-  class Vonage
+  class Vonage < BasePackage
+    include MessageApis::Helpers
     PROVIDER = 'vonage'
 
     attr_accessor :url, :api_token, :api_key, :conn
@@ -35,16 +36,6 @@ module MessageApis
     end
 
     def trigger(event)
-      # case event.action
-      # when 'email_changed' then register_contact(event.eventable)
-      # end
-    end
-
-    def enqueue_process_event(params, package)
-      HookMessageReceiverJob.perform_now(
-        id: package.id,
-        params: params.permit!.to_h
-      )
     end
 
     def process_event(params, package)
@@ -75,39 +66,14 @@ module MessageApis
       conversation_part_channel.conversation_part.read!
     end
 
-    # triggered when a new chaskiq message is created
-    # will triggered just after the ws notification
-    def notify_message(conversation:, part:, channel:)
-      # TODO: ? redis cache here for provider / channel id / part
-      return if part
-                .conversation_part_channel_sources
-                .find_by(provider: PROVIDER).present?
-
-      message = part.message.as_json
-
-      response = send_message(conversation, message)
-
-      response_data = JSON.parse(response.body)
-
-      message_id = response_data['message_uuid']
-
-      return unless message_id.present?
-
-      part.conversation_part_channel_sources.create(
-        provider: PROVIDER,
-        message_source_id: message_id
-      )
+    def get_message_id(response_data)
+      response_data['message_uuid']
     end
 
     def send_message(conversation, message)
       blocks = JSON.parse(
         message['serialized_content']
       )['blocks']
-
-      # TODO: support more blocks
-      image_block = blocks.find { |o| o['type'] == 'image' }
-      video_block = blocks.find { |o| o['type'] == 'recorded-video' }
-      file_block = blocks.find { |o| o['type'] == 'file' }
 
       plain_message = blocks.map do |o|
         o['text']
@@ -121,59 +87,11 @@ module MessageApis
       # TODO: maybe handle an error here ?
       return if profile_id.blank?
 
-      message_params = {
-        from: { type: 'whatsapp', number: @phone },
-        to: { type: 'whatsapp', number: profile_id },
-        message: {
-          content: {
-            type: 'text',
-            text: plain_message
-          }
-        }
-      }
-
-      # TODO: support audio / video / gif
-      if image_block
-        message_params.merge!({
-                                message: {
-                                  content: {
-                                    type: 'image',
-                                    image: {
-                                      url: ENV['HOST'] + image_block['data']['url'],
-                                      caption: plain_message
-                                    }
-                                  }
-                                }
-                              })
-      end
-
-      if video_block
-        message_params.merge!({
-                                message: {
-                                  content: {
-                                    type: 'video',
-                                    video: {
-                                      url: ENV['HOST'] + video_block['data']['url'],
-                                      caption: plain_message
-                                    }
-                                  }
-                                }
-                              })
-      end
-
-      if file_block
-        message_params.merge!({
-                                message: {
-                                  content: {
-                                    type: 'file',
-                                    file: {
-                                      url: ENV['HOST'] + file_block['data']['url'],
-                                      caption: plain_message
-                                    }
-                                  }
-                                }
-                              })
-      end
+      message_params = build_message_params(
+        blocks: blocks, 
+        plain_message: plain_message,
+        plain_id: profile_id
+      )
 
       s = @conn.post(
         @url,
@@ -181,24 +99,62 @@ module MessageApis
       )
     end
 
+    def build_message_params(blocks:, plain_message:, profile_id:)
+      # TODO: support more blocks
+      image_block = blocks.find { |o| o['type'] == 'image' }
+      video_block = blocks.find { |o| o['type'] == 'recorded-video' }
+      file_block = blocks.find { |o| o['type'] == 'file' }
+
+      message_params = {
+        from: { type: 'whatsapp', number: @phone },
+        to: { type: 'whatsapp', number: profile_id },
+        message: {
+          content: { type: 'text', text: plain_message }
+        }
+      }
+
+      if image_block
+        message_params.merge!(
+          vonage_block(block_type: 'image', plain_message: plain_message , block: image_block)
+        )
+      end
+
+      if video_block
+        message_params.merge!(
+          vonage_block(block_type: 'video', plain_message: plain_message , block: video_block)
+        )
+      end
+
+      if file_block
+        message_params.merge!(
+          vonage_block(block_type: 'file', plain_message: plain_message , block: file_block)
+        )
+      end
+    end
+
+    def vonage_block(block_type: , plain_message: , block:)
+      {
+        message: {
+          content: {
+            type: block_type,
+            "#{block_type}": {
+              url: ENV['HOST'] + block['data']['url'],
+              caption: plain_message
+            }
+          }
+        }
+      }
+    end
+
     def process_message(params, package)
       @package = package
 
       app = package.app
 
-      sender_id = params['from']['number']
-      target_id = params['to']['number']
       message_id = params['message_uuid']
-      sender = params['from']['number']
-      recipient = params['to']['number']
 
-      # determine the id of the user (channel)
-      cond = sender_id == package.user_id.to_s
-
-      channel_id = cond ? target_id : sender_id
-      vonage_user = cond ? recipient : sender
-      agent_sender = cond
-
+      channel_id, vonage_user, agent_sender = get_channel_data(params)
+      
       conversation = find_conversation_by_channel(channel_id)
 
       return if conversation && conversation.conversation_part_channel_sources
@@ -210,8 +166,39 @@ module MessageApis
 
       participant = add_participant(vonage_user)
 
+      add_message(
+        conversation: conversation, 
+        participant: participant, 
+        channel_id: channel_id, 
+        from: agent_sender ? @package.app.agents.first : participant, 
+        serialized_content: serialized_content,
+        text: text,
+        message_id: message_id
+      )
+    end
+
+    def get_channel_data(params)
+      sender_id = params['from']['number']
+      target_id = params['to']['number']
+      # determine the id of the user (channel)
+      cond = sender_id == @package.user_id.to_s
+      channel_id = cond ? target_id : sender_id
+      vonage_user = cond ? target_id : sender_id
+      agent_sender = cond
+      [channel_id, vonage_user, agent_sender]
+    end
+
+    def add_message(
+      conversation:, 
+      participant:, 
+      channel_id:, 
+      from:, 
+      serialized_content:,
+      text:,
+      message_id:
+    )
       if conversation.blank?
-        conversation = app.conversations.create(
+        conversation = @package.app.conversations.create(
           main_participant: participant,
           conversation_channels_attributes: [
             provider: PROVIDER,
@@ -222,7 +209,7 @@ module MessageApis
 
       # TODO: serialize message
       conversation.add_message(
-        from: agent_sender ? @package.app.agents.first : participant, # agent_required ? Agent.first : participant,
+        from: from, # agent_required ? Agent.first : participant,
         message: {
           html_content: text,
           serialized_content: serialized_content
@@ -262,26 +249,6 @@ module MessageApis
       }.to_json
     end
 
-    def text_block(text)
-      lines = text.split("\n").delete_if(&:empty?)
-      {
-        blocks: lines.map { |o| serialized_block(o) },
-        entityMap: {}
-      }.to_json
-    end
-
-    def serialized_block(text)
-      {
-        key: 'f1qmb',
-        text: text,
-        type: 'unstyled',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {}
-      }
-    end
-
     def media_block(data)
       media_type = data['type']
       case media_type
@@ -289,95 +256,16 @@ module MessageApis
       when 'image'
         url = data['image']['url']
         text = data['image']['caption']
-        photo_block(url, text)
+        photo_block(url: url, text: text)
       when 'video'
         url = data['video']['url']
         text = data['video']['caption']
-        gif_block(url, text)
+        gif_block(url: url, text: text)
       when 'audio'
         url = data['audio']['url']
         text = data['audio']['caption']
-        file_block(url, text)
+        file_block(url: url, text: text)
       end
-    end
-
-    def gif_block(url, text)
-      # media = data['attachment']["media"]
-      # variant = media["video_info"]["variants"][0]
-      # url = direct_upload(variant["url"], variant["content_type"])
-      # text = data['text'].split(" ").last
-      {
-        key: keygen,
-        text: text,
-        type: 'recorded-video',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          rejectedReason: '',
-          secondsLeft: 0,
-          fileReady: true,
-          paused: false,
-          url: url,
-          recording: false,
-          granted: true,
-          loading: false,
-          direction: 'center'
-        }
-      }
-    end
-
-    def file_block(url, text)
-      {
-        key: keygen,
-        text: text,
-        type: 'file',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          caption: text,
-          forceUpload: false,
-          url: url,
-          loading_progress: 0,
-          selected: false,
-          loading: true,
-          file: {},
-          direction: 'center'
-        }
-      }
-    end
-
-    def photo_block(url, text)
-      {
-        key: keygen,
-        text: text,
-        type: 'image',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          # "aspect_ratio":{
-          #  "width": media["sizes"]["small"]["w"].to_i,
-          #  "height": media["sizes"]["small"]["h"].to_i,
-          #  "ratio":100
-          # },
-          width: 100, # media["sizes"]["small"]["w"].to_i,
-          height: 100, # media["sizes"]["small"]["h"].to_i,
-          caption: text,
-          forceUpload: false,
-          url: url,
-          loading_progress: 0,
-          selected: false,
-          loading: true,
-          file: {},
-          direction: 'center'
-        }
-      }
-    end
-
-    def keygen
-      ('a'..'z').to_a.sample(8).join
     end
 
     def add_participant(vonage_user)

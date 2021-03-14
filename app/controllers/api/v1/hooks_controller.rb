@@ -121,7 +121,7 @@ class Api::V1::HooksController < ActionController::API
     mail.attachments.each do |attachment|
       next unless attachment.content_type.start_with?('image/')
 
-      uploaded_data = direct_upload(attachment)
+      uploaded_data = handle_direct_upload(attachment)
       attachment_string_pattern = "[image: #{attachment.filename}]"
       image_mark = "<img src='#{uploaded_data[:url]}' title='#{attachment.filename}' width='#{uploaded_data[:width]}' height='#{uploaded_data[:height]}' />"
 
@@ -182,17 +182,13 @@ class Api::V1::HooksController < ActionController::API
     file.body.read
   end
 
-  def direct_upload(attachment)
+  def handle_direct_upload(attachment)
     file = StringIO.new(attachment.decoded)
-    blob = ActiveStorage::Blob.create_and_upload!(
-      io: file,
-      filename: attachment.filename,
-      content_type: attachment.mime_type,
-      identify: false
+    direct_upload(
+      file: file, 
+      filename: attachment.filename, 
+      mime_type: attachment.mime_type
     )
-    {
-      url: Rails.application.routes.url_helpers.rails_blob_path(blob)
-    }.merge!(ActiveStorage::Analyzer::ImageAnalyzer.new(blob).metadata)
   end
 
   def find_remitent(app:, from:)
@@ -228,6 +224,6 @@ class Api::V1::HooksController < ActionController::API
     w = img.attr('width')&.value
     h = img.attr('height')&.value
     title = img.attr('title')&.value
-    photo_block(url: url, title: title, w: w, h: h)
+    photo_block(url: url, text: title, w: w, h: h)
   end
 end

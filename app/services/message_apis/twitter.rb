@@ -35,11 +35,11 @@ require 'base64'
 require 'mimemagic'
 
 module MessageApis
-  class Twitter
+  class Twitter < BasePackage
     BASE_URL = 'https://api.twitter.com'
     PROVIDER = 'twitter'
     HEADERS = { 'content-type' => 'application/json' } # Suggested set? Any?
-
+    include MessageApis::Helpers
     attr_accessor :keys,
                   :twitter_api,
                   :base_url # Default: 'https://api.twitter.com/'
@@ -175,24 +175,8 @@ module MessageApis
       end
     end
 
-    # triggered when a new chaskiq message is created
-    # will triggered just after the ws notification
-    def notify_message(conversation:, part:, channel:)
-      # TODO: ? redis cache here for provider / channel id / part
-      return if part.conversation_part_channel_sources.find_by(provider: 'twitter').present?
-
-      message = part.message.as_json
-
-      response = send_message(conversation, message)
-
-      response_data = JSON.parse(response)
-
-      return unless response_data['event']['id'].present?
-
-      part.conversation_part_channel_sources.create(
-        provider: PROVIDER,
-        message_source_id: response_data['event']['id']
-      )
+    def get_message_id(response_data)
+      response_data.dig('event', 'id')
     end
 
     def send_message(conversation, message)
@@ -288,14 +272,6 @@ module MessageApis
       end
     end
 
-    def text_block(text)
-      lines = text.split("\n").delete_if(&:empty?)
-      {
-        blocks: lines.map { |o| serialized_block(o) },
-        entityMap: {}
-      }.to_json
-    end
-
     def attachment_block(data)
       attachment = data['attachment']
       a = case attachment['type']
@@ -318,107 +294,33 @@ module MessageApis
       attachment['media']
 
       case attachment['media']['type']
-      when 'animated_gif' then gif_block(data)
-      when 'photo' then photo_block(data)
+      when 'animated_gif'
+        media = data['attachment']['media']
+        variant = media['video_info']['variants'][0]
+        url = handle_direct_upload(variant['url'], variant['content_type'])
+        text = data['text'].split.last
+        gif_block(url: url, text: text)
+      when 'photo' 
+        media = data['attachment']['media']
+        url = handle_direct_upload(media['media_url_https'])
+        text = data['text'].split.last
+        photo_block(url: url, text: text)
       end
     end
 
-    def gif_block(data)
-      media = data['attachment']['media']
-
-      variant = media['video_info']['variants'][0]
-
-      url = direct_upload(variant['url'], variant['content_type'])
-
-      text = data['text'].split.last
-
-      {
-        key: keygen,
-        text: text,
-        type: 'recorded-video',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          rejectedReason: '',
-          secondsLeft: 0,
-          fileReady: true,
-          paused: false,
-          url: url,
-          recording: false,
-          granted: true,
-          loading: false,
-          direction: 'center'
-        }
-      }
-    end
-
-    def direct_upload(url, content_type = nil)
+    def handle_direct_upload(url, content_type = nil)
       file_string = get_media(url)
       file = StringIO.new(file_string)
 
-      blob = ActiveStorage::Blob.create_and_upload!(
-        io: file,
-        filename: 'twitter-file',
-        content_type: content_type || 'image/jpeg',
-        identify: false
+      direct_upload(
+        file: file,
+        filename: File.basename(url),
+        content_type: content_type || 'image/jpeg'
       )
-
-      Rails.application.routes.url_helpers.rails_blob_path(blob)
-    end
-
-    def photo_block(data)
-      media = data['attachment']['media']
-
-      url = direct_upload(media['media_url_https'])
-
-      text = data['text'].split.last
-
-      {
-        key: keygen,
-        text: text,
-        type: 'image',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          aspect_ratio: {
-            width: media['sizes']['small']['w'].to_i,
-            height: media['sizes']['small']['h'].to_i,
-            ratio: 100
-          },
-          width: media['sizes']['small']['w'].to_i,
-          height: media['sizes']['small']['h'].to_i,
-          caption: data['text'],
-          forceUpload: false,
-          url: url,
-          loading_progress: 0,
-          selected: false,
-          loading: true,
-          file: {},
-          direction: 'center'
-        }
-      }
-    end
-
-    def serialized_block(text)
-      {
-        key: 'f1qmb',
-        text: text,
-        type: 'unstyled',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {}
-      }
     end
 
     def get_media(url)
       make_get_request(url)
-    end
-
-    def keygen
-      ('a'..'z').to_a.sample(8).join
     end
 
     def make_post_media_request(uri_path, request, headers = nil)

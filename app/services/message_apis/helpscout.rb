@@ -51,7 +51,15 @@ module MessageApis
 
       url = 'https://api.helpscout.net/v2/conversations'
 
-      data = {
+      data = default_values
+
+      authorize!
+
+      resp = @conn.post(url, data.to_json, 'Content-Type' => 'application/json')
+    end
+
+    def default_values
+      {
         subject: 'Subject',
         customer: {
           email: 'bear@acme.com',
@@ -75,10 +83,6 @@ module MessageApis
           value: 'trial'
         }]
       }
-
-      authorize!
-
-      resp = @conn.post(url, data.to_json, 'Content-Type' => 'application/json')
     end
 
     def create_customer

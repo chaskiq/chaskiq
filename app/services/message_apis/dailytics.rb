@@ -61,37 +61,38 @@ module MessageApis
           ga_web_property_name: 'vadb.info',
           ga_profile_name: 'Todos los datos de sitios web'
         },
-
-        values: [
-          {
-            label: 'Sessions',
-            name: 'last_sessions',
-            value: data['last_sessions'],
-            value2: comparison_format(data['last_sessions_comparisson'])
-          },
-
-          {
-            label: 'Pageviews',
-            name: 'last_pageviews',
-            value: data['last_pageviews'],
-            value2: comparison_format(data['last_pageviews_comparisson'])
-          },
-
-          {
-            label: 'Bounce Rate',
-            name: 'last_bounce_rate',
-            value: data['last_bounce_rate'],
-            value2: comparison_format(data['last_bounce_rate_comparisson'])
-          },
-
-          {
-            label: 'Avg session duration',
-            name: 'last_avg_session_duration',
-            value: data['last_avg_session_duration'],
-            value2: comparison_format(data['last_avg_session_duration_comparisson'])
-          }
-        ]
+        values: data_stats(data)
       }
+    end
+
+    def format_data(label, name:, value:, value2:)
+      {
+        label: label,
+        name: name,
+        value: data[value],
+        value2: comparison_format(data[value2])
+      }
+    end
+
+    def data_stats(data)
+      [
+        format_data(label: 'Sessions', 
+          name: 'last_sessions', 
+          value: 'last_sessions', 
+          value2: 'last_sessions_comparisson'),
+        format_data(label: 'Pageviews', 
+          name: 'last_pageviews', 
+          value: 'last_pageviews', 
+          value2: 'last_pageviews_comparisson'),
+        format_data(label: 'Bounce Rate', 
+          name: 'last_bounce_rate', 
+          value: 'last_bounce_rate', 
+          value2: 'last_bounce_rate_comparisson'),
+        format_data(label: 'Avg session duration', 
+          name: 'last_avg_session_duration', 
+          value: 'last_avg_session_duration', 
+          value2: 'last_avg_session_duration_comparisson')
+      ]
     end
   end
 end

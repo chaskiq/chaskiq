@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module MessageApis
-  class Pipedrive
+  class Pipedrive < BasePackage
     # https://developers.pipedrive.com/docs/api/v1/
     BASE_URL = 'https://api.pipedrive.com/v1'
 
@@ -25,13 +25,6 @@ module MessageApis
       case event.action
       when 'email_changed' then register_contact(event.eventable)
       end
-    end
-
-    def enqueue_process_event(params, package)
-      HookMessageReceiverJob.perform_now(
-        id: package.id,
-        params: params.permit!.to_h
-      )
     end
 
     def process_event(params, package)

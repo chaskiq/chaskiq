@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module MessageApis
-  class OpenAi
+  class OpenAi < BasePackage
     include MessageApis::Helpers
 
     BASE_URL = 'https://api.openai.com/v1'
@@ -57,12 +57,7 @@ module MessageApis
       # })
     end
 
-    def notify_message(conversation:, part:, channel:)
-      return if conversation.conversation_channels.blank?
-      return unless part.messageable.is_a?(ConversationPartContent)
-
-      puts "que chucha #{part.id}"
-
+    def locked_for_channel?(conversation, part)
       if part.authorable.is_a?(Agent) && !part.authorable.bot?
         conversation.conversation_channels.find_by({
                                                      provider: 'open_ai',
@@ -73,19 +68,22 @@ module MessageApis
         # conversation.assign_user(part.authorable)
         return true
       end
+    end
 
+    def notify_message(conversation:, part:, channel:)
+      return if conversation.conversation_channels.blank?
+      return unless part.messageable.is_a?(ConversationPartContent)
+      return true if locked_for_channel?(conversation, part)
       return if part.conversation_part_channel_sources.where(provider: 'open_ai').any?
 
       puts "ENTRA #{part.id}"
 
       unless part.authorable.is_a?(Agent)
-
         #####
         ## cache this
         messages = conversation.messages.where(
           messageable_type: 'ConversationPartContent'
-        ).where.not(id: part.id)
-                               .order('id')
+        ).where.not(id: part.id).order('id')
         #####
 
         # conversation.conversation_channels.find_by(provider_channel_id: channel)
@@ -105,26 +103,14 @@ AI: I am an AI created by OpenAI. How can I help you today?
 #{previous}
 Human:'''"
 
-        human_input = part.message&.parsed_content['blocks'].map { |o| o['text'] }.join(' ')
+        human_input = part.message&.parsed_content['blocks'].map { |o| 
+          o['text'] 
+        }.join(' ')
 
         prompt = "#{start_log}\nHuman: #{human_input}\nAI:"
 
         puts "PROMPT: #{prompt}"
-        data = {
-          prompt: prompt,
-          stop: ["\n", "\nHuman:", "\nAI:"],
-          temperature: 0.9,
-          top_p: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0.6,
-          best_of: 1,
-          max_tokens: 150
-          # frequency_penalty: 0
-          # length: 150
-          # presence_penalty: 0.6
-          # temperature: 0.9
-          # top_p: 1
-        }
+        data = prompt_settings(prompt)
 
         gpt_result = get_gpt_response(data)
 
@@ -137,20 +123,47 @@ Human:'''"
           ].flatten.compact
         }.to_json
 
-        # TODO: serialize message
-        conversation.transaction do
-          conversation.add_message(
-            from: conversation.app.agents.bots.first,
-            message: {
-              html_content: text,
-              serialized_content: blocks
-            },
-            provider: 'open_ai',
-            message_source_id: gpt_result[:id],
-            check_assignment_rules: true
-          )
-        end
+        add_message(
+          conversation: conversation,
+          from: conversation.app.agents.bots.first,
+          text: text,
+          blocks: blocks,
+          message_id: gpt_result[:id]
+        )
+      end
+    end
 
+    def prompt_settings(prompt)
+      {
+        prompt: prompt,
+        stop: ["\n", "\nHuman:", "\nAI:"],
+        temperature: 0.9,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0.6,
+        best_of: 1,
+        max_tokens: 150
+        # frequency_penalty: 0
+        # length: 150
+        # presence_penalty: 0.6
+        # temperature: 0.9
+        # top_p: 1
+      }
+    end
+
+    def add_message(conversation: , from: , text: , blocks:, message_id:)
+      # TODO: serialize message
+      conversation.transaction do
+        conversation.add_message(
+          from: from,
+          message: {
+            html_content: text,
+            serialized_content: blocks
+          },
+          provider: 'open_ai',
+          message_source_id: message_id,
+          check_assignment_rules: true
+        )
       end
     end
 
@@ -177,20 +190,14 @@ Human:'''"
       { text: text, id: json_body['id'] }
     end
 
-    def enqueue_process_event(params, package)
-      HookMessageReceiverJob.perform_now(
-        id: package.id,
-        params: params.permit!.to_h
-      )
-    end
-
     def process_event(params, package)
       # todo, here we can do so many things like make a pause and
       # analize conversation subject or classyficators
     end
 
     # for display in replied message
-    def self.display_data(data); end
+    def self.display_data(data)
+    end
 
     class PromptRecord
       include ActiveModel::Model
@@ -283,116 +290,6 @@ Human:'''"
             }
           }
         ]
-      end
-    end
-
-    class PresenterManager
-      # Initialize flow webhook URL
-      # Sent when an app has been inserted into a conversation, message or
-      # the home screen, so that you can render the app.
-      def self.initialize_hook(kind:, ctx:)
-        record = PromptRecord.new(prompt: ctx.dig(:values, :prompt))
-        {
-          kind: kind,
-          # ctx: ctx,
-          definitions: record.success_schema
-        }
-      end
-
-      # Submit flow webhook URL
-      # Sent when an end-user interacts with your app, via a button,
-      # link, or text input. This flow can occur multiple times as an
-      # end-user interacts with your app.
-      def self.submit_hook(kind:, ctx:)
-        if ctx['field']['id'] == 'prompt-ok'
-          message = ConversationPart.find_by(key: ctx['message_key'])
-
-          conversation = message.conversation
-          conversation.conversation_channels.create({
-                                                      provider: 'open_ai',
-                                                      provider_channel_id: conversation.id
-                                                    })
-
-          return {
-            results: {
-              start: 'yes'
-            },
-            definitions: [
-              { type: 'text', text: 'You have started the conversation', style: 'header' }
-            ]
-          }
-
-        end
-
-        if ctx['field']['id'] == 'prompt-no'
-          {
-            results: {
-              start: 'no'
-            },
-            definitions: [
-              { type: 'text', text: 'you cancelled the conversation', style: 'header' }
-            ]
-          }
-        end
-      end
-
-      # Configure flow webhook URL (optional)
-      # Sent when a teammate wants to use your app, so that you can show
-      # them configuration options before it’s inserted. Leaving this option
-      # blank will skip configuration.
-      def self.configure_hook(kind:, ctx:)
-        label = 'epa'
-        kind = nil
-        app = ctx[:app]
-
-        default_prompt = <<~HEREDOC
-          The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
-          Human: Hello, who are you?
-          AI: I am an AI created by OpenAI. How can I help you today?
-        HEREDOC
-
-        value = ctx.dig(:values, :prompt)
-        value = default_prompt if ctx.dig(:field, :action, :type) != 'submit'
-
-        record = PromptRecord.new(prompt: value)
-        schema = record.default_schema
-        kind = nil
-
-        if ctx.dig(:field, :action, :type) != 'submit'
-          schema = record.default_schema
-        elsif record.prompt.present?
-          if record.valid?
-            kind = 'initialize'
-            schema = record.success_schema
-          else
-            schema = record.error_schema
-          end
-        else
-          schema = record.default_schema
-        end
-
-        if ctx.dig(:field, :id) == 'add-prompt' &&
-           ctx.dig(:field, :action, :type) === 'submit'
-
-          # TODO: validate
-
-          return {
-            kind: 'initialize',
-            definitions: schema,
-            results: ctx[:values]
-          }
-        end
-
-        {
-          kind: kind,
-          definitions: schema
-        }
-      end
-
-      # Submit Sheet flow webhook URL (optional)
-      # Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.
-      def self.sheet_hook(params)
-        []
       end
     end
   end

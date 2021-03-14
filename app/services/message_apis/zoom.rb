@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module MessageApis
-  class Zoom
+  class Zoom < BasePackage
     # https://marketplace.zoom.us/
     BASE_URL = 'https://api.zoom.us/v2'
 
@@ -29,8 +29,6 @@ module MessageApis
 
     def create_fase(message, klass)
       value = message.blocks.dig('values', 'email')
-      # value = user_value
-
       response = @conn.post(
         "https://api.zoom.us/v2/users/#{value}/meetings",
         {
@@ -51,59 +49,14 @@ module MessageApis
       )
 
       json = JSON.parse(response.body)
-      # return nil unless response.success?
-
-      definitions = [
-        {
-          type: 'text',
-          style: 'header',
-          text: 'Your zoom meeting is ready',
-          align: 'left'
-        },
-        {
-          type: 'text',
-          text: "pass: #{json['password']}",
-          align: 'left'
-        },
-        {
-          id: 'join-url',
-          type: 'button',
-          align: 'left',
-          label: 'Join',
-          width: 'full',
-          action: {
-            type: 'url',
-            url: json['join_url']
-          }
-        },
-        {
-          type: 'text',
-          text: "Status: #{json['status']}",
-          align: 'left'
-        }
-      ]
-
       {
         kind: 'initialize',
-        definitions: definitions,
-        values: {
-          email: value
-        }
-        # results: params[:ctx][:values]
+        definitions: definitions_for_fase(json),
+        values: { email: value }
       }
     end
 
     def trigger(event)
-      # case event.action
-      # when 'email_changed' then register_contact(event.eventable)
-      # end
-    end
-
-    def enqueue_process_event(params, package)
-      HookMessageReceiverJob.perform_now(
-        id: package.id,
-        params: params.permit!.to_h
-      )
     end
 
     def process_event(params, package)
@@ -129,27 +82,22 @@ module MessageApis
     end
 
     def handle_started_meeting(payload)
-      message, data = find_message(payload)
-      m = message.messageable
-      schema = m.blocks['schema'].dup
-      last_block = schema.pop
-      new_schema = schema << last_block.merge(text: 'meeting_started')
-      m.blocks['schema'] = new_schema
-      m.save_replied(
-        data.merge(status: 'meeting_started')
-      )
+      handle_message(payload, 'started')
     end
 
     def handle_ended_meeting(payload)
+      handle_message(payload, 'ended')
+    end
+
+    def handle_message(payload, kind)
       message, data = find_message(payload)
       m = message.messageable
-
       schema = m.blocks['schema'].dup
       last_block = schema.pop
-      new_schema = schema << last_block.merge(text: 'meeting_ended')
+      new_schema = schema << last_block.merge(text: "meeting_#{kind}")
       m.blocks['schema'] = new_schema
       m.save_replied(
-        data.merge(status: 'meeting_ended')
+        data.merge(status: "meeting_#{kind}")
       )
     end
 
@@ -179,159 +127,57 @@ module MessageApis
       }
     end
 
-    class PresenterManager
-      # Initialize flow webhook URL
-      # Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.
-      def self.initialize_hook(params)
-        url = params[:ctx][:values][:email]
-
-        definitions = [
-          {
-            type: 'text',
-            style: 'header',
-            text: 'Your zoom meeting is ready',
-            align: 'left'
-          },
-          {
-            type: 'text',
-            text: "pass: #{params[:ctx][:values][:password]}",
-            align: 'left'
-          },
-          {
-            id: 'join-url',
-            type: 'button',
-            align: 'left',
-            label: 'Join',
-            width: 'full',
-            action: {
-              type: 'url',
-              url: params[:ctx][:values][:join_url]
-            }
-          },
-          {
-            type: 'text',
-            text: "Status: #{params[:ctx][:values][:status]}",
-            align: 'left'
-          }
-        ]
-
+    def definitions_for_fase(json)
+      [
         {
-          kind: 'initialize',
-          definitions: definitions,
-          values: {
-            email: params.dig(:ctx, :values, :email)
-          }
-          # results: params[:ctx][:values]
-        }
-      end
-
-      # Submit flow webhook URL
-      # Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.
-      def self.submit_hook(params)
-        []
-      end
-
-      # Configure flow webhook URL (optional)
-      # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
-      def self.configure_hook(kind:, ctx:)
-        zoom_input = {
-          type: 'input',
-          id: 'zoom_user',
-          placeholder: 'enter your zoom user email',
-          label: 'Zoom user'
-        }
-
-        action = {
-          id: 'set-url',
-          name: 'set_url',
-          label: 'Set up',
+          type: 'text',
+          style: 'header',
+          text: 'Your zoom meeting is ready',
+          align: 'left'
+        },
+        {
+          type: 'text',
+          text: "pass: #{json['password']}",
+          align: 'left'
+        },
+        {
+          id: 'join-url',
           type: 'button',
-          action: {
-            type: 'submit'
-          }
+          align: 'left',
+          label: 'Join',
+          width: 'full',
+          action: { type: 'url', url: json['join_url'] }
+        },
+        {
+          type: 'text',
+          text: "Status: #{json['status']}",
+          align: 'left'
         }
+      ]
+    end
 
-        definitions = [
-          zoom_input,
-          action
-        ]
+    def definitions_for_configure_hook
+      zoom_input = {
+        type: 'input',
+        id: 'zoom_user',
+        placeholder: 'enter your zoom user email',
+        label: 'Zoom user'
+      }
 
-        if ctx.dig(:field, :name) == 'set_url' &&
-           ctx.dig(:field, :action, :type) === 'submit'
+      action = {
+        id: 'set-url',
+        name: 'set_url',
+        label: 'Set up',
+        type: 'button',
+        action: {
+          type: 'submit'
+        }
+      }
 
-          email = ctx.dig(:values, :zoom_user)
-
-          if email.blank?
-            input = zoom_input
-            input.merge!(
-              errors: 'not a valid url',
-              value: email
-            )
-
-            definitions = [
-              input,
-              action
-            ]
-            return  {
-              kind: kind,
-              definitions: definitions
-            }
-          end
-
-          # pkg = ctx[:app].app_package_integrations.joins(:app_package).find_by("app_packages.name": "Zoom")
-
-          # response = pkg.message_api_klass.create_fase(
-          #  email
-          # )
-
-          # if response["id"].present?
-          if true
-            return {
-              kind: 'initialize',
-              definitions: definitions,
-              results: {
-                email: email
-                # join_url: response["join_url"],
-                # password: response["password"],
-                # status: response["status"],
-                # zoom_id: response["id"]
-              }
-            }
-          else
-
-            error_definitions = [{
-              type: 'text',
-              text: 'There was an error creating the ZOOM metting',
-              style: 'header'
-            },
-                                 {
-                                   type: 'text',
-                                   text: response['message'],
-                                   style: 'muted'
-                                 },
-                                 {
-                                   name: 'a',
-                                   label: 'a separator',
-                                   action: {},
-                                   type: 'separator'
-                                 }]
-
-            return {
-              kind: kind,
-              definitions: error_definitions + definitions
-            }
-          end
-
-        end
-
-        { kind: kind, ctx: ctx, definitions: definitions }
-      end
-
-      # Submit Sheet flow webhook URL (optional)
-      # Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.
-      def self.sheet_hook(params); end
-
-      def self.sheet_view(params); end
+      [
+        zoom_input,
+        action
+      ]
     end
   end
 end

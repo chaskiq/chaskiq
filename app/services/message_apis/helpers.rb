@@ -14,10 +14,10 @@ module MessageApis
       }.to_json
     end
 
-    def gif_block(title:, url:)
+    def gif_block(url:, text:)
       {
         key: keygen,
-        text: title,
+        text: text,
         type: 'recorded-video',
         depth: 0,
         inlineStyleRanges: [],
@@ -36,27 +36,32 @@ module MessageApis
       }
     end
 
-    def photo_block(url:, title:, w:, h:)
+    def photo_block(url:, text:, w: nil, h: nil)
+      data_options = {}
+      data_options = {
+        aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
+        width: w.to_i,
+        height: h.to_i,
+      } if w.present? && h.present?
       {
         key: keygen,
-        text: title,
+        text: text,
         type: 'image',
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
         data: {
-          aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
-          width: w.to_i,
-          height: h.to_i,
-          caption: title,
+          caption: text,
           forceUpload: false,
           url: url,
+          width: 100,
+          height: 100,
           loading_progress: 0,
           selected: false,
           loading: true,
           file: {},
           direction: 'center'
-        }
+        }.merge(data_options)
       }
     end
 
@@ -116,6 +121,18 @@ module MessageApis
       fill_ratio = (height / width) * 100
       { width: width, height: height, ratio: fill_ratio }
       # console.log result
+    end
+
+    def direct_upload(file:, filename:, mime_type: )
+      blob = ActiveStorage::Blob.create_and_upload!(
+        io: file,
+        filename: filename,
+        content_type: mime_type,
+        identify: false
+      )
+      {
+        url: Rails.application.routes.url_helpers.rails_blob_path(blob)
+      }.merge!(ActiveStorage::Analyzer::ImageAnalyzer.new(blob).metadata)
     end
   end
 end

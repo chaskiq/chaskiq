@@ -317,7 +317,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .and_return({})
 
       MessageApis::Twitter.any_instance
-                          .stub(:direct_upload)
+                          .stub(:handle_direct_upload)
                           .and_return('foobar')
 
       @pkg = app.app_package_integrations.create(

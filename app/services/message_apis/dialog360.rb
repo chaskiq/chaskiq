@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module MessageApis
-  class Dialog360
+  class Dialog360 < BasePackage
+    include MessageApis::Helpers
+
     PROVIDER = 'dialog_360'
 
     attr_accessor :url, :api_key, :conn
@@ -47,13 +49,6 @@ module MessageApis
       # end
     end
 
-    def enqueue_process_event(params, package)
-      HookMessageReceiverJob.perform_now(
-        id: package.id,
-        params: params.permit!.to_h
-      )
-    end
-
     def process_event(params, package)
       @package = package
       current = params['current']
@@ -83,28 +78,8 @@ module MessageApis
       conversation_part_channel.conversation_part.read!
     end
 
-    # triggered when a new chaskiq message is created
-    # will triggered just after the ws notification
-    def notify_message(conversation:, part:, channel:)
-      # TODO: ? redis cache here for provider / channel id / part
-      return if part
-                .conversation_part_channel_sources
-                .find_by(provider: PROVIDER).present?
-
-      message = part.message.as_json
-
-      response = send_message(conversation, message)
-
-      response_data = JSON.parse(response.body)
-
-      message_id = response_data.dig('messages').first['id']
-
-      return unless message_id.present?
-
-      part.conversation_part_channel_sources.create(
-        provider: PROVIDER,
-        message_source_id: message_id
-      )
+    def get_message_id(response_data)
+      response_data.dig('messages').first['id']
     end
 
     def send_message(conversation, message)
@@ -198,16 +173,14 @@ module MessageApis
       response.body
     end
 
-    def direct_upload(id, content_type = nil)
+    def handle_direct_upload(id, content_type = nil)
       file_string = get_media(id)
       file = StringIO.new(file_string)
-      blob = ActiveStorage::Blob.create_and_upload!(
-        io: file,
-        filename: 'ws360-file',
-        content_type: content_type || 'image/jpeg',
-        identify: false
+      direct_upload(
+        file: file, 
+        filename: 'ws360-file', 
+        mime_type: content_type || 'image/jpeg'
       )
-      Rails.application.routes.url_helpers.rails_blob_path(blob)
     end
 
     def process_message(params, package)
@@ -289,26 +262,6 @@ module MessageApis
       }.to_json
     end
 
-    def text_block(text)
-      lines = text.split("\n").delete_if(&:empty?)
-      {
-        blocks: lines.map { |o| serialized_block(o) },
-        entityMap: {}
-      }.to_json
-    end
-
-    def serialized_block(text)
-      {
-        key: 'f1qmb',
-        text: text,
-        type: 'unstyled',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {}
-      }
-    end
-
     def media_block(data)
       media_type = data['type']
       case media_type
@@ -316,102 +269,19 @@ module MessageApis
       when 'image', 'sticker'
         url = data[data['type']]
         text = data[data['type']]['caption']
-        photo_block(url, text)
+        file = handle_direct_upload(url['id'], url['mime_type'])
+        photo_block(url: file, text: text)
       when 'video'
         url = data['video']
         text = data['video']['caption']
-        gif_block(url, text)
-      when 'audio'
-        url = data['audio']
-        text = data['audio']['caption']
-        file_block(url, text)
-      when 'voice'
-        url = data['voice']
-        text = data['voice']['caption']
-        file_block(url, text)
-      when 'document'
-        url = data['document']
-        text = data['document']['caption']
-        file_block(url, text)
+        file = handle_direct_upload(url['id'], url['mime_type'])
+        gif_block(url: file, text: text)
+      when 'audio', "voice", "document"
+        url = data[media_type]
+        text = data[media_type]['caption']
+        file = handle_direct_upload(url['id'], url['mime_type'])
+        file_block(url: file, text: text)
       end
-    end
-
-    def gif_block(url, text)
-      file = direct_upload(url['id'], url['mime_type'])
-      {
-        key: keygen,
-        text: text,
-        type: 'recorded-video',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          rejectedReason: '',
-          secondsLeft: 0,
-          fileReady: true,
-          paused: false,
-          url: file,
-          recording: false,
-          granted: true,
-          loading: false,
-          direction: 'center'
-        }
-      }
-    end
-
-    def file_block(url, text)
-      file = direct_upload(url['id'], url['mime_type'])
-      {
-        key: keygen,
-        text: text,
-        type: 'file',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          caption: text,
-          forceUpload: false,
-          url: file,
-          loading_progress: 0,
-          selected: false,
-          loading: true,
-          file: {},
-          direction: 'center'
-        }
-      }
-    end
-
-    def photo_block(url, text)
-      file = direct_upload(url['id'], url['mime_type'])
-      {
-        key: keygen,
-        text: text,
-        type: 'image',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
-          # "aspect_ratio":{
-          #  "width": media["sizes"]["small"]["w"].to_i,
-          #  "height": media["sizes"]["small"]["h"].to_i,
-          #  "ratio":100
-          # },
-          width: 100, # media["sizes"]["small"]["w"].to_i,
-          height: 100, # media["sizes"]["small"]["h"].to_i,
-          caption: text,
-          forceUpload: false,
-          url: file,
-          loading_progress: 0,
-          selected: false,
-          loading: true,
-          file: {},
-          direction: 'center'
-        }
-      }
-    end
-
-    def keygen
-      ('a'..'z').to_a.sample(8).join
     end
 
     def add_participant(dialog_user, message, contacts = [])

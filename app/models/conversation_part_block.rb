@@ -22,7 +22,17 @@ class ConversationPartBlock < ApplicationRecord
     return unless klass.instance_methods.include?(:create_fase)
 
     # TODO: look for a better method to query app packages
-    klass = begin
+    klass = get_package_integration(app, package_class_name)
+
+    data = klass.create_fase(self, klass)
+
+    blocks['schema'] = data[:definitions]
+    self.data = data[:values]
+    save
+  end
+
+  def get_package_integration(app, package_class_name)
+    begin
       app
         .app_package_integrations
         .joins(:app_package)
@@ -31,12 +41,6 @@ class ConversationPartBlock < ApplicationRecord
     rescue StandardError
       nil
     end
-
-    data = klass.create_fase(self, klass)
-
-    blocks['schema'] = data[:definitions]
-    self.data = data[:values]
-    save
   end
 
   def handled_data

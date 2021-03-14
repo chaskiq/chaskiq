@@ -7,6 +7,7 @@ class AppUser < ApplicationRecord
   include UnionScope
   include Tokenable
   include Redis::Objects
+  include Connectivity
 
   ENABLED_SEARCH_FIELDS = [
     { 'name' => 'email', 'type' => 'string' },
@@ -218,40 +219,6 @@ class AppUser < ApplicationRecord
     }.merge(options || {}))
   end
 
-  def offline?
-    !state || state == 'offline'
-  end
-
-  def online?
-    state == 'online'
-  end
-
-  def channel_key
-    "presence:#{app.key}-#{email}"
-  end
-
-  def online!
-    self.state = 'online'
-    self.last_visited_at = Time.now
-
-    if save
-      ActionCable.server.broadcast(channel_key, to_json) # not necessary
-      ActionCable.server.broadcast("events:#{app.key}",
-                                   type: 'presence',
-                                   data: formatted_user)
-    end
-  end
-
-  def offline!
-    self.state = 'offline'
-    self.last_visited_at = Time.now
-    if save
-      ActionCable.server.broadcast("events:#{app.key}",
-                                   type: 'presence',
-                                   data: formatted_user)
-    end
-  end
-
   def formatted_user
     {
       id: id,
@@ -282,20 +249,17 @@ class AppUser < ApplicationRecord
 
   def encoded_id
     return nil if email.blank?
-
     URLcrypt.encode(email)
   end
 
   def decoded_id
     return nil if email.blank?
-
     URLcrypt.decode(email)
   end
 
   def avatar_url
     ui_avatar_url = "https://ui-avatars.com/api/#{URI.encode_www_form_component(display_name)}/128"
     return "#{ui_avatar_url}/f5f5dc/888/4" if email.blank?
-
     email_address = email.downcase
     hash = Digest::MD5.hexdigest(email_address)
     image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{ui_avatar_url}/7fffd4"

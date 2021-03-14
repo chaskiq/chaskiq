@@ -19,11 +19,11 @@ checks:
   method-count:
     enabled: true
     config:
-      threshold: 20
+      threshold: 30
   method-lines:
     enabled: true
     config:
-      threshold: 25
+      threshold: 50
   nested-control-flow:
     enabled: true
     config:
@@ -42,9 +42,9 @@ checks:
       threshold: #language-specific defaults. overrides affect all languages.
 plugins:
  rubocop:
-  enabled: true
+  enabled: false
  eslint:
-  enabled: true
+  enabled: false
 exclude_patterns:
 - "config/"
 - "db/"
