@@ -82,7 +82,7 @@ module MessageApis
 
       conversation_part_channel.conversation_part.read!
     end
-    
+
     def get_message_id(response_data)
       response_data.dig('messages').first['id']
     end
@@ -183,7 +183,7 @@ module MessageApis
       direct_upload(
         file: file,
         filename: 'mb-file',
-        content_type: content_type || 'image/jpeg',
+        content_type: content_type || 'image/jpeg'
       )
     end
 

@@ -38,22 +38,22 @@ class Campaign < Message
 
   def stats_fields
     [
-    add_stat_field(
-      name: 'DeliverRateCount', label: 'DeliverRateCount',
-      keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }]
-    ),
-    add_stat_field(
-      name: 'BouncesRateCount', label: 'BouncesRateCount',
-      keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }]
-    ),
-    add_stat_field(
-      name: 'DeliverRateCount', label: 'DeliverRateCount',
-      keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }]
-    ),
-    add_stat_field(
-      name: 'ClickRateCount', label: 'ClickRateCount',
-      keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }]
-    )
+      add_stat_field(
+        name: 'DeliverRateCount', label: 'DeliverRateCount',
+        keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }]
+      ),
+      add_stat_field(
+        name: 'BouncesRateCount', label: 'BouncesRateCount',
+        keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }]
+      ),
+      add_stat_field(
+        name: 'DeliverRateCount', label: 'DeliverRateCount',
+        keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }]
+      ),
+      add_stat_field(
+        name: 'ClickRateCount', label: 'ClickRateCount',
+        keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }]
+      )
     ]
   end
 
@@ -154,13 +154,13 @@ class Campaign < Message
     subscriber_url = "#{campaign_url}/subscribers/#{subscriber.encoded_id}"
     track_image    = "#{campaign_api_url}/tracks/#{subscriber.encoded_id}/open.gif"
 
-    { 
+    {
       email: subscriber.email,
       campaign_url: campaign_url,
       campaign_unsubscribe: "#{subscriber_url}/delete",
       campaign_subscribe: "#{campaign_url}/subscribers/new",
       campaign_description: description.to_s,
-      track_image_url: track_image 
+      track_image_url: track_image
     }
   end
 

@@ -17,24 +17,21 @@ class Segment < ApplicationRecord
 
   def check_array
     return if predicates.blank?
+
     add_errors_on_predicates
   end
-
 
   def add_errors_on_predicates
     predicates.each do |prop|
       attrs = %i[attribute comparison type value].map(&:to_s)
-      unless (prop.keys - attrs).any?
-        next
-      end
+      next unless (prop.keys - attrs).any?
+
       handle_predicate_error(prop)
     end
   end
 
   def handle_predicate_error(prop)
-    if prop['type'] != 'or'
-      errors.add(:properties, 'predicates are invalid') 
-    end
+    errors.add(:properties, 'predicates are invalid') if prop['type'] != 'or'
   end
 
   # predicate example:
@@ -84,6 +81,7 @@ class Segment < ApplicationRecord
     tags_query = nil
     Array(predicates_for_arel).each_with_index do |predicate, _index|
       next if predicate['type'] == 'match'
+
       # check if its in table column
       field = build_predicate_field(predicate)
 

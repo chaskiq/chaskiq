@@ -723,6 +723,7 @@ module MessageApis
     end
 
     def attachment_block(data)
+      err = nil
       files = data['files'].map do |o|
         begin
           url = handle_direct_upload(
@@ -732,8 +733,10 @@ module MessageApis
         rescue StandardError => e
           puts e.message
           puts e.backtrace
-          return nil
+          err = true
         end
+
+        return nil if err
 
         {
           url: url,
@@ -761,6 +764,7 @@ module MessageApis
       params = data.slice(:url, :text, :w, :h)
       params[:text] = params[:title]
       return photo_block(**params) if data[:mimetype].include?('image/')
+
       file_block(url: data[:url], text: data[:text])
     end
 

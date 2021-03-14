@@ -1,19 +1,19 @@
 module MessageApis
   class BasePackage
-		def initialize(config:); end
+    # def initialize(config:); end
 
     def trigger(event); end
 
     def process_event(params, package); end
 
-		def enqueue_process_event(params, package)
+    def enqueue_process_event(params, package)
       HookMessageReceiverJob.perform_now(
         id: package.id,
         params: params.permit!.to_h
       )
     end
 
-		# triggered when a new chaskiq message is created
+    # triggered when a new chaskiq message is created
     # will triggered just after the ws notification
     def notify_message(conversation:, part:, channel:)
       # TODO: ? redis cache here for provider / channel id / part
@@ -40,5 +40,5 @@ module MessageApis
         message_source_id: message_id
       )
     end
-	end
+  end
 end

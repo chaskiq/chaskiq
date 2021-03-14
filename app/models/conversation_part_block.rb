@@ -32,15 +32,13 @@ class ConversationPartBlock < ApplicationRecord
   end
 
   def get_package_integration(app, package_class_name)
-    begin
-      app
-        .app_package_integrations
-        .joins(:app_package)
-        .where('app_packages.name =?', package_class_name)
-        .first.message_api_klass
-    rescue StandardError
-      nil
-    end
+    app
+      .app_package_integrations
+      .joins(:app_package)
+      .where('app_packages.name =?', package_class_name)
+      .first.message_api_klass
+  rescue StandardError
+    nil
   end
 
   def handled_data

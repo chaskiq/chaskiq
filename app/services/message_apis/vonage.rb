@@ -35,8 +35,7 @@ module MessageApis
       self
     end
 
-    def trigger(event)
-    end
+    def trigger(event); end
 
     def process_event(params, package)
       @package = package
@@ -88,7 +87,7 @@ module MessageApis
       return if profile_id.blank?
 
       message_params = build_message_params(
-        blocks: blocks, 
+        blocks: blocks,
         plain_message: plain_message,
         plain_id: profile_id
       )
@@ -115,24 +114,24 @@ module MessageApis
 
       if image_block
         message_params.merge!(
-          vonage_block(block_type: 'image', plain_message: plain_message , block: image_block)
+          vonage_block(block_type: 'image', plain_message: plain_message, block: image_block)
         )
       end
 
       if video_block
         message_params.merge!(
-          vonage_block(block_type: 'video', plain_message: plain_message , block: video_block)
+          vonage_block(block_type: 'video', plain_message: plain_message, block: video_block)
         )
       end
 
       if file_block
         message_params.merge!(
-          vonage_block(block_type: 'file', plain_message: plain_message , block: file_block)
+          vonage_block(block_type: 'file', plain_message: plain_message, block: file_block)
         )
       end
     end
 
-    def vonage_block(block_type: , plain_message: , block:)
+    def vonage_block(block_type:, plain_message:, block:)
       {
         message: {
           content: {
@@ -154,7 +153,7 @@ module MessageApis
       message_id = params['message_uuid']
 
       channel_id, vonage_user, agent_sender = get_channel_data(params)
-      
+
       conversation = find_conversation_by_channel(channel_id)
 
       return if conversation && conversation.conversation_part_channel_sources
@@ -167,10 +166,10 @@ module MessageApis
       participant = add_participant(vonage_user)
 
       add_message(
-        conversation: conversation, 
-        participant: participant, 
-        channel_id: channel_id, 
-        from: agent_sender ? @package.app.agents.first : participant, 
+        conversation: conversation,
+        participant: participant,
+        channel_id: channel_id,
+        from: agent_sender ? @package.app.agents.first : participant,
         serialized_content: serialized_content,
         text: text,
         message_id: message_id
@@ -189,10 +188,10 @@ module MessageApis
     end
 
     def add_message(
-      conversation:, 
-      participant:, 
-      channel_id:, 
-      from:, 
+      conversation:,
+      participant:,
+      channel_id:,
+      from:,
       serialized_content:,
       text:,
       message_id:

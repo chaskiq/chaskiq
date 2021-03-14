@@ -1,7 +1,7 @@
 module UserHandler
   extend ActiveSupport::Concern
 
-	def add_anonymous_user(attrs)
+  def add_anonymous_user(attrs)
     session_id = attrs.delete(:session_id)
     callbacks = attrs.delete(:disable_callbacks)
 
@@ -14,7 +14,7 @@ module UserHandler
     end
 
     ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
-    ap.disable_callbacks = true if callbacks.present?
+    app_user.disable_callbacks = true if callbacks.present?
     ap = handle_app_user_params(ap, attrs)
     ap.generate_token
     ap.save
@@ -49,7 +49,7 @@ module UserHandler
     ap
   end
 
-  def handle_app_user_params(ap, attrs)
+  def handle_app_user_params(app_user, attrs)
     attrs = { properties: attrs } unless attrs.key?(:properties)
 
     keys = attrs[:properties].keys & app_user_updateable_fields
@@ -58,10 +58,10 @@ module UserHandler
     property_keys = attrs[:properties].keys - keys
     property_params = attrs[:properties].slice(*property_keys)
 
-    data = { properties: ap.properties.merge(property_params) }
-    ap.assign_attributes(data)
-    ap.assign_attributes(data_keys)
-    ap
+    data = { properties: app_user.properties.merge(property_params) }
+    app_user.assign_attributes(data)
+    app_user.assign_attributes(data_keys)
+    app_user
   end
 
   def add_agent(attrs, bot: nil, role_attrs: {})
@@ -116,5 +116,4 @@ module UserHandler
   def add_visit(opts = {})
     add_user(opts.merge(last_visited_at: Time.zone.now))
   end
-
 end

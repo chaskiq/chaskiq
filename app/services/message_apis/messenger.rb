@@ -42,6 +42,7 @@ module MessageApis
       # Checks the mode and token sent is correct
       # Responds with the challenge token from the request
       return challenge if mode === 'subscribe' && token === verify_token
+
       # Responds with '403 Forbidden' if verify tokens do not match
       nil
     end
@@ -108,7 +109,7 @@ module MessageApis
       message_id = message['message']['mid']
 
       return if present_conversation?(conversation, message_id)
-      
+
       serialized_content = serialize_content(message)
 
       return if serialized_content.blank?
@@ -116,10 +117,10 @@ module MessageApis
       participant = add_participant(messenger_user)
 
       add_message(
-        conversation: conversation, 
+        conversation: conversation,
         participant: participant,
-        serialized_content: serialized_content, 
-        text: message['message']['text'], 
+        serialized_content: serialized_content,
+        text: message['message']['text'],
         message_id: message_id,
         from: agent_or_participant(agent_sender, participant),
         channel_id: channel_id
@@ -148,8 +149,7 @@ module MessageApis
     end
 
     def add_message(from:, conversation:, participant:,
-      serialized_content:, text: , message_id:, channel_id:
-    )
+                    serialized_content:, text:, message_id:, channel_id:)
       if conversation.blank?
         conversation = @package.app.conversations.create(
           main_participant: participant,
@@ -269,8 +269,6 @@ module MessageApis
       )
 
       [participant, data]
-
     end
-
   end
 end

@@ -177,8 +177,8 @@ module MessageApis
       file_string = get_media(id)
       file = StringIO.new(file_string)
       direct_upload(
-        file: file, 
-        filename: 'ws360-file', 
+        file: file,
+        filename: 'ws360-file',
         mime_type: content_type || 'image/jpeg'
       )
     end
@@ -276,7 +276,7 @@ module MessageApis
         text = data['video']['caption']
         file = handle_direct_upload(url['id'], url['mime_type'])
         gif_block(url: file, text: text)
-      when 'audio', "voice", "document"
+      when 'audio', 'voice', 'document'
         url = data[media_type]
         text = data[media_type]['caption']
         file = handle_direct_upload(url['id'], url['mime_type'])

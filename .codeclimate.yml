@@ -42,7 +42,7 @@ checks:
       threshold: #language-specific defaults. overrides affect all languages.
 plugins:
  rubocop:
-  enabled: false
+  enabled: true
  eslint:
   enabled: false
 exclude_patterns:
@@ -57,3 +57,5 @@ exclude_patterns:
 - "**/tests/"
 - "**/vendor/"
 - "**/*.d.ts"
+- babel.config.js
+- app/javascript/**/*

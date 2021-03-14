@@ -107,7 +107,6 @@ module MessageApis
       end
     end
 
-
     class QualifierRecord
       include ActiveModel::Model
       include ActiveModel::Validations

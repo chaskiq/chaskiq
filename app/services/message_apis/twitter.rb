@@ -300,7 +300,7 @@ module MessageApis
         url = handle_direct_upload(variant['url'], variant['content_type'])
         text = data['text'].split.last
         gif_block(url: url, text: text)
-      when 'photo' 
+      when 'photo'
         media = data['attachment']['media']
         url = handle_direct_upload(media['media_url_https'])
         text = data['text'].split.last

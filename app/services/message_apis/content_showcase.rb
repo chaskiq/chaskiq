@@ -4,7 +4,7 @@ require 'uri'
 
 module MessageApis
   class ContentShowcase < BasePackage
-    attr_accessor :secret    
+    attr_accessor :secret
   end
 end
 

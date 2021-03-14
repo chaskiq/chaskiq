@@ -49,9 +49,7 @@ class BotTask < Message
   }
 
   def initialize_default_controls
-    unless segments.present?
-      self.segments = default_type_segments
-    end
+    self.segments = default_type_segments unless segments.present?
 
     return self unless bot_type == 'new_conversations'
 
@@ -216,8 +214,8 @@ class BotTask < Message
         name: 'DeliverRateCount',
         label: 'DeliverRateCount',
         keys: [{ name: 'open', color: '#F4F5F7' },
-          { name: 'close', color: '#0747A6' }]
-        )
+               { name: 'close', color: '#0747A6' }]
+      )
     ]
   end
 

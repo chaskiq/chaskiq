@@ -113,7 +113,8 @@ class Agent < ApplicationRecord
     self.class.model_name.singular
   end
 
-private
+  private
+
   def default_bot_avatar
     ActionController::Base.helpers.asset_url('icons8-bot-50.png')
   end

@@ -56,8 +56,7 @@ module MessageApis
       }
     end
 
-    def trigger(event)
-    end
+    def trigger(event); end
 
     def process_event(params, package)
       @package = package

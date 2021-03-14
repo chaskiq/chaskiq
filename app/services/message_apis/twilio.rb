@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module MessageApis
   class Twilio < BasePackage
     include MessageApis::Helpers
@@ -96,8 +97,8 @@ module MessageApis
 
       if image_block
         message_params.merge!({
-          MediaUrl: ENV['HOST'] + image_block['data']['url']
-        })
+                                MediaUrl: ENV['HOST'] + image_block['data']['url']
+                              })
       end
     end
 
@@ -140,13 +141,8 @@ module MessageApis
     end
 
     def add_conversation(
-      conversation: nil, 
-      agent_sender: , 
-      participant: , 
-      serialized_content:, 
-      text:,
-      message_id:,
-      channel_id:
+      agent_sender:, participant:, serialized_content:,
+      text:, message_id:, channel_id:, conversation: nil
     )
 
       if conversation.blank?

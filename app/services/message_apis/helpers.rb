@@ -38,11 +38,13 @@ module MessageApis
 
     def photo_block(url:, text:, w: nil, h: nil)
       data_options = {}
-      data_options = {
-        aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
-        width: w.to_i,
-        height: h.to_i,
-      } if w.present? && h.present?
+      if w.present? && h.present?
+        data_options = {
+          aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
+          width: w.to_i,
+          height: h.to_i
+        }
+      end
       {
         key: keygen,
         text: text,
@@ -123,7 +125,7 @@ module MessageApis
       # console.log result
     end
 
-    def direct_upload(file:, filename:, mime_type: )
+    def direct_upload(file:, filename:, mime_type:)
       blob = ActiveStorage::Blob.create_and_upload!(
         io: file,
         filename: filename,

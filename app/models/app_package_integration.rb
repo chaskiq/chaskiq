@@ -141,7 +141,7 @@ class AppPackageIntegration < ApplicationRecord
     response = presenter_hook_response(params, presenter)&.with_indifferent_access
 
     validate_schema!(response[:definitions])
-  
+
     if response['kind'] == 'initialize'
       params[:ctx][:field] = nil
       params[:ctx][:values] = response['results']

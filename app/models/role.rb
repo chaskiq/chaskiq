@@ -29,7 +29,7 @@ class Role < ApplicationRecord
   scope :admin, -> { where('role =?', 'admin') }
 
   def inbound_email_address
-    part = URLcrypt.encode("#{agent.id}")
+    part = URLcrypt.encode(agent.id.to_s)
     domain = app.outgoing_email_domain
     "inbound+#{app.key}+#{part}@#{domain}"
   end

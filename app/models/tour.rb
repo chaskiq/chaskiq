@@ -37,16 +37,19 @@ class Tour < Message
     [
       add_stat_field(
         name: 'DeliverRateCount',
-         label: 'Deliver rate' , keys: [
-        { name: 'open', color: '#F4F5F7' },
-        { name: 'skip', color: '#0747A6' }
-      ]),
+        label: 'Deliver rate', keys: [
+          { name: 'open', color: '#F4F5F7' },
+          { name: 'skip', color: '#0747A6' }
+        ]
+      ),
       add_stat_field(
-        name: 'ClickRateCount', 
-        label: 'Open/Finish rate', 
+        name: 'ClickRateCount',
+        label: 'Open/Finish rate',
         keys: [
           { name: 'open', color: '#F4F5F7' },
-        { name: 'finish', color: '#0747A6' }])
+          { name: 'finish', color: '#0747A6' }
+        ]
+      )
     ]
   end
 

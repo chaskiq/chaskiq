@@ -89,11 +89,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it 'receive conversation data' do
       get(:process_event,
           params: data_for(
-                             id: @pkg.id,
-                             sender: owner_phone,
-                             recipient: user_phone,
-                             message_id: '1234'
-                           ))
+            id: @pkg.id,
+            sender: owner_phone,
+            recipient: user_phone,
+            message_id: '1234'
+          ))
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -103,11 +103,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it 'receive conversation media' do
       get(:process_event,
           params: data_for_media(
-                                  id: @pkg.id,
-                                  sender: owner_phone,
-                                  recipient: user_phone,
-                                  message_id: '1234'
-                                 ))
+            id: @pkg.id,
+            sender: owner_phone,
+            recipient: user_phone,
+            message_id: '1234'
+          ))
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any

@@ -66,7 +66,7 @@ module MessageApis
 
         # assign and return , bot conversation over
         # conversation.assign_user(part.authorable)
-        return true
+        true
       end
     end
 
@@ -103,9 +103,9 @@ AI: I am an AI created by OpenAI. How can I help you today?
 #{previous}
 Human:'''"
 
-        human_input = part.message&.parsed_content['blocks'].map { |o| 
-          o['text'] 
-        }.join(' ')
+        human_input = part.message&.parsed_content['blocks'].map do |o|
+          o['text']
+        end.join(' ')
 
         prompt = "#{start_log}\nHuman: #{human_input}\nAI:"
 
@@ -151,7 +151,7 @@ Human:'''"
       }
     end
 
-    def add_message(conversation: , from: , text: , blocks:, message_id:)
+    def add_message(conversation:, from:, text:, blocks:, message_id:)
       # TODO: serialize message
       conversation.transaction do
         conversation.add_message(
@@ -196,8 +196,7 @@ Human:'''"
     end
 
     # for display in replied message
-    def self.display_data(data)
-    end
+    def self.display_data(data); end
 
     class PromptRecord
       include ActiveModel::Model

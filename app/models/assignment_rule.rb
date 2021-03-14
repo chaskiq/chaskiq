@@ -25,12 +25,13 @@ class AssignmentRule < ApplicationRecord
   end
 
   def handle_rule_matches(part, text, query_conditions)
-    query_conditions.map do |r|
-      subject = subject_value(r, part, text)
+    query_conditions.map do |rule|
+      subject = subject_value(rule, part, text)
       return false if subject.blank?
-      case r['type']
-      when 'string' then check_string_comparison(r, subject)
-      when 'date' then check_date_comparison(r, subject)
+
+      case rule['type']
+      when 'string' then check_string_comparison(rule, subject)
+      when 'date' then check_date_comparison(rule, subject)
       end
     end
   end
@@ -58,11 +59,11 @@ class AssignmentRule < ApplicationRecord
     end
   end
 
-  def subject_value(r, part, text)
-    if r['attribute'] === 'message_content'
+  def subject_value(rule, part, text)
+    if rule['attribute'] === 'message_content'
       text
     else
-      subject_value_for(r['attribute'], part.authorable)
+      subject_value_for(rule['attribute'], part.authorable)
     end
   end
 

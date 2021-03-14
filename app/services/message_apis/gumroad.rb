@@ -12,7 +12,7 @@ module MessageApis
       validate :valid_url?
 
       def valid_url?
-        add_error('must include valid Gumroad domain') if !url.include?('https://gum.co')
+        add_error('must include valid Gumroad domain') unless url.include?('https://gum.co')
         uri = URI.parse(url)
         add_error unless uri.is_a?(URI::HTTP) && !uri.host.nil?
       rescue URI::InvalidURIError

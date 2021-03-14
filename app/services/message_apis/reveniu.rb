@@ -4,7 +4,6 @@ module MessageApis
 
     def initialize(config:); end
 
-
     def process_event(params, package)
       # todo, here we can do so many things like make a pause and
       # analize conversation subject or classyficators
