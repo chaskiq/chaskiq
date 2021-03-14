@@ -208,7 +208,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         sandbox: true
       )
 
-      allow_any_instance_of(MessageApis::MessageBird).to receive(
+      allow_any_instance_of(MessageApis::MessageBird::Api).to receive(
         :direct_upload
       ).and_return('/direct-upload-mock')
     end

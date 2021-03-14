@@ -14,7 +14,7 @@ class ConversationPartBlock < ApplicationRecord
     # add a proper setting on appPackage like, hook_url ?
     package_class_name = blocks['app_package']
     klass = begin
-      "MessageApis::#{package_class_name}".constantize
+      "MessageApis::#{package_class_name}::Api".constantize
     rescue StandardError
       nil
     end

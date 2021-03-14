@@ -93,7 +93,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .stub(:handle_registration)
                            .and_return({})
 
-      MessageApis::Zoom.any_instance
+      MessageApis::Zoom::Api.any_instance
                        .stub(:create_fase)
                        .and_return({ definitions: blocks[:schema] })
 

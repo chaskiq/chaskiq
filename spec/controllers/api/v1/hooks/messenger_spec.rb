@@ -103,7 +103,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .stub(:handle_registration)
                            .and_return({})
 
-      MessageApis::Messenger.any_instance
+      MessageApis::Messenger::Api.any_instance
                             .stub(:get_fb_profile)
                             .and_return(profile_data)
 

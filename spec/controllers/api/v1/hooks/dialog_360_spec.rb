@@ -226,7 +226,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         sandbox: true
       )
 
-      allow_any_instance_of(MessageApis::Dialog360).to receive(
+      allow_any_instance_of(MessageApis::Dialog360::Api).to receive(
         :direct_upload
       ).and_return('/direct-upload-mock')
     end

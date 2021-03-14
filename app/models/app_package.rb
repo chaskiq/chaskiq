@@ -65,6 +65,6 @@ class AppPackage < ApplicationRecord
 
   # message api
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{name}".constantize
+    @message_api_klass ||= "MessageApis::#{name}::Api".constantize
   end
 end
