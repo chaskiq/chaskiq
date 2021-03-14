@@ -6,7 +6,9 @@ module InboundAddress
   def inbound_email_address
     part = URLcrypt.encode(key.to_s)
     domain = outgoing_email_domain
-    "inbound+app-#{part}@#{domain}"
+    url = "inbound+app-#{part}@#{domain}"
+    puts "#{url}  #{domain} #{part}"
+    url
   end
 
   class_methods do
@@ -14,7 +16,6 @@ module InboundAddress
     def decode_inbound_address(address)
       return decode_app_inbound_address(address) if address.starts_with?('inbound+app')
       return decode_agent_inbound_address(address) if address.starts_with?('inbound+')
-
       []
     end
 
