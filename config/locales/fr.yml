@@ -29,7 +29,7 @@ fr:
       pt: Portugais
       redirecting: Redirection
       select_language: Sélectionnez une langue
-    send_on_enter: Publish on enter
+    send_on_enter: Publier à la saisie
   home:
     welcome: Bienvenue à
     welcome_site: Chaskiq
@@ -46,7 +46,7 @@ fr:
     incoming_messages: Messages reçus
     visit_activity: Visiter l'activité
     users_browser: Navigateur d'utilisateurs
-    lead_os: Lead Os
+    lead_os: Prospects Os
     user_os: Os utilisateur
     mac_os: Mac OS
     user_country: Pays de l'utilisateur
@@ -56,7 +56,7 @@ fr:
     platform: Plateforme
     conversations: Conversations
     campaigns: Campagnes
-    routing_bots: Routing Bots
+    routing_bots: Bots de Routage
     help_center: Centre d'assistance
     settings: Paramètres
     childs:
@@ -64,9 +64,9 @@ fr:
       assignment_rules: Règles de devoir
       mailing_campaigns: Campagnes de mailing
       in_app_messages: Messages dans l'application
-      banners: Banners
+      banners: Bannières
       guided_tours: Visites guidées
-      for_leads: For Leads
+      for_leads: Pour les prospects
       for_users: Pour les utilisateurs
       bot_settings: Tâches du bot
       outbound: Sortant
@@ -90,7 +90,7 @@ fr:
     title: Conversations
     menu:
       conversations: Conversations
-      assignment_rules: Agent routing Rules
+      assignment_rules: Règles de routage de l'agent
     states:
       opened: Ouvert
       closed: Fermé
@@ -113,18 +113,18 @@ fr:
       reopen: Rouvrir
       start_call: Démarrer un appel vidéo
       end_call: Terminer l’appel
-      assign_agent: Assign Agent
+      assign_agent: Assigner un agent
     messages:
       seen: Vu
       not_seen: Non vu
-      note: Note
+      note: Commentaire
     sidebar:
       show_profile: Voir le profil
       location: Localisation
       browser: Navigateur de l’utilisateur
       latest_user_visible_comment_at: Dernier commentaire
       created_at: Créé à
-      assignee: Assignee
+      assignee: Assigné
       first_agent_reply: Réponse du premier agent
     editor:
       panels:
@@ -173,14 +173,14 @@ fr:
     unsubscribe:
       status: Vous avez été %{state}
       success: Succès, %{ email } ne recevra plus d'e-mails de cet expéditeur. Était-ce une erreur ?
-      resubscribe: Resubscribe from this list
+      resubscribe: Reprendre l'abonnement de cette liste
       cancel: Résiliez votre abonnement
   task_bots:
     title: Tâches du bot
     reply_soon: Bonjour, %{name} répondra dès que possible.
     reply_agent: vous recevrez une réponse de l'un de nos agents
     email_support: pour obtenir de l'aide vous pouvez envoyer un e-mail à %{email}
-    outbound: "🏓 Outbound"
+    outbound: "🏓 Sortant"
     new_conversations: "👋 Nouvelle conversation"
     email_requirement:
       message: Donnez à l'équipe un moyen de vous joindre
@@ -197,11 +197,11 @@ fr:
         op2: ok, faites-nous savoir si vous avez besoin de quelque chose et un agent vous répondra dès que possible
     settings:
       leads:
-        tab: For Leads
-        start_conversation: When leads start a conversation
+        tab: Pour les prospects
+        start_conversation: Quand les prospects démarrent une conversation
         delay: Laisser un délai de 2 minutes avant de déclencher les Bots de taches pendant les heures de bureau
         share_time: Partagez votre temps de réponse habituel
-        route: Route existing customers to support
+        route: Router les clients existants vers le support
         route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
         route_costumer: Que voulez-vous faire lorsqu'ils choisissent "Oui, je suis client"?
         assign: Assigner la conversation
