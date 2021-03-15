@@ -17,10 +17,10 @@ fr:
     confirm_deletion: "Confirmer la suppression ?"
     next: Suivant
     prev: Précédent
-    showing: Mostrando
+    showing: En montrant
     to: vers
     of: de
-    results: resultados
+    results: résultats
     tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
     send: Envoyer
     langs:
@@ -103,7 +103,7 @@ fr:
       unfiltered: Tous
     empty:
       title: Aucune conversation
-      text: Choose conversations on the side
+      text: Choisir les conversations sur le côté
   conversation:
     with: Conversation avec
     actions:
@@ -202,81 +202,81 @@ fr:
         delay: Laisser un délai de 2 minutes avant de déclencher les Bots de taches pendant les heures de bureau
         share_time: Partagez votre temps de réponse habituel
         route: Router les clients existants vers le support
-        route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
+        route_desc: Mettre les bonnes personnes en route en demandant si elles sont un client existant quand elles commencent une nouvelle conversation.
         route_costumer: Que voulez-vous faire lorsqu'ils choisissent "Oui, je suis client"?
         assign: Assigner la conversation
         close: Supprimer la conversation
         ask: Demander les coordonnées
-        ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
-        dont_ask_email: Don't ask for email
-        ask_email_phone: Ask for email or mobile number
-        email_only: Ask for email only
+        ask_hint: Si nous n'avons pas déjà leurs coordonnées Le bot proposera que les clients laissent leur adresse e-mail ou leur numéro de téléphone pour être notifié chaque fois que vous répondez.
+        dont_ask_email: Ne pas demander d'e-mail
+        ask_email_phone: Demander un e-mail ou un numéro de téléphone mobile
+        email_only: Demander un e-mail uniquement
         override:
-          label: Override default behavior with your own task bot
-          hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
+          label: Remplacer le comportement par défaut avec votre propre bot de tâches
+          hint: "Lorsque vous faites cela, le comportement par défaut ci-dessous n'aura pas lieu et la tâche sera déclenchée à chaque nouvelle conversation"
       users:
-        tab: For Users
-        start_conversation: When users start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        tab: Pour les utilisateurs
+        start_conversation: Lorsque les utilisateurs commencent une conversation
+        delay: Laisser un délai de 2 minutes avant de déclencher les Bots de taches pendant les heures de bureau
         override:
-          label: Override default behavior with your own task
-          hint: hint!
-      settings_title: Bot Task settings
-      specific_times_title: Set specific times to show this bot to your audience.
-      tz_hint: Your app's timezone is %{timezone} See your office hours.
-      office_hours: During office hours
-      outside_office: Outside office hours
-      custom_time: Custom time
-      enable_title: Enable bot task
-      enable_hint: when enabled the bot task will start operating
-    new: Create new task
-    remove_success: bot removed
+          label: Remplacer le comportement par défaut avec votre propre tâche
+          hint: conseil !
+      settings_title: Paramètres des tâches du bot
+      specific_times_title: Définissez des heures spécifiques pour montrer ce bot à votre public.
+      tz_hint: Le fuseau horaire de votre application est %{timezone} Voir les heures de bureau.
+      office_hours: Pendant les heures de bureau
+      outside_office: En dehors des heures de bureau
+      custom_time: Heure personnalisée
+      enable_title: Activer la tâche de bot
+      enable_hint: lorsque cette option est activée, la tâche du bot commencera à fonctionner
+    new: Créer une nouvelle tâche
+    remove_success: bot supprimé
     empty:
-      title: No bot tasks found
-      create_new: Create a new one
+      title: Aucune tâche de bot trouvée
+      create_new: Créer un nouveau
     delete:
-      title: Delete bot "%{name}"
-      hint: we will destroy any content and related data
+      title: Supprimer le bot "%{name}"
+      hint: nous allons détruire tout contenu et données connexes
     create:
-      title: Create Bot task
+      title: Créer une tâche de bot
   quick_replies:
-    title: Quick Replies
-    search: Search Quick replies
-    will_send: The "%{lang}" version will be sent to the conversation.
+    title: Réponses rapides
+    search: Rechercher des réponses rapides
+    will_send: La version "%{lang}" sera envoyée à la conversation.
     empty:
-      title: No quick replies
-      create_new: Create new
+      title: Aucune réponse rapide
+      create_new: Créer un nouveau
     delete:
-      title: Delete quick reply %{name}
-      hint: we will destroy any content and related data, conversations will keep content though
+      title: Supprimer la réponse rapide %{name}
+      hint: nous allons détruire le contenu et les données associées, néanmoins les conversations garderont le contenu
     create:
-      success: Quick reply was created successfully
-      error: Error creating quick reply
+      success: La réponse rapide a été créée avec succès
+      error: Erreur lors de la création d'une réponse rapide
     update:
-      success: Quick reply was updated successfully
-      error: Error updating quick reply
+      success: La réponse rapide a été créée avec succès
+      error: Erreur de mise à jour de la réponse rapide
     add_as_dialog:
-      title: Add this message as a Quick Reply
+      title: Ajouter ce message comme réponse rapide
   new_app:
-    title: "Create your company’s Chaskiq app"
-    text: Provide basic information to setup Chaskiq for your team and customers.
-    hint: Create your company’s Chaskiq app
+    title: "Créez l'application Chaskiq de votre entreprise"
+    text: Fournissez des informations de base pour configurer Chaskiq pour votre équipe et vos clients.
+    hint: Créez l'application Chaskiq de votre entreprise
   settings:
     api:
-      title: Oauth Applications
+      title: Applications Oauth
       tabs:
-        apps: OAUTH Applications
-        authorized: Authorized OAUTH Applications
-      oauth_information: Oauth App Information
-      details: Oauth details and credentials.
-      delete_app: Delete Oauth App?
-      create_app: Create Oauth App
-      hint: We will destroy any content and related data
+        apps: Applications OAUTH
+        authorized: Applications OAUTH autorisées
+      oauth_information: Informations sur l'application Oauth
+      details: Détails et identifiants Oauth.
+      delete_app: Supprimer l'application Oauth ?
+      create_app: Créer une application Oauth
+      hint: Nous allons détruire tout contenu et données connexes
       invite:
-        title: Add a new agent
-        text: send an activable invitation
+        title: Ajouter un nouvel agent
+        text: envoyer une invitation activable
     app:
-      app_settings: App Settings
+      app_settings: Paramètres de l'Application
       security: Security
       messenger_settings: Messenger Settings
       appearance: Appearance
@@ -342,35 +342,35 @@ fr:
             value: "minutes"
             label: "El equipo suele responder en cuestión de minutos."
           - 
-            value: "hours"
+            value: "heures"
             label: "El equipo suele responder en cuestión de horas."
           - 
-            value: "1 day"
+            value: "1 jour"
             label: "El equipo suele responder en un día."
-        hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
+        hint2: "Remarque : le visiteur recevra une réponse automatique avec la disponibilité de votre équipe pendant les heures hors bureau ou pendant de longs délais de réponse."
     email_requirement:
-      title: Require an email for new conversations
-      hint: So you can always get back to your website visitors
-      ask: "Ask your website visitors to leave their email before starting a live chat:"
+      title: Exiger un e-mail pour les nouvelles conversations
+      hint: Ainsi, vous pouvez toujours revenir aux visiteurs de votre site web
+      ask: "Demandez aux visiteurs de votre site Web de laisser leur email avant de commencer un chat en direct:"
       options:
         - 
-          label: Only outside of office hours
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
-          value: office
+          label: Uniquement en dehors des heures de bureau
+          hint: Réduis le VOLUME DE CONVERSATION autour de 5% en MOYEN
+          value: bureau
         - 
-          label: Always
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
-          value: Always
+          label: Toujours
+          hint: Réduis le VOLUME DE CONVERSATION autour de 30% en MOYEN
+          value: Toujours
         - 
-          label: Never
-          value: Never
-          hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
+          label: Jamais
+          value: Jamais
+          hint: PERMETTRE LES VISITEURS DU SITE WEB DE COMMENCER UNE CONVERSATION À TOUTE heure
     languages:
-      add: Add Language
-      title: Languages
+      add: Ajouter une langue
+      title: Langues
     inbound:
-      title: New conversations button
-      checkbox: Let people start new inbound conversations with you
+      title: Bouton de nouvelles conversations
+      checkbox: Laisser les gens commencer de nouvelles conversations entrantes avec vous
       hint: When this is turned off, people can only reply to the outbound messages you send.
       title2: visibility
       hint2: Control who sees the standard Messenger launcher on your website.
