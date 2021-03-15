@@ -371,37 +371,37 @@ fr:
     inbound:
       title: Bouton de nouvelles conversations
       checkbox: Laisser les gens commencer de nouvelles conversations entrantes avec vous
-      hint: When this is turned off, people can only reply to the outbound messages you send.
-      title2: visibility
-      hint2: Control who sees the standard Messenger launcher on your website.
-      note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
-      note3: "On the web, show the standard Messenger launcher to:"
+      hint: Lorsque cette option est désactivée, les personnes ne peuvent répondre qu'aux messages sortants que vous envoyez.
+      title2: visibilité
+      hint2: Contrôlez qui voit le lanceur standard Messenger sur votre site Web.
+      note2: TOUS LES MESSAGES QUE VOUS ENVOYEZ SERONT DÉLIVÉS.
+      note3: "Sur le web, montrez le lanceur standard Messenger à:"
       filters:
         users:
-          label: Users
-          all: All Users
-          some: Users who match certain data
+          label: Utilisateurs
+          all: Tous les utilisateurs
+          some: Utilisateurs qui correspondent à certaines données
         leads:
-          label: Leads
-          all: All Visitors
-          some: Visitors who match certain data
-        hint: This doesn’t affect the outbound messages you send.
+          label: Prospects
+          all: Tous les visiteurs
+          some: Visiteurs qui correspondent à certaines données
+        hint: Cela n'affecte pas les messages sortants que vous envoyez.
     team:
-      title: Team
+      title: Equipe
       invitations: invitations
       agents: Agents
-      invitation_success: invitation sent!
-      invitatin_error: invitation not sent!
-      action_button: add user
-      title_content: Add a new agent
-      content_text: send an activable invitation
-      hint: the new team member will be notified by it's email
-      send_invitation: Send invitation
-      resend_invitation: Resend invitation
-      add_new: Add Team Member
-      update_agent_title: Update Agent information
-      updated_agent: Information updated successfully
-      update_agent: Update
+      invitation_success: invitation envoyée !
+      invitatin_error: invitation non envoyée !
+      action_button: ajouter un utilisateur
+      title_content: Ajouter un nouvel agent
+      content_text: envoyer une invitation activable
+      hint: le nouveau membre de l'équipe sera notifié par son e-mail
+      send_invitation: Envoyer invitation
+      resend_invitation: Renvoyer l'invitation
+      add_new: Ajouter un membre de l'équipe
+      update_agent_title: Mettre à jour les informations de l'agent
+      updated_agent: Informations mises à jour avec succès
+      update_agent: Mise à jour
     webhooks:
       title: Webhooks
       create_success: Webhook created
@@ -463,21 +463,21 @@ fr:
       placeholder: Write the title of the article
       description_placeholder: Add a summary to find the article later
     create:
-      title: New collection of articles
-      placeholder: Enter the title of the collection
-      description: Describe your collection to help you find it.
+      title: Nouvelle collection d'articles
+      placeholder: Entrez le titre de la collection
+      description: Décrivez votre collection pour vous aider à la trouver.
     settings:
-      title: Help Center settings
-      add_language: Add language
-      select_lang: Select language
-      add_language_to_help: Add new language to Help Center
+      title: Paramètres du Centre d'aide
+      add_language: Ajouter une langue
+      select_lang: Sélectionnez la langue
+      add_language_to_help: Ajouter une nouvelle langue au centre d'aide
       delete:
-        title: Delete translation "%{name}"
-        text: We will destroy the translation and hide any article with the language "%{name}"
-      appearance: Appearance
-      appearance_settings: Appearance settings
-      lang: Language
-      lang_title: Find your Help Center
-      lang_desc: Manage supported languages and customize your Help Center header
-      basic: Basic setup
-      general_app: Application overview
+        title: Supprimer la traduction "%{name}"
+        text: Nous allons détruire la traduction et cacher tout article avec la langue "%{name}"
+      appearance: Apparence
+      appearance_settings: Paramètres d'apparence
+      lang: Langage
+      lang_title: Trouvez votre Centre d'Aide
+      lang_desc: Gérer les langues prises en charge et personnaliser l'en-tête de votre Centre d'Aide
+      basic: Configuration de base
+      general_app: Aperçu de l'application
