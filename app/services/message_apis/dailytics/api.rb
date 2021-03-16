@@ -65,7 +65,8 @@ module MessageApis::Dailytics
       }
     end
 
-    def format_data(label, name:, value:, value2:)
+    def format_data(label:, name:, value:, value2:, data:)
+      
       {
         label: label,
         name: name,
@@ -79,19 +80,23 @@ module MessageApis::Dailytics
         format_data(label: 'Sessions',
                     name: 'last_sessions',
                     value: 'last_sessions',
-                    value2: 'last_sessions_comparisson'),
+                    value2: 'last_sessions_comparisson',
+                    data: data),
         format_data(label: 'Pageviews',
                     name: 'last_pageviews',
                     value: 'last_pageviews',
-                    value2: 'last_pageviews_comparisson'),
+                    value2: 'last_pageviews_comparisson',
+                    data: data),
         format_data(label: 'Bounce Rate',
                     name: 'last_bounce_rate',
                     value: 'last_bounce_rate',
-                    value2: 'last_bounce_rate_comparisson'),
+                    value2: 'last_bounce_rate_comparisson',
+                    data: data),
         format_data(label: 'Avg session duration',
                     name: 'last_avg_session_duration',
                     value: 'last_avg_session_duration',
-                    value2: 'last_avg_session_duration_comparisson')
+                    value2: 'last_avg_session_duration_comparisson',
+                    data: data)
       ]
     end
   end
