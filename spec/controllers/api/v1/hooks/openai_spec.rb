@@ -107,7 +107,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         \"entityMap\":{}}"
 
         allow_any_instance_of(
-          MessageApis::OpenAi
+          MessageApis::OpenAi::Api
         ).to receive(
           :get_gpt_response
         ).and_return(

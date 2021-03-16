@@ -78,6 +78,8 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .graf--attachment {
+    font-size: .85rem;
+    word-break: break-all;
     display: flex;
     align-items: center;
     border: 1px solid #cac8c8;

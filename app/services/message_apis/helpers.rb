@@ -14,10 +14,10 @@ module MessageApis
       }.to_json
     end
 
-    def gif_block(title:, url:)
+    def gif_block(url:, text:)
       {
         key: keygen,
-        text: title,
+        text: text.to_s,
         type: 'recorded-video',
         depth: 0,
         inlineStyleRanges: [],
@@ -36,40 +36,47 @@ module MessageApis
       }
     end
 
-    def photo_block(url:, title:, w:, h:)
+    def photo_block(url:, text:, w: nil, h: nil)
+      data_options = {}
+      if w.present? && h.present?
+        data_options = {
+          aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
+          width: w.to_i,
+          height: h.to_i
+        }
+      end
       {
         key: keygen,
-        text: title,
+        text: text.to_s,
         type: 'image',
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
         data: {
-          aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
-          width: w.to_i,
-          height: h.to_i,
-          caption: title,
+          caption: text.to_s,
           forceUpload: false,
           url: url,
+          width: 100,
+          height: 100,
           loading_progress: 0,
           selected: false,
           loading: true,
           file: {},
           direction: 'center'
-        }
+        }.merge(data_options)
       }
     end
 
     def file_block(url:, text:)
       {
         key: keygen,
-        text: text,
+        text: text.to_s,
         type: 'file',
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
         data: {
-          caption: text,
+          caption: text.to_s,
           forceUpload: false,
           url: url,
           loading_progress: 0,
@@ -84,7 +91,7 @@ module MessageApis
     def serialized_block(text)
       {
         key: keygen,
-        text: text,
+        text: text.to_s,
         type: 'unstyled',
         depth: 0,
         inlineStyleRanges: [],
@@ -116,6 +123,18 @@ module MessageApis
       fill_ratio = (height / width) * 100
       { width: width, height: height, ratio: fill_ratio }
       # console.log result
+    end
+
+    def direct_upload(file:, filename:, content_type:)
+      blob = ActiveStorage::Blob.create_and_upload!(
+        io: file,
+        filename: filename,
+        content_type: content_type,
+        identify: false
+      )
+      {
+        url: Rails.application.routes.url_helpers.rails_blob_path(blob)
+      }.merge!(ActiveStorage::Analyzer::ImageAnalyzer.new(blob).metadata)
     end
   end
 end

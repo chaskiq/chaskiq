@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  module Articles
+  module Bots
     class ReorderBotTask < Mutations::BaseMutation
       field :bot_task, Types::BotTaskType, null: false
       argument :app_key, String, required: true

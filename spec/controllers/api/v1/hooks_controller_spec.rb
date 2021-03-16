@@ -17,6 +17,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
                  })
   end
 
+  let!(:role) do
+    app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' })
+  end
+
   let(:campaign) { FactoryBot.create(:campaign, app: app) }
 
   let(:metric) do
@@ -1041,7 +1045,6 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         expect(ConversationPart.last).to_not be_read
 
         response = send_data(message_notification_params)
-
         # expect(response.status).to be == 200
         expect(ConversationPart.last.messageable.serialized_content).to be_present
       end
@@ -1060,6 +1063,50 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         # puts ConversationPart.last.messageable.html_content
         expect(ConversationPart.last.messageable.serialized_content).to be_present
       end
+    end
+  end
+
+  describe 'SNS events on conversation on inbound AGENT address' do
+    it 'message' do
+      allow_any_instance_of(Api::V1::HooksController).to receive(
+        :read_mail_file
+      ).and_return(
+        File.open(Rails.root.to_s + '/spec/fixtures/emails/aws_sample.eml').read
+      )
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :recipients
+      ).and_return([role.inbound_email_address])
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :message_id
+      ).and_return('message_id-1234')
+
+      response = send_data(message_notification_params)
+      expect(ConversationPart.last.email_message_id).to be == 'message_id-1234'
+      expect(ConversationPart.last.messageable.serialized_content).to be_present
+    end
+  end
+
+  describe 'SNS events on conversation on inbound APP address' do
+    it 'message' do
+      allow_any_instance_of(Api::V1::HooksController).to receive(
+        :read_mail_file
+      ).and_return(
+        File.open(Rails.root.to_s + '/spec/fixtures/emails/aws_sample.eml').read
+      )
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :recipients
+      ).and_return([app.inbound_email_address])
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :message_id
+      ).and_return('message_id-1234')
+
+      response = send_data(message_notification_params)
+      expect(ConversationPart.last.email_message_id).to be == 'message_id-1234'
+      expect(ConversationPart.last.messageable.serialized_content).to be_present
     end
   end
 end

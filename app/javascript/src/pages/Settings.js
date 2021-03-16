@@ -243,6 +243,27 @@ class AppSettingsContainer extends Component {
                 namespace={"app"}
               />
             ),
+          },
+          {
+            label:  I18n.t("settings.app.email_forwarding"),
+            content: (
+              <div className="py-4">
+
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                  {I18n.t("email_forwarding.subtitle")}
+                </h3>
+                <div class="mt-2 max-w-xl text-sm text-gray-500">
+                  <p>
+                    {I18n.t("email_forwarding.ex")}
+                  </p>
+                </div>
+                <div class="mt-3 text-sm bg-gray-200 p-4 rounded-md">
+                  <p href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> 
+                    { this.props.app.inboundEmailAddress }
+                  </p>
+                </div>
+              </div>
+            ),
           }
         ]}
       />

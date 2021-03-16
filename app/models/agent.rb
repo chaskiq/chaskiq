@@ -78,30 +78,15 @@ class Agent < ApplicationRecord
     [name].join(' ')
   end
 
-  def default_avatar
-    ActionController::Base.helpers.asset_url('icons8-bot-50.png')
-  end
-
   def avatar_url
-    unless avatar.attached?
-      return bot? ?
-          default_avatar :
-          gravatar
-    end
+    return default_avatar unless avatar.attached?
 
-    # return '' unless object.avatar_blob.present?
-
-    url = begin
-      avatar.variant(resize_to_limit: [100, 100]).processed
-    rescue StandardError
-      nil
-    end
+    url = get_remote_avatar_url
     return nil if url.blank?
 
     begin
       Rails.application.routes.url_helpers.rails_representation_url(
         url
-        # only_path: true
       )
     rescue StandardError
       nil
@@ -126,5 +111,23 @@ class Agent < ApplicationRecord
 
   def kind
     self.class.model_name.singular
+  end
+
+  private
+
+  def default_bot_avatar
+    ActionController::Base.helpers.asset_url('icons8-bot-50.png')
+  end
+
+  def default_avatar
+    bot? ? default_bot_avatar : gravatar
+  end
+
+  def get_remote_avatar_url
+    url = begin
+      avatar.variant(resize_to_limit: [100, 100]).processed
+    rescue StandardError
+      nil
+    end
   end
 end

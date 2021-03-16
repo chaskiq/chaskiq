@@ -138,10 +138,7 @@ class ConversationPart < ApplicationRecord
 
     increment_message_stats
 
-    if authorable.is_a?(Agent) && !is_event_message? && !from_bot?
-      conversation.main_participant.new_messages.increment
-      conversation.update_first_time_reply
-    end
+    handle_conversation_touches
 
     return if from_bot?
 
@@ -182,6 +179,10 @@ class ConversationPart < ApplicationRecord
 
     return if serialized_content.blank?
 
+    check_rules(serialized_content)
+  end
+
+  def check_rules(serialized_content)
     text = JSON.parse(serialized_content)['blocks'].map do |o|
       o['text']
     end.join(' ')
@@ -193,6 +194,13 @@ class ConversationPart < ApplicationRecord
 
       conversation.assign_user(rule.agent)
       break
+    end
+  end
+
+  def handle_conversation_touches
+    if authorable.is_a?(Agent) && !is_event_message? && !from_bot?
+      conversation.main_participant.new_messages.increment
+      conversation.update_first_time_reply
     end
   end
 
