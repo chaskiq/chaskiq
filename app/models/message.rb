@@ -155,4 +155,11 @@ class Message < ApplicationRecord
     range = opts[:range] ||= 2.weeks.ago.midnight..Time.now
     metrics.group_by_day(:created_at, range: range).count.map { |o| o.to_a.last }
   end
+
+  def add_stat_field(name:, label:, keys:)
+    {
+      name: name, label: label,
+      keys: keys
+    }
+  end
 end

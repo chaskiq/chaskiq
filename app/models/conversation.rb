@@ -110,28 +110,24 @@ class Conversation < ApplicationRecord
 
   def process_message_part(opts)
     part = messages.new
-    part.authorable = opts[:from]
-    part.check_assignment_rules = opts[:check_assignment_rules]
     # part.app_user = opts[:from]
-
-    part.step_id = opts[:step_id] unless opts[:step_id].blank?
-    part.trigger_id = opts[:trigger_id] unless opts[:trigger_id].blank?
-
-    part.controls = opts[:controls] if opts[:controls].present?
-    part.message  = opts[:message] if opts[:message].present?
+    handle_part_details(part, opts)
 
     part.private_note = opts[:private_note]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
 
+    add_part_channel(part, opts)
+    part
+  end
+
+  def add_part_channel(part, opts)
     if opts[:provider].present? && opts[:message_source_id].present?
       part.conversation_part_channel_sources.new({
                                                    provider: opts[:provider],
                                                    message_source_id: opts[:message_source_id]
                                                  })
     end
-
-    part
   end
 
   def assign_user(user)
@@ -182,5 +178,16 @@ class Conversation < ApplicationRecord
 
   def has_user_visible_comment?
     latest_user_visible_comment_at.present?
+  end
+
+  private
+
+  def handle_part_details(part, opts)
+    part.authorable = opts[:from]
+    part.step_id = opts[:step_id]
+    part.trigger_id = opts[:trigger_id]
+    part.check_assignment_rules = opts[:check_assignment_rules]
+    part.controls = opts[:controls] if opts[:controls].present?
+    part.message  = opts[:message] if opts[:message].present?
   end
 end
