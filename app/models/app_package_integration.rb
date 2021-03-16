@@ -33,7 +33,7 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{app_package.name}".constantize.new(
+    @message_api_klass ||= "MessageApis::#{app_package.name}::Api".constantize.new(
       config: settings.dup.merge(
         app_package.credentials || {}
       )
@@ -120,7 +120,7 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def get_presenter_manager
-    "MessageApis::#{app_package.name}::PresenterManager"&.constantize
+    "MessageApis::#{app_package.name}::Presenter"&.constantize
   rescue StandardError
     ExternalPresenterManager
   end
@@ -138,19 +138,9 @@ class AppPackageIntegration < ApplicationRecord
     # @presenter.submit_hook(params)
     params.merge!({ package: self }) if external_package?
 
-    response = case params[:kind]
-               when 'initialize' then presenter.initialize_hook(params)
-               when 'configure' then presenter.configure_hook(params)
-               when 'submit' then presenter.submit_hook(params)
-               when 'frame' then presenter.sheet_hook(params)
-               when 'content' then presenter.content_hook(params) # not used
-               else raise 'no compatible hook kind'
-               end
+    response = presenter_hook_response(params, presenter)&.with_indifferent_access
 
-    response = response.with_indifferent_access
-
-    package_schema = PluginSchemaValidator.new(response[:definitions])
-    raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
+    validate_schema!(response[:definitions])
 
     if response['kind'] == 'initialize'
       params[:ctx][:field] = nil
@@ -175,6 +165,22 @@ class AppPackageIntegration < ApplicationRecord
     end
 
     response
+  end
+
+  def validate_schema!(definitions)
+    package_schema = PluginSchemaValidator.new(definitions)
+    raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
+  end
+
+  def presenter_hook_response(params, presenter)
+    case params[:kind]
+    when 'initialize' then presenter.initialize_hook(params)
+    when 'configure' then presenter.configure_hook(params)
+    when 'submit' then presenter.submit_hook(params)
+    when 'frame' then presenter.sheet_hook(params)
+    when 'content' then presenter.content_hook(params) # not used
+    else raise 'no compatible hook kind'
+    end
   end
 end
 

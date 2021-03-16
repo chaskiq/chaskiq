@@ -30,6 +30,7 @@ RSpec.describe BotTask, type: :model do
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'follow_actions' => [{ 'key' => 'assign', 'name' => 'assign', 'value' => 1 }] }] }
   end
 
-  it 'oijoij' do
+  xit 'bot task' do
+    pending('bot task')
   end
 end

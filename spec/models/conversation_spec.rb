@@ -418,7 +418,7 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'create conversation will call slack app' do
-      expect_any_instance_of(MessageApis::Slack).to receive(:trigger).with(any_args)
+      expect_any_instance_of(MessageApis::Slack::Api).to receive(:trigger).with(any_args)
       perform_enqueued_jobs do
         app.start_conversation(
           message: { text_content: 'aa' },

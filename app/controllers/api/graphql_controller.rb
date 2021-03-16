@@ -3,6 +3,7 @@
 require 'browser/aliases'
 
 class Api::GraphqlController < ApiController
+  include HashEnsurer
   before_action :get_app
   # before_action :authorize!
 
@@ -74,36 +75,5 @@ class Api::GraphqlController < ApiController
 
   def set_host_for_local_storage
     ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
-  end
-
-  # Handle form data, JSON body, or a blank value
-  def ensure_hash(ambiguous_param)
-    case ambiguous_param
-    when String
-      if ambiguous_param.present?
-        ensure_hash(JSON.parse(ambiguous_param))
-      else
-        {}
-      end
-    when Hash, ActionController::Parameters
-      ambiguous_param
-    when nil
-      {}
-    else
-      raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
-    end
-  end
-
-  def handle_error_message(e)
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
-
-    render json: {
-      error: {
-        message: e.message,
-        backtrace: Rails.env.production? ? nil : e.backtrace.join("\n")
-      },
-      data: {}
-    }, status: 500
   end
 end

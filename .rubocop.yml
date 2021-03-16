@@ -1,4 +1,17 @@
 inherit_from: .rubocop_todo.yml
+Lint/EmptyBlock:
+  Exclude:
+    - 'spec/**/*'
+Metrics/BlockLength:
+  Exclude:
+  - 'spec/**/*'
+Style/AsciiComments:
+  Enabled: false
+Lint/MissingSuper:
+  Enabled: false
+Metrics/ModuleLength:
+  Exclude:
+    - app/services/message_apis/helpers.rb
 AllCops:
   NewCops: enable
   Exclude:
