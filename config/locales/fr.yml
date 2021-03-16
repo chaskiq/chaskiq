@@ -239,6 +239,10 @@ fr:
       hint: nous allons détruire tout contenu et données connexes
     create:
       title: Créer une tâche de bot
+  email_forwarding:
+    title: Email Forwarding
+    subtitle: Default Inbound Address
+    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
   quick_replies:
     title: Réponses rapides
     search: Rechercher des réponses rapides
@@ -291,6 +295,7 @@ fr:
       user_data: User data
       tags: Tags
       quick_replies: Quick Replies
+      email_forwarding: Email Forwarding
     app_packages:
       create_success: Package created
       create_error: Error creating package
