@@ -4,10 +4,11 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   def create
     response = @integration_pkg.create_hook_from_params(params)
     api = @integration_pkg.message_api_klass
+    
     if api.respond_to?(:response_with_text?) && api.response_with_text?
       render(status: 200, plain: response)
     else
-      render(status: 200, json: response.to_json)
+      render(status: 200, xml: response.to_xml)
     end
   end
 
@@ -21,7 +22,7 @@ class Api::V1::Hooks::ProviderController < ApplicationController
 
   def process_event
     response = @integration_pkg.process_event(params)
-    render status: 200, json: response
+    head :ok
   end
 
   def find_application_package

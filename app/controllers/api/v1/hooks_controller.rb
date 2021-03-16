@@ -188,7 +188,7 @@ class Api::V1::HooksController < ActionController::API
     direct_upload(
       file: file,
       filename: attachment.filename,
-      mime_type: attachment.mime_type
+      content_type: attachment.mime_type
     )
   end
 

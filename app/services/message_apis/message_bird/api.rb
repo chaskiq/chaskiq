@@ -24,8 +24,10 @@ module MessageApis::MessageBird
         }
       )
 
+      key = "#{config['sandbox'] ? 'test_' : ''}#{@api_key}"
+
       @conn.headers = {
-        authorization: "AccessKey #{@api_key}",
+        authorization: "AccessKey #{key}",
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
       }
@@ -111,7 +113,7 @@ module MessageApis::MessageBird
 
       message_params = {
         from: @phone,
-        to: profile_id
+        to: profile_id.gsub('+', '')
       }
 
       if is_plain
@@ -151,10 +153,16 @@ module MessageApis::MessageBird
                               })
       end
 
+      puts "MESSAGE PARAMS:#{message_params}"
+      puts @url
+      puts @api_key
+      puts '============='
       s = @conn.post(
         "#{@url}/send",
         message_params.to_json
       )
+      puts "RESPNSE #{s.body}"
+      s
     end
 
     # not used fro now
@@ -213,7 +221,7 @@ module MessageApis::MessageBird
 
       serialized_content = serialize_content(message)
 
-      participant = add_participant(dialog_user, message, params['contact'])
+      participant = add_participant(channel_id, message, params['contact'])
 
       if conversation.blank?
         conversation = app.conversations.create(
@@ -274,23 +282,23 @@ module MessageApis::MessageBird
       when 'unsupported' then nil
       when 'image'
         file = handle_direct_upload(url['id'], url['mime_type'])
-        photo_block(url: file, text: text)
+        photo_block(url: file[:url], text: text)
       when 'video'
         file = handle_direct_upload(url['id'], url['mime_type'])
-        gif_block(url: file, text: text)
+        gif_block(url: file[:url], text: text)
       when 'audio', 'voice', 'document'
         file = handle_direct_upload(url['id'], url['mime_type'])
-        file_block(url: file, text: text)
+        file_block(url: file[:url], text: text)
       end
     end
 
-    def add_participant(dialog_user, message, contact)
+    def add_participant(channel_id, message, contact)
       app = @package.app
 
-      if dialog_user
+      if channel_id
 
         profile_data = {
-          name: dialog_user
+          name: channel_id
         }
 
         if contact['displayName']
@@ -305,7 +313,7 @@ module MessageApis::MessageBird
 
         external_profile = app.external_profiles.find_by(
           provider: PROVIDER,
-          profile_id: dialog_user
+          profile_id: channel_id
         )
 
         participant = external_profile&.app_user
@@ -316,7 +324,7 @@ module MessageApis::MessageBird
           participant = app.add_anonymous_user(data)
           participant.external_profiles.create(
             provider: PROVIDER,
-            profile_id: dialog_user
+            profile_id: channel_id
           )
         end
 

@@ -87,7 +87,7 @@ module MessageApis::Vonage
       message_params = build_message_params(
         blocks: blocks,
         plain_message: plain_message,
-        plain_id: profile_id
+        profile_id: profile_id
       )
 
       s = @conn.post(
@@ -127,6 +127,8 @@ module MessageApis::Vonage
           vonage_block(block_type: 'file', plain_message: plain_message, block: file_block)
         )
       end
+
+      message_params
     end
 
     def vonage_block(block_type:, plain_message:, block:)
@@ -241,28 +243,28 @@ module MessageApis::Vonage
     def attachment_block(data)
       image_data = data.dig('message', 'content')
       {
-        blocks: [media_block(image_data)],
+        blocks: [media_block(image_data)].compact,
         entityMap: {}
       }.to_json
     end
 
     def media_block(data)
       media_type = data['type']
-      case media_type
-      when 'unsupported' then nil
-      when 'image'
-        url = data['image']['url']
-        text = data['image']['caption']
-        photo_block(url: url, text: text)
-      when 'video'
-        url = data['video']['url']
-        text = data['video']['caption']
-        gif_block(url: url, text: text)
-      when 'audio'
-        url = data['audio']['url']
-        text = data['audio']['caption']
-        file_block(url: url, text: text)
-      end
+      media = case media_type
+              when 'unsupported' then nil
+              when 'image'
+                url = data['image']['url']
+                text = data['image']['caption']
+                photo_block(url: url, text: text)
+              when 'video'
+                url = data['video']['url']
+                text = data['video']['caption']
+                gif_block(url: url, text: text)
+              when 'audio', 'file'
+                url = data[media_type]['url']
+                text = data[media_type]['caption']
+                file_block(url: url, text: text)
+              end
     end
 
     def add_participant(vonage_user)

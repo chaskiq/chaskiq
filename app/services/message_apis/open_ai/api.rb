@@ -103,8 +103,8 @@ Human: Hello, who are you?
 AI: I am an AI created by OpenAI. How can I help you today?
 #{previous}
 Human:'''"
-
-        human_input = part&.message&.parsed_content['blocks']
+        parsed_content = part&.message&.parsed_content
+        human_input = parsed_content['blocks']
         human_input = human_input&.map do |o|
           o['text']
         end&.join(' ')

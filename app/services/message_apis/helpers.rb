@@ -17,7 +17,7 @@ module MessageApis
     def gif_block(url:, text:)
       {
         key: keygen,
-        text: text,
+        text: text.to_s,
         type: 'recorded-video',
         depth: 0,
         inlineStyleRanges: [],
@@ -47,13 +47,13 @@ module MessageApis
       end
       {
         key: keygen,
-        text: text,
+        text: text.to_s,
         type: 'image',
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
         data: {
-          caption: text,
+          caption: text.to_s,
           forceUpload: false,
           url: url,
           width: 100,
@@ -70,13 +70,13 @@ module MessageApis
     def file_block(url:, text:)
       {
         key: keygen,
-        text: text,
+        text: text.to_s,
         type: 'file',
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
         data: {
-          caption: text,
+          caption: text.to_s,
           forceUpload: false,
           url: url,
           loading_progress: 0,
@@ -91,7 +91,7 @@ module MessageApis
     def serialized_block(text)
       {
         key: keygen,
-        text: text,
+        text: text.to_s,
         type: 'unstyled',
         depth: 0,
         inlineStyleRanges: [],
@@ -125,11 +125,11 @@ module MessageApis
       # console.log result
     end
 
-    def direct_upload(file:, filename:, mime_type:)
+    def direct_upload(file:, filename:, content_type:)
       blob = ActiveStorage::Blob.create_and_upload!(
         io: file,
         filename: filename,
-        content_type: mime_type,
+        content_type: content_type,
         identify: false
       )
       {

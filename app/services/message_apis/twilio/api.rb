@@ -100,6 +100,8 @@ module MessageApis::Twilio
                                 MediaUrl: ENV['HOST'] + image_block['data']['url']
                               })
       end
+
+      message_params
     end
 
     def process_message(params, package)

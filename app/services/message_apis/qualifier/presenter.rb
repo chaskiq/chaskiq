@@ -61,7 +61,7 @@ module MessageApis::Qualifier
       record.items.each do |o|
         o[:label] = ctx[:definitions]&.find { |d| d[:id] == o[:id] }&.dig(:label)
         o[:value] = ctx.dig(:values, o[:id].to_sym)
-        o[:placeholder] = "type your #{o[:label]}"
+        o[:placeholder] = (o[:label]).to_s
       end
 
       definitions = record.schema

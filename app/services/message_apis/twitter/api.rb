@@ -133,8 +133,8 @@ module MessageApis::Twitter
 
           conversation = find_conversation_by_channel(channel_id)
 
-          return if conversation && conversation.conversation_part_channel_sources
-                                                .find_by(message_source_id: message_id).present?
+          next if conversation && conversation.conversation_part_channel_sources
+                                              .find_by(message_source_id: message_id).present?
 
           message_data = message['message_create']['message_data']
           text = message_data['text']
@@ -297,14 +297,14 @@ module MessageApis::Twitter
       when 'animated_gif'
         media = data['attachment']['media']
         variant = media['video_info']['variants'][0]
-        url = handle_direct_upload(variant['url'], variant['content_type'])
+        file = handle_direct_upload(variant['url'], variant['content_type'])
         text = data['text'].split.last
-        gif_block(url: url, text: text)
+        gif_block(url: file[:url], text: text)
       when 'photo'
         media = data['attachment']['media']
-        url = handle_direct_upload(media['media_url_https'])
+        file = handle_direct_upload(media['media_url_https'])
         text = data['text'].split.last
-        photo_block(url: url, text: text)
+        photo_block(url: file[:url], text: text)
       end
     end
 

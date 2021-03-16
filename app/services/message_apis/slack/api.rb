@@ -711,7 +711,7 @@ module MessageApis::Slack
             url: block['image_url'],
             w: block['image_width'],
             h: block['image_height'],
-            title: block['alt_text'],
+            text: block['alt_text'],
             mimetype: 'image/'
           }
         )
@@ -727,7 +727,7 @@ module MessageApis::Slack
       err = nil
       files = data['files'].map do |o|
         begin
-          url = handle_direct_upload(
+          file = handle_direct_upload(
             o['url_private_download'],
             o['mimetype']
           )
@@ -740,10 +740,10 @@ module MessageApis::Slack
         return nil if err
 
         {
-          url: url,
-          w: o['original_w'],
-          h: o['original_h'],
-          title: o['title'],
+          url: file[:url],
+          w: file[:width],
+          h: file[:height],
+          text: o['title'],
           mimetype: o['mimetype']
         }
       end
@@ -763,7 +763,6 @@ module MessageApis::Slack
 
     def media_block(data)
       params = data.slice(:url, :text, :w, :h)
-      params[:text] = params[:title]
       return photo_block(**params) if data[:mimetype].include?('image/')
 
       file_block(url: data[:url], text: data[:text])

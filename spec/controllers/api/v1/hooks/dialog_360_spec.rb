@@ -228,7 +228,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       allow_any_instance_of(MessageApis::Dialog360::Api).to receive(
         :direct_upload
-      ).and_return('/direct-upload-mock')
+      ).and_return({url: '/direct-upload-mock'})
     end
 
     it 'receive conversation data' do

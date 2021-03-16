@@ -361,7 +361,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       MessageApis::Slack::Api.any_instance
                              .stub(:direct_upload)
-                             .and_return('foobar')
+                             .and_return({url: 'foobar'})
 
       MessageApis::Slack::Api.any_instance
                              .stub(:create_channel)

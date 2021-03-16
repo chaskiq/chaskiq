@@ -179,7 +179,7 @@ module MessageApis::Dialog360
       direct_upload(
         file: file,
         filename: 'ws360-file',
-        mime_type: content_type || 'image/jpeg'
+        content_type: content_type || 'image/jpeg'
       )
     end
 
@@ -270,17 +270,17 @@ module MessageApis::Dialog360
         url = data[data['type']]
         text = data[data['type']]['caption']
         file = handle_direct_upload(url['id'], url['mime_type'])
-        photo_block(url: file, text: text)
+        photo_block(url: file[:url], text: text)
       when 'video'
         url = data['video']
         text = data['video']['caption']
         file = handle_direct_upload(url['id'], url['mime_type'])
-        gif_block(url: file, text: text)
+        gif_block(url: file[:url], text: text)
       when 'audio', 'voice', 'document'
         url = data[media_type]
         text = data[media_type]['caption']
         file = handle_direct_upload(url['id'], url['mime_type'])
-        file_block(url: file, text: text)
+        file_block(url: file[:url], text: text)
       end
     end
 
