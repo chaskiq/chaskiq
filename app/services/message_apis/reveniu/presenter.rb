@@ -1,5 +1,5 @@
-module MessageApis::InboxSections
-  class Presenter
+module MessageApis::Presenter
+  class InboxSections
     # Initialize flow webhook URL
     # Sent when an app has been inserted into a conversation, message or
     # the home screen, so that you can render the app.
