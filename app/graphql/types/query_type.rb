@@ -40,16 +40,21 @@ module Types
     def campaign_subscription_toggle(encoded:, op:)
       subscriber_email = URLcrypt.decode(encoded)
       app_user = AppUser.find_by(email: subscriber_email)
-      if op
-        app_user.subscribe! unless app_user.subscribed?
-      else
-        app_user.unsubscribe! unless app_user.unsubscribed?
-      end
+      
+      toggle_subscription_state(app_state, op)
 
       {
         state: app_user.subscription_state,
         email: app_user.email
       }
+    end
+
+    def toggle_subscription_state(app_state, op)
+      if op
+        app_user.subscribe! unless app_user.subscribed?
+      else
+        app_user.unsubscribe! unless app_user.unsubscribed?
+      end
     end
 
     field :user_session, Types::AgentType, null: false, description: 'get current user email'

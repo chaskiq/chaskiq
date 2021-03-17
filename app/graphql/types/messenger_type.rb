@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+ # frozen_string_literal: true
 
 module Types
   class MessengerType < Types::BaseObject
@@ -36,11 +36,7 @@ module Types
       return true if privacy_consent_required == 'all'
 
       if privacy_consent_required == 'eu'
-        %w[
-          DE AT BE BG CY HR DK ES EE FI FR GR HU IE
-          IT LV LT LU MT NL PL PT CZ RO GB SK SI SE
-        ].include?(context[:request]&.location&.country_code)
-
+        EuCountries.include?(context[:request]&.location&.country_code)
       end
     end
 

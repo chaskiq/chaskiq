@@ -204,22 +204,25 @@ class Api::V1::HooksController < ActionController::API
   def process_attachments(mail, message)
     mail.attachments.each do |attachment|
       next unless attachment.content_type.start_with?('image/')
-
-      uploaded_data = handle_direct_upload(attachment)
-      attachment_string_pattern = "[image: #{attachment.filename}]"
-      image_mark = "<img src='#{uploaded_data[:url]}' title='#{attachment.filename}' width='#{uploaded_data[:width]}' height='#{uploaded_data[:height]}' />"
-
-      # replace for inline attachments or append for attachments
-      if message.include?(attachment_string_pattern)
-        message.gsub!(
-          attachment_string_pattern,
-          image_mark
-        )
-      else
-        message = image_mark.dup << message
-      end
+      message = process_attachment(attachment, message)
     end
     message
+  end
+
+  def process_attachment(attachment, message)
+    uploaded_data = handle_direct_upload(attachment)
+    attachment_string_pattern = "[image: #{attachment.filename}]"
+    image_mark = "<img src='#{uploaded_data[:url]}' title='#{attachment.filename}' width='#{uploaded_data[:width]}' height='#{uploaded_data[:height]}' />"
+
+    # replace for inline attachments or append for attachments
+    if message.include?(attachment_string_pattern)
+      message.gsub!(
+        attachment_string_pattern,
+        image_mark
+      )
+    else
+      message = image_mark.dup << message
+    end
   end
 
   def process_event_notification

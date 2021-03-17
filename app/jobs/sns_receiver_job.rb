@@ -67,18 +67,18 @@ class SnsReceiverJob < ApplicationJob
   def unsubscribe_user(track_type, m)
     case track_type
     when 'complaint'
-      email = m.dig('complaint', 'complainedRecipients').map { |o| o['emailAddress'] }
-      users = AppUser.where(email: email)
-      users.map(&:unsubscribe!)
+      get_app_user_from_email(m, 'complaint', 'complainedRecipients')
       true
     when 'bounce'
       return unless m['bounce']['bounceType'] == 'Permanent'
-
-      email = m.dig('bounce', 'bouncedRecipients').map { |o| o['emailAddress'] }
-      users = AppUser.where(email: email) if email.present?
-      users.map(&:unsubscribe!)
-      true
+      get_app_user_from_email(m, 'bounce', 'bouncedRecipients')
     end
+  end
+
+  def get_app_user_from_email(message, message_type, type_kind)
+    email = message.dig(message_type, type_kind).map { |o| o['emailAddress'] }
+    users = AppUser.where(email: email) if email.present?
+    users.map(&:unsubscribe!)
   end
 
   def parsed_message_id(m)
