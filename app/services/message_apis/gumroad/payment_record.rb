@@ -1,4 +1,4 @@
-module MessageApis::Reveniu
+module MessageApis::Gumroad
   class PaymentRecord
     include ActiveModel::Model
     include ActiveModel::Validations
