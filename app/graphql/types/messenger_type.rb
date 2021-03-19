@@ -1,4 +1,4 @@
- # frozen_string_literal: true
+# frozen_string_literal: true
 
 module Types
   class MessengerType < Types::BaseObject
@@ -35,9 +35,7 @@ module Types
       # privacy consent on
       return true if privacy_consent_required == 'all'
 
-      if privacy_consent_required == 'eu'
-        EuCountries.include?(context[:request]&.location&.country_code)
-      end
+      EuCountries.include?(context[:request]&.location&.country_code) if privacy_consent_required == 'eu'
     end
 
     field :conversations, Types::PaginatedConversationsType, null: true do

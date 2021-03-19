@@ -225,6 +225,5 @@ module MessageApis::Gumroad
 
       template.result(binding)
     end
-
   end
 end

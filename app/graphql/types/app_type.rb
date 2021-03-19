@@ -28,6 +28,7 @@ module Types
 
     def plan
       return { disabled: true } unless context[:enabled_subscriptions]
+
       object.plan
     end
 
@@ -181,7 +182,7 @@ module Types
     field :conversations_counts, Types::JsonType, null: true
 
     field :conversations_tag_counts, Types::JsonType, null: true
-  
+
     field :conversation, Types::ConversationType, null: true do
       argument :id, String, required: false
     end
@@ -199,36 +200,36 @@ module Types
           messages_messageable_of_ConversationPartContent_type_text_content_cont: term
         ).result
       end
-  
+
       @collection
     end
-  
+
     def conversations_counts
       result = object.conversations.group('assignee_id').count.dup
       result.merge({
                      all: object.conversations.size
                    })
     end
-  
+
     def conversations_tag_counts
       object.conversations.tag_counts.map do |o|
         { tag: o.name, count: o.taggings_count }
       end
     end
-  
+
     def conversation(id:)
       authorize! object, to: :show?, with: AppPolicy
       object.conversations.find_by(key: id)
     end
-  
+
     private def filter_by_agent(agent_id, filter)
       collection = object.conversations
-      .left_joins(:messages)
-      .where.not(conversation_parts: { id: nil })
-      .distinct
-  
+                         .left_joins(:messages)
+                         .where.not(conversation_parts: { id: nil })
+                         .distinct
+
       collection = collection.where(state: filter) if filter.present?
-  
+
       if agent_id.present?
         agent = agent_id.zero? ? nil : agent_id
         collection = collection.where(assignee_id: agent)
@@ -236,7 +237,7 @@ module Types
 
       collection
     end
-  
+
     private def sort_conversations(sort)
       if sort.present?
         s = case sort
@@ -246,12 +247,12 @@ module Types
             else
               'id desc'
             end
-  
+
         if sort != 'unfiltered' # && agent_id.blank?
           @collection = @collection.where
                                    .not(latest_user_visible_comment_at: nil)
         end
-  
+
         @collection = @collection.order(s)
       end
     end
@@ -468,6 +469,7 @@ module Types
 
     private def handle_bot_tasks_filters(filters, collection)
       return collection if filters['users'].blank?
+
       ors = nil
       filters['users'].each_with_index do |filter, _index|
         ors = ors.nil? ? BotTask.infix(filter) : ors.or(BotTask.infix(filter))

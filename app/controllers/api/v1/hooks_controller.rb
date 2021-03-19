@@ -189,21 +189,22 @@ class Api::V1::HooksController < ActionController::API
       from = app_user
       conversation = app.start_conversation(from: from)
     end
-    return [app, conversation, from]
+    [app, conversation, from]
   end
 
   def handle_conversation_part(mail)
     recipient = mail.recipients.first
     if recipient.starts_with?('messages+')
-      return handle_message_recipient(mail)
+      handle_message_recipient(mail)
     elsif recipient.starts_with?('inbound+')
-      return handle_inbound_recipient(mail)
+      handle_inbound_recipient(mail)
     end
   end
 
   def process_attachments(mail, message)
     mail.attachments.each do |attachment|
       next unless attachment.content_type.start_with?('image/')
+
       message = process_attachment(attachment, message)
     end
     message

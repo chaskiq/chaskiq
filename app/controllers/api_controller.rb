@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
-
   private
 
   def get_user_data_from_auth
@@ -73,6 +72,7 @@ class ApiController < ActionController::API
 
     return http_splitted_locale if lang_available?(http_splitted_locale)
     return http_locale if lang_available?(http_locale)
+
     nil
   end
 

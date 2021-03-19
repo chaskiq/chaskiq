@@ -1,5 +1,4 @@
 module MessageApis::Reveniu
-
   class PaymentRecord
     include ActiveModel::Model
     include ActiveModel::Validations
@@ -60,5 +59,4 @@ module MessageApis::Reveniu
       ]
     end
   end
-
 end

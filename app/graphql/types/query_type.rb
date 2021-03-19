@@ -40,7 +40,7 @@ module Types
     def campaign_subscription_toggle(encoded:, op:)
       subscriber_email = URLcrypt.decode(encoded)
       app_user = AppUser.find_by(email: subscriber_email)
-      
+
       toggle_subscription_state(app_state, op)
 
       {

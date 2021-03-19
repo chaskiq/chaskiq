@@ -71,6 +71,7 @@ class SnsReceiverJob < ApplicationJob
       true
     when 'bounce'
       return unless m['bounce']['bounceType'] == 'Permanent'
+
       get_app_user_from_email(m, 'bounce', 'bouncedRecipients')
     end
   end
