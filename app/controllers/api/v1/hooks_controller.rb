@@ -53,14 +53,7 @@ class Api::V1::HooksController < ActionController::API
     json_message = JSON.parse(message)
     json_message['receipt']
     json_message['mail']['headers'].map { |o| { o['name'] => o['value'] } }
-
     json_message['receipt']['action']
-
-    #=> {"type"=>"S3",
-    # "topicArn"=>"xxxx",
-    # "bucketName"=>"xxxx-incoming-mails",
-    # "objectKeyPrefix"=>"mail",
-    # "objectKey"=>"mail/xxxxx"}
     action = json_message['receipt']['action']
 
     mail_body = read_mail_file(action)
@@ -71,18 +64,8 @@ class Api::V1::HooksController < ActionController::API
 
     message = EmailReplyParser.parse_reply(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
     #  mail.parts.last.body.to_s )
-    recipient = recipients.first
-    if recipient.starts_with?('messages+')
-      recipient_parts = URLcrypt.decode(recipients.first.split('@').first.split('+').last)
-      app, conversation = find_resources_in_recipient_parts(recipient_parts)
-      # this logic implies that if the email.from correspond to an agent , then we assume that the message is from agent
-      from = find_remitent(app: app, from: from)
-      # TODO: handle blank author with a conversation.add_message_event
-      # to notify that the email was not delivered, which is the mos probable case
-      # but whe should inspect the status of this
 
-      # we have found notification like this:
-      #  ""An error occurred while trying to deliver the mail to the following recipients:<br/>miguel@chaskiq.io""
+    app, conversation, from = handle_conversation_part(mail)
 
     elsif recipient.starts_with?('inbound+')
       app, agent = decode_inbound_address(mail.recipients.first)
@@ -116,41 +99,6 @@ class Api::V1::HooksController < ActionController::API
     }
 
     conversation.add_message(opts)
-  end
-
-  def process_attachments(mail, message)
-    mail.attachments.each do |attachment|
-      next unless attachment.content_type.start_with?('image/')
-
-      uploaded_data = handle_direct_upload(attachment)
-      attachment_string_pattern = "[image: #{attachment.filename}]"
-      image_mark = "<img src='#{uploaded_data[:url]}' title='#{attachment.filename}' width='#{uploaded_data[:width]}' height='#{uploaded_data[:height]}' />"
-
-      # replace for inline attachments or append for attachments
-      if message.include?(attachment_string_pattern)
-        message.gsub!(
-          attachment_string_pattern,
-          image_mark
-        )
-      else
-        message = image_mark.dup << message
-      end
-    end
-    message
-  end
-
-  def process_event_notification
-    message = parse_body_message(@request_body['Message'])
-    return if message.blank?
-    return if message['eventType'].blank?
-
-    track_message_for(message['eventType'].downcase, message)
-  end
-
-  def parse_body_message(body)
-    JSON.parse(body)
-  rescue StandardError
-    nil
   end
 
   def track_message_for(track_type, m)
@@ -226,5 +174,79 @@ class Api::V1::HooksController < ActionController::API
     h = img.attr('height')&.value
     title = img.attr('title')&.value
     photo_block(url: url, text: title, w: w, h: h)
+  end
+
+  def handle_message_recipient(mail)
+    recipient = mail.recipients.first
+    recipient_parts = URLcrypt.decode(recipient.split('@').first.split('+').last)
+    app, conversation = find_resources_in_recipient_parts(recipient_parts)
+    # this logic implies that if the email.from correspond to an agent , then we assume that the message is from agent
+    from = find_remitent(app: app, from: mail.from)
+    # TODO: handle blank author with a conversation.add_message_event
+    # to notify that the email was not delivered, which is the mos probable case
+    # but whe should inspect the status of this
+    # we have found notification like this:
+    #  ""An error occurred while trying to deliver the mail to the following recipients:<br/>miguel@chaskiq.io""
+    [app, conversation, from]
+  end
+
+  def handle_inbound_recipient(mail)
+    recipient = mail.recipients.first
+    app, agent = decode_inbound_address(recipient)
+    conversation = app.conversation_parts.find_by(email_message_id: mail.message_id)
+    unless conversation.present?
+      app_user = app.app_users.find_by(email: mail.from) || app.add_user(email: mail.from)
+      from = app_user
+      conversation = app.start_conversation(from: from)
+    end
+    [app, conversation, from]
+  end
+
+  def handle_conversation_part(mail)
+    recipient = mail.recipients.first
+    if recipient.starts_with?('messages+')
+      handle_message_recipient(mail)
+    elsif recipient.starts_with?('inbound+')
+      handle_inbound_recipient(mail)
+    end
+  end
+
+  def process_attachments(mail, message)
+    mail.attachments.each do |attachment|
+      next unless attachment.content_type.start_with?('image/')
+
+      message = process_attachment(attachment, message)
+    end
+    message
+  end
+
+  def process_attachment(attachment, message)
+    uploaded_data = handle_direct_upload(attachment)
+    attachment_string_pattern = "[image: #{attachment.filename}]"
+    image_mark = "<img src='#{uploaded_data[:url]}' title='#{attachment.filename}' width='#{uploaded_data[:width]}' height='#{uploaded_data[:height]}' />"
+
+    # replace for inline attachments or append for attachments
+    if message.include?(attachment_string_pattern)
+      message.gsub!(
+        attachment_string_pattern,
+        image_mark
+      )
+    else
+      message = image_mark.dup << message
+    end
+  end
+
+  def process_event_notification
+    message = parse_body_message(@request_body['Message'])
+    return if message.blank?
+    return if message['eventType'].blank?
+
+    track_message_for(message['eventType'].downcase, message)
+  end
+
+  def parse_body_message(body)
+    JSON.parse(body)
+  rescue StandardError
+    nil
   end
 end

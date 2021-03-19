@@ -179,24 +179,66 @@ module Types
       argument :term, String, required: false
     end
 
+    field :conversations_counts, Types::JsonType, null: true
+
+    field :conversations_tag_counts, Types::JsonType, null: true
+
+    field :conversation, Types::ConversationType, null: true do
+      argument :id, String, required: false
+    end
+
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
       # object.plan.allow_feature!("Conversations")
       authorize! object, to: :show?, with: AppPolicy
+      @collection = filter_by_agent(agent_id, filter)
+      @collection = @collection.page(page).per(per)
+      sort_conversations(sort)
+      @collection = @collection.tagged_with(tag) if tag.present?
+      # TODO: add _or_main_participant_name_cont, or do this with Arel
+      if term
+        @collection = @collection.ransack(
+          messages_messageable_of_ConversationPartContent_type_text_content_cont: term
+        ).result
+      end
 
-      @collection = object.conversations
-                          .left_joins(:messages)
-                          .where.not(conversation_parts: { id: nil })
-                          .distinct
+      @collection
+    end
 
-      @collection = @collection.where(state: filter) if filter.present?
+    def conversations_counts
+      result = object.conversations.group('assignee_id').count.dup
+      result.merge({
+                     all: object.conversations.size
+                   })
+    end
+
+    def conversations_tag_counts
+      object.conversations.tag_counts.map do |o|
+        { tag: o.name, count: o.taggings_count }
+      end
+    end
+
+    def conversation(id:)
+      authorize! object, to: :show?, with: AppPolicy
+      object.conversations.find_by(key: id)
+    end
+
+    private def filter_by_agent(agent_id, filter)
+      collection = object.conversations
+                         .left_joins(:messages)
+                         .where.not(conversation_parts: { id: nil })
+                         .distinct
+
+      collection = collection.where(state: filter) if filter.present?
 
       if agent_id.present?
         agent = agent_id.zero? ? nil : agent_id
-        @collection = @collection.where(assignee_id: agent)
+        collection = collection.where(assignee_id: agent)
       end
 
-      @collection = @collection.page(page).per(per)
+      collection
+    end
 
+    private def sort_conversations(sort)
       if sort.present?
         s = case sort
             when 'newest' then 'updated_at desc'
@@ -213,43 +255,6 @@ module Types
 
         @collection = @collection.order(s)
       end
-
-      @collection = @collection.tagged_with(tag) if tag.present?
-
-      # TODO: add _or_main_participant_name_cont, or do this with Arel
-      if term
-        @collection = @collection.ransack(
-          messages_messageable_of_ConversationPartContent_type_text_content_cont: term
-        ).result
-      end
-
-      @collection
-    end
-
-    field :conversations_counts, Types::JsonType, null: true
-
-    def conversations_counts
-      result = object.conversations.group('assignee_id').count.dup
-      result.merge({
-                     all: object.conversations.size
-                   })
-    end
-
-    field :conversations_tag_counts, Types::JsonType, null: true
-
-    def conversations_tag_counts
-      object.conversations.tag_counts.map do |o|
-        { tag: o.name, count: o.taggings_count }
-      end
-    end
-
-    field :conversation, Types::ConversationType, null: true do
-      argument :id, String, required: false
-    end
-
-    def conversation(id:)
-      authorize! object, to: :show?, with: AppPolicy
-      object.conversations.find_by(key: id)
     end
 
     field :app_user, Types::AppUserType, null: true do
@@ -459,19 +464,17 @@ module Types
 
       collection = collection.where(state: filters['state']) if filters['state'].present?
 
-      if filters['users'].present?
-        ors = nil
-        filters['users'].each_with_index do |filter, _index|
-          ors = if ors.nil?
-                  BotTask.infix(filter)
-                else
-                  ors.or(BotTask.infix(filter))
-                end
-        end
-        collection = collection.where(ors) if ors.present?
-      end
+      handle_bot_tasks_filters(filters, collection).ordered
+    end
 
-      collection.ordered
+    private def handle_bot_tasks_filters(filters, collection)
+      return collection if filters['users'].blank?
+
+      ors = nil
+      filters['users'].each_with_index do |filter, _index|
+        ors = ors.nil? ? BotTask.infix(filter) : ors.or(BotTask.infix(filter))
+      end
+      collection = collection.where(ors) if ors.present?
     end
 
     field :bot_task, Types::BotTaskType, null: true do

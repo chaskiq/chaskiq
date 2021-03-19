@@ -44,7 +44,7 @@ function Sidebar ({
         cb && cb(d)
       })
     )
-  };
+  }
 
   return (
     <div className="xl:border-r xl:border-gray-200">
@@ -178,7 +178,7 @@ function renderInternal ({ object, conversation, app, app_user }) {
   }
 }
 
-function UserBlock ({ conversation, app, app_user }) {
+function UserBlock ({ app_user }) {
   return <div
     className="space-y-2 divide-y divide-gray-200">
     <div className="space-y-1 py-2">
@@ -216,7 +216,7 @@ function UserBlock ({ conversation, app, app_user }) {
   </div>
 }
 
-function TagBlocks ({ conversation, app }) {
+function TagBlocks ({ conversation }) {
   return <div className="">
     <span className="text-sm leading-5 font-medium text-gray-500">tags</span>
     { conversation.tagList.length > 0 &&
@@ -232,7 +232,7 @@ function TagBlocks ({ conversation, app }) {
   </div>
 }
 
-function ConversationBlock ({ conversation, app }) {
+function ConversationBlock ({ conversation }) {
   return <div className="space-y-2 divide-y divide-gray-200">
     <div className="space-y-2 pt-2">
       <dt className="text-sm leading-5 font-medium text-gray-500">
@@ -400,9 +400,8 @@ function AppItem ({
 }
 
 function mapStateToProps (state) {
-  const { auth, app, conversation, app_user, current_user, drawer } = state
-  const { messages, loading } = conversation
-  const { jwt } = auth
+  const { app, conversation, app_user, current_user, drawer } = state
+  const { messages } = conversation
 
   return {
     app_user,

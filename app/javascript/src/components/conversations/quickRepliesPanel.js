@@ -22,9 +22,9 @@ function QuickRepliesPanel (props) {
   const [open, setOpen] = React.useState(props.open)
   const [quickReply, setQuickReply] = React.useState(null)
   const [quickReplies, setQuickReplies] = React.useState([])
-  const [values, setValues] = React.useState({})
+  //const [values, setValues] = React.useState({})
   const [lang, setLang] = React.useState(props.app.availableLanguages[0] || 'en')
-  const [loading, setLoading] = React.useState(false)
+  const [_loading, setLoading] = React.useState(false)
   const [term, setTerm] = React.useState(null)
 
   React.useEffect(() => {
@@ -43,17 +43,9 @@ function QuickRepliesPanel (props) {
     getQuickReplies()
   }, [term])
 
-  function handleClickOpen () {
-    setOpen(true)
-  }
-
   function handleClose () {
     setOpen(false)
     props.close()
-  }
-
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value })
   }
 
   function renderItem (o) {
@@ -80,7 +72,7 @@ function QuickRepliesPanel (props) {
             { quickReply && (
               <Tabs
                 tabs={tabs()}
-                onChange={(tab, index) => {
+                onChange={(tab, _index) => {
                   setLang(availableLanguages()[tab])
                 }
                 }
@@ -129,7 +121,6 @@ function QuickRepliesPanel (props) {
           setQuickReplies(data.app.quickReplies)
         },
         error: () => {
-          debugger
         }
       }
     )
@@ -146,7 +137,7 @@ function QuickRepliesPanel (props) {
         setQuickReply(data.app.quickReply)
         setLoading(false)
       },
-      error: (err) => {
+      error: () => {
         setLoading(false)
         // dispatch(errorMessage('error updating quick reply'))
       }

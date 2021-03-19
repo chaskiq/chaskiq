@@ -66,7 +66,6 @@ module MessageApis::Dailytics
     end
 
     def format_data(label:, name:, value:, value2:, data:)
-      
       {
         label: label,
         name: name,

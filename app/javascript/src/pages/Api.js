@@ -1,93 +1,93 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
-import {isEmpty} from 'lodash'
-import { connect } from "react-redux";
-import Moment from "react-moment";
-import PageHeader from "../components/PageHeader";
-import Content from "../components/Content";
-import Tabs from "../components/Tabs";
-import Progress from "../components/Progress";
-import { AnchorLink } from "../shared/RouterLink";
-import DataTable from "../components/Table";
-import Input from "../components/forms/Input";
-import Button from "../components/Button";
+
+import React, { Component } from 'react'
+import { isEmpty } from 'lodash'
+import { connect } from 'react-redux'
+import Moment from 'react-moment'
+import PageHeader from '../components/PageHeader'
+import Content from '../components/Content'
+import Tabs from '../components/Tabs'
+import Progress from '../components/Progress'
+
+import DataTable from '../components/Table'
+
+import Button from '../components/Button'
 import DeleteDialog from '../components/DeleteDialog'
-import { HomeIcon } from "../components/icons";
+
 import I18n from '../shared/FakeI18n'
-import { 
-  Link, 
-  Route, 
-  Switch, 
-  useParams, 
-  useHistory, 
-  withRouter 
-} from "react-router-dom";
-import graphql from "../graphql/client";
-import serialize from "form-serialize";
+import {
+  Link,
+  Route,
+  Switch,
+  useParams,
+  useHistory,
+  withRouter
+} from 'react-router-dom'
+import graphql from '../graphql/client'
+import serialize from 'form-serialize'
 import FieldRenderer, {
-  gridClasses,
-} from "../components/forms/FieldRenderer";
-import { 
-  OAUTH_APPS, 
+  gridClasses
+} from '../components/forms/FieldRenderer'
+import {
+  OAUTH_APPS,
   OAUTH_APP,
   AUTHORIZED_OAUTH_APPS
-} from "../graphql/queries";
-import { 
+} from '../graphql/queries'
+import {
   CREATE_OAUTH_APP,
   UPDATE_OAUTH_APP,
-  DELETE_OAUTH_APP 
-} from "../graphql/mutations";
+  DELETE_OAUTH_APP
+} from '../graphql/mutations'
 
-import FormDialog from "../components/FormDialog";
-import { setCurrentPage, setCurrentSection } from "../actions/navigation";
+import FormDialog from '../components/FormDialog'
+import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 
-function formDefinitions(){
+function formDefinitions () {
   return [
     {
-      name: "name",
-      label: "Oauth app name",
-      type: "string",
-      grid: { xs: "w-full", sm: "w-full" },
+      name: 'name',
+      label: 'Oauth app name',
+      type: 'string',
+      grid: { xs: 'w-full', sm: 'w-full' }
     },
     {
-      name: "confidential",
-      label: "Confidential",
-      hint: "Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.",
-      type: "bool",
-      grid: { xs: "w-full", sm: "w-full" },
+      name: 'confidential',
+      label: 'Confidential',
+      hint: 'Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.',
+      type: 'bool',
+      grid: { xs: 'w-full', sm: 'w-full' }
     },
     {
-      name: "redirect_uri",
-      label: "Redirect URI",
+      name: 'redirect_uri',
+      label: 'Redirect URI',
       hint: `Use one line per URI
               Leave it blank if you configured your provider to use Client Credentials, 
-              Resource Owner Password Credentials or any other grant type that doesn\'t require redirect URI.`,
-      type: "string",
-      grid: { xs: "w-full", sm: "w-full" },
+              Resource Owner Password Credentials or any other grant type that doesn't require redirect URI.`,
+      type: 'string',
+      grid: { xs: 'w-full', sm: 'w-full' }
     },
     {
-      name: "scopes",
-      label: "Scopes for application",
-      hint: "Separate scopes with spaces. Leave blank to use the default scopes.",
-      type: "string",
-      grid: { xs: "w-full", sm: "w-full" },
+      name: 'scopes',
+      label: 'Scopes for application',
+      hint: 'Separate scopes with spaces. Leave blank to use the default scopes.',
+      type: 'string',
+      grid: { xs: 'w-full', sm: 'w-full' }
     }
-  ];
+  ]
 }
 
 class ApiPage extends Component {
   state = {
     meta: {},
-    tabValue: 0,
+    tabValue: 0
   };
 
-  componentDidMount() {
-    this.props.dispatch(setCurrentSection("Settings"));
-    this.props.dispatch(setCurrentPage("oauth_applications"));
+  componentDidMount () {
+    this.props.dispatch(setCurrentSection('Settings'))
+    this.props.dispatch(setCurrentPage('oauth_applications'))
   }
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i });
+    this.setState({ tabValue: i })
   };
 
   getApps = (cb) => {
@@ -96,15 +96,15 @@ class ApiPage extends Component {
       { appKey: this.props.app.key },
       {
         success: (data) => {
-          /*this.setState({
+          /* this.setState({
             collection: data.app.oauthApplications,
             loading: false,
-          });*/
+          }); */
           cb(data.app.oauthApplications)
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   getAuthorizedApps = (cb) => {
@@ -114,22 +114,22 @@ class ApiPage extends Component {
       {
         success: (data) => {
           cb(data.app.authorizedOauthApplications)
-          /*this.setState({
+          /* this.setState({
             collection: data.app.authorizedOauthApplications,
             loading: false,
-          });*/
+          }); */
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
-  render() {
+  render () {
     return (
       <Content>
         <PageHeader
-          title={I18n.t("settings.api.title")}
-          /*actions={
+          title={I18n.t('settings.api.title')}
+          /* actions={
             <Button
               className={"transition duration-150 ease-in-out"}
               variant={"main"}
@@ -138,7 +138,7 @@ class ApiPage extends Component {
             >
               New team member
             </Button>
-          }*/
+          } */
         />
 
         <Switch>
@@ -148,13 +148,13 @@ class ApiPage extends Component {
               currentTab={this.state.tabValue}
               tabs={[
                 {
-                  label: I18n.t("settings.api.tabs.apps"),
-                  content: <OauthList getApps={this.getApps} {...this.props} />,
+                  label: I18n.t('settings.api.tabs.apps'),
+                  content: <OauthList getApps={this.getApps} {...this.props} />
                 },
                 {
-                  label: I18n.t("settings.api.tabs.authorized"),
-                  content: <OauthList getApps={this.getAuthorizedApps} {...this.props} />,
-                },
+                  label: I18n.t('settings.api.tabs.authorized'),
+                  content: <OauthList getApps={this.getAuthorizedApps} {...this.props} />
+                }
               ]}
             />
 
@@ -165,51 +165,49 @@ class ApiPage extends Component {
           </Route>
         </Switch>
       </Content>
-    );
+    )
   }
 }
 
+function OauthApp (props) {
+  const params = useParams()
+  const formRef = React.useRef(null)
+  const history = useHistory()
 
-function OauthApp(props){
-  let params = useParams();
-  let formRef = React.useRef(null)
-  let history = useHistory();
-
-  const [data, setData ] = React.useState({})
-  const [loading, setLoading ] = React.useState(false)
+  const [data, setData] = React.useState({})
+  const [_loading, setLoading] = React.useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
   const [editIsOpen, setEditIsOpen] = React.useState(false)
   const [errors, setErrors] = React.useState({})
-  
-  React.useState(()=>{
+
+  React.useState(() => {
     setLoading(true)
     graphql(
       OAUTH_APP,
       {
         appKey: props.app.key,
-        uid: params.uid,
+        uid: params.uid
       },
       {
         success: (data) => {
           setData(data.app.oauthApplication)
           setLoading(false)
         },
-        error: () => {},
+        error: () => {}
       }
-    );
-
+    )
   }, [])
 
-  function authorizeUrl(){
+  function authorizeUrl () {
     return `/oauth/authorize?client_id=${data.uid}&redirect_uri=${encodeURI(data.redirectUri)}&response_type=code&scope=`
   }
 
-  function updateApp(e) {
+  function updateApp (e) {
     e.preventDefault && e.preventDefault()
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true,
-    });
+      empty: true
+    })
 
     graphql(
       UPDATE_OAUTH_APP,
@@ -220,7 +218,7 @@ function OauthApp(props){
       },
       {
         success: (data) => {
-          if(isEmpty(data.updateOauthApplication.errors)) {
+          if (isEmpty(data.updateOauthApplication.errors)) {
             setData(data.updateOauthApplication.oauthApplication)
             setEditIsOpen(false)
           } else {
@@ -228,47 +226,47 @@ function OauthApp(props){
             setErrors(data.updateOauthApplication.errors)
           }
         },
-        error: () => {},
+        error: () => {}
       }
-    );
-  };
+    )
+  }
 
-  function deleteApp() {
+  function deleteApp () {
     graphql(
       DELETE_OAUTH_APP,
       {
         appKey: props.app.key,
-        uid: data.uid,
+        uid: data.uid
       },
       {
-        success: (data) => {
+        success: () => {
           history.push(`/apps/${props.app.key}/oauth_applications`)
         },
-        error: () => {},
+        error: () => {}
       }
-    );
-  };
+    )
+  }
 
   return (
     <div className="bg-white shadow overflow-hidden  sm:rounded-lg">
       <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
-          {I18n.t("settings.api.oauth_information")}
+          {I18n.t('settings.api.oauth_information')}
         </h3>
         <div className="flex justify-between">
           <p className="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
-            {I18n.t("settings.api.details")}
+            {I18n.t('settings.api.details')}
           </p>
           <div>
             <Button
-              className="mr-3" 
-              onClick={()=> setEditIsOpen(true)}>
-              {I18n.t("common.edit")}
+              className="mr-3"
+              onClick={() => setEditIsOpen(true)}>
+              {I18n.t('common.edit')}
             </Button>
-            <Button 
+            <Button
               variant="danger"
-              onClick={()=> setOpenDeleteDialog(true)}>
-              {I18n.t("common.delete")}
+              onClick={() => setOpenDeleteDialog(true)}>
+              {I18n.t('common.delete')}
             </Button>
           </div>
         </div>
@@ -305,10 +303,10 @@ function OauthApp(props){
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 flex justify-between items-center">
               {data.redirectUri}
-              <Button 
+              <Button
                 size={'small'}
                 variant="outlined"
-                onClick={()=> window.location = authorizeUrl()}>authorize</Button>
+                onClick={() => window.location = authorizeUrl()}>authorize</Button>
             </dd>
           </div>
           <div className="sm:col-span-1">
@@ -323,13 +321,13 @@ function OauthApp(props){
       </div>
 
       <div className="py-2">
-        {editIsOpen && 
+        {editIsOpen &&
           <FormDialog
             open={editIsOpen}
-            handleClose={()=> setEditIsOpen(false)}
-            actionButton={"edit"}
+            handleClose={() => setEditIsOpen(false)}
+            actionButton={'edit'}
             titleContent={`Edit ${data.name} oauth app`}
-            contentText={"bla bla"}
+            contentText={'bla bla'}
             formComponent={
               <form
                 name="create-repo"
@@ -338,37 +336,37 @@ function OauthApp(props){
               >
                 {formDefinitions().map((field, i) => {
                   return (
-                    
-                      <div
-                        key={`field-${field.name}`}
-                        className={`${gridClasses(field)} py-2 pr-2`}
-                        {...field.gridProps}
-                      >
-                        <FieldRenderer
-                          {...field}
-                          key={`field-renderer-oauth-${i}`}
-                          namespace={"doorkeeper_application"}
-                          data={field}
-                          props={{
-                            data: data
-                          }}
-                          errors={errors}
-                        />
-                      </div>
-                  
-                  );
+
+                    <div
+                      key={`field-${field.name}`}
+                      className={`${gridClasses(field)} py-2 pr-2`}
+                      {...field.gridProps}
+                    >
+                      <FieldRenderer
+                        {...field}
+                        key={`field-renderer-oauth-${i}`}
+                        namespace={'doorkeeper_application'}
+                        data={field}
+                        props={{
+                          data: data
+                        }}
+                        errors={errors}
+                      />
+                    </div>
+
+                  )
                 })}
               </form>
             }
             dialogButtons={
               <React.Fragment>
-                <Button onClick={()=> setEditIsOpen(false)} 
+                <Button onClick={() => setEditIsOpen(false)}
                   variant="outlined">
-                  {I18n.t("common.cancel")}
+                  {I18n.t('common.cancel')}
                 </Button>
 
                 <Button className="mr-1" onClick={ updateApp }>
-                  {I18n.t("common.update")}
+                  {I18n.t('common.update')}
                 </Button>
               </React.Fragment>
             }
@@ -379,16 +377,16 @@ function OauthApp(props){
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={I18n.t("settings.api.delete_app")}
+          title={I18n.t('settings.api.delete_app')}
           closeHandler={() => {
-            setOpenDeleteDialog(null);
+            setOpenDeleteDialog(null)
           }}
           deleteHandler={() => {
-            deleteApp(data);
+            deleteApp(data)
           }}
         >
           <p variant="subtitle2">
-            {I18n.t("settings.api.delete_app_hint")}
+            {I18n.t('settings.api.delete_app_hint')}
           </p>
         </DeleteDialog>
       )}
@@ -398,8 +396,8 @@ function OauthApp(props){
 }
 
 class OauthList extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       collection: [],
       loading: true,
@@ -407,28 +405,28 @@ class OauthList extends React.Component {
       sent: false,
       data: {},
       errors: {}
-    };
-    this.input_ref = React.createRef();
+    }
+    this.input_ref = React.createRef()
   }
 
   open = () => this.setState({ isOpen: true, errors: {} });
   close = () => this.setState({ isOpen: false });
 
-  componentDidMount() {
-    this.search();
+  componentDidMount () {
+    this.search()
   }
 
   createApp = () => {
     const serializedData = serialize(this.input_ref.current, {
       hash: true,
-      empty: true,
-    });
+      empty: true
+    })
 
     graphql(
       CREATE_OAUTH_APP,
       {
         appKey: this.props.app.key,
-        params: serializedData.doorkeeper_application,
+        params: serializedData.doorkeeper_application
       },
       {
         success: (data) => {
@@ -441,11 +439,11 @@ class OauthList extends React.Component {
               data: data.createOauthApplication.oauthApplication
             },
             this.search
-          );
+          )
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   inviteButton = () => {
@@ -455,9 +453,9 @@ class OauthList extends React.Component {
           <FormDialog
             open={this.state.isOpen}
             handleClose={this.close}
-            actionButton={"add user"}
-            titleContent={I18n.t("settings.api.invite.title")}
-            contentText={I18n.t("settings.api.invite.text")}
+            actionButton={'add user'}
+            titleContent={I18n.t('settings.api.invite.title')}
+            contentText={I18n.t('settings.api.invite.text')}
             formComponent={
               <form
                 name="create-repo"
@@ -466,69 +464,69 @@ class OauthList extends React.Component {
               >
                 {formDefinitions().map((field, i) => {
                   return (
-                    
-                      <div
-                        key={`field-${field.name}`}
-                        className={`${gridClasses(field)} py-2 pr-2`}
-                        {...field.gridProps}
-                      >
-                        <FieldRenderer
-                          {...field}
-                          key={`field-renderer-oauth-${i}`}
-                          namespace={"doorkeeper_application"}
-                          data={field}
-                          props={{
-                            data: this.state.data || {}
-                          }}
-                          errors={this.state.errors}
-                        />
-                      </div>
-                  
-                  );
+
+                    <div
+                      key={`field-${field.name}`}
+                      className={`${gridClasses(field)} py-2 pr-2`}
+                      {...field.gridProps}
+                    >
+                      <FieldRenderer
+                        {...field}
+                        key={`field-renderer-oauth-${i}`}
+                        namespace={'doorkeeper_application'}
+                        data={field}
+                        props={{
+                          data: this.state.data || {}
+                        }}
+                        errors={this.state.errors}
+                      />
+                    </div>
+
+                  )
                 })}
               </form>
 
             }
             dialogButtons={
               <React.Fragment>
-                <Button onClick={this.close} 
+                <Button onClick={this.close}
                   variant="outlined">
-                  {I18n.t("common.cancel")}
+                  {I18n.t('common.cancel')}
                 </Button>
 
                 <Button className="mr-1" onClick={this.createApp}>
-                  {I18n.t("settings.api.create_app")}
+                  {I18n.t('settings.api.create_app')}
                 </Button>
               </React.Fragment>
             }
           />
         ) : null}
 
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           color="primary"
           onClick={this.open}>
-          {I18n.t("settings.api.create_app")}
+          {I18n.t('settings.api.create_app')}
         </Button>
       </div>
-    );
+    )
   };
 
   search = () => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
-      this.props.getApps((data)=>{
+      this.props.getApps((data) => {
         this.setState({
           collection: data,
-          loading: false,
-        });
+          loading: false
+        })
       })
-    );
+    )
   };
 
-  render() {
+  render () {
     return (
       <React.Fragment>
         {this.inviteButton()}
@@ -536,34 +534,38 @@ class OauthList extends React.Component {
         {!this.state.loading ? (
           <DataTable
             elevation={0}
-            title={"invitations"}
+            title={'invitations'}
             meta={{}}
             data={this.state.collection}
             search={this.search}
             loading={this.state.loading}
             disablePagination={true}
             columns={[
-              { field: "name", title: "name", render: (row)=>{
-                return <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-                  <Link className="font-bold text-2xl" to={`${this.props.match.path}/${row.uid}`}>
-                    {row.name}
-                  </Link>
-                </td>
-              }},
-              { field: "redirectUri", title: "redirect uri" },
-              { field: "confidential", title: "confidential" },
               {
-                field: "createdAt",
-                title: "Created at",
+                field: 'name',
+                title: 'name',
+                render: (row) => {
+                  return <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <Link className="font-bold text-2xl" to={`${this.props.match.path}/${row.uid}`}>
+                      {row.name}
+                    </Link>
+                  </td>
+                }
+              },
+              { field: 'redirectUri', title: 'redirect uri' },
+              { field: 'confidential', title: 'confidential' },
+              {
+                field: 'createdAt',
+                title: 'Created at',
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${
-                        row.state === "subscribed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
+                        row.state === 'subscribed'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
                       }`}
                       >
                         {row.lastSignInAt && (
@@ -571,7 +573,7 @@ class OauthList extends React.Component {
                         )}
                       </span>
                     </td>
-                  ),
+                  )
               }
             ]}
             enableMapView={false}
@@ -580,19 +582,19 @@ class OauthList extends React.Component {
           <Progress />
         )}
       </React.Fragment>
-    );
+    )
   }
 }
 
-function mapStateToProps(state) {
-  const { auth, app } = state;
-  const { isAuthenticated } = auth;
-  //const { sort, filter, collection , meta, loading} = conversations
+function mapStateToProps (state) {
+  const { auth, app } = state
+  const { isAuthenticated } = auth
+  // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(ApiPage));
+export default withRouter(connect(mapStateToProps)(ApiPage))

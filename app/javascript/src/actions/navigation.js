@@ -2,7 +2,7 @@ import ActionTypes from '../constants/action_types'
 
 // Action Creators
 export function setCurrentSection (url) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.SetCurrentPage,
       data: { current_section: url }
@@ -11,7 +11,7 @@ export function setCurrentSection (url) {
 }
 
 export function setCurrentPage (url) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.SetCurrentPage,
       data: { current_page: url }

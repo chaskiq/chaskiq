@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 
 export default function PageHeader ({
   title,
-  actionHandler,
-  actionLabel,
   breadcrumbs,
   actions
 }) {
@@ -34,7 +32,7 @@ export default function PageHeader ({
         {breadcrumbs && (
           <nav className="hidden sm:flex items-center text-sm leading-5 font-medium">
             {breadcrumbs.map((o, i) => (
-              <React.Fragment>
+              <React.Fragment key={`breadcrumb-${i}`}>
                 {o.to && (
                   <Link
                     to={o.to}

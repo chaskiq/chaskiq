@@ -1,6 +1,6 @@
 
 export function toggleTheme (data, cb) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch({
       type: 'THEME',
       data: data

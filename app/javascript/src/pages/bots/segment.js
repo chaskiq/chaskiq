@@ -1,56 +1,54 @@
-import React, { Component } from "react";
-import graphql from "../../graphql/client";
+import React, { Component } from 'react'
+import graphql from '../../graphql/client'
 import {
-  UPDATE_CAMPAIGN,
-  PREDICATES_SEARCH,
-  UPDATE_BOT_TASK,
-} from "../../graphql/mutations";
-//import {} from '../../graphql/queries'
-import { parseJwt, generateJWT } from "../../components/segmentManager/jwt";
-import SegmentManager from "../../components/segmentManager";
-import { errorMessage, successMessage } from "../../actions/status_messages";
 
-import Button from "../../components/Button";
-import userFormat from "../../components/Table/userFormat";
-import { withRouter, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import { toggleDrawer } from "../../actions/drawer";
-import { getAppUser } from "../../actions/app_user";
+  PREDICATES_SEARCH
+} from '../../graphql/mutations'
+// import {} from '../../graphql/queries'
+import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
+import SegmentManager from '../../components/segmentManager'
+
+import Button from '../../components/Button'
+import userFormat from '../../components/Table/userFormat'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { toggleDrawer } from '../../actions/drawer'
+import { getAppUser } from '../../actions/app_user'
 
 class Segment extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       jwt: null,
       app_users: [],
       search: false,
-      meta: {},
-    };
-  }
-  componentDidMount() {
-    this.search();
+      meta: {}
+    }
   }
 
-  handleSave = (e) => {
-    const predicates = parseJwt(this.state.jwt);
+  componentDidMount () {
+    this.search()
+  }
+
+  handleSave = (_e) => {
+    const predicates = parseJwt(this.state.jwt)
     if (this.props.handleSave) {
-      this.props.handleSave(predicates.data);
-      return;
+      this.props.handleSave(predicates.data)
     }
   };
 
   updateData = (data, cb) => {
-    const newData = Object.assign({}, this.props.data, { segments: data.data });
-    this.props.updateData(newData, cb ? cb() : null);
+    const newData = Object.assign({}, this.props.data, { segments: data.data })
+    this.props.updateData(newData, cb ? cb() : null)
   };
 
   updatePredicate = (data, cb) => {
-    const jwtToken = generateJWT(data);
-    //console.log(parseJwt(jwtToken))
-    if (cb) cb(jwtToken);
+    const jwtToken = generateJWT(data)
+    // console.log(parseJwt(jwtToken))
+    if (cb) cb(jwtToken)
     this.setState({ jwt: jwtToken }, () => {
-      this.updateData(parseJwt(this.state.jwt), this.search);
-    });
+      this.updateData(parseJwt(this.state.jwt), this.search)
+    })
   };
 
   addPredicate = (data, cb) => {
@@ -58,71 +56,70 @@ class Segment extends Component {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value,
-    };
+      value: data.value
+    }
 
-    const new_predicates = this.props.data.segments.concat(pending_predicate);
-    const jwtToken = generateJWT(new_predicates);
-    //console.log(parseJwt(jwtToken))
-    if (cb) cb(jwtToken);
+    const new_predicates = this.props.data.segments.concat(pending_predicate)
+    const jwtToken = generateJWT(new_predicates)
+    // console.log(parseJwt(jwtToken))
+    if (cb) cb(jwtToken)
 
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt))
-    );
+    )
   };
 
-  deletePredicate(data) {
-    const jwtToken = generateJWT(data);
+  deletePredicate (data) {
+    const jwtToken = generateJWT(data)
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
-    );
+    )
   }
 
   search = (page) => {
-    this.setState({ searching: true });
+    this.setState({ searching: true })
     // jwt or predicates from segment
-    //console.log(this.state.jwt)
+    // console.log(this.state.jwt)
     const data = this.state.jwt
       ? parseJwt(this.state.jwt).data
-      : this.props.data.segments;
+      : this.props.data.segments
     const predicates_data = {
       data: {
-        predicates: data.filter((o) => o.comparison),
-      },
-    };
+        predicates: data.filter((o) => o.comparison)
+      }
+    }
 
     graphql(
       PREDICATES_SEARCH,
       {
         appKey: this.props.app.key,
         search: predicates_data,
-        page: page || 1,
+        page: page || 1
       },
       {
         success: (data) => {
-          const appUsers = data.predicatesSearch.appUsers;
+          const appUsers = data.predicatesSearch.appUsers
           this.setState({
             app_users: appUsers.collection,
             meta: appUsers.meta,
-            searching: false,
-          });
+            searching: false
+          })
         },
-        error: (error) => {
-          debugger;
-        },
+        error: (_error) => {
+        }
       }
-    );
+    )
   };
 
   showUserDrawer = (o) => {
     this.props.dispatch(
       toggleDrawer({ rightDrawer: true }, () => {
-        this.props.dispatch(getAppUser(o.id));
+        this.props.dispatch(getAppUser(o.id))
       })
-    );
+    )
   };
 
-  render() {
+  render () {
     return (
       <div className="py-4">
         <SegmentManager
@@ -138,39 +135,39 @@ class Segment extends Component {
           loading={this.props.searching}
           columns={userFormat(this.showUserDrawer, this.props.app)}
           defaultHiddenColumnNames={[
-            "id",
-            "state",
-            "online",
-            "lat",
-            "lng",
-            "postal",
-            "browserLanguage",
-            "referrer",
-            "os",
-            "osVersion",
-            "lang",
+            'id',
+            'state',
+            'online',
+            'lat',
+            'lng',
+            'postal',
+            'browserLanguage',
+            'referrer',
+            'os',
+            'osVersion',
+            'lang'
           ]}
-          //selection [],
+          // selection [],
           tableColumnExtensions={[
-            //{ columnName: 'id', width: 150 },
-            { columnName: "email", width: 250 },
-            { columnName: "lastVisitedAt", width: 120 },
-            { columnName: "os", width: 100 },
-            { columnName: "osVersion", width: 100 },
-            { columnName: "state", width: 80 },
-            { columnName: "online", width: 80 },
-            //{ columnName: 'amount', align: 'right', width: 140 },
+            // { columnName: 'id', width: 150 },
+            { columnName: 'email', width: 250 },
+            { columnName: 'lastVisitedAt', width: 120 },
+            { columnName: 'os', width: 100 },
+            { columnName: 'osVersion', width: 100 },
+            { columnName: 'state', width: 80 },
+            { columnName: 'online', width: 80 }
+            // { columnName: 'amount', align: 'right', width: 140 },
           ]}
-          leftColumns={["email"]}
-          rightColumns={["online"]}
-          //toggleMapView={this.toggleMapView}
-          //map_view={this.state.map_view}
-          //enableMapView={true}
+          leftColumns={['email']}
+          rightColumns={['online']}
+          // toggleMapView={this.toggleMapView}
+          // map_view={this.state.map_view}
+          // enableMapView={true}
         >
           {this.state.jwt ? (
             <Button
               isLoading={false}
-              appearance={"link"}
+              appearance={'link'}
               onClick={this.handleSave}
             >
               <i className="fas fa-chart-pie"></i> Save Segment
@@ -178,15 +175,15 @@ class Segment extends Component {
           ) : null}
         </SegmentManager>
       </div>
-    );
+    )
   }
 }
 
-function mapStateToProps(state) {
-  const { drawer } = state;
+function mapStateToProps (state) {
+  const { drawer } = state
   return {
-    drawer,
-  };
+    drawer
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(Segment));
+export default withRouter(connect(mapStateToProps)(Segment))

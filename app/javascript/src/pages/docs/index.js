@@ -14,7 +14,7 @@ export default function MainLAyout () {
 
         <Route path={'/'} render={(props) => <Docs {...props} />} />
 
-        <Route render={(props) => <p>404 not found</p>} />
+        <Route render={(_props) => <p>404 not found</p>} />
       </Switch>
     </BrowserRouter>
   )

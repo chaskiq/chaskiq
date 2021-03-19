@@ -15,7 +15,7 @@ const Pre = styled.pre`
   overflow: auto;
 `
 
-function WebSetup ({ app, classes }) {
+function WebSetup ({ app }) {
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {

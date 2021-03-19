@@ -48,7 +48,7 @@ const DragHandle = sortableHandle(() => (
 ))
 
 const SortableItem = sortableElement(
-  ({ object, deleteItem, edit, updatePackage }) => (
+  ({ object, deleteItem, _edit, _updatePackage }) => (
     <li>
       <div>
 
@@ -113,7 +113,7 @@ function AppInserter ({ app, update }) {
       <div className="inline-flex mt-4">
         {
           options.map((o, i) => (
-            <button onClick={(e) => handleClick(o)}
+            <button onClick={(_e) => handleClick(o)}
               key={`tabtab-${i}`}
               className={
                 `${option.name === o.name ? activeClass : ''}
@@ -185,15 +185,6 @@ function AppInserter2 ({ app, update, option, capability }) {
 
   function deleteItem (item, index) {
     setItems(items.filter((o, i) => i !== index))
-  }
-
-  function setItemAtIndex (item, index) {
-    setItems(
-      items.map((o, i) => i !== index
-        ? o
-        : { ...o, definitions: item }
-      )
-    )
   }
 
   function handleSubmit (e) {
@@ -348,7 +339,7 @@ export function AppList ({
                         text-sm leading-5 text-gray-500 justify-end"
                       >
 
-                        <Button onClick={(e) => handleSelect(o)}>
+                        <Button onClick={(_e) => handleSelect(o)}>
                           Add
                         </Button>
 

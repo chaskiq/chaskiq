@@ -217,13 +217,7 @@ export function PaintIcon (props) {
   )
 }
 
-export function QueueIcon (props) {
-  /*
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
-      <path d="M0,2 L20,2 L20,6 L0,6 L0,2 Z M0,10 L20,10 L20,12 L0,12 L0,10 Z M0,16 L20,16 L20,18 L0,18 L0,16 Z"></path>
-    </BaseIcon>
-  */
-
+export function QueueIcon (_props) {
   return (
     <BaseIcon className="w-6 h-6"
       fill="none"
@@ -526,7 +520,7 @@ export function DeleteForever (props) {
   )
 }
 
-export function DeleteForeverRounded (props) {
+export function DeleteForeverRounded (_props) {
   return (
     <BaseIcon
       fill="currentColor"
@@ -1018,7 +1012,7 @@ export function CardIcon (props) {
   )
 }
 
-export function AttachmentIcon (props) {
+export function AttachmentIcon (_props) {
   return (
     <BaseIcon
       fill="currentColor"

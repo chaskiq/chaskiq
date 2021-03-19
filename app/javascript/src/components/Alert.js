@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useTransition } from 'react-spring'
+import React from 'react'
+
 import { Transition } from '@headlessui/react'
 
 import { connect } from 'react-redux'
@@ -10,11 +10,7 @@ import { clearStatusMessage } from '../actions/status_messages'
 function CustomizedSnackbars (props) {
   const [open, setOpen] = React.useState(!isEmpty(props.status_message))
 
-  function handleClick () {
-    setOpen(true)
-  }
-
-  function handleClose (event, reason) {
+  function handleClose (_event, reason) {
     if (reason === 'clickaway') {
       return
     }
@@ -88,12 +84,12 @@ function CustomizedSnackbars (props) {
 }
 
 function Alert ({ title, message, status, onClose, placementClass }) {
-  const [items, set] = useState([1])
+  /*const [items, set] = useState([1])
   const transitions = useTransition(items, (item) => item.key, {
     from: { transform: 'translate3d(0,-40px,0)' },
     enter: { transform: 'translate3d(0,0px,0)' },
     leave: { transform: 'translate3d(0,-40px,0)' }
-  })
+  })*/
 
   function statusIcon () {
     switch (status) {
@@ -128,14 +124,14 @@ function Alert ({ title, message, status, onClose, placementClass }) {
     }
   }
 
-  function transitionsClasses (status) {
+  //function transitionsClasses (status) {
     // x-show="show" x-transition:enter="transform ease-out duration-300 transition"
     // x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
     // x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
     // x-transition:leave="transition ease-in duration-100"
     // x-transition:leave-start="opacity-100"
     // x-transition:leave-end="opacity-0"
-  }
+  //}
 
   return (
     <div

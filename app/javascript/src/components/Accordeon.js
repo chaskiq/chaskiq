@@ -5,10 +5,6 @@ import { DownArrow, UpArrow } from './icons'
 export default function CustomizedExpansionPanels (props) {
   const [expanded, setExpanded] = React.useState(props.items[0].name)
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false)
-  }
-
   const withValues = (col) => {
     return col.filter((o) => o.value)
   }

@@ -22,21 +22,13 @@ import { setApp } from '../actions/app'
 
 import AppContent from '../components/segmentManager/container'
 
-import tw from 'twin.macro'
-
-const PageContainer = tw.div`
-  bg-gray-200 text-xl w-1/2
-`
-
 // <PageContainer>jiiojioj</PageContainer>
 
 function Platform ({
   dispatch,
   match,
-  searching,
   app,
   app_users,
-  meta,
   segment
 }) {
   React.useEffect(() => {
@@ -86,8 +78,6 @@ function Platform ({
 
     dispatch(
       createSegment(params, () => {
-        const url = `/apps/${app.key}/segments/${segment.id}.json`
-        // this.props.history.push(url)
         cb && cb()
       })
     )
@@ -97,8 +87,6 @@ function Platform ({
     dispatch(
       deleteSegment(id, () => {
         cb && cb()
-        const url = `/apps/${app.key}`
-        // this.props.history.push(url)
         fetchApp()
       })
     )
@@ -163,20 +151,6 @@ function Platform ({
       />
 
       <div className="flex flex-col">
-        {/* <button type="button" className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200 transition ease-in-out duration-150">
-              Button text
-            </button>
-
-            <button type="button" className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200 transition ease-in-out duration-150">
-              Button text
-            </button>
-
-            <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-              <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
-                {renderTable()}
-              </div>
-            </div> */}
-
         <AppContent
           match={match}
           app_users={app_users}

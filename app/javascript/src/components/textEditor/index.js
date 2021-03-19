@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+
 import React, { Component } from "react";
 
 import { convertToHTML } from "draft-convert";
@@ -6,11 +6,8 @@ import { convertToHTML } from "draft-convert";
 import {
   CompositeDecorator,
   EditorState,
-  convertToRaw,
+  
   convertFromRaw,
-  createEditorState,
-  getVisibleSelectionRect,
-  SelectionState,
 } from "draft-js";
 import MultiDecorator from "draft-js-multidecorators";
 
@@ -56,28 +53,21 @@ import CircularProgress from "../../components/Progress";
 const EditorStylesExtend = styled(EditorStyles)`
   line-height: ${(props) => props.styles.lineHeight || "2em"};
   font-size: ${(props) => props.styles.fontSize || "1.2em"};
-
   color: inherit;
-
   .graf--p {
     line-height: ${(props) => props.styles.lineHeight || "2em"};
     font-size: ${(props) => props.styles.fontSize || "1.2em"};
     margin-bottom: 0px;
   }
-
   .dante-menu {
     z-index: 2000;
   }
-
   blockquote {
     margin-left: 20px;
   }
-
   .dante-menu-input {
     background: #333333;
   }
-
-
   ${(props) => (
     !props.inlineMenu ? `.tooltip-icon{
       display: inline-block;
@@ -89,7 +79,6 @@ const EditorStylesExtend = styled(EditorStyles)`
       background: white;
     }` : ''
   )}
-
 `;
 
 const defaultProps = {
@@ -230,7 +219,7 @@ class ArticleEditor extends Component {
   };
 
   decorators = (context) => {
-    return (context) => {
+    //return (context) => {
       return new MultiDecorator([
         PrismDraftDecorator({
           prism: Prism,
@@ -244,20 +233,19 @@ class ArticleEditor extends Component {
         ]),
         //generateDecorator("hello")
       ]);
-    };
+    //};
   };
 
-  generateDecorator = (highlightTerm) => {
-    const regex = new RegExp(highlightTerm, "g");
+  generateDecorator = (_highlightTerm) => {
+    //const regex = new RegExp(highlightTerm, "g");
     return new CompositeDecorator([
       {
-        strategy: (contentBlock, callback) => {
+        strategy: (_contentBlock, _callback) => {
           console.info(
             "processing entity!",
             this.state.incomingSelectionPosition.length
           );
           /*if (this.state.incomingSelectionPosition.length > 0) {
-
           findSelectedBlockFromRemote(
             this.state.incomingSelectionPosition,
             contentBlock,
@@ -316,7 +304,6 @@ class ArticleEditor extends Component {
           this.setDisabled(false);
         },
         error: () => {
-          debugger;
         },
       }
     );
@@ -424,7 +411,7 @@ class ArticleEditor extends Component {
           return <span style={s} />;
         }
       },
-      blockToHTML: (block, oo) => {
+      blockToHTML: (block, _oo) => {
         if (block.type === "unstyled") {
           return <p className="graf graf--p" />;
         }
@@ -489,7 +476,7 @@ class ArticleEditor extends Component {
           )
         }
         if (block.type === "image") {
-          const { width, height, ratio } = block.data.aspect_ratio.toJS
+          const { ratio } = block.data.aspect_ratio.toJS
             ? block.data.aspect_ratio.toJS()
             : block.data.aspect_ratio;
           const { url } = block.data;
@@ -551,6 +538,7 @@ class ArticleEditor extends Component {
                   {data.images[0].url ? (
                     <a
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="js-mixtapeImage mixtapeImage"
                       href={block.data.provisory_text}
                       style={{ backgroundImage: `url(${data.images[0].url})` }}
@@ -559,6 +547,7 @@ class ArticleEditor extends Component {
                   <a
                     className="markup--anchor markup--mixtapeEmbed-anchor"
                     target="_blank"
+                    rel="noopener noreferrer"
                     href={block.data.provisory_text}
                   >
                     <strong className="markup--strong markup--mixtapeEmbed-strong">
@@ -590,7 +579,7 @@ class ArticleEditor extends Component {
           }
 
           return (
-            <figure className="graf--figure graf--iframe graf--first" tabindex="0">
+            <figure className="graf--figure graf--iframe graf--first" tabIndex="0">
                       <div className="iframeContainer">
                         {data.html}
                       </div>
@@ -611,11 +600,11 @@ class ArticleEditor extends Component {
           return (
             <figure
               className="graf--figure graf--iframe graf--first"
-              tabindex="0"
+              tabIndex="0"
             >
               <div className="iframeContainer">
                 <video
-                  autoplay={false}
+                  autoPlay={false}
                   style={{ width: "100%" }}
                   controls={true}
                   src={block.data.url}
@@ -675,7 +664,8 @@ class ArticleEditor extends Component {
   };
 
   render() {
-    const {forwardedRef, ...rest} = this.props;
+    //const {forwardedRef, ...rest} = this.props;
+    const {forwardedRef} = this.props;
 
     return (
       <ThemeProvider theme={theme}>

@@ -35,13 +35,7 @@ module Types
       # privacy consent on
       return true if privacy_consent_required == 'all'
 
-      if privacy_consent_required == 'eu'
-        %w[
-          DE AT BE BG CY HR DK ES EE FI FR GR HU IE
-          IT LV LT LU MT NL PL PT CZ RO GB SK SI SE
-        ].include?(context[:request]&.location&.country_code)
-
-      end
+      EuCountries.include?(context[:request]&.location&.country_code) if privacy_consent_required == 'eu'
     end
 
     field :conversations, Types::PaginatedConversationsType, null: true do

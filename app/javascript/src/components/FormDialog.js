@@ -2,11 +2,7 @@ import React from 'react'
 import { Transition } from '@headlessui/react'
 
 function FormDialog (props) {
-  const [open, setOpen] = React.useState(props.open)
-
-  function handleClickOpen () {
-    setOpen(true)
-  }
+  const [_open, setOpen] = React.useState(props.open)
 
   function handleClose () {
     setOpen(false)

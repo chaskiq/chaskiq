@@ -28,7 +28,7 @@ function MadeWithLove () {
 function AcceptInvitation (props) {
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [password, setPassword] = useState('')
-  const [token, setToken] = useState(queryString.parse(props.location.search))
+  const [token, _setToken] = useState(queryString.parse(props.location.search))
   const [errors, setErrors] = useState({})
 
   const handleSubmit = (e) => {

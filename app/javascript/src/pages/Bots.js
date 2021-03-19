@@ -32,11 +32,11 @@ import { setCurrentSection, setCurrentPage } from '../actions/navigation'
 import FilterMenu from '../components/FilterMenu'
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
-  const [loading, setLoading] = useState(false)
+  const [loading, _setLoading] = useState(false)
   const [botTasks, setBotTasks] = useState([])
   const [openDeleteDialog, setOpenDeleteDialog] = useState(null)
   const [openTaskForm, setOpenTaskForm] = useState(false)
-  const [meta, setMeta] = useState({})
+  const [meta, _setMeta] = useState({})
   const [options, setOptions] = useState(optionsForFilter())
   const [stateOptions, setStateOptions] = useState(optionsForState())
 
@@ -55,7 +55,6 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           setBotTasks(data.app.botTasks)
         },
         error: () => {
-          debugger
         }
       }
     )
@@ -80,8 +79,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         mode: mode
       },
       {
-        success: (res) => { dispatch(successMessage('reordered correctly')) },
-        error: (res) => { dispatch(errorMessage('reordered correctly')) }
+        success: (_res) => { dispatch(successMessage('reordered correctly')) },
+        error: (_res) => { dispatch(errorMessage('reordered correctly')) }
       }
     )
 
@@ -97,14 +96,13 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       DELETE_BOT_TASK,
       { appKey: app.key, id: o.id },
       {
-        success: (data) => {
+        success: (_data) => {
           const newData = botTasks.filter((item) => item.id != o.id)
           setBotTasks(newData)
           setOpenDeleteDialog(null)
           dispatch(successMessage(I18n.t('task_bots.remove_success')))
         },
         error: () => {
-          debugger
         }
       }
     )
@@ -400,7 +398,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
   let titleRef = React.createRef()
   // const titleRef = null
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (_e) => {
     const dataParams = {
       // id: create_UUID(),
       title: titleRef.value,
@@ -419,8 +417,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
           history.push(match.url + '/' + data.createBotTask.botTask.id)
           submit && submit()
         },
-        error: (error) => {
-          debugger
+        error: (_error) => {
         }
       }
     )

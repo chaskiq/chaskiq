@@ -20,7 +20,7 @@ import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
 import defaultFields from '../../shared/defaultFields'
 import Input from '../../components/forms/Input'
 
-function UserDataFields ({ app, settings, update, dispatch }) {
+function UserDataFields ({ app, _settings, update, _dispatch }) {
   const [fields, setFields] = useState(app.customFields || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
@@ -296,39 +296,6 @@ function FieldsForm ({ selected }) {
         type={'textarea'}
       ></Input>
     </React.Fragment>
-  )
-}
-
-function Field ({ field, handleEdit, removeField, index }) {
-  return (
-    <ListItem>
-      <ListItemText
-        primary={field.name}
-        secondary={I18n.t(`settings.user_data.attr_types.${field.type}`)}
-      />
-
-      {handleEdit && (
-        <ItemListSecondaryContent>
-          <Button
-            variant="icon"
-            onClick={() => handleEdit(index)}
-            edge="end"
-            aria-label={I18n.t('common.delete')}
-          >
-            <EditIcon />
-          </Button>
-
-          <Button
-            onClick={() => removeField(index)}
-            edge="end"
-            variant="icon"
-            aria-label={I18n.t('common.add')}
-          >
-            <DeleteIcon />
-          </Button>
-        </ItemListSecondaryContent>
-      )}
-    </ListItem>
   )
 }
 
