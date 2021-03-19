@@ -14,7 +14,6 @@ import CircularProgress from '../components/Progress'
 function LangChooser ({
   open,
   handleClose,
-  auth,
   current_user,
   app,
   dispatch
@@ -29,7 +28,7 @@ function LangChooser ({
         lang: lang
       }
     }, {
-      success: (data) => {
+      success: () => {
         // This dispatch will trigger an effect on AppRoutes.js
         // which will refresh the components
         dispatch(getCurrentUser())
@@ -97,7 +96,6 @@ function mapStateToProps (state) {
     app,
     current_user
   } = state
-  const { loading, isAuthenticated } = auth
   return {
     auth,
     current_user,

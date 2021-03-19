@@ -14,7 +14,7 @@ import {
   clearConversations
 } from '../../actions/conversations'
 
-function ConversationSearch ({ app, dispatch, conversations, asButton }) {
+function ConversationSearch ({ _app, dispatch, conversations, asButton }) {
   const [open, setOpen] = React.useState(false)
 
   function fetchConversations (options, cb) {

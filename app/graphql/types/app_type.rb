@@ -189,15 +189,10 @@ module Types
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
       # object.plan.allow_feature!("Conversations")
       authorize! object, to: :show?, with: AppPolicy
-  
       @collection = filter_by_agent(agent_id, filter)
-  
       @collection = @collection.page(page).per(per)
-  
       sort_conversations(sort)
-  
       @collection = @collection.tagged_with(tag) if tag.present?
-  
       # TODO: add _or_main_participant_name_cont, or do this with Arel
       if term
         @collection = @collection.ransack(
@@ -227,17 +222,19 @@ module Types
     end
   
     private def filter_by_agent(agent_id, filter)
-      @collection = object.conversations
+      collection = object.conversations
       .left_joins(:messages)
       .where.not(conversation_parts: { id: nil })
       .distinct
   
-      @collection = @collection.where(state: filter) if filter.present?
+      collection = collection.where(state: filter) if filter.present?
   
       if agent_id.present?
         agent = agent_id.zero? ? nil : agent_id
-        @collection = @collection.where(assignee_id: agent)
+        collection = collection.where(assignee_id: agent)
       end
+
+      collection
     end
   
     private def sort_conversations(sort)

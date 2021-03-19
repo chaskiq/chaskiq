@@ -24,20 +24,20 @@ function UpgradeButton ({ classes, size, app, label, feature, children }) {
 
     {
       plansEnabled && !activeFeature &&
-				<FeaturesMenu
-				  size={size}
-				  name={label}
-				  label={label}
-				  onToggle={onToggle}
-				  classes={classes}
-				  toggle={toggle}>
-				  <div className="rounded-lg shadow-lg overflow-hidden border-2 border-black">
-				    <MenuItems
-				      app={app}
-				      feature={feature}
-				    />
-				  </div>
-				</FeaturesMenu>
+        <FeaturesMenu
+          size={size}
+          name={label}
+          label={label}
+          onToggle={onToggle}
+          classes={classes}
+          toggle={toggle}>
+          <div className="rounded-lg shadow-lg overflow-hidden border-2 border-black">
+            <MenuItems
+              app={app}
+              feature={feature}
+            />
+          </div>
+        </FeaturesMenu>
     }
 
     {plansEnabled && activeFeature && children}
@@ -46,7 +46,7 @@ function UpgradeButton ({ classes, size, app, label, feature, children }) {
 }
 
 function mapStateToProps (state) {
-  const { auth, app } = state
+  const { app } = state
 
   return {
     app
@@ -65,7 +65,7 @@ function FlyoutItem ({ children, onClickOutside }) {
   )
 }
 
-function FeaturesMenu ({ classes, variant, size, label, name, children, onToggle, toggle }) {
+function FeaturesMenu ({ classes, size, label, name, children, onToggle }) {
   const [flyoutMenuOpen, setFlyoutMenuOpen] = React.useState(false)
 
   const defaultClasses = 'absolute z-10 ml-1 mt-3 transform w-screen max-w-md'
@@ -91,7 +91,7 @@ function FeaturesMenu ({ classes, variant, size, label, name, children, onToggle
           onToggle(true)
         }}>
         {label}
-    	</Button>
+      </Button>
 
       <Transition
         show={flyoutMenuOpen}

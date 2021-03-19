@@ -38,7 +38,7 @@ function App ({ dispatch, loading }) {
           setApps(data.apps)
           setReady(true)
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }, [])

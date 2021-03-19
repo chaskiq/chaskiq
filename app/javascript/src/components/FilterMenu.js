@@ -2,13 +2,10 @@ import React from 'react'
 import Dropdown from './Dropdown'
 import { CheckmarkIcon } from './icons'
 
-const ITEM_HEIGHT = 48
-
 export default function FilterMenu ({
   filterHandler,
   value,
   triggerButton,
-  selectedOption,
   options,
   position,
   origin

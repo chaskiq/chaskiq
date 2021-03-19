@@ -166,7 +166,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
               </div>
 
               <div>
-                {collections.baseArticles.map((article, i) => (
+                {collections.baseArticles.map((article) => (
                   <ListItem divider key={`articles-base-${article.id}`}>
                     <ListItemText
                       primary={

@@ -13,7 +13,7 @@ import translation from './translation'
 
 export default function Collections ({ lang, subdomain }) {
   const [collections, setCollections] = React.useState([])
-  const [error, setError] = React.useState(false)
+  const [_error, setError] = React.useState(false)
 
   React.useEffect(() => {
     getArticles()

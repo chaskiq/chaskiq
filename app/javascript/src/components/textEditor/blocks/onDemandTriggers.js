@@ -1,34 +1,34 @@
-import React from "react";
-import {LoadBalancerIcon} from '../../icons'
+import React from 'react'
+import { LoadBalancerIcon } from '../../icons'
 
-function appPackage() {
-  return <LoadBalancerIcon/>;
+function appPackage () {
+  return <LoadBalancerIcon/>
 }
 
 export default class OnDemandTriggers extends React.Component {
   render = () => {
-    return <span></span>;
+    return <span></span>
   };
 }
 
 export const OnDemandTriggersBlockConfig = (options = {}) => {
-  let config = {
-    title: "Add Trigger",
-    type: "OnDemandTrigger",
+  const config = {
+    title: 'Add Trigger',
+    type: 'OnDemandTrigger',
     icon: appPackage,
     block: OnDemandTriggers,
     editable: true,
     renderable: true,
     breakOnContinuous: false,
-    wrapper_class: "graf graf--Trigger",
-    selected_class: "is-selected",
+    wrapper_class: 'graf graf--Trigger',
+    selected_class: 'is-selected',
     widget_options: {
       displayOnInlineTooltip: true,
-      insertion: "func",
+      insertion: 'func',
       funcHandler: options.handleFunc,
-      insert_block: "OnDemandTriggers",
-    },
-  };
+      insert_block: 'OnDemandTriggers'
+    }
+  }
 
-  return Object.assign(config, options);
-};
+  return Object.assign(config, options)
+}

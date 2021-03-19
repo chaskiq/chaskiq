@@ -19,7 +19,7 @@ checks:
   method-count:
     enabled: true
     config:
-      threshold: 30
+      threshold: 50
   method-lines:
     enabled: true
     config:
@@ -44,7 +44,7 @@ plugins:
  rubocop:
   enabled: false
  eslint:
-  enabled: false
+  enabled: true
 exclude_patterns:
 - "config/"
 - "db/"
@@ -58,4 +58,4 @@ exclude_patterns:
 - "**/vendor/"
 - "**/*.d.ts"
 - babel.config.js
-- app/javascript/**/*
+#- app/javascript/**/*

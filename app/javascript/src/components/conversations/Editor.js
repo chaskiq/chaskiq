@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import styled from "@emotion/styled";
-import Tabs from "./tabs";
-import NewEditor from "./newEditor";
+import React, { Component } from 'react'
+import styled from '@emotion/styled'
+import Tabs from './tabs'
+import NewEditor from './newEditor'
 import 'draft-js/dist/Draft.css'
 
 const EditorContainer = styled.div`
@@ -40,21 +40,11 @@ const EditorContainer = styled.div`
     height: 20px;
     display: flex;
   }
-`;
-
-const EditorActions = styled.div`
-  box-sizing: border-box;
-  -webkit-box-pack: end;
-  justify-content: flex-end;
-  -webkit-box-align: center;
-  align-items: center;
-  display: flex;
-  padding: 12px 1px;
-`;
+`
 
 const EditorWrapper = styled.div`
   width: 100%;
-`;
+`
 
 export default class ConversationEditor extends Component {
   state = {
@@ -70,23 +60,23 @@ export default class ConversationEditor extends Component {
     // hide and show editor hack
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       () => {
         options.note
           ? this.props.insertNote(formats, this.enable)
-          : this.props.insertComment(formats, this.enable);
+          : this.props.insertComment(formats, this.enable)
       }
-    );
+    )
   };
 
   enable = () => {
     this.setState({
-      loading: false,
-    });
+      loading: false
+    })
   };
 
-  toggleSendMode = (e)=>{
+  toggleSendMode = (_e) => {
     this.setState({
       sendMode: this.state.sendMode === 'enter' ? '' : 'enter'
     })
@@ -94,12 +84,12 @@ export default class ConversationEditor extends Component {
 
   handleTyping = (content) => {
     // means if content empty
-    if (content.html === '<p className="graf graf--p"></p>') return;
+    if (content.html === '<p className="graf graf--p"></p>') return
 
-    clearTimeout(this.delayTimer);
+    clearTimeout(this.delayTimer)
     this.delayTimer = setTimeout(() => {
-      this.props.typingNotifier();
-    }, 400);
+      this.props.typingNotifier()
+    }, 400)
   };
 
   renderEditor = (opts) => {
@@ -107,7 +97,7 @@ export default class ConversationEditor extends Component {
       <EditorWrapper>
         <EditorContainer
           note={opts.note}
-          style={opts.note ? { background: "lemonchiffon" } : {}}
+          style={opts.note ? { background: 'lemonchiffon' } : {}}
         >
           {!this.state.loading ? (
             <NewEditor
@@ -120,27 +110,27 @@ export default class ConversationEditor extends Component {
           ) : null}
         </EditorContainer>
       </EditorWrapper>
-    );
+    )
   };
 
-  render() {
+  render () {
     const tabs = [
-      { label: "Reply", content: this.renderEditor({}) },
-      { label: "Note", content: this.renderEditor({ note: true }) },
-    ];
+      { label: 'Reply', content: this.renderEditor({}) },
+      { label: 'Note', content: this.renderEditor({ note: true }) }
+    ]
 
     return (
       <Tabs
         tabs={tabs}
-        onSelect={(tab, index) => console.log("Selected Tab", index + 1)}
-        buttons={()=>(
+        onSelect={(tab, index) => console.log('Selected Tab', index + 1)}
+        buttons={() => (
           <div className="flex flex-grow items-center justify-end pr-3">
-            
+
             <input
               id="send_mode"
               type="checkbox"
               checked={this.state.sendMode === 'enter'}
-              onChange={(e)=>{ this.toggleSendMode(e)}}
+              onChange={(e) => { this.toggleSendMode(e) }}
               className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
             />
             <label
@@ -149,10 +139,10 @@ export default class ConversationEditor extends Component {
             >
               {I18n.t('common.send_on_enter')}
             </label>
-            
+
           </div>
         )}
       />
-    );
+    )
   }
 }

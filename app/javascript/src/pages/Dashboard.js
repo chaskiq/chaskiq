@@ -35,9 +35,7 @@ function Dashboard (props) {
     to: moment() // .add(-1, 'day')
   }
 
-  const [dashboard, setDashboard] = React.useState(initialData)
-
-  const bull = <span>•</span>
+  const [dashboard, _setDashboard] = React.useState(initialData)
 
   return (
     <div>
@@ -220,7 +218,7 @@ function DashboardItem ({
           setData(data.app.dashboard)
           setLoading(false)
         },
-        error: (err) => {
+        error: (_err) => {
           setLoading(false)
         }
       }

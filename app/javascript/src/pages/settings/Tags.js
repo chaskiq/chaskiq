@@ -17,7 +17,7 @@ import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
 
 import Input from '../../components/forms/Input'
 
-function CustomizationColors ({ app, update, dispatch }) {
+function CustomizationColors ({ app, update, _dispatch }) {
   const [fields, setFields] = useState(app.tagList || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)

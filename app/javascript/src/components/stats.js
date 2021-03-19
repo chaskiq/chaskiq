@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import Moment from "react-moment";
-import CampaignChart from "./charts/charts.js";
-import styled from "@emotion/styled";
-import graphql from "../graphql/client";
-import Table from "./Table";
+import React, { Component } from 'react'
+import Moment from 'react-moment'
+import CampaignChart from './charts/charts.js'
+import styled from '@emotion/styled'
+
+import Table from './Table'
 import Badge from './Badge'
-import Button from "./Button";
-import Avatar from "./Avatar";
-import Count from "./charts/count";
+import Button from './Button'
+
+import Count from './charts/count'
 import I18n from '../shared/FakeI18n'
-import {isEmpty} from 'lodash'
+import { isEmpty } from 'lodash'
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -19,84 +19,74 @@ const PieContainer = styled.div`
   width: 100vw;
   margin: 25px 0 18px 0;
   overflow: auto;
-`;
+`
 
 const PieItem = styled.div`
   height: 200px;
-`;
-
-const NameWrapper = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
-const AvatarWrapper = styled.div`
-  margin-right: 8px;
-`;
-
+`
 class Stats extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       collection: [],
       meta: {},
       counts: {},
-      loading: false,
-    };
-    this.getData = this.getData.bind(this);
+      loading: false
+    }
+    this.getData = this.getData.bind(this)
   }
 
   renderLozenge = (item) => {
-    let kind = "default";
+    let kind = 'default'
 
     switch (item) {
-      case "click":
-        kind = "success";
-        break;
-      case "viewed":
-        kind = "inprogress";
-        break;
-      case "close":
-        kind = "removed";
-        break;
+      case 'click':
+        kind = 'success'
+        break
+      case 'viewed':
+        kind = 'inprogress'
+        break
+      case 'close':
+        kind = 'removed'
+        break
       default:
-        break;
+        break
     }
 
-    return <div appearance={kind}>{item}</div>;
+    return <div appearance={kind}>{item}</div>
   };
 
-  renderBadgeKind = (row)=>{
+  renderBadgeKind = (row) => {
     let variant = null
     switch (row.action) {
       case 'send':
-        variant = 'yellow';
+        variant = 'yellow'
         break
       case 'delivery':
-        variant = 'green';
+        variant = 'green'
         break
       case 'open':
-        variant = 'blue';
+        variant = 'blue'
         break
       case 'click':
-        variant = 'purple';
+        variant = 'purple'
         break
       default:
-        break;
+        break
     }
 
     return <Badge variant={variant}>
-            {row.action}
-           </Badge>
+      {row.action}
+    </Badge>
   }
 
-  componentDidMount() {
-    this.init();
+  componentDidMount () {
+    this.init()
   }
 
   init = () => {
-    this.getData();
-    //this.getCounts()
+    this.getData()
+    // this.getCounts()
   };
 
   getData = () => {
@@ -105,21 +95,21 @@ class Stats extends Component {
         appKey: this.props.app.key,
         mode: this.props.mode,
         id: this.props.match.params.id,
-        page: this.state.meta.next_page || 1,
+        page: this.state.meta.next_page || 1
       },
       (data) => {
-        const { counts, metrics } = data;
+        const { counts, metrics } = data
         this.setState({
           meta: metrics.meta,
           counts: counts,
-          collection: metrics.collection,
-        });
+          collection: metrics.collection
+        })
       }
-    );
+    )
   };
 
   handleNextPage = () => {
-    this.getData();
+    this.getData()
   };
 
   getRateFor = (type) => {
@@ -128,57 +118,55 @@ class Stats extends Component {
         id: o.name,
         label: o.name,
         value: this.state.counts[o.name] || 0,
-        color: o.color,
-      };
-    });
+        color: o.color
+      }
+    })
   };
 
-  render() {
+  render () {
     return (
       <div>
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold my-4">{I18n.t('campaign.stats.title')}</h3>
-          <Button 
-            variant={"outlined"}
+          <Button
+            variant={'outlined'}
             size="small"
             onClick={this.getData}>
             {I18n.t('campaign.stats.refresh_data')}
           </Button>
         </div>
 
-      
-        {this.props.data && this.props.mode !== "counter_blocks" &&
+        {this.props.data && this.props.mode !== 'counter_blocks' &&
           <PieContainer>
             {
-              !isEmpty(this.state.counts) && this.props.data.statsFields.map((o) => {
+              !isEmpty(this.state.counts) && this.props.data.statsFields.map((o, i) => {
                 const rateData = this.getRateFor(o)
                 return (
-                  <PieItem>
+                  <PieItem key={`rate-for-${i}`}>
                     <CampaignChart data={rateData} />
                   </PieItem>
-                );
+                )
               })
             }
           </PieContainer>
         }
-       
 
-        {this.props.mode === "counter_blocks" && this.props.data && (
+        {this.props.mode === 'counter_blocks' && this.props.data && (
           <div className="flex pb-5 overflow-x-auto">
             {Object.keys(this.state.counts).map(
-              (key) => {
-              return (
-                <div className="lg:w-1/4 w-screen my-1 px-1">
-                  <div className="rounded shadow-lg bg-white border p-4">
-                    <Count
-                      data={this.state.counts[key]}
-                      label={key.replace('bot_tasks.', '')}
-                      appendLabel={""}
-                    />
+              (key,i) => {
+                return (
+                  <div className="lg:w-1/4 w-screen my-1 px-1" key={`counter-${i}`}>
+                    <div className="rounded shadow-lg bg-white border p-4">
+                      <Count
+                        data={this.state.counts[key]}
+                        label={key.replace('bot_tasks.', '')}
+                        appendLabel={''}
+                      />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                )
+              })}
           </div>
         )}
 
@@ -191,15 +179,15 @@ class Stats extends Component {
             search={this.getData}
             defaultHiddenColumnNames={[]}
             columns={[
-              { field: "id", title: "id", hidden: true },
+              { field: 'id', title: 'id', hidden: true },
               {
-                field: "email",
-                title: I18n.t("definitions.stats.email.label"),
+                field: 'email',
+                title: I18n.t('definitions.stats.email.label'),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div
-                        onClick={(e) =>
+                        onClick={() =>
                           this.props.actions.showUserDrawer(row.appUserId)
                         }
                         className="flex items-center"
@@ -221,55 +209,57 @@ class Stats extends Component {
                         </div>
                       </div>
                     </td>
-                  ),
+                  )
               },
-              { field: "action", title: I18n.t("definitions.stats.actions.label"), 
-                render: (row)=> <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-                  {this.renderBadgeKind(row)}
-                </td> 
-              },
-              { field: "host", title: I18n.t("definitions.stats.from.label") },
               {
-                field: "createdAt",
-                title: I18n.t("definitions.stats.when.label"),
+                field: 'action',
+                title: I18n.t('definitions.stats.actions.label'),
+                render: (row) => <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                  {this.renderBadgeKind(row)}
+                </td>
+              },
+              { field: 'host', title: I18n.t('definitions.stats.from.label') },
+              {
+                field: 'createdAt',
+                title: I18n.t('definitions.stats.when.label'),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <Moment fromNow>{row.updatedAt}</Moment>
                     </td>
-                  ),
+                  )
               },
               {
-                field: "data",
-                title: I18n.t("definitions.stats.data.label"),
+                field: 'data',
+                title: I18n.t('definitions.stats.data.label'),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div>{JSON.stringify(row.data)}</div>
                     </td>
-                  ),
-              },
+                  )
+              }
             ]}
-            //selection [],
+            // selection [],
             tableColumnExtensions={[
-              //{ columnName: 'id', width: 150 },
-              { columnName: "email", width: 250 },
-              { columnName: "lastVisitedAt", width: 120 },
-              { columnName: "os", width: 100 },
-              { columnName: "osVersion", width: 100 },
-              { columnName: "state", width: 80 },
-              { columnName: "online", width: 80 },
+              // { columnName: 'id', width: 150 },
+              { columnName: 'email', width: 250 },
+              { columnName: 'lastVisitedAt', width: 120 },
+              { columnName: 'os', width: 100 },
+              { columnName: 'osVersion', width: 100 },
+              { columnName: 'state', width: 80 },
+              { columnName: 'online', width: 80 }
 
-              //{ columnName: 'amount', align: 'right', width: 140 },
+              // { columnName: 'amount', align: 'right', width: 140 },
             ]}
-            leftColumns={["email"]}
-            rightColumns={["online"]}
+            leftColumns={['email']}
+            rightColumns={['online']}
             meta={this.state.meta}
           />
         ) : null}
       </div>
-    );
+    )
   }
 }
 
-export default Stats;
+export default Stats

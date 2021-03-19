@@ -35,13 +35,13 @@ function QuickReplyDialog ({
       content: open,
       lang: lang
     }, {
-      success: (data) => {
+      success: (_data) => {
         close()
         dispatch(successMessage(
           I18n.t('quick_replies.create.success')
         ))
       },
-      error: (err) => {
+      error: (_err) => {
         dispatch(errorMessage(
           I18n.t('quick_replies.create.error')
         ))
