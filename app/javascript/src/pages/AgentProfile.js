@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import UserData from '../components/UserData'
-import styled from '@emotion/styled'
-import {isEmpty} from 'lodash'
 
 import {
   CREATE_DIRECT_UPLOAD,
+  START_CONVERSATION,
+  APP_USER_UPDATE_STATE,
+  UPDATE_AGENT
 } from '../graphql/mutations'
 import {getFileMetadata, directUpload} from '../shared/fileUploader'
 
@@ -18,14 +18,9 @@ import {
   AGENT
 } from '../graphql/queries'
 
-import {
-  START_CONVERSATION,
-  APP_USER_UPDATE_STATE,
-  UPDATE_AGENT
-} from '../graphql/mutations'
 
 
-import Button from '../components/Button' 
+import Button from '../components/Button'
 import Avatar from '../components/Avatar'
 import TextField from '../components/forms/Input'
 
@@ -35,18 +30,18 @@ import {
 
 import Content from '../components/Content'
 import UserListItem from '../components/conversations/ItemList'
-import sanitizeHtml from 'sanitize-html';
+import sanitizeHtml from 'sanitize-html'
 import DialogEditor from '../components/DialogEditor'
 import FilterMenu from '../components/FilterMenu'
 
-import { EditIcon, ArchiveIcon,
-  BlockIcon,
-  UnsubscribeIcon,
+import {
+ EditIcon, 
+  
+  
   MoreIcon
 } from '../components/icons'
 
 class ProfilePage extends Component {
-
   state = {
     collection: [],
     meta: {},
@@ -55,177 +50,166 @@ class ProfilePage extends Component {
     editName: false
   }
 
-  componentDidMount(){
+  componentDidMount () {
     this.getAgent()
   }
 
-  getAgent = ()=>{
+  getAgent = () => {
     graphql(AGENT, {
-      appKey: this.props.app.key, 
+      appKey: this.props.app.key,
       id: parseInt(this.props.match.params.id),
       page: 1,
       per: 20
     }, {
-      success: (data)=>{
-        this.setState({agent: data.app.agent})
-      }, 
-      error: (error)=>{
-
+      success: (data) => {
+        this.setState({ agent: data.app.agent })
+      },
+      error: () => {
       }
     })
   }
 
-  fetchUserConversations = ()=>{
+  fetchUserConversations = () => {
     graphql(APP_USER_CONVERSATIONS, {
       appKey: this.props.app.key,
       id: this.state.agent.id,
       page: 1,
       per: 20
     }, {
-      success: (data)=>{
-        const {collection} = data.app.appUser.conversations
-        this.setState({collection: collection })
+      success: (data) => {
+        const { collection } = data.app.appUser.conversations
+        this.setState({ collection: collection })
       },
-      error: ()=>{
-
+      error: () => {
       }
     })
   }
 
-  openStartConversationModal = ()=>{
-    this.setState({startConversationModal: true})
+  openStartConversationModal = () => {
+    this.setState({ startConversationModal: true })
   }
 
-  handleSubmit = ({html, serialized, text})=> {
-
+  handleSubmit = ({ html, serialized, text }) => {
     graphql(START_CONVERSATION, {
-      appKey: this.props.app.key, 
+      appKey: this.props.app.key,
       id: this.state.agent.id,
-      message: {html, serialized, text}
+      message: { html, serialized, text }
     }, {
-      success: (data)=>{
+      success: (data) => {
         console.log(data.startConversation)
       },
-      errors: (error)=>{
-        debugger
+      errors: () => {
       }
     })
   }
 
-  updateState = (option)=>{
-
+  updateState = (option) => {
     graphql(APP_USER_UPDATE_STATE, {
-      appKey: this.props.app.key, 
+      appKey: this.props.app.key,
       id: this.state.agent.id,
       state: option.id
     }, {
-      success: (data)=>{
-
+      success: () => {
         this.props.dispatch(
           getAppUser(
             parseInt(this.state.agent.id)
           )
         )
-
-        //data.appUserUpdateData.appUser
+        // data.appUserUpdateData.appUser
       },
-      error: (error)=>{
-        debugger
+      error: () => {
       }
     })
-
   }
 
-  toggleNameEdit = ()=>{
-    this.setState({editName: !this.state.editName})
+  toggleNameEdit = () => {
+    this.setState({ editName: !this.state.editName })
   }
 
-  handleEnter = (e)=>{
-    if(e.key === "Enter"){
+  handleEnter = (e) => {
+    if (e.key === 'Enter') {
       graphql(UPDATE_AGENT, {
-        appKey: this.props.app.key, 
+        appKey: this.props.app.key,
         email: this.state.agent.email,
-        params:{
+        params: {
           name: e.target.value
         }
       }, {
-        success: (data)=>{
-          this.setState({editName: false})
+        success: () => {
+          this.setState({ editName: false })
           this.getAgent()
         },
-        error: ()=>{
+        error: () => {
 
         }
       })
     }
   }
 
-  updateAgentLogo = (signedBlobId)=>{
+  updateAgentLogo = (signedBlobId) => {
     graphql(UPDATE_AGENT, {
-      appKey: this.props.app.key, 
+      appKey: this.props.app.key,
       email: this.state.agent.email,
       params: {
         avatar: signedBlobId
       }
     }, {
-      success: (data)=>{
-        this.setState({editName: false})
+      success: () => {
+        this.setState({ editName: false })
         this.getAgent()
       },
-      error: ()=>{
+      error: () => {
 
       }
     })
   }
 
-
-  uploadHandler = (file, kind)=>{
-
+  uploadHandler = (file, kind) => {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
-        success: (data)=>{
-          const {signedBlobId, headers, url, serviceUrl} = data.createDirectUpload.directUpload
-       
+        success: (data) => {
+          const { signedBlobId, headers, url, _serviceUrl } = data.createDirectUpload.directUpload
+
           directUpload(url, JSON.parse(headers), file).then(
             () => {
-              let params = {}
+              const params = {}
               params[kind] = signedBlobId
 
               this.updateAgentLogo(signedBlobId)
-          });
+            })
         },
-        error: (error)=>{
-         console.log("error on signing blob", error)
+        error: (error) => {
+          console.log('error on signing blob', error)
         }
       })
-    });
+    })
   }
 
-  optionsForFilter = ()=>{
+  optionsForFilter = () => {
     const options = [
       {
         title: 'Archive',
         description: 'Archive this person and their conversation history',
-        //icon: <ArchiveIcon/>,
+        // icon: <ArchiveIcon/>,
         id: 'archive',
         state: 'archived'
       },
       {
         title: 'Block',
         description: 'Blocks them so you won’t get their replies',
-        //icon: <BlockIcon/>,
+        // icon: <BlockIcon/>,
         id: 'block',
         state: 'blocked'
       },
-    
-      { 
+
+      {
         title: 'Unsubscribe',
         description: 'Removes them from your email list',
-        //icon: <UnsubscribeIcon/>,
+        // icon: <UnsubscribeIcon/>,
         id: 'unsubscribe',
         state: 'unsubscribed'
       }
-    ];
+    ]
 
     return options
   }
@@ -235,42 +219,41 @@ class ProfilePage extends Component {
       <div>
         <button
           onClick={clickHandler}
-          className="text-xs leading-4 font-medium text-gray-100 
-          group-hover:text-gray-300 group-focus:underline transition 
+          className="text-xs leading-4 font-medium text-gray-100
+          group-hover:text-gray-300 group-focus:underline transition
           ease-in-out duration-150">
           <MoreIcon/>
         </button>
       </div>
-    );
+    )
   }
 
-  render() {
+  render () {
     return (
 
       <div>
 
         <div className="border-b flex items-center justify-between bg-gray-900 text-white">
 
-
           <div className="flex m-6 items-center">
 
             <div classes={'mr-3 flex flex-col items-center'}>
-            
+
               {
-                this.state.agent.avatarUrl &&              
+                this.state.agent.avatarUrl &&
                 <Avatar size={20}
-                  src={this.state.agent.avatarUrl + "&s=120px"}
+                  src={this.state.agent.avatarUrl + '&s=120px'}
                 />
               }
 
               <div>
                 <input
                   accept="image/*"
-                  style={{display: 'none'}}
-                  //className={classes.input}
+                  style={{ display: 'none' }}
+                  // className={classes.input}
                   id={'avatarUpload'}
                   onChange={(e) => this.uploadHandler(e.currentTarget.files[0])}
-                  //multiple
+                  // multiple
                   type="file"
                 />
                 <label htmlFor={'avatarUpload'}
@@ -280,25 +263,25 @@ class ProfilePage extends Component {
               </div>
 
             </div>
-            
+
             <div className="flex flex-col ml-3">
               <h5 className="flex text-2xl leading-9 font-extrabold tracking-tight text-gray-100 sm:text-2xl sm:leading-10">
                 {
-                  this.state.editName ?
-                  <TextField
-                    type={'text'}
-                    //className={classes.input}
-                    onKeyUp={this.handleEnter}
-                    defaultValue={this.state.agent.name}
-                    placeholder="enter agent's name"
-                    inputProps={{ 'aria-label': 'enter agent\'s name' }}
-                  /> : this.state.agent.name || 'no name' 
+                  this.state.editName
+                  ? <TextField
+                      type={'text'}
+                      // className={classes.input}
+                      onKeyUp={this.handleEnter}
+                      defaultValue={this.state.agent.name}
+                      placeholder="enter agent's name"
+                      inputProps={{ 'aria-label': 'enter agent\'s name' }}
+                    /> : this.state.agent.name || 'no name'
 
-                  /*<input defaultValue={this.state.agent.name || 'no name'}/>*/
+                  /* <input defaultValue={this.state.agent.name || 'no name'}/> */
                 }
-                <Button variant="icon" 
-                  onClick={this.toggleNameEdit} 
-                  color={"inherit"}>
+                <Button variant="icon"
+                  onClick={this.toggleNameEdit}
+                  color={'inherit'}>
                   <EditIcon/>
                 </Button>
 
@@ -308,12 +291,12 @@ class ProfilePage extends Component {
                 {this.state.agent.email}
               </p>
 
-              <p variant={"subtitle1"}>
+              <p variant={'subtitle1'}>
                 {this.state.agent.city}
                 {this.state.agent.country}
               </p>
 
-              <p variant={"caption"}>
+              <p variant={'caption'}>
                 {this.state.agent.state}
               </p>
             </div>
@@ -327,7 +310,7 @@ class ProfilePage extends Component {
               value={this.props.app_user.state}
               filterHandler={(e) => this.updateState(e.state)}
               triggerButton={this.toggleButton}
-              position={"right"}
+              position={'right'}
             />
 
           </div>
@@ -346,43 +329,43 @@ class ProfilePage extends Component {
               </div>
 
               <div>
-                
+
                 {
-                  this.state.agent.conversations && 
-                
-                    this.state.agent.conversations.collection.map((o)=>{
+                  this.state.agent.conversations &&
+
+                    this.state.agent.conversations.collection.map((o) => {
                       const user = o.mainParticipant
-                      console.log("ssss", o)
-                      return <div 
-                                key={o.id} 
-                                onClick={(e)=> this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.key}`) }>
-                                        
-                                <UserListItem
-                                  value={null}
-                                  app={this.props.app}
-                                  mainUser={user}
-                                  object={o.id}
-                                  messageUser={o.lastMessage.appUser}
-                                  showUserDrawer={this.showUserDrawer}
-                                  messageObject={o.lastMessage}
-                                  conversation={o}
-                                  //createdAt={o.lastMessage.message.created_at}
-                                  message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
-                                />
-                              </div>
+                      console.log('ssss', o)
+                      return <div
+                        key={o.id}
+                        onClick={(_e) => this.props.history.push(`/apps/${this.props.app.key}/conversations/${o.key}`) }>
+
+                        <UserListItem
+                          value={null}
+                          app={this.props.app}
+                          mainUser={user}
+                          object={o.id}
+                          messageUser={o.lastMessage.appUser}
+                          showUserDrawer={this.showUserDrawer}
+                          messageObject={o.lastMessage}
+                          conversation={o}
+                          // createdAt={o.lastMessage.message.created_at}
+                          message={sanitizeHtml(o.lastMessage.message.htmlContent).substring(0, 250)}
+                        />
+                      </div>
                     })
                 }
               </div>
             </div>
 
             <div className="w-full md:1/4">
-              { 
+              {
                 /*
-                !isEmpty(this.state.agent) ? 
-                <UserData 
+                !isEmpty(this.state.agent) ?
+                <UserData
                   width={"100%"}
                   hideConactInformation={true}
-                  appUser={this.state.agent} 
+                  appUser={this.state.agent}
                   app={this.props.app}
                 /> : null
                 */
@@ -391,26 +374,23 @@ class ProfilePage extends Component {
 
           </div>
 
-
         </Content>
 
-
         {
-          this.state.startConversationModal ?
+          this.state.startConversationModal
            
-            <DialogEditor 
+            ? <DialogEditor
               handleSubmit={this.handleSubmit}
               open={this.state.startConversationModal}
-            /> : null 
+            /> : null
         }
 
       </div>
-    );
+    )
   }
 }
 
-
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   const { app_user, app } = state
   return {
     app_user,
@@ -418,6 +398,6 @@ function mapStateToProps(state) {
   }
 }
 
-//export default ShowAppContainer
+// export default ShowAppContainer
 
 export default withRouter(connect(mapStateToProps)(ProfilePage))

@@ -330,7 +330,7 @@ const WrappedComponent = React.forwardRef(function Input (
 
 export default WrappedComponent
 
-function FormField ({ name, label, helperText, children, error }) {
+function FormField ({ name, label, helperText, children, _error }) {
   return (
     <React.Fragment>
       <label

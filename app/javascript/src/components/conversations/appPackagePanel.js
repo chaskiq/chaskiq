@@ -23,7 +23,7 @@ function AppPackagePanel (props) {
   const [loading, setLoading] = React.useState(null)
   const [provider, setProvider] = React.useState(null)
   const [providers, setProviders] = React.useState([])
-  const [values, setValues] = React.useState({})
+  //const [values, setValues] = React.useState({})
   const [contentSchema, setContentSchema] = React.useState(null)
 
   function getAppPackages () {

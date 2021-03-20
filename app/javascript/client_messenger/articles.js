@@ -13,7 +13,7 @@ import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Loader from './loader'
-import { useTranslation, Trans, withTranslation } from 'react-i18next'
+import {  Trans, withTranslation } from 'react-i18next'
 
 const DanteContainerExtend = styled(DanteContainer)`
   margin-top: 1.2em;
@@ -56,14 +56,14 @@ const Article = ({
   // appData,
   i18n,
   // graphqlClient,
-  lang
+  //lang
   // domain,
   // articleJson
 }) => {
   const domain = window.domain
-  const [article, setArticle] = useState(window.articleJson)
-  const [loading, setLoading] = useState(false)
-  const { t } = useTranslation()
+  const [article, _setArticle] = useState(window.articleJson)
+  const [loading, _setLoading] = useState(false)
+  //const { t } = useTranslation()
 
   function renderDate () {
     return <Moment format="MMM Do, YYYY">

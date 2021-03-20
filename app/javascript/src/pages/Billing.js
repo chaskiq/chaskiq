@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import ContentHeader from '../components/PageHeader'
 import Content from '../components/Content'
 import { isEmpty } from 'lodash'
-import Button from '../components/Button'
+
 import Tabs from '../components/Tabs'
 import CircularProgress from '../components/Progress'
 
@@ -58,7 +58,6 @@ function Billing ({
         setPlans(data.app.plans)
       },
       error: () => {
-        debugger
       }
     })
   }
@@ -105,7 +104,6 @@ function Billing ({
         setSubscriptionDetails(data.app.subscriptionDetails)
       },
       error: () => {
-        debugger
       }
     })
   }
@@ -143,10 +141,8 @@ function Billing ({
     }, {
       success: (data) => {
         data.app.updateSubscriptionPlan
-        // debugger
       },
       error: () => {
-        // debugger
       }
     })
   }
@@ -515,6 +511,7 @@ function UpdateSubscriptionModal ({ plan, subscription, handleSubmit, handleClos
   )
 }
 
+/*
 function Plans ({ plans, openCheckout, currentPlan, appPlan }) {
   return (
     plans.filter((o) => o.id !== currentPlan)
@@ -533,7 +530,7 @@ function Plans ({ plans, openCheckout, currentPlan, appPlan }) {
   )
 }
 
-function Plan ({ plan, openCheckout, currentPlan, appPlan }) {
+function Plan ({ plan, openCheckout, _currentPlan, appPlan }) {
   function findInTranslation () {
     const translatedPlan = I18n.t('subscriptions.plans').find((o) => o.id === plan)
     return translatedPlan && translatedPlan
@@ -607,7 +604,7 @@ function Plan ({ plan, openCheckout, currentPlan, appPlan }) {
       </div>
     </div>
   )
-}
+}*/
 
 function Checkout ({ current_user, app, product, handleSuccess, handleClose }) {
   React.useEffect(() => {
@@ -625,7 +622,7 @@ function Checkout ({ current_user, app, product, handleSuccess, handleClose }) {
       frameTarget: 'checkout-container', // The className of your checkout <div>
       frameInitialHeight: 366,
       frameStyle: 'width:100%; background-color: transparent; border: none;',
-      successCallback: (info) => { handleSuccess() }
+      successCallback: (_info) => { handleSuccess() }
     })
   }, [])
 
@@ -684,7 +681,6 @@ function Transactions ({ app }) {
         setTransactions(data.app.subscriptionTransactions)
       },
       errors: () => {
-        debugger
       }
     })
   }
@@ -938,7 +934,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
 
                 {
                   plans.map((plan) => (
-                    <td className="py-5 px-6">
+                    <td className="py-5 px-6" key={`feature-${k}-plan-${plan.name}`}>
                       {
                         plan.features.find(o => o.name === k && o.active) &&
                         <svg className="h-5 w-5 text-green-500" x-description="Heroicon name: check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -978,7 +974,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
                     focus:border-green-700 
                     focus:shadow-outline
                     mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
-                    onClick={() => openCheckout(plan)}> {p.name}
+                    onClick={() => openCheckout(p)}> {p.name}
                   </button>}
                 </td>
               ))

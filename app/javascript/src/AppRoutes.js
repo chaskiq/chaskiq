@@ -25,7 +25,6 @@ function mapStateToProps (state) {
 }
 
 function AppRouter ({
-  loading,
   isAuthenticated,
   current_user,
   location,

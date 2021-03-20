@@ -39,7 +39,7 @@ const Loader = styled.div`
   
 `
 
-export default function Progress ({ size }) {
+export default function Progress ({ _size }) {
   return (
     <LoaderWrapper>
       <Loader/>
@@ -140,7 +140,7 @@ const Button = styled(BaseButton)`
         return ''
       case 'link':
         return `
-        ${(props) => tw`text-sm leading-5 font-bold text-gray-900 hover:text-indigo-500`}
+        ${(_props) => tw`text-sm leading-5 font-bold text-gray-900 hover:text-indigo-500`}
         ${(props) => props.theme.palette ? '' : ''}
       `
 
@@ -569,7 +569,7 @@ export function ListRenderer ({ field, handleAction }) {
 }
 
 const ImageContainer = styled.div`
-  ${(props) => tw`flex`}
+  ${(_props) => tw`flex`}
   ${(props) => {
     switch (props.align) {
       case 'left':
@@ -637,7 +637,7 @@ export function TextAreaRenderer ({ field, loading }) {
 }
 
 const DropDown = styled.div`
-  ${(props) => tw`relative inline-block text-left w-full`}
+  ${(_props) => tw`relative inline-block text-left w-full`}
   .content{
     ${() => tw`z-50 w-full origin-top-right absolute right-0 mt-2 rounded-md shadow-lg`}
   }
@@ -676,7 +676,7 @@ const SelectButton = styled.button`
 `
 
 // TODO: disabled state / error state / saved state
-export function DropdownRenderer ({ field, handleAction }) {
+export function DropdownRenderer ({ field, _handleAction }) {
   const [open, setOpen] = React.useState(false)
 
   const defaultValue = field.value && field.options.find(
@@ -844,7 +844,7 @@ export function DefinitionRenderer ({
   schema,
   values,
   updatePackage,
-  getPackage,
+  //getPackage,
   disabled,
   location,
   size,
@@ -1017,7 +1017,7 @@ const HelperText = styled.div`
   ${() => tw`mt-2 text-xs text-gray-500`}
 `
 
-function FormField ({ name, label, helperText, children, error }) {
+function FormField ({ name, label, helperText, children, _error }) {
   return (
     <React.Fragment>
       <Label
@@ -1038,7 +1038,7 @@ function FormField ({ name, label, helperText, children, error }) {
 }
 
 export function BaseInserter ({
-  onItemSelect,
+  //onItemSelect,
   pkg,
   app,
   onInitialize,

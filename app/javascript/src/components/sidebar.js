@@ -11,19 +11,15 @@ import LangChooser from '../components/LangChooser'
 import Toggle from '../components/forms/Toggle'
 import {
   MoreIcon,
-
   MessageBubbleIcon,
-
   ShuffleIcon,
-
   WebhooksIcon,
-
   ApiIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
 
-import { toggleDrawer } from '../actions/drawer'
+
 
 import I18n from '../shared/FakeI18n'
 
@@ -58,7 +54,6 @@ function mapStateToProps (state) {
 
 function Sidebar ({
   app,
-  match,
   dispatch,
   navigation,
   current_user,
@@ -67,20 +62,14 @@ function Sidebar ({
 }) {
   const { current_page, current_section } = navigation
 
-  const [expanded, setExpanded] = useState(current_section)
+  const [_expanded, setExpanded] = useState(current_section)
   const [loading, setLoading] = useState(false)
 
   const [langChooser, setLangChooser] = useState(false)
 
-  const routerListener = null
-
   useEffect(() => {
     setExpanded(current_section)
   }, [current_section])
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false)
-  }
 
   function isActivePage (page) {
     /// console.log("selected page", current_page , page)
@@ -108,7 +97,7 @@ function Sidebar ({
           active: isActivePage("campaigns")
         } */
         {
-          render: (props) => [
+          render: (_props) => [
             <div key={'dashboard-hey'} className="space-y-2">
               <p className="text-sm leading-5 text-gray-500 font-light"
                 dangerouslySetInnerHTML={
@@ -321,14 +310,10 @@ function Sidebar ({
     }
   ]
 
-  function handleDrawer () {
-    dispatch(toggleDrawer({ open: !drawer.open }))
-  }
-
   function renderInner () {
     return categories
       .filter((o) => o.id === current_section)
-      .map(({ id, label, icon, children }) => {
+      .map(({ id, label, _icon, children }) => {
         //  expanded={expanded === id}
         return (
           <div
@@ -341,7 +326,7 @@ function Sidebar ({
             </div>
             <nav className="mt-5 flex-1 px-4 space-y-2">
               {children.filter((o) => !o.hidden).map(
-                ({ id: childId, label, icon, active, url, onClick, render }) =>
+                ({ id: childId, label, icon, active, url, _onClick, render }) =>
                   !render ? (
                     <Link
                       key={`sidebar-section-child-${id}-${childId}`}
@@ -373,7 +358,7 @@ function Sidebar ({
     setLangChooser(true)
   }
 
-  function handleAwaymode (e) {
+  function handleAwaymode (_e) {
     setLoading(true)
 
     graphql(UPDATE_AGENT, {
@@ -383,7 +368,7 @@ function Sidebar ({
         available: !current_user.available
       }
     }, {
-      success: (data) => {
+      success: (_data) => {
         dispatch(getCurrentUser())
         setLoading(false)
       },
@@ -458,6 +443,11 @@ function Sidebar ({
       }
 
       <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100 shadow-inner">
+
+        <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 bg-yellow-50">
+          <h3 className="font-semibold w-full text-gray-600 text-xs">{app.name}</h3>
+        </div>
+      
         {renderInner()}
 
         <div className="flex-shrink-0 flex border-t border-gray-200 p-4">

@@ -5,7 +5,7 @@ export default function Breadcrumbs ({ breadcrumbs }) {
   return (
     <nav className="hidden sm:flex items-center text-sm leading-5 font-medium">
       {breadcrumbs.map((o, i) => (
-        <React.Fragment>
+        <React.Fragment key={`breadcrumbs-${i}`}>
           {o.to && (
             <Link
               to={o.to}

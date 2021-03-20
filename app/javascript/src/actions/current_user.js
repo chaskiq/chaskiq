@@ -10,7 +10,7 @@ const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
 
 // Action Creators
 export function getCurrentUser () {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     graphql(
       CURRENT_USER,
       {},
@@ -27,7 +27,7 @@ export function getCurrentUser () {
           // window.location = "/users/sign_in"
           // console.log("error!", data.data.errors);
         },
-        fatal: (response) => {
+        fatal: () => {
           dispatch(doSignout())
         }
       }
@@ -36,7 +36,7 @@ export function getCurrentUser () {
 }
 
 export function clearCurrentUser () {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(successAuthentication({}))
   }
 }

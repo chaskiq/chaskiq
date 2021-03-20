@@ -71,8 +71,7 @@ function Settings ({ app, dispatch }) {
           }))
           setEventTypes(types)
         },
-        error: (data) => {
-          debugger
+        error: (_data) => {
         }
       }
     )
@@ -98,10 +97,6 @@ function Settings ({ app, dispatch }) {
         }
       }
     )
-  }
-
-  function handleOpen (service) {
-    setOpen(service)
   }
 
   function close () {
@@ -253,10 +248,6 @@ function Settings ({ app, dispatch }) {
         }
       }
     )
-  }
-
-  function handleTabChange (e, i) {
-    setTabValue(i)
   }
 
   function activeWebhooks () {

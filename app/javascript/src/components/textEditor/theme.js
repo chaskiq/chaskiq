@@ -7,7 +7,7 @@ const dante_control_color = '#333333'
 const dante_inversed_color = '#FFFFFF'
 const dante_accent_color = '#5BD974'
 const dante_text_color = '#4a4a4a'
-const fontSize = '.9rem'
+const fontSize = '1rem'
 
 const theme = {
   dante_font_family_serif: dante_font_family_serif,
@@ -17,7 +17,7 @@ const theme = {
   dante_editor_font_size: fontSize,
 
   // Editor
-  dante_editor_font_size: '1rem',
+  // dante_editor_font_size: '1rem',
   dante_editor_line_height: '1.9',
 
   dante_font_family_sans_serif: 'comic-sans',
@@ -42,7 +42,7 @@ const theme = {
 
   tooltip_caret_size: '12px',
   menu_tone: '#444',
-  tooltip_size: '32px',
+  //tooltip_size: '32px',
 
   tooltip_button_spacing: '9px',
   tooltip_menu_spacing: '22px',

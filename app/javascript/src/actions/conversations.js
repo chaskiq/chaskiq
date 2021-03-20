@@ -61,7 +61,7 @@ export function getConversations (options, cb) {
   }
 }
 
-export function appendConversation (data, cb) {
+export function appendConversation (data, _cb) {
   return (dispatch, getState) => {
     const conversation = getState().conversations.collection.find(
       (o) => o.key === data.conversationKey
@@ -111,14 +111,14 @@ export function appendConversation (data, cb) {
 }
 
 export function updateConversationsData (data, cb) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(dispatchDataUpate(data))
     cb && cb()
   }
 }
 
 export function updateConversationItem (data) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.UpdateConversationItem,
       data: data
@@ -127,7 +127,7 @@ export function updateConversationItem (data) {
 }
 
 export function clearConversations (data) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.ClearConversations,
       data: data

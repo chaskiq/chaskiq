@@ -1,68 +1,68 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import timezones from "../shared/timezones";
-import Button from "../components/Button";
-import graphql from "../graphql/client";
-import SettingsForm from "../pages/settings/form";
-import { CREATE_APP } from "../graphql/mutations";
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import timezones from '../shared/timezones'
 
-import { errorMessage, successMessage } from "../actions/status_messages";
+import graphql from '../graphql/client'
+import SettingsForm from '../pages/settings/form'
+import { CREATE_APP } from '../graphql/mutations'
 
-import { clearApp } from "../actions/app";
+import { errorMessage, successMessage } from '../actions/status_messages'
 
-import image from "../images/up-icon8.png";
+import { clearApp } from '../actions/app'
+
+import image from '../images/up-icon8.png'
 
 class NewApp extends Component {
   state = {
-    data: {},
+    data: {}
   };
 
-  componentDidMount() {
-    this.props.dispatch(clearApp());
+  componentDidMount () {
+    this.props.dispatch(clearApp())
   }
 
   definitionsForSettings = () => {
     return [
       {
-        name: "name",
-        label: I18n.t("definitions.settings.name.label"),
-        type: "string",
-        grid: { xs: "w-full", sm: "w-1/2" },
+        name: 'name',
+        label: I18n.t('definitions.settings.name.label'),
+        type: 'string',
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
       {
-        name: "domainUrl",
-        label: I18n.t("definitions.settings.domain.label"),
-        type: "string",
-        grid: { xs: "w-full", sm: "w-1/2" },
+        name: 'domainUrl',
+        label: I18n.t('definitions.settings.domain.label'),
+        type: 'string',
+        grid: { xs: 'w-full', sm: 'w-1/2' }
       },
       {
-        name: "tagline",
-        label: I18n.t("definitions.settings.tagline.label"),
-        type: "textarea",
-        hint: I18n.t("definitions.settings.tagline.hint"),
-        grid: { xs: "w-full", sm: "w-full" },
+        name: 'tagline',
+        label: I18n.t('definitions.settings.tagline.label'),
+        type: 'textarea',
+        hint: I18n.t('definitions.settings.tagline.hint'),
+        grid: { xs: 'w-full', sm: 'w-full' }
       },
       {
-        name: "timezone",
-        type: "timezone",
-        label: I18n.t("definitions.settings.timezone.label"),
+        name: 'timezone',
+        type: 'timezone',
+        label: I18n.t('definitions.settings.timezone.label'),
         options: timezones,
         multiple: false,
-        grid: { xs: "w-full", sm: "w-full" },
+        grid: { xs: 'w-full', sm: 'w-full' }
       }
-    ];
+    ]
   };
 
   handleSuccess = () => {
-    this.props.dispatch(successMessage("app created successfully"));
-    this.props.history.push(`/apps/${this.state.data.app.key}`);
+    this.props.dispatch(successMessage('app created successfully'))
+    this.props.history.push(`/apps/${this.state.data.app.key}`)
   };
 
   handleResponse = () => {
-    this.state.data.app.key && this.handleSuccess();
+    this.state.data.app.key && this.handleSuccess()
   };
 
   handleData = (data) => {
@@ -70,25 +70,25 @@ class NewApp extends Component {
       CREATE_APP,
       {
         appParams: data.app,
-        operation: "create",
+        operation: 'create'
       },
       {
         success: (data) => {
           this.setState(
             {
-              data: data.appsCreate,
+              data: data.appsCreate
             },
             () => this.handleResponse(data)
-          );
+          )
         },
-        error: (error) => {
-          this.props.dispatch(errorMessage("server error"));
-        },
+        error: (_error) => {
+          this.props.dispatch(errorMessage('server error'))
+        }
       }
-    );
+    )
   };
 
-  render() {
+  render () {
     return (
       <div>
         <div className="p-3 sm:m-16 sm:p-12 shadow rounded bg-white shadow flex">
@@ -105,7 +105,7 @@ class NewApp extends Component {
 
               <img
                 src={image}
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 alt=""
               />
             </div>
@@ -113,9 +113,9 @@ class NewApp extends Component {
 
           <div className="w-full sm:w-1/2">
 
-            <p className="sm:hidden text-3xl tracking-tight leading-10 
+            <p className="sm:hidden text-3xl tracking-tight leading-10
             font-extrabold text-gray-900 sm:leading-none">
-              {I18n.t("new_app.hint")}
+              {I18n.t('new_app.hint')}
             </p>
 
             <SettingsForm
@@ -127,22 +127,22 @@ class NewApp extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
 NewApp.contextTypes = {
-  router: PropTypes.object,
-};
-
-function mapStateToProps(state) {
-  const { auth } = state;
-  const { isAuthenticated } = auth;
-  //const { sort, filter, collection , meta, loading} = conversations
-
-  return {
-    isAuthenticated,
-  };
+  router: PropTypes.object
 }
 
-export default withRouter(connect(mapStateToProps)(NewApp));
+function mapStateToProps (state) {
+  const { auth } = state
+  const { isAuthenticated } = auth
+  // const { sort, filter, collection , meta, loading} = conversations
+
+  return {
+    isAuthenticated
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(NewApp))

@@ -1,26 +1,7 @@
 import React from 'react'
 import Moment from 'react-moment'
-import styled from '@emotion/styled'
 import Badge from '../Badge'
 import Avatar from '../Avatar'
-
-const NameWrapper = styled.span`
-  display: flex;
-  align-items: center;
-`
-
-const AvatarWrapper = styled.div`
-  margin-right: 8px;
-`
-
-function UserBadge (props) {
-  const { row } = props
-  return (
-    <div color={row.online ? 'primary' : 'secondary'} variant="dot">
-      <div name={row.email} size="medium" src={row.avatarUrl} />
-    </div>
-  )
-}
 
 const userFormat = function (showUserDrawer, app) {
   let opts = [
@@ -33,7 +14,7 @@ const userFormat = function (showUserDrawer, app) {
           row && (
             <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
               <div
-                onClick={(e) => showUserDrawer && showUserDrawer(row)}
+                onClick={() => showUserDrawer && showUserDrawer(row)}
                 className="flex items-center"
               >
                 <div className="flex-shrink-0 h-10 w-10">

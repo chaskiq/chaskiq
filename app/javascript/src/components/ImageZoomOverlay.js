@@ -35,12 +35,15 @@ function ZoomImage ({ dispatch, imageZoom }) {
   return <div>
     { imageZoom && imageZoom.url &&
             <ImageZoomOverlay>
-              <img
-                width={imageZoom.width}
-                height={imageZoom.height}
-                // className={classes.image}
-                src={imageZoom.url}
-              />
+              <div>
+                <img
+                  width={imageZoom.width}
+                  height={imageZoom.height}
+                  // className={classes.image}
+                  src={imageZoom.url}
+                />
+              </div>
+              
               <Button
                 variant={'icon'}
                 onClick={() => dispatch(setImageZoom(null))}>

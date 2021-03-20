@@ -18,7 +18,6 @@ import {
 export default function Table ({
   data,
   columns,
-  format,
   search,
   meta,
   enableMapView,
@@ -27,8 +26,6 @@ export default function Table ({
   onSort
 }) {
   const [tableColums, setTableColums] = React.useState(columns)
-
-  const [open, setOpen] = React.useState(false)
 
   const visibleColumns = () => (
     tableColums.filter(
@@ -59,7 +56,7 @@ export default function Table ({
       <tr className="hover:bg-gray-50">
         {sortable && <DragHandle></DragHandle>}
 
-        {visibleColumns().map((object, index) => {
+        {visibleColumns().map((object) => {
           return object.render
             ? object.render(item)
             : renderDefaultRow(item[object.field])
@@ -187,8 +184,6 @@ function Pagination ({ meta, search }) {
 }
 
 function SimpleMenu (props) {
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  // const [options, setOptions] = React.useState(props.options);
 
   function handleChange (o, e) {
     const checked = e.target.checked

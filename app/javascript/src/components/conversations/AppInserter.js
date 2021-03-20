@@ -48,7 +48,7 @@ const DragHandle = sortableHandle(() => (
 ))
 
 const SortableItem = sortableElement(
-  ({ object, deleteItem, edit, updatePackage, customRenderer }) => (
+  ({ object, deleteItem, _edit, _updatePackage, customRenderer }) => (
     <li>
       <div>
 
@@ -111,10 +111,6 @@ function AppInserter ({
   customRenderer,
   setEditable
 }) {
-  function handleClick (o) {
-    setOption(o)
-  }
-
   return (
     <div className="flex flex-col">
       <AppInserter2
@@ -191,15 +187,6 @@ function AppInserter2 ({
 
   function deleteItem (item, index) {
     setItems(items.filter((o, i) => i !== index))
-  }
-
-  function setItemAtIndex (item, index) {
-    setItems(
-      items.map((o, i) => i !== index
-        ? o
-        : { ...o, definitions: item }
-      )
-    )
   }
 
   function handleSubmit (e) {
@@ -330,7 +317,6 @@ export function AppList ({
   app,
   loading,
   conversation,
-  customRenderer
 }) {
   const [selected, setSelected] = React.useState(null)
 
@@ -375,7 +361,7 @@ export function AppList ({
                         text-sm leading-5 text-gray-500 justify-end"
                       >
 
-                        <Button onClick={(e) => handleSelect(o)}>
+                        <Button onClick={() => handleSelect(o)}>
                           Add
                         </Button>
 
