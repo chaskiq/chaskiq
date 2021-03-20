@@ -443,6 +443,11 @@ function Sidebar ({
       }
 
       <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100 shadow-inner">
+
+        <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 bg-yellow-50">
+          <h3 className="font-semibold w-full text-gray-600 text-xs">{app.name}</h3>
+        </div>
+      
         {renderInner()}
 
         <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
