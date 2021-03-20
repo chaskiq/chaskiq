@@ -206,7 +206,7 @@ export default class SegmentItemButton extends Component {
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 text-gray-900">
+            <h2 className="text-sm leading-5 text-gray-900 font-bold">
               Select the filter for {this.props.predicate.attribute}
             </h2>
           </div>
@@ -248,7 +248,7 @@ export default class SegmentItemButton extends Component {
             </Button>
           )}
 
-          {this.deleteButton()}
+          {/*this.deleteButton()*/}
         </ContentMatchFooter>
       </div>
     )
@@ -281,7 +281,7 @@ export default class SegmentItemButton extends Component {
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 text-gray-900">
+            <h2 className="text-sm leading-5 text-gray-900 font-bold">
               Select the filter for {this.props.predicate.attribute}
             </h2>
           </div>
@@ -334,7 +334,6 @@ export default class SegmentItemButton extends Component {
             (this.state.selectedOption !== 'is_null' ||
               this.state.selectedOption !== 'is_not_null') && (
             <Button
-              variant="outlined"
               color="primary"
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
@@ -377,7 +376,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900 font-bold">
             Select the date filter for {this.props.predicate.attribute}
           </h2>
         </div>
@@ -428,7 +427,6 @@ export default class SegmentItemButton extends Component {
         <ContentMatchFooter>
           {this.state.selectedOption && (
             <Button
-              variant="outlined"
               color="primary"
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
@@ -473,7 +471,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900 font-bold">
             Select the integer filter for {this.props.predicate.attribute}
           </h2>
         </div>
@@ -520,7 +518,6 @@ export default class SegmentItemButton extends Component {
         <ContentMatchFooter>
           {this.state.selectedOption && (
             <Button
-              variant="outlined"
               color="primary"
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
@@ -558,7 +555,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900 font-bold">
             match criteria options for {this.props.predicate.type}
           </h2>
         </div>
@@ -595,7 +592,6 @@ export default class SegmentItemButton extends Component {
             (this.state.selectedOption !== 'is_null' ||
               this.state.selectedOption !== 'is_not_null') && (
             <Button
-              variant="outlined"
               color="primary"
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
@@ -668,7 +664,7 @@ export default class SegmentItemButton extends Component {
                   ref={(ref) => this.setRef(ref)}
                   isLoading={false}
                   size="small"
-                  variant="flat"
+                  variant="outlined"
                   color={'secondary'}
                   onClick={cb}
                 >
@@ -696,7 +692,7 @@ export default class SegmentItemButton extends Component {
                   isLoading={false}
                   color="primary"
                   size="small"
-                  variant="flat"
+                  variant="outlined"
                   // appearance={this.props.appearance}
                   onClick={cb}
                 >

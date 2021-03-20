@@ -113,8 +113,9 @@ class CampaignSegment extends Component {
     const jwtToken = generateJWT(data)
     // console.log(parseJwt(jwtToken))
     if (cb) cb(jwtToken)
-    this.setState({ jwt: jwtToken }, () =>
+    this.setState({ jwt: jwtToken }, () =>{
       this.updateData(parseJwt(this.state.jwt), this.search)
+    }
     )
   };
 
@@ -130,7 +131,6 @@ class CampaignSegment extends Component {
     const jwtToken = generateJWT(new_predicates)
     // console.log(parseJwt(jwtToken))
     if (cb) cb(jwtToken)
-
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt))
     )

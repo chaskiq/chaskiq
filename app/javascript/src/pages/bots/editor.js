@@ -684,9 +684,12 @@ export function BotPathEditor ({
 
                         <strong className="mr-2">{index}.</strong>
 
-                        <div
+                        <button
                           onClick={(_e) => handleSelection(item)}
-                          className="w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center">
+                          className={`
+                          ${ selectedPath.id === item.id ? 'ring-2 ring-black' : ''}
+                          focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
+                          cursor-pointer w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center`}>
 
                           <div
                             first={true}
@@ -698,7 +701,7 @@ export function BotPathEditor ({
                           <span>
                             {item.title}
                           </span>
-                        </div>
+                        </button>
 
                       </div>
                     )}

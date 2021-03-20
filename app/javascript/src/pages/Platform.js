@@ -46,7 +46,7 @@ function Platform ({
     getSegment(() => {
       search()
     })
-  }, [match.params.segmentID])
+  }, [match.params.segmentID, match.params.Jwt])
 
   const search = (page) => {
     const options = {

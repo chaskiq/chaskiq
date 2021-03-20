@@ -221,7 +221,7 @@ export function InlineFilterDialog ({ addPredicate, app }) {
     <div className="p-2--">
 
       <div className="p-2">
-        <h2 className="text-sm leading-5 text-gray-900">
+        <h2 className="text-sm leading-5 text-gray-900 font-bold">
           Select fields:
         </h2>
       </div>
@@ -255,7 +255,7 @@ export function InlineFilterDialog ({ addPredicate, app }) {
         triggerButton={(cb) => (
           <Button
             isLoading={false}
-            variant="flat-dark"
+            variant="success"
             className="flex flex-wrap"
             color="primary"
             size="sm"
