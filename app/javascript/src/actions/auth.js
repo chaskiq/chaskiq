@@ -58,7 +58,7 @@ export function signout () {
           uid: auth.uid
         }
       })
-      .then((response) => {
+      .then(() => {
         dispatch(doSignout())
         dispatch(clearCurrentUser())
       })
@@ -80,7 +80,7 @@ export function successAuthentication (accessToken, refreshToken) {
 }
 
 export function refreshToken (auth) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(startAuthentication())
     dispatch(errorMessage('refresh token, hang tight'))
 
@@ -94,7 +94,7 @@ export function refreshToken (auth) {
       const refreshToken = res.data.refresh_token
       dispatch(successAuthentication(accessToken, refreshToken))
       window.location = '/'
-    }).catch(c => {
+    }).catch(() => {
       dispatch(expireAuthentication())
     })
   }

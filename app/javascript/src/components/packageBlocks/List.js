@@ -7,11 +7,7 @@ const ListWrapper = styled.div`
 
   ${() => tw`my-2`}
 
-  ${(props) => {}
-  // props.shadowless ? '' : tw`shadow`
-  }
-
-  ${(props) => {
+  ${() => {
     return tw`border-b border-gray-200`
   }}
 
@@ -20,7 +16,7 @@ const ListWrapper = styled.div`
   }
 
   .list-item {
-    ${(props) => tw`border-b border-gray-200`}
+    ${() => tw`border-b border-gray-200`}
   }
 
   .list-item:last-child { 
@@ -99,8 +95,8 @@ export default function List ({ children, shadowless }) {
   )
 }
 
-export function ListItem ({ avatar, action, children, onClick, divider }) {
-  const clicableClasses = onClick && 'cursor-pointer'
+export function ListItem ({ avatar, action, children, onClick, _divider }) {
+  //const clicableClasses = onClick && 'cursor-pointer'
 
   return (
     <ListItemWrapper

@@ -51,8 +51,7 @@ export default function Article (props) {
         success: (data) => {
           setArticle(data.helpCenter.article)
         },
-        error: (e) => {
-          debugger
+        error: (_e) => {
         }
       }
     )

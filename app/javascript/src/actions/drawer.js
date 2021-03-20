@@ -1,6 +1,6 @@
 
 export function toggleDrawer (data, cb) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch({
       type: 'DRAWER',
       data: data

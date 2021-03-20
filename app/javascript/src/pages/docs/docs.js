@@ -33,7 +33,7 @@ function Docs (props) {
   // const classes = useStyles();
   const [settings, setSettings] = React.useState({})
   const [lang, setLang] = React.useState(props.match.params.lang || 'en')
-  const [error, setError] = React.useState(false)
+  const [error, _setError] = React.useState(false)
   const { history } = props
 
   React.useEffect(() => {
@@ -100,7 +100,7 @@ function Docs (props) {
                       variant="outlined"
                       className={'mr-2'}
                       color={'primary'}
-                      onClick={(e) => (window.location = settings.website)}
+                      onClick={(_e) => (window.location = settings.website)}
                     >
                       <LaunchIcon />
                       {' Go to'} {settings.siteTitle}

@@ -54,7 +54,7 @@ function Integrations ({ app, dispatch }) {
   const [integrations, setIntegrations] = useState([])
   const [tabValue, setTabValue] = useState(0)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [openIntegrationDialog, setOpenIntegrationDialog] = useState(false)
+  const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(false)
 
   const form = useRef(null)
 
@@ -200,16 +200,6 @@ function Integrations ({ app, dispatch }) {
         }
       }
     )
-  }
-
-  function handleTabChange (e, i) {
-    setTabValue(i)
-  }
-
-  function openNewAppModal () {
-    setOpenIntegrationDialog({
-      settings: {}
-    })
   }
 
   return (
@@ -623,7 +613,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
         id: id
       },
       {
-        success: (data) => {
+        success: (_data) => {
           setOpenDeleteDialog(null)
           setIntegration(null)
           // setIntegration(data.app.agentAppPackage)
@@ -899,14 +889,6 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         grid: { xs: 'w-full', sm: 'w-full' }
       }
     ]
-  }
-
-  function open () {
-
-  }
-
-  function close () {
-
   }
 
   function submit (e) {

@@ -74,11 +74,10 @@ const Tooltip = ({
   primaryProps,
   tooltipProps,
   skipProps,
-  styles,
   isLastStep,
   size
 }) => {
-  const { back, close, last, next, skip } = step.locale
+  const { close, last, next } = step.locale
   const output = {
     primary: close
   }

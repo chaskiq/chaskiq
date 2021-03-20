@@ -7,7 +7,7 @@ import {
   Arrow
 } from 'reactour-emotion'
 
-export default function MyCustomHelper ({ current, content, totalSteps, gotoStep, close }) {
+export default function MyCustomHelper ({ current, content, totalSteps, gotoStep }) {
   return (
     <main className="CustomHelper__wrapper">
       <aside className="CustomHelper__sidebar">

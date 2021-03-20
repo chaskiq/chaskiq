@@ -1,20 +1,19 @@
 // same as SegmentItemButton
 
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-import FormDialog from "../FormDialog";
-import styled from "@emotion/styled";
-import Dropdown from "../Dropdown";
+import styled from '@emotion/styled'
+import Dropdown from '../Dropdown'
 import Button from '../Button'
 
 const h2 = styled.h5`
   margin: 15px;
   border-bottom: 2px dotted #6f6f6f26;
-`;
+`
 
 const ContentMatch = styled.div`
   height: 200px;
-`;
+`
 
 const ContentMatchFooter = styled.div`
   display: flex;
@@ -24,192 +23,190 @@ const ContentMatchFooter = styled.div`
   bottom: 1px;
   padding: 1em;
   width: 100%;
-`;
+`
 
 const div = styled.div`
   margin-bottom: 3em;
-`;
+`
 
 export default class SegmentItemButton extends Component {
   state = {
     dialogOpen: this.props.open,
     selectedOption: this.props.predicate.comparison,
     checkedValue: this.props.predicate.value,
-    btn: null,
+    btn: null
   };
 
   relative_input = null;
   btn_ref = null;
   blockStyleRef = React.createRef();
 
-
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.predicate !== prevProps.predicate) {
       this.setState({
         selectedOption: this.props.predicate.comparison,
         checkedValue: this.props.predicate.value
-      });
+      })
     }
   }
 
   onRadioChange = (target, cb) => {
-    const { value } = target;
+    const { value } = target
 
-    window.blockStyleRef = this.blockStyleRef.current;
-    window.target = target;
+    window.blockStyleRef = this.blockStyleRef.current
+    window.target = target
 
     this.setState(
       {
-        selectedOption: value,
+        selectedOption: value
       },
       () => {
         setTimeout(() => {
-          const el = this.blockStyleRef.current;
+          const el = this.blockStyleRef.current
           const diff =
-            target.getBoundingClientRect().top - el.getBoundingClientRect().top;
-          this.blockStyleRef.current.scrollTop = diff;
-        }, 20);
+            target.getBoundingClientRect().top - el.getBoundingClientRect().top
+          this.blockStyleRef.current.scrollTop = diff
+        }, 20)
 
-        cb && cb();
+        cb && cb()
       }
-    );
+    )
   };
 
   onRadioTypeChange = (target, o, cb) => {
-    window.blockStyleRef = this.blockStyleRef.current;
-    window.target = target;
+    window.blockStyleRef = this.blockStyleRef.current
+    window.target = target
 
     this.setState({
       checkedValue: target.value,
-      selectedOption: o.value,
+      selectedOption: o.value
     }, () => {
       setTimeout(() => {
-        const el = this.blockStyleRef.current;
-        if(!el) return
+        const el = this.blockStyleRef.current
+        if (!el) return
         const diff =
-          target.getBoundingClientRect().top - el.getBoundingClientRect().top;
-        this.blockStyleRef.current.scrollTop = diff;
-      }, 20);
+          target.getBoundingClientRect().top - el.getBoundingClientRect().top
+        this.blockStyleRef.current.scrollTop = diff
+      }, 20)
 
-      cb && cb();
-    });
+      cb && cb()
+    })
   };
 
-  handleSubmit = (e) => {
-    //this.props.predicate.type
-    let value = null;
+  handleSubmit = (_e) => {
+    // this.props.predicate.type
+    let value = null
 
-    if (this.relative_input && !this.relative_input.value)
-      return this.toggleDialog2();
+    if (this.relative_input && !this.relative_input.value) { return this.toggleDialog2() }
 
-    let comparison = this.state.selectedOption.replace("relative:", "");
+    let comparison = this.state.selectedOption.replace('relative:', '')
 
     switch (this.props.predicate.type) {
-      case "string": {
+      case 'string': {
         switch (this.props.predicate.attribute) {
-          case "type":
+          case 'type':
             // we assume here that this field is auto applied
             // todo: set radio button on mem and update only on apply click
-            value = `${this.state.checkedValue}`;
-            comparison = 'eq';
-            break;
+            value = `${this.state.checkedValue}`
+            comparison = 'eq'
+            break
           default:
-            value = `${this.relative_input.value}`;
-            break;
+            value = `${this.relative_input.value}`
+            break
         }
-        break;
+        break
       }
 
-      case "integer": {
-        value = this.relative_input.value;
-        break;
+      case 'integer': {
+        value = this.relative_input.value
+        break
       }
 
-      case "date": {
-        value = `${this.relative_input.value} days ago`;
-        break;
+      case 'date': {
+        value = `${this.relative_input.value} days ago`
+        break
       }
 
-      case "match": {
-        value = `${this.state.checkedValue}`;
-        comparison = `${this.state.checkedValue}`;
-        break;
+      case 'match': {
+        value = `${this.state.checkedValue}`
+        comparison = `${this.state.checkedValue}`
+        break
       }
 
       default:
-        return null;
+        return null
     }
 
     const h = {
       comparison: comparison,
-      value: value,
-    };
+      value: value
+    }
 
-    const response = Object.assign({}, this.props.predicate, h);
+    const response = Object.assign({}, this.props.predicate, h)
     const new_predicates = this.props.predicates.map((o, i) =>
       this.props.index === i ? response : o
-    );
+    )
 
-    this.props.updatePredicate(new_predicates, this.props.predicateCallback);
+    this.props.updatePredicate(new_predicates, this.props.predicateCallback)
 
-    this.toggleDialog();
+    this.toggleDialog()
   };
 
-  handleDelete = (e) => {
-    //const response = Object.assign({}, this.props.predicate, h )
-    //const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
-    const data = this.props.predicates.filter((o, i) => i !== this.props.index);
-    this.props.deletePredicate(data, this.props.predicateCallback);
+  handleDelete = (_e) => {
+    // const response = Object.assign({}, this.props.predicate, h )
+    // const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
+    const data = this.props.predicates.filter((o, i) => i !== this.props.index)
+    this.props.deletePredicate(data, this.props.predicateCallback)
   };
 
   renderOptions = () => {
     switch (this.props.predicate.type) {
-      case "string": {
+      case 'string': {
         switch (this.props.predicate.attribute) {
-          case "type":
-            return this.contentType();
+          case 'type':
+            return this.contentType()
           default:
-            return this.contentString();
+            return this.contentString()
         }
       }
 
-      case "date": {
-        return this.contentDate();
+      case 'date': {
+        return this.contentDate()
       }
 
-      case "integer": {
-        return this.contentInteger();
+      case 'integer': {
+        return this.contentInteger()
       }
 
-      case "match": {
-        return this.contentMatch();
+      case 'match': {
+        return this.contentMatch()
       }
 
       default:
-        return null;
+        return null
     }
   };
 
   toggleDialog2 = () => {
-    this.setState({ dialogOpen: !this.state.dialogOpen });
+    this.setState({ dialogOpen: !this.state.dialogOpen })
   };
 
   contentType = () => {
-    const compare = (value) => {
-      return this.props.predicate.comparison === value;
-    };
+    /*const compare = (value) => {
+      return this.props.predicate.comparison === value
+    }*/
 
     const relative = [
-      { label: "AppUser", value: "AppUser", defaultSelected: false },
-      { label: "Lead", value: "Lead", defaultSelected: false },
-      { label: "Visitor", value: "Visitor", defaultSelected: false },
-    ];
+      { label: 'AppUser', value: 'AppUser', defaultSelected: false },
+      { label: 'Lead', value: 'Lead', defaultSelected: false },
+      { label: 'Visitor', value: 'Visitor', defaultSelected: false }
+    ]
 
     return (
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 text-gray-900">
+            <h2 className="text-sm leading-5 text-gray-900 font-bold">
               Select the filter for {this.props.predicate.attribute}
             </h2>
           </div>
@@ -219,7 +216,7 @@ export default class SegmentItemButton extends Component {
           <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
-                <div>
+                <div key={`type-filter-${i}`}>
                   <label className="inline-flex items-center">
                     <input
                       type="radio"
@@ -228,54 +225,54 @@ export default class SegmentItemButton extends Component {
                       value={o.value}
                       checked={o.value === this.state.checkedValue}
                       onChange={(e) => {
-                        this.onRadioTypeChange(e.target, o);
+                        this.onRadioTypeChange(e.target, o)
                       }}
                     />
                     <span className="ml-2">{o.label}</span>
                   </label>
                 </div>
-              );
+              )
             })}
           </div>
         </ContentMatch>
 
         <ContentMatchFooter>
           {this.state.checkedValue &&
-            (this.state.checkedValue !== "is_null" ||
-              this.state.checkedValue !== "is_not_null") && (
-              <Button
-                size="small"
-                onClick={this.handleSubmit.bind(this)}
-              >
+            (this.state.checkedValue !== 'is_null' ||
+              this.state.checkedValue !== 'is_not_null') && (
+            <Button
+              size="small"
+              onClick={this.handleSubmit.bind(this)}
+            >
                 Apply
-              </Button>
-            )}
+            </Button>
+          )}
 
-          {this.deleteButton()}
+          {/*this.deleteButton()*/}
         </ContentMatchFooter>
       </div>
-    );
+    )
   };
 
   contentString = () => {
-    const compare = (value) => {
-      return this.props.predicate.comparison === value;
-    };
+    /*const compare = (value) => {
+      return this.props.predicate.comparison === value
+    }*/
 
     const relative = [
-      { label: "is", value: "eq", defaultSelected: false },
-      { label: "is not", value: "not_eq", defaultSelected: false },
-      { label: "starts with", value: "contains_start", defaultSelected: false },
-      { label: "ends with", value: "contains_ends", defaultSelected: false },
-      { label: "contains", value: "contains", defaultSelected: false },
+      { label: 'is', value: 'eq', defaultSelected: false },
+      { label: 'is not', value: 'not_eq', defaultSelected: false },
+      { label: 'starts with', value: 'contains_start', defaultSelected: false },
+      { label: 'ends with', value: 'contains_ends', defaultSelected: false },
+      { label: 'contains', value: 'contains', defaultSelected: false },
       {
-        label: "does not contain",
-        value: "not_contains",
-        defaultSelected: false,
+        label: 'does not contain',
+        value: 'not_contains',
+        defaultSelected: false
       },
-      { label: "is unknown", value: "is_null", defaultSelected: false },
-      { label: "has any value", value: "is_not_null", defaultSelected: false },
-    ];
+      { label: 'is unknown', value: 'is_null', defaultSelected: false },
+      { label: 'has any value', value: 'is_not_null', defaultSelected: false }
+    ]
 
     // <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
     // </ClickAwayListener>
@@ -284,7 +281,7 @@ export default class SegmentItemButton extends Component {
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 text-gray-900">
+            <h2 className="text-sm leading-5 text-gray-900 font-bold">
               Select the filter for {this.props.predicate.attribute}
             </h2>
           </div>
@@ -294,7 +291,7 @@ export default class SegmentItemButton extends Component {
           <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
-                <div>
+                <div key={`string-filter-${i}`}>
                   <label className="inline-flex items-center">
                     <input
                       type="radio"
@@ -303,7 +300,7 @@ export default class SegmentItemButton extends Component {
                       value={o.value}
                       checked={o.value === this.state.selectedOption}
                       onChange={(e) => {
-                        this.onRadioTypeChange(e.target, o);
+                        this.onRadioTypeChange(e.target, o)
                       }}
                     />
                     <span className="ml-2 block text-sm leading-5 font-medium text-gray-700">
@@ -313,74 +310,73 @@ export default class SegmentItemButton extends Component {
 
                   {this.state.selectedOption &&
                     this.state.selectedOption === o.value && (
-                      <div>
-                        <input
-                          type="text"
-                          defaultValue={this.props.predicate.value}
-                          ref={(input) => (this.relative_input = input)}
-                          className={
-                            "mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                          }
-                          label={"value"}
-                          margin="normal"
-                        />
-                      </div>
-                    )}
+                    <div>
+                      <input
+                        type="text"
+                        defaultValue={this.props.predicate.value}
+                        ref={(input) => (this.relative_input = input)}
+                        className={
+                          'mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
+                        }
+                        label={'value'}
+                        margin="normal"
+                      />
+                    </div>
+                  )}
                 </div>
-              );
+              )
             })}
           </div>
         </ContentMatch>
 
         <ContentMatchFooter>
           {this.state.selectedOption &&
-            (this.state.selectedOption !== "is_null" ||
-              this.state.selectedOption !== "is_not_null") && (
-              <Button
-                variant="outlined"
-                color="primary"
-                size={"small"}
-                onClick={this.handleSubmit.bind(this)}
-              >
+            (this.state.selectedOption !== 'is_null' ||
+              this.state.selectedOption !== 'is_not_null') && (
+            <Button
+              color="primary"
+              size={'small'}
+              onClick={this.handleSubmit.bind(this)}
+            >
                 Apply
-              </Button>
-            )}
+            </Button>
+          )}
 
           {this.deleteButton()}
         </ContentMatchFooter>
       </div>
-    );
+    )
   };
 
   contentDate = () => {
     const compare = (value) => {
-      return this.props.predicate.comparison === value;
-    };
+      return this.props.predicate.comparison === value
+    }
 
     const relative = [
-      { label: "more than", value: "lt", defaultSelected: compare("lt") },
-      { label: "exactly", value: "eq", defaultSelected: compare("eq") },
-      { label: "less than", value: "gt", defaultSelected: compare("gt") },
-    ];
+      { label: 'more than', value: 'lt', defaultSelected: compare('lt') },
+      { label: 'exactly', value: 'eq', defaultSelected: compare('eq') },
+      { label: 'less than', value: 'gt', defaultSelected: compare('gt') }
+    ]
 
-    const absolute = [
-      { name: "after", value: "absolute:gt" },
-      { name: "on", value: "absolute:eq" },
-      { name: "before", value: "absolute:lt" },
-      { name: "is unknown", value: "absolute:eq" },
-      { name: "has any value", value: "absolute:not_eq" },
-    ];
+    /*const absolute = [
+      { name: 'after', value: 'absolute:gt' },
+      { name: 'on', value: 'absolute:eq' },
+      { name: 'before', value: 'absolute:lt' },
+      { name: 'is unknown', value: 'absolute:eq' },
+      { name: 'has any value', value: 'absolute:not_eq' }
+    ]*/
 
     const extractNum = this.props.predicate.value
       ? this.props.predicate.value.match(/\d+/)[0]
-      : "";
+      : ''
 
-    const parsedNum = parseInt(extractNum);
+    const parsedNum = parseInt(extractNum)
 
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900 font-bold">
             Select the date filter for {this.props.predicate.attribute}
           </h2>
         </div>
@@ -389,7 +385,7 @@ export default class SegmentItemButton extends Component {
           <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
             {relative.map((o, i) => {
               return (
-                <div>
+                <div key={`date-filter-${i}`}>
                   <label className="inline-flex items-center">
                     <input
                       type="radio"
@@ -398,7 +394,7 @@ export default class SegmentItemButton extends Component {
                       value={o.value}
                       checked={this.state.selectedOption === o.value}
                       onChange={(e) => {
-                        this.onRadioChange(e.target);
+                        this.onRadioChange(e.target)
                       }}
                     />
                     <span className="ml-2">{o.label}</span>
@@ -406,24 +402,24 @@ export default class SegmentItemButton extends Component {
 
                   {this.state.selectedOption &&
                     this.state.selectedOption === o.value && (
-                      <div className="mb-3 ">
-                        <input
-                          type="number"
-                          defaultValue={isNaN(parsedNum) ? null : parsedNum }
-                          ref={(input) => (this.relative_input = input)}
-                          className={
-                            "p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                          }
-                          label={"value"}
-                          margin="normal"
-                        />
-                        <span className="mt-1 text-sm leading-5 text-gray-500">
+                    <div className="mb-3 ">
+                      <input
+                        type="number"
+                        defaultValue={isNaN(parsedNum) ? null : parsedNum }
+                        ref={(input) => (this.relative_input = input)}
+                        className={
+                          'p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
+                        }
+                        label={'value'}
+                        margin="normal"
+                      />
+                      <span className="mt-1 text-sm leading-5 text-gray-500">
                           days ago
-                        </span>
-                      </div>
-                    )}
+                      </span>
+                    </div>
+                  )}
                 </div>
-              );
+              )
             })}
           </div>
         </ContentMatch>
@@ -431,9 +427,8 @@ export default class SegmentItemButton extends Component {
         <ContentMatchFooter>
           {this.state.selectedOption && (
             <Button
-              variant="outlined"
               color="primary"
-              size={"small"}
+              size={'small'}
               onClick={this.handleSubmit.bind(this)}
             >
               Apply
@@ -443,40 +438,40 @@ export default class SegmentItemButton extends Component {
           {this.deleteButton()}
         </ContentMatchFooter>
       </div>
-    );
+    )
   };
 
   contentInteger = () => {
     const compare = (value) => {
-      return this.props.predicate.comparison === value;
-    };
+      return this.props.predicate.comparison === value
+    }
 
     const relative = [
-      { label: "exactly", value: "eq", defaultSelected: compare("eq") },
-      { label: "more than", value: "gt", defaultSelected: compare("gt") },
+      { label: 'exactly', value: 'eq', defaultSelected: compare('eq') },
+      { label: 'more than', value: 'gt', defaultSelected: compare('gt') },
       {
-        label: "more than eq",
-        value: "gteq",
-        defaultSelected: compare("gteq"),
+        label: 'more than eq',
+        value: 'gteq',
+        defaultSelected: compare('gteq')
       },
-      { label: "less than", value: "lt", defaultSelected: compare("lt") },
+      { label: 'less than', value: 'lt', defaultSelected: compare('lt') },
       {
-        label: "less than eq",
-        value: "lteq",
-        defaultSelected: compare("lteq"),
-      },
-    ];
+        label: 'less than eq',
+        value: 'lteq',
+        defaultSelected: compare('lteq')
+      }
+    ]
 
     const extractNum = this.props.predicate.value
       ? this.props.predicate.value.match(/\d+/)[0]
-      : "";
+      : ''
 
-    const parsedNum = parseInt(extractNum);
+    const parsedNum = parseInt(extractNum)
 
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900 font-bold">
             Select the integer filter for {this.props.predicate.attribute}
           </h2>
         </div>
@@ -484,7 +479,7 @@ export default class SegmentItemButton extends Component {
         <ContentMatch ref={this.blockStyleRef}>
           {relative.map((o, i) => {
             return (
-              <div>
+              <div key={`filter-match-${i}`}>
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
@@ -493,7 +488,7 @@ export default class SegmentItemButton extends Component {
                     value={o.value}
                     checked={this.state.selectedOption === o.value}
                     onChange={(e) => {
-                      this.onRadioTypeChange(e.target, o);
+                      this.onRadioTypeChange(e.target, o)
                     }}
                   />
                   <span className="ml-2">{o.label}</span>
@@ -501,21 +496,21 @@ export default class SegmentItemButton extends Component {
 
                 {this.state.selectedOption &&
                   this.state.selectedOption === o.value && (
-                    <div>
-                      <input
-                        type="text"
-                        defaultValue={parsedNum || 0}
-                        ref={(input) => (this.relative_input = input)}
-                        className={
-                          "mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                        }
-                        label={"value"}
-                        margin="normal"
-                      />
-                    </div>
-                  )}
+                  <div>
+                    <input
+                      type="text"
+                      defaultValue={parsedNum || 0}
+                      ref={(input) => (this.relative_input = input)}
+                      className={
+                        'mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
+                      }
+                      label={'value'}
+                      margin="normal"
+                    />
+                  </div>
+                )}
               </div>
-            );
+            )
           })}
 
         </ContentMatch>
@@ -523,9 +518,8 @@ export default class SegmentItemButton extends Component {
         <ContentMatchFooter>
           {this.state.selectedOption && (
             <Button
-              variant="outlined"
               color="primary"
-              size={"small"}
+              size={'small'}
               onClick={this.handleSubmit.bind(this)}
             >
               Apply
@@ -535,33 +529,33 @@ export default class SegmentItemButton extends Component {
           {this.deleteButton()}
         </ContentMatchFooter>
       </div>
-    );
+    )
   };
 
   contentMatch = () => {
     const compare = (value) => {
-      return this.props.predicate.value === value;
-    };
+      return this.props.predicate.value === value
+    }
 
     const relative = [
       {
-        label: "match any",
-        comparison: "or",
-        value: "or",
-        defaultSelected: compare("or"),
+        label: 'match any',
+        comparison: 'or',
+        value: 'or',
+        defaultSelected: compare('or')
       },
       {
-        label: "match all",
-        comparison: "and",
-        value: "and",
-        defaultSelected: compare("and"),
-      },
-    ];
+        label: 'match all',
+        comparison: 'and',
+        value: 'and',
+        defaultSelected: compare('and')
+      }
+    ]
 
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900">
+          <h2 className="text-sm leading-5 text-gray-900 font-bold">
             match criteria options for {this.props.predicate.type}
           </h2>
         </div>
@@ -571,7 +565,7 @@ export default class SegmentItemButton extends Component {
             {relative.map(
               (o, i) => {
                 return (
-                  <div>
+                  <div key={`criteria-match-${i}`}>
                     <label className="inline-flex items-center">
                       <input
                         type="radio"
@@ -580,7 +574,7 @@ export default class SegmentItemButton extends Component {
                         value={o.value}
                         checked={o.value === this.state.checkedValue}
                         onChange={(e) => {
-                          this.onRadioTypeChange(e.target, o);
+                          this.onRadioTypeChange(e.target, o)
                         }}
                       />
                       <span className="ml-2">
@@ -588,27 +582,26 @@ export default class SegmentItemButton extends Component {
                       </span>
                     </label>
                   </div>
-                );
-            })}
+                )
+              })}
           </div>
         </ContentMatch>
 
         <ContentMatchFooter>
           { this.state.selectedOption &&
-            (this.state.selectedOption !== "is_null" ||
-              this.state.selectedOption !== "is_not_null") && (
-              <Button
-                variant="outlined"
-                color="primary"
-                size={"small"}
-                onClick={this.handleSubmit.bind(this)}
-              >
+            (this.state.selectedOption !== 'is_null' ||
+              this.state.selectedOption !== 'is_not_null') && (
+            <Button
+              color="primary"
+              size={'small'}
+              onClick={this.handleSubmit.bind(this)}
+            >
                 Apply
-              </Button>
-            )}
+            </Button>
+          )}
         </ContentMatchFooter>
       </div>
-    );
+    )
   };
 
   deleteButton = () => {
@@ -620,59 +613,59 @@ export default class SegmentItemButton extends Component {
       >
         Delete
       </Button>
-    );
+    )
   };
 
-  toggleDialog = (e) =>{
+  toggleDialog = (e) => {
     this.setState({
       dialogOpen: !this.state.dialogOpen,
-      btn: e ? e.target : this.state.btn,
-    });
+      btn: e ? e.target : this.state.btn
+    })
   }
 
-  toggleDialog2 = () =>{
+  toggleDialog2 = () => {
     this.setState({
-      dialogOpen: !this.state.dialogOpen,
-    });
+      dialogOpen: !this.state.dialogOpen
+    })
   }
 
-  closeDialog = () =>{
+  closeDialog = () => {
     this.setState({
-      dialogOpen: false,
-    });
+      dialogOpen: false
+    })
   }
 
-  openDialog = () =>{
+  openDialog = () => {
     this.setState({
-      dialogOpen: true,
-    });
+      dialogOpen: true
+    })
   }
 
   renderMenu = () => {
-    //if(!this.btn_ref)
+    // if(!this.btn_ref)
     //  return
-    return this.renderOptions();
+    return this.renderOptions()
   };
 
   setRef = (ref) => {
-    this.btn_ref = ref;
+    this.btn_ref = ref
   };
 
-  render() {
+  render () {
     return (
       <div>
         {!this.props.predicate.comparison ? (
           <React.Fragment>
             <Dropdown
               isOpen={this.state.dialogOpen}
-              labelButton={"Missing value!"}
+              labelButton={'Missing value!'}
               triggerButton={(cb) => (
                 <Button
                   ref={(ref) => this.setRef(ref)}
                   isLoading={false}
                   size="small"
-                  variant="flat"
-                  color={"secondary"}
+                  variant="outlined"
+                  color={'secondary'}
                   onClick={cb}
                 >
                   {/*
@@ -681,7 +674,7 @@ export default class SegmentItemButton extends Component {
                         this.props.text
                       */}
 
-                  {"Missing value!"}
+                  {'Missing value!'}
                 </Button>
               )}
             >
@@ -694,13 +687,13 @@ export default class SegmentItemButton extends Component {
               isOpen={this.state.dialogOpen}
               triggerButton={(cb) => (
                 <Button
-                  //className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                  // className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
                   ref={(ref) => this.setRef(ref)}
                   isLoading={false}
                   color="primary"
                   size="small"
-                  variant="flat"
-                  //appearance={this.props.appearance}
+                  variant="outlined"
+                  // appearance={this.props.appearance}
                   onClick={cb}
                 >
                   {this.props.text}
@@ -712,6 +705,6 @@ export default class SegmentItemButton extends Component {
           </React.Fragment>
         )}
       </div>
-    );
+    )
   }
 }

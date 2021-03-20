@@ -28,7 +28,6 @@ import I18n from '../shared/FakeI18n'
 
 function Conversations ({
   dispatch,
-  match,
   conversations,
   conversation,
   app,
@@ -119,7 +118,7 @@ function Conversations ({
     )
   }
 
-  const sortConversations = (options, cb) => {
+  const sortConversations = (options, _cb) => {
     dispatch(
       updateConversationsData(
         {
@@ -134,7 +133,7 @@ function Conversations ({
     )
   }
 
-  const clearSearchTerm = () => {
+  /*const clearSearchTerm = () => {
     dispatch(
       updateConversationsData({
         term: null
@@ -142,7 +141,7 @@ function Conversations ({
         fetchConversations({ page: 1 })
       })
     )
-  }
+  }*/
 
   const renderConversations = () => {
     const filters = [
@@ -308,7 +307,7 @@ function Conversations ({
 
 function mapStateToProps (state) {
   const { auth, app, conversations, conversation, app_user } = state
-  const { loading, isAuthenticated } = auth
+  const { isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {

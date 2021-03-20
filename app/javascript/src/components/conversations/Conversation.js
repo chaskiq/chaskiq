@@ -270,7 +270,7 @@ function Conversation ({
         success: (data) => {
           cb(data.app.agents)
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
@@ -306,10 +306,7 @@ function Conversation ({
     let textClass = userOrAdmin === 'admin' ? 'text-gray-100' : ''
     const flow = userOrAdmin === 'admin' ? 'flex-row-reverse' : ''
     const avatarM = userOrAdmin === 'admin' ? 'ml-3' : 'mr-3'
-    let bgClass =
-    userOrAdmin === 'admin' ? 'bg-black' : 'bg-green-100'
     if (message.privateNote) {
-      bgClass = 'bg-yellow-300'
       textClass = 'text-gray-900'
     }
 
@@ -550,7 +547,7 @@ function Conversation ({
               infoElement={'info'}
               localVideoElement={'localVideo'}
               remoteVideoElement={'remoteVideo'}
-              handleRTCMessage={(data) => { debugger }}
+              handleRTCMessage={(_data) => {  }}
               onCloseSession={() => updateRtcEvents({}) }
               toggleVideoSession={ () => setVideoSession(!videoSession)}
               toggleVideo={() => setRtcVideo(!rtcVideo)}
@@ -700,7 +697,6 @@ function Conversation ({
                   !isReplied && message.appUser && message.appUser.kind === 'agent'
                     ? 'admin'
                     : 'user'
-                const appuserId = conversation.mainParticipant.id
 
                 return (
                   <MessageItemWrapper
@@ -726,7 +722,6 @@ function Conversation ({
                           ? <RenderBlocks
                             conversation={conversation}
                             message={message}
-                            userOrAdmin={userOrAdmin}
                             app={app}
                             dispatch={dispatch}
                           />
@@ -806,7 +801,7 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
   return <React.Fragment>{children}</React.Fragment>
 }
 
-function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
+function RenderBlocks ({ message, app, conversation, dispatch }) {
   const { data, blocks } = toCamelCase(message).message
 
   const schema = blocks.schema
@@ -841,12 +836,10 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
   }
 
   const renderBlockRepresentation = () => {
-    const { data } = message.message
     // TODO: display labels, schema buttons
     let output = null
     switch (blocks.type) {
       case 'app_package':
-
         output = <div>
           <div
             className="text-gray-800 text-xs
@@ -967,7 +960,7 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
       if (blocks.type === 'data_retrieval') {
         const dataList = Object.keys(message.message.data).map((k) => {
           return (
-            <p>
+            <p key={`data-message-${message.id}-${k}`}>
               {k}: {message.message.data[k]}
             </p>
           )

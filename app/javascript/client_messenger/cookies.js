@@ -36,7 +36,7 @@ export function deleteCookie (name) {
   console.log(getDomainName(window.location.hostname))
   console.log(cookieString)
   document.cookie = cookieString
-};
+}
 
 /*
 export function checkCookie() {

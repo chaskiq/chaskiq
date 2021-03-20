@@ -165,7 +165,7 @@ function UserProfileCard ({ app, app_user }) {
               <div>
                 <ul dense>
                   {app_user.externalProfiles &&
-                    app_user.externalProfiles.map((o, i) => {
+                    app_user.externalProfiles.map((o) => {
                       return (
                         <div
                           m={2}

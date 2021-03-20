@@ -1,18 +1,15 @@
-import React from "react";
+import React from 'react'
 
-import Button from "../../Button";
-import FormDialog from "../../FormDialog";
-import TextField from "../../forms/Input";
+import FormDialog from '../../FormDialog'
 
 import {
-  updateDataOfBlock,
-  addNewBlockAt,
-  resetBlockWithType,
-} from "Dante2/package/es/model/index.js";
 
-import Giphy from "./giphy";
+  resetBlockWithType
+} from 'Dante2/package/es/model/index.js'
 
-const giphyApiKey = "97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ";
+import Giphy from './giphy'
+
+const giphyApiKey = '97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'
 
 const GiphyLogo = () => {
   return (
@@ -69,84 +66,84 @@ const GiphyLogo = () => {
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
 export default class GiphyBlock extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       embed_data: this.defaultData(),
-      open: true,
-    };
+      open: true
+    }
   }
 
-  componentDidMount() {
-    console.log(this.props);
-    this.props.blockProps.toggleEditable();
+  componentDidMount () {
+    console.log(this.props)
+    this.props.blockProps.toggleEditable()
   }
 
   defaultData = () => {
-    const existing_data = this.props.block.getData().toJS();
-    return existing_data.embed_data || {};
+    const existing_data = this.props.block.getData().toJS()
+    return existing_data.embed_data || {}
   };
 
   deleteSelf = (e) => {
-    e.preventDefault();
-    const { block, blockProps } = this.props;
-    const { getEditorState, setEditorState } = blockProps;
-    const data = block.getData();
-    const newData = data.merge(this.state);
-    return setEditorState(resetBlockWithType(getEditorState(), "unstyled", {}));
+    e.preventDefault()
+    const { _block, blockProps } = this.props
+    const { getEditorState, setEditorState } = blockProps
+    //const data = block.getData()
+    //const newData = data.merge(this.state)
+    return setEditorState(resetBlockWithType(getEditorState(), 'unstyled', {}))
   };
 
   getAspectRatio = (w, h) => {
-    let maxWidth = 1000;
-    let maxHeight = 1000;
-    let ratio = 0;
-    let width = w; // Current image width
-    let height = h; // Current image height
+    const maxWidth = 1000
+    const maxHeight = 1000
+    let ratio = 0
+    let width = w // Current image width
+    let height = h // Current image height
 
     // Check if the current width is larger than the max
     if (width > maxWidth) {
-      ratio = maxWidth / width; // get ratio for scaling image
-      height = height * ratio; // Reset height to match scaled image
-      width = width * ratio; // Reset width to match scaled image
+      ratio = maxWidth / width // get ratio for scaling image
+      height = height * ratio // Reset height to match scaled image
+      width = width * ratio // Reset width to match scaled image
 
       // Check if current height is larger than max
     } else if (height > maxHeight) {
-      ratio = maxHeight / height; // get ratio for scaling image
-      width = width * ratio; // Reset width to match scaled image
-      height = height * ratio; // Reset height to match scaled image
+      ratio = maxHeight / height // get ratio for scaling image
+      width = width * ratio // Reset width to match scaled image
+      height = height * ratio // Reset height to match scaled image
     }
 
-    let fill_ratio = (height / width) * 100;
-    let result = { width, height, ratio: fill_ratio };
+    const fill_ratio = (height / width) * 100
+    const result = { width, height, ratio: fill_ratio }
     // console.log result
-    return result;
+    return result
   };
 
   selectImage = (giphyblock) => {
-    const { block, blockProps } = this.props;
-    const { getEditorState, setEditorState } = blockProps;
-    const data = block.getData();
+    const { _block, blockProps } = this.props
+    const { getEditorState, setEditorState } = blockProps
+    //const data = block.getData()
 
-    const { url, height, width } = giphyblock.images.original;
+    const { url, height, width } = giphyblock.images.original
     const newData = {
       url: url,
       aspect_ratio: this.getAspectRatio(width, height),
-      forceUpload: true,
-    };
+      forceUpload: true
+    }
 
-    this.props.blockProps.toggleEditable();
-    //data.merge(this.state)
+    this.props.blockProps.toggleEditable()
+    // data.merge(this.state)
     return setEditorState(
-      resetBlockWithType(getEditorState(), "image", newData)
-    );
+      resetBlockWithType(getEditorState(), 'image', newData)
+    )
   };
 
-  render() {
-    //console.log(this.state.collection)
+  render () {
+    // console.log(this.state.collection)
     return (
       <div className="dante-giphy-wrapper">
         <FormDialog
@@ -154,49 +151,49 @@ export default class GiphyBlock extends React.Component {
           handleClose={() => {
             this.setState(
               {
-                open: !this.state.open,
+                open: !this.state.open
               },
               this.props.blockProps.toggleEditable
-            );
+            )
           }}
           title={'Compose a new message'}
           formComponent={
             <Giphy
               apiKey={giphyApiKey}
               handleSelected={(data) => {
-                this.selectImage(data);
+                this.selectImage(data)
               }}
             />
           }
         >
         </FormDialog>
       </div>
-    );
+    )
   }
 }
 
 export const GiphyBlockConfig = (options = {}) => {
-  let config = {
-    title: "add an image",
-    type: "giphy",
+  const config = {
+    title: 'add an image',
+    type: 'giphy',
     icon: GiphyLogo,
     block: GiphyBlock,
     editable: false,
     renderable: true,
     breakOnContinuous: true,
-    wrapper_class: "graf graf--figure",
-    selected_class: "is-selected is-mediaFocused",
+    wrapper_class: 'graf graf--figure',
+    selected_class: 'is-selected is-mediaFocused',
     widget_options: {
       displayOnInlineTooltip: true,
-      insertion: "insertion",
-      insert_block: "giphy",
-      //insertion: "func",
-      //funcHandler: options.handleFunc,
+      insertion: 'insertion',
+      insert_block: 'giphy'
+      // insertion: "func",
+      // funcHandler: options.handleFunc,
     },
     options: {
-      placeholder: "Search any gif on giphy",
-    },
-  };
+      placeholder: 'Search any gif on giphy'
+    }
+  }
 
-  return Object.assign(config, options);
-};
+  return Object.assign(config, options)
+}

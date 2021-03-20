@@ -62,7 +62,7 @@ export function updateSegment (id, cb) {
         }, () => cb ? cb() : null) */
       },
 
-      error: (error) => {}
+      error: () => {}
     })
   }
 }
@@ -85,7 +85,7 @@ export function createSegment (options, cb) {
 
         cb && cb()
       },
-      error: (error) => {}
+      error: () => {}
     })
   }
 }
@@ -99,10 +99,10 @@ export function deleteSegment (id, cb) {
         id: id
       },
       {
-        success: (data) => {
+        success: () => {
           cb && cb()
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
@@ -128,7 +128,7 @@ export function addPredicate (options, cb) {
 }
 
 export function updatePredicate (data, cb) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     const jwtToken = generateJWT(data)
     // console.log(parseJwt(jwtToken))
     dispatch(
@@ -161,7 +161,7 @@ export function deletePredicate (data, cb) {
   }
 }
 
-function dispatchLoading () {
+function _dispatchLoading () {
   return {
     type: ActionTypes.initSearchAppUsers,
     data: {

@@ -11,15 +11,15 @@ import DataTable from '../../components/Table'
 
 export default function LanguageForm ({ settings, update, namespace, fields }) {
   const [isOpen, setIsOpen] = React.useState(false)
-  const [selectedLang, setSelectedLang] = React.useState(null)
+  const [selectedLang, _setSelectedLang] = React.useState(null)
   const formRef = React.createRef()
 
   function handleChange (value) {
-    const serializedData = serialize(formRef.current, {
+    /*const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true
-    })
-    const data = toSnakeCase(serializedData)
+    })*/
+    //const data = toSnakeCase(serializedData)
 
     const next = {}
 

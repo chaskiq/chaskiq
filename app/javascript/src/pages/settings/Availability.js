@@ -14,21 +14,14 @@ import Input from '../../components/forms/Input'
   {value: "1 day", label: "El equipo suele responder en un día."},
 ] */
 
-export default function LanguageForm ({ settings, update, namespace, fields }) {
-  const [isOpen, setIsOpen] = React.useState(false)
+export default function LanguageForm ({ settings, update, _namespace, _fields }) {
   const [selectedOption, setSelectedOption] = React.useState(
     settings.replyTime
   )
   const [records, setRecords] = useState(settings.teamSchedule)
 
-  let formRef = React.createRef()
-
   function handleChange (e) {
     setSelectedOption(e.target.value)
-  }
-
-  function toggleDialog () {
-    setIsOpen(!isOpen)
   }
 
   function handleSubmit (e) {
@@ -43,7 +36,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
   }
 
   return (
-    <form ref={(ref) => (formRef = ref)}>
+    <form>
       <div className="py-4">
         <Hints type="availability"/>
 
@@ -86,27 +79,6 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
         </p>
 
         <div className="py-4">
-          {/* <RadioGroup
-              aria-label="reply time"
-              name="reply_time"
-              //className={classes.group}
-              value={selectedOption}
-              onChange={handleChange}
-            >
-              {
-                I18n.t("settings.availability.reply_time.options")
-                .map((o)=>(
-                  <FormControlLabel
-                    key={o.value}
-                    value={o.value}
-                    control={<Radio />}
-                    label={o.label}
-                  />
-                ))
-              }
-
-            </RadioGroup> */}
-
           {I18n.t('settings.availability.reply_time.options').map((o) => (
             <Input
               type={'radio'}
@@ -206,7 +178,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
     setRecord(Object.assign({}, item, data))
   }
 
-  function genHours (t1, t2) {
+  function genHours (_t1, _t2) {
     return Array(24 * 4)
       .fill(0)
       .map((_, i) => {

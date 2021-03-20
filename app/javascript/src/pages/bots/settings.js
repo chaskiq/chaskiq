@@ -15,9 +15,9 @@ import { setCurrentPage } from '../../actions/navigation'
 
 import I18n from '../../shared/FakeI18n'
 
-const SettingsForm = ({ app, data, errors, dispatch }) => {
+const SettingsForm = ({ app, data, _errors, dispatch }) => {
   const [tabValue, setTabValue] = useState(0)
-  const [state, setState] = useState({})
+  const [_state, setState] = useState({})
   const [agents, setAgents] = useState([])
   const [tasks, setTasks] = useState([])
 
@@ -33,7 +33,7 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
         success: (data) => {
           setAgents(data.app.agents)
         },
-        error: (error) => {}
+        error: (_error) => {}
       }
     )
   }
@@ -46,7 +46,7 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
         success: (data) => {
           setTasks(data.app.botTasks)
         },
-        error: (error) => {}
+        error: (_error) => {}
       }
     )
   }
@@ -55,7 +55,7 @@ const SettingsForm = ({ app, data, errors, dispatch }) => {
     getTasks(name)
   }
 
-  let formRef
+  //let formRef
 
   function tabsContent () {
     return (
@@ -128,8 +128,8 @@ function UsersSettings ({
   updateData,
   namespace,
   submit,
-  tasks,
-  getTasks
+  //tasks,
+  //getTasks
 }) {
   const [state, setState] = React.useState(app.userTasksSettings || {})
 
@@ -141,9 +141,9 @@ function UsersSettings ({
     setState({ ...state, [name]: event.target.checked })
   }
 
-  const setValue = (name, value) => {
+  /*const setValue = (name, value) => {
     setState({ ...state, [name]: value })
-  }
+  }*/
 
   function submitData () {
     const data = { [namespace]: state }
@@ -183,8 +183,8 @@ function LeadsSettings ({
   getAgents,
   submit,
   namespace,
-  tasks,
-  getTasks
+  //tasks,
+  //getTasks
 }) {
   const [state, setState] = React.useState(app.leadTasksSettings || {})
 
