@@ -608,6 +608,7 @@ export function BotPathEditor ({
   const addEmptyPath = (data) => {
     addPath(data)
     close()
+    setSelectedPath(data)
   }
 
   const addAppPackage = (path) => {
@@ -635,6 +636,7 @@ export function BotPathEditor ({
   const addPath = (path) => {
     const newPaths = paths.concat(path)
     setPaths(newPaths)
+    
   }
 
   const updatePath = (path) => {
@@ -687,7 +689,7 @@ export function BotPathEditor ({
                         <button
                           onClick={(_e) => handleSelection(item)}
                           className={`
-                          ${ selectedPath.id === item.id ? 'ring-2 ring-black' : ''}
+                          ${ selectedPath && selectedPath.id === item.id ? 'ring-2 ring-black' : ''}
                           focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
                           cursor-pointer w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center`}>
 
@@ -1691,6 +1693,7 @@ class SortableSteps extends Component {
                         </ItemButtons>
 
                         <ItemManagerContainer>
+
 
                           {
                             item.controls && item.controls.type === 'wait_for_reply' &&
