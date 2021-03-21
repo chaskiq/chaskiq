@@ -1,7 +1,4 @@
 import React from 'react'
-
-// import { makeStyles } from '@material-ui/core/styles';
-// import AppBar from '@material-ui/core/AppBar';
 import Tabs from '../components/Tabs'
 
 export default function ScrollableTabsButtonForce ({ tabs, changeHandler }) {
@@ -14,7 +11,7 @@ export default function ScrollableTabsButtonForce ({ tabs, changeHandler }) {
 
   return (
     <div>
-      <div AppBar position="static" elevation={0}>
+      <div>
         <Tabs
           value={value}
           onChange={handleChange}

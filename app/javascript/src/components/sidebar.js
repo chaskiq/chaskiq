@@ -14,7 +14,8 @@ import {
   MessageBubbleIcon,
   ShuffleIcon,
   WebhooksIcon,
-  ApiIcon
+  ApiIcon,
+  CheckmarkIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
@@ -28,6 +29,7 @@ import {
 } from '../graphql/mutations'
 import graphql from '../graphql/client'
 import { getCurrentUser } from '../actions/current_user'
+import Badge from './Badge'
 
 function mapStateToProps (state) {
   const {
@@ -104,6 +106,46 @@ function Sidebar ({
                   { __html: I18n.t('dashboard.hey', { name: app.name }) }
                 }/>
               <WebSetup />
+            </div>
+          ]
+        },
+        {
+          render: (_props) => [
+            <div key={'dashboard-status'} className="space-y-2">
+              <div className="mt-1 space-y-1" aria-labelledby="projects-headline">
+                {
+                  app.plan && <Link to={`/apps/${app.key}/billing`} 
+                    className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                    <span className="truncate">
+                      Plan: <Badge size="sm" variant="pink">{app.plan.name}</Badge>
+                    </span>
+                  </Link>
+                }
+        
+              <Link to={`/apps/${app.key}/messenger`} 
+                className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                <span className="truncate">
+                  Live chat status: {" "} 
+                  {
+                    app.activeMessenger && <Badge size="sm" variant="green">running</Badge>
+                  }
+
+                  {
+                    !app.activeMessenger && <Badge size="sm" variant="gray">paused</Badge>
+                  }
+                </span>
+              </Link>
+        
+              <a href="https://dev.chaskiq.io"
+                target="_blank"
+                rel="noopener noreferrer" 
+                className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                <span className="truncate">
+                  Chaskiq guides
+                </span>
+              </a>
+            </div>
+
             </div>
           ]
         }
