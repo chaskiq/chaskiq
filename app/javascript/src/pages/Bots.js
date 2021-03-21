@@ -176,25 +176,13 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         .join(', ') : names
   }
 
-  function toggleButton (clickHandler) {
+  function toggleButton (clickHandler, opts) {
     return (
       <div>
         <Button
           variant={'outlined'}
           onClick={clickHandler}>
-          {namesForToggleButton(options)}
-        </Button>
-      </div>
-    )
-  }
-
-  function toggleStateButton (clickHandler) {
-    return (
-      <div>
-        <Button
-          variant={'outlined'}
-          onClick={clickHandler}>
-          {namesForToggleButton(stateOptions)}
+          {namesForToggleButton(opts)}
         </Button>
       </div>
     )
@@ -254,7 +242,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 const newOptions = handleClickforOptions(options, option)
                 setOptions(newOptions)
               }}
-              triggerButton={toggleButton}
+              triggerButton={(handler)=> toggleButton(handler, options)}
               position={'left'}
             />
           </div>
@@ -267,7 +255,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 const newOptions = handleClickforState(stateOptions, option)
                 setStateOptions(newOptions)
               }}
-              triggerButton={toggleStateButton}
+              triggerButton={(handler)=> toggleButton(handler, stateOptions)}
               position={'left'}
             />
           </div>
