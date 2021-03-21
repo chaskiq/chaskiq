@@ -11,7 +11,7 @@ export default function EmptyView ({ title, subtitle, icon, image, shadowless, h
     <div
       className={`bg-white overflow-hidden ${
         shadowless ? '' : 'shadow'
-      } rounded-lg py-5`}
+      } rounded-lg py-5 h-full`}
     >
       <div className="flex flex-col px-4 py-5 sm:p-6 items-center">
         {icon && icon}

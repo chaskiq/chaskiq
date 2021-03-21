@@ -180,6 +180,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     return (
       <div>
         <Button
+          variant={'outlined'}
           onClick={clickHandler}>
           {namesForToggleButton(options)}
         </Button>
@@ -191,6 +192,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     return (
       <div>
         <Button
+          variant={'outlined'}
           onClick={clickHandler}>
           {namesForToggleButton(stateOptions)}
         </Button>
@@ -234,7 +236,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               <Button
                 color="inherit"
                 onClick={toggleTaskForm}
-                variant={'success'}
+                variant={'flat-dark'}
               >
                 {I18n.t('task_bots.new')}
               </Button>
@@ -307,7 +309,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <Badge className={
-                        `bg-${row.state === 'enabled' ? 'green-500' : 'gray-200'}`}>
+                        `bg-${row.state === 'enabled' ? 'green-500' : 'gray-200'}`
+                        }>
                         {row.state}
                       </Badge>
                     </td>
