@@ -32,7 +32,7 @@ module ApplicationCable
     def get_session_data
       params = request.query_parameters
       self.app = App.find_by(key: params[:app])
-            
+
       if app.blank?
         # Bugsnag.notify("error getting session data") do |report|
         #   report.add_tab(

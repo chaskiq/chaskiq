@@ -241,7 +241,7 @@ const WrappedComponent = React.forwardRef(function Input (
             name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
-            )}-500 rounded 
+            )}-300 rounded 
             w-full py-2 px-3 text-gray-700 mb-3 leading-tight 
             focus:outline-none focus:shadow-outline`}
             defaultValue={defaultValue}

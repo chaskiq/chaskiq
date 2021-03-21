@@ -19,9 +19,9 @@ class ApiController < ActionController::API
 
   def handle_encrypted_auth
     if @user_data.present? && @user_data[:email].present?
-      app_user =  get_user_by_email || 
+      app_user =  get_user_by_email ||
                   @app.add_user(email: @user_data[:email])
-      
+
       merge_user_data(app_user)
       options = {
         properties: app_user.properties.merge(@user_data[:properties]),
@@ -96,6 +96,7 @@ class ApiController < ActionController::API
 
   def get_user_by_email
     return nil if get_user_data[:email].blank?
+
     @app.get_app_user_by_email(get_user_data[:email])
   end
 
@@ -114,14 +115,19 @@ class ApiController < ActionController::API
   def get_user_by_session
     session_id = request.headers['HTTP_SESSION_ID']
     return nil if session_id.blank?
+
     @app.get_non_users_by_session(session_id)
   end
 
   def identify_by_user_data
     data = request.headers['HTTP_USER_DATA']
-    data = JSON.parse(data) rescue nil
+    data = begin
+      JSON.parse(data)
+    rescue StandardError
+      nil
+    end
     return nil if data.blank?
-    return nil unless data.is_a?(Hash)    
+    return nil unless data.is_a?(Hash)
     return data&.with_indifferent_access if @app.compare_user_identifier(data)
   end
 

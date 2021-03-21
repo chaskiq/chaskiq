@@ -124,9 +124,10 @@ function CustomizationColors ({ app, update, _dispatch }) {
 
         <div className="flex w-1/4 justify-end">
           <Button onClick={addField}
-            edge="end" variant="icon"
+            variant="outlined"
+            className="mr-2"
             aria-label="add">
-            <PlusIcon />
+            <PlusIcon /> {I18n.t("common.add_new")}
           </Button>
 
           {renderSubmitButton()}

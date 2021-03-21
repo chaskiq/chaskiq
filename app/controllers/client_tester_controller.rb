@@ -20,12 +20,11 @@ class ClientTesterController < ApplicationController
     @json_payload.merge!(user_options) unless params[:sessionless]
 
     @encrypted_data = if params[:jwt].present?
-      t = JWE.encrypt(@json_payload.to_json, @app.encryption_key, alg: 'dir')
-      t = "\'#{t}\'"
-    else
-      @json_payload.to_json
-    end
-    
+                        t = JWE.encrypt(@json_payload.to_json, @app.encryption_key, alg: 'dir')
+                        t = "\'#{t}\'"
+                      else
+                        @json_payload.to_json
+                      end
   end
 
   def configured_lang
@@ -39,7 +38,7 @@ class ClientTesterController < ApplicationController
   def user_options
     key = @app.encryption_key
     email = 'test@test.cl'
-    options = { 
+    options = {
       email: email,
       properties: {
         name: params[:name] || 'miguel',
@@ -51,11 +50,14 @@ class ClientTesterController < ApplicationController
         num_devices: params[:num_devices].nil? ? 2 : params[:num_devices].to_i,
         plan: params[:plan] || 'pro',
         last_sign_in: params[:last_sign_in] || 2.days.ago
-      } }
+      }
+    }
+    if params[:jwt].blank?
       options.merge!({
-        identifier_key: OpenSSL::HMAC.hexdigest('sha256', key, email),
-      }) if params[:jwt].blank?
-      options
+                       identifier_key: OpenSSL::HMAC.hexdigest('sha256', key, email)
+                     })
+    end
+    options
   end
 
   def endpoints

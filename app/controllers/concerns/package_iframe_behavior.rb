@@ -86,7 +86,7 @@ module PackageIframeBehavior
 
   def iframe_package_request(url, data, app_user)
     resp = Faraday.post(url, data.merge!(user: app_user).to_json,
-                 'Content-Type' => 'application/json')
+                        'Content-Type' => 'application/json')
     response.headers.delete 'X-Frame-Options'
     resp.body.html_safe
   end

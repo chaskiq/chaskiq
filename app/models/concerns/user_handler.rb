@@ -100,9 +100,10 @@ module UserHandler
 
   def compare_user_identifier(data)
     return if data.blank?
-    ActiveSupport::SecurityUtils::secure_compare(
-      OpenSSL::HMAC.hexdigest('sha256', encryption_key, data["email"]),
-      data["identifier_key"]
+
+    ActiveSupport::SecurityUtils.secure_compare(
+      OpenSSL::HMAC.hexdigest('sha256', encryption_key, data['email']),
+      data['identifier_key']
     )
   end
 
