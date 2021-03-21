@@ -26,7 +26,7 @@ function UserProfileCard ({ app, app_user }) {
   return (
     <div className="divide-y divide-gray-200">
       <div className="pb-6">
-        <div className="bg-indigo-700 h-24 sm:h-20 lg:h-28" />
+        <div className="bg-yellow-200 h-24 sm:h-20 lg:h-28" />
         <div className="-mt-12 flow-root px-4 space-y-6 sm:-mt-8 sm:flex sm:items-end sm:px-6 sm:space-x-6 lg:-mt-15">
           <div>
             <div className="-m-1 flex">
@@ -57,7 +57,9 @@ function UserProfileCard ({ app, app_user }) {
             <div className="mt-3 flex flex-wrap">
               <span className="flex-shrink-0 w-full inline-flex rounded-md shadow-sm sm:flex-1">
                 <Link
-                  className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
+                  className="w-full inline-flex items-center justify-center px-4 py-2 
+                  border border-transparent text-sm leading-5 font-medium 
+                  rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:border-pink-700 focus:shadow-outline-indigo active:bg-pink-700 transition ease-in-out duration-150"
                   to={`/apps/${app.key}/users/${app_user.id}`}>
                     show profile
                 </Link>

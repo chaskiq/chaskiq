@@ -460,7 +460,9 @@ function Conversation ({
           {
             conversation.mainParticipant &&
             !fixedSidebarOpen &&
-            <img onClick={handleUserSidebar}
+            <img 
+              // onClick={handleUserSidebar}
+              onClick={toggleFixedSidebar}
               className="h-9 w-9 rounded-full mr-2 cursor-pointer"
               src={conversation.mainParticipant.avatarUrl}
               alt=""
@@ -506,18 +508,17 @@ function Conversation ({
                 updateConversationStateDispatch(option)
               }}
               aria-label={I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)}
-              className={`focus:outline-none 
-                outline-none 
-                mr-1 rounded-full 
-                ${
-                  conversation.state === 'closed'
-                  ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                  : 'bg-white hover:bg-gray-100 text-gray-800'
-                }
-                 
-                font-semibold 
-                border 
-                rounded shadow`
+              className={`
+              focus:outline-none outline-none mr-1 rounded-full 
+              font-semibold border
+              border-gray-400 rounded shadow
+
+              ${
+                conversation.state === 'closed'
+                ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
+                : 'bg-white hover:bg-gray-100 text-gray-800'
+              }
+              `
               }
             >
               <CheckmarkIcon variant="rounded" />

@@ -59,7 +59,7 @@ function ConversationSearch ({ _app, dispatch, conversations, asButton }) {
             className="flex items-center justify-space w-full bg-gray-200 rounded-md px-2 py-1- mx-2">
             <SeachIcon size="small"/>
             <input
-              className="ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1"
+              className="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1"
               defaultValue={conversations.term}
               onKeyDown={(e) => {
                 handleEnter(e)

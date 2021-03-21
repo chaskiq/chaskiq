@@ -145,6 +145,7 @@ class Messenger extends Component {
       this.defaultHeaders = {
         app: this.props.app_id,
         'enc-data': this.props.encData || '',
+        'user-data': JSON.stringify(this.props.encData),
         'session-id': this.props.session_id,
         lang: this.props.lang
       }
@@ -152,15 +153,10 @@ class Messenger extends Component {
       this.defaultCableData = {
         app: this.props.app_id,
         enc_data: this.props.encData || '',
+        'user_data': JSON.stringify(this.props.encData),
         session_id: this.props.session_id
       }
     }
-
-    this.axiosInstance = axios.create({
-      baseURL: `${this.props.domain}`,
-      headers: this.defaultHeaders
-      /* other custom settings */
-    })
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
@@ -169,7 +165,7 @@ class Messenger extends Component {
 
     App = {
       cable: actioncable.createConsumer(
-        `${this.props.ws}?enc=${this.props.encData}&app=${this.props.app_id}&session_id=${this.props.session_id}`
+        `${this.props.ws}?enc=${this.props.encData}&user_data=${btoa(this.defaultCableData.user_data)}&app=${this.props.app_id}&session_id=${this.props.session_id}`
       )
     }
 
@@ -1145,7 +1141,6 @@ class Messenger extends Component {
             this.state.availableMessages.length > 0 && this.isMessengerActive() &&
                 <MessageFrame
                   app_id={this.props.app_id}
-                  axiosInstance={this.axiosInstance}
                   availableMessages={this.state.availableMessages}
                   domain={this.props.domain}
                   t={this.props.t}
