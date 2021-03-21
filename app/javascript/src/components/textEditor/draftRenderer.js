@@ -10,7 +10,7 @@ import {
   AttachmentIcon
 } from '../icons'
 
-var Prism = require('prismjs')
+import Prism from 'prismjs'
 // Prism.highlightAll();
 
 const handlePrismRenderer = (syntax, children) => {
@@ -25,21 +25,6 @@ const handlePrismRenderer = (syntax, children) => {
     syntax || 'javascript'
   )
   return { __html: formattedCode }
-}
-
-const styles = {
-  code: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 2
-  },
-  codeBlock: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 20
-  }
 }
 
 // just a helper to add a <br /> after a block
@@ -125,11 +110,13 @@ const renderers = {
       </ol>
     ),
 
-    file: (children, { keys, data }) => {
+    file: (_children, { keys, data }) => {
       const fileName = data[0].url.split('/').pop()
+      console.log("KEYSS", keys)
       return (
         <div>
           <a href={data[0].url}
+            rel="noopener noreferrer"
             target="blank"
             className="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2">
             <AttachmentIcon></AttachmentIcon>
@@ -139,6 +126,16 @@ const renderers = {
       )
     },
 
+    giphy: (children, { keys, data }) => {
+      return keys.map(
+        (key, index) => <ImageRenderer
+          blockKey={key}
+          key={`image-${key}`}
+          data={data[index]}>
+          {children[index]}
+        </ImageRenderer>
+      )
+    },    
     image: (children, { keys, data }) => {
       return keys.map(
         (key, index) => <ImageRenderer
@@ -149,15 +146,15 @@ const renderers = {
         </ImageRenderer>
       )
     },
-    embed: (children, { keys, data }) => {
-      const { provisory_text, type, embed_data } = data[0]
+    embed: (_children, { keys, data }) => {
+      const { provisory_text, embed_data } = data[0]
       const {
         images,
         title,
-        media,
+        //media,
         provider_url,
         description,
-        url
+        //url
       } = embed_data
 
       return (
@@ -166,6 +163,7 @@ const renderers = {
             {images[0].url ? (
               <a
                 target="_blank"
+                rel="noopener noreferrer"
                 className="js-mixtapeImage mixtapeImage"
                 href={provisory_text}
                 style={{ backgroundImage: `url(${images[0].url})` }}
@@ -174,6 +172,7 @@ const renderers = {
             <a
               className="markup--anchor markup--mixtapeEmbed-anchor"
               target="_blank"
+              rel="noopener noreferrer"
               href={provisory_text}
             >
               <strong className="markup--strong markup--mixtapeEmbed-strong">
@@ -188,8 +187,8 @@ const renderers = {
         </div>
       )
     },
-    video: (children, { keys, data }) => {
-      const { provisory_text, type, embed_data } = data[0]
+    video: (_children, { keys, data }) => {
+      const { provisory_text, embed_data } = data[0]
       const { html } = embed_data
 
       return (
@@ -249,7 +248,8 @@ const renderers = {
   entities: {
     // key is the entity key value from raw
     LINK: (children, data, { key }) => (
-      <a key={key} href={data.url} target="_blank">
+      <a rel="noopener noreferrer"
+        key={key} href={data.url} target="_blank">
         {children}
       </a>
     )
@@ -278,12 +278,16 @@ function ImageRenderer ({ children, blockKey, data }) {
   const data2 = data
   const { url, aspect_ratio, caption } = data2
 
+  var height, width, ratio
+
   if (!aspect_ratio) {
-    var height = '100%'
-    var width = '100%'
-    var ratio = '100'
+    height = '100%'
+    width = '100%'
+    ratio = '100'
   } else {
-    var { height, width, ratio } = aspect_ratio
+    height = aspect_ratio.height
+    width = aspect_ratio.width
+    ratio = aspect_ratio.ratio
   }
 
   const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
@@ -325,7 +329,7 @@ function Image ({ dispatch, url, width, height }) {
       width={width}
       height={height}
       contentEditable="false"
-      onClick={(e) =>
+      onClick={(_e) =>
         dispatch(
           setImageZoom({
             url: url,
@@ -338,7 +342,7 @@ function Image ({ dispatch, url, width, height }) {
   )
 }
 
-function mapActionsToProps (dispatch) {
+function mapActionsToProps () {
   return {
     actions: {}
   }

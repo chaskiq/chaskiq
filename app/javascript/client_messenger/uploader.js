@@ -2,11 +2,9 @@ import { DirectUpload } from '@rails/activestorage/src/direct_upload'
 
 export function imageUpload (
   file,
-  props = false,
-  field = false,
-  previewField = false
+  props = false
 ) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (props) {
       props.onLoading()
       // props.change(previewField, '/spinner.gif')

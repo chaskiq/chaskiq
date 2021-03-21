@@ -1,61 +1,59 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
 
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import Moment from "react-moment";
-import PageHeader from "../components/PageHeader";
-import Content from "../components/Content";
-import Tabs from "../components/Tabs";
-import Progress from "../components/Progress";
-import { AnchorLink } from "../shared/RouterLink";
-import DataTable from "../components/Table";
-import Input from "../components/forms/Input";
-import Button from "../components/Button";
-import { HomeIcon } from "../components/icons";
-import { Link } from "react-router-dom";
-import graphql from "../graphql/client";
-import serialize from "form-serialize";
+import React, { Component } from 'react'
+
+import { withRouter, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import Moment from 'react-moment'
+import PageHeader from '../components/PageHeader'
+import Content from '../components/Content'
+import Tabs from '../components/Tabs'
+import Progress from '../components/Progress'
+
+import DataTable from '../components/Table'
+import Input from '../components/forms/Input'
+import Button from '../components/Button'
+
+import graphql from '../graphql/client'
+import serialize from 'form-serialize'
 import FieldRenderer, { gridClasses } from '../components/forms/FieldRenderer'
 import { camelizeKeys } from '../actions/conversation'
 import Badge from '../components/Badge'
 
-import { 
-  AGENTS, 
-  ROLE_AGENTS,
-  PENDING_AGENTS 
-} from "../graphql/queries";
-import { 
-  INVITE_AGENT,
-  UPDATE_AGENT_ROLE,
-  RESEND_INVITE_AGENT 
-} from "../graphql/mutations";
+import {
 
-import FormDialog from "../components/FormDialog";
+  ROLE_AGENTS,
+  PENDING_AGENTS
+} from '../graphql/queries'
+import {
+  INVITE_AGENT,
+  UPDATE_AGENT_ROLE
+} from '../graphql/mutations'
+
+import FormDialog from '../components/FormDialog'
 import { successMessage, errorMessage } from '../actions/status_messages'
-import { setCurrentPage, setCurrentSection } from "../actions/navigation";
+import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 
 class TeamPage extends Component {
   state = {
     meta: {},
-    tabValue: 0,
+    tabValue: 0
   };
 
-  componentDidMount() {
-    this.props.dispatch(setCurrentSection("Settings"));
-    this.props.dispatch(setCurrentPage("team"));
+  componentDidMount () {
+    this.props.dispatch(setCurrentSection('Settings'))
+    this.props.dispatch(setCurrentPage('team'))
   }
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i });
+    this.setState({ tabValue: i })
   };
 
-  render() {
+  render () {
     return (
       <Content>
         <PageHeader
-          title={I18n.t("settings.team.title")}
-          /*actions={
+          title={I18n.t('settings.team.title')}
+          /* actions={
             <Button
               className={"transition duration-150 ease-in-out"}
               variant={"main"}
@@ -64,25 +62,25 @@ class TeamPage extends Component {
             >
               New team member
             </Button>
-          }*/
+          } */
         />
 
         <Tabs
           currentTab={this.state.tabValue}
           tabs={[
             {
-              label: I18n.t("settings.team.title"),
-              //icon: <HomeIcon />,
-              content: <AppUsers {...this.props} />,
+              label: I18n.t('settings.team.title'),
+              // icon: <HomeIcon />,
+              content: <AppUsers {...this.props} />
             },
             {
-              label: I18n.t("settings.team.invitations"),
-              content: <NonAcceptedAppUsers {...this.props} />,
-            },
+              label: I18n.t('settings.team.invitations'),
+              content: <NonAcceptedAppUsers {...this.props} />
+            }
           ]}
         />
       </Content>
-    );
+    )
   }
 }
 
@@ -96,8 +94,8 @@ class AppUsers extends React.Component {
 
   form = React.createRef();
 
-  componentDidMount() {
-    this.search();
+  componentDidMount () {
+    this.search()
   }
 
   getAgents = () => {
@@ -108,64 +106,64 @@ class AppUsers extends React.Component {
         success: (data) => {
           this.setState({
             collection: data.app.roleAgents,
-            loading: false,
-          });
+            loading: false
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
-  search = (item) => {
+  search = (_item) => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       this.getAgents
-    );
+    )
   };
 
-  updateAgent = (params)=>{
+  updateAgent = (params) => {
     graphql(UPDATE_AGENT_ROLE, {
       appKey: this.props.app.key,
       id: this.state.isOpen.id,
       params: params
     }, {
-      success: (data)=>{
+      success: (_data) => {
         this.props.dispatch(
-          successMessage(I18n.t("settings.team.updated_agent"))
+          successMessage(I18n.t('settings.team.updated_agent'))
         )
-        this.setState({isOpen: false})
+        this.setState({ isOpen: false })
         this.getAgents()
       },
-      error: (err)=>{
-        //errorMessage('...')
+      error: (_err) => {
+        // errorMessage('...')
       }
     })
   }
 
-  submit = ()=> {
+  submit = () => {
     const serializedData = serialize(this.form.current, {
       hash: true,
       empty: true
     })
     this.updateAgent(serializedData.app)
-    //open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
+    // open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
   }
 
-  close = ()=>{
+  close = () => {
     this.setState({
       isOpen: false
     })
   }
 
-  definitions = ()=> {
+  definitions = () => {
     return [
       {
         name: 'name',
         type: 'string',
         label: 'Agent\'s email',
-        //hint: "we'll send POST requests",
+        // hint: "we'll send POST requests",
         placeholder: 'John Doe',
         grid: { xs: 'w-full', sm: 'w-full' }
       },
@@ -174,7 +172,7 @@ class AppUsers extends React.Component {
         name: 'email',
         type: 'string',
         label: 'Email for agent',
-        //hint: "we'll send POST requests",
+        // hint: "we'll send POST requests",
         placeholder: 'john@example.com',
         grid: { xs: 'w-full', sm: 'w-full' }
       },
@@ -185,11 +183,10 @@ class AppUsers extends React.Component {
         hint: 'blank access will disable account settings access for user',
         multiple: true,
         options: [
-            { label: 'none', value: null },  
-            { label: 'mananger', value: "manage" },
-            { label: 'admin', value: "admin" },
-          ]
-        ,
+          { label: 'none', value: null },
+          { label: 'mananger', value: 'manage' },
+          { label: 'admin', value: 'admin' }
+        ],
         grid: { xs: 'w-full', sm: 'w-full' }
       }
     ]
@@ -202,9 +199,9 @@ class AppUsers extends React.Component {
           <FormDialog
             open={this.state.isOpen}
             handleClose={this.close}
-            actionButton={I18n.t("settings.team.action_button")}
-            titleContent={I18n.t("settings.team.update_agent_title")}
-            contentText={I18n.t("settings.team.content_text")}
+            actionButton={I18n.t('settings.team.action_button')}
+            titleContent={I18n.t('settings.team.update_agent_title')}
+            contentText={I18n.t('settings.team.content_text')}
             formComponent={
               <form ref={this.form}>
                 {this.definitions().map((field) => {
@@ -222,7 +219,7 @@ class AppUsers extends React.Component {
                         props={{
                           data: camelizeKeys(this.state.isOpen)
                         }}
-                        errors={this.state.errors||{}}
+                        errors={this.state.errors || {}}
                       />
                     </div>
                   )
@@ -231,29 +228,29 @@ class AppUsers extends React.Component {
             }
             dialogButtons={
               <React.Fragment>
-                <Button onClick={this.close} 
+                <Button onClick={this.close}
                   variant="outlined">
-                  {I18n.t("common.cancel")}
+                  {I18n.t('common.cancel')}
                 </Button>
 
-                <Button 
-                  className="mr-1" 
+                <Button
+                  className="mr-1"
                   onClick={this.submit}>
-                  {I18n.t("settings.team.update_agent")}
+                  {I18n.t('settings.team.update_agent')}
                 </Button>
               </React.Fragment>
             }
           />
         ) : null}
       </div>
-    );
+    )
   };
 
-  handleEdit = (row)=>{
-    this.setState({isOpen: row})
+  handleEdit = (row) => {
+    this.setState({ isOpen: row })
   }
 
-  render() {
+  render () {
     return (
       <React.Fragment>
         {this.editButton()}
@@ -261,7 +258,7 @@ class AppUsers extends React.Component {
         {!this.state.loading ? (
           <DataTable
             elevation={0}
-            title={I18n.t("settings.team.agents")}
+            title={I18n.t('settings.team.agents')}
             meta={{}}
             data={this.state.collection}
             search={this.search}
@@ -269,8 +266,8 @@ class AppUsers extends React.Component {
             disablePagination={true}
             columns={[
               {
-                field: "email",
-                title: "email",
+                field: 'email',
+                title: 'email',
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
@@ -278,7 +275,7 @@ class AppUsers extends React.Component {
                         <div className="flex-shrink-0 h-10 w-10">
                           <Link
                             to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
-                            >
+                          >
                             <img
                               className="h-10 w-10 rounded-full"
                               src={row.avatarUrl}
@@ -291,60 +288,65 @@ class AppUsers extends React.Component {
                           <div className="text-sm leading-5 font-medium text-gray-900">
                             <Link
                               to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
-                              >
+                            >
                               {row.displayName}
                             </Link>
                           </div>
                           <div className="text-sm leading-5 text-gray-500">
                             <Link
                               to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
-                              >
+                            >
                               {row.email}
                             </Link>
                           </div>
                         </div>
                       </div>
                     </td>
-                  ),
+                  )
               },
-              { field: "name", title: "Name" },
-              { field: "owner", title: "Owner",
-              render: (row)=>(
-                row && (
-                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-                    {
-                      row.owner && <Badge 
-                        variant="green">
-                          OWNER
-                        </Badge>
-                    }
-                  </td>
-                )
-              )},
-              { field: "accessList", title: "Access list",
-                render: (row)=>(
+              { field: 'name', title: 'Name' },
+              {
+                field: 'owner',
+                title: 'Owner',
+                render: (row) => (
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-                      {row.accessList.map((o)=> 
+                      {
+                        row.owner && <Badge
+                          variant="green">
+                          OWNER
+                        </Badge>
+                      }
+                    </td>
+                  )
+                )
+              },
+              {
+                field: 'accessList',
+                title: 'Access list',
+                render: (row) => (
+                  row && (
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                      {row.accessList.map((o) =>
                         <Badge
-                          className="mr-2" 
+                          className="mr-2"
                           key={`access-list-${o}-${row.id}`}>
                           {o}
-                        </Badge> 
+                        </Badge>
                       )}
                     </td>
                   )
-              )
+                )
               },
               {
                 field: 'Actions',
                 title: 'Actions',
-                render: (row)=>(
+                render: (row) => (
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
-                      <Button 
-                        onClick={()=> this.handleEdit(row)}
-                        variant="outlined" 
+                      <Button
+                        onClick={() => this.handleEdit(row)}
+                        variant="outlined"
                         size="small">
                         edit
                       </Button>
@@ -352,19 +354,19 @@ class AppUsers extends React.Component {
                   )
                 )
               },
-              { field: "Sign In Count", title: "Sign in Count" },
+              { field: 'Sign In Count', title: 'Sign in Count' },
               {
-                field: "Last Sign in at",
-                title: "Last sign in at",
+                field: 'Last Sign in at',
+                title: 'Last sign in at',
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${
-                        row.state === "subscribed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
+                        row.state === 'subscribed'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
                       }`}
                       >
                         {row.lastSignInAt && (
@@ -372,20 +374,20 @@ class AppUsers extends React.Component {
                         )}
                       </span>
                     </td>
-                  ),
+                  )
               },
               {
-                field: "invitationAcceptedAt",
-                title: "invitation Accepted At",
+                field: 'invitationAcceptedAt',
+                title: 'invitation Accepted At',
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${
-                        row.state === "subscribed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
+                        row.state === 'subscribed'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
                       }`}
                       >
                         {row.invitationAcceptedAt && (
@@ -393,51 +395,50 @@ class AppUsers extends React.Component {
                         )}
                       </span>
                     </td>
-                  ),
+                  )
               }
             ]}
             defaultHiddenColumnNames={[]}
             tableColumnExtensions={[
-              { columnName: "email", width: 250 },
-              { columnName: "id", width: 10 },
-              { columnName: "avatar", width: 55 },
+              { columnName: 'email', width: 250 },
+              { columnName: 'id', width: 10 },
+              { columnName: 'avatar', width: 55 }
             ]}
-            //tableEdit={true}
-            //editingRowIds={["email", "name"]}
-            commitChanges={(aa, bb) => {
-              debugger;
+            // tableEdit={true}
+            // editingRowIds={["email", "name"]}
+            commitChanges={(_aa, _bb) => {
             }}
-            //leftColumns={this.props.leftColumns}
-            //rightColumns={this.props.rightColumns}
-            //toggleMapView={this.props.toggleMapView}
-            //map_view={this.props.map_view}
+            // leftColumns={this.props.leftColumns}
+            // rightColumns={this.props.rightColumns}
+            // toggleMapView={this.props.toggleMapView}
+            // map_view={this.props.map_view}
             enableMapView={false}
           />
         ) : (
           <Progress />
         )}
       </React.Fragment>
-    );
+    )
   }
 }
 
 class NonAcceptedAppUsers extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       collection: [],
       loading: true,
       isOpen: false,
-      sent: false,
-    };
-    this.input_ref = React.createRef();
+      sent: false
+    }
+    this.input_ref = React.createRef()
   }
 
   open = () => this.setState({ isOpen: true });
   close = () => this.setState({ isOpen: false });
 
-  componentDidMount() {
-    this.search();
+  componentDidMount () {
+    this.search()
   }
 
   sendInvitation = () => {
@@ -445,25 +446,24 @@ class NonAcceptedAppUsers extends React.Component {
       INVITE_AGENT,
       {
         appKey: this.props.app.key,
-        email: this.input_ref.current.value,
+        email: this.input_ref.current.value
       },
       {
-        success: (data) => {
-          this.props.dispatch(successMessage(I18n.t("settings.team.invitation_success")))
+        success: (_data) => {
+          this.props.dispatch(successMessage(I18n.t('settings.team.invitation_success')))
           this.setState(
             {
               sent: true,
-              isOpen: false,
+              isOpen: false
             },
             this.search
-          );
+          )
         },
         error: () => {
-          this.props.dispatch(errorMessage(I18n.t("settings.team.invitation_error")))
-
-        },
+          this.props.dispatch(errorMessage(I18n.t('settings.team.invitation_error')))
+        }
       }
-    );
+    )
   };
 
   inviteButton = () => {
@@ -473,9 +473,9 @@ class NonAcceptedAppUsers extends React.Component {
           <FormDialog
             open={this.state.isOpen}
             handleClose={this.close}
-            actionButton={I18n.t("settings.team.action_button")}
-            titleContent={I18n.t("settings.team.title_content")}
-            contentText={I18n.t("settings.team.content_text")}
+            actionButton={I18n.t('settings.team.action_button')}
+            titleContent={I18n.t('settings.team.title_content')}
+            contentText={I18n.t('settings.team.content_text')}
             formComponent={
               <Input
                 autoFocus
@@ -483,7 +483,7 @@ class NonAcceptedAppUsers extends React.Component {
                 id="email"
                 name="email"
                 label="email"
-                helperText={I18n.t("settings.team.hint")}
+                helperText={I18n.t('settings.team.hint')}
                 type="string"
                 fullWidth
                 ref={this.input_ref}
@@ -491,27 +491,27 @@ class NonAcceptedAppUsers extends React.Component {
             }
             dialogButtons={
               <React.Fragment>
-                <Button onClick={this.close} 
+                <Button onClick={this.close}
                   variant="outlined">
-                  {I18n.t("common.cancel")}
+                  {I18n.t('common.cancel')}
                 </Button>
 
                 <Button className="mr-1" onClick={this.sendInvitation}>
-                  {I18n.t("settings.team.send_invitation")}
+                  {I18n.t('settings.team.send_invitation')}
                 </Button>
               </React.Fragment>
             }
           />
         ) : null}
 
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           color="primary"
           onClick={this.open}>
-          {I18n.t("settings.team.add_new")}
+          {I18n.t('settings.team.add_new')}
         </Button>
       </div>
-    );
+    )
   };
 
   getAgents = () => {
@@ -522,61 +522,64 @@ class NonAcceptedAppUsers extends React.Component {
         success: (data) => {
           this.setState({
             collection: data.app.notConfirmedAgents,
-            loading: false,
-          });
+            loading: false
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   search = () => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       this.getAgents
-    );
+    )
   };
 
-  resendInvitation = (email)=>{
+  resendInvitation = (email) => {
     graphql(INVITE_AGENT, {
       appKey: this.props.app.key,
-      email: email,
+      email: email
     }, {
-      success: (data)=>{          
-        this.props.dispatch(successMessage(I18n.t("settings.team.invitation_success")))
+      success: (_data) => {
+        this.props.dispatch(successMessage(I18n.t('settings.team.invitation_success')))
       },
-      error: ()=>{          
-        this.props.dispatch(errorMessage(I18n.t("settings.team.invitation_error")))
+      error: () => {
+        this.props.dispatch(errorMessage(I18n.t('settings.team.invitation_error')))
       }
     })
   }
 
-  render() {
+  render () {
     return (
       <React.Fragment>
         {this.inviteButton()}
         {!this.state.loading ? (
           <DataTable
             elevation={0}
-            title={I18n.t("settings.team.invitations")}
+            title={I18n.t('settings.team.invitations')}
             meta={{}}
             data={this.state.collection}
             search={this.search}
             loading={this.state.loading}
             disablePagination={true}
             columns={[
-              { field: "email", title: "email" },
-              { field: "name", title: "name" },
-              { field: "actions", title: "actions", render: (row)=> {
+              { field: 'email', title: 'email' },
+              { field: 'name', title: 'name' },
+              {
+                field: 'actions',
+                title: 'actions',
+                render: (row) => {
                   return <tr className="flex items-center px-6 py-4 whitespace-nowrap border-b border-gray-200">
-                          <Button 
-                            onClick={ ()=> this.resendInvitation(row.email) } 
-                            variant="outlined" size="md">
-                            {I18n.t("settings.team.resend_invitation")}
-                          </Button>
-                        </tr>
+                    <Button
+                      onClick={ () => this.resendInvitation(row.email) }
+                      variant="outlined" size="md">
+                      {I18n.t('settings.team.resend_invitation')}
+                    </Button>
+                  </tr>
                 }
               }
             ]}
@@ -586,19 +589,19 @@ class NonAcceptedAppUsers extends React.Component {
           <Progress />
         )}
       </React.Fragment>
-    );
+    )
   }
 }
 
-function mapStateToProps(state) {
-  const { auth, app } = state;
-  const { isAuthenticated } = auth;
-  //const { sort, filter, collection , meta, loading} = conversations
+function mapStateToProps (state) {
+  const { auth, app } = state
+  const { isAuthenticated } = auth
+  // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(TeamPage));
+export default withRouter(connect(mapStateToProps)(TeamPage))

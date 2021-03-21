@@ -45,12 +45,6 @@ class AppPolicy < ActionPolicy::Base
       role.access_list.include?('admin')
   end
 
-  def update_agent_role?
-    role.app.owner_id == user.id ||
-    role.access_list.include?("manage") || 
-    role.access_list.include?("admin")
-  end
-
   def update?
     # here we can access our context and record
     user.admin? || (user.id == record.user_id)

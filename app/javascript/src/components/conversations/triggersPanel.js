@@ -17,7 +17,6 @@ function TriggersPanel (props) {
   const [open, setOpen] = React.useState(props.open)
   const [botTask, setBotTask] = React.useState(null)
   const [botTasks, setBotTasks] = React.useState([])
-  const [values, setValues] = React.useState({})
 
   function getBotTasks () {
     graphql(
@@ -32,7 +31,6 @@ function TriggersPanel (props) {
           setBotTasks(data.app.botTasks)
         },
         error: () => {
-          debugger
         }
       }
     )
@@ -44,13 +42,11 @@ function TriggersPanel (props) {
       triggerId: parseInt(botTask.id),
       conversationId: props.conversation.id
     }, {
-      success: (data) => {
+      success: () => {
         handleClose()
       },
-      errors: (err) => {
-        debugger
+      errors: (_err) => {
       }
-
     })
   }
 
@@ -62,17 +58,9 @@ function TriggersPanel (props) {
     setOpen(props.open)
   }, [props.open])
 
-  function handleClickOpen () {
-    setOpen(true)
-  }
-
   function handleClose () {
     setOpen(false)
     props.close()
-  }
-
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value })
   }
 
   function renderItem (o) {
@@ -107,8 +95,7 @@ function TriggersPanel (props) {
     setBotTask(o)
   }
 
-  function handleSend (o) {
-    console.log(botTask)
+  function handleSend (_o) {
     sendTrigger()
   }
 

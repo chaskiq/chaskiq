@@ -1,7 +1,7 @@
 import actionTypes from '../constants/action_types'
 
 export function lockPage (message) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(
       setLockPage(message)
     )
@@ -9,7 +9,7 @@ export function lockPage (message) {
 }
 
 export function clearLocks () {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(setLockPage({}))
   }
 }

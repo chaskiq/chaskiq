@@ -7,7 +7,7 @@ import { successMessage } from './status_messages'
 import { isEmpty } from 'lodash'
 
 export function setApp (key, cb) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     graphql(
       APP,
       { appKey: key },
@@ -29,7 +29,7 @@ export function setApp (key, cb) {
 }
 
 export function clearApp () {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(getApp(null))
   }
 }

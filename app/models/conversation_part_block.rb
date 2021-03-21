@@ -14,7 +14,7 @@ class ConversationPartBlock < ApplicationRecord
     # add a proper setting on appPackage like, hook_url ?
     package_class_name = blocks['app_package']
     klass = begin
-      "MessageApis::#{package_class_name}".constantize
+      "MessageApis::#{package_class_name}::Api".constantize
     rescue StandardError
       nil
     end
@@ -22,21 +22,23 @@ class ConversationPartBlock < ApplicationRecord
     return unless klass.instance_methods.include?(:create_fase)
 
     # TODO: look for a better method to query app packages
-    klass = begin
-      app
-        .app_package_integrations
-        .joins(:app_package)
-        .where('app_packages.name =?', package_class_name)
-        .first.message_api_klass
-    rescue StandardError
-      nil
-    end
+    klass = get_package_integration(app, package_class_name)
 
     data = klass.create_fase(self, klass)
 
     blocks['schema'] = data[:definitions]
     self.data = data[:values]
     save
+  end
+
+  def get_package_integration(app, package_class_name)
+    app
+      .app_package_integrations
+      .joins(:app_package)
+      .where('app_packages.name =?', package_class_name)
+      .first.message_api_klass
+  rescue StandardError
+    nil
   end
 
   def handled_data

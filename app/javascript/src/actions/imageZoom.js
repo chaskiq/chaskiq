@@ -1,5 +1,5 @@
 export function setImageZoom (data) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(setImage(data))
   }
 }

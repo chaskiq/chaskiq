@@ -56,7 +56,7 @@ RSpec.describe AppUser, type: :model do
       visitor
       expect(app.app_users.count).to be == 1
 
-      MessageApis::FullContact.any_instance.should_receive(:enrich_user)
+      MessageApis::FullContact::Api.any_instance.should_receive(:enrich_user)
 
       perform_enqueued_jobs do
         visitor.update(email: 'miguelmichelson@gmail.com')

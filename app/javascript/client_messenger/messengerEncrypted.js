@@ -77,8 +77,8 @@ export default class ChaskiqMessengerEncrypted {
 
         messenger.render()
       },
-      errors: () => {
-        debugger
+      errors: (e) => { 
+        console.log("Error", e )
       }
     })
 

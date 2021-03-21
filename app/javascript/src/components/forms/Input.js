@@ -41,7 +41,7 @@ const WrappedComponent = React.forwardRef(function Input (
       default:
         return `shadow appearance-none border border-${borderColor(
           error
-        )}-500 rounded w-full py-2 px-3 text-gray-700
+        )}-300 rounded w-full py-2 px-3 text-gray-700
         leading-tight focus:outline-none focus:shadow-outline`
     }
   }
@@ -330,7 +330,7 @@ const WrappedComponent = React.forwardRef(function Input (
 
 export default WrappedComponent
 
-function FormField ({ name, label, helperText, children, error }) {
+function FormField ({ name, label, helperText, children, _error }) {
   return (
     <React.Fragment>
       <label

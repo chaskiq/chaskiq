@@ -15,8 +15,8 @@ export const generateJWT = (data) => {
   var oHeader = { alg: 'HS256', typ: 'JWT' }
   // Payload
   var oPayload = {}
-  var tNow = KJUR.jws.IntDate.get('now')
-  var tEnd = KJUR.jws.IntDate.get('now + 1day')
+  //var tNow = KJUR.jws.IntDate.get('now')
+  //var tEnd = KJUR.jws.IntDate.get('now + 1day')
   oPayload.data = data
   // Sign JWT, password=616161
   var sHeader = JSON.stringify(oHeader)

@@ -6,16 +6,6 @@ import { ResponsivePie } from '@nivo/pie'
 // otherwise height will be 0 and no chart will be rendered.
 // website examples showcase many properties, you'll often use just a few of them.
 export default function CampaignPie ({ data }) {
-  // const theme = useTheme();
-
-  const theme = {
-    palette: {
-      primary: {
-        light: '#ff000'
-      }
-    }
-  }
-
   return (
 
     <ResponsivePie

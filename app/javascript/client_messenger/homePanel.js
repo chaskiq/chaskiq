@@ -9,7 +9,7 @@ import {
 } from './styles/styled'
 import sanitizeHtml from 'sanitize-html'
 import { CommentsItemComp } from './conversation'
-import { textColor } from './styles/utils'
+
 import Loader from './loader'
 import { DefinitionRenderer } from '../src/components/packageBlocks/components'
 
@@ -22,28 +22,21 @@ const HomePanel = ({
   displayNewConversation,
   updateHeader,
   transition,
-  displayArticle,
   appData,
   agents,
   t,
-  graphqlClient,
   displayAppBlockFrame,
   displayConversation,
   conversations,
   conversationsMeta,
   getConversations,
-  lang,
   newMessages,
   getPackage,
   homeHeaderRef
 }) => {
-  const [loading, setLoading] = useState(false)
+  const [loading, _setLoading] = useState(false)
 
   const [conversationLoading, setConversationLoading] = useState(false)
-
-  const [meta, setMeta] = useState({})
-
-  const textInput = React.createRef()
 
   useEffect(() => {
     updateHeader(
@@ -384,26 +377,6 @@ const ReplyTime = styled.p`
   font-size: .8rem;
 `
 
-const ButtonWrapper = styled.div`
-  display: flex;
-
-  input{
-    padding: 1em;
-    flex-grow: 2;
-    border: 1px solid #ccc;
-    border-right: 0px solid #ccc;
-  }
-
-  button{
-    border: 0px solid #ccc;
-    padding: 1.2em;
-    border-bottom-right-radius: 6px;
-    border-top-right-radius: 6px;
-    color: ${(props) => textColor(props.theme.palette.secondary)};
-    background: ${(props) => props.theme.palette.secondary};
-  }
-`
-
 const CardButtonsGroup = styled.div`
   margin-top: 1em;
   align-items: center;
@@ -493,66 +466,6 @@ const ConnectedPeople = styled.div`
   div{
     margin-right: -10px;
   }
-`
-
-const ArticleList = styled.div`
-  background: white;
-  h2{
-    font-size: 1.2em;
-  }
-`
-
-const ArticlePadder = styled.div`
-  padding: .8em;
-`
-
-const ArticleCardWrapper = styled.div`
-  cursor: pointer;
-  background: white;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(193, 203, 212, 0.7) 0px 0px 0px 1px inset, rgb(193, 203, 212) 0px -1px 0px 0px inset;
-  transform: translateZ(0px);
-  border-width: initial;
-  border-style: none;
-  border-color: initial;
-  border-image: initial;
-  transition: all 550ms cubic-bezier(0.23, 1, 0.32, 1) 0s;
-  text-decoration: none;
-  padding: 20px 20px 22px;
-  margin-bottom: 0.3em;
-  &:hover{
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(193, 203, 212, 0.7) 0px 0px 0px 1px inset, rgb(193, 203, 212) 0px -1px 0px 0px inset;
-    transform: translate(0px, -2px);
-    border-width: initial;
-    border-style: none;
-    border-color: initial;
-    border-image: initial;
-  }
-  &:after{
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 40px 0px;
-    content: "";
-    height: 100%;
-    left: 0px;
-    opacity: 0;
-    position: absolute;
-    top: 0px;
-    transform: translateZ(0px);
-    width: 100%;
-    z-index: -1;
-    border-radius: 4px;
-    transition: all 200ms linear 0s;
-  }
-`
-
-const ArticleCardTitle = styled.div`
-  color: ${(props) => (props.theme.palette.secondary)};
-  font-weight: bold;
-  line-height: 1.5;
-  margin-bottom: 7px;
-  transition: all 200ms linear 0s;
-`
-
-const ArticleCardContent = styled.div`
-
 `
 
 export default HomePanel

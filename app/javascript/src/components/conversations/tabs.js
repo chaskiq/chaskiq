@@ -1,15 +1,7 @@
 import React from 'react'
 
-function TabContainer (props) {
-  return <p component="div">{props.children}</p>
-}
-
 export default function SimpleTabs ({ tabs, buttons }) {
   const [value, setValue] = React.useState(0)
-
-  function handleChange (event, newValue) {
-    setValue(newValue)
-  }
 
   return (
     <div className="w-full">

@@ -1,57 +1,56 @@
-import React, { Component, useState, useEffect } from "react";
-import { withRouter, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import styled from "@emotion/styled";
-import TextEditor from "../../components/textEditor";
-import UpgradeButton from "../../components/upgradeButton"
+import React, { Component, useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import styled from '@emotion/styled'
+import TextEditor from '../../components/textEditor'
+import UpgradeButton from '../../components/upgradeButton'
 
-import graphql from "../../graphql/client";
+import graphql from '../../graphql/client'
 import {
   BOT_TASK,
-  BOT_TASKS,
+
   AGENTS,
-  BOT_TASK_METRICS,
-} from "../../graphql/queries";
-import { UPDATE_BOT_TASK, CLONE_MESSAGE } from "../../graphql/mutations";
-import ContentHeader from "../../components/PageHeader";
-import Content from "../../components/Content";
-import FormDialog from "../../components/FormDialog";
-import Input from "../../components/forms/Input";
-import Dropdown from "../../components/Dropdown";
-import Segment from "./segment";
-import SettingsForm from "./settings";
-import BotTaskSetting from "./taskSettings";
-import { errorMessage, successMessage } from "../../actions/status_messages";
-import List, { ListItem, ListItemText } from "../../components/List";
-import Button from "../../components/Button";
-import Tabs from "../../components/Tabs";
+  BOT_TASK_METRICS
+} from '../../graphql/queries'
+import { UPDATE_BOT_TASK, CLONE_MESSAGE } from '../../graphql/mutations'
+import ContentHeader from '../../components/PageHeader'
+import Content from '../../components/Content'
+import FormDialog from '../../components/FormDialog'
+import Input from '../../components/forms/Input'
+import Dropdown from '../../components/Dropdown'
+import Segment from './segment'
+
+import BotTaskSetting from './taskSettings'
+import { errorMessage, successMessage } from '../../actions/status_messages'
+import List, { ListItem } from '../../components/List'
+import Button from '../../components/Button'
+import Tabs from '../../components/Tabs'
 import ErrorBoundary from '../../components/ErrorBoundary'
 
 import {
-  DefinitionRenderer,
+  DefinitionRenderer
 } from '../../components/packageBlocks/components'
-
 
 import {
   PlusIcon,
   DragHandle,
   DeleteForever,
   CopyContentIcon,
-  //RemoveCircle ,
-  DeleteForeverRounded,
-} from "../../components/icons";
+  // RemoveCircle ,
+  DeleteForeverRounded
+} from '../../components/icons'
 
-import { isEmpty } from "lodash";
-import Stats from "../../components/stats";
-import { setCurrentSection, setCurrentPage } from "../../actions/navigation";
-import AppPackagePanel from "../../components/conversations/appPackagePanel"
-import FilterMenu from "../../components/FilterMenu";
+import { isEmpty } from 'lodash'
+import Stats from '../../components/stats'
+import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
+import AppPackagePanel from '../../components/conversations/appPackagePanel'
+import FilterMenu from '../../components/FilterMenu'
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
   margin-right: 19px;
-`;
+`
 
 const ItemsContainer = styled.div`
   box-shadow: 0 24px 0 0 #fff, 0 -24px 0 0 #fff, 16px 0 32px -12px rgba(0,0,0,.1), -16px 0 32px -12px rgba(0,0,0,.1);
@@ -72,56 +71,56 @@ const ItemButtons = styled.div`
   display: flex;
   flex-grow: 1;
 
-  justify-content: ${(props) => (props.first ? "flex-start" : "flex-end")};
-`;
+  justify-content: ${(props) => (props.first ? 'flex-start' : 'flex-end')};
+`
 
 const ControlWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-flow: column;
-`;
+`
 
-function create_UUID() {
-  var dt = new Date().getTime();
-  var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (
+function create_UUID () {
+  var dt = new Date().getTime()
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (
     c
   ) {
-    var r = (dt + Math.random() * 16) % 16 | 0;
-    dt = Math.floor(dt / 16);
-    return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-  });
-  return uuid;
+    var r = (dt + Math.random() * 16) % 16 | 0
+    dt = Math.floor(dt / 16)
+    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+  })
+  return uuid
 }
 
-const PathDialog = ({ open, close, isOpen, submit }) => {
-  let titleRef = React.createRef();
-  //const titleRef = null
+const PathDialog = ({ _open, close, isOpen, submit }) => {
+  let titleRef = React.createRef()
+  // const titleRef = null
 
   const handleSubmit = () => {
     submit({
       id: create_UUID(),
       title: titleRef.value,
-      steps: [],
-    });
-  };
+      steps: []
+    })
+  }
 
   return (
     isOpen && (
       <FormDialog
         open={isOpen}
         handleClose={close}
-        //contentText={"lipsum"}
-        titleContent={"Create Path"}
+        // contentText={"lipsum"}
+        titleContent={'Create Path'}
         formComponent={
           <form>
             <Input
               label="None"
               id="title"
-              type={"text"}
+              type={'text'}
               ref={(ref) => (titleRef = ref)}
-              placeholder={"write path title"}
-              //defaultValue="Default Value"
-              //className={classes.textField}
+              placeholder={'write path title'}
+              // defaultValue="Default Value"
+              // className={classes.textField}
               helperText="Some important text"
             />
           </form>
@@ -137,53 +136,50 @@ const PathDialog = ({ open, close, isOpen, submit }) => {
             </Button>
           </React.Fragment>
         }
-        //actions={actions}
-        //onClose={this.close}
-        //heading={this.props.title}
+        // actions={actions}
+        // onClose={this.close}
+        // heading={this.props.title}
       ></FormDialog>
     )
-  );
-};
+  )
+}
 
 const BotEditor = ({ match, app, dispatch, mode, actions }) => {
-  const [botTask, setBotTask] = useState({});
-  const [errors, setErrors] = useState({});
-  const [paths, setPaths] = useState([]);
-  const [tabValue, setTabValue] = useState(0);
+  const [botTask, setBotTask] = useState({})
+  const [errors, setErrors] = useState({})
+  const [paths, setPaths] = useState([])
+  const [tabValue, setTabValue] = useState(0)
   const [searchFields, setSearchFields] = useState([])
-  const [selectedPath, setSelectedPath] = useState(null);
-
+  const [selectedPath, setSelectedPath] = useState(null)
 
   useEffect(() => {
     graphql(
       BOT_TASK,
-      { 
-        appKey: app.key, 
-        id: match.params.id 
+      {
+        appKey: app.key,
+        id: match.params.id
       },
       {
         success: (data) => {
-          setBotTask(data.app.botTask);
-          setPaths(data.app.botTask.paths);
-          setSelectedPath(data.app.botTask.paths[0]);
+          setBotTask(data.app.botTask)
+          setPaths(data.app.botTask.paths)
+          setSelectedPath(data.app.botTask.paths[0])
         },
-        error: (err) => {
-          debugger;
-        },
+        error: (_err) => {
+        }
       }
-    );
+    )
 
-    dispatch(setCurrentSection("Bot"));
-    dispatch(setCurrentPage(`bot${mode}`));
-  }, []);
+    dispatch(setCurrentSection('Bot'))
+    dispatch(setCurrentPage(`bot${mode}`))
+  }, [])
 
   const saveData = () => {
-
-    const snake_case_paths = paths.map((o)=> {
-      let b = Object.assign({}, o, { follow_actions: o.followActions } ) 
-      delete b['followActions']
+    const snake_case_paths = paths.map((o) => {
+      const b = Object.assign({}, o, { follow_actions: o.followActions })
+      delete b.followActions
       return b
-     })
+    })
 
     graphql(
       UPDATE_BOT_TASK,
@@ -196,24 +192,24 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           title: botTask.title,
           scheduling: botTask.scheduling,
           state: botTask.state,
-          urls: botTask.urls,
-        },
+          urls: botTask.urls
+        }
       },
       {
         success: (data) => {
-          setPaths(data.updateBotTask.botTask.paths);
-          setErrors(data.updateBotTask.botTask.errors);
-          //setSelectedPath(data.updateBotTask.botTask.paths[0]);
-          dispatch(successMessage("bot updated"));
+          setPaths(data.updateBotTask.botTask.paths)
+          setErrors(data.updateBotTask.botTask.errors)
+          // setSelectedPath(data.updateBotTask.botTask.paths[0]);
+          dispatch(successMessage('bot updated'))
         },
-        error: (err) => {
-          dispatch(errorMessage("bot not updated"));
-        },
+        error: (_err) => {
+          dispatch(errorMessage('bot not updated'))
+        }
       }
-    );
-  };
+    )
+  }
 
-  const toggleBotState = ()=>{
+  const toggleBotState = () => {
     graphql(
       UPDATE_BOT_TASK,
       {
@@ -221,23 +217,23 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         id: match.params.id,
         params: {
           state: botTask.state === 'enabled' ? null : 'enabled'
-        },
+        }
       },
       {
         success: (data) => {
           setBotTask(data.updateBotTask.botTask)
-          dispatch(successMessage("bot updated"));
+          dispatch(successMessage('bot updated'))
         },
-        error: (err) => {
-          dispatch(errorMessage("bot not updated"));
-        },
+        error: (_err) => {
+          dispatch(errorMessage('bot not updated'))
+        }
       }
-    );
+    )
   }
 
   const handleTabChange = (e, i) => {
-    setTabValue(i);
-  };
+    setTabValue(i)
+  }
 
   const tabsContent = () => {
     return (
@@ -247,7 +243,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         textColor="inherit"
         tabs={[
           {
-            label: "Stats",
+            label: 'Stats',
             content: (
               <React.Fragment>
                 {!isEmpty(botTask) && (
@@ -257,14 +253,14 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                     data={botTask}
                     getStats={getStats}
                     actions={actions}
-                    mode={"counter_blocks"}
+                    mode={'counter_blocks'}
                   />
                 )}
               </React.Fragment>
-            ),
+            )
           },
           {
-            label: "Settings",
+            label: 'Settings',
             content: (
               <BotTaskSetting
                 app={app}
@@ -273,29 +269,29 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 saveData={saveData}
                 errors={errors}
               />
-            ),
+            )
           },
           {
-            label: "Audience",
+            label: 'Audience',
             content: (
               <Segment
                 app={app}
                 data={botTask}
                 updateData={(task) => {
-                  setBotTask(task);
+                  setBotTask(task)
                 }}
                 handleSave={(segments) => {
                   setBotTask(
                     Object.assign({}, botTask, { segments: segments })
-                  );
-                  saveData();
+                  )
+                  saveData()
                 }}
               />
-            ),
+            )
           },
           {
-            label: "Editor",
-            content: <BotPathEditor 
+            label: 'Editor',
+            content: <BotPathEditor
               app={app}
               botTask={botTask}
               updateData={setBotTask}
@@ -306,107 +302,94 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
               searchFields={searchFields}
               selectedPath={selectedPath}
               setSelectedPath={setSelectedPath}
-            />,
-          },
+            />
+          }
         ]}
       ></Tabs>
-    );
-  };
+    )
+  }
 
   const getStats = (params, cb) => {
     graphql(BOT_TASK_METRICS, params, {
       success: (data) => {
         setSearchFields(data.app.searcheableFields)
-        const d = data.app.botTask;
-        cb(d);
+        const d = data.app.botTask
+        cb(d)
       },
-      error: (error) => {},
-    });
-  };
-
-  function toggleButton (clickHandler) {
-    return (
-      <div>
-        <Button
-          onClick={clickHandler}>
-          Create Users & Leads
-        </Button>
-      </div>
-    )
+      error: (_error) => {}
+    })
   }
 
-  function optionsForFilter() {
+  function optionsForFilter () {
     return [
       {
-        title: "Clone",
-        description: "clones the campaign",
+        title: 'Clone',
+        description: 'clones the campaign',
         icon: <CopyContentIcon />,
-        id: "enabled",
-        state: "enabled",
+        id: 'enabled',
+        state: 'enabled',
         onClick: cloneCampaign
       }
     ]
   }
 
-  function cloneCampaign(e){
-
+  function cloneCampaign (_e) {
     const params = {
       appKey: app.key,
-      id: `${botTask.id}`,
-    };
+      id: `${botTask.id}`
+    }
 
     graphql(CLONE_MESSAGE, params, {
-      success: (data) => {
+      success: (_data) => {
         dispatch(successMessage(
-          "cloned successfully"
-        ));
+          'cloned successfully'
+        ))
 
-        //this.props.init()
+        // this.props.init()
       },
       error: () => {
         dispatch(errorMessage(
-          "error while cloning record"
-        ));
-      },
-    });
-
+          'error while cloning record'
+        ))
+      }
+    })
   }
 
   return (
     <div>
       <Content>
-        <ContentHeader 
-          title={botTask.title} 
+        <ContentHeader
+          title={botTask.title}
           items={[]}
           actions={
             <div className="flex">
-              <UpgradeButton 
-              classes={
+              <UpgradeButton
+                classes={
                 `absolute z-10 ml-1 mt-3 transform w-screen 
                 max-w-md px-2 origin-top-right right-0
                 md:-ml-4 sm:px-0 lg:ml-0
                 lg:right-2/6 lg:translate-x-1/6`
-              }
-              label="Activate Bot Task"
-              feature="BotTasks">
-            
-              <Button
-                className="mr-2"
-                //icon= <CheckCircle />
-                id="enabled"
-                state="enabled"
-                variant={"success"}
-                onClick={toggleBotState}
-              >
-                {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
-              </Button>
+                }
+                label="Activate Bot Task"
+                feature="BotTasks">
 
-            </UpgradeButton>
+                <Button
+                  className="mr-2"
+                  // icon= <CheckCircle />
+                  id="enabled"
+                  state="enabled"
+                  variant={'success'}
+                  onClick={toggleBotState}
+                >
+                  {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
+                </Button>
+
+              </UpgradeButton>
 
               <FilterMenu
                 options={optionsForFilter()}
                 value={'Actions'}
-                filterHandler={(option, closeHandler ) => {
+                filterHandler={(option, _closeHandler) => {
                   return (option.onClick && option.onClick(option))
                 }}
                 position={'right'}
@@ -418,9 +401,9 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                       color="inherit"
                       size="small"
                     >
-                      {"actions"}
+                      {'actions'}
                     </Button>
-                  );
+                  )
                 }}
               />
             </div>
@@ -429,206 +412,204 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         {tabsContent()}
       </Content>
     </div>
-  );
-};
+  )
+}
 
-
-export function BotPathEditor({
-  saveData, 
-  paths, 
-  app, 
-  setPaths, 
+export function BotPathEditor ({
+  saveData,
+  paths,
+  app,
+  setPaths,
   searchFields,
-  selectedPath, 
+  selectedPath,
   setSelectedPath,
   botTask
-}){
-
-  const [isOpen, setOpen] = useState(false);
-  const [changed, setChanged] = useState(null);
+}) {
+  const [isOpen, setOpen] = useState(false)
+  // const [changed, setChanged] = useState(null)
   const [openPackagePanel, setOpenPackagePanel] = useState(null)
 
-
-  const open = () => setOpen(true);
-  const close = () => setOpen(false);
+  const open = () => setOpen(true)
+  const close = () => setOpen(false)
 
   const showPathDialog = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleSelection = (item) => {
-    setSelectedPath(item);
-  };
+    setSelectedPath(item)
+  }
 
   const addSectionMessage = (path) => {
     const dummy = {
       step_uid: create_UUID(),
-      type: "messages",
+      type: 'messages',
       messages: [
         {
           app_user: {
-            display_name: "bot",
-            email: "bot@chasqik.com",
+            display_name: 'bot',
+            email: 'bot@chasqik.com',
             id: 1,
-            kind: "agent",
+            kind: 'agent'
           },
           serialized_content:
             '{"blocks":[{"key":"9oe8n","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-          html_content: "--***--",
-        },
-      ],
-    };
+          html_content: '--***--'
+        }
+      ]
+    }
 
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
+        newPath = Object.assign({}, path, { steps: newSteps })
+        return newPath
       } else {
-        return o;
+        return o
       }
-    });
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
-  };
+    })
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
 
   const addWaitUserMessage = (path) => {
-    const id = create_UUID();
+    const id = create_UUID()
     const dummy = {
       step_uid: id,
-      type: "messages",
+      type: 'messages',
       messages: [],
       controls: {
-        type: "wait_for_reply",
-        schema: [],
-      },
-    };
+        type: 'wait_for_reply',
+        schema: []
+      }
+    }
 
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
+        newPath = Object.assign({}, path, { steps: newSteps })
+        return newPath
       } else {
-        return o;
+        return o
       }
-    });
+    })
 
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
-  };
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
 
   const addSectionControl = (path) => {
-    const id = create_UUID();
+    const id = create_UUID()
     const dummy = {
       step_uid: id,
-      type: "messages",
+      type: 'messages',
       messages: [],
       controls: {
-        type: "ask_option",
+        type: 'ask_option',
         schema: [
           {
             id: create_UUID(),
-            element: "button",
-            label: "write here",
-            next_step_uuid: null,
-          },
-          //{element: "button", label: "quiero contratar el producto", next_step_uuid: 3},
-          //{element: "button", label: "estoy solo mirando", next_step_uuid: 4}
-        ],
-      },
-    };
+            element: 'button',
+            label: 'write here',
+            next_step_uuid: null
+          }
+          // {element: "button", label: "quiero contratar el producto", next_step_uuid: 3},
+          // {element: "button", label: "estoy solo mirando", next_step_uuid: 4}
+        ]
+      }
+    }
 
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
+        newPath = Object.assign({}, path, { steps: newSteps })
+        return newPath
       } else {
-        return o;
+        return o
       }
-    });
+    })
 
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
-  };
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
 
   const addDataControl = (path) => {
-    const id = create_UUID();
+    const id = create_UUID()
     const dummy = {
       step_uid: id,
       messages: [],
       controls: {
-        type: "data_retrieval",
+        type: 'data_retrieval',
         schema: [
           {
             id: create_UUID(),
-            element: "input",
-            type: "text",
-            placeholder: "enter email",
-            name: "email",
-            label: "enter your email",
-          },
-        ],
-      },
-    };
+            element: 'input',
+            type: 'text',
+            placeholder: 'enter email',
+            name: 'email',
+            label: 'enter your email'
+          }
+        ]
+      }
+    }
 
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
+        newPath = Object.assign({}, path, { steps: newSteps })
+        return newPath
       } else {
-        return o;
+        return o
       }
-    });
+    })
 
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
-  };
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
 
   const insertAddPackage = (p) => {
-    const {provider} = p
-    const id = create_UUID();
+    const { provider } = p
+    const id = create_UUID()
     const dummy = {
       step_uid: id,
       messages: [],
       controls: {
-        type: "app_package",
+        type: 'app_package',
         app_package: provider.name,
-        schema: provider.schema,
+        schema: provider.schema
       }
-    };
+    }
 
     const path = openPackagePanel
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
+    const newSteps = path.steps.concat(dummy)
+    let newPath = null
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
+        newPath = Object.assign({}, path, { steps: newSteps })
+        return newPath
       } else {
-        return o;
+        return o
       }
-    });
+    })
 
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
-  };
+    setPaths(newPaths)
+    setSelectedPath(newPath) // redundant
+  }
 
   const addEmptyPath = (data) => {
-    addPath(data);
-    close();
-  };
+    addPath(data)
+    close()
+    setSelectedPath(data)
+  }
 
   const addAppPackage = (path) => {
     setOpenPackagePanel(path)
@@ -637,116 +618,118 @@ export function BotPathEditor({
   const onDragEnd = (result) => {
     // dropped outside the list
     if (!result.destination) {
-      return;
+      return
     }
 
     // avoid sort the first item
-    if (result.destination.index === 0) 
-      return
+    if (result.destination.index === 0) { return }
 
     const newPaths = reorder(
       paths,
       result.source.index,
       result.destination.index
-    );
+    )
 
-    setPaths(newPaths);
-  };
+    setPaths(newPaths)
+  }
 
   const addPath = (path) => {
-    const newPaths = paths.concat(path);
-    setPaths(newPaths);
-  };
+    const newPaths = paths.concat(path)
+    setPaths(newPaths)
+    
+  }
 
   const updatePath = (path) => {
-    const newPaths = paths.map((o) => (o.id === path.id ? path : o));
-    setPaths(newPaths);
-    setSelectedPath(newPaths.find((o) => o.id === path.id)); // redundant
-  };
+    const newPaths = paths.map((o) => (o.id === path.id ? path : o))
+    setPaths(newPaths)
+    setSelectedPath(newPaths.find((o) => o.id === path.id)) // redundant
+  }
 
-    return (
-      <div className="flex justify-between my-4 border-1 border-gray-400 rounded-md shadow">
-        {isOpen && (
-          <PathDialog
-            isOpen={isOpen}
-            open={open}
-            close={close}
-            submit={addEmptyPath}
-          />
-        )}
+  return (
+    <div className="flex justify-between my-4 border-1 border-gray-400 rounded-md shadow">
+      {isOpen && (
+        <PathDialog
+          isOpen={isOpen}
+          open={open}
+          close={close}
+          submit={addEmptyPath}
+        />
+      )}
 
-        <div className="w-2/4 bg-gray-50 flex flex-col py-3">
+      <div className="w-2/4 bg-gray-50 flex flex-col py-3">
 
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppablePaths">
-              {(provided, snapshot) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  style={getPathStyle(snapshot.isDraggingOver)}
-                >
-                  {paths.map((item, index) => ( 
-                    <Draggable
-                      key={`path-list-${item.id}-${index}`}
-                      draggableId={item.id}
-                      index={index}
-                      isDragDisabled={index === 0}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                          className="mb-2 mx-2 items-center"
-                        >
-                          
-                          <strong className="mr-2">{index}.</strong>
-                          
-                          <div 
-                            onClick={(e) => handleSelection(item)}
-                            className="w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center">
-                            
-                            <div 
-                              first={true}
-                              className={`mr-2 ${index === 0 ? 'hidden' : 'block'}`} 
-                              {...provided.dragHandleProps}>
-                              <DragHandle />
-                            </div>
-                          
-                            <span>
-                              {item.title}
-                            </span>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppablePaths">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={getPathStyle(snapshot.isDraggingOver)}
+              >
+                {paths.map((item, index) => (
+                  <Draggable
+                    key={`path-list-${item.id}-${index}`}
+                    draggableId={item.id}
+                    index={index}
+                    isDragDisabled={index === 0}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                        className="mb-2 mx-2 items-center"
+                      >
+
+                        <strong className="mr-2">{index}.</strong>
+
+                        <button
+                          onClick={(_e) => handleSelection(item)}
+                          className={`
+                          ${ selectedPath && selectedPath.id === item.id ? 'ring-2 ring-black' : ''}
+                          focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
+                          cursor-pointer w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center`}>
+
+                          <div
+                            first={true}
+                            className={`mr-2 ${index === 0 ? 'hidden' : 'block'}`}
+                            {...provided.dragHandleProps}>
+                            <DragHandle />
                           </div>
 
-                          
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-            </DragDropContext>
+                          <span>
+                            {item.title}
+                          </span>
+                        </button>
 
-          <Button
-            size="small"
-            variant={"flat-dark"}
-            onClick={showPathDialog}
-            color="primary"
-            className="self-center"
-          >
-            <PlusIcon />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        <Button
+          size="small"
+          variant={'flat-dark'}
+          onClick={showPathDialog}
+          color="primary"
+          className="self-center"
+        >
+          <PlusIcon />
             Add new path
-          </Button>
-        </div>
+        </Button>
+      </div>
 
-        <div className="w-full shadow">
-          <div>
-              {selectedPath && 
+      <div className="w-full shadow">
+        <div>
+          {selectedPath &&
                 <ErrorBoundary>
                   <Path
                     botTask={botTask}
@@ -765,109 +748,108 @@ export function BotPathEditor({
                     searchFields={searchFields}
                   />
                 </ErrorBoundary>
-              }
+          }
 
-            <div className="m-4 flex justify-center">
-              <Button
-                variant="success"
-                color="primary"
-                size="medium"
-                onClick={saveData}
-              >
+          <div className="m-4 flex justify-center">
+            <Button
+              variant="success"
+              color="primary"
+              size="medium"
+              onClick={saveData}
+            >
                 Save data
-              </Button>
-            </div>
+            </Button>
           </div>
         </div>
-
-
-        {openPackagePanel && (
-          <AppPackagePanel
-            open={openPackagePanel}
-            kind={'bots'}
-            close={() => {
-              setOpenPackagePanel(false)
-            }}
-            insertComment={(data) => {
-              insertAddPackage(data)
-              setOpenPackagePanel(false)
-            }}
-          />
-        )}
       </div>
-    );
+
+      {openPackagePanel && (
+        <AppPackagePanel
+          open={openPackagePanel}
+          kind={'bots'}
+          close={() => {
+            setOpenPackagePanel(false)
+          }}
+          insertComment={(data) => {
+            insertAddPackage(data)
+            setOpenPackagePanel(false)
+          }}
+        />
+      )}
+    </div>
+  )
 }
 
-function FollowActionsSelect({ app, path, updatePath }) {
+function FollowActionsSelect ({ app, path, updatePath }) {
   const options = [
-    { key: "close", name: "Close conversation", value: null },
-    { key: "assign", name: "Assign Agent", value: null },
-    //{action_name: "tag", value: null },
-    //{action_name: "app_content", value: null },
-  ];
+    { key: 'close', name: 'Close conversation', value: null },
+    { key: 'assign', name: 'Assign Agent', value: null }
+    // {action_name: "tag", value: null },
+    // {action_name: "app_content", value: null },
+  ]
 
-  //console.log("PATH FOLLOW ACTIONS", path.followActions, path)
+  // console.log("PATH FOLLOW ACTIONS", path.followActions, path)
 
-  const [selectMode, setSelectMode] = useState(null);
-  const [actions, setActions] = useState(path.followActions || []);
-
-  useEffect(() => {
-    updateData();
-  }, [JSON.stringify(actions)]);
+  //const [selectMode, setSelectMode] = useState(null)
+  const [actions, setActions] = useState(path.followActions || [])
 
   useEffect(() => {
-    setActions(path.followActions || []);
-  }, [path.id]);
+    updateData()
+  }, [JSON.stringify(actions)])
 
-  function updateData() {
-    if (!path) return;
-    
+  useEffect(() => {
+    setActions(path.followActions || [])
+  }, [path.id])
+
+  function updateData () {
+    if (!path) return
+
     const newPath = Object.assign({}, path, {
-      //follow_actions: actions,
-      followActions: actions,
-    });
-    updatePath(newPath);
+      // follow_actions: actions,
+      followActions: actions
+    })
+    updatePath(newPath)
   }
 
-  function renderAddButton() {
+  /*function renderAddButton () {
     return (
       <Button
         variant="outlined"
         onClick={() => {
-          setSelectMode(true);
+          setSelectMode(true)
         }}
       >
         add option
       </Button>
-    );
+    )
+  }*/
+
+  function handleClick (a) {
+    setActions(actions.concat(a))
   }
 
-  function handleClick(a) {
-    setActions(actions.concat(a));
+  function renderActions () {
+    return actions.map((o, i) => renderActionType(o, i))
   }
 
-  function renderActions() {
-    return actions.map((o, i) => renderActionType(o, i));
+  function availableOptions () {
+    if (actions.length === 0) return options
+    return options.filter((o) => !actions.find((a) => a.key === o.key))
   }
 
-  function availableOptions() {
-    if (actions.length === 0) return options;
-    return options.filter((o) => !actions.find((a) => a.key === o.key));
+  function updateAction (action, index) {
+    const newActions = actions.map((o, i) => (i === index ? action : o))
+    setActions(newActions)
   }
 
-  function updateAction(action, index) {
-    const newActions = actions.map((o, i) => (i === index ? action : o));
-    setActions(newActions);
+  function removeAction (index) {
+    const newActions = actions.filter((o, i) => i != index)
+    setActions(newActions)
   }
 
-  function removeAction(index) {
-    const newActions = actions.filter((o, i) => i != index);
-    setActions(newActions);
-  }
-
-  function renderActionType(action, i) {
+  function renderActionType (action, i) {
     switch (action.key) {
-      case "assign":
+      case 'assign':
         return (
           <AgentSelector
             app={app}
@@ -879,7 +861,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
           >
             {action.name}
           </AgentSelector>
-        );
+        )
 
       default:
         return (
@@ -888,34 +870,34 @@ function FollowActionsSelect({ app, path, updatePath }) {
             key={action.key}
           >
             <p>{action.name}</p>
-            <Button 
+            <Button
               variant="icon"
-              color={"secondary"} 
+              color={'secondary'}
               onClick={() => removeAction(i)}>
               <DeleteForeverRounded />
             </Button>
           </div>
-        );
+        )
     }
   }
 
-  const menuOptions = availableOptions();
+  const menuOptions = availableOptions()
 
   return (
     <div>
       {renderActions()}
 
-      { 
+      {
         menuOptions.length > 0 &&
         <div className="py-4">
           <Dropdown
             isOpen={false}
-            labelButton={"add"}
+            labelButton={'add'}
             triggerButton={(cb) => (
               <Button
                 onClick={cb}
                 color="primary"
-                size={"small"}
+                size={'small'}
                 variant="outlined"
                 aria-label="add"
               >
@@ -926,67 +908,67 @@ function FollowActionsSelect({ app, path, updatePath }) {
           >
             <List>
               {menuOptions.map((o) => (
-                <ListItem key={o.key} onClick={()=> handleClick(o)}>
+                <ListItem key={o.key} onClick={() => handleClick(o)}>
                   {o.name}
                 </ListItem>
               ))}
             </List>
-          </Dropdown> 
+          </Dropdown>
         </div>
       }
 
     </div>
-  );
+  )
 }
 
-function AgentSelector({ app, updateAction, removeAction, action, index }) {
-  const [selected, setSelected] = React.useState(action.value);
-  const [agents, setAgents] = React.useState([]);
-  const [mode, setMode] = React.useState("button");
+function AgentSelector ({ app, updateAction, removeAction, action, index }) {
+  const [selected, setSelected] = React.useState(action.value)
+  const [agents, setAgents] = React.useState([])
+  const [_mode, setMode] = React.useState('button')
 
-  function getAgents() {
+  function getAgents () {
     graphql(
       AGENTS,
       { appKey: app.key },
       {
         success: (data) => {
-          setAgents(data.app.agents);
+          setAgents(data.app.agents)
         },
-        error: (error) => {},
+        error: (_error) => {}
       }
-    );
+    )
   }
 
-  useEffect(()=>{
-    if(action.value) setSelected(action.value)
-  },[action.value])
+  useEffect(() => {
+    if (action.value) setSelected(action.value)
+  }, [action.value])
 
   useEffect(() => {
-    getAgents();
-  }, []);
+    getAgents()
+  }, [])
 
   useEffect(() => {
-    const agent = agents.find((o) => selected === o.id);
+    const agent = agents.find((o) => selected === o.id)
     updateAction(
       Object.assign({}, action, { value: agent && agent.id }),
       index
-    );
-  }, [selected]);
+    )
+  }, [selected])
 
-  function handleChange(e) {
-    setSelected(e.value);
-    setMode("button");
+  function handleChange (e) {
+    setSelected(e.value)
+    setMode('button')
   }
 
-  function selectedAgent() {
-    const agent = agents.find((o) => selected === o.id);
-    if (!agent) return "";
-    return {label: agent.name || agent.email, value: selected};
+  function selectedAgent () {
+    const agent = agents.find((o) => selected === o.id)
+    if (!agent) return ''
+    return { label: agent.name || agent.email, value: selected }
   }
 
   return (
     <div>
-    
+
       <div className="flex items-center">
         <div className="w-64">
           <Input
@@ -996,7 +978,7 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
             defaultValue={selectedAgent()}
             name={'agent'}
             id={'agent'}
-            label={"Assignee Agent"}
+            label={'Assignee Agent'}
             data={{}}
             options={
               agents.map((o) => ({ label: o.email, value: o.id }))
@@ -1005,26 +987,25 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
         </div>
 
         <div>
-          <Button 
-            variant={"icon"} 
+          <Button
+            variant={'icon'}
             onClick={() => removeAction(index)}>
             <DeleteForeverRounded />
           </Button>
         </div>
       </div>
-    
+
     </div>
-  );
+  )
 }
 
 const FirstPath = ({
-  controlStep, 
-  path, 
-  options, 
-  appendItemControl, 
-  updateControlPathSelector 
-})=>{
-
+  controlStep,
+  path,
+  options,
+  appendItemControl,
+  updateControlPathSelector
+}) => {
   return (
     <div className="m-5">
 
@@ -1033,31 +1014,30 @@ const FirstPath = ({
       </p>
 
       <ItemsContainer className="p-4">
-      
+
         <input placeholder="can we help ?"
-          defaultValue={controlStep.controls.label} 
+          defaultValue={controlStep.controls.label}
           className="py-2 mb-4 border-dotted border-gray-400 focus:border-gray-900 border-b-2 border-b-red focus:outline-none outline-none"
-          onChange={(e)=> {
-              updateControlPathSelector(
-                { ...controlStep.controls, label: e.currentTarget.value},
-                controlStep
-              ) 
-            }
+          onChange={(e) => {
+            updateControlPathSelector(
+              { ...controlStep.controls, label: e.currentTarget.value },
+              controlStep
+            )
+          }
           }
         />
 
-        <FollowActions 
-          controlStep={controlStep} 
+        <FollowActions
+          controlStep={controlStep}
           path={path}
           update={(opts) =>
             updateControlPathSelector(opts, controlStep)
           }
           options={options}
           appendItemControl={appendItemControl}
-        />      
-      
-      </ItemsContainer>
+        />
 
+      </ItemsContainer>
 
     </div>
   )
@@ -1074,146 +1054,141 @@ const Path = ({
   addDataControl,
   updatePath,
   setPaths,
-  saveData,
   setSelectedPath,
   searchFields,
-  app,
+  app
 }) => {
-
   const [showActions, setShowActions] = React.useState(false)
 
   const addStepMessage = (path) => {
-    addSectionMessage(path);
-  };
+    addSectionMessage(path)
+  }
 
   const deleteItem = (path, step) => {
-    const newSteps = path.steps.filter((o, i) => o.step_uid != step.step_uid);
-    const newPath = Object.assign({}, path, { steps: newSteps });
-    updatePath(newPath);
-  };
+    const newSteps = path.steps.filter((o ) => o.step_uid != step.step_uid)
+    const newPath = Object.assign({}, path, { steps: newSteps })
+    updatePath(newPath)
+  }
 
   const deletePath = (path) => {
-    const newPaths = paths.filter((o) => o.id != path.id);
-    console.log(newPaths);
-    setPaths(newPaths);
-    setSelectedPath(null);
-  };
+    const newPaths = paths.filter((o) => o.id != path.id)
+    console.log(newPaths)
+    setPaths(newPaths)
+    setSelectedPath(null)
+  }
 
   const onDragEnd = (path, result) => {
     // dropped outside the list
     if (!result.destination) {
-      return;
+      return
     }
 
     let newSteps = reorder(
-      path.steps.filter((o)=> !o.controls || o.controls.type !== "ask_option" ),
+      path.steps.filter((o) => !o.controls || o.controls.type !== 'ask_option'),
       result.source.index,
       result.destination.index
-    );
+    )
 
-    const controlStep = path.steps.find((o)=> o.controls && o.controls.type === "ask_option" ) 
+    const controlStep = path.steps.find((o) => o.controls && o.controls.type === 'ask_option')
 
-    if(controlStep) 
-      newSteps = newSteps.concat(controlStep)
+    if (controlStep) { newSteps = newSteps.concat(controlStep) }
 
     const newPath = { ...path, steps: newSteps }
 
-    updatePath(newPath);
-  };
+    updatePath(newPath)
+  }
 
   const handleTitleChange = (e) => {
-    const value = e.target.value;
-    const newPath = Object.assign({}, path, { title: value });
-    updatePath(newPath);
-  };
+    const value = e.target.value
+    const newPath = Object.assign({}, path, { title: value })
+    updatePath(newPath)
+  }
 
   const options = [
     {
-      name: "Add Message Bubble",
-      key: "add-message",
+      name: 'Add Message Bubble',
+      key: 'add-message',
       onClick: () => {
-        addStepMessage(path);
-      },
-    },
-    /*{
+        addStepMessage(path)
+      }
+    }, /* {
       name: "Add path chooser",
       key: "add-path-choooser",
       onClick: () => {
         addSectionControl(path);
       },
-    },*/
-    ,
+    }, */
+
     {
-      name: "Wait for user input",
-      key: "wait-user-input",
+      name: 'Wait for user input',
+      key: 'wait-user-input',
       onClick: () => {
-        addWaitUserMessage(path);
-      },
+        addWaitUserMessage(path)
+      }
     },
     {
-      name: "Ask data input",
-      key: "ask-data-input",
+      name: 'Ask data input',
+      key: 'ask-data-input',
       onClick: () => {
-        addDataControl(path);
-      },
+        addDataControl(path)
+      }
     },
     {
-      name: "Add App",
-      key: "add-app-package",
+      name: 'Add App',
+      key: 'add-app-package',
       onClick: () => {
-        addAppPackage(path);
-      },
-    },
-  ];
+        addAppPackage(path)
+      }
+    }
+  ]
 
   const updateControlPathSelector = (controls, step) => {
-    updateControls(controls, step);
-  };
+    updateControls(controls, step)
+  }
 
   const appendItemControl = (step) => {
     const item = {
       id: create_UUID(),
-      label: "example",
-      element: "button",
-      next_step_uuid: null,
-    };
+      label: 'example',
+      element: 'button',
+      next_step_uuid: null
+    }
     const newControls = Object.assign({}, step.controls, {
       schema: step.controls.schema.concat(item, step),
-      wait_for_input: true,
-    });
-    updateControls(newControls, step);
-  };
+      wait_for_input: true
+    })
+    updateControls(newControls, step)
+  }
 
   const updateControls = (newControls, step) => {
-    const newStep = Object.assign({}, step, { controls: newControls });
+    const newStep = Object.assign({}, step, { controls: newControls })
 
     const newSteps = path.steps.map((o) => {
-      return o.step_uid === newStep.step_uid ? newStep : o;
-    });
+      return o.step_uid === newStep.step_uid ? newStep : o
+    })
 
-    const newPath = Object.assign({}, path, { steps: newSteps });
-    updatePath(newPath);
-  };
+    const newPath = Object.assign({}, path, { steps: newSteps })
+    updatePath(newPath)
+  }
 
-  const findControlItemStep = ()=>(
-    path.steps.find((o)=> o.controls && o.controls.type === "ask_option" )
+  const findControlItemStep = () => (
+    path.steps.find((o) => o.controls && o.controls.type === 'ask_option')
   )
 
   const controlStep = findControlItemStep()
 
   const stepOptions = paths.map((o) => ({
     value: o.steps[0] && o.steps[0].step_uid,
-    label: o.title,
-  }));
+    label: o.title
+  }))
 
-  const findPathIndex = paths.findIndex((p)=> p.id === path.id)
+  const findPathIndex = paths.findIndex((p) => p.id === path.id)
 
-  const renderControls = ()=>{
+  const renderControls = () => {
     return (
       <div className="w-full p-6 border-b-2 border-gray-200">
         <div className="flex justify-between">
 
-         
           <div className="flex items-center">
             <div className="text-lg text-center text-gray-900 font-semibold leading-4 my-6 mr-3">
               {findPathIndex}
@@ -1222,7 +1197,7 @@ const Path = ({
               type="text"
               value={path.title}
               onChange={handleTitleChange}
-              hint={"path title"}
+              hint={'path title'}
               variant={'underline'}
             />
           </div>
@@ -1237,7 +1212,7 @@ const Path = ({
               >
                 <DeleteForever/>
                 delete path
-              
+
               </Button>
             </div>
           }
@@ -1246,25 +1221,24 @@ const Path = ({
     )
   }
 
-  const needsLock = ()=>{
+  const needsLock = () => {
     return findPathIndex === 0 && botTask.botType === 'new_conversations'
-  } 
+  }
 
-  if(findPathIndex === 0 && botTask.botType === 'new_conversations'){ // and type new_conversations
-    return  (
+  if (findPathIndex === 0 && botTask.botType === 'new_conversations') { // and type new_conversations
+    return (
       <div>
         {renderControls()}
-        <FirstPath 
+        <FirstPath
           path={path}
           appendItemControl={appendItemControl}
           updateControlPathSelector={updateControlPathSelector}
-          controlStep={controlStep} 
+          controlStep={controlStep}
           options={stepOptions}>
-        </FirstPath>      
+        </FirstPath>
       </div>
     )
   }
-
 
   return (
     <div>
@@ -1290,12 +1264,12 @@ const Path = ({
 
             <Dropdown
               isOpen={false}
-              labelButton={"add"}
+              labelButton={'add'}
               triggerButton={(cb) => (
                 <Button
                   onClick={cb}
                   color="primary"
-                  size={"small"}
+                  size={'small'}
                   variant="outlined"
                   aria-label="add"
                 >
@@ -1306,8 +1280,8 @@ const Path = ({
             >
               <List>
                 {options.map((o) => (
-                  <ListItem 
-                    key={o.key} 
+                  <ListItem
+                    key={o.key}
                     onClick={o.onClick}>
                     {o.name}
                   </ListItem>
@@ -1318,22 +1292,22 @@ const Path = ({
 
         </ItemsContainer>
 
-        {/*<hr/>*/}
+        {/* <hr/> */}
 
       </div>
 
-      <hr  className="my-4 w-full border-4" />
+      <hr className="my-4 w-full border-4" />
 
       <div className="p-4 flex flex-col justify-center items-center">
-        
+
         <div className="flex">
           {
             !controlStep && !showActions && (!path.followActions || path.followActions.length === 0) &&
               <div className="flex items-center mr-4">
-                Continue bot with 
-                <Button variant="outlined" 
+                Continue bot with
+                <Button variant="outlined"
                   className="ml-2"
-                  onClick={()=> addSectionControl(path)}>
+                  onClick={() => addSectionControl(path)}>
                   reply button
                 </Button>
               </div>
@@ -1343,9 +1317,9 @@ const Path = ({
             !controlStep && !showActions && (!path.followActions || path.followActions.length < 1) &&
               <div className="flex items-center">
                 End bot with
-                <Button variant="outlined" 
+                <Button variant="outlined"
                   className="ml-2"
-                  onClick={()=> setShowActions(true)}>
+                  onClick={() => setShowActions(true)}>
                   follow actions
                 </Button>
               </div>
@@ -1353,24 +1327,24 @@ const Path = ({
 
         </div>
 
-        {controlStep && 
+        {controlStep &&
           <PathActionsContainer className="w-3/4 mt-8">
 
             <p className="text-lg leading-6 font-medium text-gray-900 py-4">
               Continue bot with reply button
-            </p> 
+            </p>
 
             <ItemButtons className="self-end">
               <Button
-                variant={"icon"}
+                variant={'icon'}
                 onClick={() => deleteItem(path, controlStep)}
               >
                 <DeleteForever />
               </Button>
             </ItemButtons>
 
-            <FollowActions 
-              controlStep={controlStep} 
+            <FollowActions
+              controlStep={controlStep}
               path={path}
               update={(opts) =>
                 updateControlPathSelector(opts, controlStep)
@@ -1379,8 +1353,8 @@ const Path = ({
               searchFields={searchFields}
               appendItemControl={appendItemControl}
             />
-      
-          </PathActionsContainer> 
+
+          </PathActionsContainer>
         }
 
         {
@@ -1396,7 +1370,7 @@ const Path = ({
                 variant="icon"
                 color="secondary"
                 onClick={() => {
-                  updatePath({...path, followActions: [] })
+                  updatePath({ ...path, followActions: [] })
                   setShowActions(false)
                 }}
               >
@@ -1404,25 +1378,25 @@ const Path = ({
               </Button>
             </div>
 
-            <FollowActionsSelect 
-              app={app} 
-              updatePath={updatePath} 
-              path={path} 
+            <FollowActionsSelect
+              app={app}
+              updatePath={updatePath}
+              path={path}
             />
 
-            {/*<p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+            {/* <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
               Hint: Follow actions will be triggered on paths that ends with
               message bubbles. Paths that ends with path chooser will not trigger
               follow actions.
-            </p>*/}
+            </p> */}
           </div>
         }
 
       </div>
-      
+
     </div>
-  );
-};
+  )
+}
 
 const FollowActions = ({
   controlStep,
@@ -1431,7 +1405,7 @@ const FollowActions = ({
   options,
   searchFields,
   appendItemControl
-})=>{
+}) => {
   return (
     <div className="flex flex-col">
       <div className="w-full">
@@ -1451,55 +1425,55 @@ const FollowActions = ({
       </div>
 
       {controlStep.controls &&
-        controlStep.controls.type === "ask_option" && (
-          <div
-            className="w-full flex items-center"
-            onClick={() => appendItemControl(controlStep)}
+        controlStep.controls.type === 'ask_option' && (
+        <div
+          className="w-full flex items-center"
+          onClick={() => appendItemControl(controlStep)}
+        >
+          <Button
+            color={'primary'}
+            variant={'outlined'}
+            size="small"
           >
-            <Button
-              color={"primary"}
-              variant={"outlined"}
-              size="small"
-            >
               + add data option
-            </Button>
+          </Button>
 
-            {/*<p>
+          {/* <p>
               Save this value to user properties
               <
               [save]
-            </p>*/}
-          </div>
-        )}
+            </p> */}
+        </div>
+      )}
     </div>
   )
 }
 
 const PathEditor = ({ step, message, path, updatePath }) => {
-  const [readOnly, setReadOnly] = useState(false);
+  const [readOnly, setReadOnly] = useState(false)
 
   const saveHandler = (html, serialized) => {
-    console.log("savr handler", serialized);
-  };
+    console.log('savr handler', serialized)
+  }
 
-  const saveContent = ({ html, serialized }) => {
+  const saveContent = ({ _html, serialized }) => {
     const newMessage = Object.assign({}, message, {
-      serialized_content: serialized,
-    });
+      serialized_content: serialized
+    })
 
     const newSteps = path.steps.map((o) => {
       return o.step_uid === step.step_uid
         ? Object.assign({}, o, { messages: [newMessage] })
-        : o;
-    });
+        : o
+    })
 
-    const newPath = Object.assign({}, path, { steps: newSteps });
-    updatePath(newPath);
-  };
+    const newPath = Object.assign({}, path, { steps: newSteps })
+    updatePath(newPath)
+  }
 
   const uploadHandler = ({ serviceUrl, imageBlock }) => {
-    imageBlock.uploadCompleted(serviceUrl);
-  };
+    imageBlock.uploadCompleted(serviceUrl)
+  }
 
   return (
     <div className="shadow border border-gray-400 rounded p-6 relative bg-gray-100 max-w-sm">
@@ -1508,63 +1482,60 @@ const PathEditor = ({ step, message, path, updatePath }) => {
         serializedContent={message.serialized_content}
         read_only={readOnly}
         toggleEditable={() => {
-          setReadOnly(!readOnly);
+          setReadOnly(!readOnly)
         }}
         data={{
-          serialized_content: message.serialized_content,
+          serialized_content: message.serialized_content
         }}
         styles={{
-          lineHeight: "1.2em",
-          fontSize: "1em",
+          lineHeight: '1.2em',
+          fontSize: '1em'
         }}
         saveHandler={saveHandler}
-        updateState={({ status, statusButton, content }) => {
-          console.log("get content", content);
-          saveContent(content);
+        updateState={({ _status, _statusButton, content }) => {
+          console.log('get content', content)
+          saveContent(content)
         }}
       />
     </div>
-  );
-};
+  )
+}
 
 // APp Package Preview
 const AppPackageBlocks = ({ options, controls, path, step, update, searchFields }) => {
-  const { schema, type } = controls;
+  const { schema } = controls
 
   const updateOption = (value, option) => {
-    
-    const newOption = Object.assign({}, option, { next_step_uuid: value });
+    const newOption = Object.assign({}, option, { next_step_uuid: value })
     const newOptions = controls.schema.map((o) =>
       o.id === newOption.id ? newOption : o
-    );
-    const newControls = Object.assign({}, controls, { schema: newOptions });
-    update(newControls);
-  };
+    )
+    const newControls = Object.assign({}, controls, { schema: newOptions })
+    update(newControls)
+  }
 
   const removeOption = (index) => {
-    const newOptions = controls.schema.filter((o, i) => i != index);
-    const newControls = Object.assign({}, controls, { schema: newOptions });
-    update(newControls);
-  };
+    const newOptions = controls.schema.filter((o, i) => i != index)
+    const newControls = Object.assign({}, controls, { schema: newOptions })
+    update(newControls)
+  }
 
   const handleInputChange = (value, option, index) => {
-    const newOption = Object.assign({}, option, { label: value });
+    const newOption = Object.assign({}, option, { label: value })
     const newOptions = controls.schema.map((o, i) =>
       i === index ? newOption : o
-    );
-    const newControls = Object.assign({}, controls, { schema: newOptions });
-    update(newControls);
-  };
+    )
+    const newControls = Object.assign({}, controls, { schema: newOptions })
+    update(newControls)
+  }
 
   const renderElement = (item, index) => {
-    const element = item.element;
-
     switch (item.element) {
-      case "separator":
-        return <hr key={index} />;
-      case "input":
+      case 'separator':
+        return <hr key={index} />
+      case 'input':
         return (
-          <div className={"form-group"} key={index}>
+          <div className={'form-group'} key={index}>
 
             <DataInputSelect
               controls={controls}
@@ -1574,34 +1545,34 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
               item={item}
               options={
                 searchFields.map(
-                  (o)=> ({ 
-                    value: o.name, 
-                    label: o.name 
+                  (o) => ({
+                    value: o.name,
+                    label: o.name
                   })
                 )
               }
             />
           </div>
-        );
-      case "submit":
+        )
+      case 'submit':
         return (
-          <button key={index} style={{ alignSelf: "flex-end" }} type={"submit"}>
+          <button key={index} style={{ alignSelf: 'flex-end' }} type={'submit'}>
             {item.label}
           </button>
-        );
-      case "button":
+        )
+      case 'button':
         return (
           <div className="flex justify-between items-center relative">
             <div className="w-full">
               <Input
                 value={item.label}
-                type={"text"}
+                type={'text'}
                 onChange={(e) => handleInputChange(e.target.value, item, index)}
               />
             </div>
 
             <div className="w-3/4 px-2">
-              {controls && controls.type === "ask_option" ? (
+              {controls && controls.type === 'ask_option' ? (
                 <PathSelect
                   option={item}
                   options={options}
@@ -1616,79 +1587,80 @@ const AppPackageBlocks = ({ options, controls, path, step, update, searchFields 
               </Button>
             </div>
           </div>
-        );
+        )
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   const renderElements = () => {
-    return schema.map((o, i) => renderElement(o, i));
-  };
+    return schema.map((o, i) => renderElement(o, i))
+  }
 
-  return renderElements();
-};
+  return renderElements()
+}
 
 // SORTABLE
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+  const result = Array.from(list)
+  const [removed] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
 
-  return result;
-};
+  return result
+}
 
-const grid = 8;
+const grid = 8
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  //padding: grid * 2,
-  //margin: `0 0 ${grid}px 0`,
-  display: "flex",
-  justifyContent: "space-evenly",
+  userSelect: 'none',
+  // padding: grid * 2,
+  // margin: `0 0 ${grid}px 0`,
+  display: 'flex',
+  justifyContent: 'space-evenly',
   // change background colour if dragging
-  //background: isDragging ? "lightgreen" : "transparent",
+  // background: isDragging ? "lightgreen" : "transparent",
   paddingBottom: '1.2em',
   // styles we need to apply on draggables
-  ...draggableStyle,
-});
+  ...draggableStyle
+})
 
-const getListStyle = (isDraggingOver) => ({
-  //background: isDraggingOver ? "lightblue" : "transparent",
-  padding: grid,
-  //width: 250
-});
+const getListStyle = (_isDraggingOver) => ({
+  // background: isDraggingOver ? "lightblue" : "transparent",
+  padding: grid
+  // width: 250
+})
 
 const getPathStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "transparent",
-  padding: 2,
-  //width: 250
-});
+  background: isDraggingOver ? 'lightblue' : 'transparent',
+  padding: 2
+  // width: 250
+})
 
 class SortableSteps extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
   }
 
   onDragEnd = (result) => {
-    this.props.onDragEnd(this.props.path, result);
+    this.props.onDragEnd(this.props.path, result)
   };
 
-  render() {
-    const { steps, path, paths, deleteItem, 
-      updatePath, updateControlPathSelector ,
+  render () {
+    const {
+      steps, path, paths, deleteItem,
+      updatePath, updateControlPathSelector,
       searchFields
-    } = this.props;
+    } = this.props
 
-    const stepsWithoutcontrols = steps.filter((o)=> !o.controls || o.controls.type !== "ask_option" )
+    const stepsWithoutcontrols = steps.filter((o) => !o.controls || o.controls.type !== 'ask_option')
 
     const stepOptions = paths.map((o) => ({
       value: o.steps[0] && o.steps[0].step_uid,
-      label: o.title,
-    }));
+      label: o.title
+    }))
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -1722,13 +1694,13 @@ class SortableSteps extends Component {
 
                         <ItemManagerContainer>
 
+
                           {
-                            item.controls && item.controls.type === "wait_for_reply" &&
+                            item.controls && item.controls.type === 'wait_for_reply' &&
                             <div className="p-4 bg-blue-100 text-blue-300 border border-md border-blue-300 rounded-md">
                               ... wait for user input ...
                             </div>
                           }
-
 
                           {item.messages && item.messages.map((message) => (
                             <PathEditor
@@ -1740,41 +1712,40 @@ class SortableSteps extends Component {
                             />
                           ))}
 
-                          <div>	
-                            <ControlWrapper>	
- 
-                              {item.controls && 
-                                item.controls.type !== "ask_option" &&
-                                item.controls.type !== "app_package" && (	
-                                <AppPackageBlocks	
-                                  controls={item.controls}	
-                                  path={path}	
-                                  step={item}	
-                                  options={stepOptions}	
+                          <div>
+                            <ControlWrapper>
+
+                              {item.controls &&
+                                item.controls.type !== 'ask_option' &&
+                                item.controls.type !== 'app_package' && (
+                                <AppPackageBlocks
+                                  controls={item.controls}
+                                  path={path}
+                                  step={item}
+                                  options={stepOptions}
                                   searchFields={searchFields}
-                                  update={(opts) =>	
-                                    updateControlPathSelector(opts, item)	
-                                  }	
-                                  />
-                              )}	
+                                  update={(opts) =>
+                                    updateControlPathSelector(opts, item)
+                                  }
+                                />
+                              )}
 
                               {
-                                item.controls && item.controls.type === "app_package" && (
+                                item.controls && item.controls.type === 'app_package' && (
                                   <DefinitionRenderer
                                     schema={item.controls.schema}
-                                    updatePackage={(data, cb)=>{ cb && cb() }} 
+                                    updatePackage={(data, cb) => { cb && cb() }}
                                   />
                                 )
                               }
-                            </ControlWrapper>	
-                          </div>	
-
+                            </ControlWrapper>
+                          </div>
 
                         </ItemManagerContainer>
 
                         <ItemButtons>
                           <Button
-                            variant={"icon"}
+                            variant={'icon'}
                             onClick={() => deleteItem(path, item)}
                           >
                             <DeleteForever />
@@ -1790,15 +1761,15 @@ class SortableSteps extends Component {
           )}
         </Droppable>
       </DragDropContext>
-    );
+    )
   }
 }
 
 const PathSelect = ({ option, options, update }) => {
   const handleChange = (e) => {
-    update(e.value, option);
-  };
-  const selectedOption = options.find((o) => option.next_step_uuid === o.value);
+    update(e.value, option)
+  }
+  const selectedOption = options.find((o) => option.next_step_uuid === o.value)
 
   return (
     <Input
@@ -1811,19 +1782,19 @@ const PathSelect = ({ option, options, update }) => {
       options={options}
     >
     </Input>
-  );
-};
+  )
+}
 
-const DataInputSelect = ({ item, options, update, controls, path, step }) => {
+const DataInputSelect = ({ item, options, update, controls, _path, _step }) => {
   const handleChange = (e) => {
-    const newOption = Object.assign({}, item, { name: e.value });
-    //const newOptions = //controls.schema.map((o)=> o.name === newOption.name ? newOption : o)
-    const newControls = Object.assign({}, controls, { schema: [newOption] });
+    const newOption = Object.assign({}, item, { name: e.value })
+    // const newOptions = //controls.schema.map((o)=> o.name === newOption.name ? newOption : o)
+    const newControls = Object.assign({}, controls, { schema: [newOption] })
 
-    update(newControls);
-  };
+    update(newControls)
+  }
 
-  const selectedItem = options.find((o) => o.value === item.name);
+  const selectedItem = options.find((o) => o.value === item.name)
 
   return (
     <div>
@@ -1834,17 +1805,17 @@ const DataInputSelect = ({ item, options, update, controls, path, step }) => {
         onChange={handleChange}
         fullWidth={true}
         label={item.label}
-        //helperText={"oeoeoe"}
+        // helperText={"oeoeoe"}
         options={options}
       >
       </Input>
     </div>
-  );
-};
+  )
+}
 
-function mapStateToProps(state) {
-  const { auth, app, segment, app_user, current_user, drawer } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, app, segment, app_user, current_user, drawer } = state
+  const { loading, isAuthenticated } = auth
   return {
     current_user,
     app_user,
@@ -1852,8 +1823,8 @@ function mapStateToProps(state) {
     app,
     loading,
     isAuthenticated,
-    drawer,
-  };
+    drawer
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(BotEditor));
+export default withRouter(connect(mapStateToProps)(BotEditor))

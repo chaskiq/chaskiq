@@ -4,7 +4,7 @@ import { SEARCH_ARTICLES } from '../../graphql/docsQueries'
 import List, { ListItem, ListItemText } from '../../components/List'
 import { Link } from 'react-router-dom'
 
-export default function CustomizedInputBase ({ lang, history, subdomain }) {
+export default function CustomizedInputBase ({ lang, _history, subdomain }) {
   const [results, setResults] = React.useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -22,7 +22,6 @@ export default function CustomizedInputBase ({ lang, history, subdomain }) {
           setResults(data.helpCenter.search.collection)
         },
         error: () => {
-          debugger
         }
       }
     )
@@ -68,7 +67,7 @@ export default function CustomizedInputBase ({ lang, history, subdomain }) {
             <div className="absolute w-full">
               <List>
                 {results.map((o) => (
-                  <ListItem>
+                  <ListItem key={`search-result-${o.slug}`}>
                     <ListItemText
                       primary={
                         <Link

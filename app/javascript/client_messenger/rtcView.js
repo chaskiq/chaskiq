@@ -208,17 +208,12 @@ const CallButtons = styled.div`
 
 export default function RtcViewWrapper ({
   videoSession,
-  setVideoSession,
-  toggleVideo,
-  toggleAudio,
-  rtcVideo,
-  rtcAudio,
   relativePosition,
   expand,
   setExpand
 }) {
-  const [localFullScreen, setLocalFullScreen] = React.useState(false)
-  const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
+  //const [localFullScreen, setLocalFullScreen] = React.useState(false)
+  //const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
 
   return (
     <React.Fragment>

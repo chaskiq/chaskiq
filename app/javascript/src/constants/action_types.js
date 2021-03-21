@@ -17,9 +17,7 @@ const actionTypes = {
   GetConversations: 'GET_CONVERSATIONS',
   UpdateConversations: 'UPDATE_CONVERSATIONS',
   ClearConversations: 'CLEAR_CONVERSATIONS',
-
-  UpdateConversation: 'UPDATE_CONVERSATION',
-
+  
   SetStatusMessage: 'SET_STATUS_MESSAGE',
   UpdateConversationItem: 'UPDATE_CONVERSATION_ITEM',
   UpdatePresence: 'UPDATE_USER_PRESENCE',

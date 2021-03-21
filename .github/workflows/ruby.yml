@@ -25,15 +25,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Setup Ruby
-        uses: eregon/use-ruby-action@master
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.1
+          bundler-cache: true
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
-
-
       - name: Build and run tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test

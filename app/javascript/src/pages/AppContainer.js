@@ -36,7 +36,7 @@ import { setApp } from '../actions/app'
 import { setSubscriptionState } from '../actions/paddleSubscription'
 
 import { updateAppUserPresence } from '../actions/app_users'
-import { getAppUser } from '../actions/app_user'
+
 import { updateRtcEvents } from '../actions/rtc'
 import { updateCampaignEvents } from '../actions/campaigns'
 
@@ -68,7 +68,7 @@ function AppContainer ({
       `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`)
   })
 
-  const [subscribed, setSubscribed] = React.useState(null)
+  const [_subscribed, setSubscribed] = React.useState(null)
 
   React.useEffect(() => {
     dispatch(getCurrentUser())
@@ -131,7 +131,7 @@ function AppContainer ({
         notify: () => {
           console.log('notify!!')
         },
-        handleMessage: (message) => {
+        handleMessage: () => {
           console.log('handle message')
         }
       }
@@ -142,10 +142,6 @@ function AppContainer ({
 
   function updateUser (data) {
     dispatch(updateAppUserPresence(data))
-  }
-
-  function setAppUser (id) {
-    dispatch(getAppUser(id))
   }
 
   function handleSidebar () {

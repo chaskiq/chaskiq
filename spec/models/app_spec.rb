@@ -279,4 +279,37 @@ RSpec.describe App, type: :model do
       expect(app.query_segment('visitors')).to_not be_any
     end
   end
+
+  describe 'inbound email' do
+    before :each do
+      @role = app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' })
+    end
+
+    it 'app has address' do
+      expect(app.inbound_email_address).to be_present
+    end
+
+    it 'decode app email address' do
+      expect(
+        App.decode_app_inbound_address(app.inbound_email_address).first
+      ).to be == app
+    end
+
+    it 'decode agent email address' do
+      expect(
+        App.decode_agent_inbound_address(@role.inbound_email_address).first
+      ).to be == app
+    end
+
+    it 'decode any email address' do
+      expect(@role.inbound_email_address).to be_present
+      expect(
+        App.decode_inbound_address(@role.inbound_email_address).first
+      ).to be == app
+
+      expect(
+        App.decode_inbound_address(app.inbound_email_address).first
+      ).to be == app
+    end
+  end
 end
