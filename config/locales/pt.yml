@@ -239,6 +239,10 @@ pt:
       hint: nós destruiremos qualquer conteúdo e dados relacionados
     create:
       title: Criar nova tarefa
+  email_forwarding:
+    title: Email Forwarding
+    subtitle: Default Inbound Address
+    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
   quick_replies:
     title: Respostas rápidas
     search: Pesquisar respostas rápidas
@@ -291,6 +295,7 @@ pt:
       user_data: Dados de usuário
       tags: Etiquetas
       quick_replies: Respostas rápidas
+      email_forwarding: Email Forwarding
     app_packages:
       create_success: Pacote criado
       create_error: Erro ao criar pacote
