@@ -24,7 +24,7 @@ function TriggersPanel (props) {
       {
         appKey: props.app.key,
         lang: 'es',
-        mode: props.conversation.mainParticipant.kind === 'app_user' ? 'users' : 'leads'
+        //mode: props.conversation.mainParticipant.kind === 'app_user' ? 'users' : 'leads'
       },
       {
         success: (data) => {

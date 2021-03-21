@@ -47,14 +47,18 @@ function settingForUser (options = defaultOptions) {
 }
 
 function messengerVisit (options, inboundSettings, cb) {
-  const { visitor, nullFrame } = options
+  const { visitor, nullFrame, jwt } = options
   cy.appEval('App.last').then((results) => {
     // cy.appEval("App.last.add_agent({email: \"test2@test.cl\", name: \"test agent\"})")
     const record = results
+    let path = `/tester/${record.key}` 
+    path = `${path}${visitor ? '?sessionless=true' : ''}`
+    if( jwt )
+      path + "&jwt=true"
 
     settingForUser(inboundSettings)
       .then((results) => {
-        cy.visit(`/tester/${record.key}${visitor ? '?sessionless=true' : ''}`).then(() => {
+        cy.visit(path).then(() => {
           if (nullFrame) { return cy.get('iframe:first').should('not.exist') }
 
           cy.get('iframe:first')
@@ -173,13 +177,28 @@ describe('Chaskiq Messenger', function () {
         user_segment: 'some'
       }
 
-      messengerVisit({
-        visitor: false
-      },
-      inboundSettings, ($body, cy) => {
+      messengerVisit({visitor: false}, inboundSettings, ($body, cy) => {
         cy.appEval('App.last.app_users.first.block!')
 
         messengerVisit({ visitor: false, nullFrame: true }, inboundSettings, ($body, cy) => {
+          expect($body.find('#chaskiq-prime').length).to.equal(1)
+        })
+      })
+    })
+
+    it('will not render on blocked users JWT', () => {
+      const user_options = []
+      const inboundSettings = {
+        enabled: true,
+        users: true,
+        user_options: user_options,
+        user_segment: 'some'
+      }
+
+      messengerVisit({visitor: false, jwt: true}, inboundSettings, ($body, cy) => {
+        cy.appEval('App.last.app_users.first.block!')
+
+        messengerVisit({ visitor: false, nullFrame: true, jwt: true }, inboundSettings, ($body, cy) => {
           expect($body.find('#chaskiq-prime').length).to.equal(1)
         })
       })

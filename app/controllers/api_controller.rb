@@ -6,6 +6,7 @@ class ApiController < ActionController::API
   def get_user_data_from_auth
     if @app.encryption_enabled?
       @user_data = authorize_by_encrypted_params
+      @user_data = (identify_by_user_data || {}) if @user_data.blank?
       set_locale
       handle_encrypted_auth
     else
@@ -18,12 +19,15 @@ class ApiController < ActionController::API
 
   def handle_encrypted_auth
     if @user_data.present? && @user_data[:email].present?
-      app_user = get_user_by_email || @app.add_user(email: @user_data[:email])
+      app_user =  get_user_by_email || 
+                  @app.add_user(email: @user_data[:email])
+      
       merge_user_data(app_user)
-      app_user.update(
+      options = {
         properties: app_user.properties.merge(@user_data[:properties]),
         lang: I18n.locale
-      )
+      }
+      app_user.update(options)
     else
       visitor = (get_user_by_session || add_vistor)
       visitor.update(lang: I18n.locale)
@@ -42,7 +46,7 @@ class ApiController < ActionController::API
 
   def get_user_data
     @user_data ||= if @app.encryption_enabled?
-                     authorize_by_encrypted_params
+                     identify_by_user_data || authorize_by_encrypted_params
                    else
                      get_user_from_unencrypted
                    end
@@ -92,7 +96,6 @@ class ApiController < ActionController::API
 
   def get_user_by_email
     return nil if get_user_data[:email].blank?
-
     @app.get_app_user_by_email(get_user_data[:email])
   end
 
@@ -111,13 +114,15 @@ class ApiController < ActionController::API
   def get_user_by_session
     session_id = request.headers['HTTP_SESSION_ID']
     return nil if session_id.blank?
-
     @app.get_non_users_by_session(session_id)
   end
 
-  # THIS IS NOT BEIGN USED?
-  def authorize_user_data!
-    render(json: {}, status: 406) && return if @user_data.blank?
+  def identify_by_user_data
+    data = request.headers['HTTP_USER_DATA']
+    data = JSON.parse(data) rescue nil
+    return nil if data.blank?
+    return nil unless data.is_a?(Hash)    
+    return data&.with_indifferent_access if @app.compare_user_identifier(data)
   end
 
   def authorize_by_encrypted_params
