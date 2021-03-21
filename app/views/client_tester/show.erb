@@ -28,7 +28,7 @@
         window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
           domain: window.location.origin,
           ws:  '<%= Rails.application.config.action_cable.url %>',
-          data: "<%=@encrypted_data%>",
+          data: <%= raw @encrypted_data %>,
           lang: "<%= @lang %>",
           app_id: "<%= @app.key %>"
         })

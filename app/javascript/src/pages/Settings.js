@@ -17,6 +17,7 @@ import ContentHeader from '../components/PageHeader'
 import Tags from './settings/Tags'
 import QuickReplies from './settings/QuickReplies'
 import UserData from './settings/UserDataFields'
+import VerificationView from './settings/VerificationView'
 import timezones from '../shared/timezones'
 import { getFileMetadata, directUpload } from '../shared/fileUploader'
 
@@ -201,17 +202,21 @@ class AppSettingsContainer extends Component {
           {
             label: I18n.t('settings.app.security'),
             content: (
-              <SettingsForm
-                title={'Security Settings'}
-                hint={'Security'}
-                currentUser={this.props.currentUser}
-                data={this.props.app}
-                update={this.update.bind(this)}
-                fetchApp={this.fetchApp}
-                classes={this.props.classes}
-                definitions={this.definitionsForSecurity}
-                {...this.props}
-              />
+              <div>
+                {/*<SettingsForm
+                  title={'Security Settings'}
+                  hint={'Security'}
+                  currentUser={this.props.currentUser}
+                  data={this.props.app}
+                  update={this.update.bind(this)}
+                  fetchApp={this.fetchApp}
+                  classes={this.props.classes}
+                  definitions={this.definitionsForSecurity}
+                  {...this.props}
+                />*/}
+                <VerificationView/>
+              </div>
+              
             )
           },
           {

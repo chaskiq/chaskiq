@@ -125,7 +125,7 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
           {I18n.t('settings.user_data.title')}
         </p>
 
-        <div className="flex w-1/4 justify-end">
+        <div className="flex w-1/4 justify-end items-center">
           <UpgradeButton
             classes={
               `absolute z-10 ml-1 mt-3 transform w-screen 
@@ -136,9 +136,10 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
             label="Add custom attribute"
             feature="CustomAttributes">
             <Button onClick={addField}
-              edge="end" variant="icon"
+              variant="outlined"
+              className="mr-2"
               aria-label="add">
-              <PlusIcon />
+              <PlusIcon /> {I18n.t("common.add_new")}
             </Button>
           </UpgradeButton>
 

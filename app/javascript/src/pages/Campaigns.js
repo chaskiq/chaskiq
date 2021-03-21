@@ -862,6 +862,7 @@ class CampaignContainer extends Component {
         <Button
           color={'primary'}
           onClick={this.createNewCampaign}
+          variant="flat-dark"
         >
           {I18n.t('campaigns.create_new')}
         </Button>
