@@ -3,6 +3,7 @@ cs:
     edit: Edit
     new: New
     add: Add
+    add_new: add new
     update: Update
     remove: Remove
     delete: Delete
@@ -243,6 +244,11 @@ cs:
     title: Email Forwarding
     subtitle: Default Inbound Address
     ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+  identified_users:
+    title: Verified users setup
+    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
+    lang: Your code to generate an HMAC for your app is
+    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
   quick_replies:
     title: Quick Replies
     search: Search Quick replies
