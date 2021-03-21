@@ -176,23 +176,13 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         .join(', ') : names
   }
 
-  function toggleButton (clickHandler) {
+  function toggleButton (clickHandler, opts) {
     return (
       <div>
         <Button
+          variant={'outlined'}
           onClick={clickHandler}>
-          {namesForToggleButton(options)}
-        </Button>
-      </div>
-    )
-  }
-
-  function toggleStateButton (clickHandler) {
-    return (
-      <div>
-        <Button
-          onClick={clickHandler}>
-          {namesForToggleButton(stateOptions)}
+          {namesForToggleButton(opts)}
         </Button>
       </div>
     )
@@ -234,7 +224,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               <Button
                 color="inherit"
                 onClick={toggleTaskForm}
-                variant={'success'}
+                variant={'flat-dark'}
               >
                 {I18n.t('task_bots.new')}
               </Button>
@@ -252,7 +242,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 const newOptions = handleClickforOptions(options, option)
                 setOptions(newOptions)
               }}
-              triggerButton={toggleButton}
+              triggerButton={(handler)=> toggleButton(handler, options)}
               position={'left'}
             />
           </div>
@@ -265,7 +255,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 const newOptions = handleClickforState(stateOptions, option)
                 setStateOptions(newOptions)
               }}
-              triggerButton={toggleStateButton}
+              triggerButton={(handler)=> toggleButton(handler, stateOptions)}
               position={'left'}
             />
           </div>
@@ -307,7 +297,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <Badge className={
-                        `bg-${row.state === 'enabled' ? 'green-500' : 'gray-200'}`}>
+                        `bg-${row.state === 'enabled' ? 'green-500' : 'gray-200'}`
+                        }>
                         {row.state}
                       </Badge>
                     </td>

@@ -74,7 +74,7 @@ export class ColorPicker extends React.Component {
             duration-150"
           >
             <PaintIcon />
-            <span className="ml-2">Choose color</span>
+            <span className="ml-2 text-xs">Choose color</span>
           </button>
         </div>
 

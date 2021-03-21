@@ -46,6 +46,7 @@ function toggleButton (clickHandler) {
   return (
     <div>
       <Button
+        variant="flat-dark"
         onClick={clickHandler}>
         Create Users & Leads
       </Button>

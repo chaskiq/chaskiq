@@ -290,7 +290,7 @@ class AppUser < ApplicationRecord
   end
 
   def register_visit(options)
-    visits.register(options, app.register_visits)
+    visits.register(options, false) # app.register_visits)
   end
 
   def register_in_crm

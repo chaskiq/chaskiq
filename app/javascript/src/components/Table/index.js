@@ -102,20 +102,19 @@ export default function Table ({
       <div className="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full">
           <thead>
-            <tr>
+            <tr className="border-b bg-gray-50">
               {
                 sortable &&
                 <th key={'visible-col-dragit'}
-                  className="px-6 py-3 -border-b -border-gray-200
-                    bg-pink-50 text-left text-xs leading-4
+                  className="px-6 py-3
+                    text-left text-xs leading-4
                     font-medium text-gray-500 uppercase tracking-wider">
                     reorder
                 </th>
               }
               {visibleColumns().map((o) => (
                 <th key={`visible-col-${o.title}`}
-                  className="px-6 py-3 -border-b -border-gray-200
-                  bg-pink-50 text-left text-xs leading-4
+                  className="px-6 py-3 text-left text-xs leading-4
                   font-medium text-gray-500 uppercase tracking-wider">
                   {o.title}
                 </th>

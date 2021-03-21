@@ -74,10 +74,17 @@ module ApplicationCable
 
     def get_user_data
       if app.encryption_enabled?
-        authorize_by_encrypted_params
+        authorize_by_identifier_params || authorize_by_encrypted_params
       else
         get_user_from_unencrypted
       end
+    end
+
+    def authorize_by_identifier_params
+      params = request.query_parameters
+      data = JSON.parse(Base64.decode64(params[:user_data]))
+      return nil unless data.is_a?(Hash)
+      return data&.with_indifferent_access if app.compare_user_identifier(data)
     end
 
     def authorize_by_encrypted_params
@@ -87,10 +94,9 @@ module ApplicationCable
 
     def find_user(user_data)
       params = request.query_parameters
-
       if user_data.blank?
         app.get_non_users_by_session(params[:session_id])
-      else
+      elsif user_data[:email]
         app.get_app_user_by_email(user_data[:email])
       end
     end

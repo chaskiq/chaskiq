@@ -27,6 +27,7 @@ module ApplicationHelper
     if current_agent.present?
       user_options = {
         email: current_agent.email,
+        identifier_key: OpenSSL::HMAC.hexdigest('sha256', key, current_agent.email),
         properties: {
           name: current_agent.display_name
         }
@@ -34,7 +35,8 @@ module ApplicationHelper
       json_payload.merge!(user_options)
     end
 
-    encrypted_data = JWE.encrypt(json_payload.to_json, key, alg: 'dir')
-    { enc: encrypted_data, app: support_app }
+    # encrypted_data = JWE.encrypt(json_payload.to_json, key, alg: 'dir')
+    # { enc: encrypted_data, app: support_app }
+    { enc: json_payload.to_json, app: support_app }
   end
 end

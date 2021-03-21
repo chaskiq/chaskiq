@@ -98,6 +98,15 @@ module UserHandler
     app_users.users.find_by(email: email)
   end
 
+  def compare_user_identifier(data)
+    return if data.blank?
+
+    ActiveSupport::SecurityUtils.secure_compare(
+      OpenSSL::HMAC.hexdigest('sha256', encryption_key, data['email']),
+      data['identifier_key']
+    )
+  end
+
   def create_agent_bot
     add_bot_agent(email: "bot@#{id}-chaskiq", name: 'chaskiq bot')
   end

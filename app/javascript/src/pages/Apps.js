@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { clearApp } from '../actions/app'
 import { setCurrentSection } from '../actions/navigation'
 import logo from '../images/favicon.png'
+import Badge from '../components/Badge'
 const Container = styled.div`
   background: url(${bg});
   background-repeat: no-repeat;
@@ -95,7 +96,7 @@ function App ({ dispatch, loading }) {
                       <div className="rounded-md shadow">
                         <Link
                           to="/apps/new"
-                          className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                          className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                         >
                           {I18n.t('home.create_new')}
                         </Link>
@@ -113,13 +114,18 @@ function App ({ dispatch, loading }) {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap overflow-hidden sm:-mx-1">
+                <Badge variant="green" className="mb-3 ">
+                  Your apps
+                </Badge>
+
+                <div className="flex flex-wrap overflow-hidden sm:-mx-1 pb-20">
                   {apps.map((a) => (
                     <div
                       key={a.key}
                       className="lg:w-1/4 w-screen overflow-hidden-- my-1 px-1"
                     >
                       <Card
+                        className={'hover:bg-gray-100 border rounded overflow-hidden shadow-lg bg-white h-full'}
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}
                         description={a.tagline}
                       />

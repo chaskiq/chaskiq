@@ -37,11 +37,11 @@ export default class ChaskiqMessengerEncrypted {
     this.checkCookie = (val) => {
       setCookie(this.cookieNamespace(), val, 365)
     }
-
+    
     this.defaultHeaders = {
       app: this.props.app_id,
       'enc-data': this.props.data || '',
-      'user-data': JSON.stringify(data),
+      'user-data': JSON.stringify(this.props.data),
       'session-id': this.getSession(),
       lang: currentLang
     }
