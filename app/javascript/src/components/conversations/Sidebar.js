@@ -44,7 +44,7 @@ function Sidebar ({
         cb && cb(d)
       })
     )
-  };
+  }
 
   return (
     <div className="xl:border-r xl:border-gray-200">
@@ -74,7 +74,7 @@ function Sidebar ({
                         object: data, app_user, conversation, app
                       })
                     }
-                    </div>
+                  </div>
                   }
                   capability={'inbox'}
                 />
@@ -105,7 +105,7 @@ function Sidebar ({
 
                   <div className="hidden flex-- items-center space-y-2 rounded-md border border-gray-200 bg-white w-full p-2">
 
-                    {/*<div className="flex-shrink-0 h-12 w-12">
+                    {/* <div className="flex-shrink-0 h-12 w-12">
                       <img className="h-12 w-12 rounded-full"
                         src={participant.avatarUrl}
                         alt=""
@@ -123,7 +123,7 @@ function Sidebar ({
                             </div>
                           </a>
                       }
-                    </div>*/}
+                    </div> */}
 
                     {/* <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
                       <span className="inline-flex rounded-md shadow-sm">
@@ -163,7 +163,7 @@ function Sidebar ({
   )
 }
 
-function renderInternal ({object, conversation, app, app_user}) {
+function renderInternal ({ object, conversation, app, app_user }) {
   switch (object.name) {
     case 'UserBlock':
       return <UserBlock conversation={conversation} app={app} app_user={app_user}/>
@@ -178,7 +178,7 @@ function renderInternal ({object, conversation, app, app_user}) {
   }
 }
 
-function UserBlock ({ conversation, app, app_user }) {
+function UserBlock ({ app_user }) {
   return <div
     className="space-y-2 divide-y divide-gray-200">
     <div className="space-y-1 py-2">
@@ -216,7 +216,7 @@ function UserBlock ({ conversation, app, app_user }) {
   </div>
 }
 
-function TagBlocks ({ conversation, app }) {
+function TagBlocks ({ conversation }) {
   return <div className="">
     <span className="text-sm leading-5 font-medium text-gray-500">tags</span>
     { conversation.tagList.length > 0 &&
@@ -232,7 +232,7 @@ function TagBlocks ({ conversation, app }) {
   </div>
 }
 
-function ConversationBlock ({ conversation, app }) {
+function ConversationBlock ({ conversation }) {
   return <div className="space-y-2 divide-y divide-gray-200">
     <div className="space-y-2 pt-2">
       <dt className="text-sm leading-5 font-medium text-gray-500">
@@ -382,7 +382,7 @@ function AppItem ({
         </p>
 
         {
-          object.type === 'internal' && renderInternal({object, conversation, app, app_user})
+          object.type === 'internal' && renderInternal({ object, conversation, app, app_user })
         }
 
         { object.type !== 'internal' &&
@@ -400,9 +400,8 @@ function AppItem ({
 }
 
 function mapStateToProps (state) {
-  const { auth, app, conversation, app_user, current_user, drawer } = state
-  const { messages, loading } = conversation
-  const { jwt } = auth
+  const { app, conversation, app_user, current_user, drawer } = state
+  const { messages } = conversation
 
   return {
     app_user,

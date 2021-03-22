@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_184518) do
+ActiveRecord::Schema.define(version: 2021_02_28_160417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,9 +341,13 @@ ActiveRecord::Schema.define(version: 2020_12_10_184518) do
     t.datetime "scheduled_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
+    t.bigint "workflow_id"
     t.index ["app_id"], name: "index_campaigns_on_app_id"
     t.index ["key"], name: "index_campaigns_on_key"
+    t.index ["position"], name: "index_campaigns_on_position"
     t.index ["type"], name: "index_campaigns_on_type"
+    t.index ["workflow_id"], name: "index_campaigns_on_workflow_id"
   end
 
   create_table "collection_section_translations", force: :cascade do |t|
@@ -691,6 +695,18 @@ ActiveRecord::Schema.define(version: 2020_12_10_184518) do
     t.index ["app_user_id"], name: "index_visits_on_app_user_id"
   end
 
+  create_table "workflows", force: :cascade do |t|
+    t.string "title"
+    t.jsonb "settings"
+    t.jsonb "rules"
+    t.string "state"
+    t.bigint "app_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_workflows_on_app_id"
+    t.index ["state"], name: "index_workflows_on_state"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_package_integrations", "app_packages"
@@ -702,6 +718,7 @@ ActiveRecord::Schema.define(version: 2020_12_10_184518) do
   add_foreign_key "assignment_rules", "apps"
   add_foreign_key "bot_tasks", "apps"
   add_foreign_key "campaigns", "apps"
+  add_foreign_key "campaigns", "workflows"
   add_foreign_key "collection_sections", "article_collections"
   add_foreign_key "conversation_channels", "conversations"
   add_foreign_key "conversation_part_channel_sources", "conversation_parts"
@@ -721,4 +738,5 @@ ActiveRecord::Schema.define(version: 2020_12_10_184518) do
   add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "workflows", "apps"
 end

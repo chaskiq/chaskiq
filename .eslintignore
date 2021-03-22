@@ -1,2 +1,5 @@
-./app/javascript/src/graphql/*.js
-./spec/cypress/integration/*.js
+app/javascript/src/graphql/*.js
+spec/cypress/integration/*.js
+*.mjs
+app/javascript/src/styles/tailwind.js
+app/javascript/src/serviceWorker.js

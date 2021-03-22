@@ -1,123 +1,111 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
 
-import { withRouter, Route, Switch, Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { Component } from 'react'
 
-import Content from "../components/Content";
-import ContentHeader from "../components/PageHeader";
-import Tabs from "../components/Tabs";
-import Avatar from "../components/Avatar";
-import Button from "../components/Button";
-import TextField from "../components/forms/Input";
-import CircularProgress from "../components/Progress";
-import { errorMessage, successMessage } from "../actions/status_messages";
-import Hints from "../shared/Hints";
+import { withRouter, Route, Switch, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+import Content from '../components/Content'
+import ContentHeader from '../components/PageHeader'
+import Tabs from '../components/Tabs'
+
+import Button from '../components/Button'
+
+import CircularProgress from '../components/Progress'
+import { errorMessage, successMessage } from '../actions/status_messages'
+import Hints from '../shared/Hints'
 
 import DeleteDialog from '../components/DeleteDialog'
-import { AnchorLink } from "../shared/RouterLink";
 
-import { LinkButton, LinkIconButton } from "../shared/RouterLink";
+import { LinkButton } from '../shared/RouterLink'
 
-import ScrollableTabsButtonForce from "../components/scrollingTabs";
-import langs from "../shared/langsOptions";
+import ScrollableTabsButtonForce from '../components/scrollingTabs'
+import langs from '../shared/langsOptions'
 import isEmpty from 'lodash/isEmpty'
 
-import graphql from "../graphql/client";
-import { ARTICLES } from "../graphql/queries";
+import graphql from '../graphql/client'
+import { ARTICLES, ARTICLE_SETTINGS } from '../graphql/queries'
 import {
-  CREATE_ARTICLE,
-  EDIT_ARTICLE,
+
   DELETE_ARTICLE,
   ARTICLE_SETTINGS_UPDATE,
-  ARTICLE_SETTINGS_DELETE_LANG,
-} from "../graphql/mutations";
+  ARTICLE_SETTINGS_DELETE_LANG
+} from '../graphql/mutations'
 
-import FormDialog from "../components/FormDialog";
-import DataTable from "../components/Table";
-import ArticlesNew from "./articles/new";
-import Settings from "./articles/settings";
+import DataTable from '../components/Table'
+import ArticlesNew from './articles/new'
+import Settings from './articles/settings'
 
-import Collections from "./articles/collections/index";
-import CollectionDetail from "./articles/collections/show";
+import Collections from './articles/collections/index'
+import CollectionDetail from './articles/collections/show'
 
-import { setCurrentSection, setCurrentPage } from "../actions/navigation";
-import { ARTICLE_SETTINGS } from "../graphql/queries";
+import { setCurrentSection, setCurrentPage } from '../actions/navigation'
+
 import Badge from '../components/Badge'
 
 import {
   AddIcon, GestureIcon, CheckCircleIcon
 } from '../components/icons'
-
-const styles = (theme) => ({
-  addUser: {
-    marginRight: theme.spacing(1),
-  },
-});
-
 class Articles extends Component {
   state = {
     meta: {},
     tabValue: 0,
     settings: null,
-    errors: [],
+    errors: []
   };
 
-  componentDidMount() {
-    this.props.dispatch(setCurrentSection("HelpCenter"));
-    this.getSettings();
+  componentDidMount () {
+    this.props.dispatch(setCurrentSection('HelpCenter'))
+    this.getSettings()
   }
 
   getSettings = (cb) => {
     graphql(
       ARTICLE_SETTINGS,
       {
-        appKey: this.props.app.key,
+        appKey: this.props.app.key
       },
       {
         success: (data) => {
           this.setState(
             {
-              settings: data.app.articleSettings,
+              settings: data.app.articleSettings
             },
             cb
-          );
+          )
         },
-        error: (e) => {
-          debugger;
-        },
+        error: () => {
+        }
       }
-    );
+    )
   };
 
   updateSettings = (data) => {
-    const { settings } = data;
+    const { settings } = data
     graphql(
       ARTICLE_SETTINGS_UPDATE,
       {
         appKey: this.props.app.key,
-        settings: settings,
+        settings: settings
       },
       {
         success: (data) => {
           this.setState(
             {
               settings: data.articleSettingsUpdate.settings,
-              errors: data.articleSettingsUpdate.errors,
+              errors: data.articleSettingsUpdate.errors
             },
             () => {
-              if(!isEmpty(data.articleSettingsUpdate.errors)) {
-                return this.props.dispatch(errorMessage("article settings failed"))
+              if (!isEmpty(data.articleSettingsUpdate.errors)) {
+                return this.props.dispatch(errorMessage('article settings failed'))
               }
-              this.props.dispatch(successMessage("article settings updated"));
+              this.props.dispatch(successMessage('article settings updated'))
             }
-          );
+          )
         },
-        error: (e) => {
-          debugger;
-        },
+        error: () => {
+        }
       }
-    );
+    )
   };
 
   deleteLang = (item, cb) => {
@@ -125,30 +113,29 @@ class Articles extends Component {
       ARTICLE_SETTINGS_DELETE_LANG,
       {
         appKey: this.props.app.key,
-        langItem: item,
+        langItem: item
       },
       {
         success: (data) => {
           this.setState(
             {
               settings: data.articleSettingsDeleteLang.settings,
-              errors: data.articleSettingsDeleteLang.errors,
+              errors: data.articleSettingsDeleteLang.errors
             },
             () => {
-              cb && cb();
-              this.props.dispatch(successMessage("article settings updated"));
+              cb && cb()
+              this.props.dispatch(successMessage('article settings updated'))
             }
-          );
+          )
         },
-        error: (e) => {
-          debugger;
-        },
+        error: () => {
+        }
       }
-    );
+    )
   };
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i });
+    this.setState({ tabValue: i })
   };
 
   tabsContent = () => {
@@ -161,16 +148,16 @@ class Articles extends Component {
           textColor="inherit"
           tabs={[
             {
-              label: I18n.t("articles.all"),
+              label: I18n.t('articles.all'),
               content: (
                 <div>
                   <AllArticles
                     {...this.props}
                     settings={this.state.settings}
-                    mode={"all"}
+                    mode={'all'}
                   />
                 </div>
-              ),
+              )
             },
             {
               label: I18n.t('articles.published'),
@@ -178,9 +165,9 @@ class Articles extends Component {
                 <AllArticles
                   {...this.props}
                   settings={this.state.settings}
-                  mode={"published"}
+                  mode={'published'}
                 />
-              ),
+              )
             },
             {
               label: I18n.t('articles.draft'),
@@ -188,17 +175,17 @@ class Articles extends Component {
                 <AllArticles
                   {...this.props}
                   settings={this.state.settings}
-                  mode={"draft"}
+                  mode={'draft'}
                 />
-              ),
-            },
+              )
+            }
           ]}
         />
       </div>
-    );
+    )
   };
 
-  render() {
+  render () {
     return (
       <Content>
         {this.state.settings ? (
@@ -206,34 +193,34 @@ class Articles extends Component {
             <Route
               exact
               path={`/apps/${this.props.app.key}/articles`}
-              render={(props) => {
+              render={(_props) => {
                 return (
                   <React.Fragment>
                     <ContentHeader
                       title={ I18n.t('articles.title')}
-                      //tabsContent={ this.tabsContent() }
+                      // tabsContent={ this.tabsContent() }
                       actions={
                         <React.Fragment>
                           {this.state.settings &&
                           this.state.settings.subdomain ? (
-                            <div item>
-                              <Button
-                                href={`https://${this.state.settings.subdomain}.chaskiq.io`}
-                                variant="outlined"
-                                color="inherit"
-                                target={"blank"}
-                                className="mr-2"
-                              >
-                                {I18n.t('articles.visit')}
-                              </Button>
-                            </div>
-                          ) : null}
+                              <div item>
+                                <Button
+                                  href={`https://${this.state.settings.subdomain}.chaskiq.io`}
+                                  variant="outlined"
+                                  color="inherit"
+                                  target={'blank'}
+                                  className="mr-2"
+                                >
+                                  {I18n.t('articles.visit')}
+                                </Button>
+                              </div>
+                            ) : null}
 
-                          <Button 
-                            variant={'contained'} 
-                            color={'primary'} 
-                            onClick={()=> this.props.history.push(`/apps/${this.props.app.key}/articles/new`)}>
-                            {/*<AddIcon />*/}
+                          <Button
+                            variant={'contained'}
+                            color={'primary'}
+                            onClick={() => this.props.history.push(`/apps/${this.props.app.key}/articles/new`)}>
+                            {/* <AddIcon /> */}
                             {I18n.t('articles.new')}
                           </Button>
                         </React.Fragment>
@@ -241,7 +228,7 @@ class Articles extends Component {
                     />
                     {this.state.settings && this.tabsContent()}
                   </React.Fragment>
-                );
+                )
               }}
             />
 
@@ -259,7 +246,7 @@ class Articles extends Component {
                     update={this.updateSettings}
                     deleteLang={this.deleteLang}
                   />
-                );
+                )
               }}
             />
 
@@ -274,7 +261,7 @@ class Articles extends Component {
                     match={props.match}
                     history={props.history}
                   />
-                );
+                )
               }}
             />
 
@@ -289,14 +276,14 @@ class Articles extends Component {
                     match={props.match}
                     history={props.history}
                   />
-                );
+                )
               }}
             />
 
             <Route
               exact
               path={`/apps/${this.props.app.key}/articles/:id`}
-              render={(props) => {
+              render={(_props) => {
                 return (
                   <ArticlesNew
                     settings={this.state.settings}
@@ -304,13 +291,13 @@ class Articles extends Component {
                     history={this.props.history}
                     data={{}}
                   />
-                );
+                )
               }}
             />
           </Switch>
         ) : null}
       </Content>
-    );
+    )
   }
 }
 
@@ -318,21 +305,21 @@ class AllArticles extends React.Component {
   state = {
     collection: [],
     loading: true,
-    lang: "en",
-    openDeleteDialog: false,
+    lang: 'en',
+    openDeleteDialog: false
   };
 
-  componentDidMount() {
-    this.search();
+  componentDidMount () {
+    this.search()
 
-    this.props.dispatch(setCurrentSection("HelpCenter"));
+    this.props.dispatch(setCurrentSection('HelpCenter'))
 
-    this.props.dispatch(setCurrentPage("Articles"));
+    this.props.dispatch(setCurrentPage('Articles'))
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (prevProps.mode != this.props.mode) {
-      this.search();
+      this.search()
     }
   }
 
@@ -341,39 +328,40 @@ class AllArticles extends React.Component {
       ARTICLES,
       {
         appKey: this.props.app.key,
-        page: 1,
+        page: this.state.meta && this.state.meta.next_page ? 
+          this.state.meta.next_page : 1,
         lang: this.state.lang,
-        mode: this.props.mode,
+        mode: this.props.mode
       },
       {
         success: (data) => {
           this.setState({
             collection: data.app.articles.collection,
             meta: data.app.articles.meta,
-            loading: false,
-          });
+            loading: false
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   handleLangChange = (lang) => {
     this.setState(
       {
-        lang: lang,
+        lang: lang
       },
       this.getArticles
-    );
+    )
   };
 
-  search = (item) => {
+  search = () => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       this.getArticles
-    );
+    )
   };
 
   renderActions = () => {
@@ -381,8 +369,8 @@ class AllArticles extends React.Component {
       <div container direction="row" justify="flex-end">
         <div item>
           <LinkButton
-            variant={"contained"}
-            color={"primary"}
+            variant={'contained'}
+            color={'primary'}
             onClick={() =>
               this.props.history.push(
                 `/apps/${this.props.app.key}/articles/new`
@@ -390,15 +378,15 @@ class AllArticles extends React.Component {
             }
           >
             <AddIcon />
-            {" New article"}
+            {' New article'}
           </LinkButton>
         </div>
       </div>
-    );
+    )
   };
 
   setOpenDeleteDialog = (val) => {
-    this.setState({ openDeleteDialog: val });
+    this.setState({ openDeleteDialog: val })
   };
 
   removeArticle = (row) => {
@@ -406,29 +394,28 @@ class AllArticles extends React.Component {
       DELETE_ARTICLE,
       {
         appKey: this.props.app.key,
-        id: row.id.toString(),
+        id: row.id.toString()
       },
       {
-        success: (data) => {
+        success: () => {
           this.setState(
             {
-              collection: this.state.collection.filter((o) => o.id != row.id),
+              collection: this.state.collection.filter((o) => o.id != row.id)
             },
             () => {
-              this.setOpenDeleteDialog(null);
-              this.props.dispatch(successMessage("article deleted"));
+              this.setOpenDeleteDialog(null)
+              this.props.dispatch(successMessage('article deleted'))
             }
-          );
+          )
         },
-        error: (e) => {
-          debugger;
-        },
+        error: () => {
+        }
       }
-    );
+    )
   };
 
-  render() {
-    const { openDeleteDialog } = this.state;
+  render () {
+    const { openDeleteDialog } = this.state
 
     return (
       <div>
@@ -452,10 +439,10 @@ class AllArticles extends React.Component {
               loading={this.state.loading}
               disablePagination={true}
               columns={[
-                //{field: "id", title: I18n.t("definitions.articles.id.label")},
+                // {field: "id", title: I18n.t("definitions.articles.id.label")},
                 {
-                  field: "title",
-                  title: I18n.t("definitions.articles.title.label"),
+                  field: 'title',
+                  title: I18n.t('definitions.articles.title.label'),
                   render: (row) =>
                     row ? (
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
@@ -467,16 +454,16 @@ class AllArticles extends React.Component {
                             >
                               {row.title
                                 ? row.title
-                                : `-- missing translation --`}
+                                : '-- missing translation --'}
                             </Link>
                           )}
                         </div>
                       </td>
-                    ) : undefined,
+                    ) : undefined
                 },
                 {
-                  field: "author",
-                  title: I18n.t("definitions.articles.author.label"),
+                  field: 'author',
+                  title: I18n.t('definitions.articles.author.label'),
                   render: (row) =>
                     row ? (
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
@@ -490,11 +477,11 @@ class AllArticles extends React.Component {
                           </span>
                         </div>
                       </td>
-                    ) : undefined,
+                    ) : undefined
                 },
                 {
-                  field: "state",
-                  title: I18n.t("definitions.articles.state.label"),
+                  field: 'state',
+                  title: I18n.t('definitions.articles.state.label'),
                   render: (row) =>
                     row && (
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
@@ -505,24 +492,24 @@ class AllArticles extends React.Component {
                             }
                           >
                             {
-                              row.state === "draft" ? (
+                              row.state === 'draft' ? (
                                 <GestureIcon />
                               ) : (
                                 <CheckCircleIcon />
                               )
                             }
 
-                            {" "}
+                            {' '}
 
                             {row.state}
                           </Badge>
                         </div>
                       </td>
-                    ),
+                    )
                 },
                 {
-                  field: "collection",
-                  title: I18n.t("definitions.articles.collection.label"),
+                  field: 'collection',
+                  title: I18n.t('definitions.articles.collection.label'),
                   render: (row) =>
                     row && (
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
@@ -536,46 +523,47 @@ class AllArticles extends React.Component {
                           )}
                         </div>
                       </td>
-                    ),
+                    )
                 },
                 {
-                  field: "actions",
-                  title: I18n.t("definitions.articles.actions.label"),
+                  field: 'actions',
+                  title: I18n.t('definitions.articles.actions.label'),
                   render: (row) =>
                     row && (
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                         <div className="flex items-center">
                           <Button
-                            variant={"danger"}
+                            variant={'danger'}
                             onClick={() => {
-                              this.setOpenDeleteDialog(row);
+                              this.setOpenDeleteDialog(row)
                             }}
                           >
                             Delete
                           </Button>
                         </div>
                       </td>
-                    ),
-                },
+                    )
+                }
               ]}
               defaultHiddenColumnNames={[]}
               tableColumnExtensions={[
-                { columnName: "title", width: 250 },
-                { columnName: "id", width: 10 },
+                { columnName: 'title', width: 250 },
+                { columnName: 'id', width: 10 }
               ]}
-              //tableEdit={true}
-              //editingRowIds={["email", "name"]}
-              commitChanges={(aa, bb) => {
-                debugger;
+              // tableEdit={true}
+              // editingRowIds={["email", "name"]}
+              commitChanges={(_aa, _bb) => {
               }}
-              //leftColumns={this.props.leftColumns}
-              //rightColumns={this.props.rightColumns}
-              //toggleMapView={this.props.toggleMapView}
-              //map_view={this.props.map_view}
+              // leftColumns={this.props.leftColumns}
+              // rightColumns={this.props.rightColumns}
+              // toggleMapView={this.props.toggleMapView}
+              // map_view={this.props.map_view}
               enableMapView={false}
             />
           ) : (
-            <CircularProgress />
+            <div className="py-6 h-full flex justify-center items-center">
+              <CircularProgress />
+            </div>
           )}
         </div>
 
@@ -584,10 +572,10 @@ class AllArticles extends React.Component {
             open={openDeleteDialog}
             title={`Delete article "${openDeleteDialog.title} ?"`}
             closeHandler={() => {
-              this.setOpenDeleteDialog(null);
+              this.setOpenDeleteDialog(null)
             }}
             deleteHandler={() => {
-              this.removeArticle(openDeleteDialog);
+              this.removeArticle(openDeleteDialog)
             }}
           >
             <p variant="subtitle2">
@@ -596,19 +584,19 @@ class AllArticles extends React.Component {
           </DeleteDialog>
         )}
       </div>
-    );
+    )
   }
 }
 
-function mapStateToProps(state) {
-  const { auth, app } = state;
-  const { isAuthenticated } = auth;
-  //const { sort, filter, collection , meta, loading} = conversations
+function mapStateToProps (state) {
+  const { auth, app } = state
+  const { isAuthenticated } = auth
+  // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(Articles));
+export default withRouter(connect(mapStateToProps)(Articles))

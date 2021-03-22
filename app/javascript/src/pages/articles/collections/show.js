@@ -1,60 +1,57 @@
-import React, { Component } from "react";
-import { withRouter, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import Button from "../../../components/Button";
-import TextField from "../../../components/forms/Input";
-import List, { ListItem, ListItemText } from "../../../components/List";
-import CircularProgress from "../../../components/Progress";
-import Input from "../../../components/forms/Input";
-import ContentHeader from "../../../components/PageHeader";
-import { AnchorLink } from "../../../shared/RouterLink";
+import Button from '../../../components/Button'
+import TextField from '../../../components/forms/Input'
+import List, { ListItem, ListItemText } from '../../../components/List'
+import CircularProgress from '../../../components/Progress'
+import Input from '../../../components/forms/Input'
+import ContentHeader from '../../../components/PageHeader'
+import { AnchorLink } from '../../../shared/RouterLink'
 
-import FormDialog from "../../../components/FormDialog";
-import { setCurrentSection, setCurrentPage } from "../../../actions/navigation";
+import FormDialog from '../../../components/FormDialog'
+import { setCurrentSection, setCurrentPage } from '../../../actions/navigation'
 
-import ScrollableTabsButtonForce from "../../../components/scrollingTabs";
-import langs from "../../../shared/langsOptions";
+import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
+import langs from '../../../shared/langsOptions'
 
-import graphql from "../../../graphql/client";
+import graphql from '../../../graphql/client'
 import {
-  ARTICLE_COLLECTION_CREATE,
-  ARTICLE_COLLECTION_EDIT,
-  ARTICLE_COLLECTION_DELETE,
+
   ARTICLE_SECTION_CREATE,
   ARTICLE_SECTION_DELETE,
   REORDER_ARTICLE,
   ADD_ARTICLES_TO_COLLECTION,
-  ARTICLE_SECTION_EDIT,
-} from "../../../graphql/mutations";
+  ARTICLE_SECTION_EDIT
+} from '../../../graphql/mutations'
 
 import {
-  ARTICLE_COLLECTIONS,
-  ARTICLE_COLLECTION,
-  ARTICLE_COLLECTION_WITH_SECTIONS,
-  ARTICLES_UNCATEGORIZED,
-} from "../../../graphql/queries";
 
-import Dnd from "./dnd";
+  ARTICLE_COLLECTION_WITH_SECTIONS,
+  ARTICLES_UNCATEGORIZED
+} from '../../../graphql/queries'
+
+import Dnd from './dnd'
 
 class CollectionDetail extends Component {
   state = {
     isOpen: false,
     addArticlesDialog: false,
     collection: null,
-    lang: "en",
-    languages: ["es", "en"],
-    editSection: null,
+    lang: 'en',
+    languages: ['es', 'en'],
+    editSection: null
   };
 
   titleRef = null;
   descriptionRef = null;
 
-  componentDidMount() {
-    this.getCollection();
-    this.props.dispatch(setCurrentSection("HelpCenter"));
+  componentDidMount () {
+    this.getCollection()
+    this.props.dispatch(setCurrentSection('HelpCenter'))
 
-    this.props.dispatch(setCurrentPage("Collections"));
+    this.props.dispatch(setCurrentPage('Collections'))
   }
 
   getCollection = () => {
@@ -63,18 +60,18 @@ class CollectionDetail extends Component {
       {
         appKey: this.props.app.key,
         id: this.props.match.params.id,
-        lang: this.state.lang,
+        lang: this.state.lang
       },
       {
         success: (data) => {
           this.setState({
             collection: data.app.collection,
-            loading: false,
-          });
+            loading: false
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   close = () => this.setState({ isOpen: false });
@@ -82,55 +79,55 @@ class CollectionDetail extends Component {
   openNewDialog = () => {
     this.setState({
       isOpen: true,
-      editSection: null,
-    });
+      editSection: null
+    })
   };
 
   handleDataUpdate = (data) => {
     this.setState({
-      collection: Object.assign({}, this.state.collection, { sections: data }),
-    });
+      collection: Object.assign({}, this.state.collection, { sections: data })
+    })
   };
 
   allCollections = () => {
-    const { collection } = this.state;
+    const { collection } = this.state
     const baseSection = {
-      id: "base",
-      title: "base section",
-      articles: collection.baseArticles,
-    };
+      id: 'base',
+      title: 'base section',
+      articles: collection.baseArticles
+    }
 
     // just concat base section if it's not present
-    if (collection.sections.find((o) => o.id === "base")) {
-      return collection.sections;
+    if (collection.sections.find((o) => o.id === 'base')) {
+      return collection.sections
     } else {
-      return [baseSection].concat(collection.sections);
+      return [baseSection].concat(collection.sections)
     }
   };
 
   saveOperation = (options) => {
-    const params = Object.assign({}, options, { appKey: this.props.app.key });
+    const params = Object.assign({}, options, { appKey: this.props.app.key })
     graphql(REORDER_ARTICLE, params, {
-      success: (data) => {},
-      error: () => {},
-    });
+      success: (_data) => {},
+      error: () => {}
+    })
   };
 
-  addArticlesToSection = (section) => {
+  addArticlesToSection = (_section) => {
     this.setState({
-      addArticlesDialog: true,
-    });
+      addArticlesDialog: true
+    })
   };
 
   requestUpdate = (section) => {
     this.setState({
       isOpen: true,
-      editSection: section,
-    });
+      editSection: section
+    })
   };
 
   renderCollection = () => {
-    const { collection } = this.state;
+    const { collection } = this.state
 
     return (
       <div className="py-4">
@@ -146,14 +143,15 @@ class CollectionDetail extends Component {
 
             <div className="self-end">
               <Button
-                variant="contained"
-                color={"primary"}
+                variant="flat-dark"
+                color={'primary'}
                 onClick={this.openNewDialog}>
-                {I18n.t("articles.new_section")}
+                {I18n.t('articles.new_section')}
               </Button>
             </div>
 
             <Dnd
+              app={this.props.app}
               sections={this.allCollections()}
               handleDataUpdate={this.handleDataUpdate}
               deleteSection={this.deleteSection}
@@ -165,7 +163,7 @@ class CollectionDetail extends Component {
           </div>
         )}
       </div>
-    );
+    )
   };
 
   deleteSection = (section) => {
@@ -173,28 +171,28 @@ class CollectionDetail extends Component {
       ARTICLE_SECTION_DELETE,
       {
         appKey: this.props.app.key,
-        id: `${section.id}`,
+        id: `${section.id}`
       },
       {
         success: (data) => {
-          const section = data.articleSectionDelete.section;
+          const section = data.articleSectionDelete.section
           const newSections = this.state.collection.sections.filter(
             (o) => o.id != section.id
-          );
+          )
 
           this.setState({
             collection: Object.assign({}, this.state.collection, {
-              sections: newSections,
-            }),
-          });
+              sections: newSections
+            })
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   submitCreate = () => {
-    const { collection } = this.state;
+    const { collection } = this.state
     graphql(
       ARTICLE_SECTION_CREATE,
       {
@@ -202,27 +200,27 @@ class CollectionDetail extends Component {
         collectionId: collection.id,
         title: this.titleRef.value,
         lang: this.state.lang,
-        description: this.descriptionRef.value,
+        description: this.descriptionRef.value
       },
       {
         success: (data) => {
-          const section = data.articleSectionCreate.section;
-          const sections = this.state.collection.sections.concat(section);
+          const section = data.articleSectionCreate.section
+          const sections = this.state.collection.sections.concat(section)
 
           this.setState({
             collection: Object.assign({}, this.state.collection, {
-              sections: sections,
+              sections: sections
             }),
-            isOpen: false,
-          });
+            isOpen: false
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   submitEdit = () => {
-    const { collection } = this.state;
+    const { collection } = this.state
     graphql(
       ARTICLE_SECTION_EDIT,
       {
@@ -231,56 +229,55 @@ class CollectionDetail extends Component {
         title: this.titleRef.value,
         id: this.state.editSection.id.toString(),
         lang: this.state.lang,
-        description: this.descriptionRef.value,
+        description: this.descriptionRef.value
       },
       {
         success: (data) => {
-          const section = data.articleSectionEdit.section;
+          const section = data.articleSectionEdit.section
           const sections = this.state.collection.sections.map((o) => {
             if (o.id === section.id) {
-              return Object.assign({}, o, section);
+              return Object.assign({}, o, section)
             } else {
-              return o;
+              return o
             }
-          });
+          })
 
           this.setState({
             collection: Object.assign({}, this.state.collection, {
-              sections: sections,
+              sections: sections
             }),
             isOpen: false,
-            submitEdit: null,
-          });
+            submitEdit: null
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   renderDialog = () => {
-    const { isOpen, editSection } = this.state;
+    const { isOpen, editSection } = this.state
     return (
       <FormDialog
         open={isOpen}
         handleClose={this.close}
-        //contentText={"lipsum"}
-        titleContent={"New Section"}
+        // contentText={"lipsum"}
+        titleContent={'New Section'}
         formComponent={
-          <form ref="form">
+          <form>
             <TextField
               id="collection-title"
-              //label="Name"
+              // label="Name"
               type="text"
-              placeholder={I18n.t("articles.title_placeholder")}
+              placeholder={I18n.t('articles.title_placeholder')}
               inputProps={{
                 style: {
-                  fontSize: "1.4em",
-                },
+                  fontSize: '1.4em'
+                }
               }}
-              //helperText="Full width!"
-              fullWidth
+              // helperText="Full width!"
               ref={(ref) => {
-                this.titleRef = ref;
+                this.titleRef = ref
               }}
               defaultValue={editSection ? editSection.title : null}
               margin="normal"
@@ -289,13 +286,12 @@ class CollectionDetail extends Component {
             <TextField
               id="collection-description"
               type="textarea"
-              //label="Description"
-              placeholder={I18n.t("articles.description_placeholder")}
-              //helperText="Full width!"
-              fullWidth
+              // label="Description"
+              placeholder={I18n.t('articles.description_placeholder')}
+              // helperText="Full width!"
               multiline
               ref={(ref) => {
-                this.descriptionRef = ref;
+                this.descriptionRef = ref
               }}
               defaultValue={editSection ? editSection.description : null}
               margin="normal"
@@ -305,7 +301,7 @@ class CollectionDetail extends Component {
         dialogButtons={
           <React.Fragment>
             <Button onClick={this.close} variant="outlined">
-              {I18n.t("common.cancel")}
+              {I18n.t('common.cancel')}
             </Button>
 
             <Button
@@ -316,13 +312,13 @@ class CollectionDetail extends Component {
               }
               className="mr-1"
             >
-              {I18n.t("common.submit")}
-              {/*editCollection ? 'update' : 'create'*/}
+              {I18n.t('common.submit')}
+              {/* editCollection ? 'update' : 'create' */}
             </Button>
           </React.Fragment>
         }
       />
-    );
+    )
   };
 
   addArticlesHandlerSubmit = (items) => {
@@ -331,63 +327,64 @@ class CollectionDetail extends Component {
       {
         articlesId: items,
         appKey: this.props.app.key,
-        collectionId: this.state.collection.id,
+        collectionId: this.state.collection.id
       },
       {
         success: (data) => {
-          const collection = data.addArticlesToCollection.collection;
+          const collection = data.addArticlesToCollection.collection
           if (collection) {
-            this.getCollection();
+            this.getCollection()
           }
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   };
 
   renderAddToSectionDialog = () => {
     return (
       <AddArticleDialog
         app={this.props.app}
-        handleClose={()=> this.setState({addArticlesDialog: false})}
+        handleClose={() => this.setState({ addArticlesDialog: false })}
         handleSubmit={this.addArticlesHandlerSubmit}
         isOpen={this.state.addArticlesDialog}
       />
-    );
+    )
   };
 
   // TODO refactor
   handleLangChange = (o) => {
     this.setState(
       {
-        lang: o,
+        lang: o
       },
       this.getCollection
-    );
+    )
   };
 
-  render() {
-    const { classes, app } = this.props;
+  render () {
+    const { app } = this.props
 
     return (
       <React.Fragment>
         <ContentHeader
           breadcrumbs={[
-            <AnchorLink color="inherit" to={`/apps/${app.key}/articles`}>
-              {I18n.t("articles.help_center")}
+            <AnchorLink key={`bc-1`} color="inherit" to={`/apps/${app.key}/articles`}>
+              {I18n.t('articles.help_center')}
             </AnchorLink>,
             <AnchorLink
+              key={`bc-2`}
               color="inherit"
               to={`/apps/${app.key}/articles/collections`}
             >
-              {I18n.t("articles.collections")}
-            </AnchorLink>,
+              {I18n.t('articles.collections')}
+            </AnchorLink>
           ]}
         />
 
         <div square={true} elevation={1}>
           <ScrollableTabsButtonForce
-            //tabs={this.props.settings.availableLanguages}
+            // tabs={this.props.settings.availableLanguages}
             tabs={this.props.settings.availableLanguages.map((o) =>
               langs.find((lang) => lang.value === o)
             )}
@@ -407,70 +404,71 @@ class CollectionDetail extends Component {
           {this.state.loading ? <CircularProgress /> : this.renderCollection()}
         </div>
       </React.Fragment>
-    );
+    )
   }
 }
 
 class AddArticleDialog extends Component {
   state = {
     articles: [],
-    isOpen: this.props.isOpen,
+    isOpen: this.props.isOpen
   };
 
-  componentDidMount() {
+  componentDidMount () {
     graphql(
       ARTICLES_UNCATEGORIZED,
       {
         appKey: this.props.app.key,
         page: 1,
-        per: 50,
+        per: 50
       },
       {
         success: (data) => {
           this.setState({
-            articles: data.app.articlesUncategorized.collection,
-          });
+            articles: data.app.articlesUncategorized.collection
+          })
         },
-        error: () => {},
+        error: () => {}
       }
-    );
+    )
   }
 
   close = () => {
-    this.setState({ isOpen: false }); 
+    this.setState({ isOpen: false })
     this.props.handleClose && this.props.handleClose()
   }
+
   open = () => {
-    this.setState({ isOpen: true });
+    this.setState({ isOpen: true })
     this.props.handleClose && this.props.handleClose()
   }
 
   getValues = () => {
-    var chk_arr = document.getElementsByName("article[]");
-    var chklength = chk_arr.length;
-    var arr = [];
+    var chk_arr = document.getElementsByName('article[]')
+    var chklength = chk_arr.length
+    var arr = []
     for (let k = 0; k < chklength; k++) {
-      if (chk_arr[k].checked) arr.push(chk_arr[k].value);
+      if (chk_arr[k].checked) arr.push(chk_arr[k].value)
     }
-    return arr;
+    return arr
   };
 
-  render() {
-    const { isOpen } = this.state;
+  render () {
+    const { isOpen } = this.state
     return (
       <FormDialog
         open={isOpen}
         handleClose={this.close}
-        //contentText={"lipsum"}
-        titleContent={I18n.t("articles.add")}
+        // contentText={"lipsum"}
+        titleContent={I18n.t('articles.add')}
         formComponent={
           <List>
             {this.state.articles.map((o) => (
-              <ListItem>
+              <ListItem key={`article-list-${o.id}`}>
                 <Input
                   type="checkbox"
                   checked={o.id}
-                  //onChange={handleChange('checkedA')}
+                  // onChange={handleChange('checkedA')}
                   value={o.id}
                   name="article[]"
                 />
@@ -486,31 +484,31 @@ class AddArticleDialog extends Component {
         dialogButtons={
           <React.Fragment>
             <Button onClick={this.close} variant="outlined">
-              {I18n.t("common.cancel")}
+              {I18n.t('common.cancel')}
             </Button>
 
             <Button
               onClick={() => this.props.handleSubmit(this.getValues())}
               className="mr-1"
             >
-              {I18n.t("common.submit")}
+              {I18n.t('common.submit')}
             </Button>
           </React.Fragment>
         }
       />
-    );
+    )
   }
 }
 
-function mapStateToProps(state) {
-  const { auth, app } = state;
-  const { isAuthenticated } = auth;
-  //const { sort, filter, collection , meta, loading} = conversations
+function mapStateToProps (state) {
+  const { auth, app } = state
+  const { isAuthenticated } = auth
+  // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated,
-  };
+    isAuthenticated
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(CollectionDetail));
+export default withRouter(connect(mapStateToProps)(CollectionDetail))

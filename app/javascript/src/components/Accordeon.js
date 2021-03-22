@@ -1,11 +1,9 @@
 import React from 'react'
+import Button from '../components/Button'
+import { DownArrow, UpArrow } from './icons'
 
 export default function CustomizedExpansionPanels (props) {
   const [expanded, setExpanded] = React.useState(props.items[0].name)
-
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false)
-  }
 
   const withValues = (col) => {
     return col.filter((o) => o.value)
@@ -37,9 +35,9 @@ export default function CustomizedExpansionPanels (props) {
         <article
           className="border-b"
           key={`expansion-panel-${i}`}
-          //square
-          //expanded={expanded === o.name}
-          //onChange={handleChange(o.name)}
+          // square
+          // expanded={expanded === o.name}
+          // onChange={handleChange(o.name)}
         >
           <div
             className={expandedClasses(o)}
@@ -57,58 +55,25 @@ export default function CustomizedExpansionPanels (props) {
               </span>
 
               {isExpanded(o) && (
-                <button
+                <Button
                   onClick={() => {
                     toggleExpanded(o.name)
                   }}
-                  className="rounded-full border
-                  border-indigo-400 w-7 h-7 flex items-center
-                  justify-center bg-gray-600"
+                  variant="outlined"
                 >
-                  <svg
-                    aria-hidden="true"
-                    data-reactid="281"
-                    fill="none"
-                    height="24"
-                    stroke="white"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="18 15 12 9 6 15"></polyline>
-                  </svg>
-                </button>
+                  <UpArrow/>
+                </Button>
               )}
 
               {!isExpanded(o) && (
-                <button
+                <Button
                   onClick={() => {
                     toggleExpanded(o.name)
                   }}
-                  className="rounded-full
-                  border-grey w-7 h-7 flex
-                  items-center justify-center"
+                  variant="outlined"
                 >
-                  <svg
-                    aria-hidden="true"
-                    className=""
-                    data-reactid="266"
-                    fill="none"
-                    height="24"
-                    stroke="#606F7B"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
+                  <DownArrow/>
+                </Button>
               )}
             </header>
 

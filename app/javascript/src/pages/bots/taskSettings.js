@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '../../components/Button'
 import Input from '../../components/forms/Input'
-import FormDialog from '../../components/FormDialog'
+
 import I18n from '../../shared/FakeI18n'
 
-const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
-  const [state, setState] = useState(data || {})
+const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
+  const [state, _setState] = useState(data || {})
 
   function update (data) {
     const newState = Object.assign({}, state, data)
@@ -43,7 +43,7 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, errors }) => {
   )
 }
 
-function Schedule ({ app, data, updateData, namespace, submit }) {
+function Schedule ({ app, data, updateData, _namespace, _submit }) {
   const [state, setState] = React.useState(data)
 
   useEffect(() => {
@@ -58,13 +58,13 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
     setState({ ...state, [name]: value })
   }
 
-  function submitData () {
+  /*function submitData () {
     submit(state)
-  }
+  }*/
 
-  const handleChange = (name) => (event) => {
+  /*const handleChange = (name) => (event) => {
     setValue(name, event.target.checked ? 'enabled' : 'disabled')
-  }
+  }*/
 
   return (
     <div className="">
@@ -72,21 +72,21 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
         {I18n.t('task_bots.settings.settings_title')}
       </p>
 
-      {/*<Input
+      {/* <Input
         type="checkbox"
         checked={state.state === 'enabled'}
         onChange={handleChange('state')}
         value={state.state === 'enabled'}
         label={I18n.t('task_bots.settings.enable_title')}
         hint={I18n.t('task_bots.settings.enable_hint')}
-      ></Input>*/}
+      ></Input> */}
 
       <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
         {I18n.t('task_bots.settings.specific_times_title')}
       </p>
 
       <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
-        {I18n.t('task_bots.settings.tz_hint', {timezone: app.timezone })}
+        {I18n.t('task_bots.settings.tz_hint', { timezone: app.timezone })}
       </p>
 
       <Input
@@ -123,7 +123,7 @@ function Schedule ({ app, data, updateData, namespace, submit }) {
   )
 }
 
-function UrlPaths ({ data, updateData }) {
+/*function UrlPaths ({ data, updateData }) {
   const [urls, setUrls] = useState(data.urls || [])
   const inputEl = useRef(null)
 
@@ -198,6 +198,6 @@ function UrlPaths ({ data, updateData }) {
       </div>
     </div>
   )
-}
+}*/
 
 export default TaskSettingsForm

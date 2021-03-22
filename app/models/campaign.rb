@@ -26,21 +26,34 @@ class Campaign < Message
     ]
   end
 
-  def stats_fields
-    colors = {
+  def colors
+    {
       delivery: '#9ae6b4',
       send: '#faf089',
       click: '#d6bcfa',
       open: '#90cdf4',
       bounces: '#ccc'
     }
+  end
 
+  def stats_fields
     [
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }] },
-      { name: 'BouncesRateCount', label: 'BouncesRateCount', keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }] },
-      { name: 'DeliverRateCount', label: 'DeliverRateCount', keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }] },
-      { name: 'ClickRateCount', label: 'ClickRateCount', keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }] }
-      # { name: 'ComplaintsRate', label: 'ComplaintsRate', keys: [{ name: 'send', color: '#444' }, { name: 'complaints', color: '#ccc' }] }
+      add_stat_field(
+        name: 'DeliverRateCount', label: 'DeliverRateCount',
+        keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }]
+      ),
+      add_stat_field(
+        name: 'BouncesRateCount', label: 'BouncesRateCount',
+        keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }]
+      ),
+      add_stat_field(
+        name: 'DeliverRateCount', label: 'DeliverRateCount',
+        keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }]
+      ),
+      add_stat_field(
+        name: 'ClickRateCount', label: 'ClickRateCount',
+        keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }]
+      )
     ]
   end
 
@@ -122,7 +135,7 @@ class Campaign < Message
 
   # will remove content blocks text
   def clean_inline_css(url)
-    html = open(url).readlines.join('')
+    html = open(url).readlines.join
     document = Roadie::Document.new html
     new_html = document.transform
 
@@ -141,12 +154,14 @@ class Campaign < Message
     subscriber_url = "#{campaign_url}/subscribers/#{subscriber.encoded_id}"
     track_image    = "#{campaign_api_url}/tracks/#{subscriber.encoded_id}/open.gif"
 
-    { email: subscriber.email,
+    {
+      email: subscriber.email,
       campaign_url: campaign_url,
       campaign_unsubscribe: "#{subscriber_url}/delete",
       campaign_subscribe: "#{campaign_url}/subscribers/new",
       campaign_description: description.to_s,
-      track_image_url: track_image }
+      track_image_url: track_image
+    }
   end
 
   def broadcast_event
@@ -170,8 +185,11 @@ class Campaign < Message
   end
 
   def campaign_outgoing_email
-    self[:from_email] || 
-    (app.outgoing_email_domain.present? ?
-    "campaigns-#{self.app.key}-#{self.id}@#{app.outgoing_email_domain}" : '')
+    self[:from_email] ||
+      (if app.outgoing_email_domain.present?
+         "campaigns-#{app.key}-#{id}@#{app.outgoing_email_domain}"
+       else
+         ''
+       end)
   end
 end

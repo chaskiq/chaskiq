@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import {
 
@@ -13,11 +13,7 @@ import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Loader from './loader'
-import { useTranslation, Trans } from 'react-i18next'
-
-import { withTranslation } from 'react-i18next';
-import i18n from '../client_messenger/i18n'
-
+import {  Trans, withTranslation } from 'react-i18next'
 
 const DanteContainerExtend = styled(DanteContainer)`
   margin-top: 1.2em;
@@ -54,21 +50,20 @@ const ArticleMeta = styled.span`
 `
 
 const Article = ({
-  //updateHeader,
-  //articleSlug,
-  //transition,
-  //appData,
+  // updateHeader,
+  // articleSlug,
+  // transition,
+  // appData,
   i18n,
-  //graphqlClient,
-  lang,
-  //domain,
-  //articleJson
+  // graphqlClient,
+  //lang
+  // domain,
+  // articleJson
 }) => {
-
   const domain = window.domain
-  const [article, setArticle] = useState(window.articleJson)
-  const [loading, setLoading] = useState(false)
-  const { t } = useTranslation()
+  const [article, _setArticle] = useState(window.articleJson)
+  const [loading, _setLoading] = useState(false)
+  //const { t } = useTranslation()
 
   function renderDate () {
     return <Moment format="MMM Do, YYYY">
@@ -84,8 +79,8 @@ const Article = ({
       }
       {
         article &&
-        <ContentWrapper 
-        //in={transition}
+        <ContentWrapper
+        // in={transition}
         >
 
           { article.collection && <CollectionLabel>
@@ -112,9 +107,10 @@ const Article = ({
             theme={ {
               ...theme,
               palette: {
-                primary: "#121212",
-                secondary: "#121212"
-              }} 
+                primary: '#121212',
+                secondary: '#121212'
+              }
+            }
             }>
             <DanteContainerExtend>
               <DraftRenderer
@@ -131,6 +127,5 @@ const Article = ({
   )
 }
 
-const TranslatedArticle = withTranslation()(Article);
+const TranslatedArticle = withTranslation()(Article)
 export default TranslatedArticle
-

@@ -118,7 +118,7 @@ export const Container = styled.div`
 
       : `z-index: 2147483000;
       position: fixed;
-      bottom: 100px;
+      bottom: 91px;
       right: 20px;
       width: 376px;
       min-height: 250px;
@@ -174,14 +174,9 @@ export const ShowMoreWrapper = styled.div`
 
 `
 
-
 export const DisabledElement = styled.div`
   padding: 1.2em !important;
-  ${() => tw`w-full p-4 flex justify-center` }
-`
-
-const Button = styled.button`
-  color: turquoise;
+  ${() => tw`w-full p-4 flex justify-center text-sm font-light`}
 `
 
 export const SuperDuper = styled('div')`
@@ -420,7 +415,6 @@ export const ConversationEventContainer = styled.div`
       return props.isInline ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)' : ''
     }
   }
-
 `
 
 export const AppPackageBlockContainer = styled.div`
@@ -435,7 +429,9 @@ export const AppPackageBlockContainer = styled.div`
     ${(props) => props.isHidden ? 'display:none;' : ''}
     
     box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
-
+    fieldset{
+      width:100%;
+    }
     p {
       font-size: 0.8em;
       font-weight: 300;
@@ -450,18 +446,7 @@ export const AppPackageBlockContainer = styled.div`
     form.form {
       display: flex;
       align-items: center;
-      //justify-content: space-between;
-      //width: 69%;
       flex-wrap: wrap;
-      button {
-        margin: 1px;
-        padding: 5px;
-        white-space: normal;
-        background: transparent;
-        border: 1px solid #007bff;
-        color: #007bff;
-        font-size: 0.9em;
-      }
 
       .form-group {
         display: flex;
@@ -502,15 +487,20 @@ export const AppPackageBlockContainer = styled.div`
       [type=reset], [type=submit], button, html [type=button] {
           -webkit-appearance: button;
       }
-      button {
+      .elementsContainer{
+        display:flex;
+        flex-direction: column;
+      }
+
+      button.tuti {
         color: #fff;
         background-color: #007bff;
         border-color: #007bff;
 
         display: inline-block;
         font-weight: 400;
-        text-align: center;
-        white-space: nowrap;
+        text-align: left;
+        white-space: break-word;
         vertical-align: middle;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -524,6 +514,18 @@ export const AppPackageBlockContainer = styled.div`
         transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
       }
   }
+`
+
+export const AppPackageBlockButtonItem = styled.div`
+  ${() => tw`flex justify-end mx-4 my-1.5 `}
+`
+
+export const AppPackageBlockTextItem = styled.div`
+  ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-400 font-light`}
+  a{
+    ${() => tw`text-sm text-gray-600 font-normal hover:text-gray-900`}
+  }
+
 `
 
 export const UserAutoMessage = styled.div`
@@ -729,7 +731,7 @@ export const FooterAck = styled(FooterAckInline)`
 
 export const CountBadge = styled.div`
 
-  ${()=> tw`h-6 w-6 rounded-full text-white text-center p-1 absolute bg-red-600 text-xs` }
+  ${() => tw`h-6 w-6 rounded-full text-white text-center p-1 absolute bg-red-600 text-xs`}
   ${(props) => props.section === 'home'
     ? `top: 42px;
     left: 15px;` : ''
@@ -1009,17 +1011,17 @@ export const HeaderOption = styled.div`
 `
 
 export const HeaderTitle = styled.span`
-  ${ () => tw`space-y-2`}
+  ${() => tw`space-y-2`}
   .title{
     //font-size: 2em;
     //font-weight: bold;
     //margin: 0em 0.2em;
-    ${ () => tw`text-3xl antialiased font-bold`}
+    ${() => tw`text-3xl antialiased font-bold`}
   }
   p.tagline{
     //margin: 0.6em 0.3em;
     //line-height: 1.6em;
-    ${ () => tw`text-sm antialiased font-light mb-3`}
+    ${() => tw`text-sm antialiased font-light mb-3`}
   }
   /*${(props) => FadeRightAnimation(props)}*/
 `
@@ -1095,7 +1097,6 @@ justify-content: center;
 `
 // ${(props) => FadeBottomAnimation(props)}
 
-
 export const NewConvoBtn = styled(AnchorButton)`
 
 `
@@ -1170,7 +1171,7 @@ export const Hint = styled.p`
     margin: 0px;
     height: 100%;*/
 
-  ${ ()=> tw`text-sm leading-5 text-gray-500 h-full p-8 bg-gray-100` }
+  ${() => tw`text-sm leading-5 text-gray-500 h-full p-8 bg-gray-100`}
 
 `
 

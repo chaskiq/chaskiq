@@ -66,7 +66,7 @@ import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
-import RtcDisplayWrapper, { ModalWrapper } from '../../../client_messenger/rtcView' // './RtcWrapper'
+import RtcDisplayWrapper from '../rtcView' // './RtcWrapper'
 import TagDialog from '../TagDialog'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
@@ -93,7 +93,7 @@ const MessageItem = styled.div`
   ${(props) => props.userOrAdmin === 'user'
     ? tw`bg-white text-green-500` : props.privateNote
       ? tw`bg-yellow-300 text-black`
-      : tw`bg-gray-900 text-white`
+      : tw`bg-gray-700 text-white`
 
   // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
   // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -270,7 +270,7 @@ function Conversation ({
         success: (data) => {
           cb(data.app.agents)
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
@@ -306,10 +306,7 @@ function Conversation ({
     let textClass = userOrAdmin === 'admin' ? 'text-gray-100' : ''
     const flow = userOrAdmin === 'admin' ? 'flex-row-reverse' : ''
     const avatarM = userOrAdmin === 'admin' ? 'ml-3' : 'mr-3'
-    let bgClass =
-    userOrAdmin === 'admin' ? 'bg-black' : 'bg-green-100'
     if (message.privateNote) {
-      bgClass = 'bg-yellow-300'
       textClass = 'text-gray-900'
     }
 
@@ -331,10 +328,10 @@ function Conversation ({
         userOrAdmin={userOrAdmin}
         privateNote={message.privateNote}
         className={`
-        shadow-md 
+        shadow sm:rounded-lg
         flex-1 
-        overflow-hidden-dis p-3 
-        rounded-md max-w-full`}
+        p-3 
+        max-w-full`}
       >
         <div className="flex justify-between pb-4">
           <div className="flex items-center">
@@ -463,13 +460,15 @@ function Conversation ({
           {
             conversation.mainParticipant &&
             !fixedSidebarOpen &&
-            <img onClick={handleUserSidebar}
+            <img 
+              // onClick={handleUserSidebar}
+              onClick={toggleFixedSidebar}
               className="h-9 w-9 rounded-full mr-2 cursor-pointer"
               src={conversation.mainParticipant.avatarUrl}
               alt=""
             />
           }
-          <h3 className="mb-1 text-xs text-grey-darkest">
+          <h3 className="mb-1 text-xs text-grey-darkest hidden md:block">
             {I18n.t('conversation.with')}{' '}
             <br/>
             <span className="font-extrabold hover:text-underline"
@@ -509,18 +508,17 @@ function Conversation ({
                 updateConversationStateDispatch(option)
               }}
               aria-label={I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)}
-              className={`focus:outline-none 
-                outline-none 
-                mr-1 rounded-full 
-                ${
-                  conversation.state === 'closed'
-                  ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                  : 'bg-white hover:bg-gray-100 text-gray-800'
-                }
-                 
-                font-semibold 
-                border 
-                rounded shadow`
+              className={`
+              focus:outline-none outline-none mr-1 rounded-full 
+              font-semibold border
+              border-gray-400 rounded shadow
+
+              ${
+                conversation.state === 'closed'
+                ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
+                : 'bg-white hover:bg-gray-100 text-gray-800'
+              }
+              `
               }
             >
               <CheckmarkIcon variant="rounded" />
@@ -540,21 +538,6 @@ function Conversation ({
             </button>
           </Tooltip>
 
-          <ModalWrapper expanded={expand} videoSession={videoSession}>
-
-            <RtcDisplayWrapper
-              videoSession={videoSession}
-              relativePosition={true}
-              toggleVideo={() => setRtcVideo(!rtcVideo)}
-              toggleAudio={() => setRtcAudio(!rtcAudio)}
-              rtcVideo={rtcVideo}
-              rtcAudio={rtcAudio}
-              expand={expand}
-              setExpand={setExpand}
-              setVideoSession={() => setVideoSession(!videoSession)}
-            />
-          </ModalWrapper>
-
           <div id="button-element" className="hidden"></div>
 
           {
@@ -565,7 +548,7 @@ function Conversation ({
               infoElement={'info'}
               localVideoElement={'localVideo'}
               remoteVideoElement={'remoteVideo'}
-              handleRTCMessage={(data) => { debugger }}
+              handleRTCMessage={(_data) => {  }}
               onCloseSession={() => updateRtcEvents({}) }
               toggleVideoSession={ () => setVideoSession(!videoSession)}
               toggleVideo={() => setRtcVideo(!rtcVideo)}
@@ -675,6 +658,27 @@ function Conversation ({
         </div>
       </div>
 
+      <div className={`${videoSession ? 'fixed--' : 'hidden'}`}
+        expanded={expand}
+        videoSession={videoSession}>
+        <div className="flex bg-gray-900- h-44
+          justify-center items-center
+          shadow-lg text-black"
+        style={{ backdropFilter: 'blur(4px)' }}>
+          <RtcDisplayWrapper
+            videoSession={videoSession}
+            relativePosition={true}
+            toggleVideo={() => setRtcVideo(!rtcVideo)}
+            toggleAudio={() => setRtcAudio(!rtcAudio)}
+            rtcVideo={rtcVideo}
+            rtcAudio={rtcAudio}
+            expand={expand}
+            setExpand={setExpand}
+            setVideoSession={() => setVideoSession(!videoSession)}
+          />
+        </div>
+      </div>
+
       <div
         ref={overflow}
         className="overflow-y-scroll"
@@ -682,6 +686,7 @@ function Conversation ({
         style={{
           height: 'calc(100vh - 220px)'
         }}>
+
         <div
           className="flex flex-col-reverse px-6 py-4">
           <ErrorBoundary>
@@ -693,7 +698,6 @@ function Conversation ({
                   !isReplied && message.appUser && message.appUser.kind === 'agent'
                     ? 'admin'
                     : 'user'
-                const appuserId = conversation.mainParticipant.id
 
                 return (
                   <MessageItemWrapper
@@ -719,7 +723,6 @@ function Conversation ({
                           ? <RenderBlocks
                             conversation={conversation}
                             message={message}
-                            userOrAdmin={userOrAdmin}
                             app={app}
                             dispatch={dispatch}
                           />
@@ -799,7 +802,7 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
   return <React.Fragment>{children}</React.Fragment>
 }
 
-function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
+function RenderBlocks ({ message, app, conversation, dispatch }) {
   const { data, blocks } = toCamelCase(message).message
 
   const schema = blocks.schema
@@ -834,12 +837,10 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
   }
 
   const renderBlockRepresentation = () => {
-    const { data } = message.message
     // TODO: display labels, schema buttons
     let output = null
     switch (blocks.type) {
       case 'app_package':
-
         output = <div>
           <div
             className="text-gray-800 text-xs
@@ -916,11 +917,11 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
     return <p className="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
       <a href="#" className="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white">
         <span className="absolute flex-shrink-0 flex items-center justify-center">
-          <span className="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black" 
+          <span className="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black"
             aria-hidden="true">
           </span>
         </span>
-        <span className="ml-3.5 font-medium text-gray-700 bord">waiting for reply</span>
+        <span className="ml-3.5 font-medium text-gray-700">waiting for reply</span>
       </a>
 
     </p>
@@ -960,7 +961,7 @@ function RenderBlocks ({ message, userOrAdmin, app, conversation, dispatch }) {
       if (blocks.type === 'data_retrieval') {
         const dataList = Object.keys(message.message.data).map((k) => {
           return (
-            <p>
+            <p key={`data-message-${message.id}-${k}`}>
               {k}: {message.message.data[k]}
             </p>
           )

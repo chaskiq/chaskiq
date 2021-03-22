@@ -26,7 +26,7 @@ function UserData ({ app_user, app, disableAvatar }) {
   return (
     <React.Fragment>
       {app_user && app_user.id && (
-        <div className="overflow-hidden max-w-xs my-3">
+        <div className="overflow-hidden my-3">
           {
             !disableAvatar && <div>
               <div className="flex justify-center mt-5">
@@ -205,7 +205,7 @@ function UserData ({ app_user, app, disableAvatar }) {
                   <div>
                     <ul dense>
                       {app_user.externalProfiles &&
-                        app_user.externalProfiles.map((o, i) => {
+                        app_user.externalProfiles.map((o) => {
                           return (
                             <div
                               m={2}

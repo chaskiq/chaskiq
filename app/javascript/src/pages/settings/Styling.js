@@ -26,14 +26,14 @@ const Image = styled.div`
   background-size: 310px 310px,cover;
 `
 
-function CustomizationColors ({ settings, update, dispatch }) {
+function CustomizationColors ({ settings, update, _dispatch }) {
   const [state, setState] = React.useState({
     customization_colors: settings.customizationColors || {}
   })
 
-  const handleChange = (name) => (event) => {
+  /*const handleChange = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked })
-  }
+  }*/
 
   const names = [
     'email-pattern',
@@ -127,13 +127,14 @@ function CustomizationColors ({ settings, update, dispatch }) {
       <div className="flex py-4">
         <div className="w-1/2">
           <div>
-            <PatternButton onClick={(e) => selectPattern(null)}>
+            <PatternButton onClick={(_e) => selectPattern(null)}>
               <Image />
             </PatternButton>
 
-            {patterns.map((o) => {
+            {patterns.map((o, i) => {
               return (
-                <PatternButton onClick={(e) => selectPattern(o)}>
+                <PatternButton key={`patterns-${i}`}
+                  onClick={(_e) => selectPattern(o)}>
                   <Image image={o.url} />
                 </PatternButton>
               )
@@ -161,9 +162,9 @@ function CustomizationColors ({ settings, update, dispatch }) {
       <hr />
 
       <div className="py-4">
-        <Button 
-          onClick={handleSubmit} 
-          variant={'success'} 
+        <Button
+          onClick={handleSubmit}
+          variant={'success'}
           size="md"
           color={'primary'}>
           {I18n.t('common.save')}

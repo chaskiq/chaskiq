@@ -23,7 +23,7 @@ function AppPackagePanel (props) {
   const [loading, setLoading] = React.useState(null)
   const [provider, setProvider] = React.useState(null)
   const [providers, setProviders] = React.useState([])
-  const [values, setValues] = React.useState({})
+  //const [values, setValues] = React.useState({})
   const [contentSchema, setContentSchema] = React.useState(null)
 
   function getAppPackages () {
@@ -113,11 +113,9 @@ function AppPackagePanel (props) {
 
                 <DefinitionRenderer
                   schema={contentSchema || provider.definitions}
-                  updatePackage={(data, cb)=>{
-
+                  updatePackage={(data, cb) => {
                     // check only if content kind!
-                    if (data.field.action.type !== "content")
-                      return
+                    if (data.field.action.type !== 'content') { return }
 
                     const params = {
                       id: provider.name,
@@ -131,8 +129,8 @@ function AppPackagePanel (props) {
                         values: data.values
                       }
                     }
-         
-                    getPackage(params, 'conversartion', (d)=>{
+
+                    getPackage(params, 'conversartion', (d) => {
                       setContentSchema(d.app.appPackage.callHook.definitions)
                     })
                     cb()

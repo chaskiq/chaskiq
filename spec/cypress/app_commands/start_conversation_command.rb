@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 ActiveRecord::Base.connection_pool.with_connection do
-
   text = command_options.fetch('text') || 'aaa'
   serialized_content = "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
   app = App.find_by(key: command_options.fetch('app_key'))
@@ -21,5 +20,4 @@ ActiveRecord::Base.connection_pool.with_connection do
       text_content: serialized_content
     }
   )
-
 end

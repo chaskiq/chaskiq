@@ -6,15 +6,15 @@ import Peer from 'simple-peer'
 
 import { createPortal } from 'react-dom'
 import usePortal from './hooks/usePortal'
-import {isEmpty} from 'lodash'
+
 import styled from '@emotion/styled'
 
 // Broadcast Types
 const JOIN_ROOM = 'JOIN_ROOM'
-const EXCHANGE = 'EXCHANGE'
-const REMOVE_USER = 'REMOVE_USER'
+//const EXCHANGE = 'EXCHANGE'
+//const REMOVE_USER = 'REMOVE_USER'
 const START_CALL = 'START_CALL'
-const END_CALL = 'END_CALL'
+//const END_CALL = 'END_CALL'
 const SIGNAL = 'SIGNAL'
 const INIT = 'INIT'
 const READY = 'READY'
@@ -22,38 +22,38 @@ const CLOSE_SESSION = 'CLOSE_SESSION'
 const REJECT_CALL = 'REJECT_CALL'
 // Ice Credentials
 
-function getDisplayStream(){
-  return navigator.mediaDevices.getDisplayMedia();
+function getDisplayStream () {
+  return navigator.mediaDevices.getDisplayMedia()
 }
 
 class VideoCall {
-  peer = null 
+  peer = null
   init = (stream, initiator) => {
-      
-      this.peer = new Peer({
-          initiator: initiator,
-          stream: stream,
-          trickle: false,
-          reconnectTimer: 1000,
-          iceTransportPolicy: 'relay',
-          config: {
-              iceServers: [
-                  { urls: ['stun:stun4.l.google.com:19302'] },
-                  /*{
+    this.peer = new Peer({
+      initiator: initiator,
+      stream: stream,
+      trickle: false,
+      reconnectTimer: 1000,
+      iceTransportPolicy: 'relay',
+      config: {
+        iceServers: [
+          { urls: ['stun:stun4.l.google.com:19302'] }
+          /* {
                       urls: process.env.REACT_APP_TURN_SERVERS.split(','),
                       username: process.env.REACT_APP_TURN_USERNAME,
                       credential: process.env.REACT_APP_TURN_CREDENCIAL
-                  },*/
-              ]
-          }
-      })
-      //console.log("inicializó peer", this.peer)
-      return this.peer
+                  }, */
+        ]
+      }
+    })
+    // console.log("inicializó peer", this.peer)
+    return this.peer
   }
+
   connect = (otherId) => {
-    //console.log("CONNECTING PEER", this.peer)
+    // console.log("CONNECTING PEER", this.peer)
     this.peer.signal(otherId)
-  }  
+  }
 }
 
 let gstream = null
@@ -65,47 +65,46 @@ export function RtcView (props) {
 
   const documentObject = props.document || document
 
-  const target = usePortal(props.buttonElement, documentObject)
+  //const target = usePortal(props.buttonElement, documentObject)
   const infoTarget = usePortal(props.infoElement, documentObject)
   const localVideoTarget = usePortal(props.localVideoElement, documentObject)
   const remoteVideoTarget = usePortal(props.remoteVideoElement, documentObject)
   const callStatusTarget = usePortal(props.callStatusElement, documentObject)
   const callInitiatorTarget = usePortal(props.callInitiatorElement, documentObject)
   const callButtonsTarget = usePortal(props.callButtonsElement, documentObject)
-  
+
   const [localStream, setLocalStream] = React.useState({})
-  const [remoteStreamUrl, setRemoteStreamUrl] = React.useState('')
-  const [streamUrl, setStreamUrl] = React.useState('')
+  //const [remoteStreamUrl, setRemoteStreamUrl] = React.useState('')
+  const [_streamUrl, setStreamUrl] = React.useState('')
   const [initiator, setInitiator] = React.useState(false)
   const [peer, setPeer] = React.useState({})
-  const [full, setFull] = React.useState(false)
+  //const [full, setFull] = React.useState(false)
   const [connecting, setConnecting] = React.useState(false)
   const [waiting, setWaiting] = React.useState(true)
   const [callStarted, setCallStarted] = React.useState(false)
 
-  const videoCall = new VideoCall();
+  const videoCall = new VideoCall()
 
   React.useEffect(() => {
-    // returned function will be called on component unmount 
+    // returned function will be called on component unmount
     return () => {
-      //console.log("unmount!", localStream)
+      // console.log("unmount!", localStream)
       removePeers()
     }
   }, [])
 
   React.useEffect(() => {
-    if(!props.video) return
+    if (!props.video) return
     startCall()
   }, [props.video])
 
-
-  React.useEffect(()=>{
-    //console.log("LOCAL STREAM CHANGED?", localStream )
+  React.useEffect(() => {
+    // console.log("LOCAL STREAM CHANGED?", localStream )
     gstream = localStream
   }, [localStream.id])
 
   React.useEffect(() => {
-    //console.log("RTC CHANGED!", props.rtc)
+    // console.log("RTC CHANGED!", props.rtc)
     handleRtcData()
   }, [props.rtc])
 
@@ -114,10 +113,10 @@ export function RtcView (props) {
     setVideoLocal()
   }, [props.rtcVideo, props.rtcAudio])
 
-  function startCall (){
+  function startCall () {
     getUserMedia().then(() => {
       broadcastJoinSession()
-    });
+    })
   }
 
   function broadcastData (data) {
@@ -128,7 +127,7 @@ export function RtcView (props) {
     }
 
     const params = Object.assign({}, data, a)
-    //console.log('BROADCAST', params)
+    // console.log('BROADCAST', params)
     props.events.perform('rtc_events', params)
   }
 
@@ -143,9 +142,9 @@ export function RtcView (props) {
     removePeers()
   }
 
-  function getUserMedia(cb) {
-    return new Promise((resolve, reject) => {
-      /*const op = {
+  function getUserMedia (_cb) {
+    return new Promise((resolve, _reject) => {
+      /* const op = {
         video: {
           enabled: props.rtcVideo,
           width: { min: 160, ideal: 640, max: 1280 },
@@ -162,64 +161,64 @@ export function RtcView (props) {
           },
           volume: 0.9
         },
-      };*/
+      }; */
 
       const op = {
         audio: true,
         video: true
       }
-      
+
       navigator.mediaDevices.getUserMedia(op).then(gotMedia).catch((err) => {
-        console.log("error on RTC", err)
+        console.log('error on RTC', err)
       })
 
-      function gotMedia(stream){
+      function gotMedia (stream) {
         setLocalStream(stream)
-          setStreamUrl(stream)
-          localVideo.current.srcObject = stream;
-          localVideo.current.muted = true
-          localVideo.current.setAttribute('muted', 'muted')
-          localVideo.current.volume = 0;
-          resolve();
+        setStreamUrl(stream)
+        localVideo.current.srcObject = stream
+        localVideo.current.muted = true
+        localVideo.current.setAttribute('muted', 'muted')
+        localVideo.current.volume = 0
+        resolve()
       }
-    });
+    })
   }
 
-  function setAudioLocal(){
-    if(localStream.getAudioTracks && 
-      localStream.getAudioTracks().length > 0){
+  function setAudioLocal () {
+    if (localStream.getAudioTracks &&
+      localStream.getAudioTracks().length > 0) {
       localStream.getAudioTracks().forEach(track => {
-        track.enabled = props.rtcAudio //!track.enabled;
-      });
+        track.enabled = props.rtcAudio //! track.enabled;
+      })
     }
   }
 
-  function setVideoLocal(){
-    if(localStream.getVideoTracks && 
-      localStream.getVideoTracks().length>0){
+  function setVideoLocal () {
+    if (localStream.getVideoTracks &&
+      localStream.getVideoTracks().length > 0) {
       localStream.getVideoTracks().forEach(track => {
-        track.enabled = props.rtcVideo;
-      });
+        track.enabled = props.rtcVideo
+      })
     }
   }
 
-  function getDisplay() {
+  function getDisplay () {
     getDisplayStream().then(stream => {
       stream.oninactive = () => {
-        peer.removeStream(localStream);
+        peer.removeStream(localStream)
         getUserMedia().then(() => {
-          peer.addStream(localStream);
-        });
-      };
-      
+          peer.addStream(localStream)
+        })
+      }
+
       setStreamUrl(stream)
       setLocalStream(stream)
-      localVideo.current.srcObject = stream;
-      peer.addStream(stream);
-    });
+      localVideo.current.srcObject = stream
+      peer.addStream(stream)
+    })
   }
 
-  function requestCall(){
+  function requestCall () {
     broadcastData({
       event_type: START_CALL,
       from: currentUser
@@ -228,33 +227,31 @@ export function RtcView (props) {
     setCallStarted(true)
   }
 
-  function handleRtcData() {
-
-
-    /*socket.on('full', () => {
+  function handleRtcData () {
+    /* socket.on('full', () => {
       component.setState({ full: true });
-    });*/
+    }); */
 
     const data = props.rtc
 
     if (data.from === currentUser) return
     if (data.event_type === START_CALL) setCallStarted(true)
-    if (!props.video ) return
+    if (!props.video) return
 
     switch (data.event_type) {
       case JOIN_ROOM:
-        //console.log('join room!', data)
+        // console.log('join room!', data)
         return enter(data)
       case SIGNAL:
         const signal = data.signal
-        if (signal.type === 'offer' && initiator) return;
-        if (signal.type === 'answer' && !initiator) return;
+        if (signal.type === 'offer' && initiator) return
+        if (signal.type === 'answer' && !initiator) return
         return call(signal)
       case INIT:
-        //console.log("INIT!!!!")
-        return setInitiator(true);   
+        // console.log("INIT!!!!")
+        return setInitiator(true)
       case READY:
-        //console.log("READY!!!")
+        // console.log("READY!!!")
         return enter()
       case START_CALL:
         return setCallStarted(true)
@@ -263,41 +260,41 @@ export function RtcView (props) {
       case CLOSE_SESSION:
         setCallStarted(false)
         closePeers()
-        if(props.video) props.toggleVideoSession()
+        if (props.video) props.toggleVideoSession()
         break
 
-      default: null //console.log('default receive DATA', data)
+      default: null // console.log('default receive DATA', data)
     }
   }
 
   function call (data) {
-    peer && peer.signal && peer.signal(data.desc);
-  };
+    peer && peer.signal && peer.signal(data.desc)
+  }
 
-  function enter (params) {
+  function enter (_params) {
     setConnecting(true)
 
     const peer = videoCall.init(
       localStream,
       initiator
-    );
+    )
 
-    setPeer( peer );
+    setPeer(peer)
 
     peer.on('signal', data => {
       const signal = {
         room: props.conversation.key,
         desc: data
-      };
+      }
       broadcastData({
         event_type: 'SIGNAL',
         from: currentUser,
         signal: signal
       })
-    });
+    })
 
     peer.on('stream', stream => {
-      const id = `remoteVideoContainer`
+      const id = 'remoteVideoContainer'
       let element = documentObject.getElementById(id)
       if (!element) {
         element = documentObject.createElement('video')
@@ -307,18 +304,18 @@ export function RtcView (props) {
 
       element.autoplay = 'autoplay'
       element.srcObject = stream
-      //element.muted = true
-      //element.setAttribute('muted', 'muted')
-      element.volume = 0.9;
+      // element.muted = true
+      // element.setAttribute('muted', 'muted')
+      element.volume = 0.9
 
       setConnecting(false)
       setWaiting(false)
-    });
+    })
 
-    peer.on('error', function(err) {
-      console.log(err);
-    });
-  };
+    peer.on('error', function (err) {
+      console.log(err)
+    })
+  }
 
   function removePeers () {
     broadcastData({
@@ -326,16 +323,16 @@ export function RtcView (props) {
       from: currentUser
     })
 
-    closePeers ()
+    closePeers()
   }
 
   function closePeers () {
-    //if(props.video) props.toggleVideoSession()
+    // if(props.video) props.toggleVideoSession()
     peer && peer.destroy && peer.destroy() // && peer.removeAllListeners()
     props.onCloseSession && props.onCloseSession()
 
-    gstream.id && gstream.getTracks().forEach(track => track.stop());
-    localStream.id && localStream.getTracks().forEach(track => track.stop());
+    gstream.id && gstream.getTracks().forEach(track => track.stop())
+    localStream.id && localStream.getTracks().forEach(track => track.stop())
   }
 
   function rejectCall () {
@@ -351,17 +348,17 @@ export function RtcView (props) {
     {
       localVideoTarget && createPortal(
         <div id="local-video-wrapper">
-        <video id="local-video"
-          muted="muted"
-          autoPlay
-          ref={ localVideo }>
-        </video>
-        {callStarted && <button
-          className='control-btn'
-          onClick={() => { getDisplay(); }}
-        >
-         share screen
-        </button>}
+          <video id="local-video"
+            muted="muted"
+            autoPlay
+            ref={ localVideo }>
+          </video>
+          {callStarted && <button
+            className='control-btn'
+            onClick={() => { getDisplay() }}
+          >
+          share screen
+          </button>}
         </div>, localVideoTarget
       )
     }
@@ -376,17 +373,18 @@ export function RtcView (props) {
     {
       infoTarget && createPortal(
         <React.Fragment>
-          
-          {/*callStarted && 'call started'*/}
+
+          {/* callStarted && 'call started' */}
 
           {connecting && (
-            <div className='status'>
+
+            <div className="status inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-400">
               <p>Establishing connection...</p>
             </div>
           )}
 
           {waiting && callStarted && (
-            <div className='status'>
+            <div className="status inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-400">
               <p>Waiting for someone...</p>
             </div>
           )}
@@ -396,9 +394,11 @@ export function RtcView (props) {
 
     {
       initiator && !callStarted &&
-      callInitiatorTarget && createPortal( 
-        <div id="call-initiator">
-          <p>Start a call</p>
+      callInitiatorTarget && createPortal(
+        <div id="call-initiator" className="flex flex-col justify-center items-center space-y-6">
+          <p className="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-blue-800 border border-pink-900-">
+            Start a call
+          </p>
           <div className="call-buttons">
             <button
               style={{ color: 'white', backgroundColor: 'green', border: 'none' }}
@@ -415,11 +415,11 @@ export function RtcView (props) {
             </button>
           </div>
         </div>
-      , 
+        ,
         callInitiatorTarget)
     }
 
-    {/*{
+    {/* {
       props.buttonElement && createPortal(
         <Button
           className={`btn btn-outline${props.video ? '-success active' : '-secondary'}`}
@@ -435,7 +435,7 @@ export function RtcView (props) {
     */}
 
     {/* check the event start call instead event_type */ }
-    { 
+    {
       props.callStatusElement && !props.video &&
       !initiator && callStarted &&
       createPortal(
@@ -455,52 +455,53 @@ export function RtcView (props) {
           </div>
         </div>
         , callStatusTarget)
-     }
+    }
 
-
-     {
-       props.callButtonsElement && 
-       props.video && 
+    {
+      props.callButtonsElement &&
+       props.video &&
        callStarted &&
        createPortal(
-          <div className="call-buttons">
+         <div className="call-buttons flex flex-col space-y-1">
 
-            <button
-              onClick={()=> props.toggleVideo()}
-              style={{ color: `${props.rtcVideo ? 'green' : 'gray' }` }}>
-              <CameraIcon/>
-            </button>
+           <Button
+             variant="outlined"
+             className="rounded-full"
+             onClick={() => props.toggleVideo()}
+             style={{ color: `${props.rtcVideo ? 'green' : 'gray'}` }}>
+             <CameraIcon/>
+           </Button>
 
-            <button
-              onClick={()=> props.toggleAudio()}
-              style={{ color: `${props.rtcAudio ? 'green' : 'gray' }` }}>
-              <MicIcon/>
-            </button>
+           <Button
+             variant="outlined"
+             onClick={() => props.toggleAudio()}
+             style={{ color: `${props.rtcAudio ? 'green' : 'gray'}` }}>
+             <MicIcon/>
+           </Button>
 
-            <button
-              onClick={()=>{ 
-                stopUserMedia()
-                setCallStarted(false)
-                closePeers()
-                props.toggleVideoSession()
-              }
-              }
-              style={{
-                color: 'white',
-                background: 'red',
-                border: 0
-              }}>
-              {!props.video ? <CallIcon/> : <CallEndIcon/>}
-            </button>
+           <Button
+             variant="outlined"
+             onClick={() => {
+               stopUserMedia()
+               setCallStarted(false)
+               closePeers()
+               props.toggleVideoSession()
+             }
+             }
+             style={{
+               color: 'white',
+               background: 'red',
+               border: 0
+             }}>
+             {!props.video ? <CallIcon/> : <CallEndIcon/>}
+           </Button>
 
-          </div>
-        , callButtonsTarget)
-     }
+         </div>
+         , callButtonsTarget)
+    }
 
   </React.Fragment>
 }
-
-
 
 export function RtcWrapper (props) {
   return props.current_user ? <RtcView {...props}/> : <p>k</p>
@@ -516,8 +517,6 @@ function mapStateToProps (state) {
     rtc
   }
 }
-
-
 
 const BaseIcon = styled.svg`
   height: 30px;
@@ -535,18 +534,18 @@ export function CloseIcon (props) {
 
 export function MicIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" 
-      viewBox="0 0 24 24" aria-hidden="true" 
+    <BaseIcon {...props} fill="currentColor"
+      viewBox="0 0 24 24" aria-hidden="true"
       tabindex="-1" title="Mic">
-        <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z">
-        </path>
+      <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z">
+      </path>
     </BaseIcon>
   )
 }
 
 export function MicOffIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
       aria-hidden="true" tabindex="-1" title="MicOff">
       <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z">
       </path>
@@ -556,7 +555,7 @@ export function MicOffIcon (props) {
 
 export function CameraIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
       aria-hidden="true" tabindex="-1" title="Videocam">
       <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z">
       </path>
@@ -566,7 +565,7 @@ export function CameraIcon (props) {
 
 export function CameraOffIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
       aria-hidden="true" tabindex="-1" title="Videocam">
       <path d="M21 6.5l-4 4V7c0-.55-.45-1-1-1H9.82L21 17.18V6.5zM3.27 2L2 3.27 4.73 6H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.21 0 .39-.08.54-.18L19.73 21 21 19.73 3.27 2z"></path>
     </BaseIcon>
@@ -585,7 +584,7 @@ export function FullScreenIcon (props) {
 
 export function FullScreenExitIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
       aria-hidden="true" tabindex="-1" title="FullscreenExit">
       <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z">
       </path>
@@ -595,7 +594,7 @@ export function FullScreenExitIcon (props) {
 
 export function ScreenShareIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
       aria-hidden="true" tabindex="-1" title="ScreenShare">
       <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.11-.9-2-2-2H4c-1.11 0-2 .89-2 2v10c0 1.1.89 2 2 2H0v2h24v-2h-4zm-7-3.53v-2.19c-2.78 0-4.61.85-6 2.72.56-2.67 2.11-5.33 6-5.87V7l4 3.73-4 3.74z">
       </path>
@@ -605,7 +604,7 @@ export function ScreenShareIcon (props) {
 
 export function ScreenShareExitIcon (props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" 
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
       aria-hidden="true" tabindex="-1" title="ScreenShare">
       <path d="M21.22 18.02l2 2H24v-2h-2.78zm.77-2l.01-10c0-1.11-.9-2-2-2H7.22l5.23 5.23c.18-.04.36-.07.55-.1V7.02l4 3.73-1.58 1.47 5.54 5.54c.61-.33 1.03-.99 1.03-1.74zM2.39 1.73L1.11 3l1.54 1.54c-.4.36-.65.89-.65 1.48v10c0 1.1.89 2 2 2H0v2h18.13l2.71 2.71 1.27-1.27L2.39 1.73zM7 15.02c.31-1.48.92-2.95 2.07-4.06l1.59 1.59c-1.54.38-2.7 1.18-3.66 2.47z">
       </path>
@@ -631,7 +630,5 @@ export function CallEndIcon (props) {
     </BaseIcon>
   )
 }
-
-
 
 export default connect(mapStateToProps)(RtcWrapper)

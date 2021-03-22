@@ -1,26 +1,26 @@
 // https://www.jayfreestone.com/writing/react-portals-with-hooks/
 
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react'
 
 /**
  * Creates DOM element to be used as React root.
  * @returns {HTMLElement}
  */
-function createRootElement(id) {
-  const rootContainer = document.createElement('div');
-  rootContainer.setAttribute('id', id);
-  return rootContainer;
+function createRootElement (id) {
+  const rootContainer = document.createElement('div')
+  rootContainer.setAttribute('id', id)
+  return rootContainer
 }
 
 /**
  * Appends element as last child of body.
- * @param {HTMLElement} rootElem 
+ * @param {HTMLElement} rootElem
  */
-function addRootElement(rootElem) {
+function addRootElement (rootElem) {
   document.body.insertBefore(
     rootElem,
-    document.body.lastElementChild.nextElementSibling,
-  );
+    document.body.lastElementChild.nextElementSibling
+  )
 }
 
 /**
@@ -34,32 +34,32 @@ function addRootElement(rootElem) {
  * @param {String} id The id of the target container, e.g 'modal' or 'spotlight'
  * @returns {HTMLElement} The DOM node to use as the Portal target.
  */
-function usePortal(id, doc = null) {
-  const rootElemRef = useRef(null);
+function usePortal (id, doc = null) {
+  const rootElemRef = useRef(null)
 
   const documentObject = doc || document
 
-  useEffect(function setupElement() {
+  useEffect(function setupElement () {
     // Look for existing target dom element to append to
-    const existingParent = documentObject.querySelector(`#${id}`);
+    const existingParent = documentObject.querySelector(`#${id}`)
     // Parent is either a new root or the existing dom element
-    const parentElem = existingParent || createRootElement(id);
+    const parentElem = existingParent || createRootElement(id)
 
     // If there is no existing DOM element, add a new one.
     if (!existingParent) {
-      addRootElement(parentElem);
+      addRootElement(parentElem)
     }
 
     // Add the detached element to the parent
-    parentElem.appendChild(rootElemRef.current);
+    parentElem.appendChild(rootElemRef.current)
 
-    return function removeElement() {
-      rootElemRef.current.remove();
+    return function removeElement () {
+      rootElemRef.current.remove()
       if (parentElem.childNodes.length === -1) {
-        parentElem.remove();
+        parentElem.remove()
       }
-    };
-  }, []);
+    }
+  }, [])
 
   /**
    * It's important we evaluate this lazily:
@@ -71,14 +71,14 @@ function usePortal(id, doc = null) {
    *   ever run once.
    * @link https://reactjs.org/docs/hooks-faq.html#how-to-create-expensive-objects-lazily
    */
-  function getRootElem() {
+  function getRootElem () {
     if (!rootElemRef.current) {
-      rootElemRef.current = documentObject.createElement('div');
+      rootElemRef.current = documentObject.createElement('div')
     }
-    return rootElemRef.current;
+    return rootElemRef.current
   }
 
-  return getRootElem();
+  return getRootElem()
 }
 
-export default usePortal;
+export default usePortal

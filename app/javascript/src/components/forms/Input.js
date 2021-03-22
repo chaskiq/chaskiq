@@ -32,6 +32,20 @@ const WrappedComponent = React.forwardRef(function Input (
   },
   ref
 ) {
+  function inputAppearance (variant) {
+    switch (variant) {
+      case 'underline':
+        return `border-dashed border-b-2 border-gray-400 
+        w-full py-2 px-3 text-gray-700
+        focus:outline-none focus:border-gray-600`
+      default:
+        return `shadow appearance-none border border-${borderColor(
+          error
+        )}-300 rounded w-full py-2 px-3 text-gray-700
+        leading-tight focus:outline-none focus:shadow-outline`
+    }
+  }
+
   function renderText () {
     return (
       <FormField
@@ -41,11 +55,7 @@ const WrappedComponent = React.forwardRef(function Input (
         helperText={helperText}
       >
         <input
-          className={`shadow appearance-none border border-${borderColor(
-            error
-          )}-500 
-              rounded w-full py-2 px-3 text-gray-700
-              leading-tight focus:outline-none focus:shadow-outline`}
+          className={ inputAppearance(props.variant) }
           name={name}
           type={type}
           defaultValue={defaultValue}
@@ -231,7 +241,7 @@ const WrappedComponent = React.forwardRef(function Input (
             name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
-            )}-500 rounded 
+            )}-300 rounded 
             w-full py-2 px-3 text-gray-700 mb-3 leading-tight 
             focus:outline-none focus:shadow-outline`}
             defaultValue={defaultValue}
@@ -320,7 +330,7 @@ const WrappedComponent = React.forwardRef(function Input (
 
 export default WrappedComponent
 
-function FormField ({ name, label, helperText, children, error }) {
+function FormField ({ name, label, helperText, children, _error }) {
   return (
     <React.Fragment>
       <label
@@ -339,7 +349,7 @@ function FormField ({ name, label, helperText, children, error }) {
 }
 
 function DatePickerWrapper ({ val, name, onChange, error }) {
-  const [value, setValue] = React.useState(val)
+  const [value, setValue] = React.useState(val || new Date())
 
   function handleChange (val) {
     setValue(val)
@@ -353,12 +363,9 @@ function DatePickerWrapper ({ val, name, onChange, error }) {
       // value={value || defaultValue}
       onChange={handleChange}
       showTimeSelect
-      // defaultValue={defaultValue}
-      className={`shadow appearance-none border border-${borderColor(
-        error
-      )}-500 rounded 
-      w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none 
-      focus:shadow-outline`}
+      className={`shadow appearance-none border border-gray-300 rounded 
+      w-full py-2 px-3 text-gray-700
+      leading-tight focus:outline-none focus:shadow-outline`}
       // includeTimes={[
       //  setHours(setMinutes(new Date(), 0), 17),
       //  setHours(setMinutes(new Date(), 30), 18),

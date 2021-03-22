@@ -1,12 +1,11 @@
 
-import {login} from '../../support/utils'
+import { login } from '../../support/utils'
 
-describe('Login Spec', function() {
+describe('Login Spec', function () {
   beforeEach(() => {
   })
 
-  it('Sign in view', function() {
+  it('Sign in view', function () {
     login()
   })
-
 })

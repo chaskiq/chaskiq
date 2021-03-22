@@ -48,7 +48,7 @@ const DragHandle = sortableHandle(() => (
 ))
 
 const SortableItem = sortableElement(
-  ({ object, deleteItem, edit, updatePackage }) => (
+  ({ object, deleteItem, _edit, _updatePackage }) => (
     <li>
       <div>
 
@@ -57,11 +57,11 @@ const SortableItem = sortableElement(
 
           <div className="border-md bg-white p-4 shadow w-full mx-2 ">
             <p>{object.name}</p>
-            
+
             <DefinitionRenderer
               schema={object.definitions}
               disabled={true}
-              //updatePackage={(params, cb) => updatePackage(params, object, cb)}
+              // updatePackage={(params, cb) => updatePackage(params, object, cb)}
             />
           </div>
 
@@ -113,7 +113,7 @@ function AppInserter ({ app, update }) {
       <div className="inline-flex mt-4">
         {
           options.map((o, i) => (
-            <button onClick={(e) => handleClick(o)}
+            <button onClick={(_e) => handleClick(o)}
               key={`tabtab-${i}`}
               className={
                 `${option.name === o.name ? activeClass : ''}
@@ -185,15 +185,6 @@ function AppInserter2 ({ app, update, option, capability }) {
 
   function deleteItem (item, index) {
     setItems(items.filter((o, i) => i !== index))
-  }
-
-  function setItemAtIndex (item, index) {
-    setItems(
-      items.map((o, i) => i !== index
-        ? o
-        : { ...o, definitions: item }
-      )
-    )
   }
 
   function handleSubmit (e) {
@@ -270,7 +261,7 @@ function AppInserter2 ({ app, update, option, capability }) {
               index={index}
               value={o.id}
               object={o}
-              //updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
+              // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
               deleteItem={() => deleteItem(o, index)}
             />
           ))}
@@ -290,7 +281,7 @@ function AppInserter2 ({ app, update, option, capability }) {
 
 function getPackage (data, cb) {
   graphql(APP_PACKAGE_HOOK,
-    {...data, location: 'home'},
+    { ...data, location: 'home' },
     {
       success: (data) => {
         cb && cb(data)
@@ -348,7 +339,7 @@ export function AppList ({
                         text-sm leading-5 text-gray-500 justify-end"
                       >
 
-                        <Button onClick={(e) => handleSelect(o)}>
+                        <Button onClick={(_e) => handleSelect(o)}>
                           Add
                         </Button>
 

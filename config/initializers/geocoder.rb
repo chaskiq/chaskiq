@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 GEOCODER_SERVICES = [
   {
     name: :ipinfo_io,
@@ -8,18 +7,15 @@ GEOCODER_SERVICES = [
     timeout: 2
   },
   { name: :maxmind_local,
-    file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat')
-  },
+    file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat') },
   {
     name: :test
   }
 ]
 
-DEFAULT_GEOCODER_SERVICE = GEOCODER_SERVICES.find do |o| 
-  o[:name].to_s === (ENV['DEFAULT_GEOCODER_SERVICE'] || ( Rails.env.test? ? 'test' : 'maxmind_local' ) )
+DEFAULT_GEOCODER_SERVICE = GEOCODER_SERVICES.find do |o|
+  o[:name].to_s === (ENV['DEFAULT_GEOCODER_SERVICE'] || (Rails.env.test? ? 'test' : 'maxmind_local'))
 end
-
-
 
 Geocoder.configure(
   # Geocoding options
@@ -37,14 +33,14 @@ Geocoder.configure(
     file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat')
   },
 
-  #baidu: {
+  # baidu: {
   #  api_key: "..."
-  #},
+  # },
 
-  #maxmind: {
+  # maxmind: {
   #  api_key: "...",
   #  service: :omni
-  #}
+  # }
 
   # ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')}
   # timeout: 10,
@@ -54,10 +50,9 @@ Geocoder.configure(
   # http_proxy: nil,            # HTTP proxy server (user:pass@host:port)
   # https_proxy: nil,           # HTTPS proxy server (user:pass@host:port)
   # api_key: nil,               # API key for geocoding service
-  # cache: nil, 
-  cache: Redis.new,             # cache object (must respond to #[], #[]=, and #del)
-  cache_prefix: 'geocoder:', # prefix (string) to use for all cache keys
-
+  # cache: nil,
+  cache: Redis.new, # cache object (must respond to #[], #[]=, and #del)
+  cache_prefix: 'geocoder:' # prefix (string) to use for all cache keys
   # Exceptions that should not be rescued by default
   # (if you want to implement custom error handling);
   # supports SocketError and Timeout::Error

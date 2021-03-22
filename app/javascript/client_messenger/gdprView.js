@@ -4,15 +4,15 @@ import styled from '@emotion/styled'
 import tw from 'twin.macro'
 
 export const Wrapper = styled.div`
-	top: 0px;
-	z-index: 999999;
-	position: fixed;
-	width: 100%;
-	height: 100vh;
-	background: white;
-	//font-size: .92em;
-	//line-height: 1.5em;
-	//color: #eee;
+  top: 0px;
+  z-index: 999999;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  //font-size: .92em;
+  //line-height: 1.5em;
+  //color: #eee;
 `
 
 export const Padder = tw.div`px-4 py-5 sm:p-6 overflow-auto h-full`
@@ -36,7 +36,7 @@ export default function View ({ confirm, cancel, t, app }) {
 
       <Padder>
         <Title>
-					{t('gdpr_title')}
+          {t('gdpr_title')}
         </Title>
         <TextContent dangerouslySetInnerHTML={
           { __html: t('gdpr', { name: app.name }) }
@@ -47,7 +47,7 @@ export default function View ({ confirm, cancel, t, app }) {
         <ButtonWrapped>
 
           <Button onClick={confirm}>
-        		{t('gdpr_ok')}
+            {t('gdpr_ok')}
           </Button>
 
           <ButtonCancel onClick={cancel}>
@@ -56,9 +56,9 @@ export default function View ({ confirm, cancel, t, app }) {
 
         </ButtonWrapped>
 
-        {/*<Link href="#">
-					View our privacy police here <span aria-hidden="true">&rarr;</span>
-        </Link>*/}
+        {/* <Link href="#">
+          View our privacy police here <span aria-hidden="true">&rarr;</span>
+        </Link> */}
       </Padder>
 
     </Wrapper>

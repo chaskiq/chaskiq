@@ -27,39 +27,11 @@ module Types
     end
 
     def logo
-      return 'https://via.placeholder.com/100x100' unless object.logo_blob.present?
-
-      url = begin
-        object.logo.variant(resize_to_limit: [300, 100]).processed
-      rescue StandardError
-        nil
-      end
-      return nil if url.blank?
-
-      Rails.application.routes.url_helpers.rails_representation_url(
-        url
-        # only_path: true
-      )
+      object.logo_url
     end
 
     def header_image
-      return 'https://via.placeholder.com/1024x300' unless object.header_image_blob.present?
-
-      url = begin
-        object.header_image.variant(resize_to_limit: [100, 100]).processed
-      rescue StandardError
-        nil
-      end
-      return nil if url.blank?
-
-      begin
-        Rails.application.routes.url_helpers.rails_representation_url(
-          url
-          # only_path: true
-        )
-      rescue StandardError
-        nil
-      end
+      object.header_image_url
     end
 
     def header_image_large
@@ -125,11 +97,10 @@ module Types
             .friendly.find(id)
     end
 
-    field :collections, [Types::CollectionType], null: true do
-    end
+    field :collections, [Types::CollectionType], null: true
 
     def collections
-      object.app.article_collections
+      object.app.article_collections.order('position asc')
     end
 
     field :collection, Types::CollectionType, null: true do

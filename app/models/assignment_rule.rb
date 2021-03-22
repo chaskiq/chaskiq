@@ -15,25 +15,24 @@ class AssignmentRule < ApplicationRecord
     return true if query_conditions.blank?
 
     subject = nil
-    matches = query_conditions.map do |r|
-      subject = if r['attribute'] === 'message_content'
-                  text
-                else
-                  subject_value_for(r['attribute'], part.authorable)
-                end
-
-      return false if subject.blank?
-
-      case r['type']
-      when 'string' then check_string_comparison(r, subject)
-      when 'date' then check_date_comparison(r, subject)
-      end
-    end
+    matches = handle_rule_matches(part, text, query_conditions)
 
     if match_condition.blank? || (match_condition['comparison'] == 'or')
       matches.include?(true)
     elsif match_condition['comparison'] == 'and'
       !matches.include?(false)
+    end
+  end
+
+  def handle_rule_matches(part, text, query_conditions)
+    query_conditions.map do |rule|
+      subject = subject_value(rule, part, text)
+      return false if subject.blank?
+
+      case rule['type']
+      when 'string' then check_string_comparison(rule, subject)
+      when 'date' then check_date_comparison(rule, subject)
+      end
     end
   end
 
@@ -43,8 +42,8 @@ class AssignmentRule < ApplicationRecord
     cond = case rule['comparison']
            when 'eq' then rule['value'] == part
            when 'not_eq' then rule['value'] != part
-           when 'contains_start' then rule['value'] == part
-           when 'contains_ends' then rule['value'].start_with?(part)
+           when 'contains_start' then rule['value'].start_with?(part)
+           when 'contains_ends' then rule['value'].end_with?(part)
            when 'contains' then rule['value'].include?(part)
            when 'not_contains' then !rule['value'].include?(part)
            when 'is_null' then rule['value'].empty?
@@ -57,6 +56,14 @@ class AssignmentRule < ApplicationRecord
     when 'lt'
     when 'eq'
     when 'gt'
+    end
+  end
+
+  def subject_value(rule, part, text)
+    if rule['attribute'] === 'message_content'
+      text
+    else
+      subject_value_for(rule['attribute'], part.authorable)
     end
   end
 

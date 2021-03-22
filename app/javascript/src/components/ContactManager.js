@@ -4,7 +4,7 @@ import Button from './Button'
 import FormDialog from './FormDialog'
 import Progress from './Progress'
 
-import FieldRenderer from './forms/FieldRenderer'
+
 import { connect } from 'react-redux'
 import { getFileMetadata, directUpload } from '../shared/fileUploader'
 import graphql from '../graphql/client'
@@ -15,7 +15,7 @@ import serialize from 'form-serialize'
 
 function optionsForFilter () {
   const options = [
-    /*{
+    /* {
       title: 'Create User',
       description: 'Created user',
       // icon: <ArchiveIcon/>,
@@ -28,7 +28,7 @@ function optionsForFilter () {
       // icon: <BlockIcon/>,
       id: 'create-lead',
       state: 'create-lead'
-    },*/
+    }, */
 
     {
       title: 'Import CSV',
@@ -46,6 +46,7 @@ function toggleButton (clickHandler) {
   return (
     <div>
       <Button
+        variant="flat-dark"
         onClick={clickHandler}>
         Create Users & Leads
       </Button>
@@ -54,22 +55,17 @@ function toggleButton (clickHandler) {
 }
 
 function ContactManager ({ app, current_user, dispatch }) {
-  const [open, setOpen] = React.useState(null)
   const [selectedItem, setSelectedItem] = React.useState(null)
-  const [csv, setCSV] = React.useState(null)
-
   const [enableForm, setEnableForm] = React.useState(null)
 
-  const formRef = React.useRef()
-
-  function submitHandler (e) {
+  function submitHandler (_e) {
     console.log('sends:;', enableForm)
 
     graphql(IMPORT_CONTACTS, {
       appKey: app.key,
       appParams: { ...enableForm, email: current_user.email }
     }, {
-      success: (data) => {
+      success: () => {
         setSelectedItem(null)
         dispatch(
           successMessage(
@@ -108,29 +104,6 @@ function ContactManager ({ app, current_user, dispatch }) {
     }
   }
 
-  function renderFormFor (definitions) {
-    return definitions.map((field, i) => {
-      return (
-        <div
-          key={`field-${field.name}-${i}`}
-          // className={`${gridClasses(field)} py-2 pr-2`}
-          {...field.gridProps}
-        >
-          <FieldRenderer
-            {...field}
-            // namespace={'doorkeeper_application'}
-            data={field}
-            props={{
-              data: {} // data
-            }}
-            errors={{}}
-            // errors={errors}
-          />
-        </div>
-      )
-    })
-  }
-
   return (
 
     <div>
@@ -154,12 +127,12 @@ function ContactManager ({ app, current_user, dispatch }) {
           dialogButtons={
             <React.Fragment>
               {enableForm &&
-								<Button
-								  onClick={submitHandler}
-								  className="ml-2"
-								  variant="success">
-								  {I18n.t('common.save')}
-								</Button>
+                <Button
+                  onClick={submitHandler}
+                  className="ml-2"
+                  variant="success">
+                  {I18n.t('common.save')}
+                </Button>
               }
               <Button
                 onClick={() => setSelectedItem(null)}
@@ -176,11 +149,11 @@ function ContactManager ({ app, current_user, dispatch }) {
   )
 }
 
-function CsvUploader ({ handleSubmit, enableSubmit }) {
+function CsvUploader ({ _handleSubmit, enableSubmit }) {
   const formRef = React.useRef()
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(false)
 
-  function uploadHandler (file, kind) {
+  function uploadHandler (file, _kind) {
     setLoading(true)
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
@@ -189,7 +162,7 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
             signedBlobId,
             headers,
             url,
-            serviceUrl
+            //serviceUrl
           } = data.createDirectUpload.directUpload
 
           directUpload(url, JSON.parse(headers), file).then(() => {
@@ -206,7 +179,7 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
         }
       })
     })
-  };
+  }
 
   function submitHandler (data) {
     enableSubmit(data)
@@ -234,7 +207,7 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
           Import Type
           </legend>
           <p className="text-sm leading-5 text-gray-500">
-					Choose what kind of contacts you will import
+          Choose what kind of contacts you will import
           </p>
           <div className="mt-4">
             <div className="flex items-center">
@@ -262,7 +235,7 @@ function CsvUploader ({ handleSubmit, enableSubmit }) {
               </label>
             </div>
 
-            <FileUpload 
+            <FileUpload
               onChange={(file) => uploadHandler(file, 'csv')}
               loading={loading}
             />

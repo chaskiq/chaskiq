@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import EditorStyles from 'Dante2/package/es/styled/base'
 import prismStyle from './prismStyle'
 
-//styled('EditorStyles')
+// styled('EditorStyles')
 const NewEditorStyles = styled(EditorStyles)`
   
   display: flex;
@@ -35,8 +35,8 @@ const NewEditorStyles = styled(EditorStyles)`
     line-height: 1.3em;
   }
 
-  ${(props)=> !props.campaign ? 
-    `.public-DraftEditor-content{
+  ${(props) => !props.campaign
+    ? `.public-DraftEditor-content{
       max-height: calc(35vh - 83px);
       overflow: auto;
       height: 100%;
@@ -59,7 +59,7 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   a{
-    color: ${(props)=> props.theme.palette.secondary };
+    color: ${(props) => props.theme.palette.secondary};
   }
   
 
@@ -78,6 +78,8 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .graf--attachment {
+    font-size: .85rem;
+    word-break: break-all;
     display: flex;
     align-items: center;
     border: 1px solid #cac8c8;
@@ -115,6 +117,8 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   .tooltip-icon {
+    display: flex;
+    justify-content: center;
     svg{
       width: 16px;
       height: 16px;      
@@ -127,6 +131,6 @@ const NewEditorStyles = styled(EditorStyles)`
   }
 
   ${prismStyle}
-`;
+`
 
 export default NewEditorStyles

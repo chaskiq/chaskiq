@@ -20,7 +20,7 @@ export default class ChaskiqMessengerEncrypted {
 
     this.cookieNamespace = () => {
       // old app keys have hypens, we get rid of this
-      const app_id = this.props.app_id.replace("-", "")
+      const app_id = this.props.app_id.replace('-', '')
       return `chaskiq_session_id_${app_id}`
     }
 
@@ -37,11 +37,11 @@ export default class ChaskiqMessengerEncrypted {
     this.checkCookie = (val) => {
       setCookie(this.cookieNamespace(), val, 365)
     }
-
+    
     this.defaultHeaders = {
       app: this.props.app_id,
       'enc-data': this.props.data || '',
-      'user-data': JSON.stringify(data),
+      'user-data': JSON.stringify(this.props.data),
       'session-id': this.getSession(),
       lang: currentLang
     }
@@ -77,8 +77,8 @@ export default class ChaskiqMessengerEncrypted {
 
         messenger.render()
       },
-      errors: () => {
-        debugger
+      errors: (e) => { 
+        console.log("Error", e )
       }
     })
 

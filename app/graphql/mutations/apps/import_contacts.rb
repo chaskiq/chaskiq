@@ -1,42 +1,41 @@
 # frozen_string_literal: true
 
 module Mutations
-    class Apps::ImportContacts < Mutations::BaseMutation
+  class Apps::ImportContacts < Mutations::BaseMutation
+    include Rails.application.routes.url_helpers
+    # TODO: define return fields
+    # field :post, Types::PostType, null: false
+    field :app, Types::AppType, null: false
+    field :errors, Types::JsonType, null: true
 
-      include Rails.application.routes.url_helpers
-      # TODO: define return fields
-      # field :post, Types::PostType, null: false
-      field :app, Types::AppType, null: false
-      field :errors, Types::JsonType, null: true
-  
-      argument :app_key, String, required: true
-      argument :app_params, Types::JsonType, required: true
-  
-      def resolve(app_key:, app_params:)
-        app = current_user.apps.find_by(key: app_key)
-        agent = app.agents.find_by(email: app_params[:email])
-        authorize! app, to: :manage?, with: AppPolicy
+    argument :app_key, String, required: true
+    argument :app_params, Types::JsonType, required: true
 
-        blob = ActiveStorage::Blob.find_signed(app_params[:file])
+    def resolve(app_key:, app_params:)
+      app = current_user.apps.find_by(key: app_key)
+      agent = app.agents.find_by(email: app_params[:email])
+      authorize! app, to: :manage?, with: AppPolicy
 
-        #ListImporter.import( 
-        #    rails_blob_url(blob),  
-        #    params: { 
-        #        app_id: app.id,
-        #        agent_id: agent.id,
-        #        type: app_params[:contact_type]
-        #    } 
-        #) 
+      blob = ActiveStorage::Blob.find_signed(app_params[:file])
 
-        ListImporterJob.perform_later(
-            blob_url: rails_blob_url(blob),
-            app_id: app.id,
-            agent_id: agent.id,
-            type: app_params[:contact_type] 
-        )
+      # ListImporter.import(
+      #    rails_blob_url(blob),
+      #    params: {
+      #        app_id: app.id,
+      #        agent_id: agent.id,
+      #        type: app_params[:contact_type]
+      #    }
+      # )
 
-        # @app.update(app_params.permit!)
-        { app: app, errors: app.errors }
-      end
+      ListImporterJob.perform_later(
+        blob_url: rails_blob_url(blob),
+        app_id: app.id,
+        agent_id: agent.id,
+        type: app_params[:contact_type]
+      )
+
+      # @app.update(app_params.permit!)
+      { app: app, errors: app.errors }
     end
   end
+end

@@ -10,8 +10,8 @@ module Types
     field :theme, String, null: true
     field :customization_colors, Types::JsonType, null: true
     field :reply_time, String, null: true
-		field :inbound_settings, Types::JsonType, null: true
-		field :email_requirement, String, null: true
+    field :inbound_settings, Types::JsonType, null: true
+    field :email_requirement, String, null: true
     field :greetings, String, null: true
     field :intro, String, null: true
     field :tagline, String, null: true
@@ -19,23 +19,29 @@ module Types
     field :lead_tasks_settings, Types::JsonType, null: true
     field :inline_new_conversations, Boolean, null: true
     field :home_apps, [Types::JsonType], null: true
-		field :searcheable_fields, [Types::JsonType], null: true
-		field :privacy_consent_required, String, null: true
+    field :searcheable_fields, [Types::JsonType], null: true
+    field :privacy_consent_required, String, null: true
+
+    field :new_conversation_bots, Types::JsonType, null: true
+    def new_conversation_bots
+      object.bot_tasks.get_welcome_bots_for_user(current_user)
+    end
 
     field :app_package, Types::AppPackageIntegrationType, null: true do
       argument :id, String, required: true, default_value: ''
-		end
-		
+    end
+
     def app_package(id:)
       # object.app_package_integrations.find(id)
       # object.app_packages.find_by(name: id)
       object.app_package_integrations
             .joins(:app_package)
             .find_by("app_packages.name": id)
-		end
-		
-		def home_apps
+    end
+
+    def home_apps
       return object.visitor_home_apps if current_user.is_a?(Visitor)
+
       object.user_home_apps
     end
 
@@ -56,7 +62,7 @@ module Types
       end
     end
 
-		field :available_languages, [Types::JsonType], null: true
+    field :available_languages, [Types::JsonType], null: true
     def available_languages
       authorize! object, to: :show?, with: AppPolicy
       object.translations.map(&:locale)
@@ -74,7 +80,7 @@ module Types
 
     field :article_settings, Types::ArticleSettingsType, null: true
     def article_settings
-      #object.plan.allow_feature!('Articles')
+      # object.plan.allow_feature!('Articles')
       object.article_settings.blank? ? object.build_article_settings : object.article_settings
     end
 
@@ -100,7 +106,7 @@ module Types
       end
     end
 
-		field :logo_large, String, null: true
+    field :logo_large, String, null: true
     def logo_large
       options = {
         resize: '1280x600^',

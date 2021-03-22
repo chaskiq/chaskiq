@@ -2,11 +2,7 @@ import React from 'react'
 import { Transition } from '@headlessui/react'
 
 function FormDialog (props) {
-  const [open, setOpen] = React.useState(props.open)
-
-  function handleClickOpen () {
-    setOpen(true)
-  }
+  const [_open, setOpen] = React.useState(props.open)
 
   function handleClose () {
     setOpen(false)
@@ -29,8 +25,7 @@ function FormDialog (props) {
         className="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
 
       >
-        
-  
+
         <div className="absolute top-0 right-0 pt-4 pr-4">
           <button
             onClick={handleClose}
@@ -77,7 +72,6 @@ function FormDialog (props) {
         <div className="mt-5 sm:mt-4 flex flex-row-reverse">
           {props.dialogButtons}
         </div>
-      
 
       </Transition>
     </Backdrop>

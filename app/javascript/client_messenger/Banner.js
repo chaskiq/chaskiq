@@ -9,88 +9,88 @@ import { ThemeProvider } from 'emotion-theming'
 
 const BannerWrapp = styled.div`
 
-	${
-		({ mode }) => mode === 'inline' ? tw`inset-x-0` : ''
-	}
+  ${
+    ({ mode }) => mode === 'inline' ? tw`inset-x-0` : ''
+  }
 
-	${
-		({ mode }) => mode === 'floating' ? tw`inset-x-0` : ''
-	}
+  ${
+    ({ mode }) => mode === 'floating' ? tw`inset-x-0` : ''
+  }
 
-	.w{
-		${
-			({ mode }) => mode === 'inline' ? tw`` : ''
-		}
+  .w{
+    ${
+      ({ mode }) => mode === 'inline' ? tw`` : ''
+    }
 
-		${
-			({ mode }) => mode === 'floating' ? tw`px-2 sm:px-6 lg:px-8` : ''
-		}
-	}
-	
-	.color{
-		${tw`p-2 sm:p-3`}
+    ${
+      ({ mode }) => mode === 'floating' ? tw`px-2 sm:px-6 lg:px-8` : ''
+    }
+  }
+  
+  .color{
+    ${tw`p-2 sm:p-3`}
 
-		${
-			({ bg_color }) => `background-color: ${bg_color};`
-		}
+    ${
+      ({ bg_color }) => `background-color: ${bg_color};`
+    }
 
-		${
-			({ mode }) => mode === 'floating' ? tw`rounded-lg shadow-lg ` : ''
-		}
-	}
+    ${
+      ({ mode }) => mode === 'floating' ? tw`rounded-lg shadow-lg ` : ''
+    }
+  }
 
-	.content-wrapp {
-		${tw`flex items-center justify-between flex-wrap`}
-	}
+  .content-wrapp {
+    ${tw`flex items-center justify-between flex-wrap`}
+  }
 
-	.content-centered{
-		${tw`flex-1 flex items-center`}
-	}
+  .content-centered{
+    ${tw`flex-1 flex items-center`}
+  }
 
-	.icon {
-		${tw`flex p-2 rounded-lg bg-indigo-800`}
-		svg{
-			${tw`h-6 w-6 text-white`}
-		}
-	}
+  .icon {
+    ${tw`flex p-2 rounded-lg bg-indigo-800`}
+    svg{
+      ${tw`h-6 w-6 text-white`}
+    }
+  }
 
-	.content-text {
+  .content-text {
     min-width: 250px;
-		${tw`ml-3 font-medium text-white truncate`}
-	}
+    ${tw`ml-3 font-medium text-white truncate`}
+  }
 
-	.avatar {
-		${tw`flex p-2 rounded-full h-12 w-12`}
-	}
+  .avatar {
+    ${tw`flex p-2 rounded-full h-12 w-12`}
+  }
 
-	.action-wrapper{
-		${tw`order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto`}
-		button.link{
-			${tw`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium  bg-white`}
-			${
-				({ bg_color }) => `color: ${bg_color};`
-			}
-		}
-	}
+  .action-wrapper{
+    ${tw`order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto`}
+    button.link{
+      ${tw`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium  bg-white`}
+      ${
+        ({ bg_color }) => `color: ${bg_color};`
+      }
+    }
+  }
 
-	.button-wrapper {
-		${tw`order-2 flex-shrink-0 sm:order-3 sm:ml-2`}
-		button {
-			border: none;
-			// focus:ring-2 focus:ring-white
-			${tw`-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none bg-transparent`}
-			svg {
-				${tw`h-6 w-6 text-white`}
-			}
-		}
-	}
+  .button-wrapper {
+    ${tw`order-2 flex-shrink-0 sm:order-3 sm:ml-2`}
+    button {
+      border: none;
+      // focus:ring-2 focus:ring-white
+      ${tw`-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none bg-transparent`}
+      svg {
+        ${tw`h-6 w-6 text-white`}
+      }
+    }
+  }
 
 `
 
 const DanteExtendedContainer = styled(DanteContainer)`
 
-	font-size: 1.5em;
-	color: white;
+  font-size: 1.5em;
+  color: white;
 `
 
 export default function Banner ({
@@ -183,7 +183,7 @@ export function BannerRenderer ({
 
               {
                 show_sender && sender_data &&
-									<img src={sender_data.avatarUrl} className="avatar"/>
+                  <img src={sender_data.avatarUrl} className="avatar"/>
               }
 
               <div className="content-text">
@@ -195,30 +195,30 @@ export function BannerRenderer ({
 
             <div className="action-wrapper">
               { action_text && url &&
-								<button type='button'
-								  onClick={(e) => {
-								    e.preventDefault()
-								    onAction && onAction(url)
-								  }}
-								  className="link">
-								  {action_text}
-								</button>
+                <button type='button'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    onAction && onAction(url)
+                  }}
+                  className="link">
+                  {action_text}
+                </button>
               }
             </div>
 
             <div className="button-wrapper">
               { dismiss_button &&
-								<button onClick={onClose} type="button">
-								  {/* <span className="sr-only">Dismiss</span> */}
-								  <svg className=""
-								    xmlns="http://www.w3.org/2000/svg"
-								    fill="none"
-								    viewBox="0 0 24 24"
-								    stroke="currentColor"
-								    aria-hidden="true">
-								    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-								  </svg>
-								</button>
+                <button onClick={onClose} type="button">
+                  {/* <span className="sr-only">Dismiss</span> */}
+                  <svg className=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               }
             </div>
           </div>

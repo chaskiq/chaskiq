@@ -11,8 +11,7 @@ import Avatar from '../../components/Avatar'
 import { Link } from 'react-router-dom'
 import List, {
   ListItem,
-  ListItemText,
-  ItemAvatar
+  ListItemText
 } from '../../components/List'
 
 import styled from '@emotion/styled'
@@ -108,7 +107,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
   return (
     <div className="flex flex-row justify-center items-baseline bg-gray-100 py-8">
       {collections && (
-        <div className="lg:w-3/4 w-full mx-3">
+        <div className="lg:w-3/4 w-full mx-3 md:mx-64">
           <Breadcrumbs
             aria-label="Breadcrumb"
             breadcrumbs={[
@@ -159,7 +158,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                 </OverlapAvatars>
 
                 {
-                  collections.baseArticles.length > 0 &&                  
+                  collections.baseArticles.length > 0 &&
                   <p className="max-w-2xl text-md leading-7 text-gray-500">
                     {collections.baseArticles.length} articles in this collection
                   </p>
@@ -167,7 +166,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
               </div>
 
               <div>
-                {collections.baseArticles.map((article, i) => (
+                {collections.baseArticles.map((article) => (
                   <ListItem divider key={`articles-base-${article.id}`}>
                     <ListItemText
                       primary={

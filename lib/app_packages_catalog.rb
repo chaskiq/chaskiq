@@ -4,9 +4,9 @@ class AppPackagesCatalog
   def self.packages(dev_packages: false)
     development_packages = [
       {
-        name: "UiCatalog",
-        description: "Sample Chaskiq UI kit, development sample",
-        capability_list: ["home", "conversations"],
+        name: 'UiCatalog',
+        description: 'Sample Chaskiq UI kit, development sample',
+        capability_list: %w[home conversations],
         state: 'enabled',
         definitions: []
       },
@@ -14,7 +14,7 @@ class AppPackagesCatalog
       {
         name: 'ExternalExample',
         tag_list: ['editor'],
-        capability_list: ['conversations', 'home'],
+        capability_list: %w[conversations home],
         description: 'External example, development sample',
         icon: '',
         state: 'enabled',
@@ -27,57 +27,57 @@ class AppPackagesCatalog
             name: 'api_key',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
-          },
+          }
         ]
-      },
+      }
     ]
 
     collection = [
 
       {
-        name: "InboxSections",
-        description: "Inbox base blocks for conversation sidebar",
-        capability_list: ["inbox"],
+        name: 'InboxSections',
+        description: 'Inbox base blocks for conversation sidebar',
+        capability_list: ['inbox'],
         state: 'enabled',
         definitions: []
       },
 
       {
-        name: "ContentShowcase",
-        description: "Promote relevant content to customers within your Messenger",
-        capability_list: ["home", "conversations", "bots"],
+        name: 'ContentShowcase',
+        description: 'Promote relevant content to customers within your Messenger',
+        capability_list: %w[home conversations bots],
         state: 'enabled',
         definitions: []
       },
 
       {
-        name: "ArticleSearch",
-        description: "Let customers find and read help articles",
-        capability_list: ["home"],
+        name: 'ArticleSearch',
+        description: 'Let customers find and read help articles',
+        capability_list: ['home'],
         state: 'enabled',
         definitions: []
       },
 
       {
-        name: "Qualifier",
-        description: "Qualification for user",
-        capability_list: ["conversations", "bots"],
+        name: 'Qualifier',
+        description: 'Qualification for user',
+        capability_list: %w[conversations bots],
         state: 'enabled',
         definitions: []
       },
 
       {
-        name: "Reveniu",
-        description: "Reveniu Payment buttons",
-        capability_list: ["conversations", "bots"],
+        name: 'Reveniu',
+        description: 'Reveniu Payment buttons',
+        capability_list: %w[conversations bots],
         state: 'enabled',
         definitions: []
       },
 
       {
-        name: "Gumroad",
-        description: "Gumroad Payment buttons",
-        capability_list: ["conversations", "bots"],
+        name: 'Gumroad',
+        description: 'Gumroad Payment buttons',
+        capability_list: %w[conversations bots],
         state: 'enabled',
         definitions: []
       },
@@ -103,7 +103,7 @@ class AppPackagesCatalog
         description: 'Data Enrichment service',
         icon: 'https://logo.clearbit.com/fullcontact.com',
         state: 'enabled',
-        capability_list: ["inbox"],
+        capability_list: ['inbox'],
         definitions: [
           {
             name: 'api_secret',
@@ -119,11 +119,11 @@ class AppPackagesCatalog
         description: 'Open AI GPT-3 tasks',
         icon: 'https://logo.clearbit.com/openai.com',
         state: 'enabled',
-        capability_list: ["conversations"],
+        capability_list: ['conversations'],
         definitions: [
           {
             name: 'api_secret',
-            label: 'Auth Token', 
+            label: 'Auth Token',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
           }
@@ -181,7 +181,7 @@ class AppPackagesCatalog
             name: 'api_secret',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
-          },
+          }
         ]
       },
       {
@@ -190,24 +190,32 @@ class AppPackagesCatalog
         state: 'enabled',
         description: 'Slack channel integration',
         icon: 'https://logo.clearbit.com/slack.com',
-        credentials: (ENV['SLACK_CLIENT_ID'] && ENV['SLACK_CLIENT_SECRET']) ? {
-          api_key: ENV['SLACK_CLIENT_ID'],
-          api_secret: ENV['SLACK_CLIENT_SECRET']
-        } : {},
-        definitions: (!ENV['SLACK_CLIENT_ID'] && !ENV['SLACK_CLIENT_SECRET']) ? [
-          {
-            name: 'api_key',
-            label: 'App ID',
-            type: 'string',
-            grid: { xs: 'w-full', sm: 'w-full' }
-          },
-          {
-            name: 'api_secret',
-            label: 'Client Secret',
-            type: 'string',
-            grid: { xs: 'w-full', sm: 'w-full' }
-          }
-        ] : []
+        credentials: if ENV['SLACK_CLIENT_ID'] && ENV['SLACK_CLIENT_SECRET']
+                       {
+                         api_key: ENV['SLACK_CLIENT_ID'],
+                         api_secret: ENV['SLACK_CLIENT_SECRET']
+                       }
+                     else
+                       {}
+                     end,
+        definitions: if !ENV['SLACK_CLIENT_ID'] && !ENV['SLACK_CLIENT_SECRET']
+                       [
+                         {
+                           name: 'api_key',
+                           label: 'App ID',
+                           type: 'string',
+                           grid: { xs: 'w-full', sm: 'w-full' }
+                         },
+                         {
+                           name: 'api_secret',
+                           label: 'Client Secret',
+                           type: 'string',
+                           grid: { xs: 'w-full', sm: 'w-full' }
+                         }
+                       ]
+                     else
+                       []
+                     end
       },
 
       {
@@ -268,19 +276,18 @@ class AppPackagesCatalog
         ],
         editor_definitions: {
           requires: [
-            { type: "input", 
-              name: "src", 
-              placeholder: "user email", 
-              hint: "is the zoom owner email or zoom user id"
-            }
+            { type: 'input',
+              name: 'src',
+              placeholder: 'user email',
+              hint: 'is the zoom owner email or zoom user id' }
           ],
           schema: [
-              {
-                name: "zoom", 
-                type: "button", 
-                label: "enter video call", 
-                element: "button", 
-                placeholder: "click button to open video call"
+            {
+              name: 'zoom',
+              type: 'button',
+              label: 'enter video call',
+              element: 'button',
+              placeholder: 'click button to open video call'
             }
           ]
         }
@@ -289,7 +296,7 @@ class AppPackagesCatalog
       {
         name: 'Calendly',
         tag_list: ['editor'],
-        capability_list: ['conversations', 'home'],
+        capability_list: %w[conversations home],
         description: 'Calendly meetings on conversations',
         icon: 'https://logo.clearbit.com/calendly.com',
         state: 'enabled',
@@ -302,18 +309,17 @@ class AppPackagesCatalog
         ],
         editor_definitions: {
           requires: [
-            { type: "input", name: "src", 
-              placeholder: "put clendly url", 
-              hint: "is the calendy url"
-            }
+            { type: 'input', name: 'src',
+              placeholder: 'put clendly url',
+              hint: 'is the calendy url' }
           ],
           schema: [
-              {
-                name: "calendly", 
-                type: "button", 
-                label: "book a metting", 
-                element: "button", 
-                placeholder: "click button to open calendar"
+            {
+              name: 'calendly',
+              type: 'button',
+              label: 'book a metting',
+              element: 'button',
+              placeholder: 'click button to open calendar'
             }
           ]
         }
@@ -340,7 +346,7 @@ class AppPackagesCatalog
             name: 'report_id',
             type: 'string',
             grid: { xs: 'w-full', sm: 'w-full' }
-          },
+          }
         ]
       },
 
@@ -366,8 +372,101 @@ class AppPackagesCatalog
           },
           {
             name: 'api_secret',
-            label: 'Auth Token', 
+            label: 'Auth Token',
             type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+      {
+        name: 'Vonage',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces Vonage Whatsapp',
+        icon: 'https://logo.clearbit.com/vonage.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The Vonage Whatsapp number (format: 14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your Vonage API key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_secret',
+            label: 'Your Vonage API secret',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+      {
+        name: 'MessageBird',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces MessageBird Whatsapp',
+        icon: 'https://logo.clearbit.com/MessageBird.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The MessageBird Whatsapp number (format: +14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your MessageBird API key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
+      },
+
+      {
+        name: 'Dialog360',
+        tag_list: ['conversations.added'],
+        description: 'Interfaces 360 Dialog Whatsapp',
+        icon: 'https://logo.clearbit.com/360 Dialog.com',
+        state: Rails.env.production? ? 'disabled' : 'enabled',
+        definitions: [
+          {
+            name: 'user_id',
+            label: 'Phone',
+            type: 'string',
+            hint: 'The 360 Dialog Whatsapp number (format: 14155231223)',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'api_key',
+            label: 'Your 360Dialog API key',
+            type: 'string',
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'sandbox',
+            label: 'is sandbox',
+            type: 'checkbox',
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
@@ -391,9 +490,7 @@ class AppPackagesCatalog
             grid: { xs: 'w-full', sm: 'w-full' }
           }
         ]
-      },
-      
-
+      }
     ]
 
     collection = development_packages + collection if dev_packages
@@ -405,18 +502,16 @@ class AppPackagesCatalog
   end
 
   def self.update(kind)
-    data = packages.find{|o| o[:name].downcase === kind.downcase}
+    data = packages.find { |o| o[:name].downcase === kind.downcase }
     pkg = AppPackage.find_or_create_by(name: data[:name])
     pkg.update(data) unless pkg.blank?
   end
 
   def self.update_all(dev_packages: false)
-    packages( dev_packages: dev_packages ).each do |pkg|
+    packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-      if package.errors.any? 
-        puts "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(", ")}"
-      end
+      puts "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
     end
   end
 end

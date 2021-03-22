@@ -17,7 +17,6 @@ en:
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match configured on the server."
-
   doorkeeper:
     applications:
       confirmations:
@@ -57,7 +56,6 @@ en:
         confidential: 'Confidential'
         callback_urls: 'Callback urls'
         actions: 'Actions'
-
     authorizations:
       buttons:
         authorize: 'Authorize'
@@ -70,7 +68,6 @@ en:
         able_to: 'This application will be able to'
       show:
         title: 'Authorization code'
-
     authorized_applications:
       confirmations:
         revoke: 'Are you sure?'
@@ -81,13 +78,11 @@ en:
         application: 'Application'
         created_at: 'Created At'
         date_format: '%Y-%m-%d %H:%M:%S'
-
     pre_authorization:
       status: 'Pre-authorization'
-
     errors:
       messages:
-        # Common error messages
+        #Common error messages
         invalid_request:
           unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
           missing_param: 'Missing required parameter: %{value}.'
@@ -100,27 +95,22 @@ en:
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
-
-        # Configuration error messages
+        #Configuration error messages
         credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
-
-        # Access grant errors
+        #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
-
-        # Access token errors
+        #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
         unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
-
         invalid_token:
           revoked: "The access token was revoked"
           expired: "The access token expired"
           unknown: "The access token is invalid"
         revoke:
           unauthorized: "You are not authorized to revoke this token"
-
     flash:
       applications:
         create:
@@ -132,7 +122,6 @@ en:
       authorized_applications:
         destroy:
           notice: 'Application revoked.'
-
     layouts:
       admin:
         title: 'Doorkeeper'

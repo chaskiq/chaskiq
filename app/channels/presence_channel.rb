@@ -2,28 +2,28 @@
 
 class PresenceChannel < ApplicationCable::Channel
   include UserFinder
-  after_unsubscribe :offline
+  before_unsubscribe :offline
 
   def subscribed
-    if current_user.blank? || self.app.blank?   
-      reject 
+    if current_user.blank? || app.blank?
+      reject
       return
-    end 
-    @key = "presence:#{app.key}-#{current_user.session_id}"
-    stream_from @key
+    end
+    stream_from key
     pingback
+  end
+
+  def key
+    "presence:#{app.key}-#{current_user.session_id}"
   end
 
   def pingback
     # notify_error("pingback error") if current_user.blank?
-    current_user.online! if current_user&.offline?
+    current_user&.online!
   end
 
   def offline
-    # notify_error("offlinize error") if current_user.blank?
-    # puts "subs #{Redis.new.pubsub('CHANNELS', @key).size}"
-    current_user&.offline!
-    ### if Redis.new.pubsub("CHANNELS", @key).size == 1 && current_user.online?
+    OfflineCheckerJob.set(wait: 5.seconds).perform_later(current_user.id, key)
   end
 
   def notify_error(err)
@@ -31,7 +31,7 @@ class PresenceChannel < ApplicationCable::Channel
       report.add_tab(
         :context,
         {
-          key: @key,
+          key: key,
           app: app&.key
         }
       )

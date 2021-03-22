@@ -70,7 +70,7 @@ export function getConversation (options, cb) {
 
           if (cb) cb()
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
@@ -107,14 +107,14 @@ export function updateConversationTagList (options, cb) {
           )
           if (cb) cb()
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
 }
 
 export function clearConversation (cb) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(dispatchGetConversations({}))
     if (cb) cb()
   }
@@ -129,7 +129,7 @@ export function typingNotifier (cb) {
         id: getState().conversation.key
       },
       {
-        success: (data) => {
+        success: () => {
           cb && cb()
         },
         error: (error) => {
@@ -252,8 +252,8 @@ export function appendMessage (data, cb) {
   }
 }
 
-export function assignUser (key, cb) {
-  return (dispatch, getState) => {}
+export function assignUser (_key, _cb) {
+  return (_dispatch, _getState) => {}
 }
 
 export function setLoading (val) {
@@ -275,8 +275,8 @@ export function updateTags (val) {
   }
 }
 
-export function toggleConversationPriority (key, cb) {
-  return (dispatch, getState) => {}
+export function toggleConversationPriority (_key, _cb) {
+  return (_dispatch, _getState) => {}
 }
 
 export function updateConversationState (state, cb) {
@@ -301,7 +301,7 @@ export function updateConversationState (state, cb) {
 
           if (cb) cb(newConversation)
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
@@ -326,7 +326,7 @@ export function updateConversationPriority (cb) {
           dispatch(dispatchGetConversations(newConversation))
           if (cb) cb(newConversation)
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
@@ -352,7 +352,7 @@ export function assignAgent (id, cb) {
           dispatch(dispatchGetConversations(newConversation))
           if (cb) cb(data.assignUser.conversation)
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }

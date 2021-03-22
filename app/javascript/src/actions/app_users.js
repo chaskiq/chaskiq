@@ -55,14 +55,13 @@ export function searchAppUsers (options, cb) {
 
         cb && cb()
       },
-      error: (error) => {
-        debugger
+      error: () => {
       }
     })
   }
 }
 
-export function updateAppUserPresence (userData, cb) {
+export function updateAppUserPresence (userData, _cb) {
   return (dispatch, getState) => {
     const newCollection = getState().app_users.collection.map((o) => {
       if (userData.id === o.id) {

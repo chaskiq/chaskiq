@@ -140,6 +140,6 @@ class Dashboard
 
   def colors
     array = %w[265 20 30 110 120 160 260 270 290 330 400]
-    array.shuffle.each { |x| }[0]
+    array.sample
   end
 end

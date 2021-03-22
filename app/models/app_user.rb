@@ -7,6 +7,7 @@ class AppUser < ApplicationRecord
   include UnionScope
   include Tokenable
   include Redis::Objects
+  include Connectivity
 
   ENABLED_SEARCH_FIELDS = [
     { 'name' => 'email', 'type' => 'string' },
@@ -45,11 +46,11 @@ class AppUser < ApplicationRecord
 
   # belongs_to :user
   belongs_to :app
-  has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy
+  has_many :conversations, foreign_key: :main_participant_id, dependent: :destroy_async
   # has_many :metrics , as: :trackable
-  has_many :metrics, dependent: :destroy
-  has_many :visits, dependent: :destroy
-  has_many :external_profiles, dependent: :destroy
+  has_many :metrics, dependent: :destroy_async
+  has_many :visits, dependent: :destroy_async
+  has_many :external_profiles, dependent: :destroy_async
 
   acts_as_taggable_on :tags
 
@@ -59,32 +60,32 @@ class AppUser < ApplicationRecord
 
   after_save :enqueue_social_enrichment, if: :saved_change_to_email?
 
-  ALLOWED_PROPERTIES = [
-    :ip, 
-    :city, 
-    :region, 
-    :country, 
-    :session_id, 
-    :email, 
-    :lat,
-    :lng,
-    :postal, 
-    :web_sessions, 
-    :timezone, 
-    :browser, 
-    :browser_version, 
-    :os, 
-    :os_version, 
-    :browser_language, 
-    :lang, 
-    :created_at,
-    :updated_at,
-    :last_seen, 
-    :first_seen, 
-    :signed_up, 
-    :last_contacted, 
-    :last_heard_from
-  ]
+  ALLOWED_PROPERTIES = %i[
+    ip
+    city
+    region
+    country
+    session_id
+    email
+    lat
+    lng
+    postal
+    web_sessions
+    timezone
+    browser
+    browser_version
+    os
+    os_version
+    browser_language
+    lang
+    created_at
+    updated_at
+    last_seen
+    first_seen
+    signed_up
+    last_contacted
+    last_heard_from
+  ].freeze
 
   ACCESSOR_PROPERTIES = [
     :name,
@@ -104,7 +105,7 @@ class AppUser < ApplicationRecord
     :company_name,
     :company_size,
     :privacy_consent
-  ]
+  ].freeze
 
   store_accessor :properties, ACCESSOR_PROPERTIES
 
@@ -125,6 +126,10 @@ class AppUser < ApplicationRecord
 
   scope :leads, lambda {
     where(type: 'Lead')
+  }
+
+  scope :non_users, lambda {
+    where(type: %w[Visitor Lead])
   }
 
   scope :users, lambda {
@@ -174,16 +179,19 @@ class AppUser < ApplicationRecord
 
   def add_created_event
     return unless calbackable?
+
     events.log(action: :user_created)
   end
 
   def add_email_changed_event
     return unless calbackable?
+
     events.log(action: :email_changed)
   end
 
   def lead_event
     return unless calbackable?
+
     events.log(action: :visitors_convert)
   end
 
@@ -209,39 +217,6 @@ class AppUser < ApplicationRecord
       only: %i[id kind display_name avatar_url],
       methods: %i[id kind display_name avatar_url]
     }.merge(options || {}))
-  end
-
-  def offline?
-    !state || state == 'offline'
-  end
-
-  def online?
-    state == 'online'
-  end
-
-  def channel_key
-    "presence:#{app.key}-#{email}"
-  end
-
-  def online!
-    self.state = 'online'
-    self.last_visited_at = Time.now
-
-    if save
-      ActionCable.server.broadcast(channel_key, to_json) # not necessary
-      ActionCable.server.broadcast("events:#{app.key}",
-                                   type: 'presence',
-                                   data: formatted_user)
-    end
-  end
-
-  def offline!
-    self.state = 'offline'
-    if save
-      ActionCable.server.broadcast("events:#{app.key}",
-                                   type: 'presence',
-                                   data: formatted_user)
-    end
   end
 
   def formatted_user
@@ -287,6 +262,7 @@ class AppUser < ApplicationRecord
   def avatar_url
     ui_avatar_url = "https://ui-avatars.com/api/#{URI.encode_www_form_component(display_name)}/128"
     return "#{ui_avatar_url}/f5f5dc/888/4" if email.blank?
+
     email_address = email.downcase
     hash = Digest::MD5.hexdigest(email_address)
     image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{ui_avatar_url}/7fffd4"
@@ -309,11 +285,12 @@ class AppUser < ApplicationRecord
 
   def enqueue_social_enrichment
     return unless calbackable?
+
     add_email_changed_event
   end
 
   def register_visit(options)
-    visits.register(options, app.register_visits)
+    visits.register(options, false) # app.register_visits)
   end
 
   def register_in_crm

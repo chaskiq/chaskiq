@@ -3,7 +3,7 @@ class DummyName
   class Name < String
     class << self
       def sign
-        "#{[*?A..?Z].sample}#{[*?A..?Z].sample}"
+        "#{[*'A'..'Z'].sample}#{[*'A'..'Z'].sample}"
       end
 
       def number

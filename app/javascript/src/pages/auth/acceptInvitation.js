@@ -28,7 +28,7 @@ function MadeWithLove () {
 function AcceptInvitation (props) {
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [password, setPassword] = useState('')
-  const [token, setToken] = useState(queryString.parse(props.location.search))
+  const [token, _setToken] = useState(queryString.parse(props.location.search))
   const [errors, setErrors] = useState({})
 
   const handleSubmit = (e) => {
@@ -45,7 +45,7 @@ function AcceptInvitation (props) {
       .then(function (response) {
         props.dispatch(
           successAuthentication(
-            response.data.token, 
+            response.data.token,
             response.data.refreshToken
           )
         )
@@ -84,7 +84,6 @@ function AcceptInvitation (props) {
                 variant="outlined"
                 margin="normal"
                 required
-                fullWidth
                 name="agent[password]"
                 label="Password"
                 type="password"
@@ -104,7 +103,6 @@ function AcceptInvitation (props) {
                 variant="outlined"
                 margin="normal"
                 required
-                fullWidth
                 name="agent[password_confirmation]"
                 label="Password confirmation"
                 type="password"
@@ -124,7 +122,6 @@ function AcceptInvitation (props) {
 
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 color="primary"
               >

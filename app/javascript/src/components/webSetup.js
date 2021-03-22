@@ -15,7 +15,7 @@ const Pre = styled.pre`
   overflow: auto;
 `
 
-function WebSetup ({ app, classes }) {
+function WebSetup ({ app }) {
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -29,8 +29,8 @@ function WebSetup ({ app, classes }) {
   return (
     <React.Fragment>
       <button className="text-xs bg-green-500 hover:bg-green-600 text-green-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
-      onClick={handleClickOpen}>
-        {I18n.t("common.get_snippet")}
+        onClick={handleClickOpen}>
+        {I18n.t('common.get_snippet')}
       </button>
 
       <SimpleDialog app={app} open={open} onClose={handleClose} />
@@ -84,7 +84,7 @@ function SimpleDialog (props) {
       open={open}
       titleContent={'Web Messenger Setup'}
       formComponent={
-        <div>
+        <div className="space-y-2">
           <p>{I18n.t('dashboard.snippet')}</p>
           <Pre>
             <div dangerouslySetInnerHTML={{ __html: setupScript() }} />

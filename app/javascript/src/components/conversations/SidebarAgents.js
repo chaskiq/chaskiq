@@ -59,7 +59,7 @@ function SidebarAgents ({ app, dispatch, conversations }) {
     dispatch(
       updateConversationsData({
         agentId: agentID,
-        sort: 'unfiltered',
+        sort: 'unfiltered'
       }, () => {
         fetchConversations(
           {

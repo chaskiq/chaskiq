@@ -13,7 +13,7 @@ import translation from './translation'
 
 export default function Collections ({ lang, subdomain }) {
   const [collections, setCollections] = React.useState([])
-  const [error, setError] = React.useState(false)
+  const [_error, setError] = React.useState(false)
 
   React.useEffect(() => {
     getArticles()
@@ -48,19 +48,25 @@ export default function Collections ({ lang, subdomain }) {
   }
 
   return (
-    <div className="py-12 sm:px-6 md:px-24 bg-gray-100">
+    <div className="py-12 sm:px-6 md:px-64 bg-gray-100">
       {/* End hero unit */}
-      <div className="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+      <div className="md:grid md:grid-cols-3 md:gap-x-4 md:gap-y-10">
         {collections.map((card) => (
-          <div className="m-4" item key={card.id} xs={12} sm={12} md={4}>
+          <div className="m-4" item key={card.id}>
             <Card
               title={
                 <Link
-                  className={'classes.routeLink'}
+                  className={'hover:underline'}
                   color={'primary'}
                   to={`${lang}/collections/${card.slug}`}
                 >
-                  <p gutterBottom variant="h5" component="h3">
+                  {card.icon && 
+                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
+                      <img src={card.icon} />
+                    </div>
+                  }
+
+                  <p className="mt-2 text-base">
                     {translation(card.title)}
                   </p>
                 </Link>

@@ -7,7 +7,7 @@ RSpec.describe AppUser, type: :model do
 
   let(:app) { FactoryBot.create :app }
   let(:app_user) do
-    app.add_user({email: 'test@test.cl', first_name: 'dsdsa'})
+    app.add_user({ email: 'test@test.cl', first_name: 'dsdsa' })
   end
 
   let(:visitor) do
@@ -56,7 +56,7 @@ RSpec.describe AppUser, type: :model do
       visitor
       expect(app.app_users.count).to be == 1
 
-      MessageApis::FullContact.any_instance.should_receive(:enrich_user)
+      MessageApis::FullContact::Api.any_instance.should_receive(:enrich_user)
 
       perform_enqueued_jobs do
         visitor.update(email: 'miguelmichelson@gmail.com')

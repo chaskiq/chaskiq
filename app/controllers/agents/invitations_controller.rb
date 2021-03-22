@@ -5,15 +5,12 @@ class Agents::InvitationsController < Devise::InvitationsController
 
   def update
     super do |resource|
-      if request.format == 'json'
-        if resource.errors.empty?
-          return respond_with_navigational(resource, status: :success) do
-            render json: @token
-          end
-        else
-          return respond_with_navigational(resource)
+      if request.format == 'json' && resource.errors.empty?
+        return respond_with_navigational(resource, status: :success) do
+          render json: @token
         end
       end
+      respond_with_navigational(resource)
     end
   end
 

@@ -24,9 +24,9 @@ RSpec.describe UserAutoMessage, type: :model do
     app.app_users.first
   end
 
-  let(:campaign) { 
-    FactoryBot.create(:user_auto_message, app: app) 
-  }
+  let(:campaign) do
+    FactoryBot.create(:user_auto_message, app: app)
+  end
 
   let(:premailer_template) do
     "<p>
@@ -46,8 +46,7 @@ RSpec.describe UserAutoMessage, type: :model do
   end
 
   describe 'trigger message detection' do
-
-    let!(:users_segment){
+    let!(:users_segment) do
       10.times do
         app.add_user(email: Faker::Internet.email, properties: {
                        custom_country: 'albania'
@@ -55,17 +54,17 @@ RSpec.describe UserAutoMessage, type: :model do
       end
 
       app.segments.create
-    }
+    end
 
-    let(:message){
+    let(:message) do
       FactoryBot.create(:user_auto_message,
-      app: app,
-      segments: app.segments.first.predicates,
-      scheduled_at: 2.day.ago,
-      scheduled_to: 30.days.from_now)
-    }
+                        app: app,
+                        segments: app.segments.first.predicates,
+                        scheduled_at: 2.day.ago,
+                        scheduled_to: 30.days.from_now)
+    end
 
-    before :each do 
+    before :each do
       UserAutoMessage.destroy_all
     end
 

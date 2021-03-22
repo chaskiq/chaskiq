@@ -1,50 +1,39 @@
 
-import React, { Component } from 'react';
-import styled from "@emotion/styled"
+import React, { Component } from 'react'
+import styled from '@emotion/styled'
 import { Picker } from 'mr-emoji'
-import {EmojiBlock} from "./styles/emojimart"
+import { EmojiBlock } from './styles/emojimart'
 
-//import EmojiPicker from 'emoji-picker-react';
-//import 'emoji-picker-react/dist/universal/style.scss'; // or any other way you consume scss files
- 
-import {GiphyBlock} from './styles/styled'
+// import EmojiPicker from 'emoji-picker-react';
+// import 'emoji-picker-react/dist/universal/style.scss'; // or any other way you consume scss files
+
 import GiphyPicker from './giphy'
 
-//import {Selector, ResultSort, Rating} from "react-giphy-selector";
-import {Map} from 'immutable'
+// import {Selector, ResultSort, Rating} from "react-giphy-selector";
+import { Map } from 'immutable'
 
 import {
   EditorState,
   convertToRaw
-} from 'draft-js'; // { compose
+} from 'draft-js' // { compose
 
-import customHTML2Content from './html2Content' //'Dante2/package/es/utils/html2content.js'
+import customHTML2Content from './html2Content' // 'Dante2/package/es/utils/html2content.js'
 import Loader from './loader'
 //
 
-import {imageUpload} from './uploader'
+import { imageUpload } from './uploader'
 
 const EditorContainer = styled.div`
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    ${(props)=>  props.footerClassName ? 
-      'min-height: 49px; max-height: 200px; border-top: none;' : 
-      'border-top: 1px solid #e6e6e6; min-height: 56px; max-height: 200px;'
+    ${(props) => props.footerClassName
+      ? 'min-height: 49px; max-height: 200px; border-top: none;'
+      : 'border-top: 1px solid #e6e6e6; min-height: 56px; max-height: 200px;'
     }
     
 
-`;
-
-const EditorActions = styled.div`
-  box-sizing: border-box;
-  -webkit-box-pack: end;
-  justify-content: flex-end;
-  -webkit-box-align: center;
-  align-items: center;
-  display: flex;
-  padding: 12px 1px;
 `
 
 const EditorWrapper = styled.div`
@@ -155,71 +144,64 @@ const EditorButtons = styled.div`
   }
 `
 
-const GifIcon = ()=>(
+const GifIcon = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-      <path d='M11.5 9H13v6h-1.5zM9 9H6c-.6 0-1 .5-1 1v4c0 .5.4 1 1 1h3c.6 0 1-.5 1-1v-2H8.5v1.5h-2v-3H10V10c0-.5-.4-1-1-1zm10 1.5V9h-4.5v6H16v-2h2v-1.5h-2v-1z'
-      />
+    <path d='M11.5 9H13v6h-1.5zM9 9H6c-.6 0-1 .5-1 1v4c0 .5.4 1 1 1h3c.6 0 1-.5 1-1v-2H8.5v1.5h-2v-3H10V10c0-.5-.4-1-1-1zm10 1.5V9h-4.5v6H16v-2h2v-1.5h-2v-1z'
+    />
   </svg>
 )
 
-const SendIcon = ()=>(
-  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-      <path d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z' />
-  </svg>
-)
-
-const EmojiIcon = ()=>(
+const EmojiIcon = () => (
 
   <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'>
-      <path d='M6 8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm6 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-3 5.5c2.14 0 3.92-1.5 4.38-3.5H4.62c.46 2 2.24 3.5 4.38 3.5zM9 1C4.57 1 1 4.58 1 9s3.57 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S5.41 2.5 9 2.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z'
-      />
+    <path d='M6 8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm6 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-3 5.5c2.14 0 3.92-1.5 4.38-3.5H4.62c.46 2 2.24 3.5 4.38 3.5zM9 1C4.57 1 1 4.58 1 9s3.57 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S5.41 2.5 9 2.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z'
+    />
   </svg>
 )
 
-const AttachIcon = ()=>(
+const AttachIcon = () => (
   <svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'>
-      <path d='M13 14c0 2.21-1.79 4-4 4s-4-1.79-4-4V3c0-1.66 1.34-3 3-3s3 1.34 3 3v9c0 1.1-.9 2-2 2s-2-.9-2-2V4h1v8c0 .55.45 1 1 1s1-.45 1-1V3c0-1.1-.9-2-2-2s-2 .9-2 2v11c0 1.66 1.34 3 3 3s3-1.34 3-3V4h1v10z'
-      />
+    <path d='M13 14c0 2.21-1.79 4-4 4s-4-1.79-4-4V3c0-1.66 1.34-3 3-3s3 1.34 3 3v9c0 1.1-.9 2-2 2s-2-.9-2-2V4h1v8c0 .55.45 1 1 1s1-.45 1-1V3c0-1.1-.9-2-2-2s-2 .9-2 2v11c0 1.66 1.34 3 3 3s3-1.34 3-3V4h1v10z'
+    />
   </svg>
 )
 
 export default class UnicornEditor extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.input = null
-    this.state = { 
+    this.upload_input = null
+    this.state = {
       text: '',
       emojiEnabled: false,
       giphyEnabled: false,
-      loading: false,
+      loading: false
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
   }
 
-
-  convertToDraft(sampleMarkup){
+  convertToDraft (sampleMarkup) {
     this.blockRenderMap = Map({
-      "image": {
+      image: {
         element: 'figure'
       },
-      "video": {
+      video: {
         element: 'figure'
       },
-      "embed": {
+      embed: {
         element: 'div'
       },
-      'unstyled': {
+      unstyled: {
         wrapper: null,
         element: 'div'
       },
-      'paragraph': {
+      paragraph: {
         wrapper: null,
         element: 'div'
       },
-      'placeholder': {
+      placeholder: {
         wrapper: null,
         element: 'div'
       },
@@ -229,46 +211,45 @@ export default class UnicornEditor extends Component {
       }
     })
 
-    const contentState = customHTML2Content(sampleMarkup, this.extendedBlockRenderMap) 
+    const contentState = customHTML2Content(sampleMarkup, this.extendedBlockRenderMap)
     const fstate2 = EditorState.createWithContent(contentState)
     const s = convertToRaw(fstate2.getCurrentContent())
     return {
-      serialized_content: JSON.stringify(s), 
+      serialized_content: JSON.stringify(s),
       text_content: contentState.getPlainText()
     }
   }
 
-  //https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
-  insertAtCursor = (myValue)=> {
+  // https://stackoverflow.com/questions/11076975/insert-text-into-textarea-at-cursor-position-javascript
+  insertAtCursor = (myValue) => {
     const myField = this.input
-    //IE support
+    // IE support
     if (document.selection) {
-      myField.focus();
-      var sel = document.selection.createRange();
-      sel.text = myValue;
-    }
-    //MOZILLA and others
-    else if (myField.selectionStart || myField.selectionStart == '0') {
-      var startPos = myField.selectionStart;
-      var endPos = myField.selectionEnd;
-      myField.value = myField.value.substring(0, startPos)
-        + myValue
-        + myField.value.substring(endPos, myField.value.length);
+      myField.focus()
+      var sel = document.selection.createRange()
+      sel.text = myValue
+    } else if (myField.selectionStart || myField.selectionStart === '0') {
+      // MOZILLA and others
+      var startPos = myField.selectionStart
+      var endPos = myField.selectionEnd
+      myField.value = myField.value.substring(0, startPos) +
+        myValue +
+        myField.value.substring(endPos, myField.value.length)
     } else {
-      myField.value += myValue;
+      myField.value += myValue
     }
   }
 
   onChange = (editorState) => {
     this.setState({
       text: editorState
-    });
+    })
   };
 
   handleSubmit = (e) => {
     e.preventDefault()
-    
-    if(this.input.value === "") return
+
+    if (this.input.value === '') return
 
     const opts = {
       html_content: this.input.value,
@@ -276,66 +257,65 @@ export default class UnicornEditor extends Component {
     }
 
     this.props.insertComment(opts, {
-      before: ()=>{
+      before: () => {
         this.props.beforeSubmit && this.props.beforeSubmit(opts)
-        this.input.value = ""
+        this.input.value = ''
       },
       sent: () => {
         this.props.onSent && this.props.onSent(opts)
-        this.input.value = ""
-      },
+        this.input.value = ''
+      }
     })
   }
 
-  submitImage = (link, cb)=>{
+  submitImage = (link, cb) => {
     const html = `<img width=100% src="${link}" data-type="image"/>`
     const opts = {
       html_content: html,
       ...this.convertToDraft(html)
     }
-    this.props.insertComment(opts, 
+    this.props.insertComment(opts,
       {
-        before: ()=>{
+        before: () => {
           this.props.beforeSubmit && this.props.beforeSubmit(opts)
-          this.input.value = ""
+          this.input.value = ''
         },
         sent: () => {
           this.props.onSent && this.props.onSent(opts)
-          this.input.value = ""
+          this.input.value = ''
           cb && cb()
-        },
+        }
       })
   }
 
-  submitFile = (attrs, cb)=>{
+  submitFile = (attrs, cb) => {
     const html = `<img src="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`
     const opts = {
       html_content: html,
       ...this.convertToDraft(html)
     }
-    this.props.insertComment(opts, 
+    this.props.insertComment(opts,
       {
-        before: ()=>{
+        before: () => {
           this.props.beforeSubmit && this.props.beforeSubmit(opts)
-          this.input.value = ""
+          this.input.value = ''
         },
         sent: () => {
           this.props.onSent && this.props.onSent(opts)
-          this.input.value = ""
+          this.input.value = ''
           cb && cb()
         }
       })
   }
 
   handleReturn = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       this.handleSubmit(e)
-      return
     }
   }
 
-  handleFocus = (e) => {
-    //this.input.focus()
+  handleFocus = () => {
+    // this.input.focus()
   }
 
   toggleEmojiClick = (e) => {
@@ -344,100 +324,98 @@ export default class UnicornEditor extends Component {
     this.setState({ emojiEnabled: !this.state.emojiEnabled })
   }
 
-  toggleEmoji = (e)=>{
-    this.setState({emojiEnabled: !this.state.emojiEnabled})
+  toggleEmoji = () => {
+    this.setState({ emojiEnabled: !this.state.emojiEnabled })
   }
 
-  toggleGiphy = (e)=>{
+  toggleGiphy = (e) => {
     e.preventDefault()
     this.setState({ giphyEnabled: !this.state.giphyEnabled })
   }
 
-  handleEmojiInsert = (emoji, e)=>{
+  handleEmojiInsert = (emoji) => {
     this.toggleEmoji()
     this.insertAtCursor(emoji.native)
   }
 
-  handleUpload = (ev)=>{
+  handleUpload = (ev) => {
     imageUpload(
       ev.target.files[0],
       {
         domain: this.props.domain,
-        onLoading: ()=>{
+        onLoading: () => {
           this.setLock(true)
         },
-        onError: (err)=>{
-          alert("error uploading")
+        onError: (err) => {
+          alert('error uploading')
           console.log(err)
         },
-        onSuccess: (attrs)=> {
-          if( attrs.content_type.match(/image\/(jpg|png|jpeg|gif)/) ){
+        onSuccess: (attrs) => {
+          if (attrs.content_type.match(/image\/(jpg|png|jpeg|gif)/)) {
             this.submitImage(attrs.link)
           } else {
             this.submitFile(attrs)
           }
           this.setLock(false)
         }
-      },
-      "dd",
-      false
+      }
     )
   }
 
-  setLock = (val)=>{
+  setLock = (val) => {
     this.setState({
       loading: val
     })
   }
 
-  handleInputClick = ()=>{
-    this.refs.upload_input.click()
+  handleInputClick = () => {
+    this.upload_input.click()
   }
 
   // TODO, upload this to activeStorage
-  saveGif = (data)=>{
-    this.submitImage(data.images.downsized_medium.url, ()=>{
-      this.setState({giphyEnabled: false})
+  saveGif = (data) => {
+    this.submitImage(data.images.downsized_medium.url, () => {
+      this.setState({ giphyEnabled: false })
     })
   }
 
-  render() {
-    const permittedFiles = "text/plain, text/markdown, text/x-markdown, image/jpg, image/gif, image/jpeg, image/png, application/pdf, application/csv, application/xls, application/xlsx"
+  render () {
+    const permittedFiles = 'text/plain, text/markdown, text/x-markdown, image/jpg, image/gif, image/jpeg, image/png, application/pdf, application/csv, application/xls, application/xlsx'
     return (
 
       <EditorWrapper onClick={this.handleFocus}>
         <EditorContainer footerClassName={this.props.footerClassName}>
 
-          { 
-            this.state.emojiEnabled && 
+          {
+            this.state.emojiEnabled &&
               <EmojiBlock>
                 <Picker set='apple'
                   emojiSize={20}
-                  emoji='' 
+                  emoji=''
                   title="hey"
                   onClick={this.handleEmojiInsert} />
-              </EmojiBlock> 
+              </EmojiBlock>
           }
 
           {
-            this.state.giphyEnabled ? 
-              <GiphyPicker 
-                apikey={"97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ"}
+            this.state.giphyEnabled
+              ? <GiphyPicker
+                apikey={'97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'}
                 handleSelected={this.saveGif}
               /> : null
           }
 
-          <Input 
+          <Input
             onKeyPress={this.handleReturn}
-            placeholder={this.props.t("editor.placeholder")} 
+            placeholder={this.props.t('editor.placeholder')}
             disabled={this.state.loading}
-            ref={comp => this.input = comp}>
+            ref={(comp) => (this.input = comp)}>
           </Input>
 
           <EditorButtons>
 
             {
-              this.state.loading && 
+              this.state.loading &&
               <Loader xs wrapperStyle={{
                 opacity: '0.5',
                 padding: '0px',
@@ -445,27 +423,27 @@ export default class UnicornEditor extends Component {
               }}/>
             }
 
-            <button 
+            <button
               disabled={this.state.loading}
               onClick={this.toggleEmojiClick}>
               <EmojiIcon/>
             </button>
 
-            <button 
+            <button
               disabled={this.state.loading}
               onClick={this.toggleGiphy}>
               <GifIcon/>
             </button>
-          
-            <button 
+
+            <button
               disabled={this.state.loading}
               onClick={this.handleInputClick}>
               <AttachIcon/>
-              <input 
-                type="file" 
-                ref="upload_input"
+              <input
+                type="file"
+                ref={comp => (this.upload_input = comp)}
                 accept={permittedFiles}
-                style={{display: 'none'}} 
+                style={{ display: 'none' }}
                 onChange={this.handleUpload}
               />
             </button>
@@ -476,7 +454,6 @@ export default class UnicornEditor extends Component {
 
       </EditorWrapper>
 
-
-    );
+    )
   }
 }

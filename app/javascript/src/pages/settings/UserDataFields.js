@@ -20,7 +20,7 @@ import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
 import defaultFields from '../../shared/defaultFields'
 import Input from '../../components/forms/Input'
 
-function UserDataFields ({ app, settings, update, dispatch }) {
+function UserDataFields ({ app, _settings, update, _dispatch }) {
   const [fields, setFields] = useState(app.customFields || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
@@ -125,7 +125,7 @@ function UserDataFields ({ app, settings, update, dispatch }) {
           {I18n.t('settings.user_data.title')}
         </p>
 
-        <div className="flex w-1/4 justify-end">
+        <div className="flex w-1/4 justify-end items-center">
           <UpgradeButton
             classes={
               `absolute z-10 ml-1 mt-3 transform w-screen 
@@ -136,9 +136,10 @@ function UserDataFields ({ app, settings, update, dispatch }) {
             label="Add custom attribute"
             feature="CustomAttributes">
             <Button onClick={addField}
-              edge="end" variant="icon"
+              variant="outlined"
+              className="mr-2"
               aria-label="add">
-              <PlusIcon />
+              <PlusIcon /> {I18n.t("common.add_new")}
             </Button>
           </UpgradeButton>
 
@@ -264,7 +265,6 @@ function FieldsForm ({ selected }) {
         variant="outlined"
         margin="normal"
         required
-        fullWidth
         name="name"
         label={ I18n.t('settings.user_data.inputs.name')}
         type={'text'}
@@ -296,39 +296,6 @@ function FieldsForm ({ selected }) {
         type={'textarea'}
       ></Input>
     </React.Fragment>
-  )
-}
-
-function Field ({ field, handleEdit, removeField, index }) {
-  return (
-    <ListItem>
-      <ListItemText
-        primary={field.name}
-        secondary={I18n.t(`settings.user_data.attr_types.${field.type}`)}
-      />
-
-      {handleEdit && (
-        <ItemListSecondaryContent>
-          <Button
-            variant="icon"
-            onClick={() => handleEdit(index)}
-            edge="end"
-            aria-label={I18n.t('common.delete')}
-          >
-            <EditIcon />
-          </Button>
-
-          <Button
-            onClick={() => removeField(index)}
-            edge="end"
-            variant="icon"
-            aria-label={I18n.t('common.add')}
-          >
-            <DeleteIcon />
-          </Button>
-        </ItemListSecondaryContent>
-      )}
-    </ListItem>
   )
 }
 

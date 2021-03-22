@@ -61,7 +61,7 @@ export default function ConversationItemList ({ app, conversation }) {
       }}
       className="mr-0.5 inline-flex items-center px-2.5 py-0.5
         rounded-full text-xs font-light
-        bg-blue-100 text-blue-800
+        bg-gray-100 text-blue-800
         capitalize">
       #{tag}
     </span>
@@ -75,7 +75,7 @@ export default function ConversationItemList ({ app, conversation }) {
   return (
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
-      className="flex justify-between hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+      className="flex justify-between hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
     >
       <div className={`block w-2 ${stateClass()}`}></div>
       <div className="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 ">
@@ -130,10 +130,10 @@ export default function ConversationItemList ({ app, conversation }) {
           <div className="flex justify-between">
             <div className="flex">
               {
-                conversation.conversationChannels && conversation.conversationChannels.map((o)=>(
-                  <div key={`${conversation.key}-${o}`} 
-                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                  bg-blue-100 text-blue-800 capitalize">
+                conversation.conversationChannels && conversation.conversationChannels.map((o) => (
+                  <div key={`${conversation.key}-${o}`}
+                    className="mr-0.5 border inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                  bg-gray-100 text-blue-800 capitalize">
                     {o}
                   </div>
                 ))

@@ -1,0 +1,495 @@
+fr:
+  common:
+    edit: Éditer
+    new: Nouveau
+    add: Ajouter
+    add_new: add new
+    update: Mise à jour
+    remove: Supprimer
+    delete: Effacer
+    create: Créer
+    save: Enregistrer
+    preview: Prévisualisation
+    cancel: Annuler
+    back_to_site: Retour au site
+    not_found: La page que vous cherchez n'existe pas.
+    get_snippet: Obtenir le snippet
+    submit: Valider
+    confirm_deletion: "Confirmer la suppression ?"
+    next: Suivant
+    prev: Précédent
+    showing: En montrant
+    to: vers
+    of: de
+    results: résultats
+    tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
+    send: Envoyer
+    langs:
+      en: Anglais
+      es: Espagnol
+      pt: Portugais
+      redirecting: Redirection
+      select_language: Sélectionnez une langue
+    send_on_enter: Publier à la saisie
+  home:
+    welcome: Bienvenue à
+    welcome_site: Chaskiq
+    tagline: Trouvez vos applications actuelles ici
+    create_new: Créer une nouvelle app
+    choose_lang: Choisissez la langue
+    edit_profile: Éditer profil
+    go_to_doc: Accéder à la documentation
+  dashboard:
+    hey: "👋 Hé !, vous regardez le tableau de bord <strong>du</strong> de%{name}! <br /> Obtenez un snippet d'installation pour la configuration du web <br />"
+    response_avg: Moyenne du temps de réponse
+    new_conversations: Nouvelle conversation
+    resolutions: Résolution
+    incoming_messages: Messages reçus
+    visit_activity: Visiter l'activité
+    users_browser: Navigateur d'utilisateurs
+    lead_os: Prospects Os
+    user_os: Os utilisateur
+    mac_os: Mac OS
+    user_country: Pays de l'utilisateur
+    snippet: Mettez le script suivant à la fin de votre balise html <body>
+  navigator:
+    dashboard: Tableau de Bord
+    platform: Plateforme
+    conversations: Conversations
+    campaigns: Campagnes
+    routing_bots: Bots de Routage
+    help_center: Centre d'assistance
+    settings: Paramètres
+    childs:
+      conversations: Conversations
+      assignment_rules: Règles de devoir
+      mailing_campaigns: Campagnes de mailing
+      in_app_messages: Messages dans l'application
+      banners: Bannières
+      guided_tours: Visites guidées
+      for_leads: Pour les prospects
+      for_users: Pour les utilisateurs
+      bot_settings: Tâches du bot
+      outbound: Sortant
+      new_conversations: Nouvelle conversation
+      articles: Articles
+      collections: Collections
+      article_settings: Paramètres
+      app_settings: Paramètres de l'Application
+      team: Team
+      messenger_settings: Paramètres de Messenger
+      integrations: Intégrations
+      webhooks: Webhooks
+      api_access: Accès API
+    user_menu:
+      create_app: 'Créer une nouvelle app'
+      create_app_description: 'Créez l''application Chaskiq de votre entreprise'
+      signout: Se déconnecter
+      title: Menu Utilisateur
+  conversations:
+    start_conversation: Démarrer une conversation
+    title: Conversations
+    menu:
+      conversations: Conversations
+      assignment_rules: Règles de routage de l'agent
+    states:
+      opened: Ouvert
+      closed: Fermé
+    sorts:
+      newest: Plus récent
+      oldest: Plus ancien
+      waiting: En attente
+      priority_first: Priorisé
+      all: Tous
+      unfiltered: Tous
+    empty:
+      title: Aucune conversation
+      text: Choisir les conversations sur le côté
+  conversation:
+    with: Conversation avec
+    actions:
+      priorize: Prioriser la conversation
+      remove_priority: Supprimer la priorité
+      close: Fermer
+      reopen: Rouvrir
+      start_call: Démarrer un appel vidéo
+      end_call: Terminer l’appel
+      assign_agent: Assigner un agent
+    messages:
+      seen: Vu
+      not_seen: Non vu
+      note: Commentaire
+    sidebar:
+      show_profile: Voir le profil
+      location: Localisation
+      browser: Navigateur de l’utilisateur
+      latest_user_visible_comment_at: Dernier commentaire
+      created_at: Créé à
+      assignee: Assigné
+      first_agent_reply: Réponse du premier agent
+    editor:
+      panels:
+        bot:
+          title: Démarrer une tâche de Bot
+          confirm: Confirmer le déclenchement %{title}
+          confirm_msg: Cette tâche de bot sera livrée sur la conversation actuelle de l'utilisateur ou dans une nouvelle si l'utilisateur a quitté le chat.
+          empty: aucune bot disponible
+          choose_another: Choisir un autre
+        quick_reply:
+          title: Envoyer une réponse rapide
+          confirm: Confirmer l'envoi de %{title}?
+          confirm_msg: Cette réponse rapide sera livrée dans la conversation actuelle de l'utilisateur.
+          empty: aucune réponse rapide disponible
+          choose_another: Choisir un autre
+  assignment_rules:
+    title: Règles de devoir
+    create_button: Créer une règle
+    success_message: Règle de devoir créée avec succès
+  campaigns:
+    title: Campagne
+    home:
+      title: Campagnes
+      text: Ceci est la section des campagnes, vous pouvez créer des newsletters , des messages popup et des visites guidées
+    remove_success: Campagne supprimée
+    remove_hint: Nous allons détruire tout contenu et données connexes
+    delete_campaign: Supprimer la campagne %{name}
+    create_new: Créer nouvelle campagne
+    empty:
+      title: Aucune campagne n’a été trouvée
+    campaign_updated: Mise à jour de la campagne
+    updated_error: Erreur de mise à jour de la campagne
+    error_purge: Erreur lors de la purge des métriques
+    purge_description: Purge les métriques de campagnes
+    purge_title: Purge Metrics
+    deliver_title: Livrer
+    deliver_description: Livre la campagne
+  campaign:
+    edit: Modifier les paramètres de la campagne
+    create: Créer une nouvelle campagne
+    preview: Ceci est un aperçu
+    preview_hint: Voici comment votre e-mail devrait s'afficher. Si vous utilisez des variables comme {{name}} , il devrait être affiché ici.
+    stats:
+      title: Statistiques de la Campagne
+      refresh_data: Actualiser les données
+    unsubscribe:
+      status: Vous avez été %{state}
+      success: Succès, %{ email } ne recevra plus d'e-mails de cet expéditeur. Était-ce une erreur ?
+      resubscribe: Reprendre l'abonnement de cette liste
+      cancel: Résiliez votre abonnement
+  task_bots:
+    title: Tâches du bot
+    reply_soon: Bonjour, %{name} répondra dès que possible.
+    reply_agent: vous recevrez une réponse de l'un de nos agents
+    email_support: pour obtenir de l'aide vous pouvez envoyer un e-mail à %{email}
+    outbound: "🏓 Sortant"
+    new_conversations: "👋 Nouvelle conversation"
+    email_requirement:
+      message: Donnez à l'équipe un moyen de vous joindre
+      input_label: Recevez une notification par e-mail
+      placeholder: Saisissez votre e-mail
+      ack: Merci
+    support:
+      ask: Êtes-vous un client existant de %{name}?
+      options:
+        op1: Oui, je suis un client
+        op2: Non, je ne suis pas encore un client existant
+      reply:
+        op1: Bienvenue à nouveau !
+        op2: ok, faites-nous savoir si vous avez besoin de quelque chose et un agent vous répondra dès que possible
+    settings:
+      leads:
+        tab: Pour les prospects
+        start_conversation: Quand les prospects démarrent une conversation
+        delay: Laisser un délai de 2 minutes avant de déclencher les Bots de taches pendant les heures de bureau
+        share_time: Partagez votre temps de réponse habituel
+        route: Router les clients existants vers le support
+        route_desc: Mettre les bonnes personnes en route en demandant si elles sont un client existant quand elles commencent une nouvelle conversation.
+        route_costumer: Que voulez-vous faire lorsqu'ils choisissent "Oui, je suis client"?
+        assign: Assigner la conversation
+        close: Supprimer la conversation
+        ask: Demander les coordonnées
+        ask_hint: Si nous n'avons pas déjà leurs coordonnées Le bot proposera que les clients laissent leur adresse e-mail ou leur numéro de téléphone pour être notifié chaque fois que vous répondez.
+        dont_ask_email: Ne pas demander d'e-mail
+        ask_email_phone: Demander un e-mail ou un numéro de téléphone mobile
+        email_only: Demander un e-mail uniquement
+        override:
+          label: Remplacer le comportement par défaut avec votre propre bot de tâches
+          hint: "Lorsque vous faites cela, le comportement par défaut ci-dessous n'aura pas lieu et la tâche sera déclenchée à chaque nouvelle conversation"
+      users:
+        tab: Pour les utilisateurs
+        start_conversation: Lorsque les utilisateurs commencent une conversation
+        delay: Laisser un délai de 2 minutes avant de déclencher les Bots de taches pendant les heures de bureau
+        override:
+          label: Remplacer le comportement par défaut avec votre propre tâche
+          hint: conseil !
+      settings_title: Paramètres des tâches du bot
+      specific_times_title: Définissez des heures spécifiques pour montrer ce bot à votre public.
+      tz_hint: Le fuseau horaire de votre application est %{timezone} Voir les heures de bureau.
+      office_hours: Pendant les heures de bureau
+      outside_office: En dehors des heures de bureau
+      custom_time: Heure personnalisée
+      enable_title: Activer la tâche de bot
+      enable_hint: lorsque cette option est activée, la tâche du bot commencera à fonctionner
+    new: Créer une nouvelle tâche
+    remove_success: bot supprimé
+    empty:
+      title: Aucune tâche de bot trouvée
+      create_new: Créer un nouveau
+    delete:
+      title: Supprimer le bot "%{name}"
+      hint: nous allons détruire tout contenu et données connexes
+    create:
+      title: Créer une tâche de bot
+  email_forwarding:
+    title: Email Forwarding
+    subtitle: Default Inbound Address
+    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+  identified_users:
+    title: Verified users setup
+    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
+    lang: Your code to generate an HMAC for your app is
+    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+  quick_replies:
+    title: Réponses rapides
+    search: Rechercher des réponses rapides
+    will_send: La version "%{lang}" sera envoyée à la conversation.
+    empty:
+      title: Aucune réponse rapide
+      create_new: Créer un nouveau
+    delete:
+      title: Supprimer la réponse rapide %{name}
+      hint: nous allons détruire le contenu et les données associées, néanmoins les conversations garderont le contenu
+    create:
+      success: La réponse rapide a été créée avec succès
+      error: Erreur lors de la création d'une réponse rapide
+    update:
+      success: La réponse rapide a été créée avec succès
+      error: Erreur de mise à jour de la réponse rapide
+    add_as_dialog:
+      title: Ajouter ce message comme réponse rapide
+  new_app:
+    title: "Créez l'application Chaskiq de votre entreprise"
+    text: Fournissez des informations de base pour configurer Chaskiq pour votre équipe et vos clients.
+    hint: Créez l'application Chaskiq de votre entreprise
+  settings:
+    api:
+      title: Applications Oauth
+      tabs:
+        apps: Applications OAUTH
+        authorized: Applications OAUTH autorisées
+      oauth_information: Informations sur l'application Oauth
+      details: Détails et identifiants Oauth.
+      delete_app: Supprimer l'application Oauth ?
+      create_app: Créer une application Oauth
+      hint: Nous allons détruire tout contenu et données connexes
+      invite:
+        title: Ajouter un nouvel agent
+        text: envoyer une invitation activable
+    app:
+      app_settings: Paramètres de l'Application
+      security: Security
+      messenger_settings: Messenger Settings
+      appearance: Appearance
+      appearance_title: Appearance settings
+      privacy: Privacy
+      privacy_title: Privacy settings
+      translations: Translations
+      availability: Availability
+      email_requirement: Email Requirement
+      inbound_settings: Inbound settings
+      messenger_style: Messenger Style
+      user_data: User data
+      tags: Tags
+      quick_replies: Quick Replies
+      email_forwarding: Email Forwarding
+    app_packages:
+      create_success: Package created
+      create_error: Error creating package
+      update_success: Package updated
+      update_error: Error updating package
+      remove_success: Package removed correctly
+      remove_error: Error removing package
+      create_integration: Create New package
+    integrations:
+      title: Third party integrations
+      create_success: Integration created
+      create_error: Error linking integration
+      update_success: Integration updated
+      update_error: Error updating integration
+      remove_success: Integration removed correctly
+      remove_error: Error removing integration
+      create_integration: Create New integration
+      active:
+        title: Active Integrations
+        text: API Integrations
+      available:
+        title: "Available API's"
+        text: Available API Services
+      yours:
+        title: "Your Integration Apps"
+        text: Integration apps created by you
+      hints:
+        hook_url: This integration will receive webhook at
+      delete_dialog:
+        title: Delete "%{name}" integration ?
+        text: The integration with %{name} service will be disabled immediately
+      empty:
+        title: You don't have any api integrations yet
+        text: Search for available api services in
+    availability:
+      title: Set your availability
+      hint: Set team office hours and reply times
+      title2: Set office hours
+      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
+      timezone: YOUR APP’S TIMEZONE IS %{tz}
+      reply_time:
+        title: Set reply time
+        hint: During office hours, let your customers know when they can expect a reply.
+        options:
+          - 
+            value: "auto"
+            label: "Automatic reply time. Currently El equipo responderá lo antes posible"
+          - 
+            value: "minutes"
+            label: "El equipo suele responder en cuestión de minutos."
+          - 
+            value: "heures"
+            label: "El equipo suele responder en cuestión de horas."
+          - 
+            value: "1 jour"
+            label: "El equipo suele responder en un día."
+        hint2: "Remarque : le visiteur recevra une réponse automatique avec la disponibilité de votre équipe pendant les heures hors bureau ou pendant de longs délais de réponse."
+    email_requirement:
+      title: Exiger un e-mail pour les nouvelles conversations
+      hint: Ainsi, vous pouvez toujours revenir aux visiteurs de votre site web
+      ask: "Demandez aux visiteurs de votre site Web de laisser leur email avant de commencer un chat en direct:"
+      options:
+        - 
+          label: Uniquement en dehors des heures de bureau
+          hint: Réduis le VOLUME DE CONVERSATION autour de 5% en MOYEN
+          value: bureau
+        - 
+          label: Toujours
+          hint: Réduis le VOLUME DE CONVERSATION autour de 30% en MOYEN
+          value: Toujours
+        - 
+          label: Jamais
+          value: Jamais
+          hint: PERMETTRE LES VISITEURS DU SITE WEB DE COMMENCER UNE CONVERSATION À TOUTE heure
+    languages:
+      add: Ajouter une langue
+      title: Langues
+    inbound:
+      title: Bouton de nouvelles conversations
+      checkbox: Laisser les gens commencer de nouvelles conversations entrantes avec vous
+      hint: Lorsque cette option est désactivée, les personnes ne peuvent répondre qu'aux messages sortants que vous envoyez.
+      title2: visibilité
+      hint2: Contrôlez qui voit le lanceur standard Messenger sur votre site Web.
+      note2: TOUS LES MESSAGES QUE VOUS ENVOYEZ SERONT DÉLIVÉS.
+      note3: "Sur le web, montrez le lanceur standard Messenger à:"
+      filters:
+        users:
+          label: Utilisateurs
+          all: Tous les utilisateurs
+          some: Utilisateurs qui correspondent à certaines données
+        leads:
+          label: Prospects
+          all: Tous les visiteurs
+          some: Visiteurs qui correspondent à certaines données
+        hint: Cela n'affecte pas les messages sortants que vous envoyez.
+    team:
+      title: Equipe
+      invitations: invitations
+      agents: Agents
+      invitation_success: invitation envoyée !
+      invitatin_error: invitation non envoyée !
+      action_button: ajouter un utilisateur
+      title_content: Ajouter un nouvel agent
+      content_text: envoyer une invitation activable
+      hint: le nouveau membre de l'équipe sera notifié par son e-mail
+      send_invitation: Envoyer invitation
+      resend_invitation: Renvoyer l'invitation
+      add_new: Ajouter un membre de l'équipe
+      update_agent_title: Mettre à jour les informations de l'agent
+      updated_agent: Informations mises à jour avec succès
+      update_agent: Mise à jour
+    webhooks:
+      title: Webhooks
+      create_success: Webhook created
+      create_error: Error adding webhook
+      update_success: Webhook updated
+      update_error: Error updating webhook
+      delete_success: Webhook removed correctly
+      delete_error: Error removing webhook
+      outgoing_webhooks: Outgoing webhooks
+      new_webhook: New webhook
+      active_webhooks: Active Webhooks
+      disabled_webhooks: Disabled Webhooks
+      empty:
+        title: You don't have any active webhooks yet
+        desc: Search for your webhooks in
+        disabled_webhooks: Disabled webhooks
+      delete:
+        title: Delete webhook ?
+        text: The webhook with %{name} service will be disabled immediately
+    tags:
+      title: Tags
+      modal:
+        title: Create app's tag
+        hint: Looking for more tags ? look at
+        link: account settings
+      inputs:
+        name: Field name
+        color: Field color
+    user_data:
+      title: Custom Fields
+      default_fields: Atributos por defecto
+      non_editable: This fields are not editable
+      modal:
+        title: Create user data field
+      inputs:
+        name: Field name
+        type: Field type
+        validation: Validation
+        validation_hint: Validation is optional
+      attr_types:
+        date: Date
+        integer: Integer
+        string: String
+  articles:
+    title: Articles
+    all: All
+    published: Published
+    draft: Drafts
+    visit: visit the help center
+    new: New article
+    add: Add item
+    collections: Collections
+    help_center: Help Center
+    description_placeholder: Describe your collection to help you find it.
+    title_placeholder: Write the title of the sections
+    new_section: New section
+    new_collection: New collection
+    edit_collection: Edit collection
+    create_article:
+      placeholder: Write the title of the article
+      description_placeholder: Add a summary to find the article later
+    create:
+      title: Nouvelle collection d'articles
+      placeholder: Entrez le titre de la collection
+      description: Décrivez votre collection pour vous aider à la trouver.
+    settings:
+      title: Paramètres du Centre d'aide
+      add_language: Ajouter une langue
+      select_lang: Sélectionnez la langue
+      add_language_to_help: Ajouter une nouvelle langue au centre d'aide
+      delete:
+        title: Supprimer la traduction "%{name}"
+        text: Nous allons détruire la traduction et cacher tout article avec la langue "%{name}"
+      appearance: Apparence
+      appearance_settings: Paramètres d'apparence
+      lang: Langage
+      lang_title: Trouvez votre Centre d'Aide
+      lang_desc: Gérer les langues prises en charge et personnaliser l'en-tête de votre Centre d'Aide
+      basic: Configuration de base
+      general_app: Aperçu de l'application

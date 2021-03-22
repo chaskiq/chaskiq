@@ -1,54 +1,54 @@
-import React, { Component } from "react";
-import { toSnakeCase } from "../../shared/caseConverter";
-import serialize from "form-serialize";
+import React, { Component } from 'react'
+import { toSnakeCase } from '../../shared/caseConverter'
+import serialize from 'form-serialize'
 import FieldRenderer, {
-  gridClasses,
-} from "../../components/forms/FieldRenderer";
-import Button from "../../components/Button";
-import Hints from "../../shared/Hints";
+  gridClasses
+} from '../../components/forms/FieldRenderer'
+import Button from '../../components/Button'
+import Hints from '../../shared/Hints'
 
 export default class SettingsForm extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       selected: 0,
       data: {},
-      errors: {},
-    };
+      errors: {}
+    }
   }
 
   tabs = () => {
-    var b = [];
-    return b;
+    var b = []
+    return b
   };
 
   onSubmitHandler = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const serializedData = serialize(this.formRef, {
       hash: true,
-      empty: true,
-    });
-    const data = toSnakeCase(serializedData);
-    this.props.update(data);
+      empty: true
+    })
+    const data = toSnakeCase(serializedData)
+    this.props.update(data)
   };
 
-  render() {
+  render () {
     return (
       <div className="py-4">
         <form
           name="create-repo"
           onSubmit={this.onSubmitHandler.bind(this)}
           ref={(form) => {
-            this.formRef = form;
+            this.formRef = form
           }}
         >
 
-        {
-          this.props.hint && <Hints type={this.props.hint}/>
-        }
+          {
+            this.props.hint && <Hints type={this.props.hint}/>
+          }
 
           <p
-            className="text-lg leading-6 font-medium 
+            className="text-lg leading-6 font-medium
                 text-gray-900 py-4"
           >
             {this.props.title}
@@ -64,22 +64,22 @@ export default class SettingsForm extends Component {
                 >
                   <FieldRenderer
                     {...field}
-                    namespace={"app"}
+                    namespace={'app'}
                     data={field}
                     props={this.props}
                     errors={this.props.data.errors || {}}
                   />
                 </div>
-              );
+              )
             })}
           </div>
 
           <div className="flex">
             <div className=" w-full sm:w-1/2">
-              <Button 
-                variant="success" 
+              <Button
+                variant="success"
                 color="primary"
-                size="md" 
+                size="md"
                 type="submit">
                 {I18n.t('common.save')}
               </Button>
@@ -87,6 +87,6 @@ export default class SettingsForm extends Component {
           </div>
         </form>
       </div>
-    );
+    )
   }
 }

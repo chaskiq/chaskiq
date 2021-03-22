@@ -1,6 +1,6 @@
 // src/components/button.js
 import React from 'react'
-//import tw from 'tailwind.macro'
+// import tw from 'tailwind.macro'
 import styled from '@emotion/styled'
 import tw from 'twin.macro'
 // https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components
@@ -35,6 +35,8 @@ const BaseButton = styled.button`
         `
       case 'flat-dark':
         return tw`
+          flex
+          items-center
           border 
           border-transparent 
           rounded 
@@ -63,19 +65,47 @@ const BaseButton = styled.button`
       case 'clean':
         return ''
       case 'outlined':
-        return tw`outline-none
+        return tw`
+        flex 
+        items-center
         inline-flex 
-        items-center 
-        border
-        border-gray-500
-        rounded-md 
-        text-gray-500
+        justify-center 
+        px-4 
+        py-2 
+        border 
+        border-gray-300 
+        shadow-sm 
+        text-sm 
+        font-medium 
+        rounded-md text-gray-700 
+        bg-white 
+        hover:bg-gray-50 
         focus:outline-none 
-        focus:shadow-outline 
-        focus:border-indigo-700 
-        active:bg-indigo-700
-        hover:shadow-md
-        hover:bg-gray-100
+        focus:ring-2 
+        focus:ring-offset-2 
+        focus:ring-pink-500
+        `
+      case 'outlined-transparent':
+        return tw`
+        flex 
+        items-center
+        inline-flex 
+        justify-center 
+        px-4 
+        py-2 
+        border 
+        border-gray-900 
+        shadow-sm 
+        text-sm 
+        font-medium 
+        rounded-md 
+        text-gray-100 
+        bg-transparent
+        hover:text-gray-800 
+        focus:outline-none 
+        focus:ring-2 
+        focus:ring-offset-2 
+        focus:ring-pink-500
         `
       case 'icon':
         return tw`

@@ -18,6 +18,8 @@
   <img src="https://img.shields.io/docker/cloud/build/chaskiq/chaskiq" alt="CI">
 </a>
 
+[![Crowdin](https://badges.crowdin.net/e/41a6bbb31a5d79361a6264cb9ceac533/localized.svg)](https://chaskiq.crowdin.com/chaskiq)
+
 <br/>
 
 <a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master" alt="Deploy to Heroku">
@@ -44,7 +46,7 @@
 - CRM integration - Pipedrive supported
 - Webhooks
 - Help Center system with multilanguage support
-- API support - consumible via GrapqhQL with Oauth authorization
+- API support - consumable via GrapqhQL with Oauth authorization
 - Quick replies (as canned responses)
 - Configurable Data protection (GDPR) consent
 
@@ -116,7 +118,7 @@ Chaskiq is built for the *next* 10 years of the Internet, so our requirements ar
 ## Built With
 
 - [Ruby on Rails](https://github.com/rails/rails) &mdash; Our back end API is a Rails app. It responds to requests RESTfully in JSON.
-- [React.js](https://github.com/react/react.js) &mdash; Our front end is an React.js app that communicates with the Rails Graphql API.
+- [React.js](https://reactjs.org/) &mdash; Our front end is an React.js app that communicates with the Rails Graphql API.
 - [PostgreSQL](https://www.postgresql.org/) &mdash; Our main data store is in Postgres.
 - [Redis](https://redis.io/) &mdash; We use Redis as a cache and for transient data.
 
@@ -152,5 +154,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ### Commercial license
 
-The commercial license is designed to for you to use Chaskiq in commercial products and applications, without the provisions of the AGPL-3.0-or-later. With the commercial license, your code is kept propietary, to yourself. See the Chaskiq Commercial License at [chaskiq.io](https://chaskiq.io/commercial-license)
+The commercial license is designed to for you to use Chaskiq in commercial products and applications, without the provisions of the AGPL-3.0-or-later. With the commercial license, your code is kept proprietary, to yourself. See the Chaskiq Commercial License at [chaskiq.io](https://chaskiq.io/commercial-license)
 

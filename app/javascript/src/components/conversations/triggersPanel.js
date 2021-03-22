@@ -17,7 +17,6 @@ function TriggersPanel (props) {
   const [open, setOpen] = React.useState(props.open)
   const [botTask, setBotTask] = React.useState(null)
   const [botTasks, setBotTasks] = React.useState([])
-  const [values, setValues] = React.useState({})
 
   function getBotTasks () {
     graphql(
@@ -25,14 +24,13 @@ function TriggersPanel (props) {
       {
         appKey: props.app.key,
         lang: 'es',
-        mode: props.conversation.mainParticipant.kind === 'app_user' ? 'users' : 'leads'
+        //mode: props.conversation.mainParticipant.kind === 'app_user' ? 'users' : 'leads'
       },
       {
         success: (data) => {
           setBotTasks(data.app.botTasks)
         },
         error: () => {
-          debugger
         }
       }
     )
@@ -44,13 +42,11 @@ function TriggersPanel (props) {
       triggerId: parseInt(botTask.id),
       conversationId: props.conversation.id
     }, {
-      success: (data) => {
+      success: () => {
         handleClose()
       },
-      errors: (err) => {
-        debugger
+      errors: (_err) => {
       }
-
     })
   }
 
@@ -62,17 +58,9 @@ function TriggersPanel (props) {
     setOpen(props.open)
   }, [props.open])
 
-  function handleClickOpen () {
-    setOpen(true)
-  }
-
   function handleClose () {
     setOpen(false)
     props.close()
-  }
-
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value })
   }
 
   function renderItem (o) {
@@ -87,12 +75,12 @@ function TriggersPanel (props) {
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
             <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-              {I18n.t('conversation.editor.panels.bot.confirm', {title: o.title})}
+              {I18n.t('conversation.editor.panels.bot.confirm', { title: o.title })}
             </h3>
             <div className="mt-2">
               <p className="text-sm leading-5 text-gray-500">
                 {I18n.t('conversation.editor.panels.bot.confirm_msg')}
-                <Button size="xs" variant="success" onClick={()=>setBotTask(null)}>
+                <Button size="xs" variant="success" onClick={() => setBotTask(null)}>
                   {I18n.t('conversation.editor.panels.bot.choose_another')}
                 </Button>
               </p>
@@ -107,8 +95,7 @@ function TriggersPanel (props) {
     setBotTask(o)
   }
 
-  function handleSend (o) {
-    console.log(botTask)
+  function handleSend (_o) {
     sendTrigger()
   }
 
@@ -121,7 +108,7 @@ function TriggersPanel (props) {
         <div>
           {!botTask && <div
             style={
-              {maxHeight: '16rem' }
+              { maxHeight: '16rem' }
             }
             className="mt-2 bg-white shadow overflow-hidden sm:rounded-md overflow-y-auto">
             <ul>
@@ -151,7 +138,7 @@ function TriggersPanel (props) {
 
           {
             botTasks.length === 0 && <p>
-            {I18n.t('conversation.editor.panels.bot.empty')}
+              {I18n.t('conversation.editor.panels.bot.empty')}
             </p>
           }
 
@@ -168,7 +155,7 @@ function TriggersPanel (props) {
             {I18n.t('common.cancel')}
           </Button>
 
-          { 
+          {
             botTask && <Button
               onClick={handleSend}>
               {I18n.t('common.send')}

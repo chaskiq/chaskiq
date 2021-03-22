@@ -21,9 +21,9 @@ Rails.application.configure do
 
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 
-  host = ENV.fetch('HOST'){ "http://localhost:3000" }
+  host = ENV.fetch('HOST') { 'http://localhost:3000' }
   ws   = ENV.fetch('WS') { 'ws://locahost:3000/cable' }
-  
+
   Rails.application.routes.default_url_options = { host: host }
   config.action_controller.default_url_options = { host: host }
   config.action_mailer.default_url_options = { host: host }
@@ -88,11 +88,9 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = false
   config.action_mailer.delivery_method = :ses
 
-
-  # ACTIVE JOB 
+  # ACTIVE JOB
   config.active_job.queue_adapter = :sidekiq
   # config.active_job.queue_adapter = :async
-
 
   # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.smtp_settings = {

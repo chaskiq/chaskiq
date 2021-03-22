@@ -11,6 +11,8 @@ module Types
     field :updateAgent, mutation: Mutations::Agents::UpdateAgent
     field :updateAgentRole, mutation: Mutations::Agents::UpdateAgentRole
 
+    field :cloneMessage, mutation: Mutations::CloneMessage
+
     field :createDelete, mutation: Mutations::Predicates::CreatePredicate
     field :predicatesDelete, mutation: Mutations::Predicates::DeletePredicate
     field :predicatesUpdate, mutation: Mutations::Predicates::SavePredicate
@@ -75,6 +77,7 @@ module Types
     field :articleCollectionCreate, mutation: Mutations::Articles::Collections::CreateCollection
     field :articleCollectionEdit, mutation: Mutations::Articles::Collections::EditCollection
     field :articleCollectionDelete, mutation: Mutations::Articles::Collections::DeleteCollection
+    field :articleCollectionReorder, mutation: Mutations::Articles::Collections::ReorderCollection
 
     field :createUrlUpload, mutation: Mutations::CreateUrlUpload
     field :createDirectUpload, mutation: Mutations::CreateDirectUpload
@@ -82,6 +85,7 @@ module Types
     field :createBotTask, mutation: Mutations::Bots::CreateBotTask
     field :updateBotTask, mutation: Mutations::Bots::UpdateBotTask
     field :deleteBotTask, mutation: Mutations::Bots::DeleteBotTask
+    field :reorderBotTask, mutation: Mutations::Bots::ReorderBotTask
 
     field :integrationsCreate, mutation: Mutations::AppPackageIntegrations::CreateIntegration
     field :integrationsDelete, mutation: Mutations::AppPackageIntegrations::DeleteIntegration

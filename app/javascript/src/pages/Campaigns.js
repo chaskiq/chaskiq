@@ -1,32 +1,30 @@
-import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { Component } from 'react'
+import { Route, Switch, withRouter } from 'react-router-dom'
 
-import { withRouter } from "react-router-dom";
-import { AnchorLink } from "../shared/RouterLink";
-import { connect } from "react-redux";
-//import Tabs from '@atlaskit/tabs';
-import Moment from "react-moment";
-import styled from "@emotion/styled";
-import serialize from "form-serialize";
-import UpgradeButton from "../components/upgradeButton"
+import { AnchorLink } from '../shared/RouterLink'
+import { connect } from 'react-redux'
+// import Tabs from '@atlaskit/tabs';
+import Moment from 'react-moment'
 
-import CampaignSettings from "./campaigns/settings";
-import CampaignEditor from "./campaigns/editor";
-import SegmentManager from "../components/segmentManager";
-import DeleteDialog from "../components/DeleteDialog";
-import CampaignStats from "../components/stats";
+import UpgradeButton from '../components/upgradeButton'
 
-import { isEmpty } from "lodash";
+import CampaignSettings from './campaigns/settings'
+import CampaignEditor from './campaigns/editor'
+import SegmentManager from '../components/segmentManager'
+import DeleteDialog from '../components/DeleteDialog'
+import CampaignStats from '../components/stats'
 
-import { parseJwt, generateJWT } from "../components/segmentManager/jwt";
-import TourManager from "../components/Tour";
-import ContentHeader from "../components/PageHeader";
-import Content from "../components/Content";
-import EmptyView from "../components/EmptyView";
-import FilterMenu from "../components/FilterMenu";
-import Badge from '../components/Badge';
-import graphql from "../graphql/client";
-import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } from "../graphql/queries";
+import { isEmpty } from 'lodash'
+
+import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
+import TourManager from '../components/Tour'
+import ContentHeader from '../components/PageHeader'
+import Content from '../components/Content'
+import EmptyView from '../components/EmptyView'
+import FilterMenu from '../components/FilterMenu'
+import Badge from '../components/Badge'
+import graphql from '../graphql/client'
+import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } from '../graphql/queries'
 import {
   PREDICATES_SEARCH,
   UPDATE_CAMPAIGN,
@@ -34,87 +32,91 @@ import {
   DELIVER_CAMPAIGN,
   PURGE_METRICS,
   DELETE_CAMPAIGN,
-} from "../graphql/mutations";
+  CLONE_MESSAGE
+} from '../graphql/mutations'
 
-import { getAppUser } from "../actions/app_user";
-import { toggleDrawer } from "../actions/drawer";
+import { getAppUser } from '../actions/app_user'
+import { toggleDrawer } from '../actions/drawer'
 
-import Table from "../components/Table";
+import Table from '../components/Table'
 
-//import SelectMenu from '../components/selectMenu'
+// import SelectMenu from '../components/selectMenu'
 
-import Tabs from "../components/Tabs";
-import Button from "../components/Button";
-import CircularProgress from "../components/Progress";
+import Tabs from '../components/Tabs'
+import Button from '../components/Button'
+import CircularProgress from '../components/Progress'
 
 import {
-  CheckCircle,
+
   Pause,
-  VisibilityRounded,
+
   SendIcon,
-  DeleteForeverRounded,
+
   EmailIcon,
   MessageIcon,
   FilterFramesIcon,
   ClearAll,
   DeleteOutlineRounded,
-} from "../components/icons";
+  CopyContentIcon
+} from '../components/icons'
 
-import { setCurrentSection, setCurrentPage } from "../actions/navigation";
+import { setCurrentSection, setCurrentPage } from '../actions/navigation'
 
-import userFormat from "../components/Table/userFormat";
+import userFormat from '../components/Table/userFormat'
 
-import { errorMessage, successMessage } from "../actions/status_messages";
+import { errorMessage, successMessage } from '../actions/status_messages'
 
 class CampaignSegment extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       jwt: null,
       app_users: [],
       search: false,
-      meta: {},
-    };
-  }
-  componentDidMount() {
-    /*this.props.actions.fetchAppSegment(
-      this.props.app.segments[0].id
-    )*/
-    this.search();
+      meta: {}
+    }
   }
 
-  handleSave = (e) => {
-    const predicates = parseJwt(this.state.jwt);
-    //console.log(predicates)
+  componentDidMount () {
+    /* this.props.actions.fetchAppSegment(
+      this.props.app.segments[0].id
+    ) */
+    this.search()
+  }
+
+  handleSave = (_e) => {
+    const predicates = parseJwt(this.state.jwt)
+    // console.log(predicates)
 
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
       campaignParams: {
-        segments: predicates.data,
-      },
-    };
+        segments: predicates.data
+      }
+    }
 
     graphql(UPDATE_CAMPAIGN, params, {
-      success: (data) => {
-        this.props.successMessage();
+      success: (_data) => {
+        this.props.successMessage()
       },
-      error: () => {},
-    });
+      error: () => {}
+    })
   };
 
   updateData = (data, cb) => {
-    const newData = Object.assign({}, this.props.data, { segments: data.data });
-    this.props.updateData(newData, cb ? cb() : null);
+    const newData = Object.assign({}, this.props.data, { segments: data.data })
+    this.props.updateData(newData, cb ? cb() : null)
   };
 
   updatePredicate = (data, cb) => {
-    const jwtToken = generateJWT(data);
-    //console.log(parseJwt(jwtToken))
-    if (cb) cb(jwtToken);
-    this.setState({ jwt: jwtToken }, () =>
+    const jwtToken = generateJWT(data)
+    // console.log(parseJwt(jwtToken))
+    if (cb) cb(jwtToken)
+    this.setState({ jwt: jwtToken }, () =>{
       this.updateData(parseJwt(this.state.jwt), this.search)
-    );
+    }
+    )
   };
 
   addPredicate = (data, cb) => {
@@ -122,71 +124,69 @@ class CampaignSegment extends Component {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value,
-    };
+      value: data.value
+    }
 
-    const new_predicates = this.props.data.segments.concat(pending_predicate);
-    const jwtToken = generateJWT(new_predicates);
-    //console.log(parseJwt(jwtToken))
-    if (cb) cb(jwtToken);
-
+    const new_predicates = this.props.data.segments.concat(pending_predicate)
+    const jwtToken = generateJWT(new_predicates)
+    // console.log(parseJwt(jwtToken))
+    if (cb) cb(jwtToken)
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt))
-    );
+    )
   };
 
-  deletePredicate(data) {
-    const jwtToken = generateJWT(data);
+  deletePredicate (data) {
+    const jwtToken = generateJWT(data)
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
-    );
+    )
   }
 
   search = (page) => {
-    this.setState({ searching: true });
+    this.setState({ searching: true })
     // jwt or predicates from segment
-    //console.log(this.state.jwt)
+    // console.log(this.state.jwt)
     const data = this.state.jwt
       ? parseJwt(this.state.jwt).data
-      : this.props.data.segments;
+      : this.props.data.segments
     const predicates_data = {
       data: {
-        predicates: data.filter((o) => o.comparison),
-      },
-    };
+        predicates: data.filter((o) => o.comparison)
+      }
+    }
 
     graphql(
       PREDICATES_SEARCH,
       {
         appKey: this.props.app.key,
         search: predicates_data,
-        page: page || 1,
+        page: page || 1
       },
       {
         success: (data) => {
-          const appUsers = data.predicatesSearch.appUsers;
+          const appUsers = data.predicatesSearch.appUsers
           this.setState({
             app_users: appUsers.collection,
             meta: appUsers.meta,
-            searching: false,
-          });
+            searching: false
+          })
         },
-        error: (error) => {
-          debugger;
-        },
+        error: (_error) => {
+        }
       }
-    );
+    )
   };
 
   showUserDrawer = (o) => {
     this.props.dispatch(
       toggleDrawer({ rightDrawer: true }, () => {
-        this.props.dispatch(getAppUser(o.id));
+        this.props.dispatch(getAppUser(o.id))
       })
-    );
+    )
   };
 
-  render() {
+  render () {
     return (
       <div className="mt-4">
         <SegmentManager
@@ -202,40 +202,40 @@ class CampaignSegment extends Component {
           loading={this.props.searching}
           columns={userFormat(this.showUserDrawer, this.props.app)}
           defaultHiddenColumnNames={[
-            "id",
-            "state",
-            "online",
-            "lat",
-            "lng",
-            "postal",
-            "browserLanguage",
-            "referrer",
-            "os",
-            "osVersion",
-            "lang",
+            'id',
+            'state',
+            'online',
+            'lat',
+            'lng',
+            'postal',
+            'browserLanguage',
+            'referrer',
+            'os',
+            'osVersion',
+            'lang'
           ]}
-          //selection [],
+          // selection [],
           tableColumnExtensions={[
-            //{ columnName: 'id', width: 150 },
-            { columnName: "email", width: 250 },
-            { columnName: "lastVisitedAt", width: 120 },
-            { columnName: "os", width: 100 },
-            { columnName: "osVersion", width: 100 },
-            { columnName: "state", width: 80 },
-            { columnName: "online", width: 80 },
-            //{ columnName: 'amount', align: 'right', width: 140 },
+            // { columnName: 'id', width: 150 },
+            { columnName: 'email', width: 250 },
+            { columnName: 'lastVisitedAt', width: 120 },
+            { columnName: 'os', width: 100 },
+            { columnName: 'osVersion', width: 100 },
+            { columnName: 'state', width: 80 },
+            { columnName: 'online', width: 80 }
+            // { columnName: 'amount', align: 'right', width: 140 },
           ]}
-          leftColumns={["email"]}
-          rightColumns={["online"]}
-          //toggleMapView={this.toggleMapView}
-          //map_view={this.state.map_view}
-          //enableMapView={true}
+          leftColumns={['email']}
+          rightColumns={['online']}
+          // toggleMapView={this.toggleMapView}
+          // map_view={this.state.map_view}
+          // enableMapView={true}
         >
           {this.state.jwt ? (
             <Button
               isLoading={false}
-              variant={"icon"}
-              size={"small"}
+              variant={'icon'}
+              size={'small'}
               onClick={this.handleSave}
             >
               <i className="fas fa-chart-pie"></i> Save Segment
@@ -243,33 +243,33 @@ class CampaignSegment extends Component {
           ) : null}
         </SegmentManager>
       </div>
-    );
+    )
   }
 }
 
 class CampaignForm extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       selected: 0,
       data: {},
-      tabValue: 0,
-    };
+      tabValue: 0
+    }
   }
 
   url = () => {
-    const id = this.props.match.params.id;
-    return `/apps/${this.props.app.key}/campaigns/${id}`;
+    const id = this.props.match.params.id
+    return `/apps/${this.props.app.key}/campaigns/${id}`
   };
 
-  componentDidMount() {
-    this.fetchCampaign();
+  componentDidMount () {
+    this.fetchCampaign()
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(this.props.campaigns.campaign === this.state.data.id &&
-      this.props.campaigns.ts !== prevProps.campaigns.ts ){
-      this.fetchCampaign();
+  componentDidUpdate (prevProps, _prevState) {
+    if (this.props.campaigns.campaign === this.state.data.id &&
+      this.props.campaigns.ts !== prevProps.campaigns.ts) {
+      this.fetchCampaign()
     }
   }
 
@@ -278,72 +278,72 @@ class CampaignForm extends Component {
       DELETE_CAMPAIGN,
       {
         appKey: this.props.app.key,
-        id: this.state.data.id,
+        id: this.state.data.id
       },
       {
         success: (data) => {
-          console.log(data);
-          cb && cb();
+          console.log(data)
+          cb && cb()
         },
         error: (error) => {
-          console.log(error);
-        },
+          console.log(error)
+        }
       }
-    );
+    )
   };
 
   fetchCampaign = (cb) => {
-    const id = this.props.match.params.id;
+    const id = this.props.match.params.id
 
-    if (id === "new") {
+    if (id === 'new') {
       graphql(
         CREATE_CAMPAIGN,
         {
           appKey: this.props.app.key,
           mode: this.props.mode,
-          operation: "new",
-          campaignParams: {},
+          operation: 'new',
+          campaignParams: {}
         },
         {
           success: (data) => {
             this.setState(
               {
-                data: data.campaignCreate.campaign,
+                data: data.campaignCreate.campaign
               },
               cb && cb
-            );
-          },
+            )
+          }
         }
-      );
+      )
     } else {
       graphql(
         CAMPAIGN,
         {
           appKey: this.props.app.key,
           mode: this.props.mode,
-          id: id,
+          id: id
         },
         {
           success: (data) => {
             this.setState(
               {
-                data: data.app.campaign,
+                data: data.app.campaign
               },
               cb && cb
-            );
-          },
+            )
+          }
         }
-      );
+      )
     }
   };
 
   updateData = (data, cb) => {
-    this.setState({ data: data }, cb && cb());
+    this.setState({ data: data }, cb && cb())
   };
 
   renderEditorForCampaign = () => {
     switch (this.props.mode) {
-      case "tours":
+      case 'tours':
         return (
           <TourManager
             {...this.props}
@@ -351,7 +351,7 @@ class CampaignForm extends Component {
             updateData={this.updateData}
             data={this.state.data}
           />
-        );
+        )
       default:
         return (
           <CampaignEditor
@@ -360,12 +360,12 @@ class CampaignForm extends Component {
             updateData={this.updateData}
             data={this.state.data}
           />
-        );
+        )
     }
   };
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i });
+    this.setState({ tabValue: i })
   };
 
   tabsContent = () => {
@@ -376,7 +376,7 @@ class CampaignForm extends Component {
         textColor="inherit"
         tabs={[
           {
-            label: "Stats",
+            label: 'Stats',
             content: (
               <CampaignStats
                 {...this.props}
@@ -386,102 +386,121 @@ class CampaignForm extends Component {
                 updateData={this.updateData}
                 getStats={this.getStats}
               />
-            ),
+            )
           },
           {
-            label: "Settings",
+            label: 'Settings',
             content: (
               <CampaignSettings
                 {...this.props}
                 data={this.state.data}
                 mode={this.props.mode}
                 successMessage={() =>
-                  this.props.dispatch(successMessage("campaign updated"))
+                  this.props.dispatch(successMessage('campaign updated'))
                 }
                 url={this.url()}
                 updateData={this.updateData}
               />
-            ),
+            )
           },
           {
-            label: "Audience",
+            label: 'Audience',
             content: (
               <CampaignSegment
                 {...this.props}
                 data={this.state.data}
                 url={this.url()}
                 successMessage={() =>
-                  this.props.dispatch(successMessage("campaign updated"))
+                  this.props.dispatch(successMessage('campaign updated'))
                 }
                 updateData={this.updateData}
               />
-            ),
+            )
           },
-          { label: "Editor", content: this.renderEditorForCampaign() },
+          { label: 'Editor', content: this.renderEditorForCampaign() }
         ]}
       ></Tabs>
-    );
+    )
   };
 
   getStats = (params, cb) => {
     graphql(CAMPAIGN_METRICS, params, {
       success: (data) => {
-        const d = data.app.campaign;
-        cb(d);
+        const d = data.app.campaign
+        cb(d)
       },
-      error: (error) => {},
-    });
+      error: (_error) => {}
+    })
   };
 
   isNew = () => {
-    return this.props.match.params.id === "new";
+    return this.props.match.params.id === 'new'
   };
 
-  handleSend = (e) => {
+  handleSend = (_e) => {
     const params = {
       appKey: this.props.app.key,
-      id: this.state.data.id,
-    };
+      id: this.state.data.id
+    }
 
     graphql(DELIVER_CAMPAIGN, params, {
       success: (data) => {
-        this.updateData(data.campaignDeliver.campaign, null);
-        //this.setState({ status: "saved" })
+        this.updateData(data.campaignDeliver.campaign, null)
+        // this.setState({ status: "saved" })
       },
-      error: () => {},
-    });
+      error: () => {}
+    })
   };
+
+  cloneCampaign = (_e) => {
+    const params = {
+      appKey: this.props.app.key,
+      id: `${this.state.data.id}`
+    }
+
+    graphql(CLONE_MESSAGE, params, {
+      success: (_data) => {
+        this.props.dispatch(successMessage(
+          'cloned successfully'
+        ))
+
+        this.props.init()
+      },
+      error: () => {
+        this.props.dispatch(errorMessage(
+          'error while cloning record'
+        ))
+      }
+    })
+  }
 
   campaignName = (name) => {
     switch (name) {
-      case "campaigns":
-        return "Mailing Campaign";
-        break;
-      case "user_auto_messages":
-        return "In app messages";
-
+      case 'campaigns':
+        return 'Mailing Campaign'
+      case 'user_auto_messages':
+        return 'In app messages'
       default:
-        return name;
-        break;
+        return name
     }
   };
 
-  options = ()=> ([
-    /*{
-      title: "Enable",
-      description: "enables the campaign",
-      icon: <CheckCircle />,
-      id: "enabled",
-      state: "enabled",
-      onClick: this.toggleCampaignState
-    },*/
+  options = () => ([
     {
-      title: "Pause",
-      description: "pauses the campaign ",
+      title: 'Pause',
+      description: 'pauses the campaign ',
       icon: <Pause />,
-      id: "disabled",
-      state: "disabled",
+      id: 'disabled',
+      state: 'disabled',
       onClick: this.toggleCampaignState
+    },
+    {
+      title: 'Clone',
+      description: 'clones the campaign',
+      icon: <CopyContentIcon />,
+      id: 'enabled',
+      state: 'enabled',
+      onClick: this.cloneCampaign
     }
   ])
 
@@ -492,44 +511,43 @@ class CampaignForm extends Component {
         appKey: this.props.app.key,
         id: this.state.data.id,
         campaignParams: {
-          state: this.state.data.state === "enabled" ? "disabled" : "enabled",
-        },
+          state: this.state.data.state === 'enabled' ? 'disabled' : 'enabled'
+        }
       },
       {
         success: (data) => {
           this.setState({
-            data: data.campaignUpdate.campaign,
-          });
+            data: data.campaignUpdate.campaign
+          })
           this.props.dispatch(successMessage(
-            I18n.t("campaigns.campaign_updated")
-          ));
+            I18n.t('campaigns.campaign_updated')
+          ))
         },
         error: () => {
           this.props.dispatch(errorMessage(
-            I18n.t("campaigns.updated_error")
-          ));
-        },
+            I18n.t('campaigns.updated_error')
+          ))
+        }
       }
-    );
+    )
   };
 
   iconMode = (name) => {
     switch (name) {
-      case "campaigns":
-        return <EmailIcon />;
-      case "user_auto_messages":
-        return <MessageIcon />;
-      case "tours":
-        return <FilterFramesIcon />;
+      case 'campaigns':
+        return <EmailIcon />
+      case 'user_auto_messages':
+        return <MessageIcon />
+      case 'tours':
+        return <FilterFramesIcon />
       default:
-        return name;
-        break;
+        return name
     }
   };
 
   optionsForMailing = () => {
     return [
-      /*{
+      /* {
         title: "Preview",
         description: "preview campaign's message",
         icon: <VisibilityRounded />,
@@ -540,56 +558,56 @@ class CampaignForm extends Component {
             "_blank"
           );
         },
-      },*/
+      }, */
       {
-        title: I18n.t("campaigns.deliver_title"),
-        description: I18n.t("campaigns.deliver_description"),
+        title: I18n.t('campaigns.deliver_title'),
+        description: I18n.t('campaigns.deliver_description'),
         icon: <SendIcon />,
-        id: "deliver",
-        onClick: this.handleSend,
-      },
-    ];
+        id: 'deliver',
+        onClick: this.handleSend
+      }
+    ]
   };
 
   deleteOption = () => {
     return {
-      title: I18n.t("common.delete"),
-      description: I18n.t("campaigns.delete_campaign", {name: this.state.data.name}),
+      title: I18n.t('common.delete'),
+      description: I18n.t('campaigns.delete_campaign', { name: this.state.data.name }),
       icon: <DeleteOutlineRounded />,
-      id: "delete",
-      onClick: this.openDeleteDialog,
-    };
+      id: 'delete',
+      onClick: this.openDeleteDialog
+    }
   };
 
   optionsForData = () => {
-    let newOptions = this.options();
-    if (this.props.mode === "campaigns") {
-      newOptions = this.optionsForMailing().concat(this.options());
+    let newOptions = this.options()
+    if (this.props.mode === 'campaigns') {
+      newOptions = this.optionsForMailing().concat(this.options())
     }
 
-    newOptions = newOptions.filter((o) => o.state !== this.state.data.state);
+    newOptions = newOptions.filter((o) => o.state !== this.state.data.state)
 
-    newOptions = newOptions.concat(this.purgeMetricsOptions());
+    newOptions = newOptions.concat(this.purgeMetricsOptions())
 
-    newOptions.push(this.deleteOption());
+    newOptions.push(this.deleteOption())
 
-    return newOptions;
+    return newOptions
   };
 
   purgeMetricsOptions = () => {
     return {
-      title: I18n.t("campaigns.purge_title"),
-      description: I18n.t("campaigns.purge_description"),
+      title: I18n.t('campaigns.purge_title'),
+      description: I18n.t('campaigns.purge_description'),
       icon: <ClearAll />,
-      id: "deliver",
-      onClick: this.purgeMetrics,
-    };
+      id: 'deliver',
+      onClick: this.purgeMetrics
+    }
   };
 
   openDeleteDialog = () => {
     this.setState({
-      deleteDialog: true,
-    });
+      deleteDialog: true
+    })
   };
 
   purgeMetrics = () => {
@@ -597,51 +615,51 @@ class CampaignForm extends Component {
       PURGE_METRICS,
       {
         appKey: this.props.app.key,
-        id: parseInt(this.props.match.params.id),
+        id: parseInt(this.props.match.params.id)
       },
       {
-        success: (data) => {
+        success: (_data) => {
           this.fetchCampaign(() => {
-            this.props.dispatch(successMessage("campaign updated"));
-          });
+            this.props.dispatch(successMessage('campaign updated'))
+          })
         },
         error: () => {
-          this.props.dispatch(errorMessage("error purging metrics"));
-        },
+          this.props.dispatch(errorMessage('error purging metrics'))
+        }
       }
-    );
+    )
   };
 
-  render() {
-    const badgeClass = this.state.data.state === "enabled" ? "green" : "gray";
+  render () {
+    const badgeClass = this.state.data.state === 'enabled' ? 'green' : 'gray'
 
     const title = this.state.data.name
       ? `${this.state.data.name}`
-      : this.campaignName(this.props.mode);
+      : this.campaignName(this.props.mode)
 
     return (
       <div>
         {this.state.deleteDialog && (
           <DeleteDialog
             open={this.state.deleteDialog}
-            title={I18n.t("campaigns.delete_campaign", {name: title })}
+            title={I18n.t('campaigns.delete_campaign', { name: title })}
             deleteHandler={() => {
               this.deleteCampaign(() => {
                 this.setState(
                   {
-                    deleteDialog: false,
+                    deleteDialog: false
                   },
                   () => {
                     this.props.history.push(
                       `/apps/${this.props.app.key}/messages/${this.props.mode}`
-                    );
+                    )
                   }
-                );
-              });
+                )
+              })
             }}
           >
             <p variant="subtitle2">
-              {I18n.t("campaigns.remove_hint")}
+              {I18n.t('campaigns.remove_hint')}
             </p>
           </DeleteDialog>
         )}
@@ -656,9 +674,9 @@ class CampaignForm extends Component {
                     <div
                       className=""
                       color={
-                        this.state.data.state === "enabled"
-                          ? "primary"
-                          : "secondary"
+                        this.state.data.state === 'enabled'
+                          ? 'primary'
+                          : 'secondary'
                       }
                       variant="dot"
                     >
@@ -685,10 +703,10 @@ class CampaignForm extends Component {
             actions={
               <React.Fragment>
                 <div className="flex">
-                {
-                  this.props.match.params.id !== "new" && 
+                  {
+                    this.props.match.params.id !== 'new' &&
 
-                  <UpgradeButton 
+                  <UpgradeButton
                     classes={
                       `
                       absolute z-10 ml-1 mt-3 transform w-screen 
@@ -698,42 +716,40 @@ class CampaignForm extends Component {
                     }
                     label="Activate Campaigns"
                     feature="Campaigns">
-                  
+
                     <Button
                       className="mr-2"
                       title= "Enable"
                       description={
-                        this.state.data.state === "disabled" ?
-                        "enables the campaign"
-                        :
-                        "disables the campaign"
+                        this.state.data.state === 'disabled'
+                          ? 'enables the campaign'
+                          : 'disables the campaign'
                       }
-                      //icon= <CheckCircle />
+                      // icon= <CheckCircle />
                       id="enabled"
                       state="enabled"
                       onClick={this.toggleCampaignState}
                     >
-                    {
-                      this.state.data.state === "disabled" ?
-                      "Enable"
-                      :
-                      "Disable"
-                    }
-                    
+                      {
+                        this.state.data.state === 'disabled'
+                          ? 'Enable'
+                          : 'Disable'
+                      }
+
                     </Button>
                   </UpgradeButton>
-                }
+                  }
 
-                {
-                  this.props.match.params.id !== "new" &&
+                  {
+                    this.props.match.params.id !== 'new' &&
                   <FilterMenu
                     options={this.optionsForData()}
                     value={'Actions'}
-                    filterHandler={(option, closeHandler ) => {
+                    filterHandler={(option, _closeHandler) => {
                       return (option.onClick && option.onClick(option))
                     }}
                     triggerButton={this.toggleButton}
-                    position={"right"}
+                    position={'right'}
                     toggleButton={(clickHandler) => {
                       return (
                         <Button
@@ -742,12 +758,12 @@ class CampaignForm extends Component {
                           color="inherit"
                           size="small"
                         >
-                          {"actions"}
+                          {'actions'}
                         </Button>
-                      );
+                      )
                     }}
                   />
-                }
+                  }
                 </div>
               </React.Fragment>
             }
@@ -762,7 +778,7 @@ class CampaignForm extends Component {
                 url={this.url()}
                 updateData={this.updateData}
                 successMessage={() =>
-                  this.props.dispatch(successMessage("campaign updated"))
+                  this.props.dispatch(successMessage('campaign updated'))
                 }
               />
             ) : (
@@ -771,86 +787,87 @@ class CampaignForm extends Component {
           ) : null}
         </Content>
       </div>
-    );
+    )
   }
 }
 
 class CampaignContainer extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       campaigns: [],
       meta: {},
-      openDeleteDialog: null,
-    };
+      openDeleteDialog: null
+    }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, _prevState) {
     if (
       this.props.match.params.message_type !==
       prevProps.match.params.message_type
     ) {
-      this.init();
+      this.init()
 
-      this.props.dispatch(setCurrentPage(this.props.match.params.message_type));
+      this.props.dispatch(setCurrentPage(this.props.match.params.message_type))
 
-      this.props.dispatch(setCurrentSection("Campaigns"));
+      this.props.dispatch(setCurrentSection('Campaigns'))
     }
   }
 
-  componentDidMount() {
-    this.props.dispatch(setCurrentSection("Campaigns"));
+  componentDidMount () {
+    this.props.dispatch(setCurrentSection('Campaigns'))
 
-    this.props.dispatch(setCurrentPage(this.props.match.params.message_type));
+    this.props.dispatch(setCurrentPage(this.props.match.params.message_type))
 
-    this.init();
+    this.init()
   }
 
   init = (page) => {
     this.setState({
-      loading: true,
-    });
+      loading: true
+    })
 
     graphql(
       CAMPAIGNS,
       {
         appKey: this.props.app.key,
         mode: this.props.match.params.message_type,
-        page: page || 1,
+        page: page || 1
       },
       {
         success: (data) => {
-          const { collection, meta } = data.app.campaigns;
+          const { collection, meta } = data.app.campaigns
           this.setState({
             campaigns: collection,
             meta: meta,
-            loading: false,
-          });
-        },
+            loading: false
+          })
+        }
       }
-    );
+    )
   };
 
-  createNewCampaign = (e) => {
-    this.props.history.push(`${this.props.match.url}/new`);
+  createNewCampaign = (_e) => {
+    this.props.history.push(`${this.props.match.url}/new`)
   };
 
-  handleRowClick = (a, data, c) => {
-    const row = this.state.campaigns[data.dataIndex];
-    this.props.history.push(`${this.props.match.url}/${row.id}`);
+  handleRowClick = (_a, data, _c) => {
+    const row = this.state.campaigns[data.dataIndex]
+    this.props.history.push(`${this.props.match.url}/${row.id}`)
   };
 
   renderActions = () => {
     return (
       <div>
         <Button
-          color={"primary"}
+          color={'primary'}
           onClick={this.createNewCampaign}
+          variant="flat-dark"
         >
-          {I18n.t("campaigns.create_new")}
+          {I18n.t('campaigns.create_new')}
         </Button>
       </div>
-    );
+    )
   };
 
   deleteCampaign = (id, cb) => {
@@ -858,21 +875,21 @@ class CampaignContainer extends Component {
       DELETE_CAMPAIGN,
       {
         appKey: this.props.app.key,
-        id: id,
+        id: id
       },
       {
         success: (data) => {
-          console.log(data);
-          cb && cb();
+          console.log(data)
+          cb && cb()
         },
         error: (error) => {
-          console.log(error);
-        },
+          console.log(error)
+        }
       }
-    );
+    )
   };
 
-  render() {
+  render () {
     return (
       <div className="m-4">
         <Switch>
@@ -883,6 +900,7 @@ class CampaignContainer extends Component {
               <CampaignForm
                 currentUser={this.props.currentUser}
                 mode={this.props.match.params.message_type}
+                init={this.init}
                 {...this.props}
                 {...props}
               />
@@ -892,40 +910,40 @@ class CampaignContainer extends Component {
           <Route
             exact
             path={`${this.props.match.url}`}
-            render={(props) => (
+            render={(_props) => (
               <div>
                 {this.state.openDeleteDialog && (
                   <DeleteDialog
                     open={this.state.openDeleteDialog}
                     title={
-                      I18n.t("campaigns.delete_campaign", {name: this.state.openDeleteDialog.name})
+                      I18n.t('campaigns.delete_campaign', { name: this.state.openDeleteDialog.name })
                     }
                     closeHandler={() => {
-                      this.setState({ openDeleteDialog: null });
+                      this.setState({ openDeleteDialog: null })
                     }}
                     deleteHandler={() => {
                       this.deleteCampaign(
                         this.state.openDeleteDialog.id,
                         () => {
-                          this.init();
-                          this.setState({ openDeleteDialog: null });
+                          this.init()
+                          this.setState({ openDeleteDialog: null })
                           this.props.dispatch(
                             successMessage(
-                              I18n.t("campaigns.remove_success")
+                              I18n.t('campaigns.remove_success')
                             )
-                          );
+                          )
                         }
-                      );
+                      )
                     }}
                   >
                     <p variant="subtitle2">
-                      {I18n.t("campaigns.remove_hint")}
+                      {I18n.t('campaigns.remove_hint')}
                     </p>
                   </DeleteDialog>
                 )}
 
                 <ContentHeader
-                  title={I18n.t("campaigns.home.title")}
+                  title={I18n.t('campaigns.home.title')}
                   actions={this.renderActions()}
                 />
 
@@ -934,14 +952,14 @@ class CampaignContainer extends Component {
                     <Table
                       meta={this.state.meta}
                       data={this.state.campaigns}
-                      title={I18n.t("campaigns.title")}
-                      //title={`${this.props.match.params.message_type} campaign`}
+                      title={I18n.t('campaigns.title')}
+                      // title={`${this.props.match.params.message_type} campaign`}
                       defaultHiddenColumnNames={[]}
                       search={this.init.bind(this)}
                       columns={[
                         {
-                          field: "name",
-                          title: I18n.t("definitions.campaigns.campaign_name.label"),
+                          field: 'name',
+                          title: I18n.t('definitions.campaigns.campaign_name.label'),
                           render: (row) =>
                             row && (
                               <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
@@ -955,12 +973,12 @@ class CampaignContainer extends Component {
                                   </div>
                                 </div>
                               </td>
-                            ),
+                            )
                         },
-                        { field: "subject", title: I18n.t("definitions.campaigns.email_subject.label") },
+                        { field: 'subject', title: I18n.t('definitions.campaigns.email_subject.label') },
                         {
-                          field: "state",
-                          title: I18n.t("definitions.campaigns.state.label"),
+                          field: 'state',
+                          title: I18n.t('definitions.campaigns.state.label'),
                           render: (row) => {
                             return (
                               <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
@@ -968,57 +986,65 @@ class CampaignContainer extends Component {
                                   {row.state}
                                 </Badge>
                               </td>
-                            );
-                          },
+                            )
+                          }
                         },
-                        {field: 'fromName', title: I18n.t("definitions.campaigns.from_name.label"), hidden: true},
-                        {field: 'fromEmail', title: I18n.t("definitions.campaigns.from_email.label"), hidden: true},
-                        {field: 'replyEmail', title: I18n.t("definitions.campaigns.reply_email.label"), hidden: true},
-                        {field: 'description', title: I18n.t("definitions.campaigns.description.label"), hidden: true},
-                        {field: 'timezone', title: 'timezone'},
-                        {field: 'scheduledAt', title: I18n.t("definitions.campaigns.scheduled_at.label"), hidden: true, type: "datetime", 
-                          render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                        { field: 'fromName', title: I18n.t('definitions.campaigns.from_name.label'), hidden: true },
+                        { field: 'fromEmail', title: I18n.t('definitions.campaigns.from_email.label'), hidden: true },
+                        { field: 'replyEmail', title: I18n.t('definitions.campaigns.reply_email.label'), hidden: true },
+                        { field: 'description', title: I18n.t('definitions.campaigns.description.label'), hidden: true },
+                        { field: 'timezone', title: 'timezone' },
+                        {
+                          field: 'scheduledAt',
+                          title: I18n.t('definitions.campaigns.scheduled_at.label'),
+                          hidden: true,
+                          type: 'datetime',
+                          render: row => (row
+                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                               <Moment fromNow>
                                 {row.scheduledAt}
                               </Moment>
                             </td> : undefined)
                         },
-                        {field: 'scheduledTo', title: I18n.t("definitions.campaigns.scheduled_to.label"), hidden: true, type: "datetime",
-                          render: row => (row ? 
-                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                        {
+                          field: 'scheduledTo',
+                          title: I18n.t('definitions.campaigns.scheduled_to.label'),
+                          hidden: true,
+                          type: 'datetime',
+                          render: row => (row
+                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                               <Moment fromNow>
                                 {row.scheduledTo}
                               </Moment>
                             </td> : undefined)
                         },
                         {
-                          field: "actions",
-                          title: I18n.t("definitions.campaigns.actions.label"),
+                          field: 'actions',
+                          title: I18n.t('definitions.campaigns.actions.label'),
                           render: (row) => (
                             <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                               <span
-                                className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full `}
+                                className={'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '}
                               >
                                 <Button
-                                  color={"secondary"}
-                                  variant={"danger"}
+                                  color={'secondary'}
+                                  variant={'danger'}
                                   onClick={() =>
                                     this.setState({ openDeleteDialog: row })
                                   }>
-                                  {I18n.t("common.remove")}
+                                  {I18n.t('common.remove')}
                                 </Button>
                               </span>
                             </td>
-                          ),
-                        },
+                          )
+                        }
                       ]}
                     ></Table>
                   )}
 
                   {!this.state.loading && this.state.campaigns.length === 0 ? (
                     <EmptyView
-                      title={I18n.t("campaigns.empty.title")}
+                      title={I18n.t('campaigns.empty.title')}
                       subtitle={
                         <div>
                           {this.renderActions()}
@@ -1034,20 +1060,20 @@ class CampaignContainer extends Component {
           />
         </Switch>
       </div>
-    );
+    )
   }
 }
 
-function mapStateToProps(state) {
-  const { auth, app, campaigns } = state;
-  const { loading, isAuthenticated } = auth;
+function mapStateToProps (state) {
+  const { auth, app, campaigns } = state
+  const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
     isAuthenticated,
     campaigns
-  };
+  }
 }
 
-export default withRouter(connect(mapStateToProps)(CampaignContainer));
+export default withRouter(connect(mapStateToProps)(CampaignContainer))

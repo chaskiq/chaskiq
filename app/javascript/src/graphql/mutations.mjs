@@ -735,6 +735,15 @@ export const WEBHOOK_UPDATE = `
   }
 `;
 
+export const CLONE_MESSAGE = `
+  mutation CloneMessage($appKey: String!, $id: String!){
+    cloneMessage(appKey: $appKey, id: $id){
+      id
+      errors
+    }
+  }
+`;
+
 export const QUICK_REPLY_CREATE = `
   mutation QuickReplyCreate($appKey: String!, $title: String!, $content: String!, $lang: String){
     createQuickReply(appKey: $appKey, title: $title, content: $content, lang: $lang){
@@ -1012,18 +1021,20 @@ export const ARTICLE_COLLECTION_CHANGE = `
 `;
 
 export const ARTICLE_COLLECTION_EDIT = `
-  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String){
+  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String, $icon: String){
     articleCollectionEdit( 
       appKey: $appKey, 
       title: $title, 
       id: $id,
       description: $description,
-      lang: $lang
+      lang: $lang,
+      icon: $icon
     ){
       collection{
         id
         title
         description
+        icon
       }
       errors
     }
@@ -1038,6 +1049,20 @@ export const ARTICLE_COLLECTION_DELETE = `
     ){
       collection{
         id
+      }
+    }
+  }
+`;
+
+
+export const ARTICLE_COLLECTION_REORDER = `
+  mutation ArticleCollectionReorder( $appKey: String!, $id: String!, $idAfter: String! ){
+    articleCollectionReorder( appKey: $appKey, id: $id, idAfter: $idAfter ){
+      collection{
+        id
+        title
+        description
+        icon
       }
     }
   }
@@ -1181,6 +1206,7 @@ export const CREATE_BOT_TASK = `
         scheduling
         state
         urls
+        botType
         paths {
           id
           title
@@ -1206,6 +1232,7 @@ export const UPDATE_BOT_TASK = `
         segments
         state
         urls
+        botType
         paths {
           id
           title
@@ -1228,6 +1255,17 @@ export const DELETE_BOT_TASK = `
         id
       }
       errors
+    }
+  }
+`;
+
+export const REORDER_BOT_TASK = `
+  mutation ReorderBotTask( $appKey: String!, $id: String!, $idAfter: String!, $mode: String ){
+    reorderBotTask( appKey: $appKey, id: $id, idAfter: $idAfter, mode: $mode ){
+      botTask{
+        id
+        position
+      }
     }
   }
 `;
@@ -1318,6 +1356,7 @@ export const UPDATE_INTEGRATION = `
         icon
         state
         description
+        hookUrl
       }
     }
   }

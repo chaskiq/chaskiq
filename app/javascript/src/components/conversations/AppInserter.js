@@ -48,7 +48,7 @@ const DragHandle = sortableHandle(() => (
 ))
 
 const SortableItem = sortableElement(
-  ({ object, deleteItem, edit, updatePackage, customRenderer }) => (
+  ({ object, deleteItem, _edit, _updatePackage, customRenderer }) => (
     <li>
       <div>
 
@@ -63,7 +63,6 @@ const SortableItem = sortableElement(
                 <p className="text-xs leading-4 font-bold text-gray-700">
                   {object.name}
                 </p>
-                
 
                 <p className="text-xs leading-6 font-medium text-gray-400">
                   {JSON.stringify(object.values)}
@@ -94,7 +93,7 @@ const SortableItem = sortableElement(
               schema={object.definitions}
               disabled={true}
               size="sm"
-              //updatePackage={(params, cb) => updatePackage(params, object, cb)}
+              // updatePackage={(params, cb) => updatePackage(params, object, cb)}
             />}
           </div>
 
@@ -104,18 +103,14 @@ const SortableItem = sortableElement(
   )
 )
 
-function AppInserter ({ 
-  app, 
-  update, 
+function AppInserter ({
+  app,
+  update,
   capability,
-  option, 
-  customRenderer, 
-  setEditable }) {
-
-  function handleClick (o) {
-    setOption(o)
-  }
-
+  option,
+  customRenderer,
+  setEditable
+}) {
   return (
     <div className="flex flex-col">
       <AppInserter2
@@ -130,10 +125,11 @@ function AppInserter ({
   )
 }
 
-function AppInserter2 ({ app, 
-  update, 
-  option, 
-  capability, 
+function AppInserter2 ({
+  app,
+  update,
+  option,
+  capability,
   customRenderer,
   setEditable
 }) {
@@ -142,13 +138,13 @@ function AppInserter2 ({ app,
   const [packages, setPackages] = React.useState([])
   const [loading, setLoading] = React.useState(false)
 
-  // support for internal plugins, just in case we want to add a 
+  // support for internal plugins, just in case we want to add a
   // super high customization within the code
   const internalPackages = [
-    //{ type: 'internal', name: 'UserBlock' },
-    //{ type: 'internal', name: 'TagBlocks' },
-    //{ type: 'internal', name: 'ConversationBlock' },
-    //{ type: 'internal', name: 'AssigneeBlock' }
+    // { type: 'internal', name: 'UserBlock' },
+    // { type: 'internal', name: 'TagBlocks' },
+    // { type: 'internal', name: 'ConversationBlock' },
+    // { type: 'internal', name: 'AssigneeBlock' }
   ]
 
   function getPackages () {
@@ -193,15 +189,6 @@ function AppInserter2 ({ app,
     setItems(items.filter((o, i) => i !== index))
   }
 
-  function setItemAtIndex (item, index) {
-    setItems(
-      items.map((o, i) => i !== index
-        ? o
-        : { ...o, definitions: item }
-      )
-    )
-  }
-
   function handleSubmit (e) {
     e.preventDefault()
     const data = {
@@ -209,7 +196,7 @@ function AppInserter2 ({ app,
         [option.n]: items
       }
     }
-    update(data, ()=>{
+    update(data, () => {
       setEditable(false)
     })
   }
@@ -222,7 +209,7 @@ function AppInserter2 ({ app,
           <Button
             variant={'outlined'}
             size="xs"
-            onClick={ ()=> setEditable(false) }>
+            onClick={ () => setEditable(false) }>
               cancel
           </Button>
           <Button
@@ -297,17 +284,17 @@ function AppInserter2 ({ app,
               value={o.id}
               object={o}
               customRenderer={customRenderer}
-              //updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
+              // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
               deleteItem={() => deleteItem(o, index)}
             />
           ))}
         </SortableContainer>
 
-        {/*<Button
+        {/* <Button
           onClick={handleSubmit}
           className="mt-5">
           Save changes
-        </Button>*/}
+        </Button> */}
       </div>
     </div>
   )
@@ -315,7 +302,7 @@ function AppInserter2 ({ app,
 
 function getPackage (data, cb) {
   graphql(APP_PACKAGE_HOOK,
-    {...data, location: 'home'},
+    { ...data, location: 'home' },
     {
       success: (data) => {
         cb && cb(data)
@@ -330,7 +317,6 @@ export function AppList ({
   app,
   loading,
   conversation,
-  customRenderer
 }) {
   const [selected, setSelected] = React.useState(null)
 
@@ -375,7 +361,7 @@ export function AppList ({
                         text-sm leading-5 text-gray-500 justify-end"
                       >
 
-                        <Button onClick={(e) => handleSelect(o)}>
+                        <Button onClick={() => handleSelect(o)}>
                           Add
                         </Button>
 

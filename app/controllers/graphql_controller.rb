@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
+  include HashEnsurer
   skip_before_action :verify_authenticity_token
   # before_action :doorkeeper_authorize!
   before_action :set_host_for_local_storage
@@ -11,7 +12,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
 
-    scout_transaction_name = "GraphQL/" + (operation_name || 'unknown')
+    scout_transaction_name = 'GraphQL/' + (operation_name || 'unknown')
     ScoutApm::Transaction.rename(scout_transaction_name)
 
     context = {
@@ -73,12 +74,6 @@ class GraphqlController < ApplicationController
         details: e.result.reasons.details
       }
     )
-  
-  
-  
-  
-  
-  
   rescue StandardError => e
     # GraphQL::ExecutionError.new e.message
     # raise e unless Rails.env.development?
@@ -89,41 +84,14 @@ class GraphqlController < ApplicationController
 
   def api_authorize!
     resource = current_resource_owner
-    raise OauthExeption.new('Oauth Exception!') unless resource
+    raise OauthExeption, 'Oauth Exception!' unless resource
+
     # doorkeeper_authorize!
     resource
   end
 
   def set_host_for_local_storage
     ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
-  end
-
-  # Handle form data, JSON body, or a blank value
-  def ensure_hash(ambiguous_param)
-    case ambiguous_param
-    when String
-      if ambiguous_param.present?
-        ensure_hash(JSON.parse(ambiguous_param))
-      else
-        {}
-      end
-    when Hash, ActionController::Parameters
-      ambiguous_param
-    when nil
-      {}
-    else
-      raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
-    end
-  end
-
-  def handle_error_message(e)
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
-
-    render json: { error: {
-      message: e.message,
-      backtrace: Rails.env.production? ? nil : e.backtrace
-    }, data: {} }, status: 500
   end
 end
 

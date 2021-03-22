@@ -33,7 +33,7 @@ function Docs (props) {
   // const classes = useStyles();
   const [settings, setSettings] = React.useState({})
   const [lang, setLang] = React.useState(props.match.params.lang || 'en')
-  const [error, setError] = React.useState(false)
+  const [error, _setError] = React.useState(false)
   const { history } = props
 
   React.useEffect(() => {
@@ -87,26 +87,26 @@ function Docs (props) {
             }}
           >
             <div className="lg:px-40 px-2">
-              <div className="flex items-center justify-between py-2">
+              <div className="flex items-center justify-between py-2 md:mx-24 md:px-3">
                 <div>
                   <Link to={`/${lang}`}>
-                    <img src={settings.logo} className={'classes.logoImage'} />
+                    <img src={settings.logo} className={'h-10 md:h-16'} />
                   </Link>
                 </div>
 
                 <div>
                   <div className={'flex items-center space-between'}>
                     <Button
-                      variant="outlined"
+                      variant="outlined-transparent"
                       className={'mr-2'}
                       color={'primary'}
-                      onClick={(e) => (window.location = settings.website)}
+                      onClick={(_e) => (window.location = settings.website)}
                     >
                       <LaunchIcon />
                       {' Go to'} {settings.siteTitle}
                     </Button>
 
-                    <div ml={1}>
+                    <div>
                       <hr className={'classes.hr'} />
                     </div>
 
@@ -119,25 +119,21 @@ function Docs (props) {
                         }))}
                         value={lang}
                         filterHandler={handleLangChange}
+                        buttonVariant={"outlined-transparent"}
+                        position={'right'}
                         // triggerButton={this.toggleButton}
                       />
                     )}
                   </div>
                 </div>
               </div>
-              <p
-                className={
-                  'py-6 text-center text-3xl lg:text-5xl leading-9 font-extrabold text-gray-100'
-                }
-              >
-                {settings.siteDescription}
-              </p>
-
+              
               {
                 <Route
                   render={(props) => (
                     <CustomizedInputBase
                       lang={lang}
+                      settings={settings}
                       {...props}
                       subdomain={subdomain}
                     />
@@ -188,9 +184,19 @@ function Docs (props) {
         {/* Footer */}
 
         <footer className={'py-8'}>
-          <p className="mt-2 text-base leading-6 text-gray-500 text-center">
-            Chaskiq
-          </p>
+          {
+            settings.siteTitle &&
+            <p className="mt-2 leading-6 text-gray-500 text-center">
+              {settings.siteTitle}
+            </p>
+          }
+
+          {
+            settings.siteDescription &&
+            <p className="mt-2 text-sm text-gray-400 text-center">
+              {settings.siteDescription}
+            </p>
+          }
 
           <div className="py-8 flex flex-row justify-evenly items-baseline text-gray-500">
             {settings.facebook && (
@@ -222,7 +228,7 @@ function Docs (props) {
 
 function MadeWithLove () {
   return (
-    <p className="text-center text-sm leading-5 text-gray-500">
+    <p className="text-center text-xs leading-5 text-gray-400">
       {'powered by '}
       <a href="https://chaskiq.io/">Chaskiq</a>
     </p>

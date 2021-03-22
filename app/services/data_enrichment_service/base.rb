@@ -18,7 +18,7 @@ module DataEnrichmentService
         params_encoder: Faraday::FlatParamsEncoder
       }
 
-      klass = "MessageApis::#{provider.to_s.camelize}".constantize
+      klass = "MessageApis::#{provider.to_s.camelize}"::Api.constantize
       klass.new(token: token)
     end
 

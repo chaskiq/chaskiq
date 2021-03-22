@@ -1,7 +1,7 @@
 import ActionTypes from '../constants/action_types'
 
 export function setSubscriptionState (data) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.SetSubscriptionState,
       data: data

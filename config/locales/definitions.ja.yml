@@ -1,0 +1,183 @@
+ja:
+  definitions:
+    articles:
+      title:
+        label: Title
+      author:
+        label: Author
+      state:
+        label: State
+      collection:
+        label: Collection
+      actions:
+        label: Actions
+      website:
+        label: Website
+        hint: Website of your main domain
+      domain:
+        label: Domain
+        hint: Domain of the Help Center
+      subdomain:
+        label: Subdomain
+        hint: Subdomain in which the Help Center will be available
+      google_code:
+        label: Google Code
+        hint: Google tracking ID
+      credits:
+        label: show credits
+        hint: ""
+    settings:
+      name:
+        label: Name
+        hint:
+      logo:
+        label: Logo
+        hint:
+      enable_articles:
+        label: "Display article on chat window"
+        hint: "This option will display the articles in the home section of the messenger"
+      inline_conversation:
+        label: Display new messages in floating box
+        hint: This option will not open chat box widget
+      encryption_key:
+        label: Encryption Key
+        placeholder: "Leave it blank for no encryption"
+        hint: This key will be used to encrypt and decrypt JWE user data
+      privacy_consent_required_ue:
+        label: Required privacy consent for GDPR
+        hint: Will show a confirm view for EU countries before establish conversations
+      privacy_consent_required_all:
+        label: Worldwide privacy consent required
+        hint: Will show a confirm view for All visitors before establish conversations
+      privacy_consent_required_none:
+        label: No privacy consent required
+        hint: Will not show a confirm view to anyone (not recommended)
+      active_messenger:
+        label: Activate messenger
+        hint: When this is activate the messenger web widget will be activated
+      domain:
+        label: Domain URL
+        hint: This will be the host site were chaskiq will be used
+      outgoing_email_domain:
+        label: Outgoing Email Domain
+        hint: The email domain to send conversations, for @yourapp use 'your app'
+      tagline:
+        label: Tagline
+        hint: This will be rendered in the bottom of the Chat box
+      timezone:
+        label: Timezone
+        hint:
+      gather_social_data:
+        label: Gather Social Data
+        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+      register_visits:
+        label: Register Visits
+        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+      languages:
+        select_lang: "select lang"
+    campaigns:
+      campaign_name:
+        label: Campaign Name
+        hint: This will not be shown in the email
+      email_subject:
+        label: Email Subject
+        hint: This is the email subject itself
+      from_name:
+        label: From Name
+      from_email:
+        label: From Email
+      reply_email:
+        label: Reply Email
+      scheduled_at:
+        label: Scheduled at
+      scheduled_to:
+        label: Scheduled to
+      state:
+        label: State
+      description:
+        label: Description
+      actions:
+        label: Actions
+    bot_tasks:
+      state:
+        label: State
+      name:
+        label: Name
+      actions:
+        label: Actions
+      title:
+        label: Title
+        placeholder: write task title
+        hint: "Task name ie: welcoming users bot task"
+    stats:
+      email:
+        label: Email
+      host:
+        label: Host
+      createdAt:
+        label: CreatedAt
+      from:
+        label: From
+      actions:
+        label: Actions
+      when:
+        label: When
+      data:
+        label: Data
+    app_packages:
+      name:
+        label: 'Integration Name'
+      published:
+        label: 'Publish on platform'
+        type: 'checkbox'
+        hint: 'If disabled you will use the application on the worspaces you have access to'
+      capability_list:
+        label: 'Integration capabilities'
+        hint: 'Choose the package capabilities, ie: where the integration will work'
+      description:
+        label: 'App Package description'
+        hint: 'tell what your plugin does'
+      initialize_url:
+        label: 'Initialize flow webhook URL'
+        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
+        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+      submit_url:
+        label: 'Submit flow webhook URL'
+        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
+        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+      configure_url:
+        label: 'Configure flow webhook URL (optional)'
+        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
+        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+      sheet_url:
+        label: 'Submit Sheet flow webhook URL (optional)'
+        name: 'sheet_url'
+        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
+        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+  data_tables:
+    users:
+      name: Name
+      email: Email
+      state: State
+      online: Online
+      ip: Ip
+      country: Country
+      city: City
+      lat: Lat
+      lng: Lng
+      postal: Postal
+      browser: Browser
+      browser_version: Browser version
+      browser_lang: Browser Lang
+      referrer: Referrer
+      tag_list: Tag List
+      os: Os
+      os_version: Os Version
+      lang: Lang
+      web_sessions: Web Sessions
+      last_seen: First Seen
+      first_seen: Last Seen
+      subscription_status:
+        subscribed: Subscribed
+        unsubscribed: Unsubscribed
+        passive: Passive

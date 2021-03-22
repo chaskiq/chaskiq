@@ -1,0 +1,183 @@
+fr:
+  definitions:
+    articles:
+      title:
+        label: Titre
+      author:
+        label: Auteur
+      state:
+        label: Etat
+      collection:
+        label: Collection
+      actions:
+        label: Actions
+      website:
+        label: Site Internet
+        hint: Site web de votre domaine principal
+      domain:
+        label: Domaine
+        hint: Domaine du Centre d'Aide
+      subdomain:
+        label: Sous-domaines
+        hint: Sous-domaine dans lequel le Centre d'Aide sera disponible
+      google_code:
+        label: Google Code
+        hint: ID Google Tracking
+      credits:
+        label: montrer les crédits
+        hint: ""
+    settings:
+      name:
+        label: Nom
+        hint:
+      logo:
+        label: Logo
+        hint:
+      enable_articles:
+        label: "Afficher l'article dans la fenêtre de chat"
+        hint: "Cette option affichera les articles dans la section d'accueil du messager"
+      inline_conversation:
+        label: Afficher les nouveaux messages dans la boîte flottante
+        hint: Cette option n'ouvrira pas le widget de la fenêtre de chat
+      encryption_key:
+        label: Clé de cryptage
+        placeholder: "Laisser vide pour aucun cryptage"
+        hint: Cette clé sera utilisée pour chiffrer et déchiffrer les données utilisateur JWE
+      privacy_consent_required_ue:
+        label: Consentement de confidentialité requis pour le RGPD
+        hint: Démontrera un avis de confirmation pour les pays de l'UE avant d'établir des conversations
+      privacy_consent_required_all:
+        label: Consentement de confidentialité requis dans le monde entier
+        hint: Démontrera un avis de confirmation pour tous les visiteurs avant d'établir des conversations
+      privacy_consent_required_none:
+        label: Aucune autorisation de confidentialité requise
+        hint: Ne montrera pas une vue de confirmation à quiconque (non recommandé)
+      active_messenger:
+        label: Activer le messenger
+        hint: When this is activate the messenger web widget will be activated
+      domain:
+        label: URL du domaine
+        hint: Ce sera le site hôte où chaskiq sera utilisé
+      outgoing_email_domain:
+        label: Domaine des E-mails sortants
+        hint: The email domain to send conversations, for @yourapp use 'your app'
+      tagline:
+        label: Slogan
+        hint: Ceci sera rendu en bas de la fenêtre de chat
+      timezone:
+        label: Zone horaire
+        hint:
+      gather_social_data:
+        label: Récolter des données sociales
+        hint: "Collecter des profils sociaux via le service fullcontact (par exemple, LinkedIn, Twitter, etc.) pour mes utilisateurs via un tiers"
+      register_visits:
+        label: Enregistrer les visites
+        hint: "Même si cette option est désactivée, nous collecterons le compteur mondial de visites et stockerons les informations de dernière visite sur le profil du visiteur"
+      languages:
+        select_lang: "sélectionnez la langue"
+    campaigns:
+      campaign_name:
+        label: Nom de la campagne
+        hint: Ceci ne sera pas affiché dans l'e-mail
+      email_subject:
+        label: Sujet de l'e-mail
+        hint: Ceci est le sujet de l'e-mail lui-même
+      from_name:
+        label: Nom de l’expéditeur
+      from_email:
+        label: E-mail de l’expéditeur
+      reply_email:
+        label: Email de réponse
+      scheduled_at:
+        label: Programmé à
+      scheduled_to:
+        label: Programmé jusque
+      state:
+        label: Etat
+      description:
+        label: Description
+      actions:
+        label: Actions
+    bot_tasks:
+      state:
+        label: Etat
+      name:
+        label: Nom
+      actions:
+        label: Actions
+      title:
+        label: Titre
+        placeholder: écrire le titre de la tâche
+        hint: "Nom de la tâche ie: bienvenue aux utilisateurs"
+    stats:
+      email:
+        label: E-mail
+      host:
+        label: Hôte
+      createdAt:
+        label: Créé à
+      from:
+        label: De
+      actions:
+        label: Actions
+      when:
+        label: Quand
+      data:
+        label: Data
+    app_packages:
+      name:
+        label: 'Integration Name'
+      published:
+        label: 'Publish on platform'
+        type: 'checkbox'
+        hint: 'If disabled you will use the application on the worspaces you have access to'
+      capability_list:
+        label: 'Integration capabilities'
+        hint: 'Choose the package capabilities, ie: where the integration will work'
+      description:
+        label: 'App Package description'
+        hint: 'tell what your plugin does'
+      initialize_url:
+        label: 'Initialize flow webhook URL'
+        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
+        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+      submit_url:
+        label: 'Submit flow webhook URL'
+        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
+        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+      configure_url:
+        label: 'Configure flow webhook URL (optional)'
+        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
+        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+      sheet_url:
+        label: 'Submit Sheet flow webhook URL (optional)'
+        name: 'sheet_url'
+        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
+        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+  data_tables:
+    users:
+      name: Name
+      email: Email
+      state: State
+      online: Online
+      ip: Ip
+      country: Country
+      city: City
+      lat: Lat
+      lng: Lng
+      postal: Postal
+      browser: Browser
+      browser_version: Browser version
+      browser_lang: Browser Lang
+      referrer: Referrer
+      tag_list: Tag List
+      os: Os
+      os_version: Os Version
+      lang: Lang
+      web_sessions: Web Sessions
+      last_seen: First Seen
+      first_seen: Last Seen
+      subscription_status:
+        subscribed: Subscribed
+        unsubscribed: Unsubscribed
+        passive: Passive

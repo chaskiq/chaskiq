@@ -14,7 +14,6 @@ export default function List ({ children, shadowless }) {
 }
 
 export function ListItem ({ avatar, action, children, onClick, divider }) {
-
   const clicableClasses = onClick && 'cursor-pointer'
   return (
     <li className={`${divider ? 'border-b' : ''}`}>
@@ -81,7 +80,7 @@ export function ItemAvatar ({ avatar }) {
 
 export function ItemListPrimaryContent ({ children }) {
   return (
-    <div className="text-lg leading-5 font-medium text-indigo-600 truncate">
+    <div className="text-lg leading-5 font-medium text-gray-600 truncate">
       {children}
     </div>
   )

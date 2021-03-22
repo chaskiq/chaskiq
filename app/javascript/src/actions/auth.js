@@ -12,8 +12,7 @@ const REFRESHING = 'auth/REFRESHING'
 // Action Creators
 export function authenticate (email, password, cb) {
   return (dispatch, getState) => {
-
-    if(getState().auth.loading) return 
+    if (getState().auth.loading) return
 
     dispatch(startAuthentication())
 
@@ -59,7 +58,7 @@ export function signout () {
           uid: auth.uid
         }
       })
-      .then((response) => {
+      .then(() => {
         dispatch(doSignout())
         dispatch(clearCurrentUser())
       })
@@ -81,7 +80,7 @@ export function successAuthentication (accessToken, refreshToken) {
 }
 
 export function refreshToken (auth) {
-  return (dispatch, getState) => {
+  return (dispatch, _getState) => {
     dispatch(startAuthentication())
     dispatch(errorMessage('refresh token, hang tight'))
 
@@ -94,8 +93,8 @@ export function refreshToken (auth) {
       const accessToken = res.data.access_token
       const refreshToken = res.data.refresh_token
       dispatch(successAuthentication(accessToken, refreshToken))
-      window.location = "/"
-    }).catch(c => {
+      window.location = '/'
+    }).catch(() => {
       dispatch(expireAuthentication())
     })
   }

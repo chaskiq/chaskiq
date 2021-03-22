@@ -125,6 +125,7 @@ gatherSocialData
 registerVisits
 domainUrl
 outgoingEmailDomain
+inboundEmailAddress
 customFields
 tagList
 subscriptionsEnabled

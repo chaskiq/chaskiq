@@ -1,6 +1,6 @@
-import React from "react";
-import axios from "axios";
-import styled from "@emotion/styled";
+import React from 'react'
+import axios from 'axios'
+import styled from '@emotion/styled'
 import Input from '../../forms/Input'
 import attribution from '../../../images/Poweredby_100px-White_VertText.png'
 const GiphyBlock = styled.div`
@@ -14,23 +14,12 @@ const GiphyBlock = styled.div`
   //border-radius: 3px;
   //width: 223px;
   //box-shadow: 1px 1px 1px #ece3e3;
-`;
-const Arrow = styled.div`
-  position: absolute;
-  left: -18px;
-  right: 20px;
-  width: 0;
-  height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-top: 20px solid #f00;
-  -webkit-filter: drop-shadow(0 -2px 2px #aaa);
-`;
+`
 
 const GridListOverflow = styled.div`
   height: 187px;
   overflow: auto;
-`;
+`
 const GridList = styled.div`
   display: flex;
   display: flex;
@@ -43,12 +32,12 @@ const GridList = styled.div`
     min-width: 150px;
     margin: 0 8px 8px 0;
   }
-`;
+`
 
 const Container = styled.div`
   padding: 10px;
   background: "#ccc";
-`;
+`
 
 const PickerBlock = styled.div`
   display: flex;
@@ -116,79 +105,80 @@ const PickerBlock = styled.div`
       #00ff99
     );
   }
-`;
+`
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       gifs: [],
       limit: 10,
-      term: "",
-    };
+      term: ''
+    }
+    this.input_ref = null
   }
 
-  componentDidMount() {
-    this.search("", "trend");
+  componentDidMount () {
+    this.search('', 'trend')
   }
 
   onSearchSubmit = (e) => {
-    if (e.key != "Enter") {
-      return;
+    if (e.key != 'Enter') {
+      return
     }
 
-    const term = this.refs.input_ref.value;
+    const term = this.input_ref.value
 
-    this.search(term);
+    this.search(term)
   };
 
-  search = (term, kind = "search") => {
+  search = (term, kind = 'search') => {
     const url =
-      kind === "search"
+      kind === 'search'
         ? `https://api.giphy.com/v1/gifs/search?q=${term}`
-        : `https://api.giphy.com/v1/gifs/trending?q=${term}`;
-    const link = `${url}&limit=${this.state.limit}&api_key=${this.props.apiKey}`;
+        : `https://api.giphy.com/v1/gifs/trending?q=${term}`
+    const link = `${url}&limit=${this.state.limit}&api_key=${this.props.apiKey}`
 
-    const response = axios
+    axios
       .get(link)
       .then((response) => {
         // handle success
-        this.setState({ gifs: response.data.data });
-        //console.log(response);
+        this.setState({ gifs: response.data.data })
+        // console.log(response);
       })
       .catch((error) => {
         // handle error
-        console.log(error);
-      });
+        console.log(error)
+      })
   };
 
   limitSubmit = (limit) => {
     this.setState({ limit: limit }, function () {
-      console.log("LIMIT:", this.state.limit);
-    });
+      console.log('LIMIT:', this.state.limit)
+    })
   };
 
   handleChange = (e) => {
-    const term = e.target.value;
+    const term = e.target.value
     this.setState({
-      term: term,
-    });
+      term: term
+    })
   };
 
-  render() {
+  render () {
     return (
       <GiphyBlock>
         <Container>
           <PickerBlock>
             <Input
-              ref="input_ref"
+              ref={(c)=> this.input_ref = c}
               type="text"
-              placeholder={"search gif"}
+              placeholder={'search gif'}
               value={this.state.term}
               onChange={this.handleChange}
               onKeyDown={this.onSearchSubmit}
             />
-            
+
           </PickerBlock>
 
           <GridListOverflow>
@@ -196,7 +186,7 @@ export default class App extends React.Component {
               {this.state.gifs.map((o) => (
                 <img
                   key={`giphy-${o.id}`}
-                  onClick={(e) => this.props.handleSelected(o)}
+                  onClick={(_e) => this.props.handleSelected(o)}
                   height={o.images.fixed_width_downsampled.height}
                   width={o.images.fixed_width_downsampled.width}
                   src={o.images.fixed_width_downsampled.url}
@@ -209,8 +199,8 @@ export default class App extends React.Component {
             <img src={attribution} className="h-6 mt-2" />
           </div>
         </Container>
-        {/*<Arrow/>*/}
+        {/* <Arrow/> */}
       </GiphyBlock>
-    );
+    )
   }
 }

@@ -17,7 +17,7 @@ import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
 
 import Input from '../../components/forms/Input'
 
-function CustomizationColors ({ app, update, dispatch }) {
+function CustomizationColors ({ app, update, _dispatch }) {
   const [fields, setFields] = useState(app.tagList || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
@@ -124,9 +124,10 @@ function CustomizationColors ({ app, update, dispatch }) {
 
         <div className="flex w-1/4 justify-end">
           <Button onClick={addField}
-            edge="end" variant="icon"
+            variant="outlined"
+            className="mr-2"
             aria-label="add">
-            <PlusIcon />
+            <PlusIcon /> {I18n.t("common.add_new")}
           </Button>
 
           {renderSubmitButton()}
@@ -214,8 +215,7 @@ function FieldsForm ({ selected }) {
       <Input
         variant="outlined"
         margin="normal"
-        required
-        fullWidth
+        required    
         name="name"
         label={ I18n.t('settings.tags.inputs.name')}
         type={'text'}
@@ -231,7 +231,6 @@ function FieldsForm ({ selected }) {
         variant="outlined"
         margin="normal"
         required
-        fullWidth
         name="color"
         label={ I18n.t('settings.tags.inputs.color')}
         type={'color'}

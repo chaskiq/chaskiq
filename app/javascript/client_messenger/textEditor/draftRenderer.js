@@ -8,29 +8,14 @@ import {
   AttachmentIcon2
 } from '../icons'
 
-var Prism = require('prismjs')
+import Prism from 'prismjs'
 
 const handlePrismRenderer = (syntax, code) => {
   const formattedCode = Prism.highlight(code, Prism.languages.javascript, 'javascript')
   return { __html: formattedCode }
 }
 
-const styles = {
-  code: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 2
-  },
-  codeBlock: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 16,
-    padding: 20
-  }
-}
-
-function Pre ({ className, children, data }) {
+function Pre ({ _className, children, data }) {
   const el = React.useRef(null)
   const [code, setCode] = React.useState(null)
 
@@ -52,7 +37,9 @@ function Pre ({ className, children, data }) {
 }
 
 // just a helper to add a <br /> after a block
-const addBreaklines = (children) => children.map(child => [child, <br />])
+const addBreaklines = (children) => children.map(
+  child => [child, <br />]
+)
 
 function getImageUrl (url, props) {
   if (!url) return
@@ -96,22 +83,19 @@ function renderers (props) {
       'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
       'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
       // You can also access the original keys of the blocks
-      'code-block': (children, { keys, data }) => {
+      'code-block': (children, { _keys, data }) => {
         return <Pre className="graf graf--code" data={data}>
           {children}
         </Pre>
-
-        { /* <pre className="graf graf--code"
-                    //style={styles.codeBlock}
-                    key={keys[0]}
-                    //dangerouslySetInnerHTML={handlePrismRenderer(data.syntax, children)}
-                  >{children}</pre> */ }
       },
       // or depth for nested lists
       'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
-        {children.map(child => <li className="graf graf--insertunorderedlist">
-          {child}
-        </li>)}
+        {children.map(
+          child => <li className="graf graf--insertunorderedlist">
+              {child}
+            </li> // eslint-disable-next-line react/jsx-key
+          )
+        }
       </ul>,
       'ordered-list-item': (children, { depth, keys }) => <ol key={keys.join('|')} className={`ol-level-${depth}`}>{
         children.map((child, index) => <li key={keys[index]} className="graf graf--insertorderedlist">
@@ -119,14 +103,15 @@ function renderers (props) {
         </li>)
       }</ol>,
 
-      file: (children, { keys, data }) => {
-        const fileName = data[0].url.split("/").pop()
+      file: (children, { _keys, data }) => {
+        const fileName = data[0].url.split('/').pop()
         return (
           <div>
             <a href={data[0].url}
-              target="blank" 
+              target="blank"
+              rel="noopener noreferrer"
               className="graf graf--attachment">
-              <AttachmentIcon2 width={20} height={20}/> 
+              <AttachmentIcon2 width={20} height={20}/>
               {fileName}
             </a>
           </div>
@@ -145,20 +130,23 @@ function renderers (props) {
         )
       },
       embed: (children, { keys, data }) => {
-        const { provisory_text, type, embed_data } = data[0]
-        const { images, title, media, provider_url, description, url } = embed_data
+        const { provisory_text, _type, embed_data } = data[0]
+        const { images, title, _media, provider_url, description, _url } = embed_data
 
         return <div key={keys[0]} className="graf graf--mixtapeEmbed">
           <span>
             {
               images[0].url
-                ? <a target="_blank" className="js-mixtapeImage mixtapeImage"
+                ? <a target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="js-mixtapeImage mixtapeImage"
                   href={provisory_text}
                   style={{ backgroundImage: `url(${images[0].url})` }}>
                 </a> : null
             }
             <a className="markup--anchor markup--mixtapeEmbed-anchor"
               target="_blank"
+              rel="noopener noreferrer"
               href={provisory_text}>
               <strong className="markup--strong markup--mixtapeEmbed-strong">
                 {title}
@@ -172,7 +160,7 @@ function renderers (props) {
         </div>
       },
       video: (children, { keys, data }) => {
-        const { provisory_text, type, embed_data } = data[0]
+        const { provisory_text, _type, embed_data } = data[0]
         const { html } = embed_data
 
         return <figure key={keys[0]} className="graf--figure graf--iframe graf--first" tabIndex="0">
@@ -217,13 +205,6 @@ function renderers (props) {
           </figcaption>
         </figure>
       }
-      /* AppPackage: (children, { keys, data }) => {
-        return <AppPackagePublicBlock
-                  data={data[0]}
-                  message={props.message}
-                  displayAppBlockFrame={props.displayAppBlockFrame}
-              />
-      } */
       // If your blocks use meta data it can also be accessed like keys
       // atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
     },
@@ -232,10 +213,11 @@ function renderers (props) {
      */
     entities: {
       // key is the entity key value from raw
-      LINK: (children, data, { key }) =>
-        <a key={key} href={data.url} target="_blank">
+      LINK: (children, data, { key }) => (
+        <a key={key} href={data.url} target="_blank" rel="noopener noreferrer">
           {children}
         </a>
+      )
     }
     /**
      * Array of decorators,
@@ -258,21 +240,22 @@ function renderers (props) {
   }
 }
 
-
-function ImageRenderer ({children, blockKey, data, props}) {
+function ImageRenderer ({ children, blockKey, data, props }) {
   const data2 = data
   const { url, aspect_ratio, caption } = data2
-
+  let height, width , ratio
   if (!aspect_ratio) {
-    var height = '100%'
-    var width = '100%'
-    var ratio = '0'
+    height = '100%'
+    width = '100%'
+    ratio = '0'
   } else {
-    var { height, width, ratio } = aspect_ratio
+    height = aspect_ratio.height
+    width = aspect_ratio.width
+    ratio = aspect_ratio.ratio
   }
 
   const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
-  
+
   return (
     <figure key={blockKey} className="graf graf--figure">
       <div>
@@ -285,13 +268,13 @@ function ImageRenderer ({children, blockKey, data, props}) {
             style={{ paddingBottom: `${ratio}%` }}
           ></div>
 
-          {/*<ConnectedImage url={url} width={width} height={height} />*/}
+          {/* <ConnectedImage url={url} width={width} height={height} /> */}
 
           <img src={getImageUrl(url, props)}
-                className="graf-image"
-                width={width}
-                height={height}
-                contentEditable="false"/>
+            className="graf-image"
+            width={width}
+            height={height}
+            contentEditable="false"/>
         </div>
       </div>
 

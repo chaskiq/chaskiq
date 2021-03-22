@@ -5,6 +5,7 @@ require 'dummy_name'
 class App < ApplicationRecord
   include GlobalizeAccessors
   include Tokenable
+  include UserHandler
 
   store :preferences, accessors: %i[
     active_messenger
@@ -32,7 +33,10 @@ class App < ApplicationRecord
     paddle_subscription_plan_id
     paddle_subscription_status
     privacy_consent_required
+    inbound_email_address
   ], coder: JSON
+
+  include InboundAddress
 
   translates :greetings, :intro, :tagline
   globalize_accessors attributes: %i[
@@ -44,30 +48,30 @@ class App < ApplicationRecord
   # http://nandovieira.com/using-postgresql-and-jsonb-with-ruby-on-rails
   # App.where('preferences @> ?', {notifications: true}.to_json)
 
-  has_many :app_users, dependent: :destroy
+  has_many :app_users, dependent: :destroy_async
   has_many :external_profiles, through: :app_users
-  has_many :bot_tasks, dependent: :destroy
-  has_many :visits, through: :app_users, dependent: :destroy
-  has_many :quick_replies, dependent: :destroy
-  has_many :app_package_integrations, dependent: :destroy
+  has_many :visits, through: :app_users, dependent: :destroy_async
+  has_many :quick_replies, dependent: :destroy_async
+  has_many :app_package_integrations, dependent: :destroy_async
   has_many :app_packages, through: :app_package_integrations
-  has_one :article_settings, class_name: 'ArticleSetting', dependent: :destroy
-  has_many :articles, dependent: :destroy
-  has_many :article_collections, dependent: :destroy
+  has_one :article_settings, class_name: 'ArticleSetting', dependent: :destroy_async
+  has_many :articles, dependent: :destroy_async
+  has_many :article_collections, dependent: :destroy_async
   has_many :sections, through: :article_collections
-  has_many :conversations, dependent: :destroy
+  has_many :conversations, dependent: :destroy_async
   has_many :conversation_parts, through: :conversations, source: :messages
-  has_many :segments, dependent: :destroy
-  has_many :roles, dependent: :destroy
+  has_many :segments, dependent: :destroy_async
+  has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles
-  has_many :campaigns, dependent: :destroy
-  has_many :user_auto_messages, dependent: :destroy
-  has_many :tours, dependent: :destroy
-  has_many :banners, dependent: :destroy
-  has_many :messages, dependent: :destroy
-  has_many :assignment_rules, dependent: :destroy
-  has_many :outgoing_webhooks, dependent: :destroy
-  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy
+  has_many :campaigns, dependent: :destroy_async
+  has_many :user_auto_messages, dependent: :destroy_async
+  has_many :tours, dependent: :destroy_async
+  has_many :banners, dependent: :destroy_async
+  has_many :messages, dependent: :destroy_async
+  has_many :bot_tasks, dependent: :destroy_async
+  has_many :assignment_rules, dependent: :destroy_async
+  has_many :outgoing_webhooks, dependent: :destroy_async
+  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy_async
   belongs_to :owner, class_name: 'Agent', optional: true # , foreign_key: "owner_id"
 
   has_one_attached :logo
@@ -88,7 +92,7 @@ class App < ApplicationRecord
     default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections]
     AppPackage.where(name: default_packages).each do |app_package|
       app_packages << app_package unless app_package_integrations.exists?(
-        app_package_id: app_package.id 
+        app_package_id: app_package.id
       )
     end
   end
@@ -98,9 +102,11 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    self.preferences[:outgoing_email_domain].present? ?
-      self.preferences[:outgoing_email_domain] :
+    if preferences[:outgoing_email_domain].present?
+      preferences[:outgoing_email_domain]
+    else
       ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
+    end
   end
 
   def config_fields
@@ -163,114 +169,6 @@ class App < ApplicationRecord
     ]
   end
 
-  def add_anonymous_user(attrs)
-    session_id = attrs.delete(:session_id)
-    callbacks = attrs.delete(:disable_callbacks) 
-
-    next_id = attrs[:name].blank? ? "visitor #{DummyName::Name.new}" : attrs[:name]
-
-    unless attrs.dig(:properties, :name).present?
-      attrs.merge!(
-        name: "#{next_id}"
-      )
-    end
-
-    ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
-    ap.disable_callbacks = true if callbacks.present?
-    ap = handle_app_user_params(ap, attrs)
-    ap.generate_token
-    ap.save
-    ap
-  end
-
-  def add_lead(attrs)
-    email = attrs.delete(:email)
-    callbacks = attrs.delete(:disable_callbacks) 
-    ap = app_users.leads.find_or_initialize_by(email: email)
-    ap = handle_app_user_params(ap, attrs)
-    ap.disable_callbacks = true if callbacks.present?
-    data = attrs.deep_merge!(properties: ap.properties)
-    ap.generate_token
-    ap.save
-    ap
-  end
-
-  def add_user(attrs)
-    email = attrs.delete(:email)
-
-    callbacks = attrs.delete(:disable_callbacks) 
-    # page_url = attrs.delete(:page_url)
-    ap = app_users.find_or_initialize_by(email: email)
-    ap.disable_callbacks = true if callbacks.present?
-
-    ap = handle_app_user_params(ap, attrs)
-    ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
-    ap.subscribe! unless ap.subscribed?
-    ap.type = 'AppUser'
-    ap.save
-    ap
-  end
-
-  def handle_app_user_params(ap, attrs)
-    attrs = { properties: attrs } unless attrs.key?(:properties)
-    
-    keys = attrs[:properties].keys & app_user_updateable_fields
-    data_keys  = attrs[:properties].slice(*keys)
-
-    property_keys = attrs[:properties].keys - keys
-    property_params = attrs[:properties].slice(*property_keys)
-  
-    data = { properties: ap.properties.merge(property_params) }
-    ap.assign_attributes(data)
-    ap.assign_attributes(data_keys)
-    ap
-  end
-
-  def add_agent(attrs, bot: nil, role_attrs: {})
-    email = attrs.delete(:email)
-    user = Agent.find_or_initialize_by(email: email)
-    # user.skip_confirmation!
-    if user.new_record?
-      user.password = attrs[:password] || Devise.friendly_token[0, 20]
-      user.save
-    end
-
-    role = roles.find_or_initialize_by(agent_id: user.id, role: role)
-    data = attrs.deep_merge!(properties: user.properties)
-
-    user.assign_attributes(data)
-    user.bot = bot
-    user.save
-
-    # role.last_visited_at = Time.now
-    role.assign_attributes(role_attrs)
-    role.save
-    role
-  end
-
-  def add_bot_agent(attrs)
-    add_agent(attrs, bot: true)
-  end
-
-  def create_agent_bot
-    add_bot_agent(email: "bot@#{id}-chaskiq", name: 'chaskiq bot')
-  end
-
-  def add_admin(attrs)
-    add_agent(
-      {
-        email: attrs[:email],
-        password: attrs[:password]
-      },
-      bot: nil,
-      role_attrs: { access_list: ['manage'] }
-    )
-  end
-
-  def add_visit(opts = {})
-    add_user(opts.merge(last_visited_at: Time.zone.now))
-  end
-
   def start_conversation(options)
     message = options[:message]
     user = options[:from]
@@ -283,12 +181,14 @@ class App < ApplicationRecord
       assignee: options[:assignee]
     )
 
-    conversation.add_message(
-      from: user,
-      message: message,
-      message_source: message_source,
-      check_assignment_rules: true
-    )
+    unless message.blank?
+      conversation.add_message(
+        from: user,
+        message: message,
+        message_source: message_source,
+        check_assignment_rules: true
+      )
+    end
 
     conversation.add_started_event
     conversation
@@ -313,18 +213,25 @@ class App < ApplicationRecord
     diff = a - time
     days = diff.to_f / (24 * 60 * 60)
     { at: a, diff: diff, days: days }
-  rescue #Biz::Error::Configuration
+  rescue StandardError # Biz::Error::Configuration
     nil
   end
 
   def in_business_hours?(time)
     availability.in_hours?(time)
-  rescue #Biz::Error::Configuration
+  rescue StandardError # Biz::Error::Configuration
     nil
   end
 
   def generate_encryption_key
     self.encryption_key = SecureRandom.hex(8)
+  end
+
+  def decrypt(data)
+    json = JWE.decrypt(data, encryption_key)
+    JSON.parse(json).deep_symbolize_keys
+  rescue StandardError
+    {}
   end
 
   def find_app_package(name)
@@ -369,7 +276,7 @@ class App < ApplicationRecord
   end
 
   def app_user_updateable_fields
-    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES 
+    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
   end
 
   def searcheable_fields_list
@@ -377,25 +284,32 @@ class App < ApplicationRecord
   end
 
   def default_home_apps
-    pkg_id = app_package_integrations
-    .joins(:app_package)
-    .where(
-      "app_packages.name": 'InboxSections'
-    ).first.id rescue nil
+    pkg_id = begin
+      app_package_integrations
+        .joins(:app_package)
+        .where(
+          "app_packages.name": 'InboxSections'
+        ).first.id
+    rescue StandardError
+      nil
+    end
 
-    pkg_id.present? ? [
-      {"hooKind"=>"initialize", 
-        "definitions"=>[{"type"=>"content"}], 
-        "values"=>{"block_type"=>"user-blocks"}, 
-        "id"=> pkg_id, 
-        "name"=>"InboxSections"
-      }, 
-      {"hooKind"=>"initialize", 
-        "definitions"=>[{"type"=>"content"}], 
-        "values"=>{"block_type"=>"user-properties-block"}, 
-        "id"=> pkg_id, 
-        "name"=>"InboxSections"
-    }] : []
+    if pkg_id.present?
+      [
+        { 'hooKind' => 'initialize',
+          'definitions' => [{ 'type' => 'content' }],
+          'values' => { 'block_type' => 'user-blocks' },
+          'id' => pkg_id,
+          'name' => 'InboxSections' },
+        { 'hooKind' => 'initialize',
+          'definitions' => [{ 'type' => 'content' }],
+          'values' => { 'block_type' => 'user-properties-block' },
+          'id' => pkg_id,
+          'name' => 'InboxSections' }
+      ]
+    else
+      []
+    end
   end
 
   def plan

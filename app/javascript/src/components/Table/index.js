@@ -5,21 +5,27 @@ import Button from '../Button'
 import Tooltip from 'rc-tooltip'
 import {
   MapIcon,
-  ColumnsIcon
+  ColumnsIcon,
+  QueueIcon
 } from '../icons'
+
+import {
+  sortableContainer,
+  sortableElement,
+  sortableHandle
+} from 'react-sortable-hoc'
 
 export default function Table ({
   data,
   columns,
-  format,
   search,
   meta,
   enableMapView,
-  toggleMapView
+  toggleMapView,
+  sortable,
+  onSort
 }) {
   const [tableColums, setTableColums] = React.useState(columns)
-
-  const [open, setOpen] = React.useState(false)
 
   const visibleColumns = () => (
     tableColums.filter(
@@ -27,27 +33,45 @@ export default function Table ({
     )
   )
 
+  const SortableContainer = sortableContainer(({ children }) => {
+    return <tbody className="bg-white">{children}</tbody>
+  })
+
+  const DragHandle = sortableHandle(() => (
+    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 hover:bg-gray-50">
+      <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+    </td>
+  ))
+
   const renderDefaultRow = (value) => {
     return (
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 hover:bg-gray-50">
         {value}
       </td>
     )
   }
 
-  const handleFormat = (item) => {
-    return (
-      <tr>
-        {visibleColumns().map((o) => {
-          return o.render ? o.render(item) : renderDefaultRow(item[o.field])
+  const SortableItem = sortableElement(
+    ({ item, sortable }) => (
+      <tr className="hover:bg-gray-50">
+        {sortable && <DragHandle></DragHandle>}
+
+        {visibleColumns().map((object) => {
+          return object.render
+            ? object.render(item)
+            : renderDefaultRow(item[object.field])
         }
         )}
       </tr>
     )
-  }
+  )
 
   const changeColumns = (columns) => {
     setTableColums(columns)
+  }
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    onSort && onSort(oldIndex, newIndex)
   }
 
   return (
@@ -75,23 +99,43 @@ export default function Table ({
         }
       </div>
 
-      <div className="overflow-auto">
+      <div className="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full">
           <thead>
-            <tr>
+            <tr className="border-b bg-gray-50">
+              {
+                sortable &&
+                <th key={'visible-col-dragit'}
+                  className="px-6 py-3
+                    text-left text-xs leading-4
+                    font-medium text-gray-500 uppercase tracking-wider">
+                    reorder
+                </th>
+              }
               {visibleColumns().map((o) => (
                 <th key={`visible-col-${o.title}`}
-                  className="px-6 py-3 border-b border-gray-200
-                  bg-gray-50 text-left text-xs leading-4
+                  className="px-6 py-3 text-left text-xs leading-4
                   font-medium text-gray-500 uppercase tracking-wider">
                   {o.title}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white">
-            {data && data.map((o) => handleFormat(o))}
-          </tbody>
+          <SortableContainer
+            onSortEnd={onSortEnd}
+            useDragHandle>
+
+            {data && data.map((o, index) => (
+              <SortableItem
+                sortable={sortable}
+                key={`item-${index}`}
+                index={index}
+                item={o}
+              />
+            ))}
+
+          </SortableContainer>
+
         </table>
       </div>
 
@@ -131,7 +175,7 @@ function Pagination ({ meta, search }) {
           onClick={() => search(meta.next_page)}
           className="ml-3  inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
         >
-        {I18n.t('common.next')}
+          {I18n.t('common.next')}
         </button>
       </div>
     </div>
@@ -139,8 +183,6 @@ function Pagination ({ meta, search }) {
 }
 
 function SimpleMenu (props) {
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  // const [options, setOptions] = React.useState(props.options);
 
   function handleChange (o, e) {
     const checked = e.target.checked

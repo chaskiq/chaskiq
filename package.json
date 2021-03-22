@@ -92,6 +92,7 @@
     "webpack-dev-server": "^3.1.4"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "cypress": "6.1.0",
     "cypress-xpath": "^1.4.0",
     "dotenv": "^8.2.0",
@@ -108,6 +109,9 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
+    "format:js": "npx eslint --fix ./app/javascript",
+    "format:ruby": "rubocop -a",
+    "format:all": "yarn format:js && yarn format:ruby",
     "rails-cy": "bundle exec rails server -e test -p 5002",
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run --headless --browser chrome",

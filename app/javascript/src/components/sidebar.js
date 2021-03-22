@@ -11,34 +11,15 @@ import LangChooser from '../components/LangChooser'
 import Toggle from '../components/forms/Toggle'
 import {
   MoreIcon,
-  BookMarkIcon,
   MessageBubbleIcon,
-  ConversationIcon,
-
-  FlagIcon,
-  LoadBalancerIcon,
-  FactoryIcon,
   ShuffleIcon,
-
-  BuildingIcon,
-  IntegrationsIcon,
   WebhooksIcon,
-  TeamIcon,
-  SettingsIcon,
-  FolderIcon,
-  UserWalkIcon,
-  UserIcon,
-  TourIcon,
-  MessageIcon,
-  EmailIcon,
-  ApiIcon,
-  CardIcon,
-  PictureInPicture
+  ApiIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
 
-import { toggleDrawer } from '../actions/drawer'
+
 
 import I18n from '../shared/FakeI18n'
 
@@ -47,6 +28,7 @@ import {
 } from '../graphql/mutations'
 import graphql from '../graphql/client'
 import { getCurrentUser } from '../actions/current_user'
+import Badge from './Badge'
 
 function mapStateToProps (state) {
   const {
@@ -73,7 +55,6 @@ function mapStateToProps (state) {
 
 function Sidebar ({
   app,
-  match,
   dispatch,
   navigation,
   current_user,
@@ -82,20 +63,14 @@ function Sidebar ({
 }) {
   const { current_page, current_section } = navigation
 
-  const [expanded, setExpanded] = useState(current_section)
+  const [_expanded, setExpanded] = useState(current_section)
   const [loading, setLoading] = useState(false)
 
   const [langChooser, setLangChooser] = useState(false)
 
-  const routerListener = null
-
   useEffect(() => {
     setExpanded(current_section)
   }, [current_section])
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false)
-  }
 
   function isActivePage (page) {
     /// console.log("selected page", current_page , page)
@@ -112,7 +87,7 @@ function Sidebar ({
     {
       id: 'Dashboard',
       label: I18n.t('navigator.dashboard'),
-      icon: <BuildingIcon style={{ fontSize: 30 }} />,
+      icon: '🏢',
       url: `/apps/${app.key}`,
       hidden: true,
       children: [
@@ -123,13 +98,53 @@ function Sidebar ({
           active: isActivePage("campaigns")
         } */
         {
-          render: (props) => [
-            <div key={'dashboard-hey'}>
-              <p className="text-xs leading-5 text-gray-500 font-light"
+          render: (_props) => [
+            <div key={'dashboard-hey'} className="space-y-2">
+              <p className="text-sm leading-5 text-gray-500 font-light"
                 dangerouslySetInnerHTML={
                   { __html: I18n.t('dashboard.hey', { name: app.name }) }
                 }/>
               <WebSetup />
+            </div>
+          ]
+        },
+        {
+          render: (_props) => [
+            <div key={'dashboard-status'} className="space-y-2">
+              <div className="mt-1 space-y-1" aria-labelledby="projects-headline">
+                {
+                  app.plan.name && <Link to={`/apps/${app.key}/billing`} 
+                    className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                    <span className="truncate">
+                      Plan: <Badge size="sm" variant="pink">{app.plan.name}</Badge>
+                    </span>
+                  </Link>
+                }
+        
+              <Link to={`/apps/${app.key}/messenger`} 
+                className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                <span className="truncate">
+                  Live chat status: {" "} 
+                  {
+                    app.activeMessenger && <Badge size="sm" variant="green">running</Badge>
+                  }
+
+                  {
+                    !app.activeMessenger && <Badge size="sm" variant="gray">paused</Badge>
+                  }
+                </span>
+              </Link>
+        
+              <a href="https://dev.chaskiq.io"
+                target="_blank"
+                rel="noopener noreferrer" 
+                className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                <span className="truncate">
+                  Chaskiq guides
+                </span>
+              </a>
+            </div>
+
             </div>
           ]
         }
@@ -138,7 +153,7 @@ function Sidebar ({
     {
       id: 'Platform',
       label: I18n.t('navigator.platform'),
-      icon: <FactoryIcon style={{ fontSize: 30 }} />,
+      icon: '👥',
       url: `/apps/${app.key}/segments/${
         app.segments ? app.segments[0].id : ''
       }`,
@@ -152,7 +167,7 @@ function Sidebar ({
     {
       id: 'Conversations',
       label: I18n.t('navigator.conversations'),
-      icon: <ConversationIcon style={{ fontSize: 30 }} />,
+      icon: '💬',
       url: `/apps/${app.key}/conversations`,
       children: [
         {
@@ -171,8 +186,8 @@ function Sidebar ({
         },
         {
           id: 'SidebarAgents',
-          render: () => [ 
-            <SidebarAgents key={`conversations-sidebar-agents`}/> 
+          render: () => [
+            <SidebarAgents key={'conversations-sidebar-agents'}/>
           ]
         }
       ]
@@ -181,33 +196,33 @@ function Sidebar ({
       id: 'Campaigns',
       label: I18n.t('navigator.campaigns'),
       url: `/apps/${app.key}/campaigns`,
-      icon: <FlagIcon style={{ fontSize: 30 }} />,
+      icon: '⛺',
       children: [
         {
           id: 'campaigns',
           label: I18n.t('navigator.childs.mailing_campaigns'),
-          icon: <EmailIcon />,
+          icon: '📨',
           url: `${appid}/messages/campaigns`,
           active: isActivePage('campaigns')
         },
         {
           id: 'user_auto_messages',
           label: I18n.t('navigator.childs.in_app_messages'),
-          icon: <MessageIcon />,
+          icon: '📥',
           url: `${appid}/messages/user_auto_messages`,
           active: isActivePage('user_auto_messages')
         },
         {
           id: 'banners',
           label: I18n.t('navigator.childs.banners'),
-          icon: <PictureInPicture />,
+          icon: '🖼️',
           url: `${appid}/messages/banners`,
           active: isActivePage('banners')
         },
         {
           id: 'tours',
           label: I18n.t('navigator.childs.guided_tours'),
-          icon: <TourIcon />,
+          icon: '🚣',
           url: `${appid}/messages/tours`,
           active: isActivePage('tours')
         }
@@ -217,29 +232,29 @@ function Sidebar ({
     {
       id: 'Bot',
       label: I18n.t('navigator.routing_bots'),
-      icon: <LoadBalancerIcon style={{ fontSize: 30 }} />,
+      icon: '🤖',
       url: `/apps/${app.key}/bots/settings`,
       children: [
         {
-          id: 'For Leads',
-          label: I18n.t('navigator.childs.for_leads'),
-          icon: <UserWalkIcon />,
-          url: `${appid}/bots/leads`,
-          active: isActivePage('botleads')
+          id: 'outbound',
+          label: I18n.t('navigator.childs.outbound'),
+          icon: '🏓',
+          url: `${appid}/bots/outbound`,
+          active: isActivePage('bot_outbound')
         },
         {
-          id: 'For Users',
-          label: I18n.t('navigator.childs.for_users'),
-          icon: <UserIcon />,
-          url: `${appid}/bots/users`,
-          active: isActivePage('botusers')
+          id: 'user_conversations',
+          label: I18n.t('navigator.childs.new_conversations'),
+          icon: '👋',
+          url: `${appid}/bots/new_conversations`,
+          active: isActivePage('bot_new_conversations')
         },
         {
           id: 'Settings',
           label: I18n.t('navigator.childs.bot_settings'),
-          icon: <SettingsIcon />,
+          icon: '⚙️',
           url: `${appid}/bots/settings`,
-          active: isActivePage('botSettings')
+          active: isActivePage('bot_settings')
         }
       ]
     },
@@ -247,27 +262,27 @@ function Sidebar ({
     {
       label: I18n.t('navigator.help_center'),
       id: 'HelpCenter',
-      icon: <BookMarkIcon style={{ fontSize: 30 }} />,
+      icon: '📖',
       url: `/apps/${app.key}/articles`,
       children: [
         {
           id: 'Articles',
           label: I18n.t('navigator.childs.articles'),
-          icon: <BookMarkIcon />,
+          icon: '📝',
           url: `/apps/${app.key}/articles`,
           active: isActivePage('Articles')
         },
         {
           id: 'Collections',
           label: I18n.t('navigator.childs.collections'),
-          icon: <FolderIcon />,
+          icon: '🗄️',
           url: `/apps/${app.key}/articles/collections`,
           active: isActivePage('Collections')
         },
         {
           id: 'Settings',
           label: I18n.t('navigator.childs.article_settings'),
-          icon: <SettingsIcon />,
+          icon: '⚙️',
           url: `/apps/${app.key}/articles/settings`,
           active: isActivePage('Settings')
         }
@@ -277,13 +292,13 @@ function Sidebar ({
     {
       id: 'Settings',
       label: I18n.t('navigator.settings'),
-      icon: <SettingsIcon style={{ fontSize: 30 }} />,
+      icon: '⚙️',
       url: `/apps/${app.key}/settings`,
       children: [
         {
           id: 'App Settings',
           label: I18n.t('navigator.childs.app_settings'),
-          icon: <SettingsIcon />,
+          icon: '🎚️',
           url: `/apps/${app.key}/settings`,
           active: isActivePage('app_settings')
         },
@@ -291,7 +306,7 @@ function Sidebar ({
         {
           id: 'Messenger',
           label: I18n.t('navigator.childs.messenger_settings'),
-          icon: <MessageIcon />,
+          icon: '💬',
           url: `/apps/${app.key}/messenger`,
           active: isActivePage('messenger')
         },
@@ -299,14 +314,14 @@ function Sidebar ({
         {
           id: 'Team',
           label: I18n.t('navigator.childs.team'),
-          icon: <TeamIcon />,
+          icon: '🧠',
           url: `/apps/${app.key}/team`,
           active: isActivePage('team')
         },
         {
           id: 'Integrations',
           label: I18n.t('navigator.childs.integrations'),
-          icon: <IntegrationsIcon />,
+          icon: '🎛️',
           url: `/apps/${app.key}/integrations`,
           active: isActivePage('integrations')
         },
@@ -326,7 +341,7 @@ function Sidebar ({
         },
         {
           id: 'Billing',
-          icon: <CardIcon />,
+          icon: '💳',
           hidden: !app.subscriptionsEnabled,
           url: `/apps/${app.key}/billing`,
           active: isActivePage('billing')
@@ -336,14 +351,10 @@ function Sidebar ({
     }
   ]
 
-  function handleDrawer () {
-    dispatch(toggleDrawer({ open: !drawer.open }))
-  }
-
   function renderInner () {
     return categories
       .filter((o) => o.id === current_section)
-      .map(({ id, label, icon, children }) => {
+      .map(({ id, label, _icon, children }) => {
         //  expanded={expanded === id}
         return (
           <div
@@ -354,21 +365,24 @@ function Sidebar ({
               text-lg leading-6 font-bold text-gray-900">
               <h3 className="font-bold w-full">{label}</h3>
             </div>
-            <nav className="mt-5 flex-1 px-4">
+            <nav className="mt-5 flex-1 px-4 space-y-2">
               {children.filter((o) => !o.hidden).map(
-                ({ id: childId, label, icon, active, url, onClick, render }) =>
+                ({ id: childId, label, icon, active, url, _onClick, render }) =>
                   !render ? (
                     <Link
                       key={`sidebar-section-child-${id}-${childId}`}
                       to={url}
                       className={`
                         ${
-                          active ? 'bg-white' : ''
-                        } hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200
-                        group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-900 
-                        rounded-md transition ease-in-out duration-150`}
+                          active ? 'bg-gray-200' : ''
+                        } bg-white hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200
+                        group flex items-center 
+                        px-2 py-2 
+                        text-sm leading-5 font-medium text-gray-900 
+                        rounded-md transition ease-in-out duration-150`
+                      }
                     >
-                      <div className="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
+                      <div className="text-lg mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
                         {icon}
                       </div>
                       {label || childId}
@@ -385,7 +399,7 @@ function Sidebar ({
     setLangChooser(true)
   }
 
-  function handleAwaymode (e) {
+  function handleAwaymode (_e) {
     setLoading(true)
 
     graphql(UPDATE_AGENT, {
@@ -395,7 +409,7 @@ function Sidebar ({
         available: !current_user.available
       }
     }, {
-      success: (data) => {
+      success: (_data) => {
         dispatch(getCurrentUser())
         setLoading(false)
       },
@@ -415,7 +429,7 @@ function Sidebar ({
         <div
           className={
             `md:block border-r 
-            bg-gray-200 
+            bg-gray-800 
             text-purple-lighter 
             flex-none w-23 
             p-2 
@@ -438,18 +452,19 @@ function Sidebar ({
                 overlay={o.label}
               >
                 <div
-                  className="cursor-pointer mb-4 p-3
-                          bg-gray-200 hover:bg-gray-100 rounded-md"
+                  className="cursor-pointer mb-4 p-3 text-gray-400
+                          bg-gray-800 hover:bg-gray-900 rounded-md"
                 >
                   {o.url && (
                     <Link
                       to={`${o.url}`}
                       aria-label={o.label}
                       className="bg-indigo-lighter
-                      h-12 w-12 flex-- items-center
-                      justify-center-- text-black
+                      h-12 w-12
+                      items-center
+                      text-gray-400
                       text-2xl font-semibold rounded-lg
-                      mb-1 overflow-hidden text-gray-400"
+                      mb-1 overflow-hidden"
                     >
                       {o.icon}
                     </Link>
@@ -469,6 +484,11 @@ function Sidebar ({
       }
 
       <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100 shadow-inner">
+
+        <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 bg-yellow-50">
+          <h3 className="font-semibold w-full text-gray-600 text-xs">{app.name}</h3>
+        </div>
+      
         {renderInner()}
 
         <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
@@ -515,6 +535,11 @@ function Sidebar ({
                         id: 'choose-lang',
                         title: I18n.t('home.choose_lang'),
                         onClick: openLangChooser
+                      },
+                      {
+                        id: 'edit-profile',
+                        title: I18n.t('home.edit_profile'),
+                        onClick: () => (window.location = '/agents/edit')
                       },
                       {
                         title: I18n.t('navigator.user_menu.signout'),

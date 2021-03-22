@@ -54,7 +54,7 @@ function Integrations ({ app, dispatch }) {
   const [integrations, setIntegrations] = useState([])
   const [tabValue, setTabValue] = useState(0)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [openIntegrationDialog, setOpenIntegrationDialog] = useState(false)
+  const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(false)
 
   const form = useRef(null)
 
@@ -200,16 +200,6 @@ function Integrations ({ app, dispatch }) {
         }
       }
     )
-  }
-
-  function handleTabChange (e, i) {
-    setTabValue(i)
-  }
-
-  function openNewAppModal () {
-    setOpenIntegrationDialog({
-      settings: {}
-    })
   }
 
   return (
@@ -412,9 +402,6 @@ function Integrations ({ app, dispatch }) {
   )
 }
 
-
-
-
 function EmptyCard ({ goTo }) {
   return (
     <div style={{ marginTop: '2em' }}>
@@ -490,7 +477,7 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                   <Button
                     onClick={() => handleOpen(service)}
                     aria-label="add"
-                    variant="icon"
+                    variant="outlined"
                     className="mr-2"
                     border={true}
                   >
@@ -510,9 +497,9 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                       onClick={() =>
                         setOpenDeleteDialog && setOpenDeleteDialog(service)
                       }
+                      variant='danger'
                       border={true}
                       aria-label="remove"
-                      variant="icon"
                     >
                       <DeleteIcon />
                     </Button>
@@ -626,7 +613,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
         id: id
       },
       {
-        success: (data) => {
+        success: (_data) => {
           setOpenDeleteDialog(null)
           setIntegration(null)
           // setIntegration(data.app.agentAppPackage)
@@ -679,7 +666,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
             <ListItem
               key={`my-apps-${service.id}`}
               // onClick={ () => getAppPackage({ id: service.id }) }
-              >
+            >
               <ListItemText
                 primary={
                   <ItemListPrimaryContent variant="h5">
@@ -904,14 +891,6 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
     ]
   }
 
-  function open () {
-
-  }
-
-  function close () {
-
-  }
-
   function submit (e) {
     e.preventDefault()
     const serializedData = serialize(form.current, {
@@ -980,10 +959,10 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
     <div className="border bg-white rounded shadow">
       <div className="flex">
         <div className="w-1/3 bg-gray-100 px-4 py-2">
-          {/*<ul>
+          {/* <ul>
             <li>ijij</li>
             <li>aaa</li>
-          </ul>*/}
+          </ul> */}
         </div>
         <form ref={form} className="px-4 py-2">
           <div>

@@ -1,20 +1,20 @@
-import React from "react";
-import { snakeCase, camelCase } from "lodash";
-import Input from "./Input";
+import React from 'react'
+import { snakeCase, camelCase } from 'lodash'
+import Input from './Input'
 
 export const errorsFor = (name, errors) => {
-  if (!errors[name]) return null;
-  console.log("error for", name);
-  return errors[name].map((o) => o).join(", ");
-};
+  if (!errors[name]) return null
+  console.log('error for', name)
+  return errors[name].map((o) => o).join(', ')
+}
 
-export function gridClasses(field) {
+export function gridClasses (field) {
   return Object.keys(field.grid)
     .map((o) => {
-      if(o === "xs") return field.grid[o]
-      return `${o}:${field.grid[o]}`;
+      if (o === 'xs') return field.grid[o]
+      return `${o}:${field.grid[o]}`
     })
-    .join(" ");
+    .join(' ')
 }
 
 class FieldRenderer extends React.Component {
@@ -31,22 +31,22 @@ class FieldRenderer extends React.Component {
       defaultChecked,
       value,
       id
-    } = this.props;
+    } = this.props
 
     const errorName = snakeCase(
-      `${errorNamespace ? errorNamespace : ""}${data.name}`
-    );
-    const errorMessage = errorsFor(errorName, errors);
+      `${errorNamespace || ''}${data.name}`
+    )
+    const errorMessage = errorsFor(errorName, errors)
     const camelCasedName = camelCase(data.name)
 
-    function formatFieldName(){
+    function formatFieldName () {
       return namespace ? `${namespace}[${data.name}]` : data.name
     }
 
     return (
       <div
         error={errorMessage}
-        //className={classes.formControl}
+        // className={classes.formControl}
       >
         <Input
           data={data}
@@ -58,7 +58,6 @@ class FieldRenderer extends React.Component {
           options={data.options}
           accept={accept}
           id={id}
-          fullWidth
           name={formatFieldName()}
           defaultValue={props.data[camelCasedName]}
           value={value}
@@ -67,22 +66,22 @@ class FieldRenderer extends React.Component {
           helperText={
             <React.Fragment>
               {errorMessage && (
-                <div className={`text-red-500 text-xs italic`}>{errorMessage}</div>
+                <div className={'text-red-500 text-xs italic'}>{errorMessage}</div>
               )}
 
               {data.hint && (
-                <div className={`text-gray-500 text-xs`}>{data.hint}</div>
+                <div className={'text-gray-500 text-xs'}>{data.hint}</div>
               )}
             </React.Fragment>
           }
         />
       </div>
-    );
+    )
   };
 
-  render() {
-    return this.fieldRenderer();
+  render () {
+    return this.fieldRenderer()
   }
 }
 
-export default FieldRenderer;
+export default FieldRenderer

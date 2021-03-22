@@ -36,7 +36,7 @@ import { setApp } from '../actions/app'
 import { setSubscriptionState } from '../actions/paddleSubscription'
 
 import { updateAppUserPresence } from '../actions/app_users'
-import { getAppUser } from '../actions/app_user'
+
 import { updateRtcEvents } from '../actions/rtc'
 import { updateCampaignEvents } from '../actions/campaigns'
 
@@ -48,6 +48,7 @@ import { toggleDrawer } from '../actions/drawer'
 
 import UserProfileCard from '../components/UserProfileCard'
 import LoadingView from '../components/loadingView'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 function AppContainer ({
   match,
@@ -61,10 +62,13 @@ function AppContainer ({
   upgradePages,
   accessToken
 }) {
+  const CableApp = React.useRef({
+    events: null,
+    cable: actioncable.createConsumer(
+      `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`)
+  })
 
-  const CableApp = {
-    cable: actioncable.createConsumer(`${window.chaskiq_cable_url}?token=${accessToken}`)
-  }
+  const [_subscribed, setSubscribed] = React.useState(null)
 
   React.useEffect(() => {
     dispatch(getCurrentUser())
@@ -86,11 +90,11 @@ function AppContainer ({
 
   const eventsSubscriber = (id) => {
     // unsubscribe cable ust in case
-    if (CableApp.events) {
-      CableApp.events.unsubscribe()
+    if (CableApp.current.events) {
+      CableApp.current.events.unsubscribe()
     }
 
-    CableApp.events = CableApp.cable.subscriptions.create(
+    CableApp.current.events = CableApp.current.cable.subscriptions.create(
       {
         channel: 'EventsChannel',
         app: id
@@ -98,9 +102,11 @@ function AppContainer ({
       {
         connected: () => {
           console.log('connected to events')
+          setSubscribed(true)
         },
         disconnected: () => {
           console.log('disconnected from events')
+          setSubscribed(false)
         },
         received: (data) => {
           // console.log('received', data)
@@ -125,7 +131,7 @@ function AppContainer ({
         notify: () => {
           console.log('notify!!')
         },
-        handleMessage: (message) => {
+        handleMessage: () => {
           console.log('handle message')
         }
       }
@@ -136,10 +142,6 @@ function AppContainer ({
 
   function updateUser (data) {
     dispatch(updateAppUserPresence(data))
-  }
-
-  function setAppUser (id) {
-    dispatch(getAppUser(id))
   }
 
   function handleSidebar () {
@@ -229,79 +231,85 @@ function AppContainer ({
           }
 
           {app && isEmpty(upgradePages) && (
-            <Switch>
-              <Route path={`${match.url}/`} exact>
-                <Dashboard />
-              </Route>
+            <ErrorBoundary variant={'very-wrong'}>
 
-              <Route exact path={`${match.path}/segments/:segmentID/:Jwt?`}>
-                <Platform />
-              </Route>
+              <Switch>
+                <Route path={`${match.url}/`} exact>
+                  <Dashboard />
+                </Route>
 
-              <Route path={`${match.url}/settings`}>
-                <Settings />
-              </Route>
+                <Route exact path={`${match.path}/segments/:segmentID/:Jwt?`}>
+                  <Platform />
+                </Route>
 
-              <Route path={`${match.url}/messenger`}>
-                <MessengerSettings />
-              </Route>
+                <Route path={`${match.url}/settings`}>
+                  <Settings />
+                </Route>
 
-              <Route path={`${match.url}/team`}>
-                <Team />
-              </Route>
+                <Route path={`${match.url}/messenger`}>
+                  <MessengerSettings />
+                </Route>
 
-              <Route exact path={`${match.path}/users/:id`}
-                render={(props) => (
-                  <Profile
-                    {...props}
+                <Route path={`${match.url}/team`}>
+                  <Team />
+                </Route>
+
+                <Route exact path={`${match.path}/users/:id`}
+                  render={(props) => (
+                    <Profile
+                      {...props}
+                    />
+                  )}
+                />
+
+                <Route exact path={`${match.path}/agents/:id`}
+                  render={(props) => (
+                    <AgentProfile
+                      {...props}
+                    />
+                  )}
+                />
+
+                <Route path={`${match.url}/webhooks`}>
+                  <Webhooks />
+                </Route>
+
+                <Route path={`${match.url}/integrations`}>
+                  <Integrations />
+                </Route>
+
+                <Route path={`${match.url}/articles`}>
+                  <Articles />
+                </Route>
+
+                <Route path={`${match.url}/conversations`}>
+                  <Conversations
+                    subscribed
+                    events={CableApp.current.events}
                   />
-                )}
-              />
+                </Route>
 
-              <Route exact path={`${match.path}/agents/:id`}
-                render={(props) => (
-                  <AgentProfile
-                    {...props}
-                  />
-                )}
-              />
+                <Route path={`${match.url}/oauth_applications`}>
+                  <Api />
+                </Route>
 
-              <Route path={`${match.url}/webhooks`}>
-                <Webhooks />
-              </Route>
+                <Route path={`${match.url}/billing`}>
+                  <Billing />
+                </Route>
 
-              <Route path={`${match.url}/integrations`}>
-                <Integrations />
-              </Route>
+                <Route path={`${match.url}/bots`}>
+                  <Bots />
+                </Route>
 
-              <Route path={`${match.url}/articles`}>
-                <Articles />
-              </Route>
+                <Route path={`${match.url}/campaigns`}>
+                  <CampaignHome />
+                </Route>
 
-              <Route path={`${match.url}/conversations`}>
-                <Conversations events={CableApp.events} />
-              </Route>
-
-              <Route path={`${match.url}/oauth_applications`}>
-                <Api />
-              </Route>
-
-              <Route path={`${match.url}/billing`}>
-                <Billing />
-              </Route>
-
-              <Route path={`${match.url}/bots`}>
-                <Bots />
-              </Route>
-
-              <Route path={`${match.url}/campaigns`}>
-                <CampaignHome />
-              </Route>
-
-              <Route path={`${match.path}/messages/:message_type`}>
-                <Campaigns />
-              </Route>
-            </Switch>
+                <Route path={`${match.path}/messages/:message_type`}>
+                  <Campaigns />
+                </Route>
+              </Switch>
+            </ErrorBoundary>
           )}
         </div>
       )}

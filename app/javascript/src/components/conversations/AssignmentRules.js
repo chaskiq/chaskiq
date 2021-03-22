@@ -109,7 +109,7 @@ const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>
 })
 
-function AssignmentRules ({ dispatch, match, app }) {
+function AssignmentRules ({ dispatch, app }) {
   const formRef = React.useRef()
 
   const [state, setState] = React.useState({
@@ -137,22 +137,6 @@ function AssignmentRules ({ dispatch, match, app }) {
   const open = () => setState({ ...state, isOpen: true })
   const close = () => setState({ ...state, isOpen: false })
 
-  const definitions = () => {
-    return [
-      {
-        name: 'name',
-        type: 'string',
-        div: { xs: 12, sm: 6 }
-      },
-      {
-        name: 'agent',
-        type: 'select',
-        options: ['dark', 'light'],
-        div: { xs: 12, sm: 6 }
-      }
-    ]
-  }
-
   const updatePriorities = () => {
     graphql(
       UPDATE_RULE_PRIORITIES,
@@ -161,7 +145,7 @@ function AssignmentRules ({ dispatch, match, app }) {
         rules: state.rules
       },
       {
-        success: (data) => {
+        success: () => {
           dispatch(successMessage(
             I18n.t('assignment_rules.success_message')
           ))
@@ -189,13 +173,12 @@ function AssignmentRules ({ dispatch, match, app }) {
           setState({ ...state, rules: data.app.assignmentRules })
         },
         error: () => {
-          debugger
         }
       }
     )
   }
 
-  const createAssignmentRule = (opts) => {
+  const createAssignmentRule = (_opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true
@@ -224,7 +207,7 @@ function AssignmentRules ({ dispatch, match, app }) {
     )
   }
 
-  const editAssignmentRule = (opts) => {
+  const editAssignmentRule = (_opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true
@@ -301,8 +284,6 @@ function AssignmentRules ({ dispatch, match, app }) {
 
     deleteAssignmentRule(rule)
   }
-
-  const { isOpen } = state
 
   const defaultConditions = [
     {
@@ -406,10 +387,10 @@ function AssignmentRules ({ dispatch, match, app }) {
 }
 
 function AssignmentForm (props) {
-  const { rule, setConditions, conditions, dispatch } = props
+  const { rule, setConditions, conditions } = props
 
   const [agents, setAgents] = React.useState([])
-  const [selected, setSelected] = React.useState(rule ? rule.agent.id : '')
+  const [_selected, setSelected] = React.useState(rule ? rule.agent.id : '')
   const [title, setTitle] = React.useState(rule ? rule.title : '')
   const [checked, setChecked] = React.useState('')
   const [updater, setUpdater] = React.useState(null)
@@ -435,7 +416,7 @@ function AssignmentForm (props) {
         success: (data) => {
           setAgents(data.app.agents)
         },
-        error: (error) => {}
+        error: () => {}
       }
     )
   }
@@ -507,8 +488,7 @@ function AssignmentForm (props) {
                 appearance={o.comparison ? 'primary' : 'default'}
                 text={getTextForPredicate(o)}
                 updatePredicate={updatePredicates}
-                predicateCallback={(jwtToken) => {
-                  debugger
+                predicateCallback={(_jwtToken) => {
                 }}
                 deletePredicate={(items) => {
                   deletePredicate(items)
@@ -563,8 +543,7 @@ function AssignmentForm (props) {
 
 function mapStateToProps (state) {
   const { auth, app, conversations, app_user } = state
-  const { loading, isAuthenticated } = auth
-  // const { sort, filter, collection , meta, loading} = conversations
+  const { isAuthenticated } = auth
 
   return {
     conversations,

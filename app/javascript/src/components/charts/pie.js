@@ -6,7 +6,7 @@ import { ResponsivePie } from '@nivo/pie'
 // website examples showcase many properties,
 // you'll often use just a few of them.
 
-export default function MyResponsivePie ({ data, label }) {
+export default function MyResponsivePie ({ data, _label }) {
   return (
     <ResponsivePie
       data={data}

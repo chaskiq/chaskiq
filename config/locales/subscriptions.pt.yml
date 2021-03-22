@@ -1,0 +1,103 @@
+pt:
+  subscriptions:
+    upgrade: Atualizar
+    tabs:
+      - Planos
+      - Histórico de transações
+    features:
+      Segments:
+        title: Segmentos
+        description: true
+        upgrade_message: Habilitar segmentos de contato e direcionamento
+      Leads:
+        title: Contactos
+        description: true
+        upgrade_message: Obtenha aplicativos externos, muitos aplicativos
+      AppUsers:
+        title: Usuarios
+        description: true
+        upgrade_message: Obtenha aplicativos externos, muitos aplicativos
+      Conversations:
+        title: Conversas
+        description: true
+        upgrade_message: Ativar conversas
+      BotTasks:
+        title: Tarefas Bot
+        description: true
+        upgrade_message: Adicionar chatflows automatizados ao seu aplicativo
+      Integrations:
+        title: Integrações
+        description: true
+        upgrade_message: Obtenha aplicativos externos, muitos aplicativos
+      Campaigns:
+        title: Campanhas
+        active: false
+        upgrade_message: Receba mensagens, boletim informativo e passeios!
+      Tours:
+        title: Visitas Guiadas
+        description: true
+        upgrade_message: Receba mensagens, boletim informativo e passeios!
+      UserAutoMessages:
+        title: UserAutoMessages
+        description: true
+        upgrade_message: Receba mensagens, boletim informativo e passeios!
+      OutgoingWebhooks:
+        title: OutgoingWebhooks
+        active: false
+        upgrade_message: Ativar webhooks de saída
+      OauthApplications:
+        title: OauthApplications
+        description: true
+        upgrade_message: Ativar suporte a API através de OAUTH
+      Articles:
+        title: Artigos
+        active: false
+        upgrade_message: Ativar centro de documentação e ajuda
+      QuickReplies:
+        title: Respostas Rápidas
+        description: true
+        upgrade_message: adicionar respostas rápidas para suas conversas
+      CustomAttributes:
+        title: Personalizar Atributos
+        upgrade_message: Ordenar atributos personalizados
+    plans:
+      - 
+        name: "livre um"
+        description: Este é um plano gratuito!
+        id: 618560
+      - 
+        name: "calouros"
+        description: Este é o plano simples
+        id: 616249
+      - 
+        name: "super"
+        id: 596123
+        description: Este é o plano simples
+    plan:
+      included: O que está incluído
+      pay_by: Pagar via %{billing_type}
+      trial_days: Experimente este plano gratuitamente por <span class="font-bold"> %{trial_days} dias </span>
+      get_access: Consiga acesso
+    alerts:
+      subscription_updated:
+        title: A subscrição foi atualizada
+        desc: A assinatura foi atualizada com sucesso, você receberá uma notificação por e-mail
+      subscription_created:
+        title: A subscrição foi atualizada
+        desc: A assinatura foi atualizada com sucesso, você receberá uma notificação por e-mail
+      subscription_cancelled:
+        title: Assinatura cancelada
+        desc: A assinatura foi cancelada
+      close: Bloquear este diálogo
+    billing_information:
+      title: Informação de faturação
+      description: Você está atualmente usando o plano "%{plan_name}".
+      next_billing: Próxima faturação em %{next_payment_date} por $%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: cancelar Plano
+      update_payment_method: Atualizar método de pagamento
+      subscription_state: Estado de subscrição n %{state}
+    update_subscription:
+      cta: Atualizar a minha Subscrição
+      billed_on: Você será cobrado a cada <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: Com o valor de <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: O próximo pagamento será realizado em <span class="font-bold">%{next_payment_date}</span>

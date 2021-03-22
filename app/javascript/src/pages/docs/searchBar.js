@@ -4,7 +4,7 @@ import { SEARCH_ARTICLES } from '../../graphql/docsQueries'
 import List, { ListItem, ListItemText } from '../../components/List'
 import { Link } from 'react-router-dom'
 
-export default function CustomizedInputBase ({ lang, history, subdomain }) {
+export default function CustomizedInputBase ({ lang, _history, subdomain, settings }) {
   const [results, setResults] = React.useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -22,7 +22,6 @@ export default function CustomizedInputBase ({ lang, history, subdomain }) {
           setResults(data.helpCenter.search.collection)
         },
         error: () => {
-          debugger
         }
       }
     )
@@ -41,9 +40,18 @@ export default function CustomizedInputBase ({ lang, history, subdomain }) {
   return (
     <div className="flex justify-center">
       <div className="w-full lg:w-4/5 mt-4 mb-8">
+
+        <p
+          className={
+            'py-3 text-left text-2xl lg:text-3xl leading-9 font-light text-gray-100 md:mx-24-'
+          }
+        >
+          {settings.siteDescription}
+        </p>
+
         <div className="relative">
           <svg
-            className="absolute top-0 ml-4 mt-4 lg:mt-6 lg:ml-6 w-8 h-8 text-gray-600"
+            className="absolute top-0 ml-4 mt-2 lg:mt-2 lg:ml-3 w-8 h-6 text-gray-600"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -58,7 +66,7 @@ export default function CustomizedInputBase ({ lang, history, subdomain }) {
           </svg>
 
           <input
-            className="text-1xl lg:text-3xl placeholder-gray-600 text-gray-800 pb-4 pt-5 pl-20 pr-4 rounded w-full border-b-4 focus:outline-none focus:border-blue-800"
+            className="text-1xl lg:text-1xl placeholder-gray-600 text-gray-800 pb-2 pt-2 pl-20 pr-2 rounded  w-full border-b-4 focus:outline-none focus:border-blue-800"
             type="text"
             placeholder="Search in articles"
             onKeyPress={handleReturn}
@@ -68,7 +76,7 @@ export default function CustomizedInputBase ({ lang, history, subdomain }) {
             <div className="absolute w-full">
               <List>
                 {results.map((o) => (
-                  <ListItem>
+                  <ListItem key={`search-result-${o.slug}`}>
                     <ListItemText
                       primary={
                         <Link
