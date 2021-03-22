@@ -54,65 +54,65 @@ de:
     snippet: Legen Sie das folgende Skript an das Ende Ihres HTML- <body> -Tags
   navigator:
     dashboard: Dashboard
-    platform: Platform
-    conversations: Conversations
-    campaigns: Campaigns
+    platform: Plattform
+    conversations: Unterhaltungen
+    campaigns: Kampagnen
     routing_bots: Routing Bots
     help_center: Help Center
-    settings: Settings
+    settings: Einstellungen
     childs:
-      conversations: Conversations
-      assignment_rules: Assignment Rules
-      mailing_campaigns: Mailing Campaigns
-      in_app_messages: In App Messages
-      banners: Banners
-      guided_tours: Guided Tours
-      for_leads: For Leads
-      for_users: For Users
-      bot_settings: Bot Tasks
-      outbound: Outbound
-      new_conversations: New conversations
-      articles: Articles
-      collections: Collections
-      article_settings: Settings
-      app_settings: App Settings
+      conversations: Unterhaltungen
+      assignment_rules: Zuordnungsregeln
+      mailing_campaigns: Mailing-Kampagnen
+      in_app_messages: In-App-Nachrichten
+      banners: Banner
+      guided_tours: Geführte Touren
+      for_leads: Für Leads
+      for_users: Für Benutzer
+      bot_settings: Bot-Aufgaben
+      outbound: ausgehend
+      new_conversations: Neue Unterhaltungen
+      articles: Artikel
+      collections: Sammlungen
+      article_settings: Einstellungen
+      app_settings: App-Einstellungen
       team: Team
-      messenger_settings: Messenger settings
-      integrations: Integrations
+      messenger_settings: Messenger-Einstellungen
+      integrations: Integrationen
       webhooks: Webhooks
-      api_access: API access
+      api_access: API-Zugang
     user_menu:
-      create_app: 'Create new app'
-      create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      create_app: 'Neue Anwendung erstellen'
+      create_app_description: 'Chaskiq App Ihres Unternehmens erstellen'
+      signout: Ausloggen
+      title: Benutzermenü
   conversations:
-    start_conversation: Start conversation
-    title: Conversations
+    start_conversation: Gespräch beginnen
+    title: Unterhaltungen
     menu:
-      conversations: Conversations
-      assignment_rules: Agent routing Rules
+      conversations: Unterhaltungen
+      assignment_rules: Regeln für das Routen von Agenten
     states:
-      opened: Opened
-      closed: Closed
+      opened: Geöffnet
+      closed: Geschlossen
     sorts:
-      newest: Newest
-      oldest: Oldest
-      waiting: Waiting
-      priority_first: Priorized
-      all: All
-      unfiltered: All
+      newest: Neueste
+      oldest: Älteste
+      waiting: Wartend
+      priority_first: Priorisiert
+      all: Alle
+      unfiltered: Alle
     empty:
-      title: No conversations
-      text: Choose conversations on the side
+      title: Keine Unterhaltungen
+      text: Unterhaltungen an der Seite auswählen
   conversation:
-    with: Conversation with
+    with: Unterhaltung mit
     actions:
-      priorize: Priorize conversation
-      remove_priority: Remove priority
-      close: Close
-      reopen: Reopen
-      start_call: Start videocall
+      priorize: Unterhaltung priorisieren
+      remove_priority: Priorität entfernen
+      close: Schließen
+      reopen: Erneut öffnen
+      start_call: Videocall starten
       end_call: Anruf beenden
       assign_agent: Agenten zuweisen
     messages:
@@ -142,40 +142,40 @@ de:
           empty: keine Schnellantworten verfügbar
           choose_another: Weitere(s) wählen
   assignment_rules:
-    title: Assignment Rules
-    create_button: Create Rule
-    success_message: Assignment rule created sucessfully
+    title: Zuordnungsregeln
+    create_button: Regel erstellen
+    success_message: Neue Zuordnungsregel erfolgreich erstellt
   campaigns:
-    title: Campaign
+    title: Kampagne
     home:
-      title: Campaigns
-      text: This is the campaigns section, you can create newsletters , popup messages and guided tours
-    remove_success: Campaign removed
-    remove_hint: We will destroy any content and related data
-    delete_campaign: Delete campaign %{name}
-    create_new: Create new campaign
+      title: Kampagnen
+      text: Dies ist der Kampagnen Bereich, hier kannst Du Newsletter, Popup-Nachrichten und geführte Touren erstellen
+    remove_success: Kampagne entfernt
+    remove_hint: Wir werden alle Inhalte und verwandten Daten löschen
+    delete_campaign: Kampagne %{name} löschen
+    create_new: Kampagne erstellen
     empty:
-      title: No campaigns found
-    campaign_updated: Campaign updated
-    updated_error: Error updating campaign
-    error_purge: Error purging metrics
-    purge_description: Purges campaigns metrics
-    purge_title: Purge Metrics
-    deliver_title: Deliver
-    deliver_description: Delivers the campaign
+      title: Keine Kampagnen gefunden
+    campaign_updated: Kampagne aktualisiert
+    updated_error: Fehler beim Aktualisieren der Kampagne
+    error_purge: Fehler beim Bereinigen der Metriken
+    purge_description: Entfernt Kampagnen-Metriken
+    purge_title: Metriken bereinigen
+    deliver_title: Ausliefern
+    deliver_description: Liefert die Kampagne aus
   campaign:
-    edit: Edit Campaign Settings
-    create: Create a new campaign
-    preview: This is a preview
-    preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
+    edit: Kampagnen-Einstellungen bearbeiten
+    create: Neue Kampagne erstellen
+    preview: Dies ist eine Vorschau
+    preview_hint: So sollte Ihre E-Mail angezeigt werden. Wenn Sie Variablen wie {{name}} verwenden, sollte sie hier angezeigt werden.
     stats:
-      title: Campaign Stats
-      refresh_data: Refresh data
+      title: Kampagnenstatistik
+      refresh_data: Daten aktualisieren
     unsubscribe:
-      status: You've been %{state}
-      success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
-      resubscribe: Resubscribe from this list
-      cancel: Cancel your subscription
+      status: Du wurdest %{state}
+      success: Ok, %{ email } wird keine E-Mails mehr von diesem Absender erhalten. War das ein Fehler?
+      resubscribe: Aus dieser Liste erneut abonnieren
+      cancel: Abonnement kündigen
   task_bots:
     title: Bot Tasks
     reply_soon: Hi, %{name} will reply as soon as they can.
@@ -239,89 +239,89 @@ de:
       title: Delete bot "%{name}"
       hint: we will destroy any content and related data
     create:
-      title: Create Bot task
+      title: Bot-Aufgabe erstellen
   email_forwarding:
-    title: Email Forwarding
-    subtitle: Default Inbound Address
-    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+    title: E-Mail-Weiterleitung
+    subtitle: Standard eingehende Adresse
+    ex: E-Mail von Ihrer normalen Support-E-Mail-Adresse (wie z.B. help@mycompany.com) an Chaskiq weiterleiten, damit Sie auf E-Mails von Ihrem Agenten-Panel antworten können
   identified_users:
-    title: Verified users setup
-    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
-    lang: Your code to generate an HMAC for your app is
-    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    title: Verifizierte Benutzereinstellungen
+    hint1: Um die Identitätsüberprüfung zu konfigurieren, müssen Sie für jeden angemeldeten Benutzer ein HMAC auf Ihrem Server generieren und es an Chaskiq senden.
+    lang: Ihr Code, um ein HMAC für Ihre App zu generieren ist
+    hint2: 'Wo immer Sie Benutzerdaten hochladen und ein Chaskiq-Code-Snippet haben, Fügen Sie ein neues Attribut namens <span className="font-bold">identifier_key</span> hinzu und übergeben Sie die <span className="font-bold">E-Mail</span> und geben Sie ihm das HMAC Tag für den eingeloggten Benutzer:'
   quick_replies:
-    title: Quick Replies
-    search: Search Quick replies
-    will_send: The "%{lang}" version will be sent to the conversation.
+    title: Schnellantworten
+    search: Schnellantworten durchsuchen
+    will_send: Die "%{lang}" Version wird an die Unterhaltung gesendet.
     empty:
-      title: No quick replies
-      create_new: Create new
+      title: Keine Schnellantworten
+      create_new: Neu erstellen
     delete:
-      title: Delete quick reply %{name}
-      hint: we will destroy any content and related data, conversations will keep content though
+      title: Schnellantwort %{name} löschen
+      hint: wir werden alle Inhalte und verwandten Daten zerstören, Unterhaltungen werden ihre Inhalte jedoch behalten
     create:
-      success: Quick reply was created successfully
-      error: Error creating quick reply
+      success: Schnellantwort wurde erfolgreich erstellt
+      error: Fehler beim Erstellen der Schnellantwort
     update:
-      success: Quick reply was updated successfully
-      error: Error updating quick reply
+      success: Schnellantwort wurde erfolgreich aktualisiert
+      error: Fehler beim Aktualisieren der Schnellantwort
     add_as_dialog:
-      title: Add this message as a Quick Reply
+      title: Diese Nachricht als Schnellantwort hinzufügen
   new_app:
-    title: "Create your company’s Chaskiq app"
-    text: Provide basic information to setup Chaskiq for your team and customers.
-    hint: Create your company’s Chaskiq app
+    title: "Chaskiq App Ihres Unternehmens erstellen"
+    text: Geben Sie grundlegende Informationen an, um Chaskiq für Ihr Team und Ihre Kunden einzurichten.
+    hint: Chaskiq App Ihres Unternehmens erstellen
   settings:
     api:
-      title: Oauth Applications
+      title: OAuth-Anwendungen
       tabs:
-        apps: OAUTH Applications
-        authorized: Authorized OAUTH Applications
-      oauth_information: Oauth App Information
-      details: Oauth details and credentials.
-      delete_app: Delete Oauth App?
-      create_app: Create Oauth App
-      hint: We will destroy any content and related data
+        apps: OAuth-Anwendungen
+        authorized: Autorisierte OAUTH-Anwendungen
+      oauth_information: Oauth App-Informationen
+      details: Oauth Details und Anmeldeinformationen.
+      delete_app: Oauth App entfernen?
+      create_app: Oauth App erstellen
+      hint: Wir werden alle Inhalte und verwandten Daten löschen
       invite:
-        title: Add a new agent
-        text: send an activable invitation
+        title: Neuen Agenten hinzufügen
+        text: eine aktivierbare Einladung senden
     app:
-      app_settings: App Settings
-      security: Security
-      messenger_settings: Messenger Settings
-      appearance: Appearance
-      appearance_title: Appearance settings
-      privacy: Privacy
-      privacy_title: Privacy settings
-      translations: Translations
-      availability: Availability
-      email_requirement: Email Requirement
-      inbound_settings: Inbound settings
-      messenger_style: Messenger Style
-      user_data: User data
+      app_settings: App-Einstellungen
+      security: Sicherheit
+      messenger_settings: Messenger-Einstellungen
+      appearance: Darstellung
+      appearance_title: Darstellungseinstellungen
+      privacy: Privatsphäre
+      privacy_title: Privatsphäre-Einstellungen
+      translations: Übersetzungen
+      availability: Verfügbarkeit
+      email_requirement: E-Mail-Anforderung
+      inbound_settings: Eingangseinstellungen
+      messenger_style: Messenger-Stil
+      user_data: Benutzerdaten
       tags: Tags
-      quick_replies: Quick Replies
-      email_forwarding: Email Forwarding
+      quick_replies: Schnellantworten
+      email_forwarding: E-Mail-Weiterleitung
     app_packages:
-      create_success: Package created
-      create_error: Error creating package
-      update_success: Package updated
-      update_error: Error updating package
-      remove_success: Package removed correctly
-      remove_error: Error removing package
-      create_integration: Create New package
+      create_success: Paket erstellt
+      create_error: Fehler beim Erstellen des Pakets
+      update_success: Paket aktualisiert
+      update_error: Fehler beim Aktualisieren des Pakets
+      remove_success: Paket erfolgreich entfernt
+      remove_error: Fehler beim Entfernen des Pakets
+      create_integration: Neues Paket erstellen
     integrations:
-      title: Third party integrations
-      create_success: Integration created
-      create_error: Error linking integration
-      update_success: Integration updated
-      update_error: Error updating integration
-      remove_success: Integration removed correctly
-      remove_error: Error removing integration
-      create_integration: Create New integration
+      title: Drittanbieter Integrationen
+      create_success: Integration erstellt
+      create_error: Fehler beim Verknüpfen der Integration
+      update_success: Integration aktualisiert
+      update_error: Fehler beim Aktualisieren der Integration
+      remove_success: Integration erfolgreich entfernt
+      remove_error: Fehler beim Entfernen der Integration
+      create_integration: Neue Integration erstellen
       active:
-        title: Active Integrations
-        text: API Integrations
+        title: Aktive Integrationen
+        text: API-Integrationen
       available:
         title: "Available API's"
         text: Available API Services
