@@ -114,7 +114,7 @@ function Sidebar ({
             <div key={'dashboard-status'} className="space-y-2">
               <div className="mt-1 space-y-1" aria-labelledby="projects-headline">
                 {
-                  app.plan && <Link to={`/apps/${app.key}/billing`} 
+                  app.plan.name && <Link to={`/apps/${app.key}/billing`} 
                     className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
                     <span className="truncate">
                       Plan: <Badge size="sm" variant="pink">{app.plan.name}</Badge>
