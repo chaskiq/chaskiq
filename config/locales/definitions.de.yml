@@ -2,29 +2,29 @@ de:
   definitions:
     articles:
       title:
-        label: Title
+        label: Titel
       author:
-        label: Author
+        label: Autor
       state:
-        label: State
+        label: Status
       collection:
-        label: Collection
+        label: Sammlung
       actions:
-        label: Actions
+        label: Aktionen
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Webseite
+        hint: Website Ihrer Haupt-Domain
       domain:
         label: Domain
-        hint: Domain of the Help Center
+        hint: Help Center Domain
       subdomain:
         label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        hint: Subdomain, in der das Help Center verfügbar sein wird
       google_code:
         label: Google Code
-        hint: Google tracking ID
+        hint: Google-Tracking-ID
       credits:
-        label: show credits
+        label: Credits anzeigen
         hint: ""
     settings:
       name:
@@ -34,7 +34,7 @@ de:
         label: Logo
         hint:
       enable_articles:
-        label: "Display article on chat window"
+        label: "Artikel im Chatfenster anzeigen"
         hint: "This option will display the articles in the home section of the messenger"
       inline_conversation:
         label: Display new messages in floating box
