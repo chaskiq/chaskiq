@@ -470,6 +470,7 @@ pt:
     title_placeholder: Escreva o título do artigo
     new_section: Nova secção
     new_collection: Nova coleção
+    edit_collection: Edit collection
     create_article:
       placeholder: Escreva o título do artigo
       description_placeholder: Adicione um resumo para encontrar o artigo mais tarde
