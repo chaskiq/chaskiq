@@ -80,7 +80,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       },
       {
         success: (_res) => { dispatch(successMessage('reordered correctly')) },
-        error: (_res) => { dispatch(errorMessage('reordered correctly')) }
+        error: (_res) => { dispatch(errorMessage('reordered error')) }
       }
     )
 

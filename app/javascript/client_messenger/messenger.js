@@ -5,7 +5,7 @@ import { ThemeProvider } from 'emotion-theming'
 
 import { uniqBy } from 'lodash'
 import actioncable from 'actioncable'
-import axios from 'axios'
+
 import UAParser from 'ua-parser-js'
 import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'

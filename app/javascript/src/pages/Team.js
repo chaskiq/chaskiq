@@ -485,7 +485,6 @@ class NonAcceptedAppUsers extends React.Component {
                 label="email"
                 helperText={I18n.t('settings.team.hint')}
                 type="string"
-                fullWidth
                 ref={this.input_ref}
               />
             }

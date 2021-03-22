@@ -100,7 +100,7 @@ module Types
     field :collections, [Types::CollectionType], null: true
 
     def collections
-      object.app.article_collections
+      object.app.article_collections.order('position asc')
     end
 
     field :collection, Types::CollectionType, null: true do

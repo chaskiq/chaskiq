@@ -226,7 +226,6 @@ class ArticlesNew extends Component {
   };
 
   submitChanges = () => {
-    console.log(this.state.article)
     this.setState(
       {
         changesAvailable: false
@@ -375,7 +374,6 @@ class ArticlesNew extends Component {
   };
 
   articleCollection = () => {
-    console.log(this.sta)
     return this.state.article.collection
       ? this.state.article.collection
       : null
@@ -469,7 +467,6 @@ class ArticlesNew extends Component {
                   }
                 }}
                 // helperText="Full width!"
-                fullWidth
                 ref={(ref) => {
                   this.titleRef = ref
                 }}
@@ -484,7 +481,6 @@ class ArticlesNew extends Component {
                 // label="Description"
                 placeholder={I18n.t('articles.create_article.description_placeholder')}
                 // helperText="Full width!"
-                fullWidth
                 multiline
                 ref={(ref) => {
                   this.descriptionRef = ref

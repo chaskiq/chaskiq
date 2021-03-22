@@ -11,6 +11,24 @@ module Types
     field :meta, Types::JsonType, null: true
     field :authors, [Types::AgentType], null: true
 
+    field :icon, String, null: true
+    def icon
+      options = {
+        resize: '200x200^',
+        gravity: 'center',
+        # crop: '200x200+0+0',
+        strip: true,
+        quality: '86'
+      }
+
+      return '' unless object.icon_blob.present?
+
+      Rails.application.routes.url_helpers.rails_representation_url(
+        object.icon.variant(options).processed,
+        only_path: true
+      )
+    end
+
     def base_articles
       if current_user.blank?
         object.articles.published.without_section

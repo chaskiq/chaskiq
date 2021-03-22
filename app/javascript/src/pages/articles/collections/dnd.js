@@ -4,6 +4,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { ListItem, ItemAvatar, ListItemText } from '../../../components/List'
 import Button from '../../../components/Button'
+import { AnchorLink } from '../../../shared/RouterLink'
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list)
@@ -138,6 +139,7 @@ class App extends Component {
               <div className="flex flex-col">
                 <div className="flex justify-between items-baseline py-2">
                   <div>
+
                     <h3 className="text-3xl leading-6 font-medium text-gray-900 py-4">
                       {o.title}
                     </h3>
@@ -187,9 +189,11 @@ class App extends Component {
                                   />
                                   <ListItemText
                                     primary={
-                                      <p className="text-lg leading-6 font-medium text-gray-900 pb-1">
-                                        {item.title}
-                                      </p>
+                                      <AnchorLink to={`/apps/${this.props.app.key}/articles/${item.slug}`}>
+                                        <p className="text-lg leading-6 font-medium text-gray-900 pb-1 hover:underline">
+                                          {item.title}
+                                        </p>
+                                      </AnchorLink>
                                     }
                                     secondary={
                                       <span className="mt-2 max-w-xl text-sm leading-5 text-gray-500">

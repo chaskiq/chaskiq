@@ -1778,7 +1778,6 @@ const PathSelect = ({ option, options, update }) => {
       value={selectedOption}
       defaultValue={selectedOption}
       onChange={handleChange}
-      fullWidth={true}
       options={options}
     >
     </Input>
@@ -1803,7 +1802,6 @@ const DataInputSelect = ({ item, options, update, controls, _path, _step }) => {
         value={selectedItem}
         defaultValue={selectedItem}
         onChange={handleChange}
-        fullWidth={true}
         label={item.label}
         // helperText={"oeoeoe"}
         options={options}

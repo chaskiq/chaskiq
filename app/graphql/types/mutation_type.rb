@@ -77,6 +77,7 @@ module Types
     field :articleCollectionCreate, mutation: Mutations::Articles::Collections::CreateCollection
     field :articleCollectionEdit, mutation: Mutations::Articles::Collections::EditCollection
     field :articleCollectionDelete, mutation: Mutations::Articles::Collections::DeleteCollection
+    field :articleCollectionReorder, mutation: Mutations::Articles::Collections::ReorderCollection
 
     field :createUrlUpload, mutation: Mutations::CreateUrlUpload
     field :createDirectUpload, mutation: Mutations::CreateDirectUpload

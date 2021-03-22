@@ -432,7 +432,7 @@ module Types
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang.to_sym
       authorize! object, to: :show?, with: AppPolicy
-      object.article_collections
+      object.article_collections.order('position asc')
     end
 
     field :collection, Types::CollectionType, null: true do
