@@ -470,6 +470,7 @@ ar:
     title_placeholder: Write the title of the sections
     new_section: New section
     new_collection: New collection
+    edit_collection: Edit collection
     create_article:
       placeholder: Write the title of the article
       description_placeholder: Add a summary to find the article later
