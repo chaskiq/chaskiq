@@ -9,75 +9,75 @@ de:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
-              unspecified_scheme: 'must specify a scheme.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              fragment_present: 'darf kein Fragment enthalten.'
+              invalid_uri: 'muss ein gültiger URI sein.'
+              unspecified_scheme: 'muss ein Schema angeben.'
+              relative_uri: 'muss ein absoluter URI sein.'
+              secured_uri: 'muss ein HTTPS/SSL URI sein.'
+              forbidden_uri: 'ist vom Server nicht erlaubt.'
             scopes:
-              not_match_configured: "doesn't match configured on the server."
+              not_match_configured: "stimmt nicht mit der Konfiguration auf dem Server überein."
   doorkeeper:
     applications:
       confirmations:
-        destroy: 'Are you sure?'
+        destroy: 'Bist du sicher?'
       buttons:
-        edit: 'Edit'
-        destroy: 'Destroy'
-        submit: 'Submit'
-        cancel: 'Cancel'
-        authorize: 'Authorize'
+        edit: 'Bearbeiten'
+        destroy: 'Zerstören'
+        submit: 'Senden'
+        cancel: 'Abbrechen'
+        authorize: 'Genehmigen'
       form:
-        error: 'Whoops! Check your form for possible errors'
+        error: 'Hoppla! Bitte überprüfe das Formular auf mögliche Fehler'
       help:
-        confidential: 'Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.'
-        redirect_uri: 'Use one line per URI'
-        blank_redirect_uri: "Leave it blank if you configured your provider to use Client Credentials, Resource Owner Password Credentials or any other grant type that doesn't require redirect URI."
-        scopes: 'Separate scopes with spaces. Leave blank to use the default scopes.'
+        confidential: 'Die Anwendung wird verwendet, wo das Client-Geheimnis vertraulich gehalten werden kann. Native mobile Apps und Single Page Apps gelten als nicht vertraulich.'
+        redirect_uri: 'Benutze eine Zeile pro URI'
+        blank_redirect_uri: "Leer lassen, wenn Sie Ihren Provider so konfiguriert haben, dass Client-Zugangsdaten verwendet werden, Resource Owner Password Zugangsdaten oder andere Grant-Typen, die keine Weiterleitungs-URI erfordern."
+        scopes: 'Trennen Sie die Bereiche mit Leerzeichen. Lassen Sie leer, um die Standardbereiche zu verwenden.'
       edit:
-        title: 'Edit application'
+        title: 'Anwendung bearbeiten'
       index:
-        title: 'Your applications'
-        new: 'New Application'
+        title: 'Deine Anwendungen'
+        new: 'Neue Anwendung'
         name: 'Name'
-        callback_url: 'Callback URL'
-        confidential: 'Confidential?'
-        actions: 'Actions'
+        callback_url: 'Callback-URL'
+        confidential: 'Vertraulich?'
+        actions: 'Aktionen'
         confidentiality:
-          'yes': 'Yes'
-          'no': 'No'
+          'yes': 'Ja'
+          'no': 'Nein'
       new:
-        title: 'New Application'
+        title: 'Neue Anwendung'
       show:
-        title: 'Application: %{name}'
-        application_id: 'Application UID'
+        title: 'Anwendung: %{name}'
+        application_id: 'Anwendungs UID'
         secret: 'Secret'
-        scopes: 'Scopes'
-        confidential: 'Confidential'
-        callback_urls: 'Callback urls'
-        actions: 'Actions'
+        scopes: 'Bereiche'
+        confidential: 'Vertraulich'
+        callback_urls: 'Callback-URLs'
+        actions: 'Aktionen'
     authorizations:
       buttons:
-        authorize: 'Authorize'
-        deny: 'Deny'
+        authorize: 'Genehmigen'
+        deny: 'Ablehnen'
       error:
-        title: 'An error has occurred'
+        title: 'Ein Fehler ist aufgetreten'
       new:
-        title: 'Authorization required'
-        prompt: 'Authorize %{client_name} to use your account?'
-        able_to: 'This application will be able to'
+        title: 'Autorisierung erforderlich'
+        prompt: 'Autorisierst du %{client_name} dein Konto zu verwenden?'
+        able_to: 'Diese Anwendung wird in der Lage sein'
       show:
-        title: 'Authorization code'
+        title: 'Autorisierungs-Code'
     authorized_applications:
       confirmations:
-        revoke: 'Are you sure?'
+        revoke: 'Bist du sicher?'
       buttons:
-        revoke: 'Revoke'
+        revoke: 'Widerrufen'
       index:
-        title: 'Your authorized applications'
-        application: 'Application'
-        created_at: 'Created At'
-        date_format: '%Y-%m-%d %H:%M:%S'
+        title: 'Deine autorisierten Anwendungen'
+        application: 'Anwendung'
+        created_at: 'Erstellt am'
+        date_format: '%d.%m.%Y %H:%M:%S'
     pre_authorization:
       status: 'Pre-authorization'
     errors:
