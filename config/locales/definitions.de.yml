@@ -35,59 +35,59 @@ de:
         hint:
       enable_articles:
         label: "Artikel im Chatfenster anzeigen"
-        hint: "This option will display the articles in the home section of the messenger"
+        hint: "Diese Option zeigt die Artikel im Home-Bereich des Messenger an"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Neue Nachrichten in schwebender Box anzeigen
+        hint: Diese Option öffnet kein Chatbox Widget
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Verschlüsselungs-Code
+        placeholder: "Für keine Verschlüsselung leer lassen"
+        hint: Dieser Schlüssel wird verwendet, um JWE-Benutzerdaten zu verschlüsseln und zu entschlüsseln
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: Erforderliche GDPR Datenschutzerklärung
+        hint: Zeigt eine Bestätigungsansicht für EU-Länder an, bevor Gespräche aufgenommen werden
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: Zustimmung zum Datenschutz weltweit erforderlich
+        hint: Zeigt eine Bestätigungsansicht für alle Besucher an, bevor Unterhaltungen erstellt werden
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: Keine Datenschutzerklärung erforderlich
+        hint: Zeigt niemandem eine Bestätigungsansicht an (nicht empfohlen)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: Messenger aktivieren
+        hint: Wenn diese Option aktiviert ist, wird das Messenger Web-Widget aktiviert
       domain:
-        label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        label: Domain-URL
+        hint: Dies wird die Host-Seite sein, wo chaskiq verwendet wird
       outgoing_email_domain:
-        label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        label: Ausgehende E-Mail-Domain
+        hint: Die E-Mail-Domäne zum Versenden von Unterhaltungen, für @yourapp verwenden Sie "your app"
       tagline:
-        label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        label: Slogan
+        hint: Dies wird am unteren Rand des Chat-Feldes dargestellt
       timezone:
-        label: Timezone
+        label: Zeitzone
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: Soziale Daten sammeln
+        hint: "Sammeln Sie soziale Profile über den Fullcontact Service (z.B. LinkedIn, Twitter, etc.) für meine Nutzer über einen Dritten"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: Besuche registrieren
+        hint: "Auch wenn dies deaktiviert ist, werden wir globale Besuchszähler sammeln und die letzten Besuchsinformationen auf dem Profil des Besuchers speichern"
       languages:
-        select_lang: "select lang"
+        select_lang: "wähle Sprache"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: Kampagnenname
+        hint: Dies wird in der E-Mail nicht angezeigt
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: E-Mail Betreff
+        hint: Dies ist der E-Mail-Betreff
       from_name:
-        label: From Name
+        label: Absendername
       from_email:
-        label: From Email
+        label: Absender E-Mail
       reply_email:
-        label: Reply Email
+        label: Antwort E-Mail-Adresse
       scheduled_at:
         label: Scheduled at
       scheduled_to:
@@ -167,17 +167,17 @@ de:
       lng: Lng
       postal: Postal
       browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
+      browser_version: Browser-Version
+      browser_lang: Browser-Sprache
       referrer: Referrer
-      tag_list: Tag List
-      os: Os
-      os_version: Os Version
-      lang: Lang
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      tag_list: Tag-Liste
+      os: Betriebssystem
+      os_version: Betriebssystem-Version
+      lang: Sprache
+      web_sessions: Web-Sitzungen
+      last_seen: Erstmals gesehen
+      first_seen: Zuletzt gesehen
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: Abonniert
+        unsubscribed: Abonnement beendet
+        passive: Passiv
