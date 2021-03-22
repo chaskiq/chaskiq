@@ -14,8 +14,7 @@ import {
   MessageBubbleIcon,
   ShuffleIcon,
   WebhooksIcon,
-  ApiIcon,
-  CheckmarkIcon
+  ApiIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'

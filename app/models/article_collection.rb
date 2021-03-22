@@ -13,4 +13,5 @@ class ArticleCollection < ApplicationRecord
   # belongs_to :author, class_name: "Agent", foreign_key: 'author_id'
   translates :title, :description
   globalize_accessors attributes: %i[description title]
+  has_one_attached :icon
 end

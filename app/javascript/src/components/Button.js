@@ -85,6 +85,28 @@ const BaseButton = styled.button`
         focus:ring-offset-2 
         focus:ring-pink-500
         `
+      case 'outlined-transparent':
+        return tw`
+        flex 
+        items-center
+        inline-flex 
+        justify-center 
+        px-4 
+        py-2 
+        border 
+        border-gray-900 
+        shadow-sm 
+        text-sm 
+        font-medium 
+        rounded-md 
+        text-gray-100 
+        bg-transparent
+        hover:text-gray-800 
+        focus:outline-none 
+        focus:ring-2 
+        focus:ring-offset-2 
+        focus:ring-pink-500
+        `
       case 'icon':
         return tw`
         outline-none 

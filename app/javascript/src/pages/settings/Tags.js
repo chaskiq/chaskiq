@@ -215,8 +215,7 @@ function FieldsForm ({ selected }) {
       <Input
         variant="outlined"
         margin="normal"
-        required
-        fullWidth
+        required    
         name="name"
         label={ I18n.t('settings.tags.inputs.name')}
         type={'text'}
@@ -232,7 +231,6 @@ function FieldsForm ({ selected }) {
         variant="outlined"
         margin="normal"
         required
-        fullWidth
         name="color"
         label={ I18n.t('settings.tags.inputs.color')}
         type={'color'}

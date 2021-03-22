@@ -583,6 +583,7 @@ export const ARTICLES = `
             slug
             title
             id
+            icon
           }        
         }
         meta
@@ -611,6 +612,7 @@ export const ARTICLES_UNCATEGORIZED = `
           collection{
             title
             id
+            icon
           }        
         }
         meta
@@ -633,6 +635,7 @@ export const ARTICLE = `
           slug
           title
           id
+          icon
         }
         section{
           slug
@@ -659,6 +662,7 @@ export const ARTICLE_COLLECTIONS = `
         id
         title
         description
+        icon
       }
     }
   }
@@ -672,6 +676,7 @@ export const ARTICLE_COLLECTION = `
         title
         slug
         description
+        icon
       }
     }
   }
