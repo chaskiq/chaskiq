@@ -243,7 +243,6 @@ class Collections extends Component {
           })
         },
         error: (error) => {
-          console.log('error on signing blob', error)
         }
       })
     })
