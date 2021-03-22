@@ -11,15 +11,17 @@ module Mutations
         argument :description, String, required: false
         argument :id, Integer, required: true
         argument :lang, String, required: false, default_value: I18n.default_locale
+        argument :icon, String, required: false
 
-        def resolve(app_key:, title:, id:, description:, lang:)
+        def resolve(app_key:, title:, id:, description:, lang:, icon: nil)
           app = current_user.apps.find_by(key: app_key)
           collection = app.article_collections.find(id)
 
           collection.update(
             title: title,
             description: description,
-            locale: lang
+            locale: lang,
+            icon: icon
           )
 
           { collection: collection, errors: collection.errors }

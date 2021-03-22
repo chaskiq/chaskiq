@@ -1021,18 +1021,20 @@ export const ARTICLE_COLLECTION_CHANGE = `
 `;
 
 export const ARTICLE_COLLECTION_EDIT = `
-  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String){
+  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String, $icon: String){
     articleCollectionEdit( 
       appKey: $appKey, 
       title: $title, 
       id: $id,
       description: $description,
-      lang: $lang
+      lang: $lang,
+      icon: $icon
     ){
       collection{
         id
         title
         description
+        icon
       }
       errors
     }
@@ -1047,6 +1049,20 @@ export const ARTICLE_COLLECTION_DELETE = `
     ){
       collection{
         id
+      }
+    }
+  }
+`;
+
+
+export const ARTICLE_COLLECTION_REORDER = `
+  mutation ArticleCollectionReorder( $appKey: String!, $id: String!, $idAfter: String! ){
+    articleCollectionReorder( appKey: $appKey, id: $id, idAfter: $idAfter ){
+      collection{
+        id
+        title
+        description
+        icon
       }
     }
   }

@@ -376,7 +376,7 @@ module Types
 
     field :articles, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true
-      argument :per, Integer, required: false, default_value: 20
+      argument :per, Integer, required: false, default_value: 6
       argument :lang, String, required: false, default_value: I18n.default_locale
       argument :mode, String, required: false, default_value: 'all'
       argument :search, String, required: false, default_value: nil
@@ -432,7 +432,7 @@ module Types
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang.to_sym
       authorize! object, to: :show?, with: AppPolicy
-      object.article_collections
+      object.article_collections.order('position asc')
     end
 
     field :collection, Types::CollectionType, null: true do

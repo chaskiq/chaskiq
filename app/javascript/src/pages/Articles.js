@@ -328,7 +328,8 @@ class AllArticles extends React.Component {
       ARTICLES,
       {
         appKey: this.props.app.key,
-        page: 1,
+        page: this.state.meta && this.state.meta.next_page ? 
+          this.state.meta.next_page : 1,
         lang: this.state.lang,
         mode: this.props.mode
       },
@@ -560,7 +561,9 @@ class AllArticles extends React.Component {
               enableMapView={false}
             />
           ) : (
-            <CircularProgress />
+            <div className="py-6 h-full flex justify-center items-center">
+              <CircularProgress />
+            </div>
           )}
         </div>
 

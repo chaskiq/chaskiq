@@ -143,7 +143,7 @@ class CollectionDetail extends Component {
 
             <div className="self-end">
               <Button
-                variant="contained"
+                variant="flat-dark"
                 color={'primary'}
                 onClick={this.openNewDialog}>
                 {I18n.t('articles.new_section')}
@@ -151,6 +151,7 @@ class CollectionDetail extends Component {
             </div>
 
             <Dnd
+              app={this.props.app}
               sections={this.allCollections()}
               handleDataUpdate={this.handleDataUpdate}
               deleteSection={this.deleteSection}
@@ -275,7 +276,6 @@ class CollectionDetail extends Component {
                 }
               }}
               // helperText="Full width!"
-              fullWidth
               ref={(ref) => {
                 this.titleRef = ref
               }}
@@ -289,7 +289,6 @@ class CollectionDetail extends Component {
               // label="Description"
               placeholder={I18n.t('articles.description_placeholder')}
               // helperText="Full width!"
-              fullWidth
               multiline
               ref={(ref) => {
                 this.descriptionRef = ref
