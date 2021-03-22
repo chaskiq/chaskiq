@@ -89,56 +89,56 @@ de:
       reply_email:
         label: Antwort E-Mail-Adresse
       scheduled_at:
-        label: Scheduled at
+        label: Geplant um
       scheduled_to:
-        label: Scheduled to
+        label: Geplant in
       state:
-        label: State
+        label: Status
       description:
-        label: Description
+        label: Beschreibung
       actions:
-        label: Actions
+        label: Aktionen
     bot_tasks:
       state:
-        label: State
+        label: Status
       name:
         label: Name
       actions:
-        label: Actions
+        label: Aktionen
       title:
-        label: Title
-        placeholder: write task title
-        hint: "Task name ie: welcoming users bot task"
+        label: Titel
+        placeholder: Aufgabe beschreiben
+        hint: "Aufgabenname z.B.: Begrüßungs-Bot-Aufgabe"
     stats:
       email:
-        label: Email
+        label: E-Mail
       host:
         label: Host
       createdAt:
-        label: CreatedAt
+        label: Erstellt am
       from:
-        label: From
+        label: Von
       actions:
-        label: Actions
+        label: Aktionen
       when:
-        label: When
+        label: Wenn
       data:
-        label: Data
+        label: Daten
     app_packages:
       name:
-        label: 'Integration Name'
+        label: 'Integrationsname'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: 'Auf Plattform veröffentlichen'
+        type: 'Auswahlfeld'
+        hint: 'Wenn deaktiviert, werden Sie die Anwendung für die Workspaces verwenden, auf die Sie Zugriff haben'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: 'Integrationsmöglichkeiten'
+        hint: 'Wählen Sie die Paketfunktionen, z.B. wo die Integration funktionieren wird'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: 'App-Paketbeschreibung'
+        hint: 'sag was dein Plugin macht'
       initialize_url:
-        label: 'Initialize flow webhook URL'
+        label: 'flow webhook URL initialisieren'
         hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
         placeholder: 'e.g. https://yourdomain.com/initialize-url/'
       submit_url:
