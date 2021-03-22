@@ -107,7 +107,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
   return (
     <div className="flex flex-row justify-center items-baseline bg-gray-100 py-8">
       {collections && (
-        <div className="lg:w-3/4 w-full mx-3">
+        <div className="lg:w-3/4 w-full mx-3 md:mx-64">
           <Breadcrumbs
             aria-label="Breadcrumb"
             breadcrumbs={[

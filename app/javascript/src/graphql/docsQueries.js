@@ -7,8 +7,7 @@ export const ARTICLE_SETTINGS = `
       credits
       facebook
       googleCode
-      heade
-      rImageLarge
+      headerImageLarge
       linkedin
       logo
       siteDescription
