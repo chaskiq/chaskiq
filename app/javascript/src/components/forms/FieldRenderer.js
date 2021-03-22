@@ -58,7 +58,6 @@ class FieldRenderer extends React.Component {
           options={data.options}
           accept={accept}
           id={id}
-          fullWidth
           name={formatFieldName()}
           defaultValue={props.data[camelCasedName]}
           value={value}

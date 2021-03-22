@@ -84,7 +84,6 @@ function AcceptInvitation (props) {
                 variant="outlined"
                 margin="normal"
                 required
-                fullWidth
                 name="agent[password]"
                 label="Password"
                 type="password"
@@ -104,7 +103,6 @@ function AcceptInvitation (props) {
                 variant="outlined"
                 margin="normal"
                 required
-                fullWidth
                 name="agent[password_confirmation]"
                 label="Password confirmation"
                 type="password"
@@ -124,7 +122,6 @@ function AcceptInvitation (props) {
 
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 color="primary"
               >

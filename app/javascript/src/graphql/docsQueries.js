@@ -7,7 +7,8 @@ export const ARTICLE_SETTINGS = `
       credits
       facebook
       googleCode
-      headerImageLarge
+      heade
+      rImageLarge
       linkedin
       logo
       siteDescription
@@ -41,6 +42,7 @@ export const ARTICLES = `
             slug
             title
             id
+            icon
           }        
         }
         authors{
@@ -73,6 +75,7 @@ export const SEARCH_ARTICLES = `
             slug
             title
             id
+            icon
           }
         }
         meta
@@ -100,6 +103,7 @@ export const ARTICLES_UNCATEGORIZED = `
           collection{
             title
             id
+            icon
           }        
         }
         meta
@@ -127,6 +131,7 @@ export const ARTICLE = `
           slug
           title
           id
+          icon
         }
         section{
           slug
@@ -151,6 +156,7 @@ export const ARTICLE_COLLECTIONS = `
         id
         title
         description
+        icon
       }
     }
   }
@@ -163,6 +169,7 @@ export const ARTICLE_COLLECTION = `
         id
         title
         description
+        icon
       }
     }
   }

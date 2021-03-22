@@ -265,7 +265,6 @@ function FieldsForm ({ selected }) {
         variant="outlined"
         margin="normal"
         required
-        fullWidth
         name="name"
         label={ I18n.t('settings.user_data.inputs.name')}
         type={'text'}
