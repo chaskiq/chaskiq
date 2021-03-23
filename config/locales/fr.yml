@@ -243,11 +243,11 @@ fr:
   email_forwarding:
     title: Transfert d'email
     subtitle: Adresse entrante par défaut
-    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+    ex: Transférer le courriel de votre adresse e-mail de support (telle que help@mycompany.com) à Chaskiq afin que vous puissiez répondre aux courriels de votre panneau d'agent
   identified_users:
-    title: Verified users setup
-    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
-    lang: Your code to generate an HMAC for your app is
+    title: Configuration des utilisateurs vérifiée
+    hint1: Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.
+    lang: Votre code pour générer un HMAC pour votre application est
     hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
   quick_replies:
     title: Réponses rapides
