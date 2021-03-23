@@ -18,8 +18,6 @@ module MessageApis::InboxSections
       type_value = ctx.dig(:values, :type)
       block_type = ctx.dig(:values, :block_type)
 
-      puts "AAAAA #{ctx}"
-
       if type_value === 'content'
 
         # case ctx.dig(:values, :block_type)
@@ -210,7 +208,7 @@ module MessageApis::InboxSections
         definitions = [
           {
             type: 'text',
-            text: user.display_name,
+            text: user.display_name.empty? ? '---' : user.display_name,
             style: 'header',
             align: 'center'
           },

@@ -12,8 +12,11 @@ module MessageApis::Dialog360
       @api_key = config['api_key']
       @api_token = config['api_secret']
       @phone = config['user_id']
-
-      @url = 'https://waba-sandbox.360dialog.io/v1' # if config["sandbox"]
+      @url = if config['sandbox'].present?
+               'https://waba-sandbox.360dialog.io/v1'
+             else
+               'https://waba.360dialog.io/v1'
+             end
 
       @conn = Faraday.new(
         request: {
@@ -109,13 +112,6 @@ module MessageApis::Dialog360
         to: profile_id
       }
 
-      if is_plain
-        message_params.merge!({
-                                type: 'text',
-                                text: { body: plain_message }
-                              })
-      end
-
       # TODO: support audio / video / gif
       if image_block
         message_params.merge!({
@@ -125,9 +121,7 @@ module MessageApis::Dialog360
                                   caption: plain_message
                                 }
                               })
-      end
-
-      if video_block
+      elsif video_block
         message_params.merge!({
                                 type: 'video',
                                 video: {
@@ -135,15 +129,19 @@ module MessageApis::Dialog360
                                   caption: plain_message
                                 }
                               })
-      end
 
-      if file_block
+      elsif file_block
         message_params.merge!({
                                 type: 'document',
                                 file: {
                                   url: ENV['HOST'] + file_block['data']['url'],
                                   caption: plain_message
                                 }
+                              })
+      elsif is_plain
+        message_params.merge!({
+                                type: 'text',
+                                text: { body: plain_message }
                               })
       end
 
@@ -168,7 +166,7 @@ module MessageApis::Dialog360
       response = @conn.get(
         "#{@url}/media/#{id}"
       )
-      return nil if response.success?
+      return nil unless response.success?
 
       response.body
     end
@@ -176,6 +174,7 @@ module MessageApis::Dialog360
     def handle_direct_upload(id, content_type = nil)
       file_string = get_media(id)
       file = StringIO.new(file_string)
+
       direct_upload(
         file: file,
         filename: 'ws360-file',

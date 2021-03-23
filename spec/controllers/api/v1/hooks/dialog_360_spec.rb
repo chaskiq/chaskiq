@@ -237,6 +237,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            sender: owner_phone,
                            recipient: user_phone,
                            message_id: '1234'))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -245,6 +246,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
 
     it 'receive conversation media' do
+      allow_any_instance_of(
+        MessageApis::Dialog360::Api
+      ).to receive(:handle_direct_upload).and_return({ url: '/direct-upload-mock' })
       get(:process_event,
           params: data_for_media(
             id: @pkg.id,
@@ -252,6 +256,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -262,6 +267,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
 
     it 'receive conversation video' do
+      allow_any_instance_of(
+        MessageApis::Dialog360::Api
+      ).to receive(:handle_direct_upload).and_return({ url: '/direct-upload-mock' })
       get(:process_event,
           params: data_for_video(
             id: @pkg.id,
@@ -269,6 +277,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -279,6 +288,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
 
     it 'receive conversation audio' do
+      allow_any_instance_of(
+        MessageApis::Dialog360::Api
+      ).to receive(:handle_direct_upload).and_return({ url: '/direct-upload-mock' })
       get(:process_event,
           params: data_for_audio(
             id: @pkg.id,
@@ -286,6 +298,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -296,6 +309,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
 
     it 'receive conversation sticker' do
+      allow_any_instance_of(
+        MessageApis::Dialog360::Api
+      ).to receive(:handle_direct_upload).and_return({ url: '/direct-upload-mock' })
       get(:process_event,
           params: data_for_sticker(
             id: @pkg.id,
@@ -303,6 +319,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -321,6 +338,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: owner_phone,
         message_id: '1234'
       ))
+      perform_enqueued_jobs
 
       expect(app.app_users.size).to be == 1
 
@@ -330,6 +348,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: owner_phone,
         message_id: '1235'
       ))
+      perform_enqueued_jobs
 
       expect(app.app_users.size).to be == 1
 
@@ -352,6 +371,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: user_phone,
         message_id: 2
       ))
+      perform_enqueued_jobs
 
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
@@ -368,6 +388,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           'text' => "one\ntwo\ntree\n✌️"
         }
       ))
+      perform_enqueued_jobs
 
       message = app.conversations.first.messages.first.messageable
 

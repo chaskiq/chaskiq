@@ -68,12 +68,14 @@ RSpec.describe GraphqlController, type: :controller do
                              {
                                name: 'api_key',
                                label: 'App ID',
-                               type: 'string'
+                               type: 'string',
+                               required: true
                              },
                              {
                                name: 'api_secret',
                                label: 'Client Secret',
-                               type: 'string'
+                               type: 'string',
+                               required: true
                              }
                            ])
         expect do
