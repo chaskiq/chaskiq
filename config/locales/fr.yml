@@ -3,7 +3,7 @@ fr:
     edit: Éditer
     new: Nouveau
     add: Ajouter
-    add_new: add new
+    add_new: ajouter nouveau
     update: Mise à jour
     remove: Supprimer
     delete: Effacer
@@ -241,8 +241,8 @@ fr:
     create:
       title: Créer une tâche de bot
   email_forwarding:
-    title: Email Forwarding
-    subtitle: Default Inbound Address
+    title: Transfert d'email
+    subtitle: Adresse entrante par défaut
     ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
   identified_users:
     title: Verified users setup
