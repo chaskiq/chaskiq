@@ -134,7 +134,6 @@ function Integrations ({ app, dispatch }) {
 
           if (!isEmpty(data.integrationsCreate.errors)) {
             dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
-            setErrors(data.integrationsCreate.errors)
             return
           }
 
