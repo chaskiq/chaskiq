@@ -248,7 +248,7 @@ fr:
     title: Configuration des utilisateurs vérifiée
     hint1: Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.
     lang: Votre code pour générer un HMAC pour votre application est
-    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    hint2: 'Où que vous importiez des données utilisateur et que vous ayez un extrait de code Chaskiq, ajoutez un nouvel attribut appelé <span className = "font-bold"> identifier_key </span> et transmettez l''adresse e-mail <span className = "font-bold"> </span> et donnez-lui le tag HMAC pour l''utilisateur connecté:'
   quick_replies:
     title: Réponses rapides
     search: Rechercher des réponses rapides
@@ -287,63 +287,63 @@ fr:
         text: envoyer une invitation activable
     app:
       app_settings: Paramètres de l'Application
-      security: Security
-      messenger_settings: Messenger Settings
-      appearance: Appearance
-      appearance_title: Appearance settings
-      privacy: Privacy
-      privacy_title: Privacy settings
-      translations: Translations
-      availability: Availability
-      email_requirement: Email Requirement
-      inbound_settings: Inbound settings
-      messenger_style: Messenger Style
-      user_data: User data
+      security: Sécurité
+      messenger_settings: Paramètres de Messenger
+      appearance: Apparence
+      appearance_title: Paramètres d'apparence
+      privacy: Confidentialité
+      privacy_title: Paramètres de confidentialité
+      translations: Traductions
+      availability: Disponibilité
+      email_requirement: Exigences d'email
+      inbound_settings: Paramètres entrants
+      messenger_style: Style Messenger
+      user_data: Données d'utilisateur
       tags: Tags
-      quick_replies: Quick Replies
-      email_forwarding: Email Forwarding
+      quick_replies: Réponses rapides
+      email_forwarding: Transfert d'email
     app_packages:
-      create_success: Package created
-      create_error: Error creating package
-      update_success: Package updated
-      update_error: Error updating package
-      remove_success: Package removed correctly
-      remove_error: Error removing package
-      create_integration: Create New package
+      create_success: Paquet créé
+      create_error: Erreur lors de la création du paquet
+      update_success: Paquet mis à jour
+      update_error: Erreur lors de la mise à jour du paquet
+      remove_success: Paquet supprimé correctement
+      remove_error: Erreur lors de la suppression du paquet
+      create_integration: Créer un nouveau paquet
     integrations:
-      title: Third party integrations
-      create_success: Integration created
-      create_error: Error linking integration
-      update_success: Integration updated
-      update_error: Error updating integration
-      remove_success: Integration removed correctly
-      remove_error: Error removing integration
-      create_integration: Create New integration
+      title: Intégrations de tiers
+      create_success: L'intégration a été créée
+      create_error: Erreur lors de la liaison de l'intégration
+      update_success: Intégration mise à jour
+      update_error: Erreur lors de la mise à jour de l'intégration
+      remove_success: Intégration supprimée correctement
+      remove_error: Erreur lors de la suppression de l'intégration
+      create_integration: Créer une nouvelle intégration
       active:
-        title: Active Integrations
-        text: API Integrations
+        title: Intégrations actives
+        text: Intégrations API
       available:
-        title: "Available API's"
-        text: Available API Services
+        title: "API disponibles"
+        text: Services API disponibles
       yours:
-        title: "Your Integration Apps"
-        text: Integration apps created by you
+        title: "Vos applications d'intégration"
+        text: Applications d'intégration créées par vous
       hints:
-        hook_url: This integration will receive webhook at
+        hook_url: Cette intégration recevra le webhook à
       delete_dialog:
-        title: Delete "%{name}" integration ?
-        text: The integration with %{name} service will be disabled immediately
+        title: Supprimer l'intégration "%{name}" ?
+        text: L'intégration avec le service %{name} sera désactivée immédiatement
       empty:
-        title: You don't have any api integrations yet
-        text: Search for available api services in
+        title: Vous n'avez pas encore d'intégrations api
+        text: Rechercher les services api disponibles dans
     availability:
-      title: Set your availability
-      hint: Set team office hours and reply times
-      title2: Set office hours
-      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
-      timezone: YOUR APP’S TIMEZONE IS %{tz}
+      title: Définissez votre disponibilité
+      hint: Définir les heures de bureau de l'équipe et le temps de réponse
+      title2: Définir les heures de bureau
+      hint2: En dehors de ces heures, les clients voient quand vous serez de retour, par rapport à leur fuseau horaire.
+      timezone: LE TIMEZONE DE VOTRE APP EST %{tz}
       reply_time:
-        title: Set reply time
+        title: Définir le temps de réponse
         hint: During office hours, let your customers know when they can expect a reply.
         options:
           - 
@@ -468,12 +468,12 @@ fr:
     help_center: Help Center
     description_placeholder: Describe your collection to help you find it.
     title_placeholder: Write the title of the sections
-    new_section: New section
-    new_collection: New collection
-    edit_collection: Edit collection
+    new_section: Nouvelle section
+    new_collection: Nouvelle collection
+    edit_collection: Editer la collection
     create_article:
-      placeholder: Write the title of the article
-      description_placeholder: Add a summary to find the article later
+      placeholder: Écrivez le titre de l'article
+      description_placeholder: Ajouter un résumé pour trouver l'article plus tard
     create:
       title: Nouvelle collection d'articles
       placeholder: Entrez le titre de la collection
