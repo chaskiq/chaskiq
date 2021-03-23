@@ -175,9 +175,9 @@ fr:
       os_version: Version Os
       lang: Langue
       web_sessions: Sessions Web
-      last_seen: First Seen
-      first_seen: Last Seen
+      last_seen: Première vue
+      first_seen: Dernière vue
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: Abonné
+        unsubscribed: Désabonné
+        passive: Passif
