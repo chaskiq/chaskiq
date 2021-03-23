@@ -23,7 +23,7 @@ fr:
       unlock_instructions:
         subject: "Instructions de déverrouillage"
       email_changed:
-        subject: "Email Changed"
+        subject: "E-mail modifié"
       password_change:
         subject: "Password Changed"
     omniauth_callbacks:
