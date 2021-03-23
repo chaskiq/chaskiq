@@ -15,6 +15,7 @@ export default function List ({ children, shadowless }) {
 
 export function ListItem ({ avatar, action, children, onClick, divider }) {
   const clicableClasses = onClick && 'cursor-pointer'
+
   return (
     <li className={`${divider ? 'border-b' : ''}`}>
       <div
@@ -52,9 +53,10 @@ export function ListItem ({ avatar, action, children, onClick, divider }) {
   )
 }
 
-export function ListItemText ({ primary, secondary, terciary }) {
+export function ListItemText ({ primary, secondary, terciary, cols }) {
+  const colsMd = cols ? cols : 2
   return (
-    <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+    <div className={`min-w-0 flex-1 px-4 md:grid md:grid-cols-${colsMd} md:gap-4`}>
       <div>
         {primary && primary}
 

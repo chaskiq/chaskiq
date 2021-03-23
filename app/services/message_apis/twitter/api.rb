@@ -91,9 +91,9 @@ module MessageApis::Twitter
     def enqueue_process_event(params, package)
       return create_hook_from_params(params, package) if params['crc_token'].present?
 
-      HookMessageReceiverJob.perform_now(
+      HookMessageReceiverJob.perform_later(
         id: package.id,
-        params: params
+        params: params.permit!.to_h
       )
 
       { status: :ok }

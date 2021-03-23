@@ -94,6 +94,7 @@ export const ARTICLES_UNCATEGORIZED = `
           content 
           state
           updatedAt
+          description
           author{
             id
             name
@@ -126,6 +127,7 @@ export const ARTICLE = `
         content
         state
         updatedAt
+        description
         collection{
           slug
           title
@@ -193,6 +195,8 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
           title
           slug
           updatedAt
+          description
+          updatedAt
           author{
             id
             avatarUrl
@@ -208,6 +212,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
             id
             title
             slug
+            description
             updatedAt
             author{
               id

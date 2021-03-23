@@ -401,6 +401,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         get(:process_event, params: message_blocks(
           channel: channel.provider_channel_id
         ))
+        perform_enqueued_jobs
 
         expect(conversation.messages.last.authorable).to be_a(Agent)
 
@@ -454,6 +455,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     describe 'global hook' do
       before :each do
+        r = { ok: false, ts: '1234', thread_ts: '123' }
+        MessageApis::Slack::Api.any_instance
+                               .stub(:post_message)
+                               .and_return(OpenStruct.new(body: r.to_json))
+
         conversation.conversation_channels.create({
                                                     provider: 'slack',
                                                     provider_channel_id: '123'
@@ -466,6 +472,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           global: true,
           channel: @channel.provider_channel_id
         ))
+        perform_enqueued_jobs
         expect(conversation.messages.last.authorable).to be_a(Agent)
         expect(conversation.messages.last.messageable.html_content).to be == 'the message'
       end
@@ -477,6 +484,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
               channel: @channel.provider_channel_id,
               message: 'hello :+1: there'
             ))
+        perform_enqueued_jobs
         expect(conversation.messages.last.authorable).to be_a(Agent)
         expect(conversation.messages.last.messageable.html_content).to be == 'hello 👍 there'
       end
@@ -488,6 +496,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
               channel: @channel.provider_channel_id,
               message: 'This is it: <https://www.google.com/es>'
             ))
+        perform_enqueued_jobs
         expect(conversation.messages.last.authorable).to be_a(Agent)
         expect(conversation.messages.last.messageable.html_content).to be == 'This is it: <https://www.google.com/es>'
       end
@@ -499,6 +508,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
               channel: @channel.provider_channel_id,
               message: 'This is it: :smile::point_up: :+1:'
             ))
+        perform_enqueued_jobs
         expect(conversation.messages.last.authorable).to be_a(Agent)
         expect(conversation.messages.last.messageable.html_content).to be == 'This is it: 😄☝️ 👍'
       end
@@ -509,6 +519,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           additional_data: multiple_lines_content,
           channel: @channel.provider_channel_id
         ))
+        perform_enqueued_jobs
         expect(conversation.messages.last.authorable).to be_a(Agent)
         expect(conversation.messages.last.messageable.serialized_content).to include('okokoko')
         expect(conversation.messages.last.messageable.html_content).to be == "okokoko\ndsocsdokcosdkc\nsdcoksdcodsc"
@@ -520,6 +531,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           additional_data: giphy_images_content,
           channel: @channel.provider_channel_id
         ))
+        perform_enqueued_jobs
         expect(conversation.messages.last.authorable).to be_a(Agent)
         expect(conversation.messages.last.messageable.serialized_content).to include('oli')
         expect(conversation.messages.last.messageable.html_content).to be == 'oli'
