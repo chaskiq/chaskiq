@@ -177,24 +177,24 @@ de:
       resubscribe: Aus dieser Liste erneut abonnieren
       cancel: Abonnement kündigen
   task_bots:
-    title: Bot Tasks
-    reply_soon: Hi, %{name} will reply as soon as they can.
-    reply_agent: you will get a reply from one of our agents
-    email_support: to get support you can email at %{email}
-    outbound: "🏓 Outbound"
-    new_conversations: "👋 New conversations"
+    title: Bot Aufgaben
+    reply_soon: Hi, %{name} wird so schnell wie möglich antworten.
+    reply_agent: Sie erhalten eine Antwort von einem unserer Agenten
+    email_support: um Support zu erhalten, können Sie eine E-Mail an %{email} senden
+    outbound: "🏓 Ausgehend"
+    new_conversations: "👋 Neue Unterhaltungen"
     email_requirement:
-      message: Give the team a way to reach you
-      input_label: Get notified by email
-      placeholder: Enter your email
-      ack: Thank you
+      message: Gib dem Team eine Möglichkeit, dich zu erreichen
+      input_label: Per E-Mail benachrichtigt werden
+      placeholder: Gib deine E-Mail ein
+      ack: Danke
     support:
-      ask: Are you an existing %{name} customer ?
+      ask: Sind Sie ein bestehender %{name} Kunde ?
       options:
-        op1: Yes, I'm a customer
-        op2: No, I'm not an existing customer yet
+        op1: Ja, ich bin Kunde
+        op2: Nein, ich bin noch kein Kunde
       reply:
-        op1: Welcome back!
+        op1: Willkommen zurück!
         op2: ok, let us know if you need something and an agent will reply as soon as possible
     settings:
       leads:
