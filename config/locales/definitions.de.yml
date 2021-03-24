@@ -157,15 +157,15 @@ de:
   data_tables:
     users:
       name: Name
-      email: Email
-      state: State
+      email: E-Mail-Adresse
+      state: Status
       online: Online
       ip: Ip
-      country: Country
-      city: City
-      lat: Lat
-      lng: Lng
-      postal: Postal
+      country: Land
+      city: Ort
+      lat: Breitengrad
+      lng: Längengrad
+      postal: Postleitzahl
       browser: Browser
       browser_version: Browser-Version
       browser_lang: Browser-Sprache
