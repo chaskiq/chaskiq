@@ -139,21 +139,21 @@ de:
         hint: 'sag was dein Plugin macht'
       initialize_url:
         label: 'flow webhook URL initialisieren'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        hint: 'Wird gesendet, wenn eine App in eine Unterhaltung, Nachricht oder den Startbildschirm eingefügt wurde, so dass Sie die App rendern können.'
+        placeholder: 'z.B. https://yourdomain.com/initialize-url/'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: 'Flow Webhook URL senden'
+        hint: 'Wird gesendet, wenn ein Endbenutzer mit Ihrer App interagiert, über eine Schaltfläche, einen Link oder eine Texteingabe. Dieser Process kann mehrere Male stattfinden während ein Endbenutzer mit deiner App interagiert.'
+        placeholder: 'z.B. https://yourdomain.com/submit-url/'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: 'Flow Webhook-URL konfigurieren (optional)'
+        hint: 'Wird gesendet, wenn ein Teammitglied Ihre App verwenden möchte, so dass Sie Konfigurationsmöglichkeiten anzeigen können. Wenn Sie diese Option leer lassen, wird die Konfiguration übersprungen.'
+        placeholder: 'z.B. https://yourdomain.com/configure-url/'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: 'Webhook URL für Sheet-Flow senden (optional)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: 'Wird gesendet, wenn ein Sheet abgeschickt wurde. Ein Sheet ist ein iframe, den Sie im Messenger geladen haben, der geschlossen und eingereicht wird, wenn die JS-Methode Submit Sheets aufgerufen wird.'
+        placeholder: 'z.B. https://yourdomain.com/submit-sheet-url/'
   data_tables:
     users:
       name: Name
