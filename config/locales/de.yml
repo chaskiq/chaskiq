@@ -91,7 +91,7 @@ de:
     title: Unterhaltungen
     menu:
       conversations: Unterhaltungen
-      assignment_rules: Regeln für das Routen von Agenten
+      assignment_rules: Regeln für das Zuweisen von Mitarbeitern
     states:
       opened: Geöffnet
       closed: Geschlossen
@@ -114,7 +114,7 @@ de:
       reopen: Erneut öffnen
       start_call: Videocall starten
       end_call: Anruf beenden
-      assign_agent: Agenten zuweisen
+      assign_agent: Mitarbeiter zuweisen
     messages:
       seen: Gesehen
       not_seen: Nicht gesehen
@@ -126,7 +126,7 @@ de:
       latest_user_visible_comment_at: Letzter Kommentar
       created_at: Erstellt am
       assignee: Verantwortlicher
-      first_agent_reply: Erste Agentenantwort
+      first_agent_reply: Erste Mitarbeiterantwort
     editor:
       panels:
         bot:
@@ -195,55 +195,55 @@ de:
         op2: Nein, ich bin noch kein Kunde
       reply:
         op1: Willkommen zurück!
-        op2: ok, let us know if you need something and an agent will reply as soon as possible
+        op2: ok, lass uns wissen, wenn du etwas benötigst und ein Mitarbeiter wird so bald wie möglich antworten
     settings:
       leads:
-        tab: For Leads
-        start_conversation: When leads start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
-        share_time: Share your typical reply time
-        route: Route existing customers to support
-        route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
-        route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
-        assign: Assign the conversation
-        close: Close the conversation
-        ask: Ask for contact details
-        ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
-        dont_ask_email: Don't ask for email
-        ask_email_phone: Ask for email or mobile number
-        email_only: Ask for email only
+        tab: Für Leads
+        start_conversation: Wenn Leads eine Unterhaltung starten
+        delay: Eine 2-minütige Verzögerung vor der Aktivierung der Task Bots während der Betriebszeiten abwarten
+        share_time: Geben Sie Ihre typische Antwortzeit an
+        route: Bestehende Kunden zum Support leiten
+        route_desc: Route führt zu den richtigen Leuten, indem es fragt, ob Gesprächspartner bestehende Kunden sind, wenn sie ein neues Gespräch beginnen.
+        route_costumer: Was möchtest du tun, wenn sie "Ja, ich bin ein Kunde" wählen?
+        assign: Unterhaltung zuweisen
+        close: Konversation schließen
+        ask: Nach Kontaktdaten fragen
+        ask_hint: Wenn wir noch keine Kontaktdaten haben, wird der Bot vorschlagen, dass Kunden ihre E-Mail-Adresse oder Telefonnummer hinterlassen, um benachrichtigt zu werden, wenn Sie antworten.
+        dont_ask_email: Nicht nach der E-Mail Adresse fragen
+        ask_email_phone: Nach E-Mail-Adresse oder Handynummer fragen
+        email_only: Nur nach der E-Mail Adresse fragen
         override:
-          label: Override default behavior with your own task bot
-          hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
+          label: Standardverhalten mit dem eigenen Task-Bot überschreiben
+          hint: "Wenn Sie dies tun, wird das Standardverhalten unten nicht stattfinden und die Aufgabe wird bei jeder neuen Unterhaltung ausgelöst"
       users:
-        tab: For Users
-        start_conversation: When users start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        tab: Für Nutzer
+        start_conversation: Wenn Benutzer eine Unterhaltung starten
+        delay: Eine 2-minütige Verzögerung vor der Aktivierung der Task Bots während der Betriebszeiten abwarten
         override:
-          label: Override default behavior with your own task
-          hint: hint!
-      settings_title: Bot Task settings
-      specific_times_title: Set specific times to show this bot to your audience.
-      tz_hint: Your app's timezone is %{timezone} See your office hours.
-      office_hours: During office hours
-      outside_office: Outside office hours
-      custom_time: Custom time
-      enable_title: Enable bot task
-      enable_hint: when enabled the bot task will start operating
-    new: Create new task
-    remove_success: bot removed
+          label: Standardverhalten mit dem eigenen Task-Bot überschreiben
+          hint: Tipp!
+      settings_title: Bot Task-Einstellungen
+      specific_times_title: Setze bestimmte Zeiten, um diesen Bot deinen Kunden anzuzeigen.
+      tz_hint: Die Zeitzone Ihrer App ist %{timezone} Schauen Sie sich Ihre Betriebszeiten an.
+      office_hours: Während der Betriebszeit
+      outside_office: Außerhalb der Betriebszeiten
+      custom_time: Benutzerdefinierte Zeit
+      enable_title: Bot-Aufgabe aktivieren
+      enable_hint: wenn ausgewählt, wird die Bot-Aufgabe gestartet
+    new: Neue Aufgabe erstellen
+    remove_success: Bot entfernt
     empty:
-      title: No bot tasks found
-      create_new: Create a new one
+      title: Keine Bot-Aufgaben gefunden
+      create_new: Neu erstellen
     delete:
-      title: Delete bot "%{name}"
-      hint: we will destroy any content and related data
+      title: Lösche Bot "%{name}"
+      hint: wir werden alle Inhalte und verwandten Daten zerstören
     create:
       title: Bot-Aufgabe erstellen
   email_forwarding:
     title: E-Mail-Weiterleitung
     subtitle: Standard eingehende Adresse
-    ex: E-Mail von Ihrer normalen Support-E-Mail-Adresse (wie z.B. help@mycompany.com) an Chaskiq weiterleiten, damit Sie auf E-Mails von Ihrem Agenten-Panel antworten können
+    ex: E-Mail von Ihrer normalen Support-E-Mail-Adresse (wie z.B. help@mycompany.com) an Chaskiq weiterleiten, damit Sie auf E-Mails von Ihrem Mitarbeiter-Panel antworten können
   identified_users:
     title: Verifizierte Benutzereinstellungen
     hint1: Um die Identitätsüberprüfung zu konfigurieren, müssen Sie für jeden angemeldeten Benutzer ein HMAC auf Ihrem Server generieren und es an Chaskiq senden.
@@ -283,7 +283,7 @@ de:
       create_app: Oauth App erstellen
       hint: Wir werden alle Inhalte und verwandten Daten löschen
       invite:
-        title: Neuen Agenten hinzufügen
+        title: Neuen Mitarbeiter hinzufügen
         text: eine aktivierbare Einladung senden
     app:
       app_settings: App-Einstellungen
@@ -323,156 +323,156 @@ de:
         title: Aktive Integrationen
         text: API-Integrationen
       available:
-        title: "Available API's"
-        text: Available API Services
+        title: "Verfügbare APIs"
+        text: Verfügbare API Services
       yours:
-        title: "Your Integration Apps"
-        text: Integration apps created by you
+        title: "Ihre Integrations-Apps"
+        text: Von Ihnen erstellte Integrations-Apps
       hints:
-        hook_url: This integration will receive webhook at
+        hook_url: Diese Integration wird Webhook erhalten unter
       delete_dialog:
-        title: Delete "%{name}" integration ?
-        text: The integration with %{name} service will be disabled immediately
+        title: '"%{name}" Integration löschen?'
+        text: Die Integration mit dem %{name} Service wird sofort deaktiviert
       empty:
-        title: You don't have any api integrations yet
-        text: Search for available api services in
+        title: Sie haben noch keine API-Integrationen
+        text: Nach verfügbaren Api Services suchen in
     availability:
-      title: Set your availability
-      hint: Set team office hours and reply times
-      title2: Set office hours
-      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
-      timezone: YOUR APP’S TIMEZONE IS %{tz}
+      title: Gib deine Verfügbarkeit an
+      hint: Team-Bürozeiten und Antwortzeiten festlegen
+      title2: Bürozeiten festlegen
+      hint2: Außerhalb dieser Zeiten sehen Kunden, wenn Sie zurück sind, relativ zu ihrer Zeitzone.
+      timezone: IHRE APP ZEITZONE IST %{tz}
       reply_time:
-        title: Set reply time
-        hint: During office hours, let your customers know when they can expect a reply.
+        title: Antwortzeit festlegen
+        hint: Lassen Sie Ihre Kunden während der Bürozeiten wissen, wann sie mit einer Antwort rechnen können.
         options:
           - 
             value: "auto"
-            label: "Automatic reply time. Currently El equipo responderá lo antes posible"
+            label: "Automatische Antwortzeit. Aktuell Das Team antwortet so schnell es kann"
           - 
-            value: "minutes"
-            label: "El equipo suele responder en cuestión de minutos."
+            value: "Minuten"
+            label: "Das Team wird innerhalb von wenigen Minuten antworten."
           - 
-            value: "hours"
-            label: "El equipo suele responder en cuestión de horas."
+            value: "Stunden"
+            label: "Das Team wird innerhalb der nächsten Stunden antworten."
           - 
-            value: "1 day"
-            label: "El equipo suele responder en un día."
-        hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
+            value: "1 Tag"
+            label: "Das Team wird innerhalb eines Tages antworten."
+        hint2: "Hinweis: Der Besucher erhält eine automatische Antwort mit der Verfügbarkeit deines Teams innerhalb der Bürozeiten oder nach langer Antwortzeit."
     email_requirement:
-      title: Require an email for new conversations
-      hint: So you can always get back to your website visitors
-      ask: "Ask your website visitors to leave their email before starting a live chat:"
+      title: Eine E-Mail für neue Gespräche erforderlich machen
+      hint: Damit Sie jederzeit zu Ihren Website-Besuchern zurückkehren können
+      ask: "Bitten Sie Ihre Website-Besucher, ihre E-Mail zu hinterlassen, bevor Sie einen Live-Chat starten:"
       options:
         - 
-          label: Only outside of office hours
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
-          value: office
+          label: Nur außerhalb der Bürozeiten
+          hint: REDUZIERT GESPRÄCHSVOLUMEN UM DURCHSCHNITTLICH 5%
+          value: Büro
         - 
-          label: Always
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
-          value: Always
+          label: Immer
+          hint: REDUZIERT GESPRÄCHSVOLUMEN UM DURCHSCHNITTLICH 30%
+          value: Immer
         - 
-          label: Never
-          value: Never
-          hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
+          label: Niemals
+          value: Niemals
+          hint: ERLAUBT WEBSITE BESUCHERN JEDERZEIT EIN GESPRÄCH ZU STARTEN
     languages:
-      add: Add Language
-      title: Languages
+      add: Sprache hinzufügen
+      title: Sprachen
     inbound:
-      title: New conversations button
-      checkbox: Let people start new inbound conversations with you
-      hint: When this is turned off, people can only reply to the outbound messages you send.
-      title2: visibility
-      hint2: Control who sees the standard Messenger launcher on your website.
-      note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
-      note3: "On the web, show the standard Messenger launcher to:"
+      title: Neue Konversation-Button
+      checkbox: Lass Leute neue eingehende Unterhaltungen mit dir beginnen
+      hint: Wenn diese Option deaktiviert ist, können die Leute nur auf die von Ihnen gesendeten ausgehenden Nachrichten antworten.
+      title2: Sichtbarkeit
+      hint2: Legen Sie fest, wer den Standard Messenger Launcher auf Ihrer Website sieht.
+      note2: JEGLICHE NACHRICHTEN DIE SIE SENDEN, WERDEN WEITERHIN GELIEFERT.
+      note3: "Zeigen Sie im Web den Standard Messenger Launcher an für:"
       filters:
         users:
-          label: Users
-          all: All Users
-          some: Users who match certain data
+          label: Nutzer
+          all: Alle Nutzer
+          some: Besucher, auf die bestimmte Kriterien zutreffen
         leads:
           label: Leads
-          all: All Visitors
-          some: Visitors who match certain data
-        hint: This doesn’t affect the outbound messages you send.
+          all: Alle Besucher
+          some: Besucher, auf die bestimmte Kriterien zutreffen
+        hint: Dies wirkt sich nicht auf die von Ihnen gesendeten ausgehenden Nachrichten aus.
     team:
       title: Team
-      invitations: invitations
-      agents: Agents
-      invitation_success: invitation sent!
-      invitatin_error: invitation not sent!
-      action_button: add user
-      title_content: Add a new agent
-      content_text: send an activable invitation
-      hint: the new team member will be notified by it's email
-      send_invitation: Send invitation
-      resend_invitation: Resend invitation
-      add_new: Add Team Member
-      update_agent_title: Update Agent information
-      updated_agent: Information updated successfully
-      update_agent: Update
+      invitations: Einladungen
+      agents: Mitarbeiter
+      invitation_success: Einladung gesendet!
+      invitatin_error: Einladung nicht gesendet!
+      action_button: Benutzer hinzufügen
+      title_content: Neuen Mitarbeiter hinzufügen
+      content_text: eine aktivierbare Einladung senden
+      hint: das neue Teammitglied wird per E-Mail benachrichtigt
+      send_invitation: Einladung senden
+      resend_invitation: Einladung erneut senden
+      add_new: Teammitglied hinzufügen
+      update_agent_title: Mitarbeiterinformationen aktualisieren
+      updated_agent: Informationen erfolgreich aktualisiert
+      update_agent: Aktualisieren
     webhooks:
       title: Webhooks
-      create_success: Webhook created
-      create_error: Error adding webhook
-      update_success: Webhook updated
-      update_error: Error updating webhook
-      delete_success: Webhook removed correctly
-      delete_error: Error removing webhook
-      outgoing_webhooks: Outgoing webhooks
-      new_webhook: New webhook
-      active_webhooks: Active Webhooks
-      disabled_webhooks: Disabled Webhooks
+      create_success: Webhook erstellt
+      create_error: Fehler beim Hinzufügen des Webhook
+      update_success: Webhook wurde aktualisiert
+      update_error: Fehler beim Aktualisieren des Webhooks
+      delete_success: Webhook erfolgreich entfernt
+      delete_error: Fehler beim Löschen des Webhooks
+      outgoing_webhooks: Ausgehende Webhooks
+      new_webhook: Neuer Webhook
+      active_webhooks: Aktive Webhooks
+      disabled_webhooks: Deaktivierte Webhooks
       empty:
-        title: You don't have any active webhooks yet
-        desc: Search for your webhooks in
-        disabled_webhooks: Disabled webhooks
+        title: Du hast noch keine aktiven Webhooks
+        desc: Suche nach deinen Webhooks in
+        disabled_webhooks: Deaktivierte Webhooks
       delete:
-        title: Delete webhook ?
-        text: The webhook with %{name} service will be disabled immediately
+        title: Webhook löschen?
+        text: Der Webhook mit %{name} Dienst wird sofort deaktiviert
     tags:
       title: Tags
       modal:
-        title: Create app's tag
-        hint: Looking for more tags ? look at
-        link: account settings
+        title: App-Tag erstellen
+        hint: Suchen Sie nach weiteren Tags? Schauen Sie sich an
+        link: Kontoeinstellungen
       inputs:
-        name: Field name
-        color: Field color
+        name: Feldname
+        color: Feldfarbe
     user_data:
-      title: Custom Fields
-      default_fields: Atributos por defecto
-      non_editable: This fields are not editable
+      title: Eigene Felder
+      default_fields: Standard Attribute
+      non_editable: Diese Felder sind nicht editierbar
       modal:
-        title: Create user data field
+        title: Benutzerdatenfeld erstellen
       inputs:
-        name: Field name
-        type: Field type
-        validation: Validation
-        validation_hint: Validation is optional
+        name: Feldname
+        type: Feldtyp
+        validation: Validierung
+        validation_hint: Validierung ist optional
       attr_types:
-        date: Date
-        integer: Integer
-        string: String
+        date: Datum
+        integer: Ganze Zahl
+        string: Zeichenkette
   articles:
-    title: Articles
-    all: All
-    published: Published
-    draft: Drafts
-    visit: visit the help center
-    new: New article
-    add: Add item
-    collections: Collections
-    help_center: Help Center
-    description_placeholder: Describe your collection to help you find it.
-    title_placeholder: Write the title of the sections
-    new_section: New section
-    new_collection: New collection
-    edit_collection: Edit collection
+    title: Beiträge
+    all: Alle
+    published: Veröffentlicht
+    draft: Entwürfe
+    visit: besuchen Sie das Hilfe-Center
+    new: Neuer Beitrag
+    add: Element hinzufügen
+    collections: Kollektionen
+    help_center: Hilfe-Center
+    description_placeholder: Beschreiben Sie Ihre Kollektion, damit Sie sie finden können.
+    title_placeholder: Titel der Bereiche
+    new_section: Neue Sektion
+    new_collection: Neue Kollektion
+    edit_collection: Kollektion bearbeiten
     create_article:
-      placeholder: Write the title of the article
+      placeholder: Den Titel des Artikels eingeben
       description_placeholder: Add a summary to find the article later
     create:
       title: New collection of articles
