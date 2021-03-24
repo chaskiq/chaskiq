@@ -473,23 +473,23 @@ de:
     edit_collection: Kollektion bearbeiten
     create_article:
       placeholder: Den Titel des Artikels eingeben
-      description_placeholder: Add a summary to find the article later
+      description_placeholder: Füge eine Zusammenfassung hinzu, um den Artikel später zu finden
     create:
-      title: New collection of articles
-      placeholder: Enter the title of the collection
-      description: Describe your collection to help you find it.
+      title: Neue Sammlung von Artikeln
+      placeholder: Titel der Sammlung eingeben
+      description: Beschreiben Sie Ihre Sammlung, damit Sie sie finden können.
     settings:
-      title: Help Center settings
-      add_language: Add language
-      select_lang: Select language
-      add_language_to_help: Add new language to Help Center
+      title: Hilfe-Center-Einstellungen
+      add_language: Sprache hinzufügen
+      select_lang: Sprache auswählen
+      add_language_to_help: Neue Sprache zum Hilfe-Center hinzufügen
       delete:
-        title: Delete translation "%{name}"
-        text: We will destroy the translation and hide any article with the language "%{name}"
-      appearance: Appearance
-      appearance_settings: Appearance settings
-      lang: Language
-      lang_title: Find your Help Center
-      lang_desc: Manage supported languages and customize your Help Center header
-      basic: Basic setup
-      general_app: Application overview
+        title: Übersetzung "%{name}" löschen
+        text: Wir werden die Übersetzung zerstören und jeden Artikel mit der Sprache "%{name} " verstecken
+      appearance: Darstellung
+      appearance_settings: Darstellungseinstellungen
+      lang: Sprache
+      lang_title: Finden Sie Ihr Hilfe-Center
+      lang_desc: Verwalten Sie unterstützte Sprachen und passen Sie Ihren Hilfe-Center-Header an
+      basic: Basiseinrichtung
+      general_app: Anwendungsübersicht
