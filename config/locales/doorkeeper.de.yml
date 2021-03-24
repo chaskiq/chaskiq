@@ -79,55 +79,55 @@ de:
         created_at: 'Erstellt am'
         date_format: '%d.%m.%Y %H:%M:%S'
     pre_authorization:
-      status: 'Pre-authorization'
+      status: 'Vorautorisierung'
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-          missing_param: 'Missing required parameter: %{value}.'
-          not_support_pkce: 'Invalid code_verifier parameter. Server does not support pkce.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+          unknown: 'Der Anfrage fehlt ein benötigter Parameter, enthält einen nicht unterstützten Parameterwert oder ist anderweitig fehlerhaft.'
+          missing_param: 'Benötigter Parameter fehlt: %{value}.'
+          not_support_pkce: 'Ungültiger code_verifier Parameter. Server unterstützt nicht pkce.'
+          request_not_authorized: 'Anfrage muss autorisiert werden. Benötigter Parameter für die Autorisierung der Anfrage fehlt oder ungültig.'
+        invalid_redirect_uri: "Die angeforderte Weiterleitung uri ist fehlerhaft oder entspricht nicht der Client-Weiterleitungs-URI."
+        unauthorized_client: 'Der Client ist nicht berechtigt, diese Anfrage mit dieser Methode durchzuführen.'
+        access_denied: 'Der Ressourcenbesitzer oder Autorisierungsserver hat die Anfrage abgelehnt.'
+        invalid_scope: 'Der angeforderte Scope ist ungültig, unbekannt oder fehlerhaft.'
+        invalid_code_challenge_method: 'Die Code-Challenge-Methode muss plain oder S256 sein.'
+        server_error: 'Der Autorisierungs-Server hat ein unerwartetes Problem festgestellt und konnte die Anfrage nicht bearbeiten.'
+        temporarily_unavailable: 'Der Autorisierungsserver kann die Anfrage derzeit aufgrund einer temporären Überlastung oder Wartung des Servers nicht bearbeiten.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: 'Resource Owner Password Credentials flow fehlgeschlagen, da Doorkeeper.configure.resource_owner_from_account nicht konfiguriert ist.'
+        resource_owner_authenticator_not_configured: 'Der Resource Owner konnte nicht gefunden werden, da Doorkeeper.configure.resource_owner_authenticator nicht konfiguriert ist.'
+        admin_authenticator_not_configured: 'Der Zugriff auf das Admin-Panel ist verboten, da Doorkeeper.configure.admin_authenticator nicht konfiguriert wird.'
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_type: 'Der Autorisierungsserver unterstützt diesen Response type nicht.'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: 'Client-Authentifizierung ist fehlgeschlagen: unbekannter Client, keine Client-Authentifizierung oder nicht unterstützte Authentifizierungsmethode.'
+        invalid_grant: 'Die beigefügte Autorisierung ist ungültig, abgelaufen, wurde widerrufen, an einen anderen Client ausgestellt oder der Weiterleitungs-URI stimmt nicht mit der Autorisierungs-Anfrage überein.'
+        unsupported_grant_type: 'Der Autorisierungs-Typ wird nicht vom Autorisierungs-Server unterstützt.'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "Das Zugangstoken wurde widerrufen"
+          expired: "Der Zugangstoken ist abgelaufen"
+          unknown: "Das Zugangstoken ist ungültig"
         revoke:
-          unauthorized: "You are not authorized to revoke this token"
+          unauthorized: "Sie sind nicht berechtigt, diesen Token zu widerrufen"
     flash:
       applications:
         create:
-          notice: 'Application created.'
+          notice: 'Anwendung erstellt.'
         destroy:
-          notice: 'Application deleted.'
+          notice: 'Anwendung gelöscht.'
         update:
-          notice: 'Application updated.'
+          notice: 'Anwendung aktualisiert.'
       authorized_applications:
         destroy:
-          notice: 'Application revoked.'
+          notice: 'Anwendung widerrufen.'
     layouts:
       admin:
         title: 'Doorkeeper'
         nav:
-          oauth2_provider: 'OAuth2 Provider'
-          applications: 'Applications'
-          home: 'Home'
+          oauth2_provider: 'OAuth2-Anbieter'
+          applications: 'Anwendungen'
+          home: 'Startseite'
       application:
-        title: 'OAuth authorization required'
+        title: 'OAuth Autorisierung erforderlich'
