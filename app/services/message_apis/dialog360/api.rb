@@ -196,7 +196,7 @@ module MessageApis::Dialog360
         # determine the id of the user (channel)
         is_agent = sender_id == package.user_id.to_s
 
-        channel_id = is_agent ? sender_id : package.user_id
+        channel_id = sender_id
         dialog_user = sender_id
 
         conversation = find_conversation_by_channel(channel_id)
