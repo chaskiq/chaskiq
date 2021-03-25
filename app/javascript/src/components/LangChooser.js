@@ -71,14 +71,13 @@ function LangChooser ({
               value: I18n.locale,
               label: I18n.t(`common.langs.${I18n.locale}`)
             }}
-            label={'select language'}
+            label={ I18n.t("common.select_language") }
             data={{}}
             options={
-              [
-                { label: I18n.t('common.langs.en'), value: 'en' },
-                { label: I18n.t('common.langs.es'), value: 'es' },
-                { label: I18n.t('common.langs.pt'), value: 'pt' }
-              ]
+              Object.keys(I18n.t("common.langs")).map((o)=> (
+                { label: I18n.t(`common.langs.${o}`) , value: o }
+                )
+              )
             }>
           </Input>}
 

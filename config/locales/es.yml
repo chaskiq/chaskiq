@@ -3,7 +3,7 @@ es:
     edit: Editar
     new: Nuevo
     add: Añadir
-    add_new: add new
+    add_new: agregar nuevo
     update: Actualizar
     remove: Eliminar
     delete: Eliminar
@@ -27,9 +27,9 @@ es:
     langs:
       en: Inglés
       es: Español
-      pt: Portuguese
-      redirecting: Redireccionando
-      select_language: Seleccionar Idioma
+      pt: Portugués
+    redirecting: Redireccionando
+    select_language: Seleccionar Idioma
     send_on_enter: Publicar al entrar
   home:
     welcome: Iniciar sesión
@@ -241,14 +241,14 @@ es:
     create:
       title: Crea nueva tarea
   email_forwarding:
-    title: Email Forwarding
-    subtitle: Default Inbound Address
-    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+    title: Reenvío de Correo
+    subtitle: Dirección de entrada por defecto
+    ex: Reenviar correo electrónico desde tu dirección de correo electrónico normal (como help@mycompany.com) a Chaskiq para que puedas responder a correos electrónicos desde el panel de agente
   identified_users:
-    title: Verified users setup
-    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
-    lang: Your code to generate an HMAC for your app is
-    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    title: Configuración de usuarios verificados
+    hint1: Para configurar la verificación de identidad, necesitará generar un HMAC en su servidor para cada usuario conectado y enviarlo a Chaskiq.
+    lang: Tu código para generar un HMAC para tu aplicación es
+    hint2: 'Dondequiera que suba datos de usuario y tenga un fragmento de código de Chaskiq, Añade un nuevo atributo llamado <span className="font-bold">identifier_key</span> y pasa el <span className="font-bold">email</span> y dale la etiqueta HMAC para el usuario conectado:'
   quick_replies:
     title: Respuestas rápidas
     search: Buscar respuestas rápidas
@@ -301,7 +301,7 @@ es:
       user_data: Datos del usuario
       tags: Etiquetas
       quick_replies: Respuestas rápidas
-      email_forwarding: Email Forwarding
+      email_forwarding: Reenvío de Correo
     app_packages:
       create_success: Paquete creado
       create_error: Error al procesar el paquete.
@@ -470,7 +470,7 @@ es:
     title_placeholder: Escribe el título de las secciones
     new_section: Nueva sección
     new_collection: Nueva colección
-    edit_collection: Edit collection
+    edit_collection: Editar colección
     create_article:
       placeholder: Escribe el título del artículo
       description_placeholder: Añadir un resumen para encontrar el artículo más tarde

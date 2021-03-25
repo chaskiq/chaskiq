@@ -25,6 +25,8 @@ class AppPackageIntegration < ApplicationRecord
 
   validate do
     app_package.definitions.each do |definition|
+      next unless definition[:required]
+
       key = definition[:name].to_sym
       next unless self.class.stored_attributes[:settings].include?(key)
 

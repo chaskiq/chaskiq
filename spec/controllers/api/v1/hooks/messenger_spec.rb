@@ -127,6 +127,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       }
 
       get(:process_event, params: params)
+      perform_enqueued_jobs
       expect(response.status).to be == 200
     end
 
@@ -141,6 +142,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
               text: 'hip'
             }
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -159,6 +161,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
               text: 'hip'
             }
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -180,6 +183,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           text: 'oli'
         }
       ))
+      perform_enqueued_jobs
 
       expect(app.app_users.size).to be == 1
 
@@ -192,6 +196,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           text: 'oli'
         }
       ))
+      perform_enqueued_jobs
 
       expect(app.app_users.size).to be == 1
 
@@ -222,6 +227,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         }
       ))
 
+      perform_enqueued_jobs
+
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.first.messages.count).to be == 2
@@ -238,6 +245,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           'text' => "one\ntwo\ntree\n✌️"
         }
       ))
+
+      perform_enqueued_jobs
 
       message = app.conversations.first.messages.first.messageable
 

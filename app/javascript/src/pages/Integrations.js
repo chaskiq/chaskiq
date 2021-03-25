@@ -132,6 +132,11 @@ function Integrations ({ app, dispatch }) {
         success: (data) => {
           setTabValue(0)
 
+          if (!isEmpty(data.integrationsCreate.errors)) {
+            dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
+            return
+          }
+
           const integration = data.integrationsCreate.integration
           const newIntegrations = integrations.map((o) =>
             o.name === integration.name ? integration : o

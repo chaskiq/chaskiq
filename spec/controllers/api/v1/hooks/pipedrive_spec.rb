@@ -126,17 +126,20 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       expect do
         post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+        perform_enqueued_jobs
       end.to_not change { AppUser.count } # .by(1)
     end
 
     it 'update profile' do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:update_app_user_profile).once
       post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+      perform_enqueued_jobs
     end
 
     it 'delete profile' do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:delete_app_user_profile).once
       post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app: app))
+      perform_enqueued_jobs
     end
 
     describe 'with external_profile' do
@@ -146,11 +149,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       it 'will destroy profile' do
         expect do
           post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app: app))
+          perform_enqueued_jobs
         end.to change { ExternalProfile.count }
       end
 
       it 'will update profile' do
         post(:process_event, params: update_data_for(id: @pkg.encoded_id, app: app, profile_id: 1))
+        perform_enqueued_jobs
         expect(user.external_profiles.first.data).to be_present
         user.reload
         expect(user.first_name).to be_present

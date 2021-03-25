@@ -149,6 +149,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it 'receive hook' do
       allow_any_instance_of(MessageApis::Calendly::Api).to receive(:enqueue_process_event).once
       post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+      perform_enqueued_jobs
     end
 
     it 'receive invitee' do
