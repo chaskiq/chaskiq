@@ -184,11 +184,12 @@ class Api::V1::HooksController < ActionController::API
     recipient = mail.recipients.first
     app, agent = decode_inbound_address(recipient)
     return if app.blank?
+
     conversation = app.conversation_parts.find_by(email_message_id: mail.message_id)&.conversation
     unless conversation.present?
       mail_from = mail.from.first
-      app_user = app.app_users.find_by(email: mail_from) || 
-                  app.add_user(email: mail_from, name: mail[:from]&.formatted)
+      app_user = app.app_users.find_by(email: mail_from) ||
+                 app.add_user(email: mail_from, name: mail[:from]&.formatted)
       from = app_user
       conversation = app.start_conversation(from: from)
     end
