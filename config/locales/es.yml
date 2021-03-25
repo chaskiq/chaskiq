@@ -28,8 +28,9 @@ es:
       en: Inglés
       es: Español
       pt: Portugués
-      redirecting: Redireccionando
-      select_language: Seleccionar Idioma
+      de: Deutsch
+    redirecting: Redireccionando
+    select_language: Seleccionar Idioma
     send_on_enter: Publicar al entrar
   home:
     welcome: Iniciar sesión
