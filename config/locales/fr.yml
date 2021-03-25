@@ -28,8 +28,8 @@ fr:
       en: Anglais
       es: Espagnol
       pt: Portugais
-      redirecting: Redirection
-      select_language: Sélectionnez une langue
+    redirecting: Redirection
+    select_language: Sélectionnez une langue
     send_on_enter: Publier à la saisie
   home:
     welcome: Bienvenue à

@@ -28,8 +28,8 @@ de:
       en: Englisch
       es: Spanisch
       pt: Portugiesisch
-      redirecting: Leite weiter
-      select_language: Sprache auswählen
+    redirecting: Leite weiter
+    select_language: Sprache auswählen
     send_on_enter: Veröffentlichen bei Enter
   home:
     welcome: Willkommen in
