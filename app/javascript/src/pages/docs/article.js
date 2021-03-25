@@ -91,12 +91,15 @@ export default function Article (props) {
                   src={article.author.avatarUrl}
                 />
 
-                <div className={'ml-4'}>
-                  <p className="text-lg leading-6 font-medium text-gray-900">
-                    Written by {article.author.name}
-                  </p>
+                <div className={'ml-2'}>
+                  {
+                    article.author.name && 
+                    <p className="text-md leading-6 font-light text-gray-900">
+                      Written by <span className="font-semibold">{article.author.name}</span>
+                    </p>
+                  }
 
-                  <p className="text-base leading-6 text-gray-500">
+                  <p className="text-md leading-6 font-light text-gray-500">
                     {'updated '}
                     <Moment fromNow>{article.updatedAt}</Moment>
                   </p>

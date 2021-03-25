@@ -33,9 +33,12 @@ checks:
     config:
       threshold: 4
   similar-code:
-    enabled: true
-    config:
-      threshold: #language-specific defaults. overrides affect all languages.
+    languages:
+      ruby:
+        threshold: 3
+      javascript:
+        enabled: false
+        threshold: 30
   identical-code:
     enabled: true
     config:
@@ -44,7 +47,7 @@ plugins:
  rubocop:
   enabled: false
  eslint:
-  enabled: true
+  enabled: false
 exclude_patterns:
 - "config/"
 - "db/"
@@ -58,4 +61,5 @@ exclude_patterns:
 - "**/vendor/"
 - "**/*.d.ts"
 - babel.config.js
+- lib/app_packages_catalog.rb
 #- app/javascript/**/*

@@ -170,6 +170,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -184,6 +185,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -201,6 +203,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -218,6 +221,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             recipient: user_phone,
             message_id: '1234'
           ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.last.messages).to be_any
@@ -238,6 +242,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         message_id: '1234'
       ))
 
+      perform_enqueued_jobs
+
       expect(app.app_users.size).to be == 1
 
       get(:process_event, params: data_for(
@@ -246,6 +252,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: owner_phone,
         message_id: '1235'
       ))
+
+      perform_enqueued_jobs
 
       expect(app.app_users.size).to be == 1
 
@@ -269,6 +277,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         message_id: 2
       ))
 
+      perform_enqueued_jobs
+
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.first.messages.count).to be == 2
@@ -284,6 +294,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           'text' => "one\ntwo\ntree\n✌️"
         }
       ))
+
+      perform_enqueued_jobs
 
       message = app.conversations.first.messages.first.messageable
 

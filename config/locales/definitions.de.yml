@@ -2,29 +2,29 @@ de:
   definitions:
     articles:
       title:
-        label: Title
+        label: Titel
       author:
-        label: Author
+        label: Autor
       state:
-        label: State
+        label: Status
       collection:
-        label: Collection
+        label: Sammlung
       actions:
-        label: Actions
+        label: Aktionen
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Webseite
+        hint: Website Ihrer Haupt-Domain
       domain:
         label: Domain
-        hint: Domain of the Help Center
+        hint: Help Center Domain
       subdomain:
         label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        hint: Subdomain, in der das Help Center verfügbar sein wird
       google_code:
         label: Google Code
-        hint: Google tracking ID
+        hint: Google-Tracking-ID
       credits:
-        label: show credits
+        label: Credits anzeigen
         hint: ""
     settings:
       name:
@@ -34,150 +34,150 @@ de:
         label: Logo
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Artikel im Chatfenster anzeigen"
+        hint: "Diese Option zeigt die Artikel im Home-Bereich des Messenger an"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Neue Nachrichten in schwebender Box anzeigen
+        hint: Diese Option öffnet kein Chatbox Widget
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Verschlüsselungs-Code
+        placeholder: "Für keine Verschlüsselung leer lassen"
+        hint: Dieser Schlüssel wird verwendet, um JWE-Benutzerdaten zu verschlüsseln und zu entschlüsseln
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: Erforderliche GDPR Datenschutzerklärung
+        hint: Zeigt eine Bestätigungsansicht für EU-Länder an, bevor Gespräche aufgenommen werden
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: Zustimmung zum Datenschutz weltweit erforderlich
+        hint: Zeigt eine Bestätigungsansicht für alle Besucher an, bevor Unterhaltungen erstellt werden
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: Keine Datenschutzerklärung erforderlich
+        hint: Zeigt niemandem eine Bestätigungsansicht an (nicht empfohlen)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: Messenger aktivieren
+        hint: Wenn diese Option aktiviert ist, wird das Messenger Web-Widget aktiviert
       domain:
-        label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        label: Domain-URL
+        hint: Dies wird die Host-Seite sein, wo chaskiq verwendet wird
       outgoing_email_domain:
-        label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        label: Ausgehende E-Mail-Domain
+        hint: Die E-Mail-Domäne zum Versenden von Unterhaltungen, für @yourapp verwenden Sie "your app"
       tagline:
-        label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        label: Slogan
+        hint: Dies wird am unteren Rand des Chat-Feldes dargestellt
       timezone:
-        label: Timezone
+        label: Zeitzone
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: Soziale Daten sammeln
+        hint: "Sammeln Sie soziale Profile über den Fullcontact Service (z.B. LinkedIn, Twitter, etc.) für meine Nutzer über einen Dritten"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: Besuche registrieren
+        hint: "Auch wenn dies deaktiviert ist, werden wir globale Besuchszähler sammeln und die letzten Besuchsinformationen auf dem Profil des Besuchers speichern"
       languages:
-        select_lang: "select lang"
+        select_lang: "wähle Sprache"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: Kampagnenname
+        hint: Dies wird in der E-Mail nicht angezeigt
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: E-Mail Betreff
+        hint: Dies ist der E-Mail-Betreff
       from_name:
-        label: From Name
+        label: Absendername
       from_email:
-        label: From Email
+        label: Absender E-Mail
       reply_email:
-        label: Reply Email
+        label: Antwort E-Mail-Adresse
       scheduled_at:
-        label: Scheduled at
+        label: Geplant um
       scheduled_to:
-        label: Scheduled to
+        label: Geplant in
       state:
-        label: State
+        label: Status
       description:
-        label: Description
+        label: Beschreibung
       actions:
-        label: Actions
+        label: Aktionen
     bot_tasks:
       state:
-        label: State
+        label: Status
       name:
         label: Name
       actions:
-        label: Actions
+        label: Aktionen
       title:
-        label: Title
-        placeholder: write task title
-        hint: "Task name ie: welcoming users bot task"
+        label: Titel
+        placeholder: Aufgabe beschreiben
+        hint: "Aufgabenname z.B.: Begrüßungs-Bot-Aufgabe"
     stats:
       email:
-        label: Email
+        label: E-Mail
       host:
         label: Host
       createdAt:
-        label: CreatedAt
+        label: Erstellt am
       from:
-        label: From
+        label: Von
       actions:
-        label: Actions
+        label: Aktionen
       when:
-        label: When
+        label: Wenn
       data:
-        label: Data
+        label: Daten
     app_packages:
       name:
-        label: 'Integration Name'
+        label: 'Integrationsname'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: 'Auf Plattform veröffentlichen'
+        type: 'Auswahlfeld'
+        hint: 'Wenn deaktiviert, werden Sie die Anwendung für die Workspaces verwenden, auf die Sie Zugriff haben'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: 'Integrationsmöglichkeiten'
+        hint: 'Wählen Sie die Paketfunktionen, z.B. wo die Integration funktionieren wird'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: 'App-Paketbeschreibung'
+        hint: 'sag was dein Plugin macht'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        label: 'flow webhook URL initialisieren'
+        hint: 'Wird gesendet, wenn eine App in eine Unterhaltung, Nachricht oder den Startbildschirm eingefügt wurde, so dass Sie die App rendern können.'
+        placeholder: 'z.B. https://yourdomain.com/initialize-url/'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: 'Flow Webhook URL senden'
+        hint: 'Wird gesendet, wenn ein Endbenutzer mit Ihrer App interagiert, über eine Schaltfläche, einen Link oder eine Texteingabe. Dieser Process kann mehrere Male stattfinden während ein Endbenutzer mit deiner App interagiert.'
+        placeholder: 'z.B. https://yourdomain.com/submit-url/'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: 'Flow Webhook-URL konfigurieren (optional)'
+        hint: 'Wird gesendet, wenn ein Teammitglied Ihre App verwenden möchte, so dass Sie Konfigurationsmöglichkeiten anzeigen können. Wenn Sie diese Option leer lassen, wird die Konfiguration übersprungen.'
+        placeholder: 'z.B. https://yourdomain.com/configure-url/'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: 'Webhook URL für Sheet-Flow senden (optional)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: 'Wird gesendet, wenn ein Sheet abgeschickt wurde. Ein Sheet ist ein iframe, den Sie im Messenger geladen haben, der geschlossen und eingereicht wird, wenn die JS-Methode Submit Sheets aufgerufen wird.'
+        placeholder: 'z.B. https://yourdomain.com/submit-sheet-url/'
   data_tables:
     users:
       name: Name
-      email: Email
-      state: State
+      email: E-Mail-Adresse
+      state: Status
       online: Online
       ip: Ip
-      country: Country
-      city: City
-      lat: Lat
-      lng: Lng
-      postal: Postal
+      country: Land
+      city: Ort
+      lat: Breitengrad
+      lng: Längengrad
+      postal: Postleitzahl
       browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
+      browser_version: Browser-Version
+      browser_lang: Browser-Sprache
       referrer: Referrer
-      tag_list: Tag List
-      os: Os
-      os_version: Os Version
-      lang: Lang
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      tag_list: Tag-Liste
+      os: Betriebssystem
+      os_version: Betriebssystem-Version
+      lang: Sprache
+      web_sessions: Web-Sitzungen
+      last_seen: Erstmals gesehen
+      first_seen: Zuletzt gesehen
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: Abonniert
+        unsubscribed: Abonnement beendet
+        passive: Passiv

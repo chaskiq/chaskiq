@@ -7,7 +7,7 @@ import Tooltip from 'rc-tooltip'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import translation from './translation'
 import Avatar from '../../components/Avatar'
-
+import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import List, {
   ListItem,
@@ -104,6 +104,64 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
     )
   }
 
+  function renderArticles(article, section){
+    return (
+      <ListItem
+          divider
+          key={`${section}-${article.id}`}
+        >
+          <ListItemText
+            cols={1}
+            primary={
+              <div className="flex flex-col">
+                <Link
+                  className="text-lg mb-2 leading-6 font-bold text-gray-900"
+                  color={'primary'}
+                  to={`/${lang}/articles/${article.slug}`}
+                >
+                  {translation(article.title)}
+                </Link>
+
+                <div className="flex items-center">
+                  <Avatar
+                    variant="small"
+                    alt={article.author.displayName}
+                    src={article.author.avatarUrl}
+                  />
+                  <div className="space-y-1">
+                    {
+                      article.author.displayName &&
+                      <p className="ml-1.5 text-xs font-light text-gray-400">
+                        Written by{' '}
+                        <strong className="text-gray-800 font-semibold">
+                          {article.author.displayName}
+                        </strong>
+                      </p>
+                    }
+                    {
+                      article.updatedAt &&
+                      <p className="ml-1.5 text-xs font-light text-gray-400">
+                        Updated {" "} 
+                        <Moment fromNow>
+                          {article.updatedAt}
+                        </Moment>
+                      </p>
+                    }
+                  </div>
+                  
+                </div>
+              </div>
+            }
+            secondary={
+              <p className="py-2 font-md text-gray-500 font-light">
+              {article.description}
+              </p>}
+          />
+        </ListItem>
+  
+    )
+  }
+
   return (
     <div className="flex flex-row justify-center items-baseline bg-gray-100 py-8">
       {collections && (
@@ -116,7 +174,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
             ]}
           ></Breadcrumbs>
 
-          <div className="py-4">
+          <div className="my-4 py-4 md:py-8 bg-gray-200 md:px-8 px-3 rounded-sm">
             <div>
               <p className="py-4 mt-2 text-2xl lg:text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-6xl sm:leading-10">
                 {translation(collections.title)}
@@ -165,39 +223,12 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                 }
               </div>
 
-              <div>
-                {collections.baseArticles.map((article) => (
-                  <ListItem divider key={`articles-base-${article.id}`}>
-                    <ListItemText
-                      primary={
-                        <div className="flex flex-col">
-                          <Link
-                            className="text-lg mb-2 leading-6 font-bold text-gray-900"
-                            color={'primary'}
-                            to={`/${lang}/articles/${article.slug}`}
-                          >
-                            {translation(article.title)}
-                          </Link>
-
-                          <div className="flex items-center">
-                            <Avatar
-                              variant="small"
-                              alt={article.author.displayName}
-                              src={article.author.avatarUrl}
-                            />
-                            <p className="ml-4">
-                              written by{' '}
-                              <strong>
-                                {article.author.displayName}
-                              </strong>
-                            </p>
-                          </div>
-                        </div>
-                      }
-                      secondary={article.description}
-                    />
-                  </ListItem>
-                ))}
+              <div className="py-4">
+                <List>
+                  {collections.baseArticles.map((article) => (
+                    renderArticles(article, 'articles-base' )
+                  ))}
+                </List>
               </div>
 
               {collections.sections.map((section) => (
@@ -214,39 +245,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                     <div>
                       <List>
                         {section.articles.map((article) => (
-                          <ListItem
-                            divider
-                            key={`section-article-${article.id}`}
-                          >
-                            <ListItemText
-                              primary={
-                                <div className="flex flex-col">
-                                  <Link
-                                    className="text-lg mb-2 leading-6 font-bold text-gray-900"
-                                    color={'primary'}
-                                    to={`/${lang}/articles/${article.slug}`}
-                                  >
-                                    {translation(article.title)}
-                                  </Link>
-
-                                  <div className="flex items-center">
-                                    <Avatar
-                                      variant="small"
-                                      alt={article.author.displayName}
-                                      src={article.author.avatarUrl}
-                                    />
-                                    <p className="ml-4">
-                                      written by{' '}
-                                      <strong>
-                                        {article.author.displayName}
-                                      </strong>
-                                    </p>
-                                  </div>
-                                </div>
-                              }
-                              secondary={article.description}
-                            />
-                          </ListItem>
+                          renderArticles(article, 'section-articles' )
                         ))}
                       </List>
                     </div>

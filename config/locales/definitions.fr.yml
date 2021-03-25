@@ -54,7 +54,7 @@ fr:
         hint: Ne montrera pas une vue de confirmation à quiconque (non recommandé)
       active_messenger:
         label: Activer le messenger
-        hint: When this is activate the messenger web widget will be activated
+        hint: Lorsque cette option est activée, le widget Web Messenger sera activé
       domain:
         label: URL du domaine
         hint: Ce sera le site hôte où chaskiq sera utilisé
@@ -123,61 +123,61 @@ fr:
       when:
         label: Quand
       data:
-        label: Data
+        label: Données
     app_packages:
       name:
-        label: 'Integration Name'
+        label: 'Nom de l''intégration'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: 'Publier sur la plateforme'
+        type: 'case à cocher'
+        hint: 'Si désactivé, vous utiliserez l''application sur les espaces de domaine auxquels vous avez accès'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: 'Capacités d''intégration'
+        hint: 'Choisissez les capacités du paquet, c''est à dire : où va fonctionner l''intégration'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: 'Description du paquet d''application'
+        hint: 'dire ce que fait votre plugin'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        label: 'URL du webhook d''initialisation du flux'
+        hint: 'Envoyé lorsqu''une application a été insérée dans une conversation, un message ou un écran d''accueil, afin que vous puissiez afficher l''application.'
+        placeholder: 'par exemple https://votredomaine.fr/initialize-url/'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: 'Soumettre l''URL du flux webhook'
+        hint: 'Envoyé lorsqu''un utilisateur final interagit avec votre application, via un bouton, un lien ou une entrée de texte. Ce flux peut se produire plusieurs fois lorsqu''un utilisateur final interagit avec votre application.'
+        placeholder: 'par exemple https://votredomaine.fr/submit-url/'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: 'Configurer l''URL du flux webhook (optionnel)'
+        hint: 'Envoyé lorsqu''un coéquipier souhaite utiliser votre application, afin que vous puissiez leur montrer les options de configuration avant qu''elles ne soient insérées. Laisser cette option vide sautera la configuration.'
+        placeholder: 'par exemple https://votredomaine.fr/configure-url/'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: 'Envoyer l''URL du flux de la feuille de flux webhook (optionnel)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: 'Envoyé quand une feuille a été envoyée. Une feuille est une iframe que vous avez chargée dans le Messenger qui est fermée et soumise lorsque la méthode Submit Sheets JS est appelée.'
+        placeholder: 'par exemple https://votredomaine.fr/submit-sheet-url/'
   data_tables:
     users:
-      name: Name
-      email: Email
-      state: State
-      online: Online
+      name: Nom
+      email: E-mail
+      state: État
+      online: En ligne
       ip: Ip
-      country: Country
-      city: City
+      country: Pays
+      city: Ville
       lat: Lat
       lng: Lng
-      postal: Postal
-      browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
-      referrer: Referrer
-      tag_list: Tag List
+      postal: Code postal
+      browser: Navigateur
+      browser_version: Version du navigateur
+      browser_lang: Langue du navigateur
+      referrer: Référant
+      tag_list: Liste des tags
       os: Os
-      os_version: Os Version
-      lang: Lang
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      os_version: Version Os
+      lang: Langue
+      web_sessions: Sessions Web
+      last_seen: Première vue
+      first_seen: Dernière vue
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: Abonné
+        unsubscribed: Désabonné
+        passive: Passif
