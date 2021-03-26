@@ -59,7 +59,7 @@ class SnsReceiverJob < ApplicationJob
     message = conversation.messages.find(part_id)
     return if message.blank?
 
-    message.read!
+    message.read! unless message.read?
   end
 
   private
