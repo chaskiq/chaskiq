@@ -146,6 +146,7 @@ group :test do
     gem lib # , :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem 'brakeman'
+  gem 'code-scanning-rubocop', require: false
   gem 'database_cleaner-active_record'
   gem 'database_cleaner-redis'
   gem 'factory_bot_rails'
