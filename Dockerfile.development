@@ -16,6 +16,7 @@ RUN apt-get update -qq \
     git \
     imagemagick \
     zlib1g-dev \
+    shared-mime-info \
   && apt-get clean \
   && rm -rf /var/cache/apt/archives/* \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -66,6 +67,8 @@ RUN mkdir -p /app
 # Bundler install gems
 WORKDIR /tmp
 COPY Gemfile Gemfile.lock /tmp/
+#RUN bundle update mimemagic
+#RUN gem install mimemagic -v '0.3.7' --source 'https://rubygems.org/'
 RUN bundle install -j ${BUNDLE_JOBS} --retry ${BUNDLE_RETRY}
 RUN yarn install
 

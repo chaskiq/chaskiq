@@ -43,6 +43,7 @@ gem 'nightfury', github: 'michelson/nightfury' # "~> 1.0"
 
 # gem 'tabs', github: 'michelson/tabs', branch: "upgrade"
 
+gem 'action_policy', '~>0.5.4'
 gem 'action_policy-graphql', '~> 0.4'
 gem 'goldiloader'
 gem 'graphiql-rails', group: :development
@@ -79,7 +80,7 @@ gem 'oauth', '~> 0.5.4'
 gem 'omniauth-oauth2'
 
 gem 'image_processing', '~> 1.2'
-gem 'mimemagic'
+gem 'mimemagic', '~> 0.3.7'
 
 gem 'sidekiq'
 gem 'sidekiq-cron'

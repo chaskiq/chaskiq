@@ -326,9 +326,8 @@ GEM
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.1104)
-    mimemagic (0.3.9)
+    mimemagic (0.3.8)
       nokogiri (~> 1)
-      rake
     mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
@@ -612,7 +611,7 @@ DEPENDENCIES
   jwt
   kaminari (~> 1.2)
   listen (>= 3.0.5, < 3.2)
-  mimemagic
+  mimemagic (~> 0.3.7)
   mini_magick (~> 4.8)
   mustache
   nightfury!
@@ -663,4 +662,4 @@ RUBY VERSION
    ruby 2.7.1p83
 
 BUNDLED WITH
-   2.1.4
+   2.2.15
