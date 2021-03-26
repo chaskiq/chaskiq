@@ -10,4 +10,5 @@ apt-get update -qq \
     git \
     vim \
     imagemagick \
-    zlib1g-dev
+    zlib1g-dev \
+    shared-mime-info
