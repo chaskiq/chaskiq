@@ -566,6 +566,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  action_policy (~> 0.5.4)
   action_policy-graphql (~> 0.4)
   active_importer
   acts-as-taggable-on!
