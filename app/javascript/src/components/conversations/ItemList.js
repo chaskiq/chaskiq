@@ -90,7 +90,7 @@ export default function ConversationItemList ({ app, conversation }) {
 
           <div className="ml-4 truncate w-full">
             <div className="flex justify-between">
-              <span className="text-md leading-5 font-semibold text-gray-800">
+              <span className="text-md leading-5 font-semibold text-gray-800 truncate mr-2">
                 {user.displayName}
               </span>
 
