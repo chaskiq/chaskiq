@@ -50,3 +50,5 @@ app/javascript/old-src
 .envrc
 
 spec/cypress/videos/**/*
+
+rubocop.sarif

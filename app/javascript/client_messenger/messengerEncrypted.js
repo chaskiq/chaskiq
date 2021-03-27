@@ -57,10 +57,12 @@ export default class ChaskiqMessengerEncrypted {
       success: (data) => {
         const user = data.messenger.user
 
-        if (user.session_id) {
-          this.checkCookie(user.session_id)
-        } else {
-          deleteCookie(this.cookieNamespace())
+        if (user.kind !== "AppUser"){
+          if (user.session_id) {
+            this.checkCookie(user.session_id)
+          } else {
+            deleteCookie(this.cookieNamespace())
+          }
         }
 
         const messenger = new ChaskiqMessenger(
