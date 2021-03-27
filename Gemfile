@@ -8,7 +8,7 @@ ruby '2.7.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.0'
 gem 'pg'
-gem 'rails', '6.1.2' # , github: "rails/rails",
+gem 'rails', '6.1.3.1' # , github: "rails/rails",
 
 gem 'anycable-rails'
 # Use sqlite3 as the database for Active Record
@@ -79,8 +79,6 @@ gem 'oauth', '~> 0.5.4'
 gem 'omniauth-oauth2'
 
 gem 'image_processing', '~> 1.2'
-gem 'mimemagic'
-
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'webpacker', '~> 5.0'
