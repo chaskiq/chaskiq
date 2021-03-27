@@ -28,7 +28,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           # ruby-version: 2.7.2 # no need with ruby-version file
-          bundler-cache: false
+          bundler-cache: true
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install

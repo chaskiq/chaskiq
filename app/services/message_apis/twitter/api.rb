@@ -32,7 +32,6 @@
 #
 
 require 'base64'
-require 'mimemagic'
 
 module MessageApis::Twitter
   class Api < MessageApis::BasePackage
@@ -347,11 +346,11 @@ module MessageApis::Twitter
     def upload_media(media, media_category_prefix: 'dm')
       file = URI.parse(media).open
       # TODO: try to get the id of blob in case of Active storage
-      mime = MimeMagic.by_magic(file)
+      mime = Marcel::MimeType.for(file)
 
-      return chunk_upload(file, mime.type, "#{media_category_prefix}_video") if mime.subtype == 'mp4'
-      return chunk_upload(file, mime.type, "#{media_category_prefix}_gif") if mime.subtype == 'gif' # && File.size(media) > 5_000_000
-      return chunk_upload(file, mime.type, "#{media_category_prefix}_image") if mime.mediatype == 'image'
+      return chunk_upload(file, mime, "#{media_category_prefix}_video") if mime.include?('mp4')
+      return chunk_upload(file, mime, "#{media_category_prefix}_gif") if mime.include?('gif') # && File.size(media) > 5_000_000
+      return chunk_upload(file, mime, "#{media_category_prefix}_image") if mime.include?('image')
 
       #
       # make_post_media_request('/1.1/media/upload.json',
