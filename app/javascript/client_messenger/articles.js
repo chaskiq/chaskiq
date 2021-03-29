@@ -13,7 +13,9 @@ import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Loader from './loader'
-import {  Trans, withTranslation } from 'react-i18next'
+
+import { Trans, withTranslation } from 'react-i18next'
+import i18n from './i18n'
 
 const DanteContainerExtend = styled(DanteContainer)`
   margin-top: 1.2em;
@@ -49,17 +51,7 @@ const ArticleMeta = styled.span`
   margin-bottom: 1em;
 `
 
-const Article = ({
-  // updateHeader,
-  // articleSlug,
-  // transition,
-  // appData,
-  i18n,
-  // graphqlClient,
-  //lang
-  // domain,
-  // articleJson
-}) => {
+const Article = () => {
   const domain = window.domain
   const [article, _setArticle] = useState(window.articleJson)
   const [loading, _setLoading] = useState(false)
