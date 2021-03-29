@@ -2,10 +2,10 @@ import React from 'react'
 import FormDialog from '../../components/FormDialog'
 import Button from '../../components/Button'
 import ErrorBoundary from '../../components/ErrorBoundary'
-import Progress from '../../components/Progress'
+
 import arrayMove from 'array-move'
 
-import { withRouter } from 'react-router-dom'
+
 import { connect } from 'react-redux'
 
 import {
@@ -14,28 +14,25 @@ import {
   sortableHandle
 } from 'react-sortable-hoc'
 
-import List, {
-  ListItem,
-  ListItemText,
-  ItemListPrimaryContent,
-  ItemListSecondaryContent
-} from '../../components/List'
+
 
 import {
-  APP_PACKAGES_BY_CAPABILITY,
-  APP_PACKAGE_HOOK
+  APP_PACKAGES_BY_CAPABILITY
 } from '../../graphql/queries'
 import graphql from '../../graphql/client'
 import {
   QueueIcon,
-  LeftArrow,
   DeleteIcon
 } from '../../components/icons'
 
 import {
   DefinitionRenderer,
-  BaseInserter
 } from '../../components/packageBlocks/components'
+
+import {
+  AppList,
+} from '../../components/packageBlocks/AppList'
+
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>
@@ -131,7 +128,7 @@ function AppInserter ({ app, update }) {
         }
       </div>
 
-      <AppInserter2
+      <HomeAppInserter
         app={app}
         update={update}
         option={option}
@@ -141,7 +138,7 @@ function AppInserter ({ app, update }) {
   )
 }
 
-function AppInserter2 ({ app, update, option, capability }) {
+function HomeAppInserter ({ app, update, option, capability }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [items, setItems] = React.useState(app[option.namespace] || [])
   const [packages, setPackages] = React.useState([])
@@ -229,6 +226,7 @@ function AppInserter2 ({ app, update, option, capability }) {
 
                 <ErrorBoundary>
                   <AppList
+                    location={'home'}
                     loading={loading}
                     handleAdd={handleAdd}
                     packages={packages}
@@ -279,104 +277,6 @@ function AppInserter2 ({ app, update, option, capability }) {
   )
 }
 
-function getPackage (data, cb) {
-  graphql(APP_PACKAGE_HOOK,
-    { ...data, location: 'home' },
-    {
-      success: (data) => {
-        cb && cb(data)
-      },
-      error: () => {}
-    })
-}
-
-export function AppList ({
-  handleAdd,
-  packages,
-  app,
-  loading,
-  conversation
-}) {
-  const [selected, setSelected] = React.useState(null)
-
-  function handleSelect (o) {
-    setSelected(o)
-  }
-
-  function handleInsert (data) {
-    handleAdd(data)
-  }
-
-  return (
-
-    <div>
-
-      {
-        loading && <Progress/>
-      }
-
-      { !loading &&
-        <List>
-          {
-            !selected && packages.map((o) => (
-              <ListItem key={o.name}>
-
-                <ListItemText
-                  primary={
-                    <ItemListPrimaryContent variant="h5">
-                      {o.name}
-                    </ItemListPrimaryContent>
-                  }
-                  secondary={
-                    <ItemListSecondaryContent>
-                      {o.description}
-                    </ItemListSecondaryContent>
-                  }
-                  terciary={
-                    <React.Fragment>
-                      <div
-                        className="mt-2 flex items-center
-                        text-sm leading-5 text-gray-500 justify-end"
-                      >
-
-                        <Button onClick={(_e) => handleSelect(o)}>
-                          Add
-                        </Button>
-
-                      </div>
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-            ))
-          }
-        </List>
-      }
-
-      {
-        selected && <div>
-          <Button
-            variant={'link'}
-            size={'xs'}
-            onClick={() => setSelected(null)}>
-            <LeftArrow/>
-            {'back'}
-          </Button>
-
-          <BaseInserter
-            getPackage={getPackage}
-            onItemSelect={handleAdd}
-            pkg={selected}
-            app={app}
-            onInitialize={handleInsert}
-            conversation={conversation}
-          />
-        </div>
-      }
-    </div>
-  )
-}
-
 function mapStateToProps (state) {
   const { app_user, app } = state
   return {
@@ -386,6 +286,6 @@ function mapStateToProps (state) {
 }
 
 // export default ShowAppContainer
-export const AppInserterInner = withRouter(connect(mapStateToProps)(AppInserter2))
+export const AppInserterInner = connect(mapStateToProps)(HomeAppInserter)
 
-export default withRouter(connect(mapStateToProps)(AppInserter))
+export default connect(mapStateToProps)(AppInserter)

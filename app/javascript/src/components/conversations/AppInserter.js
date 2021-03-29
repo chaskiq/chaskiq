@@ -2,10 +2,8 @@ import React from 'react'
 import FormDialog from '../FormDialog'
 import Button from '../Button'
 import ErrorBoundary from '../ErrorBoundary'
-import Progress from '../Progress'
 import arrayMove from 'array-move'
 
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
@@ -14,28 +12,22 @@ import {
   sortableHandle
 } from 'react-sortable-hoc'
 
-import List, {
-  ListItem,
-  ListItemText,
-  ItemListPrimaryContent,
-  ItemListSecondaryContent
-} from '../List'
-
 import {
   APP_PACKAGES_BY_CAPABILITY,
-  APP_PACKAGE_HOOK
 } from '../../graphql/queries'
 import graphql from '../../graphql/client'
 import {
   QueueIcon,
-  LeftArrow,
   DeleteIcon
 } from '../icons'
 
 import {
   DefinitionRenderer,
-  BaseInserter
 } from '../packageBlocks/components'
+
+import {
+  AppList,
+} from '../packageBlocks/AppList'
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>
@@ -109,12 +101,14 @@ function AppInserter ({
   capability,
   option,
   customRenderer,
-  setEditable
+  setEditable,
+  location
 }) {
   return (
     <div className="flex flex-col">
-      <AppInserter2
+      <SidebarAppInserter
         app={app}
+        location={location}
         update={update}
         option={option}
         capability={capability}
@@ -125,13 +119,14 @@ function AppInserter ({
   )
 }
 
-function AppInserter2 ({
+function SidebarAppInserter ({
   app,
   update,
   option,
   capability,
   customRenderer,
-  setEditable
+  setEditable,
+  location
 }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [items, setItems] = React.useState(app[option.namespace] || [])
@@ -249,6 +244,7 @@ function AppInserter2 ({
 
                 <ErrorBoundary>
                   <AppList
+                    location={location}
                     loading={loading}
                     handleAdd={handleAdd}
                     packages={packages}
@@ -300,105 +296,6 @@ function AppInserter2 ({
   )
 }
 
-function getPackage (data, cb) {
-  graphql(APP_PACKAGE_HOOK,
-    { ...data, location: 'home' },
-    {
-      success: (data) => {
-        cb && cb(data)
-      },
-      error: () => {}
-    })
-}
-
-export function AppList ({
-  handleAdd,
-  packages,
-  app,
-  loading,
-  conversation,
-}) {
-  const [selected, setSelected] = React.useState(null)
-
-  function handleSelect (o) {
-    if (o.type === 'internal') return handleAdd(o)
-    setSelected(o)
-  }
-
-  function handleInsert (data) {
-    handleAdd(data)
-  }
-
-  return (
-
-    <div>
-
-      {
-        loading && <Progress/>
-      }
-
-      { !loading &&
-        <List>
-          {
-            !selected && packages.map((o) => (
-              <ListItem key={o.name}>
-
-                <ListItemText
-                  primary={
-                    <ItemListPrimaryContent variant="h5">
-                      {o.name}
-                    </ItemListPrimaryContent>
-                  }
-                  secondary={
-                    <ItemListSecondaryContent>
-                      {o.description}
-                    </ItemListSecondaryContent>
-                  }
-                  terciary={
-                    <React.Fragment>
-                      <div
-                        className="mt-2 flex items-center
-                        text-sm leading-5 text-gray-500 justify-end"
-                      >
-
-                        <Button onClick={() => handleSelect(o)}>
-                          Add
-                        </Button>
-
-                      </div>
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-            ))
-          }
-        </List>
-      }
-
-      {
-        selected && <div>
-          <Button
-            variant={'link'}
-            size={'xs'}
-            onClick={() => setSelected(null)}>
-            <LeftArrow/>
-            {'back'}
-          </Button>
-
-          <BaseInserter
-            getPackage={getPackage}
-            onItemSelect={handleAdd}
-            pkg={selected}
-            app={app}
-            onInitialize={handleInsert}
-            conversation={conversation}
-          />
-        </div>
-      }
-    </div>
-  )
-}
-
 function mapStateToProps (state) {
   const { app_user, app } = state
   return {
@@ -408,6 +305,6 @@ function mapStateToProps (state) {
 }
 
 // export default ShowAppContainer
-export const AppInserterInner = withRouter(connect(mapStateToProps)(AppInserter2))
+export const AppInserterInner = connect(mapStateToProps)(SidebarAppInserter)
 
-export default withRouter(connect(mapStateToProps)(AppInserter))
+export default connect(mapStateToProps)(AppInserter)

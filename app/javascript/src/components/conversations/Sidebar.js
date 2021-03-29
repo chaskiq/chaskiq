@@ -11,15 +11,17 @@ import AppInserter from './AppInserter'
 import Button from '../Button'
 import ErrorBoundary from '../ErrorBoundary'
 
-import {
-  APP_PACKAGE_HOOK
-} from '../../graphql/queries'
 
-import graphql from '../../graphql/client'
+
+
 
 import {
   DefinitionRenderer
 } from '../packageBlocks/components'
+
+import {
+  getPackage
+} from '../packageBlocks/utils'
 
 function localeDate (date) {
   return new Date(date).toLocaleString()
@@ -60,6 +62,7 @@ function Sidebar ({
                   app={app}
                   update={update}
                   setEditable={setEditable}
+                  location={'inbox'}
                   option={
                     {
                       name: 'inbox apps',
@@ -314,20 +317,6 @@ function AssigneeBlock ({ conversation, app }) {
   </div>
 }
 
-function getPackage (data, cb) {
-  graphql(APP_PACKAGE_HOOK,
-    {
-      ...data,
-      location: 'inbox'
-    },
-    {
-      success: (data) => {
-        cb && cb(data)
-      },
-      error: () => {}
-    })
-}
-
 function AppItem ({
   app,
   object,
@@ -362,11 +351,10 @@ function AppItem ({
       ctx: {
         conversation_key: conversation.key,
         field: packageParams.field,
-        location: 'inbox',
-        values: packageParams.values
+        values: packageParams.values,
       }
     }
-    getPackage(params, (data) => {
+    getPackage(params, 'inbox' , (data) => {
       const defs = data.app.appPackage.callHook.definitions
       setDefinitions(defs)
       cb && cb()
@@ -390,6 +378,7 @@ function AppItem ({
             schema={definitions}
             size="sm"
             appPackage={object}
+            location={'inbox'}
             // disabled={true}
             updatePackage={updatePackage}
           />
