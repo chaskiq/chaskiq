@@ -32,6 +32,7 @@ import {
 import {
   AppList,
 } from '../../components/packageBlocks/AppList'
+import InserterForm from '../../components/packageBlocks/InserterForm'
 
 
 const SortableContainer = sortableContainer(({ children }) => {
@@ -215,42 +216,15 @@ function HomeAppInserter ({ app, update, option, capability }) {
         </div>
       </div>
 
-      <div>
-        {isOpen && (
-          <FormDialog
-            open={isOpen}
-            handleClose={closeHandler}
-            titleContent={'Add apps to chat home'}
-            formComponent={
-              <div className="h-64 overflow-auto">
-
-                <ErrorBoundary>
-                  <AppList
-                    location={'home'}
-                    loading={loading}
-                    handleAdd={handleAdd}
-                    packages={packages}
-                    app={app}
-                  />
-                </ErrorBoundary>
-
-              </div>
-            }
-            dialogButtons={
-              <React.Fragment>
-
-                {/* <Button onClick={deleteHandler} className="ml-2" variant="danger">
-                {I18n.t('common.delete')}
-              </Button> */}
-                <Button onClick={closeHandler} variant="outlined">
-                  {I18n.t('common.cancel')}
-                </Button>
-              </React.Fragment>
-            }
-          ></FormDialog>
-        )}
-      </div>
-
+      <InserterForm 
+        isOpen={isOpen} 
+        app={app} 
+        closeHandler={closeHandler}
+        handleAdd={handleAdd}
+        packages={packages}
+        loading={loading}
+      />
+      
       <div className="w-2/4">
         <SortableContainer onSortEnd={onSortEnd} useDragHandle>
           {items && items.map((o, index) => (

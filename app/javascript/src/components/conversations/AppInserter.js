@@ -28,6 +28,7 @@ import {
 import {
   AppList,
 } from '../packageBlocks/AppList'
+import InserterForm from '../packageBlocks/InserterForm'
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>
@@ -233,41 +234,14 @@ function SidebarAppInserter ({
         </div>
       </div>
 
-      <div>
-        {isOpen && (
-          <FormDialog
-            open={isOpen}
-            handleClose={closeHandler}
-            titleContent={'Add apps to chat home'}
-            formComponent={
-              <div className="h-64 overflow-auto">
-
-                <ErrorBoundary>
-                  <AppList
-                    location={location}
-                    loading={loading}
-                    handleAdd={handleAdd}
-                    packages={packages}
-                    app={app}
-                  />
-                </ErrorBoundary>
-
-              </div>
-            }
-            dialogButtons={
-              <React.Fragment>
-
-                {/* <Button onClick={deleteHandler} className="ml-2" variant="danger">
-                {I18n.t('common.delete')}
-              </Button> */}
-                <Button onClick={closeHandler} variant="outlined">
-                  {I18n.t('common.cancel')}
-                </Button>
-              </React.Fragment>
-            }
-          ></FormDialog>
-        )}
-      </div>
+      <InserterForm 
+        isOpen={isOpen} 
+        app={app} 
+        closeHandler={closeHandler}
+        handleAdd={handleAdd}
+        packages={packages}
+        loading={loading}
+      />
 
       <div className="w-full">
         <SortableContainer

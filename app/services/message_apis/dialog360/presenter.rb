@@ -3,64 +3,22 @@ module MessageApis::Dialog360
     # Initialize flow webhook URL
     # Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.
     def self.initialize_hook(params)
-      url = params[:ctx][:values][:url]
-      text = params[:ctx][:values][:invitation_text]
-
-      definitions = [
-        {
-          type: 'text',
-          text: text,
-          align: 'left',
-          style: 'muted'
-        },
-        {
-          name: 'book-meeting',
-          label: params[:ctx][:values][:label],
-          type: 'button',
-          align: 'center',
-          width: 'full',
-          action: {
-            type: 'frame',
-            url: '/package_iframe_internal/Calendly'
-          }
-        }
-      ]
-
+      definitions = []
       {
         kind: 'initialize',
         definitions: definitions,
-        values: params[:ctx][:values]
+        values: {}
       }
     end
 
     # Submit flow webhook URL
     # Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.
     def self.submit_hook(params)
-      definitions = [
-        {
-          type: 'text',
-          text: 'Calendly',
-          align: 'center',
-          style: 'header'
-        }
-      ]
-
-      if (event = params.dig(:ctx, :values, 'data', 'event')) && event
-        case event
-        when 'calendly.event_scheduled'
-          definitions << {
-            type: 'text',
-            text: 'Scheduled!',
-            align: 'center',
-            style: 'header'
-          }
-        end
-      end
-
+      definitions = []
       {
         kind: 'submit',
         definitions: definitions,
-        values: params[:ctx][:values]
+        values: {}
       }
     end
 

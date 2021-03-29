@@ -55,7 +55,6 @@ const Article = () => {
   const domain = window.domain
   const [article, _setArticle] = useState(window.articleJson)
   const [loading, _setLoading] = useState(false)
-  //const { t } = useTranslation()
 
   function renderDate () {
     return <Moment format="MMM Do, YYYY">
@@ -65,16 +64,13 @@ const Article = () => {
 
   return (
     <Panel>
-
       {
         loading && <Loader sm />
       }
       {
         article &&
         <ContentWrapper
-        // in={transition}
         >
-
           { article.collection && <CollectionLabel>
             {article.collection.title}
           </CollectionLabel>
@@ -95,7 +91,6 @@ const Article = () => {
           </ArticleMeta>
 
           <ThemeProvider
-
             theme={ {
               ...theme,
               palette: {
@@ -111,7 +106,6 @@ const Article = () => {
               />
             </DanteContainerExtend>
           </ThemeProvider>
-
         </ContentWrapper>
       }
 
