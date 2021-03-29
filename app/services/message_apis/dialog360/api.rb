@@ -17,7 +17,7 @@ module MessageApis::Dialog360
              else
                'https://waba.360dialog.io/v1'
              end
-
+      @package = config[:package]
       @conn = Faraday.new(
         request: {
           params_encoder: Faraday::FlatParamsEncoder
@@ -40,6 +40,11 @@ module MessageApis::Dialog360
 
       response = @conn.post("#{@url}/configs/webhook", data.to_json)
       response.status
+    end
+
+    def retrieve_templates
+      response = @conn.get("#{@url}/configs/templates?limit=10")
+      response.body
     end
 
     def unregister(app_package, integration)
@@ -65,17 +70,41 @@ module MessageApis::Dialog360
       statuses.each do |status|
         case status['status']
         when 'read' then process_read(status)
+        when 'failed' then process_error(status)
         else
           puts "no processing for #{status['status']} event"
         end
       end
     end
 
-    def process_read(params)
-      conversation_part_channel = ConversationPartChannelSource.find_by(
+    def find_channel(id)
+      ConversationPartChannelSource.find_by(
         provider: PROVIDER,
-        message_source_id: params['id']
+        message_source_id: id
       )
+    end
+
+    def process_error(params)
+      conversation_part_channel = find_channel(params['id'])
+      return if conversation_part_channel.blank?
+
+      conversation = conversation_part_channel.conversation_part.conversation
+
+      # crea el mensaje con el channel de una, asi cuando se cree
+      # el notify_message va a bypasear el canal
+      # conversation.add_message()
+      conversation.add_message_event(
+        action: 'errored',
+        provider: PROVIDER,
+        message_source_id: "bypass-internal-#{params['id']}",
+        data: {
+          status: params
+        }
+      )
+    end
+
+    def process_read(params)
+      conversation_part_channel = find_channel(params['id'])
       return if conversation_part_channel.blank?
 
       conversation_part_channel.conversation_part.read!
@@ -99,10 +128,7 @@ module MessageApis::Dialog360
         o['text']
       end.join("\r\n")
 
-      profile_id = conversation.main_participant
-                               &.external_profiles
-                               &.find_by(provider: PROVIDER)
-                               &.profile_id
+      profile_id = get_profile_for_participant(conversation)
 
       # TODO: maybe handle an error here ?
       return if profile_id.blank?
@@ -145,10 +171,53 @@ module MessageApis::Dialog360
                               })
       end
 
-      s = @conn.post(
+      @conn.post(
         "#{@url}/messages",
         message_params.to_json
       )
+    end
+
+    def get_profile_for_participant(conversation)
+      conversation.main_participant
+        &.external_profiles
+        &.find_by(provider: PROVIDER)
+        &.profile_id
+    end
+
+    def send_template_message(template:, conversation_key:, parameters:)
+      parameters = parameters.is_a?(Array) ? parameters : [parameters]
+
+      conversation = @package.app.conversations.find_by(key: conversation_key)
+
+      profile_id = get_profile_for_participant(conversation)
+
+      pp template
+      return unless profile_id.present?
+
+      data = {
+        to: profile_id,
+        type: 'hsm',
+        hsm: {
+          namespace: template['namespace'],
+          element_name: template['name'],
+          language: {
+            policy: 'deterministic',
+            code: template['language']
+          },
+          localizable_params: parameters.compact.map do |o|
+            { default: o }
+          end
+        }
+      }
+
+      pp '***************'
+      pp data
+
+      s = @conn.post(
+        "#{@url}/messages",
+        data.to_json
+      )
+      JSON.parse(s.body)
     end
 
     # not used fro now

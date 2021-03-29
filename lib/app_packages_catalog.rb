@@ -479,6 +479,7 @@ class AppPackagesCatalog
         description: 'Interfaces 360 Dialog Whatsapp',
         icon: 'https://logo.clearbit.com/360 Dialog.com',
         state: 'enabled',
+        capability_list: %w[conversations bots],
         definitions: [
           {
             name: 'user_id',

@@ -36,11 +36,10 @@ class AppPackageIntegration < ApplicationRecord
 
   def message_api_klass
     @message_api_klass ||= "MessageApis::#{app_package.name}::Api".constantize.new(
-      config: settings.dup.merge(
+      config: settings.dup.merge(package: self).merge(
         app_package.credentials || {}
       )
     )
-
     # rescue nil
   end
 
@@ -108,7 +107,7 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def hook_url
-    host = ENV['HOST']
+    host = 'https://chaskiq.ngrok.io' # ENV['HOST']
     "#{host}/api/v1/hooks/receiver/#{encoded_id}"
     # "#{ENV['HOST']}/api/v1/hooks/#{app.key}/#{app_package.name.downcase}/#{self.id}"
   end
@@ -139,6 +138,8 @@ class AppPackageIntegration < ApplicationRecord
   def call_hook(params)
     # @presenter.submit_hook(params)
     params.merge!({ package: self }) if external_package?
+
+    params[:ctx][:package] = self unless external_package?
 
     response = presenter_hook_response(params, presenter)&.with_indifferent_access
 

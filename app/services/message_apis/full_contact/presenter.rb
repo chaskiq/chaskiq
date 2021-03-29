@@ -39,13 +39,8 @@ module MessageApis::FullContact
         key: ctx[:conversation_key]
       )
       user = conversation.main_participant
-
-      app = ctx[:app]
-      res = app.app_package_integrations
-               .joins(:app_package)
-               .where("app_packages.name": 'FullContact')
-               .first
-               .message_api_klass.enrich_user(user)
+      app = ctx[:package].app
+      res = ctx[:package].message_api_klass.enrich_user(user)
 
       definitions = [
         {
