@@ -156,7 +156,7 @@ class AppPackageIntegration < ApplicationRecord
 
     if (message_key = params.dig(:ctx, :message_key)) && message_key.present?
       # TODO: maybe refactor this logic, move it to another place
-      message = params.dig(:ctx, :app).conversation_parts.find_by(
+      message = params.dig(:ctx, :package).app.conversation_parts.find_by(
         key: message_key
       )
 
