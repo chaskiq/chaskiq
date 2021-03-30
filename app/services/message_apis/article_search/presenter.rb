@@ -58,17 +58,17 @@ module MessageApis::ArticleSearch
       # I18n.locale = lang
       if term.present?
         articles = app.articles.published
-                            .includes([:author, :collection, :section, { article_content: :translations }])
-                            .search(term)
-                            .page(1)
-                            .per(10)
+                      .includes([:author, :collection, :section, { article_content: :translations }])
+                      .search(term)
+                      .page(1)
+                      .per(10)
       end
 
       unless term.present?
         articles = app.articles.published
-                            .includes([:author, :collection, :section, { article_content: :translations }])
-                            .page(1)
-                            .per(5)
+                      .includes([:author, :collection, :section, { article_content: :translations }])
+                      .page(1)
+                      .per(5)
       end
 
       results = [
