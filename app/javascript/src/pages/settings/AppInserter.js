@@ -1,7 +1,7 @@
 import React from 'react'
-import FormDialog from '../../components/FormDialog'
+
 import Button from '../../components/Button'
-import ErrorBoundary from '../../components/ErrorBoundary'
+
 
 import arrayMove from 'array-move'
 
@@ -29,9 +29,7 @@ import {
   DefinitionRenderer,
 } from '../../components/packageBlocks/components'
 
-import {
-  AppList,
-} from '../../components/packageBlocks/AppList'
+
 import InserterForm from '../../components/packageBlocks/InserterForm'
 
 

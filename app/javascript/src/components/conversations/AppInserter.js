@@ -1,7 +1,7 @@
 import React from 'react'
-import FormDialog from '../FormDialog'
+
 import Button from '../Button'
-import ErrorBoundary from '../ErrorBoundary'
+
 import arrayMove from 'array-move'
 
 import { connect } from 'react-redux'
@@ -25,9 +25,7 @@ import {
   DefinitionRenderer,
 } from '../packageBlocks/components'
 
-import {
-  AppList,
-} from '../packageBlocks/AppList'
+
 import InserterForm from '../packageBlocks/InserterForm'
 
 const SortableContainer = sortableContainer(({ children }) => {

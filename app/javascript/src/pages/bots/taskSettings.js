@@ -29,7 +29,7 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
         data={data}
       /> */}
 
-      <div className="flex justify-end p-4">
+      <div className="flex justify-start">
         <Button
           variant={'success'}
           color={'primary'}
@@ -95,6 +95,7 @@ function Schedule ({ app, data, updateData, _namespace, _submit }) {
         type="radio"
         value={'inside_office'}
         checked={state.scheduling === 'inside_office'}
+        defaultChecked={state.scheduling === 'inside_office'}
         label={I18n.t('task_bots.settings.office_hours')}
         labelPlacement="end"
       />
@@ -104,6 +105,7 @@ function Schedule ({ app, data, updateData, _namespace, _submit }) {
         onChange={handleRadioChange}
         name="scheduling"
         value={'outside_office'}
+        defaultChecked={state.scheduling === 'outside_office'}
         checked={state.scheduling === 'outside_office'}
         label={I18n.t('task_bots.settings.outside_office')}
         labelPlacement="end"
