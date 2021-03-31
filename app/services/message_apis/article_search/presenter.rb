@@ -53,22 +53,22 @@ module MessageApis::ArticleSearch
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
       { content: { kind: kind, ctx: ctx } }
-
+      app = ctx[:package].app
       term = ctx.dig(:values, :search_articles)
       # I18n.locale = lang
       if term.present?
-        articles = ctx[:app].articles.published
-                            .includes([:author, :collection, :section, { article_content: :translations }])
-                            .search(term)
-                            .page(1)
-                            .per(10)
+        articles = app.articles.published
+                      .includes([:author, :collection, :section, { article_content: :translations }])
+                      .search(term)
+                      .page(1)
+                      .per(10)
       end
 
       unless term.present?
-        articles = ctx[:app].articles.published
-                            .includes([:author, :collection, :section, { article_content: :translations }])
-                            .page(1)
-                            .per(5)
+        articles = app.articles.published
+                      .includes([:author, :collection, :section, { article_content: :translations }])
+                      .page(1)
+                      .per(5)
       end
 
       results = [
@@ -199,7 +199,7 @@ module MessageApis::ArticleSearch
         													window.domain="<%= Rails.application.config.action_controller.asset_host %>";
         					#{'              '}
         												</script>
-        												<script src="<%= "#{Rails.application.config.action_controller.asset_host}#{asset_pack_url('article.js')}" %>"></script>
+        												<script src="<%= "#{ActionController::Base.helpers.asset_pack_url('article.js')}" %>"></script>
         #{'          '}
         											</head>
         #{'          '}

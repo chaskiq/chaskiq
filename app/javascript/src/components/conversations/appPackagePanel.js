@@ -4,19 +4,19 @@ import Button from '../../components/Button'
 import Progress from '../../components/Progress'
 import ErrorBoundary from '../../components/ErrorBoundary'
 
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import graphql from '../../graphql/client'
 import {
   DefinitionRenderer
 } from '../packageBlocks/components'
-import { AppList } from '../../pages/settings/AppInserter'
 import {
   APP_PACKAGES_BY_CAPABILITY
 } from '../../graphql/queries'
 import {
   getPackage
 } from '../packageBlocks/utils'
+import { AppList } from '../packageBlocks/AppList'
+
 
 function AppPackagePanel (props) {
   const [open, setOpen] = React.useState(props.open)
@@ -89,6 +89,7 @@ function AppPackagePanel (props) {
                   handleAdd={handleAdd}
                   packages={providers}
                   app={props.app}
+                  location={props.kind}
                   conversation={props.conversation}
                 />
             }
@@ -113,6 +114,7 @@ function AppPackagePanel (props) {
 
                 <DefinitionRenderer
                   schema={contentSchema || provider.definitions}
+                  location={props.location}
                   updatePackage={(data, cb) => {
                     // check only if content kind!
                     if (data.field.action.type !== 'content') { return }
@@ -125,7 +127,7 @@ function AppPackagePanel (props) {
                         conversation_key: props.conversation.key,
                         field: data.field,
                         definitions: [data.field.action],
-                        location: 'inbox',
+                        location: props.kind,
                         values: data.values
                       }
                     }
@@ -170,4 +172,4 @@ function mapStateToProps (state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(AppPackagePanel))
+export default connect(mapStateToProps)(AppPackagePanel)

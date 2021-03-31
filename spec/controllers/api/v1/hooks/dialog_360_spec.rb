@@ -137,6 +137,31 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
+  def data_for_errors(id:, sender:, message_id: nil, message_data: {})
+    {
+      statuses: [
+        {
+          errors: [
+            {
+              code: 470,
+              href: 'https://developers.facebook.com/docs/whatsapp/api/errors/',
+              title: 'Message failed to send because more than 24 hours have passed since the customer last replied to this number'
+            }
+          ],
+          id: message_id,
+          recipient_id: '56992302305',
+          status: 'failed',
+          timestamp: '1616908033'
+        }
+      ],
+      'controller' => 'api/v1/hooks/provider',
+      'action' => 'process_event',
+      'provider' => 'dialog_360',
+      'app_key' => app.key,
+      'id' => id
+    }
+  end
+
   def data_for_read(id:, sender:, message_id: nil, message_data: {})
     {
       statuses: [
@@ -368,6 +393,44 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       blocks = JSON.parse(message.serialized_content)['blocks']
 
       expect(blocks.size).to be == 4
+    end
+
+    it 'create message with error' do
+      get(:process_event, params: data_for(
+        id: @pkg.id,
+        sender: user_phone,
+        message_data: {
+          'text' => "one\ntwo\ntree\n✌️"
+        }
+      ))
+      perform_enqueued_jobs
+
+      message = app.conversations.last.messages.last
+      message.conversation_part_channel_sources.create(
+        message_source_id: 1,
+        provider: 'Dialog360'
+      )
+
+      get(:process_event, params: data_for_errors(
+        id: @pkg.encoded_id,
+        message_id: 1,
+        sender: user_phone
+      ))
+
+      allow_any_instance_of(
+        MessageApis::Dialog360::Api
+      ).to receive(:get_message_id).and_return(1)
+
+      perform_enqueued_jobs
+
+      last_message = app.conversations.last.messages.last
+      expect(
+        last_message.message
+      ).to be_a(ConversationPartEvent)
+
+      expect(
+        last_message.conversation_part_channel_sources.first.message_source_id
+      ).to include('bypass-internal')
     end
   end
 end

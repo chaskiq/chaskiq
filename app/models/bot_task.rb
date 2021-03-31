@@ -22,20 +22,22 @@ class BotTask < Message
   scope :disabled, -> { where(state: 'disabled') }
 
   scope :for_new_conversations, lambda {
-    # where(type: 'leads')
     where("settings->>'bot_type' = ?", 'new_conversations')
   }
   scope :for_outbound, lambda {
-    # where(type: 'users')
     where("settings->>'bot_type' = ?", 'outbound')
   }
   scope :for_leads, lambda {
-    # where(type: 'leads')
     where("settings->>'user_type' = ?", 'leads')
   }
   scope :for_users, lambda {
-    # where(type: 'users')
     where("settings->>'user_type' = ?", 'users')
+  }
+  scope :inside_office, lambda {
+    where("settings->>'scheduling' = ?", 'inside_office')
+  }
+  scope :outside_office, lambda {
+    where("settings->>'scheduling' = ?", 'outside_office')
   }
 
   alias_attribute :title, :name
@@ -121,12 +123,25 @@ class BotTask < Message
     false
   end
 
+  def self.send_chain(methods)
+    methods.inject(self, :send)
+  end
+
+  def self.handle_availability_options(availability)
+    case availability
+    when nil then nil
+    when true then :inside_office
+    when false then :outside_office
+    end
+  end
+
   # idea 1: just return a collection of predicates and do it in the client
   # TODO: think how could we set this on client side effectively
   # idea 2: backend implementation , the following code
-  def self.get_welcome_bots_for_user(user)
+  def self.get_welcome_bots_for_user(user, availability)
     selected = nil
-    for_new_conversations.enabled.ordered.each do |bot_task|
+    meths = [:enabled, :ordered, handle_availability_options(availability)].compact
+    for_new_conversations.send_chain(meths).each do |bot_task|
       if bot_task.available_for_user?(user)
         selected = bot_task
         break
@@ -140,7 +155,10 @@ class BotTask < Message
     key = "#{app.key}-#{user.session_id}"
     ret = nil
 
-    app.bot_tasks.for_outbound.availables_for(user).each do |bot_task|
+    availability = app.in_business_hours?(Time.zone.now)
+    meths = [:for_outbound, handle_availability_options(availability)].compact
+
+    app.bot_tasks.send_chain(meths).availables_for(user).each do |bot_task|
       next if bot_task.blank? || !bot_task.available_for_user?(user)
 
       MessengerEventsChannel.broadcast_to(key, {

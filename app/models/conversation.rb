@@ -104,6 +104,7 @@ class Conversation < ApplicationRecord
       data: opts[:data]
     }
 
+    add_part_channel(part, opts)
     part.notify_to_channels if part.save
     part
   end

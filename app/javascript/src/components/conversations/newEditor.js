@@ -309,6 +309,7 @@ export default class ChatEditor extends Component {
         <EditorContainer className="flex">
           {this.state.openPackagePanel && (
             <AppPackagePanel
+              kind={'conversations'}
               open={this.state.openPackagePanel}
               close={() => {
                 this.setState({ openPackagePanel: false })
