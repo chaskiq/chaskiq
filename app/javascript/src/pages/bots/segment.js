@@ -113,7 +113,7 @@ class Segment extends Component {
 
   showUserDrawer = (o) => {
     this.props.dispatch(
-      toggleDrawer({ rightDrawer: true }, () => {
+      toggleDrawer({ userDrawer: true }, () => {
         this.props.dispatch(getAppUser(o.id))
       })
     )
