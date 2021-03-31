@@ -62,6 +62,7 @@ class SegmentComparator
              when 'lt' then user_input < predicate_value
              when 'lteq' then user_input <= predicate_value
              when 'gt' then user_input > predicate_value
+             when 'in' then user_input.in?(predicate_value)
              when 'gteq' then user_input >= predicate_value
              end
   end

@@ -83,7 +83,15 @@ class Message < ApplicationRecord
     self.state = 'disabled'
   end
 
+  def default_type_segments
+    [
+      { 'type': 'match', 'value': 'and', 'attribute': 'match', 'comparison': 'and' },
+      { 'type': 'string', 'value': ['AppUser'], 'attribute': 'type', 'comparison': 'in' }
+    ]
+  end
+
   def add_default_predicate
+    
     return if segments.present? && segments.any?
 
     self.segments = [] unless segments.present?
@@ -94,21 +102,17 @@ class Message < ApplicationRecord
       comparison: 'and',
       value: 'and'
     }
+
+    segments << default_type_segments
   end
 
   def self.type_predicate_for(type_predicate)
     # AppUser, Lead, Visitor
-    types = {
-      users: 'AppUser',
-      leads: 'Lead',
-      visitors: 'Visitor'
-    }
-
     [{
-      value: types[type_predicate.to_sym],
+      value: type_predicate,
       type: 'string',
       attribute: 'type',
-      comparison: 'eq'
+      comparison: 'in'
     }]
   end
 

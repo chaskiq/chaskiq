@@ -13,6 +13,13 @@ class Segment < ApplicationRecord
     sort_direction
   ], coder: JSON
 
+  #store_accessor :properties, %i[
+  #  per_page
+  #  predicates
+  #  sort_by
+  #  sort_direction
+  #]
+
   validate :check_array
 
   def check_array
@@ -84,7 +91,7 @@ class Segment < ApplicationRecord
 
       # check if its in table column
       field = build_predicate_field(predicate)
-
+      
       check = check_predicate(predicate, field)
 
       query = build_query(check, query)

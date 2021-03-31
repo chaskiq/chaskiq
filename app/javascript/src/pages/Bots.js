@@ -125,21 +125,21 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         title: 'Visitors',
         description: 'visitors on the platform',
         // icon: <UnsubscribeIcon/>,
-        id: 'visitors',
+        id: 'Visitor',
         state: 'checked'
       },
       {
         title: 'Leads',
         description: 'Visitors who make an actions',
         // icon: <UnsubscribeIcon/>,
-        id: 'leads',
+        id: 'Lead',
         state: 'checked'
       },
       {
         title: 'Users',
         description: "your platform's registered users",
         // icon: <UnsubscribeIcon/>,
-        id: 'users',
+        id: 'AppUser',
         state: 'checked'
       }
     ]
