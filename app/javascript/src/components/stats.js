@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Moment from 'react-moment'
 import CampaignChart from './charts/charts.js'
 import styled from '@emotion/styled'
+import { connect } from 'react-redux'
 
 import Table from './Table'
 import Badge from './Badge'
@@ -10,6 +11,10 @@ import Button from './Button'
 import Count from './charts/count'
 import I18n from '../shared/FakeI18n'
 import { isEmpty } from 'lodash'
+
+import { getAppUser } from '../actions/app_user'
+import { toggleDrawer } from '../actions/drawer'
+
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -123,6 +128,14 @@ class Stats extends Component {
     })
   };
 
+  showUserDrawer = (id) => {
+    this.props.dispatch(
+      toggleDrawer({ userDrawer: true }, () => {
+        this.props.dispatch(getAppUser(id))
+      })
+    )
+  };
+
   render () {
     return (
       <div>
@@ -188,7 +201,7 @@ class Stats extends Component {
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                       <div
                         onClick={() =>
-                          this.props.actions.showUserDrawer(row.appUserId)
+                          this.showUserDrawer(row.appUserId)
                         }
                         className="flex items-center"
                       >
@@ -262,4 +275,12 @@ class Stats extends Component {
   }
 }
 
-export default Stats
+
+function mapStateToProps (state) {
+  const {app} = state
+  return {
+    app
+  }
+}
+
+export default connect(mapStateToProps)(Stats)
