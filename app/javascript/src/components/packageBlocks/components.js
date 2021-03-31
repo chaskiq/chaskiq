@@ -14,6 +14,11 @@ import List, {
 } from './List'
 import ErrorBoundary from '../ErrorBoundary'
 
+import {
+  getPackage,
+} from './utils'
+
+
 import { ThemeProvider } from 'emotion-theming'
 
 const spin = keyframes`
@@ -1039,18 +1044,22 @@ function FormField ({ name, label, helperText, children, _error }) {
 
 export function BaseInserter ({
   //onItemSelect,
+  conversation,
   pkg,
   app,
   onInitialize,
-  getPackage
+  location
 }) {
+  console.log(location)
   const [p, setPackage] = React.useState(null)
 
   const params = {
     appKey: app.key,
     id: pkg.name + '',
     hooKind: 'configure',
-    ctx: {}
+    ctx: {
+      location: location
+    }
   }
 
   React.useEffect(() => {
@@ -1066,13 +1075,13 @@ export function BaseInserter ({
     }
   }, [p])
 
-  React.useEffect(() => getPackage(params, (data) => {
+  React.useEffect(() => getPackage(params, location, (data) => {
     setPackage(data.app.appPackage.callHook)
   }), [])
 
   function updatePackage (formData, cb) {
-    const newParams = { ...params, ctx: formData }
-    getPackage(newParams, (data) => {
+    const newParams = { ...params, ctx: {...formData, conversation_key: conversation?.key } }
+    getPackage(newParams, location, (data) => {
       setPackage(data.app.appPackage.callHook)
       cb && cb()
     })
@@ -1084,6 +1093,7 @@ export function BaseInserter ({
         !p && <Progress/>
       }
       {p && <DefinitionRenderer
+        location={location}
         schema={p.definitions}
         getPackage={getPackage}
         appPackage={p}

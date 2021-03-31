@@ -4,11 +4,9 @@ import {
 } from '../../graphql/queries'
 
 export function getPackage (data, location, cb) {
-  graphql(APP_PACKAGE_HOOK,
-    {
-      ...data,
-      location: location // inbox, conversation, bla
-    },
+  // inbox, conversation, bla 
+  const mergedData = {...data, ctx: { ...data.ctx, location: location }}
+  graphql(APP_PACKAGE_HOOK, mergedData,
     {
       success: (data) => {
         cb && cb(data)

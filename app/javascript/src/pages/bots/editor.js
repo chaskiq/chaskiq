@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import styled from '@emotion/styled'
 import TextEditor from '../../components/textEditor'
 import UpgradeButton from '../../components/upgradeButton'
+import InplaceInputEditor from '../../components/InplaceInputEditor'
 
 import graphql from '../../graphql/client'
 import {
@@ -355,11 +356,34 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     })
   }
 
+  function updateTitle (title) {
+    graphql(UPDATE_BOT_TASK, {
+      appKey: app.key,
+      id: match.params.id,
+      params: {
+        title: title,
+      }
+    }, {
+      success: (data)=>{
+        setBotTask(data.updateBotTask.botTask)
+      },
+      error: ()=>{}
+    })
+  }
+
   return (
     <div>
       <Content>
         <ContentHeader
-          title={botTask.title}
+          title={
+
+            <div>
+              <InplaceInputEditor 
+                defaultValue={botTask.title}
+                update={updateTitle}
+              />
+            </div>
+          }
           items={[]}
           actions={
             <div className="flex">

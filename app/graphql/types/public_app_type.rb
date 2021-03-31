@@ -24,7 +24,8 @@ module Types
 
     field :new_conversation_bots, Types::JsonType, null: true
     def new_conversation_bots
-      object.bot_tasks.get_welcome_bots_for_user(current_user)
+      availability = object.in_business_hours?(Time.zone.now)
+      object.bot_tasks.get_welcome_bots_for_user(current_user, availability)
     end
 
     field :app_package, Types::AppPackageIntegrationType, null: true do

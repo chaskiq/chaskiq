@@ -55,7 +55,7 @@ module MessageApis::OpenAi
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
       label = 'epa'
-      app = ctx[:app]
+      app = ctx[:package].app
 
       default_prompt = <<~HEREDOC
         The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.

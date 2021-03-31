@@ -348,7 +348,7 @@ function FormField ({ name, label, helperText, children, _error }) {
   )
 }
 
-function DatePickerWrapper ({ val, name, onChange, error }) {
+function DatePickerWrapper ({ val, name, onChange, _error }) {
   const [value, setValue] = React.useState(val || new Date())
 
   function handleChange (val) {
