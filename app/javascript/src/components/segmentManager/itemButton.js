@@ -93,7 +93,6 @@ export default class SegmentItemButton extends Component {
   };
 
   onCheckBoxTypeChange = (target, o, cb) => {
-    console.log("TARGET:", target.checked, o )
 
     window.blockStyleRef = this.blockStyleRef.current
     window.target = target
