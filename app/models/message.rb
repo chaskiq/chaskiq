@@ -91,19 +91,9 @@ class Message < ApplicationRecord
   end
 
   def add_default_predicate
-    
     return if segments.present? && segments.any?
-
     self.segments = [] unless segments.present?
-
-    segments << {
-      type: 'match',
-      attribute: 'match',
-      comparison: 'and',
-      value: 'and'
-    }
-
-    segments << default_type_segments
+    self.segments = default_type_segments
   end
 
   def self.type_predicate_for(type_predicate)

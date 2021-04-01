@@ -44,7 +44,7 @@ const SortableItem = sortableElement(
     <li>
       <div
         href="#"
-        className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+        className="border-b bg-white block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
       >
         <div className="flex items-center px-4 py-4 sm:px-6">
           <div>
@@ -54,8 +54,8 @@ const SortableItem = sortableElement(
           <div className="min-w-0 flex-1 flex items-center">
             <div className="flex-shrink-0">
               <img
-                className="h-12 w-12 rounded-full"
-                src={`${object.avatarUrl}`}
+                className="ml-3 h-12 w-12 rounded-full"
+                src={`${object.agent.avatarUrl}`}
                 alt=""
               />
             </div>
@@ -88,7 +88,7 @@ const SortableItem = sortableElement(
                 </Button>
 
                 <Button
-                  variant="outlined"
+                  variant="danger"
                   onClick={(e) => {
                     e.preventDefault()
                     deleteRule(object)
@@ -106,7 +106,7 @@ const SortableItem = sortableElement(
 )
 
 const SortableContainer = sortableContainer(({ children }) => {
-  return <ul className="border-b">{children}</ul>
+  return <ul className="bg-white border-md shadow-sm">{children}</ul>
 })
 
 function AssignmentRules ({ dispatch, app }) {
@@ -291,6 +291,12 @@ function AssignmentRules ({ dispatch, app }) {
       attribute: 'match',
       comparison: 'and',
       value: 'and'
+    },
+    { 
+      'type': 'string', 
+      'value': ['AppUser'], 
+      'attribute': 'type', 
+      'comparison': 'in' 
     }
   ]
 
@@ -302,8 +308,7 @@ function AssignmentRules ({ dispatch, app }) {
         actionLabel={'New Rule'}
         actions={
           <Button
-            style={{ alignSelf: 'flex-end' }}
-            variant="contained"
+            variant="flat-dark"
             color="primary"
             onClick={() =>
               setState({

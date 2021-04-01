@@ -19,3 +19,39 @@ namespace :owner_apps do
     end
   end
 end
+
+namespace :upgrade_tasks do
+  task predicates: :environment do
+    Message.all.each do |c|
+      next if c.segments.nil?
+      segments = c.segments.compact.map{ |o|
+        if o["attribute"] == "type"
+          o.merge!({
+            "comparison" => "in", 
+            "value" => o["value"].is_a?(Array) ? o["value"] : [o["value"]].flatten
+          })
+        else
+          o
+        end
+      }.compact
+      
+      c.update(segments: segments)	
+    end
+    
+    Segment.all.each do |c|
+      next if c.predicates.nil?
+      segments = c.predicates.compact.map{ |o|
+        if o["attribute"] == "type"
+          o.merge!({
+            "comparison" => "in", 
+            "value" => o["value"].is_a?(Array) ? o["value"] : [o["value"]].flatten
+          })
+        else
+          o
+        end
+      }.compact
+
+      c.update(predicates: segments)	
+    end
+  end
+end

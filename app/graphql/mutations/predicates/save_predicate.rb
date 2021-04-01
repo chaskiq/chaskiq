@@ -17,7 +17,7 @@ module Mutations
       @app = current_user.apps.find_by(key: app_key)
       @segment = @app.segments.find(id)
 
-      data = predicates.map { |o| o.permit(:type, :attribute, :comparison, :value) }
+      data = predicates.map { |o| o.permit(:type, :attribute, :comparison, :value, value: []) }
 
       @segment.update(predicates: data.as_json)
 

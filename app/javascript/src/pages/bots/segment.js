@@ -167,10 +167,12 @@ class Segment extends Component {
           {this.state.jwt ? (
             <Button
               isLoading={false}
-              appearance={'link'}
+              size={'sm'}
+              variant={'flat-dark'}
               onClick={this.handleSave}
             >
-              <i className="fas fa-chart-pie"></i> Save Segment
+              <i className="fas fa-chart-pie mr-2"></i>
+              {' '}Save Segment
             </Button>
           ) : null}
         </SegmentManager>

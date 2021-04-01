@@ -13,13 +13,6 @@ class Segment < ApplicationRecord
     sort_direction
   ], coder: JSON
 
-  #store_accessor :properties, %i[
-  #  per_page
-  #  predicates
-  #  sort_by
-  #  sort_direction
-  #]
-
   validate :check_array
 
   def check_array
