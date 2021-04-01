@@ -84,7 +84,7 @@ class Segment < ApplicationRecord
 
       # check if its in table column
       field = build_predicate_field(predicate)
-      
+
       check = check_predicate(predicate, field)
 
       query = build_query(check, query)

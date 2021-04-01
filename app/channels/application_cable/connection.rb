@@ -82,7 +82,11 @@ module ApplicationCable
 
     def authorize_by_identifier_params
       params = request.query_parameters
-      data = JSON.parse(Base64.decode64(params[:user_data])) rescue nil
+      data = begin
+        JSON.parse(Base64.decode64(params[:user_data]))
+      rescue StandardError
+        nil
+      end
       return nil unless data.is_a?(Hash)
       return data&.with_indifferent_access if app.compare_user_identifier(data)
     end

@@ -116,7 +116,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates
         )
 
-        
         expect(comparator.compare).to be_truthy
       end
 
@@ -129,7 +128,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_for_empty
         )
 
-        
         expect(comparator.compare).to be_falsey
       end
 
@@ -142,7 +140,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_with_or
         )
 
-        
         expect(comparator.compare).to be_truthy
       end
 
@@ -155,7 +152,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_with_and
         )
 
-        
         expect(comparator.compare).to be_falsey
       end
 
@@ -168,7 +164,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_jsonb
         )
 
-        
         expect(comparator.compare).to be_truthy
       end
 
@@ -181,7 +176,6 @@ RSpec.describe Segment, type: :model do
           predicates: email_predicate
         )
 
-        
         expect(comparator.compare).to be_truthy
       end
 
@@ -193,7 +187,6 @@ RSpec.describe Segment, type: :model do
           predicates: not_email_predicate
         )
 
-        
         expect(comparator.compare).to be_falsey
       end
 
@@ -228,14 +221,14 @@ RSpec.describe Segment, type: :model do
                         value: 'oo' }.with_indifferent_access
       end
 
-      let (:predicates_on_user_type) do
+      let(:predicates_on_user_type) do
         [
-          {"type"=>"match", "value"=>"and", "attribute"=>"match", "comparison"=>"and"}, 
-          {"type"=>"string", "value"=>["AppUser", "Lead", "Visitor"], "attribute"=>"type", "comparison"=>"in"}
+          { 'type' => 'match', 'value' => 'and', 'attribute' => 'match', 'comparison' => 'and' },
+          { 'type' => 'string', 'value' => %w[AppUser Lead Visitor], 'attribute' => 'type', 'comparison' => 'in' }
         ]
       end
 
-      it "app type in" do
+      it 'app type in' do
         allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates_on_user_type)
         expect(app.segments.first.execute_query.count).to be == 1
 
@@ -292,7 +285,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_tags_contains_multiple
         )
 
-        
         expect(comparator.compare).to be_truthy
       end
 
@@ -329,7 +321,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_tags_contains_multiple_2
         )
 
-        
         expect(comparator.compare).to be_truthy
       end
 
@@ -357,7 +348,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates
         )
 
-        
         expect(comparator.compare).to be_falsey
       end
     end

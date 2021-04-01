@@ -85,13 +85,14 @@ class Message < ApplicationRecord
 
   def default_type_segments
     [
-      { 'type': 'match', 'value': 'and', 'attribute': 'match', 'comparison': 'and' },
-      { 'type': 'string', 'value': ['AppUser'], 'attribute': 'type', 'comparison': 'in' }
+      { type: 'match', value: 'and', attribute: 'match', comparison: 'and' },
+      { type: 'string', value: ['AppUser'], attribute: 'type', comparison: 'in' }
     ]
   end
 
   def add_default_predicate
     return if segments.present? && segments.any?
+
     self.segments = [] unless segments.present?
     self.segments = default_type_segments
   end

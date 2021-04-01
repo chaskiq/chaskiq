@@ -147,22 +147,16 @@ class Segment extends Component {
             'osVersion',
             'lang'
           ]}
-          // selection [],
           tableColumnExtensions={[
-            // { columnName: 'id', width: 150 },
             { columnName: 'email', width: 250 },
             { columnName: 'lastVisitedAt', width: 120 },
             { columnName: 'os', width: 100 },
             { columnName: 'osVersion', width: 100 },
             { columnName: 'state', width: 80 },
             { columnName: 'online', width: 80 }
-            // { columnName: 'amount', align: 'right', width: 140 },
           ]}
           leftColumns={['email']}
           rightColumns={['online']}
-          // toggleMapView={this.toggleMapView}
-          // map_view={this.state.map_view}
-          // enableMapView={true}
         >
           {this.state.jwt ? (
             <Button

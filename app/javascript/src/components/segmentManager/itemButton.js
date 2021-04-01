@@ -49,26 +49,24 @@ export default class SegmentItemButton extends Component {
     }
   }
 
+  handleInputScroll = (target, cb)=>{
+    setTimeout(() => {
+      const el = this.blockStyleRef.current
+      const diff =
+        target.getBoundingClientRect().top - el.getBoundingClientRect().top
+      this.blockStyleRef.current.scrollTop = diff
+    }, 20)
+
+    cb && cb()
+  }
+
   onRadioChange = (target, cb) => {
     const { value } = target
-
-    window.blockStyleRef = this.blockStyleRef.current
-    window.target = target
-
     this.setState(
       {
         selectedOption: value
       },
-      () => {
-        setTimeout(() => {
-          const el = this.blockStyleRef.current
-          const diff =
-            target.getBoundingClientRect().top - el.getBoundingClientRect().top
-          this.blockStyleRef.current.scrollTop = diff
-        }, 20)
-
-        cb && cb()
-      }
+      () => { this.handleInputScroll(target, cb)}
     )
   };
 
@@ -79,24 +77,12 @@ export default class SegmentItemButton extends Component {
     this.setState({
       checkedValue: target.value,
       selectedOption: o.value
-    }, () => {
-      setTimeout(() => {
-        const el = this.blockStyleRef.current
-        if (!el) return
-        const diff =
-          target.getBoundingClientRect().top - el.getBoundingClientRect().top
-        this.blockStyleRef.current.scrollTop = diff
-      }, 20)
-
-      cb && cb()
-    })
+    },
+    () => { this.handleInputScroll(target, cb)}
+    )
   };
 
   onCheckBoxTypeChange = (target, o, cb) => {
-
-    window.blockStyleRef = this.blockStyleRef.current
-    window.target = target
-
     let newArr = []
     if(!target.checked){
       newArr = this.state.checkedValue.filter((c)=> c !== o.label )
@@ -107,18 +93,8 @@ export default class SegmentItemButton extends Component {
     this.setState({
       checkedValue: newArr,
       selectedOption: o.value
-    }, () => {
-      setTimeout(() => {
-        const el = this.blockStyleRef.current
-        if (!el) return
-        const diff =
-          target.getBoundingClientRect().top - el.getBoundingClientRect().top
-        this.blockStyleRef.current.scrollTop = diff
-      }, 20)
-
-      cb && cb()
-    })
-
+    }, () => { this.handleInputScroll(target, cb)}
+    )
   }
 
   handleSubmit = (_e) => {
