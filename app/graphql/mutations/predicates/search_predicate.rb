@@ -21,8 +21,11 @@ module Mutations
 
     def resolve(app_key:, search:, page:, per:)
       @app = App.find_by(key: app_key)
+
       @segment = @app.segments.new
-      resource_params = search.require(:data).permit(predicates: %w[attribute comparison type value])
+      resource_params = search.require(:data).permit(
+        predicates: [:attribute, :comparison, :type, :value, { value: [] }]
+      )
       @segment.assign_attributes(resource_params)
       { app_users: app_users(per, page) }
     end

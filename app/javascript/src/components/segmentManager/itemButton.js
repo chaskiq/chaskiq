@@ -1,7 +1,6 @@
 // same as SegmentItemButton
 
 import React, { Component } from 'react'
-
 import styled from '@emotion/styled'
 import Dropdown from '../Dropdown'
 import Button from '../Button'
@@ -50,26 +49,24 @@ export default class SegmentItemButton extends Component {
     }
   }
 
+  handleInputScroll = (target, cb)=>{
+    setTimeout(() => {
+      const el = this.blockStyleRef.current
+      const diff =
+        target.getBoundingClientRect().top - el.getBoundingClientRect().top
+      this.blockStyleRef.current.scrollTop = diff
+    }, 20)
+
+    cb && cb()
+  }
+
   onRadioChange = (target, cb) => {
     const { value } = target
-
-    window.blockStyleRef = this.blockStyleRef.current
-    window.target = target
-
     this.setState(
       {
         selectedOption: value
       },
-      () => {
-        setTimeout(() => {
-          const el = this.blockStyleRef.current
-          const diff =
-            target.getBoundingClientRect().top - el.getBoundingClientRect().top
-          this.blockStyleRef.current.scrollTop = diff
-        }, 20)
-
-        cb && cb()
-      }
+      () => { this.handleInputScroll(target, cb)}
     )
   };
 
@@ -80,18 +77,25 @@ export default class SegmentItemButton extends Component {
     this.setState({
       checkedValue: target.value,
       selectedOption: o.value
-    }, () => {
-      setTimeout(() => {
-        const el = this.blockStyleRef.current
-        if (!el) return
-        const diff =
-          target.getBoundingClientRect().top - el.getBoundingClientRect().top
-        this.blockStyleRef.current.scrollTop = diff
-      }, 20)
-
-      cb && cb()
-    })
+    },
+    () => { this.handleInputScroll(target, cb)}
+    )
   };
+
+  onCheckBoxTypeChange = (target, o, cb) => {
+    let newArr = []
+    if(!target.checked){
+      newArr = this.state.checkedValue.filter((c)=> c !== o.label )
+    }else{
+      newArr = this.state.checkedValue.concat(o.label)
+    }
+
+    this.setState({
+      checkedValue: newArr,
+      selectedOption: o.value
+    }, () => { this.handleInputScroll(target, cb)}
+    )
+  }
 
   handleSubmit = (_e) => {
     // this.props.predicate.type
@@ -107,8 +111,8 @@ export default class SegmentItemButton extends Component {
           case 'type':
             // we assume here that this field is auto applied
             // todo: set radio button on mem and update only on apply click
-            value = `${this.state.checkedValue}`
-            comparison = 'eq'
+            value = this.state.checkedValue
+            comparison = 'in'
             break
           default:
             value = `${this.relative_input.value}`
@@ -219,13 +223,13 @@ export default class SegmentItemButton extends Component {
                 <div key={`type-filter-${i}`}>
                   <label className="inline-flex items-center">
                     <input
-                      type="radio"
+                      type="checkbox"
                       className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                       name="options"
                       value={o.value}
-                      checked={o.value === this.state.checkedValue}
+                      checked={this.state.checkedValue.includes(o.value)}
                       onChange={(e) => {
-                        this.onRadioTypeChange(e.target, o)
+                        this.onCheckBoxTypeChange(e.target, o)
                       }}
                     />
                     <span className="ml-2">{o.label}</span>
@@ -244,7 +248,7 @@ export default class SegmentItemButton extends Component {
               size="small"
               onClick={this.handleSubmit.bind(this)}
             >
-                Apply
+              Apply
             </Button>
           )}
 
@@ -255,10 +259,6 @@ export default class SegmentItemButton extends Component {
   };
 
   contentString = () => {
-    /*const compare = (value) => {
-      return this.props.predicate.comparison === value
-    }*/
-
     const relative = [
       { label: 'is', value: 'eq', defaultSelected: false },
       { label: 'is not', value: 'not_eq', defaultSelected: false },
@@ -273,9 +273,6 @@ export default class SegmentItemButton extends Component {
       { label: 'is unknown', value: 'is_null', defaultSelected: false },
       { label: 'has any value', value: 'is_not_null', defaultSelected: false }
     ]
-
-    // <ClickAwayListener onClickAway={this.toggleDialog2.bind(this)}>
-    // </ClickAwayListener>
 
     return (
       <div>
@@ -338,7 +335,7 @@ export default class SegmentItemButton extends Component {
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
             >
-                Apply
+              Apply
             </Button>
           )}
 
