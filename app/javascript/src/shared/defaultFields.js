@@ -6,7 +6,7 @@ const defaultData = [
   { name: 'email', type: 'string' },
   { name: 'lang', type: 'string' },
   { name: 'tags', type: 'string' },
-  { name: 'type', type: 'string' },
+  //{ name: 'type', type: 'string' },
   { name: 'last_visited_at', type: 'date' },
   { name: 'referrer', type: 'string' },
   { name: 'state', type: 'string' },

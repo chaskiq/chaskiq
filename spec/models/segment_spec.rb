@@ -116,7 +116,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -129,7 +128,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_for_empty
         )
 
-        comparator.compare
         expect(comparator.compare).to be_falsey
       end
 
@@ -142,7 +140,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_with_or
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -155,7 +152,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_with_and
         )
 
-        comparator.compare
         expect(comparator.compare).to be_falsey
       end
 
@@ -168,7 +164,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_jsonb
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -181,7 +176,6 @@ RSpec.describe Segment, type: :model do
           predicates: email_predicate
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -193,7 +187,6 @@ RSpec.describe Segment, type: :model do
           predicates: not_email_predicate
         )
 
-        comparator.compare
         expect(comparator.compare).to be_falsey
       end
 
@@ -228,6 +221,25 @@ RSpec.describe Segment, type: :model do
                         value: 'oo' }.with_indifferent_access
       end
 
+      let(:predicates_on_user_type) do
+        [
+          { 'type' => 'match', 'value' => 'and', 'attribute' => 'match', 'comparison' => 'and' },
+          { 'type' => 'string', 'value' => %w[AppUser Lead Visitor], 'attribute' => 'type', 'comparison' => 'in' }
+        ]
+      end
+
+      it 'app type in' do
+        allow_any_instance_of(Segment).to receive(:predicates).and_return(predicates_on_user_type)
+        expect(app.segments.first.execute_query.count).to be == 1
+
+        comparator = SegmentComparator.new(
+          user: app.app_users.last,
+          predicates: predicates_on_user_type
+        )
+
+        expect(comparator.compare).to be_truthy
+      end
+
       it 'with user tag' do
         app.app_users.each { |o| o.tag_list << 'foo'; o.save }
 
@@ -239,7 +251,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_tags
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -257,7 +268,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_tags_contains
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -275,7 +285,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_tags_contains_multiple
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -312,7 +321,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates_on_tags_contains_multiple_2
         )
 
-        comparator.compare
         expect(comparator.compare).to be_truthy
       end
 
@@ -340,7 +348,6 @@ RSpec.describe Segment, type: :model do
           predicates: predicates
         )
 
-        comparator.compare
         expect(comparator.compare).to be_falsey
       end
     end

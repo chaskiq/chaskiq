@@ -242,7 +242,7 @@ class Collections extends Component {
             }, this.submitEdit )
           })
         },
-        error: (error) => {
+        error: (_error) => {
         }
       })
     })

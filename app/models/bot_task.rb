@@ -51,18 +51,11 @@ class BotTask < Message
   }
 
   def initialize_default_controls
-    self.segments = default_type_segments unless segments.present?
+    # self.segments = default_type_segments unless segments.present?
 
     return self unless bot_type == 'new_conversations'
 
     self.paths = default_new_conversation_path if paths.blank?
-  end
-
-  def default_type_segments
-    [
-      { 'type' => 'match', 'value' => 'and', 'attribute' => 'match', 'comparison' => 'and' },
-      { 'type' => 'string', 'value' => 'AppUser', 'attribute' => 'type', 'comparison' => 'eq' }
-    ]
   end
 
   def default_new_conversation_path
@@ -98,11 +91,6 @@ class BotTask < Message
         }
       ]
     ]
-  end
-
-  def add_default_predicate
-    self.segments = default_segments unless segments.present?
-    self.settings = {} unless settings.present?
   end
 
   def available_segments
@@ -197,33 +185,6 @@ class BotTask < Message
       trackable: bot_task,
       action: "bot_tasks.actions.#{action}"
     )
-  end
-
-  def default_segments
-    default_predicate = { type: 'match',
-                          attribute: 'match',
-                          comparison: 'and',
-                          value: 'and' }.with_indifferent_access
-
-    user_predicate = {
-      attribute: 'type',
-      comparison: 'eq',
-      type: 'string',
-      value: 'AppUser'
-    }.with_indifferent_access
-
-    lead_predicate = {
-      attribute: 'type',
-      comparison: 'eq',
-      type: 'string',
-      value: 'Lead'
-    }.with_indifferent_access
-
-    if user_type == 'leads'
-      [default_predicate, lead_predicate]
-    else
-      [default_predicate, user_predicate]
-    end
   end
 
   def stats_fields

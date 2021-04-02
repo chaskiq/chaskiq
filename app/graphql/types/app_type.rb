@@ -472,7 +472,7 @@ module Types
 
       ors = nil
       filters['users'].each_with_index do |filter, _index|
-        ors = ors.nil? ? BotTask.infix(filter) : ors.or(BotTask.infix(filter))
+        ors = ors.nil? ? BotTask.infix([filter]) : ors.or(BotTask.infix([filter]))
       end
       collection = collection.where(ors) if ors.present?
     end
