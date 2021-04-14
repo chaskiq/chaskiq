@@ -813,7 +813,6 @@ export function DefinitionRenderer ({
   schema,
   values,
   updatePackage,
-  //getPackage,
   disabled,
   location,
   size,
