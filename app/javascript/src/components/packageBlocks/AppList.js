@@ -12,7 +12,8 @@ import {
 
 import {
   BaseInserter
-} from './components'
+} from './baseInserter'
+
 import Button from '../../components/Button'
 
 import Progress from '../Progress'

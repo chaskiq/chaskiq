@@ -5,7 +5,6 @@ import tw from 'twin.macro'
 import styled from '@emotion/styled'
 import ReactMarkdown from 'react-markdown'
 import { darken, lighten, readableColor } from 'polished'
-import { keyframes } from '@emotion/core'
 import List, {
   ListItem,
   ListItemText,
@@ -14,44 +13,9 @@ import List, {
 } from './List'
 import ErrorBoundary from '../ErrorBoundary'
 
-import {
-  getPackage,
-} from './utils'
-
-
 import { ThemeProvider } from 'emotion-theming'
 
-const spin = keyframes`
-  100% { 
-    transform: rotate(360deg); 
-  } 
-`
-
-const LoaderWrapper = styled.div`
-  ${() => tw`flex justify-center items-center`}
-`
-
-const Loader = styled.div`
-  animation: ${spin} 0.5s infinite linear;
-  border-top-color: white !important;
-  
-  ${() => tw`
-    ease-linear rounded-full border-2 
-    border-t-2 border-gray-900 h-4 w-4
-    mx-auto
-    my-2
-  `}
-  
-`
-
-export default function Progress ({ _size }) {
-  return (
-    <LoaderWrapper>
-      <Loader/>
-    </LoaderWrapper>
-  )
-}
-
+import {Progress} from './styled'
 //= === RENDERERS
 
 function textColor (color) {
@@ -849,7 +813,6 @@ export function DefinitionRenderer ({
   schema,
   values,
   updatePackage,
-  //getPackage,
   disabled,
   location,
   size,
@@ -1039,66 +1002,5 @@ function FormField ({ name, label, helperText, children, _error }) {
         </HelperText>
       )}
     </React.Fragment>
-  )
-}
-
-export function BaseInserter ({
-  //onItemSelect,
-  conversation,
-  pkg,
-  app,
-  onInitialize,
-  location
-}) {
-  console.log(location)
-  const [p, setPackage] = React.useState(null)
-
-  const params = {
-    appKey: app.key,
-    id: pkg.name + '',
-    hooKind: 'configure',
-    ctx: {
-      location: location
-    }
-  }
-
-  React.useEffect(() => {
-    if (p && (p.kind === 'initialize')) {
-      onInitialize({
-        hooKind: p.kind,
-        definitions: p.definitions,
-        values: p.values,
-        wait_for_input: p.wait_for_input,
-        id: pkg.id,
-        name: pkg.name
-      })
-    }
-  }, [p])
-
-  React.useEffect(() => getPackage(params, location, (data) => {
-    setPackage(data.app.appPackage.callHook)
-  }), [])
-
-  function updatePackage (formData, cb) {
-    const newParams = { ...params, ctx: {...formData, conversation_key: conversation?.key } }
-    getPackage(newParams, location, (data) => {
-      setPackage(data.app.appPackage.callHook)
-      cb && cb()
-    })
-  }
-
-  return (
-    <div>
-      {
-        !p && <Progress/>
-      }
-      {p && <DefinitionRenderer
-        location={location}
-        schema={p.definitions}
-        getPackage={getPackage}
-        appPackage={p}
-        updatePackage={updatePackage}
-      />}
-    </div>
   )
 }

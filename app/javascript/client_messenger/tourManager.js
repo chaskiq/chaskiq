@@ -8,6 +8,7 @@ import DanteContainer from './textEditor/editorStyles'
 import theme from './textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
 import Tour from 'reactour-emotion'
+import tw from 'twin.macro'
 
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import GlobalStyle from './tour/globalStyle'
@@ -29,26 +30,22 @@ const simmer = new Simmer(window, {
 })
 
 const TourManagerContainer = styled.div`
-  box-shadow: 1px -1px 6px 0px #313030b0;
+  ${() => tw`shadow-lg`}
 `
 const Body = styled.div`
-  padding: 10px;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${() => tw`w-full p-3 bg-white flex items-center justify-center  overflow-x-auto`}
+`
+const FooterContainer = styled.div`
+${() => tw`flex flex-col justify-between items-center border-t shadow-lg bg-yellow-50`}
 `
 const Footer = styled.div`
-  background: black;
-  padding: 13px;
-  display: flex;
-  flex-flow: column;
-  a, a:hover{
-    color: white;
-  }
+  ${() => tw`w-full p-3 bg-black text-white flex justify-between items-center`}
 `
 const FooterRight = styled.div`
-  align-self: flex-end;
+  ${() => tw`self-end`}
+  button {
+    ${() => tw`ml-2`}
+  }
 `
 const StepContainer = styled.div`
     display: flex;
@@ -65,19 +62,11 @@ const ConnectorStep = styled.div`
   border: 1px solid #ccc;
 `
 const StepBody = styled.div`
-    background: #fff;
-    max-height: 88px;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,.05);
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 5px;
-    overflow: hidden;
-    max-width: 140px;
-    padding: 1em;
-    transition: 0.3s;
-    &:hover{
-      background: #f5f2f2
-    }
+  ${() => tw`flex flex-col bg-white w-32 h-32 min-h-full shadow-md
+   border rounded-md overflow-hidden p-1 hover:bg-gray-100
+   cursor-pointer`}
 `
+
 const StepHeader = styled.div`
   padding: 16px 24px;
 `
@@ -93,48 +82,47 @@ const StepsContainer = styled.div`
   display: flex;
 `
 const Link = styled.a`
-color: #000;
+${() => tw`mx-8 p-6 inline-flex text-gray-700 items-center text-center h-10 items-center border border-transparent 
+rounded-full shadow-sm bg-gray-300 hover:bg-gray-400 
+focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
+`}
 `
-const DeleteButton = styled(Link)`
-  float: right;
-  display: block;
-  width: 20px;
-  height: 20px;
-  color: #bdbdbd;
-  background: #f3f3f37d;
-  border-radius: 50%;
-  text-indent: 6px;
-  text-decoration: none;
-  border: 1px solid #c1b8b8;
-  box-shadow: 0px 1px 1px #ccc;
+const DeleteButton = styled.a`
+${() => tw`p-0.5 self-end inline-flex items-center text-center h-4 w-4 items-center border border-transparent 
+rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 
+focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
+`}
 `
-const Button = styled.button`
-  text-align: center;
-  display: inline-block;
-  position: relative;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: #040404;
-  text-transform: capitalize;
-  font-size: 12px;
-  padding: 7px 11px;
-  /* width: 150px; */
-  border-radius: 4px;
-  overflow: hidden;
-  margin-left: 10px;
-  background: aqua;
-  border: none;
-  cursor: pointer;
-  &:hover{
 
-  }
-`
+const Button = styled.button`
+${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
+border border-transparent text-xs font-medium 
+rounded shadow-sm text-white bg-gray-600 
+hover:bg-gray-700 focus:outline-none 
+focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`
+}`
+
+const ButtonSuccess = styled.button`
+${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
+border border-transparent text-xs font-medium 
+rounded shadow-sm text-white bg-green-600 
+hover:bg-green-700 focus:outline-none 
+focus:ring-2 focus:ring-offset-2 focus:ring-green-500`
+}`
 
 const TourFooter = styled.div`
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #ccc;
   padding: 12px 0px 1px 0px;
+`
+
+const NewStepContainer = styled.div`
+    ${() => tw`bg-gray-200 w-32 h-32 min-h-full shadow-md border rounded-md flex items-center `}
+`
+
+const NewStepBody = styled.div`
+  ${() => tw`w-full h-full justify-center items-center flex relative`}
 `
 
 export default class TourManager extends Component {
@@ -394,9 +382,9 @@ export default class TourManager extends Component {
           <Button onClick={this.handleCancel}>
                       Cancel
           </Button>
-          <Button onClick={this.handleSaveTour}>
+          <ButtonSuccess onClick={this.handleSaveTour}>
                       save!
-          </Button>
+          </ButtonSuccess>
         </TourFooter>
 
         {/*
@@ -419,7 +407,8 @@ export default class TourManager extends Component {
       cssPath: editElement.target,
       styles: {
         options: {
-          zIndex: 10000
+          zIndex: 10000,
+          padding: '5px'
         }
       }
     }, () => setTimeout(() => {
@@ -579,7 +568,8 @@ export default class TourManager extends Component {
             bottom: '0px',
             border: 'none',
             width: '100%',
-            height: this.isCollapsed() ? '47px' : '219px'
+            left: '0px',
+            height: this.isCollapsed() ? '47px' : '206px'
           }
         }>
           <React.Fragment>
@@ -590,7 +580,7 @@ export default class TourManager extends Component {
               collapsedEditor={ this.state.selectionMode || this.state.run ? true : undefined }
             >
 
-              <div>
+              <FooterContainer>
 
                 {
                   !this.state.selectionMode && !this.state.run &&
@@ -620,47 +610,43 @@ export default class TourManager extends Component {
 
                 <Footer>
 
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}>
+                  <CssPathIndicator>
+                    {this.state.cssPath}
+                  </CssPathIndicator>
 
-                    <CssPathIndicator>
-                      {this.state.cssPath}
-                    </CssPathIndicator>
-
-                    {
-                      this.state.selectionMode === 'edit'
-                        ? <FooterRight>
-                          <div>
-                            { // <button onClick={this.disableEditMode}>cancel</button>
-                            // <button onClick={this.updateChanges}>save step</button>
-                            }
-                          </div>
-                        </FooterRight> : null
-                    }
-
-                    {
-                      this.state.selectionMode !== 'edit'
-                        ? <FooterRight>
-                          {
-                            this.state.run
-                              ? <Button onClick={this.disablePreview}>
-                                {'< exit preview'}
-                              </Button>
-                              : <div appearance="warning">
-                                <Button onClick={this.activatePreview}>preview</Button>
-                                <Button onClick={this.handleSaveTour}>save tour</Button>
-                              </div>
+                  {
+                    this.state.selectionMode === 'edit'
+                      ? <FooterRight>
+                        <div>
+                          { // <button onClick={this.disableEditMode}>cancel</button>
+                          // <button onClick={this.updateChanges}>save step</button>
                           }
-                        </FooterRight> : null
-                    }
-                  </div>
+                        </div>
+                      </FooterRight> : null
+                  }
 
+                  {
+                    this.state.selectionMode !== 'edit'
+                      ? <FooterRight>
+                        {
+                          this.state.run
+                            ? <Button onClick={this.disablePreview}>
+                              {'< exit preview'}
+                            </Button>
+                            : <div appearance="warning">
+                              <Button onClick={this.activatePreview}>preview</Button>
+                              <ButtonSuccess
+                                onClick={this.handleSaveTour}>
+                                save tour
+                              </ButtonSuccess>
+                            </div>
+                        }
+                      </FooterRight> : null
+                  }
+        
                 </Footer>
 
-              </div>
+              </FooterContainer>
 
             </TourManagerContainer>
 
@@ -689,7 +675,7 @@ class TourStep extends Component {
       <StepBody onClick={this.enableEditMode}>
 
         <DeleteButton href="#" onClick={this.removeItem}>
-                &times;
+          &times;
         </DeleteButton>
 
         <StepHeader>
@@ -712,22 +698,6 @@ class TourStep extends Component {
     </StepContainer>
   }
 }
-
-const NewStepContainer = styled.div`
-    background-color: #ebebeb;
-    border-radius: 4px;
-    min-width: 205px;
-    height: 150px;
-`
-
-const NewStepBody = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`
-
 class NewTourStep extends Component {
   enableSelection = (e) => {
     e.preventDefault()
@@ -737,7 +707,7 @@ class NewTourStep extends Component {
   render () {
     return <NewStepContainer>
       <NewStepBody>
-        <Link href="#" onClick={this.enableSelection}>new + .</Link>
+        <Link href="#" onClick={this.enableSelection}>+</Link>
       </NewStepBody>
     </NewStepContainer>
   }
