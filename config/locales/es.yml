@@ -18,10 +18,10 @@ es:
     confirm_deletion: "¿Confirmar eliminar?"
     next: Siguente
     prev: Anterior
-    showing: Mostrando
+    showing: Showing
     to: para
     of: de
-    results: resultados
+    results: results
     tz_hint: La zona horaria de tu navegador es <b className="text-bold">%{timezone}</b>
     send: Enviar
     langs:
@@ -352,13 +352,13 @@ es:
             label: "Hora de respuesta automática. Actualmente el equipo responderá lo antes posible"
           - 
             value: "minutos"
-            label: "El equipo suele responder en cuestión de minutos."
+            label: "Team usually responds within minutes."
           - 
             value: "horas"
-            label: "El equipo suele responder en cuestión de minutos."
+            label: "Team usually responds within hours."
           - 
             value: "1 día"
-            label: "El equipo suele responder en un día."
+            label: "The team usually responds in one day."
         hint2: "Nota: el visitante recibirá una respuesta automática con la disponibilidad de su equipo durante horas fuera de la oficina o horas de respuesta largas."
     email_requirement:
       title: Requiere un correo electrónico para nuevas conversaciones
@@ -413,6 +413,10 @@ es:
       add_new: Añadir miembro al equipo
       update_agent_title: Actualiza su información
       updated_agent: Configuración actualizada correctamente
+      destroyed_agent: Agent deleted successfully
+      destroy_agent_title: Delete Agent
+      destroy_agent: Eliminar
+      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
       update_agent: Actualizar
     webhooks:
       title: Webhooks
@@ -444,7 +448,7 @@ es:
         color: Color de campo
     user_data:
       title: Campos personalizados
-      default_fields: Atributos por defecto
+      default_fields: Default attributes
       non_editable: Este campo no se puede modificar
       modal:
         title: Crear campo personalizado de usuario
