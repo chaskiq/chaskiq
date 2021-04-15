@@ -658,7 +658,7 @@ export default class SegmentItemButton extends Component {
               labelButton={'Missing value!'}
               triggerButton={(cb) => (
                 <Button
-                  ref={(ref) => this.setRef(ref)}
+                  //ref={(ref) => this.setRef(ref)}
                   isLoading={false}
                   size="small"
                   variant="outlined"
@@ -685,7 +685,7 @@ export default class SegmentItemButton extends Component {
               triggerButton={(cb) => (
                 <Button
                   // className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-                  ref={(ref) => this.setRef(ref)}
+                  //ref={(ref) => this.setRef(ref)}
                   isLoading={false}
                   color="primary"
                   size="small"

@@ -10,7 +10,7 @@ import { ThemeProvider } from 'emotion-theming'
 import Tour from 'reactour-emotion'
 import tw from 'twin.macro'
 
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body-scroll-lock'
 import GlobalStyle from './tour/globalStyle'
 // import TourHelper from './tour/tourHelper'
 
@@ -143,88 +143,99 @@ export default class TourManager extends Component {
     while (new Date().getTime() < start + delay);
   }
 
-  componentDidMount () {
-    document.addEventListener('mouseover', (e) => {
-      if (this.state.run) return
-      if (!this.state.selectionMode) return
-      if (!this.state.selecting) return
+  handleMouseDown (e){
+    if (this.state.run) return
+    if (!this.state.selectionMode) return
+    if (!this.state.selecting) return
+    if (this.state.selectionMode === 'edit') return
+    // debugger
 
-      if (this.state.selectionMode === 'edit') return
+    e.stopPropagation()
+    e.preventDefault()
+    e.stopImmediatePropagation()
 
-      e = e || window.event
-      var target = e.target || e.srcElement
-      // var text = target.textContent || target.innerText
+    // this.sleep(1000)
 
-      this.getElementShape(target)
+    e = e || window.event
+    var target = e.target || e.srcElement
+    // var text = target.textContent || target.innerText
+
+    const cssPath = simmer(target)
+
+    const path = {
+      target: cssPath,
+      content: 'default text',
+      serialized_content: null
+    }
+
+    
+    if (this.state.steps.find((o) => o.target === path.target)) {
+      console.log('no entró!!')
+      return
+    }
+
+    setTimeout(() => {
       this.setState({
-        cssPath: simmer(target)
+        steps: this.state.steps.concat(path),
+        cssPath: cssPath,
+        selecting: false,
+        selectionMode: false
+      }, () => {
+        this.enableEditMode(path)
       })
-    }, false)
+    }, 200)
+  }
 
-    document.addEventListener('click', (e) => {
-      if (this.state.run) return
-      if (!this.state.selectionMode) return
-      if (!this.state.selecting) return
-      if (this.state.selectionMode === 'edit') return
+  handleMouseOver (e){
+    if (this.state.run) return
+    if (!this.state.selectionMode) return
+    if (!this.state.selecting) return
 
-      e.stopPropagation()
-      e.preventDefault()
-      e.stopImmediatePropagation()
-    }, false)
+    if (this.state.selectionMode === 'edit') return
 
-    document.addEventListener('mousedown', (e) => {
-      if (this.state.run) return
-      if (!this.state.selectionMode) return
-      if (!this.state.selecting) return
-      if (this.state.selectionMode === 'edit') return
-      // debugger
+    e = e || window.event
+    var target = e.target || e.srcElement
+    // var text = target.textContent || target.innerText
 
-      e.stopPropagation()
-      e.preventDefault()
-      e.stopImmediatePropagation()
+    this.getElementShape(target)
+    this.setState({
+      cssPath: simmer(target)
+    })
+  }
 
-      // this.sleep(1000)
+  handleClick (e){
+    if (this.state.run) return
+    if (!this.state.selectionMode) return
+    if (!this.state.selecting) return
+    if (this.state.selectionMode === 'edit') return
 
-      e = e || window.event
-      var target = e.target || e.srcElement
-      // var text = target.textContent || target.innerText
+    e.stopPropagation()
+    e.preventDefault()
+    e.stopImmediatePropagation()
+  }
 
-      const cssPath = simmer(target)
+  componentDidMount () {
+    document.addEventListener('mouseover', this.handleMouseOver.bind(this), false)
 
-      const path = {
-        target: cssPath,
-        content: 'default text',
-        serialized_content: null
-      }
+    document.addEventListener('click', this.handleClick.bind(this), false)
 
-      if (this.state.steps.find((o) => o.target === path.target)) {
-        console.log('no entró!!')
-        return
-      }
-
-      setTimeout(() => {
-        this.setState({
-          steps: this.state.steps.concat(path),
-          cssPath: cssPath,
-          selecting: false,
-          selectionMode: false
-        }, () => {
-          this.enableEditMode(path)
-        })
-      }, 200)
-    }, false)
+    document.addEventListener('mousedown', this.handleMouseDown.bind(this), false)
 
     const scrollHandler = () => {
       if (!this.state.cssPath) return
+      if(!this.state.selectedCoords) return
+      console.log("scrolleeen", this.state)
       const target = document.querySelector(this.state.cssPath)
+      if(!target) return
       this.getElementShape(target)
     }
 
-    // document.addEventListener('scroll', isScrolling.bind(this));
+    ///// document.addEventListener('scroll', isScrolling.bind(this));
     window.addEventListener('resize', scrollHandler.bind(this))
     document.addEventListener('scroll', scrollHandler.bind(this))
 
     window.addEventListener('message', (e) => {
+
       if (e.data.type === 'steps_receive') {
         console.log('EVENTO TOUR!', e)
         this.setState({
@@ -240,6 +251,10 @@ export default class TourManager extends Component {
     }, false)
 
     this.getSteps()
+  }
+
+  componentWillUnmount(){
+
   }
 
   activatePreview = () => {
@@ -455,6 +470,7 @@ export default class TourManager extends Component {
   }
 
   handleSaveTour = () => {
+
     this.props.ev.source.postMessage(
       {
         type: 'SAVE_TOUR',
@@ -468,8 +484,9 @@ export default class TourManager extends Component {
 
     this.setState({
       selecting: false,
-      selectionMode: false
-    })
+      selectionMode: false,
+      selectedCoords: null
+    }, clearAllBodyScrollLocks )
   }
 
   handleCancel = () => {
@@ -493,9 +510,15 @@ export default class TourManager extends Component {
     return this.state.selectionMode || this.state.run
   }
 
-  disableBody = target => disableBodyScroll(target)
+  disableBody = target => {
+    console.log('disable body', target)
+    disableBodyScroll(target)
+  }
 
-  enableBody = target => enableBodyScroll(target)
+  enableBody = target => { 
+    console.log('enable body', target)
+    enableBodyScroll(target)
+  }
 
   render () {
     return (
@@ -506,28 +529,22 @@ export default class TourManager extends Component {
         <ThemeProvider
           theme={ theme }>
 
-          {
-            this.state.selectionMode !== 'edit' && this.state.run
-
-              ? <Tour
-                steps={this.prepareJoyRidyContent(this.state.steps)}
-                isOpen={this.state.run}
-                onRequestClose={ this.disablePreview }
-                showNavigation={true}
-                disableInteraction={true}
-                onAfterOpen={this.disableBody}
-                onBeforeClose={this.enableBody}
-                // CustomHelper={TourHelper}
-              />
-
-              : null
-          }
-
-          {
-            this.state.editElement && this.state.selectionMode === 'edit'
-              ? <Tour
+            <Tour
+              steps={this.prepareJoyRidyContent(this.state.steps)}
+              isOpen={this.state.selectionMode !== 'edit' && this.state.run ? true : false }
+              onRequestClose={ this.disablePreview }
+              showNavigation={true}
+              disableInteraction={true}
+              onAfterOpen={this.disableBody}
+              onBeforeClose={this.enableBody}
+              // CustomHelper={TourHelper}
+            />
+          
+            {
+              this.state.editElement && this.state.selectionMode === 'edit' &&
+              <Tour
                 steps={[this.state.editElement]}
-                isOpen={true}
+                isOpen={ true }
                 onRequestClose={(e, a) => {
                   console.info('on close request', e, a)
                   this.disableEditMode()
@@ -539,16 +556,14 @@ export default class TourManager extends Component {
                 disableInteraction={true}
                 onAfterOpen={this.disableBody}
                 onBeforeClose={this.enableBody}
-              />
-              : null
-          }
+            />
+            }
 
         </ThemeProvider>
 
         {
-          this.state.selectedCoords && !this.state.run
-
-            ? <div style={{
+          this.state.selectedCoords && !this.state.run &&
+           <div style={{
               border: '2px solid green',
               position: 'fixed',
               zIndex: 999,
@@ -558,7 +573,7 @@ export default class TourManager extends Component {
               left: this.state.selectedCoords.x,
               width: this.state.selectedCoords.width,
               height: this.state.selectedCoords.height
-            }} /> : null
+            }} /> 
         }
 
         <StyledFrame style={
