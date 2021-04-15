@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import tw from 'twin.macro'
 import { keyframes } from '@emotion/core'
+import React from 'react'
 
 const spin = keyframes`
   100% { 
@@ -12,7 +13,7 @@ export const LoaderWrapper = styled.div`
   ${() => tw`flex justify-center items-center`}
 `
 
-export const Progress = styled.div`
+export const Loader = styled.div`
   animation: ${spin} 0.5s infinite linear;
   border-top-color: white !important;
   
@@ -22,5 +23,12 @@ export const Progress = styled.div`
     mx-auto
     my-2
   `}
-  
 `
+
+export function Progress ({ _size }) {
+  return (
+    <LoaderWrapper>
+      <Loader/>
+    </LoaderWrapper>
+  )
+}

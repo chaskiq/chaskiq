@@ -15,7 +15,7 @@ import ErrorBoundary from '../ErrorBoundary'
 
 import { ThemeProvider } from 'emotion-theming'
 
-import {Progress} from './styled'
+import {Loader, Progress} from './styled'
 //= === RENDERERS
 
 function textColor (color) {
