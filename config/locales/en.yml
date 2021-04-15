@@ -413,6 +413,10 @@ en:
       add_new: Add Team Member
       update_agent_title: Update Agent information
       updated_agent: Information updated successfully
+      destroyed_agent: Agent deleted successfully
+      destroy_agent_title: Delete Agent
+      destroy_agent: Delete
+      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
       update_agent: Update
     webhooks:
       title: Webhooks
