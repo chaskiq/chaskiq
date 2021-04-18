@@ -63,7 +63,8 @@ class Api::V1::HooksController < ActionController::API
     recipients = mail.recipients # ["messages+aaa@hermessenger.com"] de aqui sale el app y el mensaje!
 
     # EmailReplyParser.parse_reply(mail.text_part.body.to_s)
-    message = EmailReplyTrimmer.trim(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
+    message = EmailReplyParser.parse_reply(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
+    #message = EmailReplyTrimmer.trim(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
 
     app, conversation, from = handle_conversation_part(mail)
 

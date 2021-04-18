@@ -113,6 +113,51 @@ class TourManager extends Component {
     enabledTour: false
   };
 
+  handleMessage (e){
+    if (e.data.type === 'ENABLE_MANAGER_TOUR') {
+      window.__CHILD_WINDOW_HANDLE_2.postMessage(
+        {
+          tour: this.props.data,
+          tourManagerEnabled: true
+        },
+        '*'
+      )
+    }
+
+    if (e.data.type === 'GET_TOUR') {
+      window.__CHILD_WINDOW_HANDLE_2.postMessage(
+        {
+          type: 'GET_TOUR',
+          data: this.props.data
+        },
+        '*'
+      )
+    }
+
+    if (e.data.type === 'SAVE_TOUR') {
+      this.updateData(e.data.steps, () => {
+        window.__CHILD_WINDOW_HANDLE_2.postMessage(
+          {
+            type: 'GET_TOUR',
+            data: this.props.data
+          },
+          '*'
+        )
+      })
+    }
+
+    if (e.data.type === 'UPLOAD_IMAGE') {
+      this.handleDirectUpload(e.data.file, e.data.input)
+    }
+
+    if (e.data.type === 'URL_IMAGE') {
+      this.handleUrlUpload(e.data.file, e.data.input)
+    }
+  }
+
+  tour_events = this.handleMessage.bind(this)
+
+
   componentDidMount () {
     window.TourManagerEnabled = () => {
       return this.state.enabledTour // alert("oaoaoaoa")
@@ -126,47 +171,7 @@ class TourManager extends Component {
     // events received from child window & pingback
     window.addEventListener(
       'message',
-      (e) => {
-        if (e.data.type === 'ENABLE_MANAGER_TOUR') {
-          window.__CHILD_WINDOW_HANDLE_2.postMessage(
-            {
-              tour: this.props.data,
-              tourManagerEnabled: true
-            },
-            '*'
-          )
-        }
-
-        if (e.data.type === 'GET_TOUR') {
-          window.__CHILD_WINDOW_HANDLE_2.postMessage(
-            {
-              type: 'GET_TOUR',
-              data: this.props.data
-            },
-            '*'
-          )
-        }
-
-        if (e.data.type === 'SAVE_TOUR') {
-          this.updateData(e.data.steps, () => {
-            window.__CHILD_WINDOW_HANDLE_2.postMessage(
-              {
-                type: 'GET_TOUR',
-                data: this.props.data
-              },
-              '*'
-            )
-          })
-        }
-
-        if (e.data.type === 'UPLOAD_IMAGE') {
-          this.handleDirectUpload(e.data.file, e.data.input)
-        }
-
-        if (e.data.type === 'URL_IMAGE') {
-          this.handleUrlUpload(e.data.file, e.data.input)
-        }
-      },
+      this.tour_events,
       false
     )
   }
@@ -174,6 +179,8 @@ class TourManager extends Component {
   componentWillUnmount () {
     window.TourManagerEnabled = null
     window.TourManagerMethods = null
+    window.removeEventListener('message', this.tour_events)
+    window.__CHILD_WINDOW_HANDLE_2 && window.__CHILD_WINDOW_HANDLE_2.close()
   }
 
   updateData = (data, cb) => {
