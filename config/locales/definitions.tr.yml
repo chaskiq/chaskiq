@@ -2,11 +2,11 @@ tr:
   definitions:
     articles:
       title:
-        label: Title
+        label: Başlık
       author:
-        label: Author
+        label: Oluşturan
       state:
-        label: State
+        label: Durum
       collection:
         label: Collection
       actions:
