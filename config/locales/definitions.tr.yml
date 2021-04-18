@@ -8,43 +8,43 @@ tr:
       state:
         label: Durum
       collection:
-        label: Collection
+        label: Koleksiyon
       actions:
-        label: Actions
+        label: İşlemler
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Web Sitesi
+        hint: Ana Alan Adı
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Alan adı
+        hint: Yardım Merkezi Alan Adı
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Alt alan adı
+        hint: Yardım merkezinin bulunacağı alt alan adı
       google_code:
-        label: Google Code
-        hint: Google tracking ID
+        label: Google Analytics Kodu
+        hint: Google Takip ID
       credits:
-        label: show credits
+        label: Hazırlayan
         hint: ""
     settings:
       name:
-        label: Name
+        label: İsim
         hint:
       logo:
         label: Logo
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Chat penceresinde yazıları göster"
+        hint: "Bu seçenek ile chat sayfasında yazılar görünecektir"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Yeni gelen mesajları mesaj balonu olarak göster
+        hint: Bu seçenek chat widget'ı açmayacak
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Şifreleme anahtarı
+        placeholder: "Şifreleme istemiyorsanız boş bırakın"
+        hint: Bu anahtar JWE kullanıcı datasını şifrelemek ve şifreyi açmak için kullanılacaktır
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
+        label: GDPR izin onayı için gerekli
         hint: Will show a confirm view for EU countries before establish conversations
       privacy_consent_required_all:
         label: Worldwide privacy consent required
