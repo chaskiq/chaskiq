@@ -1,65 +1,65 @@
 fr:
   subscriptions:
-    upgrade: Upgrade
+    upgrade: Faire évoluer
     tabs:
-      - Plans
-      - Transaction history
+      - Abonnements
+      - Historique des transactions
     features:
       Segments:
         title: Segments
         description: true
-        upgrade_message: Enable contact segments and targeting
+        upgrade_message: Activer les segments de contact et le ciblage
       Leads:
-        title: Leads
+        title: Prospects
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtenez des applications externes, beaucoup d'applications
       AppUsers:
-        title: AppUsers
+        title: Utilisateurs de l'application
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtenez des applications externes, beaucoup d'applications
       Conversations:
         title: Conversations
         description: true
-        upgrade_message: Enable conversations
+        upgrade_message: Activer les conversations
       BotTasks:
-        title: BotTasks
+        title: Tâches de bot
         description: true
-        upgrade_message: Add automated chatflows to your app
+        upgrade_message: Ajouter des flux de chat automatisés à votre application
       Integrations:
-        title: Integrations
+        title: Intégrations
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obtenez des applications externes, beaucoup d'applications
       Campaigns:
-        title: Campaigns
+        title: Campagnes
         active: false
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Recevez des messages sortants, des bulletins d'information et des tours!
       Tours:
         title: Tours
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Recevez des messages sortants, des bulletins d'information et des tours!
       UserAutoMessages:
-        title: UserAutoMessages
+        title: Messages automatiques des utilisateurs
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Recevez des messages sortants, des bulletins d'information et des tours!
       OutgoingWebhooks:
-        title: OutgoingWebhooks
+        title: Webhooks sortants
         active: false
-        upgrade_message: Enable outgoing webhooks
+        upgrade_message: Activer les webhooks sortants
       OauthApplications:
-        title: OauthApplications
+        title: Applications Oauth
         description: true
-        upgrade_message: Enable API access support through OAUTH
+        upgrade_message: Activer la prise en charge de l'accès à l'API via OAUTH
       Articles:
         title: Articles
         active: false
-        upgrade_message: Enable Documentation & Help Center
+        upgrade_message: Activer le Centre de Documentation et d'Aide
       QuickReplies:
-        title: QuickReplies
+        title: Réponses rapides
         description: true
-        upgrade_message: add Quick replies to your conversations
+        upgrade_message: Ajouter des réponses rapides à vos conversations
       CustomAttributes:
-        title: CustomAttributes
-        upgrade_message: Enable custom attributes
+        title: Attributs personnalisés
+        upgrade_message: Activez les attributs personnalisés
     plans:
       - 
         name: "free one"

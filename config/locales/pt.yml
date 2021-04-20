@@ -18,16 +18,17 @@ pt:
     confirm_deletion: "Confirmar exclusão?"
     next: Seguinte
     prev: Anterior
-    showing: Mostrando
+    showing: Showing
     to: para
     of: do
-    results: resultados
+    results: results
     tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
     send: Enviar
     langs:
       en: Português
       es: Espanhol
       pt: Portuguese
+      de: Deutsch
     redirecting: A redireccionar
     select_language: Selecione o idioma
     send_on_enter: Publicar no website
@@ -351,13 +352,13 @@ pt:
             label: "Tempo de resposta automática. Atualmente o El equipo respondera├lo é visível"
           - 
             value: "minutos"
-            label: "El equipo suele responder en cuestión de minutos."
+            label: "Team usually responds within minutes."
           - 
             value: "horas"
-            label: "El equipo suele responder en cuestión de horas."
+            label: "Team usually responds within hours."
           - 
             value: "1 dia"
-            label: "El equipo suele responder en un día."
+            label: "The team usually responds in one day."
         hint2: "Nota: o visitante receberá uma resposta automática com a disponibilidade da sua equipe durante horas fora do escritório ou tempos longos de resposta."
     email_requirement:
       title: Requer um e-mail para novas conversas
@@ -412,6 +413,10 @@ pt:
       add_new: Adicionar um Membro
       update_agent_title: Actualizar Informação
       updated_agent: As informações foram atualizadas com sucesso
+      destroyed_agent: Agent deleted successfully
+      destroy_agent_title: Delete Agent
+      destroy_agent: Apagar
+      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
       update_agent: Atualizar
     webhooks:
       title: Webhooks
@@ -443,7 +448,7 @@ pt:
         color: Cor do campo
     user_data:
       title: Campos Personalizados
-      default_fields: Atributos por defeito
+      default_fields: Default attributes
       non_editable: Este campo não é editável
       modal:
         title: Criar campo de dados do usuário

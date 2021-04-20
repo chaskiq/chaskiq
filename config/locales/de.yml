@@ -18,16 +18,17 @@ de:
     confirm_deletion: "Wirklich löschen?"
     next: Weiter
     prev: Zurück
-    showing: Anzeigen
+    showing: Showing
     to: bis
     of: von
-    results: Ergebnisse
+    results: results
     tz_hint: Ihre Browser-Zeitzone ist <b className="text-bold">%{timezone}</b>
     send: Senden
     langs:
       en: Englisch
       es: Spanisch
       pt: Portugiesisch
+      de: Deutsch
     redirecting: Leite weiter
     select_language: Sprache auswählen
     send_on_enter: Veröffentlichen bei Enter
@@ -351,13 +352,13 @@ de:
             label: "Automatische Antwortzeit. Aktuell Das Team antwortet so schnell es kann"
           - 
             value: "Minuten"
-            label: "Das Team wird innerhalb von wenigen Minuten antworten."
+            label: "Team usually responds within minutes."
           - 
             value: "Stunden"
-            label: "Das Team wird innerhalb der nächsten Stunden antworten."
+            label: "Team usually responds within hours."
           - 
             value: "1 Tag"
-            label: "Das Team wird innerhalb eines Tages antworten."
+            label: "The team usually responds in one day."
         hint2: "Hinweis: Der Besucher erhält eine automatische Antwort mit der Verfügbarkeit deines Teams innerhalb der Bürozeiten oder nach langer Antwortzeit."
     email_requirement:
       title: Eine E-Mail für neue Gespräche erforderlich machen
@@ -412,6 +413,10 @@ de:
       add_new: Teammitglied hinzufügen
       update_agent_title: Mitarbeiterinformationen aktualisieren
       updated_agent: Informationen erfolgreich aktualisiert
+      destroyed_agent: Agent deleted successfully
+      destroy_agent_title: Delete Agent
+      destroy_agent: Löschen
+      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
       update_agent: Aktualisieren
     webhooks:
       title: Webhooks
@@ -443,7 +448,7 @@ de:
         color: Feldfarbe
     user_data:
       title: Eigene Felder
-      default_fields: Standard Attribute
+      default_fields: Default attributes
       non_editable: Diese Felder sind nicht editierbar
       modal:
         title: Benutzerdatenfeld erstellen
