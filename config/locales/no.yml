@@ -18,16 +18,17 @@
     confirm_deletion: "Confirm deletion ?"
     next: Next
     prev: Prev
-    showing: Mostrando
+    showing: Showing
     to: to
     of: of
-    results: resultados
+    results: results
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
     send: Send
     langs:
       en: English
       es: Spanish
       pt: Portuguese
+      de: Deutsch
     redirecting: Redirecting
     select_language: Select Language
     send_on_enter: Publish on enter
@@ -351,13 +352,13 @@
             label: "Automatic reply time. Currently El equipo responderá lo antes posible"
           - 
             value: "minutes"
-            label: "El equipo suele responder en cuestión de minutos."
+            label: "Team usually responds within minutes."
           - 
             value: "hours"
-            label: "El equipo suele responder en cuestión de horas."
+            label: "Team usually responds within hours."
           - 
             value: "1 day"
-            label: "El equipo suele responder en un día."
+            label: "The team usually responds in one day."
         hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
     email_requirement:
       title: Require an email for new conversations
@@ -412,6 +413,10 @@
       add_new: Add Team Member
       update_agent_title: Update Agent information
       updated_agent: Information updated successfully
+      destroyed_agent: Agent deleted successfully
+      destroy_agent_title: Delete Agent
+      destroy_agent: Delete
+      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
       update_agent: Update
     webhooks:
       title: Webhooks
@@ -443,7 +448,7 @@
         color: Field color
     user_data:
       title: Custom Fields
-      default_fields: Atributos por defecto
+      default_fields: Default attributes
       non_editable: This fields are not editable
       modal:
         title: Create user data field

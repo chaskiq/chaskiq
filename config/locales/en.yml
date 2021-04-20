@@ -353,10 +353,10 @@ en:
           -
             value: "minutes"
             label: "Team usually responds within minutes."
-          -
+          - 
             value: "hours"
             label: "Team usually responds within hours."
-          -
+          - 
             value: "1 day"
             label: "The team usually responds in one day."
         hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
