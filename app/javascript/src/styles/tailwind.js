@@ -24,6 +24,19 @@ const nums = [
 module.exports = {
   darkMode: 'media',
   experimental: {},
+  purge: {
+    //enabled: true,
+    content: [
+      './app/**/*.html.erb',
+      './app/**/*.erb',
+      './app/javascript/**/*.scss',
+      './app/helpers/**/*.rb',
+      './app/javascript/**/*.js',
+      './app/javascript/**/*.jsx',
+      './node_modules/rc-tooltip/**/*.js',
+      './node_modules/rc-tooltip/**/*.css',
+    ]
+  },
   theme: {
     minWidth: {
       0: '0',
@@ -99,6 +112,6 @@ module.exports = {
   plugins: [
     // require('@tailwindcss/forms'),
     // require('@tailwindcss/typography'),
-    // require('@tailwindcss/aspect-ratio')
+    require('@tailwindcss/aspect-ratio')
   ]
 }

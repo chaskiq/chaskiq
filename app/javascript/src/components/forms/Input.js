@@ -86,7 +86,6 @@ const WrappedComponent = React.forwardRef(function Input (
           isMulti={isMulti}
           options={props.options}
           name={`${name}${props.data && props.data.multiple ? '[]' : ''}`}
-          // inputProps={{ name: name }}
           value={value}
           defaultValue={initialValue}
           onChange={props.onChange}

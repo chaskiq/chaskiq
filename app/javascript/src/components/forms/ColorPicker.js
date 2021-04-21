@@ -1,9 +1,7 @@
 import React from 'react'
-import { SketchPicker } from 'react-color'
+import { HexColorPicker } from "react-colorful";
 import Button from '../Button'
-
 import { DockerIcon, PaintIcon } from '../icons'
-
 export class ColorPicker extends React.Component {
   state = {
     displayColorPicker: false,
@@ -20,8 +18,8 @@ export class ColorPicker extends React.Component {
   };
 
   handleColorChangeComplete = (color) => {
-    this.setState({ value: color.hex }, () => {
-      this.props.colorHandler && this.props.colorHandler(color.hex)
+    this.setState({ value: color }, () => {
+      this.props.colorHandler && this.props.colorHandler(color)
     })
     //,
     //  ()=> this.props.onChangeComplete(color.hex))
@@ -81,10 +79,10 @@ export class ColorPicker extends React.Component {
         {this.state.displayColorPicker ? (
           <div style={popover}>
             <div style={cover} onClick={this.handleClose} />
-            <SketchPicker
-              color={this.state.value}
-              onChangeComplete={this.handleColorChangeComplete}
-            />
+            <HexColorPicker 
+              color={this.state.value} 
+              onChange={this.handleColorChangeComplete} 
+            />;
           </div>
         ) : null}
       </React.Fragment>

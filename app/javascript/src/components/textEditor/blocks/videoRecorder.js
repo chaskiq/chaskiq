@@ -1,12 +1,13 @@
 import React from 'react'
 import { EditorBlock } from 'draft-js'
-import ReactMediaRecorder from 'Dante2/package/es/components/blocks/videoRecorder/MediaRecorder'
 import styled from '@emotion/styled'
-import icon from 'Dante2/package/es/components/blocks/videoRecorder/icon' // "./icon.js"
-import {
+import {ReactMediaRecorder, model, Icons} from 'Dante2'
+const {
   updateDataOfBlock
-} from 'Dante2/package/es/model/index.js' // '../../../model/index.js'
+} = model // '../../../model/index.js'
 import axios from 'axios'
+
+const {videoRecorderIcon} = Icons
 
 const VideoContainer = styled.div`
   background: ${(props) => props.theme.inversed_color};
@@ -648,7 +649,7 @@ export const VideoRecorderBlockConfig = (options = {}) => {
   const config = {
     title: 'record a video',
     type: 'recorded-video',
-    icon: icon,
+    icon: videoRecorderIcon,
     block: VideoRecorderBlock,
     editable: true,
     renderable: true,

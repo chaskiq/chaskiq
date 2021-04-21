@@ -2,17 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import {
-  addNewBlock,
-  resetBlockWithType,
-  getCurrentBlock
-} from 'Dante2/package/es/model/index.js'
+  model,
+  utils
+} from 'Dante2'
 
-import {
-  getSelectionRect,
-  getSelection,
+const {addNewBlock, resetBlockWithType, getCurrentBlock} = model
 
-  getRelativeParent
-} from 'Dante2/package/es/utils/selection.js'
+const {
+  selection
+} = utils
+
+const {getSelection, getRelativeParent, getSelectionRect } = selection
 
 import { InlinetooltipWrapper } from './tooltipMenuStyle'
 
