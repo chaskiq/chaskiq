@@ -4,11 +4,16 @@ import React from 'react'
 import { EditorBlock, EditorState } from 'draft-js'
 import axios from 'axios'
 import {
+  model,
+  Icons
+} from 'Dante2'
+
+const { image } = Icons
+
+const {
   updateDataOfBlock,
   addNewBlockAt
-} from 'Dante2/package/es/model/index.js'
-import { image } from 'Dante2/package/es/components/icons.js'
-
+} = model
 export default class ImageBlock extends React.Component {
   constructor (props) {
     super(props)

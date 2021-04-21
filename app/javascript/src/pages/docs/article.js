@@ -8,14 +8,15 @@ import {
 import translation from './translation'
 import { ThemeProvider } from 'emotion-theming'
 import DraftRenderer from '../../components/textEditor/draftRenderer'
-import EditorStyles from 'Dante2/package/es/styled/base'
-
+import {Styled} from 'Dante2'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import Avatar from '../../components/Avatar'
 import Moment from 'react-moment'
 import styled from '@emotion/styled'
 
-const NewEditorStyles = styled(EditorStyles)`
+const {EditorContainer} = Styled
+
+const NewEditorStyles = styled(EditorContainer)`
   font-size: 1.3em;
 
   white-space: pre-wrap; /* CSS3 */

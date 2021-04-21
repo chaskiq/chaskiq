@@ -309,11 +309,6 @@ class Collections extends Component {
                   // label="Name"
                   type={'text'}
                   placeholder={I18n.t('articles.create.placeholder')}
-                  inputProps={{
-                    style: {
-                      fontSize: '1.4em'
-                    }
-                  }}
                   // helperText="Full width!"
                   ref={(ref) => {
                     this.titleRef = ref
