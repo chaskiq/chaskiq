@@ -3,9 +3,12 @@ import React from 'react'
 import FormDialog from '../../FormDialog'
 
 import {
+  model
+} from 'Dante2'
 
+const {
   resetBlockWithType
-} from 'Dante2/package/es/model/index.js'
+} = model
 
 import Giphy from './giphy'
 

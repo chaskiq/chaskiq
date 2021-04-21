@@ -1,10 +1,11 @@
 import styled from '@emotion/styled'
 
-import EditorStyles from 'Dante2/package/es/styled/base'
+import {Styled} from 'Dante2'
 import prismStyle from './prismStyle'
 
-// styled('EditorStyles')
-const NewEditorStyles = styled(EditorStyles)`
+const { EditorContainer } = Styled
+
+const NewEditorStyles = styled(EditorContainer)`
   
   display: flex;
   flex-direction: column;

@@ -4,9 +4,13 @@ import React from 'react'
 import { EditorBlock, EditorState } from 'draft-js'
 import axios from 'axios'
 import {
+  model
+} from 'Dante2'
+
+const {
   updateDataOfBlock,
   addNewBlockAt
-} from 'Dante2/package/es/model/index.js'
+} = model
 
 import {
   AttachmentIcon

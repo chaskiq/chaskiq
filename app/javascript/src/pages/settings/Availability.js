@@ -44,7 +44,7 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
           {I18n.t('settings.availability.title')}
         </p>
 
-        <p variant="subtitle1" gutterBottom>
+        <p>
           {I18n.t('settings.availability.hint')}
         </p>
       </div>

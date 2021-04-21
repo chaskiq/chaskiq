@@ -1,37 +1,26 @@
 import React, { Component } from 'react'
 
 import TextEditor from '../textEditor'
-import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
-import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
-import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
-import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTip.js' // 'Dante2/package/es/components/popovers/toolTip.js'
-// import { ImageBlockConfig } from '../../pages/campaigns/article/image'
-// import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
-// import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
-// import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'
-// import { VideoRecorderBlockConfig } from 'Dante2/package/es/components/blocks/videoRecorder'
-// import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
-// import { DividerBlockConfig } from "Dante2/package/es/components/blocks/divider";
-// import { ButtonBlockConfig } from "../../editor/components/blocks/button";
-// import Prism from 'prismjs';
-// import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
-// import { GiphyBlockConfig } from '../textEditor/blocks/giphyBlock'
-// import { SpeechToTextBlockConfig } from './article/speechToTextBlock'
-// import { DanteMarkdownConfig } from './article/markdown'
+import { 
+  DanteImagePopoverConfig,
+   DanteAnchorPopoverConfig, 
+   DanteTooltipConfig ,
+   utils,
+   Icons,
+} from 'Dante2'
 
-import customHTML2Content from 'Dante2/package/es/utils/html2content.js'
+import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
+
+const {customHTML2Content} = utils // from 'Dante2/package/es/utils/html2content.js'
 import { Map } from 'immutable'
 import { EditorState, convertToRaw } from 'draft-js' // { compose
 
-import Icons from 'Dante2/package/es/components/icons.js'
+//import Icons from 'Dante2/package/es/components/icons.js'
 
 import { ThemeProvider } from 'emotion-theming'
 
 import theme from '../textEditor/theme'
 import EditorContainer from '../textEditor/editorStyles'
-
-// import Button from '@material-ui/core/Button'
-// import SendIcon from '@material-ui/icons/Send'
 
 import styled from '@emotion/styled'
 

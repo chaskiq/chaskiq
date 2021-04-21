@@ -461,11 +461,6 @@ class ArticlesNew extends Component {
                 type={'text'}
                 // label="Name"
                 placeholder={I18n.t('articles.create_article.placeholder')}
-                inputProps={{
-                  style: {
-                    fontSize: '2.4em'
-                  }
-                }}
                 // helperText="Full width!"
                 ref={(ref) => {
                   this.titleRef = ref
