@@ -331,6 +331,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it 'receive challenge' do
       get(:process_event, params: crc_data(@pkg.encoded_id))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
     end
 
@@ -342,6 +343,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         sender: twitter_user,
         recipient: twitter_owner
       ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
     end
@@ -354,6 +356,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         sender: twitter_user,
         recipient: twitter_owner
       ))
+      perform_enqueued_jobs
 
       event = '{"event":{"type":"message_create","id":"1226014113735880708","created_timestamp":"1581139517612","message_create":{"target":{"recipient_id":"1140620289006551040"},"sender_id":"7472512","message_data":{"text":"oopkpko","entities":{"hashtags":[],"symbols":[],"user_mentions":[],"urls":[]}}}}}'
 
@@ -385,6 +388,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         sender: twitter_user,
         recipient: twitter_owner
       ))
+      perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
       expect(app.conversations.first.messages.count).to be == 2
@@ -404,6 +408,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: twitter_user,
         message_id: 2
       ))
+      perform_enqueued_jobs
 
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1
@@ -420,7 +425,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           'text' => "one\ntwo\ntree\n✌️"
         }
       ))
-
+      perform_enqueued_jobs
       message = app.conversations.first.messages.first.messageable
 
       expect(message.html_content).to be == "one\ntwo\ntree\n✌️"
@@ -438,7 +443,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: twitter_owner,
         message_data: video_data
       ))
-
+      perform_enqueued_jobs
       message = app.conversations.first.messages.first.messageable
 
       blocks = JSON.parse(message.serialized_content)['blocks']
@@ -454,7 +459,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: twitter_owner,
         message_data: image_data
       ))
-
+      perform_enqueued_jobs
       message = app.conversations.first.messages.first.messageable
       blocks = JSON.parse(message.serialized_content)['blocks']
       block  = blocks.first
@@ -473,7 +478,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         recipient: twitter_owner,
         message_data: image_data
       ))
-
+      perform_enqueued_jobs
       conversation = app.conversations.first
 
       serialized = '{

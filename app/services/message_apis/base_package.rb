@@ -7,7 +7,7 @@ module MessageApis
     def process_event(params, package); end
 
     def enqueue_process_event(params, package)
-      HookMessageReceiverJob.perform_now(
+      HookMessageReceiverJob.perform_later(
         id: package.id,
         params: params.permit!.to_h
       )

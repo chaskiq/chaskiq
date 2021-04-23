@@ -86,7 +86,6 @@ const WrappedComponent = React.forwardRef(function Input (
           isMulti={isMulti}
           options={props.options}
           name={`${name}${props.data && props.data.multiple ? '[]' : ''}`}
-          // inputProps={{ name: name }}
           value={value}
           defaultValue={initialValue}
           onChange={props.onChange}
@@ -348,7 +347,7 @@ function FormField ({ name, label, helperText, children, _error }) {
   )
 }
 
-function DatePickerWrapper ({ val, name, onChange, error }) {
+function DatePickerWrapper ({ val, name, onChange, _error }) {
   const [value, setValue] = React.useState(val || new Date())
 
   function handleChange (val) {

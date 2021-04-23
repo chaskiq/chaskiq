@@ -3,12 +3,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-# gem 'rails', '~> 5.2.0'
 gem 'pg'
-gem 'rails', '6.1.2' # , github: "rails/rails",
+gem 'rails', '6.1.3.1' # , github: "rails/rails",
 
 gem 'anycable-rails'
 # Use sqlite3 as the database for Active Record
@@ -75,12 +74,10 @@ gem 'jwt'
 # gem 'devise-jwt', '~> 0.5.9'
 gem 'devise_invitable', '~> 2.0'
 gem 'doorkeeper', '~> 5.4'
-gem 'oauth', '~> 0.5.4'
+gem 'oauth', '~> 0.5.5'
 gem 'omniauth-oauth2'
 
 gem 'image_processing', '~> 1.2'
-gem 'mimemagic'
-
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'webpacker', '~> 5.0'
@@ -146,6 +143,7 @@ group :test do
     gem lib # , :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem 'brakeman'
+  gem 'code-scanning-rubocop', require: false
   gem 'database_cleaner-active_record'
   gem 'database_cleaner-redis'
   gem 'factory_bot_rails'

@@ -134,9 +134,7 @@ class AppUsers extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      map_view: false,
-      rightDrawer: false,
-      selectedUser: null
+      map_view: false
     }
     this.toggleMap = this.toggleMap.bind(this)
     this.toggleList = this.toggleList.bind(this)

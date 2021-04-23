@@ -22,20 +22,22 @@ class BotTask < Message
   scope :disabled, -> { where(state: 'disabled') }
 
   scope :for_new_conversations, lambda {
-    # where(type: 'leads')
     where("settings->>'bot_type' = ?", 'new_conversations')
   }
   scope :for_outbound, lambda {
-    # where(type: 'users')
     where("settings->>'bot_type' = ?", 'outbound')
   }
   scope :for_leads, lambda {
-    # where(type: 'leads')
     where("settings->>'user_type' = ?", 'leads')
   }
   scope :for_users, lambda {
-    # where(type: 'users')
     where("settings->>'user_type' = ?", 'users')
+  }
+  scope :inside_office, lambda {
+    where("settings->>'scheduling' = ?", 'inside_office')
+  }
+  scope :outside_office, lambda {
+    where("settings->>'scheduling' = ?", 'outside_office')
   }
 
   alias_attribute :title, :name
@@ -49,18 +51,11 @@ class BotTask < Message
   }
 
   def initialize_default_controls
-    self.segments = default_type_segments unless segments.present?
+    # self.segments = default_type_segments unless segments.present?
 
     return self unless bot_type == 'new_conversations'
 
     self.paths = default_new_conversation_path if paths.blank?
-  end
-
-  def default_type_segments
-    [
-      { 'type' => 'match', 'value' => 'and', 'attribute' => 'match', 'comparison' => 'and' },
-      { 'type' => 'string', 'value' => 'AppUser', 'attribute' => 'type', 'comparison' => 'eq' }
-    ]
   end
 
   def default_new_conversation_path
@@ -98,11 +93,6 @@ class BotTask < Message
     ]
   end
 
-  def add_default_predicate
-    self.segments = default_segments unless segments.present?
-    self.settings = {} unless settings.present?
-  end
-
   def available_segments
     segment = app.segments.new
     segment.assign_attributes(predicates: segments)
@@ -121,12 +111,25 @@ class BotTask < Message
     false
   end
 
+  def self.send_chain(methods)
+    methods.inject(self, :send)
+  end
+
+  def self.handle_availability_options(availability)
+    case availability
+    when nil then nil
+    when true then :inside_office
+    when false then :outside_office
+    end
+  end
+
   # idea 1: just return a collection of predicates and do it in the client
   # TODO: think how could we set this on client side effectively
   # idea 2: backend implementation , the following code
-  def self.get_welcome_bots_for_user(user)
+  def self.get_welcome_bots_for_user(user, availability)
     selected = nil
-    for_new_conversations.enabled.ordered.each do |bot_task|
+    meths = [:enabled, :ordered, handle_availability_options(availability)].compact
+    for_new_conversations.send_chain(meths).each do |bot_task|
       if bot_task.available_for_user?(user)
         selected = bot_task
         break
@@ -140,7 +143,10 @@ class BotTask < Message
     key = "#{app.key}-#{user.session_id}"
     ret = nil
 
-    app.bot_tasks.for_outbound.availables_for(user).each do |bot_task|
+    availability = app.in_business_hours?(Time.zone.now)
+    meths = [:for_outbound, handle_availability_options(availability)].compact
+
+    app.bot_tasks.send_chain(meths).availables_for(user).each do |bot_task|
       next if bot_task.blank? || !bot_task.available_for_user?(user)
 
       MessengerEventsChannel.broadcast_to(key, {
@@ -179,33 +185,6 @@ class BotTask < Message
       trackable: bot_task,
       action: "bot_tasks.actions.#{action}"
     )
-  end
-
-  def default_segments
-    default_predicate = { type: 'match',
-                          attribute: 'match',
-                          comparison: 'and',
-                          value: 'and' }.with_indifferent_access
-
-    user_predicate = {
-      attribute: 'type',
-      comparison: 'eq',
-      type: 'string',
-      value: 'AppUser'
-    }.with_indifferent_access
-
-    lead_predicate = {
-      attribute: 'type',
-      comparison: 'eq',
-      type: 'string',
-      value: 'Lead'
-    }.with_indifferent_access
-
-    if user_type == 'leads'
-      [default_predicate, lead_predicate]
-    else
-      [default_predicate, user_predicate]
-    end
   end
 
   def stats_fields

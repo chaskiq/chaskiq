@@ -11,38 +11,40 @@ import {
 import MultiDecorator from 'draft-js-multidecorators'
 
 // import Dante from "Dante2"
-import DanteEditor from 'Dante2/package/es/components/core/editor.js'
-
-import { DanteImagePopoverConfig } from 'Dante2/package/es/components/popovers/image.js'
-import { DanteAnchorPopoverConfig } from 'Dante2/package/es/components/popovers/link.js'
-import { DanteInlineTooltipConfig } from 'Dante2/package/es/components/popovers/addButton.js' // 'Dante2/package/es/components/popovers/addButton.js'
-import { DanteTooltipConfig } from 'Dante2/package/es/components/popovers/toolTip.js' // 'Dante2/package/es/components/popovers/toolTip.js'
-import { ImageBlockConfig } from '../../src/components/textEditor/blocks/image.js'
-import { EmbedBlockConfig } from 'Dante2/package/es/components/blocks/embed.js'
-import { VideoBlockConfig } from 'Dante2/package/es/components/blocks/video.js'
-import { PlaceholderBlockConfig } from 'Dante2/package/es/components/blocks/placeholder.js'
-import { VideoRecorderBlockConfig } from './blocks/videoRecorder' // 'Dante2/package/es/components/blocks/videoRecorder'
-import { CodeBlockConfig } from 'Dante2/package/es/components/blocks/code'
-import { DividerBlockConfig } from 'Dante2/package/es/components/blocks/divider'
+import { DanteEditor ,
+ DanteImagePopoverConfig ,
+ DanteAnchorPopoverConfig ,
+ DanteInlineTooltipConfig ,
+ DanteTooltipConfig ,
+ ImageBlockConfig,
+ EmbedBlockConfig ,
+ VideoBlockConfig,
+ PlaceholderBlockConfig ,
+ VideoRecorderBlockConfig ,
+ CodeBlockConfig,
+ DividerBlockConfig,
+ PrismDraftDecorator,
+ LinkDecorator as Link,
+ Styled,
+ utils,
+ } from 'Dante2'
 // import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 
 import Prism from 'prismjs'
-import { PrismDraftDecorator } from 'Dante2/package/es/components/decorators/prism'
-
 // import { GiphyBlockConfig } from 'Dante2/package/es/components/blocks/'
 // import { SpeechToTextBlockConfig } from '../campaigns/article/speechToTextBlock'
 // import { DanteMarkdownConfig } from './article/markdown'
-import Link from 'Dante2/package/es/components/decorators/link'
-import findEntities from 'Dante2/package/es/utils/find_entities'
+//import Link from 'Dante2/package/es/components/decorators/link'
 import { ThemeProvider } from 'emotion-theming'
-import EditorStyles from 'Dante2/package/es/styled/base'
 import theme from './theme'
 import styled from '@emotion/styled'
 import CircularProgress from '../../src/components/Progress'
-
 import { getFileMetadata } from '../../src/shared/fileUploader' // '../shared/fileUploader'
 
-export const EditorStylesExtend = styled(EditorStyles)`
+const {findEntities} =  utils
+const { EditorContainer } = Styled
+
+export const EditorStylesExtend = styled(EditorContainer)`
   
   @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');   
 
@@ -196,31 +198,9 @@ export default class ArticleEditor extends Component {
             component: Link
           }]
         )
-        // generateDecorator("hello")
-
       ])
     //}
   }
-
-  generateDecorator = (_highlightTerm) => {
-    //const regex = new RegExp(highlightTerm, 'g')
-    return new CompositeDecorator([{
-      strategy: (_contentBlock, _callback) => {
-        console.info('processing entity!', this.state.incomingSelectionPosition.length)
-        /*if (this.state.incomingSelectionPosition.length > 0) {
-          findSelectedBlockFromRemote(
-            this.state.incomingSelectionPosition,
-            contentBlock,
-            callback
-          )
-        }*/
-        /* if (highlightTerm !== '') {
-          findWithRegex(regex, contentBlock, callback);
-        } */
-      },
-      component: this.searchHighlight
-    }])
-  };
 
   setDisabled = (val) => {
     this.props.setDisabled && this.props.setDisabled(val)
@@ -559,7 +539,6 @@ export default class ArticleEditor extends Component {
               widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
               decorators={(context) => {
                 return new MultiDecorator([
-                  // this.generateDecorator("hello"),
                   PrismDraftDecorator({ prism: Prism }),
                   new CompositeDecorator(
                     [{
@@ -567,7 +546,6 @@ export default class ArticleEditor extends Component {
                       component: Link
                     }]
                   )
-
                 ])
               }
               }

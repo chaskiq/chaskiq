@@ -25,6 +25,8 @@ class AppPackageIntegration < ApplicationRecord
 
   validate do
     app_package.definitions.each do |definition|
+      next unless definition[:required]
+
       key = definition[:name].to_sym
       next unless self.class.stored_attributes[:settings].include?(key)
 
@@ -34,11 +36,10 @@ class AppPackageIntegration < ApplicationRecord
 
   def message_api_klass
     @message_api_klass ||= "MessageApis::#{app_package.name}::Api".constantize.new(
-      config: settings.dup.merge(
+      config: settings.dup.merge(package: self).merge(
         app_package.credentials || {}
       )
     )
-
     # rescue nil
   end
 
@@ -106,9 +107,9 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def hook_url
+    # host = 'https://chaskiq.ngrok.io'
     host = ENV['HOST']
     "#{host}/api/v1/hooks/receiver/#{encoded_id}"
-    # "#{ENV['HOST']}/api/v1/hooks/#{app.key}/#{app_package.name.downcase}/#{self.id}"
   end
 
   def oauth_url
@@ -138,6 +139,8 @@ class AppPackageIntegration < ApplicationRecord
     # @presenter.submit_hook(params)
     params.merge!({ package: self }) if external_package?
 
+    params[:ctx][:package] = self unless external_package?
+
     response = presenter_hook_response(params, presenter)&.with_indifferent_access
 
     validate_schema!(response[:definitions])
@@ -153,7 +156,7 @@ class AppPackageIntegration < ApplicationRecord
 
     if (message_key = params.dig(:ctx, :message_key)) && message_key.present?
       # TODO: maybe refactor this logic, move it to another place
-      message = params.dig(:ctx, :app).conversation_parts.find_by(
+      message = params.dig(:ctx, :package).app.conversation_parts.find_by(
         key: message_key
       )
 

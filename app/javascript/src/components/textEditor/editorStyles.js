@@ -1,8 +1,9 @@
 import styled from '@emotion/styled'
 
-import EditorStyles from 'Dante2/package/es/styled/base'
+import {Styled} from 'Dante2'
+const {EditorContainer} = Styled
 
-const NewEditorStyles = styled(EditorStyles)`
+const NewEditorStyles = styled(EditorContainer)`
   //display: flex;
 
   .graf--figure {

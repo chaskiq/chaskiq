@@ -3,6 +3,7 @@
 # from https://framagit.org/framasoft/framapiaf/
 require 'http'
 require 'oembed'
+require 'open-uri'
 
 class FetchLinkCardService < BaseService
   URL_PATTERN = %r{https?://\S+}.freeze
@@ -120,7 +121,7 @@ class FetchLinkCardService < BaseService
   end
 
   def download_image(url)
-    handle = open(url)
+    handle = URI.parse(url).open
 
     file = Tempfile.new("foo-#{Time.now.to_i}", encoding: 'ascii-8bit')
     file.write(handle.read)

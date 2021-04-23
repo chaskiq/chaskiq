@@ -26,7 +26,8 @@ import {
 } from '../graphql/queries'
 import {
   INVITE_AGENT,
-  UPDATE_AGENT_ROLE
+  UPDATE_AGENT_ROLE,
+  DESTROY_AGENT_ROLE
 } from '../graphql/mutations'
 
 import FormDialog from '../components/FormDialog'
@@ -88,7 +89,8 @@ class AppUsers extends React.Component {
   state = {
     collection: [],
     loading: true,
-    isOpen: false,
+    isEditDialogOpen: false,
+    isDestroyDialogOpen: false,
     errors: {}
   };
 
@@ -123,17 +125,35 @@ class AppUsers extends React.Component {
     )
   };
 
+  destroyAgent = () => {
+    graphql(DESTROY_AGENT_ROLE, {
+      appKey: this.props.app.key,
+      id: this.state.isDestroyDialogOpen.id
+    }, {
+      success: (_data) => {
+        this.props.dispatch(
+          successMessage(I18n.t('settings.team.destroyed_agent'))
+        )
+        this.setState({ isDestroyDialogOpen: false })
+        this.getAgents()
+      },
+      error: (_err) => {
+        // errorMessage('...')
+      }
+    })
+  }
+
   updateAgent = (params) => {
     graphql(UPDATE_AGENT_ROLE, {
       appKey: this.props.app.key,
-      id: this.state.isOpen.id,
+      id: this.state.isEditDialogOpen.id,
       params: params
     }, {
       success: (_data) => {
         this.props.dispatch(
           successMessage(I18n.t('settings.team.updated_agent'))
         )
-        this.setState({ isOpen: false })
+        this.setState({ isEditDialogOpen: false })
         this.getAgents()
       },
       error: (_err) => {
@@ -153,7 +173,8 @@ class AppUsers extends React.Component {
 
   close = () => {
     this.setState({
-      isOpen: false
+      isEditDialogOpen: false,
+      isDestroyDialogOpen: false
     })
   }
 
@@ -192,12 +213,47 @@ class AppUsers extends React.Component {
     ]
   }
 
+  destroyButton = () => {
+    return (
+        <div className="flex py-2 justify-end">
+          {this.state.isDestroyDialogOpen && (
+            <FormDialog
+              open={this.state.isDestroyDialogOpen}
+              handleClose={this.close}
+              titleContent={I18n.t('settings.team.destroy_agent_title')}
+              formComponent={
+                <form ref={this.form}>
+                 { I18n.t('settings.team.destroy_agent_warning', { agent: this.state.isDestroyDialogOpen.email }) }
+                </form>
+              }
+              dialogButtons={
+                <React.Fragment>
+                  <Button
+                    onClick={this.destroyAgent}>
+                    {I18n.t('settings.team.destroy_agent')}
+                  </Button>
+                  <Button onClick={this.close}
+                    className="mr-1"
+                    variant="outlined">
+                    {I18n.t('common.cancel')}
+                  </Button>
+
+              </React.Fragment>
+              }
+            >
+
+            </FormDialog>
+          )}
+        </div>
+    )
+  }
+
   editButton = () => {
     return (
       <div className="flex py-2 justify-end">
-        {this.state.isOpen ? (
+        {this.state.isEditDialogOpen ? (
           <FormDialog
-            open={this.state.isOpen}
+            open={this.state.isEditDialogOpen}
             handleClose={this.close}
             actionButton={I18n.t('settings.team.action_button')}
             titleContent={I18n.t('settings.team.update_agent_title')}
@@ -217,7 +273,7 @@ class AppUsers extends React.Component {
                         type={field.type}
                         data={camelizeKeys(field)}
                         props={{
-                          data: camelizeKeys(this.state.isOpen)
+                          data: camelizeKeys(this.state.isEditDialogOpen)
                         }}
                         errors={this.state.errors || {}}
                       />
@@ -247,13 +303,18 @@ class AppUsers extends React.Component {
   };
 
   handleEdit = (row) => {
-    this.setState({ isOpen: row })
+    this.setState({ isEditDialogOpen: row })
+  }
+
+  handleDelete = (row) => {
+    this.setState({ isDestroyDialogOpen: row })
   }
 
   render () {
     return (
       <React.Fragment>
         {this.editButton()}
+        {this.destroyButton()}
 
         {!this.state.loading ? (
           <DataTable
@@ -347,8 +408,17 @@ class AppUsers extends React.Component {
                       <Button
                         onClick={() => this.handleEdit(row)}
                         variant="outlined"
+                        className="mr-1"
                         size="small">
                         edit
+                      </Button>
+                      <Button
+                        onClick={() => this.handleDelete(row)}
+                        className="danger"
+                        variant="outlined"
+                        size="small"
+                      >
+                        delete
                       </Button>
                     </td>
                   )

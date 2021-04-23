@@ -819,6 +819,16 @@ export const UPDATE_AGENT_ROLE = `
   }
 `;
 
+export const DESTROY_AGENT_ROLE = `
+  mutation DestroyAgentRole($appKey: String!, $id: String!){
+    destroyAgentRole(appKey: $appKey, id: $id){
+        agent {
+          id
+        }
+      }
+  }
+`;
+
 export const CREATE_ARTICLE = `
   mutation CreateArticle($appKey: String!, $content: Json!, $title: String!, $lang: String){
     createArticle(appKey: $appKey, content: $content, title: $title, lang: $lang){

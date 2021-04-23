@@ -17,6 +17,7 @@ export default function Badge ({ variant, children, className, size }) {
     }
   }
 
+
   return (
     <span className={`${className || ''} inline-flex items-center 
       ${sizeClasses()}

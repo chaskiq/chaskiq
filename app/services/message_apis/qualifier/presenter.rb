@@ -28,7 +28,7 @@ module MessageApis::Qualifier
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
-      fields = ctx[:app].searcheable_fields.map do |o|
+      fields = ctx[:package].app.searcheable_fields.map do |o|
         o['name'].to_sym
       end
 
@@ -86,7 +86,7 @@ module MessageApis::Qualifier
     # them configuration options before it’s inserted. Leaving this option
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
-      app = ctx[:app]
+      app = ctx[:package].app
       fields = app.searcheable_fields
 
       definitions = [

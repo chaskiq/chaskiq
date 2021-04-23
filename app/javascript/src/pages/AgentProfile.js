@@ -274,7 +274,6 @@ class ProfilePage extends Component {
                       onKeyUp={this.handleEnter}
                       defaultValue={this.state.agent.name}
                       placeholder="enter agent's name"
-                      inputProps={{ 'aria-label': 'enter agent\'s name' }}
                     /> : this.state.agent.name || 'no name'
 
                   /* <input defaultValue={this.state.agent.name || 'no name'}/> */

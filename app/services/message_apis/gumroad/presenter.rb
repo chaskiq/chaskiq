@@ -75,7 +75,7 @@ module MessageApis::Gumroad
     # them configuration options before it’s inserted. Leaving this option
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
-      app = ctx[:app]
+      app = ctx[:package].app
       url = ctx.dig('values', 'url')
       # fields = app.searcheable_fields
       r = PaymentRecord.new(

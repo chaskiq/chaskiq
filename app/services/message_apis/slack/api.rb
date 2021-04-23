@@ -96,16 +96,14 @@ module MessageApis::Slack
 
       url = url('/api/chat.postMessage')
 
-      response = @conn.post do |req|
+      @conn.post do |req|
         req.url url
         req.headers['Content-Type'] = 'application/json; charset=utf-8'
         req.body = data.to_json
       end
 
-      puts response.body
-      puts response.status
-
-      response
+      # puts response.body
+      # puts response.status
     end
 
     def create_channel(name = nil, user_ids = '')
@@ -254,7 +252,7 @@ module MessageApis::Slack
         }
       ]
 
-      puts data
+      # puts data
 
       response_data = json_body(
         post_message(
@@ -331,7 +329,7 @@ module MessageApis::Slack
       return handle_challenge(params) if challenge?(params)
 
       # process_event(params, package)
-      HookMessageReceiverJob.perform_now(
+      HookMessageReceiverJob.perform_later(
         id: package.id,
         params: params.permit!.to_h
       )

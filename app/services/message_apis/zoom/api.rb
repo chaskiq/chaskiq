@@ -155,28 +155,5 @@ module MessageApis::Zoom
       ]
     end
 
-    def definitions_for_configure_hook
-      zoom_input = {
-        type: 'input',
-        id: 'zoom_user',
-        placeholder: 'enter your zoom user email',
-        label: 'Zoom user'
-      }
-
-      action = {
-        id: 'set-url',
-        name: 'set_url',
-        label: 'Set up',
-        type: 'button',
-        action: {
-          type: 'submit'
-        }
-      }
-
-      [
-        zoom_input,
-        action
-      ]
-    end
   end
 end

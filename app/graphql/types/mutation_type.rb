@@ -10,6 +10,7 @@ module Types
     field :inviteAgent, mutation: Mutations::Agents::Invite
     field :updateAgent, mutation: Mutations::Agents::UpdateAgent
     field :updateAgentRole, mutation: Mutations::Agents::UpdateAgentRole
+    field :destroyAgentRole, mutation: Mutations::Agents::DestroyAgentRole 
 
     field :cloneMessage, mutation: Mutations::CloneMessage
 

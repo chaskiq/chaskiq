@@ -307,7 +307,6 @@ class ProfilePage extends Component {
                         onKeyUp={(e) => this.handleEnter(e, 'name')}
                         defaultValue={this.props.app_user.name}
                         placeholder="enter user's name"
-                        inputProps={{ 'aria-label': 'enter user\'s name' }}
                       /> : this.props.app_user.name
                   }
 
@@ -326,7 +325,6 @@ class ProfilePage extends Component {
                         onKeyUp={(e) => this.handleEnter(e, 'email')}
                         defaultValue={this.props.app_user.email}
                         placeholder="enter user's email"
-                        inputProps={{ 'aria-label': 'user agent\'s email' }}
                       /> : this.props.app_user.email
                   }
 

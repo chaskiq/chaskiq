@@ -12,7 +12,14 @@ environment.config.merge({
       react: path.resolve('./node_modules/react')
     }
   }
+
+  
 })
+
+environment.loaders.get('file').test = /\.(jpg|jpeg|png|gif|tiff|ico|svg|eot|otf|ttf|woff|woff2|mp3|wav)$/i
+
+
+
 
 // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
 environment.plugins.append(

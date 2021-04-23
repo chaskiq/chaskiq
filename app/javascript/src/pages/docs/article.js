@@ -8,14 +8,15 @@ import {
 import translation from './translation'
 import { ThemeProvider } from 'emotion-theming'
 import DraftRenderer from '../../components/textEditor/draftRenderer'
-import EditorStyles from 'Dante2/package/es/styled/base'
-
+import {Styled} from 'Dante2'
 import Breadcrumbs from '../../components/Breadcrumbs'
 import Avatar from '../../components/Avatar'
 import Moment from 'react-moment'
 import styled from '@emotion/styled'
 
-const NewEditorStyles = styled(EditorStyles)`
+const {EditorContainer} = Styled
+
+const NewEditorStyles = styled(EditorContainer)`
   font-size: 1.3em;
 
   white-space: pre-wrap; /* CSS3 */
@@ -91,12 +92,15 @@ export default function Article (props) {
                   src={article.author.avatarUrl}
                 />
 
-                <div className={'ml-4'}>
-                  <p className="text-lg leading-6 font-medium text-gray-900">
-                    Written by {article.author.name}
-                  </p>
+                <div className={'ml-2'}>
+                  {
+                    article.author.name && 
+                    <p className="text-md leading-6 font-light text-gray-900">
+                      Written by <span className="font-semibold">{article.author.name}</span>
+                    </p>
+                  }
 
-                  <p className="text-base leading-6 text-gray-500">
+                  <p className="text-md leading-6 font-light text-gray-500">
                     {'updated '}
                     <Moment fromNow>{article.updatedAt}</Moment>
                   </p>
