@@ -340,7 +340,7 @@ GEM
     nokogiri (1.11.2)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
-    oauth (0.5.4)
+    oauth (0.5.5)
     oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -614,7 +614,7 @@ DEPENDENCIES
   mini_magick (~> 4.8)
   mustache
   nightfury!
-  oauth (~> 0.5.4)
+  oauth (~> 0.5.5)
   omniauth-oauth2
   pg
   pg_search

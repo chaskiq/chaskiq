@@ -658,9 +658,7 @@ function Conversation ({
         </div>
       </div>
 
-      <div className={`${videoSession ? 'fixed--' : 'hidden'}`}
-        expanded={expand}
-        videoSession={videoSession}>
+      <div className={`${videoSession ? 'fixed--' : 'hidden'}`}>
         <div className="flex bg-gray-900- h-44
           justify-center items-center
           shadow-lg text-black"

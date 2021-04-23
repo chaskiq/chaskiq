@@ -74,7 +74,7 @@ gem 'jwt'
 # gem 'devise-jwt', '~> 0.5.9'
 gem 'devise_invitable', '~> 2.0'
 gem 'doorkeeper', '~> 5.4'
-gem 'oauth', '~> 0.5.4'
+gem 'oauth', '~> 0.5.5'
 gem 'omniauth-oauth2'
 
 gem 'image_processing', '~> 1.2'
