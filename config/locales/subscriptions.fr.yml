@@ -62,20 +62,20 @@ fr:
         upgrade_message: Activez les attributs personnalisés
     plans:
       - 
-        name: "free one"
-        description: This is a frebie plan!
+        name: "gratuit"
+        description: C'est un plan gratuit !
         id: 618560
       - 
-        name: "rookie"
-        description: This is the simple plan
+        name: "débutant"
+        description: Ceci est le plan simple
         id: 616249
       - 
-        name: "super"
+        name: "Super"
         id: 596123
-        description: This is the super plan
+        description: Ceci est le super plan
     plan:
-      included: What's included
-      pay_by: Pay by %{billing_type}
+      included: Ce qui est inclus
+      pay_by: Payer par %{billing_type}
       trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
       get_access: Get access
     alerts:
