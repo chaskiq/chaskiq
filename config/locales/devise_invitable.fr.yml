@@ -1,31 +1,31 @@
 fr:
   devise:
     failure:
-      invited: "You have a pending invitation, accept it to finish creating your account."
+      invited: "Vous avez une invitation en attente, acceptez-la pour terminer la création de votre compte."
     invitations:
-      send_instructions: "An invitation email has been sent to %{email}."
-      invitation_token_invalid: "The invitation token provided is not valid!"
-      updated: "Your password was set successfully. You are now signed in."
-      updated_not_active: "Your password was set successfully."
-      no_invitations_remaining: "No invitations remaining"
-      invitation_removed: "Your invitation was removed."
+      send_instructions: "Un e-mail d'invitation a été envoyé à %{email}."
+      invitation_token_invalid: "Le jeton d'invitation fourni n'est pas valide !"
+      updated: "Votre mot de passe a été défini avec succès. Vous êtes maintenant connecté."
+      updated_not_active: "Votre mot de passe a été défini avec succès."
+      no_invitations_remaining: "Aucune invitation restante"
+      invitation_removed: "Votre invitation a été supprimée."
       new:
-        header: "Send invitation"
-        submit_button: "Send an invitation"
+        header: "Envoyer une invitation"
+        submit_button: "Envoyer une invitation"
       edit:
-        header: "Set your password"
-        submit_button: "Set my password"
+        header: "Définissez votre mot de passe"
+        submit_button: "Définir mon mot de passe"
     mailer:
       invitation_instructions:
-        subject: "Invitation instructions"
-        hello: "Hello %{email}"
-        someone_invited_you: "Someone has invited you to %{url}, you can accept it through the link below."
-        accept: "Accept invitation"
-        accept_until: "This invitation will be due in %{due_date}."
-        ignore: "If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password."
+        subject: "Instructions d'invitation"
+        hello: "Bonjour %{email}"
+        someone_invited_you: "Quelqu'un vous a invité à rejoindre %{url}, vous pouvez l'accepter en cliquant sur le lien ci-dessous."
+        accept: "Accepter l'invitation"
+        accept_until: "Cette invitation sera due dans %{due_date}."
+        ignore: "Si vous ne voulez pas accepter l'invitation, veuillez ignorer cet e-mail. Votre compte ne sera pas créé tant que vous n'aurez pas accédé au lien ci-dessus et défini votre mot de passe."
   time:
     formats:
       devise:
         mailer:
           invitation_instructions:
-            accept_until_format: "%B %d, %Y %I:%M %p"
+            accept_until_format: "%B %d, %Y %I:%M:%p"

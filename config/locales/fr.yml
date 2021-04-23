@@ -18,17 +18,17 @@ fr:
     confirm_deletion: "Confirmer la suppression ?"
     next: Suivant
     prev: Précédent
-    showing: Showing
+    showing: Afficher
     to: vers
     of: de
-    results: results
+    results: Résultats
     tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
     send: Envoyer
     langs:
       en: Anglais
       es: Espagnol
       pt: Portugais
-      de: Deutsch
+      de: Allemand
     redirecting: Redirection
     select_language: Sélectionnez une langue
     send_on_enter: Publier à la saisie
@@ -345,20 +345,20 @@ fr:
       timezone: LE TIMEZONE DE VOTRE APP EST %{tz}
       reply_time:
         title: Définir le temps de réponse
-        hint: During office hours, let your customers know when they can expect a reply.
+        hint: Pendant les heures de bureau, faites savoir à vos clients quand ils peuvent s'attendre à une réponse.
         options:
           - 
             value: "auto"
-            label: "Automatic reply time. Currently El equipo responderá lo antes posible"
+            label: "Temps de réponse automatique. Actuellement. L'équipe répondra dans les plus brefs délais "
           - 
             value: "minutes"
-            label: "Team usually responds within minutes."
+            label: "L'équipe répond généralement en quelques minutes."
           - 
             value: "heures"
-            label: "Team usually responds within hours."
+            label: "L'équipe répond généralement en quelques heures."
           - 
             value: "1 jour"
-            label: "The team usually responds in one day."
+            label: "L’équipe répond généralement dans une journée."
         hint2: "Remarque : le visiteur recevra une réponse automatique avec la disponibilité de votre équipe pendant les heures hors bureau ou pendant de longs délais de réponse."
     email_requirement:
       title: Exiger un e-mail pour les nouvelles conversations
@@ -413,66 +413,66 @@ fr:
       add_new: Ajouter un membre de l'équipe
       update_agent_title: Mettre à jour les informations de l'agent
       updated_agent: Informations mises à jour avec succès
-      destroyed_agent: Agent deleted successfully
-      destroy_agent_title: Delete Agent
+      destroyed_agent: Agent supprimé avec succès
+      destroy_agent_title: Supprimer l'agent
       destroy_agent: Effacer
-      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
+      destroy_agent_warning: 'Êtes-vous sûr de vouloir supprimer {{agent}}?'
       update_agent: Mise à jour
     webhooks:
       title: Webhooks
-      create_success: Webhook created
-      create_error: Error adding webhook
-      update_success: Webhook updated
-      update_error: Error updating webhook
-      delete_success: Webhook removed correctly
-      delete_error: Error removing webhook
-      outgoing_webhooks: Outgoing webhooks
-      new_webhook: New webhook
-      active_webhooks: Active Webhooks
-      disabled_webhooks: Disabled Webhooks
+      create_success: Webhook crée
+      create_error: Erreur lors de l'ajout du webhook
+      update_success: Webhook mis à jour
+      update_error: Erreur lors de la mise à jour du webhook
+      delete_success: Webhook supprimé correctement
+      delete_error: Erreur lors de la suppression du webhook
+      outgoing_webhooks: Webhooks sortants
+      new_webhook: Nouveau webhook
+      active_webhooks: Webhooks actifs
+      disabled_webhooks: Webhooks désactivés
       empty:
-        title: You don't have any active webhooks yet
-        desc: Search for your webhooks in
-        disabled_webhooks: Disabled webhooks
+        title: Vous n'avez pas encore de webhooks actifs
+        desc: Recherchez vos webhooks dans
+        disabled_webhooks: Webhooks désactivés
       delete:
-        title: Delete webhook ?
-        text: The webhook with %{name} service will be disabled immediately
+        title: Supprimer le webhook ?
+        text: Le webhook avec le service %{name} sera désactivé immédiatement
     tags:
       title: Tags
       modal:
-        title: Create app's tag
-        hint: Looking for more tags ? look at
-        link: account settings
+        title: Créer le tag de l'application
+        hint: Vous cherchez plus de tags ? regardez à
+        link: Paramètres du compte
       inputs:
-        name: Field name
-        color: Field color
+        name: Nom du champ
+        color: Couleur du champ
     user_data:
-      title: Custom Fields
-      default_fields: Default attributes
-      non_editable: This fields are not editable
+      title: Champs personnalisés
+      default_fields: Attributs par défaut
+      non_editable: Les champs ne sont pas modifiables
       modal:
-        title: Create user data field
+        title: Créer un champ de données utilisateur
       inputs:
-        name: Field name
-        type: Field type
+        name: Nom du champ
+        type: Type de champ
         validation: Validation
-        validation_hint: Validation is optional
+        validation_hint: La validation est optionnelle
       attr_types:
         date: Date
-        integer: Integer
-        string: String
+        integer: Entier
+        string: Chaîne
   articles:
     title: Articles
-    all: All
-    published: Published
-    draft: Drafts
-    visit: visit the help center
-    new: New article
-    add: Add item
+    all: Tous
+    published: Publié
+    draft: Brouillons
+    visit: visitez le centre d'aide
+    new: Nouvel article
+    add: Ajouter un élément
     collections: Collections
-    help_center: Help Center
-    description_placeholder: Describe your collection to help you find it.
-    title_placeholder: Write the title of the sections
+    help_center: Centre d'Aide
+    description_placeholder: Décrivez votre collection pour vous aider à la trouver.
+    title_placeholder: Écrivez le titre des sections
     new_section: Nouvelle section
     new_collection: Nouvelle collection
     edit_collection: Editer la collection
