@@ -23,10 +23,10 @@ import {
   VideoBlockConfig,
   PlaceholderBlockConfig,
   VideoRecorderBlockConfig,
-  CodeBlockConfig ,
+  CodeBlockConfig,
   DividerBlockConfig,
   PrismDraftDecorator,
-  LinkDecorador as Link,
+  LinkDecorator as Link,
   utils,
   Styled
 } from "Dante2";
@@ -721,7 +721,6 @@ class ArticleEditor extends Component {
               }
               decorators={(context) => {
                 return new MultiDecorator([
-                  //this.generateDecorator("hello"),
                   PrismDraftDecorator({ prism: Prism }),
                   new CompositeDecorator([
                     {

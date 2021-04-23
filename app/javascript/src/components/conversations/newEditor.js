@@ -238,9 +238,10 @@ export default class ChatEditor extends Component {
   };
 
   componentDidMount () {
-    this.editorRef.current &&
-    this.editorRef.current.refs.editor &&
-    this.editorRef.current.refs.editor.focus()
+    // this breaks anchors render on editor
+    //this.editorRef.current &&
+    //this.editorRef.current.refs.editor &&
+    //this.editorRef.current.refs.editor.focus()
   }
 
   saveContent = (content) => {
@@ -364,7 +365,7 @@ export default class ChatEditor extends Component {
                 loading={this.props.loading}
                 setDisabled={this.setDisabled}
                 read_only={this.state.read_only}
-                ref={this.editorRef}
+                //ref={this.editorRef} // this breaks the anchors on editor
                 handleReturn={(e, isEmptyDraft) => {
                   if (isEmptyDraft || this.isDisabled()) return
                   if (this.props.sendMode == 'enter' && !e.nativeEvent.shiftKey) {
