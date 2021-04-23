@@ -24,7 +24,7 @@ import { DanteEditor ,
  CodeBlockConfig,
  DividerBlockConfig,
  PrismDraftDecorator,
- LinkDecorador as Link,
+ LinkDecorator as Link,
  Styled,
  utils,
  } from 'Dante2'
@@ -198,31 +198,9 @@ export default class ArticleEditor extends Component {
             component: Link
           }]
         )
-        // generateDecorator("hello")
-
       ])
     //}
   }
-
-  generateDecorator = (_highlightTerm) => {
-    //const regex = new RegExp(highlightTerm, 'g')
-    return new CompositeDecorator([{
-      strategy: (_contentBlock, _callback) => {
-        console.info('processing entity!', this.state.incomingSelectionPosition.length)
-        /*if (this.state.incomingSelectionPosition.length > 0) {
-          findSelectedBlockFromRemote(
-            this.state.incomingSelectionPosition,
-            contentBlock,
-            callback
-          )
-        }*/
-        /* if (highlightTerm !== '') {
-          findWithRegex(regex, contentBlock, callback);
-        } */
-      },
-      component: this.searchHighlight
-    }])
-  };
 
   setDisabled = (val) => {
     this.props.setDisabled && this.props.setDisabled(val)
@@ -559,9 +537,8 @@ export default class ArticleEditor extends Component {
               content={this.defaultContent()}
               tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
               widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
-              decorators={(context) => {
+              decoratorsssss={(context) => {
                 return new MultiDecorator([
-                  // this.generateDecorator("hello"),
                   PrismDraftDecorator({ prism: Prism }),
                   new CompositeDecorator(
                     [{
@@ -569,7 +546,6 @@ export default class ArticleEditor extends Component {
                       component: Link
                     }]
                   )
-
                 ])
               }
               }
