@@ -60,7 +60,7 @@ fr:
         hint: Ce sera le site hôte où chaskiq sera utilisé
       outgoing_email_domain:
         label: Domaine des E-mails sortants
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        hint: Le domaine de messagerie pour envoyer des conversations, pour @yourapp utilisez 'votre application'
       tagline:
         label: Slogan
         hint: Ceci sera rendu en bas de la fenêtre de chat
