@@ -62,42 +62,42 @@ fr:
         upgrade_message: Activez les attributs personnalisés
     plans:
       - 
-        name: "free one"
-        description: This is a frebie plan!
+        name: "gratuit"
+        description: C'est un plan gratuit !
         id: 618560
       - 
-        name: "rookie"
-        description: This is the simple plan
+        name: "débutant"
+        description: Ceci est le plan simple
         id: 616249
       - 
-        name: "super"
+        name: "Super"
         id: 596123
-        description: This is the super plan
+        description: Ceci est le super plan
     plan:
-      included: What's included
-      pay_by: Pay by %{billing_type}
-      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
-      get_access: Get access
+      included: Ce qui est inclus
+      pay_by: Payer par %{billing_type}
+      trial_days: Essayez ce forfait gratuitement pendant <span class="font-bold"> %{trial_days} jours </span>
+      get_access: Accéder à
     alerts:
       subscription_updated:
-        title: Subscription updated
-        desc: The Subscription was updated successfully, You will receive an email notification
+        title: Abonnement mis à jour
+        desc: L'abonnement a été mis à jour avec succès, vous recevrez une notification par e-mail
       subscription_created:
-        title: Subscription Created
-        desc: The subscription was created successfully, You will receive a receipt soon
+        title: Abonnement créé
+        desc: L'abonnement a été créé avec succès. Vous recevrez bientôt un reçu
       subscription_cancelled:
-        title: Subscription Cancelled
-        desc: The subscription was cancelled
-      close: Close this dialog
+        title: Abonnement annulé
+        desc: L'abonnement a été annulé
+      close: Fermer cette fenêtre
     billing_information:
-      title: Billing plan information
-      description: You are currently using "%{plan_name}" plan.
-      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
-      cancel_plan: cancel plan
-      update_payment_method: Update payment method
-      subscription_state: Estado de subscripción %{state}
+      title: Information du plan de facturation
+      description: Vous utilisez actuellement le forfait "%{plan_name}".
+      next_billing: Prochaine facturation le %{next_payment_date} pour%{next_payment_amount} $ %{next_payment_currency}
+      cancel_plan: annuler le plan
+      update_payment_method: Mise à jour de la méthode de paiement
+      subscription_state: État d'abonnement %{state}
     update_subscription:
-      cta: Update subscription
-      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
-      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
-      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
+      cta: Mettre à jour l’abonnement
+      billed_on: Vous serez facturé sur chaque <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: Avec le montant de <span class="font-bold"> %{recurring_price} $ USD</span>
+      next_payment: Le prochain paiement sera effectué le <span class="font-bold">%{next_payment_date}</span>
