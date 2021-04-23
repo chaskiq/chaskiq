@@ -537,7 +537,7 @@ export default class ArticleEditor extends Component {
               content={this.defaultContent()}
               tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
               widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
-              decoratorsssss={(context) => {
+              decorators={(context) => {
                 return new MultiDecorator([
                   PrismDraftDecorator({ prism: Prism }),
                   new CompositeDecorator(
