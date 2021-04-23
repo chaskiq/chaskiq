@@ -42,11 +42,11 @@ fr:
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     quick_replies:
       title: Gérer les réponses rapides
-      description: Quick replies provides a way to organize common anwsers for your bussiness
+      description: Les réponses rapides fournissent un moyen d'organiser des réponses communs pour votre bussiness
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     articles:
-      title: Chaskiq HelpCenter platform
-      description: Here you can manage the articles of Chaskiq
+      title: Plateforme HelpCenter de Chaskiq
+      description: Ici vous pouvez gérer les articles de Chaskiq
     #link: { href: '/', text: 'Learn how to configure & manage the helpcenter system on Chaskiq'}
     bots:
     mailing_campaigns:
