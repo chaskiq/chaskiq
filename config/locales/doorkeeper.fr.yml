@@ -2,8 +2,8 @@ fr:
   activerecord:
     attributes:
       doorkeeper/application:
-        name: 'Name'
-        redirect_uri: 'Redirect URI'
+        name: 'Nom'
+        redirect_uri: 'URL de redirection'
     errors:
       models:
         doorkeeper/application:
