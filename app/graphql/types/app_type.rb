@@ -118,7 +118,7 @@ module Types
     end
 
     def app_packages_capabilities(kind:)
-      raise 'not in type' unless %w[home conversations bots inbox].include?(kind)
+      raise 'not in type' unless %w[home conversations conversation_part bots inbox].include?(kind)
 
       authorize! object, to: :show?, with: AppPolicy
 
