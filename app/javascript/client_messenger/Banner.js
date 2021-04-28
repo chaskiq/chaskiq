@@ -117,6 +117,10 @@ export default function Banner ({
     zIndex: 4000000000
   }
 
+  function heightHandler (height){
+    setHeight(height)
+  }
+
   if (placement === 'top' && mode === 'floating') {
     style.top = '8px'
     style.height = '80px'
@@ -143,10 +147,6 @@ export default function Banner ({
     </ThemeProvider>
   }
 
-  function heightHandler (height){
-    setHeight(height)
-  }
-
   return <StyledFrame data-cy="banner-wrapper" style={style}>
     <BannerRenderer
       mode={mode}
@@ -163,6 +163,34 @@ export default function Banner ({
       onClose={onClose}
     />
   </StyledFrame>
+}
+
+
+// Hook
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = React.useState({
+    width: undefined,
+    height: undefined,
+  });
+  React.useEffect(() => {
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
 }
 
 export function BannerRenderer ({
@@ -182,9 +210,16 @@ export function BannerRenderer ({
 
   let wrapper = React.useRef(null)
 
+  const size = useWindowSize();
+
   React.useEffect(()=>{
-    notifyHeight(wrapper.clientHeight)
+    notifyHeight(wrapper.current.clientHeight)
   }, [])
+
+  React.useEffect(()=>{
+    notifyHeight(wrapper.current.clientHeight)
+  }, [size])
+
 
   return (
     <BannerWrapp

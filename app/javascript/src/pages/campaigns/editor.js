@@ -40,6 +40,7 @@ export default class CampaignEditor extends Component {
       status: null,
       read_only: false,
       preview: false,
+      height: '73px',
       bannerData: this.props.data.bannerData
     }
   }
@@ -135,6 +136,10 @@ export default class CampaignEditor extends Component {
     if (this.props.data.bannerData.placement === 'bottom') return { bottom: 0 }
   }
 
+  heightHandler = (height) =>{
+    this.setState({height: height})
+  }
+
   render () {
     return (
       <EditorContentWrapper mode={this.props.mode}>
@@ -206,10 +211,12 @@ export default class CampaignEditor extends Component {
             <div style={{
               position: 'absolute',
               width: '100%',
+              height: this.state.height,
               ...this.placementOption()
             }}>
               <BannerRenderer
                 {...this.props.data.bannerData}
+                notifyHeight={this.heightHandler}
                 textComponent={
                   <TextEditor
                     campaign={true}
