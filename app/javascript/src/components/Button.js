@@ -61,7 +61,7 @@ const BaseButton = styled.button`
         focus:border-indigo-700 
         active:bg-indigo-700`
       case 'link':
-        return tw`flex text-indigo-700 hover:text-indigo-900`
+        return tw`flex text-indigo-700 hover:text-indigo-900 inline-flex items-center`
       case 'clean':
         return ''
       case 'outlined':
