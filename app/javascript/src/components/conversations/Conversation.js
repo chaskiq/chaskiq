@@ -68,6 +68,7 @@ import styled from '@emotion/styled'
 import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 import RtcDisplayWrapper from '../rtcView' // './RtcWrapper'
 import TagDialog from '../TagDialog'
+import AppPackagePanel from './appPackagePanel'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -129,6 +130,9 @@ function Conversation ({
   const [videoSession, setVideoSession] = React.useState(false)
   const [openTagManager, setOpenTagManager] = React.useState(false)
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
+
+  const [conversationPartSelected, setConversationPartSelected] = React.useState(false)
+
   const appId = app.key
 
   React.useEffect(() => {
@@ -324,6 +328,25 @@ function Conversation ({
           className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
         />
       }
+
+
+      <AppPackagePanel
+        kind={'conversation_part'}
+        open={conversationPartSelected}
+        conversation_part={message}
+        close={() => {
+          setConversationPartSelected(null)
+        }}
+        insertComment={(data) => {
+          console.log("AAAA", data)
+          //this.props.insertAppBlockComment(data, () => {
+          //  this.setState({
+          //    openPackagePanel: false
+          //  })
+          //})
+        }}
+      />
+
       <MessageItem
         userOrAdmin={userOrAdmin}
         privateNote={message.privateNote}
@@ -357,12 +380,36 @@ function Conversation ({
 
             {
               isAdmin && messageContent.serializedContent &&
-
               <FilterMenu
                 options={[
                   {
                     title: I18n.t('quick_replies.add_as_dialog.title'),
                     onClick: () => { addAsReply(messageContent.serializedContent) }
+                  }
+                ]}
+                value={null}
+                filterHandler={(e) => e.onClick && e.onClick() }
+                triggerButton={(handler) => (
+                  <Button
+                    variant="icon"
+                    onClick={handler}
+                    className="ml-2">
+                    <MoreIcon className="text-gray-400"/>
+                  </Button>
+                )}
+                position={'right'}
+                origin={'bottom-0'}
+              />
+            }
+
+            {
+              !isAdmin && messageContent.serializedContent &&
+
+              <FilterMenu
+                options={[
+                  {
+                    title: "Plugins",
+                    onClick: () => { setConversationPartSelected(messageContent) }
                   }
                 ]}
                 value={null}
@@ -532,7 +579,9 @@ function Conversation ({
             }
           >
             <button
-              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full
+               bg-white hover:bg-gray-100 text-gray-800 
+               font-semibold border border-gray-400 rounded shadow"
               onClick={() => setVideoSession(!videoSession)}>
               { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
             </button>

@@ -10,6 +10,7 @@ import {DefinitionRenderer} from './components'
 export function BaseInserter ({
   //onItemSelect,
   conversation,
+  conversation_part,
   pkg,
   app,
   onInitialize,
@@ -21,7 +22,8 @@ export function BaseInserter ({
     id: pkg.name + '',
     hooKind: 'configure',
     ctx: {
-      location: location
+      location,
+      conversation_part: conversation_part?.key
     }
   }
 
@@ -43,7 +45,12 @@ export function BaseInserter ({
   }), [])
 
   function updatePackage (formData, cb) {
-    const newParams = { ...params, ctx: {...formData, conversation_key: conversation?.key } }
+    const newParams = { ...params, ctx: {
+      ...formData, 
+        conversation_key: conversation?.key, 
+        conversation_part: conversation_part?.key
+      }
+    }
     getPackage(newParams, location, (data) => {
       setPackage(data.app.appPackage.callHook)
       cb && cb()

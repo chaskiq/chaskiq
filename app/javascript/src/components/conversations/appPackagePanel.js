@@ -91,6 +91,7 @@ function AppPackagePanel (props) {
                   app={props.app}
                   location={props.kind}
                   conversation={props.conversation}
+                  conversation_part={props.conversation_part}
                 />
             }
 
@@ -125,6 +126,7 @@ function AppPackagePanel (props) {
                       hooKind: data.field.action.type,
                       ctx: {
                         conversation_key: props.conversation.key,
+                        conversation_part: props.conversation_part.key,
                         field: data.field,
                         definitions: [data.field.action],
                         location: props.kind,
