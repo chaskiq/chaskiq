@@ -175,7 +175,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     dispatch(setCurrentPage(`bot${mode}`))
   }, [])
 
-  const saveData = () => {
+  const saveData = (cb) => {
     const snake_case_paths = paths.map((o) => {
       const b = Object.assign({}, o, { follow_actions: o.followActions })
       delete b.followActions
@@ -202,6 +202,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           setErrors(data.updateBotTask.botTask.errors)
           // setSelectedPath(data.updateBotTask.botTask.paths[0]);
           dispatch(successMessage('bot updated'))
+          cb && cb()
         },
         error: (_err) => {
           dispatch(errorMessage('bot not updated'))
@@ -281,11 +282,11 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 updateData={(task) => {
                   setBotTask(task)
                 }}
-                handleSave={(segments) => {
+                handleSave={(segments, cb) => {
                   setBotTask(
                     Object.assign({}, botTask, { segments: segments })
                   )
-                  saveData()
+                  saveData(cb)
                 }}
               />
             )
