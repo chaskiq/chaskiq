@@ -11,7 +11,7 @@ import {
 
 import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
 
-const {customHTML2Content} = utils // from 'Dante2/package/es/utils/html2content.js'
+const {html2content} = utils // from 'Dante2/package/es/utils/html2content.js'
 import { Map } from 'immutable'
 import { EditorState, convertToRaw } from 'draft-js' // { compose
 
@@ -447,7 +447,7 @@ function FallbackEditor ({ insertComment, setDisabled, loading, saveContent }) {
       }
     })
 
-    const contentState = customHTML2Content(sampleMarkup, blockRenderMap)
+    const contentState = html2content(sampleMarkup, blockRenderMap)
     const fstate2 = EditorState.createWithContent(contentState)
     return JSON.stringify(convertToRaw(fstate2.getCurrentContent()))
   }
