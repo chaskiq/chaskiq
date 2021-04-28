@@ -99,6 +99,7 @@ class CampaignSegment extends Component {
     graphql(UPDATE_CAMPAIGN, params, {
       success: (_data) => {
         this.props.successMessage()
+        this.setState({jwt: null})
       },
       error: () => {}
     })
@@ -234,11 +235,14 @@ class CampaignSegment extends Component {
           {this.state.jwt ? (
             <Button
               isLoading={false}
-              variant={'icon'}
-              size={'small'}
+              variant={'flat-dark'}
+              size={'sm'}
+              variant={'link'}
               onClick={this.handleSave}
+              className="animate-pulse"
             >
-              <i className="fas fa-chart-pie"></i> Save Segment
+              <i className="fas fa-exclamation mr-2"></i>
+              Save changes
             </Button>
           ) : null}
         </SegmentManager>
