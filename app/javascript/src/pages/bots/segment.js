@@ -168,7 +168,7 @@ class Segment extends Component {
               onClick={this.handleSave}
               className="animate-pulse"
             >
-              <i className="fas fa-exclamation mr-2"></i>
+              <i className="fas fa-exclamation-circle mr-2"></i>
               Save changes
             </Button>
           ) : null}
