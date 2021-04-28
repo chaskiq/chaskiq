@@ -66,7 +66,7 @@ const BannerWrapp = styled.div`
   .action-wrapper{
     ${tw`order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto`}
     button.link{
-      ${tw`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium  bg-white`}
+      ${tw`flex items-center w-full sm:w-auto justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium  bg-white`}
       ${
         ({ bg_color }) => `color: ${bg_color};`
       }
@@ -88,9 +88,8 @@ const BannerWrapp = styled.div`
 `
 
 const DanteExtendedContainer = styled(DanteContainer)`
-
-  font-size: 1.5em;
   color: white;
+  ${tw`text-xs sm:text-lg`}
 `
 
 export default function Banner ({
@@ -106,13 +105,20 @@ export default function Banner ({
   onAction,
   onClose
 }) {
+
+  const [height, setHeight] = React.useState('73px')
+
   const style = {
     position: 'fixed',
     left: '0px',
     width: '100%',
-    height: '73px',
+    height: height,
     border: 'transparent',
     zIndex: 4000000000
+  }
+
+  function heightHandler (height){
+    setHeight(height)
   }
 
   if (placement === 'top' && mode === 'floating') {
@@ -146,6 +152,7 @@ export default function Banner ({
       mode={mode}
       placement={placement}
       bg_color={bg_color}
+      notifyHeight={heightHandler}
       textComponent={textRenderer()}
       show_sender={show_sender}
       action_text={action_text}
@@ -156,6 +163,34 @@ export default function Banner ({
       onClose={onClose}
     />
   </StyledFrame>
+}
+
+
+// Hook
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = React.useState({
+    width: undefined,
+    height: undefined,
+  });
+  React.useEffect(() => {
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
 }
 
 export function BannerRenderer ({
@@ -169,15 +204,30 @@ export function BannerRenderer ({
   sender_data,
   url,
   onAction,
-  onClose
+  onClose,
+  notifyHeight
 }) {
+
+  let wrapper = React.useRef(null)
+
+  const size = useWindowSize();
+
+  React.useEffect(()=>{
+    notifyHeight(wrapper.current.clientHeight)
+  }, [])
+
+  React.useEffect(()=>{
+    notifyHeight(wrapper.current.clientHeight)
+  }, [size])
+
+
   return (
     <BannerWrapp
       placement={placement}
       bg_color={bg_color}
       mode={mode}>
       <div className="w">
-        <div className="color">
+        <div className="color" ref={wrapper}>
           <div className="content-wrapp">
             <div className="content-centered">
 
