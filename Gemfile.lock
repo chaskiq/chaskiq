@@ -426,7 +426,7 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
-    rexml (3.2.4)
+    rexml (3.2.5)
     roadie (4.0.0)
       css_parser (~> 1.4)
       nokogiri (~> 1.8)
