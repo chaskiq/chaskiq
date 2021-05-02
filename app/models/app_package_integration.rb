@@ -12,6 +12,7 @@ class AppPackageIntegration < ApplicationRecord
   store :settings, accessors: %i[
     api_key
     api_secret
+    endpoint_url
     project_id
     report_id
     access_token

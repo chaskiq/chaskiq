@@ -43,6 +43,9 @@ class AppPackagesCatalog
         definitions: []
       },
 
+
+      
+
       {
         name: 'ContentShowcase',
         description: 'Promote relevant content to customers within your Messenger',
@@ -81,6 +84,27 @@ class AppPackagesCatalog
         capability_list: %w[conversations bots],
         state: 'enabled',
         definitions: []
+      },
+
+      {
+        name: 'Counto',
+        capability_list: %w[conversation_part],
+        description: 'Send conversation part data from Admin panel',
+        state: 'enabled',
+        definitions: [
+          {
+            name: 'api_secret',
+            type: 'string',
+            required: true,
+            grid: { xs: 'w-full', sm: 'w-full' }
+          },
+          {
+            name: 'endpoint_url',
+            type: 'string',
+            required: true,
+            grid: { xs: 'w-full', sm: 'w-full' }
+          }
+        ]
       },
 
       {

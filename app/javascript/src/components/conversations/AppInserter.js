@@ -1,17 +1,12 @@
 import React from 'react'
-
 import Button from '../Button'
-
 import arrayMove from 'array-move'
-
 import { connect } from 'react-redux'
-
 import {
   sortableContainer,
   sortableElement,
   sortableHandle
 } from 'react-sortable-hoc'
-
 import {
   APP_PACKAGES_BY_CAPABILITY,
 } from '../../graphql/queries'
@@ -20,12 +15,9 @@ import {
   QueueIcon,
   DeleteIcon
 } from '../icons'
-
 import {
   DefinitionRenderer,
 } from '../packageBlocks/components'
-
-
 import InserterForm from '../packageBlocks/InserterForm'
 
 const SortableContainer = sortableContainer(({ children }) => {
