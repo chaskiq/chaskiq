@@ -24,6 +24,7 @@ fr:
     results: Résultats
     tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
     send: Envoyer
+    actions: Actions
     langs:
       en: Anglais
       es: Espagnol
