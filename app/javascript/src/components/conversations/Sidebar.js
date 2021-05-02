@@ -11,10 +11,6 @@ import AppInserter from './AppInserter'
 import Button from '../Button'
 import ErrorBoundary from '../ErrorBoundary'
 
-
-
-
-
 import {
   DefinitionRenderer
 } from '../packageBlocks/components'

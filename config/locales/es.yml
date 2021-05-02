@@ -24,6 +24,7 @@ es:
     results: results
     tz_hint: La zona horaria de tu navegador es <b className="text-bold">%{timezone}</b>
     send: Enviar
+    actions: Acciones
     langs:
       en: Inglés
       es: Español

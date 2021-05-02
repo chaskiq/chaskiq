@@ -25,6 +25,7 @@ export function AppList ({
   app,
   loading,
   conversation,
+  conversation_part,
   location
 }) {
   const [selected, setSelected] = React.useState(null)
@@ -100,6 +101,7 @@ export function AppList ({
             location={location}
             onInitialize={handleInsert}
             conversation={conversation}
+            conversation_part={conversation_part}
           />
         </div>
       }
