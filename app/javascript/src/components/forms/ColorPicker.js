@@ -1,5 +1,6 @@
 import React from 'react'
-import { HexColorPicker } from "react-colorful";
+import { HexColorPicker, HexColorInput } from "react-colorful";
+
 import Button from '../Button'
 import { DockerIcon, PaintIcon } from '../icons'
 export class ColorPicker extends React.Component {
@@ -50,14 +51,13 @@ export class ColorPicker extends React.Component {
               <DockerIcon style={{ color: this.state.value || '#ccc' }} />
             </Button>
 
-            <input
+            <HexColorInput 
               className="form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5 border border-gray-300"
-              placeholder="#00ff00"
-              type={'text'}
-              defaultValue={this.state.value}
+              color={this.state.value}
               name={this.props.name}
-              value={this.state.value}
-            />
+              placeholder="#00ff00"
+              onChange={this.handleColorChangeComplete}>
+            </HexColorInput>
           </div>
 
           <button
