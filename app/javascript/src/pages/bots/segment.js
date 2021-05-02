@@ -33,7 +33,9 @@ class Segment extends Component {
   handleSave = (_e) => {
     const predicates = parseJwt(this.state.jwt)
     if (this.props.handleSave) {
-      this.props.handleSave(predicates.data)
+      this.props.handleSave(predicates.data , ()=>{
+        this.setState({jwt: null})
+      })
     }
   };
 
@@ -162,11 +164,12 @@ class Segment extends Component {
             <Button
               isLoading={false}
               size={'sm'}
-              variant={'flat-dark'}
+              variant={'link'}
               onClick={this.handleSave}
+              className="animate-pulse"
             >
-              <i className="fas fa-chart-pie mr-2"></i>
-              {' '}Save Segment
+              <i className="fas fa-exclamation-circle mr-2"></i>
+              Save changes
             </Button>
           ) : null}
         </SegmentManager>
