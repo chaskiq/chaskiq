@@ -408,7 +408,7 @@ function Conversation ({
               <FilterMenu
                 options={[
                   {
-                    title: "Plugins",
+                    title: I18n.t('common.actions'),
                     onClick: () => { setConversationPartSelected(messageContent) }
                   }
                 ]}

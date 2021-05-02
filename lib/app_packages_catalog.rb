@@ -89,7 +89,7 @@ class AppPackagesCatalog
       {
         name: 'Counto',
         capability_list: %w[conversation_part],
-        description: 'Count to send message info from Admin panel',
+        description: 'Send conversation part data from Admin panel',
         state: 'enabled',
         definitions: [
           {

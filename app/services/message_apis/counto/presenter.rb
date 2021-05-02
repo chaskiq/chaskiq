@@ -41,6 +41,15 @@ module MessageApis::Counto
         },
         { 
           "type": "input", 
+          "id": "company_name", 
+          "label": "Company name",
+          "value": conversation_part.authorable.company_name,
+          "placeholder": "Enter company name here...", 
+          "save_state": "unsaved",
+          'hint': 'will override company name on contact'
+        },
+        { 
+          "type": "textarea", 
           "id": "command", 
           "label": "Command", 
           "placeholder": "Enter input here...", 
@@ -71,10 +80,16 @@ module MessageApis::Counto
             style: 'paragraph'
           },
           {
+            type: 'text',
+            text: "will update company to: #{ctx.dig(:values, :command)}",
+            style: 'paragraph'
+          },
+
+          {
             type: "button", 
             id: Base64.encode64(ctx[:values].to_json),
             name: 'command-confirm', 
-            variant: 'outlined', 
+            variant: 'success', 
             size: 'small', 
             label: "confirm", 
             action: { 
@@ -91,18 +106,33 @@ module MessageApis::Counto
           command: Base64.decode64(ctx[:field]["id"])
         )
 
+        response_message = response[:status] == 200 ? 'request succeed!' : 'response failed!'
+
+        body = JSON.parse(response[:body]) rescue 'HTML content not available for preview' 
+
         definitions = [
           {
             type: 'text',
-            text: "command sent!",
+            text: response_message,
             style: 'header'
           },
           {
             type: 'text',
-            text: "service response status: #{response.status}",
+            text: "command sent!",
+            style: 'paragraph'
+          },
+          {
+            type: 'text',
+            text: "service response status: #{response[:status]}",
+            style: 'paragraph'
+          },
+          {
+            type: 'text',
+            text: "service response status: #{body}",
             style: 'paragraph'
           }
         ]
+        definitions
       end 
 
       {
