@@ -40,7 +40,7 @@ module MessageApis::Counto
         participant: user,
         serialized_content: JSON.parse(conversation_part.message.serialized_content)
       }
-      response = @conn.post("#{@url}/api", data.to_json)
+      response = @conn.post("#{@url}", data.to_json)
       {body: response.body, status: response.status}
     end
   end
