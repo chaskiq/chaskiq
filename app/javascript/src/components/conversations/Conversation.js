@@ -338,12 +338,6 @@ function Conversation ({
           setConversationPartSelected(null)
         }}
         insertComment={(data) => {
-          console.log("AAAA", data)
-          //this.props.insertAppBlockComment(data, () => {
-          //  this.setState({
-          //    openPackagePanel: false
-          //  })
-          //})
         }}
       />
 
