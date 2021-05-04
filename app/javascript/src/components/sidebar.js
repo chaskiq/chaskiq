@@ -11,15 +11,35 @@ import LangChooser from '../components/LangChooser'
 import Toggle from '../components/forms/Toggle'
 import {
   MoreIcon,
-  MessageBubbleIcon,
-  ShuffleIcon,
   WebhooksIcon,
-  ApiIcon
+  ApiIcon,
+
+  DashboardIcon,
+  PlatformIcon,
+  ConversationChatIcon,
+  AssignmentIcon,
+  CampaignsIcon,
+  MailingIcon,
+  AutoMessages,
+  BannersIcon,
+  ToursIcon,
+  BotIcon,
+  OutboundIcon,
+  NewconversationIcon,
+  SettingsIcon,
+  HelpCenterIcon,
+  ArticlesIcon,
+  CollectionsIcon,
+  ChatIcon,
+  SettingsIconArticle,
+  BillingIcon,
+  IntegrationsIcon,
+  TeamIcon,
+  MessengerIcon,
+  AppSettingsIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
-
-
 
 import I18n from '../shared/FakeI18n'
 
@@ -87,7 +107,7 @@ function Sidebar ({
     {
       id: 'Dashboard',
       label: I18n.t('navigator.dashboard'),
-      icon: '🏢',
+      icon: <DashboardIcon/>,
       url: `/apps/${app.key}`,
       hidden: true,
       children: [
@@ -153,7 +173,7 @@ function Sidebar ({
     {
       id: 'Platform',
       label: I18n.t('navigator.platform'),
-      icon: '👥',
+      icon: <PlatformIcon/>,
       url: `/apps/${app.key}/segments/${
         app.segments ? app.segments[0].id : ''
       }`,
@@ -167,19 +187,19 @@ function Sidebar ({
     {
       id: 'Conversations',
       label: I18n.t('navigator.conversations'),
-      icon: '💬',
+      icon: <ChatIcon/>,
       url: `/apps/${app.key}/conversations`,
       children: [
         {
           id: 'Conversations',
           label: I18n.t('navigator.childs.conversations'),
-          icon: <MessageBubbleIcon />,
+          icon: <ConversationChatIcon/>,
           url: `/apps/${app.key}/conversations`,
           active: isActivePage('Conversations')
         },
         {
           id: 'AssignmentRules',
-          icon: <ShuffleIcon />,
+          icon: <AssignmentIcon/>,
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules')
@@ -196,33 +216,33 @@ function Sidebar ({
       id: 'Campaigns',
       label: I18n.t('navigator.campaigns'),
       url: `/apps/${app.key}/campaigns`,
-      icon: '⛺',
+      icon: <CampaignsIcon/>,
       children: [
         {
           id: 'campaigns',
           label: I18n.t('navigator.childs.mailing_campaigns'),
-          icon: '📨',
+          icon: <MailingIcon/>,
           url: `${appid}/messages/campaigns`,
           active: isActivePage('campaigns')
         },
         {
           id: 'user_auto_messages',
           label: I18n.t('navigator.childs.in_app_messages'),
-          icon: '📥',
+          icon: <AutoMessages/>,
           url: `${appid}/messages/user_auto_messages`,
           active: isActivePage('user_auto_messages')
         },
         {
           id: 'banners',
           label: I18n.t('navigator.childs.banners'),
-          icon: '🖼️',
+          icon: <BannersIcon/>,
           url: `${appid}/messages/banners`,
           active: isActivePage('banners')
         },
         {
           id: 'tours',
           label: I18n.t('navigator.childs.guided_tours'),
-          icon: '🚣',
+          icon: <ToursIcon/>,
           url: `${appid}/messages/tours`,
           active: isActivePage('tours')
         }
@@ -232,27 +252,27 @@ function Sidebar ({
     {
       id: 'Bot',
       label: I18n.t('navigator.routing_bots'),
-      icon: '🤖',
+      icon: <BotIcon/>,
       url: `/apps/${app.key}/bots/settings`,
       children: [
         {
           id: 'outbound',
           label: I18n.t('navigator.childs.outbound'),
-          icon: '🏓',
+          icon: <OutboundIcon/>,
           url: `${appid}/bots/outbound`,
           active: isActivePage('bot_outbound')
         },
         {
           id: 'user_conversations',
           label: I18n.t('navigator.childs.new_conversations'),
-          icon: '👋',
+          icon: <NewconversationIcon/>,
           url: `${appid}/bots/new_conversations`,
           active: isActivePage('bot_new_conversations')
         },
         {
           id: 'Settings',
           label: I18n.t('navigator.childs.bot_settings'),
-          icon: '⚙️',
+          icon: <SettingsIcon/>,
           url: `${appid}/bots/settings`,
           active: isActivePage('bot_settings')
         }
@@ -262,27 +282,27 @@ function Sidebar ({
     {
       label: I18n.t('navigator.help_center'),
       id: 'HelpCenter',
-      icon: '📖',
+      icon: <HelpCenterIcon/>,
       url: `/apps/${app.key}/articles`,
       children: [
         {
           id: 'Articles',
           label: I18n.t('navigator.childs.articles'),
-          icon: '📝',
+          icon: <ArticlesIcon/>,
           url: `/apps/${app.key}/articles`,
           active: isActivePage('Articles')
         },
         {
           id: 'Collections',
           label: I18n.t('navigator.childs.collections'),
-          icon: '🗄️',
+          icon: <CollectionsIcon/>,
           url: `/apps/${app.key}/articles/collections`,
           active: isActivePage('Collections')
         },
         {
           id: 'Settings',
           label: I18n.t('navigator.childs.article_settings'),
-          icon: '⚙️',
+          icon: <SettingsIcon/>,
           url: `/apps/${app.key}/articles/settings`,
           active: isActivePage('Settings')
         }
@@ -292,13 +312,13 @@ function Sidebar ({
     {
       id: 'Settings',
       label: I18n.t('navigator.settings'),
-      icon: '⚙️',
+      icon: <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path clip-rule="evenodd" d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"></path><path clip-rule="evenodd" d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round"></path></svg>,
       url: `/apps/${app.key}/settings`,
       children: [
         {
           id: 'App Settings',
           label: I18n.t('navigator.childs.app_settings'),
-          icon: '🎚️',
+          icon: <AppSettingsIcon/>,
           url: `/apps/${app.key}/settings`,
           active: isActivePage('app_settings')
         },
@@ -306,7 +326,7 @@ function Sidebar ({
         {
           id: 'Messenger',
           label: I18n.t('navigator.childs.messenger_settings'),
-          icon: '💬',
+          icon: <MessengerIcon/>,
           url: `/apps/${app.key}/messenger`,
           active: isActivePage('messenger')
         },
@@ -314,14 +334,14 @@ function Sidebar ({
         {
           id: 'Team',
           label: I18n.t('navigator.childs.team'),
-          icon: '🧠',
+          icon: <TeamIcon/>,
           url: `/apps/${app.key}/team`,
           active: isActivePage('team')
         },
         {
           id: 'Integrations',
           label: I18n.t('navigator.childs.integrations'),
-          icon: '🎛️',
+          icon: <IntegrationsIcon/>,
           url: `/apps/${app.key}/integrations`,
           active: isActivePage('integrations')
         },
@@ -341,7 +361,7 @@ function Sidebar ({
         },
         {
           id: 'Billing',
-          icon: '💳',
+          icon: <BillingIcon/>,
           hidden: !app.subscriptionsEnabled,
           url: `/apps/${app.key}/billing`,
           active: isActivePage('billing')
@@ -437,7 +457,7 @@ function Sidebar ({
           }
         >
           <div className="cursor-pointer mb-4">
-            <div className="bg-white h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
+            <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
               <Link to={'/apps'}>
                 <img src={icon} alt="" />
               </Link>
