@@ -81,7 +81,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
-    "sanitize-html": "^1.20.1",
+    "sanitize-html": "^2.3.2",
     "simmerjs": "^0.5.6",
     "simple-peer": "^9.7.0",
     "styled-components": "4.3.2",
