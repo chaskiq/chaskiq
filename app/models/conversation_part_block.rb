@@ -66,6 +66,10 @@ class ConversationPartBlock < ApplicationRecord
   def save_replied(data)
     self.state = 'replied'
     self.data = data unless data.blank?
-    conversation_part.notify_to_channels if save
+    if save
+      conversation_part.notify_to_channels
+      # not sure about this, this is needed to trigger first user interaction
+      conversation_part.conversation.update_latest_user_visible_comment_at
+    end
   end
 end
