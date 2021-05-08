@@ -8,6 +8,7 @@ class AppUser < ApplicationRecord
   include Tokenable
   include Redis::Objects
   include Connectivity
+  include EmailValidable
 
   ENABLED_SEARCH_FIELDS = [
     { 'name' => 'email', 'type' => 'string' },
@@ -106,6 +107,8 @@ class AppUser < ApplicationRecord
     :company_size,
     :privacy_consent
   ].freeze
+
+  validates :email, email: true, allow_blank: true
 
   store_accessor :properties, ACCESSOR_PROPERTIES
 
