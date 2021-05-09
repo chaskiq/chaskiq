@@ -965,8 +965,8 @@ export function DefinitionRenderer ({
     }
   }
 
-  function genKey (i) {
-    return Math.random(i)
+  function getKey (){
+    return appPackage?.name
   }
 
   return <div className="flex flex-col">
@@ -974,7 +974,7 @@ export function DefinitionRenderer ({
       <ThemeProvider theme={{ size: size }}>
         {schema.map((field, i) => {
           return (
-            <ErrorBoundary key={`renderer-field-${genKey(i)}-${field.id}-${i}`}>
+            <ErrorBoundary key={`renderer-field-${getKey()}-${field.id}-${i}`}>
               <RendererWrapper>
                 {handleRender(field)}
               </RendererWrapper>
