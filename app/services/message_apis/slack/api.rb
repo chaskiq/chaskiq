@@ -162,9 +162,7 @@ module MessageApis::Slack
       authorize_bot!
 
       text_blocks = conversation.messages.map do |part|
-        part.messageable_type == 'ConversationPartBlock' ? 
-          replied_block(part) :
-          blocks_transform(part)
+        part.messageable_type == 'ConversationPartBlock' ? replied_block(part) : blocks_transform(part)
       end
 
       participant = conversation.main_participant
@@ -252,9 +250,6 @@ module MessageApis::Slack
         }
       ]
 
-      puts data
-
-      puts "****************"
 
       response_data = json_body(
         post_message(
@@ -266,8 +261,6 @@ module MessageApis::Slack
           }
         )
       )
-
-      puts response_data
 
       return unless response_data['ok']
 
@@ -598,9 +591,7 @@ module MessageApis::Slack
     end
 
     def replied_block(part)
-      puts "SSSS #{part}"
       data = part.messageable.data
-      puts "DATADAT #{data}"
       return nil if data.blank?
       data_label = data['label']
       data_fmt = if data.is_a?(Hash)
