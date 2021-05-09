@@ -169,9 +169,12 @@ export function SingleSelectRenderer ({ field, handleAction }) {
 }
 
 const TextInput = styled.input`
-  ${() => tw`p-3 m-0 border relative shadow-sm block w-full 
-  pr-10 focus:shadow-outline sm:text-sm sm:leading-5 
-  `}
+  ${() => tw`border relative shadow-sm block w-full`}
+
+  ${(props) => props.theme.size === "sm" ? 
+    tw`p-1 text-sm`: 
+    tw`p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5`
+  }
 
   ${() => tw`block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
 
@@ -383,6 +386,12 @@ const Paragraph = styled.div`
         return tw`text-sm leading-5 text-gray-500`
       case 'error':
         return tw`text-sm leading-5 text-red-500`
+      case 'notice':
+        return tw`p-2 bg-blue-50 text-blue-400 rounded-md text-xs`
+      case 'notice-error':
+        return tw`p-2 bg-red-50 text-red-400 rounded-md text-xs`
+      case 'notice-success':
+        return tw`p-2 bg-green-50 text-green-400 rounded-md text-xs`
       default:
         return tw`text-sm`
     }
@@ -978,7 +987,11 @@ const RendererWrapper = styled.div`
 `
 
 const Label = styled.label`
-  ${() => tw`block text-gray-700 text-sm font-bold mb-2`}
+  ${() => tw`block text-gray-700 font-bold mb-2`}
+  ${(props)=> props.theme.size === "sm" ? 
+    tw`text-xs` :
+    tw`text-sm`
+  }
 `
 
 const HelperText = styled.div`

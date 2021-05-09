@@ -35,7 +35,8 @@ class AppPackage < ApplicationRecord
     # will return true for non existing message_apply
     external = begin
       message_api_klass
-    rescue StandardError
+    rescue StandardError => e
+      puts e.message
       nil
     end
     external.nil?

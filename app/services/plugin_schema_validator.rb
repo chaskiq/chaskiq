@@ -44,7 +44,7 @@ class TextSchema
 
   validates :type, presence: :true
   validates :text, presence: :true
-  validates :style, presence: :true, inclusion: { in: %w[paragraph muted header] }
+  validates :style, presence: :true, inclusion: { in: %w[paragraph muted header notice notice-error notice-success] }
   validates :align, presence: :true, inclusion: { in: %w[left center right] }
 
   attr_accessor :type, :text, :style, :align
