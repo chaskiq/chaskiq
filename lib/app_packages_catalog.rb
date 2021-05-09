@@ -141,6 +141,14 @@ class AppPackagesCatalog
       },
 
       {
+        name: 'ContactFields',
+        description: 'Inbox contact fields editor',
+        state: 'enabled',
+        capability_list: ['inbox'],
+        definitions: []
+      },
+
+      {
         name: 'OpenAi',
         tag_list: ['email_changed', 'conversation.user.first.comment'],
         description: 'Open AI GPT-3 tasks',
