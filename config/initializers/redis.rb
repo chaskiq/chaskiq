@@ -12,10 +12,11 @@
 # you can set `Redis.exists_returns_integer = false`,
 # but this option will be removed in 5.0. (gems/redis-namespace-1.6.0/lib/redis/namespace.rb:442:in `call_with_namespace')
 Redis.exists_returns_integer = true
+REDIS_URL = ENV.fetch('REDIS_URL') { 'redis://localhost:6379/1' }
 
 require 'connection_pool'
 Redis::Objects.redis = ConnectionPool.new(size: 5, timeout: 5) do
-  Redis.new(url: ENV.fetch('REDIS_URL') { 'redis://localhost:6379/1' })
+  Redis.new(url: REDIS_URL)
 end
 # Redis::Objects can also default to Redis.current if Redis::Objects.redis is not set.
 

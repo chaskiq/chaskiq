@@ -40,9 +40,8 @@ module Mutations
 
         # creates conversation
         conversation = app.start_conversation(options)
-
         # in reply mode we create separated message
-        # meybe we could refactor this an put this into app.start_conversation method
+        # maybe we could refactor this an put this into app.start_conversation method
         if message['reply'].present?
           trigger = app.bot_tasks.find(message['trigger'])
           message_reply = message['reply']

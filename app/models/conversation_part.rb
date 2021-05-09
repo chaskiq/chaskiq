@@ -114,7 +114,8 @@ class ConversationPart < ApplicationRecord
 
   def enqueue_channel_notification
     ApiChannelNotificatorJob.perform_later(
-      part_id: id
+      part_id: id,
+      conversation: conversation.id
     )
   end
 
