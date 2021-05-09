@@ -38,17 +38,6 @@ module MessageApis::ContactFields
       user = conversation.main_participant
       app = ctx[:package].app
 
-      if ctx[:field]['id'] == 'submit'
-        attrs = ctx[:values].permit(
-          :first_name,
-          :last_name,
-          :company_name,
-          :email
-        )
-
-        user.update(attrs)
-      end
-
       error_notice = {
         type: 'text',
         text: 'errors updating contact information',
@@ -63,7 +52,19 @@ module MessageApis::ContactFields
 
       definitions = []
 
-      definitions << (user.errors.any? ? error_notice : success_notice)
+      if ctx[:field]['id'] == 'submit'
+        attrs = ctx[:values].permit(
+          :first_name,
+          :last_name,
+          :company_name,
+          :email,
+          :phone
+        )
+
+        user.update(attrs)
+
+        definitions << (user.errors.any? ? error_notice : success_notice)
+      end
 
       user_attrs.each do |o|
         definitions << {
@@ -111,7 +112,7 @@ module MessageApis::ContactFields
       definitions = [
         {
           type: 'text',
-          text: 'FullContact',
+          text: 'Contact information',
           style: 'header'
         }
       ]
