@@ -108,7 +108,7 @@ class AppUser < ApplicationRecord
     :privacy_consent
   ].freeze
 
-  validates :email, email: true, allow_blank: true
+  # validates :email, email: true, allow_blank: true
 
   store_accessor :properties, ACCESSOR_PROPERTIES
 
