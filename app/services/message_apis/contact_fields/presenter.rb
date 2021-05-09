@@ -37,7 +37,6 @@ module MessageApis::ContactFields
       )
       user = conversation.main_participant
       app = ctx[:package].app
-      #res = ctx[:package].message_api_klass.enrich_user(user)
 
       if ctx[:field]["id"] == "submit"
         attrs = ctx[:values].permit(
