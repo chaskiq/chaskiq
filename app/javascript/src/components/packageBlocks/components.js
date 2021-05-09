@@ -965,12 +965,16 @@ export function DefinitionRenderer ({
     }
   }
 
+  function genKey (i) {
+    return Math.random(i)
+  }
+
   return <div className="flex flex-col">
     <form ref={form} onSubmit={ () => false }>
       <ThemeProvider theme={{ size: size }}>
         {schema.map((field, i) => {
           return (
-            <ErrorBoundary key={`renderer-field-${i}`}>
+            <ErrorBoundary key={`renderer-field-${genKey(i)}-${field.id}-${i}`}>
               <RendererWrapper>
                 {handleRender(field)}
               </RendererWrapper>
