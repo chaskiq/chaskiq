@@ -24,6 +24,7 @@ cs:
     results: results
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
     send: Send
+    actions: Actions
     langs:
       en: English
       es: Spanish
