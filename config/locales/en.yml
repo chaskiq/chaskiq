@@ -351,7 +351,7 @@ en:
           - 
             value: "auto"
             label: "Automatic reply time. Currently El equipo responderá lo antes posible"
-          -
+          - 
             value: "minutes"
             label: "Team usually responds within minutes."
           - 

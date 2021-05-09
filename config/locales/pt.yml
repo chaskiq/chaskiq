@@ -24,6 +24,7 @@ pt:
     results: results
     tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
     send: Enviar
+    actions: Ações
     langs:
       en: Português
       es: Espanhol
