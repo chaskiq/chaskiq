@@ -161,11 +161,9 @@ module MessageApis::Slack
     def notify_added(conversation)
       authorize_bot!
 
-      message = conversation.messages.where.not(
-        authorable_type: 'Agent'
-      ).last
-
-      text_blocks = blocks_transform(message)
+      text_blocks = conversation.messages.map do |part|
+        part.messageable_type == 'ConversationPartBlock' ? replied_block(part) : blocks_transform(part)
+      end
 
       participant = conversation.main_participant
 
@@ -252,7 +250,6 @@ module MessageApis::Slack
         }
       ]
 
-      # puts data
 
       response_data = json_body(
         post_message(
@@ -591,6 +588,25 @@ module MessageApis::Slack
       )['blocks'].map { |o| process_block(o) }.compact
     rescue StandardError
       []
+    end
+
+    def replied_block(part)
+      data = part.messageable.data
+      return nil if data.blank?
+      data_label = data['label']
+      data_fmt = if data.is_a?(Hash)
+                   data.map { |k, v| "#{k.capitalize}: #{v}" }.join("\n")
+                 else
+                   ''
+                 end
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: "*replied*: #{data_label || data_fmt}"
+        },
+        block_id: 'replied-1'
+      }
     end
 
     def process_block(block)
