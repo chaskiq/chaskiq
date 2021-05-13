@@ -130,17 +130,17 @@ i18n
       fr: {
         translations: {
           runon: 'Nous utilisons Chaskiq',
-          conversations: 'Conversations',
+          conversations: 'Discussions',
           'conversation_block.choosen': 'Vous avez répondu <strong>{{field}}</strong>',
-          continue_conversation: 'Continuer la conversation',
-          start_conversation: 'Commencer une conversation',
-          view_all_conversations: 'voir toutes les conversations',
+          continue_conversation: 'Continuer la discussion',
+          start_conversation: 'Commencer une discussion',
+          view_all_conversations: 'voir toutes les discussions',
           see_previous: 'Voir les précedentes',
           search_article_title: "Trouver les réponses dans notre répertoire d'article",
           search_articles: 'Rechercher un article',
           latest_articles: 'Nos derniers articles',
           reply_above: 'Répondre en dessous',
-          create_new_conversation: 'créer une nouvelle conversation',
+          create_new_conversation: 'créer une nouvelle discussion',
           you: 'Vous',
           not_seen: 'non lu',
           by: 'Par',
@@ -150,7 +150,7 @@ i18n
           enter_your: 'Entrez votre {{field}}',
 
           'editor.placeholder': 'Envoyer un message...',
-          'conversations.events.assigned': '{{name}} a été assigné à cette conversation',
+          'conversations.events.assigned': '{{name}} a été assigné à cette discussion',
           'conversations.message_blocks.ask_option': 'attend votre réponse',
           'conversations.message_blocks.data_retrieval': 'attend votre réponse',
           'conversations.message_blocks.app_package_wait_reply': 'attend votre réponse',
@@ -179,8 +179,8 @@ i18n
               Sous la GRPD (General Data Protection Regulation), nous avons besoins de votre approbation pour utiliser les informations personnelles
               (ex: votre nom et adresse email) que vous nous fournissez quand nous communiquons:
             </p>
-            <p>(1) Nous allons stocker vos informations personnelles pour que nous puissions sélectionner une converser plus tard.</p>
-            <p>(2) Nous avons besoin d'un email pour suivre nos conversations.</p>
+            <p>(1) Nous allons stocker vos informations personnelles pour que nous puissions sélectionner une discuter plus tard.</p>
+            <p>(2) Nous avons besoin d'un email pour suivre nos discussions.</p>
             <p>(3) Nous pourrions envoyer des email a propos des futurs services ou offres de {{name}}.</p>
 
             <p>êtes vous d'accord ?</p>
