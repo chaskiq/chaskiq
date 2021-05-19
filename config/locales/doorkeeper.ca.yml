@@ -2,7 +2,7 @@ ca:
   activerecord:
     attributes:
       doorkeeper/application:
-        name: 'Name'
+        name: 'Nom'
         redirect_uri: 'Redirect URI'
     errors:
       models:
