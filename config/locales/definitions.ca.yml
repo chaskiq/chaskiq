@@ -2,23 +2,23 @@ ca:
   definitions:
     articles:
       title:
-        label: Title
+        label: Títol
       author:
-        label: Author
+        label: Autor/a
       state:
-        label: State
+        label: Estat
       collection:
-        label: Collection
+        label: Coŀlecció
       actions:
-        label: Actions
+        label: Accions
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Pàgina web
+        hint: Pàgina web del vostre domini principal
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Domini
+        hint: Domini del vostre domini centre d'ajuda
       subdomain:
-        label: Subdomain
+        label: Subdomini
         hint: Subdomain in which the Help Center will be available
       google_code:
         label: Google Code
@@ -65,7 +65,7 @@ ca:
         label: Tagline
         hint: This will be rendered in the bottom of the Chat box
       timezone:
-        label: Timezone
+        label: Zona horària
         hint:
       gather_social_data:
         label: Gather Social Data
@@ -74,18 +74,18 @@ ca:
         label: Register Visits
         hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
       languages:
-        select_lang: "select lang"
+        select_lang: "selecciona idioma"
     campaigns:
       campaign_name:
-        label: Campaign Name
+        label: Nom de la campanya
         hint: This will not be shown in the email
       email_subject:
-        label: Email Subject
+        label: Assumpte del Email
         hint: This is the email subject itself
       from_name:
-        label: From Name
+        label: Nom del remitent
       from_email:
-        label: From Email
+        label: Des del correu
       reply_email:
         label: Reply Email
       scheduled_at:
