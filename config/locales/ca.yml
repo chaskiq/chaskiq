@@ -11,7 +11,7 @@ ca:
     save: Desa
     preview: Vista prèvia
     cancel: Cancel·lar
-    back_to_site: Back to site
+    back_to_site: Torna al site
     not_found: No hem trobat la pàgina que cerques.
     get_snippet: Get the snippet
     submit: Envia
@@ -160,26 +160,26 @@ ca:
       title: No hi ha campanyes
     campaign_updated: Campanya actualitzada
     updated_error: Error al actualitzar la campanya
-    error_purge: Error purging metrics
-    purge_description: Purges campaigns metrics
-    purge_title: Purge Metrics
+    error_purge: S'ha produït un error en esporgar les mètriques
+    purge_description: Purgar les mètriques de les campanyes
+    purge_title: Purgar les mètriques
     deliver_title: Entregar
     deliver_description: Delivers the campaign
   campaign:
     edit: Edita la configuració de la campanya
     create: Crea una nova campanya
     preview: Això és una visita prèvia
-    preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
+    preview_hint: Així és com s'hauria de visualitzar el teu correo. Si estàs utilitzant variables com el {{name}} s'hauria de veure aquí.
     stats:
       title: Estadístiques de campanya
       refresh_data: Actualitza les dades
     unsubscribe:
-      status: You've been %{state}
+      status: Has sigut %{state}
       success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
       resubscribe: Elimina la subscripció de la llista
       cancel: Cancel·la la teva subscripció
   task_bots:
-    title: Bot Tasks
+    title: Tasques del bot
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email}
@@ -187,7 +187,7 @@ ca:
     new_conversations: "👋 Nova conversa"
     email_requirement:
       message: Give the team a way to reach you
-      input_label: Get notified by email
+      input_label: Rebre notificacions per mail
       placeholder: Introduïu el vostre correu
       ack: Gràcies
     support:
@@ -223,14 +223,14 @@ ca:
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
         override:
           label: Override default behavior with your own task
-          hint: hint!
+          hint: suggeriment!
       settings_title: Bot Task settings
       specific_times_title: Set specific times to show this bot to your audience.
       tz_hint: Your app's timezone is %{timezone} See your office hours.
-      office_hours: During office hours
+      office_hours: Durant l'horari laboral
       outside_office: Fora d'horari laboral
       custom_time: Custom time
-      enable_title: Enable bot task
+      enable_title: Activa tasca del bot
       enable_hint: when enabled the bot task will start operating
     new: Crea una tasca nova
     remove_success: bot eliminat
@@ -299,7 +299,7 @@ ca:
       availability: Disponibilitat
       email_requirement: El correu electrònic fa falta
       inbound_settings: Inbound settings
-      messenger_style: Messenger Style
+      messenger_style: Estil de Messenger
       user_data: Dades d'usuari
       tags: Etiquetes
       quick_replies: Respostes ràpides
@@ -349,16 +349,16 @@ ca:
         hint: During office hours, let your customers know when they can expect a reply.
         options:
           - 
-            value: "auto"
+            value: "automàtic"
             label: "Automatic reply time. Currently El equipo responderá lo antes posible"
           - 
-            value: "minutes"
+            value: "minuts"
             label: "Team usually responds within minutes."
           - 
-            value: "hours"
+            value: "hores"
             label: "Team usually responds within hours."
           - 
-            value: "1 day"
+            value: "1 dia"
             label: "The team usually responds in one day."
         hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
     email_requirement:
@@ -412,7 +412,7 @@ ca:
       send_invitation: Enviar invitació
       resend_invitation: Reenviar la invitació
       add_new: Afegeix membre a l'equip
-      update_agent_title: Update Agent information
+      update_agent_title: Actualitza la Informació
       updated_agent: La informació s'ha actualitzat correctament
       destroyed_agent: L'agent s'ha eliminat correctament
       destroy_agent_title: Suprimeix agent
@@ -426,10 +426,10 @@ ca:
       update_success: Webhook actualitzat
       update_error: Error al actualitzar el webhook
       delete_success: Webhook removed correctly
-      delete_error: Error removing webhook
-      outgoing_webhooks: Outgoing webhooks
-      new_webhook: New webhook
-      active_webhooks: Active Webhooks
+      delete_error: Error al eliminar el webhook
+      outgoing_webhooks: Webhook de sortida
+      new_webhook: Nou webhook
+      active_webhooks: Webhooks actius
       disabled_webhooks: Disabled Webhooks
       empty:
         title: You don't have any active webhooks yet
@@ -445,30 +445,30 @@ ca:
         hint: Looking for more tags ? look at
         link: account settings
       inputs:
-        name: Field name
-        color: Field color
+        name: Nom del camp
+        color: Color del camp
     user_data:
-      title: Custom Fields
+      title: Camps personalitzats
       default_fields: Default attributes
       non_editable: This fields are not editable
       modal:
         title: Create user data field
       inputs:
-        name: Field name
-        type: Field type
-        validation: Validation
-        validation_hint: Validation is optional
+        name: Nom del camp
+        type: Tipus de camp
+        validation: Validació
+        validation_hint: La validació es opcional
       attr_types:
-        date: Date
-        integer: Integer
+        date: Data
+        integer: Nombre enter
         string: String
   articles:
     title: Articles
-    all: All
-    published: Published
-    draft: Drafts
-    visit: visit the help center
-    new: New article
+    all: Tots
+    published: Publicat
+    draft: Esborranys
+    visit: visita el centre d'ajuda
+    new: Article nou
     add: Add item
     collections: Collections
     help_center: Help Center
