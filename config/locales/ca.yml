@@ -411,20 +411,20 @@ ca:
       hint: the new team member will be notified by it's email
       send_invitation: Enviar invitació
       resend_invitation: Reenviar la invitació
-      add_new: Add Team Member
+      add_new: Afegeix membre a l'equip
       update_agent_title: Update Agent information
-      updated_agent: Information updated successfully
-      destroyed_agent: Agent deleted successfully
-      destroy_agent_title: Delete Agent
-      destroy_agent: Delete
+      updated_agent: La informació s'ha actualitzat correctament
+      destroyed_agent: L'agent s'ha eliminat correctament
+      destroy_agent_title: Suprimeix agent
+      destroy_agent: Suprimir
       destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
-      update_agent: Update
+      update_agent: Actualitza
     webhooks:
-      title: Webhooks
-      create_success: Webhook created
-      create_error: Error adding webhook
-      update_success: Webhook updated
-      update_error: Error updating webhook
+      title: Webhook
+      create_success: Webhook creat
+      create_error: Error al afegir el webhook
+      update_success: Webhook actualitzat
+      update_error: Error al actualitzar el webhook
       delete_success: Webhook removed correctly
       delete_error: Error removing webhook
       outgoing_webhooks: Outgoing webhooks
