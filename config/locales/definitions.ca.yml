@@ -22,7 +22,7 @@ ca:
         hint: Subdomain in which the Help Center will be available
       google_code:
         label: Codi Google
-        hint: Google tracking ID
+        hint: ID de seguiment de Google
       credits:
         label: mostrar crèdits
         hint: ""
@@ -163,7 +163,7 @@ ca:
       ip: Ip
       country: País
       city: Ciutat
-      lat: Lat
+      lat: Latitut
       lng: Longitut
       postal: Codi postal
       browser: Navegador
@@ -174,9 +174,9 @@ ca:
       os: So
       os_version: Versió del SO
       lang: Idioma
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      web_sessions: Sessió web
+      last_seen: Vist per primer cop
+      first_seen: Vist per última vegada
       subscription_status:
         subscribed: Subscrit
         unsubscribed: No subscrit
