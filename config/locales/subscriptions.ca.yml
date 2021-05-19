@@ -1,40 +1,40 @@
 ca:
   subscriptions:
-    upgrade: Upgrade
+    upgrade: Actualitza
     tabs:
-      - Plans
-      - Transaction history
+      - Pla
+      - Historial de transaccions
     features:
       Segments:
         title: Segments
         description: true
         upgrade_message: Enable contact segments and targeting
       Leads:
-        title: Leads
+        title: Client potencial
         description: true
         upgrade_message: Get external apps, many many apps
       AppUsers:
-        title: AppUsers
+        title: Usuaris
         description: true
         upgrade_message: Get external apps, many many apps
       Conversations:
-        title: Conversations
+        title: Converses
         description: true
-        upgrade_message: Enable conversations
+        upgrade_message: Habilitar converses
       BotTasks:
-        title: BotTasks
+        title: Tasca del Bot
         description: true
         upgrade_message: Add automated chatflows to your app
       Integrations:
-        title: Integrations
+        title: Integracions
         description: true
         upgrade_message: Get external apps, many many apps
       Campaigns:
-        title: Campaigns
+        title: Campanyes
         active: false
         upgrade_message: Get outbound messages, newsletter and Tours!
       Tours:
-        title: Tours
+        title: Visita guiada
         description: true
         upgrade_message: Get outbound messages, newsletter and Tours!
       UserAutoMessages:
@@ -62,15 +62,15 @@ ca:
         upgrade_message: Enable custom attributes
     plans:
       - 
-        name: "free one"
+        name: "gratuït"
         description: This is a frebie plan!
         id: 618560
       - 
-        name: "rookie"
+        name: "principiant"
         description: This is the simple plan
         id: 616249
       - 
-        name: "super"
+        name: "súper"
         id: 596123
         description: This is the super plan
     plan:
@@ -83,21 +83,21 @@ ca:
         title: Subscription updated
         desc: The Subscription was updated successfully, You will receive an email notification
       subscription_created:
-        title: Subscription Created
+        title: Subscripció creada
         desc: The subscription was created successfully, You will receive a receipt soon
       subscription_cancelled:
-        title: Subscription Cancelled
+        title: S'ha cancel·lat la subscripció
         desc: The subscription was cancelled
       close: Close this dialog
     billing_information:
-      title: Billing plan information
+      title: Informació de facturació
       description: You are currently using "%{plan_name}" plan.
       next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
-      cancel_plan: cancel plan
-      update_payment_method: Update payment method
-      subscription_state: Estado de subscripción %{state}
+      cancel_plan: cancel·la el pla
+      update_payment_method: Actualitzar el mètoda de pagament
+      subscription_state: Estat de la subscripció %{state}
     update_subscription:
-      cta: Update subscription
+      cta: Actualitza la subscripció
       billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
       amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
       next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
