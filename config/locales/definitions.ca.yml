@@ -21,17 +21,17 @@ ca:
         label: Subdomini
         hint: Subdomain in which the Help Center will be available
       google_code:
-        label: Google Code
+        label: Codi Google
         hint: Google tracking ID
       credits:
-        label: show credits
+        label: mostrar crèdits
         hint: ""
     settings:
       name:
-        label: Name
+        label: Nom
         hint:
       logo:
-        label: Logo
+        label: Logotip
         hint:
       enable_articles:
         label: "Display article on chat window"
@@ -40,7 +40,7 @@ ca:
         label: Display new messages in floating box
         hint: This option will not open chat box widget
       encryption_key:
-        label: Encryption Key
+        label: Clau de xifratge
         placeholder: "Leave it blank for no encryption"
         hint: This key will be used to encrypt and decrypt JWE user data
       privacy_consent_required_ue:
@@ -56,13 +56,13 @@ ca:
         label: Activate messenger
         hint: When this is activate the messenger web widget will be activated
       domain:
-        label: Domain URL
+        label: URL del domini
         hint: This will be the host site were chaskiq will be used
       outgoing_email_domain:
-        label: Outgoing Email Domain
+        label: Domini de l'email de sortida
         hint: The email domain to send conversations, for @yourapp use 'your app'
       tagline:
-        label: Tagline
+        label: Eslògan
         hint: This will be rendered in the bottom of the Chat box
       timezone:
         label: Zona horària
@@ -89,25 +89,25 @@ ca:
       reply_email:
         label: Correu electrònic de resposta
       scheduled_at:
-        label: Scheduled at
+        label: Programat a
       scheduled_to:
-        label: Scheduled to
+        label: Programat per
       state:
-        label: State
+        label: Estat
       description:
-        label: Description
+        label: Descripció
       actions:
-        label: Actions
+        label: Accions
     bot_tasks:
       state:
-        label: State
+        label: Estat
       name:
-        label: Name
+        label: Nom
       actions:
-        label: Actions
+        label: Accions
       title:
-        label: Title
-        placeholder: write task title
+        label: Títol
+        placeholder: escriu un títol de la tasca
         hint: "Task name ie: welcoming users bot task"
     stats:
       email:
@@ -115,13 +115,13 @@ ca:
       host:
         label: Host
       createdAt:
-        label: CreatedAt
+        label: Creat el
       from:
-        label: From
+        label: De
       actions:
-        label: Actions
+        label: Accions
       when:
-        label: When
+        label: Quan
       data:
         label: Dades
     app_packages:
