@@ -298,7 +298,7 @@ ca:
       translations: Traduccions
       availability: Disponibilitat
       email_requirement: El correu electrònic fa falta
-      inbound_settings: Inbound settings
+      inbound_settings: Paràmetres d'entrada
       messenger_style: Estil de Messenger
       user_data: Dades d'usuari
       tags: Etiquetes
@@ -315,11 +315,11 @@ ca:
     integrations:
       title: Integracions de tercers
       create_success: Integració creada
-      create_error: Error linking integration
+      create_error: Error al vincular la integració
       update_success: Integració actualitzada
       update_error: Error al actualizar la integració
       remove_success: Integració eliminada correctament
-      remove_error: Error removing integration
+      remove_error: Error al borrar la integració
       create_integration: Crea una nova integració
       active:
         title: Integracions actives
@@ -439,7 +439,7 @@ ca:
         title: Delete webhook ?
         text: The webhook with %{name} service will be disabled immediately
     tags:
-      title: Tags
+      title: Etiquetes
       modal:
         title: Create app's tag
         hint: Looking for more tags ? look at
@@ -469,33 +469,33 @@ ca:
     draft: Esborranys
     visit: visita el centre d'ajuda
     new: Article nou
-    add: Add item
-    collections: Collections
-    help_center: Help Center
+    add: Afegeix element
+    collections: Col·leccions
+    help_center: Centre d'ajuda
     description_placeholder: Describe your collection to help you find it.
     title_placeholder: Write the title of the sections
-    new_section: New section
-    new_collection: New collection
-    edit_collection: Edit collection
+    new_section: Nova secció
+    new_collection: Nova col·lecció
+    edit_collection: Edita col·lecció
     create_article:
-      placeholder: Write the title of the article
+      placeholder: Escriu el títol de l'article
       description_placeholder: Add a summary to find the article later
     create:
-      title: New collection of articles
-      placeholder: Enter the title of the collection
+      title: Nova col·lecció d'articles
+      placeholder: Introdueix el títol de la col·lecció
       description: Describe your collection to help you find it.
     settings:
-      title: Help Center settings
-      add_language: Add language
-      select_lang: Select language
-      add_language_to_help: Add new language to Help Center
+      title: Configuració del centre d'ajuda
+      add_language: Afegeix un idioma
+      select_lang: Selecciona l'idioma
+      add_language_to_help: Afegeix un nou idioma al centre d'ajuda
       delete:
-        title: Delete translation "%{name}"
+        title: Suprimeix traducció "%{name}"
         text: We will destroy the translation and hide any article with the language "%{name}"
-      appearance: Appearance
+      appearance: Aparença
       appearance_settings: Appearance settings
-      lang: Language
+      lang: Idioma
       lang_title: Find your Help Center
       lang_desc: Manage supported languages and customize your Help Center header
-      basic: Basic setup
+      basic: Configuració bàsica
       general_app: Application overview
