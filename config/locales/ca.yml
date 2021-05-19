@@ -1,133 +1,133 @@
 ca:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: add new
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    preview: Preview
-    cancel: Cancel
+    edit: Edita
+    new: Nou
+    add: Afegir
+    add_new: afegir nou
+    update: Actualitza
+    remove: Eliminar
+    delete: Borrar
+    create: Crea
+    save: Desa
+    preview: Vista prèvia
+    cancel: Cancel·lar
     back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
+    not_found: No hem trobat la pàgina que cerques.
     get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: "Confirm deletion ?"
-    next: Next
-    prev: Prev
-    showing: Showing
-    to: to
+    submit: Envia
+    confirm_deletion: "Confirmes esborrar?"
+    next: Següent
+    prev: Anterior
+    showing: Mostrant
+    to: per
     of: of
-    results: results
+    results: resultats
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
-    actions: Actions
+    send: Envia
+    actions: Accions
     langs:
-      en: English
-      es: Spanish
-      pt: Portuguese
-      de: Deutsch
-    redirecting: Redirecting
-    select_language: Select Language
+      en: Anglès
+      es: Espanyol
+      pt: Portuguès
+      de: Alemany
+    redirecting: Redireccionant
+    select_language: Selecciona un Idioma
     send_on_enter: Publish on enter
   home:
-    welcome: Welcome to
+    welcome: Benvingut a
     welcome_site: Chaskiq
     tagline: Find your current applications here
-    create_new: Create new app
-    choose_lang: Choose language
-    edit_profile: Edit profile
-    go_to_doc: Go to documentation
+    create_new: Crea una nova aplicació
+    choose_lang: Trieu l'idioma
+    edit_profile: Edita el perfil
+    go_to_doc: Aneu a la documentació
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Response Time avg
-    new_conversations: New conversations
-    resolutions: Resolutions
-    incoming_messages: Incoming Messages
+    response_avg: Temps de resposta mitjà
+    new_conversations: Nova conversa
+    resolutions: Resolució
+    incoming_messages: Missatges entrants
     visit_activity: Visit activity
     users_browser: Users browser
     lead_os: Lead Os
-    user_os: User Os
+    user_os: So del usuari
     mac_os: Mac OS
-    user_country: User country
+    user_country: País del usuari
     snippet: Put the following script on the end of your html <body> tag
   navigator:
-    dashboard: Dashboard
-    platform: Platform
-    conversations: Conversations
-    campaigns: Campaigns
+    dashboard: Tauler de control
+    platform: Plataforma
+    conversations: Converses
+    campaigns: Campanyes
     routing_bots: Routing Bots
-    help_center: Help Center
-    settings: Settings
+    help_center: Centre d'ajuda
+    settings: Configuració
     childs:
-      conversations: Conversations
-      assignment_rules: Assignment Rules
-      mailing_campaigns: Mailing Campaigns
-      in_app_messages: In App Messages
-      banners: Banners
+      conversations: Converses
+      assignment_rules: Regles d'asignació
+      mailing_campaigns: Campanyes de correo
+      in_app_messages: Missatge d'aplicació
+      banners: Anuncis
       guided_tours: Guided Tours
       for_leads: For Leads
-      for_users: For Users
+      for_users: Pels usuaris
       bot_settings: Bot Tasks
-      outbound: Outbound
-      new_conversations: New conversations
+      outbound: Sortint
+      new_conversations: Nova conversa
       articles: Articles
-      collections: Collections
-      article_settings: Settings
-      app_settings: App Settings
-      team: Team
-      messenger_settings: Messenger settings
-      integrations: Integrations
+      collections: Col·leccions
+      article_settings: Configuració
+      app_settings: Configuració de l'aplicació
+      team: Equip
+      messenger_settings: Configuració de Messenger
+      integrations: Integracions
       webhooks: Webhooks
-      api_access: API access
+      api_access: Accés API
     user_menu:
-      create_app: 'Create new app'
+      create_app: 'Crea una nova aplicació'
       create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      signout: Tanca sessió
+      title: Menú d'usuari
   conversations:
-    start_conversation: Start conversation
-    title: Conversations
+    start_conversation: Iniciar conversa
+    title: Converses
     menu:
-      conversations: Conversations
+      conversations: Converses
       assignment_rules: Agent routing Rules
     states:
       opened: Opened
       closed: Closed
     sorts:
-      newest: Newest
-      oldest: Oldest
-      waiting: Waiting
+      newest: Més recent
+      oldest: Més antic
+      waiting: Esperant
       priority_first: Priorized
-      all: All
-      unfiltered: All
+      all: Tots
+      unfiltered: Tots
     empty:
-      title: No conversations
+      title: No hi ha converses
       text: Choose conversations on the side
   conversation:
-    with: Conversation with
+    with: Conversa amb
     actions:
       priorize: Priorize conversation
-      remove_priority: Remove priority
-      close: Close
-      reopen: Reopen
-      start_call: Start videocall
-      end_call: End Call
+      remove_priority: Elimina prioritat
+      close: Tanca
+      reopen: Reobrir
+      start_call: Inicia videotrucada
+      end_call: Finalitza trucada
       assign_agent: Assign Agent
     messages:
       seen: Seen
       not_seen: Not seen
-      note: Note
+      note: Nota
     sidebar:
-      show_profile: Show profile
-      location: Location
+      show_profile: Mostra el perfil
+      location: Ubicación
       browser: User Browser
-      latest_user_visible_comment_at: Last comment
-      created_at: Created at
-      assignee: Assignee
+      latest_user_visible_comment_at: Darrers comentaris
+      created_at: Creada el
+      assignee: Assignat a
       first_agent_reply: First agent reply
     editor:
       panels:
@@ -145,20 +145,20 @@ ca:
           choose_another: Choose another
   assignment_rules:
     title: Assignment Rules
-    create_button: Create Rule
-    success_message: Assignment rule created sucessfully
+    create_button: Crea regla
+    success_message: Assignació creada correctament
   campaigns:
-    title: Campaign
+    title: Campanya
     home:
-      title: Campaigns
+      title: Campanyes
       text: This is the campaigns section, you can create newsletters , popup messages and guided tours
-    remove_success: Campaign removed
+    remove_success: Campanya eliminada
     remove_hint: We will destroy any content and related data
-    delete_campaign: Delete campaign %{name}
-    create_new: Create new campaign
+    delete_campaign: Suprimir campanya %{name}
+    create_new: Crea una nova campanya
     empty:
-      title: No campaigns found
-    campaign_updated: Campaign updated
+      title: No hi ha campanyes
+    campaign_updated: Campanya actualitzada
     updated_error: Error updating campaign
     error_purge: Error purging metrics
     purge_description: Purges campaigns metrics
@@ -171,54 +171,54 @@ ca:
     preview: This is a preview
     preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
     stats:
-      title: Campaign Stats
-      refresh_data: Refresh data
+      title: Estadístiques de campanya
+      refresh_data: Actualitza les dades
     unsubscribe:
       status: You've been %{state}
       success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
-      resubscribe: Resubscribe from this list
-      cancel: Cancel your subscription
+      resubscribe: Elimina la subscripció de la llista
+      cancel: Cancel·la la teva subscripció
   task_bots:
     title: Bot Tasks
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email}
-    outbound: "🏓 Outbound"
-    new_conversations: "👋 New conversations"
+    outbound: "🏓 Sortint"
+    new_conversations: "👋 Nova conversa"
     email_requirement:
       message: Give the team a way to reach you
       input_label: Get notified by email
-      placeholder: Enter your email
-      ack: Thank you
+      placeholder: Introduïu el vostre correu
+      ack: Gràcies
     support:
       ask: Are you an existing %{name} customer ?
       options:
-        op1: Yes, I'm a customer
-        op2: No, I'm not an existing customer yet
+        op1: Si, sóc un client
+        op2: No, encara no sóc un client
       reply:
-        op1: Welcome back!
+        op1: Benvingut de nou!
         op2: ok, let us know if you need something and an agent will reply as soon as possible
     settings:
       leads:
         tab: For Leads
         start_conversation: When leads start a conversation
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
-        share_time: Share your typical reply time
+        share_time: Comparteix el teu temps de resposta típic
         route: Route existing customers to support
         route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
         route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
-        assign: Assign the conversation
-        close: Close the conversation
+        assign: Uneix-te a la conversa
+        close: Tanca la conversa
         ask: Ask for contact details
         ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
-        dont_ask_email: Don't ask for email
+        dont_ask_email: No demanar el correu
         ask_email_phone: Ask for email or mobile number
         email_only: Ask for email only
         override:
           label: Override default behavior with your own task bot
           hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
       users:
-        tab: For Users
+        tab: Pels usuaris
         start_conversation: When users start a conversation
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
         override:
@@ -228,15 +228,15 @@ ca:
       specific_times_title: Set specific times to show this bot to your audience.
       tz_hint: Your app's timezone is %{timezone} See your office hours.
       office_hours: During office hours
-      outside_office: Outside office hours
+      outside_office: Fora d'horari laboral
       custom_time: Custom time
       enable_title: Enable bot task
       enable_hint: when enabled the bot task will start operating
-    new: Create new task
+    new: Crea una tasca nova
     remove_success: bot removed
     empty:
       title: No bot tasks found
-      create_new: Create a new one
+      create_new: Crear-ne un nou
     delete:
       title: Delete bot "%{name}"
       hint: we will destroy any content and related data
@@ -257,16 +257,16 @@ ca:
     will_send: The "%{lang}" version will be sent to the conversation.
     empty:
       title: No quick replies
-      create_new: Create new
+      create_new: Crea nova
     delete:
       title: Delete quick reply %{name}
       hint: we will destroy any content and related data, conversations will keep content though
     create:
-      success: Quick reply was created successfully
-      error: Error creating quick reply
+      success: La seva resposta ràpida s'ha creat amb èxit
+      error: Error al crear la resposta ràpida
     update:
       success: Quick reply was updated successfully
-      error: Error updating quick reply
+      error: Error al actualizar la resposta ràpida
     add_as_dialog:
       title: Add this message as a Quick Reply
   new_app:
@@ -275,50 +275,50 @@ ca:
     hint: Create your company’s Chaskiq app
   settings:
     api:
-      title: Oauth Applications
+      title: Aplicacions Oauth
       tabs:
-        apps: OAUTH Applications
+        apps: Aplicacions Oauth
         authorized: Authorized OAUTH Applications
       oauth_information: Oauth App Information
       details: Oauth details and credentials.
       delete_app: Delete Oauth App?
-      create_app: Create Oauth App
+      create_app: Crea nova app Oauth
       hint: We will destroy any content and related data
       invite:
-        title: Add a new agent
+        title: Afegir un nou agent
         text: send an activable invitation
     app:
-      app_settings: App Settings
-      security: Security
-      messenger_settings: Messenger Settings
-      appearance: Appearance
+      app_settings: Configuració de l'aplicació
+      security: Seguretat
+      messenger_settings: Configuració de Messenger
+      appearance: Aparença
       appearance_title: Appearance settings
-      privacy: Privacy
-      privacy_title: Privacy settings
-      translations: Translations
-      availability: Availability
-      email_requirement: Email Requirement
+      privacy: Privacitat
+      privacy_title: Configuració de privacitat
+      translations: Traduccions
+      availability: Disponibilitat
+      email_requirement: El correu electrònic fa falta
       inbound_settings: Inbound settings
       messenger_style: Messenger Style
-      user_data: User data
-      tags: Tags
-      quick_replies: Quick Replies
+      user_data: Dades d'usuari
+      tags: Etiquetes
+      quick_replies: Respostes ràpides
       email_forwarding: Email Forwarding
     app_packages:
-      create_success: Package created
-      create_error: Error creating package
-      update_success: Package updated
-      update_error: Error updating package
-      remove_success: Package removed correctly
-      remove_error: Error removing package
-      create_integration: Create New package
+      create_success: Paquet creat
+      create_error: Error al crear el paquet
+      update_success: Paquet actualitzat
+      update_error: Error al actualitzar el paquet
+      remove_success: Paquet eliminat correctament
+      remove_error: Error al eliminar el paquet
+      create_integration: Crea un nou paquet
     integrations:
-      title: Third party integrations
-      create_success: Integration created
+      title: Integracions de tercers
+      create_success: Integració creada
       create_error: Error linking integration
-      update_success: Integration updated
-      update_error: Error updating integration
-      remove_success: Integration removed correctly
+      update_success: Integració actualitzada
+      update_error: Error al actualizar la integració
+      remove_success: Integració eliminada correctament
       remove_error: Error removing integration
       create_integration: Create New integration
       active:
@@ -367,47 +367,47 @@ ca:
       ask: "Ask your website visitors to leave their email before starting a live chat:"
       options:
         - 
-          label: Only outside of office hours
+          label: Només fora d'horari laboral
           hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
-          value: office
+          value: oficina
         - 
-          label: Always
+          label: Sempre
           hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
-          value: Always
+          value: Sempre
         - 
-          label: Never
-          value: Never
+          label: Mai
+          value: Mai
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
     languages:
-      add: Add Language
-      title: Languages
+      add: Afegeix un idioma
+      title: Idiomes
     inbound:
-      title: New conversations button
+      title: Noves converses
       checkbox: Let people start new inbound conversations with you
       hint: When this is turned off, people can only reply to the outbound messages you send.
-      title2: visibility
+      title2: visibilitat
       hint2: Control who sees the standard Messenger launcher on your website.
       note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
       note3: "On the web, show the standard Messenger launcher to:"
       filters:
         users:
-          label: Users
-          all: All Users
+          label: Usuaris
+          all: Tots els usuaris
           some: Users who match certain data
         leads:
-          label: Leads
-          all: All Visitors
-          some: Visitors who match certain data
+          label: Client potencial
+          all: Totes les visites
+          some: Visitants que coincideixen amb certes dades
         hint: This doesn’t affect the outbound messages you send.
     team:
-      title: Team
-      invitations: invitations
+      title: Equip
+      invitations: invitacions
       agents: Agents
-      invitation_success: invitation sent!
-      invitatin_error: invitation not sent!
-      action_button: add user
-      title_content: Add a new agent
-      content_text: send an activable invitation
+      invitation_success: invitació enviada!
+      invitatin_error: invitació no enviada!
+      action_button: afegeix usuari/a
+      title_content: Afegeix un nou agent
+      content_text: envia una invitació per correu
       hint: the new team member will be notified by it's email
       send_invitation: Send invitation
       resend_invitation: Resend invitation
