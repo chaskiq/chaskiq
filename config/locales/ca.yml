@@ -20,7 +20,7 @@ ca:
     prev: Anterior
     showing: Mostrant
     to: per
-    of: of
+    of: de
     results: resultats
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
     send: Envia
@@ -32,11 +32,11 @@ ca:
       de: Alemany
     redirecting: Redireccionant
     select_language: Selecciona un Idioma
-    send_on_enter: Publish on enter
+    send_on_enter: Publicar al entrar
   home:
     welcome: Benvingut a
     welcome_site: Chaskiq
-    tagline: Find your current applications here
+    tagline: Troba la teva localització actual
     create_new: Crea una nova aplicació
     choose_lang: Trieu l'idioma
     edit_profile: Edita el perfil
@@ -47,9 +47,9 @@ ca:
     new_conversations: Nova conversa
     resolutions: Resolució
     incoming_messages: Missatges entrants
-    visit_activity: Visit activity
-    users_browser: Users browser
-    lead_os: Lead Os
+    visit_activity: Activitat de visita
+    users_browser: Navegador dels usuaris
+    lead_os: So Client potencial
     user_os: So del usuari
     mac_os: Mac OS
     user_country: País del usuari
@@ -68,10 +68,10 @@ ca:
       mailing_campaigns: Campanyes de correo
       in_app_messages: Missatge d'aplicació
       banners: Anuncis
-      guided_tours: Guided Tours
+      guided_tours: Visites guiades
       for_leads: For Leads
       for_users: Pels usuaris
-      bot_settings: Bot Tasks
+      bot_settings: Tasques del bot
       outbound: Sortint
       new_conversations: Nova conversa
       articles: Articles
@@ -81,11 +81,11 @@ ca:
       team: Equip
       messenger_settings: Configuració de Messenger
       integrations: Integracions
-      webhooks: Webhooks
+      webhooks: Webhook
       api_access: Accés API
     user_menu:
       create_app: 'Crea una nova aplicació'
-      create_app_description: 'Create your company’s Chaskiq app'
+      create_app_description: 'Crea l''aplicació Chaskiq de la teva empresa'
       signout: Tanca sessió
       title: Menú d'usuari
   conversations:
@@ -95,13 +95,13 @@ ca:
       conversations: Converses
       assignment_rules: Agent routing Rules
     states:
-      opened: Opened
-      closed: Closed
+      opened: Obert
+      closed: Tancat
     sorts:
       newest: Més recent
       oldest: Més antic
       waiting: Esperant
-      priority_first: Priorized
+      priority_first: Prioritzat
       all: Tots
       unfiltered: Tots
     empty:
@@ -110,41 +110,41 @@ ca:
   conversation:
     with: Conversa amb
     actions:
-      priorize: Priorize conversation
+      priorize: Prioritza la conversació
       remove_priority: Elimina prioritat
       close: Tanca
       reopen: Reobrir
       start_call: Inicia videotrucada
       end_call: Finalitza trucada
-      assign_agent: Assign Agent
+      assign_agent: Asignar agent
     messages:
-      seen: Seen
-      not_seen: Not seen
+      seen: Vist
+      not_seen: No vist
       note: Nota
     sidebar:
       show_profile: Mostra el perfil
       location: Ubicación
-      browser: User Browser
+      browser: Navegador del usuari
       latest_user_visible_comment_at: Darrers comentaris
       created_at: Creada el
       assignee: Assignat a
-      first_agent_reply: First agent reply
+      first_agent_reply: Primera resposta del agent
     editor:
       panels:
         bot:
-          title: Start a Bot Task
-          confirm: Confirm %{title} trigger
+          title: Inicia una tasca del bot
+          confirm: Confirma %{title} activació
           confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
-          empty: no bots available
-          choose_another: Choose another
+          empty: no hi ha bots disponibles
+          choose_another: Selecciona un altre
         quick_reply:
-          title: Send a quick reply
-          confirm: Confirm send %{title} ?
-          confirm_msg: This quick reply will be delivered on user's current conversation.
-          empty: no quick replies available
-          choose_another: Choose another
+          title: Envia una resposta ràpida
+          confirm: Confirma enviament %{title}?
+          confirm_msg: Aquesta resposta ràpida s'entregara en la conversa actual del usuari.
+          empty: no hi ha resposta ràpida disponible
+          choose_another: Selecciona un altre
   assignment_rules:
-    title: Assignment Rules
+    title: Regles d'asignació
     create_button: Crea regla
     success_message: Assignació creada correctament
   campaigns:
@@ -159,16 +159,16 @@ ca:
     empty:
       title: No hi ha campanyes
     campaign_updated: Campanya actualitzada
-    updated_error: Error updating campaign
+    updated_error: Error al actualitzar la campanya
     error_purge: Error purging metrics
     purge_description: Purges campaigns metrics
     purge_title: Purge Metrics
-    deliver_title: Deliver
+    deliver_title: Entregar
     deliver_description: Delivers the campaign
   campaign:
-    edit: Edit Campaign Settings
-    create: Create a new campaign
-    preview: This is a preview
+    edit: Edita la configuració de la campanya
+    create: Crea una nova campanya
+    preview: Això és una visita prèvia
     preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
     stats:
       title: Estadístiques de campanya
@@ -233,15 +233,15 @@ ca:
       enable_title: Enable bot task
       enable_hint: when enabled the bot task will start operating
     new: Crea una tasca nova
-    remove_success: bot removed
+    remove_success: bot eliminat
     empty:
-      title: No bot tasks found
+      title: No s'han trobat tasques del bot
       create_new: Crear-ne un nou
     delete:
-      title: Delete bot "%{name}"
+      title: Suprimir el bot "%{name}"
       hint: we will destroy any content and related data
     create:
-      title: Create Bot task
+      title: Crea una tasca nova del bot
   email_forwarding:
     title: Email Forwarding
     subtitle: Default Inbound Address
@@ -252,11 +252,11 @@ ca:
     lang: Your code to generate an HMAC for your app is
     hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
   quick_replies:
-    title: Quick Replies
-    search: Search Quick replies
+    title: Respostes ràpides
+    search: Cerca de respostes ràpides
     will_send: The "%{lang}" version will be sent to the conversation.
     empty:
-      title: No quick replies
+      title: No hi ha respostes ràpides
       create_new: Crea nova
     delete:
       title: Delete quick reply %{name}
@@ -265,28 +265,28 @@ ca:
       success: La seva resposta ràpida s'ha creat amb èxit
       error: Error al crear la resposta ràpida
     update:
-      success: Quick reply was updated successfully
+      success: La seva resposta ràpida s'ha actualitzat amb èxit
       error: Error al actualizar la resposta ràpida
     add_as_dialog:
       title: Add this message as a Quick Reply
   new_app:
-    title: "Create your company’s Chaskiq app"
+    title: "Crea l'aplicació Chaskiq de la teva empresa"
     text: Provide basic information to setup Chaskiq for your team and customers.
-    hint: Create your company’s Chaskiq app
+    hint: Crea l'aplicació Chaskiq de la teva empresa
   settings:
     api:
       title: Aplicacions Oauth
       tabs:
         apps: Aplicacions Oauth
-        authorized: Authorized OAUTH Applications
-      oauth_information: Oauth App Information
-      details: Oauth details and credentials.
-      delete_app: Delete Oauth App?
+        authorized: Aplicacions autoritzades OAUTH
+      oauth_information: Informació de l'aplicació Oauth
+      details: Detalls i credencials Oauth.
+      delete_app: Elimina Oauth app?
       create_app: Crea nova app Oauth
       hint: We will destroy any content and related data
       invite:
         title: Afegir un nou agent
-        text: send an activable invitation
+        text: envia una invitació per correu
     app:
       app_settings: Configuració de l'aplicació
       security: Seguretat
@@ -320,20 +320,20 @@ ca:
       update_error: Error al actualizar la integració
       remove_success: Integració eliminada correctament
       remove_error: Error removing integration
-      create_integration: Create New integration
+      create_integration: Crea una nova integració
       active:
-        title: Active Integrations
-        text: API Integrations
+        title: Integracions actives
+        text: Integracions API
       available:
-        title: "Available API's"
-        text: Available API Services
+        title: "APIs disponibles"
+        text: Serveis API disponibles
       yours:
         title: "Your Integration Apps"
         text: Integration apps created by you
       hints:
         hook_url: This integration will receive webhook at
       delete_dialog:
-        title: Delete "%{name}" integration ?
+        title: Vols eliminar l'integració amb "%{name}" ?
         text: The integration with %{name} service will be disabled immediately
       empty:
         title: You don't have any api integrations yet
@@ -341,7 +341,7 @@ ca:
     availability:
       title: Set your availability
       hint: Set team office hours and reply times
-      title2: Set office hours
+      title2: Defineix horari laboral
       hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
       timezone: YOUR APP’S TIMEZONE IS %{tz}
       reply_time:
@@ -393,7 +393,7 @@ ca:
         users:
           label: Usuaris
           all: Tots els usuaris
-          some: Users who match certain data
+          some: Usuaris que coincideixen amb certes dades
         leads:
           label: Client potencial
           all: Totes les visites
@@ -409,8 +409,8 @@ ca:
       title_content: Afegeix un nou agent
       content_text: envia una invitació per correu
       hint: the new team member will be notified by it's email
-      send_invitation: Send invitation
-      resend_invitation: Resend invitation
+      send_invitation: Enviar invitació
+      resend_invitation: Reenviar la invitació
       add_new: Add Team Member
       update_agent_title: Update Agent information
       updated_agent: Information updated successfully
