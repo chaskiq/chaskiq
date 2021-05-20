@@ -1,32 +1,32 @@
 ca:
   hints:
     platform:
-      title: Here you can manage your contact list via segments
-      description: Segments allows to filter specific contacts through multiple filter
+      title: Aquí pots administrar la teva llista de contactes mitjançant segments
+      description: Els segments permeten filtrar contactes específics a través de múltiples filtres
     #link: {  href: '/', title: 'Learn how filters works on our knowledge base
     webhooks:
-      title: Active Webhooks
-      description: "Webhooks feature it's all about delivering notifications of chaskiq events"
+      title: Webhooks actius
+      description: "La funció Webhooks tracta d'entregar notificacions d'esdeveniments de chaskiq"
     #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
     integrations:
       title:
-      description: This is the third party API integrations section.
+      description: Aquesta és la secció d'integracions d'API de tercers.
     #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}
     team:
     app_config:
     security:
-      title: Security
-      description: This is the encryption key to identify registered users on your service
+      title: Seguretat
+      description: Aquesta és la clau de xifrat per a identificar usuaris registrats en el seu servei
     #link: { href: '/', text: 'Learn how Encryption & security settings works on Chaskiq'
     appearance:
     languages:
     availability:
       title: Team Availability Settings
-      description: Availability settings let your team set office hours & reply times.
+      description: La configuració de disponibilitat permeten al seu equip fixar hores d'oficina i hores de resposta.
     #link: {href: '/', text: 'Learn how Availability settings works on Chaskiq'}
     email_requirement:
-      title: Require an email for new conversations
-      description: So you can always get back to your website visitors
+      title: Requereix un correu electrònic per a noves converses
+      description: Així sempre pots tornar als visitants del teu lloc web
     #link: {href: '/',text: 'Learn how Email requirement works on Chaskiq'}
     inbound_settings:
       title: Control inbound conversations and the launcher
