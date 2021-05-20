@@ -53,7 +53,7 @@ ca:
     user_os: So del usuari
     mac_os: Mac OS
     user_country: País del usuari
-    snippet: Put the following script on the end of your html <body> tag
+    snippet: Posa el següent script a la fin de la teva etiqueta html <body>
   navigator:
     dashboard: Tauler de control
     platform: Plataforma
@@ -134,7 +134,7 @@ ca:
         bot:
           title: Inicia una tasca del bot
           confirm: Confirma %{title} activació
-          confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
+          confirm_msg: Aquesta tasca de bot es lliurarà en la conversa actual de l'usuari o en una nova si l'usuari ha abandonat el xat.
           empty: no hi ha bots disponibles
           choose_another: Selecciona un altre
         quick_reply:
@@ -151,9 +151,9 @@ ca:
     title: Campanya
     home:
       title: Campanyes
-      text: This is the campaigns section, you can create newsletters , popup messages and guided tours
+      text: Aquesta és la secció de campanyes, pots crear butlletins informatius, missatges emergents i visites guiades
     remove_success: Campanya eliminada
-    remove_hint: We will destroy any content and related data
+    remove_hint: Destruirem qualsevol contingut i dades relacionades
     delete_campaign: Suprimir campanya %{name}
     create_new: Crea una nova campanya
     empty:
@@ -181,7 +181,7 @@ ca:
   task_bots:
     title: Tasques del bot
     reply_soon: Hola, %{name} contestarà el més aviat possible.
-    reply_agent: you will get a reply from one of our agents
+    reply_agent: rebràs una resposta d'un dels nostres agents
     email_support: to get support you can email at %{email}
     outbound: "🏓 Sortint"
     new_conversations: "👋 Nova conversa"
@@ -200,7 +200,7 @@ ca:
         op2: ok, let us know if you need something and an agent will reply as soon as possible
     settings:
       leads:
-        tab: For Leads
+        tab: Per a clients potencials
         start_conversation: When leads start a conversation
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
         share_time: Comparteix el teu temps de resposta típic
@@ -213,7 +213,7 @@ ca:
         ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
         dont_ask_email: No demanar el correu
         ask_email_phone: Ask for email or mobile number
-        email_only: Ask for email only
+        email_only: Només preguntar pel mail
         override:
           label: Override default behavior with your own task bot
           hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
