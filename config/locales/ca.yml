@@ -22,7 +22,7 @@ ca:
     to: per
     of: de
     results: resultats
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
+    tz_hint: La zona horària del teu navegador és <b className="text-bold">%{timezone}</b>
     send: Envia
     actions: Accions
     langs:
@@ -69,7 +69,7 @@ ca:
       in_app_messages: Missatge d'aplicació
       banners: Anuncis
       guided_tours: Visites guiades
-      for_leads: For Leads
+      for_leads: Per a clients potencials
       for_users: Pels usuaris
       bot_settings: Tasques del bot
       outbound: Sortint
@@ -180,7 +180,7 @@ ca:
       cancel: Cancel·la la teva subscripció
   task_bots:
     title: Tasques del bot
-    reply_soon: Hi, %{name} will reply as soon as they can.
+    reply_soon: Hola, %{name} contestarà el més aviat possible.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email}
     outbound: "🏓 Sortint"
