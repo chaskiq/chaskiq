@@ -106,7 +106,7 @@ ca:
       unfiltered: Tots
     empty:
       title: No hi ha converses
-      text: Choose conversations on the side
+      text: Trieu converses al costat
   conversation:
     with: Conversa amb
     actions:
@@ -182,11 +182,11 @@ ca:
     title: Tasques del bot
     reply_soon: Hola, %{name} contestarà el més aviat possible.
     reply_agent: rebràs una resposta d'un dels nostres agents
-    email_support: to get support you can email at %{email}
+    email_support: per obtenir assistència, podeu enviar un correu electrònic a %{email}
     outbound: "🏓 Sortint"
     new_conversations: "👋 Nova conversa"
     email_requirement:
-      message: Give the team a way to reach you
+      message: Doneu a l’equip una manera de contactar-te
       input_label: Rebre notificacions per mail
       placeholder: Introduïu el vostre correu
       ack: Gràcies
