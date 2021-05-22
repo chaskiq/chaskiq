@@ -33,19 +33,19 @@ ca:
       description: Control who can send you messages and where they see the launcher
     #link: { href: '/',text: 'Learn how Inbound settings works on Chaskiq'}
     user_data:
-      title: Manage user attributes
-      description: User attributes provides a way to customize data for segment filtering
+      title: Gestioneu els atributs de l'usuari
+      description: Els atributs d'usuari proporcionen una manera de personalitzar les dades per al filtratge de segments
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     tags:
-      title: Manage app tags
-      description: Tags attributes provides a way to customize data for segment filtering and organize conversations
+      title: Gestioneu les etiquetes d'aplicació
+      description: Els atributs d'etiquetes ofereixen una manera de personalitzar les dades per filtrar els segments i organitzar les converses
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     quick_replies:
-      title: Manage quick replies
-      description: Quick replies provides a way to organize common anwsers for your bussiness
+      title: Gestioneu les respostes ràpides
+      description: Les respostes ràpides proporcionen una manera d’organitzar respostes comunes per al teu negoci
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     articles:
-      title: Chaskiq HelpCenter platform
+      title: Plataforma del Centre d'ajuda de Chaskiq
       description: Aqui pots administrar els articles de Chaskiq
     #link: { href: '/', text: 'Learn how to configure & manage the helpcenter system on Chaskiq'}
     bots:
