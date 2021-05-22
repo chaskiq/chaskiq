@@ -71,8 +71,8 @@ ca:
         label: Gather Social Data
         hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: Registre de visites
+        hint: "Fins i tot si està desactivat, recollirem el comptador global de visites i emmagatzemarem la informació de la darrera visita al perfil del visitant"
       languages:
         select_lang: "selecciona idioma"
     campaigns:
