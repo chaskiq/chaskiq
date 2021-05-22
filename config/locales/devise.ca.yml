@@ -14,14 +14,14 @@ ca:
       not_found_in_database: "%{authentication_keys} o contrasenya no valits."
       timeout: "La teva sessió ha caducat. Si us plau, torna a iniciar sessió per continuar."
       unauthenticated: "Has d'iniciar la sessió o registrar-te abans de continuar."
-      unconfirmed: "You have to confirm your email address before continuing."
+      unconfirmed: "Abans de continuar, has de confirmar el teu mail."
     mailer:
       confirmation_instructions:
         subject: "Instruccions de confirmació"
       reset_password_instructions:
         subject: "Instruccions de regeneració de la contrasenya"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "Instruccions per desbloquejar"
       email_changed:
         subject: "El correu electrònic ha canviat"
       password_change:
@@ -39,7 +39,7 @@ ca:
       destroyed: "Adéu! El teu compte s'ha cancel·lat correctament. Esperem tornar-te a veure aviat."
       signed_up: "Benvingut/da! Heu iniciat la sessió amb èxit."
       signed_up_but_inactive: "Has iniciat la sessió amb èxit. Tanmateix, no hem pogut iniciar la sessió perquè el teu compte encara no està activat."
-      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_locked: "T'has registrat amb èxit. Tanmateix, no has pogut iniciar la sessió perquè el teu compte està bloquejat."
       signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
       updated: "Your account has been updated successfully."
