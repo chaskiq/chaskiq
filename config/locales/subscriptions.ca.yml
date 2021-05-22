@@ -12,11 +12,11 @@ ca:
       Leads:
         title: Client potencial
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obteniu aplicacions externes, moltes aplicacions
       AppUsers:
         title: Usuaris
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obteniu aplicacions externes, moltes aplicacions
       Conversations:
         title: Converses
         description: true
@@ -24,80 +24,80 @@ ca:
       BotTasks:
         title: Tasca del Bot
         description: true
-        upgrade_message: Add automated chatflows to your app
+        upgrade_message: Afegiu fluxos de xat automatitzats a la vostra aplicació
       Integrations:
         title: Integracions
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: Obteniu aplicacions externes, moltes aplicacions
       Campaigns:
         title: Campanyes
         active: false
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Obteniu missatges de sortida, butlletí de notícies i visites guiades!
       Tours:
         title: Visita guiada
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Obteniu missatges de sortida, butlletí de notícies i visites guiades!
       UserAutoMessages:
-        title: UserAutoMessages
+        title: Missatges automàtics d’usuari
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: Obteniu missatges de sortida, butlletí de notícies i visites guiades!
       OutgoingWebhooks:
-        title: OutgoingWebhooks
+        title: Webhooks de sortida
         active: false
-        upgrade_message: Enable outgoing webhooks
+        upgrade_message: Activa els webhooks de sortida
       OauthApplications:
-        title: OauthApplications
+        title: Aplicacions Oauth
         description: true
-        upgrade_message: Enable API access support through OAUTH
+        upgrade_message: Activeu l'assistència d'accés a l'API mitjançant OAUTH
       Articles:
         title: Articles
         active: false
-        upgrade_message: Enable Documentation & Help Center
+        upgrade_message: Activeu la documentació i el centre d'ajuda
       QuickReplies:
-        title: QuickReplies
+        title: Respostes ràpides
         description: true
-        upgrade_message: add Quick replies to your conversations
+        upgrade_message: afegiu respostes ràpides a les vostres converses
       CustomAttributes:
-        title: CustomAttributes
-        upgrade_message: Enable custom attributes
+        title: Atributs personalitzats
+        upgrade_message: Activa els atributs personalitzats
     plans:
       - 
         name: "gratuït"
-        description: This is a frebie plan!
+        description: Aquest és un pla gratuït!
         id: 618560
       - 
         name: "principiant"
-        description: This is the simple plan
+        description: Aquest és el pla senzill
         id: 616249
       - 
         name: "súper"
         id: 596123
-        description: This is the super plan
+        description: Aquest és el súper pla
     plan:
-      included: What's included
-      pay_by: Pay by %{billing_type}
-      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
-      get_access: Get access
+      included: Què inclou
+      pay_by: Paga per %{billing_type}
+      trial_days: Proveu aquest pla de forma gratuïta durant <span class="font-bold"> %{trial_days} dies </span>
+      get_access: Obteniu accés
     alerts:
       subscription_updated:
         title: S'ha actualitzat la subscripció
-        desc: The Subscription was updated successfully, You will receive an email notification
+        desc: La subscripció s'ha actualitzat correctament. Rebràs una notificació per mail
       subscription_created:
         title: Subscripció creada
-        desc: The subscription was created successfully, You will receive a receipt soon
+        desc: La subscripció s'ha creat correctament. Rebreu una notificació aviat
       subscription_cancelled:
         title: S'ha cancel·lat la subscripció
-        desc: The subscription was cancelled
-      close: Close this dialog
+        desc: La subscripció s'ha cancel·lat
+      close: Tanca aquest diàleg
     billing_information:
       title: Informació de facturació
-      description: You are currently using "%{plan_name}" plan.
-      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
+      description: Actualment feu servir el pla "%{plan_name}".
+      next_billing: Propera facturació a %{next_payment_date} per $%{next_payment_amount} %{next_payment_currency}
       cancel_plan: cancel·la el pla
       update_payment_method: Actualitzar el mètoda de pagament
       subscription_state: Estat de la subscripció %{state}
     update_subscription:
       cta: Actualitza la subscripció
-      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
-      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
+      billed_on: Se us cobrarà a cadascun <span class="font-bold">%{billing_period}%{billing_type}</span>
+      amount: Amb la quantitat de <span class="font-bold">$ %{recurring_price} USD</span>
       next_payment: El próxim pagament serà <span class="font-bold">%{next_payment_date}</span></span>
