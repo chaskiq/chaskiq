@@ -19,7 +19,7 @@ ca:
         hint: Domini del vostre domini centre d'ajuda
       subdomain:
         label: Subdomini
-        hint: Subdomain in which the Help Center will be available
+        hint: Subdomini en què estarà disponible el Centre d'ajuda
       google_code:
         label: Codi Google
         hint: ID de seguiment de Google
@@ -34,14 +34,14 @@ ca:
         label: Logotip
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Mostra l'article a la finestra del xat"
+        hint: "Aquesta opció mostrarà els articles a la secció inicial del missatger"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Mostra els missatges nous a una caixa flotant
+        hint: Aquesta opció no obrirà el widget del quadre de xat
       encryption_key:
         label: Clau de xifratge
-        placeholder: "Leave it blank for no encryption"
+        placeholder: "Deixeu-lo en blanc si no hi ha xifratge"
         hint: This key will be used to encrypt and decrypt JWE user data
       privacy_consent_required_ue:
         label: Required privacy consent for GDPR
