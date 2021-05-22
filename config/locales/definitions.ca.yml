@@ -42,25 +42,25 @@ ca:
       encryption_key:
         label: Clau de xifratge
         placeholder: "Deixeu-lo en blanc si no hi ha xifratge"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        hint: Aquesta clau s'utilitzarà per xifrar i desxifrar les dades d'usuari JWE
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: Es requereix consentiment de privadesa per a GDPR
+        hint: Es mostrarà una visualització de confirmació per als països de la UE abans d'establir converses
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: Es requereix consentiment de privadesa a tot el món
+        hint: Es mostrarà una visualització de confirmació per a tots els visitants abans d'establir converses
       privacy_consent_required_none:
         label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        hint: No mostraré cap visualització de confirmació a ningú (no es recomana)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: Activeu Messenger
+        hint: Quan estigui activat, s'activarà el giny web de Messenger
       domain:
         label: URL del domini
-        hint: This will be the host site were chaskiq will be used
+        hint: Aquest serà el lloc d’amfitrió on s’utilitzarà chaskiq
       outgoing_email_domain:
         label: Domini de l'email de sortida
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        hint: El domini de correu electrònic per enviar converses, per a @yourapp, utilitzeu "la vostra aplicació"
       tagline:
         label: Eslògan
         hint: This will be rendered in the bottom of the Chat box
@@ -68,8 +68,8 @@ ca:
         label: Zona horària
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: Recopileu dades socials
+        hint: "Recopileu perfils socials mitjançant el servei de contacte complet (p. Ex., LinkedIn, Twitter, etc.) per als meus usuaris a través d’un tercer"
       register_visits:
         label: Registre de visites
         hint: "Fins i tot si està desactivat, recollirem el comptador global de visites i emmagatzemarem la informació de la darrera visita al perfil del visitant"
@@ -78,7 +78,7 @@ ca:
     campaigns:
       campaign_name:
         label: Nom de la campanya
-        hint: This will not be shown in the email
+        hint: Això no es mostrarà al correu electrònic
       email_subject:
         label: Assumpte del Email
         hint: Aquest és el teu assumpte del mail
@@ -108,7 +108,7 @@ ca:
       title:
         label: Títol
         placeholder: escriu un títol de la tasca
-        hint: "Task name ie: welcoming users bot task"
+        hint: "Nom de la tasca, p. ex: bot de tasca de benvinguda d'usuaris"
     stats:
       email:
         label: Email
@@ -136,23 +136,23 @@ ca:
         hint: 'Choose the package capabilities, ie: where the integration will work'
       description:
         label: 'Descripció del paquet'
-        hint: 'tell what your plugin does'
+        hint: 'digueu què fa el vostre connector'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
+        label: 'Inicialitzeu l''URL del webhook de flux'
+        hint: 'S''envia quan s''ha inserit una aplicació a una conversa, un missatge o a la pantalla d''inici perquè pugueu renderitzar l''aplicació.'
         placeholder: 'p.ex. https://elteudomini.com/inici'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
+        label: 'Envia l''URL del webhook del flux'
+        hint: 'S''envia quan un usuari final interactua amb la teva aplicació mitjançant un botó, un enllaç o una entrada de text. Aquest flux es pot produir diverses vegades quan l''usuari final interactua amb la vostra aplicació.'
         placeholder: 'p.ex. https://elteudomini.com/aceptar'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
+        label: 'Configuració de l''URL del webhook de flux (opcional)'
+        hint: 'S’envia quan un company vol utilitzar la teva aplicació perquè pugueu mostrar-los les opcions de configuració abans d’inserir-la. Si deixeu aquesta opció en blanc, s''ometrà la configuració.'
         placeholder: 'p.ex. https://elteudomini.com/configuracio'
       sheet_url:
         label: 'Submit Sheet flow webhook URL (optional)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
+        hint: 'S''envia quan s''ha enviat un full. Un full és un iframe que heu carregat al Messenger que es tanca i s’envia quan es crida el mètode Submit Sheets JS.'
         placeholder: 'p.ex. https://elteudomini.com/submit-sheet-url/'
   data_tables:
     users:
