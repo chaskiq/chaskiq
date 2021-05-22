@@ -50,7 +50,7 @@ ca:
         label: Es requereix consentiment de privadesa a tot el món
         hint: Es mostrarà una visualització de confirmació per a tots els visitants abans d'establir converses
       privacy_consent_required_none:
-        label: No privacy consent required
+        label: No es requereix consentiment de privadesa
         hint: No mostraré cap visualització de confirmació a ningú (no es recomana)
       active_messenger:
         label: Activeu Messenger
@@ -63,7 +63,7 @@ ca:
         hint: El domini de correu electrònic per enviar converses, per a @yourapp, utilitzeu "la vostra aplicació"
       tagline:
         label: Eslògan
-        hint: This will be rendered in the bottom of the Chat box
+        hint: Es mostrarà a la part inferior del quadre de xat
       timezone:
         label: Zona horària
         hint:
@@ -132,8 +132,8 @@ ca:
         type: 'camps de selecció'
         hint: 'If disabled you will use the application on the worspaces you have access to'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: 'Capacitats d’integració'
+        hint: 'Trieu les funcions del paquet, p. ex. on funcionarà la integració'
       description:
         label: 'Descripció del paquet'
         hint: 'digueu què fa el vostre connector'
@@ -150,7 +150,7 @@ ca:
         hint: 'S’envia quan un company vol utilitzar la teva aplicació perquè pugueu mostrar-los les opcions de configuració abans d’inserir-la. Si deixeu aquesta opció en blanc, s''ometrà la configuració.'
         placeholder: 'p.ex. https://elteudomini.com/configuracio'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: 'Envia l''URL del webhook del flux de fulls (opcional)'
         name: 'sheet_url'
         hint: 'S''envia quan s''ha enviat un full. Un full és un iframe que heu carregat al Messenger que es tanca i s’envia quan es crida el mètode Submit Sheets JS.'
         placeholder: 'p.ex. https://elteudomini.com/submit-sheet-url/'
