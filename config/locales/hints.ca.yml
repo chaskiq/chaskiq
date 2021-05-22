@@ -21,7 +21,7 @@ ca:
     appearance:
     languages:
     availability:
-      title: Team Availability Settings
+      title: Configuració de la disponibilitat de l’equip
       description: La configuració de disponibilitat permeten al seu equip fixar hores d'oficina i hores de resposta.
     #link: {href: '/', text: 'Learn how Availability settings works on Chaskiq'}
     email_requirement:
@@ -29,8 +29,8 @@ ca:
       description: Així sempre pots tornar als visitants del teu lloc web
     #link: {href: '/',text: 'Learn how Email requirement works on Chaskiq'}
     inbound_settings:
-      title: Control inbound conversations and the launcher
-      description: Control who can send you messages and where they see the launcher
+      title: Controleu les converses entrants i el llançador
+      description: Controleu qui us pot enviar missatges i on veuen el llançador
     #link: { href: '/',text: 'Learn how Inbound settings works on Chaskiq'}
     user_data:
       title: Gestioneu els atributs de l'usuari
