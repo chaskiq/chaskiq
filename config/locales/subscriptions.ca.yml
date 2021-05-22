@@ -8,7 +8,7 @@ ca:
       Segments:
         title: Segments
         description: true
-        upgrade_message: Enable contact segments and targeting
+        upgrade_message: Activeu l'orientació i els segments de contacte
       Leads:
         title: Client potencial
         description: true
@@ -80,7 +80,7 @@ ca:
       get_access: Get access
     alerts:
       subscription_updated:
-        title: Subscription updated
+        title: S'ha actualitzat la subscripció
         desc: The Subscription was updated successfully, You will receive an email notification
       subscription_created:
         title: Subscripció creada
