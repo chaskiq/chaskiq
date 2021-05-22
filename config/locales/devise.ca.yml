@@ -3,8 +3,8 @@ ca:
   devise:
     confirmations:
       confirmed: "La teva adreça de correu electrònic s'ha confirmat correctament."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_instructions: "Rebràs un correu electrònic amb instruccions per confirmar la teva adreça de correu electrònic en pocs minuts."
+      send_paranoid_instructions: "Si la teva adreça de correu electrònic existeix a la nostra base de dades, rebràs un correu electrònic amb instruccions per confirmar la teva adreça en pocs minuts."
     failure:
       already_authenticated: "Ja has iniciat la sessió."
       inactive: "El compte no està activat."
