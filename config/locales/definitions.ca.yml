@@ -130,7 +130,7 @@ ca:
       published:
         label: 'Publica en la plataforma'
         type: 'camps de selecció'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        hint: 'Si està desactivat, utilitzarà l''aplicació als espais wors als quals tingueu accés'
       capability_list:
         label: 'Capacitats d’integració'
         hint: 'Trieu les funcions del paquet, p. ex. on funcionarà la integració'
