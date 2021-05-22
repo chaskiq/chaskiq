@@ -42,7 +42,7 @@ ca:
     edit_profile: Edita el perfil
     go_to_doc: Aneu a la documentació
   dashboard:
-    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
+    hey: "👋 Ei, esteu veient el tauler de <strong>%{name} </strong>! <br /> Obteniu el fragment d'instal·lació per a la configuració web <br />"
     response_avg: Temps de resposta mitjà
     new_conversations: Nova conversa
     resolutions: Resolució
@@ -59,7 +59,7 @@ ca:
     platform: Plataforma
     conversations: Converses
     campaigns: Campanyes
-    routing_bots: Routing Bots
+    routing_bots: Enrutament de bots
     help_center: Centre d'ajuda
     settings: Configuració
     childs:
@@ -93,7 +93,7 @@ ca:
     title: Converses
     menu:
       conversations: Converses
-      assignment_rules: Agent routing Rules
+      assignment_rules: Regles d'enrutament d'agents
     states:
       opened: Obert
       closed: Tancat
@@ -164,7 +164,7 @@ ca:
     purge_description: Purgar les mètriques de les campanyes
     purge_title: Purgar les mètriques
     deliver_title: Entregar
-    deliver_description: Delivers the campaign
+    deliver_description: Eliminar la campanya
   campaign:
     edit: Edita la configuració de la campanya
     create: Crea una nova campanya
@@ -175,7 +175,7 @@ ca:
       refresh_data: Actualitza les dades
     unsubscribe:
       status: Has sigut %{state}
-      success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
+      success: Amb èxit, %{ email } ja no rebrà correus electrònics d’aquest remitent. Va ser un error?
       resubscribe: Elimina la subscripció de la llista
       cancel: Cancel·la la teva subscripció
   task_bots:
@@ -250,7 +250,7 @@ ca:
     title: Configuració d'usuaris verificats
     hint1: Per configurar la verificació d’identitat, haureu de generar un HMAC al servidor per a cada usuari que hàgiu iniciat la sessió i enviar-lo a Chaskiq.
     lang: El vostre codi per generar un HMAC per a la vostra aplicació és
-    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    hint2: 'Sempre que pengeu dades d’usuari i tingueu un fragment de codi Chaskiq, afegiu un atribut nou anomenat <span className="font-bold"> identifier_key </span> i passeu el <span className="font-bold"> correu electrònic </span> i doneu-li l''etiqueta HMAC per a l''usuari connectat:'
   quick_replies:
     title: Respostes ràpides
     search: Cerca de respostes ràpides
@@ -350,7 +350,7 @@ ca:
         options:
           - 
             value: "automàtic"
-            label: "Automatic reply time. Currently El equipo responderá lo antes posible"
+            label: "Temps de resposta automàtica. Actualment l'equip respondrà el més aviat possible"
           - 
             value: "minuts"
             label: "L’equip sol respondre en qüestió de minuts."
