@@ -11,12 +11,12 @@ ca:
             redirect_uri:
               fragment_present: 'no pot contenir un fragment.'
               invalid_uri: 'ha de ser una adreça URL vàlida.'
-              unspecified_scheme: 'must specify a scheme.'
+              unspecified_scheme: 'ha d’especificar un esquema.'
               relative_uri: 'ha de ser un URI absolut.'
               secured_uri: 'ha de ser un URI de HTTPS/SSL.'
-              forbidden_uri: 'is forbidden by the server.'
+              forbidden_uri: 'està prohibit pel servidor.'
             scopes:
-              not_match_configured: "doesn't match configured on the server."
+              not_match_configured: "no coincideix amb el configurat al servidor."
   doorkeeper:
     applications:
       confirmations:
@@ -28,12 +28,12 @@ ca:
         cancel: 'Cancel·lar'
         authorize: 'Autoritza'
       form:
-        error: 'Whoops! Check your form for possible errors'
+        error: 'Vaja! Consulteu el formulari si hi ha possibles errors'
       help:
         confidential: 'L’aplicació s’utilitzarà on el secret de client es pugui mantenir confidencial. Les aplicacions per a mòbils natives i les aplicacions d’una sola pàgina es consideren no confidencials.'
         redirect_uri: 'Feu servir una línia per URI'
-        blank_redirect_uri: "Leave it blank if you configured your provider to use Client Credentials, Resource Owner Password Credentials or any other grant type that doesn't require redirect URI."
-        scopes: 'Separate scopes with spaces. Leave blank to use the default scopes.'
+        blank_redirect_uri: "Deixeu-ho en blanc si heu configurat el proveïdor per utilitzar credencials de client, credencials de contrasenya del propietari de recursos o qualsevol altre tipus de subvenció que no requereixi un URI de redirecció."
+        scopes: 'Separeu els àmbits amb els espais. Deixeu-ho en blanc per utilitzar els àmbits predeterminats.'
       edit:
         title: 'Edita l''aplicació'
       index:
@@ -52,9 +52,9 @@ ca:
         title: 'Aplicació: %{name}'
         application_id: 'UID de l''aplicació'
         secret: 'Clau secreta'
-        scopes: 'Scopes'
+        scopes: 'Àmbits'
         confidential: 'Confidencial'
-        callback_urls: 'Callback urls'
+        callback_urls: 'Url de devolució de trucada'
         actions: 'Accions'
     authorizations:
       buttons:
@@ -86,13 +86,13 @@ ca:
         invalid_request:
           unknown: 'En la petició manca un paràmetre necessari o inclou un valor de paràmetre no suportat o te un altre tipus de format incorrecte.'
           missing_param: 'Falta paràmetre requerit: %{value}.'
-          not_support_pkce: 'Invalid code_verifier parameter. Server does not support pkce.'
+          not_support_pkce: 'Paràmetre de verificador de codi no vàlid. El servidor no admet pkce.'
           request_not_authorized: 'La petició ha de ser autoritzada. Falta o és invàlid un paràmetre requerit per l''autorització de la petició.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "L'URI de redirecció sol·licitat té un format incorrecte o no coincideix amb l'URI de redirecció del client."
         unauthorized_client: 'El client no està autoritzat per formular aquesta petició amb aquest mètode.'
         access_denied: 'El propietari del recurs o el servidor d''autorització han denegat la petició.'
         invalid_scope: 'L''abast demanat és nul, desconegut, o està mal format.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
+        invalid_code_challenge_method: 'El mètode de desafiament del codi ha de ser senzill o S256.'
         server_error: 'El servidor d''autorització ha trobat una condició inesperada que l''ha impedit completar la petició.'
         temporarily_unavailable: 'El servidor d''autorització ha estat incapaç de respondre la petició a causa d''una sobrecàrrega provisional o per manteniment del servidor.'
         #Configuration error messages
@@ -108,9 +108,9 @@ ca:
         invalid_token:
           revoked: "El token d'accés s'ha revocat"
           expired: "El token d'accés ha caducat"
-          unknown: "The access token is invalid"
+          unknown: "El token d'accés no és vàlid"
         revoke:
-          unauthorized: "You are not authorized to revoke this token"
+          unauthorized: "No teniu autorització per revocar aquest token"
     flash:
       applications:
         create:
@@ -124,10 +124,10 @@ ca:
           notice: 'Aplicació revocada.'
     layouts:
       admin:
-        title: 'Doorkeeper'
+        title: 'Porter'
         nav:
-          oauth2_provider: 'OAuth2 Provider'
-          applications: 'Applications'
+          oauth2_provider: 'Proveïdor OAuth2'
+          applications: 'Aplicacions'
           home: 'Inici'
       application:
-        title: 'OAuth authorization required'
+        title: 'Cal autorització OAuth'
