@@ -81,7 +81,7 @@ ca:
         hint: This will not be shown in the email
       email_subject:
         label: Assumpte del Email
-        hint: This is the email subject itself
+        hint: Aquest és el teu assumpte del mail
       from_name:
         label: Nom del remitent
       from_email:
@@ -153,7 +153,7 @@ ca:
         label: 'Submit Sheet flow webhook URL (optional)'
         name: 'sheet_url'
         hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        placeholder: 'p.ex. https://elteudomini.com/submit-sheet-url/'
   data_tables:
     users:
       name: Nom
