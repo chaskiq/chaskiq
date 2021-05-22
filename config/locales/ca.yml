@@ -191,47 +191,47 @@ ca:
       placeholder: Introduïu el vostre correu
       ack: Gràcies
     support:
-      ask: Are you an existing %{name} customer ?
+      ask: Ja sou client de %{name}?
       options:
         op1: Si, sóc un client
         op2: No, encara no sóc un client
       reply:
         op1: Benvingut de nou!
-        op2: ok, let us know if you need something and an agent will reply as soon as possible
+        op2: d'acord, feu-nos saber si necessiteu alguna cosa i un agent us respondrà el més aviat possible
     settings:
       leads:
         tab: Per a clients potencials
         start_conversation: When leads start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        delay: Deixeu un retard de 2 minuts abans d’activar Task Bots durant les hores d’oficina
         share_time: Comparteix el teu temps de resposta típic
-        route: Route existing customers to support
-        route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
-        route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
+        route: Dirigeixi els clients existents a l'assistència
+        route_desc: La ruta porta a les persones adequades preguntant si són clients existents quan inicien una nova conversa.
+        route_costumer: Què voleu fer quan trien "Sí, sóc client"?
         assign: Uneix-te a la conversa
         close: Tanca la conversa
-        ask: Ask for contact details
-        ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
+        ask: Demaneu dades de contacte
+        ask_hint: Si encara no tenim les seves dades de contacte, Bot suggerirà que els clients deixin la seva adreça electrònica o el seu número de telèfon per rebre notificacions sempre que respongueu.
         dont_ask_email: No demanar el correu
-        ask_email_phone: Ask for email or mobile number
+        ask_email_phone: Demaneu un correu electrònic o número mòbil
         email_only: Només preguntar pel mail
         override:
-          label: Override default behavior with your own task bot
-          hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
+          label: Substitueix el comportament predeterminat amb el teu propi bot de tasques
+          hint: "Quan feu això, el comportament predeterminat següent, no tindrà lloc i la tasca s'activarà en cada nova conversa"
       users:
         tab: Pels usuaris
-        start_conversation: When users start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        start_conversation: Quan els usuaris inicien una conversa
+        delay: Deixeu un retard de 2 minuts abans d’activar Task Bots durant les hores d’oficina
         override:
-          label: Override default behavior with your own task
+          label: Substitueix el comportament predeterminat amb el teu propi bot de tasques
           hint: suggeriment!
-      settings_title: Bot Task settings
-      specific_times_title: Set specific times to show this bot to your audience.
-      tz_hint: Your app's timezone is %{timezone} See your office hours.
+      settings_title: Configuració de la tasca de bot
+      specific_times_title: Definiu hores específiques per mostrar aquest bot al vostre públic.
+      tz_hint: La zona horària de la vostra aplicació és %{timezone} Consulteu l'horari d'oficina.
       office_hours: Durant l'horari laboral
       outside_office: Fora d'horari laboral
-      custom_time: Custom time
+      custom_time: Temps personalitzat
       enable_title: Activa tasca del bot
-      enable_hint: when enabled the bot task will start operating
+      enable_hint: quan estigui activat, la tasca de bot començarà a funcionar
     new: Crea una tasca nova
     remove_success: bot eliminat
     empty:
@@ -239,28 +239,28 @@ ca:
       create_new: Crear-ne un nou
     delete:
       title: Suprimir el bot "%{name}"
-      hint: we will destroy any content and related data
+      hint: destruirem qualsevol contingut i dades relacionades
     create:
       title: Crea una tasca nova del bot
   email_forwarding:
-    title: Email Forwarding
-    subtitle: Default Inbound Address
-    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+    title: Reenviament de mail
+    subtitle: Adreça d'entrada predeterminada
+    ex: Reenvieu el correu electrònic de la vostra adreça de correu electrònic d'assistència normal (com ara ajuda@elteudomini.com) a Chaskiq perquè pugueu respondre als correus electrònics del vostre tauler d'agents
   identified_users:
-    title: Verified users setup
-    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
-    lang: Your code to generate an HMAC for your app is
+    title: Configuració d'usuaris verificats
+    hint1: Per configurar la verificació d’identitat, haureu de generar un HMAC al servidor per a cada usuari que hàgiu iniciat la sessió i enviar-lo a Chaskiq.
+    lang: El vostre codi per generar un HMAC per a la vostra aplicació és
     hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
   quick_replies:
     title: Respostes ràpides
     search: Cerca de respostes ràpides
-    will_send: The "%{lang}" version will be sent to the conversation.
+    will_send: La versió "%{lang}" s'enviarà a la conversa.
     empty:
       title: No hi ha respostes ràpides
       create_new: Crea nova
     delete:
-      title: Delete quick reply %{name}
-      hint: we will destroy any content and related data, conversations will keep content though
+      title: Suprimeix la resposta ràpida %{name}
+      hint: destruirem qualsevol contingut i dades relacionades, però les converses mantindran el contingut
     create:
       success: La seva resposta ràpida s'ha creat amb èxit
       error: Error al crear la resposta ràpida
@@ -268,10 +268,10 @@ ca:
       success: La seva resposta ràpida s'ha actualitzat amb èxit
       error: Error al actualizar la resposta ràpida
     add_as_dialog:
-      title: Add this message as a Quick Reply
+      title: Afegiu aquest missatge com a resposta ràpida
   new_app:
     title: "Crea l'aplicació Chaskiq de la teva empresa"
-    text: Provide basic information to setup Chaskiq for your team and customers.
+    text: Proporcioneu informació bàsica per configurar Chaskiq per al vostre equip i clients.
     hint: Crea l'aplicació Chaskiq de la teva empresa
   settings:
     api:
@@ -283,7 +283,7 @@ ca:
       details: Detalls i credencials Oauth.
       delete_app: Elimina Oauth app?
       create_app: Crea nova app Oauth
-      hint: We will destroy any content and related data
+      hint: Destruirem qualsevol contingut i dades relacionades
       invite:
         title: Afegir un nou agent
         text: envia una invitació per correu
@@ -292,7 +292,7 @@ ca:
       security: Seguretat
       messenger_settings: Configuració de Messenger
       appearance: Aparença
-      appearance_title: Appearance settings
+      appearance_title: Configuració de l'aspecte
       privacy: Privacitat
       privacy_title: Configuració de privacitat
       translations: Traduccions
@@ -303,7 +303,7 @@ ca:
       user_data: Dades d'usuari
       tags: Etiquetes
       quick_replies: Respostes ràpides
-      email_forwarding: Email Forwarding
+      email_forwarding: Reenviament de mail
     app_packages:
       create_success: Paquet creat
       create_error: Error al crear el paquet
@@ -328,67 +328,67 @@ ca:
         title: "APIs disponibles"
         text: Serveis API disponibles
       yours:
-        title: "Your Integration Apps"
-        text: Integration apps created by you
+        title: "Les vostres aplicacions d’integració"
+        text: Aplicacions d'integració creades
       hints:
-        hook_url: This integration will receive webhook at
+        hook_url: Aquesta integració rebrà un webhook a
       delete_dialog:
         title: Vols eliminar l'integració amb "%{name}" ?
-        text: The integration with %{name} service will be disabled immediately
+        text: La integració amb el servei %{name} es desactivarà immediatament
       empty:
-        title: You don't have any api integrations yet
-        text: Search for available api services in
+        title: Encara no teniu cap integració Api
+        text: Cerqueu els serveis Api disponibles a
     availability:
-      title: Set your availability
-      hint: Set team office hours and reply times
+      title: Establiu la vostra disponibilitat
+      hint: Estableix l’horari d’oficina de l’equip i els horaris de resposta
       title2: Defineix horari laboral
-      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
-      timezone: YOUR APP’S TIMEZONE IS %{tz}
+      hint2: Fora d’aquest horari, els clients veuen quan tornareu, en relació amb la seva zona horària.
+      timezone: LA ZONA HORÀRIA DE LA TEVA APLICACIÓ ES %{tz}
       reply_time:
-        title: Set reply time
-        hint: During office hours, let your customers know when they can expect a reply.
+        title: Estableix el temps de resposta
+        hint: Durant l’horari d’oficina, feu saber als vostres clients quan poden esperar una resposta.
         options:
           - 
             value: "automàtic"
             label: "Automatic reply time. Currently El equipo responderá lo antes posible"
           - 
             value: "minuts"
-            label: "Team usually responds within minutes."
+            label: "L’equip sol respondre en qüestió de minuts."
           - 
             value: "hores"
-            label: "Team usually responds within hours."
+            label: "L’equip sol respondre en qüestió d'hores."
           - 
             value: "1 dia"
-            label: "The team usually responds in one day."
-        hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
+            label: "L’equip sol respondre en un dia."
+        hint2: "Nota: el visitant rebrà una resposta automàtica amb la disponibilitat del vostre equip durant els horaris fora de l’oficina o els temps de resposta llargs."
     email_requirement:
-      title: Require an email for new conversations
-      hint: So you can always get back to your website visitors
-      ask: "Ask your website visitors to leave their email before starting a live chat:"
+      title: Sol·liciteu un correu electrònic per a converses noves
+      hint: Així sempre pots tornar als visitants del teu lloc web
+      ask: "Demaneu als visitants del lloc web que deixin el seu mail abans d’iniciar un xat en directe:"
       options:
         - 
           label: Només fora d'horari laboral
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
+          hint: REDUEIX EL VOLUM DE CONVERSA AL VOLTANT UN 5% DE MITJANA
           value: oficina
         - 
           label: Sempre
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
+          hint: REDUEIX EL VOLUM DE CONVERSA AL VOLTANT UN 30% DE MITJANA
           value: Sempre
         - 
           label: Mai
           value: Mai
-          hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
+          hint: PERMETRÀ ALS VISITANTS DEL LLOC WEB INICIAR UNA CONVERSA EN QUALSEVOL MOMENT
     languages:
       add: Afegeix un idioma
       title: Idiomes
     inbound:
       title: Noves converses
-      checkbox: Let people start new inbound conversations with you
-      hint: When this is turned off, people can only reply to the outbound messages you send.
+      checkbox: Deixeu que la gent iniciï noves converses entrants amb vosaltres
+      hint: Quan aquesta opció està desactivada, la gent només pot respondre als missatges de sortida que envieu.
       title2: visibilitat
-      hint2: Control who sees the standard Messenger launcher on your website.
-      note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
-      note3: "On the web, show the standard Messenger launcher to:"
+      hint2: Controleu qui veu el llançador estàndard de Messenger al vostre lloc web.
+      note2: TOTS ELS MISSATGES QUE ENVIïS SERAN ENTREGATS.
+      note3: "Al web, mostreu el llançador estàndard de Messenger a:"
       filters:
         users:
           label: Usuaris
@@ -398,7 +398,7 @@ ca:
           label: Client potencial
           all: Totes les visites
           some: Visitants que coincideixen amb certes dades
-        hint: This doesn’t affect the outbound messages you send.
+        hint: Això no afecta els missatges de sortida que envieu.
     team:
       title: Equip
       invitations: invitacions
@@ -408,7 +408,7 @@ ca:
       action_button: afegeix usuari/a
       title_content: Afegeix un nou agent
       content_text: envia una invitació per correu
-      hint: the new team member will be notified by it's email
+      hint: el nou membre de l’equip rebrà una notificació per mail
       send_invitation: Enviar invitació
       resend_invitation: Reenviar la invitació
       add_new: Afegeix membre a l'equip
@@ -417,7 +417,7 @@ ca:
       destroyed_agent: L'agent s'ha eliminat correctament
       destroy_agent_title: Suprimeix agent
       destroy_agent: Suprimir
-      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
+      destroy_agent_warning: 'Estàs segur que voleu suprimir {{agent}}?'
       update_agent: Actualitza
     webhooks:
       title: Webhook
@@ -425,34 +425,34 @@ ca:
       create_error: Error al afegir el webhook
       update_success: Webhook actualitzat
       update_error: Error al actualitzar el webhook
-      delete_success: Webhook removed correctly
+      delete_success: El webhook s'ha eliminat correctament
       delete_error: Error al eliminar el webhook
       outgoing_webhooks: Webhook de sortida
       new_webhook: Nou webhook
       active_webhooks: Webhooks actius
-      disabled_webhooks: Disabled Webhooks
+      disabled_webhooks: Webhooks desactivats
       empty:
-        title: You don't have any active webhooks yet
-        desc: Search for your webhooks in
-        disabled_webhooks: Disabled webhooks
+        title: Encara no teniu cap webhook actiu
+        desc: Cerca els teus webhooks
+        disabled_webhooks: Webhooks desactivats
       delete:
-        title: Delete webhook ?
-        text: The webhook with %{name} service will be disabled immediately
+        title: Eliminar el webhook?
+        text: El webhook amb el servei %{name} es desactivarà immediatament
     tags:
       title: Etiquetes
       modal:
-        title: Create app's tag
-        hint: Looking for more tags ? look at
-        link: account settings
+        title: Crea l'etiqueta de l'aplicació
+        hint: Cerques més etiquetes? mira en
+        link: configuració del compte
       inputs:
         name: Nom del camp
         color: Color del camp
     user_data:
       title: Camps personalitzats
-      default_fields: Default attributes
-      non_editable: This fields are not editable
+      default_fields: Atributs predeterminats
+      non_editable: Aquests camps no són editables
       modal:
-        title: Create user data field
+        title: Crea un camp de dades d'usuari
       inputs:
         name: Nom del camp
         type: Tipus de camp
@@ -461,7 +461,7 @@ ca:
       attr_types:
         date: Data
         integer: Nombre enter
-        string: String
+        string: Cadena
   articles:
     title: Articles
     all: Tots
@@ -472,18 +472,18 @@ ca:
     add: Afegeix element
     collections: Col·leccions
     help_center: Centre d'ajuda
-    description_placeholder: Describe your collection to help you find it.
-    title_placeholder: Write the title of the sections
+    description_placeholder: Descriu la teva col·lecció per ajudar-vos a trobar-la.
+    title_placeholder: Escriu el títol de les seccions
     new_section: Nova secció
     new_collection: Nova col·lecció
     edit_collection: Edita col·lecció
     create_article:
       placeholder: Escriu el títol de l'article
-      description_placeholder: Add a summary to find the article later
+      description_placeholder: Afegiu un resum per trobar l'article més endavant
     create:
       title: Nova col·lecció d'articles
       placeholder: Introdueix el títol de la col·lecció
-      description: Describe your collection to help you find it.
+      description: Descriviu la vostra col·lecció per ajudar-vos a trobar-la.
     settings:
       title: Configuració del centre d'ajuda
       add_language: Afegeix un idioma
@@ -491,11 +491,11 @@ ca:
       add_language_to_help: Afegeix un nou idioma al centre d'ajuda
       delete:
         title: Suprimeix traducció "%{name}"
-        text: We will destroy the translation and hide any article with the language "%{name}"
+        text: Destruirem la traducció i amagarem qualsevol article amb l'idioma "%{name}"
       appearance: Aparença
       appearance_settings: Appearance settings
       lang: Idioma
-      lang_title: Find your Help Center
-      lang_desc: Manage supported languages and customize your Help Center header
+      lang_title: Cerca el teu Centre d’ajuda
+      lang_desc: Gestioneu els idiomes admesos i personalitzeu la capçalera del Centre d'ajuda
       basic: Configuració bàsica
-      general_app: Application overview
+      general_app: Descripció general de l'aplicació
