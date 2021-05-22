@@ -48,7 +48,7 @@ es:
         hint: Mostrará una vista de confirmación para los países de la UE antes de establecer conversaciones
       privacy_consent_required_all:
         label: Se requiere el consentimiento de privacidad a nivel mundial
-        hint: Mostrará una vista de confirmación para los países de la UE antes de establecer conversaciones
+        hint: Mostrará una vista de confirmación para todos los países antes de establecer conversaciones
       privacy_consent_required_none:
         label: No se requiere consentimiento de privacidad
         hint: No se mostrará una vista de confirmación a nadie (no recomendado)
