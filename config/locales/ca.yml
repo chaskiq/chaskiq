@@ -493,7 +493,7 @@ ca:
         title: Suprimeix traducció "%{name}"
         text: Destruirem la traducció i amagarem qualsevol article amb l'idioma "%{name}"
       appearance: Aparença
-      appearance_settings: Appearance settings
+      appearance_settings: Configuració de l'aspecte
       lang: Idioma
       lang_title: Cerca el teu Centre d’ajuda
       lang_desc: Gestioneu els idiomes admesos i personalitzeu la capçalera del Centre d'ajuda
