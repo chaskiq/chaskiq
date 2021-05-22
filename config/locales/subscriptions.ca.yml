@@ -100,4 +100,4 @@ ca:
       cta: Actualitza la subscripció
       billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
       amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
-      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
+      next_payment: El próxim pagament serà <span class="font-bold">%{next_payment_date}</span></span>
