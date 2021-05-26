@@ -87,6 +87,14 @@ class AppPackagesCatalog
       },
 
       {
+        name: 'Stripe',
+        description: 'Stripe Payment buttons',
+        capability_list: %w[conversations bots],
+        state: 'enabled',
+        definitions: []
+      },
+
+      {
         name: 'Counto',
         capability_list: %w[conversation_part],
         description: 'Send conversation part data from Admin panel',

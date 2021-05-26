@@ -115,11 +115,11 @@ subscriptions:
           count: unlimited
         - 
           name: Articles
-          active: true
+          active: false
           count: unlimited
         - 
           name: QuickReplies
-          active: true
+          active: false
           count: unlimited
         - 
           name: CustomAttributes
