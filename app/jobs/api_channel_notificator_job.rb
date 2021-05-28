@@ -26,7 +26,7 @@ class ApiChannelNotificatorJob < ApplicationJob
   #  k
   #end
 
-  def perform(part_id:, conversation:)
+  def perform(part_id:, conversation: nil)
     ConversationPart.find(part_id).notify_message_on_available_channels
   end
 end
