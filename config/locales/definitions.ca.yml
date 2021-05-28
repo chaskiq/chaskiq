@@ -2,182 +2,182 @@ ca:
   definitions:
     articles:
       title:
-        label: Title
+        label: Títol
       author:
-        label: Author
+        label: Autor/a
       state:
-        label: State
+        label: Estat
       collection:
-        label: Collection
+        label: Coŀlecció
       actions:
-        label: Actions
+        label: Accions
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Pàgina web
+        hint: Pàgina web del vostre domini principal
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Domini
+        hint: Domini del vostre domini centre d'ajuda
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Subdomini
+        hint: Subdomini en què estarà disponible el Centre d'ajuda
       google_code:
-        label: Google Code
-        hint: Google tracking ID
+        label: Codi Google
+        hint: ID de seguiment de Google
       credits:
-        label: show credits
+        label: mostrar crèdits
         hint: ""
     settings:
       name:
-        label: Name
+        label: Nom
         hint:
       logo:
-        label: Logo
+        label: Logotip
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Mostra l'article a la finestra del xat"
+        hint: "Aquesta opció mostrarà els articles a la secció inicial del missatger"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Mostra els missatges nous a una caixa flotant
+        hint: Aquesta opció no obrirà el widget del quadre de xat
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Clau de xifratge
+        placeholder: "Deixeu-lo en blanc si no hi ha xifratge"
+        hint: Aquesta clau s'utilitzarà per xifrar i desxifrar les dades d'usuari JWE
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: Es requereix consentiment de privadesa per a GDPR
+        hint: Es mostrarà una visualització de confirmació per als països de la UE abans d'establir converses
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: Es requereix consentiment de privadesa a tot el món
+        hint: Es mostrarà una visualització de confirmació per a tots els visitants abans d'establir converses
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: No es requereix consentiment de privadesa
+        hint: No mostraré cap visualització de confirmació a ningú (no es recomana)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: Activeu Messenger
+        hint: Quan estigui activat, s'activarà el giny web de Messenger
       domain:
-        label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        label: URL del domini
+        hint: Aquest serà el lloc d’amfitrió on s’utilitzarà chaskiq
       outgoing_email_domain:
-        label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        label: Domini de l'email de sortida
+        hint: El domini de correu electrònic per enviar converses, per a @yourapp, utilitzeu "la vostra aplicació"
       tagline:
-        label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        label: Eslògan
+        hint: Es mostrarà a la part inferior del quadre de xat
       timezone:
-        label: Timezone
+        label: Zona horària
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: Recopileu dades socials
+        hint: "Recopileu perfils socials mitjançant el servei de contacte complet (p. Ex., LinkedIn, Twitter, etc.) per als meus usuaris a través d’un tercer"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: Registre de visites
+        hint: "Fins i tot si està desactivat, recollirem el comptador global de visites i emmagatzemarem la informació de la darrera visita al perfil del visitant"
       languages:
-        select_lang: "select lang"
+        select_lang: "selecciona idioma"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: Nom de la campanya
+        hint: Això no es mostrarà al correu electrònic
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: Assumpte del Email
+        hint: Aquest és el teu assumpte del mail
       from_name:
-        label: From Name
+        label: Nom del remitent
       from_email:
-        label: From Email
+        label: Des del correu
       reply_email:
-        label: Reply Email
+        label: Correu electrònic de resposta
       scheduled_at:
-        label: Scheduled at
+        label: Programat a
       scheduled_to:
-        label: Scheduled to
+        label: Programat per
       state:
-        label: State
+        label: Estat
       description:
-        label: Description
+        label: Descripció
       actions:
-        label: Actions
+        label: Accions
     bot_tasks:
       state:
-        label: State
+        label: Estat
       name:
-        label: Name
+        label: Nom
       actions:
-        label: Actions
+        label: Accions
       title:
-        label: Title
-        placeholder: write task title
-        hint: "Task name ie: welcoming users bot task"
+        label: Títol
+        placeholder: escriu un títol de la tasca
+        hint: "Nom de la tasca, p. ex: bot de tasca de benvinguda d'usuaris"
     stats:
       email:
         label: Email
       host:
         label: Host
       createdAt:
-        label: CreatedAt
+        label: Creat el
       from:
-        label: From
+        label: De
       actions:
-        label: Actions
+        label: Accions
       when:
-        label: When
+        label: Quan
       data:
-        label: Data
+        label: Dades
     app_packages:
       name:
-        label: 'Integration Name'
+        label: 'Nom de la integració'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: 'Publica en la plataforma'
+        type: 'camps de selecció'
+        hint: 'Si està desactivat, utilitzarà l''aplicació als espais wors als quals tingueu accés'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: 'Capacitats d’integració'
+        hint: 'Trieu les funcions del paquet, p. ex. on funcionarà la integració'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: 'Descripció del paquet'
+        hint: 'digueu què fa el vostre connector'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        label: 'Inicialitzeu l''URL del webhook de flux'
+        hint: 'S''envia quan s''ha inserit una aplicació a una conversa, un missatge o a la pantalla d''inici perquè pugueu renderitzar l''aplicació.'
+        placeholder: 'p.ex. https://elteudomini.com/inici'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: 'Envia l''URL del webhook del flux'
+        hint: 'S''envia quan un usuari final interactua amb la teva aplicació mitjançant un botó, un enllaç o una entrada de text. Aquest flux es pot produir diverses vegades quan l''usuari final interactua amb la vostra aplicació.'
+        placeholder: 'p.ex. https://elteudomini.com/aceptar'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: 'Configuració de l''URL del webhook de flux (opcional)'
+        hint: 'S’envia quan un company vol utilitzar la teva aplicació perquè pugueu mostrar-los les opcions de configuració abans d’inserir-la. Si deixeu aquesta opció en blanc, s''ometrà la configuració.'
+        placeholder: 'p.ex. https://elteudomini.com/configuracio'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: 'Envia l''URL del webhook del flux de fulls (opcional)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: 'S''envia quan s''ha enviat un full. Un full és un iframe que heu carregat al Messenger que es tanca i s’envia quan es crida el mètode Submit Sheets JS.'
+        placeholder: 'p.ex. https://elteudomini.com/submit-sheet-url/'
   data_tables:
     users:
-      name: Name
-      email: Email
-      state: State
-      online: Online
+      name: Nom
+      email: Correu electrònic
+      state: Estat
+      online: Connectat
       ip: Ip
-      country: Country
-      city: City
-      lat: Lat
-      lng: Lng
-      postal: Postal
-      browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
-      referrer: Referrer
-      tag_list: Tag List
-      os: Os
-      os_version: Os Version
-      lang: Lang
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      country: País
+      city: Ciutat
+      lat: Latitut
+      lng: Longitut
+      postal: Codi postal
+      browser: Navegador
+      browser_version: Versió del navegador
+      browser_lang: Idioma del navegador
+      referrer: Procedència
+      tag_list: Llista d'etiquetes
+      os: So
+      os_version: Versió del SO
+      lang: Idioma
+      web_sessions: Sessió web
+      last_seen: Vist per primer cop
+      first_seen: Vist per última vegada
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: Subscrit
+        unsubscribed: No subscrit
+        passive: Passiu
