@@ -580,7 +580,6 @@ class AppPackageBlock extends Component {
   updatePackage = (data, message, cb) => {
 
     if (data.field.action.type === 'url') {
-      debugger
       return window.open(data.field.action.url, '_blank')
     }
 
