@@ -562,7 +562,9 @@ class AppPackageBlock extends Component {
   }
 
   handleStepControlClick = (item) => {
-    if (this.props.message.message.data && this.props.message.message.data.opener) { return window.open(this.props.message.message.data.opener) }
+    if (this.props.message.message.data && this.props.message.message.data.opener) { 
+      return window.open(this.props.message.message.data.opener) 
+    }
 
     this.setState({ submiting: true }, () => {
       this.props.clickHandler(item, this.props.message)
@@ -576,6 +578,7 @@ class AppPackageBlock extends Component {
   }
 
   updatePackage = (data, message, cb) => {
+
     if (data.field.action.type === 'url') {
       return window.open(data.field.action.url, '_blank')
     }

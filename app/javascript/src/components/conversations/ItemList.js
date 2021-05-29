@@ -44,7 +44,8 @@ export default function ConversationItemList ({ app, conversation }) {
 
     if (!findedTag) return defaultColor
 
-    const newColor = findedTag.color || '#444'
+    let newColor = findedTag.color || '#444'
+    newColor = `#${newColor.replace("#", "")}`
 
     return {
       bgColor: newColor,
