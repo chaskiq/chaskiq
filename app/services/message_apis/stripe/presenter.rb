@@ -1,4 +1,4 @@
-module MessageApis::Reveniu
+module MessageApis::Stripe
   class Presenter
     # Initialize flow webhook URL
     # Sent when an app has been inserted into a conversation, message or
@@ -54,19 +54,18 @@ module MessageApis::Reveniu
         @user = ctx['current_user']
         cid = ctx['message_key']
         q = "name=#{@user.name}&cid=#{cid}&auto=true"
-
         # url = ctx[:values][:url]
-        @url = CGI.escape("#{url}?#{q}")
+        #@url = CGI.escape("#{url}?#{q}")
 
         button = {
           id: 'is',
           type: 'button',
           variant: 'success',
           align: 'center',
-          label: 'Reveniu Payment Button',
+          label: 'Stripe Payment Button',
           action: {
             type: 'url',
-            url: @url
+            url: url
           }
         }
       else
@@ -84,7 +83,7 @@ module MessageApis::Reveniu
             type: 'text',
             style: 'header',
             align: 'center',
-            text: 'Reveniu Payment Button'
+            text: 'Stripe Payment Button'
           },
           button
         ].compact
@@ -120,7 +119,7 @@ module MessageApis::Reveniu
       button = {
         type: 'input',
         id: 'url',
-        placeholder: 'Enter your reveniu link https://reveniu.com/...',
+        placeholder: 'Enter your stripe link https://buy.stripe.com/....',
         label: 'payment url',
         value: ''
       }
@@ -152,7 +151,7 @@ module MessageApis::Reveniu
           type: 'text',
           style: 'header',
           align: 'center',
-          text: 'Reveniu Payment Button'
+          text: 'Stripe Payment Button'
         },
         {
           type: 'text',
@@ -192,47 +191,7 @@ module MessageApis::Reveniu
     # Submit Sheet flow webhook URL (optional)
     # Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.
     def self.sheet_view(params)
-      puts "##### #{params.to_json}"
-      @user = AppUser.find(params[:user][:id])
-      cid = params[:message_key]
-      q = "email=#{@user.email}&name=#{@user.name}&cid=#{cid}&auto=true"
-      url = params[:values][:url]
-      # @url = "https://app.reveniu.com/checkout-custom-link/#{k}?#{q}"
-      @url = CGI.escape("#{url}?#{q}")
-
-      template = ERB.new <<-SHEET_VIEW
-				<html lang="en">
-					<head>
-						<meta charset="UTF-8">
-						<meta name="viewport" content="width=device-width, initial-scale=1.0">
-						<meta http-equiv="X-UA-Compatible" content="ie=edge">
-						<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800;900&display=swap" rel="stylesheet">
-						<title>[Chaskiq Article]</title>
-
-						<style>
-							body {
-								font-family: 'Inter', sans-serif;#{' '}
-								margin: 0px; padding: 0px;
-							}
-						</style>
-
-					</head>
-
-					<body>
-						<div class="container">
-							<iframe#{' '}
-								sandbox="allow-top-navigation allow-forms allow-same-origin allow-scripts"
-								src="<%=@url%>"#{' '}
-								width="100%"#{' '}
-								height="100%"#{' '}
-								style="border:none">
-							</iframe>
-						</div>
-					</body>
-				</html>
-      SHEET_VIEW
-
-      template.result(binding)
+      
     end
   end
 end
