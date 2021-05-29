@@ -30,6 +30,7 @@ ca:
       es: Espanyol
       pt: Portuguès
       de: Alemany
+      ca: Catalan
     redirecting: Redireccionant
     select_language: Selecciona un Idioma
     send_on_enter: Publicar al entrar
