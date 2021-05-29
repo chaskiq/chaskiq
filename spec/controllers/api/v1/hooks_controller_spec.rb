@@ -1108,5 +1108,42 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       expect(ConversationPart.last.email_message_id).to be == 'message_id-1234'
       expect(ConversationPart.last.messageable.serialized_content).to be_present
     end
+
+    it "message with rules" do
+      
+      conds = [
+        {"type": "match", "value": "or", "attribute": "match", "comparison": "or"}, 
+        {"type": "string", "value": ["AppUser"], "attribute": "type", "comparison": "in"}, 
+        {"type": "string", "value": "Diego", "attribute": "name", "comparison": "eq"},
+        {"type": "string", "value": "hello heloooooo", "attribute": "message_content", "comparison": "contains"},
+      ]
+      app.assignment_rules.create(
+        title: "hello",
+        conditions: conds,
+        agent: app.agents.first
+      )
+
+      allow_any_instance_of(Api::V1::HooksController).to receive(
+        :read_mail_file
+      ).and_return(
+        File.open(Rails.root.to_s + '/spec/fixtures/emails/aws_sample.eml').read
+      )
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :recipients
+      ).and_return([app.inbound_email_address])
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :message_id
+      ).and_return('message_id-1234')
+
+      response = send_data(message_notification_params)
+
+      conversation = ConversationPart.last.conversation
+      
+      expect(ConversationPart.first.email_message_id).to be == 'message_id-1234'
+      expect(ConversationPart.first.messageable.serialized_content).to be_present
+      expect(conversation.assignee.id).to be(conversation.app.agents.first.id)
+    end
   end
 end

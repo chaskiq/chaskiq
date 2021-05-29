@@ -400,11 +400,11 @@ function AssignmentForm (props) {
   const [checked, setChecked] = React.useState('')
   const [updater, setUpdater] = React.useState(null)
   const [predicates, setPredicates] = React.useState(conditions || [])
-  // const fields = defaultFields
 
   function availableFields () {
-    if (!props.app.customFields) return defaultFields
-    return props.app.customFields.concat(defaultFields)
+    let fields = [{ name: 'message_content', type: 'string' }].concat(defaultFields)
+    if (!props.app.customFields) return fields
+    return props.app.customFields.concat(fields)
   }
 
   function selectedValue () {
@@ -505,7 +505,7 @@ function AssignmentForm (props) {
           {
             <InlineFilterDialog
               app={props.app}
-              fields={availableFields}
+              fields={availableFields()}
               addPredicate={(predicate) => {
                 addPredicate(predicate)
               }}
