@@ -200,7 +200,7 @@ export class SaveSegmentModal extends Component {
   }
 }
 
-export function InlineFilterDialog ({ addPredicate, app }) {
+export function InlineFilterDialog ({ addPredicate, app, fields }) {
   const [dialogOpen, setDialogOpen] = React.useState(false)
 
   const handleClick = (e, o) => {
@@ -211,11 +211,12 @@ export function InlineFilterDialog ({ addPredicate, app }) {
   }
 
   const availableFields = () => {
+    if (fields) return fields
     if (!app.customFields) return defaultFields
     return app.customFields.concat(defaultFields)
   }
 
-  const fields = availableFields()
+  const f = availableFields()
 
   const content = (
     <div className="p-2--">
@@ -228,7 +229,7 @@ export function InlineFilterDialog ({ addPredicate, app }) {
 
       <div className="overflow-scroll h-48">
         <ul className="divide-y divide-gray-200">
-          {fields.map((o, i) => (
+          {f.map((o, i) => (
             <li key={`select-fields-${i}`}>
               <a key={o.name}
                 onClick={(e) => handleClick(e, o)}
@@ -240,7 +241,6 @@ export function InlineFilterDialog ({ addPredicate, app }) {
                 </div>
               </a>
             </li>
-
           ))}
         </ul>
       </div>

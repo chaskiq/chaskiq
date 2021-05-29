@@ -1,9 +1,10 @@
 class SegmentComparator
-  attr_accessor :user, :predicates
+  attr_accessor :user, :predicates, :additional_fields
 
-  def initialize(user:, predicates:)
+  def initialize(user:, predicates:, additional_fields: {})
     self.user = user
     self.predicates = predicates
+    self.additional_fields = additional_fields
   end
 
   def compare
@@ -40,16 +41,18 @@ class SegmentComparator
   end
 
   def field_handler(cols, predicate)
-    if cols.map(&:name).include?(predicate['attribute'])
+    if self.additional_fields.key?(predicate['attribute'])
+      self.additional_fields["message_content"]
+    elsif cols.map(&:name).include?(predicate['attribute'])
       user.send(predicate['attribute'].to_sym)
     elsif predicate['attribute'] == 'tags'
       user.tag_list
-    else
+    elsif user.properties.key?( predicate['attribute'].to_s )
       user.properties[predicate['attribute'].to_s]
     end
   end
 
-  def compare_with(user_input, predicate_value, comparison)
+  def compare_with(user_input, predicate_value, comparison)    
     result = case comparison
              when 'contains_start' then user_input.start_with?(predicate_value)
              when 'contains_ends' then user_input.end_with?(predicate_value)
