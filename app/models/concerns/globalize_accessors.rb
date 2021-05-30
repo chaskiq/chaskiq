@@ -54,7 +54,7 @@ module GlobalizeAccessors
           translation_for(locale)[attr_name] = value
           delete_translation_if_all_blank(locale)
         else
-          write_attribute(attr_name, value, locale: locale) unless value.blank?
+          write_attribute(attr_name, value, locale: locale) if value.present?
           translation_for(locale)[attr_name] = value
         end
       end

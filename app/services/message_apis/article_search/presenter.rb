@@ -6,30 +6,30 @@ module MessageApis::ArticleSearch
     def self.search_definitions
       [
         {
-          type: 'text',
-          text: 'Help Center',
-          style: 'header'
+          type: "text",
+          text: "Help Center",
+          style: "header"
         },
         {
-          name: 'a',
-          label: 'a separator',
+          name: "a",
+          label: "a separator",
           action: {},
-          type: 'separator'
+          type: "separator"
         },
         {
-          type: 'input',
-          id: 'unsaved-2',
-          name: 'search_articles',
-          label: 'Find Answers Quickly',
-          placeholder: 'Search for an article...',
-          save_state: 'unsaved',
+          type: "input",
+          id: "unsaved-2",
+          name: "search_articles",
+          label: "Find Answers Quickly",
+          placeholder: "Search for an article...",
+          save_state: "unsaved",
           action: {
-            type: 'submit'
+            type: "submit"
           }
         },
         {
-          type: 'spacer',
-          size: 'm'
+          type: "spacer",
+          size: "m"
         }
       ]
     end
@@ -42,7 +42,7 @@ module MessageApis::ArticleSearch
       {
         # kind: kind,
         # ctx: ctx,
-        definitions_url: '',
+        definitions_url: "",
         definitions: definitions
       }
     end
@@ -64,7 +64,7 @@ module MessageApis::ArticleSearch
                       .per(10)
       end
 
-      unless term.present?
+      if term.blank?
         articles = app.articles.published
                       .includes([:author, :collection, :section, { article_content: :translations }])
                       .page(1)
@@ -73,28 +73,28 @@ module MessageApis::ArticleSearch
 
       results = [
         {
-          type: 'spacer',
-          size: 'm'
+          type: "spacer",
+          size: "m"
         },
         {
-          type: 'list',
+          type: "list",
           disabled: false,
           items: articles.map do |o|
                    {
-                     type: 'item',
+                     type: "item",
                      id: o.slug.to_s,
-                     title: o.title || '---',
+                     title: o.title || "---",
                      subtitle: o.description,
                      action: {
-                       type: 'frame',
-                       url: '/package_iframe_internal/ArticleSearch'
+                       type: "frame",
+                       url: "/package_iframe_internal/ArticleSearch"
                      }
                    }
                  end
         },
         {
-          type: 'spacer',
-          size: 'm'
+          type: "spacer",
+          size: "m"
         }
       ]
 
@@ -114,36 +114,36 @@ module MessageApis::ArticleSearch
     def self.configure_hook(kind:, ctx:)
       definitions = [
         {
-          type: 'text',
-          text: 'The Article Search',
-          style: 'header',
-          align: 'center'
+          type: "text",
+          text: "The Article Search",
+          style: "header",
+          align: "center"
         },
         {
-          type: 'text',
-          text: 'The Article Search app gives a new home for your Help Center right inside the Messenger.',
-          style: 'muted',
-          align: 'center'
+          type: "text",
+          text: "The Article Search app gives a new home for your Help Center right inside the Messenger.",
+          style: "muted",
+          align: "center"
         },
         {
-          id: 'activate-action',
-          label: 'Activate plugin',
-          type: 'button',
-          align: 'center',
+          id: "activate-action",
+          label: "Activate plugin",
+          type: "button",
+          align: "center",
           action: {
-            type: 'submit'
+            type: "submit"
           }
         }
       ]
 
-      if ctx.dig(:field, :action, :type) === 'submit' && (ctx.dig(:field, :id) == 'activate-action')
+      if ctx.dig(:field, :action, :type) === "submit" && (ctx.dig(:field, :id) == "activate-action")
         results = {
-          foo: 'bar',
-          baz: 'baaz'
+          foo: "bar",
+          baz: "baaz"
         }
 
         return {
-          kind: 'initialize',
+          kind: "initialize",
           # ctx: ctx,
           definitions: definitions,
           results: results

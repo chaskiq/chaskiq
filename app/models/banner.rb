@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'link_renamer'
+require "link_renamer"
 
 class Banner < Message
   validates :scheduled_at, presence: true
@@ -36,7 +36,7 @@ class Banner < Message
 
   def sender_data
     a = sender_id ? app.agents.find(sender_id) : nil
-    return nil unless a.present?
+    return nil if a.blank?
 
     {
       id: a.id,
@@ -48,21 +48,21 @@ class Banner < Message
 
   def config_fields
     [
-      { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-3/4' } },
+      { name: "name", type: "string", grid: { xs: "w-full", sm: "w-3/4" } },
       # { name: 'subject', type: 'string', grid: { xs: 'w-full', sm: 'w-3/4' } },
       # { name: 'url', type: 'string', grid: { xs: 'w-full', sm: 'w-1/4' } },
-      { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'scheduledAt', label: 'Scheduled at', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', label: 'Scheduled to', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'hiddenConstraints', label: 'Hidden constraints', type: 'select',
+      { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "scheduledAt", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduledTo", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "hiddenConstraints", label: "Hidden constraints", type: "select",
         options: [
-          { label: 'open', value: 'open' },
-          { label: 'close', value: 'close' },
-          { label: 'click', value: 'click' }
+          { label: "open", value: "open" },
+          { label: "close", value: "close" },
+          { label: "click", value: "click" }
         ],
         multiple: true,
-        default: 'open',
-        grid: { xs: 'w-full', sm: 'w-full' } }
+        default: "open",
+        grid: { xs: "w-full", sm: "w-full" } }
 
     ]
   end
@@ -70,19 +70,19 @@ class Banner < Message
   def stats_fields
     [
       add_stat_field(
-        name: 'CloseRateCount', label: 'Open/Close rate',
-        keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'close', color: '#0747A6' }]
+        name: "CloseRateCount", label: "Open/Close rate",
+        keys: [{ name: "open", color: "#F4F5F7" },
+               { name: "close", color: "#0747A6" }]
       ),
       add_stat_field(
-        name: 'ClickRateCount', label: 'Open/Click rate',
-        keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'click', color: '#0747A6' }]
+        name: "ClickRateCount", label: "Open/Click rate",
+        keys: [{ name: "open", color: "#F4F5F7" },
+               { name: "click", color: "#0747A6" }]
       ),
       add_stat_field(
-        name: 'ClickCloseRateCount', label: 'Click/Close rate',
-        keys: [{ name: 'close', color: '#F4F5F7' },
-               { name: 'click', color: '#0747A6' }]
+        name: "ClickCloseRateCount", label: "Click/Close rate",
+        keys: [{ name: "close", color: "#F4F5F7" },
+               { name: "click", color: "#0747A6" }]
       )
     ]
   end
@@ -98,7 +98,7 @@ class Banner < Message
 
     if banners.any?
       MessengerEventsChannel.broadcast_to(key, {
-        type: 'banners:receive',
+        type: "banners:receive",
         data: banner.as_json(only: [:id], methods: %i[banner_data serialized_content html_content])
       }.as_json)
 

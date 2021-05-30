@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../config/environment', __dir__)
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
-abort('The Rails environment is running in production mode!') if Rails.env.production?
-require 'rspec/rails'
+abort("The Rails environment is running in production mode!") if Rails.env.production?
+require "rspec/rails"
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -34,7 +34,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-require 'database_cleaner'
+require "database_cleaner"
 
 # require 'webmock/rspec'
 
@@ -53,16 +53,16 @@ RSpec.configure do |config|
   Geocoder::Lookup::Test.set_default_stub(
     [
       {
-        'coordinates' => [40.7143528, -74.0059731],
-        'latitude' => 40.7143528,
-        'longitude' => -74.0059731,
-        'address' => 'New York, NY, USA',
-        'state' => 'New York',
-        'city' => 'newy york',
-        'region' => 'new_yorke',
-        'state_code' => 'NY',
-        'country' => 'United States',
-        'country_code' => 'US'
+        "coordinates" => [40.7143528, -74.0059731],
+        "latitude" => 40.7143528,
+        "longitude" => -74.0059731,
+        "address" => "New York, NY, USA",
+        "state" => "New York",
+        "city" => "newy york",
+        "region" => "new_yorke",
+        "state_code" => "NY",
+        "country" => "United States",
+        "country_code" => "US"
       }
     ]
   )

@@ -3,7 +3,7 @@
 class AppPackage < ApplicationRecord
   has_many :app_package_integrations, dependent: :destroy
   has_many :apps, through: :app_package_integrations
-  belongs_to :author, class_name: 'Agent', optional: true
+  belongs_to :author, class_name: "Agent", optional: true
 
   # belongs_to :author, classify_name: 'Agent', optional: true
 
@@ -32,30 +32,29 @@ class AppPackage < ApplicationRecord
 
   def is_external?
     return true if author.present?
+
     # will return true for non existing message_apply
     external = begin
       message_api_klass
     rescue StandardError => e
-      puts e.message
+      Rails.logger.debug e.message
       nil
     end
     external.nil?
   end
 
   # for authorizations
-  def process_global_hook(params)
-    message_api_klass.process_global_hook(params)
-  end
+  delegate :process_global_hook, to: :message_api_klass
 
   def set_default_definitions
     return if definitions.present?
 
     external_token_definition = [
       {
-        name: 'access_token',
+        name: "access_token",
 
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        type: "string",
+        grid: { xs: "w-full", sm: "w-full" }
       }
     ]
 

@@ -20,7 +20,7 @@ module ApplicationCable
       user = Agent.find_by(id: access_token.resource_owner_id) if access_token
       return user if user
 
-      raise 'invalid user'
+      raise "invalid user"
     end
 
     def access_token
@@ -48,7 +48,7 @@ module ApplicationCable
 
       OriginValidator.new(
         app: app.domain_url,
-        host: env['HTTP_ORIGIN']
+        host: env["HTTP_ORIGIN"]
       ).is_valid?
 
       find_user(get_user_data)
@@ -64,7 +64,7 @@ module ApplicationCable
           :context,
           {
             app: app&.key,
-            env: env['HTTP_ORIGIN'],
+            env: env["HTTP_ORIGIN"],
             params: request.query_parameters,
             current_user: current_user&.key
           }

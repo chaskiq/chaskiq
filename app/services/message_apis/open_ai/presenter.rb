@@ -17,33 +17,33 @@ module MessageApis::OpenAi
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
-      if ctx['field']['id'] == 'prompt-ok'
-        message = ConversationPart.find_by(key: ctx['message_key'])
+      if ctx["field"]["id"] == "prompt-ok"
+        message = ConversationPart.find_by(key: ctx["message_key"])
 
         conversation = message.conversation
         conversation.conversation_channels.create({
-                                                    provider: 'open_ai',
+                                                    provider: "open_ai",
                                                     provider_channel_id: conversation.id
                                                   })
 
         return {
           results: {
-            start: 'yes'
+            start: "yes"
           },
           definitions: [
-            { type: 'text', text: 'You have started the conversation', style: 'header' }
+            { type: "text", text: "You have started the conversation", style: "header" }
           ]
         }
 
       end
 
-      if ctx['field']['id'] == 'prompt-no'
+      if ctx["field"]["id"] == "prompt-no"
         {
           results: {
-            start: 'no'
+            start: "no"
           },
           definitions: [
-            { type: 'text', text: 'you cancelled the conversation', style: 'header' }
+            { type: "text", text: "you cancelled the conversation", style: "header" }
           ]
         }
       end
@@ -54,7 +54,7 @@ module MessageApis::OpenAi
     # them configuration options before it’s inserted. Leaving this option
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
-      label = 'epa'
+      label = "epa"
       app = ctx[:package].app
 
       default_prompt = <<~HEREDOC
@@ -64,29 +64,29 @@ module MessageApis::OpenAi
       HEREDOC
 
       value = ctx.dig(:values, :prompt)
-      value = default_prompt if ctx.dig(:field, :action, :type) != 'submit'
+      value = default_prompt if ctx.dig(:field, :action, :type) != "submit"
 
       record = PromptRecord.new(prompt: value)
       schema = record.default_schema
 
-      if ctx.dig(:field, :action, :type) != 'submit'
+      if ctx.dig(:field, :action, :type) != "submit"
         schema = record.default_schema
       elsif record.prompt.present?
         if record.valid?
-          kind = 'initialize'
+          kind = "initialize"
           schema = record.success_schema
         else
           schema = record.error_schema
         end
       end
 
-      if ctx.dig(:field, :id) == 'add-prompt' &&
-         ctx.dig(:field, :action, :type) === 'submit'
+      if ctx.dig(:field, :id) == "add-prompt" &&
+         ctx.dig(:field, :action, :type) === "submit"
 
         # TODO: validate
 
         return {
-          kind: 'initialize',
+          kind: "initialize",
           definitions: schema,
           results: ctx[:values]
         }

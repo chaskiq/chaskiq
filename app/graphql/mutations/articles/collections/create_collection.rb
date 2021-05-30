@@ -8,7 +8,7 @@ module Mutations
         field :errors, Types::JsonType, null: false
         argument :app_key, String, required: true
         argument :title, String, required: true
-        argument :description, String, required: false, default_value: ''
+        argument :description, String, required: false, default_value: ""
         argument :lang, String, required: false, default_value: I18n.default_locale
 
         def resolve(app_key:, title:, description:, lang:)

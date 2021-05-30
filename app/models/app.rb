@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dummy_name'
+require "dummy_name"
 
 class App < ApplicationRecord
   include GlobalizeAccessors
@@ -54,7 +54,7 @@ class App < ApplicationRecord
   has_many :quick_replies, dependent: :destroy_async
   has_many :app_package_integrations, dependent: :destroy_async
   has_many :app_packages, through: :app_package_integrations
-  has_one :article_settings, class_name: 'ArticleSetting', dependent: :destroy_async
+  has_one :article_settings, class_name: "ArticleSetting", dependent: :destroy_async
   has_many :articles, dependent: :destroy_async
   has_many :article_collections, dependent: :destroy_async
   has_many :sections, through: :article_collections
@@ -71,8 +71,8 @@ class App < ApplicationRecord
   has_many :bot_tasks, dependent: :destroy_async
   has_many :assignment_rules, dependent: :destroy_async
   has_many :outgoing_webhooks, dependent: :destroy_async
-  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy_async
-  belongs_to :owner, class_name: 'Agent', optional: true # , foreign_key: "owner_id"
+  has_many :oauth_applications, class_name: "Doorkeeper::Application", as: :owner, dependent: :destroy_async
+  belongs_to :owner, class_name: "Agent", optional: true # , foreign_key: "owner_id"
 
   has_one_attached :logo
 
@@ -85,12 +85,12 @@ class App < ApplicationRecord
   validates :domain_url, presence: true
 
   def agent_bots
-    agents.where('bot =?', true)
+    agents.where("bot =?", true)
   end
 
   def attach_default_packages
     default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections ContactFields]
-    AppPackage.where(name: default_packages).each do |app_package|
+    AppPackage.where(name: default_packages).find_each do |app_package|
       app_packages << app_package unless app_package_integrations.exists?(
         app_package_id: app_package.id
       )
@@ -102,69 +102,65 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    if preferences[:outgoing_email_domain].present?
-      preferences[:outgoing_email_domain]
-    else
-      ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
-    end
+    preferences[:outgoing_email_domain].presence || ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"]
   end
 
   def config_fields
     [
       {
-        name: 'name',
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        name: "name",
+        type: "string",
+        grid: { xs: "w-full", sm: "w-full" }
       },
 
       {
-        name: 'domainUrl',
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        name: "domainUrl",
+        type: "string",
+        grid: { xs: "w-full", sm: "w-1/2" }
       },
 
       {
-        name: 'outgoingEmailDomain',
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        name: "outgoingEmailDomain",
+        type: "string",
+        grid: { xs: "w-full", sm: "w-1/2" }
       },
 
       {
-        name: 'state',
-        type: 'select',
-        grid: { xs: 'w-full', sm: 'w-1/2' },
+        name: "state",
+        type: "select",
+        grid: { xs: "w-full", sm: "w-1/2" },
         options: %w[enabled disabled]
       },
 
-      { name: 'activeMessenger',
-        type: 'bool',
-        grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: "activeMessenger",
+        type: "bool",
+        grid: { xs: "w-full", sm: "w-1/2" } },
 
       {
-        name: 'theme',
-        type: 'select',
+        name: "theme",
+        type: "select",
         options: %w[dark light],
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: "w-full", sm: "w-1/2" }
       },
 
       {
-        name: 'encryptionKey',
-        type: 'string',
+        name: "encryptionKey",
+        type: "string",
         maxLength: 16, minLength: 16,
-        placeholder: 'leave it blank for no encryption',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        placeholder: "leave it blank for no encryption",
+        grid: { xs: "w-full", sm: "w-full" }
       },
 
-      { name: 'tagline',
-        type: 'text',
-        hint: 'messenger text on botton',
-        grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: "tagline",
+        type: "text",
+        hint: "messenger text on botton",
+        grid: { xs: "w-full", sm: "w-full" } },
 
-      { name: 'timezone',
-        type: 'timezone',
+      { name: "timezone",
+        type: "timezone",
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
-        grid: { xs: 'w-full', sm: 'w-full' } }
+        grid: { xs: "w-full", sm: "w-full" } }
 
     ]
   end
@@ -181,7 +177,7 @@ class App < ApplicationRecord
       assignee: options[:assignee]
     )
 
-    unless message.blank?
+    if message.present?
       conversation.add_message(
         from: user,
         message: message,
@@ -195,9 +191,9 @@ class App < ApplicationRecord
   end
 
   def query_segment(kind)
-    predicates = inbound_settings[kind]['predicates']
+    predicates = inbound_settings[kind]["predicates"]
     segment = segments.new
-    segment.assign_attributes(predicates: inbound_settings[kind]['predicates'])
+    segment.assign_attributes(predicates: inbound_settings[kind]["predicates"])
     app_users = segment.execute_query.availables
   end
 
@@ -237,7 +233,7 @@ class App < ApplicationRecord
   def find_app_package(name)
     app_package_integrations
       .joins(:app_package)
-      .where('app_packages.name =?', name)
+      .where("app_packages.name =?", name)
       .first
   end
 
@@ -252,7 +248,7 @@ class App < ApplicationRecord
   end
 
   def logo_url
-    return '' unless logo_blob.present?
+    return "" if logo_blob.blank?
 
     url = begin
       logo.variant(resize_to_limit: [100, 100]).processed
@@ -280,7 +276,7 @@ class App < ApplicationRecord
   end
 
   def searcheable_fields_list
-    searcheable_fields.map { |o| o['name'] }
+    searcheable_fields.map { |o| o["name"] }
   end
 
   def default_home_apps
@@ -288,7 +284,7 @@ class App < ApplicationRecord
       app_package_integrations
         .joins(:app_package)
         .where(
-          "app_packages.name": 'InboxSections'
+          "app_packages.name": "InboxSections"
         ).first.id
     rescue StandardError
       nil
@@ -296,16 +292,16 @@ class App < ApplicationRecord
 
     if pkg_id.present?
       [
-        { 'hooKind' => 'initialize',
-          'definitions' => [{ 'type' => 'content' }],
-          'values' => { 'block_type' => 'user-blocks' },
-          'id' => pkg_id,
-          'name' => 'InboxSections' },
-        { 'hooKind' => 'initialize',
-          'definitions' => [{ 'type' => 'content' }],
-          'values' => { 'block_type' => 'user-properties-block' },
-          'id' => pkg_id,
-          'name' => 'InboxSections' }
+        { "hooKind" => "initialize",
+          "definitions" => [{ "type" => "content" }],
+          "values" => { "block_type" => "user-blocks" },
+          "id" => pkg_id,
+          "name" => "InboxSections" },
+        { "hooKind" => "initialize",
+          "definitions" => [{ "type" => "content" }],
+          "values" => { "block_type" => "user-properties-block" },
+          "id" => pkg_id,
+          "name" => "InboxSections" }
       ]
     else
       []
@@ -313,12 +309,12 @@ class App < ApplicationRecord
   end
 
   def plan
-    if paddle_subscription_status == 'active' || paddle_subscription_status == 'trialing'
+    if paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
       @plan ||= Plan.new(
-        Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get('free')
+        Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get("free")
       )
     else
-      @plan = Plan.get('free')
+      @plan = Plan.get("free")
     end
   end
 
@@ -335,11 +331,11 @@ class App < ApplicationRecord
       enabled: true,
       users: {
         enabled: true,
-        segment: 'all'
+        segment: "all"
       },
       visitors: {
         enabled: true,
-        segment: 'all'
+        segment: "all"
       }
     }
     self.team_schedule = []
@@ -350,7 +346,7 @@ class App < ApplicationRecord
     h = {}
     arr = team_schedule || []
     arr.map do |f|
-      h[f['day'].to_sym] = (h[f['day'].to_sym] || {}).merge!(f['from'] => f['to'])
+      h[f["day"].to_sym] = (h[f["day"].to_sym] || {}).merge!(f["from"] => f["to"])
     end
     h
   end

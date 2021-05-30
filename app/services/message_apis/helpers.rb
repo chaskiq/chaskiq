@@ -3,7 +3,7 @@ module MessageApis
     extend ActiveSupport::Concern
 
     def keygen
-      ('a'..'z').to_a.sample(8).join
+      ("a".."z").to_a.sample(8).join
     end
 
     def text_block(text)
@@ -18,12 +18,12 @@ module MessageApis
       {
         key: keygen,
         text: text.to_s,
-        type: 'recorded-video',
+        type: "recorded-video",
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
         data: {
-          rejectedReason: '',
+          rejectedReason: "",
           secondsLeft: 0,
           fileReady: true,
           paused: false,
@@ -31,7 +31,7 @@ module MessageApis
           recording: false,
           granted: true,
           loading: false,
-          direction: 'center'
+          direction: "center"
         }
       }
     end
@@ -48,7 +48,7 @@ module MessageApis
       {
         key: keygen,
         text: text.to_s,
-        type: 'image',
+        type: "image",
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
@@ -62,7 +62,7 @@ module MessageApis
           selected: false,
           loading: true,
           file: {},
-          direction: 'center'
+          direction: "center"
         }.merge(data_options)
       }
     end
@@ -71,7 +71,7 @@ module MessageApis
       {
         key: keygen,
         text: text.to_s,
-        type: 'file',
+        type: "file",
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],
@@ -83,7 +83,7 @@ module MessageApis
           selected: false,
           loading: true,
           file: {},
-          direction: 'center'
+          direction: "center"
         }
       }
     end
@@ -92,7 +92,7 @@ module MessageApis
       {
         key: keygen,
         text: text.to_s,
-        type: 'unstyled',
+        type: "unstyled",
         depth: 0,
         inlineStyleRanges: [],
         entityRanges: [],

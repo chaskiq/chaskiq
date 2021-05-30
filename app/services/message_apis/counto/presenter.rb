@@ -35,34 +35,34 @@ module MessageApis::Counto
 
       definitions = [
         {
-          type: 'text',
+          type: "text",
           text: "send conversation key: #{conversation_part.key}",
-          style: 'header'
-        },
-        { 
-          "type": "input", 
-          "id": "company_name", 
-          "label": "Company name",
-          "value": conversation_part.authorable.company_name,
-          "placeholder": "Enter company name here...", 
-          "save_state": "unsaved",
-          'hint': 'will override company name on contact'
-        },
-        { 
-          "type": "textarea", 
-          "id": "command", 
-          "label": "Command", 
-          "placeholder": "Enter input here...", 
-          "save_state": "unsaved" 
+          style: "header"
         },
         {
-          type: "button", 
-          id: "command-send", 
-          variant: 'outlined', 
-          size: 'small', 
-          label: "send command", 
-          action: { 
-           type: "submit"
+          type: "input",
+          id: "company_name",
+          label: "Company name",
+          value: conversation_part.authorable.company_name,
+          placeholder: "Enter company name here...",
+          save_state: "unsaved",
+          hint: "will override company name on contact"
+        },
+        {
+          type: "textarea",
+          id: "command",
+          label: "Command",
+          placeholder: "Enter input here...",
+          save_state: "unsaved"
+        },
+        {
+          type: "button",
+          id: "command-send",
+          variant: "outlined",
+          size: "small",
+          label: "send command",
+          action: {
+            type: "submit"
           }
         }
       ]
@@ -70,30 +70,30 @@ module MessageApis::Counto
       if ctx[:field] && ctx[:field]["id"] === "command-send"
         definitions = [
           {
-            type: 'text',
+            type: "text",
             text: "send conversation key: #{conversation_part.key}",
-            style: 'header'
+            style: "header"
           },
           {
-            type: 'text',
+            type: "text",
             text: "will send command: #{ctx.dig(:values, :command)}",
-            style: 'paragraph'
+            style: "paragraph"
           },
           {
-            type: 'text',
+            type: "text",
             text: "will update company to: #{ctx.dig(:values, :command)}",
-            style: 'paragraph'
+            style: "paragraph"
           },
 
           {
-            type: "button", 
+            type: "button",
             id: Base64.encode64(ctx[:values].to_json),
-            name: 'command-confirm', 
-            variant: 'success', 
-            size: 'small', 
-            label: "confirm", 
-            action: { 
-            type: "submit"
+            name: "command-confirm",
+            variant: "success",
+            size: "small",
+            label: "confirm",
+            action: {
+              type: "submit"
             }
           }
         ]
@@ -106,34 +106,38 @@ module MessageApis::Counto
           command: Base64.decode64(ctx[:field]["id"])
         )
 
-        response_message = response[:status] == 200 ? 'request succeed!' : 'response failed!'
+        response_message = response[:status] == 200 ? "request succeed!" : "response failed!"
 
-        body = JSON.parse(response[:body]) rescue 'HTML content not available for preview' 
+        body = begin
+          JSON.parse(response[:body])
+        rescue StandardError
+          "HTML content not available for preview"
+        end
 
         definitions = [
           {
-            type: 'text',
+            type: "text",
             text: response_message,
-            style: 'header'
+            style: "header"
           },
           {
-            type: 'text',
+            type: "text",
             text: "command sent!",
-            style: 'paragraph'
+            style: "paragraph"
           },
           {
-            type: 'text',
+            type: "text",
             text: "service response status: #{response[:status]}",
-            style: 'paragraph'
+            style: "paragraph"
           },
           {
-            type: 'text',
+            type: "text",
             text: "service response status: #{body}",
-            style: 'paragraph'
+            style: "paragraph"
           }
         ]
         definitions
-      end 
+      end
 
       {
         kind: kind,
@@ -146,6 +150,5 @@ module MessageApis::Counto
     def self.sheet_hook(params)
       []
     end
-
   end
 end

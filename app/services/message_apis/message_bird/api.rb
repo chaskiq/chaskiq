@@ -2,20 +2,20 @@
 
 module MessageApis::MessageBird
   class Api < MessageApis::BasePackage
-    PROVIDER = 'message_bird'
+    PROVIDER = "message_bird"
     include MessageApis::Helpers
 
     attr_accessor :url, :api_key, :conn
 
     def initialize(config:)
-      @api_key = config['api_key']
-      @api_token = config['api_secret']
-      @phone = config['user_id']
+      @api_key = config["api_key"]
+      @api_token = config["api_secret"]
+      @phone = config["user_id"]
 
-      @url = if config['sandbox']
-               'https://whatsapp-sandbox.messagebird.com/v1/'
+      @url = if config["sandbox"]
+               "https://whatsapp-sandbox.messagebird.com/v1/"
              else
-               'https://conversations.messagebird.com/v1/'
+               "https://conversations.messagebird.com/v1/"
              end
 
       @conn = Faraday.new(
@@ -28,8 +28,8 @@ module MessageApis::MessageBird
 
       @conn.headers = {
         authorization: "AccessKey #{key}",
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json'
+        "Content-Type" => "application/json",
+        "Accept" => "application/json"
       }
 
       self
@@ -38,7 +38,7 @@ module MessageApis::MessageBird
     def register_webhook(app_package, integration)
       data = {
         url: integration.hook_url,
-        events: ['message.created', 'message.updated'],
+        events: ["message.created", "message.updated"],
         channelId: integration.id
       }
 
@@ -58,19 +58,19 @@ module MessageApis::MessageBird
 
     def process_event(params, package)
       @package = package
-      current = params['current']
+      current = params["current"]
 
-      process_statuses(params['statuses']) if params['statuses'].present?
+      process_statuses(params["statuses"]) if params["statuses"].present?
 
-      process_message(params, @package) if params['message'].present?
+      process_message(params, @package) if params["message"].present?
     end
 
     def process_statuses(statuses)
       statuses.each do |status|
-        case status['status']
-        when 'read' then process_read(status)
+        case status["status"]
+        when "read" then process_read(status)
         else
-          puts "no processing for #{status['status']} event"
+          Rails.logger.info "no processing for #{status['status']} event"
         end
       end
     end
@@ -78,7 +78,7 @@ module MessageApis::MessageBird
     def process_read(params)
       conversation_part_channel = ConversationPartChannelSource.find_by(
         provider: PROVIDER,
-        message_source_id: params['id']
+        message_source_id: params["id"]
       )
       return if conversation_part_channel.blank?
 
@@ -86,21 +86,21 @@ module MessageApis::MessageBird
     end
 
     def get_message_id(response_data)
-      response_data['messages'].first['id']
+      response_data["messages"].first["id"]
     end
 
     def send_message(conversation, message)
       blocks = JSON.parse(
-        message['serialized_content']
-      )['blocks']
+        message["serialized_content"]
+      )["blocks"]
 
       # TODO: support more blocks
-      image_block = blocks.find { |o| o['type'] == 'image' }
-      video_block = blocks.find { |o| o['type'] == 'recorded-video' }
-      file_block = blocks.find { |o| o['type'] == 'file' }
+      image_block = blocks.find { |o| o["type"] == "image" }
+      video_block = blocks.find { |o| o["type"] == "recorded-video" }
+      file_block = blocks.find { |o| o["type"] == "file" }
       is_plain = !image_block || !video_block || !file_block
       plain_message = blocks.map do |o|
-        o['text']
+        o["text"]
       end.join("\r\n")
 
       profile_id = conversation.main_participant
@@ -113,21 +113,21 @@ module MessageApis::MessageBird
 
       message_params = {
         from: @phone,
-        to: profile_id.gsub('+', '')
+        to: profile_id.gsub("+", "")
       }
 
       if is_plain
         message_params.merge!({
-                                type: 'text',
+                                type: "text",
                                 content: { text: plain_message }
                               })
       end
 
       if image_block
         message_params.merge!({
-                                type: 'image',
+                                type: "image",
                                 image: {
-                                  link: ENV['HOST'] + image_block['data']['url'],
+                                  link: ENV["HOST"] + image_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -135,9 +135,9 @@ module MessageApis::MessageBird
 
       if video_block
         message_params.merge!({
-                                type: 'video',
+                                type: "video",
                                 video: {
-                                  url: ENV['HOST'] + video_block['data']['url'],
+                                  url: ENV["HOST"] + video_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -145,30 +145,30 @@ module MessageApis::MessageBird
 
       if file_block
         message_params.merge!({
-                                type: 'document',
+                                type: "document",
                                 file: {
-                                  url: ENV['HOST'] + file_block['data']['url'],
+                                  url: ENV["HOST"] + file_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
       end
 
-      puts "MESSAGE PARAMS:#{message_params}"
-      puts @url
-      puts @api_key
-      puts '============='
+      Rails.logger.info "MESSAGE PARAMS:#{message_params}"
+      Rails.logger.info @url
+      Rails.logger.info @api_key
+      Rails.logger.info "============="
       s = @conn.post(
         "#{@url}/send",
         message_params.to_json
       )
-      puts "RESPNSE #{s.body}"
+      Rails.logger.info "RESPNSE #{s.body}"
       s
     end
 
     # not used fro now
     def mark_as_read(id)
       message_params = {
-        status: 'read'
+        status: "read"
       }
       @conn.post(
         "#{@url}/messages/#{id}",
@@ -190,8 +190,8 @@ module MessageApis::MessageBird
       file = StringIO.new(file_string)
       direct_upload(
         file: file,
-        filename: 'mb-file',
-        content_type: content_type || 'image/jpeg'
+        filename: "mb-file",
+        content_type: content_type || "image/jpeg"
       )
     end
 
@@ -200,16 +200,16 @@ module MessageApis::MessageBird
 
       app = package.app
 
-      message = params['message']
+      message = params["message"]
 
-      sender_id = message['from']
-      to = message['to']
-      message_id = message['id']
+      sender_id = message["from"]
+      to = message["to"]
+      message_id = message["id"]
 
       # determine the id of the user (channel)
       is_agent = sender_id == package.user_id.to_s
 
-      channel_id = is_agent ? message['to'] : message['from']
+      channel_id = is_agent ? message["to"] : message["from"]
       dialog_user = sender_id
 
       conversation = find_conversation_by_channel(channel_id)
@@ -217,11 +217,11 @@ module MessageApis::MessageBird
       return if conversation && conversation.conversation_part_channel_sources
                                             .find_by(message_source_id: message_id).present?
 
-      text = message.dig('content', 'text')
+      text = message.dig("content", "text")
 
       serialized_content = serialize_content(message)
 
-      participant = add_participant(channel_id, message, params['contact'])
+      participant = add_participant(channel_id, message, params["contact"])
 
       if conversation.blank?
         conversation = app.conversations.create(
@@ -259,7 +259,7 @@ module MessageApis::MessageBird
     end
 
     def serialize_content(data)
-      if (text = data.dig('content', 'text')) && text
+      if (text = data.dig("content", "text")) && text
         text_block(text) if text.present?
       else
         attachment_block(data)
@@ -274,20 +274,20 @@ module MessageApis::MessageBird
     end
 
     def media_block(data)
-      media_type = data['content'].keys.first
-      content = data['content'][data['content'].keys.first]
-      url = content['url']
-      text = content['caption']
+      media_type = data["content"].keys.first
+      content = data["content"][data["content"].keys.first]
+      url = content["url"]
+      text = content["caption"]
       case media_type
-      when 'unsupported' then nil
-      when 'image'
-        file = handle_direct_upload(url['id'], url['mime_type'])
+      when "unsupported" then nil
+      when "image"
+        file = handle_direct_upload(url["id"], url["mime_type"])
         photo_block(url: file[:url], text: text)
-      when 'video'
-        file = handle_direct_upload(url['id'], url['mime_type'])
+      when "video"
+        file = handle_direct_upload(url["id"], url["mime_type"])
         gif_block(url: file[:url], text: text)
-      when 'audio', 'voice', 'document'
-        file = handle_direct_upload(url['id'], url['mime_type'])
+      when "audio", "voice", "document"
+        file = handle_direct_upload(url["id"], url["mime_type"])
         file_block(url: file[:url], text: text)
       end
     end
@@ -301,9 +301,9 @@ module MessageApis::MessageBird
           name: channel_id
         }
 
-        if contact['displayName']
+        if contact["displayName"]
           profile_data.merge!({
-                                name: contact['displayName']
+                                name: contact["displayName"]
                               })
         end
 

@@ -1,4 +1,20 @@
 inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+
+Style/StringLiterals:
+  Description: Checks if uses of quotes match the configured preference.
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#consistent-string-literals
+  Enabled: true
+  EnforcedStyle: double_quotes
+  SupportedStyles:
+  - single_quotes
+  - double_quotes
+
+Rails/EnvironmentVariableAccess:
+  AllowReads: true
+
 Lint/EmptyBlock:
   Exclude:
     - 'spec/**/*'
@@ -20,3 +36,7 @@ AllCops:
     - 'config/**/*'
     - 'script/**/*'
     - 'bin/{rails,rake}'
+    - 'spec/cypress/**/*'
+
+
+

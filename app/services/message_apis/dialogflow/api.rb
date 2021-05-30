@@ -6,21 +6,21 @@
 # assign one dialog flow integration for agents
 # tbd
 
-require 'google/cloud/dialogflow'
+require "google/cloud/dialogflow"
 
 module MessageApis::Dialogflow
   class Api
     attr_accessor :key, :secret
 
     def initialize(config:)
-      credentials = JSON.parse(config['credentials'])
-      @project_id = config['project_id']
+      credentials = JSON.parse(config["credentials"])
+      @project_id = config["project_id"]
       @conn = Google::Cloud::Dialogflow::Sessions.new(
         credentials: credentials
       )
     end
 
-    def send_text(text:, session_id:, lang: 'en-US')
+    def send_text(text:, session_id:, lang: "en-US")
       @session = @conn.class.session_path @project_id, session_id
       # texts = "I need a bot for android"
       get_intent_for(text, lang)
@@ -36,15 +36,15 @@ module MessageApis::Dialogflow
       response = @conn.detect_intent @session, query_input
       query_result = response.query_result
 
-      puts "Query text:        #{query_result.query_text}"
-      puts "Intent detected:   #{query_result.intent.display_name}"
-      puts "Intent confidence: #{query_result.intent_detection_confidence}"
-      puts "Fulfillment text:  #{query_result.fulfillment_text}\n"
-      puts '-------------------'
+      Rails.logger.info "Query text:        #{query_result.query_text}"
+      Rails.logger.info "Intent detected:   #{query_result.intent.display_name}"
+      Rails.logger.info "Intent confidence: #{query_result.intent_detection_confidence}"
+      Rails.logger.info "Fulfillment text:  #{query_result.fulfillment_text}\n"
+      Rails.logger.info "-------------------"
       query_result.fulfillment_text if query_result.intent_detection_confidence > 0.7
     end
 
-    def self.tester(text: 'I need a bot for android')
+    def self.tester(text: "I need a bot for android")
       key_file   = Rails.application.credentials.integrations.dig(:dialogflow, :key_file)
       project_id = Rails.application.credentials.integrations.dig(:dialogflow, :project_id)
 
@@ -58,7 +58,7 @@ module MessageApis::Dialogflow
 
       a.send_text(
         text: text,
-        session_id: '1234'
+        session_id: "1234"
       )
     end
   end

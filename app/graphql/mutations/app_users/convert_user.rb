@@ -14,7 +14,7 @@ module Mutations
           app_user.update(email: email)
           app_user.become_lead! if app_user.is_a?(Visitor)
         end
-        { status: 'ok' }
+        { status: "ok" }
       end
 
       def current_user

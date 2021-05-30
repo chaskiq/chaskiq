@@ -18,9 +18,9 @@ module Mutations
           author: current_user,
           title: title,
           article_content_attributes: {
-            html_content: content['html'],
-            serialized_content: content['serialized'],
-            text_content: content['serialized']
+            html_content: content["html"],
+            serialized_content: content["serialized"],
+            text_content: content["serialized"]
           }
         )
         { article: @article }

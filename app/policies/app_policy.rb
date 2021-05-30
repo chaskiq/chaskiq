@@ -20,7 +20,7 @@ class AppPolicy < ActionPolicy::Base
   def invite_user?
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id
-    ).tagged_with('manage').any?
+    ).tagged_with("manage").any?
   end
 
   def create_app?
@@ -30,25 +30,25 @@ class AppPolicy < ActionPolicy::Base
   def manage?
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id
-    ).tagged_with('manage').any?
+    ).tagged_with("manage").any?
   end
 
   def update_agent?
     role.app.owner_id == user.id ||
       role.agent.id == record.id ||
-      role.access_list.include?('manage')
+      role.access_list.include?("manage")
   end
 
   def update_agent_role?
     role.app.owner_id == user.id ||
-      role.access_list.include?('manage') ||
-      role.access_list.include?('admin')
+      role.access_list.include?("manage") ||
+      role.access_list.include?("admin")
   end
 
   def destroy_agent_role?
     role.app.owner_id == user.id ||
-      role.access_list.include?('manage') ||
-      role.access_list.include?('admin')
+      role.access_list.include?("manage") ||
+      role.access_list.include?("admin")
   end
 
   def update?

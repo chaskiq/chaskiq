@@ -2,14 +2,14 @@
 
 module MessageApis::Messenger
   class Api < MessageApis::BasePackage
-    BASE_URL = 'https://graph.facebook.com/v2.6'
-    PROVIDER = 'messenger'
+    BASE_URL = "https://graph.facebook.com/v2.6"
+    PROVIDER = "messenger"
     include MessageApis::Helpers
 
     attr_accessor :url, :access_token, :conn
 
     def initialize(config:)
-      @api_token = config['access_token']
+      @api_token = config["access_token"]
 
       @url = "#{BASE_URL}/me/messages?access_token=#{@api_token}"
 
@@ -33,15 +33,15 @@ module MessageApis::Messenger
     end
 
     def create_hook_from_params(params, package)
-      token = params['hub.verify_token']
-      mode = params['hub.mode']
-      challenge = params['hub.challenge']
-      verify_token = package.settings['verify_token']
+      token = params["hub.verify_token"]
+      mode = params["hub.mode"]
+      challenge = params["hub.challenge"]
+      verify_token = package.settings["verify_token"]
       # Checks if a token and mode is in the query string of the request
       return if !mode && !token
       # Checks the mode and token sent is correct
       # Responds with the challenge token from the request
-      return challenge if mode === 'subscribe' && token === verify_token
+      return challenge if mode === "subscribe" && token === verify_token
 
       # Responds with '403 Forbidden' if verify tokens do not match
       nil
@@ -49,15 +49,15 @@ module MessageApis::Messenger
 
     def process_event(params, package)
       @package = package
-      current = params['current']
+      current = params["current"]
 
-      return create_hook_from_params(params, package) if params['hub.verify_token'].present? && params['hub.mode'] == 'subscribe'
+      return create_hook_from_params(params, package) if params["hub.verify_token"].present? && params["hub.mode"] == "subscribe"
 
-      process_message(params, @package) if params['object'] == 'page' && params['entry'].present?
+      process_message(params, @package) if params["object"] == "page" && params["entry"].present?
     end
 
     def get_message_id(response_data)
-      response_data['message_id']
+      response_data["message_id"]
     end
 
     def send_message(conversation, message)
@@ -66,11 +66,11 @@ module MessageApis::Messenger
                                         .provider_channel_id
 
       blocks = JSON.parse(
-        message['serialized_content']
-      )['blocks']
+        message["serialized_content"]
+      )["blocks"]
 
       plain_message = blocks.map do |o|
-        o['text']
+        o["text"]
       end.join("\r\n")
 
       request_body = {
@@ -78,14 +78,14 @@ module MessageApis::Messenger
           id: provider_channel_id
         },
         message: { text: plain_message },
-        messaging_type: 'MESSAGE_TAG',
-        tag: 'ACCOUNT_UPDATE'
+        messaging_type: "MESSAGE_TAG",
+        tag: "ACCOUNT_UPDATE"
       }
 
       @conn.post(
         @url,
         request_body.to_json,
-        'Content-Type' => 'application/json'
+        "Content-Type" => "application/json"
       )
     end
 
@@ -94,15 +94,15 @@ module MessageApis::Messenger
     def process_message(params, package)
       @package = package
 
-      message = params['entry'].first['messaging'].first
+      message = params["entry"].first["messaging"].first
 
-      return unless message.keys.include?('message')
+      return unless message.keys.include?("message")
 
       channel_id, messenger_user, agent_sender = determine_channel(message)
 
       conversation = find_conversation_by_channel(channel_id)
 
-      message_id = message['message']['mid']
+      message_id = message["message"]["mid"]
 
       return if present_conversation?(conversation, message_id)
 
@@ -116,7 +116,7 @@ module MessageApis::Messenger
         conversation: conversation,
         participant: participant,
         serialized_content: serialized_content,
-        text: message['message']['text'],
+        text: message["message"]["text"],
         message_id: message_id,
         from: agent_or_participant(agent_sender, participant),
         channel_id: channel_id
@@ -134,10 +134,10 @@ module MessageApis::Messenger
     end
 
     def determine_channel(message)
-      sender = message['sender']['id']
-      target = message['recipient']['id']
+      sender = message["sender"]["id"]
+      target = message["recipient"]["id"]
       # determine the id of the user (channel)
-      cond = message['message']['is_echo']
+      cond = message["message"]["is_echo"]
       channel_id = cond ? target : sender
       messenger_user = cond ? target : sender
       agent_sender = cond
@@ -176,13 +176,13 @@ module MessageApis::Messenger
                      .where(
                        "conversation_channels.provider =? AND
                           conversation_channels.provider_channel_id =?",
-                       'messenger', channel
+                       "messenger", channel
                      ).first
     end
 
     def serialize_content(data)
-      text = data['message']['text']
-      if data['message'].keys.include?('attachments')
+      text = data["message"]["text"]
+      if data["message"].keys.include?("attachments")
         attachment_block(data)
       else
         text_block(text)
@@ -190,7 +190,7 @@ module MessageApis::Messenger
     end
 
     def attachment_block(data)
-      attachments = data['message']['attachments']
+      attachments = data["message"]["attachments"]
 
       media_blocks = []
 
@@ -208,8 +208,8 @@ module MessageApis::Messenger
       # attachment = data["MediaUrl#{num}"]
       # media_type = data["MediaContentType#{num}"]
       # text = data["Body"]
-      case attachment['type']
-      when 'image' then photo_block(url: attachment['payload']['url'], text: '')
+      case attachment["type"]
+      when "image" then photo_block(url: attachment["payload"]["url"], text: "")
         # when "image/jpeg" then photo_block(attachment, text)
       end
     end
@@ -219,7 +219,7 @@ module MessageApis::Messenger
       url = "https://graph.facebook.com/#{id}?fields=first_name,last_name,profile_pic&access_token=#{@api_token}"
       response = @conn.get(
         url,
-        'Content-Type' => 'application/json'
+        "Content-Type" => "application/json"
       )
       JSON.parse(response.body)
     end
@@ -249,19 +249,19 @@ module MessageApis::Messenger
 
       profile_data = get_fb_profile(messenger_user)
 
-      if profile_data.keys.include?('first_name')
+      if profile_data.keys.include?("first_name")
         name = "#{profile_data['first_name']} #{profile_data['last_name']}"
         profile_data.merge!(name: name)
 
         data = {
           name: "#{profile_data['first_name']} #{profile_data['last_name']}"
-        }.merge!(profile_data.except('id'))
+        }.merge!(profile_data.except("id"))
       end
 
       participant = @package.app.add_anonymous_user(data)
       participant.external_profiles.create(
         provider: PROVIDER,
-        profile_id: profile_data['id']
+        profile_id: profile_data["id"]
       )
 
       [participant, data]

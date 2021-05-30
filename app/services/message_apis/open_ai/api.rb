@@ -4,13 +4,13 @@ module MessageApis::OpenAi
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
 
-    BASE_URL = 'https://api.openai.com/v1'
-    PROVIDER = 'openai'
+    BASE_URL = "https://api.openai.com/v1"
+    PROVIDER = "openai"
 
     attr_accessor :url, :api_secret, :conn
 
     def initialize(config:)
-      @api_secret = config['api_secret']
+      @api_secret = config["api_secret"]
 
       @url = "#{BASE_URL}/engines/davinci/completions"
 
@@ -30,11 +30,11 @@ module MessageApis::OpenAi
       subject = event.eventable
       action = event.action
 
-      puts "EVENTTTT: #{action}"
+      Rails.logger.info "EVENTTTT: #{action}"
 
       case action
       # when "visitors.convert" then notify_new_lead(subject)
-      when 'conversation.user.first.comment' then notify_added(subject)
+      when "conversation.user.first.comment" then notify_added(subject)
         # when "conversations.added" then notify_added(subject)
       end
     end
@@ -60,7 +60,7 @@ module MessageApis::OpenAi
     def locked_for_channel?(conversation, part)
       if part.authorable.is_a?(Agent) && !part.authorable.bot?
         conversation.conversation_channels.find_by({
-                                                     provider: 'open_ai',
+                                                     provider: "open_ai",
                                                      provider_channel_id: conversation.id
                                                    }).destroy
 
@@ -74,16 +74,16 @@ module MessageApis::OpenAi
       return if conversation.conversation_channels.blank?
       return unless part.messageable.is_a?(ConversationPartContent)
       return true if locked_for_channel?(conversation, part)
-      return if part.conversation_part_channel_sources.where(provider: 'open_ai').any?
+      return if part.conversation_part_channel_sources.where(provider: "open_ai").any?
 
-      puts "ENTRA #{part.id}"
+      Rails.logger.info "ENTRA #{part.id}"
 
       unless part.authorable.is_a?(Agent)
         #####
         ## cache this
         messages = conversation.messages.where(
-          messageable_type: 'ConversationPartContent'
-        ).where.not(id: part.id).order('id')
+          messageable_type: "ConversationPartContent"
+        ).where.not(id: part.id).order("id")
         #####
 
         # conversation.conversation_channels.find_by(provider_channel_id: channel)
@@ -104,14 +104,14 @@ AI: I am an AI created by OpenAI. How can I help you today?
 #{previous}
 Human:'''"
         parsed_content = part&.message&.parsed_content
-        human_input = parsed_content['blocks']
+        human_input = parsed_content["blocks"]
         human_input = human_input&.map do |o|
-          o['text']
-        end&.join(' ')
+          o["text"]
+        end&.join(" ")
 
         prompt = "#{start_log}\nHuman: #{human_input}\nAI:"
 
-        puts "PROMPT: #{prompt}"
+        Rails.logger.info "PROMPT: #{prompt}"
         data = prompt_settings(prompt)
 
         gpt_result = get_gpt_response(data)
@@ -162,7 +162,7 @@ Human:'''"
             html_content: text,
             serialized_content: blocks
           },
-          provider: 'open_ai',
+          provider: "open_ai",
           message_source_id: message_id,
           check_assignment_rules: true
         )
@@ -173,7 +173,7 @@ Human:'''"
       authorize!
       @conn.post do |req|
         req.url url
-        req.headers['Content-Type'] = 'application/json; charset=utf-8'
+        req.headers["Content-Type"] = "application/json; charset=utf-8"
         req.body = data.to_json
       end
     end
@@ -185,11 +185,11 @@ Human:'''"
 
       if (json_body = JSON.parse(response.body)) && json_body
         json_body
-        puts "GOT RESPONSE FROM GPT-3: #{json_body}"
+        Rails.logger.info "GOT RESPONSE FROM GPT-3: #{json_body}"
       end
 
-      text = json_body['choices'].map { |o| o['text'] }.join(' ')
-      { text: text, id: json_body['id'] }
+      text = json_body["choices"].map { |o| o["text"] }.join(" ")
+      { text: text, id: json_body["id"] }
     end
 
     def process_event(params, package)

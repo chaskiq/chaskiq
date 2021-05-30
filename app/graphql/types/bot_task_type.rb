@@ -15,11 +15,11 @@ module Types
     field :position, Integer, null: true
 
     def segments
-      object.segments.blank? ? [] : object.segments
+      object.segments.presence || []
     end
 
     def paths
-      object.paths.present? ? object.paths : []
+      object.paths.presence || []
     end
 
     field :metrics, Types::PaginatedMetricsType, null: true do
@@ -35,7 +35,7 @@ module Types
     def metrics(page: 1, per: 20)
       @metrics = object.metrics
                        .includes(:app_user)
-                       .order('id desc')
+                       .order("id desc")
                        .page(page)
                        .per(per)
       # render :index

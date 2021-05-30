@@ -15,14 +15,14 @@
 # it.
 #
 
-require 'faker'
-require 'factory_bot'
-require 'app_packages_catalog'
+require "faker"
+require "factory_bot"
+require "app_packages_catalog"
 
 # require 'shoulda'
 # require 'shoulda-matchers'
 
-ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN'] = 'mail.chaskiq.test'
+ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"] = "mail.chaskiq.test"
 
 def inline_job(&block)
   ActiveJob::Base.queue_adapter = :inline
@@ -43,7 +43,7 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
 
 def request_fixture(name)
-  File.read(File.join(Rails.root, 'spec', 'fixtures', 'requests', name))
+  File.read(File.join(Rails.root, "spec", "fixtures", "requests", name))
 end
 
 #

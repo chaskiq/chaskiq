@@ -8,7 +8,7 @@ class ConversationPart < ApplicationRecord
   belongs_to :conversation, touch: true
   # belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true,
-                              class_name: 'Message',
+                              class_name: "Message",
                               foreign_key: :message_id
 
   belongs_to :messageable, polymorphic: true, optional: true
@@ -18,9 +18,9 @@ class ConversationPart < ApplicationRecord
 
   after_create :assign_and_notify
 
-  scope :visibles, -> { where('private_note is null') }
+  scope :visibles, -> { where(private_note: nil) }
 
-  value :trigger_locked, expireat: -> { Time.now + 3.seconds }
+  value :trigger_locked, expireat: -> { Time.zone.now + 3.seconds }
 
   attr_accessor :check_assignment_rules
 
@@ -75,7 +75,7 @@ class ConversationPart < ApplicationRecord
   def notify_read!
     return if read_at.present?
 
-    self.read_at = Time.now
+    self.read_at = Time.zone.now
     if save
       val = conversation.main_participant.new_messages.value
       conversation.main_participant.new_messages.decrement unless val < 1
@@ -101,13 +101,13 @@ class ConversationPart < ApplicationRecord
   def notify_app_users
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: 'conversations:conversation_part',
+      type: "conversations:conversation_part",
       data: as_json
     )
 
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: 'conversations:unreads',
+      type: "conversations:unreads",
       data: conversation.main_participant.new_messages.value
     )
   end
@@ -145,7 +145,7 @@ class ConversationPart < ApplicationRecord
 
     conversation.update_latest_user_visible_comment_at
 
-    assign_agent_by_rules unless conversation.assignee.present?
+    assign_agent_by_rules if conversation.assignee.blank?
     enqueue_email_notification unless send_constraints?
   end
 
@@ -168,8 +168,8 @@ class ConversationPart < ApplicationRecord
 
   def as_json(*)
     super.tap do |hash|
-      hash['app_user'] = authorable.as_json
-      hash['conversation_key'] = conversation.key
+      hash["app_user"] = authorable.as_json
+      hash["conversation_key"] = conversation.key
     end
   end
 
@@ -184,9 +184,9 @@ class ConversationPart < ApplicationRecord
   end
 
   def check_rules(serialized_content)
-    text = JSON.parse(serialized_content)['blocks'].map do |o|
-      o['text']
-    end.join(' ')
+    text = JSON.parse(serialized_content)["blocks"].map do |o|
+      o["text"]
+    end.join(" ")
 
     app = conversation.app
 

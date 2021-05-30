@@ -5,7 +5,7 @@ module MessageApis::Gumroad
     # the home screen, so that you can render the app.
     def self.initialize_hook(kind:, ctx:)
       r = PaymentRecord.new(
-        url: ctx.dig('values', 'url')
+        url: ctx.dig("values", "url")
       )
       {
         kind: kind,
@@ -22,38 +22,38 @@ module MessageApis::Gumroad
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(params)
-      d = params[:ctx][:values]['data']
+      d = params[:ctx][:values]["data"]
 
       definitions = [
         {
-          type: 'text',
-          text: 'Gumroad',
-          align: 'center',
-          style: 'header'
+          type: "text",
+          text: "Gumroad",
+          align: "center",
+          style: "header"
         },
         {
-          type: 'text',
+          type: "text",
           text: "Product #{d['product_name']}",
-          align: 'center',
-          style: 'paragraph'
+          align: "center",
+          style: "paragraph"
         },
         {
-          type: 'text',
-          text: 'manage your membership',
-          align: 'center',
-          style: 'paragraph'
+          type: "text",
+          text: "manage your membership",
+          align: "center",
+          style: "paragraph"
         },
         {
-          id: 'manage-subscription',
-          type: 'button',
-          name: 'alooo',
-          label: 'manage subscription',
-          align: 'center',
+          id: "manage-subscription",
+          type: "button",
+          name: "alooo",
+          label: "manage subscription",
+          align: "center",
           action: {
-            type: 'url',
-            url: d['manage_membership_url']
+            type: "url",
+            url: d["manage_membership_url"]
           },
-          grid: { xs: 'w-full', sm: 'w-full' }
+          grid: { xs: "w-full", sm: "w-full" }
         }
       ]
 
@@ -64,7 +64,7 @@ module MessageApis::Gumroad
       # end
 
       {
-        kind: 'submit',
+        kind: "submit",
         definitions: definitions,
         results: params[:ctx][:values]
       }
@@ -76,31 +76,31 @@ module MessageApis::Gumroad
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
       app = ctx[:package].app
-      url = ctx.dig('values', 'url')
+      url = ctx.dig("values", "url")
       # fields = app.searcheable_fields
       r = PaymentRecord.new(
         url: url
       )
 
       button = {
-        type: 'input',
-        id: 'url',
-        placeholder: 'Enter your gumroad link https://gum.co/...',
-        label: 'payment url',
-        value: ''
+        type: "input",
+        id: "url",
+        placeholder: "Enter your gumroad link https://gum.co/...",
+        label: "payment url",
+        value: ""
       }
 
-      if ctx.dig(:field, :id) == 'add-url'
+      if ctx.dig(:field, :id) == "add-url"
         r.valid?
 
         button.merge!({
                         value: r.url,
-                        errors: r.errors[:url].join(', ')
+                        errors: r.errors[:url].join(", ")
                       })
 
         if r.valid?
           return {
-            kind: 'initialize',
+            kind: "initialize",
             results: {
               url: url
             },
@@ -111,29 +111,29 @@ module MessageApis::Gumroad
 
       definitions = [
         {
-          type: 'text',
-          style: 'header',
-          align: 'center',
-          text: 'gumroad Payment Button'
+          type: "text",
+          style: "header",
+          align: "center",
+          text: "gumroad Payment Button"
         },
         {
-          type: 'text',
-          style: 'muted',
-          align: 'center',
-          text: 'Add payment button'
+          type: "text",
+          style: "muted",
+          align: "center",
+          text: "Add payment button"
         },
         {
-          type: 'separator'
+          type: "separator"
         },
         button,
         {
-          type: 'button',
-          id: 'add-url',
-          label: 'confirm',
-          align: 'left',
-          variant: 'outlined',
+          type: "button",
+          id: "add-url",
+          label: "confirm",
+          align: "left",
+          variant: "outlined",
           action: {
-            type: 'submit'
+            type: "submit"
           }
         }
       ]

@@ -31,6 +31,6 @@ module HashEnsurer
         backtrace: Rails.env.production? ? nil : err.backtrace.join("\n")
       },
       data: {}
-    }, status: 500
+    }, status: :internal_server_error
   end
 end

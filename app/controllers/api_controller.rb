@@ -71,8 +71,8 @@ class ApiController < ActionController::API
   def handle_locale_from_params(user_locale)
     return user_locale if lang_available?(user_locale)
 
-    http_locale = request.headers['HTTP_LANG']
-    http_splitted_locale = http_locale ? http_locale.to_s.split('-').first.to_sym : nil
+    http_locale = request.headers["HTTP_LANG"]
+    http_splitted_locale = http_locale ? http_locale.to_s.split("-").first.to_sym : nil
 
     return http_splitted_locale if lang_available?(http_splitted_locale)
     return http_locale if lang_available?(http_locale)
@@ -103,7 +103,7 @@ class ApiController < ActionController::API
   def valid_origin?
     OriginValidator.new(
       app: @app.domain_url,
-      host: request.env['HTTP_ORIGIN']
+      host: request.env["HTTP_ORIGIN"]
     ).is_valid?
   end
 
@@ -113,14 +113,14 @@ class ApiController < ActionController::API
   end
 
   def get_user_by_session
-    session_id = request.headers['HTTP_SESSION_ID']
+    session_id = request.headers["HTTP_SESSION_ID"]
     return nil if session_id.blank?
 
     @app.get_non_users_by_session(session_id)
   end
 
   def identify_by_user_data
-    data = request.headers['HTTP_USER_DATA']
+    data = request.headers["HTTP_USER_DATA"]
     data = begin
       JSON.parse(data)
     rescue StandardError
@@ -132,12 +132,12 @@ class ApiController < ActionController::API
   end
 
   def authorize_by_encrypted_params
-    @app.decrypt(request.headers['HTTP_ENC_DATA'])
+    @app.decrypt(request.headers["HTTP_ENC_DATA"])
   end
 
   # non encrypted version
   def get_user_from_unencrypted
-    JSON.parse(request.headers['HTTP_USER_DATA']).deep_symbolize_keys
+    JSON.parse(request.headers["HTTP_USER_DATA"]).deep_symbolize_keys
   rescue StandardError
     nil
   end

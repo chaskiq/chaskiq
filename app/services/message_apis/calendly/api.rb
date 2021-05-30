@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'uri'
-require 'erb'
+require "uri"
+require "erb"
 
 def valid_url?(uri)
   uri = URI.parse(uri).try(:host)
@@ -12,22 +12,22 @@ end
 module MessageApis::Calendly
   class Api < MessageApis::BasePackage
     # https://developer.calendly.com/docs
-    BASE_URL = 'https://calendly.com/api/v1/'
+    BASE_URL = "https://calendly.com/api/v1/"
 
     attr_accessor :secret
 
     def initialize(config:)
       @secret = secret
 
-      @api_token = config['api_secret']
+      @api_token = config["api_secret"]
 
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder
       }
 
       @conn.headers = {
-        'X-TOKEN' => @api_token,
-        'Content-Type' => 'application/json'
+        "X-TOKEN" => @api_token,
+        "Content-Type" => "application/json"
       }
     end
 
@@ -43,11 +43,11 @@ module MessageApis::Calendly
 
     def process_event(params, package)
       @package = package
-      event = params['event']
-      payload = params['payload']
+      event = params["event"]
+      payload = params["payload"]
       case event
-      when 'invitee.created' then handle_created_invitee(payload)
-      when 'invitee.canceled' then handle_cancelled_invitee(payload)
+      when "invitee.created" then handle_created_invitee(payload)
+      when "invitee.canceled" then handle_cancelled_invitee(payload)
       end
     end
 
@@ -55,19 +55,19 @@ module MessageApis::Calendly
 
     def handle_created_invitee(payload)
       conversation = @package.app.conversations.find_by(
-        key: payload['tracking']['utm_source']
+        key: payload["tracking"]["utm_source"]
       )
 
       return if conversation.blank?
 
       message = conversation.messages.find(
-        payload['tracking']['utm_content']
+        payload["tracking"]["utm_content"]
       )
 
       return if message.blank?
 
       # should format here
-      message.message.save_replied(payload['event'])
+      message.message.save_replied(payload["event"])
     end
 
     def register_webhook(app_package, integration)
@@ -75,18 +75,18 @@ module MessageApis::Calendly
       # "#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
       data = {
         url: subscription_url,
-        events: ['invitee.created', 'invitee.canceled']
+        events: ["invitee.created", "invitee.canceled"]
       }
-      url = url('/hooks')
+      url = url("/hooks")
       response = @conn.post do |req|
         req.url url
-        req.headers['Content-Type'] = 'application/json'
+        req.headers["Content-Type"] = "application/json"
         req.body = data.to_json
       end
     end
 
     def get_webhooks
-      url = url('/hooks')
+      url = url("/hooks")
       response = @conn.get(url, nil)
       JSON.parse(response.body)
     end
@@ -97,14 +97,14 @@ module MessageApis::Calendly
     end
 
     def delete_webhooks
-      get_webhooks['data'].map { |o| delete_webhook(o['id']) }
+      get_webhooks["data"].map { |o| delete_webhook(o["id"]) }
     end
 
     # for display in replied message
     def self.display_data(data)
       return if data.blank?
 
-      k = data['cancelled'] ? 'canceled' : 'confirmed'
+      k = data["cancelled"] ? "canceled" : "confirmed"
       {
         "#{k}": "you are scheduled with
         #{data['assigned_to'].join(', ')}

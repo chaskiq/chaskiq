@@ -11,7 +11,7 @@ module MessageApis::ContactFields
         values: { block_type: block_type },
         definitions: [
           {
-            type: 'content'
+            type: "content"
           }
         ]
       }
@@ -19,11 +19,11 @@ module MessageApis::ContactFields
 
     def self.user_attrs
       items_attrs = [
-        { id: 'first_name', label: 'First name', call: ->(user) { user.first_name } },
-        { id: 'last_name', label: 'Last name', call: ->(user) { user.last_name } },
-        { id: 'email', label: 'Email', call: ->(user) { user.email } },
-        { id: 'company_name', label: 'Company', call: ->(user) { user.company_name } },
-        { id: 'phone', label: 'phone', call: ->(user) { user.phone } }
+        { id: "first_name", label: "First name", call: ->(user) { user.first_name } },
+        { id: "last_name", label: "Last name", call: ->(user) { user.last_name } },
+        { id: "email", label: "Email", call: ->(user) { user.email } },
+        { id: "company_name", label: "Company", call: ->(user) { user.company_name } },
+        { id: "phone", label: "phone", call: ->(user) { user.phone } }
       ]
     end
 
@@ -39,20 +39,20 @@ module MessageApis::ContactFields
       app = ctx[:package].app
 
       error_notice = {
-        type: 'text',
-        text: 'errors updating contact information',
-        style: 'notice-error'
+        type: "text",
+        text: "errors updating contact information",
+        style: "notice-error"
       }
 
       success_notice = {
-        type: 'text',
-        text: 'Fields updated successfully',
-        style: 'notice-success'
+        type: "text",
+        text: "Fields updated successfully",
+        style: "notice-success"
       }
 
       definitions = []
 
-      if ctx[:field]['id'] == 'submit'
+      if ctx[:field]["id"] == "submit"
         attrs = ctx[:values].permit(
           :first_name,
           :last_name,
@@ -69,20 +69,20 @@ module MessageApis::ContactFields
       user_attrs.each do |o|
         definitions << {
           id: o[:id],
-          type: 'input',
+          type: "input",
           label: o[:label],
-          errors: user.errors[o[:id]].join(','),
+          errors: user.errors[o[:id]].join(","),
           value: o[:call].call(user)
         }
       end
 
       definitions << {
-        id: 'submit',
-        label: 'Submit',
-        type: 'button',
-        variant: 'success',
+        id: "submit",
+        label: "Submit",
+        type: "button",
+        variant: "success",
         action: {
-          type: 'submit'
+          type: "submit"
         }
       }
 
@@ -97,7 +97,7 @@ module MessageApis::ContactFields
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
       {
-        kind: 'initialize',
+        kind: "initialize",
         definitions: []
         # results: results
       }
@@ -111,26 +111,26 @@ module MessageApis::ContactFields
 
       definitions = [
         {
-          type: 'text',
-          text: 'Contact information',
-          style: 'header'
+          type: "text",
+          text: "Contact information",
+          style: "header"
         }
       ]
       definitions << {
-        type: 'data-table',
+        type: "data-table",
         items: user_attrs.map do |o|
-                 { type: 'field-value',
+                 { type: "field-value",
                    field: o[:label],
                    value: o[:call].call(user) }
                end
       }
 
       definitions << {
-        id: 'fullcontact-enrich-btn',
-        label: 'Edit fields',
-        type: 'button',
+        id: "fullcontact-enrich-btn",
+        label: "Edit fields",
+        type: "button",
         action: {
-          type: 'submit'
+          type: "submit"
         }
       }
 

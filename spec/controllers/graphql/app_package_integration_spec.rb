@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe GraphqlController, type: :controller do
   let!(:app) do
@@ -8,48 +8,48 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let!(:user) do
-    app.add_user(email: 'test@test.cl')
+    app.add_user(email: "test@test.cl")
   end
 
   let!(:agent_role) do
     app.add_agent(
-      { email: 'test2@test.cl' },
+      { email: "test2@test.cl" },
       bot: nil,
-      role_attrs: { access_list: ['manage'] }
+      role_attrs: { access_list: ["manage"] }
     )
   end
 
   let!(:unprivileged_agent_role) do
     app.add_agent(
       {
-        email: 'test3@test.cl',
+        email: "test3@test.cl",
         bot: nil
       }
     )
   end
 
   let(:app_package) do
-    AppPackage.find_by(name: 'Slack')
+    AppPackage.find_by(name: "Slack")
   end
 
   before do
     AppPackagesCatalog.update_all
   end
 
-  context 'privileged' do
+  context "privileged" do
     before :each do
       stub_current_user(agent_role)
     end
 
-    describe 'add package' do
-      it 'return app' do
+    describe "add package" do
+      it "return app" do
         expect do
-          graphql_post(type: 'CREATE_INTEGRATION', variables: {
+          graphql_post(type: "CREATE_INTEGRATION", variables: {
                          appKey: app.key,
                          appPackage: app_package.name,
                          params: {
-                           api_secret: '123455',
-                           api_key: 'asd'
+                           api_secret: "123455",
+                           api_key: "asd"
                          }
                        })
         end.to change { app.app_package_integrations.count }.by(1)
@@ -57,33 +57,33 @@ RSpec.describe GraphqlController, type: :controller do
         expect(graphql_response.errors).to be_nil
       end
 
-      it 'unprivileged' do
+      it "unprivileged" do
         # unprivileged_agent_role
       end
     end
 
-    describe 'add package with errors' do
-      it 'return app' do
+    describe "add package with errors" do
+      it "return app" do
         app_package.update(definitions: [
                              {
-                               name: 'api_key',
-                               label: 'App ID',
-                               type: 'string',
+                               name: "api_key",
+                               label: "App ID",
+                               type: "string",
                                required: true
                              },
                              {
-                               name: 'api_secret',
-                               label: 'Client Secret',
-                               type: 'string',
+                               name: "api_secret",
+                               label: "Client Secret",
+                               type: "string",
                                required: true
                              }
                            ])
         expect do
-          graphql_post(type: 'CREATE_INTEGRATION', variables: {
+          graphql_post(type: "CREATE_INTEGRATION", variables: {
                          appKey: app.key,
                          appPackage: app_package.name,
                          params: {
-                           api_key: 'asd'
+                           api_key: "asd"
                          }
                        })
         end.to_not change { app.app_package_integrations.count }
@@ -93,25 +93,25 @@ RSpec.describe GraphqlController, type: :controller do
       end
     end
 
-    describe 'update package' do
+    describe "update package" do
       before :each do
-        graphql_post(type: 'CREATE_INTEGRATION', variables: {
+        graphql_post(type: "CREATE_INTEGRATION", variables: {
                        appKey: app.key,
                        appPackage: app_package.name,
                        params: {
-                         api_secret: '123455',
-                         api_key: 'asd'
+                         api_secret: "123455",
+                         api_key: "asd"
                        }
                      })
       end
 
-      it 'created in app' do
-        graphql_post(type: 'UPDATE_INTEGRATION', variables: {
+      it "created in app" do
+        graphql_post(type: "UPDATE_INTEGRATION", variables: {
                        appKey: app.key,
                        id: app.app_package_integrations.first.id,
                        params: {
-                         api_secret: '123455',
-                         api_key: 'asd'
+                         api_secret: "123455",
+                         api_key: "asd"
                        }
                      })
         expect(graphql_response.data.integrationsUpdate.integration.name).to be_present
@@ -119,9 +119,9 @@ RSpec.describe GraphqlController, type: :controller do
         expect(graphql_response.data.integrationsUpdate.integration.settings).to be_present
       end
 
-      it 'delete in app' do
+      it "delete in app" do
         expect do
-          graphql_post(type: 'DELETE_INTEGRATION', variables: {
+          graphql_post(type: "DELETE_INTEGRATION", variables: {
                          appKey: app.key,
                          id: app.app_package_integrations.first.id
                        })
@@ -132,10 +132,10 @@ RSpec.describe GraphqlController, type: :controller do
       end
     end
 
-    describe 'queries app_packages' do
-      it 'will return list of app packages' do
+    describe "queries app_packages" do
+      it "will return list of app packages" do
         app_package
-        graphql_post(type: 'APP_PACKAGES', variables: {
+        graphql_post(type: "APP_PACKAGES", variables: {
                        appKey: app.key
                      })
         expect(graphql_response.data.app.appPackages).to be_present
@@ -143,20 +143,20 @@ RSpec.describe GraphqlController, type: :controller do
     end
   end
 
-  context 'unprivileged' do
+  context "unprivileged" do
     before :each do
       stub_current_user(unprivileged_agent_role)
     end
 
-    describe 'add package' do
-      it 'return app' do
+    describe "add package" do
+      it "return app" do
         expect do
-          graphql_post(type: 'CREATE_INTEGRATION', variables: {
+          graphql_post(type: "CREATE_INTEGRATION", variables: {
                          appKey: app.key,
                          appPackage: app_package.name,
                          params: {
-                           api_secret: '123455',
-                           api_key: 'asd'
+                           api_secret: "123455",
+                           api_key: "asd"
                          }
                        })
         end.to_not change { app.app_package_integrations.count }
@@ -164,30 +164,30 @@ RSpec.describe GraphqlController, type: :controller do
       end
     end
 
-    describe 'update package' do
+    describe "update package" do
       before :each do
         app.app_package_integrations.create(
           app_package: app_package,
-          api_secret: '123455',
-          api_key: 'asd'
+          api_secret: "123455",
+          api_key: "asd"
         )
       end
 
-      it 'created in app' do
-        graphql_post(type: 'UPDATE_INTEGRATION', variables: {
+      it "created in app" do
+        graphql_post(type: "UPDATE_INTEGRATION", variables: {
                        appKey: app.key,
                        id: app.app_package_integrations.first.id,
                        params: {
-                         api_key: '123455',
-                         api_secret: '123455'
+                         api_key: "123455",
+                         api_secret: "123455"
                        }
                      })
 
         expect(graphql_response.errors).to be_present
       end
 
-      it 'delete in app' do
-        graphql_post(type: 'DELETE_INTEGRATION', variables: {
+      it "delete in app" do
+        graphql_post(type: "DELETE_INTEGRATION", variables: {
                        appKey: app.key,
                        id: app.app_package_integrations.first.id
                      })
@@ -196,12 +196,12 @@ RSpec.describe GraphqlController, type: :controller do
       end
     end
 
-    describe 'queries app_packages' do
-      it 'will return list of app packages' do
-        pending('dont know about this')
+    describe "queries app_packages" do
+      it "will return list of app packages" do
+        pending("dont know about this")
         app_package
 
-        graphql_post(type: 'APP_PACKAGES', variables: {
+        graphql_post(type: "APP_PACKAGES", variables: {
                        appKey: app.key
                      })
         expect(graphql_response.errors).to be_blank

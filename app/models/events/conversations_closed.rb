@@ -10,7 +10,7 @@ module Events
                  .solved_conversations
                  .incr(1, Time.zone.now)
 
-      diff = conversation.created_at - Time.now
+      diff = conversation.created_at - Time.zone.now
 
       AppIdentity.new(app.key)
                  .resolution_avg

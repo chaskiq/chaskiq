@@ -9,7 +9,7 @@ class VisitCollector
 
   def update_browser_data(options)
     user_options = options.select { |k, _v| user.respond_to?(k) }
-    user_options.merge!(referrer: options['url'])
+    user_options.merge!(referrer: options["url"])
     !add_web_sessions.empty? && user_options.merge!(add_web_sessions)
     user.update(user_options)
     user.register_visit(options)

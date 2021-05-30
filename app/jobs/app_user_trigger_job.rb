@@ -19,7 +19,7 @@ class AppUserTriggerJob < ApplicationJob
       ActionTriggerFactory.find_factory_template(
         app: @app,
         app_user: @app_user,
-        data: { 'trigger' => trigger_id }
+        data: { "trigger" => trigger_id }
       )
     end
 
@@ -45,9 +45,9 @@ class AppUserTriggerJob < ApplicationJob
   def add_message(trigger, conversation)
     author = @app.agent_bots.first
 
-    step = trigger.paths.first&.with_indifferent_access['steps']
+    step = trigger.paths.first&.with_indifferent_access["steps"]
                   .find do |o|
-      o['messages'].any?
+      o["messages"].any?
     end
 
     message = step[:messages].first

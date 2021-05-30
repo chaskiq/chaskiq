@@ -8,7 +8,7 @@ class Visit < ApplicationRecord
 
   def self.register(options, cond)
     v = new(options)
-    return v.save if cond == 'true'
+    return v.save if cond == "true"
 
     v.insert_count
   end

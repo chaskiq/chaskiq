@@ -12,8 +12,8 @@ module InboundAddress
   class_methods do
     # used in email inbox
     def decode_inbound_address(address)
-      return decode_app_inbound_address(address) if address.starts_with?('inbound+app')
-      return decode_agent_inbound_address(address) if address.starts_with?('inbound+')
+      return decode_app_inbound_address(address) if address.starts_with?("inbound+app")
+      return decode_agent_inbound_address(address) if address.starts_with?("inbound+")
 
       []
     end
@@ -29,11 +29,11 @@ module InboundAddress
     end
 
     def decode_agent_inbound_address(address)
-      parts = address.split('+')
+      parts = address.split("+")
       app = App.find_by(key: parts[1])
-      return unless app.present?
+      return if app.blank?
 
-      agent_id = parts[2].split('@').first
+      agent_id = parts[2].split("@").first
       agent = app.agents.find(URLcrypt.decode(agent_id))
       [app, agent]
     end

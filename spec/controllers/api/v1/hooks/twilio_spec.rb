@@ -1,56 +1,56 @@
-require 'rails_helper'
+require "rails_helper"
 include ActiveJob::TestHelper
 
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   let(:owner_phone) do
-    'whatsapp:+1111'
+    "whatsapp:+1111"
   end
 
   let(:user_phone) do
-    'whatsapp:+2222'
+    "whatsapp:+2222"
   end
 
   def data_for(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      'SmsMessageSid' => message_id,
-      'NumMedia' => '0',
-      'SmsSid' => message_id,
-      'SmsStatus' => 'received',
-      'Body' => message_data.blank? ? 'hola' : message_data['text'],
-      'To' => recipient,
-      'NumSegments' => '1',
-      'MessageSid' => message_id,
-      'AccountSid' => 'ACe290',
-      'From' => sender,
-      'ApiVersion' => '2010-04-01',
-      'controller' => 'api/v1/hooks/provider',
-      'action' => 'process_event',
-      'provider' => 'twilio',
-      'app_key' => app.key,
-      'id' => @pkg.encoded_id
+      "SmsMessageSid" => message_id,
+      "NumMedia" => "0",
+      "SmsSid" => message_id,
+      "SmsStatus" => "received",
+      "Body" => message_data.blank? ? "hola" : message_data["text"],
+      "To" => recipient,
+      "NumSegments" => "1",
+      "MessageSid" => message_id,
+      "AccountSid" => "ACe290",
+      "From" => sender,
+      "ApiVersion" => "2010-04-01",
+      "controller" => "api/v1/hooks/provider",
+      "action" => "process_event",
+      "provider" => "twilio",
+      "app_key" => app.key,
+      "id" => @pkg.encoded_id
     }
   end
 
   def data_for_media(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
-      'MediaContentType0' => 'image/jpeg',
-      'SmsMessageSid' => message_id,
-      'NumMedia' => '1',
-      'SmsSid' => message_id,
-      'SmsStatus' => 'received',
-      'Body' => '',
-      'To' => 'whatsapp:+1111',
-      'NumSegments' => '1',
-      'MessageSid' => message_id,
-      'AccountSid' => 'ACe290',
-      'From' => 'whatsapp:+2222',
-      'MediaUrl0' => 'https://api.twilio.com/2010-04-01/Accounts/AAAA/Messages/AAAAAAAAA/Media/MEf98b16d258dbb7380e44996a3337c54c',
-      'ApiVersion' => '2010-04-01',
-      'action' => 'process_event',
-      'provider' => 'twilio',
-      'controller' => 'api/v1/hooks/provider',
-      'app_key' => app.key,
-      'id' => @pkg.encoded_id
+      "MediaContentType0" => "image/jpeg",
+      "SmsMessageSid" => message_id,
+      "NumMedia" => "1",
+      "SmsSid" => message_id,
+      "SmsStatus" => "received",
+      "Body" => "",
+      "To" => "whatsapp:+1111",
+      "NumSegments" => "1",
+      "MessageSid" => message_id,
+      "AccountSid" => "ACe290",
+      "From" => "whatsapp:+2222",
+      "MediaUrl0" => "https://api.twilio.com/2010-04-01/Accounts/AAAA/Messages/AAAAAAAAA/Media/MEf98b16d258dbb7380e44996a3337c54c",
+      "ApiVersion" => "2010-04-01",
+      "action" => "process_event",
+      "provider" => "twilio",
+      "controller" => "api/v1/hooks/provider",
+      "app_key" => app.key,
+      "id" => @pkg.encoded_id
     }
   end
 
@@ -59,14 +59,14 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   let!(:agent_role) do
-    app.add_agent({ email: 'test2@test.cl' })
+    app.add_agent({ email: "test2@test.cl" })
   end
 
   let(:app_package) do
-    AppPackage.find_by(name: 'Twilio')
+    AppPackage.find_by(name: "Twilio")
   end
 
-  describe 'hooks' do
+  describe "hooks" do
     before do
       AppPackagesCatalog.update_all
     end
@@ -79,20 +79,20 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .and_return({})
 
       @pkg = app.app_package_integrations.create(
-        api_secret: 'aaa',
-        api_key: 'aaa',
+        api_secret: "aaa",
+        api_key: "aaa",
         user_id: owner_phone,
         app_package: app_package
       )
     end
 
-    it 'receive conversation data' do
+    it "receive conversation data" do
       get(:process_event,
           params: data_for(
             id: @pkg.id,
             sender: owner_phone,
             recipient: user_phone,
-            message_id: '1234'
+            message_id: "1234"
           ))
       perform_enqueued_jobs
       expect(response.status).to be == 200
@@ -101,13 +101,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(app.conversations.last.messages.last.conversation_part_channel_sources).to be_any
     end
 
-    it 'receive conversation media' do
+    it "receive conversation media" do
       get(:process_event,
           params: data_for_media(
             id: @pkg.id,
             sender: owner_phone,
             recipient: user_phone,
-            message_id: '1234'
+            message_id: "1234"
           ))
       perform_enqueued_jobs
       expect(response.status).to be == 200
@@ -116,17 +116,17 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       message = app.conversations.last.messages.last
       expect(message.conversation_part_channel_sources).to be_any
-      expect(message.messageable.serialized_content).to include('https://api.twilio.com/')
+      expect(message.messageable.serialized_content).to include("https://api.twilio.com/")
     end
 
-    it 'receive two messages in single conversation' do
+    it "receive two messages in single conversation" do
       expect(app.app_users).to be_empty
 
       get(:process_event, params: data_for(
         id: @pkg.id,
         sender: user_phone,
         recipient: owner_phone,
-        message_id: '1234'
+        message_id: "1234"
       ))
       perform_enqueued_jobs
 
@@ -136,7 +136,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         id: @pkg.id,
         sender: user_phone,
         recipient: owner_phone,
-        message_id: '1235'
+        message_id: "1235"
       ))
       perform_enqueued_jobs
 
@@ -147,7 +147,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(app.conversations.first.messages.count).to be == 2
     end
 
-    it 'reply from agent on twilio' do
+    it "reply from agent on twilio" do
       get(:process_event, params: data_for(
         id: @pkg.id,
         sender: user_phone,
@@ -169,13 +169,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(app.conversations.first.messages.last.authorable).to be_a(Agent)
     end
 
-    it 'receive text with breakline' do
+    it "receive text with breakline" do
       get(:process_event, params: data_for(
         id: @pkg.id,
         sender: user_phone,
         recipient: owner_phone,
         message_data: {
-          'text' => "one\ntwo\ntree\n✌️"
+          "text" => "one\ntwo\ntree\n✌️"
         }
       ))
       perform_enqueued_jobs
@@ -185,7 +185,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(message.html_content).to be == "one\ntwo\ntree\n✌️"
       expect(message.serialized_content).to be_present
 
-      blocks = JSON.parse(message.serialized_content)['blocks']
+      blocks = JSON.parse(message.serialized_content)["blocks"]
 
       expect(blocks.size).to be == 4
     end

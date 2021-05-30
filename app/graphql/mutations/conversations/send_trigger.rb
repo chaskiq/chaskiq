@@ -19,16 +19,16 @@ module Mutations
 
         # TODO: move this method to conversation model?
         MessengerEventsChannel.broadcast_to(key, {
-          type: 'triggers:receive',
+          type: "triggers:receive",
           data: {
             trigger: bot_task,
-            step: bot_task.paths.first['steps'].first
+            step: bot_task.paths.first["steps"].first
           }
         }.as_json)
 
         user.metrics.create(
           trackable: bot_task,
-          action: 'bot_tasks.delivered'
+          action: "bot_tasks.delivered"
         )
 
         {

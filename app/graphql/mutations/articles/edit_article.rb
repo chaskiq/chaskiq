@@ -23,9 +23,9 @@ module Mutations
           description: description,
           article_content_attributes: {
             id: article.article_content.id,
-            html_content: content['html'],
-            serialized_content: content['serialized'],
-            text_content: content['serialized']
+            html_content: content["html"],
+            serialized_content: content["serialized"],
+            text_content: content["serialized"]
           }
         )
 

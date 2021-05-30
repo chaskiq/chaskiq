@@ -5,7 +5,7 @@ module MessageApis::Dialog360
     def self.initialize_hook(params)
       definitions = []
       {
-        kind: 'initialize',
+        kind: "initialize",
         definitions: definitions,
         values: {}
       }
@@ -16,7 +16,7 @@ module MessageApis::Dialog360
     def self.submit_hook(params)
       definitions = []
       {
-        kind: 'submit',
+        kind: "submit",
         definitions: definitions,
         values: {}
       }
@@ -29,109 +29,109 @@ module MessageApis::Dialog360
       templates = api.retrieve_templates
       templates = JSON.parse(templates)
 
-      pp templates
+      Rails.logger.debug templates
 
-      components = templates.dig('waba_templates')
-                            .reject { |o| o['status'] != 'approved' }
-                            .map do |c|
+      components = templates["waba_templates"]
+                   .select { |o| o["status"] == "approved" }
+                   .map do |c|
         {
-          type: 'item',
+          type: "item",
           id: Base64.encode64(c.to_json),
-          name: 'submit-template',
+          name: "submit-template",
           title: "Template Name: #{c['name']}",
           subtitle: "Category: #{c['category']}",
-          action: { type: 'submit' }
+          action: { type: "submit" }
         }
       end
 
       definitions = [
         {
-          type: 'text',
-          text: 'Whatsapp templates',
-          style: 'header',
-          align: 'center'
+          type: "text",
+          text: "Whatsapp templates",
+          style: "header",
+          align: "center"
         },
 
         {
-          type: 'text',
-          text: 'Whatsapp templates',
-          style: 'paragraph',
-          align: 'center'
+          type: "text",
+          text: "Whatsapp templates",
+          style: "paragraph",
+          align: "center"
         },
-        { type: 'spacer', size: 'xs' },
-        { type: 'separator' },
+        { type: "spacer", size: "xs" },
+        { type: "separator" },
 
-        { type: 'list',
+        { type: "list",
           disabled: false,
           items: components }
       ]
 
       # will submit
-      if ctx.dig(:field, :name) == 'submit-template' &&
-         ctx.dig(:field, :action, :type) === 'submit'
+      if ctx.dig(:field, :name) == "submit-template" &&
+         ctx.dig(:field, :action, :type) === "submit"
 
         decoded = Base64.decode64(ctx.dig(:field, :id))
         decoded = JSON.parse(decoded)
 
         inputs = []
 
-        decoded['components'].each do |o|
-          next if o['text'].blank?
+        decoded["components"].each do |o|
+          next if o["text"].blank?
 
-          captures = o['text'].scan(/{{\d}}/)
+          captures = o["text"].scan(/{{\d}}/)
           next if captures.blank?
 
           captures.each do |c|
             inputs << {
-              type: 'input',
-              id: 'unsaved-1',
+              type: "input",
+              id: "unsaved-1",
               label: "parameter: #{c}",
               placeholder: c.to_s,
               # hint: (o['text']).to_s,
-              save_state: 'unsaved'
+              save_state: "unsaved"
             }
           end
 
-          inputs << { type: 'spacer', size: 'm' }
+          inputs << { type: "spacer", size: "m" }
 
           inputs << {
-            type: 'text',
-            text: (o['text']).to_s,
-            style: 'muted'
+            type: "text",
+            text: (o["text"]).to_s,
+            style: "muted"
           }
         end
 
         definitions = [
           {
-            type: 'text',
-            text: 'Whatsapp template',
-            style: 'header',
-            align: 'center'
+            type: "text",
+            text: "Whatsapp template",
+            style: "header",
+            align: "center"
           },
           {
-            type: 'text',
+            type: "text",
             text: ctx.dig(:field, :title),
-            style: 'muted',
-            align: 'center'
+            style: "muted",
+            align: "center"
           },
-          { type: 'spacer', size: 'm' },
+          { type: "spacer", size: "m" },
           inputs,
           {
-            type: 'button',
-            name: 'pick-template',
+            type: "button",
+            name: "pick-template",
             id: ctx[:field][:id],
-            variant: 'success',
-            size: 'large',
-            align: 'center',
-            label: 'confirm',
+            variant: "success",
+            size: "large",
+            align: "center",
+            label: "confirm",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           }
         ].flatten
 
         return {
-          kind: 'configure',
+          kind: "configure",
           definitions: definitions,
           results: {
             id: ctx.dig(:field, :id),
@@ -142,50 +142,50 @@ module MessageApis::Dialog360
       end
 
       # will send
-      if ctx.dig(:field, :name) == 'pick-template'
+      if ctx.dig(:field, :name) == "pick-template"
         decoded = Base64.decode64(ctx.dig(:field, :id))
         decoded = JSON.parse(decoded)
 
         body = api.send_template_message(
           template: decoded,
           conversation_key: ctx[:conversation_key],
-          parameters: ctx[:values]['unsaved-1']
+          parameters: ctx[:values]["unsaved-1"]
         )
 
         definitions = [
           {
-            type: 'text',
-            text: 'template sent!',
-            style: 'header',
-            align: 'center'
+            type: "text",
+            text: "template sent!",
+            style: "header",
+            align: "center"
           },
           {
-            type: 'text',
-            text: 'you can close this window',
-            style: 'header',
-            align: 'center'
+            type: "text",
+            text: "you can close this window",
+            style: "header",
+            align: "center"
           }
         ]
 
-        if body['errors'].present?
+        if body["errors"].present?
           definitions = [
             {
-              type: 'text',
+              type: "text",
               text: "#{decoded['name']} template NOT sent!",
-              style: 'header',
-              align: 'center'
+              style: "header",
+              align: "center"
             },
             {
-              type: 'text',
-              text: body['errors'].map { |o| "#{o['code']}: #{o['details']}" }.join("\n"),
-              style: 'muted',
-              align: 'center'
+              type: "text",
+              text: body["errors"].map { |o| "#{o['code']}: #{o['details']}" }.join("\n"),
+              style: "muted",
+              align: "center"
             }
           ]
         end
 
         return {
-          kind: 'configure',
+          kind: "configure",
           definitions: definitions,
           results: {
             id: ctx.dig(:field, :id),

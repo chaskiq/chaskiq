@@ -16,9 +16,9 @@ module Mutations
       @app = current_user.apps.find_by(key: app_key)
 
       state_value = if ActiveModel::Type::Boolean.new.cast(state)
-                      'enabled'
+                      "enabled"
                     else
-                      'disabled'
+                      "disabled"
                     end
 
       authorize! @app, to: :manage?, with: AppPolicy

@@ -17,8 +17,8 @@ class AppUserDashboard
     resource.conversations.group(:state).count
             .map do |k, v|
       {
-        id: k || 'unknown',
-        label: k || 'unknown',
+        id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)"
       }
@@ -29,8 +29,8 @@ class AppUserDashboard
     resource.conversations.group(:state).count
             .map do |k, v|
       {
-        id: k || 'unknown',
-        label: k || 'unknown',
+        id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)"
       }
@@ -42,7 +42,7 @@ class AppUserDashboard
             .all.group_by_day(:created_at)
             .count.map do |o|
       {
-        day: o.first.strftime('%F'),
+        day: o.first.strftime("%F"),
         value: o.last
       }
     end

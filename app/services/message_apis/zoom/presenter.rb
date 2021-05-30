@@ -5,7 +5,7 @@ module MessageApis::Zoom
     def self.initialize_hook(params)
       url = params[:ctx][:values][:email]
       {
-        kind: 'initialize',
+        kind: "initialize",
         definitions: definitions_for_initialize(params),
         values: {
           email: params.dig(:ctx, :values, :email)
@@ -21,19 +21,19 @@ module MessageApis::Zoom
 
     def self.definitions_for_configure_hook
       zoom_input = {
-        type: 'input',
-        id: 'zoom_user',
-        placeholder: 'enter your zoom user email',
-        label: 'Zoom user'
+        type: "input",
+        id: "zoom_user",
+        placeholder: "enter your zoom user email",
+        label: "Zoom user"
       }
 
       action = {
-        id: 'set-url',
-        name: 'set_url',
-        label: 'Set up',
-        type: 'button',
+        id: "set-url",
+        name: "set_url",
+        label: "Set up",
+        type: "button",
         action: {
-          type: 'submit'
+          type: "submit"
         }
       }
 
@@ -48,15 +48,15 @@ module MessageApis::Zoom
     def self.configure_hook(kind:, ctx:)
       definitions = definitions_for_configure_hook
 
-      if ctx.dig(:field, :name) == 'set_url' &&
-         ctx.dig(:field, :action, :type) === 'submit'
+      if ctx.dig(:field, :name) == "set_url" &&
+         ctx.dig(:field, :action, :type) === "submit"
 
         email = ctx.dig(:values, :zoom_user)
 
         if email.blank?
           input = zoom_input
           input.merge!(
-            errors: 'not a valid url',
+            errors: "not a valid url",
             value: email
           )
 
@@ -71,7 +71,7 @@ module MessageApis::Zoom
         end
 
         return {
-          kind: 'initialize',
+          kind: "initialize",
           definitions: definitions,
           results: {
             email: email
@@ -107,31 +107,31 @@ module MessageApis::Zoom
     def self.definitions_for_initialize(params)
       [
         {
-          type: 'text',
-          style: 'header',
-          text: 'Your zoom meeting is ready',
-          align: 'left'
+          type: "text",
+          style: "header",
+          text: "Your zoom meeting is ready",
+          align: "left"
         },
         {
-          type: 'text',
+          type: "text",
           text: "pass: #{params[:ctx][:values][:password]}",
-          align: 'left'
+          align: "left"
         },
         {
-          id: 'join-url',
-          type: 'button',
-          align: 'left',
-          label: 'Join',
-          width: 'full',
+          id: "join-url",
+          type: "button",
+          align: "left",
+          label: "Join",
+          width: "full",
           action: {
-            type: 'url',
+            type: "url",
             url: params[:ctx][:values][:join_url]
           }
         },
         {
-          type: 'text',
+          type: "text",
           text: "Status: #{params[:ctx][:values][:status]}",
-          align: 'left'
+          align: "left"
         }
       ]
     end
