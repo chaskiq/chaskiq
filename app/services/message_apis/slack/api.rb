@@ -254,7 +254,7 @@ module MessageApis::Slack
       response_data = json_body(
         post_message(
           'New conversation from Chaskiq',
-          data.flatten.as_json,
+          data.flatten.compact.as_json,
           {
             channel: @keys['channel'],
             text: 'New conversation from Chaskiq'
@@ -498,7 +498,7 @@ module MessageApis::Slack
             type: 'mrkdwn',
             text: "*replied*: #{data_label || data_fmt}"
           },
-          block_id: 'replied-1'
+          #block_id: 'replied-1'
         }]
 
         user = conversation.main_participant
@@ -534,7 +534,7 @@ module MessageApis::Slack
             type: 'mrkdwn',
             text: "*event*: #{messageable.action} \n #{data_fmt}"
           },
-          block_id: 'replied-1'
+          #block_id: 'replied-1'
         }]
 
         user = conversation.main_participant
@@ -605,7 +605,7 @@ module MessageApis::Slack
           type: 'mrkdwn',
           text: "*replied*: #{data_label || data_fmt}"
         },
-        block_id: 'replied-1'
+        #block_id: 'replied-1'
       }
     end
 
@@ -620,7 +620,7 @@ module MessageApis::Slack
                   type: 'mrkdwn',
                   text: block['text']
                 },
-                block_id: block['key']
+                #block_id: block['key']
               }
             when 'divider'
               {
@@ -646,7 +646,7 @@ module MessageApis::Slack
                   type: 'mrkdwn',
                   text: "*File sent*: <#{ENV['HOST']}#{block['data']['url']}|go to file>"
                 },
-                block_id: block['key']
+                #block_id: block['key']
               }
             when 'header-one', 'header-two', 'header-three', 'header-four'
               {
@@ -655,7 +655,7 @@ module MessageApis::Slack
                   type: 'mrkdwn',
                   text: "*#{block['text']}*"
                 },
-                block_id: block['key']
+                #block_id: block['key']
               }
             else
               {
@@ -664,7 +664,7 @@ module MessageApis::Slack
                   type: 'mrkdwn',
                   text: block['text']
                 },
-                block_id: block['key']
+                #block_id: block['key']
               }
             end
     end

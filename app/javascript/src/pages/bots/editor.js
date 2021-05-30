@@ -753,7 +753,7 @@ export function BotPathEditor ({
       </div>
 
       <div className="w-full shadow">
-        <div>
+        <div className="top-0 sticky">
           {selectedPath &&
                 <ErrorBoundary>
                   <Path
