@@ -5,7 +5,7 @@ class ExternalProfile < ApplicationRecord
   def app_package
     app.app_package_integrations
        .joins(:app_package)
-       .find_by("app_packages.name": provider.capitalize)
+       .where("app_packages.name": provider.capitalize)
        .first
   end
 
