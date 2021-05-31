@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'link_renamer'
-require 'open-uri'
+require "link_renamer"
+require "open-uri"
 
 class Campaign < Message
   validates :from_name, presence: true # , unless: :step_1?
@@ -10,49 +10,49 @@ class Campaign < Message
 
   def config_fields
     [
-      { name: 'name', label: I18n.t('definitions.campaigns.campaign_name.label'), hint: I18n.t('definitions.campaigns.campaign_name.hint'), type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'subject', label: I18n.t('definitions.campaigns.email_subject.label'), hint: I18n.t('definitions.campaigns.email_subject.hint'), type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'fromName', label: I18n.t('definitions.campaigns.from_name.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: "name", label: I18n.t("definitions.campaigns.campaign_name.label"), hint: I18n.t("definitions.campaigns.campaign_name.hint"), type: "string", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "subject", label: I18n.t("definitions.campaigns.email_subject.label"), hint: I18n.t("definitions.campaigns.email_subject.hint"), type: "text", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "fromName", label: I18n.t("definitions.campaigns.from_name.label"), type: "string", grid: { xs: "w-full", sm: "w-1/2" } },
       # { name: 'fromEmail', label: I18n.t('definitions.campaigns.from_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'replyEmail', label: I18n.t('definitions.campaigns.reply_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'description', type: 'textarea', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'timezone', type: 'timezone',
+      { name: "replyEmail", label: I18n.t("definitions.campaigns.reply_email.label"), type: "string", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "description", type: "textarea", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "timezone", type: "timezone",
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
-        grid: { xs: 'w-full', sm: 'w-full' } },
+        grid: { xs: "w-full", sm: "w-full" } },
       # {name: "settings", type: 'string'} ,
-      { name: 'scheduledAt', label: I18n.t('definitions.campaigns.scheduled_at.label'), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', label: I18n.t('definitions.campaigns.scheduled_to.label'), type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
+      { name: "scheduledAt", label: I18n.t("definitions.campaigns.scheduled_at.label"), type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduledTo", label: I18n.t("definitions.campaigns.scheduled_to.label"), type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } }
     ]
   end
 
   def colors
     {
-      delivery: '#9ae6b4',
-      send: '#faf089',
-      click: '#d6bcfa',
-      open: '#90cdf4',
-      bounces: '#ccc'
+      delivery: "#9ae6b4",
+      send: "#faf089",
+      click: "#d6bcfa",
+      open: "#90cdf4",
+      bounces: "#ccc"
     }
   end
 
   def stats_fields
     [
       add_stat_field(
-        name: 'DeliverRateCount', label: 'DeliverRateCount',
-        keys: [{ name: 'send', color: colors[:send] }, { name: 'delivery', color: colors[:delivery] }]
+        name: "DeliverRateCount", label: "DeliverRateCount",
+        keys: [{ name: "send", color: colors[:send] }, { name: "delivery", color: colors[:delivery] }]
       ),
       add_stat_field(
-        name: 'BouncesRateCount', label: 'BouncesRateCount',
-        keys: [{ name: 'send', color: colors[:send] }, { name: 'bounces', color: colors[:bounces] }]
+        name: "BouncesRateCount", label: "BouncesRateCount",
+        keys: [{ name: "send", color: colors[:send] }, { name: "bounces", color: colors[:bounces] }]
       ),
       add_stat_field(
-        name: 'DeliverRateCount', label: 'DeliverRateCount',
-        keys: [{ name: 'delivery', color: colors[:delivery] }, { name: 'open', color: colors[:open] }]
+        name: "DeliverRateCount", label: "DeliverRateCount",
+        keys: [{ name: "delivery", color: colors[:delivery] }, { name: "open", color: colors[:open] }]
       ),
       add_stat_field(
-        name: 'ClickRateCount', label: 'ClickRateCount',
-        keys: [{ name: 'open', color: colors[:open] }, { name: 'click', color: colors[:click] }]
+        name: "ClickRateCount", label: "ClickRateCount",
+        keys: [{ name: "open", color: colors[:open] }, { name: "click", color: colors[:click] }]
       )
     ]
   end
@@ -66,7 +66,7 @@ class Campaign < Message
   def subscriber_status_for(subscriber); end
 
   def send_newsletter
-    self.state = 'delivering'
+    self.state = "delivering"
     save
     MailSenderJob.perform_later(self)
   end
@@ -77,12 +77,12 @@ class Campaign < Message
 
   def clone_newsletter
     cloned_record = deep_clone # (:include => :subscribers)
-    cloned_record.name = name + '-copy'
+    cloned_record.name = name + "-copy"
     cloned_record
   end
 
   def detect_changed_template
-    copy_template if changes.include?('template_id')
+    copy_template if changes.include?("template_id")
   end
 
   # deliver email + create metric
@@ -108,7 +108,7 @@ class Campaign < Message
                                    .merge(attributes_for_template(subscriber))
                                    .merge(subscriber.properties)
 
-    compiled_premailer = (html || premailer).gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
+    compiled_premailer = (html || premailer).gsub("%7B%7B", "{{").gsub("%7D%7D", "}}")
     Mustache.render(compiled_premailer, subscriber_options)
 
     # html = LinkRenamer.convert(compiled_mustache, link_prefix)
@@ -127,8 +127,8 @@ class Campaign < Message
 
   def apply_premailer(opts = {})
     host = Rails.application.routes.default_url_options[:host]
-    skip_track_image = opts[:exclude_gif] ? 'exclude_gif=true' : nil
-    premailer_url = ["#{host}/apps/#{app.key}/premailer/#{id}", skip_track_image].join('?')
+    skip_track_image = opts[:exclude_gif] ? "exclude_gif=true" : nil
+    premailer_url = ["#{host}/apps/#{app.key}/premailer/#{id}", skip_track_image].join("?")
     url = URI.parse(premailer_url)
     update_column(:premailer, clean_inline_css(url))
   end
@@ -141,10 +141,10 @@ class Campaign < Message
 
     doc = Nokogiri::HTML(new_html)
     # rename active sotrage url to absolute for email readers
-    doc.xpath('//img').each do |img|
+    doc.xpath("//img").each do |img|
       image_url = "#{ENV['HOST']}#{img['src']}"
-      url = image_url.include?('rails/active_storage') ? image_url : img['src']
-      img['src'] = url
+      url = image_url.include?("rails/active_storage") ? image_url : img["src"]
+      img["src"] = url
     end
 
     doc.to_html
@@ -167,10 +167,10 @@ class Campaign < Message
   def broadcast_event
     key = app.key
     EventsChannel.broadcast_to(key, {
-      type: 'campaigns',
+      type: "campaigns",
       data: {
         campaign: id,
-        state: 'sent',
+        state: "sent",
         ts: Time.now.to_i
       }
     }.as_json)
@@ -189,7 +189,7 @@ class Campaign < Message
       (if app.outgoing_email_domain.present?
          "campaigns-#{app.key}-#{id}@#{app.outgoing_email_domain}"
        else
-         ''
+         ""
        end)
   end
 end

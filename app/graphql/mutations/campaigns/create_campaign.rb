@@ -14,7 +14,7 @@ module Mutations
         find_app(app_key)
 
         @campaign = collection(mode).new(campaign_params.permit!)
-        @campaign.save if operation.present? && operation == 'create'
+        @campaign.save if operation.present? && operation == "create"
         { campaign: @campaign, errors: @campaign.errors }
       end
 

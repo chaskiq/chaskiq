@@ -5,9 +5,9 @@ module UserHandler
     session_id = attrs.delete(:session_id)
     callbacks = attrs.delete(:disable_callbacks)
 
-    next_id = attrs[:name].blank? ? "visitor #{DummyName::Name.new}" : attrs[:name]
+    next_id = attrs[:name].presence || "visitor #{DummyName::Name.new}"
 
-    unless attrs.dig(:properties, :name).present?
+    if attrs.dig(:properties, :name).blank?
       attrs.merge!(
         name: next_id.to_s
       )
@@ -44,7 +44,7 @@ module UserHandler
     ap = handle_app_user_params(ap, attrs)
     ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
     ap.subscribe! unless ap.subscribed?
-    ap.type = 'AppUser'
+    ap.type = "AppUser"
     ap.save
     ap
   end
@@ -102,13 +102,13 @@ module UserHandler
     return if data.blank?
 
     ActiveSupport::SecurityUtils.secure_compare(
-      OpenSSL::HMAC.hexdigest('sha256', encryption_key, data['email']),
-      data['identifier_key']
+      OpenSSL::HMAC.hexdigest("sha256", encryption_key, data["email"]),
+      data["identifier_key"]
     )
   end
 
   def create_agent_bot
-    add_bot_agent(email: "bot@#{id}-chaskiq", name: 'chaskiq bot')
+    add_bot_agent(email: "bot@#{id}-chaskiq", name: "chaskiq bot")
   end
 
   def add_admin(attrs)
@@ -118,7 +118,7 @@ module UserHandler
         password: attrs[:password]
       },
       bot: nil,
-      role_attrs: { access_list: ['manage'] }
+      role_attrs: { access_list: ["manage"] }
     )
   end
 

@@ -4,7 +4,7 @@ module MessageApis::Qualifier
     # Sent when an app has been inserted into a conversation, message or
     # the home screen, so that you can render the app.
     def self.initialize_hook(kind:, ctx:)
-      options = ctx[:values][:item].map { |o| o[:name] }
+      options = ctx[:values][:item].pluck(:name)
 
       QualifierRecord.configure(
         options
@@ -29,7 +29,7 @@ module MessageApis::Qualifier
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
       fields = ctx[:package].app.searcheable_fields.map do |o|
-        o['name'].to_sym
+        o["name"].to_sym
       end
 
       QualifierRecord.configure(
@@ -91,60 +91,60 @@ module MessageApis::Qualifier
 
       definitions = [
         {
-          type: 'text',
-          style: 'header',
-          align: 'center',
-          text: 'qualify users'
+          type: "text",
+          style: "header",
+          align: "center",
+          text: "qualify users"
         },
         {
-          type: 'text',
-          style: 'muted',
-          align: 'center',
-          text: 'Compose forms for qualificators'
+          type: "text",
+          style: "muted",
+          align: "center",
+          text: "Compose forms for qualificators"
         },
         {
-          type: 'separator'
+          type: "separator"
         },
         {
-          type: 'text',
-          text: 'Pick a template',
-          style: 'header'
+          type: "text",
+          text: "Pick a template",
+          style: "header"
         },
 
         {
-          type: 'list',
+          type: "list",
           disabled: false,
           items: [
             {
-              type: 'item',
-              id: 'contact-fields',
-              title: 'Contact fields',
-              subtitle: 'Ask for name , email & company',
+              type: "item",
+              id: "contact-fields",
+              title: "Contact fields",
+              subtitle: "Ask for name , email & company",
               action: {
-                type: 'submit'
+                type: "submit"
               }
             },
             {
-              type: 'item',
-              id: 'any-field',
-              title: 'Custom Fields',
-              subtitle: 'Ask for custom field data',
+              type: "item",
+              id: "any-field",
+              title: "Custom Fields",
+              subtitle: "Ask for custom field data",
               action: {
-                type: 'submit'
+                type: "submit"
               }
             }
           ]
         }
       ]
 
-      if ctx.dig(:field, :id) == 'contact-fields'
+      if ctx.dig(:field, :id) == "contact-fields"
 
         r = QualifierRecordItem.new(
           options: fields
         )
-        r.add_item('name')
-        r.add_item('email')
-        r.add_item('company_name')
+        r.add_item("name")
+        r.add_item("email")
+        r.add_item("company_name")
 
         return {
           kind: kind,
@@ -152,7 +152,7 @@ module MessageApis::Qualifier
         }
       end
 
-      if ctx.dig(:field, :id) == 'any-field'
+      if ctx.dig(:field, :id) == "any-field"
         r = QualifierRecordItem.new(
           options: fields
         )
@@ -165,7 +165,7 @@ module MessageApis::Qualifier
         }
       end
 
-      if ctx.dig(:field, :id) == 'add-field'
+      if ctx.dig(:field, :id) == "add-field"
 
         r = QualifierRecordItem.new(
           options: fields
@@ -183,13 +183,13 @@ module MessageApis::Qualifier
         }
       end
 
-      if ctx.dig(:field, :id) == 'confirm' &&
-         ctx.dig(:field, :action, :type) === 'submit'
+      if ctx.dig(:field, :id) == "confirm" &&
+         ctx.dig(:field, :action, :type) === "submit"
 
         # TODO: validate
 
         return {
-          kind: 'initialize',
+          kind: "initialize",
           definitions: definitions,
           results: ctx[:values]
         }
@@ -223,29 +223,29 @@ module MessageApis::Qualifier
       end
 
       def add_item(name)
-        items << { name: name, label: '' }
+        items << { name: name, label: "" }
       end
 
       def item(name:, label:, index:)
         [
           {
-            type: 'input',
+            type: "input",
             id: "item[#{index}][label]",
-            placeholder: 'enter your data',
-            label: 'Label',
+            placeholder: "enter your data",
+            label: "Label",
             value: label
           },
           {
-            type: 'dropdown',
+            type: "dropdown",
             id: "item[#{index}][name]",
-            label: 'Value',
+            label: "Value",
             value: name,
             options: options.each_with_index.map do |o, _i|
               {
-                type: 'option',
-                text: o['name'],
-                name: o['name'],
-                id: o['name']
+                type: "option",
+                text: o["name"],
+                name: o["name"],
+                id: o["name"]
               }
             end
           }
@@ -267,19 +267,19 @@ module MessageApis::Qualifier
       def header_fields
         [
           {
-            type: 'text',
-            style: 'header',
-            align: 'center',
-            text: 'qualify users'
+            type: "text",
+            style: "header",
+            align: "center",
+            text: "qualify users"
           },
           {
-            type: 'text',
-            style: 'muted',
-            align: 'center',
-            text: 'Compose forms for qualificators'
+            type: "text",
+            style: "muted",
+            align: "center",
+            text: "Compose forms for qualificators"
           },
           {
-            type: 'separator'
+            type: "separator"
           }
         ]
       end
@@ -287,22 +287,22 @@ module MessageApis::Qualifier
       def confirm_buttons
         [
           {
-            type: 'button',
-            id: 'add-field',
-            label: 'Add new field',
-            align: 'left',
-            variant: 'outlined',
+            type: "button",
+            id: "add-field",
+            label: "Add new field",
+            align: "left",
+            variant: "outlined",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           },
           {
-            type: 'button',
-            id: 'confirm',
-            label: 'Confirm Fields',
-            align: 'center',
+            type: "button",
+            id: "confirm",
+            label: "Confirm Fields",
+            align: "center",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           }
         ]
@@ -333,14 +333,14 @@ module MessageApis::Qualifier
 
       def add_item(name, label = nil)
         @items = items << {
-          type: 'input',
+          type: "input",
           id: name,
           placeholder: "type your #{label}",
           label: label,
           value: send(name.to_sym),
-          errors: errors[name.to_sym]&.uniq&.join(', '),
+          errors: errors[name.to_sym]&.uniq&.join(", "),
           action: {
-            type: 'submit'
+            type: "submit"
           }
         }
       end

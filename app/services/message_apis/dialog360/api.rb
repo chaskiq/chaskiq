@@ -4,18 +4,18 @@ module MessageApis::Dialog360
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
 
-    PROVIDER = 'dialog_360'
+    PROVIDER = "dialog_360"
 
     attr_accessor :url, :api_key, :conn
 
     def initialize(config:)
-      @api_key = config['api_key']
-      @api_token = config['api_secret']
-      @phone = config['user_id']
-      @url = if config['sandbox'].present?
-               'https://waba-sandbox.360dialog.io/v1'
+      @api_key = config["api_key"]
+      @api_token = config["api_secret"]
+      @phone = config["user_id"]
+      @url = if config["sandbox"].present?
+               "https://waba-sandbox.360dialog.io/v1"
              else
-               'https://waba.360dialog.io/v1'
+               "https://waba.360dialog.io/v1"
              end
       @package = config[:package]
       @conn = Faraday.new(
@@ -26,8 +26,8 @@ module MessageApis::Dialog360
 
       @conn.headers = {
         'D360-Api-Key': @api_key,
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json'
+        "Content-Type" => "application/json",
+        "Accept" => "application/json"
       }
 
       self
@@ -59,20 +59,20 @@ module MessageApis::Dialog360
 
     def process_event(params, package)
       @package = package
-      current = params['current']
+      current = params["current"]
 
-      process_statuses(params['statuses']) if params['statuses'].present?
+      process_statuses(params["statuses"]) if params["statuses"].present?
 
-      process_message(params, @package) if params['messages'].present?
+      process_message(params, @package) if params["messages"].present?
     end
 
     def process_statuses(statuses)
       statuses.each do |status|
-        case status['status']
-        when 'read' then process_read(status)
-        when 'failed' then process_error(status)
+        case status["status"]
+        when "read" then process_read(status)
+        when "failed" then process_error(status)
         else
-          puts "no processing for #{status['status']} event"
+          Rails.logger.info "no processing for #{status['status']} event"
         end
       end
     end
@@ -85,7 +85,7 @@ module MessageApis::Dialog360
     end
 
     def process_error(params)
-      conversation_part_channel = find_channel(params['id'])
+      conversation_part_channel = find_channel(params["id"])
       return if conversation_part_channel.blank?
 
       conversation = conversation_part_channel.conversation_part.conversation
@@ -94,7 +94,7 @@ module MessageApis::Dialog360
       # el notify_message va a bypasear el canal
       # conversation.add_message()
       conversation.add_message_event(
-        action: 'errored',
+        action: "errored",
         provider: PROVIDER,
         message_source_id: "bypass-internal-#{params['id']}",
         data: {
@@ -104,28 +104,28 @@ module MessageApis::Dialog360
     end
 
     def process_read(params)
-      conversation_part_channel = find_channel(params['id'])
+      conversation_part_channel = find_channel(params["id"])
       return if conversation_part_channel.blank?
 
       conversation_part_channel.conversation_part.read!
     end
 
     def get_message_id(response_data)
-      response_data['messages'].first['id']
+      response_data["messages"].first["id"]
     end
 
     def send_message(conversation, message)
       blocks = JSON.parse(
-        message['serialized_content']
-      )['blocks']
+        message["serialized_content"]
+      )["blocks"]
 
       # TODO: support more blocks
-      image_block = blocks.find { |o| o['type'] == 'image' }
-      video_block = blocks.find { |o| o['type'] == 'recorded-video' }
-      file_block = blocks.find { |o| o['type'] == 'file' }
+      image_block = blocks.find { |o| o["type"] == "image" }
+      video_block = blocks.find { |o| o["type"] == "recorded-video" }
+      file_block = blocks.find { |o| o["type"] == "file" }
       is_plain = !image_block || !video_block || !file_block
       plain_message = blocks.map do |o|
-        o['text']
+        o["text"]
       end.join("\r\n")
 
       profile_id = get_profile_for_participant(conversation)
@@ -134,39 +134,39 @@ module MessageApis::Dialog360
       return if profile_id.blank?
 
       message_params = {
-        from: { type: 'whatsapp', number: @phone },
+        from: { type: "whatsapp", number: @phone },
         to: profile_id
       }
 
       # TODO: support audio / video / gif
       if image_block
         message_params.merge!({
-                                type: 'image',
+                                type: "image",
                                 image: {
-                                  link: ENV['HOST'] + image_block['data']['url'],
+                                  link: ENV["HOST"] + image_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
       elsif video_block
         message_params.merge!({
-                                type: 'video',
+                                type: "video",
                                 video: {
-                                  url: ENV['HOST'] + video_block['data']['url'],
+                                  url: ENV["HOST"] + video_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
 
       elsif file_block
         message_params.merge!({
-                                type: 'document',
+                                type: "document",
                                 file: {
-                                  url: ENV['HOST'] + file_block['data']['url'],
+                                  url: ENV["HOST"] + file_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
       elsif is_plain
         message_params.merge!({
-                                type: 'text',
+                                type: "text",
                                 text: { body: plain_message }
                               })
       end
@@ -191,18 +191,18 @@ module MessageApis::Dialog360
 
       profile_id = get_profile_for_participant(conversation)
 
-      pp template
-      return unless profile_id.present?
+      Rails.logger.debug template
+      return if profile_id.blank?
 
       data = {
         to: profile_id,
-        type: 'hsm',
+        type: "hsm",
         hsm: {
-          namespace: template['namespace'],
-          element_name: template['name'],
+          namespace: template["namespace"],
+          element_name: template["name"],
           language: {
-            policy: 'deterministic',
-            code: template['language']
+            policy: "deterministic",
+            code: template["language"]
           },
           localizable_params: parameters.compact.map do |o|
             { default: o }
@@ -210,8 +210,8 @@ module MessageApis::Dialog360
         }
       }
 
-      pp '***************'
-      pp data
+      Rails.logger.debug "***************"
+      Rails.logger.debug data
 
       s = @conn.post(
         "#{@url}/messages",
@@ -223,7 +223,7 @@ module MessageApis::Dialog360
     # not used fro now
     def mark_as_read(id)
       message_params = {
-        status: 'read'
+        status: "read"
       }
       @conn.post(
         "#{@url}/messages/#{id}",
@@ -246,8 +246,8 @@ module MessageApis::Dialog360
 
       direct_upload(
         file: file,
-        filename: 'ws360-file',
-        content_type: content_type || 'image/jpeg'
+        filename: "ws360-file",
+        content_type: content_type || "image/jpeg"
       )
     end
 
@@ -256,11 +256,11 @@ module MessageApis::Dialog360
 
       app = package.app
 
-      messages = params['messages']
+      messages = params["messages"]
 
       messages.each do |message|
-        sender_id = message['from']
-        message_id = message['id']
+        sender_id = message["from"]
+        message_id = message["id"]
 
         # determine the id of the user (channel)
         is_agent = sender_id == package.user_id.to_s
@@ -273,11 +273,11 @@ module MessageApis::Dialog360
         next if conversation && conversation.conversation_part_channel_sources
                                             .find_by(message_source_id: message_id).present?
 
-        text = message.dig('text', 'body')
+        text = message.dig("text", "body")
 
         serialized_content = serialize_content(message)
 
-        participant = add_participant(dialog_user, message, params['contacts'])
+        participant = add_participant(dialog_user, message, params["contacts"])
 
         if conversation.blank?
           conversation = app.conversations.create(
@@ -316,7 +316,7 @@ module MessageApis::Dialog360
     end
 
     def serialize_content(data)
-      if (text = data.dig('text', 'body')) && text
+      if (text = data.dig("text", "body")) && text
         text_block(text) if text.present?
       else
         attachment_block(data)
@@ -331,30 +331,30 @@ module MessageApis::Dialog360
     end
 
     def media_block(data)
-      media_type = data['type']
+      media_type = data["type"]
       case media_type
-      when 'unsupported' then nil
-      when 'image', 'sticker'
-        url = data[data['type']]
-        text = data[data['type']]['caption']
-        file = handle_direct_upload(url['id'], url['mime_type'])
+      when "unsupported" then nil
+      when "image", "sticker"
+        url = data[data["type"]]
+        text = data[data["type"]]["caption"]
+        file = handle_direct_upload(url["id"], url["mime_type"])
         photo_block(url: file[:url], text: text)
-      when 'video'
-        url = data['video']
-        text = data['video']['caption']
-        file = handle_direct_upload(url['id'], url['mime_type'])
+      when "video"
+        url = data["video"]
+        text = data["video"]["caption"]
+        file = handle_direct_upload(url["id"], url["mime_type"])
         gif_block(url: file[:url], text: text)
-      when 'audio', 'voice', 'document'
+      when "audio", "voice", "document"
         url = data[media_type]
-        text = data[media_type]['caption']
-        file = handle_direct_upload(url['id'], url['mime_type'])
+        text = data[media_type]["caption"]
+        file = handle_direct_upload(url["id"], url["mime_type"])
         file_block(url: file[:url], text: text)
       end
     end
 
     def add_participant(dialog_user, message, contacts = [])
       app = @package.app
-      profile = contacts.find { |o| o['wa_id'] == dialog_user }
+      profile = contacts.find { |o| o["wa_id"] == dialog_user }
 
       if dialog_user
 
@@ -364,7 +364,7 @@ module MessageApis::Dialog360
 
         if profile
           profile_data.merge!({
-                                name: profile.dig('profile', 'name')
+                                name: profile.dig("profile", "name")
                               })
         end
 

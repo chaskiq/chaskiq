@@ -11,7 +11,7 @@ module MessageApis::FullContact
         values: { block_type: block_type },
         definitions: [
           {
-            type: 'content'
+            type: "content"
           }
         ]
       }
@@ -19,14 +19,14 @@ module MessageApis::FullContact
 
     def self.user_attrs
       items_attrs = [
-        { label: 'Name', call: ->(user) { user.name } },
-        { label: 'First name', call: ->(user) { user.first_name } },
-        { label: 'Last name', call: ->(user) { user.last_name } },
-        { label: 'Twitter', call: ->(user) { user.twitter } },
-        { label: 'Facebook', call: ->(user) { user.facebook } },
-        { label: 'Linkedin', call: ->(user) { user.linkedin } },
-        { label: 'Organization', call: ->(user) { user.organization } },
-        { label: 'Job title', call: ->(user) { user.job_title } }
+        { label: "Name", call: ->(user) { user.name } },
+        { label: "First name", call: ->(user) { user.first_name } },
+        { label: "Last name", call: ->(user) { user.last_name } },
+        { label: "Twitter", call: ->(user) { user.twitter } },
+        { label: "Facebook", call: ->(user) { user.facebook } },
+        { label: "Linkedin", call: ->(user) { user.linkedin } },
+        { label: "Organization", call: ->(user) { user.organization } },
+        { label: "Job title", call: ->(user) { user.job_title } }
       ]
     end
 
@@ -44,24 +44,24 @@ module MessageApis::FullContact
 
       definitions = [
         {
-          type: 'text',
-          text: 'FullContact',
-          style: 'header'
+          type: "text",
+          text: "FullContact",
+          style: "header"
         },
         {
-          id: 'fullcontact-enrich-btn',
-          label: 'Enrich with Fullcontact',
-          type: 'button',
+          id: "fullcontact-enrich-btn",
+          label: "Enrich with Fullcontact",
+          type: "button",
           action: {
-            type: 'submit'
+            type: "submit"
           }
         }
       ]
 
       definitions << {
-        type: 'data-table',
+        type: "data-table",
         items: user_attrs.map do |o|
-                 { type: 'field-value',
+                 { type: "field-value",
                    field: o[:label],
                    value: o[:call].call(user) }
                end
@@ -83,7 +83,7 @@ module MessageApis::FullContact
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
       {
-        kind: 'initialize',
+        kind: "initialize",
         definitions: []
         # results: results
       }
@@ -97,26 +97,26 @@ module MessageApis::FullContact
 
       definitions = [
         {
-          type: 'text',
-          text: 'FullContact',
-          style: 'header'
+          type: "text",
+          text: "FullContact",
+          style: "header"
         }
       ]
       definitions << {
-        type: 'data-table',
+        type: "data-table",
         items: user_attrs.map do |o|
-                 { type: 'field-value',
+                 { type: "field-value",
                    field: o[:label],
                    value: o[:call].call(user) }
                end
       }
 
       definitions << {
-        id: 'fullcontact-enrich-btn',
-        label: 'Enrich with Fullcontact',
-        type: 'button',
+        id: "fullcontact-enrich-btn",
+        label: "Enrich with Fullcontact",
+        type: "button",
         action: {
-          type: 'submit'
+          type: "submit"
         }
       }
 

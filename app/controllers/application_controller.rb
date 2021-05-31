@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
     @app = App.find_by(key: params[:app])
     @campaign = @app.campaigns.find(params[:id])
     # render plain: "hello"
-    render 'campaigns/iframe', layout: false
+    render "campaigns/iframe", layout: false
   end
 
   def dummy_webhook
-    render status: 200, json: { ok: true }
+    render status: :ok, json: { ok: true }
   end
 
   def current_user
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_by_encrypted_params
-    @app.decrypt(request.headers['HTTP_ENC_DATA'])
+    @app.decrypt(request.headers["HTTP_ENC_DATA"])
   end
 
   def cookie_namespace
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_empty
-    render html: '', layout: 'application'
+    render html: "", layout: "application"
   end
 
   def user_session
@@ -51,9 +51,9 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def enabled_subscriptions?
-    ENV['PADDLE_PUBLIC_KEY'].present? &&
-      ENV['PADDLE_VENDOR_ID'].present? &&
-      ENV['PADDLE_SECRET_TOKEN'].present?
+    ENV["PADDLE_PUBLIC_KEY"].present? &&
+      ENV["PADDLE_VENDOR_ID"].present? &&
+      ENV["PADDLE_SECRET_TOKEN"].present?
   end
 
   helper_method :enabled_subscriptions?
@@ -69,8 +69,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    http_locale = request.headers['HTTP_LANG']
-    http_splitted_locale = http_locale ? http_locale.to_s.split('-').first.to_sym : nil
+    http_locale = request.headers["HTTP_LANG"]
+    http_splitted_locale = http_locale ? http_locale.to_s.split("-").first.to_sym : nil
 
     locale = if lang_available?(http_splitted_locale)
                http_splitted_locale
@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
   private
 
   def lang_available?(lang)
-    return unless lang.present?
+    return if lang.blank?
 
     I18n.available_locales.include?(lang.to_sym)
   end
@@ -96,16 +96,16 @@ class ApplicationController < ActionController::Base
   def current_resource_owner
     if doorkeeper_token && !doorkeeper_token.expired?
       agent = Agent.find(doorkeeper_token.resource_owner_id)
-      sign_in(agent, scope: 'agent')
+      sign_in(agent, scope: "agent")
       agent
     end
   end
 
   def layout_by_resource
     if devise_controller?
-      'devise'
+      "devise"
     else
-      'application'
+      "application"
     end
   end
 end

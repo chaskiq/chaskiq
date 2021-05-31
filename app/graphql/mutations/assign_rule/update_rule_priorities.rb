@@ -12,7 +12,7 @@ module Mutations
         find_app(app_key)
 
         rules.each_with_index do |object, index|
-          @app.assignment_rules.find(object['id']).update(priority: index + 1)
+          @app.assignment_rules.find(object["id"]).update(priority: index + 1)
         end
 
         {

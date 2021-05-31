@@ -3,7 +3,7 @@
 class Visitor < AppUser
   def become_lead!
     becomes!(Lead)
-    self.type = 'Lead'
+    self.type = "Lead"
     save
 
     lead_event

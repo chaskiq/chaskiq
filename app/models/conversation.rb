@@ -6,21 +6,21 @@ class Conversation < ApplicationRecord
   include Tokenable
 
   belongs_to :app
-  belongs_to :assignee, class_name: 'Agent', optional: true
-  belongs_to :main_participant, class_name: 'AppUser', optional: true # , foreign_key: "user_id"
+  belongs_to :assignee, class_name: "Agent", optional: true
+  belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
   # has_one :conversation_source, dependent: :destroy
-  has_many :messages, class_name: 'ConversationPart', dependent: :destroy
+  has_many :messages, class_name: "ConversationPart", dependent: :destroy
   has_many :conversation_channels, dependent: :destroy
   has_many :conversation_part_channel_sources, through: :messages
-  has_one :latest_message, -> { order('id desc') }, class_name: 'ConversationPart'
+  has_one :latest_message, -> { order("id desc") }, class_name: "ConversationPart"
 
   acts_as_taggable_on :tags
 
   accepts_nested_attributes_for :conversation_channels
 
+  before_create :add_default_assigne
   after_create :convert_visitor_to_lead, if: :visitor_participant?
 
-  before_create :add_default_assigne
   after_create :add_created_event
 
   attr_accessor :initiator
@@ -137,7 +137,7 @@ class Conversation < ApplicationRecord
     self.assignee = user
     if save
       add_message_event(
-        action: 'assigned',
+        action: "assigned",
         data: {
           name: user.name,
           id: user.id,

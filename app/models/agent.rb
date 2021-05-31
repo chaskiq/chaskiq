@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'digest/md5'
+require "digest/md5"
 
 class Agent < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -33,21 +33,21 @@ class Agent < ApplicationRecord
   end
 
   has_many :access_grants,
-           class_name: 'Doorkeeper::AccessGrant',
+           class_name: "Doorkeeper::AccessGrant",
            foreign_key: :resource_owner_id,
            dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :access_tokens,
-           class_name: 'Doorkeeper::AccessToken',
+           class_name: "Doorkeeper::AccessToken",
            foreign_key: :resource_owner_id,
            dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
-  has_many :owned_apps, class_name: 'App', foreign_key: 'owner_id'
+  has_many :owned_apps, class_name: "App", foreign_key: "owner_id"
   has_many :assignment_rules
-  has_many :articles, foreign_key: 'author_id'
-  has_many :conversations, foreign_key: 'assignee_id'
+  has_many :articles, foreign_key: "author_id"
+  has_many :conversations, foreign_key: "assignee_id"
 
   scope :bots, -> { where(bot: true) }
   scope :humans, -> { where(bot: nil).or(where(bot: false)) }
@@ -75,7 +75,7 @@ class Agent < ApplicationRecord
   end
 
   def display_name
-    [name].join(' ')
+    [name].join(" ")
   end
 
   def avatar_url
@@ -116,7 +116,7 @@ class Agent < ApplicationRecord
   private
 
   def default_bot_avatar
-    ActionController::Base.helpers.asset_url('icons8-bot-50.png')
+    ActionController::Base.helpers.asset_url("icons8-bot-50.png")
   end
 
   def default_avatar

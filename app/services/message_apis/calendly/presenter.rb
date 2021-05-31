@@ -8,26 +8,26 @@ module MessageApis::Calendly
 
       definitions = [
         {
-          type: 'text',
+          type: "text",
           text: text,
-          align: 'left',
-          style: 'muted'
+          align: "left",
+          style: "muted"
         },
         {
-          name: 'book-meeting',
+          name: "book-meeting",
           label: params[:ctx][:values][:label],
-          type: 'button',
-          align: 'center',
-          width: 'full',
+          type: "button",
+          align: "center",
+          width: "full",
           action: {
-            type: 'frame',
-            url: '/package_iframe_internal/Calendly'
+            type: "frame",
+            url: "/package_iframe_internal/Calendly"
           }
         }
       ]
 
       {
-        kind: 'initialize',
+        kind: "initialize",
         definitions: definitions,
         values: params[:ctx][:values]
       }
@@ -38,27 +38,27 @@ module MessageApis::Calendly
     def self.submit_hook(params)
       definitions = [
         {
-          type: 'text',
-          text: 'Calendly',
-          align: 'center',
-          style: 'header'
+          type: "text",
+          text: "Calendly",
+          align: "center",
+          style: "header"
         }
       ]
 
-      if (event = params.dig(:ctx, :values, 'data', 'event')) && event
+      if (event = params.dig(:ctx, :values, "data", "event")) && event
         case event
-        when 'calendly.event_scheduled'
+        when "calendly.event_scheduled"
           definitions << {
-            type: 'text',
-            text: 'Scheduled!',
-            align: 'center',
-            style: 'header'
+            type: "text",
+            text: "Scheduled!",
+            align: "center",
+            style: "header"
           }
         end
       end
 
       {
-        kind: 'submit',
+        kind: "submit",
         definitions: definitions,
         values: params[:ctx][:values]
       }
@@ -68,36 +68,36 @@ module MessageApis::Calendly
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
       calendar_input = {
-        name: 'calendar',
-        type: 'input',
-        id: 'calendar_url',
-        placeholder: 'your calendly url',
-        label: 'calendly url'
+        name: "calendar",
+        type: "input",
+        id: "calendar_url",
+        placeholder: "your calendly url",
+        label: "calendly url"
       }
 
       button_label = {
-        name: 'label',
-        type: 'input',
-        id: 'label',
-        placeholder: 'book a meeting',
-        label: 'Button text'
+        name: "label",
+        type: "input",
+        id: "label",
+        placeholder: "book a meeting",
+        label: "Button text"
       }
 
       invitation_text = {
-        name: 'invitation_text',
-        type: 'input',
-        id: 'invitation_text',
+        name: "invitation_text",
+        type: "input",
+        id: "invitation_text",
         placeholder: "meet with #{ctx[:package].app.name} team",
-        label: 'Invitation text'
+        label: "Invitation text"
       }
 
       action = {
-        name: 'set_url',
-        label: 'set your calendar',
-        id: 'alo',
-        type: 'button',
+        name: "set_url",
+        label: "set your calendar",
+        id: "alo",
+        type: "button",
         action: {
-          type: 'submit'
+          type: "submit"
         }
       }
 
@@ -108,26 +108,18 @@ module MessageApis::Calendly
         action
       ]
 
-      if ctx.dig(:field, :name) == 'set_url' &&
-         ctx.dig(:field, :action, :type) === 'submit'
+      if ctx.dig(:field, :name) == "set_url" &&
+         ctx.dig(:field, :action, :type) === "submit"
 
         url = ctx.dig(:values, :calendar)
-        label = if ctx.dig(:values, :label).blank?
-                  'Book a meeting'
-                else
-                  ctx.dig(:values, :label)
-                end
+        label = ctx.dig(:values, :label).presence || "Book a meeting"
 
-        invitation = if ctx.dig(:values, :invitation_text).blank?
-                       "meet with #{ctx[:package].app.name} team"
-                     else
-                       ctx.dig(:values, :invitation_text)
-                     end
+        invitation = ctx.dig(:values, :invitation_text).presence || "meet with #{ctx[:package].app.name} team"
 
         unless valid_url?(url)
           input = calendar_input
           input.merge!(
-            errors: 'not a valid url',
+            errors: "not a valid url",
             value: url
           )
 
@@ -144,7 +136,7 @@ module MessageApis::Calendly
         end
 
         return {
-          kind: 'initialize',
+          kind: "initialize",
           definitions: definitions,
           results: {
             url: url,

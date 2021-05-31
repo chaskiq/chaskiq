@@ -3,14 +3,14 @@
 module MessageApis::Pipedrive
   class Api < MessageApis::BasePackage
     # https://developers.pipedrive.com/docs/api/v1/
-    BASE_URL = 'https://api.pipedrive.com/v1'
+    BASE_URL = "https://api.pipedrive.com/v1"
 
     attr_accessor :secret
 
     def initialize(config:)
       @secret = secret
 
-      @api_token = config['api_secret']
+      @api_token = config["api_secret"]
 
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder
@@ -23,21 +23,21 @@ module MessageApis::Pipedrive
 
     def trigger(event)
       case event.action
-      when 'email_changed' then register_contact(event.eventable)
+      when "email_changed" then register_contact(event.eventable)
       end
     end
 
     def process_event(params, package)
       @package = package
-      current = params['current']
-      case params['meta']['action']
-      when 'updated' then update_app_user_profile(current)
-      when 'deleted' then delete_app_user_profile(params)
+      current = params["current"]
+      case params["meta"]["action"]
+      when "updated" then update_app_user_profile(current)
+      when "deleted" then delete_app_user_profile(params)
       end
     end
 
     def delete_app_user_profile(data)
-      id = data['meta']['id']
+      id = data["meta"]["id"]
       profile = @package.app.external_profiles.find_by(profile_id: id)
       return if profile.blank?
 
@@ -46,8 +46,8 @@ module MessageApis::Pipedrive
 
     def update_app_user_profile(data)
       external_profile = @package.app.external_profiles.find_by(
-        provider: 'pipedrive',
-        profile_id: data['id']
+        provider: "pipedrive",
+        profile_id: data["id"]
       )
 
       return if external_profile.blank?
@@ -57,17 +57,17 @@ module MessageApis::Pipedrive
       # we skip users that are not in chaskiq, right ?
       return if app_user.blank?
 
-      first_name = data['first_name']
-      last_name  = data['last_name']
+      first_name = data["first_name"]
+      last_name  = data["last_name"]
 
       name = "#{first_name} #{last_name}"
 
       update_params = {
-        email: data['email'][0]['value'],
+        email: data["email"][0]["value"],
         name: name,
         last_name: last_name,
         first_name: first_name,
-        phone: data['phone'][0]['value']
+        phone: data["phone"][0]["value"]
       }.reject { |_k, v| v.blank? }
 
       app_user.update(update_params)
@@ -84,17 +84,17 @@ module MessageApis::Pipedrive
 
     def register_contact(user)
       external_profile = user.external_profiles.find_or_create_by(
-        provider: 'pipedrive'
+        provider: "pipedrive"
       )
 
       if external_profile &&
          external_profile.profile_id.present? &&
          (find_response = person(external_profile.profile_id)) &&
-         find_response['success'].present?
+         find_response["success"].present?
 
-        id = find_response['data']['id']
+        id = find_response["data"]["id"]
         external_profile.update(
-          data: find_response['data']
+          data: find_response["data"]
         )
 
       else
@@ -104,10 +104,10 @@ module MessageApis::Pipedrive
                                    name: user.name
                                  })
 
-        if response['success']
+        if response["success"]
           external_profile.update(
-            profile_id: response['data']['id'],
-            data: response['data']
+            profile_id: response["data"]["id"],
+            data: response["data"]
           )
         end
 
@@ -115,7 +115,7 @@ module MessageApis::Pipedrive
     end
 
     def find_user(term:, search_by_email: false, start: 0)
-      url = url('/persons/find')
+      url = url("/persons/find")
       data = {
         term: term,
         start: start,
@@ -123,19 +123,19 @@ module MessageApis::Pipedrive
       }
 
       response = @conn.get(url, data,
-                           { 'Content-Type' => 'application/json' })
+                           { "Content-Type" => "application/json" })
 
       JSON.parse(response.body)
     end
 
     def person(id)
       url = url("/persons/#{id}")
-      response = @conn.get(url, {}, { 'Content-Type' => 'application/json' })
+      response = @conn.get(url, {}, { "Content-Type" => "application/json" })
       JSON.parse(response.body)
     end
 
     def create_person(params:)
-      url = url('/persons')
+      url = url("/persons")
       data = {
         # "name": 'jojoijoji michelson m',
         # "email": 'miguejoijolmichelson@gmail.com',
@@ -144,7 +144,7 @@ module MessageApis::Pipedrive
       }
       response = @conn.post do |req|
         req.url url
-        req.headers['Content-Type'] = 'application/json'
+        req.headers["Content-Type"] = "application/json"
         req.body = params.to_json
       end
 
@@ -155,12 +155,12 @@ module MessageApis::Pipedrive
       url = url("/persons/#{id}")
 
       data = {
-        visible_to: '3'
+        visible_to: "3"
       }.merge!(params)
 
       response = @conn.put do |req|
         req.url url
-        req.headers['Content-Type'] = 'application/json'
+        req.headers["Content-Type"] = "application/json"
         req.body = data.to_json
       end
 
@@ -172,30 +172,30 @@ module MessageApis::Pipedrive
       # "#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
       data = {
         subscription_url: subscription_url,
-        event_action: '*',
-        event_object: 'person'
+        event_action: "*",
+        event_object: "person"
       }
-      url = url('/webhooks')
+      url = url("/webhooks")
       response = @conn.post do |req|
         req.url url
-        req.headers['Content-Type'] = 'application/json'
+        req.headers["Content-Type"] = "application/json"
         req.body = data.to_json
       end
     end
 
     def get_webhooks
-      url = url('/webhooks')
-      response = @conn.get(url, nil, { 'Content-Type' => 'application/json' })
+      url = url("/webhooks")
+      response = @conn.get(url, nil, { "Content-Type" => "application/json" })
       JSON.parse(response.body)
     end
 
     def delete_webhook(id)
       url = url("/webhooks/#{id}")
-      response = @conn.delete(url, nil, { 'Content-Type' => 'application/json' })
+      response = @conn.delete(url, nil, { "Content-Type" => "application/json" })
     end
 
     def delete_webhooks
-      get_webhooks['data'].map { |o| delete_webhook(o['id']) }
+      get_webhooks["data"].map { |o| delete_webhook(o["id"]) }
     end
   end
 end

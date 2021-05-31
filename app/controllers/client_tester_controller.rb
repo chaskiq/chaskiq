@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'jwe'
-require 'open-uri'
-require 'openssl'
-require 'base64'
+require "jwe"
+require "open-uri"
+require "openssl"
+require "base64"
 
 class ClientTesterController < ApplicationController
   before_action :set_lang_var
 
   before_action :authenticate_agent!, if: -> { !Rails.env.test? }
 
-  layout 'client'
+  layout "client"
 
   def show
     @app = get_app
@@ -20,7 +20,7 @@ class ClientTesterController < ApplicationController
     @json_payload.merge!(user_options) unless params[:sessionless]
 
     @encrypted_data = if params[:jwt].present?
-                        t = JWE.encrypt(@json_payload.to_json, @app.encryption_key, alg: 'dir')
+                        t = JWE.encrypt(@json_payload.to_json, @app.encryption_key, alg: "dir")
                         t = "\'#{t}\'"
                       else
                         @json_payload.to_json
@@ -37,24 +37,24 @@ class ClientTesterController < ApplicationController
 
   def user_options
     key = @app.encryption_key
-    email = 'test@test.cl'
+    email = "test@test.cl"
     options = {
       email: email,
       properties: {
-        name: params[:name] || 'miguel',
-        lang: params[:lang] || 'en',
-        id: 'localhost',
-        country: params[:country] || 'chile',
-        role: params[:pro] || 'admin',
+        name: params[:name] || "miguel",
+        lang: params[:lang] || "en",
+        id: "localhost",
+        country: params[:country] || "chile",
+        role: params[:pro] || "admin",
         pro: params[:pro],
         num_devices: params[:num_devices].nil? ? 2 : params[:num_devices].to_i,
-        plan: params[:plan] || 'pro',
+        plan: params[:plan] || "pro",
         last_sign_in: params[:last_sign_in] || 2.days.ago
       }
     }
     if params[:jwt].blank?
       options.merge!({
-                       identifier_key: OpenSSL::HMAC.hexdigest('sha256', key, email)
+                       identifier_key: OpenSSL::HMAC.hexdigest("sha256", key, email)
                      })
     end
     options
@@ -62,8 +62,8 @@ class ClientTesterController < ApplicationController
 
   def endpoints
     {
-      http: Rails.env.production? ? 'https://' : 'http://',
-      ws: Rails.env.production? ? 'wss://' : 'ws://'
+      http: Rails.env.production? ? "https://" : "http://",
+      ws: Rails.env.production? ? "wss://" : "ws://"
     }
   end
 

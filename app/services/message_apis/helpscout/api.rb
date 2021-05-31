@@ -28,15 +28,15 @@ module MessageApis::Helpscout
     end
 
     def get_token
-      url = 'https://api.helpscout.net/v2/oauth2/token'
+      url = "https://api.helpscout.net/v2/oauth2/token"
       data = {
-        'grant_type' => 'client_credentials',
-        'client_id' => @key,
-        'client_secret' => @secret
+        "grant_type" => "client_credentials",
+        "client_id" => @key,
+        "client_secret" => @secret
       }
       response = @conn.post do |req|
         req.url url
-        req.headers['Content-Type'] = 'application/json'
+        req.headers["Content-Type"] = "application/json"
         req.body = data.to_json
       end
       @access_token = JSON.parse(response.body, object_class: OpenStruct).access_token
@@ -49,38 +49,38 @@ module MessageApis::Helpscout
     def create_conversation
       get_token
 
-      url = 'https://api.helpscout.net/v2/conversations'
+      url = "https://api.helpscout.net/v2/conversations"
 
       data = default_values
 
       authorize!
 
-      resp = @conn.post(url, data.to_json, 'Content-Type' => 'application/json')
+      resp = @conn.post(url, data.to_json, "Content-Type" => "application/json")
     end
 
     def default_values
       {
-        subject: 'Subject',
+        subject: "Subject",
         customer: {
-          email: 'bear@acme.com',
-          firstName: 'Vernon',
-          lastName: 'Bear'
+          email: "bear@acme.com",
+          firstName: "Vernon",
+          lastName: "Bear"
         },
         mailboxId: 201_899,
-        type: 'email',
-        status: 'active',
-        createdAt: '2012-10-10T12:00:00Z',
+        type: "email",
+        status: "active",
+        createdAt: "2012-10-10T12:00:00Z",
         threads: [{
-          type: 'customer',
+          type: "customer",
           customer: {
-            email: 'bear@acme.com'
+            email: "bear@acme.com"
           },
-          text: 'Hello, Help Scout. How are you?'
+          text: "Hello, Help Scout. How are you?"
         }],
-        tags: ['vip'],
+        tags: ["vip"],
         fields: [{
           id: 531,
-          value: 'trial'
+          value: "trial"
         }]
       }
     end
@@ -88,30 +88,30 @@ module MessageApis::Helpscout
     def create_customer
       get_token
 
-      url = 'https://api.helpscout.net/v2/customers'
+      url = "https://api.helpscout.net/v2/customers"
 
       authorize!
 
       data = {
-        firstName: 'Veroijoijoijnon',
-        lastName: 'Bear',
-        photoUrl: 'https://api.helpscout.net/img/some-avatar.jpg',
-        photoType: 'twitter',
-        jobTitle: 'CEO and Co-Founder',
-        location: 'Greater Dallas/FT Worth Area',
+        firstName: "Veroijoijoijnon",
+        lastName: "Bear",
+        photoUrl: "https://api.helpscout.net/img/some-avatar.jpg",
+        photoType: "twitter",
+        jobTitle: "CEO and Co-Founder",
+        location: "Greater Dallas/FT Worth Area",
         background: "I've worked with Vernon before and he's really great.",
-        age: '30-35',
-        gender: 'Male',
-        organization: 'Acme, Inc',
+        age: "30-35",
+        gender: "Male",
+        organization: "Acme, Inc",
         emails: [{
-          type: 'work',
-          value: 'bear@ackkme.com'
+          type: "work",
+          value: "bear@ackkme.com"
         }]
       }
 
-      res = @conn.post(url, data.to_json, 'Content-Type' => 'application/json')
-      puts res.body
-      puts res.status
+      res = @conn.post(url, data.to_json, "Content-Type" => "application/json")
+      Rails.logger.info res.body
+      Rails.logger.info res.status
     end
   end
 end

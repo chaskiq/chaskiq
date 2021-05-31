@@ -14,7 +14,7 @@ module Mutations
 
         conversation = app.conversations.find_by(key: id)
 
-        author = app.agents.where('agents.email =?', current_user.email).first if current_user.is_a?(Agent)
+        author = app.agents.where("agents.email =?", current_user.email).first if current_user.is_a?(Agent)
 
         @message = conversation.add_message(
           from: author,

@@ -13,7 +13,7 @@ module Mutations
     def resolve(app_params:, operation:)
       authorize! current_user, to: :create_app?, with: AppPolicy
 
-      if operation.blank? || (operation == 'new')
+      if operation.blank? || (operation == "new")
         @app = current_user.apps.new
       elsif @app = current_user.apps.create(app_params.permit!)
         @app.owner = current_user

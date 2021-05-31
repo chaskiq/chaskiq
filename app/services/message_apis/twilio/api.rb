@@ -5,14 +5,14 @@ module MessageApis::Twilio
     include MessageApis::Helpers
 
     # https://developers.pipedrive.com/docs/api/v1/
-    PROVIDER = 'twilio'
+    PROVIDER = "twilio"
 
     attr_accessor :url, :api_token, :api_key, :conn
 
     def initialize(config:)
-      @api_key = config['api_key']
-      @api_token = config['api_secret']
-      @phone = config['user_id']
+      @api_key = config["api_key"]
+      @api_token = config["api_secret"]
+      @phone = config["user_id"]
 
       @url = "https://api.twilio.com/2010-04-01/Accounts/#{@api_key}/Messages.json"
 
@@ -35,19 +35,19 @@ module MessageApis::Twilio
 
     def process_event(params, package)
       @package = package
-      current = params['current']
+      current = params["current"]
 
-      case params['SmsStatus']
-      when 'read' then process_read(params)
+      case params["SmsStatus"]
+      when "read" then process_read(params)
       # when "DELIVERED" then puts("DELIVERED!")
-      when 'received' then process_message(params, @package)
+      when "received" then process_message(params, @package)
         # when "updated" then update_app_user_profile(current)
         # when "deleted" then delete_app_user_profile(params)
       end
     end
 
     def process_read(params)
-      message_id = params['MessageSid']
+      message_id = params["MessageSid"]
       conversation_part_channel = ConversationPartChannelSource.find_by(
         message_source_id: message_id
       )
@@ -57,13 +57,13 @@ module MessageApis::Twilio
     end
 
     def get_message_id(response_data)
-      response_data['sid']
+      response_data["sid"]
     end
 
     def send_message(conversation, message)
       blocks = JSON.parse(
-        message['serialized_content']
-      )['blocks']
+        message["serialized_content"]
+      )["blocks"]
 
       profile_id = conversation.main_participant
                                &.external_profiles
@@ -83,10 +83,10 @@ module MessageApis::Twilio
 
     def process_message_params(blocks, profile_id)
       # TODO: support more blocks
-      image_block = blocks.find { |o| o['type'] == 'image' }
+      image_block = blocks.find { |o| o["type"] == "image" }
 
       plain_message = blocks.map do |o|
-        o['text']
+        o["text"]
       end.join("\r\n")
 
       message_params = {
@@ -97,7 +97,7 @@ module MessageApis::Twilio
 
       if image_block
         message_params.merge!({
-                                MediaUrl: ENV['HOST'] + image_block['data']['url']
+                                MediaUrl: ENV["HOST"] + image_block["data"]["url"]
                               })
       end
 
@@ -107,7 +107,7 @@ module MessageApis::Twilio
     def process_message(params, package)
       @package = package
       app = package.app
-      message_id = params['SmsMessageSid']
+      message_id = params["SmsMessageSid"]
 
       # determine the id of the user (channel)
       channel_id, twilio_user, agent_sender = parse_remitent(params)
@@ -117,7 +117,7 @@ module MessageApis::Twilio
       return if conversation && conversation.conversation_part_channel_sources
                                             .find_by(message_source_id: message_id).present?
 
-      text = params['Body']
+      text = params["Body"]
 
       serialized_content = serialize_content(params)
 
@@ -135,9 +135,9 @@ module MessageApis::Twilio
     end
 
     def parse_remitent(params)
-      cond = params['From'] == "whatsapp:#{@package.user_id.gsub('whatsapp:', '')}"
-      channel_id = cond ? params['To'] : params['From']
-      twilio_user = cond ? params['To'] : params['From']
+      cond = params["From"] == "whatsapp:#{@package.user_id.gsub('whatsapp:', '')}"
+      channel_id = cond ? params["To"] : params["From"]
+      twilio_user = cond ? params["To"] : params["From"]
       agent_sender = cond
       [channel_id, twilio_user, agent_sender]
     end
@@ -151,7 +151,7 @@ module MessageApis::Twilio
         conversation = @package.app.conversations.create(
           main_participant: participant,
           conversation_channels_attributes: [
-            provider: 'twilio',
+            provider: "twilio",
             provider_channel_id: channel_id
           ]
         )
@@ -163,7 +163,7 @@ module MessageApis::Twilio
           html_content: text,
           serialized_content: serialized_content
         },
-        provider: 'twilio',
+        provider: "twilio",
         message_source_id: message_id,
         check_assignment_rules: true
       )
@@ -177,26 +177,26 @@ module MessageApis::Twilio
                      .where(
                        "conversation_channels.provider =? AND
                           conversation_channels.provider_channel_id =?",
-                       'twilio', channel
+                       "twilio", channel
                      ).first
     end
 
     def serialize_content(data)
-      text = data['Body']
+      text = data["Body"]
 
-      if data['NumMedia'].to_i.positive?
+      if data["NumMedia"].to_i.positive?
         attachment_block(data)
       else
-        text_block(data['Body'])
+        text_block(data["Body"])
       end
     end
 
     def attachment_block(data)
-      attachment = data['attachment']
+      attachment = data["attachment"]
 
       media_blocks = []
 
-      data['NumMedia'].to_i.times do |num|
+      data["NumMedia"].to_i.times do |num|
         media_blocks << media_block(num, data)
       end
 
@@ -209,11 +209,11 @@ module MessageApis::Twilio
     def media_block(num, data)
       attachment = data["MediaUrl#{num}"]
       media_type = data["MediaContentType#{num}"]
-      text = data['Body']
+      text = data["Body"]
 
       case media_type
-      when 'image/gif', 'image/jpeg' then photo_block(url: attachment, text: text)
-      when 'video/mp4' then gif_block(url: attachment, text: text)
+      when "image/gif", "image/jpeg" then photo_block(url: attachment, text: text)
+      when "video/mp4" then gif_block(url: attachment, text: text)
         # TODO: support audio as content block
         # "audio/ogg" then ....
       else file_block(url: attachment, text: "media: #{media_type}")

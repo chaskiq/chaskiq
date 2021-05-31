@@ -36,14 +36,14 @@ module Types
 
     def header_image_large
       options = {
-        resize: '1280x600^',
-        gravity: 'center',
-        crop: '1280x600+0+0',
+        resize: "1280x600^",
+        gravity: "center",
+        crop: "1280x600+0+0",
         strip: true,
-        quality: '86'
+        quality: "86"
       }
 
-      return '' unless object.header_image_blob.present?
+      return "" if object.header_image_blob.blank?
 
       Rails.application.routes.url_helpers.rails_representation_url(
         object.header_image.variant(options).processed
@@ -62,7 +62,7 @@ module Types
             .page(page).per(per)
     end
 
-    field :search, Types::PaginatedArticlesType, null: true, description: 'help center search' do
+    field :search, Types::PaginatedArticlesType, null: true, description: "help center search" do
       argument :lang, String, required: false, default_value: I18n.locale
       argument :term, String, required: true
       argument :page, Integer, required: true
@@ -100,7 +100,7 @@ module Types
     field :collections, [Types::CollectionType], null: true
 
     def collections
-      object.app.article_collections.order('position asc')
+      object.app.article_collections.order("position asc")
     end
 
     field :collection, Types::CollectionType, null: true do

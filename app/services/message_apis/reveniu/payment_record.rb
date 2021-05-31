@@ -18,11 +18,11 @@ module MessageApis::Reveniu
       unless url.match(
         %r{https://reveniu-stage.herokuapp.com|https://reveniu.com}
       ).to_a.any?
-        add_error('must include valid reveniu domain')
+        add_error("must include valid reveniu domain")
       end
     end
 
-    def add_error(msg = 'valid url needed')
+    def add_error(msg = "valid url needed")
       errors.add(:url, msg)
     end
 
@@ -34,27 +34,27 @@ module MessageApis::Reveniu
       # return []
       [
         {
-          type: 'text',
-          text: 'Payment Link',
-          style: 'header',
-          align: 'center'
+          type: "text",
+          text: "Payment Link",
+          style: "header",
+          align: "center"
         },
         {
-          type: 'button',
-          id: 'add-field',
-          label: 'Enter payment gateway',
-          align: 'center',
-          variant: 'success',
+          type: "button",
+          id: "add-field",
+          label: "Enter payment gateway",
+          align: "center",
+          variant: "success",
           action: {
-            type: 'frame',
-            url: '/package_iframe_internal/Reveniu'
+            type: "frame",
+            url: "/package_iframe_internal/Reveniu"
           }
         },
         {
-          type: 'text',
-          text: 'This will open the Reveniu.com secure payment gateway.',
-          style: 'muted',
-          align: 'center'
+          type: "text",
+          text: "This will open the Reveniu.com secure payment gateway.",
+          style: "muted",
+          align: "center"
         }
       ]
     end

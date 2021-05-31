@@ -13,7 +13,7 @@ module Mutations
 
       new_message = message.dup
       new_message.name = "#{new_message.name} (copy)"
-      new_message.state = 'disabled'
+      new_message.state = "disabled"
       new_message.save
       { id: id, errors: new_message.errors }
     end

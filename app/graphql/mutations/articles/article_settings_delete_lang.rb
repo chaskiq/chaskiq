@@ -11,7 +11,7 @@ module Mutations
       def resolve(app_key:, lang_item:)
         app = App.find_by(key: app_key)
 
-        article_settings = app.article_settings.present? ? app.article_settings : app.build_article_settings
+        article_settings = app.article_settings.presence || app.build_article_settings
 
         translation = article_settings.translations.find_by(locale: lang_item)
         translation.destroy if translation.present?

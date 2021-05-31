@@ -8,13 +8,9 @@ module Types
     field :display_name, String, null: false
     field :avatar_url, String, null: true
 
-    def avatar_url
-      object.avatar_url
-    end
+    delegate :avatar_url, to: :object
 
-    def display_name
-      object.display_name
-    end
+    delegate :display_name, to: :object
 
     def kind
       object.class.model_name.singular

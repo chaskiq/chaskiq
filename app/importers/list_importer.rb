@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'roo'
+require "roo"
 
 class ListImporter < ActiveImporter::Base
   imports AppUser
 
-  column 'email', :email
+  column "email", :email
 
   fetch_model do
     # model = @app.app_users.joins(:user).where(["users.email =?", email ]).first_or_initialize
@@ -29,13 +29,13 @@ class ListImporter < ActiveImporter::Base
   end
 
   on :row_processed do
-    meth = @contact_type == 'leads' ? 'add_lead' : 'add_user'
+    meth = @contact_type == "leads" ? "add_lead" : "add_user"
 
     data = row.transform_keys { |key| key.to_s.parameterize.underscore.to_sym }
 
     if user = @app.send(meth.to_sym,
                         disable_callbacks: true,
-                        email: row.delete('email'),
+                        email: row.delete("email"),
                         properties: data)
 
       # add an import tag to contact
@@ -47,11 +47,11 @@ class ListImporter < ActiveImporter::Base
   end
 
   on :row_error do |_err|
-    send_notification('Data imported successfully!')
+    send_notification("Data imported successfully!")
   end
 
   on :import_finished do
-    send_notification('Data imported successfully!')
+    send_notification("Data imported successfully!")
 
     ImportMailer.notify(
       app: @app,

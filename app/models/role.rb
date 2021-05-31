@@ -6,7 +6,7 @@ class Role < ApplicationRecord
 
   acts_as_taggable_on :access
 
-  delegate :id, to: :agent, prefix: 'agent'
+  delegate :id, to: :agent, prefix: "agent"
   delegate :avatar_url, to: :agent
   delegate :email, to: :agent
   delegate :name, to: :agent
@@ -26,7 +26,7 @@ class Role < ApplicationRecord
   delegate :invitation_accepted_at, to: :agent
   delegate :invitation_sent_at, to: :agent
 
-  scope :admin, -> { where('role =?', 'admin') }
+  scope :admin, -> { where("role =?", "admin") }
 
   def inbound_email_address
     part = URLcrypt.encode(agent.id.to_s)

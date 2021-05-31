@@ -3,23 +3,23 @@
 module MessageApis::Zoom
   class Api < MessageApis::BasePackage
     # https://marketplace.zoom.us/
-    BASE_URL = 'https://api.zoom.us/v2'
+    BASE_URL = "https://api.zoom.us/v2"
 
     attr_accessor :secret
 
     def initialize(config:)
       @secret = secret
 
-      @api_token = config['access_token']
+      @api_token = config["access_token"]
 
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder
       }
 
       @conn.headers = {
-        'X-TOKEN' => @api_token,
-        'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{@api_token}"
+        "X-TOKEN" => @api_token,
+        "Content-Type" => "application/json",
+        "Authorization" => "Bearer #{@api_token}"
       }
     end
 
@@ -28,7 +28,7 @@ module MessageApis::Zoom
     end
 
     def create_fase(message, klass)
-      value = message.blocks.dig('values', 'email')
+      value = message.blocks.dig("values", "email")
       response = @conn.post(
         "https://api.zoom.us/v2/users/#{value}/meetings",
         {
@@ -42,7 +42,7 @@ module MessageApis::Zoom
             mute_upon_entry: false,
             participant_video: true
           },
-          timezone: 'string',
+          timezone: "string",
           topic: message.conversation_part.key,
           type: 1
         }.to_json
@@ -50,7 +50,7 @@ module MessageApis::Zoom
 
       json = JSON.parse(response.body)
       {
-        kind: 'initialize',
+        kind: "initialize",
         definitions: definitions_for_fase(json),
         values: { email: value }
       }
@@ -60,20 +60,20 @@ module MessageApis::Zoom
 
     def process_event(params, package)
       @package = package
-      event = params['event']
-      payload = params['payload']
+      event = params["event"]
+      payload = params["payload"]
 
       # https://marketplace.zoom.us/docs/api-reference/webhook-reference/meeting-events/meeting-ending
       case event
-      when 'meeting.started' then handle_started_meeting(payload)
-      when 'meeting.ended' then handle_ended_meeting(payload)
+      when "meeting.started" then handle_started_meeting(payload)
+      when "meeting.ended" then handle_ended_meeting(payload)
       end
     end
 
     def find_message(payload)
       # TODO: validate app match from message
       message = @package.app.conversation_parts.find_by(
-        key: payload['object']['topic']
+        key: payload["object"]["topic"]
       )
       data = message.messageable.data || {}
 
@@ -81,20 +81,20 @@ module MessageApis::Zoom
     end
 
     def handle_started_meeting(payload)
-      handle_message(payload, 'started')
+      handle_message(payload, "started")
     end
 
     def handle_ended_meeting(payload)
-      handle_message(payload, 'ended')
+      handle_message(payload, "ended")
     end
 
     def handle_message(payload, kind)
       message, data = find_message(payload)
       m = message.messageable
-      schema = m.blocks['schema'].dup
+      schema = m.blocks["schema"].dup
       last_block = schema.pop
       new_schema = schema << last_block.merge(text: "meeting_#{kind}")
-      m.blocks['schema'] = new_schema
+      m.blocks["schema"] = new_schema
       m.save_replied(
         data.merge(status: "meeting_#{kind}")
       )
@@ -106,17 +106,17 @@ module MessageApis::Zoom
     def self.display_data(data)
       return if data.blank?
 
-      if data['message'].present?
+      if data["message"].present?
         return {
-          formatted_text: data['message']
+          formatted_text: data["message"]
         }
       end
 
       {
-        opener: data['join_url'],
-        status: data['status'],
-        password: data['password'],
-        meeting_id: data['id'],
+        opener: data["join_url"],
+        status: data["status"],
+        password: data["password"],
+        meeting_id: data["id"],
         formatted_text: "<span>
           <a href=#{data['join_url']} target='blank'> Zoom meeting: #{data['id']}</a>
           <br/> password: #{data['password']}
@@ -129,31 +129,30 @@ module MessageApis::Zoom
     def definitions_for_fase(json)
       [
         {
-          type: 'text',
-          style: 'header',
-          text: 'Your zoom meeting is ready',
-          align: 'left'
+          type: "text",
+          style: "header",
+          text: "Your zoom meeting is ready",
+          align: "left"
         },
         {
-          type: 'text',
+          type: "text",
           text: "pass: #{json['password']}",
-          align: 'left'
+          align: "left"
         },
         {
-          id: 'join-url',
-          type: 'button',
-          align: 'left',
-          label: 'Join',
-          width: 'full',
-          action: { type: 'url', url: json['join_url'] }
+          id: "join-url",
+          type: "button",
+          align: "left",
+          label: "Join",
+          width: "full",
+          action: { type: "url", url: json["join_url"] }
         },
         {
-          type: 'text',
+          type: "text",
           text: "Status: #{json['status']}",
-          align: 'left'
+          align: "left"
         }
       ]
     end
-
   end
 end

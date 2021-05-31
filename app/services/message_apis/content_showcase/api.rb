@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'uri'
+require "uri"
 
 module MessageApis::ContentShowcase
   class Api < MessageApis::BasePackage

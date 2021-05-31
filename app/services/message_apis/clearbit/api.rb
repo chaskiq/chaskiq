@@ -4,7 +4,7 @@ module MessageApis::Clearbit
   class Api < DataEnrichmentService::Base
     attr_accessor :authorization, :params, :conn, :token
 
-    URL = 'https://person.clearbit.com/v2/combined/find'
+    URL = "https://person.clearbit.com/v2/combined/find"
 
     # initialize with
     # MessageApis::Clearbit::Enrichment.new(token: "122334456")

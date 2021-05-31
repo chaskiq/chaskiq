@@ -47,7 +47,7 @@ module Types
 
     def messages(per:, page:)
       @collection = object.messages
-                          .order('id desc')
+                          .order("id desc")
                           .page(page)
                           .per(per)
     end

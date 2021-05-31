@@ -14,7 +14,7 @@ module MessageApis::FullContact
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder
       }
-      @token = config['api_secret']
+      @token = config["api_secret"]
       self
     end
 
@@ -24,7 +24,7 @@ module MessageApis::FullContact
 
     def get_data(params: {})
       authorize!
-      response = @conn.post('https://api.fullcontact.com/v3/person.enrich') do |req|
+      response = @conn.post("https://api.fullcontact.com/v3/person.enrich") do |req|
         req.body = params.to_json
       end
 
