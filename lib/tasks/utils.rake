@@ -21,6 +21,7 @@ namespace :owner_apps do
 end
 
 namespace :upgrade_tasks do
+  # migration from bot_task model to bot_tasks < message
   task predicates: :environment do
     Message.all.each do |c|
       next if c.segments.nil?
@@ -56,4 +57,36 @@ namespace :upgrade_tasks do
       c.update(predicates: segments)
     end
   end
+
+  task clean_nested_bots: :environment do
+
+    BotTask.find_each do |bot_task|
+
+      next if bot_task.paths.nil?
+
+      bot_task.paths.map do |path|
+        
+        next if path["steps"].nil?
+
+        path["steps"].map do |step|
+          if step.key?("controls")
+            new_controls = step["controls"]["schema"].reject{ |o| 
+              o.key?("controls") 
+            } 
+            step.merge!({"controls"=> step["controls"].merge!({ "schema"=> new_controls }) })
+            step
+          else
+            step
+          end
+        end
+      end
+
+      bot_task.save
+
+    end
+  end
 end
+
+
+
+
