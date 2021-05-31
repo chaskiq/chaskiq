@@ -701,7 +701,7 @@ export function BotPathEditor ({
           />
         )}
 
-        <div className={`${!menuDisplay ? 'hidden' : ''} sm:w-2/4 bg-gray-50 sm:flex flex-col py-3 sm:relative absolute z-50 w-full px-5`}>
+        <div className={`${!menuDisplay ? 'hidden' : ''} sm:w-2/4 bg-gray-50 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}>
 
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppablePaths">
