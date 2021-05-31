@@ -6,6 +6,7 @@ import styled from '@emotion/styled'
 import TextEditor from '../../components/textEditor'
 import UpgradeButton from '../../components/upgradeButton'
 import InplaceInputEditor from '../../components/InplaceInputEditor'
+//import JsonDebug from '../../shared/jsonDebug'
 
 import graphql from '../../graphql/client'
 import {
@@ -293,18 +294,21 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           },
           {
             label: 'Editor',
-            content: <BotPathEditor
-              app={app}
-              botTask={botTask}
-              updateData={setBotTask}
-              saveData={saveData}
-              errors={errors}
-              paths={paths}
-              setPaths={setPaths}
-              searchFields={searchFields}
-              selectedPath={selectedPath}
-              setSelectedPath={setSelectedPath}
-            />
+            content: <div>
+              <BotPathEditor
+                app={app}
+                botTask={botTask}
+                updateData={setBotTask}
+                saveData={saveData}
+                errors={errors}
+                paths={paths}
+                setPaths={setPaths}
+                searchFields={searchFields}
+                selectedPath={selectedPath}
+                setSelectedPath={setSelectedPath}
+              />
+              {/*<JsonDebug data={paths}/>*/}
+            </div>
           }
         ]}
       ></Tabs>
@@ -453,6 +457,7 @@ export function BotPathEditor ({
   const [isOpen, setOpen] = useState(false)
   // const [changed, setChanged] = useState(null)
   const [openPackagePanel, setOpenPackagePanel] = useState(null)
+  const [menuDisplay, setMenuDisplay] = useState(false)
 
   const open = () => setOpen(true)
   const close = () => setOpen(false)
@@ -671,136 +676,153 @@ export function BotPathEditor ({
   }
 
   return (
-    <div className="flex justify-between my-4 border-1 border-gray-400 rounded-md shadow">
-      {isOpen && (
-        <PathDialog
-          isOpen={isOpen}
-          open={open}
-          close={close}
-          submit={addEmptyPath}
-        />
-      )}
 
-      <div className="w-2/4 bg-gray-50 flex flex-col py-3">
-
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppablePaths">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={getPathStyle(snapshot.isDraggingOver)}
-              >
-                {paths.map((item, index) => (
-                  <Draggable
-                    key={`path-list-${item.id}-${index}`}
-                    draggableId={item.id}
-                    index={index}
-                    isDragDisabled={index === 0}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                        className="mb-2 mx-2 items-center"
-                      >
-
-                        <strong className="mr-2">{index}.</strong>
-
-                        <button
-                          onClick={(_e) => handleSelection(item)}
-                          className={`
-                          ${ selectedPath && selectedPath.id === item.id ? 'ring-2 ring-black' : ''}
-                          focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
-                          cursor-pointer w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center`}>
-
-                          <div
-                            first={true}
-                            className={`mr-2 ${index === 0 ? 'hidden' : 'block'}`}
-                            {...provided.dragHandleProps}>
-                            <DragHandle />
-                          </div>
-
-                          <span>
-                            {item.title}
-                          </span>
-                        </button>
-
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-
-        <Button
-          size="small"
-          variant={'flat-dark'}
-          onClick={showPathDialog}
-          color="primary"
-          className="self-center"
-        >
-          <PlusIcon />
-            Add new path
-        </Button>
+    <div>
+    
+      <div className="sm:hidden p-2 bg-white flex items-center justify-center">
+        <span className="relative z-0 inline-flex shadow-sm rounded-md">
+          <button onClick={()=> setMenuDisplay(true) } type="button" className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+            Paths
+          </button>
+          <button onClick={()=> setMenuDisplay(false) } type="button" className="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+            Editor
+          </button>
+        </span>
       </div>
+    
+      <div className="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow">
+        
+        {isOpen && (
+          <PathDialog
+            isOpen={isOpen}
+            open={open}
+            close={close}
+            submit={addEmptyPath}
+          />
+        )}
 
-      <div className="w-full shadow">
-        <div className="top-0 sticky">
-          {selectedPath &&
-                <ErrorBoundary>
-                  <Path
-                    botTask={botTask}
-                    app={app}
-                    path={selectedPath}
-                    paths={paths}
-                    addWaitUserMessage={addWaitUserMessage}
-                    addSectionMessage={addSectionMessage}
-                    addSectionControl={addSectionControl}
-                    addDataControl={addDataControl}
-                    addAppPackage={addAppPackage}
-                    updatePath={updatePath}
-                    saveData={saveData}
-                    setPaths={setPaths}
-                    setSelectedPath={setSelectedPath}
-                    searchFields={searchFields}
-                  />
-                </ErrorBoundary>
-          }
+        <div className={`${!menuDisplay ? 'hidden' : ''} sm:w-2/4 bg-gray-50 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}>
 
-          <div className="m-4 flex justify-center">
-            <Button
-              variant="success"
-              color="primary"
-              size="medium"
-              onClick={saveData}
-            >
-                Save data
-            </Button>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppablePaths">
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={getPathStyle(snapshot.isDraggingOver)}
+                >
+                  {paths.map((item, index) => (
+                    <Draggable
+                      key={`path-list-${item.id}-${index}`}
+                      draggableId={item.id}
+                      index={index}
+                      isDragDisabled={index === 0}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                          className="mb-2 mx-2 items-center"
+                        >
+
+                          <strong className="mr-2">{index}.</strong>
+
+                          <button
+                            onClick={(_e) => handleSelection(item)}
+                            className={`
+                            ${ selectedPath && selectedPath.id === item.id ? 'ring-2 ring-black' : ''}
+                            focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
+                            cursor-pointer w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center`}>
+
+                            <div
+                              first={true}
+                              className={`mr-2 ${index === 0 ? 'hidden' : 'block'}`}
+                              {...provided.dragHandleProps}>
+                              <DragHandle />
+                            </div>
+
+                            <span>
+                              {item.title}
+                            </span>
+                          </button>
+
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+
+          <Button
+            size="small"
+            variant={'flat-dark'}
+            onClick={showPathDialog}
+            color="primary"
+            className="self-center"
+          >
+            <PlusIcon />
+              Add new path
+          </Button>
+        </div>
+
+        <div className="w-full shadow">
+          <div className="top-0 sticky py-4">
+            {selectedPath &&
+                  <ErrorBoundary>
+                    <Path
+                      botTask={botTask}
+                      app={app}
+                      path={selectedPath}
+                      paths={paths}
+                      addWaitUserMessage={addWaitUserMessage}
+                      addSectionMessage={addSectionMessage}
+                      addSectionControl={addSectionControl}
+                      addDataControl={addDataControl}
+                      addAppPackage={addAppPackage}
+                      updatePath={updatePath}
+                      saveData={saveData}
+                      setPaths={setPaths}
+                      setSelectedPath={setSelectedPath}
+                      searchFields={searchFields}
+                    />
+                  </ErrorBoundary>
+            }
+
+            <div className="m-4 flex justify-center">
+              <Button
+                variant="success"
+                color="primary"
+                size="medium"
+                onClick={saveData}
+              >
+                  Save data
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {openPackagePanel && (
-        <AppPackagePanel
-          open={openPackagePanel}
-          kind={'bots'}
-          close={() => {
-            setOpenPackagePanel(false)
-          }}
-          insertComment={(data) => {
-            insertAddPackage(data)
-            setOpenPackagePanel(false)
-          }}
-        />
-      )}
+        {openPackagePanel && (
+          <AppPackagePanel
+            open={openPackagePanel}
+            kind={'bots'}
+            close={() => {
+              setOpenPackagePanel(false)
+            }}
+            insertComment={(data) => {
+              insertAddPackage(data)
+              setOpenPackagePanel(false)
+            }}
+          />
+        )}
+
+      </div>
     </div>
   )
 }
@@ -1178,8 +1200,9 @@ const Path = ({
       element: 'button',
       next_step_uuid: null
     }
+
     const newControls = Object.assign({}, step.controls, {
-      schema: step.controls.schema.concat(item, step),
+      schema: step.controls.schema.concat(item),
       wait_for_input: true
     })
     updateControls(newControls, step)
@@ -1271,7 +1294,7 @@ const Path = ({
 
       <div className="p-4 flex flex-col justify-center items-center">
 
-        <ItemsContainer className="p-4 w-3/4 mt-8">
+        <ItemsContainer className="p-2 sm:p-4 sm:w-3/4 sm:mt-8 mt:2">
           <SortableSteps
             steps={path.steps}
             path={path}
@@ -1353,7 +1376,7 @@ const Path = ({
         </div>
 
         {controlStep &&
-          <PathActionsContainer className="w-3/4 mt-8">
+          <PathActionsContainer className="w-full mt-4 sm:w-3/4 sm:mt-8">
 
             <p className="text-lg leading-6 font-medium text-gray-900 py-4">
               Continue bot with reply button
@@ -1526,7 +1549,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
   )
 }
 
-// APp Package Preview
+// APP Package Preview
 const AppPackageBlocks = ({ options, controls, path, step, update, searchFields }) => {
   const { schema } = controls
 

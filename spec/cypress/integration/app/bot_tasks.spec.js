@@ -34,14 +34,14 @@ describe('Bot Tasks', function () {
 
         cy.contains('Add new path').click()
         cy.get('input[placeholder="write path title"]').type('foo')
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div[1]/div[2]/div[3]/button[2]')
+        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div[2]/div[3]/button[2]')
           .click()
 
         cy.contains('foo').click()
 
         cy.contains('Add new conversation part').click().then(() => {
           cy.contains('Add App').click()
-          cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div[3]/div[2]/div[2]/div/div/div/div/div/ul/li[2]/div/div/div/div/div[2]/div/div/button')
+          cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div/div/ul/li[2]/div/div/div/div/div[2]/div/div/button')
             .click()
 
           cy.contains('Pick a template')
@@ -59,7 +59,7 @@ describe('Bot Tasks', function () {
           cy.contains('Add to messenger home').click().then(() => {
             cy.contains('Send App').should('not.be.disabled').then(() => {
               cy.wait(2000)
-              cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div[3]/div[2]/div[3]/button[2]')
+              cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div[2]/div[3]/button[2]')
                 .click()
               cy.contains('Hello, World')
             })
