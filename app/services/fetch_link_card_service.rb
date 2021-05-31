@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # from https://framagit.org/framasoft/framapiaf/
-require 'http'
-require 'oembed'
-require 'open-uri'
+require "http"
+require "oembed"
+require "open-uri"
 
 class FetchLinkCardService < BaseService
   URL_PATTERN = %r{https?://\S+}.freeze
@@ -22,7 +22,7 @@ class FetchLinkCardService < BaseService
 
     res = http_client.head(url, ssl: { verify_mode: OpenSSL::SSL::VERIFY_NONE })
 
-    return if res.code != 200 || res.mime_type != 'text/html'
+    return if res.code != 200 || res.mime_type != "text/html"
 
     if o = attempt_oembed(card, url)
       o
@@ -50,9 +50,9 @@ class FetchLinkCardService < BaseService
       urls = status.text.match(URL_PATTERN).to_a.map { |uri| Addressable::URI.parse(uri).normalize }
     else
       html  = Nokogiri::HTML(status.text)
-      links = html.css('a')
+      links = html.css("a")
       urls  = links.map do |a|
-        Addressable::URI.parse(a['href']).normalize unless skip_link?(a)
+        Addressable::URI.parse(a["href"]).normalize unless skip_link?(a)
       end.compact
     end
     urls.first
@@ -60,18 +60,18 @@ class FetchLinkCardService < BaseService
 
   def skip_link?(a)
     # Avoid links for hashtags and mentions (microformats)
-    a['rel'].present? && a['rel'].include?('tag') || a['class'].present? && a['class'].include?('u-url')
+    a["rel"].present? && a["rel"].include?("tag") || a["class"].present? && a["class"].include?("u-url")
   end
 
   def attempt_oembed(card, url)
     response = OEmbed::Providers.get(url)
 
     card.type          = response.type
-    card.title         = response.respond_to?(:title)         ? response.title         : ''
-    card.author_name   = response.respond_to?(:author_name)   ? response.author_name   : ''
-    card.author_url    = response.respond_to?(:author_url)    ? response.author_url    : ''
-    card.provider_name = response.respond_to?(:provider_name) ? response.provider_name : ''
-    card.provider_url  = response.respond_to?(:provider_url)  ? response.provider_url  : ''
+    card.title         = response.respond_to?(:title)         ? response.title         : ""
+    card.author_name   = response.respond_to?(:author_name)   ? response.author_name   : ""
+    card.author_url    = response.respond_to?(:author_url)    ? response.author_url    : ""
+    card.provider_name = response.respond_to?(:provider_name) ? response.provider_name : ""
+    card.provider_url  = response.respond_to?(:provider_url)  ? response.provider_url  : ""
     card.width         = 0
     card.height        = 0
 
@@ -97,17 +97,17 @@ class FetchLinkCardService < BaseService
   def attempt_opengraph(card, url)
     response = http_client.get(url)
 
-    return if response.code != 200 || response.mime_type != 'text/html'
+    return if response.code != 200 || response.mime_type != "text/html"
 
     page = Nokogiri::HTML(response.to_s)
 
     card.type             = :link
-    card.title            = meta_property(page, 'og:title') || page.at_xpath('//title').content
-    card.description      = meta_property(page, 'og:description') || meta_property(page, 'description')
+    card.title            = meta_property(page, "og:title") || page.at_xpath("//title").content
+    card.description      = meta_property(page, "og:description") || meta_property(page, "description")
 
-    if meta_property(page, 'og:image')
+    if meta_property(page, "og:image")
       image = begin
-        download_image(meta_property(page, 'og:image'))
+        download_image(meta_property(page, "og:image"))
       rescue StandardError
         nil
       end
@@ -123,7 +123,7 @@ class FetchLinkCardService < BaseService
   def download_image(url)
     handle = URI.parse(url).open
 
-    file = Tempfile.new("foo-#{Time.now.to_i}", encoding: 'ascii-8bit')
+    file = Tempfile.new("foo-#{Time.now.to_i}", encoding: "ascii-8bit")
     file.write(handle.read)
     file.close
 
@@ -138,6 +138,6 @@ class FetchLinkCardService < BaseService
     node = html.at_xpath("//meta[@property=\"#{property}\"]")
     return if node.blank?
 
-    node.attribute('content').value || node.attribute('content').value
+    node.attribute("content").value || node.attribute("content").value
   end
 end

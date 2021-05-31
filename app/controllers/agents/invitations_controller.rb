@@ -5,7 +5,7 @@ class Agents::InvitationsController < Devise::InvitationsController
 
   def update
     super do |resource|
-      if request.format == 'json' && resource.errors.empty?
+      if request.format == "json" && resource.errors.empty?
         return respond_with_navigational(resource, status: :success) do
           render json: @token
         end
@@ -40,7 +40,7 @@ class Agents::InvitationsController < Devise::InvitationsController
       application_id: nil,
       resource_owner_id: resource.id,
       expires_in: 2.hours,
-      scopes: 'public'
+      scopes: "public"
     )
 
     @token = {

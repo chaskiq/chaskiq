@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'open-uri'
+require "open-uri"
 
 class Api::V1::HooksController < ActionController::API
   include MessageApis::Helpers
@@ -10,51 +10,51 @@ class Api::V1::HooksController < ActionController::API
   before_action :handle_notification, if: :is_notification_message?
 
   def create
-    render(plain: 'ok')
+    render(plain: "ok")
   end
 
   private
 
   def handle_notification
-    if @request_body['Subject'] == 'Amazon SES Email Receipt Notification'
-      process_email_notification(@request_body['Message'])
-      render(plain: 'ok') and return
+    if @request_body["Subject"] == "Amazon SES Email Receipt Notification"
+      process_email_notification(@request_body["Message"])
+      render(plain: "ok") and return
     end
 
-    if @request_body['Message'] == 'Successfully validated SNS topic for Amazon SES event publishing.'
-      render(plain: 'ok') and return
+    if @request_body["Message"] == "Successfully validated SNS topic for Amazon SES event publishing."
+      render(plain: "ok") and return
     else
       process_event_notification
-      render(plain: 'ok') and return
+      render(plain: "ok") and return
     end
   end
 
   def check_aws_confirmation
     # get amazon message type and topic
-    amz_message_type = request.headers['x-amz-sns-message-type']
-    amz_sns_topic = request.headers['x-amz-sns-topic-arn']
+    amz_message_type = request.headers["x-amz-sns-message-type"]
+    amz_sns_topic = request.headers["x-amz-sns-topic-arn"]
     # return unless !amz_sns_topic.nil? &&
     # amz_sns_topic.to_s.downcase == 'arn:aws:sns:us-west-2:867544872691:User_Data_Updates'
     @request_body = JSON.parse request.body.read
     # if this is the first time confirmation of subscription, then confirm it
-    if amz_message_type.to_s.downcase == 'subscriptionconfirmation' || @request_body['notificationType'] === 'AmazonSnsSubscriptionSucceeded'
+    if amz_message_type.to_s.downcase == "subscriptionconfirmation" || @request_body["notificationType"] === "AmazonSnsSubscriptionSucceeded"
       send_subscription_confirmation
-      render(plain: 'ok') and return
+      render(plain: "ok") and return
     end
   end
 
   def is_notification_message?
-    amz_message_type = request.headers['x-amz-sns-message-type']
-    (amz_message_type == 'Notification') || (@request_body['Type'] == 'Notification')
+    amz_message_type = request.headers["x-amz-sns-message-type"]
+    (amz_message_type == "Notification") || (@request_body["Type"] == "Notification")
   end
 
   # TODO: add some tests mdfk!
   def process_email_notification(message)
     json_message = JSON.parse(message)
-    json_message['receipt']
-    json_message['mail']['headers'].map { |o| { o['name'] => o['value'] } }
-    json_message['receipt']['action']
-    action = json_message['receipt']['action']
+    json_message["receipt"]
+    json_message["mail"]["headers"].map { |o| { o["name"] => o["value"] } }
+    json_message["receipt"]["action"]
+    action = json_message["receipt"]["action"]
 
     mail_body = read_mail_file(action)
     mail       = Mail.read_from_string(mail_body)
@@ -63,12 +63,12 @@ class Api::V1::HooksController < ActionController::API
     recipients = mail.recipients # ["messages+aaa@hermessenger.com"] de aqui sale el app y el mensaje!
 
     # EmailReplyParser.parse_reply(mail.text_part.body.to_s)
-    message = EmailReplyParser.parse_reply(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
-    #message = EmailReplyTrimmer.trim(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
+    message = EmailReplyParser.parse_reply(mail.text_part.body.to_s).gsub("\n", "<br/>").force_encoding(Encoding::UTF_8)
+    # message = EmailReplyTrimmer.trim(mail.text_part.body.to_s).gsub("\n", '<br/>').force_encoding(Encoding::UTF_8)
 
     app, conversation, from = handle_conversation_part(mail)
 
-    messageId = json_message['mail']['messageId']
+    messageId = json_message["mail"]["messageId"]
     # for now just skip the message
     return if from.blank?
 
@@ -97,14 +97,14 @@ class Api::V1::HooksController < ActionController::API
   end
 
   def send_subscription_confirmation
-    subscribe_url = @request_body['SubscribeURL']
+    subscribe_url = @request_body["SubscribeURL"]
     return nil unless !subscribe_url.to_s.empty? && !subscribe_url.nil?
 
     URI.parse(subscribe_url).open
   end
 
   def find_resources_in_recipient_parts(recipient_parts)
-    app_id, conversation_id = recipient_parts.split('+')
+    app_id, conversation_id = recipient_parts.split("+")
     app = App.find(app_id)
     conversation = app.conversations.find(conversation_id)
     [app, conversation]
@@ -116,8 +116,8 @@ class Api::V1::HooksController < ActionController::API
 
   def read_mail_file(action)
     file = AWS_CLIENT.get_object(
-      bucket: action['bucketName'],
-      key: action['objectKey']
+      bucket: action["bucketName"],
+      key: action["objectKey"]
     )
     file.body.read
   end
@@ -139,16 +139,16 @@ class Api::V1::HooksController < ActionController::API
     message = sanitize(message, tags: %W[p br img \n])
     doc = Nokogiri::HTML.parse(message)
 
-    doc.css('br').each do |node|
+    doc.css("br").each do |node|
       node.replace(Nokogiri::XML::Text.new("\n", doc))
     end
 
-    lines = doc.css('body').inner_html.gsub(%r{<p>|</p>}, '')
+    lines = doc.css("body").inner_html.gsub(%r{<p>|</p>}, "")
     lines = lines.split("\n").delete_if(&:empty?)
 
     {
       blocks: lines.map do |o|
-        if o.include?('<img src=')
+        if o.include?("<img src=")
           process_image(o)
         else
           serialized_block(o)
@@ -159,17 +159,17 @@ class Api::V1::HooksController < ActionController::API
   end
 
   def process_image(o)
-    img = Nokogiri::HTML.parse(o).css('img')
-    url = img.attr('src')&.value
-    w = img.attr('width')&.value
-    h = img.attr('height')&.value
-    title = img.attr('title')&.value
+    img = Nokogiri::HTML.parse(o).css("img")
+    url = img.attr("src")&.value
+    w = img.attr("width")&.value
+    h = img.attr("height")&.value
+    title = img.attr("title")&.value
     photo_block(url: url, text: title, w: w, h: h)
   end
 
   def handle_message_recipient(mail)
     recipient = mail.recipients.first
-    recipient_parts = URLcrypt.decode(recipient.split('@').first.split('+').last)
+    recipient_parts = URLcrypt.decode(recipient.split("@").first.split("+").last)
     app, conversation = find_resources_in_recipient_parts(recipient_parts)
     # this logic implies that if the email.from correspond to an agent , then we assume that the message is from agent
     from = find_remitent(app: app, from: mail.from)
@@ -187,7 +187,7 @@ class Api::V1::HooksController < ActionController::API
     return if app.blank?
 
     conversation = app.conversation_parts.find_by(email_message_id: mail.message_id)&.conversation
-    unless conversation.present?
+    if conversation.blank?
       mail_from = mail.from.first
       app_user = app.app_users.find_by(email: mail_from) ||
                  app.add_user(email: mail_from, name: mail[:from]&.formatted)
@@ -199,16 +199,16 @@ class Api::V1::HooksController < ActionController::API
 
   def handle_conversation_part(mail)
     recipient = mail.recipients.first
-    if recipient.starts_with?('messages+')
+    if recipient.starts_with?("messages+")
       handle_message_recipient(mail)
-    elsif recipient.starts_with?('inbound+')
+    elsif recipient.starts_with?("inbound+")
       handle_inbound_recipient(mail)
     end
   end
 
   def process_attachments(mail, message)
     mail.attachments.each do |attachment|
-      next unless attachment.content_type.start_with?('image/')
+      next unless attachment.content_type.start_with?("image/")
 
       message = process_attachment(attachment, message)
     end
@@ -232,11 +232,11 @@ class Api::V1::HooksController < ActionController::API
   end
 
   def process_event_notification
-    message = parse_body_message(@request_body['Message'])
+    message = parse_body_message(@request_body["Message"])
     return if message.blank?
-    return if message['eventType'].blank?
+    return if message["eventType"].blank?
 
-    track_message_for(message['eventType'].downcase, message)
+    track_message_for(message["eventType"].downcase, message)
   end
 
   def parse_body_message(body)

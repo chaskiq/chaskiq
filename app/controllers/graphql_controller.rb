@@ -12,7 +12,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
 
-    scout_transaction_name = 'GraphQL/' + (operation_name || 'unknown')
+    scout_transaction_name = "GraphQL/" + (operation_name || "unknown")
     ScoutApm::Transaction.rename(scout_transaction_name)
 
     context = {
@@ -43,16 +43,16 @@ class GraphqlController < ApplicationController
   rescue OauthExeption => e
     render json: {
       error: {
-        message: 'token not valid'
+        message: "token not valid"
       }, data: {}
-    }, status: 401
+    }, status: :unauthorized
   rescue ActiveRecord::RecordNotFound => e
     render json: {
       errors: [{
-        message: 'Data not found',
+        message: "Data not found",
         data: {}
       }]
-    }, status: 200
+    }, status: :ok
   rescue ActiveRecord::RecordInvalid => e
     error_messages = e.record.errors.full_messages.join("\n")
     json_error e.record
@@ -61,7 +61,7 @@ class GraphqlController < ApplicationController
       error: {
         message: JSON.parse(e.message)
       }, data: {}
-    }, status: 402
+    }, status: :payment_required
   # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
   rescue ActionPolicy::Unauthorized => e
     raise GraphQL::ExecutionError.new(
@@ -84,7 +84,7 @@ class GraphqlController < ApplicationController
 
   def api_authorize!
     resource = current_resource_owner
-    raise OauthExeption, 'Oauth Exception!' unless resource
+    raise OauthExeption, "Oauth Exception!" unless resource
 
     # doorkeeper_authorize!
     resource
@@ -96,7 +96,7 @@ class GraphqlController < ApplicationController
 end
 
 class OauthExeption < StandardError
-  def initialize(msg = 'This is a custom exception', exception_type = 'custom')
+  def initialize(msg = "This is a custom exception", exception_type = "custom")
     @exception_type = exception_type
     super(msg)
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'digest/md5'
+require "digest/md5"
 
 class AppUser < ApplicationRecord
   include AASM
@@ -11,36 +11,36 @@ class AppUser < ApplicationRecord
   include EmailValidable
 
   ENABLED_SEARCH_FIELDS = [
-    { 'name' => 'email', 'type' => 'string' },
-    { 'name' => 'postal', 'type' => 'string' },
-    { 'name' => 'name', 'type' => 'string' },
-    { 'name' => 'first_name', 'type' => 'string' },
-    { 'name' => 'last_name', 'type' => 'string' },
-    { 'name' => 'company_name', 'type' => 'string' },
-    { 'name' => 'company_size', 'type' => 'string' },
-    { 'name' => 'phone', 'type' => 'string' }
+    { "name" => "email", "type" => "string" },
+    { "name" => "postal", "type" => "string" },
+    { "name" => "name", "type" => "string" },
+    { "name" => "first_name", "type" => "string" },
+    { "name" => "last_name", "type" => "string" },
+    { "name" => "company_name", "type" => "string" },
+    { "name" => "company_size", "type" => "string" },
+    { "name" => "phone", "type" => "string" }
   ].freeze
 
   BROWSING_FIELDS = [
-    { 'name' => 'lang', 'type' => 'string' },
-    { 'name' => 'type', 'type' => 'string' },
-    { 'name' => 'last_visited_at', 'type' => 'date' },
-    { 'name' => 'tags', 'type' => 'string' },
-    { 'name' => 'referrer', 'type' => 'string' },
-    { 'name' => 'state', 'type' => 'string' },
-    { 'name' => 'ip', 'type' => 'string' },
-    { 'name' => 'city', 'type' => 'string' },
-    { 'name' => 'region', 'type' => 'string' },
-    { 'name' => 'country', 'type' => 'string' },
-    { 'name' => 'lat', 'type' => 'string' },
-    { 'name' => 'lng', 'type' => 'string' },
-    { 'name' => 'web_sessions', 'type' => 'string' },
-    { 'name' => 'timezone', 'type' => 'string' },
-    { 'name' => 'browser', 'type' => 'string' },
-    { 'name' => 'browser_version', 'type' => 'string' },
-    { 'name' => 'os', 'type' => 'string' },
-    { 'name' => 'os_version', 'type' => 'string' },
-    { 'name' => 'browser_language', 'type' => 'string' }
+    { "name" => "lang", "type" => "string" },
+    { "name" => "type", "type" => "string" },
+    { "name" => "last_visited_at", "type" => "date" },
+    { "name" => "tags", "type" => "string" },
+    { "name" => "referrer", "type" => "string" },
+    { "name" => "state", "type" => "string" },
+    { "name" => "ip", "type" => "string" },
+    { "name" => "city", "type" => "string" },
+    { "name" => "region", "type" => "string" },
+    { "name" => "country", "type" => "string" },
+    { "name" => "lat", "type" => "string" },
+    { "name" => "lng", "type" => "string" },
+    { "name" => "web_sessions", "type" => "string" },
+    { "name" => "timezone", "type" => "string" },
+    { "name" => "browser", "type" => "string" },
+    { "name" => "browser_version", "type" => "string" },
+    { "name" => "os", "type" => "string" },
+    { "name" => "os_version", "type" => "string" },
+    { "name" => "browser_language", "type" => "string" }
   ].freeze
 
   attr_accessor :disable_callbacks
@@ -114,21 +114,21 @@ class AppUser < ApplicationRecord
 
   ACCESSOR_PROPERTIES.each do |prop|
     ransacker prop do |parent|
-      Arel::Nodes::InfixOperation.new('->>', parent.table[:properties], Arel::Nodes.build_quoted(prop))
+      Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(prop))
     end
   end
 
   scope :availables, lambda {
-    where(['app_users.subscription_state =? or app_users.subscription_state=?',
-           'passive', 'subscribed'])
+    where(["app_users.subscription_state =? or app_users.subscription_state=?",
+           "passive", "subscribed"])
   }
 
   scope :visitors, lambda {
-    where(type: 'Visitor')
+    where(type: "Visitor")
   }
 
   scope :leads, lambda {
-    where(type: 'Lead')
+    where(type: "Lead")
   }
 
   scope :non_users, lambda {
@@ -136,12 +136,12 @@ class AppUser < ApplicationRecord
   }
 
   scope :users, lambda {
-    where(type: 'AppUser')
+    where(type: "AppUser")
   }
 
   # from redis-objects
   counter :new_messages
-  value :trigger_locked, expireat: -> { Time.now + 5.seconds }
+  value :trigger_locked, expireat: -> { Time.zone.now + 5.seconds }
 
   aasm column: :subscription_state do # default column: aasm_state
     state :passive, initial: true
@@ -169,7 +169,7 @@ class AppUser < ApplicationRecord
 
   def delay_for_trigger
     settings = is_a?(AppUser) ? app.user_tasks_settings : app.lead_tasks_settings
-    delay = settings['delay'] ? 2.minutes.from_now : 0.minutes.from_now
+    delay = settings["delay"] ? 2.minutes.from_now : 0.minutes.from_now
   end
 
   def available?
@@ -199,7 +199,7 @@ class AppUser < ApplicationRecord
   end
 
   def display_name
-    [name].join(' ')
+    [name].join(" ")
   end
 
   def session_key
@@ -277,12 +277,12 @@ class AppUser < ApplicationRecord
 
   def style_class
     case state
-    when 'passive'
-      'plain'
-    when 'subscribed'
-      'information'
-    when 'unsusbscribed'
-      'warning'
+    when "passive"
+      "plain"
+    when "subscribed"
+      "information"
+    when "unsusbscribed"
+      "warning"
     end
   end
 
@@ -297,7 +297,7 @@ class AppUser < ApplicationRecord
   end
 
   def register_in_crm
-    crm_tags = app.app_packages.tagged_with('crm').pluck(:id)
+    crm_tags = app.app_packages.tagged_with("crm").pluck(:id)
     integrations = app.app_package_integrations.includes(:app_package)
                       .where(app_package: crm_tags)
 

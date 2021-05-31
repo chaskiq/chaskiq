@@ -1,4 +1,4 @@
-require 'app_packages_catalog'
+require "app_packages_catalog"
 
 namespace :packages do
   task update: :environment do
@@ -14,7 +14,7 @@ namespace :owner_apps do
   task make_owner: :environment do
     # roles owners
     App.all.each  do |o|
-      o.owner = Agent.find_by(email: ENV['ADMIN_EMAIL'])
+      o.owner = Agent.find_by(email: ENV["ADMIN_EMAIL"])
       o.save
     end
   end
@@ -26,10 +26,10 @@ namespace :upgrade_tasks do
       next if c.segments.nil?
 
       segments = c.segments.compact.map do |o|
-        if o['attribute'] == 'type'
+        if o["attribute"] == "type"
           o.merge!({
-                     'comparison' => 'in',
-                     'value' => o['value'].is_a?(Array) ? o['value'] : [o['value']].flatten
+                     "comparison" => "in",
+                     "value" => o["value"].is_a?(Array) ? o["value"] : [o["value"]].flatten
                    })
         else
           o
@@ -43,10 +43,10 @@ namespace :upgrade_tasks do
       next if c.predicates.nil?
 
       segments = c.predicates.compact.map do |o|
-        if o['attribute'] == 'type'
+        if o["attribute"] == "type"
           o.merge!({
-                     'comparison' => 'in',
-                     'value' => o['value'].is_a?(Array) ? o['value'] : [o['value']].flatten
+                     "comparison" => "in",
+                     "value" => o["value"].is_a?(Array) ? o["value"] : [o["value"]].flatten
                    })
         else
           o

@@ -26,7 +26,7 @@ module Mutations
             application_id: nil,
             resource_owner_id: current_user.id,
             # expires_in: 2.hours,
-            scopes: 'public'
+            scopes: "public"
           )
           integration.update(access_token: access_token.token)
         end

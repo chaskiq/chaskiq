@@ -8,7 +8,7 @@ class Agents::SessionsController < Devise::SessionsController
   before_action :clear_session, only: [:create]
 
   def new
-    redirect_to '/' and return
+    redirect_to "/" and return
   end
 
   def create
@@ -26,7 +26,7 @@ class Agents::SessionsController < Devise::SessionsController
       a = Doorkeeper::Application.first
 
       access_token = Doorkeeper::AccessToken.find_or_create_for(
-        a, resource, '', 1.hour, true
+        a, resource, "", 1.hour, true
       )
 
       respond_with_navigational(resource, status: :success) do
@@ -49,13 +49,13 @@ class Agents::SessionsController < Devise::SessionsController
     yield if block_given?
     # respond_to_on_destroy
     respond_with_navigational(resource, status: :success) do
-      render json: { a: 'ok' }
+      render json: { a: "ok" }
     end
   end
 
   private
 
   def clear_session
-    request.env['warden'].logout
+    request.env["warden"].logout
   end
 end

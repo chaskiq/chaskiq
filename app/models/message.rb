@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Message < ApplicationRecord
-  self.table_name = 'campaigns'
+  self.table_name = "campaigns"
 
   belongs_to :app
 
@@ -17,10 +17,10 @@ class Message < ApplicationRecord
   validates :name, presence: :true
   validates :html_content, presence: true, if: :template_step?
 
-  scope :enabled, -> { where(state: 'enabled') }
-  scope :disabled, -> { where(state: 'disabled') }
-  scope :ordered, -> { order('position asc') }
-  scope :in_time, -> { where(['scheduled_at <= ? AND scheduled_to >= ?', Date.today, Date.today]) }
+  scope :enabled, -> { where(state: "enabled") }
+  scope :disabled, -> { where(state: "disabled") }
+  scope :ordered, -> { order("position asc") }
+  scope :in_time, -> { where(["scheduled_at <= ? AND scheduled_to >= ?", Date.today, Date.today]) }
   # before_save :detect_changed_template
   before_create :add_default_predicate
   before_create :initial_state
@@ -32,7 +32,7 @@ class Message < ApplicationRecord
       AND metrics.trackable_id = campaigns.id
       AND metrics.app_user_id = #{user.id}
       AND settings->'hidden_constraints' ? metrics.action")
-           .where('metrics.id is null')
+           .where(metrics: { id: nil })
   }
 
   def available_for_user?(user)
@@ -50,7 +50,7 @@ class Message < ApplicationRecord
       metrics.create(
         app_user: user,
         trackable: self,
-        action: 'viewed',
+        action: "viewed",
         message_id: user.id
       )
       self
@@ -62,38 +62,38 @@ class Message < ApplicationRecord
   end
 
   def enabled?
-    state == 'active'
+    state == "active"
   end
 
   def disabled?
-    state != 'active'
+    state != "active"
   end
 
   def enable!
-    update_attribute(:state, 'enabled')
+    update_attribute(:state, "enabled")
   end
 
   def disable!
-    update_attribute(:state, 'disabled')
+    update_attribute(:state, "disabled")
   end
 
   def initial_state
     return if state.present?
 
-    self.state = 'disabled'
+    self.state = "disabled"
   end
 
   def default_type_segments
     [
-      { type: 'match', value: 'and', attribute: 'match', comparison: 'and' },
-      { type: 'string', value: ['AppUser'], attribute: 'type', comparison: 'in' }
+      { type: "match", value: "and", attribute: "match", comparison: "and" },
+      { type: "string", value: ["AppUser"], attribute: "type", comparison: "in" }
     ]
   end
 
   def add_default_predicate
     return if segments.present? && segments.any?
 
-    self.segments = [] unless segments.present?
+    self.segments = [] if segments.blank?
     self.segments = default_type_segments
   end
 
@@ -101,14 +101,14 @@ class Message < ApplicationRecord
     # AppUser, Lead, Visitor
     [{
       value: type_predicate,
-      type: 'string',
-      attribute: 'type',
-      comparison: 'in'
+      type: "string",
+      attribute: "type",
+      comparison: "in"
     }]
   end
 
   def self.infix(filter)
-    Arel::Nodes::InfixOperation.new('@>',
+    Arel::Nodes::InfixOperation.new("@>",
                                     arel_table[:segments],
                                     Arel::Nodes.build_quoted(BotTask.type_predicate_for(filter).to_json.to_s))
   end
@@ -118,7 +118,7 @@ class Message < ApplicationRecord
   end
 
   def template_step?
-    step == 'template'
+    step == "template"
   end
 
   def compiled_template_for(subscriber)
@@ -142,12 +142,12 @@ class Message < ApplicationRecord
   end
 
   def host
-    Rails.application.routes.default_url_options[:host] || 'http://localhost:3000'
+    Rails.application.routes.default_url_options[:host] || "http://localhost:3000"
   end
 
   ## CHART STUFF
   def sparklines_by_day(opts = {})
-    range = opts[:range] ||= 2.weeks.ago.midnight..Time.now
+    range = opts[:range] ||= 2.weeks.ago.midnight..Time.zone.now
     metrics.group_by_day(:created_at, range: range).count.map { |o| o.to_a.last }
   end
 

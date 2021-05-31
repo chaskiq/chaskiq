@@ -1,11 +1,11 @@
-require 'uri'
-require 'net/http'
-require 'openssl'
+require "uri"
+require "net/http"
+require "openssl"
 
 module PaymentServices
   class DataStruct < OpenStruct
     def as_json(*args)
-      super.as_json['table']
+      super.as_json["table"]
     end
   end
 
@@ -17,24 +17,22 @@ module PaymentServices
         params_encoder: Faraday::FlatParamsEncoder
       }
       @auth = {
-        vendor_id: ENV['PADDLE_VENDOR_ID'],
-        vendor_auth_code: ENV['PADDLE_SECRET_TOKEN']
+        vendor_id: ENV["PADDLE_VENDOR_ID"],
+        vendor_auth_code: ENV["PADDLE_SECRET_TOKEN"]
       }
       self
     end
 
     def get_plans
       res = get_data(
-        url: 'https://vendors.paddle.com/api/2.0/subscription/plans',
+        url: "https://vendors.paddle.com/api/2.0/subscription/plans",
         params: auth
       )
 
       res.filter do |o|
-        Plan.all.map do |o|
-          o[:id]
-        end.include?(o.id)
+        Plan.all.pluck(:id).include?(o.id)
       end.map do |o|
-        o.features = Plan.get_by_id(o.id).dig('features')
+        o.features = Plan.get_by_id(o.id).dig("features")
         o
       end
     end
@@ -57,7 +55,7 @@ module PaymentServices
       return [] if id.nil?
 
       res = get_data(
-        url: 'https://vendors.paddle.com/api/2.0/subscription/users',
+        url: "https://vendors.paddle.com/api/2.0/subscription/users",
         params: auth.merge({
                              subscription_id: id
                            })
@@ -66,7 +64,7 @@ module PaymentServices
 
     def update_subscription(id, plan_id:, passthrough: nil)
       res = get_data(
-        url: 'https://vendors.paddle.com/api/2.0/subscription/users/update',
+        url: "https://vendors.paddle.com/api/2.0/subscription/users/update",
         params: auth.merge({
                              subscription_id: id,
                              passthrough: passthrough,

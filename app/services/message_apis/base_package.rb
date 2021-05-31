@@ -33,7 +33,7 @@ module MessageApis
 
       message_id = get_message_id(response_data)
 
-      return unless message_id.present?
+      return if message_id.blank?
 
       part.conversation_part_channel_sources.create(
         provider: provider,

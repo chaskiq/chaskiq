@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 include ActiveJob::TestHelper
 
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
@@ -7,25 +7,25 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   end
 
   let!(:user) do
-    app.add_user(email: 'test@test.cl')
+    app.add_user(email: "test@test.cl")
   end
 
   let!(:agent_role) do
-    app.add_agent({ email: 'test2@test.cl' })
+    app.add_agent({ email: "test2@test.cl" })
   end
 
   let(:app_package) do
-    AppPackage.find_by(name: 'OpenAi')
+    AppPackage.find_by(name: "OpenAi")
   end
 
   let(:conversation) do
     app.start_conversation(
-      message: { html_content: 'This is a test' },
+      message: { html_content: "This is a test" },
       from: user
     )
   end
 
-  describe 'triggers' do
+  describe "triggers" do
     before do
       AppPackagesCatalog.update_all
     end
@@ -35,23 +35,23 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
 
       @pkg = app.app_package_integrations.create(
-        api_secret: 'sk-xxx',
+        api_secret: "sk-xxx",
         app_package: app_package
       )
     end
 
-    it 'triggers on conversation first user message' do
+    it "triggers on conversation first user message" do
       AppUser.any_instance
              .stub(:last_visited_at)
-             .and_return(Time.now)
+             .and_return(Time.zone.now)
 
       AppUser.any_instance
              .stub(:last_visited_at)
-             .and_return(Time.now)
+             .and_return(Time.zone.now)
 
       AppUser.any_instance
              .stub(:last_visited_at)
-             .and_return(Time.now)
+             .and_return(Time.zone.now)
 
       ConversationPartContent.any_instance.stub(:serialized_content)
                              .and_return(
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
   end
 
-  describe 'hooks' do
+  describe "hooks" do
     before do
       AppPackagesCatalog.update_all
     end
@@ -84,19 +84,19 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       # )
 
       @pkg = app.app_package_integrations.create(
-        api_secret: 'sk-xxx',
+        api_secret: "sk-xxx",
         app_package: app_package
       )
     end
 
-    describe 'single hook' do
-      it 'receive message' do
+    describe "single hook" do
+      it "receive message" do
         conversation.conversation_channels.create({
-                                                    provider: 'open_ai',
+                                                    provider: "open_ai",
                                                     provider_channel_id: conversation.id
                                                   })
 
-        channel = conversation.conversation_channels.find_by(provider: 'open_ai')
+        channel = conversation.conversation_channels.find_by(provider: "open_ai")
 
         # get(:process_event, params: message_blocks(
         #  channel: channel.provider_channel_id)
@@ -111,14 +111,14 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         ).to receive(
           :get_gpt_response
         ).and_return(
-          { text: 'yay', id: 1 }
+          { text: "yay", id: 1 }
         )
 
         perform_enqueued_jobs do
           message = conversation.add_message(
             from: user,
             message: {
-              html_content: 'foo',
+              html_content: "foo",
               serialized_content: serialized
             }
           )
@@ -126,7 +126,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
         expect(conversation.messages.last.authorable).to be_a(Agent)
 
-        expect(conversation.messages.last.messageable.html_content).to be == 'yay'
+        expect(conversation.messages.last.messageable.html_content).to be == "yay"
       end
     end
   end

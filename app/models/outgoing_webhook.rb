@@ -13,12 +13,12 @@ class OutgoingWebhook < ApplicationRecord
   end
 
   def is_enabled
-    state == 'enabled'
+    state == "enabled"
   end
 
   def as_json(*)
     super.tap do |hash|
-      hash['enabled'] = is_enabled
+      hash["enabled"] = is_enabled
     end
   end
 end

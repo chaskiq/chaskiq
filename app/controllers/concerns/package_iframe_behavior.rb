@@ -5,9 +5,9 @@ module PackageIframeBehavior
 
   def package_iframe
     data = JSON.parse(params[:data])
-    @app = App.find_by(key: data['data']['app_id'])
+    @app = App.find_by(key: data["data"]["app_id"])
 
-    url_base = data['data']['field']['action']['url']
+    url_base = data["data"]["field"]["action"]["url"]
     url = handle_url_data(url_base)
     # TODO: unify this with the API auth
     app_user, app_data = handle_user_data(data)
@@ -34,12 +34,12 @@ module PackageIframeBehavior
     #  app = conversation.app
     # else
 
-    app = AppUser.find(params[:user]['id']).app
+    app = AppUser.find(params[:user]["id"]).app
     # end
 
     presenter = app.app_package_integrations
                    .joins(:app_package)
-                   .find_by("app_packages.name": params['package'])
+                   .find_by("app_packages.name": params["package"])
                    .presenter
 
     opts = {
@@ -56,13 +56,13 @@ module PackageIframeBehavior
 
     html = presenter.sheet_view(opts)
 
-    response.headers.delete 'X-Frame-Options'
+    response.headers.delete "X-Frame-Options"
 
     render html: html.html_safe, layout: false
   end
 
   def handle_user_data(data)
-    user_data = @app.decrypt(data['data']['enc_data'])
+    user_data = @app.decrypt(data["data"]["enc_data"])
     app_user = if user_data.present? && user_data[:email].present?
                  @app.app_users.users.find_by(email: user_data[:email])
                else
@@ -86,8 +86,8 @@ module PackageIframeBehavior
 
   def iframe_package_request(url, data, app_user)
     resp = Faraday.post(url, data.merge!(user: app_user).to_json,
-                        'Content-Type' => 'application/json')
-    response.headers.delete 'X-Frame-Options'
+                        "Content-Type" => "application/json")
+    response.headers.delete "X-Frame-Options"
     resp.body.html_safe
   end
 end

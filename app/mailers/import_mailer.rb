@@ -6,12 +6,12 @@ class ImportMailer < ApplicationMailer
     @agent        = agent
     from_email    = "notifications@#{@app.outgoing_email_domain}"
 
-    subject = 'Your CSV import is complete'
+    subject = "Your CSV import is complete"
 
     mail(from: "Chaskiq notifications <#{from_email}>",
          to: @agent.email,
          subject: subject) do |format|
-      format.html { render 'import_mailer/notify' }
+      format.html { render "import_mailer/notify" }
       # format.text # assuming you want a text fallback as well
     end
   end

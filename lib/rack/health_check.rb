@@ -20,7 +20,7 @@ module Rack
     protected
 
     def redis_connected
-      Redis.current.ping == 'PONG'
+      Redis.current.ping == "PONG"
     rescue StandardError
       false
     end

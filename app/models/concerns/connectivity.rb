@@ -4,11 +4,11 @@ module Connectivity
   extend ActiveSupport::Concern
 
   def offline?
-    !state || state == 'offline'
+    !state || state == "offline"
   end
 
   def online?
-    state == 'online'
+    state == "online"
   end
 
   def channel_key
@@ -16,23 +16,23 @@ module Connectivity
   end
 
   def online!
-    self.state = 'online'
-    self.last_visited_at = Time.now
+    self.state = "online"
+    self.last_visited_at = Time.zone.now
 
     if save
       ActionCable.server.broadcast(channel_key, to_json) # not necessary
       ActionCable.server.broadcast("events:#{app.key}",
-                                   type: 'presence',
+                                   type: "presence",
                                    data: formatted_user)
     end
   end
 
   def offline!
-    self.state = 'offline'
-    self.last_visited_at = Time.now
+    self.state = "offline"
+    self.last_visited_at = Time.zone.now
     if save
       ActionCable.server.broadcast("events:#{app.key}",
-                                   type: 'presence',
+                                   type: "presence",
                                    data: formatted_user)
     end
   end

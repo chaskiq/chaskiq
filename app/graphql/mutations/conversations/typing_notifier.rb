@@ -16,9 +16,9 @@ module Mutations
         key = "#{app.key}-#{conversation.main_participant.session_id}"
 
         if current_user.is_a?(Agent)
-          author = app.agents.where('agents.email =?', current_user.email).first
+          author = app.agents.where("agents.email =?", current_user.email).first
           MessengerEventsChannel.broadcast_to(key, {
-            type: 'conversations:typing',
+            type: "conversations:typing",
             data: {
               conversation: conversation.key,
               author: {
@@ -28,9 +28,9 @@ module Mutations
           }.as_json)
         else
           # TODO: check this, when permit multiple emails, check by different id
-          author = app.app_users.where(['email =?', current_user.email]).first
+          author = app.app_users.where(["email =?", current_user.email]).first
           EventsChannel.broadcast_to(key, {
-            type: 'conversations:typing',
+            type: "conversations:typing",
             data: {
               conversation: conversation.key,
               author: {
@@ -40,7 +40,7 @@ module Mutations
           }.as_json)
         end
 
-        { message: 'ok' }
+        { message: "ok" }
       end
 
       def current_user

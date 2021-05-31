@@ -10,4 +10,4 @@ json.extract! campaign, *%i[id
                             app_id
                             created_at
                             updated_at
-                            segments].concat(campaign.config_fields.map { |o| o[:name] })
+                            segments].concat(campaign.config_fields.pluck(:name))

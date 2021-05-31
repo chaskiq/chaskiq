@@ -17,8 +17,8 @@ class AgentDashboard
     resource.conversations.group(:state).count
             .map do |k, v|
       {
-        id: k || 'unknown',
-        label: k || 'unknown',
+        id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)"
       }

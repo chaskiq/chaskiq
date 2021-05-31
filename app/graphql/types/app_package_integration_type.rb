@@ -54,8 +54,8 @@ module Types
     end
 
     field :call_hook, Types::JsonType, null: true do
-      argument :kind, String, required: true, default_value: ''
-      argument :ctx, Types::JsonType, required: true, default_value: ''
+      argument :kind, String, required: true, default_value: ""
+      argument :ctx, Types::JsonType, required: true, default_value: ""
     end
 
     def call_hook(kind:, ctx:)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'browser/aliases'
+require "browser/aliases"
 
 class Api::GraphqlController < ApiController
   include HashEnsurer
@@ -12,7 +12,7 @@ class Api::GraphqlController < ApiController
     query = params[:query]
     operation_name = params[:operationName]
 
-    scout_transaction_name = 'GraphQLAPI' + (operation_name || 'unknown')
+    scout_transaction_name = "GraphQLAPI" + (operation_name || "unknown")
     ScoutApm::Transaction.rename(scout_transaction_name)
 
     context = {
@@ -37,10 +37,10 @@ class Api::GraphqlController < ApiController
   rescue ActiveRecord::RecordNotFound => e
     render json: {
       errors: [{
-        message: 'Data not found',
+        message: "Data not found",
         data: {}
       }]
-    }, status: 200
+    }, status: :ok
   rescue ActiveRecord::RecordInvalid => e
     error_messages = e.record.errors.full_messages.join("\n")
     json_error e.record
@@ -52,7 +52,7 @@ class Api::GraphqlController < ApiController
         message: e.message,
         data: {}
       }]
-    }, status: 422
+    }, status: :unprocessable_entity
     # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
   rescue StandardError => e
     # GraphQL::ExecutionError.new e.message
@@ -70,7 +70,7 @@ class Api::GraphqlController < ApiController
   attr_reader :user_data
 
   def get_app
-    @app = App.find_by(key: request.headers['HTTP_APP'])
+    @app = App.find_by(key: request.headers["HTTP_APP"])
   end
 
   def set_host_for_local_storage

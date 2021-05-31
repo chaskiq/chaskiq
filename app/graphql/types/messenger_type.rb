@@ -30,11 +30,11 @@ module Types
       # skip if already consent
       return false if user_privacy_consent
       # skip if privacy consent is none
-      return false if privacy_consent_required.blank? || privacy_consent_required == 'none'
+      return false if privacy_consent_required.blank? || privacy_consent_required == "none"
       # privacy consent on
-      return true if privacy_consent_required == 'all'
+      return true if privacy_consent_required == "all"
 
-      EuCountries.include?(context[:request]&.location&.country_code) if privacy_consent_required == 'eu'
+      EuCountries.include?(context[:request]&.location&.country_code) if privacy_consent_required == "eu"
     end
 
     field :conversations, Types::PaginatedConversationsType, null: true do
@@ -47,7 +47,7 @@ module Types
       @conversations = object.conversations.preload(messages: %i[messageable authorable])
                              .joins(:main_participant)
                              .where(main_participant: @user.id)
-                             .order('updated_at desc')
+                             .order("updated_at desc")
                              .page(page)
                              .per(per)
     end
@@ -78,12 +78,12 @@ module Types
 
       return false if @user.blank? || @user.blocked?
 
-      k = @user.model_name.name === 'AppUser' ? 'users' : 'visitors'
+      k = @user.model_name.name === "AppUser" ? "users" : "visitors"
       return if k.blank?
-      return nil unless object.inbound_settings[k]['enabled']
-      return true if object.inbound_settings[k]['segment'] == 'all'
+      return nil unless object.inbound_settings[k]["enabled"]
+      return true if object.inbound_settings[k]["segment"] == "all"
 
-      segments = object.inbound_settings[k]['predicates']
+      segments = object.inbound_settings[k]["predicates"]
 
       return true if segments.blank?
 

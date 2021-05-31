@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CampaignMailer, type: :mailer do
   # let(:template){ FactoryBot.create(:chaskiq_template) }
   let(:app) { FactoryBot.create(:app) }
   let!(:subscriber) do
     app.add_user(email: Faker::Internet.email, properties: {
-                   custom_country: 'albania',
+                   custom_country: "albania",
                    name: Faker::Name.unique.name,
-                   country: 'Athens',
-                   company: 'Acme'
+                   country: "Athens",
+                   company: "Acme"
                  })
   end
   let!(:campaign) { FactoryBot.create(:campaign, app: app) }
-  let(:template_html) { '<p>{{name}}</p>' }
+  let(:template_html) { "<p>{{name}}</p>" }
   let(:premailer_template) do
     "<p>
     {{name}} {{last_name}}
@@ -44,7 +44,7 @@ RSpec.describe CampaignMailer, type: :mailer do
     CampaignMailer.newsletter(campaign, app.app_users.first).deliver_now
   end
 
-  it 'pass subscriber attributes to template' do
+  it "pass subscriber attributes to template" do
     at = campaign.attributes_for_template(subscriber)
     expect(last_email.subject).to_not be_blank
 
@@ -59,7 +59,7 @@ RSpec.describe CampaignMailer, type: :mailer do
     expect(last_email.body).to include(at[:track_image_url])
   end
 
-  it 'should deliver with open.gif' do
-    expect(last_email.body).to include('open.gif')
+  it "should deliver with open.gif" do
+    expect(last_email.body).to include("open.gif")
   end
 end

@@ -19,9 +19,9 @@ module Mutations
       @webhook = @app.outgoing_webhooks.find(id)
 
       state_value = if ActiveModel::Type::Boolean.new.cast(state)
-                      'enabled'
+                      "enabled"
                     else
-                      'disabled'
+                      "disabled"
                     end
 
       @webhook.update(

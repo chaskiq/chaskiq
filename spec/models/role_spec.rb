@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Role, type: :model do
   # it{ should belong_to(:user) }
@@ -10,7 +10,7 @@ RSpec.describe Role, type: :model do
     FactoryBot.create :app
   end
 
-  it 'role' do
+  it "role" do
     user = Agent.create(
       email: Faker::Internet.email,
       password: Devise.friendly_token[0, 20]

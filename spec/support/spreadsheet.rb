@@ -2,7 +2,7 @@
 
 class Spreadsheet
   def initialize(data)
-    data = { 'Default' => data } unless data.is_a?(Hash)
+    data = { "Default" => data } unless data.is_a?(Hash)
     @data = data
   end
 

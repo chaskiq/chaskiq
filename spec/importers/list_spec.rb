@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-require 'roo'
+require "rails_helper"
+require "roo"
 # require "#{Rails.root.join('app/importers').join('list_importer.rb')}"
 
-describe 'ListImporter' do
+describe "ListImporter" do
   let(:spreadsheet_data) do
     arr = []
-    arr << ['email', ' name ', 'last name', 'Department', 'Manager']
+    arr << ["email", " name ", "last name", "Department", "Manager"]
     (1..2).each do |_o|
       arr << [Faker::Internet.email,
               Faker::Name.name,
@@ -20,23 +20,23 @@ describe 'ListImporter' do
 
   let(:spreadsheet_data_with_errors) do
     [
-      ['List of Lists'],
-      ['Name', 'Birth Date', 'Department', 'Manager'],
-      ['John Doe', '2013-10-25', 'IT'],
+      ["List of Lists"],
+      ["Name", "Birth Date", "Department", "Manager"],
+      ["John Doe", "2013-10-25", "IT"],
       %w[Invalid 2013-10-24 Management],
       %w[Invalid 2013-10-24 Accounting],
-      ['Jane Doe', '2013-10-26', 'Sales']
+      ["Jane Doe", "2013-10-26", "Sales"]
     ]
   end
 
-  let(:importer) { ListImporter.new('/dummy/file') }
+  let(:importer) { ListImporter.new("/dummy/file") }
 
   let(:app) do
-    App.create(name: 'foo', domain_url: 'http://ggg.cc')
+    App.create(name: "foo", domain_url: "http://ggg.cc")
   end
 
   let(:agent) do
-    app.add_agent({ email: 'test@test.cl', first_name: 'dsdsa' }).agent
+    app.add_agent({ email: "test@test.cl", first_name: "dsdsa" }).agent
   end
 
   before do
@@ -46,9 +46,9 @@ describe 'ListImporter' do
     ListImporter.transactional(false)
   end
 
-  it 'imports all data from the spreadsheet into the model' do
+  it "imports all data from the spreadsheet into the model" do
     expect do
-      ListImporter.import('/dummy/file', params: { app_id: app.id, agent_id: agent.id })
+      ListImporter.import("/dummy/file", params: { app_id: app.id, agent_id: agent.id })
     end.to change(AppUser, :count).by(2)
 
     expect(AppUser.last.email).to be_present
@@ -57,7 +57,7 @@ describe 'ListImporter' do
     expect(AppUser.last.name).to be_present
     expect(AppUser.last.name).to be_present
 
-    expect(AppUser.last[:properties]['department']).to be_present
-    expect(AppUser.last[:properties]['department']).to be_present
+    expect(AppUser.last[:properties]["department"]).to be_present
+    expect(AppUser.last[:properties]["department"]).to be_present
   end
 end

@@ -23,7 +23,7 @@ module DataEnrichmentService
     end
 
     def get_data(params: {})
-      puts 'not implemented'
+      Rails.logger.info "enrichment service: not implemented"
     end
   end
 end

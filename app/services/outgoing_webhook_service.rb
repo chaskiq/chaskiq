@@ -10,7 +10,7 @@ class OutgoingWebhookService
   def send_post(data)
     response = @conn.post(@url,
                           data.to_json,
-                          { 'Content-Type' => 'application/json' })
+                          { "Content-Type" => "application/json" })
     response.status
   end
 end

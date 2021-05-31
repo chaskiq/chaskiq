@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'link_renamer'
+require "link_renamer"
 
 class UserAutoMessage < Message
   validates :scheduled_at, presence: true
@@ -9,34 +9,34 @@ class UserAutoMessage < Message
 
   def config_fields
     [
-      { name: 'name', type: 'string', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'subject', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'description', type: 'text', grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'hiddenConstraints', type: 'select',
+      { name: "name", type: "string", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "subject", type: "text", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "description", type: "text", grid: { xs: "w-full", sm: "w-full" } },
+      { name: "hiddenConstraints", type: "select",
         options: [
-          { label: 'open', value: 'open' },
-          { label: 'close', value: 'close' },
-          { label: 'click', value: 'click' }
+          { label: "open", value: "open" },
+          { label: "close", value: "close" },
+          { label: "click", value: "click" }
         ],
         multiple: true,
-        default: 'open',
-        grid: { xs: 'w-full', sm: 'w-full' } },
-      { name: 'scheduledAt', label: 'Scheduled at', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: 'scheduledTo', label: 'Scheduled to', type: 'datetime', grid: { xs: 'w-full', sm: 'w-1/2' } }
+        default: "open",
+        grid: { xs: "w-full", sm: "w-full" } },
+      { name: "scheduledAt", label: "Scheduled at", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "scheduledTo", label: "Scheduled to", type: "datetime", grid: { xs: "w-full", sm: "w-1/2" } }
     ]
   end
 
   def stats_fields
     [
       {
-        name: 'DeliverRateCount', label: 'DeliverRateCount',
-        keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'click', color: '#0747A6' }]
+        name: "DeliverRateCount", label: "DeliverRateCount",
+        keys: [{ name: "open", color: "#F4F5F7" },
+               { name: "click", color: "#0747A6" }]
       },
       {
-        name: 'OpenRateCount', label: 'OpenRateCount',
-        keys: [{ name: 'open', color: '#F4F5F7' },
-               { name: 'close', color: '#0747A6' }]
+        name: "OpenRateCount", label: "OpenRateCount",
+        keys: [{ name: "open", color: "#F4F5F7" },
+               { name: "close", color: "#0747A6" }]
       }
     ]
   end
@@ -64,7 +64,7 @@ class UserAutoMessage < Message
                                    .merge(subscriber.properties)
 
     # could be the serialized content!
-    compiled_premailer = html_content.to_s.gsub('%7B%7B', '{{').gsub('%7D%7D', '}}')
+    compiled_premailer = html_content.to_s.gsub("%7B%7B", "{{").gsub("%7D%7D", "}}")
     compiled_mustache = Mustache.render(compiled_premailer, subscriber_options)
 
     LinkRenamer.convert(compiled_mustache, link_prefix)
@@ -79,7 +79,7 @@ class UserAutoMessage < Message
 
     if messages.any?
       MessengerEventsChannel.broadcast_to(key,
-                                          type: 'messages:receive',
+                                          type: "messages:receive",
                                           data: messages.as_json(only: %i[id
                                                                           created_at
                                                                           updated_at

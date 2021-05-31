@@ -4,15 +4,15 @@ class ConversationPartBlock < ApplicationRecord
   include Redis::Objects
 
   has_one :conversation_part, as: :messageable
-  value :trigger_locked, expireat: -> { Time.now + 5.seconds }
+  value :trigger_locked, expireat: -> { Time.zone.now + 5.seconds }
 
   def create_fase(app)
-    return if blocks['app_package'].blank?
+    return if blocks["app_package"].blank?
 
     # this right now only works for trusted plugins
     # this needs to be API hook compatible
     # add a proper setting on appPackage like, hook_url ?
-    package_class_name = blocks['app_package']
+    package_class_name = blocks["app_package"]
     klass = begin
       "MessageApis::#{package_class_name}::Api".constantize
     rescue StandardError
@@ -26,7 +26,7 @@ class ConversationPartBlock < ApplicationRecord
 
     data = klass.create_fase(self, klass)
 
-    blocks['schema'] = data[:definitions]
+    blocks["schema"] = data[:definitions]
     self.data = data[:values]
     save
   end
@@ -35,7 +35,7 @@ class ConversationPartBlock < ApplicationRecord
     app
       .app_package_integrations
       .joins(:app_package)
-      .where('app_packages.name =?', package_class_name)
+      .where("app_packages.name =?", package_class_name)
       .first.message_api_klass
   rescue StandardError
     nil
@@ -55,17 +55,17 @@ class ConversationPartBlock < ApplicationRecord
 
   def as_json(*)
     super.tap do |hash|
-      hash['data'] = handled_data.as_json
+      hash["data"] = handled_data.as_json
     end
   end
 
   def replied?
-    state == 'replied'
+    state == "replied"
   end
 
   def save_replied(data)
-    self.state = 'replied'
-    self.data = data unless data.blank?
+    self.state = "replied"
+    self.data = data if data.present?
     if save
       conversation_part.notify_to_channels
       # not sure about this, this is needed to trigger first user interaction

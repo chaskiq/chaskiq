@@ -3,18 +3,18 @@
 class Lead < AppUser
   def verify!
     if email.present? &&
-       app_users = app.app_users.where(type: 'AppUser', email: email)
+       app_users = app.app_users.where(type: "AppUser", email: email)
       app_users.any?
       clone_records_and_discard(app_users.first)
     else
       becomes!(AppUser)
-      self.type = 'AppUser'
+      self.type = "AppUser"
       save
     end
   end
 
   def clone_records_and_discard(app_user)
-    attributes = deep_clone.attributes.except('id', 'created_at', 'updated_at', 'session_id')
+    attributes = deep_clone.attributes.except("id", "created_at", "updated_at", "session_id")
 
     verify_event(app_user) if app_user.update(attributes)
 
@@ -34,7 +34,7 @@ class Lead < AppUser
     key = app_user.session_key
 
     MessengerEventsChannel.broadcast_to(key, {
-      type: 'user:refresh',
+      type: "user:refresh",
       data: app_user.as_json(only: [:session_id])
     }.as_json)
   end

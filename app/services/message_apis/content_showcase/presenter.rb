@@ -60,14 +60,14 @@ module MessageApis::ContentShowcase
 
       definitions = [
         {
-          type: 'text',
-          text: 'yes!!!!!',
-          style: 'header'
+          type: "text",
+          text: "yes!!!!!",
+          style: "header"
         },
         {
-          type: 'text',
+          type: "text",
           text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-          style: 'paragraph'
+          style: "paragraph"
         }
       ]
 
@@ -88,19 +88,19 @@ module MessageApis::ContentShowcase
 
       definitions = base_definitions
 
-      if ctx.dig(:field, :action, :type) === 'submit'
-        if ctx.dig(:field, :id) == 'pick-another'
+      if ctx.dig(:field, :action, :type) === "submit"
+        if ctx.dig(:field, :id) == "pick-another"
           return {
             kind: kind,
             definitions: base_definitions
           }
         end
 
-        if ctx.dig(:field, :id) == 'announcement'
+        if ctx.dig(:field, :id) == "announcement"
           definitions = record.base_title(
-            title: 'Announcement',
-            subtitle: 'Broadcast a message'
-          ) + record.customize_buttons(type: 'announcement')
+            title: "Announcement",
+            subtitle: "Broadcast a message"
+          ) + record.customize_buttons(type: "announcement")
 
           return {
             kind: kind,
@@ -108,11 +108,11 @@ module MessageApis::ContentShowcase
           }
         end
 
-        if ctx.dig(:field, :id) == 'top-articles'
+        if ctx.dig(:field, :id) == "top-articles"
           definitions = record.base_title(
-            title: 'Top Articles',
-            subtitle: 'Suggest helpful articles'
-          ) + record.customize_buttons(type: 'top-articles')
+            title: "Top Articles",
+            subtitle: "Suggest helpful articles"
+          ) + record.customize_buttons(type: "top-articles")
 
           return {
             kind: kind,
@@ -120,7 +120,7 @@ module MessageApis::ContentShowcase
           }
         end
 
-        if ctx.dig(:field, :id) == 'autofill'
+        if ctx.dig(:field, :id) == "autofill"
           aa = AnnouncementRecord.new(
             description: ctx.dig(:values, :description),
             heading: ctx.dig(:values, :heading),
@@ -136,7 +136,7 @@ module MessageApis::ContentShowcase
           }
         end
 
-        if ctx.dig(:field, :id) == 'add-to-messenger'
+        if ctx.dig(:field, :id) == "add-to-messenger"
           aa = AnnouncementRecord.new(
             description: ctx.dig(:values, :description),
             heading: ctx.dig(:values, :heading),
@@ -154,7 +154,7 @@ module MessageApis::ContentShowcase
           end
 
           return {
-            kind: 'initialize',
+            kind: "initialize",
             definitions: aa.schema,
             results: ctx[:values]
           }
@@ -162,11 +162,11 @@ module MessageApis::ContentShowcase
 
         # CUSTOMIZE ACTIONS
 
-        if ctx.dig(:field, :id) == 'customize-announcement'
+        if ctx.dig(:field, :id) == "customize-announcement"
 
           definitions = record.base_title(
-            title: 'Announcement',
-            subtitle: 'Broadcast a message'
+            title: "Announcement",
+            subtitle: "Broadcast a message"
           ) + record.schema
 
           return {
@@ -175,10 +175,10 @@ module MessageApis::ContentShowcase
           }
         end
 
-        if ctx.dig(:field, :id) == 'customize-top-articles'
+        if ctx.dig(:field, :id) == "customize-top-articles"
           definitions = record.base_title(
-            title: 'Top Articles',
-            subtitle: 'Suggest helpful articles'
+            title: "Top Articles",
+            subtitle: "Suggest helpful articles"
           ) + record.top_articles_schema
 
           return {
@@ -187,10 +187,10 @@ module MessageApis::ContentShowcase
           }
         end
 
-        if ctx.dig(:field, :id) == 'add-articles-to-messenger'
-          articles = ctx.dig(:values, 'article')
+        if ctx.dig(:field, :id) == "add-articles-to-messenger"
+          articles = ctx.dig(:values, "article")
 
-          record.heading = ctx.dig(:values, 'heading')
+          record.heading = ctx.dig(:values, "heading")
 
           validations = articles.map do |o|
             options = o.permit(
@@ -206,8 +206,8 @@ module MessageApis::ContentShowcase
           if validations.any?(&:!)
 
             definitions = record.base_title(
-              title: 'Top Articles',
-              subtitle: 'Suggest helpful articles'
+              title: "Top Articles",
+              subtitle: "Suggest helpful articles"
             ) + record.top_articles_schema(
               record.class.generate_collection_definitions(
                 articles,
@@ -224,7 +224,7 @@ module MessageApis::ContentShowcase
           else
 
             return {
-              kind: 'initialize',
+              kind: "initialize",
               definitions: [],
               results: ctx[:values]
             }
@@ -232,13 +232,13 @@ module MessageApis::ContentShowcase
           end
         end
 
-        if ctx.dig(:field, :id) == 'add-new-article'
-          record.heading = ctx.dig(:values, 'heading')
+        if ctx.dig(:field, :id) == "add-new-article"
+          record.heading = ctx.dig(:values, "heading")
 
-          articles = ctx.dig(:values, 'article')
+          articles = ctx.dig(:values, "article")
           definitions = record.base_title(
-            title: 'Top Articles',
-            subtitle: 'Suggest helpful articles'
+            title: "Top Articles",
+            subtitle: "Suggest helpful articles"
           ) + record.top_articles_schema(
             record.class.generate_collection_definitions(
               articles, append: true, validate: false
@@ -250,16 +250,16 @@ module MessageApis::ContentShowcase
           }
         end
 
-        if ctx.dig(:field, :id).include? 'autofill-'
+        if ctx.dig(:field, :id).include? "autofill-"
 
-          record.heading = ctx.dig(:values, 'heading')
+          record.heading = ctx.dig(:values, "heading")
 
-          autofill_index = ctx.dig(:field, :id).split('-').last.to_i
-          articles = ctx.dig(:values, 'article')
+          autofill_index = ctx.dig(:field, :id).split("-").last.to_i
+          articles = ctx.dig(:values, "article")
 
           definitions = record.base_title(
-            title: 'Top Articles',
-            subtitle: 'Suggest helpful articles'
+            title: "Top Articles",
+            subtitle: "Suggest helpful articles"
           ) + record.top_articles_schema(
             record.class.generate_collection_definitions(
               articles,
@@ -309,41 +309,41 @@ module MessageApis::ContentShowcase
 
       def base_title(title:, subtitle:)
         [{
-          type: 'text',
+          type: "text",
           text: title,
-          style: 'header',
-          align: 'center'
+          style: "header",
+          align: "center"
         },
          {
-           type: 'text',
+           type: "text",
            text: subtitle,
-           style: 'muted',
-           align: 'center'
+           style: "muted",
+           align: "center"
          },
          {
-           type: 'separator'
+           type: "separator"
          }]
       end
 
       def customize_buttons(type:)
         [
           {
-            type: 'button',
+            type: "button",
             id: "customize-#{type}",
-            label: 'Customize',
+            label: "Customize",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           },
 
           {
-            type: 'button',
-            id: 'pick-another',
-            variant: 'outlined',
-            size: 'small',
-            label: 'Pick another template',
+            type: "button",
+            id: "pick-another",
+            variant: "outlined",
+            size: "small",
+            label: "Pick another template",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           }
         ]
@@ -353,31 +353,31 @@ module MessageApis::ContentShowcase
         [
 
           {
-            type: 'text',
-            text: 'Pick a template',
-            style: 'header'
+            type: "text",
+            text: "Pick a template",
+            style: "header"
           },
 
           {
-            type: 'list',
+            type: "list",
             disabled: false,
             items: [
               {
-                type: 'item',
-                id: 'announcement',
-                title: 'Announcement',
-                subtitle: 'Broadcast a new message',
+                type: "item",
+                id: "announcement",
+                title: "Announcement",
+                subtitle: "Broadcast a new message",
                 action: {
-                  type: 'submit'
+                  type: "submit"
                 }
               },
               {
-                type: 'item',
-                id: 'top-articles',
-                title: 'Top Articles',
-                subtitle: 'Suggest helpful articles',
+                type: "item",
+                id: "top-articles",
+                title: "Top Articles",
+                subtitle: "Suggest helpful articles",
                 action: {
-                  type: 'submit'
+                  type: "submit"
                 }
               }
             ]
@@ -388,77 +388,77 @@ module MessageApis::ContentShowcase
       def schema
         [
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'input',
-            name: 'heading',
-            label: 'heading',
-            placeholder: 'Introduce your announcement',
-            id: 'heading',
+            type: "input",
+            name: "heading",
+            label: "heading",
+            placeholder: "Introduce your announcement",
+            id: "heading",
             value: heading
           },
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'input',
-            name: 'page_url',
-            label: 'Page url',
-            placeholder: 'e.g. https://blog.chaskiq.io',
-            id: 'page_url',
+            type: "input",
+            name: "page_url",
+            label: "Page url",
+            placeholder: "e.g. https://blog.chaskiq.io",
+            id: "page_url",
             value: page_url,
-            errors: errors[:page_url].any? ? errors[:page_url].uniq.join(', ') : nil
+            errors: errors[:page_url].any? ? errors[:page_url].uniq.join(", ") : nil
           },
           {
-            type: 'spacer',
-            size: 's'
+            type: "spacer",
+            size: "s"
           },
           {
-            type: 'button',
-            variant: 'outlined',
-            id: 'autofill',
-            size: 'small',
-            label: 'autofill inputs with page details',
+            type: "button",
+            variant: "outlined",
+            id: "autofill",
+            size: "small",
+            label: "autofill inputs with page details",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           },
           {
-            type: 'spacer',
-            size: 's'
+            type: "spacer",
+            size: "s"
           },
           {
-            type: 'input',
-            label: 'Title (required)',
+            type: "input",
+            label: "Title (required)",
             value: title,
-            placeholder: 'e.g. https://blog.chaskiq.io',
-            id: 'title'
+            placeholder: "e.g. https://blog.chaskiq.io",
+            id: "title"
           },
           {
-            type: 'input',
-            label: 'Description',
+            type: "input",
+            label: "Description",
             value: description,
-            placeholder: 'Make a short description',
-            id: 'description'
+            placeholder: "Make a short description",
+            id: "description"
           },
           {
-            type: 'input',
-            label: 'Cover image url (required)',
+            type: "input",
+            label: "Cover image url (required)",
             value: cover_image,
-            placeholder: 'e.g. https://blog.chaskiq.io',
-            id: 'cover_image'
+            placeholder: "e.g. https://blog.chaskiq.io",
+            id: "cover_image"
           },
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'button',
-            size: 'small',
-            id: 'add-to-messenger',
-            label: 'Add to messenger home',
+            type: "button",
+            size: "small",
+            id: "add-to-messenger",
+            label: "Add to messenger home",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           }
         ]
@@ -466,25 +466,25 @@ module MessageApis::ContentShowcase
 
       def top_articles_up
         [
-          { type: 'separator' },
+          { type: "separator" },
           {
-            type: 'spacer',
-            size: 'sm'
+            type: "spacer",
+            size: "sm"
           },
           {
-            type: 'input',
-            name: 'heading',
-            label: 'heading',
-            placeholder: 'Introduce your announcement',
-            id: 'heading',
+            type: "input",
+            name: "heading",
+            label: "heading",
+            placeholder: "Introduce your announcement",
+            id: "heading",
             value: heading
           },
           {
-            type: 'spacer',
-            size: 'sm'
+            type: "spacer",
+            size: "sm"
           },
           {
-            type: 'separator'
+            type: "separator"
           }
         ]
       end
@@ -492,25 +492,25 @@ module MessageApis::ContentShowcase
       def top_articles_buttons
         [
           {
-            type: 'button',
-            size: 'small',
-            id: 'add-new-article',
-            variant: 'outlined',
-            label: 'Add new article',
+            type: "button",
+            size: "small",
+            id: "add-new-article",
+            variant: "outlined",
+            label: "Add new article",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           },
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'button',
-            size: 'small',
-            id: 'add-articles-to-messenger',
-            label: 'Add articles to messenger home',
+            type: "button",
+            size: "small",
+            id: "add-articles-to-messenger",
+            label: "Add articles to messenger home",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           }
         ]
@@ -523,63 +523,63 @@ module MessageApis::ContentShowcase
       def article_fields(index = 0)
         fields = [
           {
-            type: 'text',
-            style: 'header',
-            text: 'Article'
+            type: "text",
+            style: "header",
+            text: "Article"
           },
           {
-            type: 'input',
+            type: "input",
             name: "article[#{index}][page_url]",
-            label: 'Page url',
-            placeholder: 'e.g. https://blog.chaskiq.io',
-            id: 'page_url',
+            label: "Page url",
+            placeholder: "e.g. https://blog.chaskiq.io",
+            id: "page_url",
             value: page_url,
-            errors: errors[:page_url].any? ? errors[:page_url].uniq.join(', ') : nil
+            errors: errors[:page_url].any? ? errors[:page_url].uniq.join(", ") : nil
           },
           {
-            type: 'spacer',
-            size: 's'
+            type: "spacer",
+            size: "s"
           },
           {
-            type: 'button',
-            variant: 'outlined',
+            type: "button",
+            variant: "outlined",
             id: "autofill-#{index}",
-            size: 'small',
-            label: 'autofill inputs with page details',
+            size: "small",
+            label: "autofill inputs with page details",
             action: {
-              type: 'submit'
+              type: "submit"
             }
           },
           {
-            type: 'spacer',
-            size: 's'
+            type: "spacer",
+            size: "s"
           },
           {
-            type: 'input',
-            label: 'Title (required)',
+            type: "input",
+            label: "Title (required)",
             name: "article[#{index}][title]",
             value: title,
-            placeholder: 'e.g. https://blog.chaskiq.io',
-            id: 'title'
+            placeholder: "e.g. https://blog.chaskiq.io",
+            id: "title"
           },
           {
-            type: 'input',
-            label: 'Description',
+            type: "input",
+            label: "Description",
             name: "article[#{index}][description]",
             value: description,
-            placeholder: 'Make a short description',
-            id: 'description'
+            placeholder: "Make a short description",
+            id: "description"
           },
           {
-            type: 'input',
-            label: 'Cover image url (required)',
+            type: "input",
+            label: "Cover image url (required)",
             name: "article[#{index}][cover_image]",
             value: cover_image,
-            placeholder: 'e.g. https://blog.chaskiq.io',
-            id: 'cover_image'
+            placeholder: "e.g. https://blog.chaskiq.io",
+            id: "cover_image"
           },
           {
-            type: 'separator'
+            type: "separator"
           }
         ]
       end
@@ -588,34 +588,34 @@ module MessageApis::ContentShowcase
       def presentation_schema
         [
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'text',
-            style: 'header',
+            type: "text",
+            style: "header",
             text: heading
           },
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'image',
+            type: "image",
             url: cover_image,
             height: 200,
-            width: '100%',
-            align: 'center'
+            width: "100%",
+            align: "center"
           },
           {
-            type: 'list',
+            type: "list",
             disabled: false,
             items: [
               {
-                type: 'item',
-                id: 'list-item-1',
+                type: "item",
+                id: "list-item-1",
                 title: title,
                 subtitle: description,
                 action: {
-                  type: 'url',
+                  type: "url",
                   url: page_url
                 }
               }
@@ -628,28 +628,28 @@ module MessageApis::ContentShowcase
       def presentation_schema_list
         [
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'text',
-            style: 'header',
+            type: "text",
+            style: "header",
             text: heading
           },
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'list',
+            type: "list",
             disabled: false,
             items: [
               {
-                type: 'item',
-                id: 'list-item-1',
+                type: "item",
+                id: "list-item-1",
                 title: title,
                 subtitle: description,
                 image: cover_image,
                 action: {
-                  type: 'url',
+                  type: "url",
                   url: page_url
                 }
               }
@@ -706,18 +706,18 @@ module MessageApis::ContentShowcase
       def article_presentation_fields(items)
         [
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'text',
-            style: 'header',
+            type: "text",
+            style: "header",
             text: heading
           },
           {
-            type: 'separator'
+            type: "separator"
           },
           {
-            type: 'list',
+            type: "list",
             disabled: false,
             items: items.map(&:list_item)
           }
@@ -726,13 +726,13 @@ module MessageApis::ContentShowcase
 
       def list_item
         {
-          type: 'item',
-          id: 'list-item-1',
+          type: "item",
+          id: "list-item-1",
           title: title,
           subtitle: description,
           image: cover_image,
           action: {
-            type: 'url',
+            type: "url",
             url: page_url
           }
         }
