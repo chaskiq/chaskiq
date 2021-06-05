@@ -248,7 +248,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         textColor="inherit"
         tabs={[
           {
-            label: 'Stats',
+            label: I18n.t('campaigns.tabs.stats'),
             content: (
               <React.Fragment>
                 {!isEmpty(botTask) && (
@@ -265,7 +265,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
             )
           },
           {
-            label: 'Settings',
+            label: I18n.t('campaigns.tabs.settings'),
             content: (
               <BotTaskSetting
                 app={app}
@@ -277,7 +277,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
             )
           },
           {
-            label: 'Audience',
+            label: I18n.t('campaigns.tabs.audience'),
             content: (
               <Segment
                 app={app}
@@ -295,7 +295,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
             )
           },
           {
-            label: 'Editor',
+            label: I18n.t('campaigns.tabs.editor'),
             content: <div>
               <BotPathEditor
                 app={app}

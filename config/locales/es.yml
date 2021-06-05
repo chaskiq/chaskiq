@@ -210,7 +210,7 @@ es:
     preview: Esta es una vista previa
     preview_hint: Así es como debería mostrarse tu correo electrónico. Si estás utilizando variables como {{name}} debería mostrarse aquí.
     stats:
-      title: Nombre de Campaña
+      title: Estadisticas de campaña
       refresh_data: Actualizar datos
     unsubscribe:
       status: Has sido %{state}
