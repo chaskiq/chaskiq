@@ -11,18 +11,22 @@ function CustomizedSnackbars (props) {
   const [open, setOpen] = React.useState(!isEmpty(props.status_message))
 
   function handleClose (_event, reason) {
-    if (reason === 'clickaway') {
-      return
-    }
-
+    if (reason === 'clickaway') return
     props.dispatch(clearStatusMessage())
-
     setOpen(false)
   }
 
   React.useEffect(() => {
     setOpen(!isEmpty(props.status_message))
   }, [props])
+
+  React.useEffect(() => {
+    if(!open) return
+    const timer = setTimeout(() => {
+      props.dispatch(clearStatusMessage())
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [open])
 
   function getPlacement () {
     return (
