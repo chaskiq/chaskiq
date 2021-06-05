@@ -219,32 +219,17 @@ it:
       cancel: Cancel your subscription
   task_bots:
     type_filters:
-      - 
-        title: 'Visitors'
-        description: 'visitors on the platform'
-        id: 'Visitor'
-        state: 'checked'
-      - 
-        title: 'Leads'
-        description: 'Visitors who make an actions'
-        id: 'Lead'
-        state: 'checked'
-      - 
-        title: 'Users'
-        description: "your platform's registered users"
-        id: 'AppUser'
-        state: 'checked'
+      title_visitors: 'Visitors'
+      description_visitors: 'visitors on the platform'
+      title_leads: 'Leads'
+      description_leads: 'Visitors who make an actions'
+      title_users: 'Users'
+      description_users: "your platform's registered users"
     state_filters:
-      - 
-        title: 'Enabled'
-        description: 'enabled bot tasks'
-        id: 'enabled'
-        state: 'checked'
-      - 
-        title: 'Disabled'
-        description: 'Disabled bot tasks'
-        id: 'disabled'
-        state: 'checked'
+      enabled_title: 'Enabled'
+      enabled_description: 'enabled bot tasks'
+      disabled_title: 'Disabled'
+      disabled_description: 'Disabled bot tasks'
     title: Bot Tasks
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
@@ -503,7 +488,7 @@ it:
       destroyed_agent: Agent deleted successfully
       destroy_agent_title: Delete Agent
       destroy_agent: Delete
-      destroy_agent_warning: 'Are you sure you want to delete {{agent}} ?'
+      destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
       update_agent: Update
     webhooks:
       title: Webhooks
