@@ -210,7 +210,7 @@ es:
     preview: Esta es una vista previa
     preview_hint: Así es como debería mostrarse tu correo electrónico. Si estás utilizando variables como {{name}} debería mostrarse aquí.
     stats:
-      title: Estadisticas de campaña
+      title: Nombre de Campaña
       refresh_data: Actualizar datos
     unsubscribe:
       status: Has sido %{state}
@@ -488,7 +488,7 @@ es:
       destroyed_agent: Agente eliminado correctamente
       destroy_agent_title: Eliminar agente
       destroy_agent: Eliminar
-      destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
+      destroy_agent_warning: '¿Estás seguro que deseas eliminar el %{agent}?'
       update_agent: Actualizar
     webhooks:
       title: Webhooks
@@ -617,7 +617,7 @@ es:
     days ago: días antes
     filter_for: seleccionar filtro para %{name}
     date_filter_for: Seleccione el filtro de fecha para  %{name}
-    integer_filter_for: Seleccione el filtro numérico para ${name}
+    integer_filter_for: Select the integer filter for %{name}
     match_criteria_for: Coincidir con las opciones de criterio para %{name}
     apply: aplicar
     is: es
