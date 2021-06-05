@@ -9,6 +9,7 @@ zh-CN:
     delete: Delete
     create: Create
     save: Save
+    save_changes: Save changes
     preview: Preview
     cancel: Cancel
     back_to_site: Back to site
@@ -16,6 +17,7 @@ zh-CN:
     get_snippet: Get the snippet
     submit: Submit
     confirm_deletion: "Confirm deletion ?"
+    confirm_deletion_ready: are you ready to delete ?
     next: Next
     prev: Prev
     showing: Showing
@@ -34,6 +36,7 @@ zh-CN:
     redirecting: Redirecting
     select_language: Select Language
     send_on_enter: Publish on enter
+    away_mode: Away mode
   home:
     welcome: Welcome to
     welcome_site: Chaskiq
@@ -55,6 +58,10 @@ zh-CN:
     mac_os: Mac OS
     user_country: User country
     snippet: Put the following script on the end of your html <body> tag
+    status: Live chat status
+    status_running: Running
+    status_paused: Paused
+    guides: Chaskiq Guides
   navigator:
     dashboard: Dashboard
     platform: Platform
@@ -84,6 +91,7 @@ zh-CN:
       integrations: Integrations
       webhooks: Webhooks
       api_access: API access
+      billing: Billing
     user_menu:
       create_app: 'Create new app'
       create_app_description: 'Create your company’s Chaskiq app'
@@ -94,7 +102,10 @@ zh-CN:
     title: Conversations
     menu:
       conversations: Conversations
+      all: All conversations
       assignment_rules: Agent routing Rules
+      tags: Tags
+      unassigned: Unassigned
     states:
       opened: Opened
       closed: Closed
@@ -159,6 +170,10 @@ zh-CN:
     create_new: Create new campaign
     empty:
       title: No campaigns found
+    mailing: Mailing campaign
+    in_app: In app messages
+    cloned_success: cloned successfully
+    cloned_error: error while cloning record
     campaign_updated: Campaign updated
     updated_error: Error updating campaign
     error_purge: Error purging metrics
@@ -166,6 +181,29 @@ zh-CN:
     purge_title: Purge Metrics
     deliver_title: Deliver
     deliver_description: Delivers the campaign
+    pause_title: Pause
+    pause_description: pauses the campaign
+    clone_title: Clone
+    clone_description: clones the campaign
+    activate: "Activate Campaigns"
+    enables: enables campaign
+    disables: Disables campaign
+    state:
+      enabled: enabled
+      disabled: disabled
+    tabs:
+      stats: Stats
+      settings: Settings
+      audience: Audience
+      editor: Editor
+    banners:
+      settings: Settings
+      action: Action
+      style: Style
+      top: top
+      bottom: bottom
+      inline: inline
+      floating: floating
   campaign:
     edit: Edit Campaign Settings
     create: Create a new campaign
@@ -180,12 +218,59 @@ zh-CN:
       resubscribe: Resubscribe from this list
       cancel: Cancel your subscription
   task_bots:
+    type_filters:
+      - 
+        title: 'Visitors'
+        description: 'visitors on the platform'
+        id: 'Visitor'
+        state: 'checked'
+      - 
+        title: 'Leads'
+        description: 'Visitors who make an actions'
+        id: 'Lead'
+        state: 'checked'
+      - 
+        title: 'Users'
+        description: "your platform's registered users"
+        id: 'AppUser'
+        state: 'checked'
+    state_filters:
+      - 
+        title: 'Enabled'
+        description: 'enabled bot tasks'
+        id: 'enabled'
+        state: 'checked'
+      - 
+        title: 'Disabled'
+        description: 'Disabled bot tasks'
+        id: 'disabled'
+        state: 'checked'
     title: Bot Tasks
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email}
     outbound: "🏓 Outbound"
     new_conversations: "👋 New conversations"
+    new_conversations_notice: This is what people will see when they start a new conversation
+    options:
+      add_message: Add Message Bubble
+      wait_user_input: Wait for user input
+      add_app_package: Add App
+    path_title_hint: path title
+    delete_path: delete path
+    add_path: Add new conversation part
+    continue_bot_with: Continue bot with
+    continue_with_reply_button: Continue bot with reply button
+    end_bot_with: End bot with
+    end_with_follow: End bot with follow actions
+    reply_button: reply button
+    follow_actions: follow actions
+    add_data_option: + add data option
+    save_data: Save data
+    close_conversation: close conversation
+    assign_agent: assign_agent
+    add_follow_action: Add Follow Action
+    assignee_agent: Assignee Agent
     email_requirement:
       message: Give the team a way to reach you
       input_label: Get notified by email
@@ -485,6 +570,29 @@ zh-CN:
       title: New collection of articles
       placeholder: Enter the title of the collection
       description: Describe your collection to help you find it.
+    deleted_success: article deleted
+    new_article: new article
+    settings_updated_success: 'article settings updated'
+    settings_updated_error: 'article settings failed'
+    activate_help_center: Activate Help Center
+    delete_article: Delete article "%{title} ?
+    delete_article_exp: we will destroy any content and related data
+    square_preferred: square images preferred (min size 200x200px)
+    square_preferred_hint: squared images will be optimal resized
+    reordered_success: 'reordered correctly'
+    reordered_error: 'reordered error'
+    add_articles: Add articles
+    updated_success: article updated
+    updated_error: article error on save
+    delete_section: Delete section
+    author: Author
+    written_by: written by
+    created_on: Created on
+    state:
+      published: published
+      published_desc: 'shows article on the help center'
+      draft: draft
+      draft_desc: 'hides the article on the help center'
     settings:
       title: Help Center settings
       add_language: Add language
@@ -500,3 +608,46 @@ zh-CN:
       lang_desc: Manage supported languages and customize your Help Center header
       basic: Basic setup
       general_app: Application overview
+  contact_manager:
+    create: Create Users & Leads
+    import_csv: Import csv
+    success_message: Processing file import, you will be notified the status soon
+    import_contacts: import_contacts
+    import_exp: You can upload a csv or excel file in order to import contacts
+    import_type: Import Type
+    import_choose: Choose what kind of contacts you will import
+    select_file: Select a file
+  segment_manager:
+    add_filters: Add filters
+    select_fields: 'Select fields:'
+    create_segment: Create new segment
+    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
+    changes_notice: The changes will be saved to the app segments.
+    delete_segment: 'Delete segment'
+    save_segment: Save segment
+    match: match
+    all: all
+    any: any
+    criteria: criteria
+    days ago: days ago
+    filter_for: select filter for %{name}
+    date_filter_for: Select the date filter for  %{name}
+    integer_filter_for: Select the integer filter for ${name}
+    match_criteria_for: Match criteria options for %{name}
+    apply: apply
+    is: is
+    is_not: is not
+    starts_with: starts with
+    ends_with: ends with
+    contains: contains
+    does_not_contain: does not contain
+    is_unknown: is unknown
+    has_any_value: has any value
+    exactly: exactly
+    less_than: less than
+    less_than_eq: less than eq
+    more_than: more than
+    more_than_eq: more than eq
+    match_any: match any
+    match_all: match all
+    missing_value: Missing value!
