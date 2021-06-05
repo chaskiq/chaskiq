@@ -204,9 +204,9 @@ class Collections extends Component {
       },
 
       {
-        success: (_res) => { this.props.dispatch(successMessage('reordered correctly')) },
+        success: (_res) => { this.props.dispatch(successMessage(I18n.t('articles.reordered_success'))) },
         error: (_res) => { 
-          this.props.dispatch(errorMessage('reordered error')) 
+          this.props.dispatch(errorMessage(I18n.t('articles.reordered_error'))) 
         }
       }
     )
@@ -296,12 +296,14 @@ class Collections extends Component {
                     accept="image/*"
                     style={{ display: 'none' }}
                     ref={(comp)=> this.fileInput = comp }
-                    textHelper={'squared images will be optimal resized'}
+                    textHelper={
+                      I18n.t('articles.square_preferred_hint')
+                      }
                     handler={ (file) => this.uploadHandler(file, 'icon') }
                   />
                 </div>
                 <p className="text-sm text-gray-500 mb-3">
-                  square images preferred (min size 200x200px)
+                  {I18n.t('articles.square_preferred')}
                 </p>
                 
                 <TextField
@@ -360,7 +362,7 @@ class Collections extends Component {
               handleClose={this.closeItemToDelete}
               // contentText={"lipsum"}
               titleContent={I18n.t('common.confirm_deletion')}
-              formComponent={<p>are you ready to delete ?</p>}
+              formComponent={<p>{I18n.t('common.confirm_deletion_ready')}</p>}
               dialogButtons={
                 <React.Fragment>
                   <Button onClick={this.closeItemToDelete}

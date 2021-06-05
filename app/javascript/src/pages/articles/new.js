@@ -31,19 +31,20 @@ import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
 import langs from '../../shared/langsOptions'
 
 import { successMessage } from '../../actions/status_messages'
+import I18n from '../../shared/FakeI18n'
 
 
 const options = [
   {
-    name: 'Published',
-    description: 'shows article on the help center',
+    name: I18n.t('articles.state.published'),
+    description: I18n.t('articles.state.published_desc'),
     icon: <CheckCircle />,
     id: 'published',
     state: 'published'
   },
   {
-    name: 'Draft',
-    description: 'hides the article on the help center',
+    name: I18n.t('articles.state.draft'),
+    description: I18n.t('articles.state.draft_desc'),
     icon: <GestureIcon />,
     id: 'draft',
     state: 'draft'
@@ -218,11 +219,11 @@ class ArticlesNew extends Component {
   };
 
   updatedMessage = () => {
-    this.props.dispatch(successMessage('article updated'))
+    this.props.dispatch(successMessage( I18n.t('articles.updated_success') ))
   };
 
   errorMessage = () => {
-    this.props.dispatch(successMessage('article error on save'))
+    this.props.dispatch(successMessage( I18n.t('articles.updated_error')))
   };
 
   submitChanges = () => {
@@ -386,7 +387,9 @@ class ArticlesNew extends Component {
           { !this.state.loading && this.state.article.id &&
                         this.state.article.author &&
                         <React.Fragment>
-                          <h2 className="text-sm font-medium text-gray-500">Author</h2>
+                          <h2 className="text-sm font-medium text-gray-500">
+                            {I18n.t('articles.author')}
+                          </h2>
                           <ul className="mt-3 space-y-3">
                             <li className="flex justify-start">
                               <a href="#" className="flex items-center space-x-3">
@@ -528,7 +531,7 @@ class ArticlesNew extends Component {
 
                         { this.state.article.author &&
                         <span>
-                          written by{' '}
+                          {I18n.t('articles.written_by')}{' '}
                           <Link to={`/apps/${this.props.app.key}/agents/${this.state.article.author.id}`} className="font-medium text-gray-900">
                             {this.state.article.author.name || this.state.article.author.email}
                           </Link>
@@ -633,7 +636,7 @@ class ArticlesNew extends Component {
                     <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                   </svg>
                   <span className="text-gray-900 text-sm font-medium">
-                    Created on <time dateTime="2020-12-02">
+                    {I18n.t('articles.created_on')} <time dateTime="2020-12-02">
                       {this.state.article.createdAt}
                     </time>
                   </span>

@@ -88,10 +88,10 @@ export class SaveSegmentModal extends Component {
     return (
       <React.Fragment>
         <div className="flex items-center">
-          <Tooltip placement="bottom" overlay={'Save Segment'}>
+          <Tooltip placement="bottom" overlay={I18n.t('segment_manager.save_segment')}>
             <ButtonIndigo
               isLoading={false}
-              arial-label={'Save Segment'}
+              arial-label={I18n.t('segment_manager.save_segment')}
               variant={'icon'}
               onClick={this.open}
               size={'small'}
@@ -101,11 +101,11 @@ export class SaveSegmentModal extends Component {
             </ButtonIndigo>
           </Tooltip>
 
-          <Tooltip placement="bottom" overlay={'Delete Segment'}>
+          <Tooltip placement="bottom" overlay={I18n.t('segment_manager.delete_segment')}>
             <ButtonIndigo
               isLoading={false}
               variant={'icon'}
-              arial-label={'Delete segment'}
+              arial-label={I18n.t('segment_manager.delete_segment')}
               appearance={'link danger'}
               onClick={this.deleteAction.bind(this)}
             >
@@ -119,12 +119,12 @@ export class SaveSegmentModal extends Component {
             open={isOpen}
             handleClose={this.close}
             // contentText={"lipsum"}
-            titleContent={'Save Segment'}
+            titleContent={I18n.t('segment_manager.save_segment')}
             formComponent={
               !loading ? (
                 <div>
                   <p className="text-sm leading-5 text-gray-500">
-                    The changes will be saved to the app segments.
+                    {I18n.t('segment_manager.changes_notice')}
                   </p>
 
                   <label className="inline-flex items-center">
@@ -136,8 +136,7 @@ export class SaveSegmentModal extends Component {
                       onChange={this.handleChange.bind(this)}
                     />
                     <span className="ml-2">
-                      Save changes to the <b>{this.props.segment.name}</b>{' '}
-                      segment.
+                      {I18n.t('segment_manager.save_changes_to', {name: this.props.segment.name})}
                     </span>
                   </label>
 
@@ -149,7 +148,9 @@ export class SaveSegmentModal extends Component {
                       value={'new'}
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="ml-2">Create new segment</span>
+                    <span className="ml-2">
+                      {I18n.t('segment_manager.create_segment')}
+                    </span>
                   </label>
 
                   {this.state.action === 'new' && (
@@ -186,7 +187,7 @@ export class SaveSegmentModal extends Component {
                   // className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                   variant={'outlined'}
                 >
-                  Cancel
+                  {I18n.t('common.cancel')}
                 </Button>
               </React.Fragment>
             }
@@ -223,7 +224,7 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
 
       <div className="p-2">
         <h2 className="text-sm leading-5 text-gray-900 font-bold">
-          Select fields:
+          {I18n.t('segment_manager.select_fields')}
         </h2>
       </div>
 
@@ -261,7 +262,7 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
             size="sm"
             onClick={cb}
           >
-            <PlusIcon variant="small" /> Add filters
+            <PlusIcon variant="small" /> {I18n.t('segment_manager.add_filters')}
           </Button>
         )}
       >
@@ -283,7 +284,10 @@ class SegmentManager extends Component {
 
   getTextForPredicate = (o) => {
     if (o.type === 'match') {
-      return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
+      return `${I18n.t('segment_manager.match')} ${o.value === 'and' ? 
+      I18n.t('segment_manager.all') : 
+      I18n.t('segment_manager.any')
+      } ${I18n.t('segment_manager.criteria')}`
     } else {
       return `Match: ${o.attribute} ${o.comparison ? o.comparison : ''} ${
         o.value ? o.value : ''

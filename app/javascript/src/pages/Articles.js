@@ -45,6 +45,7 @@ import Badge from '../components/Badge'
 import {
   AddIcon, GestureIcon, CheckCircleIcon
 } from '../components/icons'
+import I18n from '../shared/FakeI18n'
 class Articles extends Component {
   state = {
     meta: {},
@@ -96,9 +97,9 @@ class Articles extends Component {
             },
             () => {
               if (!isEmpty(data.articleSettingsUpdate.errors)) {
-                return this.props.dispatch(errorMessage('article settings failed'))
+                return this.props.dispatch(errorMessage( I18n.t('articles.settings_updated_error')))
               }
-              this.props.dispatch(successMessage('article settings updated'))
+              this.props.dispatch(successMessage( I18n.t('articles.settings_updated_success') ))
             }
           )
         },
@@ -124,7 +125,7 @@ class Articles extends Component {
             },
             () => {
               cb && cb()
-              this.props.dispatch(successMessage('article settings updated'))
+              this.props.dispatch(successMessage(I18n.t('articles.settings_updated_success')))
             }
           )
         },
@@ -378,7 +379,7 @@ class AllArticles extends React.Component {
             }
           >
             <AddIcon />
-            {' New article'}
+            {I18n.t('articles.new_article')}
           </LinkButton>
         </div>
       </div>
@@ -404,7 +405,7 @@ class AllArticles extends React.Component {
             },
             () => {
               this.setOpenDeleteDialog(null)
-              this.props.dispatch(successMessage('article deleted'))
+              this.props.dispatch(successMessage(I18n.t('articles.deleted_success')))
             }
           )
         },
@@ -501,7 +502,7 @@ class AllArticles extends React.Component {
 
                             {' '}
 
-                            {row.state}
+                            {I18n.t(`articles.state.${row.state}`)}
                           </Badge>
                         </div>
                       </td>
@@ -538,7 +539,7 @@ class AllArticles extends React.Component {
                               this.setOpenDeleteDialog(row)
                             }}
                           >
-                            Delete
+                            {I18n.t('common.delete')}
                           </Button>
                         </div>
                       </td>
@@ -570,7 +571,9 @@ class AllArticles extends React.Component {
         {openDeleteDialog && (
           <DeleteDialog
             open={openDeleteDialog}
-            title={`Delete article "${openDeleteDialog.title} ?"`}
+            title={
+              I18n.t('articles.delete_article', {title: openDeleteDialog.title})
+            }
             closeHandler={() => {
               this.setOpenDeleteDialog(null)
             }}
@@ -579,7 +582,7 @@ class AllArticles extends React.Component {
             }}
           >
             <p variant="subtitle2">
-              we will destroy any content and related data
+              {I18n.t('articles.delete_article_exp')}
             </p>
           </DeleteDialog>
         )}

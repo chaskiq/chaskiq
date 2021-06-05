@@ -20,6 +20,7 @@ import {
 } from '../../../client_messenger/Banner'
 
 import serialize from 'form-serialize'
+import I18n from '../../shared/FakeI18n'
 
 const EditorContentWrapper = styled.div``
 
@@ -356,7 +357,7 @@ function StyleBanner ({ app, campaign, onChange }) {
       <div className="flex">
         <div className="flex flex-col w-1/3 justify-between">
           <h3 className="font-bold leading-1 text-gray-900 mb-4">
-            Settings
+            {I18n.t('campaigns.banners.settings')}
           </h3>
 
           <div className="flex flex-col pr-6 justify-between">
@@ -376,7 +377,7 @@ function StyleBanner ({ app, campaign, onChange }) {
 
         <div className="flex flex-col w-1/3 justify-between">
           <h3 className="font-bold leading-1 text-gray-900 mb-4">
-            Action
+            {I18n.t('campaigns.banners.action')}
           </h3>
           <div className="flex flex-col pr-6">
             <Input type="text" defaultValue={bannerData.url} label="url" name="url" onChange={handleChange}/>
@@ -386,7 +387,7 @@ function StyleBanner ({ app, campaign, onChange }) {
 
         <div className="flex flex-col w-1/3 justify-between">
           <h3 className="font-bold leading-1 text-gray-900 mb-4">
-            Style
+            {I18n.t('campaigns.banners.style')}
           </h3>
 
           <Input type="color"
@@ -406,13 +407,13 @@ function StyleBanner ({ app, campaign, onChange }) {
           />
 
           <div className="flex flex-wrap justify-between">
-            <Input defaultChecked={bannerData.placement === 'top'} type="radio" value="top" label="top" name="placement" onChange={handleChange}/>
-            <Input defaultChecked={bannerData.placement === 'bottom'} type="radio" value="bottom" label="bottom" name="placement" onChange={handleChange}/>
+            <Input defaultChecked={bannerData.placement === 'top'} type="radio" value="top" label={I18n.t('campaigns.banners.top')} name="placement" onChange={handleChange}/>
+            <Input defaultChecked={bannerData.placement === 'bottom'} type="radio" value="bottom" label={I18n.t('campaigns.banners.bottom')} name="placement" onChange={handleChange}/>
           </div>
 
           <div className="flex flex-wrap justify-between">
-            <Input type="radio" defaultChecked={bannerData.mode === 'inline'} value="inline" label="inline" name="mode" onChange={handleChange}/>
-            <Input type="radio" defaultChecked={bannerData.mode === 'floating'} value="floating" label="floating" name="mode" onChange={handleChange}/>
+            <Input type="radio" defaultChecked={bannerData.mode === 'inline'} value="inline" label={I18n.t('campaigns.banners.inline')} name="mode" onChange={handleChange}/>
+            <Input type="radio" defaultChecked={bannerData.mode === 'floating'} value="floating" label={I18n.t('campaigns.banners.floating')} name="mode" onChange={handleChange}/>
           </div>
 
         </div>
@@ -423,7 +424,7 @@ function StyleBanner ({ app, campaign, onChange }) {
           onClick={handleSubmit}
           variant={'flat-dark'}
           type="button">
-          submit
+          {I18n.t('common.submit')}
         </Button>
       </div>
 

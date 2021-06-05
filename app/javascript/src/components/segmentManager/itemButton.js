@@ -127,7 +127,7 @@ export default class SegmentItemButton extends Component {
       }
 
       case 'date': {
-        value = `${this.relative_input.value} days ago`
+        value = `${this.relative_input.value} ${I18n.t('segment_manager.days_ago')}`
         break
       }
 
@@ -211,7 +211,7 @@ export default class SegmentItemButton extends Component {
         {
           <div className="p-2">
             <h2 className="text-sm leading-5 text-gray-900 font-bold">
-              Select the filter for {this.props.predicate.attribute}
+              {I18n.t('segment_manager.filter_for', {name: this.props.predicate.attribute})}
             </h2>
           </div>
         }
@@ -248,7 +248,7 @@ export default class SegmentItemButton extends Component {
               size="small"
               onClick={this.handleSubmit.bind(this)}
             >
-              Apply
+              {I18n.t('segment_manager.apply')}
             </Button>
           )}
 
@@ -260,18 +260,18 @@ export default class SegmentItemButton extends Component {
 
   contentString = () => {
     const relative = [
-      { label: 'is', value: 'eq', defaultSelected: false },
-      { label: 'is not', value: 'not_eq', defaultSelected: false },
-      { label: 'starts with', value: 'contains_start', defaultSelected: false },
-      { label: 'ends with', value: 'contains_ends', defaultSelected: false },
-      { label: 'contains', value: 'contains', defaultSelected: false },
+      { label: I18n.t('segment_manager.is'), value: 'eq', defaultSelected: false },
+      { label: I18n.t('segment_manager.is_not'), value: 'not_eq', defaultSelected: false },
+      { label: I18n.t('segment_manager.starts_with'), value: 'contains_start', defaultSelected: false },
+      { label: I18n.t('segment_manager.ends_with'), value: 'contains_ends', defaultSelected: false },
+      { label: I18n.t('segment_manager.contains'), value: 'contains', defaultSelected: false },
       {
-        label: 'does not contain',
+        label: I18n.t('segment_manager.does_not_contains'),
         value: 'not_contains',
         defaultSelected: false
       },
-      { label: 'is unknown', value: 'is_null', defaultSelected: false },
-      { label: 'has any value', value: 'is_not_null', defaultSelected: false }
+      { label: I18n.t('segment_manager.is_unknown'), value: 'is_null', defaultSelected: false },
+      { label:  I18n.t('segment_manager.has_any_value'), value: 'is_not_null', defaultSelected: false }
     ]
 
     return (
@@ -279,7 +279,7 @@ export default class SegmentItemButton extends Component {
         {
           <div className="p-2">
             <h2 className="text-sm leading-5 text-gray-900 font-bold">
-              Select the filter for {this.props.predicate.attribute}
+              { I18n.t('segment_manager.filter_for', {name: this.props.predicate.attribute}) }
             </h2>
           </div>
         }
@@ -335,7 +335,7 @@ export default class SegmentItemButton extends Component {
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
             >
-              Apply
+              {I18n.t('segment_manager.apply')}
             </Button>
           )}
 
@@ -351,9 +351,9 @@ export default class SegmentItemButton extends Component {
     }
 
     const relative = [
-      { label: 'more than', value: 'lt', defaultSelected: compare('lt') },
-      { label: 'exactly', value: 'eq', defaultSelected: compare('eq') },
-      { label: 'less than', value: 'gt', defaultSelected: compare('gt') }
+      { label: I18n.t('segment_manager.more_than'), value: 'lt', defaultSelected: compare('lt') },
+      { label: I18n.t('segment_manager.exactly'), value: 'eq', defaultSelected: compare('eq') },
+      { label: I18n.t('segment_manager.less_than'), value: 'gt', defaultSelected: compare('gt') }
     ]
 
     /*const absolute = [
@@ -374,7 +374,7 @@ export default class SegmentItemButton extends Component {
       <div className="p-2">
         <div>
           <h2 className="text-sm leading-5 text-gray-900 font-bold">
-            Select the date filter for {this.props.predicate.attribute}
+            { I18n.t('segment_manager.date_filter_for', {name: this.props.predicate.attribute}) }
           </h2>
         </div>
 
@@ -411,7 +411,7 @@ export default class SegmentItemButton extends Component {
                         margin="normal"
                       />
                       <span className="mt-1 text-sm leading-5 text-gray-500">
-                          days ago
+                        {I18n.t('segment_manager.days_ago')}
                       </span>
                     </div>
                   )}
@@ -428,7 +428,7 @@ export default class SegmentItemButton extends Component {
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
             >
-              Apply
+              {I18n.t('segment_manager.apply')}
             </Button>
           )}
 
@@ -444,16 +444,16 @@ export default class SegmentItemButton extends Component {
     }
 
     const relative = [
-      { label: 'exactly', value: 'eq', defaultSelected: compare('eq') },
-      { label: 'more than', value: 'gt', defaultSelected: compare('gt') },
+      { label: I18n.t('segment_manager.exactly'), value: 'eq', defaultSelected: compare('eq') },
+      { label: I18n.t('segment_manager.more_than'), value: 'gt', defaultSelected: compare('gt') },
       {
-        label: 'more than eq',
+        label: I18n.t('segment_manager.more_than_eq'),
         value: 'gteq',
         defaultSelected: compare('gteq')
       },
-      { label: 'less than', value: 'lt', defaultSelected: compare('lt') },
+      { label: I18n.t('segment_manager.less_than'), value: 'lt', defaultSelected: compare('lt') },
       {
-        label: 'less than eq',
+        label: I18n.t('segment_manager.less_than_eq'),
         value: 'lteq',
         defaultSelected: compare('lteq')
       }
@@ -469,7 +469,7 @@ export default class SegmentItemButton extends Component {
       <div className="p-2">
         <div>
           <h2 className="text-sm leading-5 text-gray-900 font-bold">
-            Select the integer filter for {this.props.predicate.attribute}
+            { I18n.t('segment_manager.integer_filter_for', {name: this.props.predicate.attribute}) }
           </h2>
         </div>
 
@@ -519,7 +519,7 @@ export default class SegmentItemButton extends Component {
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
             >
-              Apply
+              {I18n.t('segment_manager.apply')}
             </Button>
           )}
 
@@ -536,13 +536,13 @@ export default class SegmentItemButton extends Component {
 
     const relative = [
       {
-        label: 'match any',
+        label: I18n.t('segment_manager.match_any'),
         comparison: 'or',
         value: 'or',
         defaultSelected: compare('or')
       },
       {
-        label: 'match all',
+        label: I18n.t('segment_manager.match_all'),
         comparison: 'and',
         value: 'and',
         defaultSelected: compare('and')
@@ -553,7 +553,7 @@ export default class SegmentItemButton extends Component {
       <div className="p-2">
         <div>
           <h2 className="text-sm leading-5 text-gray-900 font-bold">
-            match criteria options for {this.props.predicate.type}
+            {I18n.t('segment_manager.match_criteria_for', {name:this.props.predicate.type })}
           </h2>
         </div>
 
@@ -593,7 +593,7 @@ export default class SegmentItemButton extends Component {
               size={'small'}
               onClick={this.handleSubmit.bind(this)}
             >
-                Apply
+              {I18n.t('segment_manager.apply')}
             </Button>
           )}
         </ContentMatchFooter>
@@ -608,7 +608,7 @@ export default class SegmentItemButton extends Component {
         variant="link"
         onClick={this.handleDelete.bind(this)}
       >
-        Delete
+        {I18n.t('common.delete')}
       </Button>
     )
   };
@@ -655,7 +655,7 @@ export default class SegmentItemButton extends Component {
           <React.Fragment>
             <Dropdown
               isOpen={this.state.dialogOpen}
-              labelButton={'Missing value!'}
+              labelButton={I18n.t('segment_manager.missing_value')}
               triggerButton={(cb) => (
                 <Button
                   //ref={(ref) => this.setRef(ref)}
@@ -671,7 +671,7 @@ export default class SegmentItemButton extends Component {
                         this.props.text
                       */}
 
-                  {'Missing value!'}
+                  {I18n.t('segment_manager.missing_value')}
                 </Button>
               )}
             >
