@@ -169,7 +169,7 @@ class Segment extends Component {
               className="animate-pulse"
             >
               <i className="fas fa-exclamation-circle mr-2"></i>
-              Save changes
+              {I18n.t("common.save_changes")}
             </Button>
           ) : null}
         </SegmentManager>

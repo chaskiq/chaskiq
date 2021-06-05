@@ -120,50 +120,11 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   }
 
   function optionsForFilter () {
-    const options = [
-      {
-        title: 'Visitors',
-        description: 'visitors on the platform',
-        // icon: <UnsubscribeIcon/>,
-        id: 'Visitor',
-        state: 'checked'
-      },
-      {
-        title: 'Leads',
-        description: 'Visitors who make an actions',
-        // icon: <UnsubscribeIcon/>,
-        id: 'Lead',
-        state: 'checked'
-      },
-      {
-        title: 'Users',
-        description: "your platform's registered users",
-        // icon: <UnsubscribeIcon/>,
-        id: 'AppUser',
-        state: 'checked'
-      }
-    ]
-    return options
+    return I18n.t('task_bots.type_filters')
   }
 
   function optionsForState () {
-    const options = [
-      {
-        title: 'Enabled',
-        description: 'enabled bot tasks',
-        // icon: <UnsubscribeIcon/>,
-        id: 'enabled',
-        state: 'checked'
-      },
-      {
-        title: 'Disabled',
-        description: 'Disabled bot tasks',
-        // icon: <UnsubscribeIcon/>,
-        id: 'disabled',
-        state: 'checked'
-      }
-    ]
-    return options
+    return I18n.t('task_bots.state_filters')
   }
 
   function namesForToggleButton (opts) {
@@ -299,7 +260,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                       <Badge className={
                         `bg-${row.state === 'enabled' ? 'green-500' : 'gray-200'}`
                         }>
-                        {row.state}
+                        {I18n.t(`campaigns.state.${row.state}`)}
                       </Badge>
                     </td>
                   )

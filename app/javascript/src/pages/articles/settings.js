@@ -278,15 +278,14 @@ class Settings extends Component {
             <div>
               <UpgradeButton
                 classes={
-                  `
-                  absolute z-10 ml-1 mt-3 transform w-screen 
+                  `absolute z-10 ml-1 mt-3 transform w-screen 
                   max-w-md px-2 origin-top-right right-0
                   md:-ml-4 sm:px-0 lg:ml-0
                   lg:right-2/6 lg:translate-x-1/6`
                 }
-                label="activate help center"
+                label={ I18n.t('articles.activate_help_center') }
                 feature="Articles">
-                <Button>Activate Help Center</Button>
+                <Button>{I18n.t('articles.activate_help_center')}</Button>
               </UpgradeButton>
             </div>
           }

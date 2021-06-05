@@ -18,10 +18,10 @@ es:
     confirm_deletion: "¿Confirmar eliminar?"
     next: Siguente
     prev: Anterior
-    showing: Showing
+    showing: Mostrando
     to: para
     of: de
-    results: results
+    results: resultados
     tz_hint: La zona horaria de tu navegador es <b className="text-bold">%{timezone}</b>
     send: Enviar
     actions: Acciones

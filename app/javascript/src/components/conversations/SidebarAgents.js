@@ -53,7 +53,6 @@ function SidebarAgents ({ app, dispatch, conversations }) {
   }
 
   function filterAgent (option) {
-    console.log('agent to filter', option)
     const agentID = option ? option.id : null
     dispatch(clearConversations([]))
     dispatch(
@@ -105,7 +104,7 @@ function SidebarAgents ({ app, dispatch, conversations }) {
 
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900">
         <h3 className="font-bold">
-          Conversaciones
+          {I18n.t('conversations.menu.conversations')}
         </h3>
       </div>
 
@@ -119,7 +118,8 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             active={conversations.agentId === parseInt(o)}
             filterHandler={filterAgent}
             label={ o === 'all'
-              ? 'All conversations' : null
+              ? I18n.t('conversations.menu.all') : 
+              null
             }
           />
         ))
@@ -136,7 +136,9 @@ function SidebarAgents ({ app, dispatch, conversations }) {
         tagCounts &&
           <div className="mt-4 flex items-center flex-shrink-0 px-4
             text-md leading-6 font-bold text-gray-900">
-            <h3 className="font-bold">Tags</h3>
+            <h3 className="font-bold">{
+              I18n.t('conversations.menu.tags')
+            }</h3>
           </div>
       }
 
@@ -203,7 +205,7 @@ function ListItem ({ agent, count, label, filterHandler, icon, active }) {
 
       <span className="truncate">
         {agent && (agent.name || agent.email)}
-        {!agent && (label || 'Unassigned') }
+        {!agent && (label || I18n.t("conversations.menu.unassigned")) }
       </span>
 
       <span className="ml-auto inline-block py-0.5 px-3 text-xs leading-4 rounded-full text-gray-600 bg-gray-200 group-hover:bg-gray-200 group-focus:bg-gray-300 transition ease-in-out duration-150">

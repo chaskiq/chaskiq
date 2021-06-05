@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
-
+import SwitchControl from '../components/Switch'
 import { AnchorLink } from '../shared/RouterLink'
 import { connect } from 'react-redux'
 // import Tabs from '@atlaskit/tabs';
@@ -65,6 +65,7 @@ import { setCurrentSection, setCurrentPage } from '../actions/navigation'
 import userFormat from '../components/Table/userFormat'
 
 import { errorMessage, successMessage } from '../actions/status_messages'
+import I18n from '../shared/FakeI18n'
 
 class CampaignSegment extends Component {
   constructor (props) {
@@ -242,7 +243,7 @@ class CampaignSegment extends Component {
               className="animate-pulse"
             >
               <i className="fas fa-exclamation-circle mr-2"></i>
-              Save changes
+              {I18n.t('common.save_changes')}
             </Button>
           ) : null}
         </SegmentManager>
@@ -380,7 +381,7 @@ class CampaignForm extends Component {
         textColor="inherit"
         tabs={[
           {
-            label: 'Stats',
+            label: I18n.t("campaigns.tabs.stats"),
             content: (
               <CampaignStats
                 {...this.props}
@@ -393,14 +394,14 @@ class CampaignForm extends Component {
             )
           },
           {
-            label: 'Settings',
+            label: I18n.t("campaigns.tabs.settings"),
             content: (
               <CampaignSettings
                 {...this.props}
                 data={this.state.data}
                 mode={this.props.mode}
                 successMessage={() =>
-                  this.props.dispatch(successMessage('campaign updated'))
+                  this.props.dispatch(successMessage(I18n.t('campaigns.campaign_updated')))
                 }
                 url={this.url()}
                 updateData={this.updateData}
@@ -408,20 +409,23 @@ class CampaignForm extends Component {
             )
           },
           {
-            label: 'Audience',
+            label: I18n.t("campaigns.tabs.audience"),
             content: (
               <CampaignSegment
                 {...this.props}
                 data={this.state.data}
                 url={this.url()}
                 successMessage={() =>
-                  this.props.dispatch(successMessage('campaign updated'))
+                  this.props.dispatch(successMessage( I18n.t('campaigns.campaign_updated') ))
                 }
                 updateData={this.updateData}
               />
             )
           },
-          { label: 'Editor', content: this.renderEditorForCampaign() }
+          { 
+            label: I18n.t("campaigns.tabs.editor"), 
+            content: this.renderEditorForCampaign() 
+          }
         ]}
       ></Tabs>
     )
@@ -465,14 +469,14 @@ class CampaignForm extends Component {
     graphql(CLONE_MESSAGE, params, {
       success: (_data) => {
         this.props.dispatch(successMessage(
-          'cloned successfully'
+          I18n.t('campaigns.cloned_success')
         ))
 
         this.props.init()
       },
       error: () => {
         this.props.dispatch(errorMessage(
-          'error while cloning record'
+          I18n.t('campaigns.cloned_error')
         ))
       }
     })
@@ -481,9 +485,9 @@ class CampaignForm extends Component {
   campaignName = (name) => {
     switch (name) {
       case 'campaigns':
-        return 'Mailing Campaign'
+        return I18n.t('campaigns.mailing')
       case 'user_auto_messages':
-        return 'In app messages'
+        return I18n.t('campaigns.in_app')
       default:
         return name
     }
@@ -491,16 +495,16 @@ class CampaignForm extends Component {
 
   options = () => ([
     {
-      title: 'Pause',
-      description: 'pauses the campaign ',
+      title: `${I18n.t('campaigns.pause_title')}`,
+      description:  I18n.t('campaigns.pause_description'),
       icon: <Pause />,
       id: 'disabled',
       state: 'disabled',
       onClick: this.toggleCampaignState
     },
     {
-      title: 'Clone',
-      description: 'clones the campaign',
+      title: I18n.t('campaigns.clone_title'),
+      description: I18n.t('campaigns.clone_description'),
       icon: <CopyContentIcon />,
       id: 'enabled',
       state: 'enabled',
@@ -603,7 +607,7 @@ class CampaignForm extends Component {
       title: I18n.t('campaigns.purge_title'),
       description: I18n.t('campaigns.purge_description'),
       icon: <ClearAll />,
-      id: 'deliver',
+      id: 'purge',
       onClick: this.purgeMetrics
     }
   };
@@ -706,7 +710,7 @@ class CampaignForm extends Component {
             }
             actions={
               <React.Fragment>
-                <div className="flex">
+                <div className="flex items-center space-x-2">
                   {
                     this.props.match.params.id !== 'new' &&
 
@@ -718,10 +722,20 @@ class CampaignForm extends Component {
                       md:-ml-4 sm:px-0 lg:ml-0
                       lg:right-2/6 lg:translate-x-1/6`
                     }
-                    label="Activate Campaigns"
+                    label={I18n.t('campaigns.activate')}
                     feature="Campaigns">
 
-                    <Button
+                    <SwitchControl
+                      label={
+                        this.state.data.state === 'disabled'
+                          ? I18n.t('campaigns.enables')
+                          : I18n.t('campaigns.disables')
+                      }
+                      setEnabled={this.toggleCampaignState}
+                      enabled={this.state.data.state === 'enabled'}
+                    ></SwitchControl>
+
+                    {/*<Button
                       className="mr-2"
                       title= "Enable"
                       description={
@@ -740,7 +754,7 @@ class CampaignForm extends Component {
                           : 'Disable'
                       }
 
-                    </Button>
+                    </Button>*/}
                   </UpgradeButton>
                   }
 
@@ -762,7 +776,7 @@ class CampaignForm extends Component {
                           color="inherit"
                           size="small"
                         >
-                          {'actions'}
+                          {I18n.t('common.actions')}
                         </Button>
                       )
                     }}
@@ -782,7 +796,7 @@ class CampaignForm extends Component {
                 url={this.url()}
                 updateData={this.updateData}
                 successMessage={() =>
-                  this.props.dispatch(successMessage('campaign updated'))
+                  this.props.dispatch(successMessage(I18n.t('campaigns.campaign_updated')))
                 }
               />
             ) : (
@@ -987,7 +1001,7 @@ class CampaignContainer extends Component {
                             return (
                               <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
                                 <Badge variant={row.state === 'enabled' ? 'green' : null}>
-                                  {row.state}
+                                  {I18n.t(`campaigns.state.${row.state}`)}
                                 </Badge>
                               </td>
                             )

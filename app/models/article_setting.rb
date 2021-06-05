@@ -31,7 +31,7 @@ class ArticleSetting < ApplicationRecord
             presence: true,
             uniqueness: true
 
-  validates :website, url: true
+  validates :website, url: true, allow_blank: true
   validates :color, hex: true, if: -> { color.present? }
 
   translates :site_description, :site_title

@@ -150,7 +150,7 @@ class App extends Component {
                       variant={'outlined'}
                       onClick={() => this.props.requestUpdate(o)}
                     >
-                      Edit
+                      {I18n.t('common.edit')}
                     </Button>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ class App extends Component {
                           className="mr-2"
                           onClick={(_e) => this.props.addArticlesToSection(o)}
                         >
-                          Add articles
+                          {I18n.t('articles.add_articles')}
                         </Button>
 
                         {o.id !== 'base' && (
@@ -229,7 +229,8 @@ class App extends Component {
                             color="secondary"
                             onClick={(_e) => this.props.deleteSection(o)}
                           >
-                            Delete section
+                            
+                            {I18n.t('articles.delete_section')}
                           </Button>
                         )}
                       </div>
