@@ -9,6 +9,7 @@ ca:
     delete: Borrar
     create: Crea
     save: Desa
+    save_changes: Save changes
     preview: Vista prèvia
     cancel: Cancel·lar
     back_to_site: Torna al site
@@ -16,6 +17,7 @@ ca:
     get_snippet: Consegueix el fragment
     submit: Envia
     confirm_deletion: "Confirmes esborrar?"
+    confirm_deletion_ready: are you ready to delete ?
     next: Següent
     prev: Anterior
     showing: Mostrant
@@ -34,6 +36,7 @@ ca:
     redirecting: Redireccionant
     select_language: Selecciona un Idioma
     send_on_enter: Publicar al entrar
+    away_mode: Away mode
   home:
     welcome: Benvingut a
     welcome_site: Chaskiq
@@ -55,6 +58,10 @@ ca:
     mac_os: Mac OS
     user_country: País del usuari
     snippet: Posa el següent script a la fin de la teva etiqueta html <body>
+    status: Live chat status
+    status_running: Running
+    status_paused: Paused
+    guides: Chaskiq Guides
   navigator:
     dashboard: Tauler de control
     platform: Plataforma
@@ -84,6 +91,7 @@ ca:
       integrations: Integracions
       webhooks: Webhook
       api_access: Accés API
+      billing: Billing
     user_menu:
       create_app: 'Crea una nova aplicació'
       create_app_description: 'Crea l''aplicació Chaskiq de la teva empresa'
@@ -94,7 +102,10 @@ ca:
     title: Converses
     menu:
       conversations: Converses
+      all: All conversations
       assignment_rules: Regles d'enrutament d'agents
+      tags: Etiquetes
+      unassigned: Unassigned
     states:
       opened: Obert
       closed: Tancat
@@ -159,6 +170,10 @@ ca:
     create_new: Crea una nova campanya
     empty:
       title: No hi ha campanyes
+    mailing: Mailing campaign
+    in_app: In app messages
+    cloned_success: cloned successfully
+    cloned_error: error while cloning record
     campaign_updated: Campanya actualitzada
     updated_error: Error al actualitzar la campanya
     error_purge: S'ha produït un error en esporgar les mètriques
@@ -166,6 +181,29 @@ ca:
     purge_title: Purgar les mètriques
     deliver_title: Entregar
     deliver_description: Eliminar la campanya
+    pause_title: Pause
+    pause_description: pauses the campaign
+    clone_title: Clone
+    clone_description: clones the campaign
+    activate: "Activate Campaigns"
+    enables: enables campaign
+    disables: Disables campaign
+    state:
+      enabled: enabled
+      disabled: disabled
+    tabs:
+      stats: Stats
+      settings: Configuració
+      audience: Audience
+      editor: Editor
+    banners:
+      settings: Configuració
+      action: Action
+      style: Style
+      top: top
+      bottom: bottom
+      inline: inline
+      floating: floating
   campaign:
     edit: Edita la configuració de la campanya
     create: Crea una nova campanya
@@ -180,12 +218,59 @@ ca:
       resubscribe: Elimina la subscripció de la llista
       cancel: Cancel·la la teva subscripció
   task_bots:
+    type_filters:
+      - 
+        title: 'Visitors'
+        description: 'visitors on the platform'
+        id: 'Visitor'
+        state: 'checked'
+      - 
+        title: 'Client potencial'
+        description: 'Visitors who make an actions'
+        id: 'Lead'
+        state: 'checked'
+      - 
+        title: 'Usuaris'
+        description: "your platform's registered users"
+        id: 'AppUser'
+        state: 'checked'
+    state_filters:
+      - 
+        title: 'Enabled'
+        description: 'enabled bot tasks'
+        id: 'enabled'
+        state: 'checked'
+      - 
+        title: 'Disabled'
+        description: 'Disabled bot tasks'
+        id: 'disabled'
+        state: 'checked'
     title: Tasques del bot
     reply_soon: Hola, %{name} contestarà el més aviat possible.
     reply_agent: rebràs una resposta d'un dels nostres agents
     email_support: per obtenir assistència, podeu enviar un correu electrònic a %{email}
     outbound: "🏓 Sortint"
     new_conversations: "👋 Nova conversa"
+    new_conversations_notice: This is what people will see when they start a new conversation
+    options:
+      add_message: Add Message Bubble
+      wait_user_input: Wait for user input
+      add_app_package: Add App
+    path_title_hint: path title
+    delete_path: delete path
+    add_path: Add new conversation part
+    continue_bot_with: Continue bot with
+    continue_with_reply_button: Continue bot with reply button
+    end_bot_with: End bot with
+    end_with_follow: End bot with follow actions
+    reply_button: reply button
+    follow_actions: follow actions
+    add_data_option: + add data option
+    save_data: Save data
+    close_conversation: close conversation
+    assign_agent: assign_agent
+    add_follow_action: Add Follow Action
+    assignee_agent: Assignee Agent
     email_requirement:
       message: Doneu a l’equip una manera de contactar-te
       input_label: Rebre notificacions per mail
@@ -485,6 +570,29 @@ ca:
       title: Nova col·lecció d'articles
       placeholder: Introdueix el títol de la col·lecció
       description: Descriviu la vostra col·lecció per ajudar-vos a trobar-la.
+    deleted_success: article deleted
+    new_article: new article
+    settings_updated_success: 'article settings updated'
+    settings_updated_error: 'article settings failed'
+    activate_help_center: Activate Help Center
+    delete_article: Delete article "%{title} ?
+    delete_article_exp: destruirem qualsevol contingut i dades relacionades
+    square_preferred: square images preferred (min size 200x200px)
+    square_preferred_hint: squared images will be optimal resized
+    reordered_success: 'reordered correctly'
+    reordered_error: 'reordered error'
+    add_articles: Add articles
+    updated_success: article updated
+    updated_error: article error on save
+    delete_section: Delete section
+    author: Autor/a
+    written_by: written by
+    created_on: Created on
+    state:
+      published: published
+      published_desc: 'shows article on the help center'
+      draft: draft
+      draft_desc: 'hides the article on the help center'
     settings:
       title: Configuració del centre d'ajuda
       add_language: Afegeix un idioma
@@ -500,3 +608,46 @@ ca:
       lang_desc: Gestioneu els idiomes admesos i personalitzeu la capçalera del Centre d'ajuda
       basic: Configuració bàsica
       general_app: Descripció general de l'aplicació
+  contact_manager:
+    create: Create Users & Leads
+    import_csv: Import csv
+    success_message: Processing file import, you will be notified the status soon
+    import_contacts: import_contacts
+    import_exp: You can upload a csv or excel file in order to import contacts
+    import_type: Import Type
+    import_choose: Choose what kind of contacts you will import
+    select_file: Select a file
+  segment_manager:
+    add_filters: Add filters
+    select_fields: 'Select fields:'
+    create_segment: Create new segment
+    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
+    changes_notice: The changes will be saved to the app segments.
+    delete_segment: 'Delete segment'
+    save_segment: Save segment
+    match: match
+    all: all
+    any: any
+    criteria: criteria
+    days ago: days ago
+    filter_for: select filter for %{name}
+    date_filter_for: Select the date filter for  %{name}
+    integer_filter_for: Select the integer filter for ${name}
+    match_criteria_for: Match criteria options for %{name}
+    apply: apply
+    is: is
+    is_not: is not
+    starts_with: starts with
+    ends_with: ends with
+    contains: contains
+    does_not_contain: does not contain
+    is_unknown: is unknown
+    has_any_value: has any value
+    exactly: exactly
+    less_than: less than
+    less_than_eq: less than eq
+    more_than: more than
+    more_than_eq: more than eq
+    match_any: match any
+    match_all: match all
+    missing_value: Missing value!
