@@ -228,8 +228,8 @@ es:
     state_filters:
       enabled_title: 'Habilitado'
       enabled_description: 'activar tarea de bot'
-      disabled_title: 'Disabled'
-      disabled_description: 'Disabled bot tasks'
+      disabled_title: 'Desactivado'
+      disabled_description: 'Tareas de bot desactivadas'
     title: Tareas de bot
     reply_soon: Hola, %{name} responderá lo antes posible.
     reply_agent: recibirás una respuesta de uno de nuestros agentes
@@ -253,7 +253,7 @@ es:
     add_data_option: + añadir opción de datos
     save_data: Guardar datos
     close_conversation: cerrar Conversación
-    assign_agent: assign_agent
+    assign_agent: asignar_agente
     add_follow_action: Añadir Nueva Acción
     assignee_agent: Asignar agente
     email_requirement:
