@@ -120,11 +120,43 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   }
 
   function optionsForFilter () {
-    return I18n.t('task_bots.type_filters')
+    return [
+      { 
+        title: I18n.t('task_bots.type_filters.title_visitors'),
+        description: I18n.t('task_bots.type_filters.title_description'),
+        id: 'Visitor',
+        state: 'checked'
+      },
+      { 
+        title: I18n.t('task_bots.type_filters.title_leads'),
+        description: I18n.t('task_bots.type_filters.title_description'),
+        id: 'Lead',
+        state: 'checked'
+      },
+      { 
+        title: I18n.t('task_bots.type_filters.title_users'),
+        description: I18n.t('task_bots.type_filters.description_users'),
+        id: 'AppUser',
+        state: 'checked'
+      }
+    ]
   }
 
   function optionsForState () {
-    return I18n.t('task_bots.state_filters')
+    return [
+      {
+        title: I18n.t('task_bots.state_filters.enabled_title'),
+        description: I18n.t('task_bots.state_filters.enabled_description'),
+        id: 'enabled',
+        state: 'checked'
+      },
+      {
+        title: I18n.t('task_bots.state_filters.disabled_title'),
+        description: I18n.t('task_bots.state_filters.disabled_description'),
+        id: 'disabled',
+        state: 'checked'
+      }
+    ]
   }
 
   function namesForToggleButton (opts) {

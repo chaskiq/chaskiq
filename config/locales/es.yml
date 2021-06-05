@@ -9,6 +9,7 @@ es:
     delete: Eliminar
     create: Crear
     save: Guardar
+    save_changes: Save changes
     preview: Vista previa
     cancel: Cancelar
     back_to_site: Volver al sitio
@@ -16,6 +17,7 @@ es:
     get_snippet: Consigue el fragmento de código
     submit: Submit
     confirm_deletion: "¿Confirmar eliminar?"
+    confirm_deletion_ready: are you ready to delete ?
     next: Siguente
     prev: Anterior
     showing: Mostrando
@@ -34,6 +36,7 @@ es:
     redirecting: Redireccionando
     select_language: Seleccionar Idioma
     send_on_enter: Publicar al entrar
+    away_mode: Away mode
   home:
     welcome: Iniciar sesión
     welcome_site: Chaskiq
@@ -55,6 +58,10 @@ es:
     mac_os: Mac OS
     user_country: País de usuario
     snippet: Pon el siguiente script al final de tu etiqueta html <body>
+    status: Live chat status
+    status_running: Running
+    status_paused: Paused
+    guides: Chaskiq Guides
   navigator:
     dashboard: Panel de Control
     platform: Plataforma
@@ -84,6 +91,7 @@ es:
       integrations: Integraciones
       webhooks: Webhooks
       api_access: Acceso API
+      billing: Billing
     user_menu:
       create_app: 'Crear una nueva aplicación'
       create_app_description: 'Crea la aplicación Chaskiq de tu empresa'
@@ -94,7 +102,10 @@ es:
     title: Conversaciones
     menu:
       conversations: Conversaciones
+      all: All conversations
       assignment_rules: Reglas de ruta del agente
+      tags: Etiquetas
+      unassigned: Unassigned
     states:
       opened: Abierto
       closed: Cerrado
@@ -159,6 +170,10 @@ es:
     create_new: Crear Nueva Campaña
     empty:
       title: No hay campañas
+    mailing: Mailing campaign
+    in_app: In app messages
+    cloned_success: cloned successfully
+    cloned_error: error while cloning record
     campaign_updated: Campaña actualizada
     updated_error: Error actualizando campaña
     error_purge: Error al purgar métricas
@@ -166,6 +181,29 @@ es:
     purge_title: Purge Metrics
     deliver_title: Enviar
     deliver_description: Eliminar la campaña
+    pause_title: Pause
+    pause_description: pauses the campaign
+    clone_title: Clone
+    clone_description: clones the campaign
+    activate: "Activate Campaigns"
+    enables: enables campaign
+    disables: Disables campaign
+    state:
+      enabled: enabled
+      disabled: disabled
+    tabs:
+      stats: Stats
+      settings: Ajustes
+      audience: Audience
+      editor: Editor
+    banners:
+      settings: Ajustes
+      action: Action
+      style: Style
+      top: top
+      bottom: bottom
+      inline: inline
+      floating: floating
   campaign:
     edit: Ajustes de la campaña
     create: Crear una nueva campaña
@@ -180,12 +218,44 @@ es:
       resubscribe: Darse de Baja de esta lista
       cancel: Cancele su suscripción
   task_bots:
+    type_filters:
+      title_visitors: 'Visitors'
+      description_visitors: 'visitors on the platform'
+      title_leads: 'Leads'
+      description_leads: 'Visitors who make an actions'
+      title_users: 'Users'
+      description_users: "your platform's registered users"
+    state_filters:
+      enabled_title: 'Enabled'
+      enabled_description: 'enabled bot tasks'
+      disabled_title: 'Disabled'
+      disabled_description: 'Disabled bot tasks'
     title: Tareas de bot
     reply_soon: Hola, %{name} responderá lo antes posible.
     reply_agent: recibirás una respuesta de uno de nuestros agentes
     email_support: para obtener soporte que puede enviar por correo electrónico a %{email}
     outbound: "🏓 Saliente"
     new_conversations: "👋 Nuevas conversaciones"
+    new_conversations_notice: This is what people will see when they start a new conversation
+    options:
+      add_message: Add Message Bubble
+      wait_user_input: Wait for user input
+      add_app_package: Add App
+    path_title_hint: path title
+    delete_path: delete path
+    add_path: Add new conversation part
+    continue_bot_with: Continue bot with
+    continue_with_reply_button: Continue bot with reply button
+    end_bot_with: End bot with
+    end_with_follow: End bot with follow actions
+    reply_button: reply button
+    follow_actions: follow actions
+    add_data_option: + add data option
+    save_data: Save data
+    close_conversation: close conversation
+    assign_agent: assign_agent
+    add_follow_action: Add Follow Action
+    assignee_agent: Assignee Agent
     email_requirement:
       message: Dale al equipo una forma de contactarte
       input_label: Recibir notificaciones por email
@@ -485,6 +555,29 @@ es:
       title: Nueva colección de artículos
       placeholder: Introduzca el título de la colección
       description: Describe tu colección para ayudarte a encontrarla.
+    deleted_success: article deleted
+    new_article: new article
+    settings_updated_success: 'article settings updated'
+    settings_updated_error: 'article settings failed'
+    activate_help_center: Activate Help Center
+    delete_article: Delete article "%{title} ?
+    delete_article_exp: destruiremos cualquier contenido y datos relacionados
+    square_preferred: square images preferred (min size 200x200px)
+    square_preferred_hint: squared images will be optimal resized
+    reordered_success: 'reordered correctly'
+    reordered_error: 'reordered error'
+    add_articles: Add articles
+    updated_success: article updated
+    updated_error: article error on save
+    delete_section: Delete section
+    author: Autor
+    written_by: written by
+    created_on: Created on
+    state:
+      published: published
+      published_desc: 'shows article on the help center'
+      draft: draft
+      draft_desc: 'hides the article on the help center'
     settings:
       title: Configuración del Centro de Ayuda
       add_language: Añadir idioma
@@ -500,3 +593,46 @@ es:
       lang_desc: Administra los idiomas soportados y personaliza el encabezado del Centro de Ayuda
       basic: Configuración básica
       general_app: Resumen de la aplicación
+  contact_manager:
+    create: Create Users & Leads
+    import_csv: Import csv
+    success_message: Processing file import, you will be notified the status soon
+    import_contacts: import_contacts
+    import_exp: You can upload a csv or excel file in order to import contacts
+    import_type: Import Type
+    import_choose: Choose what kind of contacts you will import
+    select_file: Select a file
+  segment_manager:
+    add_filters: Add filters
+    select_fields: 'Select fields:'
+    create_segment: Create new segment
+    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
+    changes_notice: The changes will be saved to the app segments.
+    delete_segment: 'Delete segment'
+    save_segment: Save segment
+    match: match
+    all: all
+    any: any
+    criteria: criteria
+    days ago: days ago
+    filter_for: select filter for %{name}
+    date_filter_for: Select the date filter for  %{name}
+    integer_filter_for: Select the integer filter for ${name}
+    match_criteria_for: Match criteria options for %{name}
+    apply: apply
+    is: is
+    is_not: is not
+    starts_with: starts with
+    ends_with: ends with
+    contains: contains
+    does_not_contain: does not contain
+    is_unknown: is unknown
+    has_any_value: has any value
+    exactly: exactly
+    less_than: less than
+    less_than_eq: less than eq
+    more_than: more than
+    more_than_eq: more than eq
+    match_any: match any
+    match_all: match all
+    missing_value: Missing value!
