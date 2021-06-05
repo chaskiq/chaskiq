@@ -144,13 +144,19 @@ function Sidebar ({
               <Link to={`/apps/${app.key}/messenger`} 
                 className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
                 <span className="truncate">
-                  Live chat status: {" "} 
+                  {I18n.t('dashboard.status')} {" "} 
                   {
-                    app.activeMessenger && <Badge size="sm" variant="green">running</Badge>
+                    app.activeMessenger && 
+                    <Badge size="sm" variant="green">
+                      {I18n.t('dashboard.status_running')}
+                    </Badge>
                   }
 
                   {
-                    !app.activeMessenger && <Badge size="sm" variant="gray">paused</Badge>
+                    !app.activeMessenger && 
+                    <Badge size="sm" variant="gray">
+                      {I18n.t('dashboard.status_paused')}
+                    </Badge>
                   }
                 </span>
               </Link>
@@ -160,7 +166,7 @@ function Sidebar ({
                 rel="noopener noreferrer" 
                 className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
                 <span className="truncate">
-                  Chaskiq guides
+                  {I18n.t('dashboard.guides')}
                 </span>
               </a>
             </div>
@@ -363,6 +369,7 @@ function Sidebar ({
           id: 'Billing',
           icon: <BillingIcon/>,
           hidden: !app.subscriptionsEnabled,
+          label: I18n.t('navigator.childs.billing'),
           url: `/apps/${app.key}/billing`,
           active: isActivePage('billing')
         }
@@ -471,25 +478,22 @@ function Sidebar ({
                 placement="right"
                 overlay={o.label}
               >
-                <div
-                  className="cursor-pointer mb-4 p-3 text-gray-400
-                          bg-gray-800 hover:bg-gray-900 rounded-md"
-                >
-                  {o.url && (
-                    <Link
-                      to={`${o.url}`}
-                      aria-label={o.label}
-                      className="bg-indigo-lighter
-                      h-12 w-12
-                      items-center
-                      text-gray-400
-                      text-2xl font-semibold rounded-lg
-                      mb-1 overflow-hidden"
-                    >
-                      {o.icon}
-                    </Link>
-                  )}
-                </div>
+                {o.url && (
+                  <Link
+                    to={`${o.url}`}
+                    aria-label={o.label}
+                    className="text-gray-400 
+                    rounded-md flex 
+                    justify-center 
+                    cursor-pointer bg-gray-800
+                    hover:bg-gray-900 h-10 w-full 
+                    items-center 
+                    text-2xl font-semibold 
+                    my-5 overflow-hidden"
+                  >
+                    {o.icon}
+                  </Link>
+                )}
               </Tooltip>
             ))}
           </div>
@@ -533,7 +537,7 @@ function Sidebar ({
                     id="user-away-mode-toggle"
                     text={
                       <span className="text-xs text-gray-500">
-                        Away mode
+                        {I18n.t("common.away_mode")}
                       </span>
                     }
                     checked={current_user.available}

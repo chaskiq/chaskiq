@@ -286,7 +286,7 @@ class Settings extends Component {
                 }
                 label="activate help center"
                 feature="Articles">
-                <Button>Activate Help Center</Button>
+                <Button>{I18n.t('articles.activate_help_center')}</Button>
               </UpgradeButton>
             </div>
           }

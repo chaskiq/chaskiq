@@ -444,7 +444,10 @@ function AssignmentForm (props) {
 
   function getTextForPredicate (o) {
     if (o.type === 'match') {
-      return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
+      return `${I18n.t('segment_manager.match')} ${o.value === 'and' ? 
+      I18n.t('segment_manager.all') : 
+      I18n.t('segment_manager.any')
+      } ${I18n.t('segment_manager.criteria')}`
     } else {
       return `${displayName(o)} ${o.comparison ? o.comparison : ''} ${
         o.value ? o.value : ''

@@ -7,6 +7,7 @@ import TextEditor from '../../components/textEditor'
 import UpgradeButton from '../../components/upgradeButton'
 import InplaceInputEditor from '../../components/InplaceInputEditor'
 //import JsonDebug from '../../shared/jsonDebug'
+import SwitchControl from '../../components/Switch'
 
 import graphql from '../../graphql/client'
 import {
@@ -48,6 +49,7 @@ import Stats from '../../components/stats'
 import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
 import AppPackagePanel from '../../components/conversations/appPackagePanel'
 import FilterMenu from '../../components/FilterMenu'
+import I18n from '../../shared/FakeI18n'
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
@@ -391,7 +393,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           }
           items={[]}
           actions={
-            <div className="flex">
+            <div className="flex space-x-2 items-center">
               <UpgradeButton
                 classes={
                 `absolute z-10 ml-1 mt-3 transform w-screen 
@@ -402,16 +404,15 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 label="Activate Bot Task"
                 feature="BotTasks">
 
-                <Button
-                  className="mr-2"
-                  // icon= <CheckCircle />
-                  id="enabled"
-                  state="enabled"
-                  variant={'success'}
-                  onClick={toggleBotState}
-                >
-                  {botTask.state === 'enabled' ? 'Disable' : 'Enable'}
-                </Button>
+                <SwitchControl
+                  label={
+                    botTask.state === 'disabled'
+                      ? I18n.t('campaigns.enables')
+                      : I18n.t('campaigns.disables')
+                  }
+                  setEnabled={toggleBotState}
+                  enabled={botTask.state === 'enabled'}
+                />
 
               </UpgradeButton>
 
@@ -802,7 +803,7 @@ export function BotPathEditor ({
                 size="medium"
                 onClick={saveData}
               >
-                  Save data
+                {I18n.t('task_bots.save_data')}
               </Button>
             </div>
           </div>
@@ -829,8 +830,8 @@ export function BotPathEditor ({
 
 function FollowActionsSelect ({ app, path, updatePath }) {
   const options = [
-    { key: 'close', name: 'Close conversation', value: null },
-    { key: 'assign', name: 'Assign Agent', value: null }
+    { key: 'close', name: I18n.t('task_bots.close_conversation'), value: null },
+    { key: 'assign', name: I18n.t('task_bots.assign_agent'), value: null }
     // {action_name: "tag", value: null },
     // {action_name: "app_content", value: null },
   ]
@@ -949,7 +950,7 @@ function FollowActionsSelect ({ app, path, updatePath }) {
                 aria-label="add"
               >
                 <PlusIcon />
-                Add Follow Action
+                {I18n.t('task_bots.add_follow_action')}
               </Button>
             )}
           >
@@ -1025,7 +1026,7 @@ function AgentSelector ({ app, updateAction, removeAction, action, index }) {
             defaultValue={selectedAgent()}
             name={'agent'}
             id={'agent'}
-            label={'Assignee Agent'}
+            label={I18n.t('task_bots.assignee_agent')}
             data={{}}
             options={
               agents.map((o) => ({ label: o.email, value: o.id }))
@@ -1057,7 +1058,7 @@ const FirstPath = ({
     <div className="m-5">
 
       <p className="text-sm text-center text-gray-500 font-semibold leading-4 my-6">
-        This is what people will see when they start a new conversation
+        {I18n.t('task_bots.new_conversations_notice')}
       </p>
 
       <ItemsContainer className="p-4">
@@ -1153,7 +1154,7 @@ const Path = ({
 
   const options = [
     {
-      name: 'Add Message Bubble',
+      name: I18n.t('task_bots.options.add_message'),
       key: 'add-message',
       onClick: () => {
         addStepMessage(path)
@@ -1167,21 +1168,21 @@ const Path = ({
     }, */
 
     {
-      name: 'Wait for user input',
+      name: I18n.t('task_bots.options.wait_user_input'),
       key: 'wait-user-input',
       onClick: () => {
         addWaitUserMessage(path)
       }
     },
-    {
+    /*{
       name: 'Ask data input',
       key: 'ask-data-input',
       onClick: () => {
         addDataControl(path)
       }
-    },
+    },*/
     {
-      name: 'Add App',
+      name: I18n.t('task_bots.options.add_app_package'),
       key: 'add-app-package',
       onClick: () => {
         addAppPackage(path)
@@ -1245,7 +1246,7 @@ const Path = ({
               type="text"
               value={path.title}
               onChange={handleTitleChange}
-              hint={'path title'}
+              hint={I18n.t('task_bots.path_title_hint')}
               variant={'underline'}
             />
           </div>
@@ -1259,8 +1260,7 @@ const Path = ({
                 onClick={() => deletePath(path)}
               >
                 <DeleteForever/>
-                delete path
-
+                {I18n.t('task_bots.delete_path')}
               </Button>
             </div>
           }
@@ -1322,7 +1322,8 @@ const Path = ({
                   aria-label="add"
                 >
                   <PlusIcon />
-                  Add new conversation part
+                  {I18n.t('task_bots.add_path')}
+                  
                 </Button>
               )}
             >
@@ -1352,11 +1353,12 @@ const Path = ({
           {
             !controlStep && !showActions && (!path.followActions || path.followActions.length === 0) &&
               <div className="flex items-center mr-4">
-                Continue bot with
+                
+                {I18n.t('task_bots.continue_bot_with')}
                 <Button variant="outlined"
                   className="ml-2"
                   onClick={() => addSectionControl(path)}>
-                  reply button
+                  {I18n.t('task_bots.reply_button')}
                 </Button>
               </div>
           }
@@ -1364,11 +1366,11 @@ const Path = ({
           {
             !controlStep && !showActions && (!path.followActions || path.followActions.length < 1) &&
               <div className="flex items-center">
-                End bot with
+                {I18n.t('task_bots.end_bot_with')}
                 <Button variant="outlined"
                   className="ml-2"
                   onClick={() => setShowActions(true)}>
-                  follow actions
+                  {I18n.t('task_bots.follow_actions')}
                 </Button>
               </div>
           }
@@ -1379,7 +1381,7 @@ const Path = ({
           <PathActionsContainer className="w-full mt-4 sm:w-3/4 sm:mt-8">
 
             <p className="text-lg leading-6 font-medium text-gray-900 py-4">
-              Continue bot with reply button
+              {I18n.t('task_bots.continue_with_reply_button')}
             </p>
 
             <ItemButtons className="self-end">
@@ -1410,7 +1412,7 @@ const Path = ({
           <div className="flex align-start flex-col w-3/4">
 
             <p className="text-lg leading-6 font-medium text-gray-900 py-4">
-              End bot with follow actions
+              {I18n.t('task_bots.end_with_follow')}              
             </p>
 
             <div className="self-end">
@@ -1483,7 +1485,7 @@ const FollowActions = ({
             variant={'outlined'}
             size="small"
           >
-              + add data option
+            {I18n.t('task_bots.add_data_option')}    
           </Button>
 
           {/* <p>

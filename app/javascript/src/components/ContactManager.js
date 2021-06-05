@@ -48,7 +48,7 @@ function toggleButton (clickHandler) {
       <Button
         variant="flat-dark"
         onClick={clickHandler}>
-        Create Users & Leads
+        {I18n.t('contact_manager.create')}
       </Button>
     </div>
   )
@@ -69,7 +69,7 @@ function ContactManager ({ app, current_user, dispatch }) {
         setSelectedItem(null)
         dispatch(
           successMessage(
-            'Processing file import, you will be notified the status soon'
+            I18n.t('contact_manager.success_message')
           )
         )
       },
@@ -120,7 +120,9 @@ function ContactManager ({ app, current_user, dispatch }) {
         <FormDialog
           open={selectedItem}
           handleClose={closeHandler}
-          titleContent={'Import contacts'}
+          titleContent={ 
+            I18n.t('contact_manager.import_contacts')
+          }
           formComponent={
             renderForm()
           }
@@ -198,16 +200,16 @@ function CsvUploader ({ _handleSubmit, enableSubmit }) {
 
       <div>
         <p className="mt-1 text-sm leading-5 text-gray-500">
-        You can upload a csv or excel file in order to import contacts
+          {I18n.t('contact_manager.import_exp')}
         </p>
       </div>
       <div className="mt-6">
         <fieldset className="mt-6">
           <legend className="text-base font-medium text-gray-900">
-          Import Type
+            {I18n.t('contact_manager.import_type')}
           </legend>
           <p className="text-sm leading-5 text-gray-500">
-          Choose what kind of contacts you will import
+            {I18n.t('contact_manager.import_choose')}
           </p>
           <div className="mt-4">
             <div className="flex items-center">
@@ -257,7 +259,9 @@ function FileUpload ({ onChange, loading }) {
         loading && <Progress size={8} />
       }
 
-      <span className="mt-2 text-base leading-normal">Select a file</span>
+      <span className="mt-2 text-base leading-normal">
+        {I18n.t('contact_manager.select_file')}
+      </span>
       <input
         type='file'
         className="hidden"
