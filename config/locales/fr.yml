@@ -219,32 +219,17 @@ fr:
       cancel: Résiliez votre abonnement
   task_bots:
     type_filters:
-      - 
-        title: 'Visitors'
-        description: 'visitors on the platform'
-        id: 'Visitor'
-        state: 'checked'
-      - 
-        title: 'Prospects'
-        description: 'Visitors who make an actions'
-        id: 'Lead'
-        state: 'checked'
-      - 
-        title: 'Utilisateurs'
-        description: "your platform's registered users"
-        id: 'AppUser'
-        state: 'checked'
+      title_visitors: 'Visitors'
+      description_visitors: 'visitors on the platform'
+      title_leads: 'Prospects'
+      description_leads: 'Visitors who make an actions'
+      title_users: 'Utilisateurs'
+      description_users: "your platform's registered users"
     state_filters:
-      - 
-        title: 'Enabled'
-        description: 'enabled bot tasks'
-        id: 'enabled'
-        state: 'checked'
-      - 
-        title: 'Disabled'
-        description: 'Disabled bot tasks'
-        id: 'disabled'
-        state: 'checked'
+      enabled_title: 'Enabled'
+      enabled_description: 'enabled bot tasks'
+      disabled_title: 'Disabled'
+      disabled_description: 'Disabled bot tasks'
     title: Tâches du bot
     reply_soon: Bonjour, %{name} répondra dès que possible.
     reply_agent: vous recevrez une réponse de l'un de nos agents
@@ -503,7 +488,7 @@ fr:
       destroyed_agent: Agent supprimé avec succès
       destroy_agent_title: Supprimer l'agent
       destroy_agent: Effacer
-      destroy_agent_warning: 'Êtes-vous sûr de vouloir supprimer {{agent}}?'
+      destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
       update_agent: Mise à jour
     webhooks:
       title: Webhooks
