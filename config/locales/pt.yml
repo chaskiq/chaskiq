@@ -3,13 +3,13 @@ pt:
     edit: Editar
     new: Novo
     add: Adicionar
-    add_new: add new
+    add_new: adicionar novo
     update: Atualizar
     remove: Retirar
     delete: Apagar
     create: Criar
     save: Salvar
-    save_changes: Save changes
+    save_changes: Salvar as alterações
     preview: Pré-visualização
     cancel: Cancelar
     back_to_site: Voltar ao site
@@ -17,26 +17,26 @@ pt:
     get_snippet: Obtenha o trecho
     submit: Submit
     confirm_deletion: "Confirmar exclusão?"
-    confirm_deletion_ready: are you ready to delete ?
+    confirm_deletion_ready: você está pronto para excluir?
     next: Seguinte
     prev: Anterior
-    showing: Showing
+    showing: Mostrando
     to: para
     of: do
-    results: results
+    results: resultados
     tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
     send: Enviar
     actions: Ações
     langs:
       en: Português
       es: Espanhol
-      pt: Portuguese
-      de: Deutsch
-      ca: Catalan
+      pt: Português
+      de: Alemão
+      ca: Catalão
     redirecting: A redireccionar
     select_language: Selecione o idioma
     send_on_enter: Publicar no website
-    away_mode: Away mode
+    away_mode: Modo Ausente
   home:
     welcome: Bem-vindo à
     welcome_site: Chaskiq
@@ -58,10 +58,10 @@ pt:
     mac_os: Mac OS
     user_country: País do usuário
     snippet: Coloque o seguinte script no final da sua tag html <body>
-    status: Live chat status
-    status_running: Running
-    status_paused: Paused
-    guides: Chaskiq Guides
+    status: Mostrar estado no chat
+    status_running: Em execução
+    status_paused: Em pausa
+    guides: Guias Chaskiq
   navigator:
     dashboard: Painel de controlo
     platform: Plataforma
@@ -91,7 +91,7 @@ pt:
       integrations: Integrações
       webhooks: Webhooks
       api_access: Acesso API
-      billing: Billing
+      billing: Facturação
     user_menu:
       create_app: 'Criar nova app'
       create_app_description: 'Crie o aplicativo Chaskiq da sua empresa'
@@ -102,10 +102,10 @@ pt:
     title: Conversas
     menu:
       conversations: Conversas
-      all: All conversations
+      all: Ver todas as conversas
       assignment_rules: Regras de roteamento de agentes
       tags: Etiquetas
-      unassigned: Unassigned
+      unassigned: Não designado
     states:
       opened: Aberto
       closed: Fechado
@@ -170,10 +170,10 @@ pt:
     create_new: Criar nova campanha
     empty:
       title: Sem campanhas para mostrar
-    mailing: Mailing campaign
-    in_app: In app messages
-    cloned_success: cloned successfully
-    cloned_error: error while cloning record
+    mailing: Campanhas De E-Mailing
+    in_app: Mensagens no app
+    cloned_success: entidade clonado com sucesso
+    cloned_error: erro ao clonar registro
     campaign_updated: Atualização de campanha
     updated_error: Erro ao atualizar a campanha
     error_purge: Erro ao remover métricas
@@ -181,29 +181,29 @@ pt:
     purge_title: Purge Metrics
     deliver_title: Entrega
     deliver_description: Excluir campanha
-    pause_title: Pause
-    pause_description: pauses the campaign
-    clone_title: Clone
-    clone_description: clones the campaign
-    activate: "Activate Campaigns"
-    enables: enables campaign
-    disables: Disables campaign
+    pause_title: Pausa
+    pause_description: pausar a esta campanha
+    clone_title: Duplicar
+    clone_description: clones a campanha
+    activate: "Ativar Campanhas"
+    enables: habilitar campanha
+    disables: Desativa a campanha
     state:
-      enabled: enabled
-      disabled: disabled
+      enabled: ativo
+      disabled: desativo
     tabs:
-      stats: Stats
+      stats: Estatísticas
       settings: Configurações
-      audience: Audience
+      audience: Audiências
       editor: Editor
     banners:
       settings: Configurações
-      action: Action
-      style: Style
-      top: top
-      bottom: bottom
-      inline: inline
-      floating: floating
+      action: Acão
+      style: Estilo
+      top: superior
+      bottom: inferior
+      inline: incorporado
+      floating: flutuante
   campaign:
     edit: Editar Configurações de Campanha
     create: Criar nova campanha
@@ -219,43 +219,43 @@ pt:
       cancel: Cancele a sua subscrição
   task_bots:
     type_filters:
-      title_visitors: 'Visitors'
-      description_visitors: 'visitors on the platform'
+      title_visitors: 'Visitante'
+      description_visitors: 'visitantes na plataforma'
       title_leads: 'Contactos'
-      description_leads: 'Visitors who make an actions'
+      description_leads: 'Visitantes que fazem uma ação'
       title_users: 'Usuários'
-      description_users: "your platform's registered users"
+      description_users: "os usuários registrados da sua plataforma"
     state_filters:
-      enabled_title: 'Enabled'
-      enabled_description: 'enabled bot tasks'
-      disabled_title: 'Disabled'
-      disabled_description: 'Disabled bot tasks'
+      enabled_title: 'Habilitada'
+      enabled_description: 'habilitar tarefa do bot'
+      disabled_title: 'Desativada'
+      disabled_description: 'Tarefas do bot desabilitadas'
     title: Tarefas de bot
     reply_soon: Oi, %{name} responderá assim que puder.
     reply_agent: você receberá uma resposta de um de nossos agentes
-    email_support: to get support you can email at %{email}
+    email_support: para obter suporte você pode enviar um e-mail para %{email}
     outbound: "🏓 Saída"
     new_conversations: "👋 Novas conversas"
-    new_conversations_notice: This is what people will see when they start a new conversation
+    new_conversations_notice: Isto é o que as pessoas verão quando iniciarem uma nova conversa
     options:
-      add_message: Add Message Bubble
-      wait_user_input: Wait for user input
-      add_app_package: Add App
-    path_title_hint: path title
-    delete_path: delete path
-    add_path: Add new conversation part
-    continue_bot_with: Continue bot with
-    continue_with_reply_button: Continue bot with reply button
-    end_bot_with: End bot with
-    end_with_follow: End bot with follow actions
-    reply_button: reply button
-    follow_actions: follow actions
-    add_data_option: + add data option
-    save_data: Save data
-    close_conversation: close conversation
-    assign_agent: assign_agent
-    add_follow_action: Add Follow Action
-    assignee_agent: Assignee Agent
+      add_message: Adicionar Mensagem
+      wait_user_input: Aguarde a entrada do usuário
+      add_app_package: Adicionar aplicação
+    path_title_hint: título do caminho
+    delete_path: excluir caminho
+    add_path: Adicionar nova parte de conversa
+    continue_bot_with: Continuar bot com
+    continue_with_reply_button: Continuar o bot com o botão de resposta
+    end_bot_with: Terminar bot com
+    end_with_follow: Termine o bot com ações de seguir
+    reply_button: botão de resposta
+    follow_actions: ações de seguir
+    add_data_option: + Adicionar opção de dados
+    save_data: Salvar dados
+    close_conversation: fechar conversa
+    assign_agent: delegar_agente
+    add_follow_action: Adicionar nova ação
+    assignee_agent: Designar agente
     email_requirement:
       message: Dê à equipe um jeito de te contactar
       input_label: Seja notificado por e-mail
@@ -314,14 +314,14 @@ pt:
     create:
       title: Criar nova tarefa
   email_forwarding:
-    title: Email Forwarding
-    subtitle: Default Inbound Address
-    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+    title: Encaminhamento de e-mail
+    subtitle: Endereço de Entrada Pré-definido
+    ex: Encaminhar e-mail do seu endereço de e-mail de suporte normal (como help@mycompany.com) para Chaskiq para que você possa responder aos e-mails do seu painel de agentes
   identified_users:
-    title: Verified users setup
-    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
-    lang: Your code to generate an HMAC for your app is
-    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    title: Configuração de usuários verificada
+    hint1: Para configurar a verificação de identidade, você precisará gerar um HMAC no seu servidor para cada usuário conectado e enviá-lo para Chaskiq.
+    lang: Seu código para gerar um HMAC para o seu aplicativo é
+    hint2: 'Onde quer que você carregue dados de usuário e tenha um trecho de código Chaskiq, Adicione um novo atributo chamado <span className="font-bold">identifier_key</span> e passe o <span className="font-bold">e-mail</span> e dê a tag HMAC para o usuário logado:'
   quick_replies:
     title: Respostas rápidas
     search: Pesquisar respostas rápidas
@@ -374,7 +374,7 @@ pt:
       user_data: Dados de usuário
       tags: Etiquetas
       quick_replies: Respostas rápidas
-      email_forwarding: Email Forwarding
+      email_forwarding: Encaminhamento de e-mail
     app_packages:
       create_success: Pacote criado
       create_error: Erro ao criar pacote
@@ -424,13 +424,13 @@ pt:
             label: "Tempo de resposta automática. Atualmente o El equipo respondera├lo é visível"
           - 
             value: "minutos"
-            label: "Team usually responds within minutes."
+            label: "A equipe geralmente responde em minutos."
           - 
             value: "horas"
-            label: "Team usually responds within hours."
+            label: "A equipe costuma responder dentro de horas."
           - 
             value: "1 dia"
-            label: "The team usually responds in one day."
+            label: "O time costuma responder em um dia."
         hint2: "Nota: o visitante receberá uma resposta automática com a disponibilidade da sua equipe durante horas fora do escritório ou tempos longos de resposta."
     email_requirement:
       title: Requer um e-mail para novas conversas
@@ -485,10 +485,10 @@ pt:
       add_new: Adicionar um Membro
       update_agent_title: Actualizar Informação
       updated_agent: As informações foram atualizadas com sucesso
-      destroyed_agent: Agent deleted successfully
-      destroy_agent_title: Delete Agent
+      destroyed_agent: Agente excluído com sucesso
+      destroy_agent_title: Excluir Agente
       destroy_agent: Apagar
-      destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
+      destroy_agent_warning: 'Tem certeza que deseja excluir %{agent}?'
       update_agent: Atualizar
     webhooks:
       title: Webhooks
@@ -520,7 +520,7 @@ pt:
         color: Cor do campo
     user_data:
       title: Campos Personalizados
-      default_fields: Default attributes
+      default_fields: Atributos predefinidos
       non_editable: Este campo não é editável
       modal:
         title: Criar campo de dados do usuário
@@ -547,7 +547,7 @@ pt:
     title_placeholder: Escreva o título do artigo
     new_section: Nova secção
     new_collection: Nova coleção
-    edit_collection: Edit collection
+    edit_collection: Nova coleção
     create_article:
       placeholder: Escreva o título do artigo
       description_placeholder: Adicione um resumo para encontrar o artigo mais tarde
@@ -555,29 +555,29 @@ pt:
       title: Nova coleção de artigos
       placeholder: Digite o título da coleção
       description: Descreva sua coleção para ajudá-lo a encontrá-la.
-    deleted_success: article deleted
-    new_article: new article
-    settings_updated_success: 'article settings updated'
-    settings_updated_error: 'article settings failed'
-    activate_help_center: Activate Help Center
-    delete_article: Delete article "%{title} ?
+    deleted_success: artigo apagado
+    new_article: novo artigo
+    settings_updated_success: 'configurações do artigo atualizadas'
+    settings_updated_error: 'ocorreu um erro ao tentar modificar as definições'
+    activate_help_center: Ativar Central de Ajuda
+    delete_article: Excluir artigo "%{title}?
     delete_article_exp: nós destruiremos qualquer conteúdo e dados relacionados
-    square_preferred: square images preferred (min size 200x200px)
-    square_preferred_hint: squared images will be optimal resized
-    reordered_success: 'reordered correctly'
-    reordered_error: 'reordered error'
-    add_articles: Add articles
-    updated_success: article updated
-    updated_error: article error on save
-    delete_section: Delete section
+    square_preferred: imagens quadradas preferidas (tamanho mínimo 200x200px)
+    square_preferred_hint: imagens quadradas serão redimensionadas idealmente
+    reordered_success: 'reordenado corretamente'
+    reordered_error: 'erro reordenado'
+    add_articles: Adicionar artigo
+    updated_success: artigo apagado
+    updated_error: erro de artigo ao salvar
+    delete_section: Selecione a seção
     author: Autor(a)
-    written_by: written by
-    created_on: Created on
+    written_by: escrito por
+    created_on: Criado em
     state:
-      published: published
-      published_desc: 'shows article on the help center'
-      draft: draft
-      draft_desc: 'hides the article on the help center'
+      published: publicado
+      published_desc: 'mostra artigo no centro de ajuda'
+      draft: rascunho
+      draft_desc: 'oculta o artigo no centro de ajuda'
     settings:
       title: Configurações da Central de Ajuda
       add_language: Adicionar idioma
@@ -594,45 +594,45 @@ pt:
       basic: Configuração básica
       general_app: Visão geral da Aplicação
   contact_manager:
-    create: Create Users & Leads
-    import_csv: Import csv
-    success_message: Processing file import, you will be notified the status soon
-    import_contacts: import_contacts
-    import_exp: You can upload a csv or excel file in order to import contacts
-    import_type: Import Type
-    import_choose: Choose what kind of contacts you will import
-    select_file: Select a file
+    create: Criar Usuários e Potenciais
+    import_csv: Importar csv
+    success_message: Processando importação de arquivo, você será notificado o status em breve
+    import_contacts: importar_contatos
+    import_exp: Você pode carregar um arquivo csv ou excel para importar contatos
+    import_type: Tipo de importação
+    import_choose: Escolha o tipo de contatos que você vai importar
+    select_file: Seleccione um ficheiro
   segment_manager:
-    add_filters: Add filters
-    select_fields: 'Select fields:'
-    create_segment: Create new segment
-    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
-    changes_notice: The changes will be saved to the app segments.
-    delete_segment: 'Delete segment'
-    save_segment: Save segment
-    match: match
-    all: all
-    any: any
-    criteria: criteria
-    days ago: days ago
-    filter_for: select filter for %{name}
-    date_filter_for: Select the date filter for  %{name}
-    integer_filter_for: Select the integer filter for ${name}
-    match_criteria_for: Match criteria options for %{name}
-    apply: apply
-    is: is
-    is_not: is not
-    starts_with: starts with
-    ends_with: ends with
-    contains: contains
-    does_not_contain: does not contain
-    is_unknown: is unknown
-    has_any_value: has any value
-    exactly: exactly
-    less_than: less than
-    less_than_eq: less than eq
-    more_than: more than
-    more_than_eq: more than eq
-    match_any: match any
-    match_all: match all
-    missing_value: Missing value!
+    add_filters: Adicionar filtros
+    select_fields: 'Selecione os campos:'
+    create_segment: Criar novo segmento
+    save_changes_to: Salvar alterações no segmento <b>%{name}</b>.
+    changes_notice: As alterações serão salvas nos segmentos do aplicativo.
+    delete_segment: 'Apagar segmento'
+    save_segment: Salvar Segmento
+    match: corresponder
+    all: todos
+    any: qualquer
+    criteria: critério
+    days ago: dias atrás
+    filter_for: selecionar filtro para %{name}
+    date_filter_for: Selecione o filtro de data para  %{name}
+    integer_filter_for: Select the integer filter for %{name}
+    match_criteria_for: Opções de critérios de partida para %{name}
+    apply: aplicar
+    is: igual a
+    is_not: não é
+    starts_with: começa com
+    ends_with: termina com
+    contains: contém
+    does_not_contain: não contém
+    is_unknown: é desconhecida(o)
+    has_any_value: tem qualquer valor
+    exactly: exatamente
+    less_than: menor que
+    less_than_eq: menos que ou igual a
+    more_than: maior que
+    more_than_eq: maior ou igual a
+    match_any: corresponde a qualquer
+    match_all: corresponder a todos
+    missing_value: Faltando valor!
