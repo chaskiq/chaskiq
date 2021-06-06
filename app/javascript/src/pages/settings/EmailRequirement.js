@@ -35,7 +35,7 @@ export default function EmailRequirement ({ settings, update }) {
       </p> */}
 
       <div mt={2}>
-        <h2 className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+        <h2 className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
           {I18n.t('settings.email_requirement.ask')}
         </h2>
       </div>

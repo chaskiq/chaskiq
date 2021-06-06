@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import tw from 'twin.macro'
 
 export const BrowserSimulatorWrap = styled.div`
 	position:relative;
@@ -64,23 +65,22 @@ export const EditorMessengerEmulator = styled.div`
 `
 export const EditorMessengerEmulatorWrapper = styled.div`
   //position: relative;
-  ${(props) =>
-    props.mode === 'user_auto_messages'
-      ? `width: 380px;
-    background: #fff;
-    border: 1px solid #f3efef;
-    margin-bottom: 25px;
-    margin-right: 20px;
-    box-shadow: 3px 3px 4px 0px #b5b4b4;
-    border-radius: 10px;
-    padding: 12px;
-    padding-top: 0px;
+  
+  ${
+    ({ mode }) => mode === 'user_auto_messages' ? 
+      tw`bg-white dark:bg-black rounded-lg shadow-lg p-8 pt-0 mb-6 mr-8 border border-gray-300` : ''
+  }
+
+  ${({mode}) =>
+    mode === 'user_auto_messages'
+      ? `
+    width: 380px;
     .icon-add{
       margin-top: -2px;
       margin-left: -2px;
     }
     `
-      : ''}
+  : ''}
 `
 
 export const EditorPad = styled.div`
@@ -118,9 +118,9 @@ export const EditorPad = styled.div`
 		(props.mode !== 'banners' && props.mode !== 'user_auto_messages') &&
 			`
 			padding: 2em;
-			background-color: white;
-			margin: 2em;
-			border: 1px solid #ececec;
+			//background-color: white;
+			//margin: 2em;
+			//border: 1px solid #ececec;
 
 			@media all and (min-width: 1024px) and (max-width: 1280px) {
 				margin: 4em;
@@ -153,7 +153,7 @@ export default function BrowserSimulator ({ children, mode }) {
         </BrowserSimulatorButtons>
       </BrowserSimulatorHeader>
 
-      <EditorPad mode={mode}>
+      <EditorPad mode={mode} className="bg-white dark:bg-black">
         <EditorMessengerEmulator mode={mode}>
           <EditorMessengerEmulatorWrapper mode={mode}>
             <EditorMessengerEmulatorHeader mode={mode} />

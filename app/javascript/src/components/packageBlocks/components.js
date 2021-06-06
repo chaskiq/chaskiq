@@ -182,9 +182,9 @@ const TextInput = styled.input`
 
   ${(props) => props.disabled && props.field.save_state === 'failed' ? tw`border-red-300 text-red-200 placeholder-red-300 bg-red-100 focus:border-red-300` : ''}
 
-  ${(props) => props.disabled && !props.field.save_state ? tw`border-gray-300 text-gray-200 placeholder-gray-300 bg-gray-100 border-r-0 focus:border-gray-300` : ''}
+  ${(props) => props.disabled && !props.field.save_state ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-200 placeholder-gray-300 bg-gray-100 border-r-0 focus:border-gray-300` : ''}
 
-  ${(props) => !props.field.save_state && !props.error ? tw`border-gray-300 text-gray-900 placeholder-gray-300 focus:border-gray-300` : ''}
+  ${(props) => !props.field.save_state && !props.error ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-900 placeholder-gray-300 focus:border-gray-300` : ''}
 
   ${(props) => !props.field.save_state && props.error ? tw`border-red-300 text-red-900 placeholder-red-300 focus:border-red-300` : ''}
 
@@ -224,7 +224,8 @@ const TextInputButton = styled.div`
   };
 
   ${() => tw`-ml-px relative inline-flex items-center
-   text-sm leading-5 font-medium 
+   text-sm leading-5 font-medium
+   dark:bg-gray-900 dark:text-gray-200 
   rounded-r-md text-gray-700 bg-gray-100 hover:text-gray-500 
   transition ease-in-out duration-150`}
 
@@ -381,9 +382,9 @@ const Paragraph = styled.div`
   ${(props) => {
     switch (props.styl) {
       case 'header':
-        return tw`text-lg leading-8 font-bold text-gray-800`
+        return tw`text-lg leading-8 font-bold text-gray-800 dark:text-gray-100`
       case 'muted':
-        return tw`text-sm leading-5 text-gray-500`
+        return tw`text-sm leading-5 text-gray-500 dark:text-gray-300`
       case 'error':
         return tw`text-sm leading-5 text-red-500`
       case 'notice':
@@ -479,11 +480,11 @@ ${(props) => props.theme.size === 'sm'
 `
 
 const Dt = styled.dt`
-${() => tw`text-sm leading-5 font-medium text-gray-500`};
+${() => tw`text-sm leading-5 font-medium text-gray-500 dark:text-gray-200`};
 `
 
 const Dd = styled.dd`
-${() => tw`mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2`};
+${() => tw`mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2`};
 `
 
 export function DataTableRenderer ({ field }) {
@@ -533,7 +534,7 @@ export function ListRenderer ({ field, handleAction }) {
               <React.Fragment>
                 <div
                   className="mt-2 flex items-center
-                        text-sm leading-5 text-gray-500 justify-end"
+                        text-sm leading-5 text-gray-500 dark:text-gray-200 justify-end"
                 >
                   {o.tertiary_text}
                 </div>
@@ -621,7 +622,7 @@ const DropDown = styled.div`
   }
 
   .content-wrap {
-    ${() => tw`rounded-md bg-white shadow-xs`}
+    ${() => tw`rounded-md bg-white dark:bg-gray-900 shadow-xs`}
     height: 130px;
     overflow: auto;
   }
@@ -633,8 +634,7 @@ const DropDown = styled.div`
 const ItemButton = styled.button`
   ${() => tw`w-full text-left block px-4 py-2 text-sm leading-5
     text-gray-700 hover:bg-gray-100 hover:text-gray-900
-    focus:outline-none focus:bg-gray-100
-    focus:text-gray-900`
+    focus:outline-none focus:bg-gray-100 focus:text-gray-900`
   }
 
   ${(props) => props.selected ? tw`bg-gray-100` : ''}
@@ -735,7 +735,7 @@ const CheckboxGroup = styled.div`
   ${() => tw`block`}
 
   .label{
-    ${() => tw`text-gray-700`}
+    ${() => tw`text-gray-700 dark:text-gray-200`}
   }
 
   .wrapper {
@@ -781,7 +781,7 @@ export function CheckBoxesRenderer ({ field }) {
 }
 
 const Separator = styled.div`
-  ${() => tw`my-2 border-gray-200`}
+  ${() => tw`my-2 border-gray-200 dark:border-gray-800`}
   border-bottom-width: 1px;
 `
 
@@ -991,7 +991,7 @@ const RendererWrapper = styled.div`
 `
 
 const Label = styled.label`
-  ${() => tw`block text-gray-700 font-bold mb-2`}
+  ${() => tw`block text-gray-700 dark:text-gray-200 font-bold mb-2`}
   ${(props)=> props.theme.size === "sm" ? 
     tw`text-xs` :
     tw`text-sm`
@@ -999,7 +999,7 @@ const Label = styled.label`
 `
 
 const HelperText = styled.div`
-  ${() => tw`mt-2 text-xs text-gray-500`}
+  ${() => tw`mt-2 text-xs text-gray-500 dark:text-gray-200`}
 `
 
 function FormField ({ name, label, helperText, children, _error }) {

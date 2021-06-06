@@ -52,7 +52,7 @@ export class ColorPicker extends React.Component {
             </Button>
 
             <HexColorInput 
-              className="form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5 border border-gray-300"
+              className="dark:text-gray-100 dark:bg-gray-900 form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5 border border-gray-300"
               color={this.state.value}
               name={this.props.name}
               placeholder="#00ff00"
@@ -64,6 +64,7 @@ export class ColorPicker extends React.Component {
             onClick={this.handleClick}
             className="-ml-px relative inline-flex items-center
             px-4 py-2 border border-gray-300 text-sm
+            dark:bg-gray-900 dark:text-gray-100
             leading-5 font-medium rounded-r-md text-gray-700
             bg-gray-50 hover:text-gray-500 hover:bg-white
             focus:outline-none focus:shadow-outline-blue

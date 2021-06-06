@@ -331,7 +331,7 @@ class AppUsers extends React.Component {
                 title: 'email',
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
                           <Link
@@ -371,7 +371,7 @@ class AppUsers extends React.Component {
                 title: 'Owner',
                 render: (row) => (
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       {
                         row.owner && <Badge
                           variant="green">
@@ -387,7 +387,7 @@ class AppUsers extends React.Component {
                 title: 'Access list',
                 render: (row) => (
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       {row.accessList.map((o) =>
                         <Badge
                           className="mr-2"
@@ -404,7 +404,7 @@ class AppUsers extends React.Component {
                 title: 'Actions',
                 render: (row) => (
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       <Button
                         onClick={() => this.handleEdit(row)}
                         variant="outlined"
@@ -430,7 +430,7 @@ class AppUsers extends React.Component {
                 title: 'Last sign in at',
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${
@@ -451,7 +451,7 @@ class AppUsers extends React.Component {
                 title: 'invitation Accepted At',
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       <span
                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                       ${
@@ -642,7 +642,7 @@ class NonAcceptedAppUsers extends React.Component {
                 field: 'actions',
                 title: 'actions',
                 render: (row) => {
-                  return <tr className="flex items-center px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                  return <tr className="flex items-center px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                     <Button
                       onClick={ () => this.resendInvitation(row.email) }
                       variant="outlined" size="md">

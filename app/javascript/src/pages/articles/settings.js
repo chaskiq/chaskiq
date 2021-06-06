@@ -218,14 +218,14 @@ class Settings extends Component {
               <div className="my-2">
                 <div>
                   <p
-                    className="text-lg leading-6 font-medium text-gray-900 pb-4"
+                    className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4"
                     variant="h5"
                   >
                     {I18n.t('articles.settings.lang_title')}
                   </p>
 
                   <p
-                    className="max-w-xl text-sm leading-5 text-gray-500 mb-4"
+                    className="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4"
                     variant="subtitle1"
                   >
                     {I18n.t('articles.settings.lang_desc')}
@@ -331,7 +331,7 @@ class SettingsForm extends Component {
         }}
       >
         <div className={'my-2'}>
-          <p className="text-lg leading-6 pb-4 font-medium text-gray-900 pb-4">
+          <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
             {this.props.title}
           </p>
 
@@ -467,7 +467,7 @@ function LanguageForm ({ settings, update, deleteLang }) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
               <div
                 // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
                 className="flex items-center"

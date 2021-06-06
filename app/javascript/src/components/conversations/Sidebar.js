@@ -45,7 +45,7 @@ function Sidebar ({
   }
 
   return (
-    <div className="xl:border-r xl:border-gray-200">
+    <div className="xl:border-r-- xl:border-gray-200--">
       <div className="py-2 pt-2">
         <div className="flex items-center justify-between">
 
@@ -89,14 +89,14 @@ function Sidebar ({
 
                 <div className="px-2 space-y-2">
                   <div className="flex justify-between">
-                    <div className="text-sm leading-5 font-bold text-gray-900">
+                    <div className="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100">
                       <Button
                         variant="clean"
                         onClick={ toggleFixedSidebar }>
                         <LeftArrow/>
                       </Button>
                     </div>
-                    <button className="text-sm leading-5 font-bold text-gray-900 hover:text-indigo-500"
+                    <button className="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100 hover:text-indigo-500"
                       onClick={() => setEditable(true) }>
                       customize
                     </button>
@@ -181,18 +181,18 @@ function UserBlock ({ app_user }) {
   return <div
     className="space-y-2 divide-y divide-gray-200">
     <div className="space-y-1 py-2">
-      <div className="text-sm leading-5 font-medium text-gray-900">
+      <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
         {I18n.t('conversation.sidebar.browser')}
       </div>
 
-      <div className="text-sm leading-5 text-gray-500 group-hover:text-gray-900 font-medium">
+      <div className="text-sm leading-5 text-gray-500 group-hover:text-gray-900 dark:text-gray-300 font-medium">
         {app_user.browser} {app_user.browserVersion}
         {' '} ({app_user.os} {app_user.osVersion})
       </div>
     </div>
 
     <div className="space-y-1 py-2">
-      <div className="text-sm leading-5 font-medium text-gray-900">
+      <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
         {I18n.t('conversation.sidebar.browser')}
       </div>
 
@@ -360,8 +360,8 @@ function AppItem ({
   return (
     <ErrorBoundary>
       <div
-        className="rounded-md border border-gray-200 bg-white w-full p-2--">
-        <p className="hidden text-sm leading-5 font-medium text-gray-900">
+        className="rounded-md border border-gray-200 bg-white dark:bg-black dark:border-gray-800 w-full p-2--">
+        <p className="hidden text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
           {object.name}
         </p>
 

@@ -214,7 +214,7 @@ function VerificationView({app}){
 
 function CodeBox ({content}){
   return (
-    <pre className="p-3 bg-black text-white text-sm overflow-auto rounded-sm shadow-sm">
+    <pre className="p-3 bg-black rounded-md border-black border-2 dark:border-gray-100 text-white text-sm overflow-auto shadow-sm">
       <div dangerouslySetInnerHTML={{__html: content }}/>    
     </pre>
   )

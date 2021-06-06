@@ -50,7 +50,7 @@ export default function CustomizedExpansionPanels (props) {
               }}
               className="flex justify-between items-center p-5 pl-6 pr-8 cursor-pointer select-none"
             >
-              <span className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+              <span className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100 sm:w-40 sm:flex-shrink-0 lg:w-48">
                 {o.name}
               </span>
 
@@ -84,10 +84,10 @@ export default function CustomizedExpansionPanels (props) {
                     <ul className="pl-4">
                       {withValues(o.items).map((item, index) => (
                         <React.Fragment key={`expanded-${index}`}>
-                          <p className="pb-2 text-sm leading-5 text-gray-500">
+                          <p className="pb-2 text-sm leading-5 text-gray-500 dark:text-gray-400">
                             {item.label}
                           </p>
-                          <p className="text-sm leading-5 text-gray-900">
+                          <p className="text-sm leading-5 text-gray-900 dark:text-gray-50">
                             {item.value}
                           </p>
                         </React.Fragment>

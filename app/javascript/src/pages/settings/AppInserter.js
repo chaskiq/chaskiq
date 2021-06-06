@@ -49,9 +49,9 @@ const SortableItem = sortableElement(
       <div>
 
         <div key={`apps-${object.id}`}
-          className="bg-gray-100 mb-2 p-4 flex justify-between items-center">
+          className="bg-gray-100 dark:bg-gray-900 mb-2 p-4 flex justify-between items-center">
 
-          <div className="border-md bg-white p-4 shadow w-full mx-2 ">
+          <div className="border-md bg-white dark:bg-black p-4 shadow w-full mx-2 ">
             <p>{object.name}</p>
 
             <DefinitionRenderer
@@ -117,7 +117,7 @@ function AppInserter ({ app, update }) {
                 focus:outline-none 
                 focus:shadow-outline-gray 
 
-                outline-none border bg-white
+                outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
                 font-light py-2 px-4
                 ${o.classes}
                 `}>
@@ -198,7 +198,7 @@ function HomeAppInserter ({ app, update, option, capability }) {
 
       <div className="flex justify-around items-center">
         <div>
-          <h2 className="text-lg leading-6 font-medium text-gray-900">
+          <h2 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
             Add apps to your Messenger
           </h2>
 

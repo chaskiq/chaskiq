@@ -223,7 +223,7 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
     <div className="p-2--">
 
       <div className="p-2">
-        <h2 className="text-sm leading-5 text-gray-900 font-bold">
+        <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
           {I18n.t('segment_manager.select_fields')}
         </h2>
       </div>
@@ -234,9 +234,9 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
             <li key={`select-fields-${i}`}>
               <a key={o.name}
                 onClick={(e) => handleClick(e, o)}
-                className="cursor-pointer block hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                className="cursor-pointer block hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:text-gray-800 transition duration-150 ease-in-out">
                 <div className="flex items-center px-4 py-4 sm:px-6">
-                  <span className="flex items-center text-sm leading-5 text-gray-700">
+                  <span className="flex items-center text-sm leading-5 text-gray-700 dark:text-gray-100">
                     {o.name}
                   </span>
                 </div>

@@ -141,16 +141,16 @@ function Alert ({ title, message, status, onClose, placementClass }) {
     <div
       style={{ zIndex: 1000 }}
       className={`fixed 
-                      z-50 
-                      inset-0 
-                      flex 
-                      items-end 
-                      justify-center 
-                      px-4 py-6 
-                      pointer-events-none 
-                      sm:p-6
-                      ${placementClass}
-                    `}
+                  z-50 
+                  inset-0 
+                  flex 
+                  items-end 
+                  justify-center 
+                  px-4 py-6 
+                  pointer-events-none 
+                  sm:p-6
+                  ${placementClass}
+                `}
     >
       <Transition
         // style={props}
@@ -163,7 +163,7 @@ function Alert ({ title, message, status, onClose, placementClass }) {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className={
-          'max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto'
+          'max-w-sm w-full bg-white dark:bg-gray-900 dark:border-gray-200 border border-transparent dark:text-gray-200 shadow-lg rounded-lg pointer-events-auto'
         }
       >
         <div className="rounded-lg shadow-xs overflow-hidden">
@@ -171,10 +171,10 @@ function Alert ({ title, message, status, onClose, placementClass }) {
             <div className="flex items-start">
               <div className="flex-shrink-0">{statusIcon()}</div>
               <div className="ml-3 w-0 flex-1 pt-0.5">
-                <p className="text-sm leading-5 font-medium text-gray-900">
+                <p className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
                   {title || status}
                 </p>
-                <p className="mt-1 text-sm leading-5 text-gray-500">
+                <p className="mt-1 text-sm leading-5 text-gray-500 dark:text-gray-300">
                   {message}
                 </p>
               </div>

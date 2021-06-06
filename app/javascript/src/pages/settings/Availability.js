@@ -40,7 +40,7 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
       <div className="py-4">
         <Hints type="availability"/>
 
-        <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
+        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
           {I18n.t('settings.availability.title')}
         </p>
 
@@ -52,17 +52,17 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
       <hr />
 
       <div className="py-4">
-        <p className="text-lg leading-6 font-medium text-gray-900">
+        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
           {I18n.t('settings.availability.title2')}
         </p>
 
-        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
           {I18n.t('settings.availability.hint2')}
         </p>
       </div>
 
       <div className="py-4">
-        <p className="text-xs text-gray-900 font-bold">
+        <p className="text-xs text-gray-900 dark:text-gray-100 font-bold">
           {I18n.t('settings.availability.timezone', { tz: settings.timezone })}
         </p>
 
@@ -70,11 +70,11 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
       </div>
 
       <div className="py-4">
-        <p className="text-lg leading-6 font-medium text-gray-900">
+        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
           {I18n.t('settings.availability.reply_time.title')}
         </p>
 
-        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
           {I18n.t('settings.availability.reply_time.hint')}
         </p>
 
@@ -95,7 +95,7 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
       </div>
 
       <div>
-        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+        <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
           {I18n.t('settings.availability.reply_time.hint2')}
         </p>
       </div>

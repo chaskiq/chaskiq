@@ -205,10 +205,10 @@ function CsvUploader ({ _handleSubmit, enableSubmit }) {
       </div>
       <div className="mt-6">
         <fieldset className="mt-6">
-          <legend className="text-base font-medium text-gray-900">
+          <legend className="text-base font-medium text-gray-900 dark:text-gray-50">
             {I18n.t('contact_manager.import_type')}
           </legend>
-          <p className="text-sm leading-5 text-gray-500">
+          <p className="text-sm leading-5 text-gray-500 dark:text-gray-100">
             {I18n.t('contact_manager.import_choose')}
           </p>
           <div className="mt-4">

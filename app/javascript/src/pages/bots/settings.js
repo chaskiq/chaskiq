@@ -153,7 +153,7 @@ function UsersSettings ({
   return (
     <div>
       <div className="py-4">
-        <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
           {I18n.t('task_bots.settings.users.start_conversation')}
         </p>
 
@@ -219,7 +219,7 @@ function LeadsSettings ({
   return (
     <div>
       <div className="py-4">
-        <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
           {I18n.t('task_bots.settings.leads.start_conversation')}
         </p>
 
@@ -243,11 +243,11 @@ function LeadsSettings ({
 
         <hr />
 
-        <p className="text-lg leading-6 font-medium text-gray-900 py-4">
+        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
           {I18n.t('task_bots.settings.leads.route')}
         </p>
 
-        <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+        <p className="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
           {I18n.t('task_bots.settings.leads.route_desc')}
         </p>
 
@@ -290,11 +290,11 @@ function LeadsSettings ({
 
         <hr />
 
-        <p className="text-lg leading-6 font-medium text-gray-900 py-4">
+        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
           {I18n.t('task_bots.settings.leads.ask')}
         </p>
 
-        <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+        <p className="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
           {I18n.t('task_bots.settings.leads.ask_hint')}
         </p>
 

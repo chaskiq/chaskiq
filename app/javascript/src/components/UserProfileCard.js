@@ -40,7 +40,7 @@ function UserProfileCard ({ app, app_user }) {
           <div className="ml-3 sm:flex-1">
             <div>
               <div className="flex items-center space-x-2.5">
-                <h3 className="font-bold text-xl leading-7 text-gray-900 sm:text-2xl sm:leading-8">
+                <h3 className="font-bold text-xl leading-7 text-gray-900 dark:text-gray-100 sm:text-2xl sm:leading-8">
                   {app_user.properties.name}
                 </h3>
                 {
@@ -77,10 +77,10 @@ function UserProfileCard ({ app, app_user }) {
       <div className="px-4 py-5 sm:px-0 sm:py-0">
         <dl className="space-y-8 sm:space-y-0">
           <div className="sm:flex sm:space-x-6 sm:px-6 sm:py-5">
-            <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0 lg:w-48">
               Last seen
             </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+            <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
               <p>
                 <Moment fromNow ago>
                   {Date.parse(app_user.lastVisitedAt)}
@@ -88,64 +88,64 @@ function UserProfileCard ({ app, app_user }) {
               </p>
             </dd>
           </div>
-          <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-            <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+          <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 dark:sm:border-gray-800 sm:px-6 sm:py-5">
+            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0 lg:w-48">
               Location
             </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+            <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
               {[app_user.city, app_user.region, app_user.country].filter((o) => o).join(', ')}
             </dd>
           </div>
 
-          <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-            <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+          <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 dark:sm:border-gray-800 sm:px-6 sm:py-5">
+            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0 lg:w-48">
               Web Sessions
             </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+            <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
               {app_user.webSessions}
             </dd>
           </div>
 
           {
             app_user.timezone &&
-            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-              <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 dark:sm:border-gray-800 sm:px-6 sm:py-5">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0 lg:w-48">
                 Timezone
               </dt>
-              <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
                 {app_user.timezone}
               </dd>
             </div>
           }
 
           { app_user.browser &&
-            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-              <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 dark:sm:border-gray-800 sm:px-6 sm:py-5">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0 lg:w-48">
                 Browser
               </dt>
-              <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
                 {[app_user.browser, app_user.browserVersion].join(', ')}
               </dd>
             </div>
           }
 
           { app_user.os &&
-            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-              <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 dark:sm:border-gray-800 sm:px-6 sm:py-5">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0 lg:w-48">
                 Operating System
               </dt>
-              <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
                 {[app_user.os, app_user.osVersion].join(', ')}
               </dd>
             </div>
           }
 
           { app_user.tagList &&
-            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
-              <dt className="text-sm leading-5 font-medium text-gray-500 sm:w-40 sm:flex-shrink-0 lg:w-48">
+            <div className="sm:flex sm:space-x-6 sm:border-t sm:border-gray-200 dark:sm:border-gray-800 sm:px-6 sm:py-5">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 sm:w-40 sm:flex-shrink-0 lg:w-48">
                 Tags
               </dt>
-              <dd className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2">
                 { app_user.tagList.map((tag, i) => (<Badge size="sm" key={`tag-${i}`}> {tag} </Badge>))}
               </dd>
             </div>

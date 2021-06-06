@@ -54,10 +54,10 @@ export default function UnSubscribe ({ match }) {
               {
                 !loading &&
                 <div>
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
                     {I18n.t('campaign.unsubscribe.status', { state: data.state })}
                   </h3>
-                  <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+                  <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
 
                     {
                       data.state === 'unsubscribed' && <p>
