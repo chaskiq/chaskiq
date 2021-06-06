@@ -31,7 +31,7 @@ import {
   ArticlesIcon,
   CollectionsIcon,
   ChatIcon,
-  SettingsIconArticle,
+  
   BillingIcon,
   IntegrationsIcon,
   TeamIcon,
