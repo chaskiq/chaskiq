@@ -135,7 +135,7 @@ function SidebarAgents ({ app, dispatch, conversations }) {
       {
         tagCounts &&
           <div className="mt-4 flex items-center flex-shrink-0 px-4
-            text-md leading-6 font-bold text-gray-900">
+            text-md leading-6 font-bold text-gray-900 dark:text-gray-200">
             <h3 className="font-bold">{
               I18n.t('conversations.menu.tags')
             }</h3>
@@ -187,10 +187,11 @@ function ListItem ({ agent, count, label, filterHandler, icon, active }) {
       hover:dark:text-gray-100
       rounded-md 
       hover:bg-gray-50 
+      dark:hover:bg-gray-800 
       focus:outline-none 
       focus:text-gray-900
       transition ease-in-out duration-150 
-      ${active ? 'bg-gray-200' : ''}`}>
+      ${active ? 'bg-gray-200 dark:bg-gray-700' : ''}`}>
       {
         !agent && icon
       }

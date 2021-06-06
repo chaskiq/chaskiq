@@ -257,7 +257,7 @@ function Conversations ({
 
       <Switch>
         <Route exact path={`/apps/${app.key}/conversations`}>
-          <div className="hidden sm:block flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r w-1/12">
+          <div className="hidden sm:block flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12">
             <EmptyView
               title={I18n.t('conversations.empty.title')}
               shadowless
@@ -274,13 +274,13 @@ function Conversations ({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
-          <div className="flex-grow bg-gray-50 dark:bg-black h-12 h-screen border-r w-1/12">
+          <div className="flex-grow bg-gray-50 dark:bg-black h-12 h-screen border-r w-1/12 dark:border-black">
             <AssignmentRules />
           </div>
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/:id`}>
-          <div className={`${fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'} w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r`}>
+          <div className={`${fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'} w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r dark:border-black`}>
             <Conversation events={events}
               fixedSidebarOpen={fixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}

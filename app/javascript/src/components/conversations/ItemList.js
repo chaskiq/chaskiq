@@ -70,7 +70,7 @@ export default function ConversationItemList ({ app, conversation }) {
 
   function stateClass () {
     return conversation.state == 'opened'
-      ? 'bg-red-200' : 'bg-green-600'
+      ? 'bg-red-200 dark:bg-red-600' : 'bg-green-600'
   }
 
   return (
