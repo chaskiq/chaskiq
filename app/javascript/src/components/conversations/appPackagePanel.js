@@ -16,6 +16,7 @@ import {
   getPackage
 } from '../packageBlocks/utils'
 import { AppList } from '../packageBlocks/AppList'
+import I18n from '../../shared/FakeI18n'
 
 
 function AppPackagePanel (props) {
@@ -80,7 +81,6 @@ function AppPackagePanel (props) {
       titleContent={'Send App Package'}
       formComponent={
         <div className="overflow-auto h-64">
-
           <ErrorBoundary>
 
             {
@@ -149,11 +149,12 @@ function AppPackagePanel (props) {
         <React.Fragment>
           <Button onClick={handleClose}
             variant="outlined" className="ml-2">
-            Cancel
+            {I18n.t("common.cancel")}
           </Button>
 
           { provider &&
             <Button
+              data-cy={`send-app-${provider.name}`}
               variant={'success'}
               onClick={handleSend}>
               Send App

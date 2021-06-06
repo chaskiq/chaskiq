@@ -482,6 +482,7 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                   <Button
                     onClick={() => handleOpen(service)}
                     aria-label="add"
+                    data-cy={`services-${service.name}-add`}
                     variant="outlined"
                     className="mr-2"
                     border={true}

@@ -27,22 +27,19 @@ describe('Bot Tasks', function () {
         cy.contains('Create a new one').click()
 
         cy.get('input#title').type('my super task')
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div/div[2]/div[3]/button[2]')
-          .click()
+        cy.get('[data-cy="bot-task-create"]').click()
 
         cy.contains('Editor').click()
 
         cy.contains('Add new path').click()
         cy.get('input[placeholder="write path title"]').type('foo')
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div[2]/div[3]/button[2]')
-          .click()
+        cy.get('[data-cy="bot-task-create-path"]').click()
 
         cy.contains('foo').click()
 
         cy.contains('Add new conversation part').click().then(() => {
           cy.contains('Add App').click()
-          cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div/div/ul/li[2]/div/div/div/div/div[2]/div/div/button')
-            .click()
+          cy.get('[data-cy=add-package-ContentShowcase]').click()
 
           cy.contains('Pick a template')
           cy.contains('Announcement').click()
@@ -57,12 +54,11 @@ describe('Bot Tasks', function () {
           cy.get('input[name="cover_image"]').should('not.have.value', '')
 
           cy.contains('Add to messenger home').click().then(() => {
-            cy.contains('Send App').should('not.be.disabled').then(() => {
-              cy.wait(2000)
-              cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/main/div/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div[2]/div[3]/button[2]')
-                .click()
-              cy.contains('Hello, World')
-            })
+            cy.contains('Send App').should('not.be.disabled')
+            
+            cy.get('[data-cy=send-app-ContentShowcase').click()
+            cy.contains('Hello, World')
+
           })
         })
       })

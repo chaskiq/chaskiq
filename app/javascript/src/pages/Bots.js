@@ -433,7 +433,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
               {I18n.t('common.cancel')}
             </Button>
 
-            <Button onClick={handleSubmit} className="mr-1">
+            <Button data-cy="bot-task-create" onClick={handleSubmit} className="mr-1">
               {I18n.t('common.create')}
             </Button>
           </React.Fragment>

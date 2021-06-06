@@ -135,7 +135,9 @@ const PathDialog = ({ _open, close, isOpen, submit }) => {
               Cancel
             </Button>
 
-            <Button onClick={handleSubmit} className="mr-1">
+            <Button onClick={handleSubmit} 
+              data-cy="bot-task-create-path" 
+              className="mr-1">
               Create
             </Button>
           </React.Fragment>

@@ -77,6 +77,7 @@ export default function ConversationItemList ({ app, conversation }) {
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
       className="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out"
+      data-cy={`conversation-item`}
     >
       <div className={`block w-2 ${stateClass()}`}></div>
       <div className="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">

@@ -367,7 +367,7 @@ const WrappedComponent = React.forwardRef(function Input (
   )
 })
 
-export default connect(mapStateToProps)(WrappedComponent)
+export default connect(mapStateToProps, null, null, { forwardRef: true })(WrappedComponent)
 
 
 function FormField ({ name, label, helperText, children, _error }) {
