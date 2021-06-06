@@ -617,7 +617,7 @@ vi:
     days ago: days ago
     filter_for: select filter for %{name}
     date_filter_for: Select the date filter for  %{name}
-    integer_filter_for: Select the integer filter for ${name}
+    integer_filter_for: Select the integer filter for %{name}
     match_criteria_for: Match criteria options for %{name}
     apply: apply
     is: is
