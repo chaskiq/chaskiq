@@ -37,6 +37,13 @@ pt:
     select_language: Selecione o idioma
     send_on_enter: Publicar no website
     away_mode: Modo Ausente
+    toggle_light_mode: Toggle light mode
+    toggle_dark_mode: Toggle dark mode
+  error_view:
+    title: Woops! something went wrong.
+    subtitle: Unfortunately 🤯
+    exp: try refreshing the page
+    cta: try to go home
   home:
     welcome: Bem-vindo à
     welcome_site: Chaskiq
@@ -186,7 +193,7 @@ pt:
     clone_title: Duplicar
     clone_description: clones a campanha
     activate: "Ativar Campanhas"
-    enables: habilitar campanha
+    enables: Enables campaign
     disables: Desativa a campanha
     state:
       enabled: ativo
