@@ -3,15 +3,6 @@ import React, { Component } from 'react'
 import { isEmpty } from 'lodash'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
-import PageHeader from '../components/PageHeader'
-import Content from '../components/Content'
-import Tabs from '../components/Tabs'
-import Progress from '../components/Progress'
-
-import DataTable from '../components/Table'
-
-import Button from '../components/Button'
-import DeleteDialog from '../components/DeleteDialog'
 
 import I18n from '../shared/FakeI18n'
 import {
@@ -22,24 +13,42 @@ import {
   useHistory,
   withRouter
 } from 'react-router-dom'
-import graphql from '../graphql/client'
 import serialize from 'form-serialize'
-import FieldRenderer, {
-  gridClasses
-} from '../components/forms/FieldRenderer'
+
 import {
+  FieldRenderer,
+  gridClasses,
+  FormDialog,
+  PageHeader,
+  Content,
+  Tabs,
+  Progress,
+  DataTable,
+  Button,
+  DeleteDialog,
+} from '@chaskiq/components'
+
+import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const {
+  setCurrentPage, setCurrentSection 
+} = actions
+
+const {
   OAUTH_APPS,
   OAUTH_APP,
   AUTHORIZED_OAUTH_APPS
-} from '../graphql/queries'
-import {
+} = queries
+const {
   CREATE_OAUTH_APP,
   UPDATE_OAUTH_APP,
   DELETE_OAUTH_APP
-} from '../graphql/mutations'
-
-import FormDialog from '../components/FormDialog'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
+} = mutations
 
 function formDefinitions () {
   return [

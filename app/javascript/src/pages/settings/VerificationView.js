@@ -1,10 +1,13 @@
 import React from 'react'
 import Prism from 'prismjs'
 import { connect } from 'react-redux'
-import FilterMenu from '../../components/FilterMenu'
 
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+
+import {
+  FilterMenu,
+  Button,
+  Input
+} from '@chaskiq/components'
 
 
 function VerificationView({app}){

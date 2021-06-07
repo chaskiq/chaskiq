@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 
-import I18n from '../../shared/FakeI18n'
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+import {
+  Button,
+  Input,
+} from '@chaskiq/components'
+
 import Hints from '../../shared/Hints'
 
 export default function EmailRequirement ({ settings, update }) {

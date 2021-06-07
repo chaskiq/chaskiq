@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+
+
+import {
+  Button,
+  Input
+} from '@chaskiq/components'
 
 import I18n from '../../shared/FakeI18n'
 

@@ -2,46 +2,52 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import UserData from '../components/UserData'
+
 import styled from '@emotion/styled'
 import { isEmpty } from 'lodash'
 
-import graphql from '../graphql/client'
-import Mapa from '../components/map'
-import DialogEditor from '../components/DialogEditor'
-import {
-  APP_USER_CONVERSATIONS,
-  APP_USER_VISITS
-} from '../graphql/queries'
-
-import {
-  START_CONVERSATION,
-  APP_USER_UPDATE_STATE,
-  APP_USER_UPDATE
-} from '../graphql/mutations'
-
-import Button from '../components/Button'
-import Avatar from '../components/Avatar'
-
-import {
-  getAppUser
-} from '../actions/app_user'
-
-
 import sanitizeHtml from 'sanitize-html'
-import DataTable from '../components/Table'
-import FilterMenu from '../components/FilterMenu'
 
 import {
+  UserData,
+  DialogEditor,
+  Mapa,
+  Button,
+  Avatar,
+  DataTable,
+  FilterMenu,
+  CircularProgress,
+  TextField,
+  icons
+} from '@chaskiq/components'
+
+import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+
+const { setCurrentSection , getAppUser } = actions
+
+const {
   EditIcon, ArchiveIcon,
   BlockIcon,
   UnsubscribeIcon,
   MoreIcon
-} from '../components/icons'
-import CircularProgress from '../components/Progress'
-import TextField from '../components/forms/Input'
+} = icons
 
-import { setCurrentSection } from '../actions/navigation'
+const {
+  APP_USER_CONVERSATIONS,
+  APP_USER_VISITS
+} = queries
+
+const {
+  START_CONVERSATION,
+  APP_USER_UPDATE_STATE,
+  APP_USER_UPDATE
+} = mutations
 
 const AppUserHeaderOverlay = styled.div`
   position: absolute;

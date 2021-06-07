@@ -1,7 +1,6 @@
 
 import React from 'react'
-import Panel from '../components/Panel'
-import I18n from '../shared/FakeI18n'
+import {Panel} from  '@chaskiq/components'
 
 const Hints = ({ type }) => {
   const content = I18n.t('hints')[type]

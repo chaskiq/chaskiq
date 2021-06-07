@@ -4,7 +4,6 @@ import Button from '../Button'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import graphql from '../../graphql/client'
 import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import Tabs from '../Tabs'
@@ -13,10 +12,16 @@ import {
   SeachIcon
 } from '../icons'
 
+
 import {
+  client as graphql,
+  queries,
+} from '@chaskiq/store'
+
+const {
   QUICK_REPLIES,
   QUICK_REPLY
-} from '../../graphql/queries'
+} = queries
 
 function QuickRepliesPanel (props) {
   const [open, setOpen] = React.useState(props.open)

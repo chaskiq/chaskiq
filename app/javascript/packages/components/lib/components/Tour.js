@@ -2,16 +2,7 @@ import React, { Component } from 'react'
 import styled from '@emotion/styled'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-
-import graphql from '../graphql/client'
-import {
-  UPDATE_CAMPAIGN,
-  CREATE_URL_UPLOAD,
-  CREATE_DIRECT_UPLOAD
-} from '../graphql/mutations'
-
-import { directUpload } from '../shared/fileUploader' // '../shared/fileUploader'
-
+import { directUpload } from  '../../../../src/shared/fileUploader' // '../shared/fileUploader'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import theme from './textEditor/theme'
@@ -20,6 +11,17 @@ import { DeleteForeverRounded, PlusIcon } from './icons'
 import Button from './Button'
 // import tw from "tailwind.macro";
 import tw from 'twin.macro'
+
+import {
+  client as graphql,
+  mutations
+} from '@chaskiq/store'
+
+const {
+  UPDATE_CAMPAIGN,
+  CREATE_URL_UPLOAD,
+  CREATE_DIRECT_UPLOAD
+} = mutations
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`

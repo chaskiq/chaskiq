@@ -10,7 +10,7 @@ import CustomizedInputBase from './searchBar'
 import {
   FilterMenu, 
   Button,
-  Icons,
+  icons,
   danteTheme
 } from '@chaskiq/components'
 
@@ -27,7 +27,7 @@ import { Global, css } from '@emotion/core'
 
 const {
    LangGlobeIcon, LaunchIcon
-} = Icons
+} = icons
 
 const {
   ARTICLE_SETTINGS

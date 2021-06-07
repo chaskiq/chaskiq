@@ -5,19 +5,24 @@ import Progress from '../../components/Progress'
 import ErrorBoundary from '../../components/ErrorBoundary'
 
 import { connect } from 'react-redux'
-import graphql from '../../graphql/client'
+
+import {
+  client as graphql,
+  queries
+} from '@chaskiq/store'
+
 import {
   DefinitionRenderer
 } from '../packageBlocks/components'
-import {
-  APP_PACKAGES_BY_CAPABILITY
-} from '../../graphql/queries'
+
 import {
   getPackage
 } from '../packageBlocks/utils'
 import { AppList } from '../packageBlocks/AppList'
-import I18n from '../../shared/FakeI18n'
 
+const {
+  APP_PACKAGES_BY_CAPABILITY
+} = queries
 
 function AppPackagePanel (props) {
   const [open, setOpen] = React.useState(props.open)

@@ -9,10 +9,14 @@ import Button from '../Button'
 import SearchInput from '../SearchInput'
 
 import {
+  actions
+} from '@chaskiq/store'
+
+const {
   getConversations,
   updateConversationsData,
   clearConversations
-} from '../../actions/conversations'
+} = actions
 
 function ConversationSearch ({ _app, dispatch, conversations, asButton }) {
   const [open, setOpen] = React.useState(false)

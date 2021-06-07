@@ -2,37 +2,44 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Button from '../../../components/Button'
-import TextField from '../../../components/forms/Input'
-import List, { ListItem, ListItemText } from '../../../components/List'
-import CircularProgress from '../../../components/Progress'
-import Input from '../../../components/forms/Input'
-import ContentHeader from '../../../components/PageHeader'
-import { AnchorLink } from '../../../shared/RouterLink'
-
-import FormDialog from '../../../components/FormDialog'
-import { setCurrentSection, setCurrentPage } from '../../../actions/navigation'
-
-import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
-import langs from '../../../shared/langsOptions'
-
-import graphql from '../../../graphql/client'
 import {
+  Button,
+  TextField,
+  List, ListItem, ListItemText,
+  CircularProgress,
+  Input,
+  ContentHeader,
+  FormDialog ,
+  ScrollableTabsButtonForce,
+} from '@chaskiq/components'
 
+import { AnchorLink } from '../../../shared/RouterLink'
+import langs from '../../../shared/langsOptions'
+import Dnd from './dnd'
+
+import {
+  client as graphql,
+  mutations,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+const {
   ARTICLE_SECTION_CREATE,
   ARTICLE_SECTION_DELETE,
   REORDER_ARTICLE,
   ADD_ARTICLES_TO_COLLECTION,
   ARTICLE_SECTION_EDIT
-} from '../../../graphql/mutations'
+} = mutations
 
-import {
-
+const {
   ARTICLE_COLLECTION_WITH_SECTIONS,
   ARTICLES_UNCATEGORIZED
-} from '../../../graphql/queries'
+} = queries
 
-import Dnd from './dnd'
+const {
+  setCurrentSection, setCurrentPage ,
+} = actions
 
 class CollectionDetail extends Component {
   state = {

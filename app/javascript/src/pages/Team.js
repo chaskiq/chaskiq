@@ -4,36 +4,47 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
-import PageHeader from '../components/PageHeader'
-import Content from '../components/Content'
-import Tabs from '../components/Tabs'
-import Progress from '../components/Progress'
-
-import DataTable from '../components/Table'
-import Input from '../components/forms/Input'
-import Button from '../components/Button'
-
-import graphql from '../graphql/client'
-import serialize from 'form-serialize'
-import FieldRenderer, { gridClasses } from '../components/forms/FieldRenderer'
-import { camelizeKeys } from '../actions/conversation'
-import Badge from '../components/Badge'
 
 import {
+  PageHeader,
+  Content,
+  Tabs,
+  Progress,
+  DataTable,
+  Input,
+  Button,
+  FieldRenderer, 
+  gridClasses,
+  Badge,
+  FormDialog
+} from '@chaskiq/components'
 
+
+import serialize from 'form-serialize'
+
+import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  camelizeKeys, 
+  successMessage, errorMessage,
+  setCurrentPage, setCurrentSection
+} = actions
+
+
+const {
   ROLE_AGENTS,
   PENDING_AGENTS
-} from '../graphql/queries'
-import {
+} = queries
+const {
   INVITE_AGENT,
   UPDATE_AGENT_ROLE,
   DESTROY_AGENT_ROLE
-} from '../graphql/mutations'
-
-import FormDialog from '../components/FormDialog'
-import { successMessage, errorMessage } from '../actions/status_messages'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
-
+} = mutations
 class TeamPage extends Component {
   state = {
     meta: {},

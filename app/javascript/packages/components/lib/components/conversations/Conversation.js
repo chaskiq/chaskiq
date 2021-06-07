@@ -5,43 +5,17 @@ import { connect } from 'react-redux'
 import { ThemeProvider } from 'emotion-theming'
 import Tooltip from 'rc-tooltip'
 
-import graphql from '../../graphql/client'
 import { last } from 'lodash'
 import Moment from 'react-moment'
-import { toCamelCase } from '../../shared/caseConverter'
+import { toCamelCase } from '../../../../../src/shared/caseConverter'
 import ConversationEditor from './Editor.js'
 import Rtc from '../rtc'
-import { updateRtcEvents } from '../../actions/rtc'
 import Progress from '../Progress'
 import Button from '../Button'
-import I18n from '../../shared/FakeI18n'
 import tw from 'twin.macro'
 import { DefinitionRenderer } from '../packageBlocks/components'
-import {
-  getConversation,
-  typingNotifier,
-  insertComment,
-  insertAppBlockComment,
-  insertNote,
-  clearConversation,
-  updateConversationState,
-  updateConversationPriority,
-  assignAgent,
-  setLoading,
-  updateConversationTagList
-} from '../../actions/conversation'
-
 import QuickRepliesDialog from './QuickReplyDialog'
 import ErrorBoundary from '../ErrorBoundary'
-
-import { successMessage } from '../../actions/status_messages'
-
-import {
-  appendConversation
-} from '../../actions/conversations'
-
-import { AGENTS } from '../../graphql/queries'
-
 import {
   getPackage
 } from '../packageBlocks/utils'
@@ -56,19 +30,44 @@ import {
   MoreIcon
 } from '../icons'
 
-import { getAppUser } from '../../actions/app_user'
-import { toggleDrawer } from '../../actions/drawer'
-
 import FilterMenu from '../FilterMenu'
 import theme from '../textEditor/theme'
 import themeDark from '../textEditor/darkTheme'
 import EditorContainer from '../textEditor/editorStyles'
 import DraftRenderer from '../textEditor/draftRenderer'
 import styled from '@emotion/styled'
-import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
 import RtcDisplayWrapper from '../rtcView' // './RtcWrapper'
 import TagDialog from '../TagDialog'
 import AppPackagePanel from './appPackagePanel'
+
+import {
+  client as graphql,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+ const {
+    setCurrentPage, 
+    setCurrentSection,
+    appendConversation,
+    toggleDrawer,
+    getAppUser,
+    updateRtcEvents,
+    getConversation,
+    typingNotifier,
+    insertComment,
+    insertAppBlockComment,
+    insertNote,
+    clearConversation,
+    updateConversationState,
+    updateConversationPriority,
+    assignAgent,
+    setLoading,
+    updateConversationTagList,
+    successMessage
+ } = actions
+
+const { AGENTS } = queries
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;

@@ -4,14 +4,24 @@ import Button from './Button'
 import FormDialog from './FormDialog'
 import Progress from './Progress'
 
-
 import { connect } from 'react-redux'
-import { getFileMetadata, directUpload } from '../shared/fileUploader'
-import graphql from '../graphql/client'
-import { CREATE_DIRECT_UPLOAD, IMPORT_CONTACTS } from '../graphql/mutations'
-import { successMessage } from '../actions/status_messages'
-
+import { getFileMetadata, directUpload } from  '../../../../src/shared/fileUploader'
 import serialize from 'form-serialize'
+
+import {
+  client as graphql,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const {
+  successMessage
+} = actions
+const { 
+  CREATE_DIRECT_UPLOAD, 
+  IMPORT_CONTACTS 
+} = mutations
+
 
 function optionsForFilter () {
   const options = [

@@ -1,18 +1,28 @@
 import React, { Component } from 'react'
-
-import Button from '../../components/Button'
-
-import SegmentManager from '../../components/segmentManager'
-import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
-import { PREDICATES_SEARCH } from '../../graphql/mutations'
-import graphql from '../../graphql/client'
-import userFormat from '../../components/Table/userFormat'
-import { toggleDrawer } from '../../actions/drawer'
-import { getAppUser } from '../../actions/app_user'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Input from '../../components/forms/Input'
+
+import {
+ Button,
+ SegmentManager,
+ parseJwt, generateJWT,
+ Input
+} from '@chaskiq/components'
+
 import Hints from '../../shared/Hints'
+
+import {
+  client as graphql,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  toggleDrawer,
+  getAppUser
+} = actions
+
+const { PREDICATES_SEARCH } = mutations
 
 function InboundSettings ({ settings, update, dispatch }) {
   const [state, setState] = React.useState({

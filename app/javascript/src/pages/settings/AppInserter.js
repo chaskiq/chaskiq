@@ -1,11 +1,5 @@
 import React from 'react'
-
-import Button from '../../components/Button'
-
-
 import arrayMove from 'array-move'
-
-
 import { connect } from 'react-redux'
 
 import {
@@ -14,23 +8,27 @@ import {
   sortableHandle
 } from 'react-sortable-hoc'
 
-
+import {
+  client as graphql,
+  queries,
+} from '@chaskiq/store'
 
 import {
+  Button,
+  InserterForm,
+  DefinitionRenderer,
+  icons
+} from '@chaskiq/components'
+
+const {
   APP_PACKAGES_BY_CAPABILITY
-} from '../../graphql/queries'
-import graphql from '../../graphql/client'
-import {
+} = queries
+
+
+const {
   QueueIcon,
   DeleteIcon
-} from '../../components/icons'
-
-import {
-  DefinitionRenderer,
-} from '../../components/packageBlocks/components'
-
-
-import InserterForm from '../../components/packageBlocks/InserterForm'
+} = icons
 
 
 const SortableContainer = sortableContainer(({ children }) => {

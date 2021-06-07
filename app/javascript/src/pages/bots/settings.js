@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react'
 
-import Button from '../../components/Button'
-import Tabs from '../../components/Tabs'
-
-import ContentHeader from '../../components/PageHeader'
-import Content from '../../components/Content'
-import Input from '../../components/forms/Input'
-import graphql from '../../graphql/client'
-
-import { AGENTS, BOT_TASKS } from '../../graphql/queries'
-
-import { updateApp } from '../../actions/app'
-import { setCurrentPage } from '../../actions/navigation'
+import {
+  Button,        
+  Tabs,          
+  ContentHeader, 
+  Content,       
+  Input
+} from '@chaskiq/components'        
 
 import I18n from '../../shared/FakeI18n'
+
+import {
+  client as graphql,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  updateApp,
+  setCurrentPage 
+} = actions
+
+
+const { AGENTS, BOT_TASKS } = queries
+
 
 const SettingsForm = ({ app, data, _errors, dispatch }) => {
   const [tabValue, setTabValue] = useState(0)

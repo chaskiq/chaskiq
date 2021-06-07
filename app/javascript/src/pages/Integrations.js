@@ -1,51 +1,68 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { camelizeKeys } from '../actions/conversation'
 import Tooltip from 'rc-tooltip'
 import { isEmpty } from 'lodash'
-import Progress from '../components/Progress'
-import Content from '../components/Content'
-import FormDialog from '../components/FormDialog'
-import DeleteDialog from '../components/DeleteDialog'
-import Tabs from '../components/Tabs'
-import PageHeader from '../components/PageHeader'
 import Hints from '../shared/Hints'
 import I18n from '../shared/FakeI18n'
-import Button from '../components/Button'
-import Badge from '../components/Badge'
-import FieldRenderer from '../components/forms/FieldRenderer'
-import Avatar from '../components/Avatar'
-import logos from '../shared/logos'
 
-import { EditIcon, AddIcon, DeleteIcon } from '../components/icons'
-import List, {
+import {
+  Progress,
+  Content,
+  FormDialog,
+  DeleteDialog,
+  Tabs,
+  PageHeader,
+  Button,
+  Badge,
+  FieldRenderer,
+  Avatar,
+  List,
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent,
-  ItemAvatar
-} from '../components/List'
-import { errorMessage, successMessage } from '../actions/status_messages'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
+  ItemAvatar,
+  icons
+} from '@chaskiq/components'
 
-import graphql from '../graphql/client'
+import logos from '../shared/logos'
+
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import serialize from 'form-serialize'
+
 import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { EditIcon, AddIcon, DeleteIcon } = icons
+
+const { 
+  errorMessage, successMessage , 
+  setCurrentPage, setCurrentSection ,
+  camelizeKeys
+} = actions
+
+
+const {
   APP_PACKAGES,
   APP_PACKAGE_INTEGRATIONS,
   AGENT_APP_PACKAGES,
   AGENT_APP_PACKAGE
-} from '../graphql/queries'
-import {
+} = queries
+
+const {
   CREATE_INTEGRATION,
   UPDATE_INTEGRATION,
   DELETE_INTEGRATION,
   CREATE_PACKAGE,
   UPDATE_PACKAGE,
   DELETE_PACKAGE
-} from '../graphql/mutations'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import serialize from 'form-serialize'
+} = mutations
+
 
 function Integrations ({ app, dispatch }) {
   const [open, setOpen] = useState(false)

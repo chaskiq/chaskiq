@@ -1,11 +1,18 @@
 import React, { useRef } from 'react'
 import { connect } from 'react-redux'
 // import { Redirect } from 'react-router-dom'
-import { authenticate, doSignout } from '../../actions/auth'
-import { getCurrentUser } from '../../actions/current_user'
 
 import logo from '../../images/logo.png'
 import serialize from 'form-serialize'
+
+import {
+  actions
+} from '@chaskiq/store'
+
+const {
+  authenticate, doSignout,
+  getCurrentUser
+} = actions
 
 function Login ({ dispatch }) {
   const form = useRef(null)

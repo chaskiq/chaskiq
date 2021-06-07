@@ -1,30 +1,17 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setCurrentPage, setCurrentSection } from '../../actions/navigation'
-import { successMessage } from '../../actions/status_messages'
 import FormDialog from '../FormDialog'
-import defaultFields from '../../shared/defaultFields'
 import Button from '../Button'
 import { InlineFilterDialog } from '../segmentManager'
 import SegmentItemButton from '../segmentManager/itemButton'
-import I18n from '../../shared/FakeI18n'
+
+import defaultFields from '../../../../../src/shared/defaultFields'
 import Input from '../forms/Input'
 import arrayMove from 'array-move'
 
-import { AGENTS, ASSIGNMENT_RULES } from '../../graphql/queries'
-
-import {
-  CREATE_ASSIGNMENT_RULE,
-  EDIT_ASSIGNMENT_RULE,
-  DELETE_ASSIGNMENT_RULE,
-  UPDATE_RULE_PRIORITIES
-} from '../../graphql/mutations'
-
-import graphql from '../../graphql/client'
 import serialize from 'form-serialize'
 import { QueueIcon } from '../icons'
-
 import PageHeader from '../PageHeader'
 
 import {
@@ -32,6 +19,25 @@ import {
   sortableElement,
   sortableHandle
 } from 'react-sortable-hoc'
+
+import {
+  client as graphql,
+  queries,
+  mutations
+} from '@chaskiq/store'
+
+
+import { actions } from '@chaskiq/store'
+const { successMessage, setCurrentPage, setCurrentSection } = actions
+
+const { AGENTS, ASSIGNMENT_RULES } = queries
+
+const {
+  CREATE_ASSIGNMENT_RULE,
+  EDIT_ASSIGNMENT_RULE,
+  DELETE_ASSIGNMENT_RULE,
+  UPDATE_RULE_PRIORITIES
+} = mutations
 
 const DragHandle = sortableHandle(() => (
   <div>

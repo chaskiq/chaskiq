@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
-
-import Button from '../../components/Button'
-
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import FormDialog from '../../components/FormDialog'
 import Hints from '../../shared/Hints'
-import List, {
+import serialize from 'form-serialize'
+
+import {
+  List,
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
-} from '../../components/List'
-import serialize from 'form-serialize'
-import UpgradeButton from '../../components/upgradeButton'
-
-import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
+  ItemListSecondaryContent,
+  Button,
+  FormDialog,
+  UpgradeButton,
+  Input,
+  icons
+} from '@chaskiq/components'
 
 import defaultFields from '../../shared/defaultFields'
-import Input from '../../components/forms/Input'
+
+const { DeleteIcon, PlusIcon, EditIcon } = icons
+
 
 function UserDataFields ({ app, _settings, update, _dispatch }) {
   const [fields, setFields] = useState(app.customFields || [])

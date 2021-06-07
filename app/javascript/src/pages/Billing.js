@@ -1,30 +1,34 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import ContentHeader from '../components/PageHeader'
-import Content from '../components/Content'
 import { isEmpty } from 'lodash'
 
-import Tabs from '../components/Tabs'
-import CircularProgress from '../components/Progress'
+import { 
+  ContentHeader, 
+  Content, 
+  Tabs,
+  CircularProgress
+} from '@chaskiq/components'
 
 import {
+  client as graphql,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+const {
   setCurrentSection,
-  setCurrentPage
-} from '../actions/navigation'
-
-import {
+  setCurrentPage,
   clearSubscriptionState
-} from '../actions/paddleSubscription'
+} = actions
 
-import {
+
+const {
   PLANS,
   SUBSCRIPTION_TRANSACTIONS,
   SUBSCRIPTION_DETAILS,
   UPDATE_SUBSCRIPTION_PLAN
-} from '../graphql/queries'
-
-import graphql from '../graphql/client'
+} = queries
 
 function Billing ({
   current_user,

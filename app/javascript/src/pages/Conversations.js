@@ -3,26 +3,32 @@ import { Switch, Route, withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
+
 import {
+  ConversationSearch,
+  FilterMenu,
+  ConversationItemList,
+  AssignmentRules,
+  Conversation,
+  Progress,
+  EmptyView,
+  Button,
+  ConversationSidebar
+} from '@chaskiq/components'
+  
+import emptyImage from '../images/empty-icon8.png'
+import I18n from '../shared/FakeI18n'
+
+import {
+  actions
+} from '@chaskiq/store'
+
+const { 
+  setCurrentPage, setCurrentSection,
   getConversations,
   updateConversationsData,
   clearConversations
-} from '../actions/conversations'
-
-import ConversationSearch from '../components/conversations/Search'
-
-import FilterMenu from '../components/FilterMenu'
-
-import ConversationItemList from '../components/conversations/ItemList'
-import AssignmentRules from '../components/conversations/AssignmentRules'
-import Conversation from '../components/conversations/Conversation'
-import Progress from '../components/Progress'
-import EmptyView from '../components/EmptyView'
-import Button from '../components/Button'
-import ConversationSidebar from '../components/conversations/Sidebar'
-import emptyImage from '../images/empty-icon8.png'
-import I18n from '../shared/FakeI18n'
+} = actions
 
 // import {toCamelCase} from '../shared/caseConverter'
 

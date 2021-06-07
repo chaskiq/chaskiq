@@ -5,7 +5,11 @@ import { Transition } from '@headlessui/react'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 
-import { clearStatusMessage } from '../actions/status_messages'
+import { actions } from '@chaskiq/store'
+
+const {
+  clearStatusMessage
+} = actions
 
 function CustomizedSnackbars (props) {
   const [open, setOpen] = React.useState(!isEmpty(props.status_message))

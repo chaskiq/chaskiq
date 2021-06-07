@@ -1,18 +1,30 @@
 import React from 'react'
-import PageHeader from '../components/PageHeader'
-import Progress from '../components/Progress'
 import moment from 'moment'
-import HeatMap from '../components/charts/heatMap'
-import Pie from '../components/charts/pie'
-import Count from '../components/charts/count'
-import DashboardCard from '../components/dashboard/card'
-import { DASHBOARD } from '../graphql/queries'
-import graphql from '../graphql/client'
-import { setCurrentSection } from '../actions/navigation'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Content from '../components/Content'
 import I18n from '../shared/FakeI18n'
+
+import {
+  Content,
+  PageHeader,
+  Progress,
+  HeatMap,
+  Pie,
+  Count,
+  DashboardCard 
+} from '@chaskiq/components'
+
+import {
+  client as graphql,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+const { setCurrentSection } = actions
+
+
+const { DASHBOARD } = queries
+
 
 export function Home () {
   return (

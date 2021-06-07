@@ -1,46 +1,59 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router-dom'
-import UpgradeButton from '../components/upgradeButton'
 
 import { connect } from 'react-redux'
-import Content from '../components/Content'
-import { errorMessage, successMessage } from '../actions/status_messages'
-
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
-
-import { camelizeKeys } from '../actions/conversation'
-
-import PageHeader from '../components/PageHeader'
-import Tabs from '../components/Tabs'
-import Panel from '../components/Panel'
 import Hints from '../shared/Hints'
-import DeleteDialog from '../components/DeleteDialog'
-import EmptyView from '../components/EmptyView'
 
-import { EditIcon, AddIcon, DeleteIcon } from '../components/icons'
-import FormDialog from '../components/FormDialog'
-import Button from '../components/Button'
-import Badge from '../components/Badge'
-import FieldRenderer, { gridClasses } from '../components/forms/FieldRenderer'
-import graphql from '../graphql/client'
-import I18n from '../shared/FakeI18n'
 
-import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '../graphql/queries'
 import {
-  WEBHOOK_CREATE,
-  WEBHOOK_UPDATE,
-  WEBHOOK_DELETE
-} from '../graphql/mutations'
-
-import List, {
+  UpgradeButton,
+  Content,
+  PageHeader,
+  Tabs,
+  Panel,
+  DeleteDialog,
+  EmptyView,
+  FormDialog,
+  Button,
+  Badge,
+  FieldRenderer, 
+  gridClasses,
+  List,
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
-} from '../components/List'
+  ItemListSecondaryContent,
+  icons
+ } from '@chaskiq/components'
+
+import I18n from '../shared/FakeI18n'
 
 import serialize from 'form-serialize'
+
+import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  errorMessage, 
+  successMessage,
+  setCurrentPage, 
+  setCurrentSection,
+  camelizeKeys 
+} = actions
+
+const { EditIcon, AddIcon, DeleteIcon } = icons
+
+const { EVENT_TYPES, OUTGOING_WEBHOOKS } = queries
+const {
+  WEBHOOK_CREATE,
+  WEBHOOK_UPDATE,
+  WEBHOOK_DELETE
+} = mutations
 
 function Settings ({ app, dispatch }) {
   const [open, setOpen] = useState(false)

@@ -1,20 +1,31 @@
 import React, { Component } from 'react'
-import graphql from '../../graphql/client'
-import {
 
-  PREDICATES_SEARCH
-} from '../../graphql/mutations'
-// import {} from '../../graphql/queries'
-import { parseJwt, generateJWT } from '../../components/segmentManager/jwt'
-import SegmentManager from '../../components/segmentManager'
-
-import Button from '../../components/Button'
-import userFormat from '../../components/Table/userFormat'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { toggleDrawer } from '../../actions/drawer'
-import { getAppUser } from '../../actions/app_user'
 
+import {
+  parseJwt, 
+  generateJWT,
+  SegmentManager,
+  Button,
+  userFormat,
+} from '@chaskiq/components'
+
+import {
+  client as graphql,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  toggleDrawer, getAppUser 
+} = actions
+
+
+
+const {
+  PREDICATES_SEARCH
+} = mutations
 class Segment extends Component {
   constructor (props) {
     super(props)

@@ -1,6 +1,10 @@
 import React from 'react'
-import Content from '../components/Content'
-import EmptyView from '../components/EmptyView'
+
+import {
+  Content,
+  EmptyView
+} from '@chaskiq/components'
+
 import image from '../images/notfound-icon8.png'
 import logo from '../images/logo.png'
 import { Link } from 'react-router-dom'

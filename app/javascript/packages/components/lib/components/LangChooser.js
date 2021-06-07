@@ -1,15 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
+
 import {
+  FormDialog,
+  Input,
+  CircularProgress
+} from '@chaskiq/components'
+
+
+import {
+  client as graphql,
+  mutations,
+  actions,
+} from '@chaskiq/store'
+
+const { getCurrentUser } = actions
+
+
+const {
   UPDATE_AGENT
-} from '../graphql/mutations'
-import FormDialog from '../components/FormDialog'
+} = mutations
 
-import graphql from '../graphql/client'
-import { getCurrentUser } from '../actions/current_user'
-
-import Input from '../components/forms/Input'
-import CircularProgress from '../components/Progress'
 
 function LangChooser ({
   open,

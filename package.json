@@ -2,6 +2,9 @@
   "name": "chaskiq",
   "private": true,
   "license": "AGPL-3.0-or-later",
+  "workspaces": [
+    "app/javascript/packages/*"
+  ],
   "dependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/node": "^7.12.1",
@@ -90,7 +93,9 @@
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "@chaskiq/components": "0.0.0",
+    "@chaskiq/store": "0.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

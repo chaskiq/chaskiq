@@ -6,7 +6,6 @@ import {
   LabelIcon,
   LeftArrow
 } from '../icons'
-import { updateApp } from '../../actions/app'
 import AppInserter from './AppInserter'
 import Button from '../Button'
 import ErrorBoundary from '../ErrorBoundary'
@@ -18,6 +17,13 @@ import {
 import {
   getPackage
 } from '../packageBlocks/utils'
+
+import {
+  actions
+} from '@chaskiq/store'
+
+const { updateApp } = actions
+
 
 function localeDate (date) {
   return new Date(date).toLocaleString()

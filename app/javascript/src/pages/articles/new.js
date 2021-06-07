@@ -2,36 +2,49 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Avatar from '../../components/Avatar'
-import Button, { DropdownButton } from '../../components/Button'
-import Input from '../../components/forms/Input'
-import ContentHeader from '../../components/PageHeader'
-import FilterMenu from '../../components/FilterMenu'
-import Tabs from '../../components/Tabs'
-import ArticleEditor from './editor'
 
-import graphql from '../../graphql/client'
 
 import {
+  Avatar,
+  Button,
+  DropdownButton,
+  Input,
+  ContentHeader,
+  FilterMenu,
+  Tabs,
+  icons
+} from '@chaskiq/components'
+
+import ArticleEditor from './editor'
+
+import langs from '../../shared/langsOptions'
+import I18n from '../../shared/FakeI18n'
+
+import {
+  client as graphql,
+  mutations,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+const { GestureIcon, CheckCircle } = icons
+
+const { 
+  setCurrentSection, setCurrentPage , successMessage 
+} = actions
+
+
+const {
   CREATE_ARTICLE,
   EDIT_ARTICLE,
   ARTICLE_BLOB_ATTACH,
   TOGGLE_ARTICLE,
   ARTICLE_ASSIGN_AUTHOR,
   ARTICLE_COLLECTION_CHANGE
-} from '../../graphql/mutations'
+} = mutations
 
-import { ARTICLE, AGENTS, ARTICLE_COLLECTIONS } from '../../graphql/queries'
+const { ARTICLE, AGENTS, ARTICLE_COLLECTIONS } = queries
 
-import { GestureIcon, CheckCircle } from '../../components/icons'
-// import GestureIcon from '@material-ui/icons/Gesture'
-// import CheckCircle from '@material-ui/icons/CheckCircle'
-// import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
-import langs from '../../shared/langsOptions'
-
-import { successMessage } from '../../actions/status_messages'
-import I18n from '../../shared/FakeI18n'
 
 
 const options = [

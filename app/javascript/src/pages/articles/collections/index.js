@@ -2,34 +2,44 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Button from '../../../components/Button'
-import TextField from '../../../components/forms/Input'
-
-import ContentHeader from '../../../components/PageHeader'
-
-import FormDialog from '../../../components/FormDialog'
-import { setCurrentSection, setCurrentPage } from '../../../actions/navigation'
-import ScrollableTabsButtonForce from '../../../components/scrollingTabs'
-import langs from '../../../shared/langsOptions'
-
-import graphql from '../../../graphql/client'
 import {
+Button,                      
+TextField,                   
+ContentHeader,               
+FormDialog,                  
+ScrollableTabsButtonForce,   
+Table
+} from '@chaskiq/components'                      
+
+
+import { arrayMove } from 'react-sortable-hoc'
+import langs from '../../../shared/langsOptions'
+import { getFileMetadata, directUpload } from '../../../shared/fileUploader'
+
+import {
+  client as graphql,
+  mutations,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  setCurrentSection, setCurrentPage,
+  errorMessage, successMessage 
+} = actions
+
+
+const {
   ARTICLE_COLLECTION_CREATE,
   ARTICLE_COLLECTION_EDIT,
   ARTICLE_COLLECTION_DELETE,
   ARTICLE_COLLECTION_REORDER,
   CREATE_DIRECT_UPLOAD
-} from '../../../graphql/mutations'
+} = mutations
 
-import {
+const {
   ARTICLE_COLLECTIONS
-} from '../../../graphql/queries'
-import Table from '../../../components/Table'
-
-import { arrayMove } from 'react-sortable-hoc'
-import { errorMessage, successMessage } from '../../../actions/status_messages'
-import { getFileMetadata, directUpload } from '../../../shared/fileUploader'
-
+} = queries
 class Collections extends Component {
   state = {
     isOpen: false,

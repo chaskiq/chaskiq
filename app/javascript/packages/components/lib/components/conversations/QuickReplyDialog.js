@@ -1,13 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { successMessage, errorMessage } from '../../actions/status_messages'
 import FormDialog from '../FormDialog'
 import Button from '../Button'
-import graphql from '../../graphql/client'
-
 import {
+  client as graphql,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const {
+  successMessage, errorMessage
+} = actions
+
+const {
   QUICK_REPLY_CREATE
-} from '../../graphql/mutations'
+} = mutations
 
 function QuickReplyDialog ({
   open,

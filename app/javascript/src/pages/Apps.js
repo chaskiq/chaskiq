@@ -1,21 +1,28 @@
 // src/App.js
 import React from 'react'
-import Card from '../components/Card'
 import { Link, withRouter } from 'react-router-dom'
 import I18n from '../shared/FakeI18n'
 
 import bg from '../images/bg/welcome-icon8.png'
 
 import styled from '@emotion/styled'
-import graphql from '../graphql/client'
-import { APPS } from '../graphql/queries'
-import LoadingView from '../components/loadingView'
 
+import {
+  client as graphql,
+  queries,
+  actions,
+} from '@chaskiq/store'
+
+import {LoadingView, Badge, Card} from '@chaskiq/components'
 import { connect } from 'react-redux'
-import { clearApp } from '../actions/app'
-import { setCurrentSection } from '../actions/navigation'
 import logo from '../images/favicon.png'
-import Badge from '../components/Badge'
+
+const { APPS } = queries
+const {
+  setCurrentSection,
+  clearApp
+} = actions
+
 const Container = styled.div`
   background: url(${bg});
   background-repeat: no-repeat;

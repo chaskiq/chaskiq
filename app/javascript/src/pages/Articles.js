@@ -4,48 +4,54 @@ import React, { Component } from 'react'
 import { withRouter, Route, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Content from '../components/Content'
-import ContentHeader from '../components/PageHeader'
-import Tabs from '../components/Tabs'
-
-import Button from '../components/Button'
-
-import CircularProgress from '../components/Progress'
-import { errorMessage, successMessage } from '../actions/status_messages'
 import Hints from '../shared/Hints'
-
-import DeleteDialog from '../components/DeleteDialog'
-
 import { LinkButton } from '../shared/RouterLink'
-
-import ScrollableTabsButtonForce from '../components/scrollingTabs'
 import langs from '../shared/langsOptions'
 import isEmpty from 'lodash/isEmpty'
 
-import graphql from '../graphql/client'
-import { ARTICLES, ARTICLE_SETTINGS } from '../graphql/queries'
 import {
-
-  DELETE_ARTICLE,
-  ARTICLE_SETTINGS_UPDATE,
-  ARTICLE_SETTINGS_DELETE_LANG
-} from '../graphql/mutations'
-
-import DataTable from '../components/Table'
+  client as graphql,
+  mutations,
+  queries,
+  actions
+} from '@chaskiq/store'
 import ArticlesNew from './articles/new'
 import Settings from './articles/settings'
 
 import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
-import { setCurrentSection, setCurrentPage } from '../actions/navigation'
 
-import Badge from '../components/Badge'
+const { 
+  errorMessage, successMessage ,
+   setCurrentSection, setCurrentPage 
+} = actions
+
 
 import {
+  DataTable,
+  Badge,
+  Content,
+  ContentHeader,
+  Tabs,
+  Button,
+  CircularProgress,
+  DeleteDialog,
+  ScrollableTabsButtonForce,
+  icons
+} from '@chaskiq/components'
+
+const {
   AddIcon, GestureIcon, CheckCircleIcon
-} from '../components/icons'
-import I18n from '../shared/FakeI18n'
+} = icons
+
+
+const { ARTICLES, ARTICLE_SETTINGS } = queries
+const {
+  DELETE_ARTICLE,
+  ARTICLE_SETTINGS_UPDATE,
+  ARTICLE_SETTINGS_DELETE_LANG
+} = mutations
 class Articles extends Component {
   state = {
     meta: {},

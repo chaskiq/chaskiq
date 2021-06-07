@@ -5,15 +5,21 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import timezones from '../shared/timezones'
 
-import graphql from '../graphql/client'
 import SettingsForm from '../pages/settings/form'
-import { CREATE_APP } from '../graphql/mutations'
-
-import { errorMessage, successMessage } from '../actions/status_messages'
-
-import { clearApp } from '../actions/app'
-
 import image from '../images/up-icon8.png'
+
+import {
+  client as graphql,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  errorMessage, successMessage, clearApp 
+} = actions
+
+
+const { CREATE_APP } = mutations
 
 class NewApp extends Component {
   state = {

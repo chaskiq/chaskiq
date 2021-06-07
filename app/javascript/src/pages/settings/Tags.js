@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 
-import Button from '../../components/Button'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import FormDialog from '../../components/FormDialog'
 import Hints from '../../shared/Hints'
-import List, {
+
+import serialize from 'form-serialize'
+
+import {
+  Button,
+  FormDialog,
+  List,
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
-} from '../../components/List'
-import serialize from 'form-serialize'
+  ItemListSecondaryContent,
+  Input,
+  icons
+} from '@chaskiq/components'
 
-import { DeleteIcon, PlusIcon, EditIcon } from '../../components/icons'
-
-import Input from '../../components/forms/Input'
+const { DeleteIcon, PlusIcon, EditIcon } = icons
 
 function CustomizationColors ({ app, update, _dispatch }) {
   const [fields, setFields] = useState(app.tagList || [])

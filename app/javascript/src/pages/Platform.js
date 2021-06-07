@@ -1,12 +1,17 @@
 import React from 'react'
 
-import PageHeader from '../components/PageHeader'
-import Content from '../components/Content'
-import ContactManager from '../components/ContactManager'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
+
 import {
+  actions
+} from '@chaskiq/store'
+
+import {AppContent, PageHeader, Content, ContactManager} from '@chaskiq/components'
+
+const { 
+  setCurrentPage, 
+  setCurrentSection,
   dispatchSegmentUpdate,
   fetchAppSegment,
   updateSegment,
@@ -14,15 +19,10 @@ import {
   deleteSegment,
   addPredicate,
   updatePredicate,
-  deletePredicate
-} from '../actions/segments'
-import { searchAppUsers } from '../actions/app_users'
-
-import { setApp } from '../actions/app'
-
-import AppContent from '../components/segmentManager/container'
-
-// <PageContainer>jiiojioj</PageContainer>
+  deletePredicate,
+  searchAppUsers,
+  setApp 
+} = actions
 
 function Platform ({
   dispatch,

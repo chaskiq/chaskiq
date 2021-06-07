@@ -2,18 +2,14 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import Content from '../components/Content'
 
-import Tabs from '../components/Tabs'
+import {
+  Content,
+  ContentHeader,
+  Tabs 
+} from '@chaskiq/components'
 
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 import SettingsForm from './settings/form'
-
-import graphql from '../graphql/client'
-import { APP } from '../graphql/queries'
-import { CREATE_DIRECT_UPLOAD } from '../graphql/mutations'
-
-import ContentHeader from '../components/PageHeader'
 import AvailabilitySettings from './settings/Availability'
 import EmailRequirement from './settings/EmailRequirement'
 import LanguageSettings from './settings/Language'
@@ -22,8 +18,19 @@ import StylingSettings from './settings/Styling'
 import AppInserter from './settings/AppInserter'
 import { getFileMetadata, directUpload } from '../shared/fileUploader'
 
-import { updateApp } from '../actions/app'
+import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
 
+const { 
+  setCurrentPage, setCurrentSection, updateApp 
+} = actions
+
+const { APP } = queries
+const { CREATE_DIRECT_UPLOAD } = mutations
 class AppSettingsContainer extends Component {
   constructor (props) {
     super(props)

@@ -9,13 +9,18 @@ import SegmentItemButton from '../segmentManager/itemButton'
 import Table from '../Table/index'
 import Map from '../map/index.js'
 
-import { dispatchSegmentUpdate } from '../../actions/segments'
-
-import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
 import userFormat from '../Table/userFormat'
 import Progress from '../Progress'
-import { toggleDrawer } from '../../actions/drawer'
-import { getAppUser } from '../../actions/app_user'
+import {
+  actions
+} from '@chaskiq/store'
+
+const { 
+  dispatchSegmentUpdate ,
+  setCurrentSection, setCurrentPage ,
+  toggleDrawer ,
+  getAppUser 
+} = actions
 
 const Wrapper = styled.div`
   //min-width: 600px;

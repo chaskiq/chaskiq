@@ -3,17 +3,12 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Tooltip from 'rc-tooltip'
 
-import icon from '../images/favicon.png'
-import FilterMenu from '../components/FilterMenu'
-import { signout } from '../actions/auth'
-import WebSetup from '../components/webSetup'
-import LangChooser from '../components/LangChooser'
-import Toggle from '../components/forms/Toggle'
+import icon from  '../../../../src/images/favicon.png' // '../images/favicon.png'
+
 import {
   MoreIcon,
   WebhooksIcon,
   ApiIcon,
-
   DashboardIcon,
   PlatformIcon,
   ConversationChatIcon,
@@ -43,15 +38,23 @@ import {
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
 
-import I18n from '../shared/FakeI18n'
-
 import {
-  UPDATE_AGENT
-} from '../graphql/mutations'
-import graphql from '../graphql/client'
-import { getCurrentUser } from '../actions/current_user'
-import {toggleTheme} from '../actions/theme'
+  client as graphql,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+import FilterMenu from '../components/FilterMenu'
+import WebSetup from '../components/webSetup'
+import LangChooser from '../components/LangChooser'
+import Toggle from '../components/forms/Toggle'
 import Badge from './Badge'
+
+const {
+  UPDATE_AGENT
+} = mutations
+
+const { getCurrentUser, toggleTheme, signout} = actions
 
 function mapStateToProps (state) {
   const {

@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react'
 import I18n from '../../shared/FakeI18n'
 import Tooltip from 'rc-tooltip'
 
-import Button from '../../components/Button'
 import Hints from '../../shared/Hints'
-import { PlusIcon, DeleteIcon } from '../../components/icons'
-import Input from '../../components/forms/Input'
-// const options = I18n.t("settings.availability.reply_time.options")
-/* [
-  {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"},
-  {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
-  {value: "hours", label: "El equipo suele responder en cuestión de horas."},
-  {value: "1 day", label: "El equipo suele responder en un día."},
-] */
+
+import {
+  Button,
+  Input,
+  icons
+} from '@chaskiq/components'
+
+const {  PlusIcon, DeleteIcon } = icons
 
 export default function LanguageForm ({ settings, update, _namespace, _fields }) {
   const [selectedOption, setSelectedOption] = React.useState(

@@ -1,10 +1,7 @@
 import React from 'react'
 
-import Sidebar from '../components/sidebar'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import { isEmpty } from 'lodash'
-import { camelizeKeys } from '../actions/conversation'
-
 import Dashboard from './Dashboard'
 import Platform from './Platform'
 import Conversations from './Conversations'
@@ -16,9 +13,6 @@ import Integrations from './Integrations'
 import Articles from './Articles'
 import Bots from './Bots'
 import Campaigns from './Campaigns'
-import CampaignHome from './campaigns/home'
-import Progress from '../components/Progress'
-import UserSlide from '../components/UserSlide'
 import Profile from './Profile'
 import AgentProfile from './AgentProfile'
 import Billing from './Billing'
@@ -29,26 +23,32 @@ import { connect } from 'react-redux'
 import UpgradePage from './UpgradePage'
 // import Pricing from '../pages/pricingPage'
 
-import { getCurrentUser } from '../actions/current_user'
-
 import actioncable from 'actioncable'
-import { setApp } from '../actions/app'
-import { setSubscriptionState } from '../actions/paddleSubscription'
-
-import { updateAppUserPresence } from '../actions/app_users'
-
-import { updateRtcEvents } from '../actions/rtc'
-import { updateCampaignEvents } from '../actions/campaigns'
+import CampaignHome from './campaigns/home'
+import {Progress, UserSlide} from '@chaskiq/components'
 
 import {
-  appendConversation
-} from '../actions/conversations'
+  actions
+} from '@chaskiq/store'
 
-import { toggleDrawer } from '../actions/drawer'
+const  {
+  camelizeKeys,        
+  getCurrentUser,       
+  setApp,       
+  setSubscriptionState, 
+  updateAppUserPresence,
+  updateRtcEvents,      
+  updateCampaignEvents, 
+  appendConversation,
+  toggleDrawer
+} = actions 
 
-import UserProfileCard from '../components/UserProfileCard'
-import LoadingView from '../components/loadingView'
-import ErrorBoundary from '../components/ErrorBoundary'
+import {
+  Sidebar,
+  UserProfileCard,
+  LoadingView ,
+  ErrorBoundary 
+} from '@chaskiq/components'
 
 function AppContainer ({
   match,

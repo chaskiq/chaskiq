@@ -3,33 +3,41 @@ import { withRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import arrayMove from 'array-move'
 
-import Button from '../components/Button'
-import Input from '../components/forms/Input'
-
-import ContentHeader from '../components/PageHeader'
-import Content from '../components/Content'
-import Table from '../components/Table'
-
 import { AnchorLink } from '../shared/RouterLink'
-import graphql from '../graphql/client'
-import { BOT_TASKS } from '../graphql/queries'
 import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+import BotEditor from './bots/editor'
+
+
+import SettingsForm from './bots/settings'
+
+import { FormDialog, 
+  Badge,
+  EmptyView,
+  DeleteDialog,
+  FilterMenu,
+  Button,
+  Input,
+  ContentHeader,
+  Content,
+  Table,
+} from '@chaskiq/components'
+
+const { successMessage, errorMessage , 
+  setCurrentSection, setCurrentPage 
+} =  actions
+
+const { BOT_TASKS } = queries
+const {
   CREATE_BOT_TASK,
   DELETE_BOT_TASK,
   REORDER_BOT_TASK
-} from '../graphql/mutations'
-
-import BotEditor from './bots/editor'
-import FormDialog from '../components/FormDialog'
-import Badge from '../components/Badge'
-
-import SettingsForm from './bots/settings'
-import EmptyView from '../components/EmptyView'
-import DeleteDialog from '../components/DeleteDialog'
-import { successMessage, errorMessage } from '../actions/status_messages'
-import { setCurrentSection, setCurrentPage } from '../actions/navigation'
-
-import FilterMenu from '../components/FilterMenu'
+} = mutations
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [loading, _setLoading] = useState(false)

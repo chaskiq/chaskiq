@@ -1,18 +1,27 @@
 import React, { Component } from 'react'
 
-import Button from '../../components/Button'
 
 import { isEmpty } from 'lodash'
 
 import serialize from 'form-serialize'
-
-import graphql from '../../graphql/client'
-import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '../../graphql/mutations'
-
-import FieldRenderer, { gridClasses } from '../../components/forms/FieldRenderer'
-
 import { toSnakeCase } from '../../shared/caseConverter'
 import I18n from '../../shared/FakeI18n'
+
+
+import {
+  Button,
+  FieldRenderer, 
+  gridClasses 
+} from '@chaskiq/components'
+
+
+import {
+  client as graphql,
+  mutations
+} from '@chaskiq/store'
+
+const { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } = mutations
+
 
 // import moment from 'moment-timezone';
 

@@ -7,10 +7,12 @@ import {
   sortableElement,
   sortableHandle
 } from 'react-sortable-hoc'
+
 import {
-  APP_PACKAGES_BY_CAPABILITY,
-} from '../../graphql/queries'
-import graphql from '../../graphql/client'
+  client as graphql,
+  queries
+} from '@chaskiq/store'
+
 import {
   QueueIcon,
   DeleteIcon
@@ -19,6 +21,10 @@ import {
   DefinitionRenderer,
 } from '../packageBlocks/components'
 import InserterForm from '../packageBlocks/InserterForm'
+
+const {
+  APP_PACKAGES_BY_CAPABILITY,
+} = queries
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>

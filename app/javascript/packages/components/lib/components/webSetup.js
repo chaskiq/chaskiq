@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import FormDialog from '../components/FormDialog'
 import Prism from 'prismjs'
-import I18n from '../shared/FakeI18n'
 
 import styled from '@emotion/styled'
 

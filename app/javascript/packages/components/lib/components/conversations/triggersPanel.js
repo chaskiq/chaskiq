@@ -1,12 +1,25 @@
 import React from 'react'
-import FormDialog from '../../components/FormDialog'
-import Button from '../../components/Button'
-
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import graphql from '../../graphql/client'
-import { BOT_TASKS } from '../../graphql/queries'
-import { SEND_TRIGGER } from '../../graphql/mutations'
+
+import {
+  client as graphql,
+  queries,
+  mutations
+} from '@chaskiq/store'
+
+import {
+  FormDialog,
+  Button
+} from '@chaskiq/components'
+
+const {
+  BOT_TASKS
+} = queries
+
+const {
+  SEND_TRIGGER
+} = mutations
 
 // TODO:
 

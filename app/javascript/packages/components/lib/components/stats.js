@@ -9,11 +9,12 @@ import Badge from './Badge'
 import Button from './Button'
 
 import Count from './charts/count'
-import I18n from '../shared/FakeI18n'
 import { isEmpty } from 'lodash'
 
-import { getAppUser } from '../actions/app_user'
-import { toggleDrawer } from '../actions/drawer'
+import {
+  actions
+} from '@chaskiq/store'
+const { getAppUser , toggleDrawer } = actions
 
 
 const PieContainer = styled.div`

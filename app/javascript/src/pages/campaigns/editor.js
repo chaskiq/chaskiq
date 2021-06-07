@@ -1,26 +1,33 @@
 import React, { Component } from 'react'
-import graphql from '../../graphql/client'
-import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } from '../../graphql/mutations'
-import { AGENTS } from '../../graphql/queries'
-import TextEditor from '../../components/textEditor'
-import Button from '../../components/Button'
-import Badge from '../../components/Badge'
 import styled from '@emotion/styled'
-
-
-import {
-  VisibilityRounded
-} from '../../components/icons'
-
-import Input from '../../components/forms/Input'
-import BrowserSimulator from '../../components/BrowserSimulator'
-
 import {
   BannerRenderer
 } from '../../../packages/messenger/lib/client_messenger/Banner'  //'../../../client_messenger/Banner'
 
 import serialize from 'form-serialize'
 import I18n from '../../shared/FakeI18n'
+
+import {
+  client as graphql,
+  queries,
+  mutations
+} from '@chaskiq/store'
+
+import {
+  TextEditor,
+  Button,
+  Badge,
+  Input,
+  BrowserSimulator,
+  icons
+} from '@chaskiq/components'
+
+const {
+  VisibilityRounded
+} = icons
+
+const { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } = mutations
+const { AGENTS } = queries
 
 const EditorContentWrapper = styled.div``
 

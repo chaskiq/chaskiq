@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import graphql from '../../graphql/client'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Avatar from '../Avatar'
@@ -9,14 +8,21 @@ import {
 } from '../icons'
 
 import {
+  client as graphql,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+const {
   getConversations,
   updateConversationsData,
   clearConversations
-} from '../../actions/conversations'
+} = actions
 
-import {
+
+const {
   CONVERSATIONS_COUNTS
-} from '../../graphql/queries'
+} = queries
 
 function SidebarAgents ({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null)

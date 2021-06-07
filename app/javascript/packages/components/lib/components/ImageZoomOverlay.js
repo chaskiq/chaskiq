@@ -1,14 +1,17 @@
 import React from 'react'
 
 import {
-  setImageZoom
-} from '../actions/imageZoom'
+  actions
+} from '@chaskiq/store'
 
-import Button from '../components/Button'
-import { CloseIcon } from '../components/icons'
+import {Button, icons} from '@chaskiq/components'
 import { connect } from 'react-redux'
 
 import styled from '@emotion/styled'
+const { CloseIcon } = icons
+const {
+  setImageZoom
+} = actions
 
 export const ImageZoomOverlay = styled.div`
   overflow: auto;

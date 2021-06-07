@@ -8,13 +8,20 @@ import NotFound from './pages/NotFound'
 import UnSubscribe from './pages/UnSubscribe'
 import AcceptInvitation from './pages/auth/acceptInvitation'
 import { Switch, Route, withRouter } from 'react-router-dom'
-import ZoomImage from './components/ImageZoomOverlay'
-import LoadingView from './components/loadingView'
-import Snackbar from './components/Alert'
 
 import {
+  ZoomImage,
+  LoadingView,
+  Snackbar
+} from '@chaskiq/components'
+
+import {
+  actions
+} from '@chaskiq/store'
+
+const {
   clearLocks
-} from './actions/upgradePages'
+} = actions
 
 function mapStateToProps (state) {
   const { auth, current_user, theme } = state

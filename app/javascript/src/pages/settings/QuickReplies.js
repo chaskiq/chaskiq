@@ -3,25 +3,35 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Hints from '../../shared/Hints'
-import graphql from '../../graphql/client'
-import EmptyView from '../../components/EmptyView'
-import DeleteDialog from '../../components/DeleteDialog'
-import Tabs from '../../components/Tabs'
-import { successMessage, errorMessage } from '../../actions/status_messages'
 
 import {
+  TextEditor,    
+  Button,    
+  EmptyView,    
+  DeleteDialog,    
+  Tabs
+} from '@chaskiq/components'
+
+import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { successMessage, errorMessage } = actions
+
+
+const {
   QUICK_REPLIES,
   QUICK_REPLY
-} from '../../graphql/queries'
+} = queries
 
-import {
+const {
   QUICK_REPLY_CREATE,
   QUICK_REPLY_UPDATE,
   QUICK_REPLY_DELETE
-} from '../../graphql/mutations'
-
-import TextEditor from '../../components/textEditor'
-import Button from '../../components/Button'
+} = mutations
 
 function QuickReplies ({ app, _update, dispatch }) {
   const [quickReplies, setQuickReplies] = React.useState([])

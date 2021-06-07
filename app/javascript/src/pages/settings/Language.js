@@ -2,12 +2,15 @@ import React from 'react'
 import langsOptions from '../../shared/langsOptions'
 import serialize from 'form-serialize'
 
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+import {
+  Button,
+  Input,
+  FormDialog,
+  DataTable,
+} from '@chaskiq/components'
+
 
 import { toSnakeCase } from '../../shared/caseConverter'
-import FormDialog from '../../components/FormDialog'
-import DataTable from '../../components/Table'
 
 export default function LanguageForm ({ settings, update, namespace, fields }) {
   const [isOpen, setIsOpen] = React.useState(false)

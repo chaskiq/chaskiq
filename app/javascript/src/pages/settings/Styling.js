@@ -1,11 +1,14 @@
 import React from 'react'
-import Button from '../../components/Button'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 // import {ColorPicker} from '../../shared/FormFields'
 import styled from '@emotion/styled'
 
-import { ColorPicker } from '../../components/forms/ColorPicker'
+
+import {
+  Button,
+  ColorPicker
+} from '@chaskiq/components'
 
 const PatternButton = styled.button`
   padding: 0px;

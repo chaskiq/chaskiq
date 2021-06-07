@@ -4,33 +4,37 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import ContentHeader from '../../components/PageHeader'
-import Tabs from '../../components/Tabs'
-import Button from '../../components/Button'
-import Table from '../../components/Table'
 // import Select from '@material-ui/core/Select'
 
 import { getFileMetadata, directUpload } from '../../shared/fileUploader'
-
-// import {Link} from 'react-router-dom'
-
-import graphql from '../../graphql/client'
 import { toSnakeCase } from '../../shared/caseConverter'
-import FormDialog from '../../components/FormDialog'
-
-import { CREATE_DIRECT_UPLOAD } from '../../graphql/mutations'
-
 import serialize from 'form-serialize'
-
-import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
-
 import langsOptions from '../../shared/langsOptions'
-import DeleteDialog from '../../components/DeleteDialog'
-import Input from '../../components/forms/Input'
-import FieldRenderer, {
-  gridClasses
-} from '../../components/forms/FieldRenderer'
-import UpgradeButton from '../../components/upgradeButton'
+
+
+import {
+  DeleteDialog,
+  ContentHeader,
+  Tabs,
+  Button,
+  Table,
+  FormDialog,
+  Input,
+  FieldRenderer, 
+  gridClasses,
+  UpgradeButton 
+} from '@chaskiq/components'
+
+import {
+  client as graphql,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { setCurrentSection, setCurrentPage } = actions
+
+const { CREATE_DIRECT_UPLOAD } = mutations
+
 class Settings extends Component {
   state = {
     loading: true,

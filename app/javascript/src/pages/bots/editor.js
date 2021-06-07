@@ -3,53 +3,63 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import styled from '@emotion/styled'
-import TextEditor from '../../components/textEditor'
-import UpgradeButton from '../../components/upgradeButton'
-import InplaceInputEditor from '../../components/InplaceInputEditor'
 //import JsonDebug from '../../shared/jsonDebug'
-import SwitchControl from '../../components/Switch'
-
-import graphql from '../../graphql/client'
-import {
-  BOT_TASK,
-
-  AGENTS,
-  BOT_TASK_METRICS
-} from '../../graphql/queries'
-import { UPDATE_BOT_TASK, CLONE_MESSAGE } from '../../graphql/mutations'
-import ContentHeader from '../../components/PageHeader'
-import Content from '../../components/Content'
-import FormDialog from '../../components/FormDialog'
-import Input from '../../components/forms/Input'
-import Dropdown from '../../components/Dropdown'
 import Segment from './segment'
-
 import BotTaskSetting from './taskSettings'
-import { errorMessage, successMessage } from '../../actions/status_messages'
-import List, { ListItem } from '../../components/List'
-import Button from '../../components/Button'
-import Tabs from '../../components/Tabs'
-import ErrorBoundary from '../../components/ErrorBoundary'
+
 
 import {
-  DefinitionRenderer
-} from '../../components/packageBlocks/components'
+TextEditor,                   
+UpgradeButton,                   
+InplaceInputEditor,                   
+SwitchControl,                   
+ContentHeader,                   
+Content,                   
+FormDialog,              
+Input,                   
+Dropdown,                
+List,                    
+Button,                  
+Tabs,                   
+ErrorBoundary,           
+DefinitionRenderer,     
+Stats,                  
+AppPackagePanel,         
+FilterMenu,
+icons
+} from '@chaskiq/components'             
+
+import { isEmpty } from 'lodash'
 
 import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+const { 
+  errorMessage, successMessage, 
+  setCurrentSection, setCurrentPage 
+} = actions
+
+const {
   PlusIcon,
   DragHandle,
   DeleteForever,
   CopyContentIcon,
   // RemoveCircle ,
   DeleteForeverRounded
-} from '../../components/icons'
+} = icons
 
-import { isEmpty } from 'lodash'
-import Stats from '../../components/stats'
-import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
-import AppPackagePanel from '../../components/conversations/appPackagePanel'
-import FilterMenu from '../../components/FilterMenu'
-import I18n from '../../shared/FakeI18n'
+
+
+const {
+  BOT_TASK,
+  AGENTS,
+  BOT_TASK_METRICS
+} =  queries
+const { UPDATE_BOT_TASK, CLONE_MESSAGE } = mutations
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;

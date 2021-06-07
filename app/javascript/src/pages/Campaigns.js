@@ -1,31 +1,67 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import SwitchControl from '../components/Switch'
 import { AnchorLink } from '../shared/RouterLink'
 import { connect } from 'react-redux'
 // import Tabs from '@atlaskit/tabs';
 import Moment from 'react-moment'
-
-import UpgradeButton from '../components/upgradeButton'
-
 import CampaignSettings from './campaigns/settings'
 import CampaignEditor from './campaigns/editor'
-import SegmentManager from '../components/segmentManager'
-import DeleteDialog from '../components/DeleteDialog'
-import CampaignStats from '../components/stats'
 
 import { isEmpty } from 'lodash'
 
-import { parseJwt, generateJWT } from '../components/segmentManager/jwt'
-import TourManager from '../components/Tour'
-import ContentHeader from '../components/PageHeader'
-import Content from '../components/Content'
-import EmptyView from '../components/EmptyView'
-import FilterMenu from '../components/FilterMenu'
-import Badge from '../components/Badge'
-import graphql from '../graphql/client'
-import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } from '../graphql/queries'
 import {
+  client as graphql,
+  queries,
+  mutations,
+  actions
+} from '@chaskiq/store'
+
+import { 
+  SwitchControl,
+  Table,
+  Tabs,
+  Button,
+  CircularProgress,
+  UpgradeButton,
+  SegmentManager,
+  DeleteDialog,
+  CampaignStats,
+  parseJwt,
+  generateJWT,
+  TourManager,
+  ContentHeader,
+  Content,
+  EmptyView,
+  FilterMenu,
+  Badge,
+  icons
+} from '@chaskiq/components'
+
+const {
+  getAppUser,
+  toggleDrawer,
+  setCurrentSection, 
+  setCurrentPage, 
+  errorMessage, 
+  successMessage
+} = actions
+
+const {
+  Pause,
+  SendIcon,
+  EmailIcon,
+  MessageIcon,
+  FilterFramesIcon,
+  ClearAll,
+  DeleteOutlineRounded,
+  CopyContentIcon,
+  userFormat
+} = icons
+
+import I18n from '../shared/FakeI18n'
+
+const { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } = queries
+const {
   PREDICATES_SEARCH,
   UPDATE_CAMPAIGN,
   CREATE_CAMPAIGN,
@@ -33,39 +69,7 @@ import {
   PURGE_METRICS,
   DELETE_CAMPAIGN,
   CLONE_MESSAGE
-} from '../graphql/mutations'
-
-import { getAppUser } from '../actions/app_user'
-import { toggleDrawer } from '../actions/drawer'
-
-import Table from '../components/Table'
-
-// import SelectMenu from '../components/selectMenu'
-
-import Tabs from '../components/Tabs'
-import Button from '../components/Button'
-import CircularProgress from '../components/Progress'
-
-import {
-
-  Pause,
-
-  SendIcon,
-
-  EmailIcon,
-  MessageIcon,
-  FilterFramesIcon,
-  ClearAll,
-  DeleteOutlineRounded,
-  CopyContentIcon
-} from '../components/icons'
-
-import { setCurrentSection, setCurrentPage } from '../actions/navigation'
-
-import userFormat from '../components/Table/userFormat'
-
-import { errorMessage, successMessage } from '../actions/status_messages'
-import I18n from '../shared/FakeI18n'
+} = mutations
 
 class CampaignSegment extends Component {
   constructor (props) {

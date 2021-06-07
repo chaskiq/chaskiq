@@ -1,11 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Content from '../../components/Content'
-import EmptyView from '../../components/EmptyView'
-import { setCurrentSection } from '../../actions/navigation'
+import {
+  Content,
+  EmptyView
+} from '@chaskiq/components'
+
+import {
+  actions
+} from '@chaskiq/store'
+
 import { withRouter } from 'react-router-dom'
 import image from '../../images/delivery-icon8.png'
-import I18n from '../../shared/FakeI18n'
+
+const { setCurrentSection } = actions
+
 function CampaignHome ({ dispatch }) {
   React.useEffect(() => {
     dispatch(setCurrentSection('Campaigns'))

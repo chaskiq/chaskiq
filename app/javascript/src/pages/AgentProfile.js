@@ -3,43 +3,49 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import {getFileMetadata, directUpload} from '../shared/fileUploader'
+
 import {
+  client as graphql,
+  mutations,
+  queries,
+  actions
+} from '@chaskiq/store'
+
+import {
+  Button,
+  Avatar,
+  TextField,
+  Content,
+  UserListItem,
+  DialogEditor,
+  FilterMenu,
+  icons
+} from '@chaskiq/components'
+
+import sanitizeHtml from 'sanitize-html'
+
+const {
+ EditIcon, 
+  MoreIcon
+} = icons
+
+const {
   CREATE_DIRECT_UPLOAD,
   START_CONVERSATION,
   APP_USER_UPDATE_STATE,
   UPDATE_AGENT
-} from '../graphql/mutations'
-import {getFileMetadata, directUpload} from '../shared/fileUploader'
+} = mutations
 
-
-import graphql from '../graphql/client'
-import {
+const {
   APP_USER_CONVERSATIONS, 
   AGENT
-} from '../graphql/queries'
+} = queries
 
-
-
-import Button from '../components/Button'
-import Avatar from '../components/Avatar'
-import TextField from '../components/forms/Input'
-
-import {
+const {
   getAppUser
-} from '../actions/app_user'
+} = actions
 
-import Content from '../components/Content'
-import UserListItem from '../components/conversations/ItemList'
-import sanitizeHtml from 'sanitize-html'
-import DialogEditor from '../components/DialogEditor'
-import FilterMenu from '../components/FilterMenu'
-
-import {
- EditIcon, 
-  
-  
-  MoreIcon
-} from '../components/icons'
 
 class ProfilePage extends Component {
   state = {

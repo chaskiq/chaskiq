@@ -1,17 +1,24 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import Button from '../../components/Button'
-import TextField from '../../components/forms/Input'
-import Container from '../../components/Content'
 import axios from 'axios'
-import { getCurrentUser } from '../../actions/current_user'
-import {
-  successAuthentication
-} from '../../actions/auth'
 import logo from '../../images/logo.png'
-import Snackbar from '../../components/Alert'
 import queryString from 'query-string'
+
+import {
+  Button,
+  TextField ,
+  Snackbar,
+} from '@chaskiq/components'
+
+import {
+  actions
+} from '@chaskiq/store'
+
+const {
+  getCurrentUser,
+  successAuthentication
+} = actions
 
 function MadeWithLove () {
   return (
@@ -67,7 +74,7 @@ function AcceptInvitation (props) {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <div component="main" maxWidth="xs">
       <div>
         <Snackbar />
 
@@ -133,7 +140,7 @@ function AcceptInvitation (props) {
           <MadeWithLove />
         </div>
       </div>
-    </Container>
+    </div>
   )
 }
 
