@@ -1,10 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Select from 'react-select'
 import Button from '../Button'
 import { isArray } from 'lodash'
 import DatePicker from 'react-datepicker'
 import { ColorPicker } from './ColorPicker'
 import 'react-datepicker/dist/react-datepicker.css'
+
+function mapStateToProps (state) {
+  const { theme } = state
+  return {
+    theme
+  }
+}
 
 function borderColor (error) {
   if (error) {
@@ -28,6 +36,7 @@ const WrappedComponent = React.forwardRef(function Input (
     handler,
     error,
     id,
+    theme,
     ...props
   },
   ref
@@ -37,13 +46,27 @@ const WrappedComponent = React.forwardRef(function Input (
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
         w-full py-2 px-3 text-gray-700
-        focus:outline-none focus:border-gray-600`
+        focus:outline-none focus:border-gray-600 dark:bg-black dark:text-white`
       default:
         return `shadow appearance-none border border-${borderColor(
           error
-        )}-300 rounded w-full py-2 px-3 text-gray-700
+        )}-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white
         leading-tight focus:outline-none focus:shadow-outline`
     }
+  }
+
+  function themeForSelect(){
+    if(theme === 'dark'){
+      return {
+        neutral0: 'black',
+        neutral5: '#777',
+        neutral10: '#777',
+        neutral80: '#999',
+        primary25: 'hotpink',
+        primary: '#666',
+      }
+    }
+    return {}
   }
 
   function renderText () {
@@ -72,6 +95,7 @@ const WrappedComponent = React.forwardRef(function Input (
   }
 
   function renderSelect () {
+    
     const initialValue =
       props.data && props.data.multiple
         ? isArray(defaultValue)
@@ -90,6 +114,14 @@ const WrappedComponent = React.forwardRef(function Input (
           defaultValue={initialValue}
           onChange={props.onChange}
           ref={ref}
+          theme={selectTheme => ({
+            ...selectTheme,
+            borderRadius: 4,
+            colors: {
+              ...selectTheme.colors,
+              ...themeForSelect()
+            },
+          })}
         />
       </FormField>
     )
@@ -113,14 +145,14 @@ const WrappedComponent = React.forwardRef(function Input (
           />
           <label
             htmlFor={name}
-            className="ml-2 block font-bold text-sm leading-5 text-gray-900"
+            className="ml-2 block font-bold text-sm leading-5 text-gray-900 dark:text-white"
           >
             {label}
           </label>
         </div>
 
         {helperText && (
-          <div className="mt-2 text-xs text-gray-500">{helperText}</div>
+          <div className="mt-2 text-xs text-gray-500 dark:text-gray-100">{helperText}</div>
         )}
       </div>
     )
@@ -184,7 +216,7 @@ const WrappedComponent = React.forwardRef(function Input (
           ref={ref}
         />
         <div className="ml-2 block">
-          <div className="text-sm font-bold leading-5 text-gray-900">{label}</div>
+          <div className="text-sm font-bold leading-5 text-gray-900 dark:text-gray-100">{label}</div>
 
           {helperText && (
             <div className="mt-2 text-xs text-gray-500">{helperText}</div>
@@ -228,7 +260,7 @@ const WrappedComponent = React.forwardRef(function Input (
         {label && (
           <label
             htmlFor="about"
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 dark:text-white text-sm font-bold mb-2"
           >
             {label}
           </label>
@@ -241,7 +273,7 @@ const WrappedComponent = React.forwardRef(function Input (
             className={`shadow appearance-none border border-${borderColor(
               error
             )}-300 rounded 
-            w-full py-2 px-3 text-gray-700 mb-3 leading-tight 
+            w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight 
             focus:outline-none focus:shadow-outline`}
             defaultValue={defaultValue}
             value={value}
@@ -273,6 +305,14 @@ const WrappedComponent = React.forwardRef(function Input (
           placeholder={'select timezone'}
           name={name}
           ref={ref}
+          theme={selectTheme => ({
+            ...selectTheme,
+            borderRadius: 4,
+            colors: {
+              ...selectTheme.colors,
+              ...themeForSelect()
+            },
+          })}
         />
         {
           defaultTZ &&
@@ -327,13 +367,14 @@ const WrappedComponent = React.forwardRef(function Input (
   )
 })
 
-export default WrappedComponent
+export default connect(mapStateToProps, null, null, { forwardRef: true })(WrappedComponent)
+
 
 function FormField ({ name, label, helperText, children, _error }) {
   return (
     <React.Fragment>
       <label
-        className="block text-gray-700 text-sm font-bold mb-2"
+        className="block text-gray-700 dark:text-white text-sm font-bold mb-2"
         htmlFor={name}
       >
         {label}
@@ -341,7 +382,7 @@ function FormField ({ name, label, helperText, children, _error }) {
       {children}
 
       {helperText && (
-        <div className="mt-2 text-xs text-gray-500">{helperText}</div>
+        <div className="mt-2 text-xs text-gray-500 dark:text-gray-100">{helperText}</div>
       )}
     </React.Fragment>
   )
@@ -363,7 +404,8 @@ function DatePickerWrapper ({ val, name, onChange, _error }) {
       onChange={handleChange}
       showTimeSelect
       className={`shadow appearance-none border border-gray-300 rounded 
-      w-full py-2 px-3 text-gray-700
+      w-full py-2 px-3 text-gray-700 dark:text-gray-200
+      dark:bg-gray-700
       leading-tight focus:outline-none focus:shadow-outline`}
       // includeTimes={[
       //  setHours(setMinutes(new Date(), 0), 17),

@@ -170,7 +170,7 @@ class Stats extends Component {
               (key,i) => {
                 return (
                   <div className="lg:w-1/4 w-screen my-1 px-1" key={`counter-${i}`}>
-                    <div className="rounded shadow-lg bg-white border p-4">
+                    <div className="rounded shadow-lg bg-white dark:bg-gray-900 dark:border-gray-900 border p-4">
                       <Count
                         data={this.state.counts[key]}
                         label={key.replace('bot_tasks.', '')}
@@ -198,7 +198,7 @@ class Stats extends Component {
                 title: I18n.t('definitions.stats.email.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
                       <div
                         onClick={() =>
                           this.showUserDrawer(row.appUserId)
@@ -213,10 +213,10 @@ class Stats extends Component {
                           />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm leading-5 font-medium text-gray-900">
+                          <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
                             {row.displayName}
                           </div>
-                          <div className="text-sm leading-5 text-gray-500">
+                          <div className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                             {row.email}
                           </div>
                         </div>
@@ -227,7 +227,7 @@ class Stats extends Component {
               {
                 field: 'action',
                 title: I18n.t('definitions.stats.actions.label'),
-                render: (row) => <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                render: (row) => <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
                   {this.renderBadgeKind(row)}
                 </td>
               },
@@ -237,7 +237,7 @@ class Stats extends Component {
                 title: I18n.t('definitions.stats.when.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
                       <Moment fromNow>{row.updatedAt}</Moment>
                     </td>
                   )
@@ -247,7 +247,7 @@ class Stats extends Component {
                 title: I18n.t('definitions.stats.data.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
                       <div>{JSON.stringify(row.data)}</div>
                     </td>
                   )

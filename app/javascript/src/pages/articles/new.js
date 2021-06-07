@@ -382,7 +382,7 @@ class ArticlesNew extends Component {
 
   renderAside = () => {
     return (
-      <div className="mt-6 border-t border-b border-gray-200 py-6 space-y-8">
+      <div className="mt-6 border-t border-b border-gray-200 py-6 space-y-8 dark:border-gray-900">
         <div>
           { !this.state.loading && this.state.article.id &&
                         this.state.article.author &&
@@ -396,7 +396,7 @@ class ArticlesNew extends Component {
                                 <div className="flex flex-shrink-0 items-center">
                                   <Avatar src={this.state.article.author.avatarUrl} />
                                 </div>
-                                <div className="text-sm font-medium text-gray-900">
+                                <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
                                   {
                                     this.state.article.author.name ||
                                     this.state.article.author.email
@@ -519,20 +519,21 @@ class ArticlesNew extends Component {
 
         <div className="py-8 xl:py-10">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-5xl xl:grid xl:grid-cols-3">
-            <div className="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200">
+            <div className="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200 xl:dark:border-gray-900">
               <div>
                 <div>
-                  <div className="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
+                  <div className="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6 dark:border-gray-900">
                     <div>
-                      <h1 className="text-2xl font-bold text-gray-900">
+                      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                         {this.state.article.title}
                       </h1>
-                      <p className="mt-2 text-sm text-gray-500">
+                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
 
                         { this.state.article.author &&
                         <span>
                           {I18n.t('articles.written_by')}{' '}
-                          <Link to={`/apps/${this.props.app.key}/agents/${this.state.article.author.id}`} className="font-medium text-gray-900">
+                          <Link to={`/apps/${this.props.app.key}/agents/${this.state.article.author.id}`} 
+                            className="font-medium text-gray-900 dark:text-gray-100">
                             {this.state.article.author.name || this.state.article.author.email}
                           </Link>
                         </span>
@@ -541,7 +542,7 @@ class ArticlesNew extends Component {
                         {
                           this.articleCollection() &&
                         <span>in{' '}
-                          <a href="#" className="font-medium text-gray-900">
+                          <a href="#" className="font-medium text-gray-900 dark:text-gray-100">
                             {this.articleCollection().title}
                           </a>
                         </span>
@@ -595,7 +596,7 @@ class ArticlesNew extends Component {
                           />
                         </div>
 
-                        <div className="relative z-0 p-6 shadow bg-yellow-50 rounded border border-yellow-100 mb-4 my-4">
+                        <div className="relative z-0 p-6 shadow rounded border  bg-yellow-50 dark:border-pink-800 dark:bg-gray-800 border-yellow-100 mb-4 my-4">
                           {!this.state.loading && (
                             <ArticleEditor
                               article={this.state.article}

@@ -96,16 +96,16 @@ function InboundSettings ({ settings, update, dispatch }) {
       <hr />
 
       <div className="py-4">
-        <p className="text-lg leading-5 font-medium text-gray-900 pb-2">
+        <p className="text-lg leading-5 font-medium text-gray-900 dark:text-gray-100 pb-2">
           {I18n.t('settings.inbound.title2')}
         </p>
       </div>
 
-      <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
+      <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.hint2')}
       </p>
 
-      <p className="text-md leading-6 font-medium text-gray-600 pb-2">
+      <p className="text-md leading-6 font-medium text-gray-600 dark:text-gray-300 pb-2">
         {I18n.t('settings.inbound.note2')}
       </p>
 

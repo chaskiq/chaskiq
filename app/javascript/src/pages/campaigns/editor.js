@@ -247,7 +247,7 @@ export default class CampaignEditor extends Component {
         }
 
         { this.props.mode === 'banners' &&
-          <div className="pt-5 bg-gray-100 p-6 rounded-lg mt-5">
+          <div className="pt-5 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mt-5">
             <StyleBanner
               onChange={(data) => this.updateFromBanner(data) }
               campaign={this.props.data}
@@ -356,7 +356,7 @@ function StyleBanner ({ app, campaign, onChange }) {
     <form onSubmit={handleSubmit} ref={form}>
       <div className="flex">
         <div className="flex flex-col w-1/3 justify-between">
-          <h3 className="font-bold leading-1 text-gray-900 mb-4">
+          <h3 className="font-bold leading-1 text-gray-900 dark:text-gray-100 mb-4">
             {I18n.t('campaigns.banners.settings')}
           </h3>
 
@@ -376,7 +376,7 @@ function StyleBanner ({ app, campaign, onChange }) {
         </div>
 
         <div className="flex flex-col w-1/3 justify-between">
-          <h3 className="font-bold leading-1 text-gray-900 mb-4">
+          <h3 className="font-bold leading-1 text-gray-900 dark:text-gray-100 mb-4">
             {I18n.t('campaigns.banners.action')}
           </h3>
           <div className="flex flex-col pr-6">
@@ -386,7 +386,7 @@ function StyleBanner ({ app, campaign, onChange }) {
         </div>
 
         <div className="flex flex-col w-1/3 justify-between">
-          <h3 className="font-bold leading-1 text-gray-900 mb-4">
+          <h3 className="font-bold leading-1 text-gray-900 dark:text-gray-100 mb-4">
             {I18n.t('campaigns.banners.style')}
           </h3>
 

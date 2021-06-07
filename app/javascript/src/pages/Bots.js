@@ -123,13 +123,13 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
     return [
       { 
         title: I18n.t('task_bots.type_filters.title_visitors'),
-        description: I18n.t('task_bots.type_filters.title_description'),
+        description: I18n.t('task_bots.type_filters.description_visitors'),
         id: 'Visitor',
         state: 'checked'
       },
       { 
         title: I18n.t('task_bots.type_filters.title_leads'),
-        description: I18n.t('task_bots.type_filters.title_description'),
+        description: I18n.t('task_bots.type_filters.description_leads'),
         id: 'Lead',
         state: 'checked'
       },
@@ -269,10 +269,10 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.name.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       <div className="flex items-center">
                         {row.id && (
-                          <span className="text-lg leading-5 font-bold text-gray-900">
+                          <span className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
                             <AnchorLink to={`${match.url}/${row.id}`}>
                               {row.title}
                             </AnchorLink>
@@ -288,7 +288,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.state.label'),
                 render: (row) => (
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       <Badge className={
                         `bg-${row.state === 'enabled' ? 'green-500' : 'gray-200'}`
                         }>
@@ -302,7 +302,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 field: 'actions',
                 title: I18n.t('definitions.bot_tasks.actions.label'),
                 render: (row) => (
-                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                     <div className="flex items-center">
                       {row.id && (
                         <Button
@@ -433,7 +433,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
               {I18n.t('common.cancel')}
             </Button>
 
-            <Button onClick={handleSubmit} className="mr-1">
+            <Button data-cy="bot-task-create" onClick={handleSubmit} className="mr-1">
               {I18n.t('common.create')}
             </Button>
           </React.Fragment>

@@ -135,7 +135,9 @@ const PathDialog = ({ _open, close, isOpen, submit }) => {
               Cancel
             </Button>
 
-            <Button onClick={handleSubmit} className="mr-1">
+            <Button onClick={handleSubmit} 
+              data-cy="bot-task-create-path" 
+              className="mr-1">
               Create
             </Button>
           </React.Fragment>
@@ -702,7 +704,7 @@ export function BotPathEditor ({
           />
         )}
 
-        <div className={`${!menuDisplay ? 'hidden' : ''} sm:w-2/4 bg-gray-50 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}>
+        <div className={`${!menuDisplay ? 'hidden' : ''} sm:w-2/4 bg-gray-50 dark:bg-gray-900 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}>
 
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppablePaths">
@@ -737,7 +739,7 @@ export function BotPathEditor ({
                             className={`
                             ${ selectedPath && selectedPath.id === item.id ? 'ring-2 ring-black' : ''}
                             focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
-                            cursor-pointer w-full py-2 px-2 bg-white border-1 shadow max-w-3xl break-all flex items-center`}>
+                            cursor-pointer w-full py-2 px-2 bg-white dark:bg-gray-900 border-1 shadow max-w-3xl break-all flex items-center`}>
 
                             <div
                               first={true}
@@ -1065,7 +1067,7 @@ const FirstPath = ({
 
         <input placeholder="can we help ?"
           defaultValue={controlStep.controls.label}
-          className="py-2 mb-4 border-dotted border-gray-400 focus:border-gray-900 border-b-2 border-b-red focus:outline-none outline-none"
+          className="py-2 mb-4 border-dotted border-gray-400 dark:bg-gray-900 focus:border-gray-900 border-b-2 border-b-red focus:outline-none outline-none"
           onChange={(e) => {
             updateControlPathSelector(
               { ...controlStep.controls, label: e.currentTarget.value },
@@ -1380,7 +1382,7 @@ const Path = ({
         {controlStep &&
           <PathActionsContainer className="w-full mt-4 sm:w-3/4 sm:mt-8">
 
-            <p className="text-lg leading-6 font-medium text-gray-900 py-4">
+            <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 py-4">
               {I18n.t('task_bots.continue_with_reply_button')}
             </p>
 
@@ -1411,7 +1413,7 @@ const Path = ({
           (showActions || (!controlStep && path.followActions && path.followActions.length > 0)) &&
           <div className="flex align-start flex-col w-3/4">
 
-            <p className="text-lg leading-6 font-medium text-gray-900 py-4">
+            <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-200 py-4">
               {I18n.t('task_bots.end_with_follow')}              
             </p>
 

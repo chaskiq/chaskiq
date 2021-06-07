@@ -70,8 +70,8 @@ export function AppList ({
                         text-sm leading-5 text-gray-500 justify-end"
                       >
 
-                        <Button onClick={(_e) => handleSelect(o)}>
-                          Add
+                        <Button data-cy={`add-package-${o.name}`} onClick={(_e) => handleSelect(o)}>
+                          {I18n.t("common.add")}
                         </Button>
 
                       </div>

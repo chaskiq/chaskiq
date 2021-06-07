@@ -89,7 +89,7 @@ function CustomizationColors ({ settings, update, _dispatch }) {
   return (
     <div>
       <div className="py-6">
-        <p className="text-lg leading-6 font-medium  text-gray-900 py-4">
+        <p className="text-lg leading-6 font-medium  text-gray-900 dark:text-gray-100 py-4">
           Customize chat window
         </p>
       </div>

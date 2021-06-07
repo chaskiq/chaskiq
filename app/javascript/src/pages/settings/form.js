@@ -49,7 +49,7 @@ export default class SettingsForm extends Component {
 
           <p
             className="text-lg leading-6 font-medium
-                text-gray-900 py-4"
+                text-gray-900 dark:text-gray-100 py-4"
           >
             {this.props.title}
           </p>

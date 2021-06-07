@@ -314,11 +314,11 @@ function SucessModal ({ options, handleClose }) {
             </svg>
           </div>
           <div className="mt-3 text-center sm:mt-5">
-            <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
               { I18n.t(`subscriptions.alerts.${options.alert_name}.title`)}
             </h3>
             <div className="mt-2">
-              <p className="text-sm leading-5 text-gray-500">
+              <p className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                 { I18n.t(`subscriptions.alerts.${options.alert_name}.desc`)}
               </p>
             </div>
@@ -354,7 +354,7 @@ function FailureModal ({ options, handleClose }) {
             <button
               onClick={handleClose}
               type="button"
-              className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
+              className="text-gray-400 hover:text-gray-500 dark:text-gray-300 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
             >
               <svg
                 className="h-6 w-6"
@@ -379,11 +379,11 @@ function FailureModal ({ options, handleClose }) {
               </svg>
             </div>
             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-              <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
                 { I18n.t(`subscriptions.alerts.${options.alert_name}.title`)}
               </h3>
               <div className="mt-2">
-                <p className="text-sm leading-5 text-gray-500">
+                <p className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                   { I18n.t(`subscriptions.alerts.${options.alert_name}.desc`)}
                 </p>
               </div>
@@ -408,7 +408,7 @@ function UpdateSubscriptionModal ({ plan, subscription, handleSubmit, handleClos
     <div className="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
 
       <div className="fixed inset-0 transition-opacity">
-        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        <div className="absolute inset-0 bg-gray-500 dark:text-gray-300 opacity-75"></div>
       </div>
 
       <div className="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full sm:p-6"
@@ -438,14 +438,14 @@ function UpdateSubscriptionModal ({ plan, subscription, handleSubmit, handleClos
               </button>
             </div>
 
-            <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
               Update your subscription to <span className="font-bold">{plan.name}</span> plan
             </h3>
 
             {
               !loading &&
               plan.recurring_price.USD != '0.00' && <div className="mt-2">
-                <p className="text-sm leading-5 text-gray-500">
+                <p className="text-sm leading-5 text-gray-500 dark:text-gray-300">
 
                   {
                     <span
@@ -715,10 +715,10 @@ function Transactions ({ app }) {
           {
             transactions.map((o) => (
               <tr key={`trx-${o.order_id}`}>
-                <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm leading-5 font-medium text-gray-900">
+                <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
                   <div className="flex items-center space-x-3 lg:pl-2">
                     <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-pink-600" />
-                    <a href="#" className="truncate hover:text-gray-600">
+                    <a href="#" className="truncate hover:text-gray-600 dark:hover:text-gray-200">
                       {o.status}
                       {/* <span>
                           GraphQL API <span className="text-gray-500 font-normal">
@@ -755,7 +755,7 @@ function Transactions ({ app }) {
 export default withRouter(connect(mapStateToProps)(Billing))
 
 function PlanBoard ({ appPlan, plans, openCheckout }) {
-  return <div className="max-w-2xl mx-auto bg-white py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+  return <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
 
     {/* xs to lg */}
     <div className="space-y-24 lg:hidden">
@@ -763,17 +763,17 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
         plans.map((plan) => (
           <div key={`mobile-plan-${plan.id}`}>
             <div className="px-4">
-              <h2 className="text-lg leading-6 font-medium text-gray-900">{plan.name}</h2>
+              <h2 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">{plan.name}</h2>
               <p className="mt-4">
-                <span className="text-4xl font-extrabold text-gray-900">
+                <span className="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
                   ${Math.floor(plan.recurring_price.USD)}
                 </span>
-                <span className="text-base font-medium text-gray-500">/mo</span>
+                <span className="text-base font-medium text-gray-500 dark:text-gray-300">/mo</span>
               </p>
 
               {
                 appPlan && appPlan.id === plan.id &&
-                <p className="mt-4 text-sm text-gray-500">
+                <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
                   This is your current plan
                 </p>
               }
@@ -810,7 +810,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
                     .map((k) => (
                       <tr key={`mobile-feature-${k}`}
                         className="border-t border-gray-200">
-                        <th className="py-5 px-4 text-sm font-normal text-gray-500 text-left" scope="row">
+                        <th className="py-5 px-4 text-sm font-normal text-gray-500 dark:text-gray-300  text-left" scope="row">
                           {I18n.t(`subscriptions.features.${k}.title`)}
                         </th>
                         <td className="py-5 pr-4">
@@ -862,14 +862,14 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
         </caption>
         <thead>
           <tr>
-            <th className="pb-4 pl-6 pr-6 text-sm font-medium text-gray-900 text-left" scope="col">
+            <th className="pb-4 pl-6 pr-6 text-sm font-medium text-gray-900 dark:text-gray-100 text-left" scope="col">
               <span className="sr-only">Feature by</span>
               <span>Plans</span>
             </th>
             {
               plans.map((o) =>
                 <th key={`plan-${o.id}`}
-                  className="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 text-left"
+                  className="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left"
                   scope="col">
                   {o.name}
                 </th>
@@ -880,24 +880,24 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
         <tbody className="border-t border-gray-200 divide-y divide-gray-200">
           <tr>
 
-            <th className="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 text-left" scope="row">Pricing</th>
+            <th className="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 dark:text-gray-100 text-left" scope="row">Pricing</th>
             {
               plans.map((p) => (
                 <td key={`lg-plans-${p.id}`}className="h-full py-8 px-6 align-top">
                   <div className="h-full flex flex-col justify-between">
                     <div>
                       <p>
-                        <span className="text-4xl font-extrabold text-gray-900">
+                        <span className="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
                           ${Math.floor(p.recurring_price.USD)}
                         </span>
-                        <span className="text-base font-medium text-gray-500">/mo</span>
+                        <span className="text-base font-medium text-gray-500 dark:text-gray-300">/mo</span>
                       </p>
-                      <p className="mt-4 text-sm text-gray-500">{p.description}</p>
+                      <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">{p.description}</p>
                     </div>
 
                     {
                       appPlan && appPlan.id == p.id &&
-                      <p className="mt-4 text-sm text-gray-500">
+                      <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
                         This is your current plan
                       </p>
                     }
@@ -922,13 +922,13 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
             }
           </tr>
           <tr>
-            <th className="py-3 pl-6 bg-gray-50 text-sm font-medium text-gray-900 text-left" colSpan={4} scope="colgroup">Features</th>
+            <th className="py-3 pl-6 bg-gray-50 dark:bg-black text-sm font-medium text-gray-900 dark:text-white text-left" colSpan={4} scope="colgroup">Features</th>
           </tr>
 
           {
             Object.keys(I18n.t('subscriptions.features')).map((k) => (
               <tr key={`plan-feature-matrix-${k}`}>
-                <th className="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 text-left" scope="row">
+                <th className="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left" scope="row">
                   {I18n.t(`subscriptions.features.${k}.title`)}
                 </th>
 
@@ -959,7 +959,7 @@ function PlanBoard ({ appPlan, plans, openCheckout }) {
 
                   {
                     appPlan && appPlan.id == p.id &&
-                    <p className="mt-4 text-sm text-gray-500">
+                    <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
                       This is your current plan
                     </p>
                   }

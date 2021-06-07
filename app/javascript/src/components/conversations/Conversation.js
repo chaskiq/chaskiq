@@ -490,7 +490,7 @@ function Conversation ({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
-      <div className="border-b flex px-6 py-3 items-center flex-none bg-white">
+      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900">
         <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}
@@ -552,12 +552,12 @@ function Conversation ({
               className={`
               focus:outline-none outline-none mr-1 rounded-full 
               font-semibold border
-              border-gray-400 rounded shadow
+              border-gray-400 shadow
 
               ${
                 conversation.state === 'closed'
                 ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                : 'bg-white hover:bg-gray-100 text-gray-800'
+                : 'bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800'
               }
               `
               }
@@ -574,8 +574,9 @@ function Conversation ({
           >
             <button
               className="focus:outline-none outline-none mr-1 rounded-full
-               bg-white hover:bg-gray-100 text-gray-800 
-               font-semibold border border-gray-400 rounded shadow"
+               bg-white hover:bg-gray-100 text-gray-800
+               dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
+               font-semibold border border-gray-400 shadow"
               onClick={() => setVideoSession(!videoSession)}>
               { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
             </button>
@@ -614,7 +615,10 @@ function Conversation ({
               aria-label={
                 I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
               }
-              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full 
+              bg-white hover:bg-gray-100 text-gray-800
+              dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
+              font-semibold border border-gray-400 shadow"
             >
               <PinIcon variant="rounded" />
             </button>
@@ -631,7 +635,10 @@ function Conversation ({
               aria-label={
                 'tag conversation'
               }
-              className="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 font-semibold border border-gray-400 rounded shadow"
+              className="focus:outline-none outline-none mr-1 rounded-full 
+              bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
+              dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
+              border-gray-400 shadow"
             >
               <LabelIcon variant="rounded" />
             </button>
@@ -667,8 +674,9 @@ function Conversation ({
                 >
                   <div onClick={cb}
                     className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
-                    bg-white hover:bg-gray-100 text-gray-800 font-semibold
-                    border border-gray-400 rounded shadow items-center justify-center">
+                    bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
+                    dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800
+                    border shadow items-center justify-center">
                     {conversation.assignee && (
                       <img
                         className="h-6 w-6 rounded-full"

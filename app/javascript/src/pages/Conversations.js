@@ -160,7 +160,7 @@ function Conversations ({
     return (
       <React.Fragment>
 
-        <div className="items-center bg-white px-3 py-4 border-b border-gray-200 sm:px-3 flex justify-between">
+        <div className="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
             value={conversations.filter}
@@ -251,13 +251,13 @@ function Conversations ({
         </Route>
       </Switch>
 
-      <div className={'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200'}>
+      <div className={'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900'}>
         {renderConversations()}
       </div>
 
       <Switch>
         <Route exact path={`/apps/${app.key}/conversations`}>
-          <div className="hidden sm:block flex-grow bg-gray-50 h-12 h-screen border-r w-1/12">
+          <div className="hidden sm:block flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12">
             <EmptyView
               title={I18n.t('conversations.empty.title')}
               shadowless
@@ -274,13 +274,13 @@ function Conversations ({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
-          <div className="flex-grow bg-gray-50 h-12 h-screen border-r w-1/12">
+          <div className="flex-grow bg-gray-50 dark:bg-black h-12 h-screen border-r w-1/12 dark:border-black">
             <AssignmentRules />
           </div>
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/:id`}>
-          <div className={`${fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'} w-full bg-gray-200 h-12 h-screen border-r`}>
+          <div className={`${fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'} w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r dark:border-black`}>
             <Conversation events={events}
               fixedSidebarOpen={fixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}
@@ -290,7 +290,7 @@ function Conversations ({
       </Switch>
 
       {!isEmpty(conversation) && fixedSidebarOpen && (
-        <div className="bg-gray-100 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+        <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
 
           {app_user && app_user.id ? (
             <ConversationSidebar

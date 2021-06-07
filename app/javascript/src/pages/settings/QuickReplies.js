@@ -188,7 +188,7 @@ function QuickReplies ({ app, _update, dispatch }) {
                 <input
                   ref={inputRef}
                   defaultValue={quickReply.title}
-                  className="outline-none my-2 p-2 border-b form-input block w-full sm:text-sm sm:leading-5"
+                  className="dark:bg-gray-900 outline-none my-2 p-2 border-b form-input block w-full sm:text-sm sm:leading-5"
                   placeholder="Quick reply title"
                   onChange={updateStateFromInput}
                 />
@@ -257,14 +257,19 @@ function QuickReplies ({ app, _update, dispatch }) {
       { (quickReply || quickReplies.length > 0) &&
         <div className="flex">
 
-          <div className="w-1/3 bg-white shadow overflow-hidden rounded rounded-r-none">
+          <div className="w-1/3 bg-white dark:bg-black shadow overflow-hidden rounded rounded-r-none">
             <ul>
 
               {
                 quickReplies.map((o, i) => (
-                  <li key={`quick-reply-${i}`} className={`border-t hover:bg-gray-100 border-gray-200 ${isSelected(o)}`}>
+                  <li key={`quick-reply-${i}`} 
+                    className={`border-t hover:bg-gray-100 border-gray-200 
+                    dark:hover:bg-gray-900 dark:border-gray-800 ${isSelected(o)}`}>
                     <a href="#"
-                      onClick={ () => getQuickReply(o) }
+                      onClick={ (e) => {
+                        e.preventDefault()
+                        getQuickReply(o)
+                      } }
                       className="block focus:outline-none transition duration-150 ease-in-out">
                       <div className="flex items-center px-4 py-4 sm:px-6">
                         <div className="min-w-0 flex-1 flex items-center">

@@ -980,9 +980,9 @@ class CampaignContainer extends Component {
                           title: I18n.t('definitions.campaigns.campaign_name.label'),
                           render: (row) =>
                             row && (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                                 <div className="flex items-center">
-                                  <div className="text-lg leading-5 font-bold text-gray-900">
+                                  <div className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
                                     <AnchorLink
                                       to={`${this.props.match.url}/${row.id}`}
                                     >
@@ -999,7 +999,7 @@ class CampaignContainer extends Component {
                           title: I18n.t('definitions.campaigns.state.label'),
                           render: (row) => {
                             return (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                                 <Badge variant={row.state === 'enabled' ? 'green' : null}>
                                   {I18n.t(`campaigns.state.${row.state}`)}
                                 </Badge>
@@ -1018,7 +1018,7 @@ class CampaignContainer extends Component {
                           hidden: true,
                           type: 'datetime',
                           render: row => (row
-                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                               <Moment fromNow>
                                 {row.scheduledAt}
                               </Moment>
@@ -1030,7 +1030,7 @@ class CampaignContainer extends Component {
                           hidden: true,
                           type: 'datetime',
                           render: row => (row
-                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                               <Moment fromNow>
                                 {row.scheduledTo}
                               </Moment>
@@ -1040,7 +1040,7 @@ class CampaignContainer extends Component {
                           field: 'actions',
                           title: I18n.t('definitions.campaigns.actions.label'),
                           render: (row) => (
-                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                               <span
                                 className={'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '}
                               >

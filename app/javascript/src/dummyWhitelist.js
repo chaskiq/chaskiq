@@ -7,5 +7,5 @@ import React from "react"
 
 
   function dummy2(){
-    <p class="bg-blue-300 text-blue-80 sm:w-1/4 sm:w-1/4 sm:w-2/4 sm:w-3/4 sm:1/2"></p>
+    <p className="bg-blue-300 text-blue-80 sm:w-1/4 sm:w-1/4 sm:w-2/4 sm:w-3/4 sm:1/2"></p>
   }

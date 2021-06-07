@@ -31,12 +31,14 @@ import {
   ArticlesIcon,
   CollectionsIcon,
   ChatIcon,
-  SettingsIconArticle,
+  
   BillingIcon,
   IntegrationsIcon,
   TeamIcon,
   MessengerIcon,
-  AppSettingsIcon
+  AppSettingsIcon,
+  DarkModeIcon,
+  LightModeIcon
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
@@ -48,6 +50,7 @@ import {
 } from '../graphql/mutations'
 import graphql from '../graphql/client'
 import { getCurrentUser } from '../actions/current_user'
+import {toggleTheme} from '../actions/theme'
 import Badge from './Badge'
 
 function mapStateToProps (state) {
@@ -58,7 +61,8 @@ function mapStateToProps (state) {
     segment,
     app_users,
     current_user,
-    navigation
+    navigation,
+    theme
   } = state
   const { loading, isAuthenticated } = auth
   return {
@@ -69,7 +73,8 @@ function mapStateToProps (state) {
     loading,
     isAuthenticated,
     navigation,
-    drawer
+    drawer,
+    theme
   }
 }
 
@@ -79,7 +84,8 @@ function Sidebar ({
   navigation,
   current_user,
   drawer,
-  history
+  history,
+  theme
 }) {
   const { current_page, current_section } = navigation
 
@@ -120,7 +126,7 @@ function Sidebar ({
         {
           render: (_props) => [
             <div key={'dashboard-hey'} className="space-y-2">
-              <p className="text-sm leading-5 text-gray-500 font-light"
+              <p className="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light"
                 dangerouslySetInnerHTML={
                   { __html: I18n.t('dashboard.hey', { name: app.name }) }
                 }/>
@@ -134,7 +140,7 @@ function Sidebar ({
               <div className="mt-1 space-y-1" aria-labelledby="projects-headline">
                 {
                   app.plan.name && <Link to={`/apps/${app.key}/billing`} 
-                    className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                    className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
                     <span className="truncate">
                       Plan: <Badge size="sm" variant="pink">{app.plan.name}</Badge>
                     </span>
@@ -142,8 +148,8 @@ function Sidebar ({
                 }
         
               <Link to={`/apps/${app.key}/messenger`} 
-                className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
-                <span className="truncate">
+                className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
+                <span className="truncate--">
                   {I18n.t('dashboard.status')} {" "} 
                   {
                     app.activeMessenger && 
@@ -164,7 +170,7 @@ function Sidebar ({
               <a href="https://dev.chaskiq.io"
                 target="_blank"
                 rel="noopener noreferrer" 
-                className="group flex items-center py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
                 <span className="truncate">
                   {I18n.t('dashboard.guides')}
                 </span>
@@ -389,7 +395,7 @@ function Sidebar ({
             className="h-0-- flex-1 flex flex-col pt-5 pb-4 overflow-y-auto"
           >
             <div className="flex items-center flex-shrink-0 px-4
-              text-lg leading-6 font-bold text-gray-900">
+              text-lg leading-6 font-bold text-gray-900 dark:text-gray-100">
               <h3 className="font-bold w-full">{label}</h3>
             </div>
             <nav className="mt-5 flex-1 px-4 space-y-2">
@@ -401,15 +407,19 @@ function Sidebar ({
                       to={url}
                       className={`
                         ${
-                          active ? 'bg-gray-200' : ''
-                        } bg-white hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200
+                          active ? 'bg-gray-200 dark:bg-gray-900' : ''
+                        } 
+                        bg-white hover:text-gray-600 hover:bg-gray-100 
+                        dark:hover:text-gray-100 dark:hover:bg-gray-700
+                        dark:bg-black dark:text-gray-100 dark:focus:bg-black
+                        focus:outline-none focus:bg-gray-200
                         group flex items-center 
                         px-2 py-2 
                         text-sm leading-5 font-medium text-gray-900 
                         rounded-md transition ease-in-out duration-150`
                       }
                     >
-                      <div className="text-lg mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
+                      <div className="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
                         {icon}
                       </div>
                       {label || childId}
@@ -455,7 +465,7 @@ function Sidebar ({
       {app && (
         <div
           className={
-            `md:block border-r 
+            `md:block 
             bg-gray-800 
             text-purple-lighter 
             flex-none w-23 
@@ -507,15 +517,15 @@ function Sidebar ({
         />
       }
 
-      <div className="md:flex flex-col w-56 border-r border-gray-200 bg-gray-100 shadow-inner">
+      <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
 
-        <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 bg-yellow-50">
+        <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-yellow-400">
           <h3 className="font-semibold w-full text-gray-600 text-xs">{app.name}</h3>
         </div>
       
         {renderInner()}
 
-        <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
+        <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
           <a href="#" className="flex-shrink-0 group block focus:outline-none">
             <div className="flex items-center">
               <div>
@@ -528,7 +538,7 @@ function Sidebar ({
                 />
               </div>
               <div className="ml-3 w-2/5 flex flex-wrap">
-                <p className="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900 truncate">
+                <p className="text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
                   {current_user.email}
                 </p>
 
@@ -536,7 +546,7 @@ function Sidebar ({
                   <Toggle
                     id="user-away-mode-toggle"
                     text={
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-50">
                         {I18n.t("common.away_mode")}
                       </span>
                     }
@@ -564,6 +574,16 @@ function Sidebar ({
                         id: 'edit-profile',
                         title: I18n.t('home.edit_profile'),
                         onClick: () => (window.location = '/agents/edit')
+                      },
+                      {
+                        id: 'edit-profile',
+                        title: <span className="flex space-x-2 items-center">
+                          { theme === 'light' ? <DarkModeIcon/> : <LightModeIcon/>}
+                          <span>
+                            { theme === 'light' ? I18n.t('common.toggle_dark_mode') : I18n.t('common.toggle_light_mode') }
+                          </span>
+                        </span>,
+                        onClick: () => dispatch(toggleTheme(theme === 'light' ? 'dark' : 'light'))
                       },
                       {
                         title: I18n.t('navigator.user_menu.signout'),

@@ -22,7 +22,7 @@ const nums = [
   }) */
 
 module.exports = {
-  darkMode: 'media',
+  darkMode: 'class',
   experimental: {},
   purge: {
     //enabled: true,

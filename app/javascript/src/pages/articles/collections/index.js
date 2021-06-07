@@ -408,7 +408,7 @@ class Collections extends Component {
                   title: I18n.t('definitions.bot_tasks.name.label'),
                   render: (row) =>
                     row && (
-                      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                         <div className="flex items-center">
                           {row.id && (
                             <div className="flex ">
@@ -438,7 +438,7 @@ class Collections extends Component {
                   field: 'actions',
                   title: I18n.t('definitions.bot_tasks.actions.label'),
                   render: (row) => (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                       <div className="flex items-center">
                         {row.id && (
                           <div>

@@ -34,18 +34,18 @@ export default function Table ({
   )
 
   const SortableContainer = sortableContainer(({ children }) => {
-    return <tbody className="bg-white">{children}</tbody>
+    return <tbody className="bg-white dark:bg-black">{children}</tbody>
   })
 
   const DragHandle = sortableHandle(() => (
-    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 hover:bg-gray-50">
+    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
       <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
     </td>
   ))
 
   const renderDefaultRow = (value) => {
     return (
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 hover:bg-gray-50">
+      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
         {value}
       </td>
     )
@@ -53,7 +53,7 @@ export default function Table ({
 
   const SortableItem = sortableElement(
     ({ item, sortable }) => (
-      <tr className="hover:bg-gray-50">
+      <tr className="hover:bg-gray-50 dark:hover:bg-gray-600">
         {sortable && <DragHandle></DragHandle>}
 
         {visibleColumns().map((object) => {
@@ -102,7 +102,7 @@ export default function Table ({
       <div className="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b bg-gray-50">
+            <tr className="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
               {
                 sortable &&
                 <th key={'visible-col-dragit'}
@@ -150,17 +150,16 @@ export default function Table ({
 
 function Pagination ({ meta, search }) {
   return (
-    <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6--">
+    <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
       <div className="flex-1 flex justify-between items-center">
-        <button
+        <Button
           onClick={() => search(meta.prev_page)}
           disabled={!meta.prev_page}
-          className=" inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
-        >
+          variant="outlined">
           {I18n.t('common.prev')}
-        </button>
+        </Button>
 
-        <p className="text-sm leading-5 text-gray-700">
+        <p className="text-sm leading-5 text-gray-700 dark:text-gray-50">
           {I18n.t('common.showing')}
           <span className="font-medium ml-1 mr-1">{meta.current_page}</span>
           {I18n.t('common.to')}
@@ -170,13 +169,12 @@ function Pagination ({ meta, search }) {
           {I18n.t('common.results')}
         </p>
 
-        <button
+        <Button
           disabled={!meta.next_page}
           onClick={() => search(meta.next_page)}
-          className="ml-3  inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
-        >
+          variant="outlined">
           {I18n.t('common.next')}
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -224,7 +222,7 @@ function SimpleMenu (props) {
                   />
                 </div>
                 <div className="pl-7 text-sm leading-5">
-                  <label htmlFor="comments" className="ml-2 font-medium text-gray-700">
+                  <label htmlFor="comments" className="ml-2 font-medium text-gray-700 dark:text-gray-200">
                     {o.title}
                   </label>
                 </div>

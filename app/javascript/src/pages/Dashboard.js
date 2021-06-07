@@ -55,7 +55,7 @@ function Dashboard (props) {
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={'count'}
                   dashboard={dashboard}
@@ -68,7 +68,7 @@ function Dashboard (props) {
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={'count'}
                   dashboard={dashboard}
@@ -81,7 +81,7 @@ function Dashboard (props) {
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={'count'}
                   dashboard={dashboard}
@@ -94,7 +94,7 @@ function Dashboard (props) {
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardItem
                   chartType={'count'}
                   dashboard={dashboard}
@@ -107,9 +107,9 @@ function Dashboard (props) {
             </div>
 
             <div className={'w-full p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 {/* <Chart /> */}
-                <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+                <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
                   {I18n.t('dashboard.visit_activity')}
                 </div>
 
@@ -123,7 +123,7 @@ function Dashboard (props) {
             </div>
             {/* Recent Deposits */}
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardCard title={I18n.t('dashboard.users_browser')}>
                   <DashboardItem
                     chartType={'pie'}
@@ -137,7 +137,7 @@ function Dashboard (props) {
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardCard title={I18n.t('dashboard.lead_os')}>
                   <DashboardItem
                     chartType={'pie'}
@@ -151,7 +151,7 @@ function Dashboard (props) {
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardCard title={I18n.t('dashboard.user_os')}>
                   <DashboardItem
                     chartType={'pie'}
@@ -166,7 +166,7 @@ function Dashboard (props) {
             </div>
 
             <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
                 <DashboardCard title={I18n.t('dashboard.user_country')}>
                   <DashboardItem
                     chartType={'pie'}
@@ -268,7 +268,7 @@ function DashboardAppPackages (props) {
   return (
     packages &&
       packages.map((o) => (
-        <div key={`appPackage-${o.name}`} className="bg-white shadow overflow-hidden  sm:rounded-lg p-4">
+        <div key={`appPackage-${o.name}`} className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
           <DashboardAppPackage
             package={o}
             dashboard={props.dashboard}
@@ -292,7 +292,7 @@ function DashboardAppPackage (props) {
         </div>
 
         <div>
-          <p className="mt-1 text-3xl leading-9 font-semibold text-gray-900">
+          <p className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
             {pkg.name}: {data.title}
           </p>
 
