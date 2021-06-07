@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
-import { Content, ContentHeader, Tabs } from '@chaskiq/components'
+import { Content, ContentHeader, Tabs, getFileMetadata, directUpload } from '@chaskiq/components'
 
 import SettingsForm from './settings/form'
 import AvailabilitySettings from './settings/Availability'
@@ -12,8 +12,6 @@ import LanguageSettings from './settings/Language'
 import InboundSettings from './settings/InboundSettings'
 import StylingSettings from './settings/Styling'
 import AppInserter from './settings/AppInserter'
-import { getFileMetadata, directUpload } from '../shared/fileUploader'
-
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
 const { setCurrentPage, setCurrentSection, updateApp } = actions

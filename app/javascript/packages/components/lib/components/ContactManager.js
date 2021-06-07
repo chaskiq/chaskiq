@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import {
   getFileMetadata,
   directUpload,
-} from '../../../../src/shared/fileUploader'
+} from './fileUploader'
 import serialize from 'form-serialize'
 
 import { client as graphql, mutations, actions } from '@chaskiq/store'

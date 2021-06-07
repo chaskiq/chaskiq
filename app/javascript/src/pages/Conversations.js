@@ -29,8 +29,6 @@ const {
   clearConversations,
 } = actions
 
-// import {toCamelCase} from '../shared/caseConverter'
-
 function Conversations({
   dispatch,
   conversations,

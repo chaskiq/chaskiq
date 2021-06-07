@@ -6,7 +6,7 @@ import Button from '../Button'
 import { InlineFilterDialog } from '../segmentManager'
 import SegmentItemButton from '../segmentManager/itemButton'
 
-import defaultFields from '../../../../../src/shared/defaultFields'
+import defaultFields from '../../utils/defaultFields'
 import Input from '../forms/Input'
 import arrayMove from 'array-move'
 

@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-
-import { getFileMetadata, directUpload } from '../shared/fileUploader'
-
 import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
 
 import {
@@ -15,6 +12,8 @@ import {
   DialogEditor,
   FilterMenu,
   icons,
+  getFileMetadata, 
+  directUpload
 } from '@chaskiq/components'
 
 import sanitizeHtml from 'sanitize-html'

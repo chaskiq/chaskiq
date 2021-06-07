@@ -5,12 +5,11 @@ import { connect } from 'react-redux'
 
 // import Select from '@material-ui/core/Select'
 
-import { getFileMetadata, directUpload } from '../../shared/fileUploader'
-import { toSnakeCase } from '../../shared/caseConverter'
 import serialize from 'form-serialize'
 import langsOptions from '../../shared/langsOptions'
 
 import {
+  toSnakeCase,
   DeleteDialog,
   ContentHeader,
   Tabs,
@@ -21,6 +20,8 @@ import {
   FieldRenderer,
   gridClasses,
   UpgradeButton,
+  getFileMetadata, 
+  directUpload
 } from '@chaskiq/components'
 
 import { client as graphql, mutations, actions } from '@chaskiq/store'

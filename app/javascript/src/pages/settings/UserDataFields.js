@@ -14,10 +14,9 @@ import {
   FormDialog,
   UpgradeButton,
   Input,
+  defaultFields,
   icons,
 } from '@chaskiq/components'
-
-import defaultFields from '../../shared/defaultFields'
 
 const { DeleteIcon, PlusIcon, EditIcon } = icons
 

@@ -8,11 +8,11 @@ import QuickReplies from './settings/QuickReplies'
 import UserData from './settings/UserDataFields'
 import VerificationView from './settings/VerificationView'
 import timezones from '../shared/timezones'
-import { getFileMetadata, directUpload } from '../shared/fileUploader'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import { client as graphql, queries, mutations, 
+  actions } from '@chaskiq/store'
 
-import { Content, Tabs, ContentHeader } from '@chaskiq/components'
+import { Content, Tabs, ContentHeader, getFileMetadata, directUpload } from '@chaskiq/components'
 
 const { setCurrentPage, setCurrentSection, updateApp } = actions
 const { APP } = queries

@@ -7,7 +7,7 @@ import Tooltip from 'rc-tooltip'
 
 import { last } from 'lodash'
 import Moment from 'react-moment'
-import { toCamelCase } from '../../../../../src/shared/caseConverter'
+import { toCamelCase } from '../../utils/caseConverter'
 import ConversationEditor from './Editor.js'
 import Rtc from '../rtc'
 import Progress from '../Progress'

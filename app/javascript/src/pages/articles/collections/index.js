@@ -9,11 +9,11 @@ import {
   FormDialog,
   ScrollableTabsButtonForce,
   Table,
+  getFileMetadata, directUpload
 } from '@chaskiq/components'
 
 import { arrayMove } from 'react-sortable-hoc'
 import langs from '../../../shared/langsOptions'
-import { getFileMetadata, directUpload } from '../../../shared/fileUploader'
 
 import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
 

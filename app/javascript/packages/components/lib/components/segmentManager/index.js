@@ -9,7 +9,7 @@ import Button, { ButtonIndigo } from '../Button'
 
 // import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
-import defaultFields from '../../../../../src/shared/defaultFields'
+import defaultFields from  '../../utils/defaultFields'
 
 import styled from '@emotion/styled'
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { toSnakeCase } from '../../shared/caseConverter'
 import serialize from 'form-serialize'
 
-import { FieldRenderer, gridClasses, Button, Hints } from '@chaskiq/components'
+import { FieldRenderer, gridClasses, Button, Hints, toSnakeCase } from '@chaskiq/components'
 export default class SettingsForm extends Component {
   constructor(props) {
     super(props)

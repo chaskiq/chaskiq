@@ -50,7 +50,7 @@ import styled from '@emotion/styled'
 import {
   getFileMetadata,
   directUpload,
-} from '../../../../../src/shared/fileUploader' //"../../shared/fileUploader";
+} from '../fileUploader' //"../../shared/fileUploader";
 
 import { client as graphql, mutations } from '@chaskiq/store'
 

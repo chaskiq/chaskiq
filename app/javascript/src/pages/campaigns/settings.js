@@ -3,10 +3,9 @@ import React, { Component } from 'react'
 import { isEmpty } from 'lodash'
 
 import serialize from 'form-serialize'
-import { toSnakeCase } from '../../shared/caseConverter'
 import I18n from '../../shared/FakeI18n'
 
-import { Button, FieldRenderer, gridClasses } from '@chaskiq/components'
+import { Button, FieldRenderer, gridClasses, toSnakeCase } from '@chaskiq/components'
 
 import { client as graphql, mutations } from '@chaskiq/store'
 
