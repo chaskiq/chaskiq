@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Article from '../client_messenger/articles.js'
+import Article from '../packages/messenger/lib/client_messenger/articles.js'
 
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {

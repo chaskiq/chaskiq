@@ -7,8 +7,6 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-// import Hermessenger from "../client_messenger/messenger";
-import ChaskiqMessengerEncrypted from '../client_messenger/messengerEncrypted'
+import ChaskiqMessengerEncrypted from '../packages/messenger'  //'../client_messenger/messengerEncrypted'
 
-// window.Hermessenger = Hermessenger
 window.ChaskiqMessengerEncrypted = ChaskiqMessengerEncrypted

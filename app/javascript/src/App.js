@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import history from './history.js'
 
 import AppRouter from './AppRoutes'
-import Docs from './pages/docs'
+import Docs from '../packages/docs' //'./pages/docs'
 
 import { Provider } from 'react-redux'
 import store from './store'

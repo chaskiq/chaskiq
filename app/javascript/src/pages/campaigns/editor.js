@@ -17,7 +17,7 @@ import BrowserSimulator from '../../components/BrowserSimulator'
 
 import {
   BannerRenderer
-} from '../../../client_messenger/Banner'
+} from '../../../packages/messenger/lib/client_messenger/Banner'  //'../../../client_messenger/Banner'
 
 import serialize from 'form-serialize'
 import I18n from '../../shared/FakeI18n'
