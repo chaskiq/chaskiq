@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import { AnchorLink } from '../shared/RouterLink'
 import { connect } from 'react-redux'
 // import Tabs from '@atlaskit/tabs';
 import Moment from 'react-moment'
@@ -12,6 +11,7 @@ import { isEmpty } from 'lodash'
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
 import {
+  AnchorLink,
   SwitchControl,
   Table,
   Tabs,

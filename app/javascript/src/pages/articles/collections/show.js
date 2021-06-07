@@ -13,9 +13,9 @@ import {
   ContentHeader,
   FormDialog,
   ScrollableTabsButtonForce,
+  AnchorLink
 } from '@chaskiq/components'
 
-import { AnchorLink } from '../../../shared/RouterLink'
 import langs from '../../../shared/langsOptions'
 import Dnd from './dnd'
 

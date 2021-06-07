@@ -3,7 +3,6 @@ import { withRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import arrayMove from 'array-move'
 
-import { AnchorLink } from '../shared/RouterLink'
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
 import BotEditor from './bots/editor'
@@ -11,6 +10,7 @@ import BotEditor from './bots/editor'
 import SettingsForm from './bots/settings'
 
 import {
+  AnchorLink,
   FormDialog,
   Badge,
   EmptyView,

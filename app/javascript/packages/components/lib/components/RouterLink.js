@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Button } from '@chaskiq/components'
+import Button from './Button'
 
 /* const AdapterLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />

@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { withRouter, Route, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { LinkButton } from '../shared/RouterLink'
 import langs from '../shared/langsOptions'
 import isEmpty from 'lodash/isEmpty'
 
@@ -18,6 +17,7 @@ const { errorMessage, successMessage, setCurrentSection, setCurrentPage } =
   actions
 
 import {
+  AnchorLink,
   Hints,
   DataTable,
   Badge,
@@ -372,7 +372,7 @@ class AllArticles extends React.Component {
     return (
       <div container direction="row" justify="flex-end">
         <div item>
-          <LinkButton
+          <AnchorLink
             variant={'contained'}
             color={'primary'}
             onClick={() =>
@@ -383,7 +383,7 @@ class AllArticles extends React.Component {
           >
             <AddIcon />
             {I18n.t('articles.new_article')}
-          </LinkButton>
+          </AnchorLink>
         </div>
       </div>
     )
