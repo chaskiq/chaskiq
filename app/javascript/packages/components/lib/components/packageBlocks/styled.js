@@ -16,7 +16,7 @@ export const LoaderWrapper = styled.div`
 export const Loader = styled.div`
   animation: ${spin} 0.5s infinite linear;
   border-top-color: white !important;
-  
+
   ${() => tw`
     ease-linear rounded-full border-2 
     border-t-2 border-gray-900 h-4 w-4
@@ -25,10 +25,10 @@ export const Loader = styled.div`
   `}
 `
 
-export function Progress ({ _size }) {
+export function Progress({ _size }) {
   return (
     <LoaderWrapper>
-      <Loader/>
+      <Loader />
     </LoaderWrapper>
   )
 }

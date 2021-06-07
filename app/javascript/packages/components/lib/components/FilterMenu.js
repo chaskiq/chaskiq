@@ -2,21 +2,21 @@ import React from 'react'
 import Dropdown from './Dropdown'
 import { CheckmarkIcon } from './icons'
 
-export default function FilterMenu ({
+export default function FilterMenu({
   filterHandler,
   value,
   triggerButton,
   options,
   position,
-  origin
+  origin,
 }) {
   const [open, setOpen] = React.useState(false)
 
-  function selectOption (option) {
+  function selectOption(option) {
     filterHandler(option, handleClose)
   }
 
-  function handleClose () {
+  function handleClose() {
     setOpen(false)
   }
 
@@ -36,7 +36,11 @@ export default function FilterMenu ({
               onClick={() => selectOption(option)}
               className={`w-full group flex items-center
               px-4 py-2 text-sm leading-5 text-gray-700
-              ${value === option.name ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100 ' : ''}
+              ${
+                value === option.name
+                  ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100 '
+                  : ''
+              }
               hover:bg-gray-100 hover:text-gray-900
               focus:outline-none focus:bg-gray-100
               focus:text-gray-900
@@ -44,12 +48,11 @@ export default function FilterMenu ({
               dark:focus:bg-gray-800
               `}
             >
-              {
-                option.state === 'checked' &&
+              {option.state === 'checked' && (
                 <div className="text-sm text-green-500">
                   <CheckmarkIcon></CheckmarkIcon>
                 </div>
-              }
+              )}
 
               {option.icon && <icon>{option.icon}</icon>}
 

@@ -2,22 +2,16 @@ import React from 'react'
 import langsOptions from '../../shared/langsOptions'
 import serialize from 'form-serialize'
 
-import {
-  Button,
-  Input,
-  FormDialog,
-  DataTable,
-} from '@chaskiq/components'
-
+import { Button, Input, FormDialog, DataTable } from '@chaskiq/components'
 
 import { toSnakeCase } from '../../shared/caseConverter'
 
-export default function LanguageForm ({ settings, update, namespace, fields }) {
+export default function LanguageForm({ settings, update, namespace, fields }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedLang, _setSelectedLang] = React.useState(null)
   const formRef = React.createRef()
 
-  function handleChange (value) {
+  function handleChange(value) {
     /*const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true
@@ -38,11 +32,11 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
     toggleDialog()
   }
 
-  function close () {
+  function close() {
     setIsOpen(false)
   }
 
-  function renderLangDialog () {
+  function renderLangDialog() {
     return (
       isOpen && (
         <FormDialog
@@ -87,21 +81,21 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
     )
   }
 
-  function toggleDialog () {
+  function toggleDialog() {
     setIsOpen(!isOpen)
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
     const data = toSnakeCase(serializedData)
     update(data)
   }
 
-  function columns () {
+  function columns() {
     const cols = fields.map((field) => ({
       field: field,
       title: field,
@@ -131,7 +125,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
             </td>
           )
         )
-      }
+      },
     }))
 
     return cols

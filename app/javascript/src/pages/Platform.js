@@ -3,14 +3,17 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import { actions } from '@chaskiq/store'
+
 import {
-  actions
-} from '@chaskiq/store'
+  AppContent,
+  PageHeader,
+  Content,
+  ContactManager,
+} from '@chaskiq/components'
 
-import {AppContent, PageHeader, Content, ContactManager} from '@chaskiq/components'
-
-const { 
-  setCurrentPage, 
+const {
+  setCurrentPage,
   setCurrentSection,
   dispatchSegmentUpdate,
   fetchAppSegment,
@@ -21,16 +24,10 @@ const {
   updatePredicate,
   deletePredicate,
   searchAppUsers,
-  setApp 
+  setApp,
 } = actions
 
-function Platform ({
-  dispatch,
-  match,
-  app,
-  app_users,
-  segment
-}) {
+function Platform({ dispatch, match, app, app_users, segment }) {
   React.useEffect(() => {
     dispatch(setCurrentSection('Platform'))
 
@@ -39,7 +36,7 @@ function Platform ({
     dispatch(
       dispatchSegmentUpdate({
         id: match.params.segmentID,
-        jwt: match.params.Jwt
+        jwt: match.params.Jwt,
       })
     )
 
@@ -50,7 +47,7 @@ function Platform ({
 
   const search = (page) => {
     const options = {
-      page: page || 1
+      page: page || 1,
     }
 
     dispatch(searchAppUsers(options, () => {}))
@@ -73,7 +70,7 @@ function Platform ({
 
   const createSegmentD = (data, cb) => {
     const params = {
-      name: data.input
+      name: data.input,
     }
 
     dispatch(
@@ -97,7 +94,7 @@ function Platform ({
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value
+      value: data.value,
     }
     dispatch(
       addPredicate(pending_predicate, (token) => {
@@ -145,9 +142,7 @@ function Platform ({
     <Content>
       <PageHeader
         title={segment && segment.name}
-        actions={
-          <ContactManager app={app}/>
-        }
+        actions={<ContactManager app={app} />}
       />
 
       <div className="flex flex-col">
@@ -164,7 +159,7 @@ function Platform ({
             addPredicate: addPredicateD,
             updatePredicate: updatePredicateD,
             savePredicates: savePredicates,
-            deletePredicate: deletePredicateD
+            deletePredicate: deletePredicateD,
           }}
           // history={props.history}
           // actions={this.actions()}
@@ -174,7 +169,7 @@ function Platform ({
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, segment, app_users, app_user } = state
   const { loading, isAuthenticated } = auth
 
@@ -188,7 +183,7 @@ function mapStateToProps (state) {
     segment,
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

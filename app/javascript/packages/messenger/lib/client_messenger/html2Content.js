@@ -2,7 +2,7 @@
 
 import { ContentState, convertFromHTML, getSafeBodyFromHTML } from 'draft-js' // { compose
 
-var compose = function compose () {
+var compose = function compose() {
   var args = arguments
   var start = args.length - 1
   return function () {
@@ -22,15 +22,15 @@ var compose = function compose () {
  */
 // Prepares img meta data object based on img attributes
 
-var getBlockSpecForElement = function getBlockSpecForElement (imgElement) {
+var getBlockSpecForElement = function getBlockSpecForElement(imgElement) {
   const type = imgElement.dataset.type
   return {
     contentType: type,
-    imgSrc: imgElement.getAttribute('src')
+    imgSrc: imgElement.getAttribute('src'),
   }
 } // Wraps meta data in HTML element which is 'understandable' by Draft, I used <blockquote />.
 
-var wrapBlockSpec = function wrapBlockSpec (blockSpec) {
+var wrapBlockSpec = function wrapBlockSpec(blockSpec) {
   if (blockSpec === null) {
     return null
   }
@@ -42,7 +42,7 @@ var wrapBlockSpec = function wrapBlockSpec (blockSpec) {
   return tempEl
 } // Replaces <img> element with our temp element
 
-var replaceElement = function replaceElement (oldEl, newEl) {
+var replaceElement = function replaceElement(oldEl, newEl) {
   if (!(newEl instanceof HTMLElement)) {
     return
   }
@@ -53,7 +53,7 @@ var replaceElement = function replaceElement (oldEl, newEl) {
   return upEl.parentNode.insertBefore(newEl, upEl)
 }
 
-var getUpEl = function getUpEl (el) {
+var getUpEl = function getUpEl(el) {
   while (el.parentNode) {
     if (el.parentNode.tagName !== 'BODY') {
       el = el.parentNode
@@ -67,7 +67,7 @@ var getUpEl = function getUpEl (el) {
 
 var elementToBlockSpecElement = compose(wrapBlockSpec, getBlockSpecForElement)
 
-var imgReplacer = function imgReplacer (imgElement) {
+var imgReplacer = function imgReplacer(imgElement) {
   return replaceElement(imgElement, elementToBlockSpecElement(imgElement))
 }
 /*
@@ -75,7 +75,7 @@ var imgReplacer = function imgReplacer (imgElement) {
  */
 // takes HTML string and returns DraftJS ContentState
 
-var customHTML2Content = function customHTML2Content (HTML, blockRn) {
+var customHTML2Content = function customHTML2Content(HTML, blockRn) {
   var tempDoc = new DOMParser().parseFromString(HTML, 'text/html') // replace all <img /> with <blockquote /> elements
 
   tempDoc.querySelectorAll('img').forEach(function (item) {
@@ -84,7 +84,11 @@ var customHTML2Content = function customHTML2Content (HTML, blockRn) {
   // use DraftJS converter to do initial conversion. I don't provide DOMBuilder and
   // blockRenderMap arguments here since it should fall back to its default ones, which are fine
   // console.log(tempDoc.body.innerHTML)
-  var content = convertFromHTML(tempDoc.body.innerHTML, getSafeBodyFromHTML, blockRn)
+  var content = convertFromHTML(
+    tempDoc.body.innerHTML,
+    getSafeBodyFromHTML,
+    blockRn
+  )
   var contentBlocks = content.contentBlocks // now replace <blockquote /> ContentBlocks with 'atomic' ones
 
   contentBlocks = contentBlocks.map(function (block) {
@@ -107,12 +111,12 @@ var customHTML2Content = function customHTML2Content (HTML, blockRn) {
       text: '',
       data: {
         url: json.imgSrc,
-        forceUpload: false
-      }
+        forceUpload: false,
+      },
     })
   })
 
-  contentBlocks = contentBlocks.filter((o) => (o.text !== '📷'))
+  contentBlocks = contentBlocks.filter((o) => o.text !== '📷')
   tempDoc = null
   return ContentState.createFromBlockArray(contentBlocks)
 }

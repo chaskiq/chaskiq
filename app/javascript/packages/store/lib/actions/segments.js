@@ -2,28 +2,27 @@ import ActionTypes from '../constants/action_types'
 import graphql from '../graphql/client'
 import { SEGMENT } from '../graphql/queries'
 import {
-
   PREDICATES_CREATE,
   PREDICATES_UPDATE,
-  PREDICATES_DELETE
+  PREDICATES_DELETE,
 } from '../graphql/mutations'
 
 import { generateJWT } from '../jwt'
 
-export function fetchAppSegment (id, cb) {
+export function fetchAppSegment(id, cb) {
   return (dispatch, getState) => {
     graphql(
       SEGMENT,
       {
         appKey: getState().app.key,
-        id: parseInt(id)
+        id: parseInt(id),
       },
       {
         success: (data) => {
           dispatch(
             dispatchSegmentUpdate(
               Object.assign({}, data.app.segment, {
-                initialPredicates: data.app.segment.predicates
+                initialPredicates: data.app.segment.predicates,
               })
             )
           )
@@ -34,18 +33,18 @@ export function fetchAppSegment (id, cb) {
         },
         error: (error) => {
           console.log(error)
-        }
+        },
       }
     )
   }
 }
 
-export function updateSegment (id, cb) {
+export function updateSegment(id, cb) {
   return (dispatch, getState) => {
     const params = {
       appKey: getState().app.key,
       id: getState().segment.id,
-      predicates: getState().segment.predicates
+      predicates: getState().segment.predicates,
     }
 
     graphql(PREDICATES_UPDATE, params, {
@@ -62,53 +61,55 @@ export function updateSegment (id, cb) {
         }, () => cb ? cb() : null) */
       },
 
-      error: () => {}
+      error: () => {},
     })
   }
 }
 
-export function createSegment (options, cb) {
+export function createSegment(options, cb) {
   return (dispatch, getState) => {
     const params = {
       appKey: getState().app.key,
       name: options.name,
-      predicates: getState().segment.predicates
+      predicates: getState().segment.predicates,
     }
 
     graphql(PREDICATES_CREATE, params, {
       success: (data) => {
         dispatch(
           dispatchSegmentUpdate(
-            Object.assign(data.predicatesCreate.segment, { jwt: null })
+            Object.assign(data.predicatesCreate.segment, {
+              jwt: null,
+            })
           )
         )
 
         cb && cb()
       },
-      error: () => {}
+      error: () => {},
     })
   }
 }
 
-export function deleteSegment (id, cb) {
+export function deleteSegment(id, cb) {
   return (dispatch, getState) => {
     graphql(
       PREDICATES_DELETE,
       {
         appKey: getState().app.key,
-        id: id
+        id: id,
       },
       {
         success: () => {
           cb && cb()
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 }
 
-export function addPredicate (options, cb) {
+export function addPredicate(options, cb) {
   return (dispatch, getState) => {
     const new_predicates = getState().segment.predicates.concat(options)
 
@@ -117,7 +118,7 @@ export function addPredicate (options, cb) {
     dispatch(
       dispatchSegmentUpdate({
         predicates: new_predicates,
-        jwt: jwtToken
+        jwt: jwtToken,
       })
     )
 
@@ -127,13 +128,13 @@ export function addPredicate (options, cb) {
   }
 }
 
-export function updatePredicate (data, cb) {
+export function updatePredicate(data, cb) {
   return (dispatch, _getState) => {
     const jwtToken = generateJWT(data)
     // console.log(parseJwt(jwtToken))
     dispatch(
       dispatchSegmentUpdate({
-        jwt: jwtToken
+        jwt: jwtToken,
       })
     )
 
@@ -143,7 +144,7 @@ export function updatePredicate (data, cb) {
   }
 }
 
-export function deletePredicate (data, cb) {
+export function deletePredicate(data, cb) {
   return (dispatch, getState) => {
     const jwtToken = generateJWT(data)
 
@@ -151,7 +152,7 @@ export function deletePredicate (data, cb) {
       dispatchSegmentUpdate({
         id: getState().segment.id,
         predicates: data,
-        jwt: jwtToken
+        jwt: jwtToken,
       })
     )
 
@@ -161,19 +162,19 @@ export function deletePredicate (data, cb) {
   }
 }
 
-function _dispatchLoading () {
+function _dispatchLoading() {
   return {
     type: ActionTypes.initSearchAppUsers,
     data: {
-      searching: true
-    }
+      searching: true,
+    },
   }
 }
 
-export function dispatchSegmentUpdate (data) {
+export function dispatchSegmentUpdate(data) {
   return {
     type: ActionTypes.updateSegment,
-    data: data
+    data: data,
   }
 }
 
@@ -182,11 +183,11 @@ const initialState = {
   name: null,
   predicates: [],
   initialPredicates: [],
-  jwt: null
+  jwt: null,
 }
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ActionTypes.updateSegment: {
       return Object.assign({}, state, action.data)

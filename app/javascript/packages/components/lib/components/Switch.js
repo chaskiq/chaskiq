@@ -2,17 +2,17 @@ import React from 'react'
 
 import { Switch } from '@headlessui/react'
 
-export default function CustomLabelExample({label, enabled, setEnabled }) {
+export default function CustomLabelExample({ label, enabled, setEnabled }) {
   //const [enabled, setEnabled] = useState(false)
 
   return (
     <Switch.Group>
       <div className="flex items-center">
-        {label && 
+        {label && (
           <Switch.Label className="mr-4 text-sm text-gray-400">
             {label}
           </Switch.Label>
-        }
+        )}
         <Switch
           checked={enabled}
           onChange={setEnabled}

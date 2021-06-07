@@ -1,9 +1,8 @@
-
-export function toggleDrawer (data, cb) {
+export function toggleDrawer(data, cb) {
   return (dispatch, _getState) => {
     dispatch({
       type: 'DRAWER',
-      data: data
+      data: data,
     })
     if (cb) cb()
   }
@@ -12,7 +11,7 @@ export function toggleDrawer (data, cb) {
 const initialState = {}
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case 'DRAWER':
       return action.data

@@ -5,9 +5,8 @@ import { ResponsivePie } from '@nivo/pie'
 // make sure parent container have a defined height when using responsive component,
 // otherwise height will be 0 and no chart will be rendered.
 // website examples showcase many properties, you'll often use just a few of them.
-export default function CampaignPie ({ data }) {
+export default function CampaignPie({ data }) {
   return (
-
     <ResponsivePie
       data={data}
       margin={{ top: 4, right: 8, bottom: 80, left: 8 }}
@@ -30,7 +29,7 @@ export default function CampaignPie ({ data }) {
           color: 'rgba(255, 255, 255, 0.3)',
           size: 4,
           padding: 1,
-          stagger: true
+          stagger: true,
         },
         {
           id: 'lines',
@@ -39,10 +38,9 @@ export default function CampaignPie ({ data }) {
           color: 'rgba(255, 255, 255, 0.3)',
           rotation: -45,
           lineWidth: 6,
-          spacing: 10
-        }
+          spacing: 10,
+        },
       ]}
-
       legends={[
         {
           anchor: 'bottom',
@@ -62,13 +60,12 @@ export default function CampaignPie ({ data }) {
             {
               on: 'hover',
               style: {
-                itemTextColor: '#000'
-              }
-            }
-          ]
-        }
+                itemTextColor: '#000',
+              },
+            },
+          ],
+        },
       ]}
     />
-
   )
 }

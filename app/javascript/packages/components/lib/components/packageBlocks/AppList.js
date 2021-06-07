@@ -3,55 +3,45 @@ import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
+  ItemListSecondaryContent,
 } from '../../components/List'
 
-import {
-  LeftArrow,
-} from '../../components/icons'
+import { LeftArrow } from '../../components/icons'
 
-import {
-  BaseInserter
-} from './baseInserter'
+import { BaseInserter } from './baseInserter'
 
 import Button from '../../components/Button'
 
 import Progress from '../Progress'
 
-
-export function AppList ({
+export function AppList({
   handleAdd,
   packages,
   app,
   loading,
   conversation,
   conversation_part,
-  location
+  location,
 }) {
   const [selected, setSelected] = React.useState(null)
 
-  function handleSelect (o) {
+  function handleSelect(o) {
     setSelected(o)
   }
 
-  function handleInsert (data) {
+  function handleInsert(data) {
     handleAdd(data)
   }
 
   return (
-
     <div>
+      {loading && <Progress />}
 
-      {
-        loading && <Progress/>
-      }
-
-      { !loading &&
+      {!loading && (
         <List>
-          {
-            !selected && packages.map((o) => (
+          {!selected &&
+            packages.map((o) => (
               <ListItem key={o.name}>
-
                 <ListItemText
                   primary={
                     <ItemListPrimaryContent variant="h5">
@@ -69,28 +59,29 @@ export function AppList ({
                         className="mt-2 flex items-center
                         text-sm leading-5 text-gray-500 justify-end"
                       >
-
-                        <Button data-cy={`add-package-${o.name}`} onClick={(_e) => handleSelect(o)}>
-                          {I18n.t("common.add")}
+                        <Button
+                          data-cy={`add-package-${o.name}`}
+                          onClick={(_e) => handleSelect(o)}
+                        >
+                          {I18n.t('common.add')}
                         </Button>
-
                       </div>
                     </React.Fragment>
                   }
                 />
               </ListItem>
-            ))
-          }
+            ))}
         </List>
-      }
+      )}
 
-      {
-        selected && <div>
+      {selected && (
+        <div>
           <Button
             variant={'link'}
             size={'xs'}
-            onClick={() => setSelected(null)}>
-            <LeftArrow/>
+            onClick={() => setSelected(null)}
+          >
+            <LeftArrow />
             {'back'}
           </Button>
 
@@ -104,7 +95,7 @@ export function AppList ({
             conversation_part={conversation_part}
           />
         </div>
-      }
+      )}
     </div>
   )
 }

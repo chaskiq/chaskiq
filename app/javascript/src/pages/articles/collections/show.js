@@ -5,11 +5,13 @@ import { connect } from 'react-redux'
 import {
   Button,
   TextField,
-  List, ListItem, ListItemText,
+  List,
+  ListItem,
+  ListItemText,
   CircularProgress,
   Input,
   ContentHeader,
-  FormDialog ,
+  FormDialog,
   ScrollableTabsButtonForce,
 } from '@chaskiq/components'
 
@@ -17,29 +19,19 @@ import { AnchorLink } from '../../../shared/RouterLink'
 import langs from '../../../shared/langsOptions'
 import Dnd from './dnd'
 
-import {
-  client as graphql,
-  mutations,
-  queries,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
 
 const {
   ARTICLE_SECTION_CREATE,
   ARTICLE_SECTION_DELETE,
   REORDER_ARTICLE,
   ADD_ARTICLES_TO_COLLECTION,
-  ARTICLE_SECTION_EDIT
+  ARTICLE_SECTION_EDIT,
 } = mutations
 
-const {
-  ARTICLE_COLLECTION_WITH_SECTIONS,
-  ARTICLES_UNCATEGORIZED
-} = queries
+const { ARTICLE_COLLECTION_WITH_SECTIONS, ARTICLES_UNCATEGORIZED } = queries
 
-const {
-  setCurrentSection, setCurrentPage ,
-} = actions
+const { setCurrentSection, setCurrentPage } = actions
 
 class CollectionDetail extends Component {
   state = {
@@ -48,13 +40,13 @@ class CollectionDetail extends Component {
     collection: null,
     lang: 'en',
     languages: ['es', 'en'],
-    editSection: null
-  };
+    editSection: null,
+  }
 
-  titleRef = null;
-  descriptionRef = null;
+  titleRef = null
+  descriptionRef = null
 
-  componentDidMount () {
+  componentDidMount() {
     this.getCollection()
     this.props.dispatch(setCurrentSection('HelpCenter'))
 
@@ -67,41 +59,43 @@ class CollectionDetail extends Component {
       {
         appKey: this.props.app.key,
         id: this.props.match.params.id,
-        lang: this.state.lang
+        lang: this.state.lang,
       },
       {
         success: (data) => {
           this.setState({
             collection: data.app.collection,
-            loading: false
+            loading: false,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
-  close = () => this.setState({ isOpen: false });
+  close = () => this.setState({ isOpen: false })
 
   openNewDialog = () => {
     this.setState({
       isOpen: true,
-      editSection: null
+      editSection: null,
     })
-  };
+  }
 
   handleDataUpdate = (data) => {
     this.setState({
-      collection: Object.assign({}, this.state.collection, { sections: data })
+      collection: Object.assign({}, this.state.collection, {
+        sections: data,
+      }),
     })
-  };
+  }
 
   allCollections = () => {
     const { collection } = this.state
     const baseSection = {
       id: 'base',
       title: 'base section',
-      articles: collection.baseArticles
+      articles: collection.baseArticles,
     }
 
     // just concat base section if it's not present
@@ -110,28 +104,30 @@ class CollectionDetail extends Component {
     } else {
       return [baseSection].concat(collection.sections)
     }
-  };
+  }
 
   saveOperation = (options) => {
-    const params = Object.assign({}, options, { appKey: this.props.app.key })
+    const params = Object.assign({}, options, {
+      appKey: this.props.app.key,
+    })
     graphql(REORDER_ARTICLE, params, {
       success: (_data) => {},
-      error: () => {}
+      error: () => {},
     })
-  };
+  }
 
   addArticlesToSection = (_section) => {
     this.setState({
-      addArticlesDialog: true
+      addArticlesDialog: true,
     })
-  };
+  }
 
   requestUpdate = (section) => {
     this.setState({
       isOpen: true,
-      editSection: section
+      editSection: section,
     })
-  };
+  }
 
   renderCollection = () => {
     const { collection } = this.state
@@ -140,11 +136,11 @@ class CollectionDetail extends Component {
       <div className="py-4">
         {collection && (
           <div className="flex flex-col">
-            <h2 className="text-4xl leading-6 font-bold text-gray-900 pb-4">
+            <h2 className="text-4xl leading-6 font-bold text-gray-900 dark:text-gray-100 pb-4">
               {collection.title}
             </h2>
 
-            <p className="max-w-xl text-lg leading-5 text-gray-500 mb-4">
+            <p className="max-w-xl text-lg leading-5 text-gray-500 dark:text-gray-300 mb-4">
               {collection.description}
             </p>
 
@@ -152,7 +148,8 @@ class CollectionDetail extends Component {
               <Button
                 variant="flat-dark"
                 color={'primary'}
-                onClick={this.openNewDialog}>
+                onClick={this.openNewDialog}
+              >
                 {I18n.t('articles.new_section')}
               </Button>
             </div>
@@ -171,14 +168,14 @@ class CollectionDetail extends Component {
         )}
       </div>
     )
-  };
+  }
 
   deleteSection = (section) => {
     graphql(
       ARTICLE_SECTION_DELETE,
       {
         appKey: this.props.app.key,
-        id: `${section.id}`
+        id: `${section.id}`,
       },
       {
         success: (data) => {
@@ -189,14 +186,14 @@ class CollectionDetail extends Component {
 
           this.setState({
             collection: Object.assign({}, this.state.collection, {
-              sections: newSections
-            })
+              sections: newSections,
+            }),
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
   submitCreate = () => {
     const { collection } = this.state
@@ -207,7 +204,7 @@ class CollectionDetail extends Component {
         collectionId: collection.id,
         title: this.titleRef.value,
         lang: this.state.lang,
-        description: this.descriptionRef.value
+        description: this.descriptionRef.value,
       },
       {
         success: (data) => {
@@ -216,15 +213,15 @@ class CollectionDetail extends Component {
 
           this.setState({
             collection: Object.assign({}, this.state.collection, {
-              sections: sections
+              sections: sections,
             }),
-            isOpen: false
+            isOpen: false,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
   submitEdit = () => {
     const { collection } = this.state
@@ -236,7 +233,7 @@ class CollectionDetail extends Component {
         title: this.titleRef.value,
         id: this.state.editSection.id.toString(),
         lang: this.state.lang,
-        description: this.descriptionRef.value
+        description: this.descriptionRef.value,
       },
       {
         success: (data) => {
@@ -251,16 +248,16 @@ class CollectionDetail extends Component {
 
           this.setState({
             collection: Object.assign({}, this.state.collection, {
-              sections: sections
+              sections: sections,
             }),
             isOpen: false,
-            submitEdit: null
+            submitEdit: null,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
   renderDialog = () => {
     const { isOpen, editSection } = this.state
@@ -321,7 +318,7 @@ class CollectionDetail extends Component {
         }
       />
     )
-  };
+  }
 
   addArticlesHandlerSubmit = (items) => {
     graphql(
@@ -329,7 +326,7 @@ class CollectionDetail extends Component {
       {
         articlesId: items,
         appKey: this.props.app.key,
-        collectionId: this.state.collection.id
+        collectionId: this.state.collection.id,
       },
       {
         success: (data) => {
@@ -338,10 +335,10 @@ class CollectionDetail extends Component {
             this.getCollection()
           }
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
   renderAddToSectionDialog = () => {
     return (
@@ -352,26 +349,30 @@ class CollectionDetail extends Component {
         isOpen={this.state.addArticlesDialog}
       />
     )
-  };
+  }
 
   // TODO refactor
   handleLangChange = (o) => {
     this.setState(
       {
-        lang: o
+        lang: o,
       },
       this.getCollection
     )
-  };
+  }
 
-  render () {
+  render() {
     const { app } = this.props
 
     return (
       <React.Fragment>
         <ContentHeader
           breadcrumbs={[
-            <AnchorLink key={`bc-1`} color="inherit" to={`/apps/${app.key}/articles`}>
+            <AnchorLink
+              key={`bc-1`}
+              color="inherit"
+              to={`/apps/${app.key}/articles`}
+            >
               {I18n.t('articles.help_center')}
             </AnchorLink>,
             <AnchorLink
@@ -380,7 +381,7 @@ class CollectionDetail extends Component {
               to={`/apps/${app.key}/articles/collections`}
             >
               {I18n.t('articles.collections')}
-            </AnchorLink>
+            </AnchorLink>,
           ]}
         />
 
@@ -413,24 +414,24 @@ class CollectionDetail extends Component {
 class AddArticleDialog extends Component {
   state = {
     articles: [],
-    isOpen: this.props.isOpen
-  };
+    isOpen: this.props.isOpen,
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     graphql(
       ARTICLES_UNCATEGORIZED,
       {
         appKey: this.props.app.key,
         page: 1,
-        per: 50
+        per: 50,
       },
       {
         success: (data) => {
           this.setState({
-            articles: data.app.articlesUncategorized.collection
+            articles: data.app.articlesUncategorized.collection,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
@@ -453,9 +454,9 @@ class AddArticleDialog extends Component {
       if (chk_arr[k].checked) arr.push(chk_arr[k].value)
     }
     return arr
-  };
+  }
 
-  render () {
+  render() {
     const { isOpen } = this.state
     return (
       <FormDialog
@@ -502,14 +503,14 @@ class AddArticleDialog extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

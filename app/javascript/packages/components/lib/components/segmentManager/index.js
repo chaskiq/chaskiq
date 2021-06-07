@@ -9,7 +9,7 @@ import Button, { ButtonIndigo } from '../Button'
 
 // import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
-import defaultFields from  '../../../../../src/shared/defaultFields'
+import defaultFields from '../../../../../src/shared/defaultFields'
 
 import styled from '@emotion/styled'
 
@@ -33,7 +33,7 @@ const ButtonGroup = styled.div`
   }
 `
 
-function Spinner () {
+function Spinner() {
   return <p>run run run...</p>
 }
 
@@ -42,53 +42,56 @@ export class SaveSegmentModal extends Component {
     isOpen: false,
     action: 'update',
     loading: false,
-    input: null
-  };
+    input: null,
+  }
 
-  open = () => this.setState({ isOpen: true });
-  close = () => this.setState({ isOpen: false });
-  input_ref = null;
+  open = () => this.setState({ isOpen: true })
+  close = () => this.setState({ isOpen: false })
+  input_ref = null
 
   secondaryAction = ({ _target }) => {
     this.props.savePredicates(
       {
         action: this.state.action,
-        input: this.input_ref ? this.input_ref.value : null
+        input: this.input_ref ? this.input_ref.value : null,
       },
       () => {
         this.close()
         if (this.props.predicateCallback) this.props.predicateCallback()
       }
     )
-  };
+  }
 
   deleteAction = ({ _target }) => {
     this.props.deleteSegment(this.props.segment.id, this.close)
-  };
+  }
 
   handleChange = ({ target }) => {
     this.setState({
-      action: target.value
+      action: target.value,
     })
-  };
+  }
 
   equalPredicates = () => {
     return fromJS(this.props.segment.predicates).equals(
       fromJS(this.props.segment.initialPredicates)
     )
-  };
+  }
 
   incompletePredicates = () => {
     return this.props.segment.predicates.find((o) => !o.comparison || !o.value)
-  };
+  }
 
-  render () {
+  render() {
     const { isOpen, loading } = this.state
 
     return (
       <React.Fragment>
         <div className="flex items-center">
-          <Tooltip placement="bottom" overlay={I18n.t('segment_manager.save_segment')}>
+          <Tooltip
+            placement="bottom"
+            overlay={I18n.t('segment_manager.save_segment')}
+          >
             <ButtonIndigo
               isLoading={false}
               arial-label={I18n.t('segment_manager.save_segment')}
@@ -101,7 +104,10 @@ export class SaveSegmentModal extends Component {
             </ButtonIndigo>
           </Tooltip>
 
-          <Tooltip placement="bottom" overlay={I18n.t('segment_manager.delete_segment')}>
+          <Tooltip
+            placement="bottom"
+            overlay={I18n.t('segment_manager.delete_segment')}
+          >
             <ButtonIndigo
               isLoading={false}
               variant={'icon'}
@@ -136,7 +142,9 @@ export class SaveSegmentModal extends Component {
                       onChange={this.handleChange.bind(this)}
                     />
                     <span className="ml-2">
-                      {I18n.t('segment_manager.save_changes_to', {name: this.props.segment.name})}
+                      {I18n.t('segment_manager.save_changes_to', {
+                        name: this.props.segment.name,
+                      })}
                     </span>
                   </label>
 
@@ -201,7 +209,7 @@ export class SaveSegmentModal extends Component {
   }
 }
 
-export function InlineFilterDialog ({ addPredicate, app, fields }) {
+export function InlineFilterDialog({ addPredicate, app, fields }) {
   const [dialogOpen, setDialogOpen] = React.useState(false)
 
   const handleClick = (e, o) => {
@@ -221,7 +229,6 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
 
   const content = (
     <div className="p-2--">
-
       <div className="p-2">
         <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
           {I18n.t('segment_manager.select_fields')}
@@ -232,9 +239,11 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
         <ul className="divide-y divide-gray-200">
           {f.map((o, i) => (
             <li key={`select-fields-${i}`}>
-              <a key={o.name}
+              <a
+                key={o.name}
                 onClick={(e) => handleClick(e, o)}
-                className="cursor-pointer block hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:text-gray-800 transition duration-150 ease-in-out">
+                className="cursor-pointer block hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:text-gray-800 transition duration-150 ease-in-out"
+              >
                 <div className="flex items-center px-4 py-4 sm:px-6">
                   <span className="flex items-center text-sm leading-5 text-gray-700 dark:text-gray-100">
                     {o.name}
@@ -252,7 +261,7 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
     <div>
       <Dropdown
         isOpen={dialogOpen}
-        onOpen={(v) => setDialogOpen(v) }
+        onOpen={(v) => setDialogOpen(v)}
         triggerButton={(cb) => (
           <Button
             isLoading={false}
@@ -273,29 +282,30 @@ export function InlineFilterDialog ({ addPredicate, app, fields }) {
 }
 
 class SegmentManager extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
   }
 
   handleClickOnSelectedFilter = (jwtToken) => {
     const url = `/apps/${this.props.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
     this.props.history.push(url)
-  };
+  }
 
   getTextForPredicate = (o) => {
     if (o.type === 'match') {
-      return `${I18n.t('segment_manager.match')} ${o.value === 'and' ? 
-      I18n.t('segment_manager.all') : 
-      I18n.t('segment_manager.any')
+      return `${I18n.t('segment_manager.match')} ${
+        o.value === 'and'
+          ? I18n.t('segment_manager.all')
+          : I18n.t('segment_manager.any')
       } ${I18n.t('segment_manager.criteria')}`
     } else {
       return `Match: ${o.attribute} ${o.comparison ? o.comparison : ''} ${
         o.value ? o.value : ''
       }`
     }
-  };
+  }
 
-  render () {
+  render() {
     // this.props.actions.getPredicates()
     return (
       <div mt={2}>
@@ -348,10 +358,10 @@ class SegmentManager extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app } = state
   return {
-    app
+    app,
   }
 }
 

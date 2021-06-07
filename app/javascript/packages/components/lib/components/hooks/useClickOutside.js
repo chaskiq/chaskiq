@@ -3,7 +3,7 @@
 import React from 'react'
 
 // Hook
-export default function useOnClickOutside (ref, handler) {
+export default function useOnClickOutside(ref, handler) {
   React.useEffect(
     () => {
       const listener = (event) => {

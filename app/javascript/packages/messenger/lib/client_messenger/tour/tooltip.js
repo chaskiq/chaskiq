@@ -19,8 +19,8 @@ export const TooltipBody = styled.div`
 `
 
 export const TooltipFooter = styled.div`
-  align-items: center; 
-  display: flex; 
+  align-items: center;
+  display: flex;
   justify-content: flex-end;
   margin-top: 15px;
 `
@@ -75,11 +75,11 @@ const Tooltip = ({
   tooltipProps,
   skipProps,
   isLastStep,
-  size
+  size,
 }) => {
   const { close, last, next } = step.locale
   const output = {
-    primary: close
+    primary: close,
   }
 
   if (continuous) {
@@ -94,41 +94,32 @@ const Tooltip = ({
     }
   }
 
-  return <TooltipBody {...tooltipProps}>
-    {(step && step.title) && <div>{step.title}</div>}
-    <div>
+  return (
+    <TooltipBody {...tooltipProps}>
+      {step && step.title && <div>{step.title}</div>}
+      <div>
+        <ThemeProvider theme={theme}>
+          <DanteContainer>{step.content}</DanteContainer>
+        </ThemeProvider>
+      </div>
+      <TooltipFooter>
+        {index > 0 && (
+          <TooltipBackButton {...backProps}>back</TooltipBackButton>
+        )}
 
-      <ThemeProvider
-        theme={ theme }>
-        <DanteContainer>
-          {step.content}
-        </DanteContainer>
-      </ThemeProvider>
+        <TooltipBackButton {...skipProps}>skip</TooltipBackButton>
 
-    </div>
-    <TooltipFooter>
-      {index > 0 && (
-        <TooltipBackButton {...backProps}>
-          back
-        </TooltipBackButton>
-      )}
-
-      <TooltipBackButton {...skipProps}>
-        skip
-      </TooltipBackButton>
-
-      {continuous && (
-        <TooltipButton {...primaryProps}>
-          {output.primary}
-        </TooltipButton>
-      )}
-      {!continuous && (
-        <TooltipCloseButton {...closeProps}>
-          <CloseIcon/>
-        </TooltipCloseButton>
-      )}
-    </TooltipFooter>
-  </TooltipBody>
+        {continuous && (
+          <TooltipButton {...primaryProps}>{output.primary}</TooltipButton>
+        )}
+        {!continuous && (
+          <TooltipCloseButton {...closeProps}>
+            <CloseIcon />
+          </TooltipCloseButton>
+        )}
+      </TooltipFooter>
+    </TooltipBody>
+  )
 }
 
 export default Tooltip

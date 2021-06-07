@@ -9,10 +9,9 @@ import Docs from '../packages/docs' //'./pages/docs'
 
 import { Provider } from 'react-redux'
 import store from '@chaskiq/store'
-import {ErrorBoundary} from '@chaskiq/components'
+import { ErrorBoundary } from '@chaskiq/components'
 
 function App() {
-
   const host = document
     .querySelector("meta[name='chaskiq-host']")
     .getAttribute('content')
@@ -20,28 +19,18 @@ function App() {
 
   return (
     <Provider store={store}>
-
       <Router history={history}>
         <Route
           render={(props) => {
             const subdomain = window.location.hostname.split('.')
 
-            if (
-              chaskiqHost && chaskiqHost != window.location.hostname
-            ) {
-              return (
-                <Docs
-                  {...props}
-                  subdomain={subdomain[0]}
-                />
-              )
+            if (chaskiqHost && chaskiqHost != window.location.hostname) {
+              return <Docs {...props} subdomain={subdomain[0]} />
             }
 
             return (
               <ErrorBoundary variant={'very-wrong'}>
-                <AppRouter
-                  {...props}
-                />
+                <AppRouter {...props} />
               </ErrorBoundary>
             )
           }}

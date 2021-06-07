@@ -1,10 +1,10 @@
 import React from 'react'
 import Tabs from '../components/Tabs'
 
-export default function ScrollableTabsButtonForce ({ tabs, changeHandler }) {
+export default function ScrollableTabsButtonForce({ tabs, changeHandler }) {
   const [value, setValue] = React.useState(0)
 
-  function handleChange (newValue) {
+  function handleChange(newValue) {
     setValue(newValue)
     changeHandler(newValue)
   }

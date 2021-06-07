@@ -2,13 +2,9 @@ import React from 'react'
 
 import FormDialog from '../../FormDialog'
 
-import {
-  model
-} from 'Dante2'
+import { model } from 'Dante2'
 
-const {
-  resetBlockWithType
-} = model
+const { resetBlockWithType } = model
 
 import Giphy from './giphy'
 
@@ -73,15 +69,15 @@ const GiphyLogo = () => {
 }
 
 export default class GiphyBlock extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       embed_data: this.defaultData(),
-      open: true
+      open: true,
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     console.log(this.props)
     this.props.blockProps.toggleEditable()
   }
@@ -89,7 +85,7 @@ export default class GiphyBlock extends React.Component {
   defaultData = () => {
     const existing_data = this.props.block.getData().toJS()
     return existing_data.embed_data || {}
-  };
+  }
 
   deleteSelf = (e) => {
     e.preventDefault()
@@ -98,7 +94,7 @@ export default class GiphyBlock extends React.Component {
     //const data = block.getData()
     //const newData = data.merge(this.state)
     return setEditorState(resetBlockWithType(getEditorState(), 'unstyled', {}))
-  };
+  }
 
   getAspectRatio = (w, h) => {
     const maxWidth = 1000
@@ -124,7 +120,7 @@ export default class GiphyBlock extends React.Component {
     const result = { width, height, ratio: fill_ratio }
     // console.log result
     return result
-  };
+  }
 
   selectImage = (giphyblock) => {
     const { _block, blockProps } = this.props
@@ -135,7 +131,7 @@ export default class GiphyBlock extends React.Component {
     const newData = {
       url: url,
       aspect_ratio: this.getAspectRatio(width, height),
-      forceUpload: true
+      forceUpload: true,
     }
 
     this.props.blockProps.toggleEditable()
@@ -143,9 +139,9 @@ export default class GiphyBlock extends React.Component {
     return setEditorState(
       resetBlockWithType(getEditorState(), 'image', newData)
     )
-  };
+  }
 
-  render () {
+  render() {
     // console.log(this.state.collection)
     return (
       <div className="dante-giphy-wrapper">
@@ -154,7 +150,7 @@ export default class GiphyBlock extends React.Component {
           handleClose={() => {
             this.setState(
               {
-                open: !this.state.open
+                open: !this.state.open,
               },
               this.props.blockProps.toggleEditable
             )
@@ -168,8 +164,7 @@ export default class GiphyBlock extends React.Component {
               }}
             />
           }
-        >
-        </FormDialog>
+        ></FormDialog>
       </div>
     )
   }
@@ -189,13 +184,13 @@ export const GiphyBlockConfig = (options = {}) => {
     widget_options: {
       displayOnInlineTooltip: true,
       insertion: 'insertion',
-      insert_block: 'giphy'
+      insert_block: 'giphy',
       // insertion: "func",
       // funcHandler: options.handleFunc,
     },
     options: {
-      placeholder: 'Search any gif on giphy'
-    }
+      placeholder: 'Search any gif on giphy',
+    },
   }
 
   return Object.assign(config, options)

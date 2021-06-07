@@ -1,22 +1,22 @@
 import React from 'react'
-import { HexColorPicker, HexColorInput } from "react-colorful";
+import { HexColorPicker, HexColorInput } from 'react-colorful'
 
 import Button from '../Button'
 import { DockerIcon, PaintIcon } from '../icons'
 export class ColorPicker extends React.Component {
   state = {
     displayColorPicker: false,
-    value: this.props.color
-  };
+    value: this.props.color,
+  }
 
   handleClick = (e) => {
     e.preventDefault()
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
-  };
+  }
 
   handleClose = () => {
     this.setState({ displayColorPicker: false })
-  };
+  }
 
   handleColorChangeComplete = (color) => {
     this.setState({ value: color }, () => {
@@ -24,19 +24,19 @@ export class ColorPicker extends React.Component {
     })
     //,
     //  ()=> this.props.onChangeComplete(color.hex))
-  };
+  }
 
-  render () {
+  render() {
     const popover = {
       position: 'absolute',
-      zIndex: '2'
+      zIndex: '2',
     }
     const cover = {
       position: 'fixed',
       top: '0px',
       right: '0px',
       bottom: '0px',
-      left: '0px'
+      left: '0px',
     }
     return (
       <React.Fragment>
@@ -51,13 +51,13 @@ export class ColorPicker extends React.Component {
               <DockerIcon style={{ color: this.state.value || '#ccc' }} />
             </Button>
 
-            <HexColorInput 
+            <HexColorInput
               className="dark:text-gray-100 dark:bg-gray-900 form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5 border border-gray-300"
               color={this.state.value}
               name={this.props.name}
               placeholder="#00ff00"
-              onChange={this.handleColorChangeComplete}>
-            </HexColorInput>
+              onChange={this.handleColorChangeComplete}
+            ></HexColorInput>
           </div>
 
           <button
@@ -80,10 +80,11 @@ export class ColorPicker extends React.Component {
         {this.state.displayColorPicker ? (
           <div style={popover}>
             <div style={cover} onClick={this.handleClose} />
-            <HexColorPicker 
-              color={this.state.value} 
-              onChange={this.handleColorChangeComplete} 
-            />;
+            <HexColorPicker
+              color={this.state.value}
+              onChange={this.handleColorChangeComplete}
+            />
+            ;
           </div>
         ) : null}
       </React.Fragment>

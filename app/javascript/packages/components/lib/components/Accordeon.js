@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../components/Button'
 import { DownArrow, UpArrow } from './icons'
 
-export default function CustomizedExpansionPanels (props) {
+export default function CustomizedExpansionPanels(props) {
   const [expanded, setExpanded] = React.useState(props.items[0].name)
 
   const withValues = (col) => {
@@ -21,7 +21,7 @@ export default function CustomizedExpansionPanels (props) {
     return expanded === o.name
   }
 
-  function toggleExpanded (name) {
+  function toggleExpanded(name) {
     if (expanded === name) {
       setExpanded(null)
       return
@@ -61,7 +61,7 @@ export default function CustomizedExpansionPanels (props) {
                   }}
                   variant="outlined"
                 >
-                  <UpArrow/>
+                  <UpArrow />
                 </Button>
               )}
 
@@ -72,7 +72,7 @@ export default function CustomizedExpansionPanels (props) {
                   }}
                   variant="outlined"
                 >
-                  <DownArrow/>
+                  <DownArrow />
                 </Button>
               )}
             </header>

@@ -1,25 +1,25 @@
-'use strict';
+'use strict'
 
 import List, {
-    ListItem,
-    ListItemText,
-    ItemListPrimaryContent,
-    ItemListSecondaryContent,
-    ItemAvatar
-  } from './components/List'
+  ListItem,
+  ListItemText,
+  ItemListPrimaryContent,
+  ItemListSecondaryContent,
+  ItemAvatar,
+} from './components/List'
 
 import Breadcrumbs from './components/Breadcrumbs'
 import Avatar from './components/Avatar'
 import Card from './components/Card'
 import FilterMenu from './components/FilterMenu'
-import Button, {DropdownButton} from './components/Button'
+import Button, { DropdownButton } from './components/Button'
 import icons from './components/icons'
 
 import TextEditor from './components/textEditor'
 import danteTheme from './components/textEditor/theme'
 import DraftRenderer from './components/textEditor/draftRenderer'
 
-import {RtcView} from './components/rtc'
+import { RtcView } from './components/rtc'
 
 import { DefinitionRenderer } from './components/packageBlocks/components'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -36,10 +36,8 @@ import FormDialog from './components/FormDialog'
 import ZoomImage from './components/ImageZoomOverlay'
 import Snackbar from './components/Alert'
 
-import FieldRenderer, {
-    gridClasses
-  } from './components/forms/FieldRenderer'
-  
+import FieldRenderer, { gridClasses } from './components/forms/FieldRenderer'
+
 import Progress from './components/Progress'
 import UserSlide from './components/UserSlide'
 
@@ -94,81 +92,83 @@ import ScrollableTabsButtonForce from './components/scrollingTabs'
 import Stats from './components/stats'
 import InplaceInputEditor from './components/InplaceInputEditor'
 import Dropdown from './components/Dropdown'
+import Hints from './components/Hints'
 export {
-    Dropdown,
-    InplaceInputEditor,
-    Stats,
-    TextEditor,
-    ScrollableTabsButtonForce,
-    ColorPicker,
-    InserterForm,
-    BrowserSimulator,
-    AppPackagePanel,
-    ContactManager,
-    SwitchControl,
-    Sidebar,
-    UserProfileCard,
-    SegmentManager,
-    CampaignStats,
-    parseJwt, generateJWT,
-    TourManager,
-    Panel,
-    UpgradeButton,
-    Input,
-    UserData,
-    Mapa,
-    DataTable,
-    AppContent,
-    EditIcon, AddIcon, DeleteIcon,
-    PageHeader,
-    HeatMap,
-    Pie,
-    Count,
-    DashboardCard,
-    ConversationSearch,
-    ConversationItemList,
-    AssignmentRules,
-    Conversation,
-    userFormat,
-    ConversationSidebar,
-    Table,
-    EmptyView,
-    DeleteDialog,
-    CircularProgress,
-    Tabs,
-    ContentHeader,
-    Content,
-    UserSlide,
-    Progress,
-    FieldRenderer,
-    gridClasses,
-    Snackbar,
-    ZoomImage,
-    FormDialog,
-    UserListItem,
-    DialogEditor,
-    TextField,
-    icons,
-    List,
-    ListItem,
-    ListItemText,
-    ItemListPrimaryContent,
-    ItemListSecondaryContent,
-    ItemAvatar,
-    Breadcrumbs,
-    Avatar,
-    Card,
-    FilterMenu,
-    Button,
-    DropdownButton,
-
-    danteTheme,
-    DraftRenderer,
-    RtcView,
-
-    DefinitionRenderer,
-    ErrorBoundary,
-
-    LoadingView,
-    Badge
+  Hints,
+  Dropdown,
+  InplaceInputEditor,
+  Stats,
+  TextEditor,
+  ScrollableTabsButtonForce,
+  ColorPicker,
+  InserterForm,
+  BrowserSimulator,
+  AppPackagePanel,
+  ContactManager,
+  SwitchControl,
+  Sidebar,
+  UserProfileCard,
+  SegmentManager,
+  CampaignStats,
+  parseJwt,
+  generateJWT,
+  TourManager,
+  Panel,
+  UpgradeButton,
+  Input,
+  UserData,
+  Mapa,
+  DataTable,
+  AppContent,
+  EditIcon,
+  AddIcon,
+  DeleteIcon,
+  PageHeader,
+  HeatMap,
+  Pie,
+  Count,
+  DashboardCard,
+  ConversationSearch,
+  ConversationItemList,
+  AssignmentRules,
+  Conversation,
+  userFormat,
+  ConversationSidebar,
+  Table,
+  EmptyView,
+  DeleteDialog,
+  CircularProgress,
+  Tabs,
+  ContentHeader,
+  Content,
+  UserSlide,
+  Progress,
+  FieldRenderer,
+  gridClasses,
+  Snackbar,
+  ZoomImage,
+  FormDialog,
+  UserListItem,
+  DialogEditor,
+  TextField,
+  icons,
+  List,
+  ListItem,
+  ListItemText,
+  ItemListPrimaryContent,
+  ItemListSecondaryContent,
+  ItemAvatar,
+  Breadcrumbs,
+  Avatar,
+  Card,
+  FilterMenu,
+  Button,
+  DropdownButton,
+  danteTheme,
+  DraftRenderer,
+  RtcView,
+  DefinitionRenderer,
+  ErrorBoundary,
+  LoadingView,
+  Badge,
 }

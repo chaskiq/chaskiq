@@ -6,7 +6,7 @@ import { ResponsivePie } from '@nivo/pie'
 // website examples showcase many properties,
 // you'll often use just a few of them.
 
-export default function MyResponsivePie ({ data, _label }) {
+export default function MyResponsivePie({ data, _label }) {
   return (
     <ResponsivePie
       data={data}
@@ -44,18 +44,18 @@ export default function MyResponsivePie ({ data, _label }) {
             fontSize: 'inherit',
             borderRadius: '2px',
             boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
-            padding: '5px 9px'
+            padding: '5px 9px',
           },
           basic: {
             whiteSpace: 'pre',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
           },
           table: {},
           tableCell: {
-            padding: '3px 5px'
-          }
-        }
+            padding: '3px 5px',
+          },
+        },
       }}
     />
   )

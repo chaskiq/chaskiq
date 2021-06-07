@@ -1,9 +1,8 @@
-
-export function toggleTheme (data, cb) {
+export function toggleTheme(data, cb) {
   return (dispatch, _getState) => {
     dispatch({
       type: 'THEME',
-      data: data
+      data: data,
     })
     if (cb) cb()
   }
@@ -12,7 +11,7 @@ export function toggleTheme (data, cb) {
 const initialState = 'light'
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case 'THEME':
       return action.data

@@ -1,4 +1,3 @@
-
 import graphql from '../graphql/client'
 
 import { CURRENT_USER } from '../graphql/queries'
@@ -9,7 +8,7 @@ import { doSignout } from './auth'
 const SET_CURRENT_USER = 'auth/SET_CURRENT_USER'
 
 // Action Creators
-export function getCurrentUser () {
+export function getCurrentUser() {
   return (dispatch, _getState) => {
     graphql(
       CURRENT_USER,
@@ -29,24 +28,24 @@ export function getCurrentUser () {
         },
         fatal: () => {
           dispatch(doSignout())
-        }
+        },
       }
     )
   }
 }
 
-export function clearCurrentUser () {
+export function clearCurrentUser() {
   return (dispatch, _getState) => {
     dispatch(successAuthentication({}))
   }
 }
 
-function successAuthentication (data) {
+function successAuthentication(data) {
   return { type: SET_CURRENT_USER, data: data }
 }
 
 // Reducer
-export default function reducer (state, action = {}) {
+export default function reducer(state, action = {}) {
   const initialState = {}
 
   // Actions

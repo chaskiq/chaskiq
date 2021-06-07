@@ -1,17 +1,14 @@
 import React from 'react'
 
-import {
-  client as graphql,
-  docsQueries
-} from '@chaskiq/store'
+import { client as graphql, docsQueries } from '@chaskiq/store'
 
 import Tooltip from 'rc-tooltip'
 import {
-  Breadcrumbs, 
+  Breadcrumbs,
   Avatar,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
 } from '@chaskiq/components'
 
 import translation from './translation'
@@ -19,10 +16,7 @@ import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 
-const {
-  ARTICLE_COLLECTION_WITH_SECTIONS
-} = docsQueries
-
+const { ARTICLE_COLLECTION_WITH_SECTIONS } = docsQueries
 
 // interference poc
 const OverlapAvatars = styled.div`
@@ -88,85 +82,76 @@ const OverlapAvatars = styled.div`
   }
 `
 
-export default function CollectionsWithSections ({ match, lang, subdomain }) {
+export default function CollectionsWithSections({ match, lang, subdomain }) {
   const [collections, setCollections] = React.useState(null)
 
   React.useEffect(() => {
     getArticles()
   }, [lang])
 
-  function getArticles () {
+  function getArticles() {
     graphql(
       ARTICLE_COLLECTION_WITH_SECTIONS,
       {
         domain: subdomain,
         id: match.params.id,
-        lang: lang
+        lang: lang,
       },
       {
         success: (data) => {
           setCollections(data.helpCenter.collection)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 
-  function renderArticles(article, section){
+  function renderArticles(article, section) {
     return (
-      <ListItem
-          divider
-          key={`${section}-${article.id}`}
-        >
-          <ListItemText
-            cols={1}
-            primary={
-              <div className="flex flex-col">
-                <Link
-                  className="text-lg mb-2 leading-6 font-bold text-gray-900"
-                  color={'primary'}
-                  to={`/${lang}/articles/${article.slug}`}
-                >
-                  {translation(article.title)}
-                </Link>
+      <ListItem divider key={`${section}-${article.id}`}>
+        <ListItemText
+          cols={1}
+          primary={
+            <div className="flex flex-col">
+              <Link
+                className="text-lg mb-2 leading-6 font-bold text-gray-900"
+                color={'primary'}
+                to={`/${lang}/articles/${article.slug}`}
+              >
+                {translation(article.title)}
+              </Link>
 
-                <div className="flex items-center">
-                  <Avatar
-                    variant="small"
-                    alt={article.author.displayName}
-                    src={article.author.avatarUrl}
-                  />
-                  <div className="space-y-1">
-                    {
-                      article.author.displayName &&
-                      <p className="ml-1.5 text-xs font-light text-gray-400">
-                        Written by{' '}
-                        <strong className="text-gray-800 font-semibold">
-                          {article.author.displayName}
-                        </strong>
-                      </p>
-                    }
-                    {
-                      article.updatedAt &&
-                      <p className="ml-1.5 text-xs font-light text-gray-400">
-                        Updated {" "} 
-                        <Moment fromNow>
-                          {article.updatedAt}
-                        </Moment>
-                      </p>
-                    }
-                  </div>
-                  
+              <div className="flex items-center">
+                <Avatar
+                  variant="small"
+                  alt={article.author.displayName}
+                  src={article.author.avatarUrl}
+                />
+                <div className="space-y-1">
+                  {article.author.displayName && (
+                    <p className="ml-1.5 text-xs font-light text-gray-400">
+                      Written by{' '}
+                      <strong className="text-gray-800 font-semibold">
+                        {article.author.displayName}
+                      </strong>
+                    </p>
+                  )}
+                  {article.updatedAt && (
+                    <p className="ml-1.5 text-xs font-light text-gray-400">
+                      Updated <Moment fromNow>{article.updatedAt}</Moment>
+                    </p>
+                  )}
                 </div>
               </div>
-            }
-            secondary={
-              <p className="py-2 font-md text-gray-500 font-light">
+            </div>
+          }
+          secondary={
+            <p className="py-2 font-md text-gray-500 font-light">
               {article.description}
-              </p>}
-          />
-        </ListItem>
-  
+            </p>
+          }
+        />
+      </ListItem>
     )
   }
 
@@ -178,7 +163,7 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
             aria-label="Breadcrumb"
             breadcrumbs={[
               { to: '/', title: 'Collections' },
-              { title: translation(collections.title) }
+              { title: translation(collections.title) },
             ]}
           ></Breadcrumbs>
 
@@ -196,24 +181,18 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                 <OverlapAvatars>
                   <ul className="avatars">
                     {collections.authors &&
-                     collections.authors.map((o) => {
-                       return (
-                         <li
-                           key={`authors-${o.id}`}
-                           className="avatars__item"
-                         >
-                           <Tooltip
-                             placement="bottom"
-                             overlay={o.display_name}>
-                             <Avatar
-                               alt={o.displayName}
-                               src={o.avatarUrl}
-                             />
-                           </Tooltip>
-                         </li>
-                       )
-                     })
-                    }
+                      collections.authors.map((o) => {
+                        return (
+                          <li key={`authors-${o.id}`} className="avatars__item">
+                            <Tooltip
+                              placement="bottom"
+                              overlay={o.display_name}
+                            >
+                              <Avatar alt={o.displayName} src={o.avatarUrl} />
+                            </Tooltip>
+                          </li>
+                        )
+                      })}
 
                     {collections.authors && collections.authors.length > 5 ? (
                       <li className="avatars__item">
@@ -223,19 +202,19 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                   </ul>
                 </OverlapAvatars>
 
-                {
-                  collections.baseArticles.length > 0 &&
+                {collections.baseArticles.length > 0 && (
                   <p className="max-w-2xl text-md leading-7 text-gray-500">
-                    {collections.baseArticles.length} articles in this collection
+                    {collections.baseArticles.length} articles in this
+                    collection
                   </p>
-                }
+                )}
               </div>
 
               <div className="py-4">
                 <List>
-                  {collections.baseArticles.map((article) => (
-                    renderArticles(article, 'articles-base' )
-                  ))}
+                  {collections.baseArticles.map((article) =>
+                    renderArticles(article, 'articles-base')
+                  )}
                 </List>
               </div>
 
@@ -252,9 +231,9 @@ export default function CollectionsWithSections ({ match, lang, subdomain }) {
                   {section.articles.length > 0 ? (
                     <div>
                       <List>
-                        {section.articles.map((article) => (
-                          renderArticles(article, 'section-articles' )
-                        ))}
+                        {section.articles.map((article) =>
+                          renderArticles(article, 'section-articles')
+                        )}
                       </List>
                     </div>
                   ) : null}

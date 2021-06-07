@@ -1,7 +1,7 @@
 import { FileChecksum } from 'activestorage/src/file_checksum'
 import { BlobUpload } from 'activestorage/src/blob_upload'
 
-function calculateChecksum (file) {
+function calculateChecksum(file) {
   return new Promise((resolve, reject) => {
     FileChecksum.create(file, (error, checksum) => {
       if (error) {
@@ -21,7 +21,7 @@ export const getFileMetadata = (file) => {
         checksum,
         filename: file.name,
         contentType: file.type,
-        byteSize: file.size
+        byteSize: file.size,
       })
     })
   })

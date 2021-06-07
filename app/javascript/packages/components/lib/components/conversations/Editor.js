@@ -30,8 +30,7 @@ const EditorContainer = styled.div`
   //border-radius: 2px;
   //margin-top: 1px;
 
-
-  .inlineTooltip-button{
+  .inlineTooltip-button {
     width: 30px;
     height: 30px;
   }
@@ -49,18 +48,18 @@ const EditorWrapper = styled.div`
 export default class ConversationEditor extends Component {
   state = {
     loading: false,
-    sendMode: 'enter'
-  };
+    sendMode: 'enter',
+  }
 
-  fallbackEditor = false;
-  delayTimer = null;
+  fallbackEditor = false
+  delayTimer = null
 
   submitData = (formats, options) => {
     // DANTE does not provide a way to update contentState from outside ?
     // hide and show editor hack
     this.setState(
       {
-        loading: true
+        loading: true,
       },
       () => {
         options.note
@@ -68,17 +67,17 @@ export default class ConversationEditor extends Component {
           : this.props.insertComment(formats, this.enable)
       }
     )
-  };
+  }
 
   enable = () => {
     this.setState({
-      loading: false
+      loading: false,
     })
-  };
+  }
 
   toggleSendMode = (_e) => {
     this.setState({
-      sendMode: this.state.sendMode === 'enter' ? '' : 'enter'
+      sendMode: this.state.sendMode === 'enter' ? '' : 'enter',
     })
   }
 
@@ -90,7 +89,7 @@ export default class ConversationEditor extends Component {
     this.delayTimer = setTimeout(() => {
       this.props.typingNotifier()
     }, 400)
-  };
+  }
 
   renderEditor = (opts) => {
     return (
@@ -104,19 +103,19 @@ export default class ConversationEditor extends Component {
               insertAppBlockComment={this.props.insertAppBlockComment}
               submitData={(formats) => this.submitData(formats, opts)}
               saveContentCallback={(content) => this.handleTyping(content)}
-              sendMode={ this.state.sendMode }
+              sendMode={this.state.sendMode}
               {...this.props}
             />
           ) : null}
         </EditorContainer>
       </EditorWrapper>
     )
-  };
+  }
 
-  render () {
+  render() {
     const tabs = [
       { label: 'Reply', content: this.renderEditor({}) },
-      { label: 'Note', content: this.renderEditor({ note: true }) }
+      { label: 'Note', content: this.renderEditor({ note: true }) },
     ]
 
     return (
@@ -125,12 +124,13 @@ export default class ConversationEditor extends Component {
         onSelect={(tab, index) => console.log('Selected Tab', index + 1)}
         buttons={() => (
           <div className="flex flex-grow items-center justify-end pr-3">
-
             <input
               id="send_mode"
               type="checkbox"
               checked={this.state.sendMode === 'enter'}
-              onChange={(e) => { this.toggleSendMode(e) }}
+              onChange={(e) => {
+                this.toggleSendMode(e)
+              }}
               className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
             />
             <label
@@ -139,7 +139,6 @@ export default class ConversationEditor extends Component {
             >
               {I18n.t('common.send_on_enter')}
             </label>
-
           </div>
         )}
       />

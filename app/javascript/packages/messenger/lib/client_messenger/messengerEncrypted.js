@@ -5,17 +5,16 @@ import { AUTH } from './graphql/queries'
 import GraphqlClient from './graphql/client'
 
 export default class ChaskiqMessengerEncrypted {
-  constructor (props) {
+  constructor(props) {
     this.props = props
 
-    const currentLang = this.props.lang ||
-                        navigator.language ||
-                        navigator.userLanguage
+    const currentLang =
+      this.props.lang || navigator.language || navigator.userLanguage
 
     const data = {
       referrer: window.location.path,
       email: this.props.email,
-      properties: this.props.properties
+      properties: this.props.properties,
     }
 
     this.cookieNamespace = () => {
@@ -37,63 +36,66 @@ export default class ChaskiqMessengerEncrypted {
     this.checkCookie = (val) => {
       setCookie(this.cookieNamespace(), val, 365)
     }
-    
+
     this.defaultHeaders = {
       app: this.props.app_id,
       'enc-data': this.props.data || '',
       'user-data': JSON.stringify(this.props.data),
       'session-id': this.getSession(),
-      lang: currentLang
+      lang: currentLang,
     }
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
-      baseURL: `${this.props.domain}/api/graphql`
+      baseURL: `${this.props.domain}/api/graphql`,
     })
 
-    this.graphqlClient.send(AUTH, {
-      lang: currentLang
-    }, {
-      success: (data) => {
-        const user = data.messenger.user
-
-        if (user.kind !== "AppUser"){
-          if (user.session_id) {
-            this.checkCookie(user.session_id)
-          } else {
-            deleteCookie(this.cookieNamespace())
-          }
-        }
-
-        const messenger = new ChaskiqMessenger(
-          Object.assign({}, user, {
-            app_id: this.props.app_id,
-            encData: this.props.data,
-            encryptedMode: true,
-            domain: this.props.domain,
-            ws: this.props.ws,
-            lang: user.lang,
-            wrapperId: this.props.wrapperId || 'ChaskiqMessengerRoot'
-          })
-        )
-
-        messenger.render()
+    this.graphqlClient.send(
+      AUTH,
+      {
+        lang: currentLang,
       },
-      errors: (e) => { 
-        console.log("Error", e )
+      {
+        success: (data) => {
+          const user = data.messenger.user
+
+          if (user.kind !== 'AppUser') {
+            if (user.session_id) {
+              this.checkCookie(user.session_id)
+            } else {
+              deleteCookie(this.cookieNamespace())
+            }
+          }
+
+          const messenger = new ChaskiqMessenger(
+            Object.assign({}, user, {
+              app_id: this.props.app_id,
+              encData: this.props.data,
+              encryptedMode: true,
+              domain: this.props.domain,
+              ws: this.props.ws,
+              lang: user.lang,
+              wrapperId: this.props.wrapperId || 'ChaskiqMessengerRoot',
+            })
+          )
+
+          messenger.render()
+        },
+        errors: (e) => {
+          console.log('Error', e)
+        },
       }
-    })
+    )
 
     this.unload = () => {
       this.sendCommand('unload', {})
     }
 
     this.sendCommand = (action, data = {}) => {
-      const event = new CustomEvent('chaskiq_events',
-        {
-          bubbles: true,
-          detail: { action: action, data: data }
-        })
+      const event = new CustomEvent('chaskiq_events', {
+        bubbles: true,
+        detail: { action: action, data: data },
+      })
       window.document.body.dispatchEvent(event)
     }
   }

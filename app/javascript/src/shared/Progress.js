@@ -14,12 +14,12 @@ const Loader = styled.div`
   border-top-color: white;
 `
 
-export default function CircularIndeterminate () {
+export default function CircularIndeterminate() {
   return (
     <div className="flex justify-center items-center">
       <Loader
         className="loader ease-linear rounded-full
-      border-4 border-t-4 border-gray-200 h-16 w-16"
+      border-4 border-t-4 border-gray-200 dark:text-gray-600 h-16 w-16"
       />
     </div>
   )

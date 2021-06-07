@@ -9,16 +9,16 @@ import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
+  ItemListSecondaryContent,
 } from './List'
 import ErrorBoundary from '../ErrorBoundary'
 
 import { ThemeProvider } from 'emotion-theming'
 
-import {Loader, Progress} from './styled'
+import { Loader, Progress } from './styled'
 //= === RENDERERS
 
-function textColor (color) {
+function textColor(color) {
   const lightReturnColor = '#000'
   const darkReturnColor = '#fff'
   return readableColor(color, lightReturnColor, darkReturnColor, true)
@@ -37,19 +37,33 @@ const SingleSelect = styled.div`
 
 const SingleSelectButton = styled.button`
   ${() => tw`outline-none border font-light py-2 px-4`}
-  ${(props) => props.i === 0 ? tw`rounded-l` : props.i === props.field.options.length - 1 ? tw`rounded-r` : ''}
-  ${(props) => props.i !== 0 ? tw`border-l-0` : ''}
-  ${(props) => props.isDisabled || props.isSaved ? tw`bg-white pointer-events-none` : ''}
-  ${(props) => !props.isSaved && !props.isSelected && !props.isDisabled && !props.isSaved ? tw`text-indigo-400 hover:text-gray-600 bg-white hover:bg-gray-100 border-indigo-400` : ''}
-  ${(props) => props.isFailed ? tw`bg-white hover:bg-gray-100 border-red-400` : ''}
-  ${(props) => props.isSelected ? tw`bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none` : ''}
+  ${(props) =>
+    props.i === 0
+      ? tw`rounded-l`
+      : props.i === props.field.options.length - 1
+      ? tw`rounded-r`
+      : ''}
+  ${(props) => (props.i !== 0 ? tw`border-l-0` : '')}
+  ${(props) =>
+    props.isDisabled || props.isSaved ? tw`bg-white pointer-events-none` : ''}
+  ${(props) =>
+    !props.isSaved && !props.isSelected && !props.isDisabled && !props.isSaved
+      ? tw`text-indigo-400 hover:text-gray-600 bg-white hover:bg-gray-100 border-indigo-400`
+      : ''}
+  ${(props) =>
+    props.isFailed ? tw`bg-white hover:bg-gray-100 border-red-400` : ''}
+  ${(props) =>
+    props.isSelected
+      ? tw`bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none`
+      : ''}
 `
 
 // const Button = styled(BaseButton)``
 
 const Button = styled(BaseButton)`
-  ${(props) => !props.variant && props.theme && props.theme.palette && !props.disabled
-    ? `
+  ${(props) =>
+    !props.variant && props.theme && props.theme.palette && !props.disabled
+      ? `
     background-color: ${props.theme.palette.primary} !important;
     color: ${textColor(props.theme.palette.primary)} !important;
     border-color: ${props.theme.palette.primary} !important;
@@ -57,14 +71,15 @@ const Button = styled(BaseButton)`
       background-color: ${lighten(0.1, props.theme.palette.primary)} !important;
       color: ${textColor(props.theme.palette.primary)} !important;  
     }
-    ` : ''
-  }
+    `
+      : ''}
 
   display: block;
 
-  ${(props) => props.disabled
-    ? tw`bg-gray-200 text-gray-300 hover:bg-gray-200 hover:text-gray-300 cursor-auto` : ''
-  }
+  ${(props) =>
+    props.disabled
+      ? tw`bg-gray-200 text-gray-300 hover:bg-gray-200 hover:text-gray-300 cursor-auto`
+      : ''}
 
   ${(props) => {
     switch (props.align) {
@@ -88,7 +103,6 @@ const Button = styled(BaseButton)`
     }
   }}
 
-  
   ${(props) => {
     switch (props.variant) {
       case 'success':
@@ -99,9 +113,12 @@ const Button = styled(BaseButton)`
         return ''
       case 'outlined':
         return `
-          ${(props) => props.theme.palette ? `
+          ${(props) =>
+            props.theme.palette
+              ? `
             border-color: ${props.theme.palette.primary} !important;
-          ` : `
+          `
+              : `
             border-color: "#ccc" !important;
           `}
         `
@@ -109,29 +126,35 @@ const Button = styled(BaseButton)`
         return ''
       case 'link':
         return `
-        ${(_props) => tw`text-sm leading-5 font-bold text-gray-900 hover:text-indigo-500`}
-        ${(props) => props.theme.palette ? '' : ''}
+        ${(_props) =>
+          tw`text-sm leading-5 font-bold text-gray-900 hover:text-indigo-500`}
+        ${(props) => (props.theme.palette ? '' : '')}
       `
 
       default:
         return `
-          ${(props) => props.theme.palette ? `
+          ${(props) =>
+            props.theme.palette
+              ? `
             background-color: ${props.theme.palette.primary} !important;
             color: ${textColor(props.theme.palette.primary)} !important;
             border: none !important;
             &:hover{
-              background-color: ${darken(0.1, props.theme.palette.primary)} !important;
+              background-color: ${darken(
+                0.1,
+                props.theme.palette.primary
+              )} !important;
               color: ${textColor(props.theme.palette.primary)} !important;
               border: none !important;
             }`
-          : ''}
+              : ''}
         `
     }
   }};
 `
 
-export function SingleSelectRenderer ({ field, handleAction }) {
-  function handleClick (e, o) {
+export function SingleSelectRenderer({ field, handleAction }) {
+  function handleClick(e, o) {
     if (!o.action) {
       e.preventDefault()
       return
@@ -143,13 +166,13 @@ export function SingleSelectRenderer ({ field, handleAction }) {
     <SingleSelect>
       <p className="label">{field.label}</p>
       <div className="content">
-        {
-          field.options.map((o, i) => {
-            const isSelected = field.value === o.id
-            const isFailed = field.save_state === 'failed'
-            const isDisabled = field.disabled || o.disabled
-            const isSaved = field.save_state === 'saved'
-            return <SingleSelectButton
+        {field.options.map((o, i) => {
+          const isSelected = field.value === o.id
+          const isFailed = field.save_state === 'failed'
+          const isDisabled = field.disabled || o.disabled
+          const isSaved = field.save_state === 'saved'
+          return (
+            <SingleSelectButton
               onClick={(e) => handleClick(e, o)}
               key={`single-select-${field.id}-${o.id}`}
               isSelected={isSelected}
@@ -158,11 +181,12 @@ export function SingleSelectRenderer ({ field, handleAction }) {
               isSaved={isSaved}
               i={i}
               field={field}
-              className={'outline-none border'}>
+              className={'outline-none border'}
+            >
               {o.text}
             </SingleSelectButton>
-          })
-        }
+          )
+        })}
       </div>
     </SingleSelect>
   )
@@ -171,34 +195,52 @@ export function SingleSelectRenderer ({ field, handleAction }) {
 const TextInput = styled.input`
   ${() => tw`border relative shadow-sm block w-full`}
 
-  ${(props) => props.theme.size === "sm" ? 
-    tw`p-1 text-sm`: 
-    tw`p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5`
-  }
+  ${(props) =>
+    props.theme.size === 'sm'
+      ? tw`p-1 text-sm`
+      : tw`p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5`}
 
-  ${() => tw`block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
+  ${() =>
+    tw`block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5`}
 
-  ${(props) => props.field.save_state === 'failed' ? tw`border-red-300 text-red-500 placeholder-red-300 bg-red-100 focus:border-red-300` : ''}
+  ${(props) =>
+    props.field.save_state === 'failed'
+      ? tw`border-red-300 text-red-500 placeholder-red-300 bg-red-100 focus:border-red-300`
+      : ''}
 
-  ${(props) => props.disabled && props.field.save_state === 'failed' ? tw`border-red-300 text-red-200 placeholder-red-300 bg-red-100 focus:border-red-300` : ''}
+  ${(props) =>
+    props.disabled && props.field.save_state === 'failed'
+      ? tw`border-red-300 text-red-200 placeholder-red-300 bg-red-100 focus:border-red-300`
+      : ''}
 
-  ${(props) => props.disabled && !props.field.save_state ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-200 placeholder-gray-300 bg-gray-100 border-r-0 focus:border-gray-300` : ''}
+  ${(props) =>
+    props.disabled && !props.field.save_state
+      ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-200 placeholder-gray-300 bg-gray-100 border-r-0 focus:border-gray-300`
+      : ''}
 
-  ${(props) => !props.field.save_state && !props.error ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-900 placeholder-gray-300 focus:border-gray-300` : ''}
+  ${(props) =>
+    !props.field.save_state && !props.error
+      ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-900 placeholder-gray-300 focus:border-gray-300`
+      : ''}
 
-  ${(props) => !props.field.save_state && props.error ? tw`border-red-300 text-red-900 placeholder-red-300 focus:border-red-300` : ''}
+  ${(props) =>
+    !props.field.save_state && props.error
+      ? tw`border-red-300 text-red-900 placeholder-red-300 focus:border-red-300`
+      : ''}
 
   margin:0px !important;
 
-  ${(props) => props.field.action
-    ? `border-top-right-radius: 0rem !important;
-    border-bottom-right-radius: 0rem !important;` : ''
-  }
+  ${(props) =>
+    props.field.action
+      ? `border-top-right-radius: 0rem !important;
+    border-bottom-right-radius: 0rem !important;`
+      : ''}
 
-  ${(props) => props.disabled
-    ? `background: #f6f4f4 !important;
-    color: #ddd !important;` : ''
-  }
+  ${(props) =>
+    props.disabled
+      ? `background: #f6f4f4 !important;
+    color: #ddd !important;`
+      : ''}
 `
 
 const ErrorMessage = styled.span`
@@ -206,22 +248,16 @@ const ErrorMessage = styled.span`
 `
 
 const TextInputWrapper = styled.div`
-  ${(props) => props.shadow ? tw`shadow-sm` : ''}
+  ${(props) => (props.shadow ? tw`shadow-sm` : '')}
 
-  ${(props) => props.field.action
-    ? tw`rounded-none rounded-l-md`
-    : tw`rounded-none`
-  }
+  ${(props) =>
+    props.field.action ? tw`rounded-none rounded-l-md` : tw`rounded-none`}
 
   ${() => tw`flex relative`}
 `
 
 const TextInputButton = styled.div`
-
-  ${(props) => props.theme.size === 'sm'
-    ? tw`px-1 py-1`
-    : tw`px-5 py-3`
-  };
+  ${(props) => (props.theme.size === 'sm' ? tw`px-1 py-1` : tw`px-5 py-3`)};
 
   ${() => tw`-ml-px relative inline-flex items-center
    text-sm leading-5 font-medium
@@ -229,20 +265,22 @@ const TextInputButton = styled.div`
   rounded-r-md text-gray-700 bg-gray-100 hover:text-gray-500 
   transition ease-in-out duration-150`}
 
-  ${(props) => !props.disabled
-    ? tw`hover:bg-white focus:outline-none focus:shadow-outline`
-    : ''
-  }
+  ${(props) =>
+    !props.disabled
+      ? tw`hover:bg-white focus:outline-none focus:shadow-outline`
+      : ''}
 
 
   ${(props) =>
-    props.disabled ? `
+    props.disabled
+      ? `
       border: 1px solid #ccc;
-      ${() => tw`border border-gray-300 text-gray-200 bg-gray-100 hover:text-gray-200 hover:bg-gray-100`}
+      ${() =>
+        tw`border border-gray-300 text-gray-200 bg-gray-100 hover:text-gray-200 hover:bg-gray-100`}
       ${() => tw`cursor-pointer`}
 
     `
-     : props.theme && props.theme.palette
+      : props.theme && props.theme.palette
       ? `
       background-color: ${props.theme.palette.primary};
       color: ${textColor(props.theme.palette.primary)};
@@ -265,113 +303,131 @@ const TextInputButton = styled.div`
       hover:bg-blue-600 
       active:bg-gray-100 
       active:text-gray-700
-      `
-  }
+      `}
 
-  ${(props) => !props.disabled ? tw`
+  ${(props) =>
+    !props.disabled
+      ? tw`
   cursor-pointer
   focus:outline-none 
   focus:shadow-outline`
-  : ''}
+      : ''}
 
   svg {
     position: absolute;
     left: 4px;
-    ${(props) => props.saved ? tw`text-green-400` : tw`text-white`}
+    ${(props) => (props.saved ? tw`text-green-400` : tw`text-white`)}
   }
 
-  ${(props) => props.saved ? `
+  ${(props) =>
+    props.saved
+      ? `
     position: absolute;
     right: 3px;
     top: -3px;
     display: block;
     border: 1px solid transparent;
-    background: transparent;` : ''
-  }
+    background: transparent;`
+      : ''}
 `
 
 const ArrowRight = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fillRule="evenodd"
+      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+      clipRule="evenodd"
+    />
   </svg>
 )
 
 const CheckIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fillRule="evenodd"
+      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+      clipRule="evenodd"
+    />
   </svg>
 )
 
-export function TextInputRenderer ({ field, handleAction, loading, disabled }) {
-  function isDisabled () {
+export function TextInputRenderer({ field, handleAction, loading, disabled }) {
+  function isDisabled() {
     return disabled || loading || field.disabled || field.save_state === 'saved'
   }
 
-  function isSaved () {
+  function isSaved() {
     return field.save_state === 'saved'
   }
 
-  return <FormField
-    name={field.name || field.id}
-    label={field.label}
-    helperText={field.hint}
-    error={field.errors}>
-    <TextInputWrapper field={field}>
-      <TextInput
-        field={field}
-        error={field.errors}
-        type="text"
-        id={field.id}
-        name={field.name || field.id}
-        autoComplete="off"
-        onKeyDown={ (e) => {
-          if (e.keyCode === 13) {
-            e.preventDefault()
-            handleAction(e, field)
-          }
-        }}
-        disabled={isDisabled()}
-        defaultValue={field.value || ''}
-        placeholder={field.placeholder}
-      />
+  return (
+    <FormField
+      name={field.name || field.id}
+      label={field.label}
+      helperText={field.hint}
+      error={field.errors}
+    >
+      <TextInputWrapper field={field}>
+        <TextInput
+          field={field}
+          error={field.errors}
+          type="text"
+          id={field.id}
+          name={field.name || field.id}
+          autoComplete="off"
+          onKeyDown={(e) => {
+            if (e.keyCode === 13) {
+              e.preventDefault()
+              handleAction(e, field)
+            }
+          }}
+          disabled={isDisabled()}
+          defaultValue={field.value || ''}
+          placeholder={field.placeholder}
+        />
 
-      { !field.action && field.save_state === 'saved' &&
-                <TextInputButton
-                  disabled={true}
-                  saved={true}>
-                  <CheckIcon/>
-                </TextInputButton>
-      }
+        {!field.action && field.save_state === 'saved' && (
+          <TextInputButton disabled={true} saved={true}>
+            <CheckIcon />
+          </TextInputButton>
+        )}
 
-      {
-        field.action &&
+        {field.action && (
           <TextInputButton
             onClick={(e) => {
               if (!isDisabled() && !isSaved()) handleAction(e, field)
             }}
             saved={field.save_state === 'saved'}
-            disabled={isDisabled()}>
-            {
-              field.save_state === 'saved'
-                ? <CheckIcon/>
-                : loading ? <Progress/> : <ArrowRight/>
-            }
+            disabled={isDisabled()}
+          >
+            {field.save_state === 'saved' ? (
+              <CheckIcon />
+            ) : loading ? (
+              <Progress />
+            ) : (
+              <ArrowRight />
+            )}
           </TextInputButton>
-      }
-    </TextInputWrapper>
-    {
-      field.errors &&
-        <ErrorMessage
-          key={`error-for-${field.name}`}
-          className="error">
+        )}
+      </TextInputWrapper>
+      {field.errors && (
+        <ErrorMessage key={`error-for-${field.name}`} className="error">
           {field.errors}
         </ErrorMessage>
-    }
-  </FormField>
+      )}
+    </FormField>
+  )
 }
 
 const Paragraph = styled.div`
-
   p {
     font-size: inherit;
     font-weight: inherit;
@@ -415,10 +471,7 @@ const Paragraph = styled.div`
 `
 
 const Padder = styled.div`
-  ${(props) => props.theme.size === 'sm'
-    ? tw`mx-2 my-2`
-    : tw`mx-4 my-2`
-  };
+  ${(props) => (props.theme.size === 'sm' ? tw`mx-2 my-2` : tw`mx-4 my-2`)};
 
   ${(props) => {
     switch (props.align) {
@@ -436,18 +489,14 @@ const Padder = styled.div`
   }};
 `
 
-export function TextRenderer ({ field }) {
-  return <Paragraph
-    align={field.align}
-    styl={field.style}>
-    {
-      field.style === 'header' && <h3>{field.text}</h3>
-    }
+export function TextRenderer({ field }) {
+  return (
+    <Paragraph align={field.align} styl={field.style}>
+      {field.style === 'header' && <h3>{field.text}</h3>}
 
-    {
-      field.style !== 'header' && <ReactMarkdown source={field.text}/>
-    }
-  </Paragraph>
+      {field.style !== 'header' && <ReactMarkdown source={field.text} />}
+    </Paragraph>
+  )
 }
 
 const Spacer = styled.div`
@@ -468,57 +517,52 @@ const Spacer = styled.div`
     }
   }};
 `
-export function SpacerRenderer ({ field }) {
-  return <Spacer size={field.size}/>
+export function SpacerRenderer({ field }) {
+  return <Spacer size={field.size} />
 }
 
 const DataTable = styled.dl`
-${(props) => props.theme.size === 'sm'
-    ? tw`px-1 py-1 grid sm:grid-cols-3 sm:gap-4 sm:px-1`
-    : tw`px-4 py-5 grid sm:grid-cols-3 sm:gap-4 sm:px-6`
-  };
+  ${(props) =>
+    props.theme.size === 'sm'
+      ? tw`px-1 py-1 grid sm:grid-cols-3 sm:gap-4 sm:px-1`
+      : tw`px-4 py-5 grid sm:grid-cols-3 sm:gap-4 sm:px-6`};
 `
 
 const Dt = styled.dt`
-${() => tw`text-sm leading-5 font-medium text-gray-500 dark:text-gray-200`};
+  ${() => tw`text-sm leading-5 font-medium text-gray-500 dark:text-gray-200`};
 `
 
 const Dd = styled.dd`
-${() => tw`mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2`};
+  ${() =>
+    tw`mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100 sm:mt-0 sm:col-span-2`};
 `
 
-export function DataTableRenderer ({ field }) {
+export function DataTableRenderer({ field }) {
   return (
     <DataTable>
-      {field.items && field.items.map((o, i) => (
-        <React.Fragment key={`dl-${o.field}-${i}`}>
-          <Dt>
-            {o.field}
-          </Dt>
-          <Dd>
-            {o.value}
-          </Dd>
-        </React.Fragment>
-      ))}
+      {field.items &&
+        field.items.map((o, i) => (
+          <React.Fragment key={`dl-${o.field}-${i}`}>
+            <Dt>{o.field}</Dt>
+            <Dd>{o.value}</Dd>
+          </React.Fragment>
+        ))}
     </DataTable>
   )
 }
 
 // image support
-export function ListRenderer ({ field, handleAction }) {
-  return <List>
-    {
-      field.items.map((o) => (
+export function ListRenderer({ field, handleAction }) {
+  return (
+    <List>
+      {field.items.map((o) => (
         <ListItem
           key={o.id}
-          avatar={
-            o.image && <img width={55} src={o.image}/>
-          }
+          avatar={o.image && <img width={55} src={o.image} />}
           onClick={(e) => {
             o.action && handleAction(e, o)
-          }
-          }>
-
+          }}
+        >
           <ListItemText
             primary={
               <ItemListPrimaryContent variant="h5">
@@ -526,9 +570,7 @@ export function ListRenderer ({ field, handleAction }) {
               </ItemListPrimaryContent>
             }
             secondary={
-              <ItemListSecondaryContent>
-                {o.subtitle}
-              </ItemListSecondaryContent>
+              <ItemListSecondaryContent>{o.subtitle}</ItemListSecondaryContent>
             }
             terciary={
               <React.Fragment>
@@ -542,9 +584,9 @@ export function ListRenderer ({ field, handleAction }) {
             }
           />
         </ListItem>
-      ))
-    }
-  </List>
+      ))}
+    </List>
+  )
 }
 
 const ImageContainer = styled.div`
@@ -563,51 +605,60 @@ const ImageContainer = styled.div`
   }};
 `
 const Image = styled.img`
-  ${(props) => props.rounded ? tw`rounded-full` : ''}
+  ${(props) => (props.rounded ? tw`rounded-full` : '')}
 `
 
-export function ImageRenderer ({ field }) {
-  return <ImageContainer align={field.align}>
-    <Image src={field.url}
-      // className={`${s} ${a} ${r}`}
-      rounded={field.rounded}
-      styl={field.style}
-      width={field.width}
-      height={field.height}>
-      {field.text}
-    </Image>
-  </ImageContainer>
+export function ImageRenderer({ field }) {
+  return (
+    <ImageContainer align={field.align}>
+      <Image
+        src={field.url}
+        // className={`${s} ${a} ${r}`}
+        rounded={field.rounded}
+        styl={field.style}
+        width={field.width}
+        height={field.height}
+      >
+        {field.text}
+      </Image>
+    </ImageContainer>
+  )
 }
 
 const TextArea = styled.div`
   ${() => tw`flex flex-col`}
 
   label {
-    ${(props) => props.error ? tw`text-red-500` : ''}
+    ${(props) => (props.error ? tw`text-red-500` : '')}
   }
 
   textarea {
-    ${(props) => props.error ? tw`border-red-500 text-red-500 bg-red-100` : 'text-gray-700'}
+    ${(props) =>
+      props.error
+        ? tw`border-red-500 text-red-500 bg-red-100`
+        : 'text-gray-700'}
 
     ${() => tw`shadow appearance-none border 
       rounded w-full py-2 px-3
-      leading-tight focus:outline-none focus:shadow-outline`
-    }
+      leading-tight focus:outline-none focus:shadow-outline`}
   }
 `
 
-export function TextAreaRenderer ({ field, loading }) {
+export function TextAreaRenderer({ field, loading }) {
   return (
-    <FormField name={field.name}
+    <FormField
+      name={field.name}
       label={field.label}
       helperText={field.hint}
-      error={field.errors}>
+      error={field.errors}
+    >
       <TextArea error={field.errors}>
         <textarea
           id={field.id}
           name={field.name || field.id}
-          disabled={field.disabled || loading }
-          placeholder={field.placeholder}>
+          disabled={field.disabled || loading}
+          placeholder={field.placeholder}
+        >
           {field.value}
         </textarea>
       </TextArea>
@@ -617,8 +668,9 @@ export function TextAreaRenderer ({ field, loading }) {
 
 const DropDown = styled.div`
   ${(_props) => tw`relative inline-block text-left w-full`}
-  .content{
-    ${() => tw`z-50 w-full origin-top-right absolute right-0 mt-2 rounded-md shadow-lg`}
+  .content {
+    ${() =>
+      tw`z-50 w-full origin-top-right absolute right-0 mt-2 rounded-md shadow-lg`}
   }
 
   .content-wrap {
@@ -626,7 +678,7 @@ const DropDown = styled.div`
     height: 130px;
     overflow: auto;
   }
-  .py-1{
+  .py-1 {
     ${() => tw`py-1`}
   }
 `
@@ -634,10 +686,9 @@ const DropDown = styled.div`
 const ItemButton = styled.button`
   ${() => tw`w-full text-left block px-4 py-2 text-sm leading-5
     text-gray-700 hover:bg-gray-100 hover:text-gray-900
-    focus:outline-none focus:bg-gray-100 focus:text-gray-900`
-  }
+    focus:outline-none focus:bg-gray-100 focus:text-gray-900`}
 
-  ${(props) => props.selected ? tw`bg-gray-100` : ''}
+  ${(props) => (props.selected ? tw`bg-gray-100` : '')}
 `
 
 const SelectButton = styled.button`
@@ -645,21 +696,19 @@ const SelectButton = styled.button`
   border border-gray-300 px-4 py-2 bg-white text-sm
   leading-5 font-medium text-gray-700 hover:text-gray-500
   focus:outline-none focus:border-blue-300 focus:shadow-outline
-  active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150`
-  }
+  active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150`}
 
-  svg{
+  svg {
     ${() => tw`-mr-1 ml-2 h-5 w-5`}
   }
 `
 
 // TODO: disabled state / error state / saved state
-export function DropdownRenderer ({ field, _handleAction }) {
+export function DropdownRenderer({ field, _handleAction }) {
   const [open, setOpen] = React.useState(false)
 
-  const defaultValue = field.value && field.options.find(
-    (o) => o.id === field.value
-  )
+  const defaultValue =
+    field.value && field.options.find((o) => o.id === field.value)
 
   const [selected, setSelected] = React.useState(defaultValue)
 
@@ -670,63 +719,64 @@ export function DropdownRenderer ({ field, _handleAction }) {
   console.log(selected)
 
   return (
-
     <DropDown>
       <div>
         {field.label && <p>{field.label}</p>}
         <span className="rounded-md shadow-sm">
           <SelectButton
-            onClick={() => setOpen(!open) }
+            onClick={() => setOpen(!open)}
             type="button"
             id="options-menu"
             aria-haspopup="true"
-            aria-expanded="true">
-            { selected ? selected.text : 'Choose one...' }
+            aria-expanded="true"
+          >
+            {selected ? selected.text : 'Choose one...'}
             <svg viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                 clipRule="evenodd"
               />
             </svg>
           </SelectButton>
 
-          { selected &&
+          {selected && (
             <input
               type="hidden"
               value={selected.id || ''}
               name={field.id || field.name}
             />
-          }
-
+          )}
         </span>
       </div>
 
-      {
-        open &&
+      {open && (
         <div className="content">
           <div className="content-wrap">
-            <div className="py-1"
+            <div
+              className="py-1"
               role="menu"
               aria-orientation="vertical"
-              aria-labelledby="options-menu">
-              {
-                field.options && field.options.map(
-                  (o) => (
-                    <div key={`${field.id}-${o.id}`}>
-                      <ItemButton
-                        onClick={() => setSelected(o) }
-                        key={`field-${field.id}-${o.id}`}
-                        type="button"
-                        selected={ selected && selected.id === o.name}
-                        role="menuitem">
-                        {o.text}
-                      </ItemButton>
-                    </div>
-                  )
-                )}
+              aria-labelledby="options-menu"
+            >
+              {field.options &&
+                field.options.map((o) => (
+                  <div key={`${field.id}-${o.id}`}>
+                    <ItemButton
+                      onClick={() => setSelected(o)}
+                      key={`field-${field.id}-${o.id}`}
+                      type="button"
+                      selected={selected && selected.id === o.name}
+                      role="menuitem"
+                    >
+                      {o.text}
+                    </ItemButton>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
-      }
+      )}
     </DropDown>
   )
 }
@@ -734,13 +784,13 @@ export function DropdownRenderer ({ field, _handleAction }) {
 const CheckboxGroup = styled.div`
   ${() => tw`block`}
 
-  .label{
+  .label {
     ${() => tw`text-gray-700 dark:text-gray-200`}
   }
 
   .wrapper {
     ${() => tw`mt-2`}
-    label{
+    label {
       ${() => tw`inline-flex items-center`}
       input {
         ${() => tw`text-indigo-600`}
@@ -753,28 +803,27 @@ const CheckboxGroup = styled.div`
 `
 
 // TODO: error state
-export function CheckBoxesRenderer ({ field }) {
+export function CheckBoxesRenderer({ field }) {
   return (
     <CheckboxGroup>
-      <span className="label">
-        {field.label}
-      </span>
+      <span className="label">{field.label}</span>
       <div className="wrapper">
-        {
-          field.options && field.options.map((o) => (
+        {field.options &&
+          field.options.map((o) => (
             <div key={`field-${field.id}-${o.id}`}>
               <label>
                 <input
                   name={o.name}
-                  disabled={field.disabled || o.disabled || field.save_state === 'saved'}
+                  disabled={
+                    field.disabled || o.disabled || field.save_state === 'saved'
+                  }
                   type="checkbox"
                   defaultChecked={field.value && field.value.includes(o.id)}
                 />
                 <span className="pad">{o.text}</span>
               </label>
             </div>
-          ))
-        }
+          ))}
       </div>
     </CheckboxGroup>
   )
@@ -800,38 +849,46 @@ const ButtonWrapper = styled.div`
   }};
 `
 
-function ContentRenderer ({ field, values, updatePackage, disabled, appPackage }) {
+function ContentRenderer({
+  field,
+  values,
+  updatePackage,
+  disabled,
+  appPackage,
+}) {
   React.useEffect(() => {
-    updatePackage && updatePackage({
-      values: values || appPackage && appPackage.values,
-      field: {
-        action: field
-      }
-      // location: 'content'
-    }, () => {
-    })
+    updatePackage &&
+      updatePackage(
+        {
+          values: values || (appPackage && appPackage.values),
+          field: {
+            action: field,
+          },
+          // location: 'content'
+        },
+        () => {}
+      )
   }, [])
 
-  return <p>{ disabled
-    ? 'dynamic content will be rendered here'
-    : <Loader/>
-  }</p>
+  return (
+    <p>{disabled ? 'dynamic content will be rendered here' : <Loader />}</p>
+  )
 }
 
-export function DefinitionRenderer ({
+export function DefinitionRenderer({
   schema,
   values,
   updatePackage,
   disabled,
   location,
   size,
-  appPackage
+  appPackage,
 }) {
   const [loading, setLoading] = React.useState(false)
 
   const form = React.createRef()
 
-  function handleAction (e, field) {
+  function handleAction(e, field) {
     e.preventDefault()
 
     if (field.action.type === 'link') {
@@ -841,119 +898,136 @@ export function DefinitionRenderer ({
 
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     updatePackage && setLoading(true)
 
-    updatePackage && updatePackage({
-      values: serializedData,
-      field: field,
-      location: location || 'home'
-    }, () => {
-      setLoading(false)
-    })
+    updatePackage &&
+      updatePackage(
+        {
+          values: serializedData,
+          field: field,
+          location: location || 'home',
+        },
+        () => {
+          setLoading(false)
+        }
+      )
   }
 
-  function handleRender (field) {
+  function handleRender(field) {
     switch (field.type) {
       case 'content':
-        return <ContentRenderer
-          field={field}
-          values={values}
-          disabled={disabled}
-          appPackage={appPackage}
-          updatePackage={updatePackage}
-        />
-      case 'image':
-        return <Padder>
-          <ImageRenderer
+        return (
+          <ContentRenderer
             field={field}
-          />
-        </Padder>
-      case 'spacer':
-        return <SpacerRenderer field={field}/>
-      case 'data-table':
-        return <Padder>
-          <DataTableRenderer
-            loading={loading}
-            field={field}
-          />
-        </Padder>
-      case 'single-select':
-        return <Padder>
-          <SingleSelectRenderer
-            field={field}
-            loading={loading}
-            handleAction={handleAction}
-          />
-        </Padder>
-      case 'input':
-        return <Padder>
-          <TextInputRenderer
-            field={field}
-            loading={loading}
-            handleAction={handleAction}
+            values={values}
             disabled={disabled}
+            appPackage={appPackage}
+            updatePackage={updatePackage}
           />
-        </Padder>
+        )
+      case 'image':
+        return (
+          <Padder>
+            <ImageRenderer field={field} />
+          </Padder>
+        )
+      case 'spacer':
+        return <SpacerRenderer field={field} />
+      case 'data-table':
+        return (
+          <Padder>
+            <DataTableRenderer loading={loading} field={field} />
+          </Padder>
+        )
+      case 'single-select':
+        return (
+          <Padder>
+            <SingleSelectRenderer
+              field={field}
+              loading={loading}
+              handleAction={handleAction}
+            />
+          </Padder>
+        )
+      case 'input':
+        return (
+          <Padder>
+            <TextInputRenderer
+              field={field}
+              loading={loading}
+              handleAction={handleAction}
+              disabled={disabled}
+            />
+          </Padder>
+        )
       case 'dropdown':
-        return <Padder>
-          <DropdownRenderer
+        return (
+          <Padder>
+            <DropdownRenderer
+              field={field}
+              loading={loading}
+              handleAction={handleAction}
+            />
+          </Padder>
+        )
+      case 'separator':
+        return <Separator />
+      case 'checkbox':
+        return (
+          <Padder>
+            <CheckBoxesRenderer loading={loading} field={field} />
+          </Padder>
+        )
+      case 'button':
+        return (
+          <Padder>
+            <ButtonWrapper align={field.align}>
+              <Button
+                size={size === 'sm' ? 'xs' : field.size}
+                loading={loading || undefined}
+                disabled={disabled || loading}
+                variant={field.variant}
+                width={field.width}
+                // size={field.size}
+                id={field.id}
+                onClick={(e) => handleAction(e, field)}
+              >
+                {field.label}
+              </Button>
+            </ButtonWrapper>
+          </Padder>
+        )
+      case 'text':
+        return (
+          <Padder>
+            <TextRenderer loading={loading} field={field} />
+          </Padder>
+        )
+      case 'list':
+        return (
+          <ListRenderer
             field={field}
             loading={loading}
             handleAction={handleAction}
           />
-        </Padder>
-      case 'separator':
-        return <Separator/>
-      case 'checkbox':
-        return <Padder>
-          <CheckBoxesRenderer
-            loading={loading}
-            field={field}
-          />
-        </Padder>
-      case 'button':
-        return <Padder>
-          <ButtonWrapper
-            align={field.align}>
-            <Button
-              size={size === 'sm' ? 'xs' : field.size }
-              loading={loading || undefined }
-              disabled={disabled || loading}
-              variant={field.variant}
-              width={field.width}
-              // size={field.size}
-              id={field.id}
-              onClick={(e) => handleAction(e, field) }>
-              {field.label}
-            </Button>
-          </ButtonWrapper>
-        </Padder>
-      case 'text':
-        return <Padder>
-          <TextRenderer
-            loading={loading}
-            field={field}
-          />
-        </Padder>
-      case 'list':
-        return <ListRenderer
-          field={field}
-          loading={loading}
-          handleAction={handleAction}
-        />
+        )
       case 'textarea':
-        return <Padder>
-          <TextAreaRenderer
-            loading={loading}
-            field={field}
-          />
-        </Padder>
+        return (
+          <Padder>
+            <TextAreaRenderer loading={loading} field={field} />
+          </Padder>
+        )
       default:
-        return <p>no type for {JSON.stringify(field)}{field.type}</p>
-        /* return <FieldRenderer
+        return (
+          <p>
+            no type for {JSON.stringify(field)}
+            {field.type}
+          </p>
+        )
+      /* return <FieldRenderer
           type={field.type}
           namespace={'data'}
           data={field}
@@ -965,25 +1039,27 @@ export function DefinitionRenderer ({
     }
   }
 
-  function getKey (){
+  function getKey() {
     return appPackage?.name
   }
 
-  return <div className="flex flex-col">
-    <form ref={form} onSubmit={ () => false }>
-      <ThemeProvider theme={{ size: size }}>
-        {schema.map((field, i) => {
-          return (
-            <ErrorBoundary key={`renderer-field-${getKey()}-${field.id}-${i}`}>
-              <RendererWrapper>
-                {handleRender(field)}
-              </RendererWrapper>
-            </ErrorBoundary>
-          )
-        })}
-      </ThemeProvider>
-    </form>
-  </div>
+  return (
+    <div className="flex flex-col">
+      <form ref={form} onSubmit={() => false}>
+        <ThemeProvider theme={{ size: size }}>
+          {schema.map((field, i) => {
+            return (
+              <ErrorBoundary
+                key={`renderer-field-${getKey()}-${field.id}-${i}`}
+              >
+                <RendererWrapper>{handleRender(field)}</RendererWrapper>
+              </ErrorBoundary>
+            )
+          })}
+        </ThemeProvider>
+      </form>
+    </div>
+  )
 }
 
 const RendererWrapper = styled.div`
@@ -992,32 +1068,21 @@ const RendererWrapper = styled.div`
 
 const Label = styled.label`
   ${() => tw`block text-gray-700 dark:text-gray-200 font-bold mb-2`}
-  ${(props)=> props.theme.size === "sm" ? 
-    tw`text-xs` :
-    tw`text-sm`
-  }
+  ${(props) => (props.theme.size === 'sm' ? tw`text-xs` : tw`text-sm`)}
 `
 
 const HelperText = styled.div`
   ${() => tw`mt-2 text-xs text-gray-500 dark:text-gray-200`}
 `
 
-function FormField ({ name, label, helperText, children, _error }) {
+function FormField({ name, label, helperText, children, _error }) {
   return (
     <React.Fragment>
-      <Label
-        htmlFor={name}
-      >
-        {label}
-      </Label>
+      <Label htmlFor={name}>{label}</Label>
 
       {children}
 
-      {helperText && (
-        <HelperText>
-          {helperText}
-        </HelperText>
-      )}
+      {helperText && <HelperText>{helperText}</HelperText>}
     </React.Fragment>
   )
 }

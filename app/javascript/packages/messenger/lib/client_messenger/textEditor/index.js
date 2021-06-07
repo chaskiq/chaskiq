@@ -1,33 +1,29 @@
-
 import React, { Component } from 'react'
 
 import { convertToHTML } from 'draft-convert'
 
-import {
-  CompositeDecorator,
-  EditorState,
-  convertFromRaw
-} from 'draft-js'
+import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js'
 import MultiDecorator from 'draft-js-multidecorators'
 
 // import Dante from "Dante2"
-import { DanteEditor ,
- DanteImagePopoverConfig ,
- DanteAnchorPopoverConfig ,
- DanteInlineTooltipConfig ,
- DanteTooltipConfig ,
- ImageBlockConfig,
- EmbedBlockConfig ,
- VideoBlockConfig,
- PlaceholderBlockConfig ,
- VideoRecorderBlockConfig ,
- CodeBlockConfig,
- DividerBlockConfig,
- PrismDraftDecorator,
- LinkDecorator as Link,
- Styled,
- utils,
- } from 'Dante2'
+import {
+  DanteEditor,
+  DanteImagePopoverConfig,
+  DanteAnchorPopoverConfig,
+  DanteInlineTooltipConfig,
+  DanteTooltipConfig,
+  ImageBlockConfig,
+  EmbedBlockConfig,
+  VideoBlockConfig,
+  PlaceholderBlockConfig,
+  VideoRecorderBlockConfig,
+  CodeBlockConfig,
+  DividerBlockConfig,
+  PrismDraftDecorator,
+  LinkDecorator as Link,
+  Styled,
+  utils,
+} from 'Dante2'
 // import { ButtonBlockConfig } from "../../editor/components/blocks/button";
 
 import Prism from 'prismjs'
@@ -38,28 +34,27 @@ import Prism from 'prismjs'
 import { ThemeProvider } from 'emotion-theming'
 import theme from './theme'
 import styled from '@emotion/styled'
-import {CircularProgress} from '@chaskiq/components'
-import { getFileMetadata } from  '../../../../../src/shared/fileUploader' // '../../src/shared/fileUploader' // '../shared/fileUploader'
+import { CircularProgress } from '@chaskiq/components'
+import { getFileMetadata } from '../../../../../src/shared/fileUploader' // '../../src/shared/fileUploader' // '../shared/fileUploader'
 
-const {findEntities} =  utils
+const { findEntities } = utils
 const { EditorContainer } = Styled
 
 export const EditorStylesExtend = styled(EditorContainer)`
-  
-  @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');   
+  @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
 
   font-family: 'Inter', sans-serif;
 
   line-height: ${() => '2em'};
   font-size: ${() => '1.2em'};
 
-  .graf--p{
+  .graf--p {
     line-height: ${() => '2em'};
     font-size: ${() => '1.2em'};
     margin-bottom: 0px;
   }
 
-  .dante-menu{
+  .dante-menu {
     z-index: 2000;
   }
 
@@ -81,12 +76,15 @@ const defaultProps = {
     { className: 'graf--h3', block: 'header-two' },
     { className: 'graf--h4', block: 'header-three' },
     { className: 'graf--blockquote', block: 'blockquote' },
-    { className: 'graf--insertunorderedlist', block: 'unordered-list-item' },
+    {
+      className: 'graf--insertunorderedlist',
+      block: 'unordered-list-item',
+    },
     { className: 'graf--insertorderedlist', block: 'ordered-list-item' },
     { className: 'graf--code', block: 'code-block' },
     { className: 'graf--bold', block: 'BOLD' },
     { className: 'graf--italic', block: 'ITALIC' },
-    { className: 'graf--divider', block: 'divider' }
+    { className: 'graf--divider', block: 'divider' },
   ],
 
   continuousBlocks: [
@@ -96,19 +94,22 @@ const defaultProps = {
     'unordered-list',
     'unordered-list-item',
     'ordered-list-item',
-    'code-block'
+    'code-block',
   ],
 
   key_commands: {
     'alt-shift': [{ key: 65, cmd: 'add-new-block' }],
-    'alt-cmd': [{ key: 49, cmd: 'toggle_block:header-one' },
+    'alt-cmd': [
+      { key: 49, cmd: 'toggle_block:header-one' },
       { key: 50, cmd: 'toggle_block:header-two' },
-      { key: 53, cmd: 'toggle_block:blockquote' }],
-    cmd: [{ key: 66, cmd: 'toggle_inline:BOLD' },
+      { key: 53, cmd: 'toggle_block:blockquote' },
+    ],
+    cmd: [
+      { key: 66, cmd: 'toggle_inline:BOLD' },
       { key: 73, cmd: 'toggle_inline:ITALIC' },
       { key: 75, cmd: 'insert:link' },
-      { key: 13, cmd: 'toggle_block:divider' }
-    ]
+      { key: 13, cmd: 'toggle_block:divider' },
+    ],
   },
 
   character_convert_mapping: {
@@ -120,9 +121,8 @@ const defaultProps = {
     '# ': 'header-one',
     '##': 'header-two',
     '==': 'unstyled',
-    '` ': 'code-block'
-  }
-
+    '` ': 'code-block',
+  },
 }
 
 export default class ArticleEditor extends Component {
@@ -137,9 +137,9 @@ export default class ArticleEditor extends Component {
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {}
-        }
-      ]
+          data: {},
+        },
+      ],
     }
 
     // this.initialContent = this.defaultContent()
@@ -170,8 +170,8 @@ export default class ArticleEditor extends Component {
         'footer',
         'column',
         'jumbo',
-        'button'
-      ]
+        'button',
+      ],
     }
 
     const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu)
@@ -180,25 +180,25 @@ export default class ArticleEditor extends Component {
       DanteImagePopoverConfig(),
       DanteAnchorPopoverConfig(),
       DanteInlineTooltipConfig(),
-      menuConfig
+      menuConfig,
       // DanteMarkdownConfig()
     ]
   }
 
   decorators = (context) => {
     //return (context) => {
-      return new MultiDecorator([
-        PrismDraftDecorator({
-          prism: Prism,
-          defaultSyntax: 'javascript'
-        }),
-        new CompositeDecorator(
-          [{
-            strategy: findEntities.bind(null, 'LINK', context),
-            component: Link
-          }]
-        )
-      ])
+    return new MultiDecorator([
+      PrismDraftDecorator({
+        prism: Prism,
+        defaultSyntax: 'javascript',
+      }),
+      new CompositeDecorator([
+        {
+          strategy: findEntities.bind(null, 'LINK', context),
+          component: Link,
+        },
+      ]),
+    ])
     //}
   }
 
@@ -235,14 +235,15 @@ export default class ArticleEditor extends Component {
   }
 
   widgetsConfig = () => {
-    return [CodeBlockConfig(),
+    return [
+      CodeBlockConfig(),
       ImageBlockConfig({
         options: {
           domain: this.props.domain,
           // upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
           upload_handler: this.uploadHandler,
-          image_caption_placeholder: 'type a caption (optional)'
-        }
+          image_caption_placeholder: 'type a caption (optional)',
+        },
       }),
       DividerBlockConfig(),
       EmbedBlockConfig({
@@ -250,36 +251,38 @@ export default class ArticleEditor extends Component {
         editable: true,
         options: {
           placeholder: 'put an external links',
-          endpoint: '/oembed?url='
-        }
+          endpoint: '/oembed?url=',
+        },
       }),
       VideoBlockConfig({
         breakOnContinuous: true,
         options: {
-          placeholder: 'put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..',
+          placeholder:
+            'put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..',
           endpoint: '/oembed?url=',
-          caption: 'optional caption'
-        }
+          caption: 'optional caption',
+        },
       }),
       PlaceholderBlockConfig(),
       VideoRecorderBlockConfig({
         options: {
           seconds_to_record: 20000,
-          upload_handler: this.uploadHandler
-        // upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-        }
-      })
-    // GiphyBlockConfig(),
-    // SpeechToTextBlockConfig(),
-    // ButtonBlockConfig()
+          upload_handler: this.uploadHandler,
+          // upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+        },
+      }),
+      // GiphyBlockConfig(),
+      // SpeechToTextBlockConfig(),
+      // ButtonBlockConfig()
     ]
   }
 
   saveHandler = (context, content, cb) => {
-    const exportedStyles = context.editor.styleExporter(context.editor.getEditorState())
+    const exportedStyles = context.editor.styleExporter(
+      context.editor.getEditorState()
+    )
 
     const convertOptions = {
-
       styleToHTML: (style) => {
         if (style === 'BOLD') {
           return <b />
@@ -327,7 +330,7 @@ export default class ArticleEditor extends Component {
                     </div>
                   <div class="dante-clearfix"/>
                 </div>
-              </div>`
+              </div>`,
           }
         }
         if (block.type === 'jumbo') {
@@ -337,11 +340,13 @@ export default class ArticleEditor extends Component {
                     <h1>`,
             end: `</h1>
                   </div>
-                </div>`
+                </div>`,
           }
         }
         if (block.type === 'image') {
-          const { height, ratio } = block.data.aspect_ratio.toJS ? block.data.aspect_ratio.toJS() : block.data.aspect_ratio
+          const { height, ratio } = block.data.aspect_ratio.toJS
+            ? block.data.aspect_ratio.toJS()
+            : block.data.aspect_ratio
           const { url } = block.data
 
           return {
@@ -367,7 +372,7 @@ export default class ArticleEditor extends Component {
                     </span>
                   </figcaption>
                   </div>
-                </figure>`
+                </figure>`,
           }
         }
         if (block.type === 'column') {
@@ -376,58 +381,70 @@ export default class ArticleEditor extends Component {
         if (block.type === 'footer') {
           return {
             start: '<div class="graf graf--figure"><div ><hr/><p>',
-            end: '</p></div></div>'
+            end: '</p></div></div>',
           }
         }
 
         if (block.type === 'embed') {
-          if (!block.data.embed_data) { return }
+          if (!block.data.embed_data) {
+            return
+          }
 
           let data = null
 
           // due to a bug in empbed component
-          if (typeof (block.data.embed_data.toJS) === 'function') {
+          if (typeof block.data.embed_data.toJS === 'function') {
             data = block.data.embed_data.toJS()
           } else {
             data = block.data.embed_data
           }
 
           if (data) {
-            return <div className="graf graf--mixtapeEmbed">
-              <span>
-                {
-                  data.images[0].url
-                    ? <a target="_blank" rel="noopener noreferrer" className="js-mixtapeImage mixtapeImage"
+            return (
+              <div className="graf graf--mixtapeEmbed">
+                <span>
+                  {data.images[0].url ? (
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="js-mixtapeImage mixtapeImage"
                       href={block.data.provisory_text}
-                      style={{ backgroundImage: `url(${data.images[0].url})` }}>
-                    </a> : null
-                }
-                <a className="markup--anchor markup--mixtapeEmbed-anchor"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={block.data.provisory_text}>
-                  <strong className="markup--strong markup--mixtapeEmbed-strong">
-                    {data.title}
-                  </strong>
-                  <em className="markup--em markup--mixtapeEmbed-em">
-                    {data.description}
-                  </em>
-                </a>
-                {data.provider_url}
-              </span>
-            </div>
+                      style={{
+                        backgroundImage: `url(${data.images[0].url})`,
+                      }}
+                    ></a>
+                  ) : null}
+                  <a
+                    className="markup--anchor markup--mixtapeEmbed-anchor"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={block.data.provisory_text}
+                  >
+                    <strong className="markup--strong markup--mixtapeEmbed-strong">
+                      {data.title}
+                    </strong>
+                    <em className="markup--em markup--mixtapeEmbed-em">
+                      {data.description}
+                    </em>
+                  </a>
+                  {data.provider_url}
+                </span>
+              </div>
+            )
           } else {
-            <p />
+            ;<p />
           }
         }
 
         if (block.type === 'video') {
-          if (!block.data.embed_data) { return }
+          if (!block.data.embed_data) {
+            return
+          }
 
           let data = null
 
           // due to a bug in empbed component
-          if (typeof (block.data.embed_data.toJS) === 'function') {
+          if (typeof block.data.embed_data.toJS === 'function') {
             data = block.data.embed_data.toJS()
           } else {
             data = block.data.embed_data
@@ -448,29 +465,31 @@ export default class ArticleEditor extends Component {
                         </div>
                       </figcaption>
                     `,
-            end: '</figure>'
+            end: '</figure>',
           }
         }
 
         if (block.type === 'recorded-video') {
-          return (<figure className="graf--figure graf--iframe graf--first" tabIndex="0">
-            <div className="iframeContainer">
-              <video
-                autoPlay={false}
-                style={{ width: '100%' }}
-                controls={true}
-                src={block.data.url}>
-              </video>
-            </div>
-            <figcaption className="imageCaption">
-              <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                <span>
-                  {block.text}
-                </span>
+          return (
+            <figure
+              className="graf--figure graf--iframe graf--first"
+              tabIndex="0"
+            >
+              <div className="iframeContainer">
+                <video
+                  autoPlay={false}
+                  style={{ width: '100%' }}
+                  controls={true}
+                  src={block.data.url}
+                ></video>
               </div>
-            </figcaption>
-
-          </figure>)
+              <figcaption className="imageCaption">
+                <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                  <span>{block.text}</span>
+                </div>
+              </figcaption>
+            </figure>
+          )
         }
 
         if (block.type === 'atomic') {
@@ -486,7 +505,7 @@ export default class ArticleEditor extends Component {
           return <a href={entity.data.url}>{originalText}</a>
         }
         return originalText
-      }
+      },
     }
 
     const currentContent = context.editorState().getCurrentContent()
@@ -496,18 +515,23 @@ export default class ArticleEditor extends Component {
     const serialized = JSON.stringify(content)
     const plain = context.getTextFromEditor(content)
 
-    if (this.props.data.serialized_content === serialized) { return }
+    if (this.props.data.serialized_content === serialized) {
+      return
+    }
 
-    this.props.updateState && this.props.updateState({
-      status: 'saving...',
-      statusButton: 'success',
-      content: {
-        html: html,
-        serialized: serialized
-      }
-    })
+    this.props.updateState &&
+      this.props.updateState({
+        status: 'saving...',
+        statusButton: 'success',
+        content: {
+          html: html,
+          serialized: serialized,
+        },
+      })
 
-    if (cb) { cb(html, plain, serialized) }
+    if (cb) {
+      cb(html, plain, serialized)
+    }
   }
 
   decodeEditorContent = (raw_as_json) => {
@@ -515,44 +539,49 @@ export default class ArticleEditor extends Component {
     return EditorState.createWithContent(new_content)
   }
 
-  render () {
-    return <ThemeProvider theme={theme }>
-      <EditorStylesExtend campaign={true} styles={this.props.styles}>
-
-        {
-          !this.props.loading
-
-            ? <DanteEditor
+  render() {
+    return (
+      <ThemeProvider theme={theme}>
+        <EditorStylesExtend campaign={true} styles={this.props.styles}>
+          {!this.props.loading ? (
+            <DanteEditor
               {...defaultProps}
               debug={false}
-              data_storage={
-                {
-                  url: '/',
-                  save_handler: this.saveHandler
-                }
-              }
+              data_storage={{
+                url: '/',
+                save_handler: this.saveHandler,
+              }}
               onChange={(e) => {
                 this.dante_editor = e
               }}
               content={this.defaultContent()}
-              tooltips={this.props.tooltipsConfig ? this.props.tooltipsConfig() : this.tooltipsConfig() }
-              widgets={ this.props.widgetsConfig ? this.props.widgetsConfig() : this.widgetsConfig() }
+              tooltips={
+                this.props.tooltipsConfig
+                  ? this.props.tooltipsConfig()
+                  : this.tooltipsConfig()
+              }
+              widgets={
+                this.props.widgetsConfig
+                  ? this.props.widgetsConfig()
+                  : this.widgetsConfig()
+              }
               decorators={(context) => {
                 return new MultiDecorator([
                   PrismDraftDecorator({ prism: Prism }),
-                  new CompositeDecorator(
-                    [{
+                  new CompositeDecorator([
+                    {
                       strategy: findEntities.bind(null, 'LINK', context),
-                      component: Link
-                    }]
-                  )
+                      component: Link,
+                    },
+                  ]),
                 ])
-              }
-              }
-            /> : <CircularProgress/>
-        }
-
-      </EditorStylesExtend>
-    </ThemeProvider>
+              }}
+            />
+          ) : (
+            <CircularProgress />
+          )}
+        </EditorStylesExtend>
+      </ThemeProvider>
+    )
   }
 }

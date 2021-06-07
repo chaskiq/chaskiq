@@ -10,11 +10,11 @@ import styled from '@emotion/styled'
 const Pre = styled.pre`
   background: black;
   color: white;
-  font-size: .8em;
+  font-size: 0.8em;
   overflow: auto;
 `
 
-function WebSetup ({ app }) {
+function WebSetup({ app }) {
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -27,8 +27,10 @@ function WebSetup ({ app }) {
 
   return (
     <React.Fragment>
-      <button className="text-xs bg-green-500 hover:bg-green-600 text-green-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
-        onClick={handleClickOpen}>
+      <button
+        className="text-xs bg-green-500 hover:bg-green-600 text-green-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100"
+        onClick={handleClickOpen}
+      >
         {I18n.t('common.get_snippet')}
       </button>
 
@@ -37,7 +39,7 @@ function WebSetup ({ app }) {
   )
 }
 
-function SimpleDialog (props) {
+function SimpleDialog(props) {
   // const classes = useStyles();
   const { onClose, open, app } = props
 
@@ -45,7 +47,7 @@ function SimpleDialog (props) {
     onClose()
   }
 
-  function setupScript () {
+  function setupScript() {
     const hostname = window.location.hostname
     const port = window.location.port ? ':' + window.location.port : ''
     const secure = window.location.protocol === 'https:'
@@ -94,10 +96,10 @@ function SimpleDialog (props) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app } = state
   return {
-    app
+    app,
   }
 }
 

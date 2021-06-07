@@ -1,10 +1,10 @@
 import React from 'react'
 import { Transition } from '@headlessui/react'
 
-function FormDialog (props) {
+function FormDialog(props) {
   const [_open, setOpen] = React.useState(props.open)
 
-  function handleClose () {
+  function handleClose() {
     setOpen(false)
     props.handleClose && props.handleClose()
   }
@@ -13,9 +13,8 @@ function FormDialog (props) {
 
   return props.open ? (
     <Backdrop>
-
       <Transition
-        show={ Boolean(props.open) }
+        show={Boolean(props.open)}
         enter="ease-out duration-300"
         enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         enterTo="opacity-100 translate-y-0 sm:scale-100"
@@ -23,9 +22,7 @@ function FormDialog (props) {
         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         className="relative bg-white dark:bg-black dark:text-gray-100 rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
-
       >
-
         <div className="absolute top-0 right-0 pt-4 pr-4">
           <button
             onClick={handleClose}
@@ -72,13 +69,12 @@ function FormDialog (props) {
         <div className="mt-5 sm:mt-4 flex flex-row-reverse">
           {props.dialogButtons}
         </div>
-
       </Transition>
     </Backdrop>
   ) : null
 }
 
-function Backdrop ({ children }) {
+function Backdrop({ children }) {
   return (
     <div className="z-50 fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
       <div

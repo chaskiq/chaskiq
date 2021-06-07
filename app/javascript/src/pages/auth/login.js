@@ -5,26 +5,21 @@ import { connect } from 'react-redux'
 import logo from '../../images/logo.png'
 import serialize from 'form-serialize'
 
-import {
-  actions
-} from '@chaskiq/store'
+import { actions } from '@chaskiq/store'
 
-const {
-  authenticate, doSignout,
-  getCurrentUser
-} = actions
+const { authenticate, doSignout, getCurrentUser } = actions
 
-function Login ({ dispatch }) {
+function Login({ dispatch }) {
   const form = useRef(null)
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
 
     dispatch(doSignout())
 
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     const { email, password } = serializedData // this.state
@@ -35,7 +30,7 @@ function Login ({ dispatch }) {
     )
   }
 
-  function getUser () {
+  function getUser() {
     dispatch(getCurrentUser())
   }
 
@@ -213,7 +208,7 @@ function Login ({ dispatch }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, current_user, theme } = state
   const { loading, isAuthenticated } = auth
 
@@ -221,7 +216,7 @@ function mapStateToProps (state) {
     current_user,
     loading,
     isAuthenticated,
-    theme
+    theme,
   }
 }
 

@@ -160,8 +160,7 @@ const BaseButton = styled.button`
       default:
         return ''
     }
-    }
-  }
+  }}
 `
 
 const SizeButton = styled(BaseButton)`
@@ -207,7 +206,7 @@ const SizeButton = styled(BaseButton)`
   }};
 `
 
-export default function Button ({ children, className, ...buttonProps }) {
+export default function Button({ children, className, ...buttonProps }) {
   return (
     <SizeButton
       className={`transition duration-150 ease-in-out ${className || ''}`}
@@ -219,13 +218,11 @@ export default function Button ({ children, className, ...buttonProps }) {
   )
 }
 
-export function ButtonIndigo ({ children, ...buttonProps }) {
-  return <SizeButton {...buttonProps}>
-    {children}
-  </SizeButton>
+export function ButtonIndigo({ children, ...buttonProps }) {
+  return <SizeButton {...buttonProps}>{children}</SizeButton>
 }
 
-export function DropdownButton ({ onClick, label, icon }) {
+export function DropdownButton({ onClick, label, icon }) {
   return (
     <span className="relative z-0 inline-flex shadow-sm">
       <button

@@ -17,7 +17,7 @@ const actionTypes = {
   GetConversations: 'GET_CONVERSATIONS',
   UpdateConversations: 'UPDATE_CONVERSATIONS',
   ClearConversations: 'CLEAR_CONVERSATIONS',
-  
+
   SetStatusMessage: 'SET_STATUS_MESSAGE',
   UpdateConversationItem: 'UPDATE_CONVERSATION_ITEM',
   UpdatePresence: 'UPDATE_USER_PRESENCE',
@@ -27,7 +27,7 @@ const actionTypes = {
   SetSubscriptionState: 'SET_SUBSCRIPTION_STATE',
   ClearSubscriptionState: 'CLEAR_SUBSCRIPTION_STATE',
 
-  SetUpgradePage: 'SET_UPGRADE_PAGE'
+  SetUpgradePage: 'SET_UPGRADE_PAGE',
 }
 
 export default actionTypes

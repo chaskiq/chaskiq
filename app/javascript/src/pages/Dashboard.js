@@ -11,22 +11,16 @@ import {
   HeatMap,
   Pie,
   Count,
-  DashboardCard 
+  DashboardCard,
 } from '@chaskiq/components'
 
-import {
-  client as graphql,
-  queries,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, queries, actions } from '@chaskiq/store'
 
 const { setCurrentSection } = actions
 
-
 const { DASHBOARD } = queries
 
-
-export function Home () {
+export function Home() {
   return (
     <div>
       <PageHeader title={'Dashboard'} />
@@ -34,7 +28,7 @@ export function Home () {
   )
 }
 
-function Dashboard (props) {
+function Dashboard(props) {
   const { app, dispatch } = props
 
   React.useEffect(() => {
@@ -44,7 +38,7 @@ function Dashboard (props) {
   const initialData = {
     loading: true,
     from: moment().add(-1, 'week'),
-    to: moment() // .add(-1, 'day')
+    to: moment(), // .add(-1, 'day')
   }
 
   const [dashboard, _setDashboard] = React.useState(initialData)
@@ -173,7 +167,6 @@ function Dashboard (props) {
                     kind={'user_os'}
                   />
                 </DashboardCard>
-
               </div>
             </div>
 
@@ -197,7 +190,7 @@ function Dashboard (props) {
   )
 }
 
-function DashboardItem ({
+function DashboardItem({
   app,
   kind,
   dashboard,
@@ -205,7 +198,7 @@ function DashboardItem ({
   label,
   appendLabel,
   classes,
-  styles
+  styles,
 }) {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(true)
@@ -214,16 +207,16 @@ function DashboardItem ({
     getData()
   }, [])
 
-  function getData () {
+  function getData() {
     graphql(
       DASHBOARD,
       {
         appKey: app.key,
         range: {
           from: dashboard.from,
-          to: dashboard.to
+          to: dashboard.to,
         },
-        kind: kind
+        kind: kind,
       },
       {
         success: (data) => {
@@ -232,12 +225,12 @@ function DashboardItem ({
         },
         error: (_err) => {
           setLoading(false)
-        }
+        },
       }
     )
   }
 
-  function renderChart () {
+  function renderChart() {
     switch (chartType) {
       case 'heatMap':
         return <HeatMap data={data} from={dashboard.from} to={dashboard.to} />
@@ -275,23 +268,26 @@ function DashboardItem ({
   )
 }
 
-function DashboardAppPackages (props) {
+function DashboardAppPackages(props) {
   const packages = props.data
   return (
     packages &&
-      packages.map((o) => (
-        <div key={`appPackage-${o.name}`} className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-          <DashboardAppPackage
-            package={o}
-            dashboard={props.dashboard}
-            classes={props.classes}
-          />
-        </div>
-      ))
+    packages.map((o) => (
+      <div
+        key={`appPackage-${o.name}`}
+        className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4"
+      >
+        <DashboardAppPackage
+          package={o}
+          dashboard={props.dashboard}
+          classes={props.classes}
+        />
+      </div>
+    ))
   )
 }
 
-function DashboardAppPackage (props) {
+function DashboardAppPackage(props) {
   const dashboard = props.dashboard
   const pkg = props.package
   const data = pkg.data
@@ -337,14 +333,14 @@ function DashboardAppPackage (props) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

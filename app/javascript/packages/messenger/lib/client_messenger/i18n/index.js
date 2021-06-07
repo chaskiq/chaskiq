@@ -12,7 +12,8 @@ i18n
         translations: {
           runon: 'We run on Chaskiq',
           conversations: 'Conversations',
-          'conversation_block.choosen': 'You replied <strong>{{field}}</strong>',
+          'conversation_block.choosen':
+            'You replied <strong>{{field}}</strong>',
           continue_conversation: 'Continue the conversation',
           start_conversation: 'Start a conversation',
           view_all_conversations: 'view all conversations',
@@ -31,11 +32,16 @@ i18n
           enter_your: 'Enter your {{field}}',
 
           'editor.placeholder': 'Send message...',
-          'conversations.events.assigned': '{{name}} was assigned to this conversation',
-          'conversations.message_blocks.ask_option': 'is waiting for your reply',
-          'conversations.message_blocks.data_retrieval': 'is waiting for your reply',
-          'conversations.message_blocks.app_package_wait_reply': 'is waiting for your reply',
-          'conversations.message_blocks.app_package_non_wait': 'sent you a content',
+          'conversations.events.assigned':
+            '{{name}} was assigned to this conversation',
+          'conversations.message_blocks.ask_option':
+            'is waiting for your reply',
+          'conversations.message_blocks.data_retrieval':
+            'is waiting for your reply',
+          'conversations.message_blocks.app_package_wait_reply':
+            'is waiting for your reply',
+          'conversations.message_blocks.app_package_non_wait':
+            'sent you a content',
 
           'reply_time.auto': 'The team will respond as soon as possible',
           'reply_time.minutes': 'The team usually responds in minutes',
@@ -43,12 +49,13 @@ i18n
           'reply_time.1 day': 'The team usually responds in one day',
 
           is_typing: '{{name}} is typing',
-          'availability.aprox': 'we\'ll back in approximately {{time}} hrs',
+          'availability.aprox': "we'll back in approximately {{time}} hrs",
           'availability.tomorrow': "we'll back back tomorrow",
           'availability.days': "we'll back in {{val}} days",
           'availability.next_week': "we'll back next week",
           'availability.back_from': "we'll back online from {{hours}} hrs",
-          'availability.tomorrow_from': "we'll back online tomorrow from {{hours}} hrs",
+          'availability.tomorrow_from':
+            "we'll back online tomorrow from {{hours}} hrs",
           'tours.done': 'Done!',
           invalid: '{{name}} entered is invalid',
           gdpr_title: 'Data protection',
@@ -65,24 +72,31 @@ i18n
             <p>(3) We may send you emails about {{name}} upcoming service and promotions.</p>
 
             <p>is this okay with you?</p>
-          `
-        }
+          `,
+        },
       },
       es: {
         translations: {
           runon: 'Usamos Chaskiq',
           conversations: 'Conversaciones',
-          'conversations.events.assigned': '{{name}} fue asignado a esta conversación',
-          'conversation_block.choosen': 'respondiste <strong>{{field}}</strong>',
-          'conversations.message_blocks.ask_option': 'está esperando tu respuesta',
-          'conversations.message_blocks.data_retrieval': 'está esperando tu respuesta',
-          'conversations.message_blocks.app_package_wait_reply': 'está esperando tu respuesta',
-          'conversations.message_blocks.app_package_non_wait': 'envió un contenido',
+          'conversations.events.assigned':
+            '{{name}} fue asignado a esta conversación',
+          'conversation_block.choosen':
+            'respondiste <strong>{{field}}</strong>',
+          'conversations.message_blocks.ask_option':
+            'está esperando tu respuesta',
+          'conversations.message_blocks.data_retrieval':
+            'está esperando tu respuesta',
+          'conversations.message_blocks.app_package_wait_reply':
+            'está esperando tu respuesta',
+          'conversations.message_blocks.app_package_non_wait':
+            'envió un contenido',
           continue_conversation: 'Continúa la conversación',
           start_conversation: 'Inicia una conversación',
           view_all_conversations: 'ver todas las conversaciones',
           see_previous: 'Ver anteriores',
-          search_article_title: 'Encuentra respuestas en nuestro centro de ayuda',
+          search_article_title:
+            'Encuentra respuestas en nuestro centro de ayuda',
           search_articles: 'Busca artículos',
           latest_articles: 'Artículos recientes',
           reply_above: 'Responde arriba',
@@ -96,18 +110,22 @@ i18n
           'editor.placeholder': 'Envía tu mensaje...',
           article_meta: 'Por: <strong>{{name}}</strong> en <0>{{date}}</0>',
           'reply_time.auto': 'El equipo responderá lo antes posible',
-          'reply_time.minutes': 'El equipo suele responder en cuestión de minutos.',
+          'reply_time.minutes':
+            'El equipo suele responder en cuestión de minutos.',
           'reply_time.hours': 'El equipo suele responder en cuestión de horas.',
           'reply_time.1 day': 'El equipo suele responder en un día.',
 
           is_typing: '{{name}} está escribiendo',
 
-          'availability.aprox': 'estaremos de vuelta aproximadamente a las {{time}}hrs',
+          'availability.aprox':
+            'estaremos de vuelta aproximadamente a las {{time}}hrs',
           'availability.tomorrow': 'volvemos mañana',
           'availability.days': 'volvemos en {{val}} dias',
           'availability.next_week': 'volvemos la proxima semana',
-          'availability.back_from': 'volveremos a estar en linea desde las {{hours}}hrs',
-          'availability.tomorrow_from': 'volveremos a estar en linea mañana desde las {{hours}}hrs',
+          'availability.back_from':
+            'volveremos a estar en linea desde las {{hours}}hrs',
+          'availability.tomorrow_from':
+            'volveremos a estar en linea mañana desde las {{hours}}hrs',
 
           'tours.done': 'Listo!',
           invalid: '{{name}} ingresado es inválido',
@@ -124,9 +142,9 @@ i18n
             <p> (2) Es posible que le enviemos un correo electrónico para dar seguimiento a nuestra discusión aquí. </p>
             <p> (3) Es posible que le enviemos correos electrónicos sobre los próximos servicios y anuncios de <strong>{{name}}</strong>. </p>
             <p> ¿Te parece bien? </p>
-          `
-        }
-      }
+          `,
+        },
+      },
     },
     fallbackLng: 'en',
     debug: false,
@@ -138,8 +156,8 @@ i18n
     keySeparator: false, // we use content as keys
 
     interpolation: {
-      escapeValue: false
-    }
+      escapeValue: false,
+    },
   })
 
 export default i18n

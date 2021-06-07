@@ -1,62 +1,44 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import {
-  FormDialog,
-  Input,
-  CircularProgress
-} from '@chaskiq/components'
+import { FormDialog, Input, CircularProgress } from '@chaskiq/components'
 
-
-import {
-  client as graphql,
-  mutations,
-  actions,
-} from '@chaskiq/store'
+import { client as graphql, mutations, actions } from '@chaskiq/store'
 
 const { getCurrentUser } = actions
 
+const { UPDATE_AGENT } = mutations
 
-const {
-  UPDATE_AGENT
-} = mutations
-
-
-function LangChooser ({
-  open,
-  handleClose,
-  current_user,
-  app,
-  dispatch
-}) {
+function LangChooser({ open, handleClose, current_user, app, dispatch }) {
   const [setted, setSetted] = React.useState(false)
 
-  function setLang (lang) {
-    graphql(UPDATE_AGENT, {
-      appKey: app.key,
-      email: current_user.email,
-      params: {
-        lang: lang
-      }
-    }, {
-      success: () => {
-        // This dispatch will trigger an effect on AppRoutes.js
-        // which will refresh the components
-        dispatch(getCurrentUser())
-        setSetted(true)
+  function setLang(lang) {
+    graphql(
+      UPDATE_AGENT,
+      {
+        appKey: app.key,
+        email: current_user.email,
+        params: {
+          lang: lang,
+        },
       },
-      error: () => {
-
+      {
+        success: () => {
+          // This dispatch will trigger an effect on AppRoutes.js
+          // which will refresh the components
+          dispatch(getCurrentUser())
+          setSetted(true)
+        },
+        error: () => {},
       }
-    })
+    )
   }
 
-  function handleChange (e) {
+  function handleChange(e) {
     setLang(e.value)
   }
 
   return (
-
     <FormDialog
       open={open}
       handleClose={() => handleClose(false)}
@@ -67,49 +49,42 @@ function LangChooser ({
       titleContent={'select language'}
       formComponent={
         <div>
-
-          {
-            setted && <div>
-              <CircularProgress/>
+          {setted && (
+            <div>
+              <CircularProgress />
             </div>
-          }
+          )}
 
-          {!setted && <Input
-            type="select"
-            // value={ selectedAgent() }
-            onChange={handleChange}
-            defaultValue={{
-              value: I18n.locale,
-              label: I18n.t(`common.langs.${I18n.locale}`)
-            }}
-            label={ I18n.t("common.select_language") }
-            data={{}}
-            options={
-              Object.keys(I18n.t("common.langs")).map((o)=> (
-                { label: I18n.t(`common.langs.${o}`) , value: o }
-                )
-              )
-            }>
-          </Input>}
-
+          {!setted && (
+            <Input
+              type="select"
+              // value={ selectedAgent() }
+              onChange={handleChange}
+              defaultValue={{
+                value: I18n.locale,
+                label: I18n.t(`common.langs.${I18n.locale}`),
+              }}
+              label={I18n.t('common.select_language')}
+              data={{}}
+              options={Object.keys(I18n.t('common.langs')).map((o) => ({
+                label: I18n.t(`common.langs.${o}`),
+                value: o,
+              }))}
+            ></Input>
+          )}
         </div>
       }
       // dialogButtons={}
-    >
-    </FormDialog>
+    ></FormDialog>
   )
 }
 
-function mapStateToProps (state) {
-  const {
-    auth,
-    app,
-    current_user
-  } = state
+function mapStateToProps(state) {
+  const { auth, app, current_user } = state
   return {
     auth,
     current_user,
-    app
+    app,
   }
 }
 

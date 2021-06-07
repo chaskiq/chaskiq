@@ -33,23 +33,23 @@ export default class SegmentItemButton extends Component {
     dialogOpen: this.props.open,
     selectedOption: this.props.predicate.comparison,
     checkedValue: this.props.predicate.value,
-    btn: null
-  };
+    btn: null,
+  }
 
-  relative_input = null;
-  btn_ref = null;
-  blockStyleRef = React.createRef();
+  relative_input = null
+  btn_ref = null
+  blockStyleRef = React.createRef()
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.predicate !== prevProps.predicate) {
       this.setState({
         selectedOption: this.props.predicate.comparison,
-        checkedValue: this.props.predicate.value
+        checkedValue: this.props.predicate.value,
       })
     }
   }
 
-  handleInputScroll = (target, cb)=>{
+  handleInputScroll = (target, cb) => {
     setTimeout(() => {
       const el = this.blockStyleRef.current
       const diff =
@@ -64,36 +64,45 @@ export default class SegmentItemButton extends Component {
     const { value } = target
     this.setState(
       {
-        selectedOption: value
+        selectedOption: value,
       },
-      () => { this.handleInputScroll(target, cb)}
+      () => {
+        this.handleInputScroll(target, cb)
+      }
     )
-  };
+  }
 
   onRadioTypeChange = (target, o, cb) => {
     window.blockStyleRef = this.blockStyleRef.current
     window.target = target
 
-    this.setState({
-      checkedValue: target.value,
-      selectedOption: o.value
-    },
-    () => { this.handleInputScroll(target, cb)}
+    this.setState(
+      {
+        checkedValue: target.value,
+        selectedOption: o.value,
+      },
+      () => {
+        this.handleInputScroll(target, cb)
+      }
     )
-  };
+  }
 
   onCheckBoxTypeChange = (target, o, cb) => {
     let newArr = []
-    if(!target.checked){
-      newArr = this.state.checkedValue.filter((c)=> c !== o.label )
-    }else{
+    if (!target.checked) {
+      newArr = this.state.checkedValue.filter((c) => c !== o.label)
+    } else {
       newArr = this.state.checkedValue.concat(o.label)
     }
 
-    this.setState({
-      checkedValue: newArr,
-      selectedOption: o.value
-    }, () => { this.handleInputScroll(target, cb)}
+    this.setState(
+      {
+        checkedValue: newArr,
+        selectedOption: o.value,
+      },
+      () => {
+        this.handleInputScroll(target, cb)
+      }
     )
   }
 
@@ -101,7 +110,9 @@ export default class SegmentItemButton extends Component {
     // this.props.predicate.type
     let value = null
 
-    if (this.relative_input && !this.relative_input.value) { return this.toggleDialog2() }
+    if (this.relative_input && !this.relative_input.value) {
+      return this.toggleDialog2()
+    }
 
     let comparison = this.state.selectedOption.replace('relative:', '')
 
@@ -127,7 +138,9 @@ export default class SegmentItemButton extends Component {
       }
 
       case 'date': {
-        value = `${this.relative_input.value} ${I18n.t('segment_manager.days_ago')}`
+        value = `${this.relative_input.value} ${I18n.t(
+          'segment_manager.days_ago'
+        )}`
         break
       }
 
@@ -143,7 +156,7 @@ export default class SegmentItemButton extends Component {
 
     const h = {
       comparison: comparison,
-      value: value
+      value: value,
     }
 
     const response = Object.assign({}, this.props.predicate, h)
@@ -154,14 +167,14 @@ export default class SegmentItemButton extends Component {
     this.props.updatePredicate(new_predicates, this.props.predicateCallback)
 
     this.toggleDialog()
-  };
+  }
 
   handleDelete = (_e) => {
     // const response = Object.assign({}, this.props.predicate, h )
     // const new_predicates = this.props.predicates.map((o, i)=> this.props.index === i ? response : o  )
     const data = this.props.predicates.filter((o, i) => i !== this.props.index)
     this.props.deletePredicate(data, this.props.predicateCallback)
-  };
+  }
 
   renderOptions = () => {
     switch (this.props.predicate.type) {
@@ -189,11 +202,11 @@ export default class SegmentItemButton extends Component {
       default:
         return null
     }
-  };
+  }
 
   toggleDialog2 = () => {
     this.setState({ dialogOpen: !this.state.dialogOpen })
-  };
+  }
 
   contentType = () => {
     /*const compare = (value) => {
@@ -203,7 +216,7 @@ export default class SegmentItemButton extends Component {
     const relative = [
       { label: 'AppUser', value: 'AppUser', defaultSelected: false },
       { label: 'Lead', value: 'Lead', defaultSelected: false },
-      { label: 'Visitor', value: 'Visitor', defaultSelected: false }
+      { label: 'Visitor', value: 'Visitor', defaultSelected: false },
     ]
 
     return (
@@ -211,13 +224,18 @@ export default class SegmentItemButton extends Component {
         {
           <div className="p-2">
             <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
-              {I18n.t('segment_manager.filter_for', {name: this.props.predicate.attribute})}
+              {I18n.t('segment_manager.filter_for', {
+                name: this.props.predicate.attribute,
+              })}
             </h2>
           </div>
         }
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
+          <div
+            ref={this.blockStyleRef}
+            className="mt-2 p-2 h-32 overflow-scroll"
+          >
             {relative.map((o, i) => {
               return (
                 <div key={`type-filter-${i}`}>
@@ -244,34 +262,59 @@ export default class SegmentItemButton extends Component {
           {this.state.checkedValue &&
             (this.state.checkedValue !== 'is_null' ||
               this.state.checkedValue !== 'is_not_null') && (
-            <Button
-              size="small"
-              onClick={this.handleSubmit.bind(this)}
-            >
-              {I18n.t('segment_manager.apply')}
-            </Button>
-          )}
+              <Button size="small" onClick={this.handleSubmit.bind(this)}>
+                {I18n.t('segment_manager.apply')}
+              </Button>
+            )}
 
           {/*this.deleteButton()*/}
         </ContentMatchFooter>
       </div>
     )
-  };
+  }
 
   contentString = () => {
     const relative = [
-      { label: I18n.t('segment_manager.is'), value: 'eq', defaultSelected: false },
-      { label: I18n.t('segment_manager.is_not'), value: 'not_eq', defaultSelected: false },
-      { label: I18n.t('segment_manager.starts_with'), value: 'contains_start', defaultSelected: false },
-      { label: I18n.t('segment_manager.ends_with'), value: 'contains_ends', defaultSelected: false },
-      { label: I18n.t('segment_manager.contains'), value: 'contains', defaultSelected: false },
+      {
+        label: I18n.t('segment_manager.is'),
+        value: 'eq',
+        defaultSelected: false,
+      },
+      {
+        label: I18n.t('segment_manager.is_not'),
+        value: 'not_eq',
+        defaultSelected: false,
+      },
+      {
+        label: I18n.t('segment_manager.starts_with'),
+        value: 'contains_start',
+        defaultSelected: false,
+      },
+      {
+        label: I18n.t('segment_manager.ends_with'),
+        value: 'contains_ends',
+        defaultSelected: false,
+      },
+      {
+        label: I18n.t('segment_manager.contains'),
+        value: 'contains',
+        defaultSelected: false,
+      },
       {
         label: I18n.t('segment_manager.does_not_contain'),
         value: 'not_contains',
-        defaultSelected: false
+        defaultSelected: false,
       },
-      { label: I18n.t('segment_manager.is_unknown'), value: 'is_null', defaultSelected: false },
-      { label:  I18n.t('segment_manager.has_any_value'), value: 'is_not_null', defaultSelected: false }
+      {
+        label: I18n.t('segment_manager.is_unknown'),
+        value: 'is_null',
+        defaultSelected: false,
+      },
+      {
+        label: I18n.t('segment_manager.has_any_value'),
+        value: 'is_not_null',
+        defaultSelected: false,
+      },
     ]
 
     return (
@@ -279,13 +322,18 @@ export default class SegmentItemButton extends Component {
         {
           <div className="p-2">
             <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
-              { I18n.t('segment_manager.filter_for', {name: this.props.predicate.attribute}) }
+              {I18n.t('segment_manager.filter_for', {
+                name: this.props.predicate.attribute,
+              })}
             </h2>
           </div>
         }
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
+          <div
+            ref={this.blockStyleRef}
+            className="mt-2 p-2 h-32 overflow-scroll"
+          >
             {relative.map((o, i) => {
               return (
                 <div key={`string-filter-${i}`}>
@@ -307,23 +355,21 @@ export default class SegmentItemButton extends Component {
 
                   {this.state.selectedOption &&
                     this.state.selectedOption === o.value && (
-                    <div>
-                      <input
-                        type="text"
-                        defaultValue={this.props.predicate.value}
-                        ref={(input) => (this.relative_input = input)}
-                        className={
-                          `mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input 
+                      <div>
+                        <input
+                          type="text"
+                          defaultValue={this.props.predicate.value}
+                          ref={(input) => (this.relative_input = input)}
+                          className={`mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input 
                           block w-full transition duration-150 ease-in-out 
                           sm:text-sm sm:leading-5
                           dark:text-gray-100 dark:bg-gray-900
-                          `
-                        }
-                        label={'value'}
-                        margin="normal"
-                      />
-                    </div>
-                  )}
+                          `}
+                          label={'value'}
+                          margin="normal"
+                        />
+                      </div>
+                    )}
                 </div>
               )
             })}
@@ -334,20 +380,20 @@ export default class SegmentItemButton extends Component {
           {this.state.selectedOption &&
             (this.state.selectedOption !== 'is_null' ||
               this.state.selectedOption !== 'is_not_null') && (
-            <Button
-              color="primary"
-              size={'small'}
-              onClick={this.handleSubmit.bind(this)}
-            >
-              {I18n.t('segment_manager.apply')}
-            </Button>
-          )}
+              <Button
+                color="primary"
+                size={'small'}
+                onClick={this.handleSubmit.bind(this)}
+              >
+                {I18n.t('segment_manager.apply')}
+              </Button>
+            )}
 
           {this.deleteButton()}
         </ContentMatchFooter>
       </div>
     )
-  };
+  }
 
   contentDate = () => {
     const compare = (value) => {
@@ -355,9 +401,21 @@ export default class SegmentItemButton extends Component {
     }
 
     const relative = [
-      { label: I18n.t('segment_manager.more_than'), value: 'lt', defaultSelected: compare('lt') },
-      { label: I18n.t('segment_manager.exactly'), value: 'eq', defaultSelected: compare('eq') },
-      { label: I18n.t('segment_manager.less_than'), value: 'gt', defaultSelected: compare('gt') }
+      {
+        label: I18n.t('segment_manager.more_than'),
+        value: 'lt',
+        defaultSelected: compare('lt'),
+      },
+      {
+        label: I18n.t('segment_manager.exactly'),
+        value: 'eq',
+        defaultSelected: compare('eq'),
+      },
+      {
+        label: I18n.t('segment_manager.less_than'),
+        value: 'gt',
+        defaultSelected: compare('gt'),
+      },
     ]
 
     /*const absolute = [
@@ -378,12 +436,17 @@ export default class SegmentItemButton extends Component {
       <div className="p-2">
         <div>
           <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
-            { I18n.t('segment_manager.date_filter_for', {name: this.props.predicate.attribute}) }
+            {I18n.t('segment_manager.date_filter_for', {
+              name: this.props.predicate.attribute,
+            })}
           </h2>
         </div>
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
+          <div
+            ref={this.blockStyleRef}
+            className="mt-2 p-2 h-32 overflow-scroll"
+          >
             {relative.map((o, i) => {
               return (
                 <div key={`date-filter-${i}`}>
@@ -403,22 +466,22 @@ export default class SegmentItemButton extends Component {
 
                   {this.state.selectedOption &&
                     this.state.selectedOption === o.value && (
-                    <div className="mb-3 ">
-                      <input
-                        type="number"
-                        defaultValue={isNaN(parsedNum) ? null : parsedNum }
-                        ref={(input) => (this.relative_input = input)}
-                        className={
-                          'p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
-                        }
-                        label={'value'}
-                        margin="normal"
-                      />
-                      <span className="mt-1 text-sm leading-5 text-gray-500">
-                        {I18n.t('segment_manager.days_ago')}
-                      </span>
-                    </div>
-                  )}
+                      <div className="mb-3 ">
+                        <input
+                          type="number"
+                          defaultValue={isNaN(parsedNum) ? null : parsedNum}
+                          ref={(input) => (this.relative_input = input)}
+                          className={
+                            'p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
+                          }
+                          label={'value'}
+                          margin="normal"
+                        />
+                        <span className="mt-1 text-sm leading-5 text-gray-500">
+                          {I18n.t('segment_manager.days_ago')}
+                        </span>
+                      </div>
+                    )}
                 </div>
               )
             })}
@@ -440,7 +503,7 @@ export default class SegmentItemButton extends Component {
         </ContentMatchFooter>
       </div>
     )
-  };
+  }
 
   contentInteger = () => {
     const compare = (value) => {
@@ -448,19 +511,31 @@ export default class SegmentItemButton extends Component {
     }
 
     const relative = [
-      { label: I18n.t('segment_manager.exactly'), value: 'eq', defaultSelected: compare('eq') },
-      { label: I18n.t('segment_manager.more_than'), value: 'gt', defaultSelected: compare('gt') },
+      {
+        label: I18n.t('segment_manager.exactly'),
+        value: 'eq',
+        defaultSelected: compare('eq'),
+      },
+      {
+        label: I18n.t('segment_manager.more_than'),
+        value: 'gt',
+        defaultSelected: compare('gt'),
+      },
       {
         label: I18n.t('segment_manager.more_than_eq'),
         value: 'gteq',
-        defaultSelected: compare('gteq')
+        defaultSelected: compare('gteq'),
       },
-      { label: I18n.t('segment_manager.less_than'), value: 'lt', defaultSelected: compare('lt') },
+      {
+        label: I18n.t('segment_manager.less_than'),
+        value: 'lt',
+        defaultSelected: compare('lt'),
+      },
       {
         label: I18n.t('segment_manager.less_than_eq'),
         value: 'lteq',
-        defaultSelected: compare('lteq')
-      }
+        defaultSelected: compare('lteq'),
+      },
     ]
 
     const extractNum = this.props.predicate.value
@@ -473,7 +548,9 @@ export default class SegmentItemButton extends Component {
       <div className="p-2">
         <div>
           <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
-            { I18n.t('segment_manager.integer_filter_for', {name: this.props.predicate.attribute}) }
+            {I18n.t('segment_manager.integer_filter_for', {
+              name: this.props.predicate.attribute,
+            })}
           </h2>
         </div>
 
@@ -497,23 +574,22 @@ export default class SegmentItemButton extends Component {
 
                 {this.state.selectedOption &&
                   this.state.selectedOption === o.value && (
-                  <div>
-                    <input
-                      type="text"
-                      defaultValue={parsedNum || 0}
-                      ref={(input) => (this.relative_input = input)}
-                      className={
-                        'mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
-                      }
-                      label={'value'}
-                      margin="normal"
-                    />
-                  </div>
-                )}
+                    <div>
+                      <input
+                        type="text"
+                        defaultValue={parsedNum || 0}
+                        ref={(input) => (this.relative_input = input)}
+                        className={
+                          'mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
+                        }
+                        label={'value'}
+                        margin="normal"
+                      />
+                    </div>
+                  )}
               </div>
             )
           })}
-
         </ContentMatch>
 
         <ContentMatchFooter>
@@ -531,7 +607,7 @@ export default class SegmentItemButton extends Component {
         </ContentMatchFooter>
       </div>
     )
-  };
+  }
 
   contentMatch = () => {
     const compare = (value) => {
@@ -543,67 +619,69 @@ export default class SegmentItemButton extends Component {
         label: I18n.t('segment_manager.match_any'),
         comparison: 'or',
         value: 'or',
-        defaultSelected: compare('or')
+        defaultSelected: compare('or'),
       },
       {
         label: I18n.t('segment_manager.match_all'),
         comparison: 'and',
         value: 'and',
-        defaultSelected: compare('and')
-      }
+        defaultSelected: compare('and'),
+      },
     ]
 
     return (
       <div className="p-2">
         <div>
           <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
-            {I18n.t('segment_manager.match_criteria_for', {name:this.props.predicate.type })}
+            {I18n.t('segment_manager.match_criteria_for', {
+              name: this.props.predicate.type,
+            })}
           </h2>
         </div>
 
         <ContentMatch>
-          <div ref={this.blockStyleRef} className="mt-2 p-2 h-32 overflow-scroll">
-            {relative.map(
-              (o, i) => {
-                return (
-                  <div key={`criteria-match-${i}`}>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                        name="options"
-                        value={o.value}
-                        checked={o.value === this.state.checkedValue}
-                        onChange={(e) => {
-                          this.onRadioTypeChange(e.target, o)
-                        }}
-                      />
-                      <span className="ml-2">
-                        {o.label}
-                      </span>
-                    </label>
-                  </div>
-                )
-              })}
+          <div
+            ref={this.blockStyleRef}
+            className="mt-2 p-2 h-32 overflow-scroll"
+          >
+            {relative.map((o, i) => {
+              return (
+                <div key={`criteria-match-${i}`}>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                      name="options"
+                      value={o.value}
+                      checked={o.value === this.state.checkedValue}
+                      onChange={(e) => {
+                        this.onRadioTypeChange(e.target, o)
+                      }}
+                    />
+                    <span className="ml-2">{o.label}</span>
+                  </label>
+                </div>
+              )
+            })}
           </div>
         </ContentMatch>
 
         <ContentMatchFooter>
-          { this.state.selectedOption &&
+          {this.state.selectedOption &&
             (this.state.selectedOption !== 'is_null' ||
               this.state.selectedOption !== 'is_not_null') && (
-            <Button
-              color="primary"
-              size={'small'}
-              onClick={this.handleSubmit.bind(this)}
-            >
-              {I18n.t('segment_manager.apply')}
-            </Button>
-          )}
+              <Button
+                color="primary"
+                size={'small'}
+                onClick={this.handleSubmit.bind(this)}
+              >
+                {I18n.t('segment_manager.apply')}
+              </Button>
+            )}
         </ContentMatchFooter>
       </div>
     )
-  };
+  }
 
   deleteButton = () => {
     return (
@@ -615,30 +693,30 @@ export default class SegmentItemButton extends Component {
         {I18n.t('common.delete')}
       </Button>
     )
-  };
+  }
 
   toggleDialog = (e) => {
     this.setState({
       dialogOpen: !this.state.dialogOpen,
-      btn: e ? e.target : this.state.btn
+      btn: e ? e.target : this.state.btn,
     })
   }
 
   toggleDialog2 = () => {
     this.setState({
-      dialogOpen: !this.state.dialogOpen
+      dialogOpen: !this.state.dialogOpen,
     })
   }
 
   closeDialog = () => {
     this.setState({
-      dialogOpen: false
+      dialogOpen: false,
     })
   }
 
   openDialog = () => {
     this.setState({
-      dialogOpen: true
+      dialogOpen: true,
     })
   }
 
@@ -646,13 +724,13 @@ export default class SegmentItemButton extends Component {
     // if(!this.btn_ref)
     //  return
     return this.renderOptions()
-  };
+  }
 
   setRef = (ref) => {
     this.btn_ref = ref
-  };
+  }
 
-  render () {
+  render() {
     return (
       <div>
         {!this.props.predicate.comparison ? (

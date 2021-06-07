@@ -74,6 +74,6 @@ const theme = {
   dante_menu_divider_color: '#3D3E49',
   dante_menu_border_width: '0px',
   dante_menu_border_color: 'none',
-  dante_menu_caret_size: '8px'
+  dante_menu_caret_size: '8px',
 }
 export default theme

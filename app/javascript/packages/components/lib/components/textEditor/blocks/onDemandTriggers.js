@@ -1,14 +1,14 @@
 import React from 'react'
 import { LoadBalancerIcon } from '../../icons'
 
-function appPackage () {
-  return <LoadBalancerIcon/>
+function appPackage() {
+  return <LoadBalancerIcon />
 }
 
 export default class OnDemandTriggers extends React.Component {
   render = () => {
     return <span></span>
-  };
+  }
 }
 
 export const OnDemandTriggersBlockConfig = (options = {}) => {
@@ -26,8 +26,8 @@ export const OnDemandTriggersBlockConfig = (options = {}) => {
       displayOnInlineTooltip: true,
       insertion: 'func',
       funcHandler: options.handleFunc,
-      insert_block: 'OnDemandTriggers'
-    }
+      insert_block: 'OnDemandTriggers',
+    },
   }
 
   return Object.assign(config, options)

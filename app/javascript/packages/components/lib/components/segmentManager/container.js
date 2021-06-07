@@ -11,15 +11,14 @@ import Map from '../map/index.js'
 
 import userFormat from '../Table/userFormat'
 import Progress from '../Progress'
-import {
-  actions
-} from '@chaskiq/store'
+import { actions } from '@chaskiq/store'
 
-const { 
-  dispatchSegmentUpdate ,
-  setCurrentSection, setCurrentPage ,
-  toggleDrawer ,
-  getAppUser 
+const {
+  dispatchSegmentUpdate,
+  setCurrentSection,
+  setCurrentPage,
+  toggleDrawer,
+  getAppUser,
 } = actions
 
 const Wrapper = styled.div`
@@ -38,12 +37,12 @@ const ButtonGroup = styled.div`
 `
 
 class AppContent extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.getSegment = this.getSegment.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.dispatch(setCurrentSection('Platform'))
 
     this.props.dispatch(
@@ -53,7 +52,7 @@ class AppContent extends Component {
     this.props.dispatch(
       dispatchSegmentUpdate({
         id: this.props.match.params.segmentID,
-        jwt: this.props.match.params.Jwt
+        jwt: this.props.match.params.Jwt,
       })
     )
 
@@ -62,12 +61,12 @@ class AppContent extends Component {
     })
   }
 
-  getSegment () {
+  getSegment() {
     const segmentID = this.props.match.params.segmentID
     segmentID && this.props.actions.fetchAppSegment(segmentID)
   }
 
-  componentDidUpdate (prevProps, _prevState) {
+  componentDidUpdate(prevProps, _prevState) {
     if (
       this.props.match.params &&
       prevProps.match.params.segmentID !== this.props.match.params.segmentID
@@ -75,7 +74,7 @@ class AppContent extends Component {
       this.props.dispatch(
         dispatchSegmentUpdate({
           id: this.props.match.params.segmentID,
-          jwt: this.props.match.params.Jwt
+          jwt: this.props.match.params.Jwt,
         })
       )
 
@@ -103,7 +102,7 @@ class AppContent extends Component {
     ) {
       this.props.dispatch(
         dispatchSegmentUpdate({
-          jwt: this.props.match.params.Jwt
+          jwt: this.props.match.params.Jwt,
         })
       )
 
@@ -113,7 +112,7 @@ class AppContent extends Component {
     }
   }
 
-  render () {
+  render() {
     const { searching, collection, meta } = this.props.app_users
     return (
       <div style={{ marginTop: '20px' }}>
@@ -136,10 +135,10 @@ class AppContent extends Component {
 }
 
 class AppUsers extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      map_view: false
+      map_view: false,
     }
     this.toggleMap = this.toggleMap.bind(this)
     this.toggleList = this.toggleList.bind(this)
@@ -147,24 +146,24 @@ class AppUsers extends Component {
 
   toggleMap = (_e) => {
     this.setState({ map_view: false })
-  };
+  }
 
   toggleList = (_e) => {
     this.setState({ map_view: true })
-  };
+  }
 
   toggleMapView = (_e) => {
     this.setState({ map_view: !this.state.map_view })
-  };
+  }
 
   handleClickOnSelectedFilter = (jwtToken) => {
     const url = `/apps/${this.props.app.key}/segments/${this.props.segment.id}/${jwtToken}`
     this.props.history.push(url)
-  };
+  }
 
   displayName = (o) => {
     return o.attribute.split('_').join(' ')
-  };
+  }
 
   getTextForPredicate = (o) => {
     if (o.type === 'match') {
@@ -174,13 +173,13 @@ class AppUsers extends Component {
         o.value ? o.value : ''
       }`
     }
-  };
+  }
 
   getStatePredicate = () => {
     return this.props.actions
       .getPredicates()
       .find((o) => o.attribute === 'subscription_state')
-  };
+  }
 
   caption = () => {
     return (
@@ -233,7 +232,7 @@ class AppUsers extends Component {
         </ButtonGroup>
       </div>
     )
-  };
+  }
 
   showUserDrawer = (o) => {
     this.props.dispatch(
@@ -241,13 +240,13 @@ class AppUsers extends Component {
         this.props.dispatch(getAppUser(o.id))
       })
     )
-  };
+  }
 
   getUserData = (id) => {
     this.props.actions.setAppUser(id)
-  };
+  }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         {this.caption()}
@@ -257,12 +256,12 @@ class AppUsers extends Component {
         this.props.app.key &&
         this.props.segment &&
         this.props.segment.id ? (
-            <Map
-              interactive={true}
-              segment={this.props.segment}
-              data={this.props.app_users}
-            />
-          ) : null}
+          <Map
+            interactive={true}
+            segment={this.props.segment}
+            data={this.props.app_users}
+          />
+        ) : null}
 
         {!this.props.searching && (
           <Table
@@ -280,7 +279,7 @@ class AppUsers extends Component {
               'referrer',
               'os',
               'osVersion',
-              'lang'
+              'lang',
             ]}
             // selection [],
             tableColumnExtensions={[
@@ -290,7 +289,7 @@ class AppUsers extends Component {
               { columnName: 'os', width: 100 },
               { columnName: 'osVersion', width: 100 },
               { columnName: 'state', width: 80 },
-              { columnName: 'online', width: 80 }
+              { columnName: 'online', width: 80 },
 
               // { columnName: 'amount', align: 'right', width: 140 },
             ]}
@@ -312,7 +311,7 @@ class AppUsers extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, segment, app_users, app_user } = state
   const { loading, isAuthenticated } = auth
 
@@ -326,7 +325,7 @@ function mapStateToProps (state) {
     segment,
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

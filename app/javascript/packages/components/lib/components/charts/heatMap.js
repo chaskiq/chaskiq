@@ -9,16 +9,16 @@ import { ResponsiveCalendarCanvas } from '@nivo/calendar'
 
 // import { useTheme } from '@material-ui/core/styles';
 
-export default function MyResponsiveCalendar ({ data, from, to }) {
+export default function MyResponsiveCalendar({ data, from, to }) {
   // const theme = useTheme();
 
   const theme = {
     palette: {
       primary: {
         light: '#112343',
-        main: '#123443'
-      }
-    }
+        main: '#123443',
+      },
+    },
   }
 
   return (
@@ -40,11 +40,11 @@ export default function MyResponsiveCalendar ({ data, from, to }) {
             fill: theme.palette.primary.light,
             fontSize: 11,
             fontFamily: 'Roboto, sans-serif',
-            color: theme.palette.primary.light
-          }
+            color: theme.palette.primary.light,
+          },
         },
         legends: {
-          text: { fill: theme.palette.primary.main, fontSize: 11 }
+          text: { fill: theme.palette.primary.main, fontSize: 11 },
         },
 
         tooltip: {
@@ -54,18 +54,18 @@ export default function MyResponsiveCalendar ({ data, from, to }) {
             fontSize: 'inherit',
             borderRadius: '2px',
             boxShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
-            padding: '5px 9px'
+            padding: '5px 9px',
           },
           basic: {
             whiteSpace: 'pre',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
           },
           table: {},
           tableCell: {
-            padding: '3px 5px'
-          }
-        }
+            padding: '3px 5px',
+          },
+        },
       }}
       legends={[
         {
@@ -77,8 +77,8 @@ export default function MyResponsiveCalendar ({ data, from, to }) {
           itemWidth: 42,
           itemHeight: 36,
           itemsSpacing: 14,
-          itemDirection: 'right-to-left'
-        }
+          itemDirection: 'right-to-left',
+        },
       ]}
     />
   )

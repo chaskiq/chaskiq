@@ -6,8 +6,8 @@ import Moment from 'react-moment'
 import Accordeon from './Accordeon'
 import { compact } from 'lodash'
 
-function UserData ({ app_user, app, disableAvatar }) {
-  function getPropertiesItems () {
+function UserData({ app_user, app, disableAvatar }) {
+  function getPropertiesItems() {
     if (!app.customFields) return []
     const fields = app.customFields.map((field) => field.name)
 
@@ -16,7 +16,7 @@ function UserData ({ app_user, app, disableAvatar }) {
       if (!val) return null
       return {
         label: `${f}:`,
-        value: val
+        value: val,
       }
     })
 
@@ -27,8 +27,8 @@ function UserData ({ app_user, app, disableAvatar }) {
     <React.Fragment>
       {app_user && app_user.id && (
         <div className="overflow-hidden my-3">
-          {
-            !disableAvatar && <div>
+          {!disableAvatar && (
+            <div>
               <div className="flex justify-center mt-5">
                 <img
                   src={app_user.avatarUrl}
@@ -66,19 +66,19 @@ function UserData ({ app_user, app, disableAvatar }) {
                 </Link>
               </div>
             </div>
-          }
+          )}
 
-          <div className="bg-white shadow overflow-hidden">
+          <div className="bg-white dark:bg-black shadow overflow-hidden">
             <ul>
               <li>
                 <a
                   href="#"
-                  className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+                  className="block dark:hover:bg-gray-900  hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
                 >
                   <div className="px-4 py-4 sm:px-6">
                     <div className="mt-2 sm:flex sm:justify-between">
                       <div className="sm:flex">
-                        <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mt-0">
+                        <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 dark:text-gray-300 sm:mt-0">
                           <svg
                             className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                             fill="currentColor"
@@ -126,38 +126,38 @@ function UserData ({ app_user, app, disableAvatar }) {
                 items: [
                   {
                     label: 'referrer',
-                    value: app_user.referrer
+                    value: app_user.referrer,
                   },
 
                   {
                     label: 'city',
-                    value: app_user.city
+                    value: app_user.city,
                   },
 
                   {
                     label: 'region',
-                    value: app_user.region
+                    value: app_user.region,
                   },
 
                   {
                     label: 'country',
-                    value: app_user.country
+                    value: app_user.country,
                   },
 
                   {
                     label: 'lat',
-                    value: app_user.lat
+                    value: app_user.lat,
                   },
 
                   {
                     label: 'lng',
-                    value: app_user.lng
+                    value: app_user.lng,
                   },
                   {
                     label: 'postal:',
-                    value: app_user.postal
-                  }
-                ]
+                    value: app_user.postal,
+                  },
+                ],
               },
               {
                 name: 'Browsing Properties',
@@ -165,39 +165,39 @@ function UserData ({ app_user, app, disableAvatar }) {
                 items: [
                   {
                     label: 'web sessions:',
-                    value: app_user.webSessions
+                    value: app_user.webSessions,
                   },
 
                   {
                     label: 'timezone:',
-                    value: app_user.timezone
+                    value: app_user.timezone,
                   },
 
                   {
                     label: 'browser version:',
-                    value: app_user.browserVersion
+                    value: app_user.browserVersion,
                   },
 
                   {
                     label: 'browser:',
-                    value: app_user.browser
+                    value: app_user.browser,
                   },
 
                   {
                     label: 'os:',
-                    value: app_user.os
+                    value: app_user.os,
                   },
 
                   {
                     label: 'os version:',
-                    value: app_user.osVersion
-                  }
-                ]
+                    value: app_user.osVersion,
+                  },
+                ],
               },
               {
                 name: 'Properties',
                 component: null,
-                items: getPropertiesItems()
+                items: getPropertiesItems(),
               },
               {
                 name: 'External Profiles',
@@ -211,13 +211,9 @@ function UserData ({ app_user, app, disableAvatar }) {
                               m={2}
                               key={`app-user-profile-${app_user.id}-${o.id}`}
                             >
-                              <div
-                                className="flex flex-col"
-                              >
+                              <div className="flex flex-col">
                                 <div className="flex flex-col">
-                                  <p className="font-bold">
-                                    {o.provider}
-                                  </p>
+                                  <p className="font-bold">{o.provider}</p>
                                   <p variant="h6">{o.profileId}</p>
                                 </div>
 
@@ -235,32 +231,35 @@ function UserData ({ app_user, app, disableAvatar }) {
                                 style={{
                                   display: 'flex',
                                   flexDirection: 'column',
-                                  textAlign: 'left'
+                                  textAlign: 'left',
                                 }}
                               >
-                                {o.data && Object.keys(o.data).map((a, i) => {
-                                  if (
-                                    !o.data[a] ||
-                                    typeof o.data[a] === 'object'
-                                  ) { return null }
-                                  return (
-                                    <p
-                                      variant={'caption'}
-                                      key={`app-user-${o.provider}-${app_user.id}-${i}`}
-                                    >
-                                      {<b>{a}:</b>}
-                                      {` ${o.data[a]}`}
-                                    </p>
-                                  )
-                                })}
+                                {o.data &&
+                                  Object.keys(o.data).map((a, i) => {
+                                    if (
+                                      !o.data[a] ||
+                                      typeof o.data[a] === 'object'
+                                    ) {
+                                      return null
+                                    }
+                                    return (
+                                      <p
+                                        variant={'caption'}
+                                        key={`app-user-${o.provider}-${app_user.id}-${i}`}
+                                      >
+                                        {<b>{a}:</b>}
+                                        {` ${o.data[a]}`}
+                                      </p>
+                                    )
+                                  })}
                               </div>
                             </div>
                           )
                         })}
                     </ul>
                   </div>
-                )
-              }
+                ),
+              },
             ]}
           />
         </div>
@@ -269,11 +268,11 @@ function UserData ({ app_user, app, disableAvatar }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app_user, app } = state
   return {
     app_user,
-    app
+    app,
   }
 }
 

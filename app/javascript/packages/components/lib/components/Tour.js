@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from '@emotion/styled'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { directUpload } from  '../../../../src/shared/fileUploader' // '../shared/fileUploader'
+import { directUpload } from '../../../../src/shared/fileUploader' // '../shared/fileUploader'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import theme from './textEditor/theme'
@@ -12,16 +12,9 @@ import Button from './Button'
 // import tw from "tailwind.macro";
 import tw from 'twin.macro'
 
-import {
-  client as graphql,
-  mutations
-} from '@chaskiq/store'
+import { client as graphql, mutations } from '@chaskiq/store'
 
-const {
-  UPDATE_CAMPAIGN,
-  CREATE_URL_UPLOAD,
-  CREATE_DIRECT_UPLOAD
-} = mutations
+const { UPDATE_CAMPAIGN, CREATE_URL_UPLOAD, CREATE_DIRECT_UPLOAD } = mutations
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`
@@ -63,7 +56,7 @@ const StepHeader = styled.div`
 const StepMessage = styled.div`
   .contentWrap {
     &:before {
-      content: "";
+      content: '';
       width: 100%;
       height: 100%;
       position: absolute;
@@ -112,15 +105,15 @@ window.__CHILD_WINDOW_HANDLE_2 = null
 
 class TourManager extends Component {
   state = {
-    enabledTour: false
-  };
+    enabledTour: false,
+  }
 
-  handleMessage (e){
+  handleMessage(e) {
     if (e.data.type === 'ENABLE_MANAGER_TOUR') {
       window.__CHILD_WINDOW_HANDLE_2.postMessage(
         {
           tour: this.props.data,
-          tourManagerEnabled: true
+          tourManagerEnabled: true,
         },
         '*'
       )
@@ -130,7 +123,7 @@ class TourManager extends Component {
       window.__CHILD_WINDOW_HANDLE_2.postMessage(
         {
           type: 'GET_TOUR',
-          data: this.props.data
+          data: this.props.data,
         },
         '*'
       )
@@ -141,7 +134,7 @@ class TourManager extends Component {
         window.__CHILD_WINDOW_HANDLE_2.postMessage(
           {
             type: 'GET_TOUR',
-            data: this.props.data
+            data: this.props.data,
           },
           '*'
         )
@@ -159,26 +152,21 @@ class TourManager extends Component {
 
   tour_events = this.handleMessage.bind(this)
 
-
-  componentDidMount () {
+  componentDidMount() {
     window.TourManagerEnabled = () => {
       return this.state.enabledTour // alert("oaoaoaoa")
     }
 
     window.TourManagerMethods = {
       update: this.updateData,
-      getSteps: () => this.props.data.steps
+      getSteps: () => this.props.data.steps,
     }
 
     // events received from child window & pingback
-    window.addEventListener(
-      'message',
-      this.tour_events,
-      false
-    )
+    window.addEventListener('message', this.tour_events, false)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.TourManagerEnabled = null
     window.TourManagerMethods = null
     window.removeEventListener('message', this.tour_events)
@@ -190,8 +178,8 @@ class TourManager extends Component {
       appKey: this.props.app.key,
       id: this.props.data.id,
       campaignParams: {
-        steps: data
-      }
+        steps: data,
+      },
     }
 
     graphql(UPDATE_CAMPAIGN, params, {
@@ -200,9 +188,9 @@ class TourManager extends Component {
         if (cb) cb()
         // this.setState({ status: "saved" })
       },
-      error: () => {}
+      error: () => {},
     })
-  };
+  }
 
   handleUrlUpload = (url) => {
     graphql(
@@ -210,43 +198,35 @@ class TourManager extends Component {
       { url: url },
       {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl
-          } = data.createUrlUpload.directUpload
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload
           // imageBlock.uploadCompleted(serviceUrl)
           // this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
           // this.setDisabled(false)
           window.__CHILD_WINDOW_HANDLE_2.postMessage(
             {
               type: 'URL_UPLOAD_COMPLETED',
-              data: { signedBlobId, headers, url, serviceUrl }
+              data: { signedBlobId, headers, url, serviceUrl },
             },
             '*'
           )
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
   handleDirectUpload = (file, input) => {
     graphql(CREATE_DIRECT_UPLOAD, input, {
       success: (data) => {
-        const {
-          signedBlobId,
-          headers,
-          url,
-          serviceUrl
-        } = data.createDirectUpload.directUpload
+        const { signedBlobId, headers, url, serviceUrl } =
+          data.createDirectUpload.directUpload
         console.log('DRECT', signedBlobId, headers, url, serviceUrl)
         directUpload(url, JSON.parse(headers), file).then(() => {
           window.__CHILD_WINDOW_HANDLE_2.postMessage(
             {
               type: 'UPLOAD_COMPLETED',
-              data: { signedBlobId, headers, url, serviceUrl }
+              data: { signedBlobId, headers, url, serviceUrl },
             },
             '*'
           )
@@ -259,14 +239,14 @@ class TourManager extends Component {
       error: (error) => {
         this.setDisabled(false)
         console.log('error on signing blob', error)
-      }
+      },
     })
-  };
+  }
 
   openTourManager = () => {
     this.setState(
       {
-        enabledTour: true
+        enabledTour: true,
       },
       () => {
         const options =
@@ -293,9 +273,9 @@ class TourManager extends Component {
         // open(`${this.props.data.url}`)
       }
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <Body>
         <StepsContainer>
@@ -321,9 +301,9 @@ class NewTourStep extends Component {
   enableSelection = (e) => {
     e.preventDefault()
     this.props.openTourManager()
-  };
+  }
 
-  render () {
+  render() {
     return (
       <NewStepContainer>
         <NewStepBody>
@@ -343,13 +323,13 @@ class NewTourStep extends Component {
 class TourStep extends Component {
   removeItem = (e) => {
     e.preventDefault()
-  };
+  }
 
   enableEditMode = (e) => {
     e.preventDefault()
-  };
+  }
 
-  render () {
+  render() {
     return (
       <StepContainer onClick={this.enableEditMode}>
         <StepBody>
@@ -377,14 +357,14 @@ class TourStep extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

@@ -23,13 +23,19 @@ const SpinnerAnim = keyframes`
 const Spinner = styled.div`
   //transition: all .1s ease-out;
   //animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-  animation: ${SpinnerAnim} .6s linear infinite;
+  animation: ${SpinnerAnim} 0.6s linear infinite;
 
-  ${(props) => { return props.sm ? 'width: 40px; height: 40px;' : '' }}
+  ${(props) => {
+    return props.sm ? 'width: 40px; height: 40px;' : ''
+  }}
 
-  ${(props) => { return props.xs ? 'width: 20px; height: 20px;' : '' }}
+  ${(props) => {
+    return props.xs ? 'width: 20px; height: 20px;' : ''
+  }}
 
-  ${(props) => { return props.md ? 'width: 60px; height: 60px;' : '' }}
+  ${(props) => {
+    return props.md ? 'width: 60px; height: 60px;' : ''
+  }}
   
   border: 4px solid ${(props) => props.theme.palette.secondary};
   border-top: 4px solid white;
@@ -42,7 +48,7 @@ const SpinnerWrapper = styled.div`
   padding: 1.2em;
 `
 
-export default function Loader (props) {
+export default function Loader(props) {
   return (
     <SpinnerWrapper style={props.wrapperStyle}>
       <Spinner {...props}></Spinner>

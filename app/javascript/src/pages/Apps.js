@@ -7,21 +7,14 @@ import bg from '../images/bg/welcome-icon8.png'
 
 import styled from '@emotion/styled'
 
-import {
-  client as graphql,
-  queries,
-  actions,
-} from '@chaskiq/store'
+import { client as graphql, queries, actions } from '@chaskiq/store'
 
-import {LoadingView, Badge, Card} from '@chaskiq/components'
+import { LoadingView, Badge, Card } from '@chaskiq/components'
 import { connect } from 'react-redux'
 import logo from '../images/favicon.png'
 
 const { APPS } = queries
-const {
-  setCurrentSection,
-  clearApp
-} = actions
+const { setCurrentSection, clearApp } = actions
 
 const Container = styled.div`
   background: url(${bg});
@@ -31,7 +24,7 @@ const Container = styled.div`
   marginbottom: 0px;
 `
 
-function App ({ dispatch, loading }) {
+function App({ dispatch, loading }) {
   const [apps, setApps] = React.useState([])
   const [ready, setReady] = React.useState(false)
 
@@ -46,14 +39,14 @@ function App ({ dispatch, loading }) {
           setApps(data.apps)
           setReady(true)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }, [])
 
   return (
     <Container className="h-screen flex overflow-hidden bg-white">
-      {loading || !ready && <LoadingView />}
+      {loading || (!ready && <LoadingView />)}
 
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         <div className="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
@@ -132,7 +125,9 @@ function App ({ dispatch, loading }) {
                       className="lg:w-1/4 w-screen overflow-hidden-- my-1 px-1"
                     >
                       <Card
-                        className={'hover:bg-gray-100 border rounded overflow-hidden shadow-lg bg-white h-full'}
+                        className={
+                          'hover:bg-gray-100 border rounded overflow-hidden shadow-lg bg-white h-full'
+                        }
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}
                         description={a.tagline}
                       />
@@ -148,14 +143,14 @@ function App ({ dispatch, loading }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

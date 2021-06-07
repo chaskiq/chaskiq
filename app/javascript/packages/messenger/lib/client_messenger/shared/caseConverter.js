@@ -1,6 +1,6 @@
 import {
   // snakeCase,
-  camelCase
+  camelCase,
   // kebabCase,
   // upperFirst,
   // flow
@@ -24,12 +24,12 @@ const convertCase = (oldObject, converterFunction) => {
   }
 
   if (Array.isArray(oldObject)) {
-    newObject = oldObject.map(element =>
+    newObject = oldObject.map((element) =>
       convertCase(element, converterFunction)
     )
   } else {
     newObject = {}
-    Object.keys(oldObject).forEach(oldKey => {
+    Object.keys(oldObject).forEach((oldKey) => {
       const newKey = converterFunction(oldKey)
       newObject[newKey] = convertCase(oldObject[oldKey], converterFunction)
     })
@@ -38,12 +38,12 @@ const convertCase = (oldObject, converterFunction) => {
   return newObject
 }
 
-export const toCamelCase = obj => convertCase(obj, camelCase)
+export const toCamelCase = (obj) => convertCase(obj, camelCase)
 // export const toSnakeCase = obj => convertCase(obj, snakeCase);
 // export const toKebabCase = obj => convertCase(obj, kebabCase);
 // export const toPascalCase = obj => convertCase(obj, flow(camelCase, upperFirst));
 
 export default {
-  toCamelCase
+  toCamelCase,
   // toSnakeCase, toKebabCase, toPascalCase
 }

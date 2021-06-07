@@ -5,26 +5,16 @@ import { connect } from 'react-redux'
 import {
   sortableContainer,
   sortableElement,
-  sortableHandle
+  sortableHandle,
 } from 'react-sortable-hoc'
 
-import {
-  client as graphql,
-  queries
-} from '@chaskiq/store'
+import { client as graphql, queries } from '@chaskiq/store'
 
-import {
-  QueueIcon,
-  DeleteIcon
-} from '../icons'
-import {
-  DefinitionRenderer,
-} from '../packageBlocks/components'
+import { QueueIcon, DeleteIcon } from '../icons'
+import { DefinitionRenderer } from '../packageBlocks/components'
 import InserterForm from '../packageBlocks/InserterForm'
 
-const {
-  APP_PACKAGES_BY_CAPABILITY,
-} = queries
+const { APP_PACKAGES_BY_CAPABILITY } = queries
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>
@@ -40,14 +30,12 @@ const SortableItem = sortableElement(
   ({ object, deleteItem, _edit, _updatePackage, customRenderer }) => (
     <li>
       <div>
-
-        <div key={`apps-${object.id}`}
-          className="bg-gray-100 mb-2 p-4-- flex flex-col justify-between items-center">
-
+        <div
+          key={`apps-${object.id}`}
+          className="bg-gray-100 mb-2 p-4-- flex flex-col justify-between items-center"
+        >
           <div className="border-md bg-white p-3 shadow w-full mx-2 ">
-
             <div className="flex justify-between items-center">
-
               <div>
                 <p className="text-xs leading-4 font-bold text-gray-700">
                   {object.name}
@@ -64,42 +52,42 @@ const SortableItem = sortableElement(
                 </div>
                 <Button
                   className="h-10 w-10"
-                  variant='icon'
+                  variant="icon"
                   size="small"
-                  onClick={deleteItem}>
+                  onClick={deleteItem}
+                >
                   <DeleteIcon />
                 </Button>
               </div>
             </div>
 
-            {
-              customRenderer &&
+            {customRenderer &&
               object.type === 'internal' &&
-              customRenderer(object)
-            }
+              customRenderer(object)}
 
-            { !customRenderer && <DefinitionRenderer
-              schema={object.definitions}
-              disabled={true}
-              size="sm"
-              // updatePackage={(params, cb) => updatePackage(params, object, cb)}
-            />}
+            {!customRenderer && (
+              <DefinitionRenderer
+                schema={object.definitions}
+                disabled={true}
+                size="sm"
+                // updatePackage={(params, cb) => updatePackage(params, object, cb)}
+              />
+            )}
           </div>
-
         </div>
       </div>
     </li>
   )
 )
 
-function AppInserter ({
+function AppInserter({
   app,
   update,
   capability,
   option,
   customRenderer,
   setEditable,
-  location
+  location,
 }) {
   return (
     <div className="flex flex-col">
@@ -116,14 +104,14 @@ function AppInserter ({
   )
 }
 
-function SidebarAppInserter ({
+function SidebarAppInserter({
   app,
   update,
   option,
   capability,
   customRenderer,
   setEditable,
-  location
+  location,
 }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [items, setItems] = React.useState(app[option.namespace] || [])
@@ -139,21 +127,22 @@ function SidebarAppInserter ({
     // { type: 'internal', name: 'AssigneeBlock' }
   ]
 
-  function getPackages () {
+  function getPackages() {
     setLoading(true)
-    graphql(APP_PACKAGES_BY_CAPABILITY, {
-      appKey: app.key,
-      kind: capability
-    },
-    {
-      success: (data) => {
-        setLoading(false)
-        setPackages(
-          internalPackages.concat(data.app.appPackagesCapabilities)
-        )
+    graphql(
+      APP_PACKAGES_BY_CAPABILITY,
+      {
+        appKey: app.key,
+        kind: capability,
       },
-      error: () => {}
-    })
+      {
+        success: (data) => {
+          setLoading(false)
+          setPackages(internalPackages.concat(data.app.appPackagesCapabilities))
+        },
+        error: () => {},
+      }
+    )
   }
 
   React.useEffect(() => {
@@ -164,11 +153,11 @@ function SidebarAppInserter ({
     if (option) setItems(app[option.namespace] || [])
   }, [option])
 
-  function closeHandler () {
+  function closeHandler() {
     setIsOpen(false)
   }
 
-  function handleAdd (item) {
+  function handleAdd(item) {
     setItems(items.concat(item))
     setIsOpen(false)
   }
@@ -177,16 +166,16 @@ function SidebarAppInserter ({
     setItems(arrayMove(items, oldIndex, newIndex))
   }
 
-  function deleteItem (item, index) {
+  function deleteItem(item, index) {
     setItems(items.filter((o, i) => i !== index))
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
     const data = {
       app: {
-        [option.n]: items
-      }
+        [option.n]: items,
+      },
     }
     update(data, () => {
       setEditable(false)
@@ -195,25 +184,25 @@ function SidebarAppInserter ({
 
   return (
     <div className="">
-
       <div className="flex justify-between border-b border-gray-200 mt-3 pb-2">
         <div className="w-full flex justify-between">
           <Button
             variant={'outlined'}
             size="xs"
-            onClick={ () => setEditable(false) }>
-              cancel
+            onClick={() => setEditable(false)}
+          >
+            cancel
           </Button>
-          <Button
-            size="xs"
-            onClick={ handleSubmit }>
-              done
+          <Button size="xs" onClick={handleSubmit}>
+            done
           </Button>
         </div>
       </div>
 
-      <div className="flex flex-col justify-around
-        items-center border rounded-md my-2 py-2">
+      <div
+        className="flex flex-col justify-around
+        items-center border rounded-md my-2 py-2"
+      >
         <div>
           <h2 className="text-sm leading-6 font-medium text-gray-900">
             Add apps to inbox sidebar
@@ -221,18 +210,15 @@ function SidebarAppInserter ({
         </div>
 
         <div className="flex justify-end my-2">
-          <Button
-            size="xs"
-            variant={'success'}
-            onClick={() => setIsOpen(true)}>
+          <Button size="xs" variant={'success'} onClick={() => setIsOpen(true)}>
             Add app
           </Button>
         </div>
       </div>
 
-      <InserterForm 
-        isOpen={isOpen} 
-        app={app} 
+      <InserterForm
+        isOpen={isOpen}
+        app={app}
         closeHandler={closeHandler}
         handleAdd={handleAdd}
         packages={packages}
@@ -240,20 +226,19 @@ function SidebarAppInserter ({
       />
 
       <div className="w-full">
-        <SortableContainer
-          onSortEnd={onSortEnd}
-          useDragHandle>
-          {items && items.map((o, index) => (
-            <SortableItem
-              key={`item-${index}`}
-              index={index}
-              value={o.id}
-              object={o}
-              customRenderer={customRenderer}
-              // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
-              deleteItem={() => deleteItem(o, index)}
-            />
-          ))}
+        <SortableContainer onSortEnd={onSortEnd} useDragHandle>
+          {items &&
+            items.map((o, index) => (
+              <SortableItem
+                key={`item-${index}`}
+                index={index}
+                value={o.id}
+                object={o}
+                customRenderer={customRenderer}
+                // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
+                deleteItem={() => deleteItem(o, index)}
+              />
+            ))}
         </SortableContainer>
 
         {/* <Button
@@ -266,11 +251,11 @@ function SidebarAppInserter ({
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app_user, app } = state
   return {
     app_user,
-    app
+    app,
   }
 }
 

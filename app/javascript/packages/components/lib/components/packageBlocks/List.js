@@ -11,7 +11,7 @@ const ListWrapper = styled.div`
     return tw`border-b border-gray-200`
   }}
 
-  ul{
+  ul {
     ${() => tw`m-0 p-0`}
   }
 
@@ -19,8 +19,8 @@ const ListWrapper = styled.div`
     ${() => tw`border-b border-gray-200`}
   }
 
-  .list-item:last-child { 
-    border-bottom: none; 
+  .list-item:last-child {
+    border-bottom: none;
   }
 `
 
@@ -31,15 +31,11 @@ const ListItemWrapper = styled.div`
   focus:outline-none focus:bg-gray-200 transition duration-150
   ease-in-out`}
 
-  ${(props) => props.pointer ? tw`cursor-pointer` : ''} 
+  ${(props) => (props.pointer ? tw`cursor-pointer` : '')} 
 
   .content {
+    ${(props) => (props.theme.size === 'sm' ? tw`px-1 py-2` : tw`px-4 py-4`)};
 
-    ${(props) => props.theme.size === 'sm'
-      ? tw`px-1 py-2`
-      : tw`px-4 py-4`
-    };
-    
     ${() => tw`flex items-center`}
   }
 
@@ -53,11 +49,7 @@ const ListItemWrapper = styled.div`
 `
 
 const ListItemTextWrapper = styled.div`
-
-  ${(props) => props.theme.size === 'sm'
-    ? tw`px-1`
-    : tw`px-4 md:gap-4`
-  };
+  ${(props) => (props.theme.size === 'sm' ? tw`px-1` : tw`px-4 md:gap-4`)};
 
   ${() => tw`min-w-0 flex-1 md:grid md:grid-cols-1`}
 
@@ -69,45 +61,40 @@ const ListItemTextWrapper = styled.div`
 const ItemAvatarWrapper = styled.div`
   ${() => tw`flex-shrink-0`}
   img {
-    ${() => tw`h-12 w-12 rounded-full`}
+    ${() => tw`h-12 w-12 rounded-full dark:bg-white`}
   }
 `
 
 const ItemListPrimaryContentWrapper = styled.div`
   ${() => tw`text-sm leading-5 font-bold truncate`}
-  ${(props) => props.theme.palette
-    ? `color: ${props.theme.palette.primary};` : tw`dark:text-gray-200 text-gray-800`
-  }
+  ${(props) =>
+    props.theme.palette
+      ? `color: ${props.theme.palette.primary};`
+      : tw`dark:text-gray-200 text-gray-800`}
 `
 
 const ItemListSecondaryContentWrapper = styled.div`
-  ${() => tw`mt-2 flex items-center text-xs leading-4 dark:text-gray-300 text-gray-500`}
-  .span{
+  ${() =>
+    tw`mt-2 flex items-center text-xs leading-4 dark:text-gray-300 text-gray-500`}
+  .span {
     ${() => tw`truncate`}
   }
 `
 
-export default function List ({ children, shadowless }) {
+export default function List({ children, shadowless }) {
   return (
-    <ListWrapper
-      shadowless={shadowless}>
+    <ListWrapper shadowless={shadowless}>
       <ul>{children}</ul>
     </ListWrapper>
   )
 }
 
-export function ListItem ({ avatar, action, children, onClick, _divider }) {
+export function ListItem({ avatar, action, children, onClick, _divider }) {
   //const clicableClasses = onClick && 'cursor-pointer'
 
   return (
-    <ListItemWrapper
-      className="list-item"
-      pointer={ onClick }
-      divider={true}>
-      <div
-        className="list-item-b"
-        onClick={onClick && onClick}
-      >
+    <ListItemWrapper className="list-item" pointer={onClick} divider={true}>
+      <div className="list-item-b" onClick={onClick && onClick}>
         <div className="content">
           <div className="avatar-content">
             {avatar && avatar}
@@ -136,9 +123,9 @@ export function ListItem ({ avatar, action, children, onClick, _divider }) {
   )
 }
 
-export function ListItemText ({ primary, secondary, terciary }) {
+export function ListItemText({ primary, secondary, terciary }) {
   return (
-    <ListItemTextWrapper >
+    <ListItemTextWrapper>
       <div>
         {primary && primary}
 
@@ -146,15 +133,13 @@ export function ListItemText ({ primary, secondary, terciary }) {
       </div>
 
       <div className="tertiary">
-        <div>
-          {terciary && terciary}
-        </div>
+        <div>{terciary && terciary}</div>
       </div>
     </ListItemTextWrapper>
   )
 }
 
-export function ItemAvatar ({ avatar }) {
+export function ItemAvatar({ avatar }) {
   return (
     <ItemAvatarWrapper className="flex-shrink-0">
       <img src={avatar} alt="" />
@@ -162,15 +147,13 @@ export function ItemAvatar ({ avatar }) {
   )
 }
 
-export function ItemListPrimaryContent ({ children }) {
+export function ItemListPrimaryContent({ children }) {
   return (
-    <ItemListPrimaryContentWrapper>
-      {children}
-    </ItemListPrimaryContentWrapper>
+    <ItemListPrimaryContentWrapper>{children}</ItemListPrimaryContentWrapper>
   )
 }
 
-export function ItemListSecondaryContent ({ children }) {
+export function ItemListSecondaryContent({ children }) {
   return (
     <ItemListSecondaryContentWrapper>
       {/* <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">

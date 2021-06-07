@@ -43,7 +43,7 @@ const langsOptions = [
   { label: 'Spanish', value: 'es' },
   { label: 'Swedish', value: 'sv' },
   { label: 'Turkish', value: 'tr' },
-  { label: 'Ukrainian', value: 'uk' }
+  { label: 'Ukrainian', value: 'uk' },
 ]
 
 export default langsOptions

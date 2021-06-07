@@ -11,11 +11,8 @@ import Button from './Button'
 import Count from './charts/count'
 import { isEmpty } from 'lodash'
 
-import {
-  actions
-} from '@chaskiq/store'
-const { getAppUser , toggleDrawer } = actions
-
+import { actions } from '@chaskiq/store'
+const { getAppUser, toggleDrawer } = actions
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -31,13 +28,13 @@ const PieItem = styled.div`
   height: 200px;
 `
 class Stats extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       collection: [],
       meta: {},
       counts: {},
-      loading: false
+      loading: false,
     }
     this.getData = this.getData.bind(this)
   }
@@ -60,7 +57,7 @@ class Stats extends Component {
     }
 
     return <div appearance={kind}>{item}</div>
-  };
+  }
 
   renderBadgeKind = (row) => {
     let variant = null
@@ -81,19 +78,17 @@ class Stats extends Component {
         break
     }
 
-    return <Badge variant={variant}>
-      {row.action}
-    </Badge>
+    return <Badge variant={variant}>{row.action}</Badge>
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.init()
   }
 
   init = () => {
     this.getData()
     // this.getCounts()
-  };
+  }
 
   getData = () => {
     this.props.getStats(
@@ -101,22 +96,22 @@ class Stats extends Component {
         appKey: this.props.app.key,
         mode: this.props.mode,
         id: this.props.match.params.id,
-        page: this.state.meta.next_page || 1
+        page: this.state.meta.next_page || 1,
       },
       (data) => {
         const { counts, metrics } = data
         this.setState({
           meta: metrics.meta,
           counts: counts,
-          collection: metrics.collection
+          collection: metrics.collection,
         })
       }
     )
-  };
+  }
 
   handleNextPage = () => {
     this.getData()
-  };
+  }
 
   getRateFor = (type) => {
     return type.keys.map((o) => {
@@ -124,10 +119,10 @@ class Stats extends Component {
         id: o.name,
         label: o.name,
         value: this.state.counts[o.name] || 0,
-        color: o.color
+        color: o.color,
       }
     })
-  };
+  }
 
   showUserDrawer = (id) => {
     this.props.dispatch(
@@ -135,56 +130,56 @@ class Stats extends Component {
         this.props.dispatch(getAppUser(id))
       })
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <div>
         <div className="flex justify-between items-center">
-          <h3 className="text-xl font-bold my-4">{I18n.t('campaign.stats.title')}</h3>
-          <Button
-            variant={'outlined'}
-            size="small"
-            onClick={this.getData}>
+          <h3 className="text-xl font-bold my-4">
+            {I18n.t('campaign.stats.title')}
+          </h3>
+          <Button variant={'outlined'} size="small" onClick={this.getData}>
             {I18n.t('campaign.stats.refresh_data')}
           </Button>
         </div>
 
-        {this.props.data && this.props.mode !== 'counter_blocks' &&
+        {this.props.data && this.props.mode !== 'counter_blocks' && (
           <PieContainer>
-            {
-              !isEmpty(this.state.counts) && this.props.data.statsFields.map((o, i) => {
+            {!isEmpty(this.state.counts) &&
+              this.props.data.statsFields.map((o, i) => {
                 const rateData = this.getRateFor(o)
                 return (
                   <PieItem key={`rate-for-${i}`}>
                     <CampaignChart data={rateData} />
                   </PieItem>
                 )
-              })
-            }
+              })}
           </PieContainer>
-        }
+        )}
 
         {this.props.mode === 'counter_blocks' && this.props.data && (
           <div className="flex pb-5 overflow-x-auto">
-            {Object.keys(this.state.counts).map(
-              (key,i) => {
-                return (
-                  <div className="lg:w-1/4 w-screen my-1 px-1" key={`counter-${i}`}>
-                    <div className="rounded shadow-lg bg-white dark:bg-gray-900 dark:border-gray-900 border p-4">
-                      <Count
-                        data={this.state.counts[key]}
-                        label={key.replace('bot_tasks.', '')}
-                        appendLabel={''}
-                      />
-                    </div>
+            {Object.keys(this.state.counts).map((key, i) => {
+              return (
+                <div
+                  className="lg:w-1/4 w-screen my-1 px-1"
+                  key={`counter-${i}`}
+                >
+                  <div className="rounded shadow-lg bg-white dark:bg-gray-900 dark:border-gray-900 border p-4">
+                    <Count
+                      data={this.state.counts[key]}
+                      label={key.replace('bot_tasks.', '')}
+                      appendLabel={''}
+                    />
                   </div>
-                )
-              })}
+                </div>
+              )
+            })}
           </div>
         )}
 
-        <hr className="border-gray-200"/>
+        <hr className="border-gray-200" />
 
         {!this.state.loading ? (
           <Table
@@ -201,9 +196,7 @@ class Stats extends Component {
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
                       <div
-                        onClick={() =>
-                          this.showUserDrawer(row.appUserId)
-                        }
+                        onClick={() => this.showUserDrawer(row.appUserId)}
                         className="flex items-center"
                       >
                         <div className="flex-shrink-0 h-10 w-10">
@@ -223,16 +216,21 @@ class Stats extends Component {
                         </div>
                       </div>
                     </td>
-                  )
+                  ),
               },
               {
                 field: 'action',
                 title: I18n.t('definitions.stats.actions.label'),
-                render: (row) => <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
-                  {this.renderBadgeKind(row)}
-                </td>
+                render: (row) => (
+                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
+                    {this.renderBadgeKind(row)}
+                  </td>
+                ),
               },
-              { field: 'host', title: I18n.t('definitions.stats.from.label') },
+              {
+                field: 'host',
+                title: I18n.t('definitions.stats.from.label'),
+              },
               {
                 field: 'createdAt',
                 title: I18n.t('definitions.stats.when.label'),
@@ -241,7 +239,7 @@ class Stats extends Component {
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
                       <Moment fromNow>{row.updatedAt}</Moment>
                     </td>
-                  )
+                  ),
               },
               {
                 field: 'data',
@@ -251,8 +249,8 @@ class Stats extends Component {
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
                       <div>{JSON.stringify(row.data)}</div>
                     </td>
-                  )
-              }
+                  ),
+              },
             ]}
             // selection [],
             tableColumnExtensions={[
@@ -262,7 +260,7 @@ class Stats extends Component {
               { columnName: 'os', width: 100 },
               { columnName: 'osVersion', width: 100 },
               { columnName: 'state', width: 80 },
-              { columnName: 'online', width: 80 }
+              { columnName: 'online', width: 80 },
 
               // { columnName: 'amount', align: 'right', width: 140 },
             ]}
@@ -276,11 +274,10 @@ class Stats extends Component {
   }
 }
 
-
-function mapStateToProps (state) {
-  const {app} = state
+function mapStateToProps(state) {
+  const { app } = state
   return {
-    app
+    app,
   }
 }
 

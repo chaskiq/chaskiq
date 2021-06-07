@@ -10,15 +10,19 @@ import { ThemeProvider } from 'emotion-theming'
 import Tour from 'reactour-emotion'
 import tw from 'twin.macro'
 
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body-scroll-lock'
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from 'body-scroll-lock'
 import GlobalStyle from './tour/globalStyle'
 // import TourHelper from './tour/tourHelper'
 
 const EditorStylesForTour = styled(DanteContainer)`
-  .public-DraftEditorPlaceholder-root{
+  .public-DraftEditorPlaceholder-root {
     pointer-events: none;
   }
-  .postContent{
+  .postContent {
     font-size: 12px;
     overflow: scroll;
     max-height: 200px;
@@ -26,17 +30,19 @@ const EditorStylesForTour = styled(DanteContainer)`
 `
 
 const simmer = new Simmer(window, {
-  depth: 20
+  depth: 20,
 })
 
 const TourManagerContainer = styled.div`
   ${() => tw`shadow-lg`}
 `
 const Body = styled.div`
-  ${() => tw`w-full p-3 bg-white flex items-center justify-center  overflow-x-auto`}
+  ${() =>
+    tw`w-full p-3 bg-white flex items-center justify-center  overflow-x-auto`}
 `
 const FooterContainer = styled.div`
-${() => tw`flex flex-col justify-between items-center border-t shadow-lg bg-yellow-50`}
+  ${() =>
+    tw`flex flex-col justify-between items-center border-t shadow-lg bg-yellow-50`}
 `
 const Footer = styled.div`
   ${() => tw`w-full p-3 bg-black text-white flex justify-between items-center`}
@@ -48,13 +54,13 @@ const FooterRight = styled.div`
   }
 `
 const StepContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    flex: 0 0 auto;
-    min-width: 0;
-    min-height: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
 `
 const ConnectorStep = styled.div`
   width: 60px;
@@ -78,37 +84,37 @@ const CssPathIndicator = styled.div`
 
 const StepsContainer = styled.div`
   width: 100%;
-  overflow:scroll;
+  overflow: scroll;
   display: flex;
 `
 const Link = styled.a`
-${() => tw`mx-8 p-6 inline-flex text-gray-700 items-center text-center h-10 items-center border border-transparent 
+  ${() => tw`mx-8 p-6 inline-flex text-gray-700 items-center text-center h-10 items-center border border-transparent 
 rounded-full shadow-sm bg-gray-300 hover:bg-gray-400 
 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
 `}
 `
 const DeleteButton = styled.a`
-${() => tw`p-0.5 self-end inline-flex items-center text-center h-4 w-4 items-center border border-transparent 
+  ${() => tw`p-0.5 self-end inline-flex items-center text-center h-4 w-4 items-center border border-transparent 
 rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700 
 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
 `}
 `
 
 const Button = styled.button`
-${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
+  ${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
 border border-transparent text-xs font-medium 
 rounded shadow-sm text-white bg-gray-600 
 hover:bg-gray-700 focus:outline-none 
-focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`
-}`
+focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
+`
 
 const ButtonSuccess = styled.button`
-${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
+  ${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
 border border-transparent text-xs font-medium 
 rounded shadow-sm text-white bg-green-600 
 hover:bg-green-700 focus:outline-none 
-focus:ring-2 focus:ring-offset-2 focus:ring-green-500`
-}`
+focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
+`
 
 const TourFooter = styled.div`
   display: flex;
@@ -118,7 +124,8 @@ const TourFooter = styled.div`
 `
 
 const NewStepContainer = styled.div`
-    ${() => tw`bg-gray-200 w-32 h-32 min-h-full shadow-md border rounded-md flex items-center `}
+  ${() =>
+    tw`bg-gray-200 w-32 h-32 min-h-full shadow-md border rounded-md flex items-center `}
 `
 
 const NewStepBody = styled.div`
@@ -135,15 +142,15 @@ export default class TourManager extends Component {
     selectionMode: false,
     editElement: null,
     isScrolling: false,
-    steps: []
+    steps: [],
   }
 
-  sleep (delay) {
+  sleep(delay) {
     var start = new Date().getTime()
     while (new Date().getTime() < start + delay);
   }
 
-  handleMouseDown (e){
+  handleMouseDown(e) {
     if (this.state.run) return
     if (!this.state.selectionMode) return
     if (!this.state.selecting) return
@@ -165,28 +172,30 @@ export default class TourManager extends Component {
     const path = {
       target: cssPath,
       content: 'default text',
-      serialized_content: null
+      serialized_content: null,
     }
 
-    
     if (this.state.steps.find((o) => o.target === path.target)) {
       console.log('no entró!!')
       return
     }
 
     setTimeout(() => {
-      this.setState({
-        steps: this.state.steps.concat(path),
-        cssPath: cssPath,
-        selecting: false,
-        selectionMode: false
-      }, () => {
-        this.enableEditMode(path)
-      })
+      this.setState(
+        {
+          steps: this.state.steps.concat(path),
+          cssPath: cssPath,
+          selecting: false,
+          selectionMode: false,
+        },
+        () => {
+          this.enableEditMode(path)
+        }
+      )
     }, 200)
   }
 
-  handleMouseOver (e){
+  handleMouseOver(e) {
     if (this.state.run) return
     if (!this.state.selectionMode) return
     if (!this.state.selecting) return
@@ -199,11 +208,11 @@ export default class TourManager extends Component {
 
     this.getElementShape(target)
     this.setState({
-      cssPath: simmer(target)
+      cssPath: simmer(target),
     })
   }
 
-  handleClick (e){
+  handleClick(e) {
     if (this.state.run) return
     if (!this.state.selectionMode) return
     if (!this.state.selecting) return
@@ -214,19 +223,27 @@ export default class TourManager extends Component {
     e.stopImmediatePropagation()
   }
 
-  componentDidMount () {
-    document.addEventListener('mouseover', this.handleMouseOver.bind(this), false)
+  componentDidMount() {
+    document.addEventListener(
+      'mouseover',
+      this.handleMouseOver.bind(this),
+      false
+    )
 
     document.addEventListener('click', this.handleClick.bind(this), false)
 
-    document.addEventListener('mousedown', this.handleMouseDown.bind(this), false)
+    document.addEventListener(
+      'mousedown',
+      this.handleMouseDown.bind(this),
+      false
+    )
 
     const scrollHandler = () => {
       if (!this.state.cssPath) return
-      if(!this.state.selectedCoords) return
-      console.log("scrolleeen", this.state)
+      if (!this.state.selectedCoords) return
+      console.log('scrolleeen', this.state)
       const target = document.querySelector(this.state.cssPath)
-      if(!target) return
+      if (!target) return
       this.getElementShape(target)
     }
 
@@ -234,53 +251,54 @@ export default class TourManager extends Component {
     window.addEventListener('resize', scrollHandler.bind(this))
     document.addEventListener('scroll', scrollHandler.bind(this))
 
-    window.addEventListener('message', (e) => {
+    window.addEventListener(
+      'message',
+      (e) => {
+        if (e.data.type === 'steps_receive') {
+          console.log('EVENTO TOUR!', e)
+          this.setState({
+            steps: e.data.tourManagerEnabled,
+            ev: e,
+          })
+        }
 
-      if (e.data.type === 'steps_receive') {
-        console.log('EVENTO TOUR!', e)
-        this.setState({
-          steps: e.data.tourManagerEnabled,
-          ev: e
-        })
-      }
-
-      if (e.data.type === 'GET_TOUR') {
-        console.log('GET_STEPS')
-        this.setState({ steps: e.data.data.steps })
-      }
-    }, false)
+        if (e.data.type === 'GET_TOUR') {
+          console.log('GET_STEPS')
+          this.setState({ steps: e.data.data.steps })
+        }
+      },
+      false
+    )
 
     this.getSteps()
   }
 
-  componentWillUnmount(){
-
-  }
+  componentWillUnmount() {}
 
   activatePreview = () => {
     this.setState({
       run: true,
       selectionMode: false,
       editElement: null,
-      selecting: false
+      selecting: false,
     })
   }
 
   disablePreview = () => {
     this.setState({
-      run: false
+      run: false,
     })
   }
 
   disableSelection = () => {
     this.setState({
-      selecting: false
+      selecting: false,
     })
   }
 
   enableSelection = () => {
     this.setState({
-      selecting: true
+      selecting: true,
     })
   }
 
@@ -292,27 +310,33 @@ export default class TourManager extends Component {
         x: coords.x,
         y: coords.y,
         width: coords.width,
-        height: coords.height
+        height: coords.height,
         // width: coords.right - coords.left,
         // height: coords.bottom - coords.top,
-      }
+      },
     })
   }
 
   removeItem = (item) => {
-    this.setState({
-      steps: this.state.steps.filter((o) => (o.target != item.target)),
-      selectionMode: false,
-      editElement: null
-    }, () => {
-      this.disableSelection()
-    })
+    this.setState(
+      {
+        steps: this.state.steps.filter((o) => o.target != item.target),
+        selectionMode: false,
+        editElement: null,
+      },
+      () => {
+        this.disableSelection()
+      }
+    )
   }
 
   enableSelectionMode = () => {
-    this.setState({
-      selectionMode: true
-    }, () => setTimeout(() => this.enableSelection(), 500))
+    this.setState(
+      {
+        selectionMode: true,
+      },
+      () => setTimeout(() => this.enableSelection(), 500)
+    )
   }
 
   saveContent = (value, element) => {
@@ -327,40 +351,52 @@ export default class TourManager extends Component {
     })
 
     this.setState({
-      steps: newSteps
+      steps: newSteps,
     })
   }
 
   handleDirectUpload = (file, imageBlock, input) => {
-    window.addEventListener('message', (e) => {
-      if (e.data.type === 'UPLOAD_COMPLETED') {
-        imageBlock.uploadCompleted(e.data.data.serviceUrl)
-      }
-    }, false)
+    window.addEventListener(
+      'message',
+      (e) => {
+        if (e.data.type === 'UPLOAD_COMPLETED') {
+          imageBlock.uploadCompleted(e.data.data.serviceUrl)
+        }
+      },
+      false
+    )
 
     this.props.ev.source.postMessage(
       {
         type: 'UPLOAD_IMAGE',
         file: file,
         // imageBlock: imageBlock,
-        input: input
-      }, this.props.ev.origin)
+        input: input,
+      },
+      this.props.ev.origin
+    )
   }
 
   handleUrlUpload = (file, imageBlock, input) => {
-    window.addEventListener('message', (e) => {
-      if (e.data.type === 'URL_UPLOAD_COMPLETED') {
-        imageBlock.uploadCompleted(e.data.data.serviceUrl)
-      }
-    }, false)
+    window.addEventListener(
+      'message',
+      (e) => {
+        if (e.data.type === 'URL_UPLOAD_COMPLETED') {
+          imageBlock.uploadCompleted(e.data.data.serviceUrl)
+        }
+      },
+      false
+    )
 
     this.props.ev.source.postMessage(
       {
         type: 'URL_UPLOAD',
         file: file,
         // imageBlock: imageBlock,
-        input: input
-      }, this.props.ev.origin)
+        input: input,
+      },
+      this.props.ev.origin
+    )
   }
 
   enableEditMode = (editElement) => {
@@ -368,41 +404,37 @@ export default class TourManager extends Component {
       target: editElement.target,
       selector: editElement.target,
       disableBeacon: true,
-      content: <EditorStylesForTour campaign={true}>
-        <TextEditor
-          data={{}}
-          domain={this.props.domain}
-          handleUrlUpload={this.handleUrlUpload}
-          handleDirectUpload={this.handleDirectUpload}
-          styles={
-            {
+      content: (
+        <EditorStylesForTour campaign={true}>
+          <TextEditor
+            data={{}}
+            domain={this.props.domain}
+            handleUrlUpload={this.handleUrlUpload}
+            handleDirectUpload={this.handleDirectUpload}
+            styles={{
               lineHeight: '2em',
               fontSize: '0.9em',
-              marginLeft: '31px'
+              marginLeft: '31px',
+            }}
+            saveHandler={this.saveContent}
+            updateState={
+              ({ status, statusButton, content }) => {
+                console.log(status, statusButton)
+                this.saveContent(content, editElement)
+              }
+              // console.log("update here!", uno, dos, tres)
             }
-          }
-          saveHandler={this.saveContent}
-          updateState={({ status, statusButton, content }) => {
-            console.log(status, statusButton)
-            this.saveContent(content, editElement)
-          }
-            // console.log("update here!", uno, dos, tres)
-          }
-          serializedContent={editElement.serialized_content}
-          target={editElement.target}
-          loading={false}>
-        </TextEditor>
+            serializedContent={editElement.serialized_content}
+            target={editElement.target}
+            loading={false}
+          ></TextEditor>
 
-        <TourFooter>
-          <Button onClick={this.handleCancel}>
-                      Cancel
-          </Button>
-          <ButtonSuccess onClick={this.handleSaveTour}>
-                      save!
-          </ButtonSuccess>
-        </TourFooter>
+          <TourFooter>
+            <Button onClick={this.handleCancel}>Cancel</Button>
+            <ButtonSuccess onClick={this.handleSaveTour}>save!</ButtonSuccess>
+          </TourFooter>
 
-        {/*
+          {/*
                     <select name={"next_trigger"}>
                       <option value="click">on Click</option>
                       <option value="hover">on Hover</option>
@@ -410,96 +442,110 @@ export default class TourManager extends Component {
                     </select>
                     <button>save</button>
                   */}
-
-      </EditorStylesForTour>,
+        </EditorStylesForTour>
+      ),
       save: this.handleSaveTour,
       close: this.handleCancel,
-      serialized_content: editElement.serialized_content
+      serialized_content: editElement.serialized_content,
     }
-    this.setState({
-      selectionMode: 'edit',
-      editElement: newEl,
-      cssPath: editElement.target,
-      styles: {
-        options: {
-          zIndex: 10000,
-          padding: '5px'
-        }
-      }
-    }, () => setTimeout(() => {
-      // this.enableSelection()
-    }, 500))
+    this.setState(
+      {
+        selectionMode: 'edit',
+        editElement: newEl,
+        cssPath: editElement.target,
+        styles: {
+          options: {
+            zIndex: 10000,
+            padding: '5px',
+          },
+        },
+      },
+      () =>
+        setTimeout(() => {
+          // this.enableSelection()
+        }, 500)
+    )
   }
 
   disableEditMode = () => {
     this.setState({
       selecting: false,
-      selectionMode: false
+      selectionMode: false,
     })
   }
 
   updateChanges = () => {
-    this.setState({
-      selecting: false,
-      selectionMode: false
-    }, () => {
-      const newSteps = this.state.steps.map((o) => {
-        if (o.target === this.state.editElement.target) {
-          // this.state.editElement
-          return o
-        } else {
-          return o
-        }
-      })
-      this.setState({ steps: newSteps })
-    })
+    this.setState(
+      {
+        selecting: false,
+        selectionMode: false,
+      },
+      () => {
+        const newSteps = this.state.steps.map((o) => {
+          if (o.target === this.state.editElement.target) {
+            // this.state.editElement
+            return o
+          } else {
+            return o
+          }
+        })
+        this.setState({ steps: newSteps })
+      }
+    )
   }
 
   prepareJoyRidyContent = () => {
-    return this.state.steps && this.state.steps.map((o, index) => {
-      o.disableBeacon = index === 0
-      o.selector = o.target
-      o.content = <EditorStylesForTour campaign={true}>
-        <DraftRenderer
-          domain={this.props.domain}
-          raw={JSON.parse(o.serialized_content)}
-        />
-      </EditorStylesForTour>
-      return o
-    })
+    return (
+      this.state.steps &&
+      this.state.steps.map((o, index) => {
+        o.disableBeacon = index === 0
+        o.selector = o.target
+        o.content = (
+          <EditorStylesForTour campaign={true}>
+            <DraftRenderer
+              domain={this.props.domain}
+              raw={JSON.parse(o.serialized_content)}
+            />
+          </EditorStylesForTour>
+        )
+        return o
+      })
+    )
   }
 
   handleSaveTour = () => {
-
     this.props.ev.source.postMessage(
       {
         type: 'SAVE_TOUR',
         steps: this.state.steps.map((o) => {
           return {
             target: o.target,
-            serialized_content: o.serialized_content
+            serialized_content: o.serialized_content,
           }
-        })
-      }, this.props.ev.origin)
+        }),
+      },
+      this.props.ev.origin
+    )
 
-    this.setState({
-      selecting: false,
-      selectionMode: false,
-      selectedCoords: null
-    }, clearAllBodyScrollLocks )
+    this.setState(
+      {
+        selecting: false,
+        selectionMode: false,
+        selectedCoords: null,
+      },
+      clearAllBodyScrollLocks
+    )
   }
 
   handleCancel = () => {
     this.setState({
       selecting: false,
-      selectionMode: false
+      selectionMode: false,
     })
   }
 
   getSteps = () => {
-    this.props.ev.source.postMessage(
-      { type: 'GET_TOUR' },
-      this.props.ev.origin)
+    this.props.ev.source.postMessage({ type: 'GET_TOUR' }, this.props.ev.origin)
   }
 
   handleMouseOut = () => {
@@ -510,164 +556,154 @@ export default class TourManager extends Component {
     return this.state.selectionMode || this.state.run
   }
 
-  disableBody = target => {
+  disableBody = (target) => {
     console.log('disable body', target)
     disableBodyScroll(target)
   }
 
-  enableBody = target => { 
+  enableBody = (target) => {
     console.log('enable body', target)
     enableBodyScroll(target)
   }
 
-  render () {
+  render() {
     return (
       <div>
+        <GlobalStyle />
 
-        <GlobalStyle/>
+        <ThemeProvider theme={theme}>
+          <Tour
+            steps={this.prepareJoyRidyContent(this.state.steps)}
+            isOpen={
+              this.state.selectionMode !== 'edit' && this.state.run
+                ? true
+                : false
+            }
+            onRequestClose={this.disablePreview}
+            showNavigation={true}
+            disableInteraction={true}
+            onAfterOpen={this.disableBody}
+            onBeforeClose={this.enableBody}
+            // CustomHelper={TourHelper}
+          />
 
-        <ThemeProvider
-          theme={ theme }>
-
+          {this.state.editElement && this.state.selectionMode === 'edit' && (
             <Tour
-              steps={this.prepareJoyRidyContent(this.state.steps)}
-              isOpen={this.state.selectionMode !== 'edit' && this.state.run ? true : false }
-              onRequestClose={ this.disablePreview }
-              showNavigation={true}
+              steps={[this.state.editElement]}
+              isOpen={true}
+              onRequestClose={(e, a) => {
+                console.info('on close request', e, a)
+                this.disableEditMode()
+              }}
+              closeWithMask={false}
+              showNavigation={false}
+              showButtons={false}
               disableInteraction={true}
               onAfterOpen={this.disableBody}
               onBeforeClose={this.enableBody}
-              // CustomHelper={TourHelper}
             />
-          
-            {
-              this.state.editElement && this.state.selectionMode === 'edit' &&
-              <Tour
-                steps={[this.state.editElement]}
-                isOpen={ true }
-                onRequestClose={(e, a) => {
-                  console.info('on close request', e, a)
-                  this.disableEditMode()
-                }
-                }
-                closeWithMask={false}
-                showNavigation={false}
-                showButtons={false}
-                disableInteraction={true}
-                onAfterOpen={this.disableBody}
-                onBeforeClose={this.enableBody}
-            />
-            }
-
+          )}
         </ThemeProvider>
 
-        {
-          this.state.selectedCoords && !this.state.run &&
-           <div style={{
+        {this.state.selectedCoords && !this.state.run && (
+          <div
+            style={{
               border: '2px solid green',
               position: 'fixed',
               zIndex: 999,
               pointerEvents: 'none',
-              boxShadow: this.state.selectionMode !== 'edit' ? '0px 0px 0px 4000px rgba(0, 0, 0, 0.15)' : 'none',
+              boxShadow:
+                this.state.selectionMode !== 'edit'
+                  ? '0px 0px 0px 4000px rgba(0, 0, 0, 0.15)'
+                  : 'none',
               top: this.state.selectedCoords.y,
               left: this.state.selectedCoords.x,
               width: this.state.selectedCoords.width,
-              height: this.state.selectedCoords.height
-            }} /> 
-        }
+              height: this.state.selectedCoords.height,
+            }}
+          />
+        )}
 
-        <StyledFrame style={
-          {
+        <StyledFrame
+          style={{
             zIndex: '100000000',
             position: 'fixed',
             bottom: '0px',
             border: 'none',
             width: '100%',
             left: '0px',
-            height: this.isCollapsed() ? '47px' : '206px'
-          }
-        }>
+            height: this.isCollapsed() ? '47px' : '206px',
+          }}
+        >
           <React.Fragment>
-
             <TourManagerContainer
               onMouseOver={this.disableSelection}
               onMouseLeave={this.handleMouseOut}
-              collapsedEditor={ this.state.selectionMode || this.state.run ? true : undefined }
+              collapsedEditor={
+                this.state.selectionMode || this.state.run ? true : undefined
+              }
             >
-
               <FooterContainer>
-
-                {
-                  !this.state.selectionMode && !this.state.run &&
-
-                    <Body>
-
-                      <StepsContainer>
-                        {
-                          this.state.steps && this.state.steps.map((o) => {
-                            return <TourStep step={o}
+                {!this.state.selectionMode && !this.state.run && (
+                  <Body>
+                    <StepsContainer>
+                      {this.state.steps &&
+                        this.state.steps.map((o) => {
+                          return (
+                            <TourStep
+                              step={o}
                               key={o.target}
                               domain={this.props.domain}
                               removeItem={this.removeItem}
-                              enableEditMode={this.enableEditMode}>
-                            </TourStep>
-                          }
-                          )}
+                              enableEditMode={this.enableEditMode}
+                            ></TourStep>
+                          )
+                        })}
 
-                        <NewTourStep
-                          enableSelection={this.enableSelectionMode}>
-                        </NewTourStep>
-
-                      </StepsContainer>
-
-                    </Body>
-                }
+                      <NewTourStep
+                        enableSelection={this.enableSelectionMode}
+                      ></NewTourStep>
+                    </StepsContainer>
+                  </Body>
+                )}
 
                 <Footer>
+                  <CssPathIndicator>{this.state.cssPath}</CssPathIndicator>
 
-                  <CssPathIndicator>
-                    {this.state.cssPath}
-                  </CssPathIndicator>
-
-                  {
-                    this.state.selectionMode === 'edit'
-                      ? <FooterRight>
-                        <div>
-                          { // <button onClick={this.disableEditMode}>cancel</button>
-                          // <button onClick={this.updateChanges}>save step</button>
-                          }
-                        </div>
-                      </FooterRight> : null
-                  }
-
-                  {
-                    this.state.selectionMode !== 'edit'
-                      ? <FooterRight>
+                  {this.state.selectionMode === 'edit' ? (
+                    <FooterRight>
+                      <div>
                         {
-                          this.state.run
-                            ? <Button onClick={this.disablePreview}>
-                              {'< exit preview'}
-                            </Button>
-                            : <div appearance="warning">
-                              <Button onClick={this.activatePreview}>preview</Button>
-                              <ButtonSuccess
-                                onClick={this.handleSaveTour}>
-                                save tour
-                              </ButtonSuccess>
-                            </div>
+                          // <button onClick={this.disableEditMode}>cancel</button>
+                          // <button onClick={this.updateChanges}>save step</button>
                         }
-                      </FooterRight> : null
-                  }
-        
+                      </div>
+                    </FooterRight>
+                  ) : null}
+
+                  {this.state.selectionMode !== 'edit' ? (
+                    <FooterRight>
+                      {this.state.run ? (
+                        <Button onClick={this.disablePreview}>
+                          {'< exit preview'}
+                        </Button>
+                      ) : (
+                        <div appearance="warning">
+                          <Button onClick={this.activatePreview}>
+                            preview
+                          </Button>
+                          <ButtonSuccess onClick={this.handleSaveTour}>
+                            save tour
+                          </ButtonSuccess>
+                        </div>
+                      )}
+                    </FooterRight>
+                  ) : null}
                 </Footer>
-
               </FooterContainer>
-
             </TourManagerContainer>
-
           </React.Fragment>
         </StyledFrame>
-
       </div>
     )
   }
@@ -685,32 +721,30 @@ class TourStep extends Component {
     this.props.enableEditMode(this.props.step)
   }
 
-  render () {
-    return <StepContainer>
-      <StepBody onClick={this.enableEditMode}>
+  render() {
+    return (
+      <StepContainer>
+        <StepBody onClick={this.enableEditMode}>
+          <DeleteButton href="#" onClick={this.removeItem}>
+            &times;
+          </DeleteButton>
 
-        <DeleteButton href="#" onClick={this.removeItem}>
-          &times;
-        </DeleteButton>
+          <StepHeader></StepHeader>
 
-        <StepHeader>
-
-        </StepHeader>
-
-        <StepMessage>
-          <ThemeProvider
-            theme={ theme }>
-            <DanteContainer>
-              <DraftRenderer
-                raw={JSON.parse(this.props.step.serialized_content)}
-                domain={this.props.domain}
-              />
-            </DanteContainer>
-          </ThemeProvider>
-        </StepMessage>
-      </StepBody>
-      <ConnectorStep/>
-    </StepContainer>
+          <StepMessage>
+            <ThemeProvider theme={theme}>
+              <DanteContainer>
+                <DraftRenderer
+                  raw={JSON.parse(this.props.step.serialized_content)}
+                  domain={this.props.domain}
+                />
+              </DanteContainer>
+            </ThemeProvider>
+          </StepMessage>
+        </StepBody>
+        <ConnectorStep />
+      </StepContainer>
+    )
   }
 }
 class NewTourStep extends Component {
@@ -719,11 +753,15 @@ class NewTourStep extends Component {
     this.props.enableSelection()
   }
 
-  render () {
-    return <NewStepContainer>
-      <NewStepBody>
-        <Link href="#" onClick={this.enableSelection}>+</Link>
-      </NewStepBody>
-    </NewStepContainer>
+  render() {
+    return (
+      <NewStepContainer>
+        <NewStepBody>
+          <Link href="#" onClick={this.enableSelection}>
+            +
+          </Link>
+        </NewStepBody>
+      </NewStepContainer>
+    )
   }
 }

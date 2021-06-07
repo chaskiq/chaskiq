@@ -8,7 +8,7 @@ export const errorsFor = (name, errors) => {
   return errors[name].map((o) => o).join(', ')
 }
 
-export function gridClasses (field) {
+export function gridClasses(field) {
   return Object.keys(field.grid)
     .map((o) => {
       if (o === 'xs') return field.grid[o]
@@ -30,16 +30,14 @@ class FieldRenderer extends React.Component {
       accept,
       defaultChecked,
       value,
-      id
+      id,
     } = this.props
 
-    const errorName = snakeCase(
-      `${errorNamespace || ''}${data.name}`
-    )
+    const errorName = snakeCase(`${errorNamespace || ''}${data.name}`)
     const errorMessage = errorsFor(errorName, errors)
     const camelCasedName = camelCase(data.name)
 
-    function formatFieldName () {
+    function formatFieldName() {
       return namespace ? `${namespace}[${data.name}]` : data.name
     }
 
@@ -66,7 +64,9 @@ class FieldRenderer extends React.Component {
           helperText={
             <React.Fragment>
               {errorMessage && (
-                <div className={'text-red-500 text-xs italic'}>{errorMessage}</div>
+                <div className={'text-red-500 text-xs italic'}>
+                  {errorMessage}
+                </div>
               )}
 
               {data.hint && (
@@ -77,9 +77,9 @@ class FieldRenderer extends React.Component {
         />
       </div>
     )
-  };
+  }
 
-  render () {
+  render() {
     return this.fieldRenderer()
   }
 }

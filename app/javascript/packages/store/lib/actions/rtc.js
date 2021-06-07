@@ -1,6 +1,6 @@
-const initialState = { }
+const initialState = {}
 
-export function updateRtcEvents (data) {
+export function updateRtcEvents(data) {
   return (dispatch, getState) => {
     const conversation = getState().conversation
     if (conversation && conversation.key === data.conversation_id) {
@@ -9,15 +9,15 @@ export function updateRtcEvents (data) {
   }
 }
 
-function dispatchRtcEvent (data) {
+function dispatchRtcEvent(data) {
   return {
     type: 'RTC_UPDATE',
-    data: data
+    data: data,
   }
 }
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case 'RTC_UPDATE': {
       return Object.assign({}, state, action.data)

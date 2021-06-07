@@ -10,33 +10,22 @@ import VerificationView from './settings/VerificationView'
 import timezones from '../shared/timezones'
 import { getFileMetadata, directUpload } from '../shared/fileUploader'
 
-import {
-  client as graphql,
-  queries,
-  mutations,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
-import {
-  Content,
-  Tabs,
-  ContentHeader
-} from '@chaskiq/components'
+import { Content, Tabs, ContentHeader } from '@chaskiq/components'
 
-const { 
-  setCurrentPage, setCurrentSection, updateApp 
-} = actions
-const {APP} = queries
-const {CREATE_DIRECT_UPLOAD} = mutations
+const { setCurrentPage, setCurrentSection, updateApp } = actions
+const { APP } = queries
+const { CREATE_DIRECT_UPLOAD } = mutations
 class AppSettingsContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      tabValue: 0
+      tabValue: 0,
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // this.fetchApp()
     this.props.dispatch(setCurrentPage('app_settings'))
     this.props.dispatch(setCurrentSection('Settings'))
@@ -44,7 +33,7 @@ class AppSettingsContainer extends Component {
 
   url = () => {
     return `/apps/${this.props.match.params.appId}.json`
-  };
+  }
 
   fetchApp = () => {
     graphql(
@@ -56,10 +45,10 @@ class AppSettingsContainer extends Component {
         },
         errors: (error) => {
           console.log(error)
-        }
+        },
       }
     )
-  };
+  }
 
   // Form Event Handlers
   update = (data) => {
@@ -68,7 +57,7 @@ class AppSettingsContainer extends Component {
         console.log(d)
       })
     )
-  };
+  }
 
   uploadHandler = (file, kind) => {
     getFileMetadata(file).then((input) => {
@@ -90,14 +79,14 @@ class AppSettingsContainer extends Component {
         },
         error: (error) => {
           console.log('error on signing blob', error)
-        }
+        },
       })
     })
-  };
+  }
 
   handleTabChange = (e, i) => {
     this.setState({ tabValue: i })
-  };
+  }
 
   definitionsForSettings = () => {
     return [
@@ -106,7 +95,7 @@ class AppSettingsContainer extends Component {
         label: I18n.t('definitions.settings.name.label'),
         type: 'string',
         grid: { xs: 'w-full', sm: 'w-3/4' },
-        gridProps: { style: { alignSelf: 'flex-end' } }
+        gridProps: { style: { alignSelf: 'flex-end' } },
       },
 
       {
@@ -114,7 +103,7 @@ class AppSettingsContainer extends Component {
         label: I18n.t('definitions.settings.logo.label'),
         type: 'upload',
         grid: { xs: 'w-full', sm: 'w-1/4' },
-        handler: (file) => this.uploadHandler(file, 'logo')
+        handler: (file) => this.uploadHandler(file, 'logo'),
       },
 
       {
@@ -122,14 +111,14 @@ class AppSettingsContainer extends Component {
         type: 'string',
         label: I18n.t('definitions.settings.domain.label'),
         hint: I18n.t('definitions.settings.domain.hint'),
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'outgoingEmailDomain',
         label: I18n.t('definitions.settings.outgoing_email_domain.label'),
         hint: I18n.t('definitions.settings.outgoing_email_domain.hint'),
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
 
       {
@@ -137,7 +126,7 @@ class AppSettingsContainer extends Component {
         label: I18n.t('definitions.settings.tagline.label'),
         type: 'text',
         hint: I18n.t('definitions.settings.tagline.hint'),
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
 
       {
@@ -146,24 +135,24 @@ class AppSettingsContainer extends Component {
         label: I18n.t('definitions.settings.timezone.label'),
         options: timezones,
         multiple: false,
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'gatherSocialData',
         type: 'bool',
         label: I18n.t('definitions.settings.gather_social_data.label'),
         hint: I18n.t('definitions.settings.gather_social_data.hint'),
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'registerVisits',
         label: I18n.t('definitions.settings.register_visits.label'),
         type: 'bool',
         hint: I18n.t('definitions.settings.register_visits.hint'),
-        grid: { xs: 'w-full', sm: 'w-1/2' }
-      }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
+      },
     ]
-  };
+  }
 
   definitionsForSecurity = () => {
     return [
@@ -175,10 +164,10 @@ class AppSettingsContainer extends Component {
         minLength: 16,
         placeholder: I18n.t('definitions.settings.encryption_key.placeholder'),
         hint: I18n.t('definitions.settings.encryption_key.hint'),
-        grid: { xs: 'w-full', sm: 'w-full' }
-      }
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
     ]
-  };
+  }
 
   tabsContent = () => {
     return (
@@ -202,7 +191,7 @@ class AppSettingsContainer extends Component {
                 definitions={this.definitionsForSettings}
                 {...this.props}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.security'),
@@ -219,10 +208,9 @@ class AppSettingsContainer extends Component {
                   definitions={this.definitionsForSecurity}
                   {...this.props}
                 />*/}
-                <VerificationView/>
+                <VerificationView />
               </div>
-              
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.user_data'),
@@ -232,7 +220,7 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={'app'}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.tags'),
@@ -242,7 +230,7 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={'app'}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.quick_replies'),
@@ -252,35 +240,35 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={'app'}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.email_forwarding'),
             content: (
               <div className="py-4">
-
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
                   {I18n.t('email_forwarding.subtitle')}
                 </h3>
                 <div className="mt-2 max-w-xl text-sm text-gray-500">
-                  <p>
-                    {I18n.t('email_forwarding.ex')}
-                  </p>
+                  <p>{I18n.t('email_forwarding.ex')}</p>
                 </div>
                 <div className="mt-3 text-sm bg-gray-200 p-4 rounded-md">
-                  <p href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                    { this.props.app.inboundEmailAddress }
+                  <p
+                    href="#"
+                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    {this.props.app.inboundEmailAddress}
                   </p>
                 </div>
               </div>
-            )
-          }
+            ),
+          },
         ]}
       />
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <Content>
         {this.props.app && (
@@ -295,7 +283,7 @@ class AppSettingsContainer extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, segment, app_users, current_user, navigation } = state
   const { loading, isAuthenticated } = auth
   const { current_section } = navigation
@@ -306,7 +294,7 @@ function mapStateToProps (state) {
     app,
     loading,
     isAuthenticated,
-    current_section
+    current_section,
   }
 }
 

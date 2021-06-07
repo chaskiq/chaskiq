@@ -1,18 +1,17 @@
 import styled from '@emotion/styled'
 
-import {Styled} from 'Dante2'
+import { Styled } from 'Dante2'
 import prismStyle from './prismStyle'
 
 const { EditorContainer } = Styled
 
 const NewEditorStyles = styled(EditorContainer)`
-  
   display: flex;
   flex-direction: column;
   line-height: 1.4;
   font-size: 1em;
 
-  .graf--figure{
+  .graf--figure {
     margin-top: 10px;
     margin-bottom: 10px;
     min-width: 220px;
@@ -32,39 +31,39 @@ const NewEditorStyles = styled(EditorContainer)`
 
   .graf--code {
     overflow: auto;
-    font-size: .82em;
+    font-size: 0.82em;
     line-height: 1.3em;
   }
 
-  ${(props) => !props.campaign
-    ? `.public-DraftEditor-content{
+  ${(props) =>
+    !props.campaign
+      ? `.public-DraftEditor-content{
       max-height: calc(35vh - 83px);
       overflow: auto;
       height: 100%;
-    }` : ''
-  }
+    }`
+      : ''}
 
-  @media (max-width: 500px){
-    .postContent{
+  @media (max-width: 500px) {
+    .postContent {
       font-size: 1rem;
       line-height: 1.9;
     }
   }
 
-  .postContent{
+  .postContent {
     padding: 10px;
   }
 
-  .graf graf--h2{
+  .graf graf--h2 {
     font-size: 2.6;
   }
 
-  a{
+  a {
     color: ${(props) => props.theme.palette.secondary};
   }
-  
 
-  .layoutSingleColumn{
+  .layoutSingleColumn {
     grid-area: editor;
   }
 
@@ -79,7 +78,7 @@ const NewEditorStyles = styled(EditorContainer)`
   }
 
   .graf--attachment {
-    font-size: .85rem;
+    font-size: 0.85rem;
     word-break: break-all;
     display: flex;
     align-items: center;
@@ -90,7 +89,7 @@ const NewEditorStyles = styled(EditorContainer)`
     margin: 2px 3px 13px;
   }
 
-  .inlineTooltip-menu{
+  .inlineTooltip-menu {
     height: 34px;
   }
 
@@ -105,7 +104,7 @@ const NewEditorStyles = styled(EditorContainer)`
     //padding: 10px;
   }
 
-  .section-inner.layoutSingleColumn{
+  .section-inner.layoutSingleColumn {
     min-height: 50px;
     word-wrap: break-word;
     -ms-word-break: keep-all;
@@ -120,12 +119,11 @@ const NewEditorStyles = styled(EditorContainer)`
   .tooltip-icon {
     display: flex;
     justify-content: center;
-    svg{
+    svg {
       width: 16px;
-      height: 16px;      
+      height: 16px;
     }
   }
-
 
   .imageCaption {
     word-break: break-word;

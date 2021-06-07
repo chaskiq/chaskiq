@@ -1,23 +1,18 @@
-
 import React from 'react'
-import {
-  Navigation,
-  Dot,
-  Controls,
-  Arrow
-} from 'reactour-emotion'
+import { Navigation, Dot, Controls, Arrow } from 'reactour-emotion'
 
-export default function MyCustomHelper ({ current, content, totalSteps, gotoStep }) {
+export default function MyCustomHelper({
+  current,
+  content,
+  totalSteps,
+  gotoStep,
+}) {
   return (
     <main className="CustomHelper__wrapper">
       <aside className="CustomHelper__sidebar">
-        <span className="CustomHelper__sidebar_step">
-          Step {current + 1}
-        </span>
+        <span className="CustomHelper__sidebar_step">Step {current + 1}</span>
 
-        <span className="CustomHelper__sidebar_step">
-          Lorem Ipsum
-        </span>
+        <span className="CustomHelper__sidebar_step">Lorem Ipsum</span>
       </aside>
       <div className="CustomHelper__content">
         {content}

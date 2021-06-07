@@ -3,19 +3,15 @@ import { isEmpty } from 'lodash'
 import Dropdown from '../Dropdown'
 import Button from '../Button'
 import Tooltip from 'rc-tooltip'
-import {
-  MapIcon,
-  ColumnsIcon,
-  QueueIcon
-} from '../icons'
+import { MapIcon, ColumnsIcon, QueueIcon } from '../icons'
 
 import {
   sortableContainer,
   sortableElement,
-  sortableHandle
+  sortableHandle,
 } from 'react-sortable-hoc'
 
-export default function Table ({
+export default function Table({
   data,
   columns,
   search,
@@ -23,15 +19,11 @@ export default function Table ({
   enableMapView,
   toggleMapView,
   sortable,
-  onSort
+  onSort,
 }) {
   const [tableColums, setTableColums] = React.useState(columns)
 
-  const visibleColumns = () => (
-    tableColums.filter(
-      (o) => !o.hidden
-    )
-  )
+  const visibleColumns = () => tableColums.filter((o) => !o.hidden)
 
   const SortableContainer = sortableContainer(({ children }) => {
     return <tbody className="bg-white dark:bg-black">{children}</tbody>
@@ -51,20 +43,17 @@ export default function Table ({
     )
   }
 
-  const SortableItem = sortableElement(
-    ({ item, sortable }) => (
-      <tr className="hover:bg-gray-50 dark:hover:bg-gray-600">
-        {sortable && <DragHandle></DragHandle>}
+  const SortableItem = sortableElement(({ item, sortable }) => (
+    <tr className="hover:bg-gray-50 dark:hover:bg-gray-600">
+      {sortable && <DragHandle></DragHandle>}
 
-        {visibleColumns().map((object) => {
-          return object.render
-            ? object.render(item)
-            : renderDefaultRow(item[object.field])
-        }
-        )}
-      </tr>
-    )
-  )
+      {visibleColumns().map((object) => {
+        return object.render
+          ? object.render(item)
+          : renderDefaultRow(item[object.field])
+      })}
+    </tr>
+  ))
 
   const changeColumns = (columns) => {
     setTableColums(columns)
@@ -76,86 +65,73 @@ export default function Table ({
 
   return (
     <React.Fragment>
-
       <div className="flex justify-end">
-        <SimpleMenu
-          handleChange={changeColumns}
-          options={
-            tableColums
-          }
-        />
+        <SimpleMenu handleChange={changeColumns} options={tableColums} />
 
-        {enableMapView && <Tooltip placement="bottom"
-          overlay={'View Map'}>
-          <div className="relative inline-block text-left">
-            <Button
-              isLoading={false}
-              variant="icon"
-              onClick={toggleMapView}>
-              <MapIcon/>
-            </Button>
-          </div>
-        </Tooltip>
-        }
+        {enableMapView && (
+          <Tooltip placement="bottom" overlay={'View Map'}>
+            <div className="relative inline-block text-left">
+              <Button isLoading={false} variant="icon" onClick={toggleMapView}>
+                <MapIcon />
+              </Button>
+            </div>
+          </Tooltip>
+        )}
       </div>
 
       <div className="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full">
           <thead>
             <tr className="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
-              {
-                sortable &&
-                <th key={'visible-col-dragit'}
+              {sortable && (
+                <th
+                  key={'visible-col-dragit'}
                   className="px-6 py-3
                     text-left text-xs leading-4
-                    font-medium text-gray-500 uppercase tracking-wider">
-                    reorder
+                    font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  reorder
                 </th>
-              }
+              )}
               {visibleColumns().map((o) => (
-                <th key={`visible-col-${o.title}`}
+                <th
+                  key={`visible-col-${o.title}`}
                   className="px-6 py-3 text-left text-xs leading-4
-                  font-medium text-gray-500 uppercase tracking-wider">
+                  font-medium text-gray-500 uppercase tracking-wider"
+                >
                   {o.title}
                 </th>
               ))}
             </tr>
           </thead>
-          <SortableContainer
-            onSortEnd={onSortEnd}
-            useDragHandle>
-
-            {data && data.map((o, index) => (
-              <SortableItem
-                sortable={sortable}
-                key={`item-${index}`}
-                index={index}
-                item={o}
-              />
-            ))}
-
+          <SortableContainer onSortEnd={onSortEnd} useDragHandle>
+            {data &&
+              data.map((o, index) => (
+                <SortableItem
+                  sortable={sortable}
+                  key={`item-${index}`}
+                  index={index}
+                  item={o}
+                />
+              ))}
           </SortableContainer>
-
         </table>
       </div>
 
-      {
-        meta &&
-        !isEmpty(meta) &&
-        <Pagination meta={meta} search={search} />
-      }
+      {meta && !isEmpty(meta) && <Pagination meta={meta} search={search} />}
     </React.Fragment>
   )
 }
 
-function Pagination ({ meta, search }) {
+function Pagination({ meta, search }) {
   return (
     <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
       <div className="flex-1 flex justify-between items-center">
         <Button
           onClick={() => search(meta.prev_page)}
           disabled={!meta.prev_page}
-          variant="outlined">
+          variant="outlined"
+        >
           {I18n.t('common.prev')}
         </Button>
 
@@ -172,7 +148,8 @@ function Pagination ({ meta, search }) {
         <Button
           disabled={!meta.next_page}
           onClick={() => search(meta.next_page)}
-          variant="outlined">
+          variant="outlined"
+        >
           {I18n.t('common.next')}
         </Button>
       </div>
@@ -180,9 +157,8 @@ function Pagination ({ meta, search }) {
   )
 }
 
-function SimpleMenu (props) {
-
-  function handleChange (o, e) {
+function SimpleMenu(props) {
+  function handleChange(o, e) {
     const checked = e.target.checked
     const item = Object.assign({}, o, { hidden: !checked })
 
@@ -193,42 +169,40 @@ function SimpleMenu (props) {
   }
   return (
     <div>
-
       <Dropdown
         position={'right'}
         triggerButton={(cb) => (
-          <Tooltip placement="bottom"
-            overlay={'select columns'}>
-            <Button
-              isLoading={false}
-              variant="icon"
-              onClick={cb}>
-              <ColumnsIcon/>
+          <Tooltip placement="bottom" overlay={'select columns'}>
+            <Button isLoading={false} variant="icon" onClick={cb}>
+              <ColumnsIcon />
             </Button>
           </Tooltip>
-        )}>
-
+        )}
+      >
         <div className="p-3 h-56 overflow-auto">
-          {
-            props.options.map((o) =>
-              <div className="relative flex items-start p-1"
-                key={`simple-menu-${o.title}`}>
-                <div className="flex items-center h-5">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                    defaultChecked={!o.hidden}
-                    onChange={(e) => handleChange(o, e) }
-                  />
-                </div>
-                <div className="pl-7 text-sm leading-5">
-                  <label htmlFor="comments" className="ml-2 font-medium text-gray-700 dark:text-gray-200">
-                    {o.title}
-                  </label>
-                </div>
+          {props.options.map((o) => (
+            <div
+              className="relative flex items-start p-1"
+              key={`simple-menu-${o.title}`}
+            >
+              <div className="flex items-center h-5">
+                <input
+                  type="checkbox"
+                  className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                  defaultChecked={!o.hidden}
+                  onChange={(e) => handleChange(o, e)}
+                />
               </div>
-            )
-          }
+              <div className="pl-7 text-sm leading-5">
+                <label
+                  htmlFor="comments"
+                  className="ml-2 font-medium text-gray-700 dark:text-gray-200"
+                >
+                  {o.title}
+                </label>
+              </div>
+            </div>
+          ))}
         </div>
       </Dropdown>
     </div>

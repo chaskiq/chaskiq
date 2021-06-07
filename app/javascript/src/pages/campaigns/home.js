@@ -1,20 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  Content,
-  EmptyView
-} from '@chaskiq/components'
+import { Content, EmptyView } from '@chaskiq/components'
 
-import {
-  actions
-} from '@chaskiq/store'
+import { actions } from '@chaskiq/store'
 
 import { withRouter } from 'react-router-dom'
 import image from '../../images/delivery-icon8.png'
 
 const { setCurrentSection } = actions
 
-function CampaignHome ({ dispatch }) {
+function CampaignHome({ dispatch }) {
   React.useEffect(() => {
     dispatch(setCurrentSection('Campaigns'))
   }, [])
@@ -37,14 +32,14 @@ function CampaignHome ({ dispatch }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

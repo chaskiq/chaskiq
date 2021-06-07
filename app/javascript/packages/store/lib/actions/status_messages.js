@@ -1,74 +1,74 @@
 import actionTypes from '../constants/action_types'
 
-export function errorMessage (message) {
+export function errorMessage(message) {
   return (dispatch, _getState) => {
     dispatch(
       setMessage({
         message: message,
         variant: 'error',
-        placement: defaultPlacement()
+        placement: defaultPlacement(),
       })
     )
   }
 }
 
-export function warningMessage (message) {
+export function warningMessage(message) {
   return (dispatch, _getState) => {
     dispatch(
       setMessage({
         message: message,
         variant: 'warning',
-        placement: defaultPlacement()
+        placement: defaultPlacement(),
       })
     )
   }
 }
 
-export function infoMessage (message) {
+export function infoMessage(message) {
   return (dispatch, _getState) => {
     dispatch(
       setMessage({
         message: message,
         variant: 'info',
-        placement: defaultPlacement()
+        placement: defaultPlacement(),
       })
     )
   }
 }
 
-export function successMessage (message) {
+export function successMessage(message) {
   return (dispatch, _getState) => {
     dispatch(
       setMessage({
         message: message,
         variant: 'success',
-        placement: defaultPlacement()
+        placement: defaultPlacement(),
       })
     )
   }
 }
 
-export function clearStatusMessage (_message) {
+export function clearStatusMessage(_message) {
   return (dispatch, _getState) => {
     dispatch(setMessage({}))
   }
 }
 
-function defaultPlacement () {
+function defaultPlacement() {
   return {
     vertical: 'top',
-    horizontal: 'center'
+    horizontal: 'center',
   }
 }
 
-function setMessage (data) {
+function setMessage(data) {
   return { type: actionTypes.SetStatusMessage, data: data }
 }
 
 const initialState = {}
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case actionTypes.SetStatusMessage:
       return action.data

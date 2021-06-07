@@ -4,56 +4,48 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
-  parseJwt, 
+  parseJwt,
   generateJWT,
   SegmentManager,
   Button,
   userFormat,
 } from '@chaskiq/components'
 
-import {
-  client as graphql,
-  mutations,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, mutations, actions } from '@chaskiq/store'
 
-const { 
-  toggleDrawer, getAppUser 
-} = actions
+const { toggleDrawer, getAppUser } = actions
 
-
-
-const {
-  PREDICATES_SEARCH
-} = mutations
+const { PREDICATES_SEARCH } = mutations
 class Segment extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       jwt: null,
       app_users: [],
       search: false,
-      meta: {}
+      meta: {},
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.search()
   }
 
   handleSave = (_e) => {
     const predicates = parseJwt(this.state.jwt)
     if (this.props.handleSave) {
-      this.props.handleSave(predicates.data , ()=>{
-        this.setState({jwt: null})
+      this.props.handleSave(predicates.data, () => {
+        this.setState({ jwt: null })
       })
     }
-  };
+  }
 
   updateData = (data, cb) => {
-    const newData = Object.assign({}, this.props.data, { segments: data.data })
+    const newData = Object.assign({}, this.props.data, {
+      segments: data.data,
+    })
     this.props.updateData(newData, cb ? cb() : null)
-  };
+  }
 
   updatePredicate = (data, cb) => {
     const jwtToken = generateJWT(data)
@@ -62,14 +54,14 @@ class Segment extends Component {
     this.setState({ jwt: jwtToken }, () => {
       this.updateData(parseJwt(this.state.jwt), this.search)
     })
-  };
+  }
 
   addPredicate = (data, cb) => {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value
+      value: data.value,
     }
 
     const new_predicates = this.props.data.segments.concat(pending_predicate)
@@ -80,9 +72,9 @@ class Segment extends Component {
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt))
     )
-  };
+  }
 
-  deletePredicate (data) {
+  deletePredicate(data) {
     const jwtToken = generateJWT(data)
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
@@ -98,8 +90,8 @@ class Segment extends Component {
       : this.props.data.segments
     const predicates_data = {
       data: {
-        predicates: data.filter((o) => o.comparison)
-      }
+        predicates: data.filter((o) => o.comparison),
+      },
     }
 
     graphql(
@@ -107,7 +99,7 @@ class Segment extends Component {
       {
         appKey: this.props.app.key,
         search: predicates_data,
-        page: page || 1
+        page: page || 1,
       },
       {
         success: (data) => {
@@ -115,14 +107,13 @@ class Segment extends Component {
           this.setState({
             app_users: appUsers.collection,
             meta: appUsers.meta,
-            searching: false
+            searching: false,
           })
         },
-        error: (_error) => {
-        }
+        error: (_error) => {},
       }
     )
-  };
+  }
 
   showUserDrawer = (o) => {
     this.props.dispatch(
@@ -130,9 +121,9 @@ class Segment extends Component {
         this.props.dispatch(getAppUser(o.id))
       })
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <div className="py-4">
         <SegmentManager
@@ -158,7 +149,7 @@ class Segment extends Component {
             'referrer',
             'os',
             'osVersion',
-            'lang'
+            'lang',
           ]}
           tableColumnExtensions={[
             { columnName: 'email', width: 250 },
@@ -166,7 +157,7 @@ class Segment extends Component {
             { columnName: 'os', width: 100 },
             { columnName: 'osVersion', width: 100 },
             { columnName: 'state', width: 80 },
-            { columnName: 'online', width: 80 }
+            { columnName: 'online', width: 80 },
           ]}
           leftColumns={['email']}
           rightColumns={['online']}
@@ -180,7 +171,7 @@ class Segment extends Component {
               className="animate-pulse"
             >
               <i className="fas fa-exclamation-circle mr-2"></i>
-              {I18n.t("common.save_changes")}
+              {I18n.t('common.save_changes')}
             </Button>
           ) : null}
         </SegmentManager>
@@ -189,10 +180,10 @@ class Segment extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { drawer } = state
   return {
-    drawer
+    drawer,
   }
 }
 

@@ -1,41 +1,40 @@
 import React from 'react'
 
-import {
-  client as graphql,
-  docsQueries
-} from '@chaskiq/store'
+import { client as graphql, docsQueries } from '@chaskiq/store'
 
-import {List, ListItem, ListItemText } from '@chaskiq/components'
+import { List, ListItem, ListItemText } from '@chaskiq/components'
 import { Link } from 'react-router-dom'
 
-const {
-  SEARCH_ARTICLES
-} = docsQueries
+const { SEARCH_ARTICLES } = docsQueries
 
-export default function CustomizedInputBase ({ lang, _history, subdomain, settings }) {
+export default function CustomizedInputBase({
+  lang,
+  _history,
+  subdomain,
+  settings,
+}) {
   const [results, setResults] = React.useState([])
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  function search (term) {
+  function search(term) {
     graphql(
       SEARCH_ARTICLES,
       {
         domain: subdomain,
         term: term,
         lang: lang,
-        page: 1
+        page: 1,
       },
       {
         success: (data) => {
           setResults(data.helpCenter.search.collection)
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
   }
 
-  function handleReturn (e) {
+  function handleReturn(e) {
     e.persist()
     // console.log(e.key)
     if (e.key === 'Enter') {
@@ -48,7 +47,6 @@ export default function CustomizedInputBase ({ lang, _history, subdomain, settin
   return (
     <div className="flex justify-center">
       <div className="w-full lg:w-4/5 mt-4 mb-8">
-
         <p
           className={
             'py-3 text-left text-2xl lg:text-3xl leading-9 font-light text-gray-100 md:mx-24-'

@@ -1,14 +1,14 @@
 import React from 'react'
 import { WidgetsIcon } from '../../icons'
 
-function appPackage () {
-  return <WidgetsIcon/>
+function appPackage() {
+  return <WidgetsIcon />
 }
 
 export default class AppPackage extends React.Component {
   render = () => {
     return <span></span>
-  };
+  }
 }
 
 export const AppPackageBlockConfig = (options = {}) => {
@@ -26,8 +26,8 @@ export const AppPackageBlockConfig = (options = {}) => {
       displayOnInlineTooltip: true,
       insertion: 'func',
       funcHandler: options.handleFunc,
-      insert_block: 'AppPackage'
-    }
+      insert_block: 'AppPackage',
+    },
   }
 
   return Object.assign(config, options)

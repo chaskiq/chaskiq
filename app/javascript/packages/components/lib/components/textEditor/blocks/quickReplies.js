@@ -1,14 +1,14 @@
 import React from 'react'
 import { BookMarkIcon } from '../../icons'
 
-function appPackage () {
-  return <BookMarkIcon/>
+function appPackage() {
+  return <BookMarkIcon />
 }
 
 export default class quickReplyBlock extends React.Component {
   render = () => {
     return <span></span>
-  };
+  }
 }
 
 export const QuickRepliesBlockConfig = (options = {}) => {
@@ -26,8 +26,8 @@ export const QuickRepliesBlockConfig = (options = {}) => {
       displayOnInlineTooltip: true,
       insertion: 'func',
       funcHandler: options.handleFunc,
-      insert_block: 'quickReplyBlock'
-    }
+      insert_block: 'quickReplyBlock',
+    },
   }
 
   return Object.assign(config, options)

@@ -1,34 +1,24 @@
-
 import React, { Component } from 'react'
 
 import { withRouter, Route, Switch, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Hints from '../shared/Hints'
 import { LinkButton } from '../shared/RouterLink'
 import langs from '../shared/langsOptions'
 import isEmpty from 'lodash/isEmpty'
 
-import {
-  client as graphql,
-  mutations,
-  queries,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
 import ArticlesNew from './articles/new'
 import Settings from './articles/settings'
 
 import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
-
-const { 
-  errorMessage, successMessage ,
-   setCurrentSection, setCurrentPage 
-} = actions
-
+const { errorMessage, successMessage, setCurrentSection, setCurrentPage } =
+  actions
 
 import {
+  Hints,
   DataTable,
   Badge,
   Content,
@@ -38,29 +28,26 @@ import {
   CircularProgress,
   DeleteDialog,
   ScrollableTabsButtonForce,
-  icons
+  icons,
 } from '@chaskiq/components'
 
-const {
-  AddIcon, GestureIcon, CheckCircleIcon
-} = icons
-
+const { AddIcon, GestureIcon, CheckCircleIcon } = icons
 
 const { ARTICLES, ARTICLE_SETTINGS } = queries
 const {
   DELETE_ARTICLE,
   ARTICLE_SETTINGS_UPDATE,
-  ARTICLE_SETTINGS_DELETE_LANG
+  ARTICLE_SETTINGS_DELETE_LANG,
 } = mutations
 class Articles extends Component {
   state = {
     meta: {},
     tabValue: 0,
     settings: null,
-    errors: []
-  };
+    errors: [],
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.dispatch(setCurrentSection('HelpCenter'))
     this.getSettings()
   }
@@ -69,22 +56,21 @@ class Articles extends Component {
     graphql(
       ARTICLE_SETTINGS,
       {
-        appKey: this.props.app.key
+        appKey: this.props.app.key,
       },
       {
         success: (data) => {
           this.setState(
             {
-              settings: data.app.articleSettings
+              settings: data.app.articleSettings,
             },
             cb
           )
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
-  };
+  }
 
   updateSettings = (data) => {
     const { settings } = data
@@ -92,63 +78,67 @@ class Articles extends Component {
       ARTICLE_SETTINGS_UPDATE,
       {
         appKey: this.props.app.key,
-        settings: settings
+        settings: settings,
       },
       {
         success: (data) => {
           this.setState(
             {
               settings: data.articleSettingsUpdate.settings,
-              errors: data.articleSettingsUpdate.errors
+              errors: data.articleSettingsUpdate.errors,
             },
             () => {
               if (!isEmpty(data.articleSettingsUpdate.errors)) {
-                return this.props.dispatch(errorMessage( I18n.t('articles.settings_updated_error')))
+                return this.props.dispatch(
+                  errorMessage(I18n.t('articles.settings_updated_error'))
+                )
               }
-              this.props.dispatch(successMessage( I18n.t('articles.settings_updated_success') ))
+              this.props.dispatch(
+                successMessage(I18n.t('articles.settings_updated_success'))
+              )
             }
           )
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
-  };
+  }
 
   deleteLang = (item, cb) => {
     graphql(
       ARTICLE_SETTINGS_DELETE_LANG,
       {
         appKey: this.props.app.key,
-        langItem: item
+        langItem: item,
       },
       {
         success: (data) => {
           this.setState(
             {
               settings: data.articleSettingsDeleteLang.settings,
-              errors: data.articleSettingsDeleteLang.errors
+              errors: data.articleSettingsDeleteLang.errors,
             },
             () => {
               cb && cb()
-              this.props.dispatch(successMessage(I18n.t('articles.settings_updated_success')))
+              this.props.dispatch(
+                successMessage(I18n.t('articles.settings_updated_success'))
+              )
             }
           )
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
-  };
+  }
 
   handleTabChange = (e, i) => {
     this.setState({ tabValue: i })
-  };
+  }
 
   tabsContent = () => {
     return (
       <div>
-        <Hints type={'articles'}/>
+        <Hints type={'articles'} />
         <Tabs
           value={this.state.tabValue}
           onChange={this.handleTabChange}
@@ -164,7 +154,7 @@ class Articles extends Component {
                     mode={'all'}
                   />
                 </div>
-              )
+              ),
             },
             {
               label: I18n.t('articles.published'),
@@ -174,7 +164,7 @@ class Articles extends Component {
                   settings={this.state.settings}
                   mode={'published'}
                 />
-              )
+              ),
             },
             {
               label: I18n.t('articles.draft'),
@@ -184,15 +174,15 @@ class Articles extends Component {
                   settings={this.state.settings}
                   mode={'draft'}
                 />
-              )
-            }
+              ),
+            },
           ]}
         />
       </div>
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <Content>
         {this.state.settings ? (
@@ -204,29 +194,34 @@ class Articles extends Component {
                 return (
                   <React.Fragment>
                     <ContentHeader
-                      title={ I18n.t('articles.title')}
+                      title={I18n.t('articles.title')}
                       // tabsContent={ this.tabsContent() }
                       actions={
                         <React.Fragment>
                           {this.state.settings &&
                           this.state.settings.subdomain ? (
-                              <div item>
-                                <Button
-                                  href={`https://${this.state.settings.subdomain}.chaskiq.io`}
-                                  variant="outlined"
-                                  color="inherit"
-                                  target={'blank'}
-                                  className="mr-2"
-                                >
-                                  {I18n.t('articles.visit')}
-                                </Button>
-                              </div>
-                            ) : null}
+                            <div item>
+                              <Button
+                                href={`https://${this.state.settings.subdomain}.chaskiq.io`}
+                                variant="outlined"
+                                color="inherit"
+                                target={'blank'}
+                                className="mr-2"
+                              >
+                                {I18n.t('articles.visit')}
+                              </Button>
+                            </div>
+                          ) : null}
 
                           <Button
                             variant={'contained'}
                             color={'primary'}
-                            onClick={() => this.props.history.push(`/apps/${this.props.app.key}/articles/new`)}>
+                            onClick={() =>
+                              this.props.history.push(
+                                `/apps/${this.props.app.key}/articles/new`
+                              )
+                            }
+                          >
                             {/* <AddIcon /> */}
                             {I18n.t('articles.new')}
                           </Button>
@@ -313,10 +308,10 @@ class AllArticles extends React.Component {
     collection: [],
     loading: true,
     lang: 'en',
-    openDeleteDialog: false
-  };
+    openDeleteDialog: false,
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     this.search()
 
     this.props.dispatch(setCurrentSection('HelpCenter'))
@@ -324,7 +319,7 @@ class AllArticles extends React.Component {
     this.props.dispatch(setCurrentPage('Articles'))
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.mode != this.props.mode) {
       this.search()
     }
@@ -335,41 +330,43 @@ class AllArticles extends React.Component {
       ARTICLES,
       {
         appKey: this.props.app.key,
-        page: this.state.meta && this.state.meta.next_page ? 
-          this.state.meta.next_page : 1,
+        page:
+          this.state.meta && this.state.meta.next_page
+            ? this.state.meta.next_page
+            : 1,
         lang: this.state.lang,
-        mode: this.props.mode
+        mode: this.props.mode,
       },
       {
         success: (data) => {
           this.setState({
             collection: data.app.articles.collection,
             meta: data.app.articles.meta,
-            loading: false
+            loading: false,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
   handleLangChange = (lang) => {
     this.setState(
       {
-        lang: lang
+        lang: lang,
       },
       this.getArticles
     )
-  };
+  }
 
   search = () => {
     this.setState(
       {
-        loading: true
+        loading: true,
       },
       this.getArticles
     )
-  };
+  }
 
   renderActions = () => {
     return (
@@ -390,38 +387,39 @@ class AllArticles extends React.Component {
         </div>
       </div>
     )
-  };
+  }
 
   setOpenDeleteDialog = (val) => {
     this.setState({ openDeleteDialog: val })
-  };
+  }
 
   removeArticle = (row) => {
     graphql(
       DELETE_ARTICLE,
       {
         appKey: this.props.app.key,
-        id: row.id.toString()
+        id: row.id.toString(),
       },
       {
         success: () => {
           this.setState(
             {
-              collection: this.state.collection.filter((o) => o.id != row.id)
+              collection: this.state.collection.filter((o) => o.id != row.id),
             },
             () => {
               this.setOpenDeleteDialog(null)
-              this.props.dispatch(successMessage(I18n.t('articles.deleted_success')))
+              this.props.dispatch(
+                successMessage(I18n.t('articles.deleted_success'))
+              )
             }
           )
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
-  };
+  }
 
-  render () {
+  render() {
     const { openDeleteDialog } = this.state
 
     return (
@@ -466,7 +464,7 @@ class AllArticles extends React.Component {
                           )}
                         </div>
                       </td>
-                    ) : undefined
+                    ) : undefined,
                 },
                 {
                   field: 'author',
@@ -476,15 +474,13 @@ class AllArticles extends React.Component {
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                         <div className="flex items-center">
                           <span>
-                            <b className="font-bold">
-                              {row.author.name}
-                            </b>
+                            <b className="font-bold">{row.author.name}</b>
                             <br />
                             {row.author.email}
                           </span>
                         </div>
                       </td>
-                    ) : undefined
+                    ) : undefined,
                 },
                 {
                   field: 'state',
@@ -494,25 +490,18 @@ class AllArticles extends React.Component {
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                         <div className="flex items-center">
                           <Badge
-                            variant={
-                              row.state === 'draft' ? 'yellow' : 'green'
-                            }
+                            variant={row.state === 'draft' ? 'yellow' : 'green'}
                           >
-                            {
-                              row.state === 'draft' ? (
-                                <GestureIcon />
-                              ) : (
-                                <CheckCircleIcon />
-                              )
-                            }
-
-                            {' '}
-
+                            {row.state === 'draft' ? (
+                              <GestureIcon />
+                            ) : (
+                              <CheckCircleIcon />
+                            )}{' '}
                             {I18n.t(`articles.state.${row.state}`)}
                           </Badge>
                         </div>
                       </td>
-                    )
+                    ),
                 },
                 {
                   field: 'collection',
@@ -530,7 +519,7 @@ class AllArticles extends React.Component {
                           )}
                         </div>
                       </td>
-                    )
+                    ),
                 },
                 {
                   field: 'actions',
@@ -549,18 +538,17 @@ class AllArticles extends React.Component {
                           </Button>
                         </div>
                       </td>
-                    )
-                }
+                    ),
+                },
               ]}
               defaultHiddenColumnNames={[]}
               tableColumnExtensions={[
                 { columnName: 'title', width: 250 },
-                { columnName: 'id', width: 10 }
+                { columnName: 'id', width: 10 },
               ]}
               // tableEdit={true}
               // editingRowIds={["email", "name"]}
-              commitChanges={(_aa, _bb) => {
-              }}
+              commitChanges={(_aa, _bb) => {}}
               // leftColumns={this.props.leftColumns}
               // rightColumns={this.props.rightColumns}
               // toggleMapView={this.props.toggleMapView}
@@ -577,9 +565,9 @@ class AllArticles extends React.Component {
         {openDeleteDialog && (
           <DeleteDialog
             open={openDeleteDialog}
-            title={
-              I18n.t('articles.delete_article', {title: openDeleteDialog.title})
-            }
+            title={I18n.t('articles.delete_article', {
+              title: openDeleteDialog.title,
+            })}
             closeHandler={() => {
               this.setOpenDeleteDialog(null)
             }}
@@ -587,9 +575,7 @@ class AllArticles extends React.Component {
               this.removeArticle(openDeleteDialog)
             }}
           >
-            <p variant="subtitle2">
-              {I18n.t('articles.delete_article_exp')}
-            </p>
+            <p variant="subtitle2">{I18n.t('articles.delete_article_exp')}</p>
           </DeleteDialog>
         )}
       </div>
@@ -597,14 +583,14 @@ class AllArticles extends React.Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

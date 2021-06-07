@@ -5,22 +5,13 @@ import axios from 'axios'
 import logo from '../../images/logo.png'
 import queryString from 'query-string'
 
-import {
-  Button,
-  TextField ,
-  Snackbar,
-} from '@chaskiq/components'
+import { Button, TextField, Snackbar } from '@chaskiq/components'
 
-import {
-  actions
-} from '@chaskiq/store'
+import { actions } from '@chaskiq/store'
 
-const {
-  getCurrentUser,
-  successAuthentication
-} = actions
+const { getCurrentUser, successAuthentication } = actions
 
-function MadeWithLove () {
+function MadeWithLove() {
   return (
     <p className="mt-3 text-base text-gray-500 text-center">
       {'Built with love by the '}
@@ -32,7 +23,7 @@ function MadeWithLove () {
   )
 }
 
-function AcceptInvitation (props) {
+function AcceptInvitation(props) {
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [password, setPassword] = useState('')
   const [token, _setToken] = useState(queryString.parse(props.location.search))
@@ -46,15 +37,12 @@ function AcceptInvitation (props) {
         agent: {
           password: password,
           password_confirmation: passwordConfirmation,
-          invitation_token: token.invitation_token
-        }
+          invitation_token: token.invitation_token,
+        },
       })
       .then(function (response) {
         props.dispatch(
-          successAuthentication(
-            response.data.token,
-            response.data.refreshToken
-          )
+          successAuthentication(response.data.token, response.data.refreshToken)
         )
         props.dispatch(getCurrentUser())
         // use router redirect + snackbar status
@@ -127,11 +115,7 @@ function AcceptInvitation (props) {
                 }
               />
 
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
+              <Button type="submit" variant="contained" color="primary">
                 Set my password
               </Button>
             </form>
@@ -144,14 +128,14 @@ function AcceptInvitation (props) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, current_user } = state
   const { loading, isAuthenticated } = auth
 
   return {
     current_user,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

@@ -12,7 +12,7 @@ const MapContainer = styled.div`
 `
 
 export default class Mapa extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.map = {}
   }
@@ -23,27 +23,27 @@ export default class Mapa extends React.Component {
       properties: {
         id: o.id,
         name: o.displayName,
-        email: o.email
+        email: o.email,
       },
-      geometry: { type: 'Point', coordinates: [o.lng, o.lat] }
+      geometry: { type: 'Point', coordinates: [o.lng, o.lat] },
     }))
-  };
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     window.mapboxgl.accessToken = TOKEN
 
     this.map = new window.mapboxgl.Map({
       container: 'react-map',
       style: 'mapbox://styles/michelson/cjcga6dyd48ww2rlq99y1tw8m',
       zoom: 10,
-      interactive: this.props.interactive
+      interactive: this.props.interactive,
     })
 
     this.map.on('load', () => {
       const data = {
         type: 'FeatureCollection',
         // "crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},
-        features: this.getPoints()
+        features: this.getPoints(),
       }
 
       // Add a new source from our GeoJSON data and set the
@@ -55,7 +55,7 @@ export default class Mapa extends React.Component {
         data: data, // "https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
         cluster: true,
         clusterMaxZoom: 14, // Max zoom to cluster points on
-        clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
       })
 
       this.map.addLayer({
@@ -76,7 +76,7 @@ export default class Mapa extends React.Component {
             100,
             '#f1f075',
             750,
-            '#f28cb1'
+            '#f28cb1',
           ],
           'circle-radius': [
             'step',
@@ -85,9 +85,9 @@ export default class Mapa extends React.Component {
             100,
             30,
             750,
-            40
-          ]
-        }
+            40,
+          ],
+        },
       })
 
       this.map.addLayer({
@@ -98,8 +98,8 @@ export default class Mapa extends React.Component {
         layout: {
           'text-field': '{point_count_abbreviated}',
           'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-          'text-size': 12
-        }
+          'text-size': 12,
+        },
       })
 
       this.map.addLayer({
@@ -111,14 +111,14 @@ export default class Mapa extends React.Component {
           'circle-color': '#11b4da',
           'circle-radius': 4,
           'circle-strokeWidth': 1,
-          'circle-stroke-color': '#fff'
-        }
+          'circle-stroke-color': '#fff',
+        },
       })
 
       // inspect a cluster on click
       this.map.on('click', 'clusters', (e) => {
         var features = this.map.queryRenderedFeatures(e.point, {
-          layers: ['clusters']
+          layers: ['clusters'],
         })
         var clusterId = features[0].properties.cluster_id
         this.map
@@ -128,7 +128,7 @@ export default class Mapa extends React.Component {
 
             this.map.easeTo({
               center: features[0].geometry.coordinates,
-              zoom: zoom
+              zoom: zoom,
             })
           })
       })
@@ -188,13 +188,13 @@ export default class Mapa extends React.Component {
     if (!isEmpty(bounds)) {
       this.map.fitBounds(bounds, {
         padding: 20,
-        duration: 0
+        duration: 0,
       })
     }
     cb && cb()
-  };
+  }
 
-  render () {
+  render() {
     return (
       <MapContainer id="react-map" style={this.props.wrapperStyle}>
         {this.props.children}

@@ -9,37 +9,29 @@ import UnSubscribe from './pages/UnSubscribe'
 import AcceptInvitation from './pages/auth/acceptInvitation'
 import { Switch, Route, withRouter } from 'react-router-dom'
 
-import {
-  ZoomImage,
-  LoadingView,
-  Snackbar
-} from '@chaskiq/components'
+import { ZoomImage, LoadingView, Snackbar } from '@chaskiq/components'
 
-import {
-  actions
-} from '@chaskiq/store'
+import { actions } from '@chaskiq/store'
 
-const {
-  clearLocks
-} = actions
+const { clearLocks } = actions
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, current_user, theme } = state
   const { loading, isAuthenticated } = auth
   return {
     current_user,
     loading,
     isAuthenticated,
-    theme
+    theme,
   }
 }
 
-function AppRouter ({
+function AppRouter({
   isAuthenticated,
   current_user,
   location,
   dispatch,
-  theme
+  theme,
 }) {
   const [reload, setReload] = React.useState(false)
 
@@ -64,37 +56,29 @@ function AppRouter ({
 
   return (
     <div className={`${theme}`}>
-
-      <ZoomImage/>
+      <ZoomImage />
 
       <Snackbar />
 
-      {
-        reload && <LoadingView/>
-      }
+      {reload && <LoadingView />}
 
-      {
-        !reload && <Switch>
-
+      {!reload && (
+        <Switch>
           <Route
             path="/agents/invitation/accept"
-            render={(props) => (
-              <AcceptInvitation {...props} />
-            )}
+            render={(props) => <AcceptInvitation {...props} />}
           />
 
           <Route
             path={'/campaigns/:id/subscribers/:subscriber/delete'}
-            render={(props) => (
-              <UnSubscribe {...props} />
-            )}>
-          </Route>
+            render={(props) => <UnSubscribe {...props} />}
+          ></Route>
 
-          { !isAuthenticated &&
+          {!isAuthenticated && (
             <Route path="/">
               <Login />
             </Route>
-          }
+          )}
 
           <Route path="/" exact>
             <Apps />
@@ -120,8 +104,7 @@ function AppRouter ({
             <NotFound />
           </Route>
         </Switch>
-      }
-
+      )}
     </div>
   )
 }

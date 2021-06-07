@@ -11,7 +11,7 @@ import {
   UPDATE_CONVERSATION_STATE,
   TOGGLE_CONVERSATION_PRIORITY,
   TYPING_NOTIFIER,
-  UPDATE_CONVERSATION_TAG_LIST
+  UPDATE_CONVERSATION_TAG_LIST,
 } from '../graphql/mutations'
 
 import { camelCase } from 'lodash'
@@ -25,7 +25,7 @@ export const camelizeKeys = (obj) => {
     return Object.keys(obj).reduce(
       (result, key) => ({
         ...result,
-        [camelCase(key)]: camelizeKeys(obj[key])
+        [camelCase(key)]: camelizeKeys(obj[key]),
       }),
       {}
     )
@@ -33,7 +33,7 @@ export const camelizeKeys = (obj) => {
   return obj
 }
 
-export function getConversation (options, cb) {
+export function getConversation(options, cb) {
   return (dispatch, getState) => {
     setLoading(true)
 
@@ -45,7 +45,7 @@ export function getConversation (options, cb) {
       {
         appKey: getState().app.key,
         id: options.id,
-        page: nextPage
+        page: nextPage,
       },
       {
         success: (data) => {
@@ -57,11 +57,11 @@ export function getConversation (options, cb) {
               collection:
                 nextPage > 1
                   ? getState().conversation.collection.concat(
-                    conversation.messages.collection
-                  )
+                      conversation.messages.collection
+                    )
                   : conversation.messages.collection,
               meta: conversation.messages.meta,
-              loading: false
+              loading: false,
             },
             conversation
           )
@@ -70,20 +70,20 @@ export function getConversation (options, cb) {
 
           if (cb) cb()
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 }
 
-export function updateConversationTagList (options, cb) {
+export function updateConversationTagList(options, cb) {
   return (dispatch, getState) => {
     graphql(
       UPDATE_CONVERSATION_TAG_LIST,
       {
         appKey: getState().app.key,
         conversationId: options.id,
-        tagList: options.tagList
+        tagList: options.tagList,
       },
       {
         success: (data) => {
@@ -91,42 +91,40 @@ export function updateConversationTagList (options, cb) {
           // updateTags(tags)
 
           dispatch(
-            dispatchUpdateConversations(
-              {
-                ...getState().conversation,
-                tagList: tags
-              }
-            )
+            dispatchUpdateConversations({
+              ...getState().conversation,
+              tagList: tags,
+            })
           )
 
           dispatch(
             dispatchUpdateListItemTagList({
               id: options.id,
-              tagList: tags
+              tagList: tags,
             })
           )
           if (cb) cb()
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 }
 
-export function clearConversation (cb) {
+export function clearConversation(cb) {
   return (dispatch, _getState) => {
     dispatch(dispatchGetConversations({}))
     if (cb) cb()
   }
 }
 
-export function typingNotifier (cb) {
+export function typingNotifier(cb) {
   return (dispatch, getState) => {
     graphql(
       TYPING_NOTIFIER,
       {
         appKey: getState().app.key,
-        id: getState().conversation.key
+        id: getState().conversation.key,
       },
       {
         success: () => {
@@ -134,20 +132,20 @@ export function typingNotifier (cb) {
         },
         error: (error) => {
           console.log(error)
-        }
+        },
       }
     )
   }
 }
 
-export function insertComment (comment, cb) {
+export function insertComment(comment, cb) {
   return (dispatch, getState) => {
     graphql(
       INSERT_COMMMENT,
       {
         appKey: getState().app.key,
         id: getState().conversation.key,
-        message: comment
+        message: comment,
       },
       {
         success: (data) => {
@@ -157,20 +155,20 @@ export function insertComment (comment, cb) {
         },
         error: (error) => {
           console.log(error)
-        }
+        },
       }
     )
   }
 }
 
-export function insertAppBlockComment (comment, cb) {
+export function insertAppBlockComment(comment, cb) {
   return (dispatch, getState) => {
     const blocks = {
       type: 'app_package',
       app_package: comment.provider.name,
       values: comment.values,
       schema: comment.provider.schema,
-      wait_for_input: comment.provider.wait_for_input
+      wait_for_input: comment.provider.wait_for_input,
     }
 
     graphql(
@@ -178,7 +176,7 @@ export function insertAppBlockComment (comment, cb) {
       {
         appKey: getState().app.key,
         id: getState().conversation.key,
-        controls: blocks
+        controls: blocks,
       },
       {
         success: (data) => {
@@ -188,20 +186,20 @@ export function insertAppBlockComment (comment, cb) {
         error: (error) => {
           console.log(error)
           cb && cb()
-        }
+        },
       }
     )
   }
 }
 
-export function insertNote (comment, cb) {
+export function insertNote(comment, cb) {
   return (dispatch, getState) => {
     graphql(
       INSERT_NOTE,
       {
         appKey: getState().app.key,
         id: getState().conversation.id,
-        message: comment
+        message: comment,
       },
       {
         success: (data) => {
@@ -210,13 +208,13 @@ export function insertNote (comment, cb) {
         },
         error: (error) => {
           console.log(error)
-        }
+        },
       }
     )
   }
 }
 
-export function appendMessage (data, cb) {
+export function appendMessage(data, cb) {
   return (dispatch, getState) => {
     const newData = camelizeKeys(data)
     // update existing message
@@ -230,7 +228,7 @@ export function appendMessage (data, cb) {
       })
 
       const newMessages = Object.assign({}, getState().conversation, {
-        collection: newCollection
+        collection: newCollection,
       })
 
       dispatch(dispatchGetConversations(newMessages))
@@ -241,7 +239,7 @@ export function appendMessage (data, cb) {
       }
 
       const newMessages = Object.assign({}, getState().conversation, {
-        collection: [newData].concat(getState().conversation.collection)
+        collection: [newData].concat(getState().conversation.collection),
       })
 
       // debugger
@@ -252,41 +250,44 @@ export function appendMessage (data, cb) {
   }
 }
 
-export function assignUser (_key, _cb) {
+export function assignUser(_key, _cb) {
   return (_dispatch, _getState) => {}
 }
 
-export function setLoading (val) {
+export function setLoading(val) {
   return (dispatch, getState) => {
-    dispatch(dispatchUpdateConversations(
-      { ...getState().conversation, loading: val }
-    ))
-  }
-}
-
-export function updateTags (val) {
-  return (dispatch, getState) => {
-    dispatch(dispatchUpdateConversations(
-      {
+    dispatch(
+      dispatchUpdateConversations({
         ...getState().conversation,
-        tagList: val
-      }
-    ))
+        loading: val,
+      })
+    )
   }
 }
 
-export function toggleConversationPriority (_key, _cb) {
+export function updateTags(val) {
+  return (dispatch, getState) => {
+    dispatch(
+      dispatchUpdateConversations({
+        ...getState().conversation,
+        tagList: val,
+      })
+    )
+  }
+}
+
+export function toggleConversationPriority(_key, _cb) {
   return (_dispatch, _getState) => {}
 }
 
-export function updateConversationState (state, cb) {
+export function updateConversationState(state, cb) {
   return (dispatch, getState) => {
     graphql(
       UPDATE_CONVERSATION_STATE,
       {
         appKey: getState().app.key,
         conversationId: getState().conversation.id,
-        state: state
+        state: state,
       },
       {
         success: (data) => {
@@ -301,19 +302,19 @@ export function updateConversationState (state, cb) {
 
           if (cb) cb(newConversation)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 }
 
-export function updateConversationPriority (cb) {
+export function updateConversationPriority(cb) {
   return (dispatch, getState) => {
     graphql(
       TOGGLE_CONVERSATION_PRIORITY,
       {
         appKey: getState().app.key,
-        conversationId: getState().conversation.id
+        conversationId: getState().conversation.id,
       },
       {
         success: (data) => {
@@ -326,20 +327,20 @@ export function updateConversationPriority (cb) {
           dispatch(dispatchGetConversations(newConversation))
           if (cb) cb(newConversation)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 }
 
-export function assignAgent (id, cb) {
+export function assignAgent(id, cb) {
   return (dispatch, getState) => {
     graphql(
       ASSIGN_USER,
       {
         appKey: getState().app.key,
         conversationId: getState().conversation.id,
-        appUserId: id
+        appUserId: id,
       },
       {
         success: (data) => {
@@ -352,34 +353,34 @@ export function assignAgent (id, cb) {
           dispatch(dispatchGetConversations(newConversation))
           if (cb) cb(data.assignUser.conversation)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 }
 
-function dispatchUpdateListItemTagList (data) {
+function dispatchUpdateListItemTagList(data) {
   return {
     type: ActionTypes.UpdateConversationItem,
-    data: data
+    data: data,
   }
 }
 
-function dispatchGetConversations (data) {
+function dispatchGetConversations(data) {
   return {
     type: ActionTypes.GetConversation,
-    data: data
+    data: data,
   }
 }
 
-function dispatchUpdateConversations (data) {
+function dispatchUpdateConversations(data) {
   return {
     type: ActionTypes.GetConversation,
-    data: data
+    data: data,
   }
 }
 
-export function playSound () {
+export function playSound() {
   pling.volume = 0.4
   pling.play()
 }
@@ -387,7 +388,7 @@ export function playSound () {
 const initialState = {}
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ActionTypes.GetConversation: {
       return action.data

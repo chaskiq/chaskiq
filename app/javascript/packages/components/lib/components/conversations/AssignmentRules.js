@@ -17,15 +17,10 @@ import PageHeader from '../PageHeader'
 import {
   sortableContainer,
   sortableElement,
-  sortableHandle
+  sortableHandle,
 } from 'react-sortable-hoc'
 
-import {
-  client as graphql,
-  queries,
-  mutations
-} from '@chaskiq/store'
-
+import { client as graphql, queries, mutations } from '@chaskiq/store'
 
 import { actions } from '@chaskiq/store'
 const { successMessage, setCurrentPage, setCurrentSection } = actions
@@ -36,7 +31,7 @@ const {
   CREATE_ASSIGNMENT_RULE,
   EDIT_ASSIGNMENT_RULE,
   DELETE_ASSIGNMENT_RULE,
-  UPDATE_RULE_PRIORITIES
+  UPDATE_RULE_PRIORITIES,
 } = mutations
 
 const DragHandle = sortableHandle(() => (
@@ -45,84 +40,82 @@ const DragHandle = sortableHandle(() => (
   </div>
 ))
 
-const SortableItem = sortableElement(
-  ({ object, deleteRule, edit }) => (
-    <li>
-      <div
-        href="#"
-        className="border-b bg-white dark:border-gray-800 dark:bg-black block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out"
-      >
-        <div className="flex items-center px-4 py-4 sm:px-6">
-          <div>
-            <DragHandle />
+const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
+  <li>
+    <div
+      href="#"
+      className="border-b bg-white dark:border-gray-800 dark:bg-black block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out"
+    >
+      <div className="flex items-center px-4 py-4 sm:px-6">
+        <div>
+          <DragHandle />
+        </div>
+
+        <div className="min-w-0 flex-1 flex items-center">
+          <div className="flex-shrink-0">
+            <img
+              className="ml-3 h-12 w-12 rounded-full dark:bg-white"
+              src={`${object.agent.avatarUrl}`}
+              alt=""
+            />
           </div>
-
-          <div className="min-w-0 flex-1 flex items-center">
-            <div className="flex-shrink-0">
-              <img
-                className="ml-3 h-12 w-12 rounded-full"
-                src={`${object.agent.avatarUrl}`}
-                alt=""
-              />
-            </div>
-            <div className="flex w-full px-4 md:div md:div-cols-2 md:gap-4 justify-between">
-              <div>
-                <div className="text-lg leading-5 font-medium text-indigo-600 truncate">
-                  {object.title}
-                </div>
-                <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 dark:text-gray-300">
-                  <span className="truncate">{object.agent.email}</span>
-                </div>
+          <div className="flex w-full px-4 md:div md:div-cols-2 md:gap-4 justify-between">
+            <div>
+              <div className="text-lg leading-5 font-medium text-indigo-600 truncate">
+                {object.title}
               </div>
+              <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 dark:text-gray-300">
+                <span className="truncate">{object.agent.email}</span>
+              </div>
+            </div>
 
-              <div className="hidden md:block">
-                {/* <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+            <div className="hidden md:block">
+              {/* <div className="mt-2 flex items-center text-sm leading-5 text-gray-500">
                 <button>edit</button>
                 <button>delete</button>
                 </div> */}
 
-                <Button
-                  variant="outlined"
-                  className="mr-2"
-                  color={'outlined'}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    edit(object)
-                  }}
-                >
-                  {I18n.t('common.edit')}
-                </Button>
+              <Button
+                variant="outlined"
+                className="mr-2"
+                color={'outlined'}
+                onClick={(e) => {
+                  e.preventDefault()
+                  edit(object)
+                }}
+              >
+                {I18n.t('common.edit')}
+              </Button>
 
-                <Button
-                  variant="danger"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    deleteRule(object)
-                  }}
-                >
-                  {I18n.t('common.delete')}
-                </Button>
-              </div>
+              <Button
+                variant="danger"
+                onClick={(e) => {
+                  e.preventDefault()
+                  deleteRule(object)
+                }}
+              >
+                {I18n.t('common.delete')}
+              </Button>
             </div>
           </div>
         </div>
       </div>
-    </li>
-  )
-)
+    </div>
+  </li>
+))
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="bg-white border-md shadow-sm">{children}</ul>
 })
 
-function AssignmentRules ({ dispatch, app }) {
+function AssignmentRules({ dispatch, app }) {
   const formRef = React.useRef()
 
   const [state, setState] = React.useState({
     isOpen: false,
     currentRule: null,
     rules: [],
-    conditions: []
+    conditions: [],
   })
 
   React.useEffect(() => {
@@ -134,7 +127,7 @@ function AssignmentRules ({ dispatch, app }) {
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setState({
       ...state,
-      rules: arrayMove(state.rules, oldIndex, newIndex)
+      rules: arrayMove(state.rules, oldIndex, newIndex),
     })
 
     updatePriorities()
@@ -148,14 +141,12 @@ function AssignmentRules ({ dispatch, app }) {
       UPDATE_RULE_PRIORITIES,
       {
         appKey: app.key,
-        rules: state.rules
+        rules: state.rules,
       },
       {
         success: () => {
-          dispatch(successMessage(
-            I18n.t('assignment_rules.success_message')
-          ))
-        }
+          dispatch(successMessage(I18n.t('assignment_rules.success_message')))
+        },
       }
     )
   }
@@ -172,14 +163,13 @@ function AssignmentRules ({ dispatch, app }) {
     graphql(
       ASSIGNMENT_RULES,
       {
-        appKey: app.key
+        appKey: app.key,
       },
       {
         success: (data) => {
           setState({ ...state, rules: data.app.assignmentRules })
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
   }
@@ -187,7 +177,7 @@ function AssignmentRules ({ dispatch, app }) {
   const createAssignmentRule = (_opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     graphql(
@@ -197,7 +187,7 @@ function AssignmentRules ({ dispatch, app }) {
         title: serializedData.title,
         agentId: serializedData.agent,
         active: serializedData.active,
-        conditions: state.conditions
+        conditions: state.conditions,
       },
       {
         success: (data) => {
@@ -205,10 +195,10 @@ function AssignmentRules ({ dispatch, app }) {
           setState({
             ...state,
             rules: state.rules.concat(rule),
-            isOpen: false
+            isOpen: false,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
@@ -216,7 +206,7 @@ function AssignmentRules ({ dispatch, app }) {
   const editAssignmentRule = (_opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     graphql(
@@ -227,7 +217,7 @@ function AssignmentRules ({ dispatch, app }) {
         title: serializedData.title,
         agentId: serializedData.agent,
         active: serializedData.active,
-        conditions: state.conditions
+        conditions: state.conditions,
       },
       {
         success: (data) => {
@@ -244,10 +234,10 @@ function AssignmentRules ({ dispatch, app }) {
             ...state,
             rules: collection,
             currentRule: null,
-            isOpen: false
+            isOpen: false,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
@@ -257,7 +247,7 @@ function AssignmentRules ({ dispatch, app }) {
       DELETE_ASSIGNMENT_RULE,
       {
         appKey: app.key,
-        ruleId: opts.id
+        ruleId: opts.id,
       },
       {
         success: (data) => {
@@ -266,10 +256,10 @@ function AssignmentRules ({ dispatch, app }) {
           setState({
             ...state,
             rules: collection,
-            currentRule: null
+            currentRule: null,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
@@ -278,14 +268,14 @@ function AssignmentRules ({ dispatch, app }) {
     setState({
       ...state,
       currentRule: rule,
-      isOpen: true
+      isOpen: true,
     })
   }
 
   const deleteRule = (rule) => {
     setState({
       ...state,
-      currentRule: rule
+      currentRule: rule,
     })
 
     deleteAssignmentRule(rule)
@@ -296,14 +286,14 @@ function AssignmentRules ({ dispatch, app }) {
       type: 'match',
       attribute: 'match',
       comparison: 'and',
-      value: 'and'
+      value: 'and',
     },
-    { 
-      'type': 'string', 
-      'value': ['AppUser'], 
-      'attribute': 'type', 
-      'comparison': 'in' 
-    }
+    {
+      type: 'string',
+      value: ['AppUser'],
+      attribute: 'type',
+      comparison: 'in',
+    },
   ]
 
   return (
@@ -320,13 +310,11 @@ function AssignmentRules ({ dispatch, app }) {
               setState({
                 ...state,
                 isOpen: true,
-                currentRule: null
+                currentRule: null,
               })
             }
           >
-            {
-              I18n.t('assignment_rules.create_button')
-            }
+            {I18n.t('assignment_rules.create_button')}
           </Button>
         }
       ></PageHeader>
@@ -351,7 +339,7 @@ function AssignmentRules ({ dispatch, app }) {
               setConditions={(conditions) =>
                 setState({
                   ...state,
-                  conditions: conditions
+                  conditions: conditions,
                 })
               }
               app={app}
@@ -360,19 +348,12 @@ function AssignmentRules ({ dispatch, app }) {
 
             <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
               <span className="flex w-full rounded-md shadow-sm sm:col-start-2">
-                <Button
-                  type="submit"
-                  onClick={submitAssignment}
-                >
+                <Button type="submit" onClick={submitAssignment}>
                   Confirm
                 </Button>
               </span>
               <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-1">
-                <Button
-                  type="button"
-                  variant={'outlined'}
-                  onClick={close}
-                >
+                <Button type="button" variant={'outlined'} onClick={close}>
                   Cancel
                 </Button>
               </span>
@@ -397,7 +378,7 @@ function AssignmentRules ({ dispatch, app }) {
   )
 }
 
-function AssignmentForm (props) {
+function AssignmentForm(props) {
   const { rule, setConditions, conditions } = props
 
   const [agents, setAgents] = React.useState([])
@@ -407,19 +388,21 @@ function AssignmentForm (props) {
   const [updater, setUpdater] = React.useState(null)
   const [predicates, setPredicates] = React.useState(conditions || [])
 
-  function availableFields () {
-    let fields = [{ name: 'message_content', type: 'string' }].concat(defaultFields)
+  function availableFields() {
+    let fields = [{ name: 'message_content', type: 'string' }].concat(
+      defaultFields
+    )
     if (!props.app.customFields) return fields
     return props.app.customFields.concat(fields)
   }
 
-  function selectedValue () {
+  function selectedValue() {
     if (!rule) return
     const { agent } = rule
     return { label: agent.email, value: agent.id }
   }
 
-  function getAgents () {
+  function getAgents() {
     graphql(
       AGENTS,
       { appKey: props.app.key },
@@ -427,7 +410,7 @@ function AssignmentForm (props) {
         success: (data) => {
           setAgents(data.app.agents)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
@@ -440,19 +423,20 @@ function AssignmentForm (props) {
     setConditions(predicates)
   }, [predicates])
 
-  function handleChange (e) {
+  function handleChange(e) {
     setSelected(e.value)
   }
 
-  function displayName (o) {
+  function displayName(o) {
     return o.attribute.split('_').join(' ')
   }
 
-  function getTextForPredicate (o) {
+  function getTextForPredicate(o) {
     if (o.type === 'match') {
-      return `${I18n.t('segment_manager.match')} ${o.value === 'and' ? 
-      I18n.t('segment_manager.all') : 
-      I18n.t('segment_manager.any')
+      return `${I18n.t('segment_manager.match')} ${
+        o.value === 'and'
+          ? I18n.t('segment_manager.all')
+          : I18n.t('segment_manager.any')
       } ${I18n.t('segment_manager.criteria')}`
     } else {
       return `${displayName(o)} ${o.comparison ? o.comparison : ''} ${
@@ -461,12 +445,12 @@ function AssignmentForm (props) {
     }
   }
 
-  function addPredicate (data) {
+  function addPredicate(data) {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value
+      value: data.value,
     }
     setPredicates(predicates.concat(pending_predicate))
 
@@ -476,20 +460,18 @@ function AssignmentForm (props) {
     }, 2)
   }
 
-  function updatePredicates (data) {
+  function updatePredicates(data) {
     setPredicates(data)
   }
 
-  function deletePredicate (data) {
+  function deletePredicate(data) {
     setPredicates(data)
   }
 
   return (
     <div>
       <div>
-        <div
-          className="flex flex-wrap space-x-2 mb-2"
-        >
+        <div className="flex flex-wrap space-x-2 mb-2">
           {predicates.map((o, i) => {
             return (
               <SegmentItemButton
@@ -502,8 +484,7 @@ function AssignmentForm (props) {
                 appearance={o.comparison ? 'primary' : 'default'}
                 text={getTextForPredicate(o)}
                 updatePredicate={updatePredicates}
-                predicateCallback={(_jwtToken) => {
-                }}
+                predicateCallback={(_jwtToken) => {}}
                 deletePredicate={(items) => {
                   deletePredicate(items)
                 }}
@@ -539,7 +520,10 @@ function AssignmentForm (props) {
           id={'agent'}
           label={'select agent'}
           value={selectedValue()}
-          options={agents.map((o) => ({ value: o.id, label: o.email }))}
+          options={agents.map((o) => ({
+            value: o.id,
+            label: o.email,
+          }))}
           onChange={handleChange}
         ></Input>
       )}
@@ -555,7 +539,7 @@ function AssignmentForm (props) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, conversations, app_user } = state
   const { isAuthenticated } = auth
 
@@ -563,7 +547,7 @@ function mapStateToProps (state) {
     conversations,
     app_user,
     app,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

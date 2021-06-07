@@ -94,13 +94,10 @@ export const FadeOutRight = keyframes`
 `
 
 export const Container = styled.div`
+  animation: ${appear} 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 
-  animation: ${appear} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-
-  ${
-
-    (props) => props.isMobile
-
+  ${(props) =>
+    props.isMobile
       ? `min-height: 250px;
       box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
       opacity: 1;
@@ -115,7 +112,6 @@ export const Container = styled.div`
       position: fixed;
       overflow: hidden;
       border-radius: 0px;`
-
       : `z-index: 2147483000;
       position: fixed;
       bottom: 91px;
@@ -127,9 +123,7 @@ export const Container = styled.div`
       opacity: 1;
       height: calc(100% - 120px);
       border-radius: 8px;
-      overflow: hidden;`
-  }
-
+      overflow: hidden;`}
 `
 
 export const AssigneeStatus = styled.span`
@@ -143,35 +137,32 @@ export const AssigneeStatusWrapper = styled.span`
   align-items: start;
   justify-content: center;
   margin-left: 10px;
-  p{
+  p {
     margin: 0px 0px 6px 0px;
   }
 `
 
 export const ShowMoreWrapper = styled.div`
+  z-index: 10000;
+  position: absolute;
+  width: 315px;
+  display: flex;
+  justify-content: space-between;
 
-    z-index: 10000;
-    position: absolute;
-    width: 315px;
-    display: flex;
-    justify-content: space-between;
+  ${(props) => FadeBottomAnimation(props)}
 
-    ${(props) => FadeBottomAnimation(props)}
+  button {
+    padding: 9px;
+    box-shadow: -1px 1px 1px #00000036;
+    border-radius: 11px;
+    background: #a6aeceaa;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
 
-    button {
-      padding: 9px;
-      box-shadow: -1px 1px 1px #00000036;
-      border-radius: 11px;
-      background: #a6aeceaa;
-      border: none;
-      color: white;
-      cursor: pointer;
-    }
-
-    button.close{
-
-    }
-
+  button.close {
+  }
 `
 
 export const DisabledElement = styled.div`
@@ -218,57 +209,63 @@ export const Overflow = styled.div`
   height: 100vh;
   bottom: 0px;
   right: 0px;
-  content: "";
+  content: '';
   pointer-events: none;
-  background: radial-gradient(at right bottom,rgba(29,39,54,0.16) 9%,rgba(0, 0, 0, 0) 72%);
+  background: radial-gradient(
+    at right bottom,
+    rgba(29, 39, 54, 0.16) 9%,
+    rgba(0, 0, 0, 0) 72%
+  );
 `
 
 export const UserAutoMessageStyledFrame = styled(StyledFrame)`
-    display: block;
-    border: 0px;
-    z-index: 1000;
-    width: 350px;
-    position: absolute;
+  display: block;
+  border: 0px;
+  z-index: 1000;
+  width: 350px;
+  position: absolute;
 
-    ${(props) => {
-      return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
-    }}
+  ${(props) => {
+    return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
+  }}
 
-    ${(props) => {
-      return props.theme.isMessengerActive ? `
+  ${(props) => {
+    return props.theme.isMessengerActive
+      ? `
         bottom: 49px;
         right: 6px;
-      ` : `
+      `
+      : `
         bottom: 0px;
         right: 0px;
       `
-    }}
+  }}
 `
 
-export const UserAutoMessageStyledFrameDis = styled(({ isMinimized, ...rest }) => (
-  <StyledFrame {...rest}/>
-))`
-    display: block;
-    border: 0px;
-    z-index: 1000;
-    width: 350px;
-    position: absolute;
+export const UserAutoMessageStyledFrameDis = styled(
+  ({ isMinimized, ...rest }) => <StyledFrame {...rest} />
+)`
+  display: block;
+  border: 0px;
+  z-index: 1000;
+  width: 350px;
+  position: absolute;
 
-    ${(props) => {
-      return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
-    }}
+  ${(props) => {
+    return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
+  }}
 
-    ${(props) => {
-      return props.theme.isMessengerActive ? `
+  ${(props) => {
+    return props.theme.isMessengerActive
+      ? `
         bottom: 77px;
         right: 17px;
-      ` : `
+      `
+      : `
         bottom: 0px;
         right: 0px;
       `
-    }}
-
-    /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
+  }} /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
 `
 
 export const CloseButtonWrapper = styled.div`
@@ -353,14 +350,14 @@ export const MessageSpinner = styled.div`
     display: inline-block;
     -webkit-animation: ${Bounce} 1.4s infinite ease-in-out both;
     animation: ${Bounce} 1.4s infinite ease-in-out both;
-    background: rgba(0,0,0,1);
+    background: rgba(0, 0, 0, 1);
   }
 
   .bounce1 {
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
   }
-  
+
   .bounce2 {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
@@ -377,7 +374,6 @@ export const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
     return props.isMinimized ? 'height: 70vh;' : 'height: 92vh;'
   }}
 
-  
   justify-content: space-between;
 `
 
@@ -404,115 +400,119 @@ export const ConversationEventContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 6px 4.2em;
-  padding: .7em;
-  font-size: .8em;
+  padding: 0.7em;
+  font-size: 0.8em;
   //box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(141, 171, 181, 0.63);
 
-  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
+  box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
-  ${
-    (props) => {
-      return props.isInline ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)' : ''
-    }
-  }
+  ${(props) => {
+    return props.isInline
+      ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)'
+      : ''
+  }}
 `
 
 export const AppPackageBlockContainer = styled.div`
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border-radius: 7px;
-    //display: flex;
-    //justify-content: center;
-    margin: .7em;
-    //border: 1px solid #e3e7e8;
-    background: #fff;
-    ${(props) => props.isHidden ? 'display:none;' : ''}
-    
-    box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
-    fieldset{
-      width:100%;
-    }
-    p {
-      font-size: 0.8em;
-      font-weight: 300;
-      color: gray;
-      line-height: 1.4em;
-    }
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-radius: 7px;
+  //display: flex;
+  //justify-content: center;
+  margin: 0.7em;
+  //border: 1px solid #e3e7e8;
+  background: #fff;
+  ${(props) => (props.isHidden ? 'display:none;' : '')}
 
-    .form-group{
-      //margin-bottom: 1rem;
-    }
-    
-    form.form {
+  box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
+  fieldset {
+    width: 100%;
+  }
+  p {
+    font-size: 0.8em;
+    font-weight: 300;
+    color: gray;
+    line-height: 1.4em;
+  }
+
+  .form-group {
+    //margin-bottom: 1rem;
+  }
+
+  form.form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .form-group {
       display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        &.error{
-          input {
-            border: 1px solid red;
-          }
+      flex-direction: column;
+      &.error {
+        input {
+          border: 1px solid red;
         }
-        .errors {
-          font-size: 0.7em;
-          color: red;
-          margin-left: 4px;
-        } 
       }
-    
-      label {
-        margin: 3px;
-        display: inline-block;
-        margin-bottom: .5rem;
+      .errors {
+        font-size: 0.7em;
+        color: red;
+        margin-left: 4px;
       }
-      input {
-        margin: 3px;
-        display: block;
-        padding: .375rem .75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-      }
-      button:not(:disabled):not(.disabled) {
-        cursor: pointer;
-      }
-      [type=reset], [type=submit], button, html [type=button] {
-          -webkit-appearance: button;
-      }
-      .elementsContainer{
-        display:flex;
-        flex-direction: column;
-      }
+    }
 
-      button.tuti {
-        color: #fff;
-        background-color: #007bff;
-        border-color: #007bff;
+    label {
+      margin: 3px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    input {
+      margin: 3px;
+      display: block;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    button:not(:disabled):not(.disabled) {
+      cursor: pointer;
+    }
+    [type='reset'],
+    [type='submit'],
+    button,
+    html [type='button'] {
+      -webkit-appearance: button;
+    }
+    .elementsContainer {
+      display: flex;
+      flex-direction: column;
+    }
 
-        display: inline-block;
-        font-weight: 400;
-        text-align: left;
-        white-space: break-word;
-        vertical-align: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        border: 1px solid transparent;
-        padding: .375rem .75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        border-radius: .25rem;
-        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-      }
+    button.tuti {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+
+      display: inline-block;
+      font-weight: 400;
+      text-align: left;
+      white-space: break-word;
+      vertical-align: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      border: 1px solid transparent;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: 0.25rem;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
   }
 `
 
@@ -522,32 +522,31 @@ export const AppPackageBlockButtonItem = styled.div`
 
 export const AppPackageBlockTextItem = styled.div`
   ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-400 font-light`}
-  a{
+  a {
     ${() => tw`text-sm text-gray-600 font-normal hover:text-gray-900`}
   }
-
 `
 
 export const UserAutoMessage = styled.div`
-    box-shadow: -1px 3px 3px 3px rgba(158,191,208,0.09);
-    border: 1px solid #f3f0f0;
-    height: 100vh;
-    width: 96vw;
-    overflow: scroll;
-    border-radius: 5px;
-    background: #fff;
-    /* -webkit-flex: 1; */
-    -ms-flex: 1;
-    /* flex: 1; */
-    /* align-self: end; */
-    margin-bottom: 10px;
+  box-shadow: -1px 3px 3px 3px rgba(158, 191, 208, 0.09);
+  border: 1px solid #f3f0f0;
+  height: 100vh;
+  width: 96vw;
+  overflow: scroll;
+  border-radius: 5px;
+  background: #fff;
+  /* -webkit-flex: 1; */
+  -ms-flex: 1;
+  /* flex: 1; */
+  /* align-self: end; */
+  margin-bottom: 10px;
 `
 
 export const UserAutoMessageBlock = styled.div`
-    height: 16px;
-    width: 96vw;
-    background: transparent;
-    margin-bottom: 10px;
+  height: 16px;
+  width: 96vw;
+  background: transparent;
+  margin-bottom: 10px;
 `
 
 export const AvatarSection = styled.div`
@@ -565,17 +564,16 @@ export const EditorSection = styled.div`
   -ms-grid-column: 2;
   /* stylelint-enable */
   grid-area: editor-area;
-  ${(props) => (
-    props.isInline ? `
+  ${(props) =>
+    props.isInline
+      ? `
     height: 69vh;
-    overflow: auto;` : ''
-  )}
+    overflow: auto;`
+      : ''}
 `
 
 export const InlineConversationWrapper = styled.div`
-
-    border: 1px solid red;
-
+  border: 1px solid red;
 `
 
 export const EditorWrapper = styled.div`
@@ -596,28 +594,23 @@ export const EditorWrapper = styled.div`
     position: absolute;
     bottom: 89px;
     width: 335px;
-    
+
     right: 20px;
     border: none;
 
-
-
-    //@media screen and (min-width: 1024px) and (max-width: 1280px) { 
-      //max-height: 73vh !important;
-      min-height: 174px;
+    //@media screen and (min-width: 1024px) and (max-width: 1280px) {
+    //max-height: 73vh !important;
+    min-height: 174px;
     //}
-   
+
     //@media screen and (min-width: 781px) and (max-width: 1024px) {
     //  height: 50vw !important;
     //}
-   
+
     //@media screen and (min-width: 320px) and (max-width: 780px) {
     //  height: 100vw !important;
     //}
-
   }
-
-
 `
 
 export const EditorActions = styled.div`
@@ -631,73 +624,67 @@ export const EditorActions = styled.div`
 `
 
 export const CommentsWrapper = styled.div`
-  ${(props) => (
-    props.isInline
-    ? 'padding-bottom: 0px;'
-     : 'padding-bottom: 105px;'
-  )}
+  ${(props) =>
+    props.isInline ? 'padding-bottom: 0px;' : 'padding-bottom: 105px;'}
   flex-grow: 1;
   flex-shrink: 0;
   justify-content: space-between;
   overflow-anchor: none;
   height: auto;
-  font-family: "Inter", Helvetica, arial, sans-serif;
+  font-family: 'Inter', Helvetica, arial, sans-serif;
 
-  ${(props) => (props.isReverse
-    ? `
-    flex-direction : column-reverse;` : `
+  ${(props) =>
+    props.isReverse
+      ? `
+    flex-direction : column-reverse;`
+      : `
       flex-direction: column;
-    `
-  )}
+    `}
   display: flex;
 `
 
 export const CommentsItem = styled.div`
-    padding: 12px;
-    /* background-color: #ccc; */
+  padding: 12px;
+  /* background-color: #ccc; */
+  border-bottom: 1px solid #ececec;
+  cursor: pointer;
+  &:hover {
+    background: aliceblue;
     border-bottom: 1px solid #ececec;
-    cursor: pointer;
-    &:hover{
-      background: aliceblue;
-      border-bottom: 1px solid #ececec;
-    }
+  }
 
-    transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
 
-    ${(props) => props.displayOpacity
-      ? 'opacity: 1;'
-      : 'opacity: 0;'
-    }
-    
+  ${(props) => (props.displayOpacity ? 'opacity: 1;' : 'opacity: 0;')}
 `
 
 export const Prime = styled.div`
-    position: relative;
-    display: block;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    text-align: center;
-    margin: 0 0;
-    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
-    cursor: pointer;
-    transition: all .1s ease-out;
-    position: relative;
-    z-index: 998;
-    //overflow: hidden;
-    color: ${(props) => textColor(props.theme.palette.secondary)};
-    background: ${(props) => props.theme.palette.secondary};
-    float: right;
-    //margin: 14px 27px;
-    margin: 16px 8px;
-    animation: ${rotate} 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  position: relative;
+  display: block;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  text-align: center;
+  margin: 0 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+  position: relative;
+  z-index: 998;
+  //overflow: hidden;
+  color: ${(props) => textColor(props.theme.palette.secondary)};
+  background: ${(props) => props.theme.palette.secondary};
+  float: right;
+  //margin: 14px 27px;
+  margin: 16px 8px;
+  animation: ${rotate} 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 `
 
 export const FooterAckInline = styled.div`
   width: 100%;
   padding-top: 4em;
   text-align: center;
-  display:flex;
+  display: flex;
   justify-content: center;
   a {
     display: flex;
@@ -731,36 +718,41 @@ export const FooterAck = styled(FooterAckInline)`
 
 export const CountBadge = styled.div`
 
-  ${() => tw`h-6 w-6 rounded-full text-white text-center p-1 absolute bg-red-600 text-xs`}
-  ${(props) => props.section === 'home'
-    ? `top: 42px;
-    left: 15px;` : ''
-  }
+  ${() =>
+    tw`h-6 w-6 rounded-full text-white text-center p-1 absolute bg-red-600 text-xs`}
+  ${(props) =>
+    props.section === 'home'
+      ? `top: 42px;
+    left: 15px;`
+      : ''}
 
   top: 0px;
   left: -8px;
 
-  ${(props) => props.section === 'conversation'
-  ? 'top: 13px;left: 7px;' : ''}
+  ${(props) => (props.section === 'conversation' ? 'top: 13px;left: 7px;' : '')}
 
-  ${(props) => props.section === 'conversations'
-  ? 'top: 13px;left: 7px;' : ''}
+  ${(props) =>
+    props.section === 'conversations' ? 'top: 13px;left: 7px;' : ''}
 }
 
 `
 
-export const Header = styled(({ isMobile, ...rest }) => (<div {...rest}></div>))`
+export const Header = styled(({ isMobile, ...rest }) => <div {...rest}></div>)`
   height: 75px;
   position: relative;
   min-height: 75px;
   background: ${(props) => props.theme.palette.primary};
-  background: linear-gradient(135deg, ${(props) => props.theme.palette.primary} 0%,${(props) => darken(0.2, props.theme.palette.primary)} 100%);
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.theme.palette.primary} 0%,
+    ${(props) => darken(0.2, props.theme.palette.primary)} 100%
+  );
   color: ${(props) => textColor(props.theme.palette.primary)};
   -webkit-transition: height 160ms ease-out;
   transition: height 160ms ease-out;
 
-  &:before{
-    content: "";
+  &:before {
+    content: '';
     top: 0px;
     left: 0px;
     bottom: 0px;
@@ -768,63 +760,67 @@ export const Header = styled(({ isMobile, ...rest }) => (<div {...rest}></div>))
     position: absolute;
     ${(props) => {
       return props.theme.palette.pattern
-      ? `
+        ? `
         opacity: 0.38; 
         background-image: url(${props.theme.palette.pattern});
-      ` : ''
+      `
+        : ''
     }}
     background-size: 610px 610px, cover;
     pointer-events: none;
   }
-
 `
 
 export const Body = styled.div`
-    position: relative;
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    background-color: #fff;
-    -webkit-box-shadow: inset 0 21px 4px -20px rgba(0,0,0,.2);
-    box-shadow: inset 0 21px 4px -20px rgba(0,0,0,.2);
+  position: relative;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-color: #fff;
+  -webkit-box-shadow: inset 0 21px 4px -20px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 21px 4px -20px rgba(0, 0, 0, 0.2);
 `
 
 export const Footer = styled.div`
+  z-index: 100000;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 6px 6px;
+  height: 90px;
+  /*pointer-events: none;*/
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(#fff),
+    to(rgba(255, 255, 255, 0))
+  );
+  background: linear-gradient(0deg, #fff, rgba(255, 255, 255, 0));
 
-    z-index: 100000;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: 0 0 6px 6px;
-    height: 90px;
-    /*pointer-events: none;*/
-    background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
-    background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
+  height: 38px;
+  margin: 25px 0 0px 0px;
+  font-size: 0.8em;
+  color: gray;
+  padding: 11px 0px 0px 0px;
 
-    height: 38px;
-    margin: 25px 0 0px 0px;
-    font-size: .8em;
-    color: gray;
-    padding: 11px 0px 0px 0px;
-
-
-    &.inline{
-      ${(props) => !props.isInputEnabled ? 'height: 0px;' : ''}
-      background: transparent;
-      bottom: 9px;
-      textarea {
-        border-radius: 8px !important;
-        box-shadow: 4px 4px 1px #00000061;
-        bottom: -2px;
-        left: 8px;
-        width: 96%;
-      }
-      input[type="file"]{
-        display: none;
-      }
+  &.inline {
+    ${(props) => (!props.isInputEnabled ? 'height: 0px;' : '')}
+    background: transparent;
+    bottom: 9px;
+    textarea {
+      border-radius: 8px !important;
+      box-shadow: 4px 4px 1px #00000061;
+      bottom: -2px;
+      left: 8px;
+      width: 96%;
     }
+    input[type='file'] {
+      display: none;
+    }
+  }
 `
 
 export const ConversationsFooter = styled.div`
@@ -843,20 +839,20 @@ export const ConversationsFooter = styled.div`
 `
 
 export const UserAutoChatAvatar = styled.div`
-    display:flex;
-    align-items: center;
-    span{
-      font-size: 0.8rem;
-      margin-left: 10px;
-      color: #b1b1b1;
-    }
-    img {
-      width: 40px;
-      height: 40px;
-      background: white;
-      text-align: center;
-      border-radius: 50%;
-    }
+  display: flex;
+  align-items: center;
+  span {
+    font-size: 0.8rem;
+    margin-left: 10px;
+    color: #b1b1b1;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    background: white;
+    text-align: center;
+    border-radius: 50%;
+  }
 `
 
 export const ReadIndicator = styled.div`
@@ -867,92 +863,98 @@ export const ReadIndicator = styled.div`
   left: 3px;
   top: 20px;
   border-radius: 50%;
-
 `
 
 export const MessageItem = styled.div`
-    position: relative;
-    //max-width: ${(props) => (props.messageSourceType === 'UserAutoMessage' ? '86%' : '60%')};
-    min-width: 25%;
-    display: block;
-    word-wrap: break-word;
-    -webkit-animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
-    animation: zoomIn .5s cubic-bezier(.42, 0, .58, 1);
-    clear: both;
-    z-index: 999;
-    margin: .7em 0;
-    
-    font-size: 15px;
+  position: relative;
+  //max-width: ${(props) =>
+    props.messageSourceType === 'UserAutoMessage' ? '86%' : '60%'};
+  min-width: 25%;
+  display: block;
+  word-wrap: break-word;
+  -webkit-animation: zoomIn 0.5s cubic-bezier(0.42, 0, 0.58, 1);
+  animation: zoomIn 0.5s cubic-bezier(0.42, 0, 0.58, 1);
+  clear: both;
+  z-index: 999;
+  margin: 0.7em 0;
 
-    &.admin {
-      align-self: flex-start;
-      display: flex;
-      flex-direction: row;
-      .message-content-wrapper {
-        background: #fff;
-        padding: 16px;
-        
-        margin: 8px 13px 0px 5px;
-        border-radius: 6px;
-        min-width: 80px;
-        
-        line-height: 1.5;
-        position: relative;
-        border-radius: 5px 5px 5px 0px;
+  font-size: 15px;
 
-        box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
+  &.admin {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    .message-content-wrapper {
+      background: #fff;
+      padding: 16px;
 
-        ${
-          (props) => {
-            return props.isInline ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)' : ''
-          }
-        }
-        
-      }
+      margin: 8px 13px 0px 5px;
+      border-radius: 6px;
+      min-width: 80px;
 
-      .text{
-        p{
-          color: #000;
-        }
-      }
+      line-height: 1.5;
+      position: relative;
+      border-radius: 5px 5px 5px 0px;
+
+      box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.1);
+
+      ${(props) => {
+        return props.isInline
+          ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)'
+          : ''
+      }}
     }
 
-    &.user {
-
-      .message-content-wrapper {
-        background: linear-gradient(135deg, ${(props) => props.theme.palette.primary} 0%,${(props) => darken(0.2, props.theme.palette.primary)} 100%);
-        color: ${(props) => textColor(props.theme.palette.primary)};
-
-        min-width: 80px;
-        padding: 16px;
-        margin: 5px;
-        margin-right: 10px;
-        border-radius: 6px;
-        min-width: 80px;
-        box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1);
-
-        ${
-          (props) => {
-            return props.isInline ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)' : ''
-          }
-        }
-
-        line-height: 1.5;
-        height: 100%;
-        position: relative;
-        border-radius: 5px 5px 0px 5px;
+    .text {
+      p {
+        color: #000;
       }
+    }
+  }
 
-      // hack on image from user, not use position absolute
-      .graf-image {
-        position: inherit !important;
-      }
+  &.user {
+    .message-content-wrapper {
+      background: linear-gradient(
+        135deg,
+        ${(props) => props.theme.palette.primary} 0%,
+        ${(props) => darken(0.2, props.theme.palette.primary)} 100%
+      );
+      color: ${(props) => textColor(props.theme.palette.primary)};
 
+      min-width: 80px;
+      padding: 16px;
+      margin: 5px;
+      margin-right: 10px;
+      border-radius: 6px;
+      min-width: 80px;
+      box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
-      ${(props) => (props.messageSourceType === 'UserAutoMessage' ? `
+      ${(props) => {
+        return props.isInline
+          ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)'
+          : ''
+      }}
+
+      line-height: 1.5;
+      height: 100%;
+      position: relative;
+      border-radius: 5px 5px 0px 5px;
+    }
+
+    // hack on image from user, not use position absolute
+    .graf-image {
+      position: inherit !important;
+    }
+
+    ${(props) =>
+      props.messageSourceType === 'UserAutoMessage'
+        ? `
         align-self: center;
         border: 1px solid #f1f0f0;
-      ` : `
+      `
+        : `
         align-self: flex-end;
         //background: ${mainColor};
         //margin-right: 20px;
@@ -960,38 +962,38 @@ export const MessageItem = styled.div`
         display: flex;
         flex-direction: row-reverse;
 
-      `)}
+      `}
 
-      a{
-        color: white;
-      }
-
-      color: #eceff1; 
-
-      .text{
-        p{
-          color: #fff;
-        }
-      }
+    a {
+      color: white;
     }
 
-    .text{
-      margin-bottom: 1em;
-      color: #eceff1; 
-      p{
-        font-size: 0.86rem;
-        margin: 0px;
-        padding: 0px;
+    color: #eceff1;
+
+    .text {
+      p {
+        color: #fff;
       }
     }
+  }
 
-    .status {
-      display: flex;
-      justify-content: flex-end;
-      color: #b1afaf;
-      font-size: 10px;
-      text-align: right;
+  .text {
+    margin-bottom: 1em;
+    color: #eceff1;
+    p {
+      font-size: 0.86rem;
+      margin: 0px;
+      padding: 0px;
     }
+  }
+
+  .status {
+    display: flex;
+    justify-content: flex-end;
+    color: #b1afaf;
+    font-size: 10px;
+    text-align: right;
+  }
 `
 
 export const HeaderOption = styled.div`
@@ -1012,13 +1014,13 @@ export const HeaderOption = styled.div`
 
 export const HeaderTitle = styled.span`
   ${() => tw`space-y-2`}
-  .title{
+  .title {
     //font-size: 2em;
     //font-weight: bold;
     //margin: 0em 0.2em;
     ${() => tw`text-3xl antialiased font-bold`}
   }
-  p.tagline{
+  p.tagline {
     //margin: 0.6em 0.3em;
     //line-height: 1.6em;
     ${() => tw`text-sm antialiased font-light mb-3`}
@@ -1027,52 +1029,52 @@ export const HeaderTitle = styled.span`
 `
 
 export const HeaderAvatar = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  align-self: center;
+  //margin-left: 15px;
+  color: ${(props) => textColor(props.theme.palette.primary)};
+
+  img {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 50%;
+  }
+
+  div {
     display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-    align-self: center;
-    //margin-left: 15px;
-    color: ${(props) => textColor(props.theme.palette.primary)};
-
-    img {
-      width: 40px;
-      height: 40px;
-      text-align: center;
-      border-radius: 50%;
+    flex-flow: column;
+    margin-left: 0.6em;
+    p {
+      padding: 0px;
+      margin: 0px;
     }
-
-    div{
-      display: flex;
-      flex-flow: column;
-      margin-left: .6em;
-      p {
-        padding: 0px;
-        margin: 0px;
-      }
-    }
+  }
 `
 
 export const ChatAvatar = styled.div`
-    //left: -52px;
-    //background: rgba(0, 0, 0, 0.03);
-    //position: absolute;
-    //top: 0;
+  //left: -52px;
+  //background: rgba(0, 0, 0, 0.03);
+  //position: absolute;
+  //top: 0;
 
-    align-self: flex-end;
+  align-self: flex-end;
 
-    img {
-      width: 40px;
-      height: 40px;
-      background: white;
-      text-align: center;
-      border-radius: 50%;
-    }
+  img {
+    width: 40px;
+    height: 40px;
+    background: white;
+    text-align: center;
+    border-radius: 50%;
+  }
 `
 
 export const AnchorButton = styled.a`
   text-decoration: none;
   background-color: ${(props) => props.theme.palette.secondary};
-  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   height: 40px;
   color: ${(props) => textColor(props.theme.palette.secondary)} !important;
   font-size: 13px;
@@ -1088,59 +1090,56 @@ export const AnchorButton = styled.a`
 `
 
 export const NewConvoBtnContainer = styled.div`
-position: absolute;
-bottom: 77px;
-width: 100%;
-padding: 0 37px;
-display:flex;
-justify-content: center;
+  position: absolute;
+  bottom: 77px;
+  width: 100%;
+  padding: 0 37px;
+  display: flex;
+  justify-content: center;
 `
 // ${(props) => FadeBottomAnimation(props)}
 
-export const NewConvoBtn = styled(AnchorButton)`
-
-`
+export const NewConvoBtn = styled(AnchorButton)``
 
 export const ConversationSummary = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    align-content: stretch;
-    position: relative;
-    padding: 6px;
-
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: stretch;
+  position: relative;
+  padding: 6px;
 `
 
 export const ConversationSummaryAvatar = styled.div`
-      flex: 0 0 auto;
-      align-self: flex-end;
-      margin-left: 15px;
-      img {
-        width: 40px;
-        height: 40px;
-        background: white;
-        text-align: center;
-        border-radius: 50%;
-      }
+  flex: 0 0 auto;
+  align-self: flex-end;
+  margin-left: 15px;
+  img {
+    width: 40px;
+    height: 40px;
+    background: white;
+    text-align: center;
+    border-radius: 50%;
+  }
 `
 
 export const ConversationSummaryBody = styled.div`
-      flex: 1;
-      padding-left: 16px;    
+  flex: 1;
+  padding-left: 16px;
 `
 
 export const ConversationSummaryBodyMeta = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;   
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
 `
 
 export const ConversationSummaryBodyItems = styled.div`
   display: flex;
   font-size: 12px;
-  .you{
-    margin-right:5px;
+  .you {
+    margin-right: 5px;
   }
 `
 export const ConversationSummaryBodyContent = styled.div`
@@ -1148,7 +1147,7 @@ export const ConversationSummaryBodyContent = styled.div`
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  //padding-left: 16px;    
+  //padding-left: 16px;
   font-weight: 300;
   p {
     margin: 0px;
@@ -1172,7 +1171,6 @@ export const Hint = styled.p`
     height: 100%;*/
 
   ${() => tw`text-sm leading-5 text-gray-500 h-full p-8 bg-gray-100`}
-
 `
 
 export const SpinnerAnim = keyframes`
@@ -1193,7 +1191,7 @@ export const Spinner = styled.div`
     border-radius: 50%;
     border: 2px solid #ccc;
     border-top-color: #000;
-    animation: ${SpinnerAnim} .6s linear infinite;
-    display:inline-block;
+    animation: ${SpinnerAnim} 0.6s linear infinite;
+    display: inline-block;
   }
 `

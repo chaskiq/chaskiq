@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 
 import TextEditor from '../textEditor'
-import { 
+import {
   DanteImagePopoverConfig,
-   DanteAnchorPopoverConfig, 
-   DanteTooltipConfig ,
-   utils,
-   Icons,
+  DanteAnchorPopoverConfig,
+  DanteTooltipConfig,
+  utils,
+  Icons,
 } from 'Dante2'
 
 import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
 
-const {html2content} = utils // from 'Dante2/package/es/utils/html2content.js'
+const { html2content } = utils // from 'Dante2/package/es/utils/html2content.js'
 import { Map } from 'immutable'
 import { EditorState, convertToRaw } from 'draft-js' // { compose
 
@@ -24,17 +24,11 @@ import EditorContainer from '../textEditor/editorStyles'
 
 import styled from '@emotion/styled'
 
-import {
-  AppPackageBlockConfig
-} from '../textEditor/blocks/appPackage'
+import { AppPackageBlockConfig } from '../textEditor/blocks/appPackage'
 
-import {
-  OnDemandTriggersBlockConfig
-} from '../textEditor/blocks/onDemandTriggers'
+import { OnDemandTriggersBlockConfig } from '../textEditor/blocks/onDemandTriggers'
 
-import {
-  QuickRepliesBlockConfig
-} from '../textEditor/blocks/quickReplies'
+import { QuickRepliesBlockConfig } from '../textEditor/blocks/quickReplies'
 
 import AppPackagePanel from './appPackagePanel'
 import TriggersPanel from './triggersPanel'
@@ -103,13 +97,11 @@ const FallbackNotice = styled.span`
 const SubmitButton = function (props) {
   return (
     <button
-      className={
-        `flex w-1/6 justify-center
+      className={`flex w-1/6 justify-center
         bg-white hover:bg-gray-100 
         text-gray-800 font-semibold py-2 
         px-3 border-l border-gray-400 shadow items-center m-2 
-        rounded border`
-      }
+        rounded border`}
       onClick={props.onClick}
       disabled={props.disabled}
     >
@@ -119,7 +111,7 @@ const SubmitButton = function (props) {
 }
 
 export default class ChatEditor extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: true,
@@ -134,7 +126,7 @@ export default class ChatEditor extends Component {
       openQuickReplyPanel: false,
       disabled: true,
       openGiphy: false,
-      read_only: false
+      read_only: false,
     }
 
     this.fallbackEditor = this.isMobile()
@@ -163,7 +155,7 @@ export default class ChatEditor extends Component {
       }
     }
     return hasTouchScreen
-  };
+  }
 
   tooltipsConfig = () => {
     const inlineMenu = {
@@ -180,7 +172,7 @@ export default class ChatEditor extends Component {
         'footer',
         'column',
         'jumbo',
-        'button'
+        'button',
       ],
 
       widget_options: {
@@ -188,8 +180,18 @@ export default class ChatEditor extends Component {
 
         block_types: [
           { label: 'p', style: 'unstyled', icon: Icons.bold },
-          { label: 'h2', style: 'header-one', type: 'block', icon: Icons.h1 },
-          { label: 'h3', style: 'header-two', type: 'block', icon: Icons.h2 },
+          {
+            label: 'h2',
+            style: 'header-one',
+            type: 'block',
+            icon: Icons.h1,
+          },
+          {
+            label: 'h3',
+            style: 'header-two',
+            type: 'block',
+            icon: Icons.h2,
+          },
 
           { type: 'separator' },
           { type: 'link' },
@@ -198,7 +200,7 @@ export default class ChatEditor extends Component {
             label: 'blockquote',
             style: 'blockquote',
             type: 'block',
-            icon: Icons.blockquote
+            icon: Icons.blockquote,
           },
 
           { type: 'separator' },
@@ -207,17 +209,22 @@ export default class ChatEditor extends Component {
             label: 'code',
             style: 'code-block',
             type: 'block',
-            icon: Icons.code
+            icon: Icons.code,
           },
-          { label: 'bold', style: 'BOLD', type: 'inline', icon: Icons.bold },
+          {
+            label: 'bold',
+            style: 'BOLD',
+            type: 'inline',
+            icon: Icons.bold,
+          },
           {
             label: 'italic',
             style: 'ITALIC',
             type: 'inline',
-            icon: Icons.italic
-          }
-        ]
-      }
+            icon: Icons.italic,
+          },
+        ],
+      },
     }
 
     const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu)
@@ -226,18 +233,18 @@ export default class ChatEditor extends Component {
       DanteImagePopoverConfig(),
       DanteAnchorPopoverConfig(),
       DanteInlineTooltipConfig(),
-      menuConfig
+      menuConfig,
       // DanteMarkdownConfig()
     ]
-  };
+  }
 
   uploadHandler = ({ serviceUrl, imageBlock }) => {
     imageBlock.uploadCompleted(serviceUrl, () => {
       this.setDisabled(false)
     })
-  };
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     // this breaks anchors render on editor
     //this.editorRef.current &&
     //this.editorRef.current.refs.editor &&
@@ -250,46 +257,45 @@ export default class ChatEditor extends Component {
         status: 'saving...',
         statusButton: 'success',
         html: content.html,
-        serialized: content.serialized
+        serialized: content.serialized,
       },
       () =>
         this.props.saveContentCallback &&
         this.props.saveContentCallback(content)
     )
-  };
+  }
 
   handleSubmit = () => {
     const { html, serialized, _text } = this.state
     this.props.submitData({ html, serialized })
-  };
+  }
 
-  saveHandler = (_html3, _plain, _serialized) => {
-  };
+  saveHandler = (_html3, _plain, _serialized) => {}
 
   setDisabled = (val) => {
     this.setState({ disabled: val })
-  };
+  }
 
   isDisabled = () => {
     return (
       this.state.html === '<p className="graf graf--p"></p>' ||
       this.state.disabled
     )
-  };
+  }
 
   handleAppFunc = () => {
     this.setState({ openPackagePanel: true })
-  };
+  }
 
   handleBotFunc = () => {
     this.setState({ openTriggersPanel: true })
-  };
+  }
 
   handleQuickRepliesFunc = () => {
     this.setState({ openQuickReplyPanel: true })
   }
 
-  render () {
+  render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
       : null
@@ -307,7 +313,7 @@ export default class ChatEditor extends Component {
               insertComment={(data) => {
                 this.props.insertAppBlockComment(data, () => {
                   this.setState({
-                    openPackagePanel: false
+                    openPackagePanel: false,
                   })
                 })
               }}
@@ -323,7 +329,7 @@ export default class ChatEditor extends Component {
               insertComment={(data) => {
                 this.props.insertComment(data, () => {
                   this.setState({
-                    openQuickReplyPanel: false
+                    openQuickReplyPanel: false,
                   })
                 })
               }}
@@ -339,7 +345,7 @@ export default class ChatEditor extends Component {
               insertComment={(data) => {
                 this.props.insertAppBlockComment(data, () => {
                   this.setState({
-                    openTriggersPanel: false
+                    openTriggersPanel: false,
                   })
                 })
               }}
@@ -368,31 +374,35 @@ export default class ChatEditor extends Component {
                 //ref={this.editorRef} // this breaks the anchors on editor
                 handleReturn={(e, isEmptyDraft) => {
                   if (isEmptyDraft || this.isDisabled()) return
-                  if (this.props.sendMode == 'enter' && !e.nativeEvent.shiftKey) {
+                  if (
+                    this.props.sendMode == 'enter' &&
+                    !e.nativeEvent.shiftKey
+                  ) {
                     return this.handleSubmit()
                   }
                 }}
                 toggleEditable={() => {
-                  this.setState({ read_only: !this.state.read_only })
+                  this.setState({
+                    read_only: !this.state.read_only,
+                  })
                 }}
-
                 appendWidgets={[
                   AppPackageBlockConfig({
-                    handleFunc: this.handleAppFunc
+                    handleFunc: this.handleAppFunc,
                   }),
                   OnDemandTriggersBlockConfig({
-                    handleFunc: this.handleBotFunc
+                    handleFunc: this.handleBotFunc,
                   }),
                   QuickRepliesBlockConfig({
-                    handleFunc: this.handleQuickRepliesFunc
-                  })
+                    handleFunc: this.handleQuickRepliesFunc,
+                  }),
                 ]}
                 data={{
-                  serialized_content: serializedContent
+                  serialized_content: serializedContent,
                 }}
                 styles={{
                   lineHeight: '2em',
-                  fontSize: '1.2em'
+                  fontSize: '1.2em',
                 }}
                 saveHandler={this.saveHandler}
                 updateState={({ _status, _statusButton, content }) => {
@@ -402,49 +412,48 @@ export default class ChatEditor extends Component {
             )}
           </ChatEditorInput>
 
-          {
-            this.props.sendMode != 'enter' && <SubmitButton
+          {this.props.sendMode != 'enter' && (
+            <SubmitButton
               onClick={this.handleSubmit}
               disabled={this.state.disabled}
             />
-          }
-
+          )}
         </EditorContainer>
       </ThemeProvider>
     )
   }
 }
 
-function FallbackEditor ({ insertComment, setDisabled, loading, saveContent }) {
+function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
   const input = React.createRef()
 
-  function convertToDraft (sampleMarkup) {
+  function convertToDraft(sampleMarkup) {
     const blockRenderMap = Map({
       image: {
-        element: 'figure'
+        element: 'figure',
       },
       video: {
-        element: 'figure'
+        element: 'figure',
       },
       embed: {
-        element: 'div'
+        element: 'div',
       },
       unstyled: {
         wrapper: null,
-        element: 'div'
+        element: 'div',
       },
       paragraph: {
         wrapper: null,
-        element: 'div'
+        element: 'div',
       },
       placeholder: {
         wrapper: null,
-        element: 'div'
+        element: 'div',
       },
       'code-block': {
         element: 'pre',
-        wrapper: null
-      }
+        wrapper: null,
+      },
     })
 
     const contentState = html2content(sampleMarkup, blockRenderMap)
@@ -452,30 +461,30 @@ function FallbackEditor ({ insertComment, setDisabled, loading, saveContent }) {
     return JSON.stringify(convertToRaw(fstate2.getCurrentContent()))
   }
 
-  function handleUp () {
+  function handleUp() {
     setDisabled(!input.current.value)
     if (input.current.value === '') return
 
     saveContent({
       html: input.current.value,
-      serialized: convertToDraft(input.current.value)
+      serialized: convertToDraft(input.current.value),
     })
   }
 
-  function handleReturn (e) {
+  function handleReturn(e) {
     if (e.key === 'Enter') {
       handleSubmit(e)
     }
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
     if (input.current.value === '') return
 
     insertComment(
       {
         html: input.current.value,
-        serialized: convertToDraft(input.current.value)
+        serialized: convertToDraft(input.current.value),
       },
       () => {
         input.current.value = ''

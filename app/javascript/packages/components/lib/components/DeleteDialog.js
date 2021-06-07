@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import FormDialog from './FormDialog'
 import Button from './Button'
 
-export default function DeleteDialog ({
+export default function DeleteDialog({
   children,
   title,
   deleteHandler,
-  closeHandler
+  closeHandler,
 }) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -14,7 +14,7 @@ export default function DeleteDialog ({
     setIsOpen(true)
   }, [])
 
-  function close () {
+  function close() {
     setIsOpen(false)
     closeHandler && closeHandler()
   }

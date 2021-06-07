@@ -81,7 +81,7 @@ const LoadingWrapper = styled.div`
   }
 `
 
-export default function LoadingView ({ onClick }) {
+export default function LoadingView({ onClick }) {
   return (
     <LoadingWrapper>
       <section className="wrapper" onClick={onClick}>

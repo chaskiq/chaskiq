@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function List ({ children, shadowless }) {
+export default function List({ children, shadowless }) {
   return (
     <div
       className={`
@@ -13,7 +13,7 @@ export default function List ({ children, shadowless }) {
   )
 }
 
-export function ListItem ({ avatar, action, children, onClick, divider }) {
+export function ListItem({ avatar, action, children, onClick, divider }) {
   const clicableClasses = onClick && 'cursor-pointer'
 
   return (
@@ -56,10 +56,12 @@ export function ListItem ({ avatar, action, children, onClick, divider }) {
   )
 }
 
-export function ListItemText ({ primary, secondary, terciary, cols }) {
+export function ListItemText({ primary, secondary, terciary, cols }) {
   const colsMd = cols ? cols : 2
   return (
-    <div className={`min-w-0 flex-1 px-4 md:grid md:grid-cols-${colsMd} md:gap-4`}>
+    <div
+      className={`min-w-0 flex-1 px-4 md:grid md:grid-cols-${colsMd} md:gap-4`}
+    >
       <div>
         {primary && primary}
 
@@ -67,23 +69,21 @@ export function ListItemText ({ primary, secondary, terciary, cols }) {
       </div>
 
       <div className="hidden md:block">
-        <div>
-          {terciary && terciary}
-        </div>
+        <div>{terciary && terciary}</div>
       </div>
     </div>
   )
 }
 
-export function ItemAvatar ({ avatar }) {
+export function ItemAvatar({ avatar }) {
   return (
     <div className="flex-shrink-0">
-      <img className="h-12 w-12 rounded-full" src={avatar} alt="" />
+      <img className="h-12 w-12 rounded-full dark:bg-white" src={avatar} alt="" />
     </div>
   )
 }
 
-export function ItemListPrimaryContent ({ children }) {
+export function ItemListPrimaryContent({ children }) {
   return (
     <div className="text-lg leading-5 font-medium text-gray-600 dark:text-gray-200 truncate">
       {children}
@@ -91,7 +91,7 @@ export function ItemListPrimaryContent ({ children }) {
   )
 }
 
-export function ItemListSecondaryContent ({ children }) {
+export function ItemListSecondaryContent({ children }) {
   return (
     <div className="mt-2 flex items-center text-sm leading-5 text-gray-500 dark:text-gray-300">
       {/* <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">

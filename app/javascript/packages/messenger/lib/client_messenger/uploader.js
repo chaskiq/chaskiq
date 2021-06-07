@@ -1,9 +1,6 @@
 import { DirectUpload } from '@rails/activestorage/src/direct_upload'
 
-export function imageUpload (
-  file,
-  props = false
-) {
+export function imageUpload(file, props = false) {
   return new Promise((resolve) => {
     if (props) {
       props.onLoading()
@@ -20,13 +17,11 @@ export function imageUpload (
         props.onError(error)
       } else {
         if (props) {
-          props.onSuccess(
-            {
-              link: blob.service_url,
-              filename: blob.filename,
-              content_type: blob.content_type
-            }
-          )
+          props.onSuccess({
+            link: blob.service_url,
+            filename: blob.filename,
+            content_type: blob.content_type,
+          })
         }
         resolve({ data: { ...blob, link: blob.service_url } })
       }

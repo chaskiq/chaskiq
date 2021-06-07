@@ -3,7 +3,7 @@ import {
   conversationAttributesFragment,
   converstionMessagesFragment,
   conversationLastMessageFragment,
-  appFragment
+  appFragment,
 } from './fragments.mjs'
 
 export const APPS = `
@@ -15,7 +15,7 @@ query Apps{
     tagline
   }  
 }
-`;
+`
 
 export const APP = `
   query App($appKey: String!){
@@ -23,7 +23,7 @@ export const APP = `
       ${appFragment}
     }
   }
-`;
+`
 
 export const OAUTH_APPS = `
   query App($appKey: String!){
@@ -39,7 +39,7 @@ export const OAUTH_APPS = `
       }
     }
   }
-`;
+`
 
 export const OAUTH_APP = `
   query App($appKey: String!, $uid: String!){
@@ -55,7 +55,7 @@ export const OAUTH_APP = `
       }
     }
   }
-`;
+`
 
 export const AUTHORIZED_OAUTH_APPS = `
   query App($appKey: String!){
@@ -71,7 +71,7 @@ export const AUTHORIZED_OAUTH_APPS = `
       }
     }
   }
-`;
+`
 
 export const AGENTS = `
   query App($appKey: String!){
@@ -85,7 +85,7 @@ export const AGENTS = `
       }
     }
   }
-`;
+`
 
 export const ROLE_AGENTS = `
   query App($appKey: String!) { 
@@ -107,7 +107,7 @@ export const ROLE_AGENTS = `
       }
     }
   }
-`;
+`
 
 export const PENDING_AGENTS = `
   query App($appKey: String!){
@@ -124,7 +124,7 @@ export const PENDING_AGENTS = `
       }
     }
   }
-`;
+`
 
 export const AGENT = `
   query App($appKey: String!, $id: Int!, $page: Int, $per: Int){
@@ -180,7 +180,7 @@ export const AGENT = `
       }
     }
   }
-`;
+`
 
 export const SEGMENT = `
   query App($appKey: String!, $id: Int!){
@@ -197,8 +197,7 @@ export const SEGMENT = `
       }
     }
   }
-`;
-
+`
 
 export const CONVERSATIONS = `
   query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String, $term: String){
@@ -260,7 +259,7 @@ export const CONVERSATIONS = `
       }
     }
   }
-`;
+`
 
 export const CONVERSATIONS_COUNTS = `
   query App($appKey: String!){
@@ -275,9 +274,9 @@ export const CONVERSATIONS_COUNTS = `
       }
     }
   }
-`;
+`
 
-export const CONVERSATION=`
+export const CONVERSATION = `
   query App($appKey: String!, $id: String!, $page: Int){
     app(key: $appKey) {
       key
@@ -285,9 +284,9 @@ export const CONVERSATION=`
       ${conversationFragment}
   }
 }
-`;
+`
 
-export const CONVERSATION_WITH_LAST_MESSAGE=`
+export const CONVERSATION_WITH_LAST_MESSAGE = `
   query App($appKey: String!, $id: String!){
     app(key: $appKey) {
       key
@@ -298,8 +297,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE=`
       }
     }
   }
-`;
-
+`
 
 export const CURRENT_USER = `
   query CurrentUser {
@@ -310,7 +308,7 @@ export const CURRENT_USER = `
       available
     }
   }
-`;
+`
 
 export const APP_USER = `
 query AppUser($appKey: String!, $id: Int! ) {
@@ -352,9 +350,9 @@ query AppUser($appKey: String!, $id: Int! ) {
     }
   }
 }
-`;
+`
 
-export const APP_USER_CONVERSATIONS=`
+export const APP_USER_CONVERSATIONS = `
 query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
@@ -382,9 +380,9 @@ query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
     } 
   }
 }
-`;
+`
 
-export const APP_USER_VISITS=`
+export const APP_USER_VISITS = `
 query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
@@ -406,7 +404,7 @@ query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
     } 
   }
 }
-`;
+`
 
 export const CAMPAIGNS = `
 query Campaigns($appKey: String!, $mode: String!){
@@ -433,13 +431,13 @@ query Campaigns($appKey: String!, $mode: String!){
     }
   }
 }
-`;
+`
 
 export const CAMPAIGN_SUBSCRIPTION_TOGGLE = `
   query CampaignSubscriptionToggle($encoded: String!, $op: Boolean){
     campaignSubscriptionToggle(encoded: $encoded, op: $op)
   }
-`;
+`
 
 export const CAMPAIGN = `
 query Campaign($appKey: String!, $mode: String!, $id: String!){
@@ -468,7 +466,7 @@ query Campaign($appKey: String!, $mode: String!, $id: String!){
     }
   }
 }
-`;
+`
 
 export const CAMPAIGN_METRICS = `
 query Campaign($appKey: String!, $mode: String!, $id: String!, $page: Int, $per: Int){
@@ -492,7 +490,7 @@ query Campaign($appKey: String!, $mode: String!, $id: String!, $page: Int, $per:
     }
   }
 }
-`;
+`
 
 export const ASSIGNMENT_RULES = `
   query AssingmentRules($appKey: String!){
@@ -510,7 +508,7 @@ export const ASSIGNMENT_RULES = `
       }
     }
   }
-`;
+`
 
 export const QUICK_REPLIES = `
   query App($appKey: String!, $lang: String, $q: String){
@@ -522,7 +520,7 @@ export const QUICK_REPLIES = `
       }
     }
   }
-`;
+`
 
 export const QUICK_REPLY = `
   query App($appKey: String!, $id: Int!, $lang: String){
@@ -534,7 +532,7 @@ export const QUICK_REPLY = `
       }
     }
   }
-`;
+`
 
 export const ARTICLE_SETTINGS = `
   query App($appKey: String!){
@@ -551,6 +549,7 @@ export const ARTICLE_SETTINGS = `
         siteDescription
         siteTitle
         subdomain
+        domain
         twitter
         website
         langs
@@ -559,7 +558,7 @@ export const ARTICLE_SETTINGS = `
       }
     }
   }
-`;
+`
 
 export const ARTICLES = `
   query App($appKey: String!, $page: Int!, $per: Int, $lang: String, $mode: String, $search: String){
@@ -589,7 +588,7 @@ export const ARTICLES = `
       }
     }
   }
-`;
+`
 
 export const ARTICLES_UNCATEGORIZED = `
   query App($appKey: String!, $page: Int!, $per: Int){
@@ -618,7 +617,7 @@ export const ARTICLES_UNCATEGORIZED = `
       }
     }
   }
-`;
+`
 
 export const ARTICLE = `
   query App($appKey: String!, $id: String!, $lang: String){
@@ -650,7 +649,7 @@ export const ARTICLE = `
       }
     }
   }
-`;
+`
 
 export const ARTICLE_COLLECTIONS = `
   query ArticleCollections($appKey: String!, $lang: String){
@@ -664,7 +663,7 @@ export const ARTICLE_COLLECTIONS = `
       }
     }
   }
-`;
+`
 
 export const ARTICLE_COLLECTION = `
   query ArticleCollections($appKey: String!, $id: String!, $lang: String){
@@ -678,7 +677,7 @@ export const ARTICLE_COLLECTION = `
       }
     }
   }
-`;
+`
 
 export const ARTICLE_COLLECTION_WITH_SECTIONS = `
   query ArticleCollections($appKey: String!, $id: String!, $lang: String){
@@ -720,7 +719,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
       }
     }
   }
-`;
+`
 
 export const BOT_TASKS = `
   query BotTasks($appKey: String!, $lang: String, $mode: String, $filters: Json){
@@ -734,7 +733,7 @@ export const BOT_TASKS = `
       }
     }
   }
-`;
+`
 
 export const BOT_TASK = `
   query BotTask($appKey: String!, $id: String!, $lang: String){
@@ -757,7 +756,7 @@ export const BOT_TASK = `
       }
     }
   }
-`;
+`
 
 export const BOT_TASK_METRICS = `
   query BotTask($appKey: String!, $id: String!, $lang: String,  $page: Int, $per: Int){
@@ -783,7 +782,7 @@ export const BOT_TASK_METRICS = `
       }
     }
   }
-`;
+`
 
 export const DASHBOARD = `
   query Dashboard($appKey: String!, $range: Json!, $kind: String! )  {
@@ -791,7 +790,7 @@ export const DASHBOARD = `
       dashboard(range: $range, kind: $kind)
     }
   }
-`;
+`
 
 export const APP_PACKAGES = `
   query App($appKey: String!){
@@ -806,7 +805,7 @@ export const APP_PACKAGES = `
       }
     }
   }
-`;
+`
 
 export const AGENT_APP_PACKAGES = `
   query App($appKey: String!){
@@ -827,7 +826,7 @@ export const AGENT_APP_PACKAGES = `
       }
     }
   }
-`;
+`
 
 export const APP_PACKAGE = `
   query App($appKey: String!, $id: String!){
@@ -842,7 +841,7 @@ export const APP_PACKAGE = `
       }
     }
   }
-`;
+`
 
 export const AGENT_APP_PACKAGE = `
   query App($appKey: String!, $id: String!){
@@ -863,7 +862,7 @@ export const AGENT_APP_PACKAGE = `
       }
     }
   }
-`;
+`
 
 export const APP_PACKAGES_BY_CAPABILITY = `
   query App($appKey: String!, $kind: String!) { 
@@ -878,7 +877,7 @@ export const APP_PACKAGES_BY_CAPABILITY = `
       }
     }
   }
-`;
+`
 
 export const APP_PACKAGE_HOOK = `
   query App($appKey: String!, $id: String!, $hooKind: String!, $ctx: Json!) { 
@@ -893,7 +892,7 @@ export const APP_PACKAGE_HOOK = `
       }
     }
   }
-`;
+`
 
 export const EVENT_TYPES = `
   query App($appKey: String!){
@@ -901,7 +900,7 @@ export const EVENT_TYPES = `
       eventTypes
     }
   }
-`;
+`
 
 export const OUTGOING_WEBHOOKS = `
   query App($appKey: String!){
@@ -909,7 +908,7 @@ export const OUTGOING_WEBHOOKS = `
       outgoingWebhooks
     }
   }
-`;
+`
 
 export const EDITOR_APP_PACKAGES = `
   query App($appKey: String!){
@@ -924,7 +923,7 @@ export const EDITOR_APP_PACKAGES = `
       }
     }
   }
-`;
+`
 
 export const APP_PACKAGE_INTEGRATIONS = `
   query App($appKey: String!){
@@ -943,7 +942,7 @@ export const APP_PACKAGE_INTEGRATIONS = `
       }
     }
   }
-`;
+`
 
 export const PLANS = `
   query App($appKey: String!){
@@ -951,7 +950,7 @@ export const PLANS = `
       plans
     }
   }
-`;
+`
 
 export const USER_TRANSACTIONS = `
   query App($appKey: String!){
@@ -959,7 +958,7 @@ export const USER_TRANSACTIONS = `
       userTransactions
     }
   }
-`;
+`
 
 export const SUBSCRIPTION_TRANSACTIONS = `
   query App($appKey: String!){
@@ -967,75 +966,74 @@ export const SUBSCRIPTION_TRANSACTIONS = `
       subscriptionTransactions
     }
   }
-`;
+`
 
-export const SUBSCRIPTION_DETAILS=`
+export const SUBSCRIPTION_DETAILS = `
   query App($appKey: String!){
     app(key: $appKey) {
       subscriptionDetails
     }
   }
-`;
+`
 
-export const UPDATE_SUBSCRIPTION_PLAN=`
+export const UPDATE_SUBSCRIPTION_PLAN = `
   query App($appKey: String!, $planId: Int! ){
     app(key: $appKey) {
       updateSubscriptionPlan(planId: $planId)
     }
   }
-`;
-
+`
 
 export default {
-APPS,
-APP,
-OAUTH_APPS,
-OAUTH_APP,
-AUTHORIZED_OAUTH_APPS,
-AGENTS,
-ROLE_AGENTS,
-PENDING_AGENTS,
-AGENT,
-SEGMENT,
-CONVERSATIONS,
-CONVERSATIONS_COUNTS,
-CONVERSATION,
-CONVERSATION_WITH_LAST_MESSAGE,
-CURRENT_USER,
-APP_USER,
-APP_USER_CONVERSATIONS,
-APP_USER_VISITS,
-CAMPAIGNS,
-CAMPAIGN_SUBSCRIPTION_TOGGLE,
-CAMPAIGN,
-CAMPAIGN_METRICS,
-ASSIGNMENT_RULES,
-QUICK_REPLIES,
-QUICK_REPLY,
-ARTICLE_SETTINGS,
-ARTICLES,
-ARTICLES_UNCATEGORIZED,
-ARTICLE,
-ARTICLE_COLLECTIONS,
-ARTICLE_COLLECTION,
-ARTICLE_COLLECTION_WITH_SECTIONS,
-BOT_TASKS,
-BOT_TASK,
-BOT_TASK_METRICS,
-DASHBOARD,
-APP_PACKAGES,
-AGENT_APP_PACKAGES,
-APP_PACKAGE,
-AGENT_APP_PACKAGE,
-APP_PACKAGES_BY_CAPABILITY,
-APP_PACKAGE_HOOK,
-EVENT_TYPES,
-OUTGOING_WEBHOOKS,
-EDITOR_APP_PACKAGES,
-APP_PACKAGE_INTEGRATIONS,
-PLANS,
-USER_TRANSACTIONS,
-SUBSCRIPTION_TRANSACTIONS,
-SUBSCRIPTION_DETAILS,
-UPDATE_SUBSCRIPTION_PLAN
+  APPS,
+  APP,
+  OAUTH_APPS,
+  OAUTH_APP,
+  AUTHORIZED_OAUTH_APPS,
+  AGENTS,
+  ROLE_AGENTS,
+  PENDING_AGENTS,
+  AGENT,
+  SEGMENT,
+  CONVERSATIONS,
+  CONVERSATIONS_COUNTS,
+  CONVERSATION,
+  CONVERSATION_WITH_LAST_MESSAGE,
+  CURRENT_USER,
+  APP_USER,
+  APP_USER_CONVERSATIONS,
+  APP_USER_VISITS,
+  CAMPAIGNS,
+  CAMPAIGN_SUBSCRIPTION_TOGGLE,
+  CAMPAIGN,
+  CAMPAIGN_METRICS,
+  ASSIGNMENT_RULES,
+  QUICK_REPLIES,
+  QUICK_REPLY,
+  ARTICLE_SETTINGS,
+  ARTICLES,
+  ARTICLES_UNCATEGORIZED,
+  ARTICLE,
+  ARTICLE_COLLECTIONS,
+  ARTICLE_COLLECTION,
+  ARTICLE_COLLECTION_WITH_SECTIONS,
+  BOT_TASKS,
+  BOT_TASK,
+  BOT_TASK_METRICS,
+  DASHBOARD,
+  APP_PACKAGES,
+  AGENT_APP_PACKAGES,
+  APP_PACKAGE,
+  AGENT_APP_PACKAGE,
+  APP_PACKAGES_BY_CAPABILITY,
+  APP_PACKAGE_HOOK,
+  EVENT_TYPES,
+  OUTGOING_WEBHOOKS,
+  EDITOR_APP_PACKAGES,
+  APP_PACKAGE_INTEGRATIONS,
+  PLANS,
+  USER_TRANSACTIONS,
+  SUBSCRIPTION_TRANSACTIONS,
+  SUBSCRIPTION_DETAILS,
+  UPDATE_SUBSCRIPTION_PLAN,
 }

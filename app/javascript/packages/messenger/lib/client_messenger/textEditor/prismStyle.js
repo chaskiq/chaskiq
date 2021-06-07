@@ -1,4 +1,3 @@
-
 const style = `
   /**
    * xonokai theme for JavaScript, CSS and HTML

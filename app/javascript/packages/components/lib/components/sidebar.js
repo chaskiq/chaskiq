@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Tooltip from 'rc-tooltip'
 
-import icon from  '../../../../src/images/favicon.png' // '../images/favicon.png'
+import icon from '../../../../src/images/favicon.png' // '../images/favicon.png'
 
 import {
   MoreIcon,
@@ -26,23 +26,18 @@ import {
   ArticlesIcon,
   CollectionsIcon,
   ChatIcon,
-  
   BillingIcon,
   IntegrationsIcon,
   TeamIcon,
   MessengerIcon,
   AppSettingsIcon,
   DarkModeIcon,
-  LightModeIcon
+  LightModeIcon,
 } from '../components/icons'
 
 import SidebarAgents from '../components/conversations/SidebarAgents'
 
-import {
-  client as graphql,
-  mutations,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, mutations, actions } from '@chaskiq/store'
 
 import FilterMenu from '../components/FilterMenu'
 import WebSetup from '../components/webSetup'
@@ -50,13 +45,11 @@ import LangChooser from '../components/LangChooser'
 import Toggle from '../components/forms/Toggle'
 import Badge from './Badge'
 
-const {
-  UPDATE_AGENT
-} = mutations
+const { UPDATE_AGENT } = mutations
 
-const { getCurrentUser, toggleTheme, signout} = actions
+const { getCurrentUser, toggleTheme, signout } = actions
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const {
     auth,
     drawer,
@@ -65,7 +58,7 @@ function mapStateToProps (state) {
     app_users,
     current_user,
     navigation,
-    theme
+    theme,
   } = state
   const { loading, isAuthenticated } = auth
   return {
@@ -77,18 +70,18 @@ function mapStateToProps (state) {
     isAuthenticated,
     navigation,
     drawer,
-    theme
+    theme,
   }
 }
 
-function Sidebar ({
+function Sidebar({
   app,
   dispatch,
   navigation,
   current_user,
   drawer,
   history,
-  theme
+  theme,
 }) {
   const { current_page, current_section } = navigation
 
@@ -101,12 +94,12 @@ function Sidebar ({
     setExpanded(current_section)
   }, [current_section])
 
-  function isActivePage (page) {
+  function isActivePage(page) {
     /// console.log("selected page", current_page , page)
     return current_page === page
   }
 
-  function handleSignout () {
+  function handleSignout() {
     dispatch(signout())
   }
 
@@ -116,7 +109,7 @@ function Sidebar ({
     {
       id: 'Dashboard',
       label: I18n.t('navigator.dashboard'),
-      icon: <DashboardIcon/>,
+      icon: <DashboardIcon />,
       url: `/apps/${app.key}`,
       hidden: true,
       children: [
@@ -129,66 +122,76 @@ function Sidebar ({
         {
           render: (_props) => [
             <div key={'dashboard-hey'} className="space-y-2">
-              <p className="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light"
-                dangerouslySetInnerHTML={
-                  { __html: I18n.t('dashboard.hey', { name: app.name }) }
-                }/>
+              <p
+                className="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light"
+                dangerouslySetInnerHTML={{
+                  __html: I18n.t('dashboard.hey', {
+                    name: app.name,
+                  }),
+                }}
+              />
               <WebSetup />
-            </div>
-          ]
+            </div>,
+          ],
         },
         {
           render: (_props) => [
             <div key={'dashboard-status'} className="space-y-2">
-              <div className="mt-1 space-y-1" aria-labelledby="projects-headline">
-                {
-                  app.plan.name && <Link to={`/apps/${app.key}/billing`} 
-                    className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
+              <div
+                className="mt-1 space-y-1"
+                aria-labelledby="projects-headline"
+              >
+                {app.plan.name && (
+                  <Link
+                    to={`/apps/${app.key}/billing`}
+                    className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black"
+                  >
                     <span className="truncate">
-                      Plan: <Badge size="sm" variant="pink">{app.plan.name}</Badge>
+                      Plan:{' '}
+                      <Badge size="sm" variant="pink">
+                        {app.plan.name}
+                      </Badge>
                     </span>
                   </Link>
-                }
-        
-              <Link to={`/apps/${app.key}/messenger`} 
-                className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
-                <span className="truncate--">
-                  {I18n.t('dashboard.status')} {" "} 
-                  {
-                    app.activeMessenger && 
-                    <Badge size="sm" variant="green">
-                      {I18n.t('dashboard.status_running')}
-                    </Badge>
-                  }
+                )}
 
-                  {
-                    !app.activeMessenger && 
-                    <Badge size="sm" variant="gray">
-                      {I18n.t('dashboard.status_paused')}
-                    </Badge>
-                  }
-                </span>
-              </Link>
-        
-              <a href="https://dev.chaskiq.io"
-                target="_blank"
-                rel="noopener noreferrer" 
-                className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
-                <span className="truncate">
-                  {I18n.t('dashboard.guides')}
-                </span>
-              </a>
-            </div>
+                <Link
+                  to={`/apps/${app.key}/messenger`}
+                  className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black"
+                >
+                  <span className="truncate--">
+                    {I18n.t('dashboard.status')}{' '}
+                    {app.activeMessenger && (
+                      <Badge size="sm" variant="green">
+                        {I18n.t('dashboard.status_running')}
+                      </Badge>
+                    )}
+                    {!app.activeMessenger && (
+                      <Badge size="sm" variant="gray">
+                        {I18n.t('dashboard.status_paused')}
+                      </Badge>
+                    )}
+                  </span>
+                </Link>
 
-            </div>
-          ]
-        }
-      ]
+                <a
+                  href="https://dev.chaskiq.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black"
+                >
+                  <span className="truncate">{I18n.t('dashboard.guides')}</span>
+                </a>
+              </div>
+            </div>,
+          ],
+        },
+      ],
     },
     {
       id: 'Platform',
       label: I18n.t('navigator.platform'),
-      icon: <PlatformIcon/>,
+      icon: <PlatformIcon />,
       url: `/apps/${app.key}/segments/${
         app.segments ? app.segments[0].id : ''
       }`,
@@ -196,198 +199,221 @@ function Sidebar ({
         id: o.name,
         icon: null,
         url: `/apps/${app.key}/segments/${o.id}`,
-        active: isActivePage(`segment-${o.id}`)
-      }))
+        active: isActivePage(`segment-${o.id}`),
+      })),
     },
     {
       id: 'Conversations',
       label: I18n.t('navigator.conversations'),
-      icon: <ChatIcon/>,
+      icon: <ChatIcon />,
       url: `/apps/${app.key}/conversations`,
       children: [
         {
           id: 'Conversations',
           label: I18n.t('navigator.childs.conversations'),
-          icon: <ConversationChatIcon/>,
+          icon: <ConversationChatIcon />,
           url: `/apps/${app.key}/conversations`,
-          active: isActivePage('Conversations')
+          active: isActivePage('Conversations'),
         },
         {
           id: 'AssignmentRules',
-          icon: <AssignmentIcon/>,
+          icon: <AssignmentIcon />,
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
-          active: isActivePage('Assignment Rules')
+          active: isActivePage('Assignment Rules'),
         },
         {
           id: 'SidebarAgents',
           render: () => [
-            <SidebarAgents key={'conversations-sidebar-agents'}/>
-          ]
-        }
-      ]
+            <SidebarAgents key={'conversations-sidebar-agents'} />,
+          ],
+        },
+      ],
     },
     {
       id: 'Campaigns',
       label: I18n.t('navigator.campaigns'),
       url: `/apps/${app.key}/campaigns`,
-      icon: <CampaignsIcon/>,
+      icon: <CampaignsIcon />,
       children: [
         {
           id: 'campaigns',
           label: I18n.t('navigator.childs.mailing_campaigns'),
-          icon: <MailingIcon/>,
+          icon: <MailingIcon />,
           url: `${appid}/messages/campaigns`,
-          active: isActivePage('campaigns')
+          active: isActivePage('campaigns'),
         },
         {
           id: 'user_auto_messages',
           label: I18n.t('navigator.childs.in_app_messages'),
-          icon: <AutoMessages/>,
+          icon: <AutoMessages />,
           url: `${appid}/messages/user_auto_messages`,
-          active: isActivePage('user_auto_messages')
+          active: isActivePage('user_auto_messages'),
         },
         {
           id: 'banners',
           label: I18n.t('navigator.childs.banners'),
-          icon: <BannersIcon/>,
+          icon: <BannersIcon />,
           url: `${appid}/messages/banners`,
-          active: isActivePage('banners')
+          active: isActivePage('banners'),
         },
         {
           id: 'tours',
           label: I18n.t('navigator.childs.guided_tours'),
-          icon: <ToursIcon/>,
+          icon: <ToursIcon />,
           url: `${appid}/messages/tours`,
-          active: isActivePage('tours')
-        }
-      ]
+          active: isActivePage('tours'),
+        },
+      ],
     },
 
     {
       id: 'Bot',
       label: I18n.t('navigator.routing_bots'),
-      icon: <BotIcon/>,
+      icon: <BotIcon />,
       url: `/apps/${app.key}/bots/settings`,
       children: [
         {
           id: 'outbound',
           label: I18n.t('navigator.childs.outbound'),
-          icon: <OutboundIcon/>,
+          icon: <OutboundIcon />,
           url: `${appid}/bots/outbound`,
-          active: isActivePage('bot_outbound')
+          active: isActivePage('bot_outbound'),
         },
         {
           id: 'user_conversations',
           label: I18n.t('navigator.childs.new_conversations'),
-          icon: <NewconversationIcon/>,
+          icon: <NewconversationIcon />,
           url: `${appid}/bots/new_conversations`,
-          active: isActivePage('bot_new_conversations')
+          active: isActivePage('bot_new_conversations'),
         },
         {
           id: 'Settings',
           label: I18n.t('navigator.childs.bot_settings'),
-          icon: <SettingsIcon/>,
+          icon: <SettingsIcon />,
           url: `${appid}/bots/settings`,
-          active: isActivePage('bot_settings')
-        }
-      ]
+          active: isActivePage('bot_settings'),
+        },
+      ],
     },
 
     {
       label: I18n.t('navigator.help_center'),
       id: 'HelpCenter',
-      icon: <HelpCenterIcon/>,
+      icon: <HelpCenterIcon />,
       url: `/apps/${app.key}/articles`,
       children: [
         {
           id: 'Articles',
           label: I18n.t('navigator.childs.articles'),
-          icon: <ArticlesIcon/>,
+          icon: <ArticlesIcon />,
           url: `/apps/${app.key}/articles`,
-          active: isActivePage('Articles')
+          active: isActivePage('Articles'),
         },
         {
           id: 'Collections',
           label: I18n.t('navigator.childs.collections'),
-          icon: <CollectionsIcon/>,
+          icon: <CollectionsIcon />,
           url: `/apps/${app.key}/articles/collections`,
-          active: isActivePage('Collections')
+          active: isActivePage('Collections'),
         },
         {
           id: 'Settings',
           label: I18n.t('navigator.childs.article_settings'),
-          icon: <SettingsIcon/>,
+          icon: <SettingsIcon />,
           url: `/apps/${app.key}/articles/settings`,
-          active: isActivePage('Settings')
-        }
-      ]
+          active: isActivePage('Settings'),
+        },
+      ],
     },
 
     {
       id: 'Settings',
       label: I18n.t('navigator.settings'),
-      icon: <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path clipRule="evenodd" d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z" stroke="currentColor" strokeLinecap="square" strokeLinejoin="round"></path><path clipRule="evenodd" d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z" stroke="currentColor" strokeLinecap="square" strokeLinejoin="round"></path></svg>,
+      icon: (
+        <svg
+          viewBox="0 0 15 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="15"
+        >
+          <path
+            clipRule="evenodd"
+            d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z"
+            stroke="currentColor"
+            strokeLinecap="square"
+            strokeLinejoin="round"
+          ></path>
+          <path
+            clipRule="evenodd"
+            d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z"
+            stroke="currentColor"
+            strokeLinecap="square"
+            strokeLinejoin="round"
+          ></path>
+        </svg>
+      ),
       url: `/apps/${app.key}/settings`,
       children: [
         {
           id: 'App Settings',
           label: I18n.t('navigator.childs.app_settings'),
-          icon: <AppSettingsIcon/>,
+          icon: <AppSettingsIcon />,
           url: `/apps/${app.key}/settings`,
-          active: isActivePage('app_settings')
+          active: isActivePage('app_settings'),
         },
 
         {
           id: 'Messenger',
           label: I18n.t('navigator.childs.messenger_settings'),
-          icon: <MessengerIcon/>,
+          icon: <MessengerIcon />,
           url: `/apps/${app.key}/messenger`,
-          active: isActivePage('messenger')
+          active: isActivePage('messenger'),
         },
 
         {
           id: 'Team',
           label: I18n.t('navigator.childs.team'),
-          icon: <TeamIcon/>,
+          icon: <TeamIcon />,
           url: `/apps/${app.key}/team`,
-          active: isActivePage('team')
+          active: isActivePage('team'),
         },
         {
           id: 'Integrations',
           label: I18n.t('navigator.childs.integrations'),
-          icon: <IntegrationsIcon/>,
+          icon: <IntegrationsIcon />,
           url: `/apps/${app.key}/integrations`,
-          active: isActivePage('integrations')
+          active: isActivePage('integrations'),
         },
         {
           id: 'Webhooks',
           label: I18n.t('navigator.childs.webhooks'),
           icon: <WebhooksIcon />,
           url: `/apps/${app.key}/webhooks`,
-          active: isActivePage('webhooks')
+          active: isActivePage('webhooks'),
         },
         {
           id: 'Api access',
           label: I18n.t('navigator.childs.api_access'),
           icon: <ApiIcon />,
           url: `/apps/${app.key}/oauth_applications`,
-          active: isActivePage('oauth_applications')
+          active: isActivePage('oauth_applications'),
         },
         {
           id: 'Billing',
-          icon: <BillingIcon/>,
+          icon: <BillingIcon />,
           hidden: !app.subscriptionsEnabled,
           label: I18n.t('navigator.childs.billing'),
           url: `/apps/${app.key}/billing`,
-          active: isActivePage('billing')
-        }
+          active: isActivePage('billing'),
+        },
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
-      ]
-    }
+      ],
+    },
   ]
 
-  function renderInner () {
+  function renderInner() {
     return categories
       .filter((o) => o.id === current_section)
       .map(({ id, label, _icon, children }) => {
@@ -397,21 +423,31 @@ function Sidebar ({
             key={`sidebar-section-${id}`}
             className="h-0-- flex-1 flex flex-col pt-5 pb-4 overflow-y-auto"
           >
-            <div className="flex items-center flex-shrink-0 px-4
-              text-lg leading-6 font-bold text-gray-900 dark:text-gray-100">
+            <div
+              className="flex items-center flex-shrink-0 px-4
+              text-lg leading-6 font-bold text-gray-900 dark:text-gray-100"
+            >
               <h3 className="font-bold w-full">{label}</h3>
             </div>
             <nav className="mt-5 flex-1 px-4 space-y-2">
-              {children.filter((o) => !o.hidden).map(
-                ({ id: childId, label, icon, active, url, _onClick, render }) =>
-                  !render ? (
-                    <Link
-                      key={`sidebar-section-child-${id}-${childId}`}
-                      to={url}
-                      className={`
-                        ${
-                          active ? 'bg-gray-200 dark:bg-gray-900' : ''
-                        } 
+              {children
+                .filter((o) => !o.hidden)
+                .map(
+                  ({
+                    id: childId,
+                    label,
+                    icon,
+                    active,
+                    url,
+                    _onClick,
+                    render,
+                  }) =>
+                    !render ? (
+                      <Link
+                        key={`sidebar-section-child-${id}-${childId}`}
+                        to={url}
+                        className={`
+                        ${active ? 'bg-gray-200 dark:bg-gray-900' : ''} 
                         bg-white hover:text-gray-600 hover:bg-gray-100 
                         dark:hover:text-gray-100 dark:hover:bg-gray-700
                         dark:bg-black dark:text-gray-100 dark:focus:bg-black
@@ -419,44 +455,49 @@ function Sidebar ({
                         group flex items-center 
                         px-2 py-2 
                         text-sm leading-5 font-medium text-gray-900 
-                        rounded-md transition ease-in-out duration-150`
-                      }
-                    >
-                      <div className="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
-                        {icon}
-                      </div>
-                      {label || childId}
-                    </Link>
-                  ) : render()
-              )}
+                        rounded-md transition ease-in-out duration-150`}
+                      >
+                        <div className="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
+                          {icon}
+                        </div>
+                        {label || childId}
+                      </Link>
+                    ) : (
+                      render()
+                    )
+                )}
             </nav>
           </div>
         )
       })
   }
 
-  function openLangChooser () {
+  function openLangChooser() {
     setLangChooser(true)
   }
 
-  function handleAwaymode (_e) {
+  function handleAwaymode(_e) {
     setLoading(true)
 
-    graphql(UPDATE_AGENT, {
-      appKey: app.key,
-      email: current_user.email,
-      params: {
-        available: !current_user.available
-      }
-    }, {
-      success: (_data) => {
-        dispatch(getCurrentUser())
-        setLoading(false)
+    graphql(
+      UPDATE_AGENT,
+      {
+        appKey: app.key,
+        email: current_user.email,
+        params: {
+          available: !current_user.available,
+        },
       },
-      error: () => {
-        setLoading(false)
+      {
+        success: (_data) => {
+          dispatch(getCurrentUser())
+          setLoading(false)
+        },
+        error: () => {
+          setLoading(false)
+        },
       }
-    })
+    )
   }
 
   const drawerClass = !drawer.open
@@ -467,14 +508,12 @@ function Sidebar ({
     <div className={`${drawerClass} md:flex md:flex-shrink-0`}>
       {app && (
         <div
-          className={
-            `md:block 
+          className={`md:block 
             bg-gray-800 
             text-purple-lighter 
             flex-none w-23 
             p-2 
-            overflow-y-auto--`
-          }
+            overflow-y-auto--`}
         >
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
@@ -513,19 +552,17 @@ function Sidebar ({
         </div>
       )}
 
-      { langChooser &&
-        <LangChooser
-          open={langChooser}
-          handleClose={setLangChooser}
-        />
-      }
+      {langChooser && (
+        <LangChooser open={langChooser} handleClose={setLangChooser} />
+      )}
 
       <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
-
         <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-yellow-400">
-          <h3 className="font-semibold w-full text-gray-600 text-xs">{app.name}</h3>
+          <h3 className="font-semibold w-full text-gray-600 text-xs">
+            {app.name}
+          </h3>
         </div>
-      
+
         {renderInner()}
 
         <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
@@ -550,7 +587,7 @@ function Sidebar ({
                     id="user-away-mode-toggle"
                     text={
                       <span className="text-xs text-gray-500 dark:text-gray-50">
-                        {I18n.t("common.away_mode")}
+                        {I18n.t('common.away_mode')}
                       </span>
                     }
                     checked={current_user.available}
@@ -562,61 +599,73 @@ function Sidebar ({
                     options={[
                       {
                         title: I18n.t('navigator.user_menu.create_app'),
-                        description: I18n.t('navigator.user_menu.create_app_description'),
+                        description: I18n.t(
+                          'navigator.user_menu.create_app_description'
+                        ),
                         // icon: <SendIcon />,
                         id: 'new-app',
-                        onClick: () => history.push('/apps/new')
+                        onClick: () => history.push('/apps/new'),
                       },
 
                       {
                         id: 'choose-lang',
                         title: I18n.t('home.choose_lang'),
-                        onClick: openLangChooser
+                        onClick: openLangChooser,
                       },
                       {
                         id: 'edit-profile',
                         title: I18n.t('home.edit_profile'),
-                        onClick: () => (window.location = '/agents/edit')
+                        onClick: () => (window.location = '/agents/edit'),
                       },
                       {
                         id: 'edit-profile',
-                        title: <span className="flex space-x-2 items-center">
-                          { theme === 'light' ? <DarkModeIcon/> : <LightModeIcon/>}
-                          <span>
-                            { theme === 'light' ? I18n.t('common.toggle_dark_mode') : I18n.t('common.toggle_light_mode') }
+                        title: (
+                          <span className="flex space-x-2 items-center">
+                            {theme === 'light' ? (
+                              <DarkModeIcon />
+                            ) : (
+                              <LightModeIcon />
+                            )}
+                            <span>
+                              {theme === 'light'
+                                ? I18n.t('common.toggle_dark_mode')
+                                : I18n.t('common.toggle_light_mode')}
+                            </span>
                           </span>
-                        </span>,
-                        onClick: () => dispatch(toggleTheme(theme === 'light' ? 'dark' : 'light'))
+                        ),
+                        onClick: () =>
+                          dispatch(
+                            toggleTheme(theme === 'light' ? 'dark' : 'light')
+                          ),
                       },
                       {
                         title: I18n.t('navigator.user_menu.signout'),
                         // description: "delivers the campaign",
                         // icon: <SendIcon />,
                         id: 'sign-out',
-                        onClick: handleSignout
-                      }
+                        onClick: handleSignout,
+                      },
                     ]}
                     value={null}
-                    filterHandler={(e) => e.onClick && e.onClick() }
+                    filterHandler={(e) => e.onClick && e.onClick()}
                     triggerButton={(handler) => (
                       <button
                         onClick={handler}
                         id="user_menu"
-                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150"
+                      >
                         <div className="flex items-center">
                           {/*
                             I18n.t('navigator.user_menu.title')
                           */}
-                          <MoreIcon/>
+                          <MoreIcon />
                         </div>
-
                       </button>
                     )}
                     position={'left'}
                     origin={'bottom-0'}
                   />
                 </div>
-
               </div>
             </div>
           </a>

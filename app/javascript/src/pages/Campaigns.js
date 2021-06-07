@@ -9,14 +9,9 @@ import CampaignEditor from './campaigns/editor'
 
 import { isEmpty } from 'lodash'
 
-import {
-  client as graphql,
-  queries,
-  mutations,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
-import { 
+import {
   SwitchControl,
   Table,
   Tabs,
@@ -34,16 +29,16 @@ import {
   EmptyView,
   FilterMenu,
   Badge,
-  icons
+  icons,
 } from '@chaskiq/components'
 
 const {
   getAppUser,
   toggleDrawer,
-  setCurrentSection, 
-  setCurrentPage, 
-  errorMessage, 
-  successMessage
+  setCurrentSection,
+  setCurrentPage,
+  errorMessage,
+  successMessage,
 } = actions
 
 const {
@@ -55,7 +50,7 @@ const {
   ClearAll,
   DeleteOutlineRounded,
   CopyContentIcon,
-  userFormat
+  userFormat,
 } = icons
 
 import I18n from '../shared/FakeI18n'
@@ -68,21 +63,21 @@ const {
   DELIVER_CAMPAIGN,
   PURGE_METRICS,
   DELETE_CAMPAIGN,
-  CLONE_MESSAGE
+  CLONE_MESSAGE,
 } = mutations
 
 class CampaignSegment extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       jwt: null,
       app_users: [],
       search: false,
-      meta: {}
+      meta: {},
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     /* this.props.actions.fetchAppSegment(
       this.props.app.segments[0].id
     ) */
@@ -97,40 +92,41 @@ class CampaignSegment extends Component {
       appKey: this.props.app.key,
       id: this.props.data.id,
       campaignParams: {
-        segments: predicates.data
-      }
+        segments: predicates.data,
+      },
     }
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (_data) => {
         this.props.successMessage()
-        this.setState({jwt: null})
+        this.setState({ jwt: null })
       },
-      error: () => {}
+      error: () => {},
     })
-  };
+  }
 
   updateData = (data, cb) => {
-    const newData = Object.assign({}, this.props.data, { segments: data.data })
+    const newData = Object.assign({}, this.props.data, {
+      segments: data.data,
+    })
     this.props.updateData(newData, cb ? cb() : null)
-  };
+  }
 
   updatePredicate = (data, cb) => {
     const jwtToken = generateJWT(data)
     // console.log(parseJwt(jwtToken))
     if (cb) cb(jwtToken)
-    this.setState({ jwt: jwtToken }, () =>{
+    this.setState({ jwt: jwtToken }, () => {
       this.updateData(parseJwt(this.state.jwt), this.search)
-    }
-    )
-  };
+    })
+  }
 
   addPredicate = (data, cb) => {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value
+      value: data.value,
     }
 
     const new_predicates = this.props.data.segments.concat(pending_predicate)
@@ -140,9 +136,9 @@ class CampaignSegment extends Component {
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt))
     )
-  };
+  }
 
-  deletePredicate (data) {
+  deletePredicate(data) {
     const jwtToken = generateJWT(data)
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
@@ -158,8 +154,8 @@ class CampaignSegment extends Component {
       : this.props.data.segments
     const predicates_data = {
       data: {
-        predicates: data.filter((o) => o.comparison)
-      }
+        predicates: data.filter((o) => o.comparison),
+      },
     }
 
     graphql(
@@ -167,7 +163,7 @@ class CampaignSegment extends Component {
       {
         appKey: this.props.app.key,
         search: predicates_data,
-        page: page || 1
+        page: page || 1,
       },
       {
         success: (data) => {
@@ -175,14 +171,13 @@ class CampaignSegment extends Component {
           this.setState({
             app_users: appUsers.collection,
             meta: appUsers.meta,
-            searching: false
+            searching: false,
           })
         },
-        error: (_error) => {
-        }
+        error: (_error) => {},
       }
     )
-  };
+  }
 
   showUserDrawer = (o) => {
     this.props.dispatch(
@@ -190,9 +185,9 @@ class CampaignSegment extends Component {
         this.props.dispatch(getAppUser(o.id))
       })
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <div className="mt-4">
         <SegmentManager
@@ -218,7 +213,7 @@ class CampaignSegment extends Component {
             'referrer',
             'os',
             'osVersion',
-            'lang'
+            'lang',
           ]}
           // selection [],
           tableColumnExtensions={[
@@ -228,7 +223,7 @@ class CampaignSegment extends Component {
             { columnName: 'os', width: 100 },
             { columnName: 'osVersion', width: 100 },
             { columnName: 'state', width: 80 },
-            { columnName: 'online', width: 80 }
+            { columnName: 'online', width: 80 },
             // { columnName: 'amount', align: 'right', width: 140 },
           ]}
           leftColumns={['email']}
@@ -257,27 +252,29 @@ class CampaignSegment extends Component {
 }
 
 class CampaignForm extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       selected: 0,
       data: {},
-      tabValue: 0
+      tabValue: 0,
     }
   }
 
   url = () => {
     const id = this.props.match.params.id
     return `/apps/${this.props.app.key}/campaigns/${id}`
-  };
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     this.fetchCampaign()
   }
 
-  componentDidUpdate (prevProps, _prevState) {
-    if (this.props.campaigns.campaign === this.state.data.id &&
-      this.props.campaigns.ts !== prevProps.campaigns.ts) {
+  componentDidUpdate(prevProps, _prevState) {
+    if (
+      this.props.campaigns.campaign === this.state.data.id &&
+      this.props.campaigns.ts !== prevProps.campaigns.ts
+    ) {
       this.fetchCampaign()
     }
   }
@@ -287,7 +284,7 @@ class CampaignForm extends Component {
       DELETE_CAMPAIGN,
       {
         appKey: this.props.app.key,
-        id: this.state.data.id
+        id: this.state.data.id,
       },
       {
         success: (data) => {
@@ -296,10 +293,10 @@ class CampaignForm extends Component {
         },
         error: (error) => {
           console.log(error)
-        }
+        },
       }
     )
-  };
+  }
 
   fetchCampaign = (cb) => {
     const id = this.props.match.params.id
@@ -311,17 +308,17 @@ class CampaignForm extends Component {
           appKey: this.props.app.key,
           mode: this.props.mode,
           operation: 'new',
-          campaignParams: {}
+          campaignParams: {},
         },
         {
           success: (data) => {
             this.setState(
               {
-                data: data.campaignCreate.campaign
+                data: data.campaignCreate.campaign,
               },
               cb && cb
             )
-          }
+          },
         }
       )
     } else {
@@ -330,25 +327,25 @@ class CampaignForm extends Component {
         {
           appKey: this.props.app.key,
           mode: this.props.mode,
-          id: id
+          id: id,
         },
         {
           success: (data) => {
             this.setState(
               {
-                data: data.app.campaign
+                data: data.app.campaign,
               },
               cb && cb
             )
-          }
+          },
         }
       )
     }
-  };
+  }
 
   updateData = (data, cb) => {
     this.setState({ data: data }, cb && cb())
-  };
+  }
 
   renderEditorForCampaign = () => {
     switch (this.props.mode) {
@@ -371,11 +368,11 @@ class CampaignForm extends Component {
           />
         )
     }
-  };
+  }
 
   handleTabChange = (e, i) => {
     this.setState({ tabValue: i })
-  };
+  }
 
   tabsContent = () => {
     return (
@@ -385,7 +382,7 @@ class CampaignForm extends Component {
         textColor="inherit"
         tabs={[
           {
-            label: I18n.t("campaigns.tabs.stats"),
+            label: I18n.t('campaigns.tabs.stats'),
             content: (
               <CampaignStats
                 {...this.props}
@@ -395,45 +392,49 @@ class CampaignForm extends Component {
                 updateData={this.updateData}
                 getStats={this.getStats}
               />
-            )
+            ),
           },
           {
-            label: I18n.t("campaigns.tabs.settings"),
+            label: I18n.t('campaigns.tabs.settings'),
             content: (
               <CampaignSettings
                 {...this.props}
                 data={this.state.data}
                 mode={this.props.mode}
                 successMessage={() =>
-                  this.props.dispatch(successMessage(I18n.t('campaigns.campaign_updated')))
+                  this.props.dispatch(
+                    successMessage(I18n.t('campaigns.campaign_updated'))
+                  )
                 }
                 url={this.url()}
                 updateData={this.updateData}
               />
-            )
+            ),
           },
           {
-            label: I18n.t("campaigns.tabs.audience"),
+            label: I18n.t('campaigns.tabs.audience'),
             content: (
               <CampaignSegment
                 {...this.props}
                 data={this.state.data}
                 url={this.url()}
                 successMessage={() =>
-                  this.props.dispatch(successMessage( I18n.t('campaigns.campaign_updated') ))
+                  this.props.dispatch(
+                    successMessage(I18n.t('campaigns.campaign_updated'))
+                  )
                 }
                 updateData={this.updateData}
               />
-            )
+            ),
           },
-          { 
-            label: I18n.t("campaigns.tabs.editor"), 
-            content: this.renderEditorForCampaign() 
-          }
+          {
+            label: I18n.t('campaigns.tabs.editor'),
+            content: this.renderEditorForCampaign(),
+          },
         ]}
       ></Tabs>
     )
-  };
+  }
 
   getStats = (params, cb) => {
     graphql(CAMPAIGN_METRICS, params, {
@@ -441,18 +442,18 @@ class CampaignForm extends Component {
         const d = data.app.campaign
         cb(d)
       },
-      error: (_error) => {}
+      error: (_error) => {},
     })
-  };
+  }
 
   isNew = () => {
     return this.props.match.params.id === 'new'
-  };
+  }
 
   handleSend = (_e) => {
     const params = {
       appKey: this.props.app.key,
-      id: this.state.data.id
+      id: this.state.data.id,
     }
 
     graphql(DELIVER_CAMPAIGN, params, {
@@ -460,29 +461,25 @@ class CampaignForm extends Component {
         this.updateData(data.campaignDeliver.campaign, null)
         // this.setState({ status: "saved" })
       },
-      error: () => {}
+      error: () => {},
     })
-  };
+  }
 
   cloneCampaign = (_e) => {
     const params = {
       appKey: this.props.app.key,
-      id: `${this.state.data.id}`
+      id: `${this.state.data.id}`,
     }
 
     graphql(CLONE_MESSAGE, params, {
       success: (_data) => {
-        this.props.dispatch(successMessage(
-          I18n.t('campaigns.cloned_success')
-        ))
+        this.props.dispatch(successMessage(I18n.t('campaigns.cloned_success')))
 
         this.props.init()
       },
       error: () => {
-        this.props.dispatch(errorMessage(
-          I18n.t('campaigns.cloned_error')
-        ))
-      }
+        this.props.dispatch(errorMessage(I18n.t('campaigns.cloned_error')))
+      },
     })
   }
 
@@ -495,16 +492,16 @@ class CampaignForm extends Component {
       default:
         return name
     }
-  };
+  }
 
-  options = () => ([
+  options = () => [
     {
       title: `${I18n.t('campaigns.pause_title')}`,
-      description:  I18n.t('campaigns.pause_description'),
+      description: I18n.t('campaigns.pause_description'),
       icon: <Pause />,
       id: 'disabled',
       state: 'disabled',
-      onClick: this.toggleCampaignState
+      onClick: this.toggleCampaignState,
     },
     {
       title: I18n.t('campaigns.clone_title'),
@@ -512,9 +509,9 @@ class CampaignForm extends Component {
       icon: <CopyContentIcon />,
       id: 'enabled',
       state: 'enabled',
-      onClick: this.cloneCampaign
-    }
-  ])
+      onClick: this.cloneCampaign,
+    },
+  ]
 
   toggleCampaignState = () => {
     graphql(
@@ -523,26 +520,24 @@ class CampaignForm extends Component {
         appKey: this.props.app.key,
         id: this.state.data.id,
         campaignParams: {
-          state: this.state.data.state === 'enabled' ? 'disabled' : 'enabled'
-        }
+          state: this.state.data.state === 'enabled' ? 'disabled' : 'enabled',
+        },
       },
       {
         success: (data) => {
           this.setState({
-            data: data.campaignUpdate.campaign
+            data: data.campaignUpdate.campaign,
           })
-          this.props.dispatch(successMessage(
-            I18n.t('campaigns.campaign_updated')
-          ))
+          this.props.dispatch(
+            successMessage(I18n.t('campaigns.campaign_updated'))
+          )
         },
         error: () => {
-          this.props.dispatch(errorMessage(
-            I18n.t('campaigns.updated_error')
-          ))
-        }
+          this.props.dispatch(errorMessage(I18n.t('campaigns.updated_error')))
+        },
       }
     )
-  };
+  }
 
   iconMode = (name) => {
     switch (name) {
@@ -555,7 +550,7 @@ class CampaignForm extends Component {
       default:
         return name
     }
-  };
+  }
 
   optionsForMailing = () => {
     return [
@@ -576,20 +571,22 @@ class CampaignForm extends Component {
         description: I18n.t('campaigns.deliver_description'),
         icon: <SendIcon />,
         id: 'deliver',
-        onClick: this.handleSend
-      }
+        onClick: this.handleSend,
+      },
     ]
-  };
+  }
 
   deleteOption = () => {
     return {
       title: I18n.t('common.delete'),
-      description: I18n.t('campaigns.delete_campaign', { name: this.state.data.name }),
+      description: I18n.t('campaigns.delete_campaign', {
+        name: this.state.data.name,
+      }),
       icon: <DeleteOutlineRounded />,
       id: 'delete',
-      onClick: this.openDeleteDialog
+      onClick: this.openDeleteDialog,
     }
-  };
+  }
 
   optionsForData = () => {
     let newOptions = this.options()
@@ -604,7 +601,7 @@ class CampaignForm extends Component {
     newOptions.push(this.deleteOption())
 
     return newOptions
-  };
+  }
 
   purgeMetricsOptions = () => {
     return {
@@ -612,22 +609,22 @@ class CampaignForm extends Component {
       description: I18n.t('campaigns.purge_description'),
       icon: <ClearAll />,
       id: 'purge',
-      onClick: this.purgeMetrics
+      onClick: this.purgeMetrics,
     }
-  };
+  }
 
   openDeleteDialog = () => {
     this.setState({
-      deleteDialog: true
+      deleteDialog: true,
     })
-  };
+  }
 
   purgeMetrics = () => {
     graphql(
       PURGE_METRICS,
       {
         appKey: this.props.app.key,
-        id: parseInt(this.props.match.params.id)
+        id: parseInt(this.props.match.params.id),
       },
       {
         success: (_data) => {
@@ -637,12 +634,12 @@ class CampaignForm extends Component {
         },
         error: () => {
           this.props.dispatch(errorMessage('error purging metrics'))
-        }
+        },
       }
     )
-  };
+  }
 
-  render () {
+  render() {
     const badgeClass = this.state.data.state === 'enabled' ? 'green' : 'gray'
 
     const title = this.state.data.name
@@ -654,12 +651,14 @@ class CampaignForm extends Component {
         {this.state.deleteDialog && (
           <DeleteDialog
             open={this.state.deleteDialog}
-            title={I18n.t('campaigns.delete_campaign', { name: title })}
+            title={I18n.t('campaigns.delete_campaign', {
+              name: title,
+            })}
             deleteHandler={() => {
               this.deleteCampaign(() => {
                 this.setState(
                   {
-                    deleteDialog: false
+                    deleteDialog: false,
                   },
                   () => {
                     this.props.history.push(
@@ -670,9 +669,7 @@ class CampaignForm extends Component {
               })
             }}
           >
-            <p variant="subtitle2">
-              {I18n.t('campaigns.remove_hint')}
-            </p>
+            <p variant="subtitle2">{I18n.t('campaigns.remove_hint')}</p>
           </DeleteDialog>
         )}
 
@@ -680,7 +677,6 @@ class CampaignForm extends Component {
           <ContentHeader
             title={
               <div className="justify-around items-center">
-
                 <div className="flex items-center">
                   <div className="mr-2">
                     <div
@@ -715,31 +711,27 @@ class CampaignForm extends Component {
             actions={
               <React.Fragment>
                 <div className="flex items-center space-x-2">
-                  {
-                    this.props.match.params.id !== 'new' &&
-
-                  <UpgradeButton
-                    classes={
-                      `
+                  {this.props.match.params.id !== 'new' && (
+                    <UpgradeButton
+                      classes={`
                       absolute z-10 ml-1 mt-3 transform w-screen 
                       max-w-md px-2 origin-top-right right-0
                       md:-ml-4 sm:px-0 lg:ml-0
-                      lg:right-2/6 lg:translate-x-1/6`
-                    }
-                    label={I18n.t('campaigns.activate')}
-                    feature="Campaigns">
+                      lg:right-2/6 lg:translate-x-1/6`}
+                      label={I18n.t('campaigns.activate')}
+                      feature="Campaigns"
+                    >
+                      <SwitchControl
+                        label={
+                          this.state.data.state === 'disabled'
+                            ? I18n.t('campaigns.enables')
+                            : I18n.t('campaigns.disables')
+                        }
+                        setEnabled={this.toggleCampaignState}
+                        enabled={this.state.data.state === 'enabled'}
+                      ></SwitchControl>
 
-                    <SwitchControl
-                      label={
-                        this.state.data.state === 'disabled'
-                          ? I18n.t('campaigns.enables')
-                          : I18n.t('campaigns.disables')
-                      }
-                      setEnabled={this.toggleCampaignState}
-                      enabled={this.state.data.state === 'enabled'}
-                    ></SwitchControl>
-
-                    {/*<Button
+                      {/*<Button
                       className="mr-2"
                       title= "Enable"
                       description={
@@ -759,33 +751,32 @@ class CampaignForm extends Component {
                       }
 
                     </Button>*/}
-                  </UpgradeButton>
-                  }
+                    </UpgradeButton>
+                  )}
 
-                  {
-                    this.props.match.params.id !== 'new' &&
-                  <FilterMenu
-                    options={this.optionsForData()}
-                    value={'Actions'}
-                    filterHandler={(option, _closeHandler) => {
-                      return (option.onClick && option.onClick(option))
-                    }}
-                    triggerButton={this.toggleButton}
-                    position={'right'}
-                    toggleButton={(clickHandler) => {
-                      return (
-                        <Button
-                          onClick={clickHandler}
-                          variant="outlined"
-                          color="inherit"
-                          size="small"
-                        >
-                          {I18n.t('common.actions')}
-                        </Button>
-                      )
-                    }}
-                  />
-                  }
+                  {this.props.match.params.id !== 'new' && (
+                    <FilterMenu
+                      options={this.optionsForData()}
+                      value={'Actions'}
+                      filterHandler={(option, _closeHandler) => {
+                        return option.onClick && option.onClick(option)
+                      }}
+                      triggerButton={this.toggleButton}
+                      position={'right'}
+                      toggleButton={(clickHandler) => {
+                        return (
+                          <Button
+                            onClick={clickHandler}
+                            variant="outlined"
+                            color="inherit"
+                            size="small"
+                          >
+                            {I18n.t('common.actions')}
+                          </Button>
+                        )
+                      }}
+                    />
+                  )}
                 </div>
               </React.Fragment>
             }
@@ -800,7 +791,9 @@ class CampaignForm extends Component {
                 url={this.url()}
                 updateData={this.updateData}
                 successMessage={() =>
-                  this.props.dispatch(successMessage(I18n.t('campaigns.campaign_updated')))
+                  this.props.dispatch(
+                    successMessage(I18n.t('campaigns.campaign_updated'))
+                  )
                 }
               />
             ) : (
@@ -814,16 +807,16 @@ class CampaignForm extends Component {
 }
 
 class CampaignContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       campaigns: [],
       meta: {},
-      openDeleteDialog: null
+      openDeleteDialog: null,
     }
   }
 
-  componentDidUpdate (prevProps, _prevState) {
+  componentDidUpdate(prevProps, _prevState) {
     if (
       this.props.match.params.message_type !==
       prevProps.match.params.message_type
@@ -836,7 +829,7 @@ class CampaignContainer extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.dispatch(setCurrentSection('Campaigns'))
 
     this.props.dispatch(setCurrentPage(this.props.match.params.message_type))
@@ -846,7 +839,7 @@ class CampaignContainer extends Component {
 
   init = (page) => {
     this.setState({
-      loading: true
+      loading: true,
     })
 
     graphql(
@@ -854,7 +847,7 @@ class CampaignContainer extends Component {
       {
         appKey: this.props.app.key,
         mode: this.props.match.params.message_type,
-        page: page || 1
+        page: page || 1,
       },
       {
         success: (data) => {
@@ -862,21 +855,21 @@ class CampaignContainer extends Component {
           this.setState({
             campaigns: collection,
             meta: meta,
-            loading: false
+            loading: false,
           })
-        }
+        },
       }
     )
-  };
+  }
 
   createNewCampaign = (_e) => {
     this.props.history.push(`${this.props.match.url}/new`)
-  };
+  }
 
   handleRowClick = (_a, data, _c) => {
     const row = this.state.campaigns[data.dataIndex]
     this.props.history.push(`${this.props.match.url}/${row.id}`)
-  };
+  }
 
   renderActions = () => {
     return (
@@ -890,14 +883,14 @@ class CampaignContainer extends Component {
         </Button>
       </div>
     )
-  };
+  }
 
   deleteCampaign = (id, cb) => {
     graphql(
       DELETE_CAMPAIGN,
       {
         appKey: this.props.app.key,
-        id: id
+        id: id,
       },
       {
         success: (data) => {
@@ -906,12 +899,12 @@ class CampaignContainer extends Component {
         },
         error: (error) => {
           console.log(error)
-        }
+        },
       }
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <div className="m-4">
         <Switch>
@@ -937,30 +930,30 @@ class CampaignContainer extends Component {
                 {this.state.openDeleteDialog && (
                   <DeleteDialog
                     open={this.state.openDeleteDialog}
-                    title={
-                      I18n.t('campaigns.delete_campaign', { name: this.state.openDeleteDialog.name })
-                    }
+                    title={I18n.t('campaigns.delete_campaign', {
+                      name: this.state.openDeleteDialog.name,
+                    })}
                     closeHandler={() => {
-                      this.setState({ openDeleteDialog: null })
+                      this.setState({
+                        openDeleteDialog: null,
+                      })
                     }}
                     deleteHandler={() => {
                       this.deleteCampaign(
                         this.state.openDeleteDialog.id,
                         () => {
                           this.init()
-                          this.setState({ openDeleteDialog: null })
+                          this.setState({
+                            openDeleteDialog: null,
+                          })
                           this.props.dispatch(
-                            successMessage(
-                              I18n.t('campaigns.remove_success')
-                            )
+                            successMessage(I18n.t('campaigns.remove_success'))
                           )
                         }
                       )
                     }}
                   >
-                    <p variant="subtitle2">
-                      {I18n.t('campaigns.remove_hint')}
-                    </p>
+                    <p variant="subtitle2">{I18n.t('campaigns.remove_hint')}</p>
                   </DeleteDialog>
                 )}
 
@@ -981,7 +974,9 @@ class CampaignContainer extends Component {
                       columns={[
                         {
                           field: 'name',
-                          title: I18n.t('definitions.campaigns.campaign_name.label'),
+                          title: I18n.t(
+                            'definitions.campaigns.campaign_name.label'
+                          ),
                           render: (row) =>
                             row && (
                               <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
@@ -995,50 +990,90 @@ class CampaignContainer extends Component {
                                   </div>
                                 </div>
                               </td>
-                            )
+                            ),
                         },
-                        { field: 'subject', title: I18n.t('definitions.campaigns.email_subject.label') },
+                        {
+                          field: 'subject',
+                          title: I18n.t(
+                            'definitions.campaigns.email_subject.label'
+                          ),
+                        },
                         {
                           field: 'state',
                           title: I18n.t('definitions.campaigns.state.label'),
                           render: (row) => {
                             return (
                               <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <Badge variant={row.state === 'enabled' ? 'green' : null}>
+                                <Badge
+                                  variant={
+                                    row.state === 'enabled' ? 'green' : null
+                                  }
+                                >
                                   {I18n.t(`campaigns.state.${row.state}`)}
                                 </Badge>
                               </td>
                             )
-                          }
+                          },
                         },
-                        { field: 'fromName', title: I18n.t('definitions.campaigns.from_name.label'), hidden: true },
-                        { field: 'fromEmail', title: I18n.t('definitions.campaigns.from_email.label'), hidden: true },
-                        { field: 'replyEmail', title: I18n.t('definitions.campaigns.reply_email.label'), hidden: true },
-                        { field: 'description', title: I18n.t('definitions.campaigns.description.label'), hidden: true },
-                        { field: 'timezone', title: 'timezone' },
+                        {
+                          field: 'fromName',
+                          title: I18n.t(
+                            'definitions.campaigns.from_name.label'
+                          ),
+                          hidden: true,
+                        },
+                        {
+                          field: 'fromEmail',
+                          title: I18n.t(
+                            'definitions.campaigns.from_email.label'
+                          ),
+                          hidden: true,
+                        },
+                        {
+                          field: 'replyEmail',
+                          title: I18n.t(
+                            'definitions.campaigns.reply_email.label'
+                          ),
+                          hidden: true,
+                        },
+                        {
+                          field: 'description',
+                          title: I18n.t(
+                            'definitions.campaigns.description.label'
+                          ),
+                          hidden: true,
+                        },
+                        {
+                          field: 'timezone',
+                          title: 'timezone',
+                        },
                         {
                           field: 'scheduledAt',
-                          title: I18n.t('definitions.campaigns.scheduled_at.label'),
+                          title: I18n.t(
+                            'definitions.campaigns.scheduled_at.label'
+                          ),
                           hidden: true,
                           type: 'datetime',
-                          render: row => (row
-                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                              <Moment fromNow>
-                                {row.scheduledAt}
-                              </Moment>
-                            </td> : undefined)
+                          render: (row) =>
+                            row ? (
+                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+                                <Moment fromNow>{row.scheduledAt}</Moment>
+                              </td>
+                            ) : undefined,
                         },
                         {
                           field: 'scheduledTo',
-                          title: I18n.t('definitions.campaigns.scheduled_to.label'),
+                          title: I18n.t(
+                            'definitions.campaigns.scheduled_to.label'
+                          ),
                           hidden: true,
                           type: 'datetime',
-                          render: row => (row
-                            ? <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                              <Moment fromNow>
-                                {row.scheduledTo}
-                              </Moment>
-                            </td> : undefined)
+                          render: (row) =>
+                            row ? (
+                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+                                <Moment fromNow>{row.scheduledTo}</Moment>
+                              </td>
+                            ) : undefined,
                         },
                         {
                           field: 'actions',
@@ -1046,20 +1081,25 @@ class CampaignContainer extends Component {
                           render: (row) => (
                             <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                               <span
-                                className={'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '}
+                                className={
+                                  'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '
+                                }
                               >
                                 <Button
                                   color={'secondary'}
                                   variant={'danger'}
                                   onClick={() =>
-                                    this.setState({ openDeleteDialog: row })
-                                  }>
+                                    this.setState({
+                                      openDeleteDialog: row,
+                                    })
+                                  }
+                                >
                                   {I18n.t('common.remove')}
                                 </Button>
                               </span>
                             </td>
-                          )
-                        }
+                          ),
+                        },
                       ]}
                     ></Table>
                   )}
@@ -1067,11 +1107,7 @@ class CampaignContainer extends Component {
                   {!this.state.loading && this.state.campaigns.length === 0 ? (
                     <EmptyView
                       title={I18n.t('campaigns.empty.title')}
-                      subtitle={
-                        <div>
-                          {this.renderActions()}
-                        </div>
-                      }
+                      subtitle={<div>{this.renderActions()}</div>}
                     />
                   ) : null}
 
@@ -1086,7 +1122,7 @@ class CampaignContainer extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, campaigns } = state
   const { loading, isAuthenticated } = auth
 
@@ -1094,7 +1130,7 @@ function mapStateToProps (state) {
     app,
     loading,
     isAuthenticated,
-    campaigns
+    campaigns,
   }
 }
 

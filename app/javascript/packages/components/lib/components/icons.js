@@ -17,86 +17,122 @@ const BaseIcon = styled.svg`
   }};
 `
 
-export function WidgetsIcon (props) {
+export function WidgetsIcon(props) {
   return (
-    <BaseIcon {...props}
+    <BaseIcon
+      {...props}
       fill="currentColor"
       focusable="false"
       viewBox="0 0 24 24"
       aria-hidden="true"
       tabindex="-1"
-      title="Widgets">
-      <path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z">
-      </path>
+      title="Widgets"
+    >
+      <path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z"></path>
     </BaseIcon>
   )
 }
 
-export function ApiIcon (props) {
-  return <BaseIcon {...props}
-    fill="currentColor"
-    viewBox="0 0 30 30"
-    aria-hidden="true"
-    role="presentation"
-  >
-    <path d="M 4 5 C 2.895 5 2 5.895 2 7 L 2 23 C 2 24.105 2.895 25 4 25 L 26 25 C 27.105 25 28 24.105 28 23 L 28 7 C 28 5.895 27.105 5 26 5 L 4 5 z M 7.2519531 11 L 9.7421875 11 L 12.431641 19 L 10.214844 19 L 9.7148438 17.242188 L 7.1035156 17.242188 L 6.5878906 19 L 4.5683594 19 L 7.2519531 11 z M 14 11 L 17.503906 11 C 19.222906 11 20.386719 12.120844 20.386719 13.839844 C 20.386719 15.541844 19.161812 16.654297 17.382812 16.654297 L 16.033203 16.654297 L 16.033203 19 L 14 19 L 14 11 z M 23 11 L 25.033203 11 L 25.033203 19 L 23 19 L 23 11 z M 16.035156 12.5625 L 16.035156 15.119141 L 16.955078 15.119141 C 17.820078 15.119141 18.330078 14.67475 18.330078 13.84375 C 18.329078 13.00075 17.825797 12.5625 16.966797 12.5625 L 16.035156 12.5625 z M 8.3671875 12.802734 L 7.4902344 15.779297 L 9.3320312 15.779297 L 8.4726562 12.802734 L 8.3671875 12.802734 z">
-    </path>
-  </BaseIcon>
-}
-
-export function MapIcon (props) {
+export function ApiIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor"
-      focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
-      <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 30 30"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path d="M 4 5 C 2.895 5 2 5.895 2 7 L 2 23 C 2 24.105 2.895 25 4 25 L 26 25 C 27.105 25 28 24.105 28 23 L 28 7 C 28 5.895 27.105 5 26 5 L 4 5 z M 7.2519531 11 L 9.7421875 11 L 12.431641 19 L 10.214844 19 L 9.7148438 17.242188 L 7.1035156 17.242188 L 6.5878906 19 L 4.5683594 19 L 7.2519531 11 z M 14 11 L 17.503906 11 C 19.222906 11 20.386719 12.120844 20.386719 13.839844 C 20.386719 15.541844 19.161812 16.654297 17.382812 16.654297 L 16.033203 16.654297 L 16.033203 19 L 14 19 L 14 11 z M 23 11 L 25.033203 11 L 25.033203 19 L 23 19 L 23 11 z M 16.035156 12.5625 L 16.035156 15.119141 L 16.955078 15.119141 C 17.820078 15.119141 18.330078 14.67475 18.330078 13.84375 C 18.329078 13.00075 17.825797 12.5625 16.966797 12.5625 L 16.035156 12.5625 z M 8.3671875 12.802734 L 7.4902344 15.779297 L 9.3320312 15.779297 L 8.4726562 12.802734 L 8.3671875 12.802734 z"></path>
     </BaseIcon>
   )
 }
 
-export function ColumnsIcon (props) {
+export function MapIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor"
-      focusable="false" viewBox="0 0 24 24"
-      aria-hidden="true" role="presentation">
-      <path d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"></path>
     </BaseIcon>
   )
 }
 
-export function LeftArrow (props) {
+export function ColumnsIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor"
-      focusable="false" viewBox="0 0 24 24"
-      aria-hidden="true" role="presentation">
-      <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z"></path>
     </BaseIcon>
   )
 }
 
-export function UpArrow (props) {
+export function LeftArrow(props) {
   return (
-    <BaseIcon {...props} fill="currentColor"
-      focusable="false" viewBox="0 0 24 24"
-      aria-hidden="true" role="presentation">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
     </BaseIcon>
   )
 }
 
-export function DownArrow (props) {
+export function UpArrow(props) {
   return (
-    <BaseIcon {...props} fill="currentColor"
-      focusable="false" viewBox="0 0 24 24"
-      aria-hidden="true" role="presentation">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M5 15l7-7 7 7"
+      />
     </BaseIcon>
   )
 }
 
-export function Facebook (props) {
+export function DownArrow(props) {
+  return (
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 9l-7 7-7-7"
+      />
+    </BaseIcon>
+  )
+}
+
+export function Facebook(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -107,7 +143,7 @@ export function Facebook (props) {
   )
 }
 
-export function Twitter (props) {
+export function Twitter(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -118,7 +154,7 @@ export function Twitter (props) {
   )
 }
 
-export function Instagram (props) {
+export function Instagram(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -129,7 +165,7 @@ export function Instagram (props) {
   )
 }
 
-export function LinkedIn (props) {
+export function LinkedIn(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -140,7 +176,7 @@ export function LinkedIn (props) {
   )
 }
 
-export function LaunchIcon (props) {
+export function LaunchIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -155,7 +191,7 @@ export function LaunchIcon (props) {
   )
 }
 
-export function LangGlobeIcon (props) {
+export function LangGlobeIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -171,7 +207,7 @@ export function LangGlobeIcon (props) {
   )
 }
 
-export function BookMarkIcon (props) {
+export function BookMarkIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -182,7 +218,7 @@ export function BookMarkIcon (props) {
   )
 }
 
-export function DockerIcon (props) {
+export function DockerIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -201,7 +237,7 @@ export function DockerIcon (props) {
   )
 }
 
-export function PaintIcon (props) {
+export function PaintIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -217,12 +253,14 @@ export function PaintIcon (props) {
   )
 }
 
-export function QueueIcon (_props) {
+export function QueueIcon(_props) {
   return (
-    <BaseIcon className="w-6 h-6"
+    <BaseIcon
+      className="w-6 h-6"
       fill="none"
       stroke="currentColor"
-      viewBox="0 0 24 24">
+      viewBox="0 0 24 24"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -233,7 +271,7 @@ export function QueueIcon (_props) {
   )
 }
 
-export function GestureIcon (props) {
+export function GestureIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -248,7 +286,7 @@ export function GestureIcon (props) {
   )
 }
 
-export function MessageBubbleIcon (props) {
+export function MessageBubbleIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -259,7 +297,7 @@ export function MessageBubbleIcon (props) {
   )
 }
 
-export function ShuffleIcon (props) {
+export function ShuffleIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -270,7 +308,7 @@ export function ShuffleIcon (props) {
   )
 }
 
-export function ConversationIcon (props) {
+export function ConversationIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -281,7 +319,7 @@ export function ConversationIcon (props) {
   )
 }
 
-export function CogIcon (props) {
+export function CogIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -292,7 +330,7 @@ export function CogIcon (props) {
   )
 }
 
-export function FolderIcon (props) {
+export function FolderIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -307,7 +345,7 @@ export function FolderIcon (props) {
   )
 }
 
-export function FlagIcon (props) {
+export function FlagIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <polygon
@@ -318,7 +356,7 @@ export function FlagIcon (props) {
   )
 }
 
-export function FactoryIcon (props) {
+export function FactoryIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -329,7 +367,7 @@ export function FactoryIcon (props) {
   )
 }
 
-export function LoadBalancerIcon (props) {
+export function LoadBalancerIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M17 12h-6v4h1v4H8v-4h1v-4H3v4h1v4H0v-4h1v-4a2 2 0 0 1 2-2h6V6H7V0h6v6h-2v4h6a2 2 0 0 1 2 2v4h1v4h-4v-4h1v-4z"></path>
@@ -337,13 +375,18 @@ export function LoadBalancerIcon (props) {
   )
 }
 
-export function LabelIcon (props) {
+export function LabelIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor"
-      focusable="false" viewBox="0 0 24 24"
-      aria-hidden="true" role="presentation" title="fontSize small">
-      <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      role="presentation"
+      title="fontSize small"
+    >
+      <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"></path>
     </BaseIcon>
   )
 }
@@ -359,7 +402,7 @@ export function LabelIcon (props) {
   )
 } */
 
-export function LocationIcon (props) {
+export function LocationIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -370,7 +413,7 @@ export function LocationIcon (props) {
   )
 }
 
-export function NotificationsIcon (props) {
+export function NotificationsIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       &lt;
@@ -382,7 +425,7 @@ export function NotificationsIcon (props) {
   )
 }
 
-export function TagIcon (props) {
+export function TagIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -393,7 +436,7 @@ export function TagIcon (props) {
   )
 }
 
-export function ThumbsUpIcon (props) {
+export function ThumbsUpIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -404,7 +447,7 @@ export function ThumbsUpIcon (props) {
   )
 }
 
-export function ThumbsDownIcon (props) {
+export function ThumbsDownIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -415,7 +458,7 @@ export function ThumbsDownIcon (props) {
   )
 }
 
-export function TileIcon (props) {
+export function TileIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -426,7 +469,7 @@ export function TileIcon (props) {
   )
 }
 
-export function TuningIcon (props) {
+export function TuningIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -437,7 +480,7 @@ export function TuningIcon (props) {
   )
 }
 
-export function SwapIcon (props) {
+export function SwapIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M9 6a4 4 0 1 1 8 0v8h3l-4 4-4-4h3V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8a4 4 0 1 1-8 0V6H0l4-4 4 4H5v8a2 2 0 0 0 2 2 2 2 0 0 0 2-2V6z"></path>
@@ -445,7 +488,7 @@ export function SwapIcon (props) {
   )
 }
 
-export function SendIcon (props) {
+export function SendIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -456,7 +499,7 @@ export function SendIcon (props) {
   )
 }
 
-export function SaveDiskIcon (props) {
+export function SaveDiskIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -467,7 +510,7 @@ export function SaveDiskIcon (props) {
   )
 }
 
-export function UserIcon (props) {
+export function UserIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -478,7 +521,7 @@ export function UserIcon (props) {
   )
 }
 
-export function UserWalkIcon (props) {
+export function UserWalkIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -489,7 +532,7 @@ export function UserWalkIcon (props) {
   )
 }
 
-export function PlusIcon (props) {
+export function PlusIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -504,7 +547,7 @@ export function PlusIcon (props) {
   )
 }
 
-export function DeleteForever (props) {
+export function DeleteForever(props) {
   return (
     <BaseIcon
       {...props}
@@ -520,7 +563,7 @@ export function DeleteForever (props) {
   )
 }
 
-export function DeleteForeverRounded (_props) {
+export function DeleteForeverRounded(_props) {
   return (
     <BaseIcon
       fill="currentColor"
@@ -534,7 +577,7 @@ export function DeleteForeverRounded (_props) {
   )
 }
 
-export function HomeIcon (props) {
+export function HomeIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -545,7 +588,7 @@ export function HomeIcon (props) {
   )
 }
 
-export function BuildingIcon (props) {
+export function BuildingIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -557,7 +600,7 @@ export function BuildingIcon (props) {
   )
 }
 
-export function CheckmarkIcon (props) {
+export function CheckmarkIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <polygon id="Path-126" points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
@@ -565,19 +608,16 @@ export function CheckmarkIcon (props) {
   )
 }
 
-export function PictureInPicture (props) {
+export function PictureInPicture(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 22 23">
-      <path
-        d="M0 0h24v24H0z"
-        fill="none"
-      />
+      <path d="M0 0h24v24H0z" fill="none" />
       <path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 1.98 2 1.98h18c1.1 0 2-.88 2-1.98V5c0-1.1-.9-2-2-2zm0 16.01H3V4.98h18v14.03z" />
     </BaseIcon>
   )
 }
 
-export function PinIcon (props) {
+export function PinIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -588,7 +628,7 @@ export function PinIcon (props) {
   )
 }
 
-export function EnvelopeIcon (props) {
+export function EnvelopeIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -599,19 +639,15 @@ export function EnvelopeIcon (props) {
   )
 }
 
-export function SaveIcon (props) {
+export function SaveIcon(props) {
   return (
-    <BaseIcon
-      {...props}
-      fill="currentColor"
-      viewBox="0 0 22 22"
-    >
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 22 22">
       <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path>
     </BaseIcon>
   )
 }
 
-export function DeleteIcon (props) {
+export function DeleteIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path
@@ -623,7 +659,7 @@ export function DeleteIcon (props) {
   )
 }
 
-export function EditIcon (props) {
+export function EditIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -638,7 +674,7 @@ export function EditIcon (props) {
   )
 }
 
-export function CheckIcon (props) {
+export function CheckIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -653,7 +689,7 @@ export function CheckIcon (props) {
   )
 }
 
-export function FilterFramesIcon (props) {
+export function FilterFramesIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -668,7 +704,7 @@ export function FilterFramesIcon (props) {
   )
 }
 
-export function ClearAll (props) {
+export function ClearAll(props) {
   return (
     <BaseIcon
       {...props}
@@ -683,7 +719,7 @@ export function ClearAll (props) {
   )
 }
 
-export function VisibilityRounded (props) {
+export function VisibilityRounded(props) {
   return (
     <BaseIcon
       {...props}
@@ -699,7 +735,7 @@ export function VisibilityRounded (props) {
   )
 }
 
-export function EmailIcon (props) {
+export function EmailIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -714,7 +750,7 @@ export function EmailIcon (props) {
   )
 }
 
-export function Pause (props) {
+export function Pause(props) {
   return (
     <BaseIcon
       {...props}
@@ -729,7 +765,7 @@ export function Pause (props) {
   )
 }
 
-export function TourIcon (props) {
+export function TourIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -744,7 +780,7 @@ export function TourIcon (props) {
   )
 }
 
-export function MessageIcon (props) {
+export function MessageIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -759,7 +795,7 @@ export function MessageIcon (props) {
   )
 }
 
-export function DeleteOutlineRounded (props) {
+export function DeleteOutlineRounded(props) {
   return (
     <BaseIcon
       {...props}
@@ -775,41 +811,66 @@ export function DeleteOutlineRounded (props) {
   )
 }
 
-export function CheckCircleIcon (props) {
+export function CheckCircleIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" width="24" height="24" viewBox="0 0 24 24">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
     </BaseIcon>
   )
 }
 
-export function ArchiveIcon (props) {
+export function ArchiveIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24" fill="black" width="18px" height="18px">
-      <path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/>
-      <path d="M0 0h24v24H0z" fill="none"/>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      fill="black"
+      width="18px"
+      height="18px"
+    >
+      <path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z" />
+      <path d="M0 0h24v24H0z" fill="none" />
     </BaseIcon>
   )
 }
 
-export function BlockIcon (props) {
+export function BlockIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" height="24" viewBox="0 0 24 24" width="24">
-      <path d="M0 0h24v24H0z" fill="none"/>
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z"/>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+    >
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" />
     </BaseIcon>
   )
 }
 
-export function UnsubscribeIcon (props) {
+export function UnsubscribeIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" height="24" viewBox="0 0 24 24" width="24">
-      <path d="M18.5 13c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm2 4h-4v-1h4v1zm-6.95 0c-.02-.17-.05-.33-.05-.5 0-2.76 2.24-5 5-5 .92 0 1.76.26 2.5.69V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h8.55zM12 10.5L5 7V5l7 3.5L19 5v2l-7 3.5z"/>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+    >
+      <path d="M18.5 13c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm2 4h-4v-1h4v1zm-6.95 0c-.02-.17-.05-.33-.05-.5 0-2.76 2.24-5 5-5 .92 0 1.76.26 2.5.69V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h8.55zM12 10.5L5 7V5l7 3.5L19 5v2l-7 3.5z" />
     </BaseIcon>
   )
 }
 
-export function SendkkkIcon (props) {
+export function SendkkkIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -825,7 +886,7 @@ export function SendkkkIcon (props) {
   )
 }
 
-export function CheckCircle (props) {
+export function CheckCircle(props) {
   return (
     <BaseIcon
       {...props}
@@ -839,7 +900,7 @@ export function CheckCircle (props) {
   )
 }
 
-export function DragHandle (props) {
+export function DragHandle(props) {
   return (
     <BaseIcon
       {...props}
@@ -849,183 +910,231 @@ export function DragHandle (props) {
       aria-hidden="true"
       role="presentation"
     >
-      <path d="M0 0h24v24H0V0z" fill="none"/>
-      <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
     </BaseIcon>
   )
 }
 
-export function CopyContentIcon (props) {
+export function CopyContentIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
-      <path d="M0 0h24v24H0z" fill="none"/>
-      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
     </BaseIcon>
   )
 }
 
-export function AddIcon (props) {
+export function AddIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
-      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd">
-      </path>
+      <path
+        fillRule="evenodd"
+        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+        clipRule="evenodd"
+      ></path>
     </BaseIcon>
   )
 }
 
-export function SeachIcon (props) {
-  return <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
-    <path d="M0 0h24v24H0z" fill="none"/>
-    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-  </BaseIcon>
+export function SeachIcon(props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+    </BaseIcon>
+  )
 }
 
-export function CloseIcon (props) {
+export function CloseIcon(props) {
   return (
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24">
-      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
-      </path>
+      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
     </BaseIcon>
   )
 }
 
-export function Call (props) {
+export function Call(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="Call">
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="Call"
+    >
       <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"></path>
     </BaseIcon>
   )
 }
 
-export function CallEnd (props) {
+export function CallEnd(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="CallEnd">
-      <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="CallEnd"
+    >
+      <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"></path>
     </BaseIcon>
   )
 }
 
-export function MicIcon (props) {
+export function MicIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor"
-      viewBox="0 0 24 24" aria-hidden="true"
-      tabindex="-1" title="Mic">
-      <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="Mic"
+    >
+      <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"></path>
     </BaseIcon>
   )
 }
 
-export function MicOffIcon (props) {
+export function MicOffIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="MicOff">
-      <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="MicOff"
+    >
+      <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
     </BaseIcon>
   )
 }
 
-export function CameraIcon (props) {
+export function CameraIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="Videocam">
-      <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z">
-      </path>
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="Videocam"
+    >
+      <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"></path>
     </BaseIcon>
   )
 }
 
-export function CameraOffIcon (props) {
+export function CameraOffIcon(props) {
   return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="Videocam">
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="Videocam"
+    >
       <path d="M21 6.5l-4 4V7c0-.55-.45-1-1-1H9.82L21 17.18V6.5zM3.27 2L2 3.27 4.73 6H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.21 0 .39-.08.54-.18L19.73 21 21 19.73 3.27 2z"></path>
     </BaseIcon>
   )
 }
 
-export function FullScreenIcon (props) {
-  return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="Fullscreen">
-      <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z">
-      </path>
-    </BaseIcon>
-  )
-}
-
-export function FullScreenExitIcon (props) {
-  return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="FullscreenExit">
-      <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z">
-      </path>
-    </BaseIcon>
-  )
-}
-
-export function ScreenShareIcon (props) {
-  return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="ScreenShare">
-      <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.11-.9-2-2-2H4c-1.11 0-2 .89-2 2v10c0 1.1.89 2 2 2H0v2h24v-2h-4zm-7-3.53v-2.19c-2.78 0-4.61.85-6 2.72.56-2.67 2.11-5.33 6-5.87V7l4 3.73-4 3.74z">
-      </path>
-    </BaseIcon>
-  )
-}
-
-export function ScreenShareExitIcon (props) {
-  return (
-    <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24"
-      aria-hidden="true" tabindex="-1" title="ScreenShare">
-      <path d="M21.22 18.02l2 2H24v-2h-2.78zm.77-2l.01-10c0-1.11-.9-2-2-2H7.22l5.23 5.23c.18-.04.36-.07.55-.1V7.02l4 3.73-1.58 1.47 5.54 5.54c.61-.33 1.03-.99 1.03-1.74zM2.39 1.73L1.11 3l1.54 1.54c-.4.36-.65.89-.65 1.48v10c0 1.1.89 2 2 2H0v2h18.13l2.71 2.71 1.27-1.27L2.39 1.73zM7 15.02c.31-1.48.92-2.95 2.07-4.06l1.59 1.59c-1.54.38-2.7 1.18-3.66 2.47z">
-      </path>
-    </BaseIcon>
-  )
-}
-
-export function MoreIcon (props) {
+export function FullScreenIcon(props) {
   return (
     <BaseIcon
       {...props}
       fill="currentColor"
-      viewBox="0 0 20 20"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="Fullscreen"
     >
+      <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
+    </BaseIcon>
+  )
+}
+
+export function FullScreenExitIcon(props) {
+  return (
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="FullscreenExit"
+    >
+      <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path>
+    </BaseIcon>
+  )
+}
+
+export function ScreenShareIcon(props) {
+  return (
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="ScreenShare"
+    >
+      <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.11-.9-2-2-2H4c-1.11 0-2 .89-2 2v10c0 1.1.89 2 2 2H0v2h24v-2h-4zm-7-3.53v-2.19c-2.78 0-4.61.85-6 2.72.56-2.67 2.11-5.33 6-5.87V7l4 3.73-4 3.74z"></path>
+    </BaseIcon>
+  )
+}
+
+export function ScreenShareExitIcon(props) {
+  return (
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      tabindex="-1"
+      title="ScreenShare"
+    >
+      <path d="M21.22 18.02l2 2H24v-2h-2.78zm.77-2l.01-10c0-1.11-.9-2-2-2H7.22l5.23 5.23c.18-.04.36-.07.55-.1V7.02l4 3.73-1.58 1.47 5.54 5.54c.61-.33 1.03-.99 1.03-1.74zM2.39 1.73L1.11 3l1.54 1.54c-.4.36-.65.89-.65 1.48v10c0 1.1.89 2 2 2H0v2h18.13l2.71 2.71 1.27-1.27L2.39 1.73zM7 15.02c.31-1.48.92-2.95 2.07-4.06l1.59 1.59c-1.54.38-2.7 1.18-3.66 2.47z"></path>
+    </BaseIcon>
+  )
+}
+
+export function MoreIcon(props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
     </BaseIcon>
   )
 }
 
-export function CardIcon (props) {
+export function CardIcon(props) {
   return (
-    <BaseIcon
-      {...props}
-      viewBox="0 0 24 24"
-      fill="currentColor">
-      <path d="M0 0h24v24H0z" fill="none"/>
-      <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+    <BaseIcon {...props} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
     </BaseIcon>
   )
 }
 
-export function AttachmentIcon (_props) {
+export function AttachmentIcon(_props) {
   return (
     <BaseIcon
       fill="currentColor"
       focusable="false"
       viewBox="0 0 24 24"
-      aria-hidden="true">
-      <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z">
-      </path>
+      aria-hidden="true"
+    >
+      <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"></path>
     </BaseIcon>
   )
 }
 
-export function WebhooksIcon (props) {
+export function WebhooksIcon(props) {
   return (
     <BaseIcon
       {...props}
@@ -1041,7 +1150,7 @@ export function WebhooksIcon (props) {
   )
 }
 
-export function IntegrationsIconDisabled (props) {
+export function IntegrationsIconDisabled(props) {
   return (
     <BaseIcon
       {...props}
@@ -1056,7 +1165,7 @@ export function IntegrationsIconDisabled (props) {
   )
 }
 
-export function TeamIconNO (props) {
+export function TeamIconNO(props) {
   return (
     <BaseIcon
       {...props}
@@ -1071,7 +1180,7 @@ export function TeamIconNO (props) {
   )
 }
 
-export function SettingsIconNO (props) {
+export function SettingsIconNO(props) {
   return (
     <BaseIcon
       {...props}
@@ -1090,99 +1199,433 @@ export function SettingsIconNO (props) {
   )
 }
 
-
 // teensy icons:
 
-export function DashboardIcon(){
-  return <svg viewBox="0 0 15 15" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="15" 
-              height="15">
-          <path d="M.5 3.498L7.5.5l7 2.998m-14 0l7 2.998m-7-2.998V3.5m14-.002l-7 2.998m7-2.998V11.5l-7 3m7-11.002L7.5 6.5v8m0-8.004V14.5m0-8.004L.5 3.5m7 11l-7-3v-8" stroke="currentColor" strokeLinejoin="round">
-          </path>
-        </svg>
+export function DashboardIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M.5 3.498L7.5.5l7 2.998m-14 0l7 2.998m-7-2.998V3.5m14-.002l-7 2.998m7-2.998V11.5l-7 3m7-11.002L7.5 6.5v8m0-8.004V14.5m0-8.004L.5 3.5m7 11l-7-3v-8"
+        stroke="currentColor"
+        strokeLinejoin="round"
+      ></path>
+    </svg>
+  )
 }
-export function PlatformIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M5.5 11.5H5v.5h.5v-.5zm5 0v.5h.5v-.5h-.5zm-4.5 0V11H5v.5h1zm4-.5v.5h1V11h-1zm.5 0h-5v1h5v-1zM8 9a2 2 0 012 2h1a3 3 0 00-3-3v1zm-2 2a2 2 0 012-2V8a3 3 0 00-3 3h1zm2-8a2 2 0 00-2 2h1a1 1 0 011-1V3zm2 2a2 2 0 00-2-2v1a1 1 0 011 1h1zM8 7a2 2 0 002-2H9a1 1 0 01-1 1v1zm0-1a1 1 0 01-1-1H6a2 2 0 002 2V6zM3.5 1h9V0h-9v1zm9.5.5v12h1v-12h-1zM12.5 14h-9v1h9v-1zM3 13.5v-12H2v12h1zm.5.5a.5.5 0 01-.5-.5H2A1.5 1.5 0 003.5 15v-1zm9.5-.5a.5.5 0 01-.5.5v1a1.5 1.5 0 001.5-1.5h-1zM12.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0012.5 0v1zm-9-1A1.5 1.5 0 002 1.5h1a.5.5 0 01.5-.5V0zM4 4H1v1h3V4zm0 6H1v1h3v-1z" fill="currentColor"></path></svg>
+export function PlatformIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M5.5 11.5H5v.5h.5v-.5zm5 0v.5h.5v-.5h-.5zm-4.5 0V11H5v.5h1zm4-.5v.5h1V11h-1zm.5 0h-5v1h5v-1zM8 9a2 2 0 012 2h1a3 3 0 00-3-3v1zm-2 2a2 2 0 012-2V8a3 3 0 00-3 3h1zm2-8a2 2 0 00-2 2h1a1 1 0 011-1V3zm2 2a2 2 0 00-2-2v1a1 1 0 011 1h1zM8 7a2 2 0 002-2H9a1 1 0 01-1 1v1zm0-1a1 1 0 01-1-1H6a2 2 0 002 2V6zM3.5 1h9V0h-9v1zm9.5.5v12h1v-12h-1zM12.5 14h-9v1h9v-1zM3 13.5v-12H2v12h1zm.5.5a.5.5 0 01-.5-.5H2A1.5 1.5 0 003.5 15v-1zm9.5-.5a.5.5 0 01-.5.5v1a1.5 1.5 0 001.5-1.5h-1zM12.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0012.5 0v1zm-9-1A1.5 1.5 0 002 1.5h1a.5.5 0 01.5-.5V0zM4 4H1v1h3V4zm0 6H1v1h3v-1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function ChatIcon (){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M11.5 13.5l.157-.475-.218-.072-.197.119.258.428zm2-2l-.421-.27-.129.202.076.226.474-.158zm1 2.99l-.157.476a.5.5 0 00.631-.634l-.474.159zm-3.258-1.418c-.956.575-2.485.919-3.742.919v1c1.385 0 3.106-.37 4.258-1.063l-.516-.856zM7.5 13.99c-3.59 0-6.5-2.909-6.5-6.496H0a7.498 7.498 0 007.5 7.496v-1zM1 7.495A6.498 6.498 0 017.5 1V0A7.498 7.498 0 000 7.495h1zM7.5 1C11.09 1 14 3.908 14 7.495h1A7.498 7.498 0 007.5 0v1zM14 7.495c0 1.331-.296 2.758-.921 3.735l.842.54C14.686 10.575 15 8.937 15 7.495h-1zm-2.657 6.48l3 .99.314-.949-3-.99-.314.949zm3.631.357l-1-2.99-.948.316 1 2.991.948-.317z" fill="currentColor"></path></svg>
+export function ChatIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M11.5 13.5l.157-.475-.218-.072-.197.119.258.428zm2-2l-.421-.27-.129.202.076.226.474-.158zm1 2.99l-.157.476a.5.5 0 00.631-.634l-.474.159zm-3.258-1.418c-.956.575-2.485.919-3.742.919v1c1.385 0 3.106-.37 4.258-1.063l-.516-.856zM7.5 13.99c-3.59 0-6.5-2.909-6.5-6.496H0a7.498 7.498 0 007.5 7.496v-1zM1 7.495A6.498 6.498 0 017.5 1V0A7.498 7.498 0 000 7.495h1zM7.5 1C11.09 1 14 3.908 14 7.495h1A7.498 7.498 0 007.5 0v1zM14 7.495c0 1.331-.296 2.758-.921 3.735l.842.54C14.686 10.575 15 8.937 15 7.495h-1zm-2.657 6.48l3 .99.314-.949-3-.99-.314.949zm3.631.357l-1-2.99-.948.316 1 2.991.948-.317z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function ConversationChatIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
-          <path d="M3.5 11.493H4v-.5h-.5v.5zm0 2.998H3a.5.5 0 00.8.4l-.3-.4zm4-2.998v-.5h-.167l-.133.1.3.4zm-3-7.496H4v1h.5v-1zm6 1h.5v-1h-.5v1zm-6 1.998H4v1h.5v-1zm4 1H9v-1h-.5v1zM3 11.493v2.998h1v-2.998H3zm.8 3.398l4-2.998-.6-.8-4 2.998.6.8zm3.7-2.898h6v-1h-6v1zm6 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h2v-1h-2v1zm3-6.996h6v-1h-6v1zm0 2.998h4v-1h-4v1z" 
-          fill="currentColor">
-          </path>
-        </svg>
+export function ConversationChatIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M3.5 11.493H4v-.5h-.5v.5zm0 2.998H3a.5.5 0 00.8.4l-.3-.4zm4-2.998v-.5h-.167l-.133.1.3.4zm-3-7.496H4v1h.5v-1zm6 1h.5v-1h-.5v1zm-6 1.998H4v1h.5v-1zm4 1H9v-1h-.5v1zM3 11.493v2.998h1v-2.998H3zm.8 3.398l4-2.998-.6-.8-4 2.998.6.8zm3.7-2.898h6v-1h-6v1zm6 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h2v-1h-2v1zm3-6.996h6v-1h-6v1zm0 2.998h4v-1h-4v1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function AssignmentIcon (){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M2.5 1.5a1 1 0 11-2 0 1 1 0 012 0zm0 0h2a3 3 0 013 3v6a3 3 0 003 3h2m0 0a1 1 0 102 0 1 1 0 00-2 0z" stroke="currentColor"></path></svg>
+export function AssignmentIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M2.5 1.5a1 1 0 11-2 0 1 1 0 012 0zm0 0h2a3 3 0 013 3v6a3 3 0 003 3h2m0 0a1 1 0 102 0 1 1 0 00-2 0z"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function CampaignsIcon (){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M14.5.5l.457.203A.5.5 0 0014.5 0v.5zM.5.5V0a.5.5 0 00-.5.5h.5zm14 9v.5a.5.5 0 00.457-.703L14.5 9.5zm-2-4.5l-.457-.203a.5.5 0 000 .406L12.5 5zm2-5H.5v1h14V0zM0 .5v9h1v-9H0zM.5 10h14V9H.5v1zm14.457-.703l-2-4.5-.914.406 2 4.5.914-.406zm-2-4.094l2-4.5-.914-.406-2 4.5.914.406zM1 15V9.5H0V15h1z" fill="currentColor"></path></svg>
+export function CampaignsIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M14.5.5l.457.203A.5.5 0 0014.5 0v.5zM.5.5V0a.5.5 0 00-.5.5h.5zm14 9v.5a.5.5 0 00.457-.703L14.5 9.5zm-2-4.5l-.457-.203a.5.5 0 000 .406L12.5 5zm2-5H.5v1h14V0zM0 .5v9h1v-9H0zM.5 10h14V9H.5v1zm14.457-.703l-2-4.5-.914.406 2 4.5.914-.406zm-2-4.094l2-4.5-.914-.406-2 4.5.914.406zM1 15V9.5H0V15h1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function MailingIcon(){
-  return  <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M.5 4.5l7 4 7-4m-13-3h12a1 1 0 011 1v10a1 1 0 01-1 1h-12a1 1 0 01-1-1v-10a1 1 0 011-1z" stroke="currentColor"></path></svg>
+export function MailingIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M.5 4.5l7 4 7-4m-13-3h12a1 1 0 011 1v10a1 1 0 01-1 1h-12a1 1 0 01-1-1v-10a1 1 0 011-1z"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function AutoMessages (){
-  return  <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M7.713 11.493l-.035-.5.035.5zM1.5 1h12V0h-12v1zm12.5.5v12h1v-12h-1zM13.5 14h-12v1h12v-1zM1 13.5v-12H0v12h1zm.5.5a.5.5 0 01-.5-.5H0A1.5 1.5 0 001.5 15v-1zm12.5-.5a.5.5 0 01-.5.5v1a1.5 1.5 0 001.5-1.5h-1zM13.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0013.5 0v1zm-12-1A1.5 1.5 0 000 1.5h1a.5.5 0 01.5-.5V0zm6 12c.083 0 .166-.003.248-.009l-.07-.997A2.546 2.546 0 017.5 11v1zm-.823-.098c.264.064.54.098.823.098v-1c-.203 0-.4-.024-.589-.07l-.234.973zm.234-.972c-.969-.233-1.9-.895-2.97-1.586C2.924 8.687 1.771 8 .5 8v1c.938 0 1.858.512 2.899 1.184.987.638 2.099 1.434 3.278 1.719l.234-.973zm.837 1.061c1.386-.097 2.7-.927 3.865-1.632C12.843 9.616 13.922 9 15 9V8c-1.407 0-2.732.794-3.905 1.503-1.237.749-2.324 1.414-3.417 1.49l.07.998z" fill="currentColor"></path></svg>
+export function AutoMessages() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M7.713 11.493l-.035-.5.035.5zM1.5 1h12V0h-12v1zm12.5.5v12h1v-12h-1zM13.5 14h-12v1h12v-1zM1 13.5v-12H0v12h1zm.5.5a.5.5 0 01-.5-.5H0A1.5 1.5 0 001.5 15v-1zm12.5-.5a.5.5 0 01-.5.5v1a1.5 1.5 0 001.5-1.5h-1zM13.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0013.5 0v1zm-12-1A1.5 1.5 0 000 1.5h1a.5.5 0 01.5-.5V0zm6 12c.083 0 .166-.003.248-.009l-.07-.997A2.546 2.546 0 017.5 11v1zm-.823-.098c.264.064.54.098.823.098v-1c-.203 0-.4-.024-.589-.07l-.234.973zm.234-.972c-.969-.233-1.9-.895-2.97-1.586C2.924 8.687 1.771 8 .5 8v1c.938 0 1.858.512 2.899 1.184.987.638 2.099 1.434 3.278 1.719l.234-.973zm.837 1.061c1.386-.097 2.7-.927 3.865-1.632C12.843 9.616 13.922 9 15 9V8c-1.407 0-2.732.794-3.905 1.503-1.237.749-2.324 1.414-3.417 1.49l.07.998z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function BannersIcon (){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M4.5 6.5V6a.5.5 0 00-.5.5h.5zm10 0h.5a.5.5 0 00-.5-.5v.5zm0 6v.5a.5.5 0 00.5-.5h-.5zm-10 0H4a.5.5 0 00.5.5v-.5zM1 1v14h1V1H1zM0 4h15V3H0v1zm4.5 3h10V6h-10v1zm9.5-.5v6h1v-6h-1zm.5 5.5h-10v1h10v-1zm-9.5.5v-6H4v6h1zm1-9v3h1v-3H6zm6 0v3h1v-3h-1z" fill="currentColor"></path></svg>
+export function BannersIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M4.5 6.5V6a.5.5 0 00-.5.5h.5zm10 0h.5a.5.5 0 00-.5-.5v.5zm0 6v.5a.5.5 0 00.5-.5h-.5zm-10 0H4a.5.5 0 00.5.5v-.5zM1 1v14h1V1H1zM0 4h15V3H0v1zm4.5 3h10V6h-10v1zm9.5-.5v6h1v-6h-1zm.5 5.5h-10v1h10v-1zm-9.5.5v-6H4v6h1zm1-9v3h1v-3H6zm6 0v3h1v-3h-1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function ToursIcon (){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M5.5 11.493l.416-.278a.5.5 0 00-.416-.222v.5zm2 2.998l-.416.277a.5.5 0 00.832 0l-.416-.277zm2-2.998v-.5a.5.5 0 00-.416.222l.416.278zM7 8l-.354.354.378.377.352-.402L7 8zm-1.916 3.77l2 2.998.832-.555-2-2.998-.832.555zm2.832 2.998l2-2.998-.832-.555-2 2.998.832.555zM9.5 11.993h4v-1h-4v1zm4 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h4v-1h-4v1zm3.146-5.64l2 2 .708-.707-2-2-.708.708zm2.73 1.976l3.5-4-.752-.658-3.5 4 .752.658z" fill="currentColor"></path></svg>
+export function ToursIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M5.5 11.493l.416-.278a.5.5 0 00-.416-.222v.5zm2 2.998l-.416.277a.5.5 0 00.832 0l-.416-.277zm2-2.998v-.5a.5.5 0 00-.416.222l.416.278zM7 8l-.354.354.378.377.352-.402L7 8zm-1.916 3.77l2 2.998.832-.555-2-2.998-.832.555zm2.832 2.998l2-2.998-.832-.555-2 2.998.832.555zM9.5 11.993h4v-1h-4v1zm4 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h4v-1h-4v1zm3.146-5.64l2 2 .708-.707-2-2-.708.708zm2.73 1.976l3.5-4-.752-.658-3.5 4 .752.658z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function BotIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M7.5 2.5a5 5 0 015 5v6a1 1 0 01-1 1h-8a1 1 0 01-1-1v-6a5 5 0 015-5zm0 0V0M4 11.5h7M.5 8v4m14-4v4m-9-2.5a1 1 0 110-2 1 1 0 010 2zm4 0a1 1 0 110-2 1 1 0 010 2z" stroke="currentColor"></path></svg>
+export function BotIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M7.5 2.5a5 5 0 015 5v6a1 1 0 01-1 1h-8a1 1 0 01-1-1v-6a5 5 0 015-5zm0 0V0M4 11.5h7M.5 8v4m14-4v4m-9-2.5a1 1 0 110-2 1 1 0 010 2zm4 0a1 1 0 110-2 1 1 0 010 2z"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function OutboundIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M13.5 7.5l-3 3.25m3-3.25l-3-3m3 3H4m4 6H1.5v-12H8" stroke="currentColor"></path></svg>
+export function OutboundIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M13.5 7.5l-3 3.25m3-3.25l-3-3m3 3H4m4 6H1.5v-12H8"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function NewconversationIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M10.5 7.5l-3 3.25m3-3.25l-3-3m3 3H1m6-6h6.5v12H7" stroke="currentColor"></path></svg>
+export function NewconversationIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M10.5 7.5l-3 3.25m3-3.25l-3-3m3 3H1m6-6h6.5v12H7"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function SettingsIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path clipRule="evenodd" d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z" stroke="currentColor" strokeLinecap="square" strokeLinejoin="round"></path><path clipRule="evenodd" d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z" stroke="currentColor" strokeLinecap="square" strokeLinejoin="round"></path></svg>
+export function SettingsIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        clipRule="evenodd"
+        d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z"
+        stroke="currentColor"
+        strokeLinecap="square"
+        strokeLinejoin="round"
+      ></path>
+      <path
+        clipRule="evenodd"
+        d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z"
+        stroke="currentColor"
+        strokeLinecap="square"
+        strokeLinejoin="round"
+      ></path>
+    </svg>
+  )
 }
-export function HelpCenterIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M1.5.5V0a.5.5 0 00-.5.5h.5zm0 13H1a.5.5 0 00.5.5v-.5zM4 0v15h1V0H4zM1.5 1h10V0h-10v1zM13 2.5v9h1v-9h-1zM11.5 13h-10v1h10v-1zm-9.5.5V.5H1v13h1zm11-2a1.5 1.5 0 01-1.5 1.5v1a2.5 2.5 0 002.5-2.5h-1zM11.5 1A1.5 1.5 0 0113 2.5h1A2.5 2.5 0 0011.5 0v1zM7 5h4V4H7v1z" fill="currentColor"></path></svg>
+export function HelpCenterIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M1.5.5V0a.5.5 0 00-.5.5h.5zm0 13H1a.5.5 0 00.5.5v-.5zM4 0v15h1V0H4zM1.5 1h10V0h-10v1zM13 2.5v9h1v-9h-1zM11.5 13h-10v1h10v-1zm-9.5.5V.5H1v13h1zm11-2a1.5 1.5 0 01-1.5 1.5v1a2.5 2.5 0 002.5-2.5h-1zM11.5 1A1.5 1.5 0 0113 2.5h1A2.5 2.5 0 0011.5 0v1zM7 5h4V4H7v1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function ArticlesIcon (){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M10.5 14.5H10a.5.5 0 00.854.354L10.5 14.5zm0-4V10a.5.5 0 00-.5.5h.5zm4 0l.354.354A.5.5 0 0014.5 10v.5zM1.5 1h12V0h-12v1zM1 13.5v-12H0v12h1zm13-12v8.586h1V1.5h-1zM10.086 14H1.5v1h8.586v-1zm3.768-3.56l-3.415 3.414.707.707 3.415-3.415-.707-.707zM10.086 15a1.5 1.5 0 001.06-.44l-.707-.706a.5.5 0 01-.353.146v1zM14 10.086a.5.5 0 01-.146.353l.707.707a1.5 1.5 0 00.439-1.06h-1zM0 13.5A1.5 1.5 0 001.5 15v-1a.5.5 0 01-.5-.5H0zM13.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0013.5 0v1zm-12-1A1.5 1.5 0 000 1.5h1a.5.5 0 01.5-.5V0zM11 14.5v-4h-1v4h1zm-.5-3.5h4v-1h-4v1zm3.646-.854l-4 4 .708.708 4-4-.708-.708zM3 4h9V3H3v1z" fill="currentColor"></path></svg>
+export function ArticlesIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M10.5 14.5H10a.5.5 0 00.854.354L10.5 14.5zm0-4V10a.5.5 0 00-.5.5h.5zm4 0l.354.354A.5.5 0 0014.5 10v.5zM1.5 1h12V0h-12v1zM1 13.5v-12H0v12h1zm13-12v8.586h1V1.5h-1zM10.086 14H1.5v1h8.586v-1zm3.768-3.56l-3.415 3.414.707.707 3.415-3.415-.707-.707zM10.086 15a1.5 1.5 0 001.06-.44l-.707-.706a.5.5 0 01-.353.146v1zM14 10.086a.5.5 0 01-.146.353l.707.707a1.5 1.5 0 00.439-1.06h-1zM0 13.5A1.5 1.5 0 001.5 15v-1a.5.5 0 01-.5-.5H0zM13.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0013.5 0v1zm-12-1A1.5 1.5 0 000 1.5h1a.5.5 0 01.5-.5V0zM11 14.5v-4h-1v4h1zm-.5-3.5h4v-1h-4v1zm3.646-.854l-4 4 .708.708 4-4-.708-.708zM3 4h9V3H3v1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function CollectionsIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M5 8.5h5M.5.5h14v4H.5v-4zm1 4v9a1 1 0 001 1h10a1 1 0 001-1v-9h-12z" stroke="currentColor"></path></svg>
+export function CollectionsIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M5 8.5h5M.5.5h14v4H.5v-4zm1 4v9a1 1 0 001 1h10a1 1 0 001-1v-9h-12z"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function SettingsIconArticle (){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path clipRule="evenodd" d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z" stroke="currentColor" strokeLinecap="square" strokeLinejoin="round"></path><path clipRule="evenodd" d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z" stroke="currentColor" strokeLinecap="square" strokeLinejoin="round"></path></svg>
+export function SettingsIconArticle() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        clipRule="evenodd"
+        d="M5.944.5l-.086.437-.329 1.598a5.52 5.52 0 00-1.434.823L2.487 2.82l-.432-.133-.224.385L.724 4.923.5 5.31l.328.287 1.244 1.058c-.045.277-.103.55-.103.841 0 .291.058.565.103.842L.828 9.395.5 9.682l.224.386 1.107 1.85.224.387.432-.135 1.608-.537c.431.338.908.622 1.434.823l.329 1.598.086.437h3.111l.087-.437.328-1.598a5.524 5.524 0 001.434-.823l1.608.537.432.135.225-.386 1.106-1.851.225-.386-.329-.287-1.244-1.058c.046-.277.103-.55.103-.842 0-.29-.057-.564-.103-.841l1.244-1.058.329-.287-.225-.386-1.106-1.85-.225-.386-.432.134-1.608.537a5.52 5.52 0 00-1.434-.823L9.142.937 9.055.5H5.944z"
+        stroke="currentColor"
+        strokeLinecap="square"
+        strokeLinejoin="round"
+      ></path>
+      <path
+        clipRule="evenodd"
+        d="M9.5 7.495a2 2 0 01-4 0 2 2 0 014 0z"
+        stroke="currentColor"
+        strokeLinecap="square"
+        strokeLinejoin="round"
+      ></path>
+    </svg>
+  )
 }
-export function BillingIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M.5 5.5h14M2 9.5h6m2 0h3M.5 3.5v8a1 1 0 001 1h12a1 1 0 001-1v-8a1 1 0 00-1-1h-12a1 1 0 00-1 1z" stroke="currentColor"></path></svg>
+export function BillingIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M.5 5.5h14M2 9.5h6m2 0h3M.5 3.5v8a1 1 0 001 1h12a1 1 0 001-1v-8a1 1 0 00-1-1h-12a1 1 0 00-1 1z"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function IntegrationsIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M7.5 1.5l.197-.46a.5.5 0 00-.394 0l.197.46zm-7 3l-.197-.46a.5.5 0 000 .92L.5 4.5zm7 3l-.197.46a.5.5 0 00.394 0L7.5 7.5zm7-3l.197.46a.5.5 0 000-.92l-.197.46zm-7 6l-.197.46.197.084.197-.084-.197-.46zm0 3l-.197.46.197.084.197-.084-.197-.46zM7.303 1.04l-7 3 .394.92 7-3-.394-.92zm-7 3.92l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm7-3.92l-7-3-.394.92 7 3 .394-.92zM.303 7.96l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm-7.394 0l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92z" fill="currentColor"></path></svg>
+export function IntegrationsIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M7.5 1.5l.197-.46a.5.5 0 00-.394 0l.197.46zm-7 3l-.197-.46a.5.5 0 000 .92L.5 4.5zm7 3l-.197.46a.5.5 0 00.394 0L7.5 7.5zm7-3l.197.46a.5.5 0 000-.92l-.197.46zm-7 6l-.197.46.197.084.197-.084-.197-.46zm0 3l-.197.46.197.084.197-.084-.197-.46zM7.303 1.04l-7 3 .394.92 7-3-.394-.92zm-7 3.92l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm7-3.92l-7-3-.394.92 7 3 .394-.92zM.303 7.96l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm-7.394 0l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function TeamIcon(){ 
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M10.5 14.49v.5h.5v-.5h-.5zm-10 0H0v.5h.5v-.5zm14 .01v.5h.5v-.5h-.5zM8 3.498a2.499 2.499 0 01-2.5 2.498v1C7.433 6.996 9 5.43 9 3.498H8zM5.5 5.996A2.499 2.499 0 013 3.498H2a3.499 3.499 0 003.5 3.498v-1zM3 3.498A2.499 2.499 0 015.5 1V0A3.499 3.499 0 002 3.498h1zM5.5 1A2.5 2.5 0 018 3.498h1A3.499 3.499 0 005.5 0v1zm5 12.99H.5v1h10v-1zm-9.5.5v-1.996H0v1.996h1zm2.5-4.496h4v-1h-4v1zm6.5 2.5v1.996h1v-1.997h-1zm-2.5-2.5a2.5 2.5 0 012.5 2.5h1a3.5 3.5 0 00-3.5-3.5v1zm-6.5 2.5a2.5 2.5 0 012.5-2.5v-1a3.5 3.5 0 00-3.5 3.5h1zM14 13v1.5h1V13h-1zm.5 1H12v1h2.5v-1zM12 11a2 2 0 012 2h1a3 3 0 00-3-3v1zm-.5-3A1.5 1.5 0 0110 6.5H9A2.5 2.5 0 0011.5 9V8zM13 6.5A1.5 1.5 0 0111.5 8v1A2.5 2.5 0 0014 6.5h-1zM11.5 5A1.5 1.5 0 0113 6.5h1A2.5 2.5 0 0011.5 4v1zm0-1A2.5 2.5 0 009 6.5h1A1.5 1.5 0 0111.5 5V4z" fill="currentColor"></path></svg>
+export function TeamIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M10.5 14.49v.5h.5v-.5h-.5zm-10 0H0v.5h.5v-.5zm14 .01v.5h.5v-.5h-.5zM8 3.498a2.499 2.499 0 01-2.5 2.498v1C7.433 6.996 9 5.43 9 3.498H8zM5.5 5.996A2.499 2.499 0 013 3.498H2a3.499 3.499 0 003.5 3.498v-1zM3 3.498A2.499 2.499 0 015.5 1V0A3.499 3.499 0 002 3.498h1zM5.5 1A2.5 2.5 0 018 3.498h1A3.499 3.499 0 005.5 0v1zm5 12.99H.5v1h10v-1zm-9.5.5v-1.996H0v1.996h1zm2.5-4.496h4v-1h-4v1zm6.5 2.5v1.996h1v-1.997h-1zm-2.5-2.5a2.5 2.5 0 012.5 2.5h1a3.5 3.5 0 00-3.5-3.5v1zm-6.5 2.5a2.5 2.5 0 012.5-2.5v-1a3.5 3.5 0 00-3.5 3.5h1zM14 13v1.5h1V13h-1zm.5 1H12v1h2.5v-1zM12 11a2 2 0 012 2h1a3 3 0 00-3-3v1zm-.5-3A1.5 1.5 0 0110 6.5H9A2.5 2.5 0 0011.5 9V8zM13 6.5A1.5 1.5 0 0111.5 8v1A2.5 2.5 0 0014 6.5h-1zM11.5 5A1.5 1.5 0 0113 6.5h1A2.5 2.5 0 0011.5 4v1zm0-1A2.5 2.5 0 009 6.5h1A1.5 1.5 0 0111.5 5V4z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function MessengerIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M5.5 11.493l.416-.278a.5.5 0 00-.416-.222v.5zm2 2.998l-.416.277a.5.5 0 00.832 0l-.416-.277zm2-2.998v-.5a.5.5 0 00-.416.222l.416.278zm-4.416.277l2 2.998.832-.555-2-2.998-.832.555zm2.832 2.998l2-2.998-.832-.555-2 2.998.832.555zM9.5 11.993h4v-1h-4v1zm4 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h4v-1h-4v1zM7 7h1V6H7v1zM4 7h1V6H4v1zm6 0h1V6h-1v1z" fill="currentColor"></path></svg>
+export function MessengerIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M5.5 11.493l.416-.278a.5.5 0 00-.416-.222v.5zm2 2.998l-.416.277a.5.5 0 00.832 0l-.416-.277zm2-2.998v-.5a.5.5 0 00-.416.222l.416.278zm-4.416.277l2 2.998.832-.555-2-2.998-.832.555zm2.832 2.998l2-2.998-.832-.555-2 2.998.832.555zM9.5 11.993h4v-1h-4v1zm4 0c.829 0 1.5-.67 1.5-1.5h-1c0 .277-.223.5-.5.5v1zm1.5-1.5V1.5h-1v8.994h1zM15 1.5c0-.83-.671-1.5-1.5-1.5v1c.277 0 .5.223.5.5h1zM13.5 0h-12v1h12V0zm-12 0C.671 0 0 .67 0 1.5h1c0-.277.223-.5.5-.5V0zM0 1.5v8.993h1V1.5H0zm0 8.993c0 .83.671 1.5 1.5 1.5v-1a.499.499 0 01-.5-.5H0zm1.5 1.5h4v-1h-4v1zM7 7h1V6H7v1zM4 7h1V6H4v1zm6 0h1V6h-1v1z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  )
 }
-export function AppSettingsIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M7.5 12.5V15m5-15v2.5M2.5 0v6.5m0 2V15m5-4.5V0m5 4.5V15m-2-10.5h4v-2h-4v2zm-5 8h4v-2h-4v2zm-5-4h4v-2h-4v2z" stroke="currentColor"></path></svg>
+export function AppSettingsIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+    >
+      <path
+        d="M7.5 12.5V15m5-15v2.5M2.5 0v6.5m0 2V15m5-4.5V0m5 4.5V15m-2-10.5h4v-2h-4v2zm-5 8h4v-2h-4v2zm-5-4h4v-2h-4v2z"
+        stroke="currentColor"
+      ></path>
+    </svg>
+  )
 }
 
-export function LightModeIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M7.5 1.5v-1m0 13.99v-.998m6-5.997h1m-13 0h-1m2-4.996l-1-1m12 0l-1 1m-10 9.993l-1 1m12 0l-1-1m-2-4.997a2.999 2.999 0 01-3 2.998 2.999 2.999 0 113-2.998z" stroke="currentColor" strokeLinecap="square"></path></svg>
+export function LightModeIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M7.5 1.5v-1m0 13.99v-.998m6-5.997h1m-13 0h-1m2-4.996l-1-1m12 0l-1 1m-10 9.993l-1 1m12 0l-1-1m-2-4.997a2.999 2.999 0 01-3 2.998 2.999 2.999 0 113-2.998z"
+        stroke="currentColor"
+        strokeLinecap="square"
+      ></path>
+    </svg>
+  )
 }
 
-export function DarkModeIcon(){
-  return <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M1.66 11.362A6.5 6.5 0 007.693.502a7 7 0 11-6.031 10.86z" stroke="currentColor" strokeLinejoin="round"></path></svg>
+export function DarkModeIcon() {
+  return (
+    <svg
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+    >
+      <path
+        d="M1.66 11.362A6.5 6.5 0 007.693.502a7 7 0 11-6.031 10.86z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+      ></path>
+    </svg>
+  )
 }
-
-
 
 export default {
   WidgetsIcon,

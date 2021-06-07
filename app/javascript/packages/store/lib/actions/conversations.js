@@ -3,14 +3,14 @@ import graphql from '../graphql/client'
 
 import {
   CONVERSATIONS,
-  CONVERSATION_WITH_LAST_MESSAGE
+  CONVERSATION_WITH_LAST_MESSAGE,
 } from '../graphql/queries'
 
 import { playSound, appendMessage } from './conversation'
 
 import { uniqBy } from 'lodash'
 
-export function getConversations (options, cb) {
+export function getConversations(options, cb) {
   const { page } = options
   return (dispatch, getState) => {
     const { sort, filter, meta, agentId, tag, term } = getState().conversations
@@ -28,7 +28,7 @@ export function getConversations (options, cb) {
         filter: filter,
         agentId: agentId,
         tag: tag,
-        term: term
+        term: term,
       },
       {
         success: (data) => {
@@ -37,11 +37,11 @@ export function getConversations (options, cb) {
             collection:
               nextPage > 1
                 ? getState().conversations.collection.concat(
-                  conversations.collection
-                )
+                    conversations.collection
+                  )
                 : conversations.collection,
             meta: conversations.meta,
-            loading: false
+            loading: false,
           }
 
           dispatch(dispatchGetConversations(newData))
@@ -55,13 +55,13 @@ export function getConversations (options, cb) {
         }) */
 
           if (cb) cb()
-        }
+        },
       }
     )
   }
 }
 
-export function appendConversation (data, _cb) {
+export function appendConversation(data, _cb) {
   return (dispatch, getState) => {
     const conversation = getState().conversations.collection.find(
       (o) => o.key === data.conversationKey
@@ -75,7 +75,7 @@ export function appendConversation (data, _cb) {
         CONVERSATION_WITH_LAST_MESSAGE,
         {
           appKey: getState().app.key,
-          id: data.conversationKey
+          id: data.conversationKey,
         },
         {
           success: (data) => {
@@ -83,7 +83,7 @@ export function appendConversation (data, _cb) {
               getState().conversations.collection
             )
             dispatch(appendConversationDispatcher(newMessages))
-          }
+          },
         }
       )
     } else {
@@ -110,52 +110,52 @@ export function appendConversation (data, _cb) {
   }
 }
 
-export function updateConversationsData (data, cb) {
+export function updateConversationsData(data, cb) {
   return (dispatch, _getState) => {
     dispatch(dispatchDataUpate(data))
     cb && cb()
   }
 }
 
-export function updateConversationItem (data) {
+export function updateConversationItem(data) {
   return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.UpdateConversationItem,
-      data: data
+      data: data,
     })
   }
 }
 
-export function clearConversations (data) {
+export function clearConversations(data) {
   return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.ClearConversations,
-      data: data
+      data: data,
     })
   }
 }
 
-function appendConversationDispatcher (data) {
+function appendConversationDispatcher(data) {
   // TODO: the data here is filteres to get uniq array by conv key
   // but the real deal solution might be a redux queue to append sequencially
   // https://redux-loop.js.org/docs/recipes/ActionQueue.html
   return {
     type: ActionTypes.AppendConversation,
-    data: uniqBy(data, 'key')
+    data: uniqBy(data, 'key'),
   }
 }
 
-function dispatchGetConversations (data) {
+function dispatchGetConversations(data) {
   return {
     type: ActionTypes.GetConversations,
-    data: data
+    data: data,
   }
 }
 
-function dispatchDataUpate (data) {
+function dispatchDataUpate(data) {
   return {
     type: ActionTypes.UpdateConversations,
-    data: data
+    data: data,
   }
 }
 
@@ -167,11 +167,11 @@ const initialState = {
   collection: [],
   agentId: null,
   tag: null,
-  term: null
+  term: null,
 }
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ActionTypes.GetConversations: {
       return Object.assign({}, state, action.data)
@@ -192,11 +192,9 @@ export default function reducer (state = initialState, action = {}) {
     case ActionTypes.UpdateConversationItem: {
       return {
         ...state,
-        collection: state.collection.map(
-          item => item.id === action.data.id
-            ? { ...item, ...action.data }
-            : item
-        )
+        collection: state.collection.map((item) =>
+          item.id === action.data.id ? { ...item, ...action.data } : item
+        ),
       }
     }
 

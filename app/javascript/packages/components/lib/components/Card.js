@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default function Card ({ title, description, imageSrc, className }) {
-  const classes = className ? className : "rounded overflow-hidden shadow-lg bg-white h-full" 
+export default function Card({ title, description, imageSrc, className }) {
+  const classes = className
+    ? className
+    : 'rounded overflow-hidden shadow-lg bg-white h-full'
   return (
     <div className={classes}>
       {imageSrc && (

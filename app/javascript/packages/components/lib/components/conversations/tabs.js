@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SimpleTabs ({ tabs, buttons }) {
+export default function SimpleTabs({ tabs, buttons }) {
   const [value, setValue] = React.useState(0)
 
   return (
@@ -18,10 +18,7 @@ export default function SimpleTabs ({ tabs, buttons }) {
             </a>
           ))}
 
-          {
-            buttons && buttons()
-          }
-
+          {buttons && buttons()}
         </nav>
       </div>
 

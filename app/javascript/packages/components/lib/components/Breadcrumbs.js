@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function Breadcrumbs ({ breadcrumbs }) {
+export default function Breadcrumbs({ breadcrumbs }) {
   return (
     <nav className="hidden sm:flex items-center text-sm leading-5 font-medium">
       {breadcrumbs.map((o, i) => (
@@ -15,7 +15,9 @@ export default function Breadcrumbs ({ breadcrumbs }) {
             </Link>
           )}
 
-          {!o.to && <span className="text-gray-400 dark:text-gray-200">{o.title}</span>}
+          {!o.to && (
+            <span className="text-gray-400 dark:text-gray-200">{o.title}</span>
+          )}
 
           {breadcrumbs.length - 1 !== i && (
             <svg

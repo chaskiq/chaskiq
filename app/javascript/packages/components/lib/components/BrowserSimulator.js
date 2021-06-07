@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import tw from 'twin.macro'
 
 export const BrowserSimulatorWrap = styled.div`
-	position:relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
@@ -65,13 +65,13 @@ export const EditorMessengerEmulator = styled.div`
 `
 export const EditorMessengerEmulatorWrapper = styled.div`
   //position: relative;
-  
-  ${
-    ({ mode }) => mode === 'user_auto_messages' ? 
-      tw`bg-white dark:bg-black rounded-lg shadow-lg p-8 pt-0 mb-6 mr-8 border border-gray-300` : ''
-  }
 
-  ${({mode}) =>
+  ${({ mode }) =>
+    mode === 'user_auto_messages'
+      ? tw`bg-white dark:bg-black rounded-lg shadow-lg p-8 pt-0 mb-6 mr-8 border border-gray-300`
+      : ''}
+
+  ${({ mode }) =>
     mode === 'user_auto_messages'
       ? `
     width: 380px;
@@ -80,13 +80,13 @@ export const EditorMessengerEmulatorWrapper = styled.div`
       margin-left: -2px;
     }
     `
-  : ''}
+      : ''}
 `
 
 export const EditorPad = styled.div`
   ${(props) =>
-		props.mode === 'user_auto_messages' &&
-			` display:flex;
+    props.mode === 'user_auto_messages' &&
+    ` display:flex;
 				justify-content: flex-end;
 				flex-flow: column;
 				height: 90vh;
@@ -95,13 +95,11 @@ export const EditorPad = styled.div`
 					height: 440px;
 					overflow: auto;
 				}
-			`
+			`}
 
-	}
-
-	${(props) =>
-		props.mode === 'banners' &&
-			` display:flex;
+  ${(props) =>
+    props.mode === 'banners' &&
+    ` display:flex;
 				justify-content: flex-end;
 				flex-flow: column;
 				height: 40vh;
@@ -111,12 +109,12 @@ export const EditorPad = styled.div`
 					height: auto !important;
 					overflow: auto;
 				}
-			`
-	}
+			`}
 
 	${(props) =>
-		(props.mode !== 'banners' && props.mode !== 'user_auto_messages') &&
-			`
+    props.mode !== 'banners' &&
+    props.mode !== 'user_auto_messages' &&
+    `
 			padding: 2em;
 			//background-color: white;
 			//margin: 2em;
@@ -129,20 +127,17 @@ export const EditorPad = styled.div`
 			@media (max-width: 640px){
 				margin: 2em;
 			}
-			`
-
-	}
+			`}
 `
 
 export const EditorMessengerEmulatorHeader = styled.div`
   ${(props) =>
     props.mode === 'user_auto_messages'
       ? 'padding: 1em; border-bottom: 1px solid #ccc;'
-		: ''
-	}
+      : ''}
 `
 
-export default function BrowserSimulator ({ children, mode }) {
+export default function BrowserSimulator({ children, mode }) {
   return (
     <BrowserSimulatorWrap mode={mode}>
       <BrowserSimulatorHeader>
@@ -159,7 +154,6 @@ export default function BrowserSimulator ({ children, mode }) {
             <EditorMessengerEmulatorHeader mode={mode} />
 
             {children}
-
           </EditorMessengerEmulatorWrapper>
         </EditorMessengerEmulator>
       </EditorPad>

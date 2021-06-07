@@ -6,7 +6,7 @@ import { UPDATE_APP } from '../graphql/mutations'
 import { successMessage } from './status_messages'
 import { isEmpty } from 'lodash'
 
-export function setApp (key, cb) {
+export function setApp(key, cb) {
   return (dispatch, _getState) => {
     graphql(
       APP,
@@ -22,37 +22,37 @@ export function setApp (key, cb) {
           if (cb && cb.error) {
             cb.success(err)
           }
-        }
+        },
       }
     )
   }
 }
 
-export function clearApp () {
+export function clearApp() {
   return (dispatch, _getState) => {
     dispatch(getApp(null))
   }
 }
 
-function getApp (app) {
+function getApp(app) {
   return {
     type: ActionTypes.GetApp,
-    data: app
+    data: app,
   }
 }
 
-export function updateApp (appParams, cb) {
+export function updateApp(appParams, cb) {
   return (dispatch, getState) => {
     graphql(
       UPDATE_APP,
       {
         appKey: getState().app.key,
-        appParams: appParams
+        appParams: appParams,
       },
       {
         success: (data) => {
           const newObject = Object.assign({}, data.appsUpdate.app, {
-            errors: data.appsUpdate.errors
+            errors: data.appsUpdate.errors,
           })
           dispatch(getApp(newObject))
           if (isEmpty(data.appsUpdate.errors)) {
@@ -63,7 +63,7 @@ export function updateApp (appParams, cb) {
         error: (error) => {
           console.log('ERRR Updating app', error)
           cb && cb()
-        }
+        },
       }
     )
   }
@@ -72,7 +72,7 @@ export function updateApp (appParams, cb) {
 const initialState = null
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ActionTypes.GetApp: {
       return action.data

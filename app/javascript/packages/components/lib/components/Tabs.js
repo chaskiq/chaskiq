@@ -24,7 +24,7 @@ const Scrollable = styled.div`
   -ms-overflow-style: none;
 `
 
-export default function SimpleTabs ({ tabs, currentTab, onChange }) {
+export default function SimpleTabs({ tabs, currentTab, onChange }) {
   const [value, setValue] = React.useState(currentTab || 0)
 
   React.useEffect(() => {

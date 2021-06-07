@@ -4,18 +4,20 @@
 
 import React, { Component } from 'react'
 import redraft from 'redraft'
-import {
-  AttachmentIcon2
-} from '../icons'
+import { AttachmentIcon2 } from '../icons'
 
 import Prism from 'prismjs'
 
 const handlePrismRenderer = (syntax, code) => {
-  const formattedCode = Prism.highlight(code, Prism.languages.javascript, 'javascript')
+  const formattedCode = Prism.highlight(
+    code,
+    Prism.languages.javascript,
+    'javascript'
+  )
   return { __html: formattedCode }
 }
 
-function Pre ({ _className, children, data }) {
+function Pre({ _className, children, data }) {
   const el = React.useRef(null)
   const [code, setCode] = React.useState(null)
 
@@ -23,25 +25,23 @@ function Pre ({ _className, children, data }) {
     setCode(handlePrismRenderer(data.syntax, el.current.innerHTML))
   }, [])
 
-  return <div>
-    <div ref={el} style={{ display: 'none' }}>
-      {children}
-    </div>
+  return (
+    <div>
+      <div ref={el} style={{ display: 'none' }}>
+        {children}
+      </div>
 
-    { code && <pre
-      className="graf graf--code"
-      dangerouslySetInnerHTML={code}
-    />
-    }
-  </div>
+      {code && (
+        <pre className="graf graf--code" dangerouslySetInnerHTML={code} />
+      )}
+    </div>
+  )
 }
 
 // just a helper to add a <br /> after a block
-const addBreaklines = (children) => children.map(
-  child => [child, <br />]
-)
+const addBreaklines = (children) => children.map((child) => [child, <br />])
 
-function getImageUrl (url, props) {
+function getImageUrl(url, props) {
   if (!url) return
   if (url.includes('://')) return url
   return `${props.domain}${url}`
@@ -49,7 +49,7 @@ function getImageUrl (url, props) {
 /**
  * Define the renderers
  */
-function renderers (props) {
+function renderers(props) {
   return {
     /**
      * Those callbacks will be called recursively to render a nested structure
@@ -58,7 +58,7 @@ function renderers (props) {
       // The key passed here is just an index based on rendering order inside a block
       BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
       ITALIC: (children, { key }) => <em key={key}>{children}</em>,
-      UNDERLINE: (children, { key }) => <u key={key}>{children}</u>
+      UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
       /* CODE: (children, { key }) => <span
         key={key}
         dangerouslySetInnerHTML={handlePrismRenderer(children)}
@@ -69,49 +69,67 @@ function renderers (props) {
      * Note that children are an array of blocks with same styling,
      */
     blocks: {
-
       unstyled: (children, { keys }) => {
-        return children.map(
-          (o, i) => (<p key={keys[i]} className="graf graf--p">{o}</p>)
-        )
+        return children.map((o, i) => (
+          <p key={keys[i]} className="graf graf--p">
+            {o}
+          </p>
+        ))
       },
-      blockquote: (children, { keys }) => <blockquote
-        key={keys[0]}
-        className="graf graf--blockquote">
-        {addBreaklines(children)}
-      </blockquote>,
-      'header-one': (children, { keys }) => <h1 key={keys[0]} className="graf graf--h2">{children}</h1>,
-      'header-two': (children, { keys }) => <h2 key={keys[0]} className="graf graf--h3">{children}</h2>,
+      blockquote: (children, { keys }) => (
+        <blockquote key={keys[0]} className="graf graf--blockquote">
+          {addBreaklines(children)}
+        </blockquote>
+      ),
+      'header-one': (children, { keys }) => (
+        <h1 key={keys[0]} className="graf graf--h2">
+          {children}
+        </h1>
+      ),
+      'header-two': (children, { keys }) => (
+        <h2 key={keys[0]} className="graf graf--h3">
+          {children}
+        </h2>
+      ),
       // You can also access the original keys of the blocks
       'code-block': (children, { _keys, data }) => {
-        return <Pre className="graf graf--code" data={data}>
-          {children}
-        </Pre>
+        return (
+          <Pre className="graf graf--code" data={data}>
+            {children}
+          </Pre>
+        )
       },
       // or depth for nested lists
-      'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
-        {children.map(
-          child => <li className="graf graf--insertunorderedlist">
+      'unordered-list-item': (children, { depth, keys }) => (
+        <ul key={keys[keys.length - 1]} className={`ul-level-${depth}`}>
+          {children.map(
+            (child) => (
+              <li className="graf graf--insertunorderedlist">{child}</li>
+            ) // eslint-disable-next-line react/jsx-key
+          )}
+        </ul>
+      ),
+      'ordered-list-item': (children, { depth, keys }) => (
+        <ol key={keys.join('|')} className={`ol-level-${depth}`}>
+          {children.map((child, index) => (
+            <li key={keys[index]} className="graf graf--insertorderedlist">
               {child}
-            </li> // eslint-disable-next-line react/jsx-key
-          )
-        }
-      </ul>,
-      'ordered-list-item': (children, { depth, keys }) => <ol key={keys.join('|')} className={`ol-level-${depth}`}>{
-        children.map((child, index) => <li key={keys[index]} className="graf graf--insertorderedlist">
-          {child}
-        </li>)
-      }</ol>,
+            </li>
+          ))}
+        </ol>
+      ),
 
       file: (children, { _keys, data }) => {
         const fileName = data[0].url.split('/').pop()
         return (
           <div>
-            <a href={data[0].url}
+            <a
+              href={data[0].url}
               target="blank"
               rel="noopener noreferrer"
-              className="graf graf--attachment">
-              <AttachmentIcon2 width={20} height={20}/>
+              className="graf graf--attachment"
+            >
+              <AttachmentIcon2 width={20} height={20} />
               {fileName}
             </a>
           </div>
@@ -119,92 +137,106 @@ function renderers (props) {
       },
 
       image: (children, { keys, data }) => {
-        return keys.map(
-          (key, index) => <ImageRenderer
+        return keys.map((key, index) => (
+          <ImageRenderer
             blockKey={key}
             key={`image-${key}`}
             data={data[index]}
-            props={props}>
+            props={props}
+          >
             {children[index]}
           </ImageRenderer>
-        )
+        ))
       },
       embed: (children, { keys, data }) => {
         const { provisory_text, _type, embed_data } = data[0]
-        const { images, title, _media, provider_url, description, _url } = embed_data
+        const { images, title, _media, provider_url, description, _url } =
+          embed_data
 
-        return <div key={keys[0]} className="graf graf--mixtapeEmbed">
-          <span>
-            {
-              images[0].url
-                ? <a target="_blank" 
-                  rel="noopener noreferrer" 
+        return (
+          <div key={keys[0]} className="graf graf--mixtapeEmbed">
+            <span>
+              {images[0].url ? (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="js-mixtapeImage mixtapeImage"
                   href={provisory_text}
-                  style={{ backgroundImage: `url(${images[0].url})` }}>
-                </a> : null
-            }
-            <a className="markup--anchor markup--mixtapeEmbed-anchor"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={provisory_text}>
-              <strong className="markup--strong markup--mixtapeEmbed-strong">
-                {title}
-              </strong>
-              <em className="markup--em markup--mixtapeEmbed-em">
-                {description}
-              </em>
-            </a>
-            {provider_url}
-          </span>
-        </div>
+                  style={{
+                    backgroundImage: `url(${images[0].url})`,
+                  }}
+                ></a>
+              ) : null}
+              <a
+                className="markup--anchor markup--mixtapeEmbed-anchor"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={provisory_text}
+              >
+                <strong className="markup--strong markup--mixtapeEmbed-strong">
+                  {title}
+                </strong>
+                <em className="markup--em markup--mixtapeEmbed-em">
+                  {description}
+                </em>
+              </a>
+              {provider_url}
+            </span>
+          </div>
+        )
       },
       video: (children, { keys, data }) => {
         const { provisory_text, _type, embed_data } = data[0]
         const { html } = embed_data
 
-        return <figure key={keys[0]} className="graf--figure graf--iframe graf--first" tabIndex="0">
-          <div className="iframeContainer" dangerouslySetInnerHTML={
-            { __html: `${html}` }
-          }/>
+        return (
+          <figure
+            key={keys[0]}
+            className="graf--figure graf--iframe graf--first"
+            tabIndex="0"
+          >
+            <div
+              className="iframeContainer"
+              dangerouslySetInnerHTML={{ __html: `${html}` }}
+            />
 
-          {
-            provisory_text &&
-                    provisory_text === 'type a caption (optional)' &&
-                    <figcaption className="imageCaption">
-                      <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                        <span>
-                          <span>
-                            {provisory_text}
-                          </span>
-                        </span>
-                      </div>
-                    </figcaption>
-          }
-        </figure>
+            {provisory_text && provisory_text === 'type a caption (optional)' && (
+              <figcaption className="imageCaption">
+                <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                  <span>
+                    <span>{provisory_text}</span>
+                  </span>
+                </div>
+              </figcaption>
+            )}
+          </figure>
+        )
       },
       'recorded-video': (children, { keys, data }) => {
         const { url, text } = data[0]
 
-        return <figure key={keys[0]} className="graf--figure graf--iframe graf--first"
-          tabIndex="0">
-          <div className="iframeContainer">
-            <video
-              autoPlay={false}
-              style={{ width: '100%' }}
-              controls={true}
-              src={getImageUrl(url, props)}>
-            </video>
-          </div>
-          <figcaption className="imageCaption">
-            <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-              <span>
-                {text}
-              </span>
+        return (
+          <figure
+            key={keys[0]}
+            className="graf--figure graf--iframe graf--first"
+            tabIndex="0"
+          >
+            <div className="iframeContainer">
+              <video
+                autoPlay={false}
+                style={{ width: '100%' }}
+                controls={true}
+                src={getImageUrl(url, props)}
+              ></video>
             </div>
-          </figcaption>
-        </figure>
-      }
+            <figcaption className="imageCaption">
+              <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                <span>{text}</span>
+              </div>
+            </figcaption>
+          </figure>
+        )
+      },
       // If your blocks use meta data it can also be accessed like keys
       // atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
     },
@@ -217,8 +249,8 @@ function renderers (props) {
         <a key={key} href={data.url} target="_blank" rel="noopener noreferrer">
           {children}
         </a>
-      )
-    }
+      ),
+    },
     /**
      * Array of decorators,
      * Entities receive children and the entity data,
@@ -240,10 +272,10 @@ function renderers (props) {
   }
 }
 
-function ImageRenderer ({ children, blockKey, data, props }) {
+function ImageRenderer({ children, blockKey, data, props }) {
   const data2 = data
   const { url, aspect_ratio, caption } = data2
-  let height, width , ratio
+  let height, width, ratio
   if (!aspect_ratio) {
     height = '100%'
     width = '100%'
@@ -259,10 +291,7 @@ function ImageRenderer ({ children, blockKey, data, props }) {
   return (
     <figure key={blockKey} className="graf graf--figure">
       <div>
-        <div
-          className="aspectRatioPlaceholder is-locked"
-          style={defaultStyle}
-        >
+        <div className="aspectRatioPlaceholder is-locked" style={defaultStyle}>
           <div
             className="aspect-ratio-fill"
             style={{ paddingBottom: `${ratio}%` }}
@@ -270,20 +299,20 @@ function ImageRenderer ({ children, blockKey, data, props }) {
 
           {/* <ConnectedImage url={url} width={width} height={height} /> */}
 
-          <img src={getImageUrl(url, props)}
+          <img
+            src={getImageUrl(url, props)}
             className="graf-image"
             width={width}
             height={height}
-            contentEditable="false"/>
+            contentEditable="false"
+          />
         </div>
       </div>
 
       {caption && caption !== 'type a caption (optional)' && (
         <figcaption className="imageCaption">
           <span>
-            <span data-text="true">
-              {children}
-            </span>
+            <span data-text="true">{children}</span>
           </span>
         </figcaption>
       )}
@@ -296,17 +325,21 @@ export default class Renderer extends Component {
     raw: PropTypes.object
   } */
 
-  renderWarning () {
+  renderWarning() {
     if (this.props.message && this.props.message.message.htmlContent) {
-      return <div dangerouslySetInnerHTML={
-        { __html: this.props.message.message.htmlContent }
-      }/>
+      return (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: this.props.message.message.htmlContent,
+          }}
+        />
+      )
     } else {
       return <div>---</div>
     }
   }
 
-  render () {
+  render() {
     const { raw } = this.props
     if (!raw) {
       return this.renderWarning()
@@ -316,10 +349,6 @@ export default class Renderer extends Component {
     if (!rendered) {
       return this.renderWarning()
     }
-    return (
-      <div>
-        {rendered}
-      </div>
-    )
+    return <div>{rendered}</div>
   }
 }

@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import useOnClickOutside from './hooks/useClickOutside'
 import Button from './Button'
 
-export default function Dropdown ({
+export default function Dropdown({
   children,
   labelButton,
   triggerButton,
   isOpen,
   position,
   origin,
-  onOpen
+  onOpen,
 }) {
   const [open, setOpen] = React.useState(isOpen)
 
@@ -27,19 +27,13 @@ export default function Dropdown ({
 
   return (
     <React.Fragment>
-      <div
-        ref={ref}
-        className={'relative inline-block text-left'}
-      >
-
+      <div ref={ref} className={'relative inline-block text-left'}>
         <div className="flex">
           {triggerButton ? (
             triggerButton(() => setOpen(!open))
           ) : (
             <span className="rounded-md shadow-sm dark:text-gray-100 dark:bg-gray-800">
-              <Button
-                variant="outlined"
-                onClick={() => setOpen(!open)}>
+              <Button variant="outlined" onClick={() => setOpen(!open)}>
                 {labelButton}
                 <svg
                   className="-mr-1 ml-2 h-5 w-5"
@@ -64,7 +58,9 @@ export default function Dropdown ({
             ${origin || ''}
              mt-2 w-56 rounded-md shadow-lg`}
           >
-            <div className="rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs">{children}</div>
+            <div className="rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs">
+              {children}
+            </div>
           </div>
         )}
       </div>

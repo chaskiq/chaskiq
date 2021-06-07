@@ -7,14 +7,12 @@ import { isEmpty } from 'lodash'
 
 import { actions } from '@chaskiq/store'
 
-const {
-  clearStatusMessage
-} = actions
+const { clearStatusMessage } = actions
 
-function CustomizedSnackbars (props) {
+function CustomizedSnackbars(props) {
   const [open, setOpen] = React.useState(!isEmpty(props.status_message))
 
-  function handleClose (_event, reason) {
+  function handleClose(_event, reason) {
     if (reason === 'clickaway') return
     props.dispatch(clearStatusMessage())
     setOpen(false)
@@ -25,23 +23,23 @@ function CustomizedSnackbars (props) {
   }, [props])
 
   React.useEffect(() => {
-    if(!open) return
+    if (!open) return
     const timer = setTimeout(() => {
       props.dispatch(clearStatusMessage())
-    }, 2500);
-    return () => clearTimeout(timer);
+    }, 2500)
+    return () => clearTimeout(timer)
   }, [open])
 
-  function getPlacement () {
+  function getPlacement() {
     return (
       props.status_message.placement || {
         vertical: 'bottom',
-        horizontal: 'left'
+        horizontal: 'left',
       }
     )
   }
 
-  function placementClass () {
+  function placementClass() {
     let vertical = 'end'
     let horizontal = 'end'
 
@@ -91,7 +89,7 @@ function CustomizedSnackbars (props) {
   )
 }
 
-function Alert ({ title, message, status, onClose, placementClass }) {
+function Alert({ title, message, status, onClose, placementClass }) {
   /*const [items, set] = useState([1])
   const transitions = useTransition(items, (item) => item.key, {
     from: { transform: 'translate3d(0,-40px,0)' },
@@ -99,7 +97,7 @@ function Alert ({ title, message, status, onClose, placementClass }) {
     leave: { transform: 'translate3d(0,-40px,0)' }
   })*/
 
-  function statusIcon () {
+  function statusIcon() {
     switch (status) {
       case 'success':
         return (
@@ -123,8 +121,12 @@ function Alert ({ title, message, status, onClose, placementClass }) {
             className="h-6 w-6 text-red-400"
             fill="none"
             viewBox="0 0 20 20"
-            stroke="currentColor">
-            <path d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M15.6568542,15.6568542 C18.7810486,12.5326599 18.7810486,7.46734008 15.6568542,4.34314575 C12.5326599,1.21895142 7.46734008,1.21895142 4.34314575,4.34314575 C1.21895142,7.46734008 1.21895142,12.5326599 4.34314575,15.6568542 C7.46734008,18.7810486 12.5326599,18.7810486 15.6568542,15.6568542 Z M9,5 L11,5 L11,11 L9,11 L9,5 Z M9,13 L11,13 L11,15 L9,15 L9,13 Z" id="Combined-Shape"></path>
+            stroke="currentColor"
+          >
+            <path
+              d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M15.6568542,15.6568542 C18.7810486,12.5326599 18.7810486,7.46734008 15.6568542,4.34314575 C12.5326599,1.21895142 7.46734008,1.21895142 4.34314575,4.34314575 C1.21895142,7.46734008 1.21895142,12.5326599 4.34314575,15.6568542 C7.46734008,18.7810486 12.5326599,18.7810486 15.6568542,15.6568542 Z M9,5 L11,5 L11,11 L9,11 L9,5 Z M9,13 L11,13 L11,15 L9,15 L9,13 Z"
+              id="Combined-Shape"
+            ></path>
           </svg>
         )
       default:
@@ -133,12 +135,12 @@ function Alert ({ title, message, status, onClose, placementClass }) {
   }
 
   //function transitionsClasses (status) {
-    // x-show="show" x-transition:enter="transform ease-out duration-300 transition"
-    // x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-    // x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-    // x-transition:leave="transition ease-in duration-100"
-    // x-transition:leave-start="opacity-100"
-    // x-transition:leave-end="opacity-0"
+  // x-show="show" x-transition:enter="transform ease-out duration-300 transition"
+  // x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+  // x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+  // x-transition:leave="transition ease-in duration-100"
+  // x-transition:leave-start="opacity-100"
+  // x-transition:leave-end="opacity-0"
   //}
 
   return (
@@ -209,10 +211,10 @@ function Alert ({ title, message, status, onClose, placementClass }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { status_message } = state
   return {
-    status_message
+    status_message,
   }
 }
 

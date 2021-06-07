@@ -18,14 +18,14 @@ const GiphyBlock = styled.div`
 
 const GridListOverflow = styled.div`
   height: 187px;
-  overflow: auto
+  overflow: auto;
 `
-const GridList = styled.div`  
+const GridList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
   flex: 1 1 0px;
-  img{
+  img {
     //width: 250px;
     margin-bottom: 4px;
     background-color: lightgray;
@@ -34,14 +34,14 @@ const GridList = styled.div`
 
 const Container = styled.div`
   padding: 10px;
-  background: "#ccc";
+  background: '#ccc';
 `
 
 const Attribution = styled.div`
   display: flex;
   justify-content: center;
   img {
-    height: 20px
+    height: 20px;
   }
 
   position: absolute;
@@ -52,24 +52,71 @@ const Attribution = styled.div`
 `
 
 const PickerBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
 
-    display: flex;
-    justify-content: center;
-    margin-bottom: 4px;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 8px;
-      background: #c4e17f;
-      background-image: -webkit-linear-gradient(left, #fff35c, #fff35c, #ff6666, #ff6666, #9933ff, #9933ff, #00ccff, #00ccff, #00ff99, #00ff99);
-      background-image: -moz-linear-gradient(left, #fff35c, #fff35c, #ff6666, #ff6666, #9933ff, #9933ff, #00ccff, #00ccff, #00ff99, #00ff99);
-      background-image: -o-linear-gradient(left, #fff35c, #fff35c, #ff6666, #ff6666, #9933ff, #9933ff, #00ccff, #00ccff, #00ff99, #00ff99);
-      background-image: linear-gradient(left, #fff35c, #fff35c, #ff6666, #ff6666, #9933ff, #9933ff, #00ccff, #00ccff, #00ff99, #00ff99);
-    }
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: #c4e17f;
+    background-image: -webkit-linear-gradient(
+      left,
+      #fff35c,
+      #fff35c,
+      #ff6666,
+      #ff6666,
+      #9933ff,
+      #9933ff,
+      #00ccff,
+      #00ccff,
+      #00ff99,
+      #00ff99
+    );
+    background-image: -moz-linear-gradient(
+      left,
+      #fff35c,
+      #fff35c,
+      #ff6666,
+      #ff6666,
+      #9933ff,
+      #9933ff,
+      #00ccff,
+      #00ccff,
+      #00ff99,
+      #00ff99
+    );
+    background-image: -o-linear-gradient(
+      left,
+      #fff35c,
+      #fff35c,
+      #ff6666,
+      #ff6666,
+      #9933ff,
+      #9933ff,
+      #00ccff,
+      #00ccff,
+      #00ff99,
+      #00ff99
+    );
+    background-image: linear-gradient(
+      left,
+      #fff35c,
+      #fff35c,
+      #ff6666,
+      #ff6666,
+      #9933ff,
+      #9933ff,
+      #00ccff,
+      #00ccff,
+      #00ff99,
+      #00ff99
+    );
+  }
 `
 
 const Input = styled.input`
@@ -82,16 +129,16 @@ const trendingUrl = 'https://api.giphy.com/v1/gifs/trending'
 const searchUrl = 'https://api.giphy.com/v1/gifs/search'
 
 export default class App extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       gifs: [],
-      limit: 5
+      limit: 5,
     }
     this.input_ref = null
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const link = `${trendingUrl}?api_key=${this.props.apikey}`
     this.getData(link)
   }
@@ -106,8 +153,9 @@ export default class App extends React.Component {
   }
 
   getData = (link) => {
-    axios.get(link).then(
-      (response) => {
+    axios
+      .get(link)
+      .then((response) => {
         // handle success
         this.setState({ gifs: response.data.data })
         // console.log(response);
@@ -124,13 +172,13 @@ export default class App extends React.Component {
     })
   }
 
-  render () {
+  render() {
     return (
       <GiphyBlock>
         <Container>
-
           <PickerBlock>
-            <Input ref={(comp)=> (this.input_ref = comp)}
+            <Input
+              ref={(comp) => (this.input_ref = comp)}
               placeholder={'search gif'}
               onKeyDown={this.onSearchSubmit}
             />
@@ -138,20 +186,20 @@ export default class App extends React.Component {
 
           <GridListOverflow>
             <GridList>
-              {
-                this.state.gifs.map((o,i) => (
-                  <img key={`giphy-item-${i}`} onClick={(_e) => (this.props.handleSelected(o))}
-                    height={o.images.fixed_width_downsampled.height}
-                    width={o.images.fixed_width_downsampled.width}
-                    src={o.images.fixed_width_downsampled.url}
-                  />
-                ))
-              }
+              {this.state.gifs.map((o, i) => (
+                <img
+                  key={`giphy-item-${i}`}
+                  onClick={(_e) => this.props.handleSelected(o)}
+                  height={o.images.fixed_width_downsampled.height}
+                  width={o.images.fixed_width_downsampled.width}
+                  src={o.images.fixed_width_downsampled.url}
+                />
+              ))}
             </GridList>
           </GridListOverflow>
         </Container>
         <Attribution>
-          <img src={attribution}/>
+          <img src={attribution} />
         </Attribution>
         {/* <Arrow/> */}
       </GiphyBlock>

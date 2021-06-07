@@ -7,16 +7,10 @@ import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
-function TagDialog ({
-  children,
-  title,
-  saveHandler,
-  closeHandler,
-  tags,
-  app
-}) {
+function TagDialog({ children, title, saveHandler, closeHandler, tags, app }) {
   const tagList = tags.map((o) => ({
-    label: o, value: o
+    label: o,
+    value: o,
   }))
 
   const [isOpen, setIsOpen] = useState(false)
@@ -26,16 +20,18 @@ function TagDialog ({
     setIsOpen(true)
   }, [])
 
-  function close () {
+  function close() {
     setIsOpen(false)
     closeHandler && closeHandler()
   }
 
   const colourOptions = app.tagList.map((o) => ({
-    label: o.name, value: o.name, color: o.color
+    label: o.name,
+    value: o.name,
+    color: o.color,
   }))
 
-  function handleChange (changes) {
+  function handleChange(changes) {
     setSelectedTags(changes)
   }
 
@@ -60,25 +56,26 @@ function TagDialog ({
               />
 
               <p className="text-sm leading-5 text-gray-500">
-                { I18n.t('settings.tags.modal.hint') } {' '}
-                <Link to={`/apps/${app.key}/settings`}
-                  className="no-underline hover:underline text-green-500">
-                  { I18n.t('settings.tags.modal.link') }
+                {I18n.t('settings.tags.modal.hint')}{' '}
+                <Link
+                  to={`/apps/${app.key}/settings`}
+                  className="no-underline hover:underline text-green-500"
+                >
+                  {I18n.t('settings.tags.modal.link')}
                 </Link>
               </p>
-
             </form>
           }
           dialogButtons={
             <React.Fragment>
               <Button
                 className="ml-2"
-                onClick={ () => saveHandler(selectedTags.map((o) => o.value)) }
-                variant="success">
+                onClick={() => saveHandler(selectedTags.map((o) => o.value))}
+                variant="success"
+              >
                 {I18n.t('common.save')}
               </Button>
-              <Button onClick={close}
-                variant="outlined">
+              <Button onClick={close} variant="outlined">
                 {I18n.t('common.cancel')}
               </Button>
             </React.Fragment>
@@ -89,10 +86,10 @@ function TagDialog ({
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app } = state
   return {
-    app
+    app,
   }
 }
 

@@ -6,7 +6,7 @@ import { PREDICATES_SEARCH } from '../graphql/mutations'
 import { dispatchSegmentUpdate } from './segments'
 import { parseJwt } from '../jwt'
 
-export function searchAppUsers (options, cb) {
+export function searchAppUsers(options, cb) {
   return (dispatch, getState) => {
     const { page } = options
     const appKey = getState().app.key
@@ -19,7 +19,7 @@ export function searchAppUsers (options, cb) {
     // skip search
     if (jwtData.find((o) => !o.comparison || !o.value)) {
       const incompleteSegment = Object.assign({}, segment, {
-        predicates: jwtData
+        predicates: jwtData,
       })
       dispatch(dispatchSegmentUpdate(incompleteSegment))
       return
@@ -27,15 +27,15 @@ export function searchAppUsers (options, cb) {
 
     const predicates_data = {
       data: {
-        predicates: jwtData.filter((o) => o.comparison)
-      }
+        predicates: jwtData.filter((o) => o.comparison),
+      },
     }
 
     options = {
       appKey: appKey,
       search: predicates_data,
       jwt: jwtData,
-      page: page
+      page: page,
     }
 
     dispatch(dispatchLoading())
@@ -45,7 +45,9 @@ export function searchAppUsers (options, cb) {
         const appUsers = data.predicatesSearch.appUsers
         let newData = Object.assign(appUsers, { searching: false }) //, segment)
 
-        const newSegment = Object.assign({}, segment, { predicates: jwtData })
+        const newSegment = Object.assign({}, segment, {
+          predicates: jwtData,
+        })
 
         dispatch(dispatchSegmentUpdate(newSegment))
 
@@ -55,13 +57,12 @@ export function searchAppUsers (options, cb) {
 
         cb && cb()
       },
-      error: () => {
-      }
+      error: () => {},
     })
   }
 }
 
-export function updateAppUserPresence (userData, _cb) {
+export function updateAppUserPresence(userData, _cb) {
   return (dispatch, getState) => {
     const newCollection = getState().app_users.collection.map((o) => {
       if (userData.id === o.id) {
@@ -76,35 +77,35 @@ export function updateAppUserPresence (userData, _cb) {
   }
 }
 
-function dispatchLoading () {
+function dispatchLoading() {
   return {
     type: ActionTypes.initSearchAppUsers,
-    data: initialState
+    data: initialState,
   }
 }
 
-function dispatchSearchAppUsers (data) {
+function dispatchSearchAppUsers(data) {
   return {
     type: ActionTypes.searchAppUsers,
-    data: data
+    data: data,
   }
 }
 
-function dispatchAppUsersUpdatePresence (data) {
+function dispatchAppUsersUpdatePresence(data) {
   return {
     type: ActionTypes.UpdatePresence,
-    data: data
+    data: data,
   }
 }
 
 const initialState = {
   collection: [],
   meta: {},
-  searching: true
+  searching: true,
 }
 
 // Reducer
-export default function reducer (state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case ActionTypes.searchAppUsers: {
       return Object.assign({}, state, action.data)

@@ -16,9 +16,7 @@ import tw from 'twin.macro'
 import { DefinitionRenderer } from '../packageBlocks/components'
 import QuickRepliesDialog from './QuickReplyDialog'
 import ErrorBoundary from '../ErrorBoundary'
-import {
-  getPackage
-} from '../packageBlocks/utils'
+import { getPackage } from '../packageBlocks/utils'
 
 import {
   CheckmarkIcon,
@@ -27,7 +25,7 @@ import {
   CallEnd,
   Call,
   LabelIcon,
-  MoreIcon
+  MoreIcon,
 } from '../icons'
 
 import FilterMenu from '../FilterMenu'
@@ -40,32 +38,28 @@ import RtcDisplayWrapper from '../rtcView' // './RtcWrapper'
 import TagDialog from '../TagDialog'
 import AppPackagePanel from './appPackagePanel'
 
-import {
-  client as graphql,
-  queries,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, queries, actions } from '@chaskiq/store'
 
- const {
-    setCurrentPage, 
-    setCurrentSection,
-    appendConversation,
-    toggleDrawer,
-    getAppUser,
-    updateRtcEvents,
-    getConversation,
-    typingNotifier,
-    insertComment,
-    insertAppBlockComment,
-    insertNote,
-    clearConversation,
-    updateConversationState,
-    updateConversationPriority,
-    assignAgent,
-    setLoading,
-    updateConversationTagList,
-    successMessage
- } = actions
+const {
+  setCurrentPage,
+  setCurrentSection,
+  appendConversation,
+  toggleDrawer,
+  getAppUser,
+  updateRtcEvents,
+  getConversation,
+  typingNotifier,
+  insertComment,
+  insertAppBlockComment,
+  insertNote,
+  clearConversation,
+  updateConversationState,
+  updateConversationPriority,
+  assignAgent,
+  setLoading,
+  updateConversationTagList,
+  successMessage,
+} = actions
 
 const { AGENTS } = queries
 
@@ -84,23 +78,27 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 
 const BgContainer = styled.div`
   //background-color: #DFDBE5;
-  background-image: radial-gradient(currentColor 2px, transparent 2px),radial-gradient(currentColor 2px, transparent 2px);
+  background-image: radial-gradient(currentColor 2px, transparent 2px),
+    radial-gradient(currentColor 2px, transparent 2px);
   background-size: calc(20 * 2px) calc(20 * 2px);
-  background-position: 0 0,calc(10 * 2px) calc(10 * 2px);
+  background-position: 0 0, calc(10 * 2px) calc(10 * 2px);
 `
 
 const MessageItem = styled.div`
-  ${(props) => props.userOrAdmin === 'user'
-    ? tw`bg-white text-green-500` : props.privateNote
-      ? tw`bg-yellow-300 text-black`
-      : tw`bg-gray-700 text-white`
+  ${
+    (props) =>
+      props.userOrAdmin === 'user'
+        ? tw`bg-white text-green-500`
+        : props.privateNote
+        ? tw`bg-yellow-300 text-black`
+        : tw`bg-gray-700 text-white`
 
-  // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
-  // `background: linear-gradient(45deg,#202020,#000000e6)`
+    // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
+    // `background: linear-gradient(45deg,#202020,#000000e6)`
   }
 `
 
-function Conversation ({
+function Conversation({
   dispatch,
   conversation,
   match,
@@ -109,7 +107,7 @@ function Conversation ({
   drawer,
   events,
   toggleFixedSidebar,
-  fixedSidebarOpen
+  fixedSidebarOpen,
 }) {
   const overflow = React.useRef(null)
 
@@ -130,7 +128,8 @@ function Conversation ({
   const [openTagManager, setOpenTagManager] = React.useState(false)
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
 
-  const [conversationPartSelected, setConversationPartSelected] = React.useState(false)
+  const [conversationPartSelected, setConversationPartSelected] =
+    React.useState(false)
 
   const appId = app.key
 
@@ -225,7 +224,7 @@ function Conversation ({
 
   const getMessages = (cb) => {
     const opts = {
-      id: matchId
+      id: matchId,
     }
 
     const lastItem = last(conversation.collection)
@@ -273,7 +272,7 @@ function Conversation ({
         success: (data) => {
           cb(data.app.agents)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
@@ -301,7 +300,7 @@ function Conversation ({
       <div
         key={key}
         dangerouslySetInnerHTML={{
-          __html: messageContent.htmlContent
+          __html: messageContent.htmlContent,
         }}
       />
     )
@@ -315,119 +314,112 @@ function Conversation ({
 
     const isAdmin = userOrAdmin === 'admin'
 
-    return <div
-      id={`message-id-${message.key}`}
-      className={`flex items-start py-2 text-sm ${flow}`}
-      key={`conversations-messages/${message.key}`}>
-      {
-        userOrAdmin === 'user' && <img
-          alt={message.appUser.displayName}
-          src={message.appUser.avatarUrl}
-          onClick={handleUserSidebar}
-          className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
+    return (
+      <div
+        id={`message-id-${message.key}`}
+        className={`flex items-start py-2 text-sm ${flow}`}
+        key={`conversations-messages/${message.key}`}
+      >
+        {userOrAdmin === 'user' && (
+          <img
+            alt={message.appUser.displayName}
+            src={message.appUser.avatarUrl}
+            onClick={handleUserSidebar}
+            className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
+          />
+        )}
+
+        <AppPackagePanel
+          kind={'conversation_part'}
+          open={conversationPartSelected}
+          conversation_part={message}
+          close={() => {
+            setConversationPartSelected(null)
+          }}
+          insertComment={(data) => {}}
         />
-      }
 
-
-      <AppPackagePanel
-        kind={'conversation_part'}
-        open={conversationPartSelected}
-        conversation_part={message}
-        close={() => {
-          setConversationPartSelected(null)
-        }}
-        insertComment={(data) => {
-        }}
-      />
-
-      <MessageItem
-        userOrAdmin={userOrAdmin}
-        privateNote={message.privateNote}
-        className={`
+        <MessageItem
+          userOrAdmin={userOrAdmin}
+          privateNote={message.privateNote}
+          className={`
         shadow sm:rounded-lg
         flex-1 
         p-3 
         max-w-full`}
-      >
-        <div className="flex justify-between pb-4">
-          <div className="flex items-center">
-            <span className={`font-bold ${textClass}`}>
-              {message.appUser.displayName}
-            </span>
-          </div>
-          <span className={`flex items-center text-xs ${textClass}`}>
-            <Moment fromNow ago>
-              {message.createdAt}
-            </Moment>
+        >
+          <div className="flex justify-between pb-4">
+            <div className="flex items-center">
+              <span className={`font-bold ${textClass}`}>
+                {message.appUser.displayName}
+              </span>
+            </div>
+            <span className={`flex items-center text-xs ${textClass}`}>
+              <Moment fromNow ago>
+                {message.createdAt}
+              </Moment>
 
-            <span className={textClass}>
-              {' - '}
-              {message.readAt ? (
-                <span>{I18n.t('conversation.messages.seen')}</span>
-              ) : message.privateNote ? (
-                I18n.t('conversation.messages.note')
-              ) : (
-                <span>{I18n.t('conversation.messages.not_seen')}</span>
+              <span className={textClass}>
+                {' - '}
+                {message.readAt ? (
+                  <span>{I18n.t('conversation.messages.seen')}</span>
+                ) : message.privateNote ? (
+                  I18n.t('conversation.messages.note')
+                ) : (
+                  <span>{I18n.t('conversation.messages.not_seen')}</span>
+                )}
+              </span>
+
+              {isAdmin && messageContent.serializedContent && (
+                <FilterMenu
+                  options={[
+                    {
+                      title: I18n.t('quick_replies.add_as_dialog.title'),
+                      onClick: () => {
+                        addAsReply(messageContent.serializedContent)
+                      },
+                    },
+                  ]}
+                  value={null}
+                  filterHandler={(e) => e.onClick && e.onClick()}
+                  triggerButton={(handler) => (
+                    <Button variant="icon" onClick={handler} className="ml-2">
+                      <MoreIcon className="text-gray-400" />
+                    </Button>
+                  )}
+                  position={'right'}
+                  origin={'bottom-0'}
+                />
+              )}
+
+              {!isAdmin && messageContent.serializedContent && (
+                <FilterMenu
+                  options={[
+                    {
+                      title: I18n.t('common.actions'),
+                      onClick: () => {
+                        setConversationPartSelected(messageContent)
+                      },
+                    },
+                  ]}
+                  value={null}
+                  filterHandler={(e) => e.onClick && e.onClick()}
+                  triggerButton={(handler) => (
+                    <Button variant="icon" onClick={handler} className="ml-2">
+                      <MoreIcon className="text-gray-400" />
+                    </Button>
+                  )}
+                  position={'right'}
+                  origin={'bottom-0'}
+                />
               )}
             </span>
+          </div>
 
-            {
-              isAdmin && messageContent.serializedContent &&
-              <FilterMenu
-                options={[
-                  {
-                    title: I18n.t('quick_replies.add_as_dialog.title'),
-                    onClick: () => { addAsReply(messageContent.serializedContent) }
-                  }
-                ]}
-                value={null}
-                filterHandler={(e) => e.onClick && e.onClick() }
-                triggerButton={(handler) => (
-                  <Button
-                    variant="icon"
-                    onClick={handler}
-                    className="ml-2">
-                    <MoreIcon className="text-gray-400"/>
-                  </Button>
-                )}
-                position={'right'}
-                origin={'bottom-0'}
-              />
-            }
-
-            {
-              !isAdmin && messageContent.serializedContent &&
-
-              <FilterMenu
-                options={[
-                  {
-                    title: I18n.t('common.actions'),
-                    onClick: () => { setConversationPartSelected(messageContent) }
-                  }
-                ]}
-                value={null}
-                filterHandler={(e) => e.onClick && e.onClick() }
-                triggerButton={(handler) => (
-                  <Button
-                    variant="icon"
-                    onClick={handler}
-                    className="ml-2">
-                    <MoreIcon className="text-gray-400"/>
-                  </Button>
-                )}
-                position={'right'}
-                origin={'bottom-0'}
-              />
-            }
-
-          </span>
-        </div>
-
-        <EditorContainerMessageBubble>
-          {content}
-        </EditorContainerMessageBubble>
-      </MessageItem>
-    </div>
+          <EditorContainerMessageBubble>{content}</EditorContainerMessageBubble>
+        </MessageItem>
+      </div>
+    )
   }
 
   const renderEventBlock = (o) => {
@@ -438,17 +430,15 @@ function Conversation ({
       <div
         id={`message-id-${message.id}`}
         className={'flex items-start py-2 text-sm'}
-        key={`conversations-messages/${message.id}`}>
-
+        key={`conversations-messages/${message.id}`}
+      >
         <div
           className={`bg-yellow-300
           flex 
           overflow-hidden p-2 
-          rounded-md mx-auto`
-          }
+          rounded-md mx-auto`}
         >
           <div className="flex flex-col justify-between">
-
             <span className={'text-xs text-center'}>
               <Moment fromNow ago>
                 {message.createdAt}
@@ -456,15 +446,17 @@ function Conversation ({
 
               <span>
                 {' - '}
-                {
-                  message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
-                    : <span>{I18n.t('conversation.messages.not_seen')}</span>
-                }
+                {message.readAt ? (
+                  <span>{I18n.t('conversation.messages.seen')}</span>
+                ) : (
+                  <span>{I18n.t('conversation.messages.not_seen')}</span>
+                )}
               </span>
             </span>
 
             <p className="text-md text-center font-bold">
-              {messageContent.action} {messageContent.data.name || messageContent.data.email}
+              {messageContent.action}{' '}
+              {messageContent.data.name || messageContent.data.email}
             </p>
           </div>
         </div>
@@ -477,14 +469,19 @@ function Conversation ({
   }
 
   const updateTags = (tags) => {
-    dispatch(updateConversationTagList({
-      id: conversation.id,
-      tagList: tags,
-      appKey: app.key
-    }, () => {
-      dispatch(successMessage('tags updated'))
-      setOpenTagManager(false)
-    }))
+    dispatch(
+      updateConversationTagList(
+        {
+          id: conversation.id,
+          tagList: tags,
+          appKey: app.key,
+        },
+        () => {
+          dispatch(successMessage('tags updated'))
+          setOpenTagManager(false)
+        }
+      )
+    )
   }
 
   return (
@@ -493,32 +490,29 @@ function Conversation ({
         <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}
-            className="block md:hidden">
-            <LeftArrow/>
+            className="block md:hidden"
+          >
+            <LeftArrow />
           </Link>
 
-          {
-            conversation.mainParticipant &&
-            !fixedSidebarOpen &&
-            <img 
+          {conversation.mainParticipant && !fixedSidebarOpen && (
+            <img
               // onClick={handleUserSidebar}
               onClick={toggleFixedSidebar}
               className="h-9 w-9 rounded-full mr-2 cursor-pointer"
               src={conversation.mainParticipant.avatarUrl}
               alt=""
             />
-          }
+          )}
           <h3 className="mb-1 text-xs text-grey-darkest hidden md:block">
-            {I18n.t('conversation.with')}{' '}
-            <br/>
-            <span className="font-extrabold hover:text-underline"
+            {I18n.t('conversation.with')} <br />
+            <span
+              className="font-extrabold hover:text-underline"
               onClick={toggleFixedSidebar}
               // onClick={handleUserSidebar}
             >
-              {
-                conversation.mainParticipant &&
-                conversation.mainParticipant.displayName
-              }
+              {conversation.mainParticipant &&
+                conversation.mainParticipant.displayName}
             </span>
           </h3>
         </div>
@@ -537,9 +531,11 @@ function Conversation ({
 
           <Tooltip
             placement="bottom"
-            overlay={
-              I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)
-            }
+            overlay={I18n.t(
+              `conversation.actions.${
+                conversation.state === 'closed' ? 'reopen' : 'close'
+              }`
+            )}
           >
             <button
               onClick={() => {
@@ -547,7 +543,11 @@ function Conversation ({
                   conversation.state === 'closed' ? 'reopen' : 'close'
                 updateConversationStateDispatch(option)
               }}
-              aria-label={I18n.t(`conversation.actions.${conversation.state === 'closed' ? 'reopen' : 'close'}`)}
+              aria-label={I18n.t(
+                `conversation.actions.${
+                  conversation.state === 'closed' ? 'reopen' : 'close'
+                }`
+              )}
               className={`
               focus:outline-none outline-none mr-1 rounded-full 
               font-semibold border
@@ -555,11 +555,10 @@ function Conversation ({
 
               ${
                 conversation.state === 'closed'
-                ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                : 'bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800'
+                  ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
+                  : 'bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800'
               }
-              `
-              }
+              `}
             >
               <CheckmarkIcon variant="rounded" />
             </button>
@@ -567,33 +566,38 @@ function Conversation ({
 
           <Tooltip
             placement="bottom"
-            overlay={
-              I18n.t(`conversation.actions.${videoSession ? 'end_call' : 'start_call'}`)
-            }
+            overlay={I18n.t(
+              `conversation.actions.${videoSession ? 'end_call' : 'start_call'}`
+            )}
           >
             <button
               className="focus:outline-none outline-none mr-1 rounded-full
                bg-white hover:bg-gray-100 text-gray-800
                dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
                font-semibold border border-gray-400 shadow"
-              onClick={() => setVideoSession(!videoSession)}>
-              { videoSession ? <CallEnd variant="rounded"/> : <Call variant="rounded"/> }
+              onClick={() => setVideoSession(!videoSession)}
+            >
+              {videoSession ? (
+                <CallEnd variant="rounded" />
+              ) : (
+                <Call variant="rounded" />
+              )}
             </button>
           </Tooltip>
 
           <div id="button-element" className="hidden"></div>
 
-          {
-            events && <Rtc
+          {events && (
+            <Rtc
               buttonElement={'button-element'}
               callInitiatorElement={'callInitiator'}
               callButtonsElement={'callButtons'}
               infoElement={'info'}
               localVideoElement={'localVideo'}
               remoteVideoElement={'remoteVideo'}
-              handleRTCMessage={(_data) => {  }}
-              onCloseSession={() => updateRtcEvents({}) }
-              toggleVideoSession={ () => setVideoSession(!videoSession)}
+              handleRTCMessage={(_data) => {}}
+              onCloseSession={() => updateRtcEvents({})}
+              toggleVideoSession={() => setVideoSession(!videoSession)}
               toggleVideo={() => setRtcVideo(!rtcVideo)}
               toggleAudio={() => setRtcAudio(!rtcAudio)}
               video={videoSession}
@@ -601,19 +605,23 @@ function Conversation ({
               rtcAudio={rtcAudio}
               events={events}
             />
-          }
+          )}
 
           <Tooltip
             placement="bottom"
-            overlay={
-              I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
-            }
+            overlay={I18n.t(
+              `conversation.actions.${
+                !conversation.priority ? 'priorize' : 'remove_priority'
+              }`
+            )}
           >
             <button
               onClick={toggleConversationPriority}
-              aria-label={
-                I18n.t(`conversation.actions.${!conversation.priority ? 'priorize' : 'remove_priority'}`)
-              }
+              aria-label={I18n.t(
+                `conversation.actions.${
+                  !conversation.priority ? 'priorize' : 'remove_priority'
+                }`
+              )}
               className="focus:outline-none outline-none mr-1 rounded-full 
               bg-white hover:bg-gray-100 text-gray-800
               dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
@@ -623,17 +631,10 @@ function Conversation ({
             </button>
           </Tooltip>
 
-          <Tooltip
-            placement="bottom"
-            overlay={
-              'tag conversation'
-            }
-          >
+          <Tooltip placement="bottom" overlay={'tag conversation'}>
             <button
               onClick={() => setOpenTagManager(true)}
-              aria-label={
-                'tag conversation'
-              }
+              aria-label={'tag conversation'}
               className="focus:outline-none outline-none mr-1 rounded-full 
               bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
               dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
@@ -643,22 +644,20 @@ function Conversation ({
             </button>
           </Tooltip>
 
-          {
-            openTagManager &&
-                <TagDialog
-                  title={'manage conversation tags'}
-                  tags={conversation.tagList}
-                  saveHandler={(tags) => updateTags(tags)}
-                  closeHandler={() => setOpenTagManager(false)}>
-
-                </TagDialog>
-          }
+          {openTagManager && (
+            <TagDialog
+              title={'manage conversation tags'}
+              tags={conversation.tagList}
+              saveHandler={(tags) => updateTags(tags)}
+              closeHandler={() => setOpenTagManager(false)}
+            ></TagDialog>
+          )}
 
           <FilterMenu
-            options={agents.map(o => ({
+            options={agents.map((o) => ({
               key: o.email,
               name: o.name || o.email,
-              id: o.id
+              id: o.id,
             }))}
             value={conversation.assignee ? conversation.assignee.email : ''}
             filterHandler={(data) => setAgent(data.id)}
@@ -666,16 +665,17 @@ function Conversation ({
             origin={'top-50'}
             triggerButton={(cb) => {
               return (
-                <Tooltip placement="bottom"
-                  overlay={
-                    I18n.t('conversation.actions.assign_agent')
-                  }
+                <Tooltip
+                  placement="bottom"
+                  overlay={I18n.t('conversation.actions.assign_agent')}
                 >
-                  <div onClick={cb}
+                  <div
+                    onClick={cb}
                     className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
                     bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
                     dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800
-                    border shadow items-center justify-center">
+                    border shadow items-center justify-center"
+                  >
                     {conversation.assignee && (
                       <img
                         className="h-6 w-6 rounded-full"
@@ -689,30 +689,33 @@ function Conversation ({
             }}
           />
 
-          {
-            !fixedSidebarOpen &&
-            <div className="flex items-center text-gray-300"
+          {!fixedSidebarOpen && (
+            <div
+              className="flex items-center text-gray-300"
               style={{
                 marginRight: '-30px',
-                marginLeft: '16px'
-              }}>
+                marginLeft: '16px',
+              }}
+            >
               <Button
                 variant="clean"
                 className="hidden md:block"
-                onClick={ toggleFixedSidebar }>
-                <LeftArrow/>
+                onClick={toggleFixedSidebar}
+              >
+                <LeftArrow />
               </Button>
             </div>
-          }
-
+          )}
         </div>
       </div>
 
       <div className={`${videoSession ? 'fixed--' : 'hidden'}`}>
-        <div className="flex bg-gray-900- h-44
+        <div
+          className="flex bg-gray-900- h-44
           justify-center items-center
           shadow-lg text-black"
-        style={{ backdropFilter: 'blur(4px)' }}>
+          style={{ backdropFilter: 'blur(4px)' }}
+        >
           <RtcDisplayWrapper
             videoSession={videoSession}
             relativePosition={true}
@@ -732,18 +735,19 @@ function Conversation ({
         className="overflow-y-scroll"
         onScroll={handleScroll}
         style={{
-          height: 'calc(100vh - 220px)'
-        }}>
-
-        <div
-          className="flex flex-col-reverse px-6 py-4">
+          height: 'calc(100vh - 220px)',
+        }}
+      >
+        <div className="flex flex-col-reverse px-6 py-4">
           <ErrorBoundary>
             {conversation &&
               conversation.collection &&
               conversation.collection.map((message) => {
                 const isReplied = message.message.state === 'replied'
                 const userOrAdmin =
-                  !isReplied && message.appUser && message.appUser.kind === 'agent'
+                  !isReplied &&
+                  message.appUser &&
+                  message.appUser.kind === 'agent'
                     ? 'admin'
                     : 'user'
 
@@ -755,7 +759,6 @@ function Conversation ({
                     conversation={conversation}
                     email={current_user.email}
                   >
-
                     <ThemeProvider
                       theme={
                         userOrAdmin === 'admin'
@@ -765,30 +768,28 @@ function Conversation ({
                           : theme
                       }
                     >
-
-                      {
-                        message.message.blocks
-                          ? <RenderBlocks
-                            conversation={conversation}
-                            message={message}
-                            app={app}
-                            dispatch={dispatch}
-                          />
-                          : message.message.action
-                            ? renderEventBlock(message, userOrAdmin)
-                            : renderMessage(message, userOrAdmin)
-                      }
+                      {message.message.blocks ? (
+                        <RenderBlocks
+                          conversation={conversation}
+                          message={message}
+                          app={app}
+                          dispatch={dispatch}
+                        />
+                      ) : message.message.action ? (
+                        renderEventBlock(message, userOrAdmin)
+                      ) : (
+                        renderMessage(message, userOrAdmin)
+                      )}
                     </ThemeProvider>
                   </MessageItemWrapper>
                 )
               })}
 
-            {
-              conversation.loading &&
-                <div className="m-2">
-                  <Progress size="4"/>
-                </div>
-            }
+            {conversation.loading && (
+              <div className="m-2">
+                <Progress size="4" />
+              </div>
+            )}
           </ErrorBoundary>
         </div>
       </div>
@@ -813,24 +814,21 @@ function Conversation ({
       </div>
 
       <QuickRepliesDialog
-        title={ I18n.t('quick_reply.add_as_dialog.title') }
-        closeHandler={
-          () => setQuickReplyDialogOpen(null)
-        }
-        open={quickReplyDialogOpen}>
-      </QuickRepliesDialog>
-
+        title={I18n.t('quick_reply.add_as_dialog.title')}
+        closeHandler={() => setQuickReplyDialogOpen(null)}
+        open={quickReplyDialogOpen}
+      ></QuickRepliesDialog>
     </BgContainer>
   )
 }
 
-function MessageItemWrapper ({ conversation, data, events, children }) {
+function MessageItemWrapper({ conversation, data, events, children }) {
   React.useEffect(() => {
     // mark as read on first render
     setTimeout(sendRead, 300)
   }, [])
 
-  function sendRead () {
+  function sendRead() {
     if (!data.readAt) {
       events &&
         events.perform(
@@ -839,7 +837,7 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
             {},
             {
               conversation_key: conversation.key,
-              message_key: data.key
+              message_key: data.key,
             },
             { email: data.email }
           )
@@ -850,7 +848,7 @@ function MessageItemWrapper ({ conversation, data, events, children }) {
   return <React.Fragment>{children}</React.Fragment>
 }
 
-function RenderBlocks ({ message, app, conversation, dispatch }) {
+function RenderBlocks({ message, app, conversation, dispatch }) {
   const { data, blocks } = toCamelCase(message).message
 
   const schema = blocks.schema
@@ -871,8 +869,8 @@ function RenderBlocks ({ message, app, conversation, dispatch }) {
         field: data.field,
         definitions: [data.field.action],
         location: 'inbox',
-        values: data.values
-      }
+        values: data.values,
+      },
     }
 
     getPackage(params, 'conversation', (data) => {
@@ -889,26 +887,29 @@ function RenderBlocks ({ message, app, conversation, dispatch }) {
     let output = null
     switch (blocks.type) {
       case 'app_package':
-        output = <div>
-          <div
-            className="text-gray-800 text-xs
-            font-bold uppercase tracking-wide">
-            <div className="inline-flex items-baseline px-2.5 py-0.5 rounded-full
-            text-xs font-light bg-green-100 text-green-800 md:mt-2 lg:mt-0">
-              <span>
-                {blocks.appPackage}
-              </span>
+        output = (
+          <div>
+            <div
+              className="text-gray-800 text-xs
+            font-bold uppercase tracking-wide"
+            >
+              <div
+                className="inline-flex items-baseline px-2.5 py-0.5 rounded-full
+            text-xs font-light bg-green-100 text-green-800 md:mt-2 lg:mt-0"
+              >
+                <span>{blocks.appPackage}</span>
+              </div>
             </div>
+
+            <br />
+
+            <DefinitionRenderer
+              schema={schema}
+              values={blocks.values}
+              updatePackage={updatePackage}
+            />
           </div>
-
-          <br />
-
-          <DefinitionRenderer
-            schema={schema}
-            values={blocks.values}
-            updatePackage={updatePackage}
-          />
-        </div>
+        )
         break
       case 'ask_option':
         output = <p>ask option</p>
@@ -916,14 +917,14 @@ function RenderBlocks ({ message, app, conversation, dispatch }) {
       case 'data_retrieval':
         output = <p>data retrieval</p>
         break
-      default: null
+      default:
+        null
     }
 
     return (
-
       <div
         style={{
-          opacity: 0.96
+          opacity: 0.96,
         }}
         className={`
         w-full
@@ -935,73 +936,79 @@ function RenderBlocks ({ message, app, conversation, dispatch }) {
         flex 
         overflow-hidden p-2 
         rounded-md mx-auto
-        text-gray-600`
-        }
+        text-gray-600`}
       >
-        <div className="w-full flex flex-col justify-between">
-          {output}
-        </div>
-
+        <div className="w-full flex flex-col justify-between">{output}</div>
       </div>
-
     )
   }
 
   if (blocks.type === 'app_package') {
     // (o.message.state !== 'replied') {
 
-    return <div
-      id={`message-id-${message.id}`}
-      className={'flex items-start py-2 text-sm'}
-      key={`conversations-messages/${message.id}`}>
-      {
-        renderBlockRepresentation()
-      }
-    </div>
+    return (
+      <div
+        id={`message-id-${message.id}`}
+        className={'flex items-start py-2 text-sm'}
+        key={`conversations-messages/${message.id}`}
+      >
+        {renderBlockRepresentation()}
+      </div>
+    )
   }
 
   const item = message.message.data
   if (!item) {
-    return <p className="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
-      <a href="#" className="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white">
-        <span className="absolute flex-shrink-0 flex items-center justify-center">
-          <span className="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black"
-            aria-hidden="true">
+    return (
+      <p className="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
+        <a
+          href="#"
+          className="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white"
+        >
+          <span className="absolute flex-shrink-0 flex items-center justify-center">
+            <span
+              className="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black"
+              aria-hidden="true"
+            ></span>
           </span>
-        </span>
-        <span className="ml-3.5 font-medium text-gray-700">waiting for reply</span>
-      </a>
-
-    </p>
+          <span className="ml-3.5 font-medium text-gray-700">
+            waiting for reply
+          </span>
+        </a>
+      </p>
+    )
   }
 
   let blockElement
 
   switch (item.element) {
     case 'button':
-      blockElement =
+      blockElement = (
         <p>
-          <strong>
-          reply button:
-          </strong> {item.label}
+          <strong>reply button:</strong> {item.label}
         </p>
+      )
 
       break
     default:
       if (blocks.type === 'app_package') {
-        blockElement = <div>
-          <p variant="overline">{blocks.appPackage}</p>
+        blockElement = (
+          <div>
+            <p variant="overline">{blocks.appPackage}</p>
 
-          <br />
+            <br />
 
-          <p variant={'caption'}>
-            {data && (
-              <span
-                dangerouslySetInnerHTML={{ __html: data.formattedText }}
-              />
-            )}
-          </p>
-        </div>
+            <p variant={'caption'}>
+              {data && (
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: data.formattedText,
+                  }}
+                />
+              )}
+            </p>
+          </div>
+        )
 
         break
       }
@@ -1015,11 +1022,12 @@ function RenderBlocks ({ message, app, conversation, dispatch }) {
           )
         })
 
-        blockElement =
+        blockElement = (
           <React.Fragment>
             <strong>replied:</strong>
             {dataList}
           </React.Fragment>
+        )
         break
       } else {
         blockElement = <p>{JSON.stringify(message.message.data)}</p>
@@ -1031,17 +1039,15 @@ function RenderBlocks ({ message, app, conversation, dispatch }) {
     <div
       id={`message-id-${message.id}`}
       className={'flex items-start py-2 text-sm'}
-      key={`conversations-messages/${message.id}`}>
-
+      key={`conversations-messages/${message.id}`}
+    >
       <div
         className={`bg-green-400
         flex 
         overflow-hidden p-2 
-        rounded-md mx-auto text-white`
-        }
+        rounded-md mx-auto text-white`}
       >
         <div className="flex flex-col justify-between">
-
           <span className={'text-xs text-center'}>
             <Moment fromNow ago>
               {message.createdAt}
@@ -1049,23 +1055,22 @@ function RenderBlocks ({ message, app, conversation, dispatch }) {
 
             <span>
               {' - '}
-              {
-                message.readAt ? <span>{I18n.t('conversation.messages.seen')}</span>
-                  : <span>{I18n.t('conversation.messages.not_seen')}</span>
-              }
+              {message.readAt ? (
+                <span>{I18n.t('conversation.messages.seen')}</span>
+              ) : (
+                <span>{I18n.t('conversation.messages.not_seen')}</span>
+              )}
             </span>
           </span>
 
-          <p className="text-md text-center text-bold">
-            {blockElement}
-          </p>
+          <p className="text-md text-center text-bold">{blockElement}</p>
         </div>
       </div>
     </div>
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, conversation, app_user, current_user, drawer } = state
   const { isAuthenticated } = auth
   const { messages, loading } = conversation
@@ -1080,7 +1085,7 @@ function mapStateToProps (state) {
     app_user,
     app,
     drawer,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

@@ -1,18 +1,15 @@
 import React from 'react'
-import {
-  client as graphql,
-  docsQueries
-} from '@chaskiq/store'
+import { client as graphql, docsQueries } from '@chaskiq/store'
 
 import translation from './translation'
 import { ThemeProvider } from 'emotion-theming'
-import {Styled} from 'Dante2'
-import {Breadcrumbs, Avatar, DraftRenderer} from '@chaskiq/components'
+import { Styled } from 'Dante2'
+import { Breadcrumbs, Avatar, DraftRenderer } from '@chaskiq/components'
 import Moment from 'react-moment'
 import styled from '@emotion/styled'
 
-const {ARTICLE} = docsQueries
-const {EditorContainer} = Styled
+const { ARTICLE } = docsQueries
+const { EditorContainer } = Styled
 
 const NewEditorStyles = styled(EditorContainer)`
   font-size: 1.3em;
@@ -28,7 +25,7 @@ const NewEditorStyles = styled(EditorContainer)`
   }
 `
 
-export default function Article (props) {
+export default function Article(props) {
   const [article, setArticle] = React.useState(null)
   const { lang, theme } = props
 
@@ -38,28 +35,29 @@ export default function Article (props) {
     getArticle()
   }, [])
 
-  function getArticle () {
+  function getArticle() {
     graphql(
       ARTICLE,
       {
         domain: subdomain,
         id: props.match.params.id,
-        lang: lang
+        lang: lang,
       },
       {
         success: (data) => {
           setArticle(data.helpCenter.article)
         },
-        error: (_e) => {
-        }
+        error: (_e) => {},
       }
     )
   }
 
   return (
     <div className="flex flex-row items-center justify-center bg-gray-100">
-      <div className="w-full rounded shadow lg:p-12
-        m-2 lg:mx-64 px-2 lg:w-10/12 bg-white p-2">
+      <div
+        className="w-full rounded shadow lg:p-12
+        m-2 lg:mx-64 px-2 lg:w-10/12 bg-white p-2"
+      >
         {article ? (
           <div className={'text-xs lg:text-sm'}>
             <Breadcrumbs
@@ -68,9 +66,9 @@ export default function Article (props) {
                 { to: `/${lang}`, title: 'Collections' },
                 {
                   to: `/${lang}/collections/${article.collection.slug}`,
-                  title: translation(article.collection.title)
+                  title: translation(article.collection.title),
                 },
-                { title: translation(article.title) }
+                { title: translation(article.title) },
               ]}
             />
 
@@ -91,12 +89,14 @@ export default function Article (props) {
                 />
 
                 <div className={'ml-2'}>
-                  {
-                    article.author.name && 
+                  {article.author.name && (
                     <p className="text-md leading-6 font-light text-gray-900">
-                      Written by <span className="font-semibold">{article.author.name}</span>
+                      Written by{' '}
+                      <span className="font-semibold">
+                        {article.author.name}
+                      </span>
                     </p>
-                  }
+                  )}
 
                   <p className="text-md leading-6 font-light text-gray-500">
                     {'updated '}

@@ -2,29 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Avatar from '../Avatar'
-import {
-  FolderIcon,
-  LabelIcon
-} from '../icons'
+import { FolderIcon, LabelIcon } from '../icons'
 
-import {
-  client as graphql,
-  queries,
+import { client as graphql, queries, actions } from '@chaskiq/store'
+
+const { getConversations, updateConversationsData, clearConversations } =
   actions
-} from '@chaskiq/store'
 
-const {
-  getConversations,
-  updateConversationsData,
-  clearConversations
-} = actions
+const { CONVERSATIONS_COUNTS } = queries
 
-
-const {
-  CONVERSATIONS_COUNTS
-} = queries
-
-function SidebarAgents ({ app, dispatch, conversations }) {
+function SidebarAgents({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null)
   const [agents, setAgents] = useState(null)
   const [tagCounts, setTagCounts] = useState(null)
@@ -33,24 +20,28 @@ function SidebarAgents ({ app, dispatch, conversations }) {
     getCounts()
   }, [])
 
-  function getCounts () {
-    graphql(CONVERSATIONS_COUNTS, { appKey: app.key }, {
-      success: (data) => {
-        setCounts(data.app.conversationsCounts)
-        setTagCounts(data.app.conversationsTagCounts)
-        setAgents(data.app.agents)
-      },
-      error: () => {}
-    })
+  function getCounts() {
+    graphql(
+      CONVERSATIONS_COUNTS,
+      { appKey: app.key },
+      {
+        success: (data) => {
+          setCounts(data.app.conversationsCounts)
+          setTagCounts(data.app.conversationsTagCounts)
+          setAgents(data.app.agents)
+        },
+        error: () => {},
+      }
+    )
   }
 
-  function findAgent (o) {
+  function findAgent(o) {
     const agent = agents.find((a) => a.id === parseInt(o))
     if (agent) return agent
     return null
   }
 
-  function fetchConversations (options, cb) {
+  function fetchConversations(options, cb) {
     dispatch(
       getConversations(options, () => {
         cb && cb()
@@ -58,47 +49,49 @@ function SidebarAgents ({ app, dispatch, conversations }) {
     )
   }
 
-  function filterAgent (option) {
+  function filterAgent(option) {
     const agentID = option ? option.id : null
     dispatch(clearConversations([]))
     dispatch(
-      updateConversationsData({
-        agentId: agentID,
-        sort: 'unfiltered'
-      }, () => {
-        fetchConversations(
-          {
+      updateConversationsData(
+        {
+          agentId: agentID,
+          sort: 'unfiltered',
+        },
+        () => {
+          fetchConversations({
             page: 1,
             agentId: agentID,
             sort: 'unfiltered',
             filter: 'opened',
-            tag: null
-          }
-        )
-      })
+            tag: null,
+          })
+        }
+      )
     )
   }
 
-  function handleTagFilter (tag) {
+  function handleTagFilter(tag) {
     dispatch(clearConversations([]))
     dispatch(
-      updateConversationsData({
-        tag: tag,
-        sort: 'unfiltered'
-      }, () => {
-        fetchConversations(
-          {
+      updateConversationsData(
+        {
+          tag: tag,
+          sort: 'unfiltered',
+        },
+        () => {
+          fetchConversations({
             page: 1,
             tag: tag,
             sort: 'unfiltered',
-            filter: 'opened'
-          }
-        )
-      })
+            filter: 'opened',
+          })
+        }
+      )
     )
   }
 
-  function tagColor (tag) {
+  function tagColor(tag) {
     if (!app.tagList) return '#ccc'
     const findedTag = app.tagList.find((o) => o.name === tag)
     if (!findedTag) return '#ccc'
@@ -107,15 +100,14 @@ function SidebarAgents ({ app, dispatch, conversations }) {
 
   return (
     <div>
-
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
         <h3 className="font-bold">
           {I18n.t('conversations.menu.conversations')}
         </h3>
       </div>
 
-      {
-        counts && agents &&
+      {counts &&
+        agents &&
         Object.keys(counts).map((o, i) => (
           <ListItem
             key={`agent-list-${i}`}
@@ -123,13 +115,9 @@ function SidebarAgents ({ app, dispatch, conversations }) {
             count={counts[o]}
             active={conversations.agentId === parseInt(o)}
             filterHandler={filterAgent}
-            label={ o === 'all'
-              ? I18n.t('conversations.menu.all') : 
-              null
-            }
+            label={o === 'all' ? I18n.t('conversations.menu.all') : null}
           />
-        ))
-      }
+        ))}
 
       {/*
         <ListItem name="All conversations" count={798} />
@@ -138,39 +126,37 @@ function SidebarAgents ({ app, dispatch, conversations }) {
         <ListItem name="Bot" count={340} />
       */}
 
-      {
-        tagCounts &&
-          <div className="mt-4 flex items-center flex-shrink-0 px-4
-            text-md leading-6 font-bold text-gray-900 dark:text-gray-200">
-            <h3 className="font-bold">{
-              I18n.t('conversations.menu.tags')
-            }</h3>
-          </div>
-      }
+      {tagCounts && (
+        <div
+          className="mt-4 flex items-center flex-shrink-0 px-4
+            text-md leading-6 font-bold text-gray-900 dark:text-gray-200"
+        >
+          <h3 className="font-bold">{I18n.t('conversations.menu.tags')}</h3>
+        </div>
+      )}
 
-      {
-        tagCounts && tagCounts.map((o) => (
+      {tagCounts &&
+        tagCounts.map((o) => (
           <ListItem
             key={`sidebar-agent-tag-${o.tag}`}
             label={o.tag}
             count={o.count}
             active={conversations.tag === o.tag}
-            filterHandler={ handleTagFilter }
+            filterHandler={handleTagFilter}
             icon={
-              <LabelIcon className="-ml-1 mr-3"
+              <LabelIcon
+                className="-ml-1 mr-3"
                 style={{ color: tagColor(o.tag) }}
               />
             }
           />
-        ))
-      }
-
+        ))}
     </div>
   )
 }
 
-function ListItem ({ agent, count, label, filterHandler, icon, active }) {
-  function toggleFilter () {
+function ListItem({ agent, count, label, filterHandler, icon, active }) {
+  function toggleFilter() {
     let option = null
     if (agent) {
       option = active ? null : agent
@@ -182,8 +168,9 @@ function ListItem ({ agent, count, label, filterHandler, icon, active }) {
   }
 
   return (
-    <a href="#"
-      onClick={ toggleFilter }
+    <a
+      href="#"
+      onClick={toggleFilter}
       className={`
       mt-1 group flex items-center px-3 py-2 text-sm
       leading-5 font-medium 
@@ -197,28 +184,21 @@ function ListItem ({ agent, count, label, filterHandler, icon, active }) {
       focus:outline-none 
       focus:text-gray-900
       transition ease-in-out duration-150 
-      ${active ? 'bg-gray-200 dark:bg-gray-700' : ''}`}>
-      {
-        !agent && icon
-      }
+      ${active ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
+    >
+      {!agent && icon}
 
-      {
-        !agent && !icon && <FolderIcon className="-ml-1 mr-3"/>
-      }
+      {!agent && !icon && <FolderIcon className="-ml-1 mr-3" />}
 
-      {
-        agent &&
+      {agent && (
         <div className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-focus:text-gray-500 transition ease-in-out duration-150">
-          <Avatar
-            size={6}
-            src={agent.avatarUrl}
-          />
+          <Avatar size={6} src={agent.avatarUrl} />
         </div>
-      }
+      )}
 
       <span className="truncate">
         {agent && (agent.name || agent.email)}
-        {!agent && (label || I18n.t("conversations.menu.unassigned")) }
+        {!agent && (label || I18n.t('conversations.menu.unassigned'))}
       </span>
 
       <span className="ml-auto inline-block py-0.5 px-3 text-xs leading-4 rounded-full text-gray-600 bg-gray-200 group-hover:bg-gray-200 group-focus:bg-gray-300 transition ease-in-out duration-150">
@@ -228,11 +208,11 @@ function ListItem ({ agent, count, label, filterHandler, icon, active }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app, conversations } = state
   return {
     conversations,
-    app
+    app,
   }
 }
 

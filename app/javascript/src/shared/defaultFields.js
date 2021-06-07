@@ -23,7 +23,7 @@ const defaultData = [
   { name: 'browser_version', type: 'string' },
   { name: 'os', type: 'string' },
   { name: 'os_version', type: 'string' },
-  { name: 'browser_language', type: 'string' }
+  { name: 'browser_language', type: 'string' },
 ]
 
 export default defaultData

@@ -1,19 +1,19 @@
 import ActionTypes from '../constants/action_types'
 
-export function setSubscriptionState (data) {
+export function setSubscriptionState(data) {
   return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.SetSubscriptionState,
-      data: data
+      data: data,
     })
   }
 }
 
-export function clearSubscriptionState () {
+export function clearSubscriptionState() {
   return (dispatch) => {
     dispatch({
       type: ActionTypes.ClearSubscriptionState,
-      data: {}
+      data: {},
     })
   }
 }
@@ -21,7 +21,7 @@ export function clearSubscriptionState () {
 const subscriptionState = {}
 
 // Reducer
-export default function reducer (state = subscriptionState, action = {}) {
+export default function reducer(state = subscriptionState, action = {}) {
   switch (action.type) {
     case ActionTypes.SetSubscriptionState:
       return Object.assign({}, state, action.data)

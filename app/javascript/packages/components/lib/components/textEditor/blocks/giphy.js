@@ -36,7 +36,7 @@ const GridList = styled.div`
 
 const Container = styled.div`
   padding: 10px;
-  background: "#ccc";
+  background: '#ccc';
 `
 
 const PickerBlock = styled.div`
@@ -45,7 +45,7 @@ const PickerBlock = styled.div`
   margin-bottom: 4px;
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -108,17 +108,17 @@ const PickerBlock = styled.div`
 `
 
 export default class App extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       gifs: [],
       limit: 10,
-      term: ''
+      term: '',
     }
     this.input_ref = null
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.search('', 'trend')
   }
 
@@ -130,7 +130,7 @@ export default class App extends React.Component {
     const term = this.input_ref.value
 
     this.search(term)
-  };
+  }
 
   search = (term, kind = 'search') => {
     const url =
@@ -150,35 +150,34 @@ export default class App extends React.Component {
         // handle error
         console.log(error)
       })
-  };
+  }
 
   limitSubmit = (limit) => {
     this.setState({ limit: limit }, function () {
       console.log('LIMIT:', this.state.limit)
     })
-  };
+  }
 
   handleChange = (e) => {
     const term = e.target.value
     this.setState({
-      term: term
+      term: term,
     })
-  };
+  }
 
-  render () {
+  render() {
     return (
       <GiphyBlock>
         <Container>
           <PickerBlock>
             <Input
-              ref={(c)=> this.input_ref = c}
+              ref={(c) => (this.input_ref = c)}
               type="text"
               placeholder={'search gif'}
               value={this.state.term}
               onChange={this.handleChange}
               onKeyDown={this.onSearchSubmit}
             />
-
           </PickerBlock>
 
           <GridListOverflow>

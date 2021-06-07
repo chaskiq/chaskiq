@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Hints from '../../shared/Hints'
 import serialize from 'form-serialize'
 
 import {
+  Hints,
   List,
   ListItem,
   ListItemText,
@@ -14,36 +14,35 @@ import {
   FormDialog,
   UpgradeButton,
   Input,
-  icons
+  icons,
 } from '@chaskiq/components'
 
 import defaultFields from '../../shared/defaultFields'
 
 const { DeleteIcon, PlusIcon, EditIcon } = icons
 
-
-function UserDataFields ({ app, _settings, update, _dispatch }) {
+function UserDataFields({ app, _settings, update, _dispatch }) {
   const [fields, setFields] = useState(app.customFields || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
 
   const form = React.useRef(null)
 
-  function addField () {
+  function addField() {
     setOpen(true)
   }
 
-  function close () {
+  function close() {
     setSelected(null)
     setOpen(false)
   }
 
-  function submit () {
+  function submit() {
     setFields(handleFields())
     setOpen(false)
   }
 
-  function handleFields () {
+  function handleFields() {
     const s = serialize(form.current, { hash: true, empty: true })
 
     if (selected === null) {
@@ -58,7 +57,7 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
     })
   }
 
-  function renderModal () {
+  function renderModal() {
     const selectedItem = fields[selected]
 
     return (
@@ -89,17 +88,17 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
     )
   }
 
-  function handleEdit (o) {
+  function handleEdit(o) {
     setSelected(o)
     setOpen(true)
   }
 
-  function removeField (index) {
+  function removeField(index) {
     const newFields = fields.filter((o, i) => i !== index)
     setFields(newFields)
   }
 
-  function renderSubmitButton () {
+  function renderSubmitButton() {
     return (
       <Button
         variant={'success'}
@@ -107,8 +106,8 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
         onClick={() =>
           update({
             app: {
-              custom_fields: fields
-            }
+              custom_fields: fields,
+            },
           })
         }
       >
@@ -119,7 +118,6 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
 
   return (
     <div className="py-4">
-
       <Hints type="user_data" />
 
       <div className="flex items-center justify-between">
@@ -129,19 +127,20 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
 
         <div className="flex w-1/4 justify-end items-center">
           <UpgradeButton
-            classes={
-              `absolute z-10 ml-1 mt-3 transform w-screen 
+            classes={`absolute z-10 ml-1 mt-3 transform w-screen 
               max-w-md px-2 origin-top-right right-0
               md:-ml-4 sm:px-0 lg:ml-0
-              lg:right-2/6 lg:translate-x-1/6`
-            }
+              lg:right-2/6 lg:translate-x-1/6`}
             label="Add custom attribute"
-            feature="CustomAttributes">
-            <Button onClick={addField}
+            feature="CustomAttributes"
+          >
+            <Button
+              onClick={addField}
               variant="outlined"
               className="mr-2"
-              aria-label="add">
-              <PlusIcon /> {I18n.t("common.add_new")}
+              aria-label="add"
+            >
+              <PlusIcon /> {I18n.t('common.add_new')}
             </Button>
           </UpgradeButton>
 
@@ -211,7 +210,7 @@ function UserDataFields ({ app, _settings, update, _dispatch }) {
   )
 }
 
-function FieldsItems ({ primary, secondary, terciary }) {
+function FieldsItems({ primary, secondary, terciary }) {
   return (
     <ListItem divider={true}>
       <ListItemText
@@ -235,28 +234,34 @@ function FieldsItems ({ primary, secondary, terciary }) {
   )
 }
 
-function FieldsForm ({ selected }) {
+function FieldsForm({ selected }) {
   const [field, setField] = useState(selected || {})
 
-  function setName (e) {
+  function setName(e) {
     setField(Object.assign({}, field, { name: e.target.value }))
   }
 
-  function setType (e) {
+  function setType(e) {
     setField(Object.assign({}, field, { type: e.value }))
   }
 
-  function setValidation (e) {
+  function setValidation(e) {
     setField(Object.assign({}, field, { validation: e.value }))
   }
 
   const options = [
-    { value: 'string', label: I18n.t('settings.user_data.attr_types.string') },
-    { value: 'integer', label: I18n.t('settings.user_data.attr_types.integer') },
-    { value: 'date', label: I18n.t('settings.user_data.attr_types.date') }
+    {
+      value: 'string',
+      label: I18n.t('settings.user_data.attr_types.string'),
+    },
+    {
+      value: 'integer',
+      label: I18n.t('settings.user_data.attr_types.integer'),
+    },
+    { value: 'date', label: I18n.t('settings.user_data.attr_types.date') },
   ]
 
-  function selectedOption () {
+  function selectedOption() {
     const selected = options.find((o) => o.value === field.type)
     if (selected) return selected
   }
@@ -268,7 +273,7 @@ function FieldsForm ({ selected }) {
         margin="normal"
         required
         name="name"
-        label={ I18n.t('settings.user_data.inputs.name')}
+        label={I18n.t('settings.user_data.inputs.name')}
         type={'text'}
         // type="password"
         // id="password"
@@ -301,10 +306,10 @@ function FieldsForm ({ selected }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app } = state
   return {
-    app
+    app,
   }
 }
 

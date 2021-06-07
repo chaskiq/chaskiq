@@ -1,43 +1,27 @@
 import React from 'react'
 
-import {
-  client as graphql,
-  docsQueries
-} from '@chaskiq/store'
+import { client as graphql, docsQueries } from '@chaskiq/store'
 
 import CustomizedInputBase from './searchBar'
 
-import {
-  FilterMenu, 
-  Button,
-  icons,
-  danteTheme
-} from '@chaskiq/components'
+import { FilterMenu, Button, icons, danteTheme } from '@chaskiq/components'
 
 import Article from './article'
 import CollectionsWithSections from './collectionSections'
 import Collections from './collections'
 import { Facebook, Twitter, LinkedIn } from './icons'
-import {
-  Route,
-  Switch,
-  Link
-} from 'react-router-dom'
+import { Route, Switch, Link } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
 
-const {
-   LangGlobeIcon, LaunchIcon
-} = icons
+const { LangGlobeIcon, LaunchIcon } = icons
 
-const {
-  ARTICLE_SETTINGS
-} = docsQueries
+const { ARTICLE_SETTINGS } = docsQueries
 
 const subdomain = window.location.host.split('.')[1]
   ? window.location.host.split('.')[0]
   : false
 
-function Docs (props) {
+function Docs(props) {
   // const classes = useStyles();
   const [settings, setSettings] = React.useState({})
   const [lang, setLang] = React.useState(props.match.params.lang || 'en')
@@ -48,29 +32,29 @@ function Docs (props) {
     getSettings()
   }, [lang])
 
-  function getSettings () {
+  function getSettings() {
     graphql(
       ARTICLE_SETTINGS,
       {
         domain: subdomain,
-        lang: props.match.params.lang
+        lang: props.match.params.lang,
       },
       {
         success: (data) => {
           setSettings(data.helpCenter)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 
-  function handleLangChange (option) {
+  function handleLangChange(option) {
     setLang(option.id)
     history.push(`/${option.id}`)
   }
 
   const newDanteTheme = Object.assign({}, danteTheme, {
-    mainColor: settings.color
+    mainColor: settings.color,
   })
 
   return (
@@ -91,7 +75,7 @@ function Docs (props) {
             className="bg-black"
             // className={'classes.heroContent'}
             style={{
-              backgroundImage: `url('${settings.headerImageLarge}')`
+              backgroundImage: `url('${settings.headerImageLarge}')`,
             }}
           >
             <div className="lg:px-40 px-2">
@@ -123,11 +107,11 @@ function Docs (props) {
                         icon={LangGlobeIcon}
                         options={settings.availableLanguages.map((o) => ({
                           name: o,
-                          id: o
+                          id: o,
                         }))}
                         value={lang}
                         filterHandler={handleLangChange}
-                        buttonVariant={"outlined-transparent"}
+                        buttonVariant={'outlined-transparent'}
                         position={'right'}
                         // triggerButton={this.toggleButton}
                       />
@@ -135,7 +119,7 @@ function Docs (props) {
                   </div>
                 </div>
               </div>
-              
+
               {
                 <Route
                   render={(props) => (
@@ -192,19 +176,17 @@ function Docs (props) {
         {/* Footer */}
 
         <footer className={'py-8'}>
-          {
-            settings.siteTitle &&
+          {settings.siteTitle && (
             <p className="mt-2 leading-6 text-gray-500 text-center">
               {settings.siteTitle}
             </p>
-          }
+          )}
 
-          {
-            settings.siteDescription &&
+          {settings.siteDescription && (
             <p className="mt-2 text-sm text-gray-400 text-center">
               {settings.siteDescription}
             </p>
-          }
+          )}
 
           <div className="py-8 flex flex-row justify-evenly items-baseline text-gray-500">
             {settings.facebook && (
@@ -234,7 +216,7 @@ function Docs (props) {
   )
 }
 
-function MadeWithLove () {
+function MadeWithLove() {
   return (
     <p className="text-center text-xs leading-5 text-gray-400">
       {'powered by '}

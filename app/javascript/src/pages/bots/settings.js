@@ -1,29 +1,20 @@
 import React, { useState, useEffect } from 'react'
 
 import {
-  Button,        
-  Tabs,          
-  ContentHeader, 
-  Content,       
-  Input
-} from '@chaskiq/components'        
+  Button,
+  Tabs,
+  ContentHeader,
+  Content,
+  Input,
+} from '@chaskiq/components'
 
 import I18n from '../../shared/FakeI18n'
 
-import {
-  client as graphql,
-  queries,
-  actions
-} from '@chaskiq/store'
+import { client as graphql, queries, actions } from '@chaskiq/store'
 
-const { 
-  updateApp,
-  setCurrentPage 
-} = actions
-
+const { updateApp, setCurrentPage } = actions
 
 const { AGENTS, BOT_TASKS } = queries
-
 
 const SettingsForm = ({ app, data, _errors, dispatch }) => {
   const [tabValue, setTabValue] = useState(0)
@@ -35,7 +26,7 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
     dispatch(setCurrentPage('bot_settings'))
   }, [])
 
-  function getAgents () {
+  function getAgents() {
     graphql(
       AGENTS,
       { appKey: app.key },
@@ -43,12 +34,12 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
         success: (data) => {
           setAgents(data.app.agents)
         },
-        error: (_error) => {}
+        error: (_error) => {},
       }
     )
   }
 
-  function getTasks (mode) {
+  function getTasks(mode) {
     graphql(
       BOT_TASKS,
       { appKey: app.key, mode: mode },
@@ -56,7 +47,7 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
         success: (data) => {
           setTasks(data.app.botTasks)
         },
-        error: (_error) => {}
+        error: (_error) => {},
       }
     )
   }
@@ -67,7 +58,7 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
 
   //let formRef
 
-  function tabsContent () {
+  function tabsContent() {
     return (
       <Tabs
         value={tabValue}
@@ -87,7 +78,7 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
                 submit={submit}
                 namespace={'lead_tasks_settings'}
               />
-            )
+            ),
           },
           {
             label: I18n.t('task_bots.settings.users.tab'),
@@ -102,38 +93,36 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
                 submit={submit}
                 namespace={'user_tasks_settings'}
               />
-            )
-          }
+            ),
+          },
         ]}
       ></Tabs>
     )
   }
 
-  function submit (params) {
+  function submit(params) {
     dispatch(updateApp(params))
   }
 
-  function handleTabChange (e, i) {
+  function handleTabChange(e, i) {
     setTabValue(i)
   }
 
-  function updateState (newData) {
+  function updateState(newData) {
     setState(Object.assign({}, data, newData))
   }
 
   return (
     <div>
       <Content>
-        <ContentHeader title={
-          I18n.t('task_bots.title')
-        } items={[]} />
+        <ContentHeader title={I18n.t('task_bots.title')} items={[]} />
         {tabsContent()}
       </Content>
     </div>
   )
 }
 
-function UsersSettings ({
+function UsersSettings({
   app,
   updateData,
   namespace,
@@ -155,7 +144,7 @@ function UsersSettings ({
     setState({ ...state, [name]: value })
   }*/
 
-  function submitData () {
+  function submitData() {
     const data = { [namespace]: state }
     submit(data)
   }
@@ -177,8 +166,7 @@ function UsersSettings ({
       </div>
 
       <div className="py-4">
-        <Button size={'medium'}
-          variant={'success'} onClick={submitData}>
+        <Button size={'medium'} variant={'success'} onClick={submitData}>
           {I18n.t('common.save')}
         </Button>
       </div>
@@ -186,7 +174,7 @@ function UsersSettings ({
   )
 }
 
-function LeadsSettings ({
+function LeadsSettings({
   app,
   updateData,
   agents,
@@ -212,7 +200,7 @@ function LeadsSettings ({
     setValue(name, event.target.checked)
   }
 
-  function handleRadioChange (event) {
+  function handleRadioChange(event) {
     const name = event.target.name
     setState({ ...state, [name]: event.target.value })
   }
@@ -221,7 +209,7 @@ function LeadsSettings ({
     setState({ ...state, [name]: value })
   }
 
-  function submitData () {
+  function submitData() {
     const data = { [namespace]: state }
     submit(data)
   }
@@ -340,9 +328,7 @@ function LeadsSettings ({
       </div>
 
       <div className="py-4">
-        <Button size={'medium'}
-          variant={'success'}
-          onClick={submitData}>
+        <Button size={'medium'} variant={'success'} onClick={submitData}>
           {I18n.t('common.save')}
         </Button>
       </div>
@@ -350,7 +336,7 @@ function LeadsSettings ({
   )
 }
 
-function AgentSelector ({ agents, getAgents, setValue, value }) {
+function AgentSelector({ agents, getAgents, setValue, value }) {
   const [selected, setSelected] = React.useState(value)
 
   useEffect(() => {
@@ -361,7 +347,7 @@ function AgentSelector ({ agents, getAgents, setValue, value }) {
     setValue('assignee', selected)
   }, [selected])
 
-  function handleChange (e) {
+  function handleChange(e) {
     setSelected(e.value)
   }
 

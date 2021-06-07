@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 
-import {Styled} from 'Dante2'
-const {EditorContainer} = Styled
+import { Styled } from 'Dante2'
+const { EditorContainer } = Styled
 
 const NewEditorStyles = styled(EditorContainer)`
   //display: flex;

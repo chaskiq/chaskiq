@@ -3,28 +3,22 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
- Button,
- SegmentManager,
- parseJwt, generateJWT,
- Input
+  Button,
+  SegmentManager,
+  parseJwt,
+  generateJWT,
+  Input,
+  userFormat,
+  Hints
 } from '@chaskiq/components'
 
-import Hints from '../../shared/Hints'
+import { client as graphql, mutations, actions } from '@chaskiq/store'
 
-import {
-  client as graphql,
-  mutations,
-  actions
-} from '@chaskiq/store'
-
-const { 
-  toggleDrawer,
-  getAppUser
-} = actions
+const { toggleDrawer, getAppUser } = actions
 
 const { PREDICATES_SEARCH } = mutations
 
-function InboundSettings ({ settings, update, dispatch }) {
+function InboundSettings({ settings, update, dispatch }) {
   const [state, setState] = React.useState({
     enable_inbound: settings.inboundSettings.enabled,
 
@@ -34,18 +28,18 @@ function InboundSettings ({ settings, update, dispatch }) {
 
     visitors_radio: settings.inboundSettings.visitors.segment,
     visitors_enabled: settings.inboundSettings.visitors.enabled,
-    visitorsPredicates: settings.inboundSettings.visitors.predicates
+    visitorsPredicates: settings.inboundSettings.visitors.predicates,
   })
 
   const handleChange = (name, event) => {
     setState({ ...state, [name]: event.target.checked })
   }
 
-  function setPredicates (name, value) {
+  function setPredicates(name, value) {
     setState({ ...state, [name]: value })
   }
 
-  function handleSubmit () {
+  function handleSubmit() {
     const {
       enable_inbound,
       users_enabled,
@@ -53,7 +47,7 @@ function InboundSettings ({ settings, update, dispatch }) {
       usersPredicates,
       visitors_radio,
       visitors_enabled,
-      visitorsPredicates
+      visitorsPredicates,
     } = state
 
     const data = {
@@ -63,15 +57,15 @@ function InboundSettings ({ settings, update, dispatch }) {
           users: {
             enabled: users_enabled,
             segment: users_radio,
-            predicates: usersPredicates
+            predicates: usersPredicates,
           },
           visitors: {
             enabled: visitors_enabled,
             segment: visitors_radio,
-            predicates: visitorsPredicates
-          }
-        }
-      }
+            predicates: visitorsPredicates,
+          },
+        },
+      },
     }
     update(data)
   }
@@ -79,9 +73,7 @@ function InboundSettings ({ settings, update, dispatch }) {
   return (
     <div>
       <div className="py-4">
-
-        <Hints type="inbound_settings"/>
-
+        <Hints type="inbound_settings" />
       </div>
 
       <p className="text-lg leading-5 font-medium text-gray-900 pb-2">
@@ -120,9 +112,7 @@ function InboundSettings ({ settings, update, dispatch }) {
       </p>
 
       <div className="py-4">
-        <p className="py-2">
-          {I18n.t('settings.inbound.note3')}
-        </p>
+        <p className="py-2">{I18n.t('settings.inbound.note3')}</p>
 
         <hr />
 
@@ -157,7 +147,7 @@ function InboundSettings ({ settings, update, dispatch }) {
         />
 
         <p className="text-sm leading-6 font-medium text-gray-400 pb-2">
-          { I18n.t('settings.inbound.filters.hint')}
+          {I18n.t('settings.inbound.filters.hint')}
         </p>
       </div>
 
@@ -166,7 +156,8 @@ function InboundSettings ({ settings, update, dispatch }) {
           onClick={handleSubmit}
           variant={'success'}
           size="md"
-          color={'primary'}>
+          color={'primary'}
+        >
           {I18n.t('common.save')}
         </Button>
       </div>
@@ -174,16 +165,16 @@ function InboundSettings ({ settings, update, dispatch }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { drawer } = state
   return {
-    drawer
+    drawer,
   }
 }
 
 export default withRouter(connect(mapStateToProps)(InboundSettings))
 
-function AppSegmentManager ({
+function AppSegmentManager({
   app,
   all,
   some,
@@ -193,7 +184,7 @@ function AppSegmentManager ({
   predicates,
   setPredicates,
   radioValue,
-  dispatch
+  dispatch,
 }) {
   // const [checked, setChecked]= useState(checked)
   // const [radioValue, setRadioValue] = useState("all")
@@ -204,11 +195,11 @@ function AppSegmentManager ({
     // setChecked(!checked)
   }*/
 
-  function handleChangeRadio (e) {
+  function handleChangeRadio(e) {
     setPredicates(`${namespace}_radio`, e.target.value)
   }
 
-  function updatePredicates (data, cb) {
+  function updatePredicates(data, cb) {
     setPredicates(`${namespace}Predicates`, data.segments)
     cb && cb()
   }
@@ -268,17 +259,17 @@ function AppSegmentManager ({
 }
 
 class AppSegment extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       jwt: null,
       app_users: [],
       search: false,
-      meta: {}
+      meta: {},
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     /* this.props.actions.fetchAppSegment(
       this.props.app.segments[0].id
     ) */
@@ -287,9 +278,11 @@ class AppSegment extends Component {
   }
 
   updateData = (data, cb) => {
-    const newData = Object.assign({}, this.props.data, { segments: data.data })
+    const newData = Object.assign({}, this.props.data, {
+      segments: data.data,
+    })
     this.props.updateData(newData, cb ? cb() : null)
-  };
+  }
 
   updatePredicate = (data, cb) => {
     const jwtToken = generateJWT(data)
@@ -298,14 +291,14 @@ class AppSegment extends Component {
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
     )
-  };
+  }
 
   addPredicate = (data, cb) => {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value
+      value: data.value,
     }
 
     const new_predicates = this.props.data.segments.concat(pending_predicate)
@@ -316,9 +309,9 @@ class AppSegment extends Component {
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt))
     )
-  };
+  }
 
-  deletePredicate (data) {
+  deletePredicate(data) {
     const jwtToken = generateJWT(data)
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
@@ -334,8 +327,8 @@ class AppSegment extends Component {
       : this.props.data.segments
     const predicates_data = {
       data: {
-        predicates: data.filter((o) => o.comparison)
-      }
+        predicates: data.filter((o) => o.comparison),
+      },
     }
 
     graphql(
@@ -344,7 +337,7 @@ class AppSegment extends Component {
         appKey: this.props.app.key,
         search: predicates_data,
         page: page || 1,
-        per: 5
+        per: 5,
       },
       {
         success: (data) => {
@@ -352,15 +345,13 @@ class AppSegment extends Component {
           this.setState({
             app_users: appUsers.collection,
             meta: appUsers.meta,
-            searching: false
+            searching: false,
           })
         },
-        error: (_error) => {
-          
-        }
+        error: (_error) => {},
       }
     )
-  };
+  }
 
   showUserDrawer = (o) => {
     this.props.dispatch(
@@ -368,9 +359,9 @@ class AppSegment extends Component {
         this.props.dispatch(getAppUser(o.id))
       })
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <SegmentManager
         {...this.props}
@@ -395,7 +386,7 @@ class AppSegment extends Component {
           'referrer',
           'os',
           'osVersion',
-          'lang'
+          'lang',
         ]}
         // selection [],
         tableColumnExtensions={[
@@ -405,7 +396,7 @@ class AppSegment extends Component {
           { columnName: 'os', width: 100 },
           { columnName: 'osVersion', width: 100 },
           { columnName: 'state', width: 80 },
-          { columnName: 'online', width: 80 }
+          { columnName: 'online', width: 80 },
           // { columnName: 'amount', align: 'right', width: 140 },
         ]}
         leftColumns={['email']}

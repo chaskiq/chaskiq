@@ -3,43 +3,32 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
-Button,                      
-TextField,                   
-ContentHeader,               
-FormDialog,                  
-ScrollableTabsButtonForce,   
-Table
-} from '@chaskiq/components'                      
-
+  Button,
+  TextField,
+  ContentHeader,
+  FormDialog,
+  ScrollableTabsButtonForce,
+  Table,
+} from '@chaskiq/components'
 
 import { arrayMove } from 'react-sortable-hoc'
 import langs from '../../../shared/langsOptions'
 import { getFileMetadata, directUpload } from '../../../shared/fileUploader'
 
-import {
-  client as graphql,
-  mutations,
-  queries,
+import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
+
+const { setCurrentSection, setCurrentPage, errorMessage, successMessage } =
   actions
-} from '@chaskiq/store'
-
-const { 
-  setCurrentSection, setCurrentPage,
-  errorMessage, successMessage 
-} = actions
-
 
 const {
   ARTICLE_COLLECTION_CREATE,
   ARTICLE_COLLECTION_EDIT,
   ARTICLE_COLLECTION_DELETE,
   ARTICLE_COLLECTION_REORDER,
-  CREATE_DIRECT_UPLOAD
+  CREATE_DIRECT_UPLOAD,
 } = mutations
 
-const {
-  ARTICLE_COLLECTIONS
-} = queries
+const { ARTICLE_COLLECTIONS } = queries
 class Collections extends Component {
   state = {
     isOpen: false,
@@ -47,28 +36,28 @@ class Collections extends Component {
     editCollection: null,
     openConfirm: false,
     languages: [],
-    lang: 'en'
-  };
+    lang: 'en',
+  }
 
-  titleRef = null;
-  descriptionRef = null;
+  titleRef = null
+  descriptionRef = null
 
-  componentDidMount () {
+  componentDidMount() {
     this.getCollections()
     this.props.dispatch(setCurrentSection('HelpCenter'))
 
     this.props.dispatch(setCurrentPage('Collections'))
   }
 
-  submitAssignment = () => {};
+  submitAssignment = () => {}
 
   close = () => {
     this.setState({ isOpen: false })
-  };
+  }
 
   displayDialog = (_e) => {
     this.setState({ isOpen: true })
-  };
+  }
 
   submitCreate = (_e) => {
     graphql(
@@ -76,21 +65,20 @@ class Collections extends Component {
       {
         appKey: this.props.app.key,
         title: this.titleRef.value,
-        description: this.descriptionRef.value
+        description: this.descriptionRef.value,
       },
       {
         success: (data) => {
           const col = data.articleCollectionCreate.collection
           this.setState({
             article_collections: this.state.article_collections.concat(col),
-            isOpen: false
+            isOpen: false,
           })
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
-  };
+  }
 
   submitEdit = (_e) => {
     graphql(
@@ -101,7 +89,7 @@ class Collections extends Component {
         description: this.descriptionRef.value,
         id: this.state.editCollection.id,
         lang: this.state.lang,
-        icon: this.state.editCollection.uploadedIcon
+        icon: this.state.editCollection.uploadedIcon,
       },
       {
         success: (data) => {
@@ -119,56 +107,55 @@ class Collections extends Component {
           this.setState({
             article_collections: newArticleCollection,
             isOpen: false,
-            editCollection: null
+            editCollection: null,
           })
         },
-        error: () => {
-        }
+        error: () => {},
       }
     )
-  };
+  }
 
   handleRemove = (_item) => {
     // confirm
-  };
+  }
 
   getCollections = (_e) => {
     graphql(
       ARTICLE_COLLECTIONS,
       {
         appKey: this.props.app.key,
-        lang: this.state.lang
+        lang: this.state.lang,
       },
       {
         success: (data) => {
           this.setState({
-            article_collections: data.app.collections
+            article_collections: data.app.collections,
           })
         },
-        error: () => {}
+        error: () => {},
       }
     )
-  };
+  }
 
   openEdit = (collection) => {
     this.setState({
       editCollection: collection,
-      isOpen: true
+      isOpen: true,
     })
-  };
+  }
 
   requestDelete = (item) => {
     this.setState({
-      itemToDelete: item
+      itemToDelete: item,
     })
-  };
+  }
 
   submitDelete = () => {
     graphql(
       ARTICLE_COLLECTION_DELETE,
       {
         appKey: this.props.app.key,
-        id: this.state.itemToDelete.id
+        id: this.state.itemToDelete.id,
       },
       {
         success: (data) => {
@@ -180,60 +167,62 @@ class Collections extends Component {
           this.setState({
             openConfirm: false,
             itemToDelete: null,
-            article_collections: newCollection
+            article_collections: newCollection,
           })
-        }
+        },
       }
     )
-  };
+  }
 
   handleLangChange = (o) => {
     this.setState(
       {
-        lang: o
+        lang: o,
       },
       this.getCollections
     )
-  };
+  }
 
   closeItemToDelete = () => {
     this.setState({
-      itemToDelete: null
+      itemToDelete: null,
     })
-  };
+  }
 
-  onSortEnd = (oldIndex, newIndex)=> {
+  onSortEnd = (oldIndex, newIndex) => {
     const op1 = this.state.article_collections[oldIndex]
     const op2 = this.state.article_collections[newIndex]
 
-    graphql(ARTICLE_COLLECTION_REORDER,
+    graphql(
+      ARTICLE_COLLECTION_REORDER,
       {
         appKey: this.props.app.key,
-        id: op1.id + "",
-        idAfter: op2.id + ""
+        id: op1.id + '',
+        idAfter: op2.id + '',
       },
 
       {
-        success: (_res) => { this.props.dispatch(successMessage(I18n.t('articles.reordered_success'))) },
-        error: (_res) => { 
-          this.props.dispatch(errorMessage(I18n.t('articles.reordered_error'))) 
-        }
+        success: (_res) => {
+          this.props.dispatch(
+            successMessage(I18n.t('articles.reordered_success'))
+          )
+        },
+        error: (_res) => {
+          this.props.dispatch(errorMessage(I18n.t('articles.reordered_error')))
+        },
       }
     )
 
-    this.setState(
-      {
-        article_collections: arrayMove(
-          this.state.article_collections, oldIndex, newIndex
-        )
-      }
-    )
+    this.setState({
+      article_collections: arrayMove(
+        this.state.article_collections,
+        oldIndex,
+        newIndex
+      ),
+    })
 
-    setTimeout(() => {
-
-    }, 2000)
+    setTimeout(() => {}, 2000)
   }
-
 
   uploadHandler = (file) => {
     getFileMetadata(file).then((input) => {
@@ -247,18 +236,23 @@ class Collections extends Component {
           } = data.createDirectUpload.directUpload
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            this.setState({
-              editCollection: {...this.state.editCollection, uploadedIcon: signedBlobId }
-            }, this.submitEdit )
+            this.setState(
+              {
+                editCollection: {
+                  ...this.state.editCollection,
+                  uploadedIcon: signedBlobId,
+                },
+              },
+              this.submitEdit
+            )
           })
         },
-        error: (_error) => {
-        }
+        error: (_error) => {},
       })
     })
-  };
+  }
 
-  render () {
+  render() {
     const { isOpen, editCollection, itemToDelete } = this.state
     const { app } = this.props
     return (
@@ -268,12 +262,12 @@ class Collections extends Component {
           breadcrumbs={[
             {
               title: I18n.t('articles.help_center'),
-              to: `/apps/${app.key}/articles`
+              to: `/apps/${app.key}/articles`,
             },
             {
               title: I18n.t('articles.collections'),
-              to: `/apps/${app.key}/articles/collections`
-            }
+              to: `/apps/${app.key}/articles/collections`,
+            },
           ]}
         />
 
@@ -291,31 +285,31 @@ class Collections extends Component {
           <FormDialog
             open={isOpen}
             handleClose={this.close}
-            titleContent={editCollection ? I18n.t('articles.edit_collection') : I18n.t('articles.new_collection')}
+            titleContent={
+              editCollection
+                ? I18n.t('articles.edit_collection')
+                : I18n.t('articles.new_collection')
+            }
             formComponent={
               <form>
-
-
                 <div className="flex justify-start items-center">
-                  {editCollection && editCollection.icon && 
-                    <img src={editCollection.icon} className="w-32 mr-2 mt-4"/>
-                  }
+                  {editCollection && editCollection.icon && (
+                    <img src={editCollection.icon} className="w-32 mr-2 mt-4" />
+                  )}
 
                   <TextField
                     type="upload"
                     accept="image/*"
                     style={{ display: 'none' }}
-                    ref={(comp)=> this.fileInput = comp }
-                    textHelper={
-                      I18n.t('articles.square_preferred_hint')
-                      }
-                    handler={ (file) => this.uploadHandler(file, 'icon') }
+                    ref={(comp) => (this.fileInput = comp)}
+                    textHelper={I18n.t('articles.square_preferred_hint')}
+                    handler={(file) => this.uploadHandler(file, 'icon')}
                   />
                 </div>
                 <p className="text-sm text-gray-500 mb-3">
                   {I18n.t('articles.square_preferred')}
                 </p>
-                
+
                 <TextField
                   id="collection-title"
                   // label="Name"
@@ -360,7 +354,9 @@ class Collections extends Component {
                   }
                   className="mr-1"
                 >
-                  {editCollection ? I18n.t('common.update') : I18n.t('common.create') }
+                  {editCollection
+                    ? I18n.t('common.update')
+                    : I18n.t('common.create')}
                 </Button>
               </React.Fragment>
             }
@@ -375,13 +371,11 @@ class Collections extends Component {
               formComponent={<p>{I18n.t('common.confirm_deletion_ready')}</p>}
               dialogButtons={
                 <React.Fragment>
-                  <Button onClick={this.closeItemToDelete}
-                    variant="outlined">
+                  <Button onClick={this.closeItemToDelete} variant="outlined">
                     {I18n.t('common.cancel')}
                   </Button>
 
-                  <Button onClick={this.submitDelete}
-                    className="mr-1">
+                  <Button onClick={this.submitDelete} className="mr-1">
                     {I18n.t('common.remove')}
                   </Button>
                 </React.Fragment>
@@ -402,95 +396,95 @@ class Collections extends Component {
           />
 
           <div className="py-4">
-
-          {this.state.article_collections.length > 0 && (
-            <Table
-              meta={{}}
-              data={this.state.article_collections}
-              title={I18n.t('task_bots.title')}
-              defaultHiddenColumnNames={[]}
-              search={this.getCollections}
-              sortable={true}
-              onSort={this.onSortEnd}
-              columns={[
-                {
-                  field: 'name',
-                  title: I18n.t('definitions.bot_tasks.name.label'),
-                  render: (row) =>
-                    row && (
+            {this.state.article_collections.length > 0 && (
+              <Table
+                meta={{}}
+                data={this.state.article_collections}
+                title={I18n.t('task_bots.title')}
+                defaultHiddenColumnNames={[]}
+                search={this.getCollections}
+                sortable={true}
+                onSort={this.onSortEnd}
+                columns={[
+                  {
+                    field: 'name',
+                    title: I18n.t('definitions.bot_tasks.name.label'),
+                    render: (row) =>
+                      row && (
+                        <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+                          <div className="flex items-center">
+                            {row.id && (
+                              <div className="flex ">
+                                {row.icon && (
+                                  <img className="w-10 mr-2" src={row.icon} />
+                                )}
+                                <span className="leading-5">
+                                  <Link
+                                    className={'classes.routeLink'}
+                                    color={'primary'}
+                                    to={`/apps/${this.props.app.key}/articles/collections/${row.id}`}
+                                  >
+                                    <p className="text-lg font-bold text-md">
+                                      {row.title}
+                                    </p>
+                                    <p className="text-sm text-gray-400">
+                                      {row.description}
+                                    </p>
+                                  </Link>
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      ),
+                  },
+                  {
+                    field: 'actions',
+                    title: I18n.t('definitions.bot_tasks.actions.label'),
+                    render: (row) => (
                       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
                         <div className="flex items-center">
                           {row.id && (
-                            <div className="flex ">
-                              { row.icon && 
-                                <img className="w-10 mr-2" src={row.icon} />
-                              }
-                              <span className="leading-5">
-                                
-                                <Link
-                                  className={'classes.routeLink'}
-                                  color={'primary'}
-                                  to={`/apps/${this.props.app.key}/articles/collections/${row.id}`}
-                                  >
-                                  <p className="text-lg font-bold text-md">
-                                    {row.title}
-                                  </p>
-                                  <p className="text-sm text-gray-400">{row.description}</p>
-                                </Link>
-                              </span>
+                            <div>
+                              <Button
+                                className="mr-2"
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => this.openEdit(row)}
+                              >
+                                {I18n.t('common.edit')}
+                              </Button>
+                              <Button
+                                variant="danger"
+                                color="primary"
+                                onClick={() => this.requestDelete(row)}
+                              >
+                                {I18n.t('common.delete')}
+                              </Button>
                             </div>
                           )}
                         </div>
                       </td>
-                    )
-                },
-                {
-                  field: 'actions',
-                  title: I18n.t('definitions.bot_tasks.actions.label'),
-                  render: (row) => (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <div className="flex items-center">
-                        {row.id && (
-                          <div>
-                            <Button
-                              className="mr-2"
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => this.openEdit(row)}>
-                              {I18n.t('common.edit')}
-                            </Button>
-                            <Button
-                              variant="danger"
-                              color="primary"
-                              onClick={() => this.requestDelete(row)}
-                            >
-                              {I18n.t('common.delete')}
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  )
-                }
-              ]}
-            ></Table>
-          )}
+                    ),
+                  },
+                ]}
+              ></Table>
+            )}
           </div>
-
         </div>
       </React.Fragment>
     )
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

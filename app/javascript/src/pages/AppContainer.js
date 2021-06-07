@@ -25,32 +25,30 @@ import UpgradePage from './UpgradePage'
 
 import actioncable from 'actioncable'
 import CampaignHome from './campaigns/home'
-import {Progress, UserSlide} from '@chaskiq/components'
+import { Progress, UserSlide } from '@chaskiq/components'
 
-import {
-  actions
-} from '@chaskiq/store'
+import { actions } from '@chaskiq/store'
 
-const  {
-  camelizeKeys,        
-  getCurrentUser,       
-  setApp,       
-  setSubscriptionState, 
+const {
+  camelizeKeys,
+  getCurrentUser,
+  setApp,
+  setSubscriptionState,
   updateAppUserPresence,
-  updateRtcEvents,      
-  updateCampaignEvents, 
+  updateRtcEvents,
+  updateCampaignEvents,
   appendConversation,
-  toggleDrawer
-} = actions 
+  toggleDrawer,
+} = actions
 
 import {
   Sidebar,
   UserProfileCard,
-  LoadingView ,
-  ErrorBoundary 
+  LoadingView,
+  ErrorBoundary,
 } from '@chaskiq/components'
 
-function AppContainer ({
+function AppContainer({
   match,
   dispatch,
   isAuthenticated,
@@ -60,12 +58,13 @@ function AppContainer ({
   app_user,
   loading,
   upgradePages,
-  accessToken
+  accessToken,
 }) {
   const CableApp = React.useRef({
     events: null,
     cable: actioncable.createConsumer(
-      `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`)
+      `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`
+    ),
   })
 
   const [_subscribed, setSubscribed] = React.useState(null)
@@ -83,7 +82,7 @@ function AppContainer ({
       setApp(id, {
         success: () => {
           cb && cb()
-        }
+        },
       })
     )
   }
@@ -97,7 +96,7 @@ function AppContainer ({
     CableApp.current.events = CableApp.current.cable.subscriptions.create(
       {
         channel: 'EventsChannel',
-        app: id
+        app: id,
       },
       {
         connected: () => {
@@ -133,22 +132,22 @@ function AppContainer ({
         },
         handleMessage: () => {
           console.log('handle message')
-        }
+        },
       }
     )
 
     // window.cable = CableApp
   }
 
-  function updateUser (data) {
+  function updateUser(data) {
     dispatch(updateAppUserPresence(data))
   }
 
-  function handleSidebar () {
+  function handleSidebar() {
     dispatch(toggleDrawer({ open: !drawer.open }))
   }
 
-  function handleUserSidebar () {
+  function handleUserSidebar() {
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
   }
 
@@ -165,7 +164,7 @@ function AppContainer ({
             opacity: 0.7,
             zIndex: 1,
             width: '100vw',
-            height: '100vh'
+            height: '100vh',
           }}
         ></div>
       )}
@@ -185,23 +184,13 @@ function AppContainer ({
         </div>
       ) */}
 
-      { drawer.userDrawer &&
-        <UserSlide
-          open={!!drawer.userDrawer}
-          onClose={handleUserSidebar}>
-
-          {app_user ? (
-            <UserProfileCard
-              width={'300px'}
-            />
-          ) : (
-            <Progress />
-          )}
-
+      {drawer.userDrawer && (
+        <UserSlide open={!!drawer.userDrawer} onClose={handleUserSidebar}>
+          {app_user ? <UserProfileCard width={'300px'} /> : <Progress />}
         </UserSlide>
-      }
+      )}
 
-      {loading || !app && <LoadingView />}
+      {loading || (!app && <LoadingView />)}
 
       {isAuthenticated && current_user.email && (
         <div className="flex flex-col w-0 flex-1 overflow-auto">
@@ -226,13 +215,10 @@ function AppContainer ({
             </button>
           </div>
 
-          { !isEmpty(upgradePages) &&
-            <UpgradePage page={upgradePages}/>
-          }
+          {!isEmpty(upgradePages) && <UpgradePage page={upgradePages} />}
 
           {app && isEmpty(upgradePages) && (
             <ErrorBoundary variant={'very-wrong'}>
-
               <Switch>
                 <Route path={`${match.url}/`} exact>
                   <Dashboard />
@@ -254,20 +240,16 @@ function AppContainer ({
                   <Team />
                 </Route>
 
-                <Route exact path={`${match.path}/users/:id`}
-                  render={(props) => (
-                    <Profile
-                      {...props}
-                    />
-                  )}
+                <Route
+                  exact
+                  path={`${match.path}/users/:id`}
+                  render={(props) => <Profile {...props} />}
                 />
 
-                <Route exact path={`${match.path}/agents/:id`}
-                  render={(props) => (
-                    <AgentProfile
-                      {...props}
-                    />
-                  )}
+                <Route
+                  exact
+                  path={`${match.path}/agents/:id`}
+                  render={(props) => <AgentProfile {...props} />}
                 />
 
                 <Route path={`${match.url}/webhooks`}>
@@ -283,10 +265,7 @@ function AppContainer ({
                 </Route>
 
                 <Route path={`${match.url}/conversations`}>
-                  <Conversations
-                    subscribed
-                    events={CableApp.current.events}
-                  />
+                  <Conversations subscribed events={CableApp.current.events} />
                 </Route>
 
                 <Route path={`${match.url}/oauth_applications`}>
@@ -317,7 +296,7 @@ function AppContainer ({
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const {
     auth,
     drawer,
@@ -328,7 +307,7 @@ function mapStateToProps (state) {
     current_user,
     navigation,
     paddleSubscription,
-    upgradePages
+    upgradePages,
   } = state
   const { loading, isAuthenticated, accessToken } = auth
   const { current_section } = navigation
@@ -344,7 +323,7 @@ function mapStateToProps (state) {
     drawer,
     paddleSubscription,
     upgradePages,
-    accessToken
+    accessToken,
   }
 }
 

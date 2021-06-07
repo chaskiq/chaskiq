@@ -14,17 +14,22 @@ const graphql = (query, variables, callbacks) => {
 
   const config = {
     authorization: `Bearer ${auth.accessToken}`,
-    lang: locale
+    lang: locale,
   }
 
-  axios.create({
-    baseURL: '/graphql'
-  }).post('', {
-    query: query,
-    variables: variables
-
-  }, { headers: config })
-    .then(r => {
+  axios
+    .create({
+      baseURL: '/graphql',
+    })
+    .post(
+      '',
+      {
+        query: query,
+        variables: variables,
+      },
+      { headers: config }
+    )
+    .then((r) => {
       const data = r.data.data
       const res = r
 
@@ -33,10 +38,14 @@ const graphql = (query, variables, callbacks) => {
       // const errors = data[Object.keys(data)[0]].errors || r.data.errors
 
       if (isObject(errors) && !isEmpty(errors)) {
-      // const errors = data[Object.keys(data)[0]];
-      // callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
-        if (errors[0].extensions &&
-          errors[0].extensions.code === 'unauthorized') { return store.dispatch(errorMessage(errors[0].message)) }
+        // const errors = data[Object.keys(data)[0]];
+        // callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
+        if (
+          errors[0].extensions &&
+          errors[0].extensions.code === 'unauthorized'
+        ) {
+          return store.dispatch(errorMessage(errors[0].message))
+        }
         if (callbacks.error) {
           return callbacks.error(res, errors)
         }
@@ -54,9 +63,7 @@ const graphql = (query, variables, callbacks) => {
           break
         case 402:
           //
-          store.dispatch(
-            lockPage(req.response.data.error.message)
-          )
+          store.dispatch(lockPage(req.response.data.error.message))
           // store.dispatch(errorMessage('server error ocurred'))
           break
         case 401:

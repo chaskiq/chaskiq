@@ -1,11 +1,8 @@
 import React from 'react'
 
-import {
-  client as graphql,
-  docsQueries
-} from '@chaskiq/store'
+import { client as graphql, docsQueries } from '@chaskiq/store'
 
-import {Card} from '@chaskiq/components'
+import { Card } from '@chaskiq/components'
 
 import { Link } from 'react-router-dom'
 
@@ -13,7 +10,7 @@ import translation from './translation'
 
 const { ARTICLE_COLLECTIONS } = docsQueries
 
-export default function Collections ({ lang, subdomain }) {
+export default function Collections({ lang, subdomain }) {
   const [collections, setCollections] = React.useState([])
   const [_error, setError] = React.useState(false)
 
@@ -21,12 +18,12 @@ export default function Collections ({ lang, subdomain }) {
     getArticles()
   }, [lang])
 
-  function getArticles () {
+  function getArticles() {
     graphql(
       ARTICLE_COLLECTIONS,
       {
         domain: subdomain,
-        lang: lang
+        lang: lang,
       },
       {
         success: (data) => {
@@ -35,12 +32,12 @@ export default function Collections ({ lang, subdomain }) {
             setError('not_found')
           }
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }
 
-  function truncateOnWord (str, num) {
+  function truncateOnWord(str, num) {
     if (!str) return ''
     if (str.length > num) {
       return str.slice(0, num) + '...'
@@ -62,15 +59,13 @@ export default function Collections ({ lang, subdomain }) {
                   color={'primary'}
                   to={`${lang}/collections/${card.slug}`}
                 >
-                  {card.icon && 
+                  {card.icon && (
                     <div className="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
                       <img src={card.icon} />
                     </div>
-                  }
+                  )}
 
-                  <p className="mt-2 text-base">
-                    {translation(card.title)}
-                  </p>
+                  <p className="mt-2 text-base">{translation(card.title)}</p>
                 </Link>
               }
               description={truncateOnWord(card.description, 120)}

@@ -6,15 +6,11 @@ import React, { Component } from 'react'
 import redraft from 'redraft'
 import { actions } from '@chaskiq/store'
 import { connect } from 'react-redux'
-import {
-  AttachmentIcon
-} from '../icons'
+import { AttachmentIcon } from '../icons'
 
 import Prism from 'prismjs'
 // Prism.highlightAll();
-const {
-  setImageZoom
-} = actions
+const { setImageZoom } = actions
 
 const handlePrismRenderer = (syntax, children) => {
   const code = children
@@ -44,7 +40,7 @@ const renderers = {
     // The key passed here is just an index based on rendering order inside a block
     BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
     ITALIC: (children, { key }) => <em key={key}>{children}</em>,
-    UNDERLINE: (children, { key }) => <u key={key}>{children}</u>
+    UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
     // CODE: (children, { key }) => <span key={key} dangerouslySetInnerHTML={handlePrismRenderer(children)} />,
   },
   /**
@@ -115,13 +111,15 @@ const renderers = {
 
     file: (_children, { keys, data }) => {
       const fileName = data[0].url.split('/').pop()
-      console.log("KEYSS", keys)
+      console.log('KEYSS', keys)
       return (
         <div>
-          <a href={data[0].url}
+          <a
+            href={data[0].url}
             rel="noopener noreferrer"
             target="blank"
-            className="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2">
+            className="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2"
+          >
             <AttachmentIcon></AttachmentIcon>
             {fileName}
           </a>
@@ -130,24 +128,18 @@ const renderers = {
     },
 
     giphy: (children, { keys, data }) => {
-      return keys.map(
-        (key, index) => <ImageRenderer
-          blockKey={key}
-          key={`image-${key}`}
-          data={data[index]}>
+      return keys.map((key, index) => (
+        <ImageRenderer blockKey={key} key={`image-${key}`} data={data[index]}>
           {children[index]}
         </ImageRenderer>
-      )
-    },    
+      ))
+    },
     image: (children, { keys, data }) => {
-      return keys.map(
-        (key, index) => <ImageRenderer
-          blockKey={key}
-          key={`image-${key}`}
-          data={data[index]}>
+      return keys.map((key, index) => (
+        <ImageRenderer blockKey={key} key={`image-${key}`} data={data[index]}>
           {children[index]}
         </ImageRenderer>
-      )
+      ))
     },
     embed: (_children, { keys, data }) => {
       const { provisory_text, embed_data } = data[0]
@@ -169,7 +161,9 @@ const renderers = {
                 rel="noopener noreferrer"
                 className="js-mixtapeImage mixtapeImage"
                 href={provisory_text}
-                style={{ backgroundImage: `url(${images[0].url})` }}
+                style={{
+                  backgroundImage: `url(${images[0].url})`,
+                }}
               ></a>
             ) : null}
             <a
@@ -241,7 +235,7 @@ const renderers = {
           </figcaption>
         </figure>
       )
-    }
+    },
     // If your blocks use meta data it can also be accessed like keys
     // atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
   },
@@ -251,12 +245,11 @@ const renderers = {
   entities: {
     // key is the entity key value from raw
     LINK: (children, data, { key }) => (
-      <a rel="noopener noreferrer"
-        key={key} href={data.url} target="_blank">
+      <a rel="noopener noreferrer" key={key} href={data.url} target="_blank">
         {children}
       </a>
-    )
-  }
+    ),
+  },
   /**
    * Array of decorators,
    * Entities receive children and the entity data,
@@ -277,7 +270,7 @@ const renderers = {
   ], */
 }
 
-function ImageRenderer ({ children, blockKey, data }) {
+function ImageRenderer({ children, blockKey, data }) {
   const data2 = data
   const { url, aspect_ratio, caption } = data2
 
@@ -298,10 +291,7 @@ function ImageRenderer ({ children, blockKey, data }) {
   return (
     <figure key={blockKey} className="graf graf--figure">
       <div>
-        <div
-          className="aspectRatioPlaceholder is-locked"
-          style={defaultStyle}
-        >
+        <div className="aspectRatioPlaceholder is-locked" style={defaultStyle}>
           <div
             className="aspect-ratio-fill"
             style={{ paddingBottom: `${ratio}%` }}
@@ -314,9 +304,7 @@ function ImageRenderer ({ children, blockKey, data }) {
       {caption && caption !== 'type a caption (optional)' && (
         <figcaption className="imageCaption">
           <span>
-            <span data-text="true">
-              {children}
-            </span>
+            <span data-text="true">{children}</span>
           </span>
         </figcaption>
       )}
@@ -324,7 +312,7 @@ function ImageRenderer ({ children, blockKey, data }) {
   )
 }
 
-function Image ({ dispatch, url, width, height }) {
+function Image({ dispatch, url, width, height }) {
   return (
     <img
       src={url}
@@ -337,7 +325,7 @@ function Image ({ dispatch, url, width, height }) {
           setImageZoom({
             url: url,
             width: width,
-            height: height
+            height: height,
           })
         )
       }
@@ -345,9 +333,9 @@ function Image ({ dispatch, url, width, height }) {
   )
 }
 
-function mapActionsToProps () {
+function mapActionsToProps() {
   return {
-    actions: {}
+    actions: {},
   }
 }
 
@@ -358,7 +346,7 @@ export default class Renderer extends Component {
     raw: PropTypes.object
   } */
 
-  renderWarning () {
+  renderWarning() {
     if (this.props.html) {
       return <div dangerouslySetInnerHTML={{ __html: this.props.html }} />
     } else {
@@ -366,7 +354,7 @@ export default class Renderer extends Component {
     }
   }
 
-  render () {
+  render() {
     const { raw } = this.props
     if (!raw) {
       return this.renderWarning()

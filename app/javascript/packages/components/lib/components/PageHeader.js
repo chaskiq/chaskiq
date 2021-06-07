@@ -1,11 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function PageHeader ({
-  title,
-  breadcrumbs,
-  actions
-}) {
+export default function PageHeader({ title, breadcrumbs, actions }) {
   return (
     <div className="mb-5">
       <div>

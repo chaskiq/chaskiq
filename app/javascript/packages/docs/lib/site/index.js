@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Docs from './docs'
 
-export default function MainLayout () {
+export default function MainLayout() {
   return (
     <BrowserRouter>
       <Switch>

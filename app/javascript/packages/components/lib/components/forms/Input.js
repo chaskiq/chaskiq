@@ -7,14 +7,14 @@ import DatePicker from 'react-datepicker'
 import { ColorPicker } from './ColorPicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { theme } = state
   return {
-    theme
+    theme,
   }
 }
 
-function borderColor (error) {
+function borderColor(error) {
   if (error) {
     return 'red'
   }
@@ -23,7 +23,7 @@ function borderColor (error) {
   }
 }
 
-const WrappedComponent = React.forwardRef(function Input (
+const WrappedComponent = React.forwardRef(function Input(
   {
     label,
     name,
@@ -41,7 +41,7 @@ const WrappedComponent = React.forwardRef(function Input (
   },
   ref
 ) {
-  function inputAppearance (variant) {
+  function inputAppearance(variant) {
     switch (variant) {
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
@@ -55,8 +55,8 @@ const WrappedComponent = React.forwardRef(function Input (
     }
   }
 
-  function themeForSelect(){
-    if(theme === 'dark'){
+  function themeForSelect() {
+    if (theme === 'dark') {
       return {
         neutral0: 'black',
         neutral5: '#777',
@@ -69,7 +69,7 @@ const WrappedComponent = React.forwardRef(function Input (
     return {}
   }
 
-  function renderText () {
+  function renderText() {
     return (
       <FormField
         name={name}
@@ -78,7 +78,7 @@ const WrappedComponent = React.forwardRef(function Input (
         helperText={helperText}
       >
         <input
-          className={ inputAppearance(props.variant) }
+          className={inputAppearance(props.variant)}
           name={name}
           type={type}
           defaultValue={defaultValue}
@@ -94,8 +94,7 @@ const WrappedComponent = React.forwardRef(function Input (
     )
   }
 
-  function renderSelect () {
-    
+  function renderSelect() {
     const initialValue =
       props.data && props.data.multiple
         ? isArray(defaultValue)
@@ -114,12 +113,12 @@ const WrappedComponent = React.forwardRef(function Input (
           defaultValue={initialValue}
           onChange={props.onChange}
           ref={ref}
-          theme={selectTheme => ({
+          theme={(selectTheme) => ({
             ...selectTheme,
             borderRadius: 4,
             colors: {
               ...selectTheme.colors,
-              ...themeForSelect()
+              ...themeForSelect(),
             },
           })}
         />
@@ -127,7 +126,7 @@ const WrappedComponent = React.forwardRef(function Input (
     )
   }
 
-  function renderCheckbox () {
+  function renderCheckbox() {
     return (
       <div>
         <div className="flex items-center">
@@ -152,30 +151,23 @@ const WrappedComponent = React.forwardRef(function Input (
         </div>
 
         {helperText && (
-          <div className="mt-2 text-xs text-gray-500 dark:text-gray-100">{helperText}</div>
+          <div className="mt-2 text-xs text-gray-500 dark:text-gray-100">
+            {helperText}
+          </div>
         )}
       </div>
     )
   }
 
-  function renderUpload () {
+  function renderUpload() {
     const ref = React.createRef()
     return (
-      <FormField
-        name={name}
-        error={error}
-        label={null}
-        helperText={helperText}
-      >
+      <FormField name={name} error={error} label={null} helperText={helperText}>
         <div className="flex flex-col items-center">
-          <img
-            className="pb-2"
-            src={defaultValue}
-            alt={label || name}
-          />
+          <img className="pb-2" src={defaultValue} alt={label || name} />
 
           <input
-            accept={ props.accept || 'image/*' }
+            accept={props.accept || 'image/*'}
             style={{ display: 'none' }}
             name={name}
             ref={ref}
@@ -201,13 +193,13 @@ const WrappedComponent = React.forwardRef(function Input (
     )
   }
 
-  function renderRadioButton () {
+  function renderRadioButton() {
     return (
       <label className="inline-flex items-center">
         <input
           type="radio"
           className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-          id={ id || name}
+          id={id || name}
           name={name}
           value={value}
           disabled={disabled}
@@ -216,7 +208,9 @@ const WrappedComponent = React.forwardRef(function Input (
           ref={ref}
         />
         <div className="ml-2 block">
-          <div className="text-sm font-bold leading-5 text-gray-900 dark:text-gray-100">{label}</div>
+          <div className="text-sm font-bold leading-5 text-gray-900 dark:text-gray-100">
+            {label}
+          </div>
 
           {helperText && (
             <div className="mt-2 text-xs text-gray-500">{helperText}</div>
@@ -226,7 +220,7 @@ const WrappedComponent = React.forwardRef(function Input (
     )
   }
 
-  function handeRenderType () {
+  function handeRenderType() {
     switch (type) {
       case 'text':
       case 'string':
@@ -254,7 +248,7 @@ const WrappedComponent = React.forwardRef(function Input (
     }
   }
 
-  function renderTextArea () {
+  function renderTextArea() {
     return (
       <div className="mt-6">
         {label && (
@@ -290,43 +284,43 @@ const WrappedComponent = React.forwardRef(function Input (
     )
   }
 
-  function renderTimezone () {
+  function renderTimezone() {
     const names = props.options.map((o) => ({ label: o, value: o }))
     const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
     const defaultData = defaultValue || defaultTZ
     return (
-      <FormField name={name}
-        label={label}
-        helperText={helperText}>
+      <FormField name={name} label={label} helperText={helperText}>
         <Select
           options={names}
           label={label}
-          defaultValue={ { label: defaultData, value: defaultData } }
+          defaultValue={{ label: defaultData, value: defaultData }}
           placeholder={'select timezone'}
           name={name}
           ref={ref}
-          theme={selectTheme => ({
+          theme={(selectTheme) => ({
             ...selectTheme,
             borderRadius: 4,
             colors: {
               ...selectTheme.colors,
-              ...themeForSelect()
+              ...themeForSelect(),
             },
           })}
         />
-        {
-          defaultTZ &&
-          <div className="text-gray-500 text-xs"
-            dangerouslySetInnerHTML={
-              { __html: I18n.t('common.tz_hint', { timezone: defaultTZ }) }
-            }>
-          </div>
-        }
+        {defaultTZ && (
+          <div
+            className="text-gray-500 text-xs"
+            dangerouslySetInnerHTML={{
+              __html: I18n.t('common.tz_hint', {
+                timezone: defaultTZ,
+              }),
+            }}
+          ></div>
+        )}
       </FormField>
     )
   }
 
-  function renderColor () {
+  function renderColor() {
     return (
       <ColorPicker
         color={value}
@@ -340,7 +334,7 @@ const WrappedComponent = React.forwardRef(function Input (
     )
   }
 
-  function renderDatetime () {
+  function renderDatetime() {
     const val = value || defaultValue
 
     return (
@@ -367,10 +361,11 @@ const WrappedComponent = React.forwardRef(function Input (
   )
 })
 
-export default connect(mapStateToProps, null, null, { forwardRef: true })(WrappedComponent)
+export default connect(mapStateToProps, null, null, { forwardRef: true })(
+  WrappedComponent
+)
 
-
-function FormField ({ name, label, helperText, children, _error }) {
+function FormField({ name, label, helperText, children, _error }) {
   return (
     <React.Fragment>
       <label
@@ -382,16 +377,18 @@ function FormField ({ name, label, helperText, children, _error }) {
       {children}
 
       {helperText && (
-        <div className="mt-2 text-xs text-gray-500 dark:text-gray-100">{helperText}</div>
+        <div className="mt-2 text-xs text-gray-500 dark:text-gray-100">
+          {helperText}
+        </div>
       )}
     </React.Fragment>
   )
 }
 
-function DatePickerWrapper ({ val, name, onChange, _error }) {
+function DatePickerWrapper({ val, name, onChange, _error }) {
   const [value, setValue] = React.useState(val || new Date())
 
-  function handleChange (val) {
+  function handleChange(val) {
     setValue(val)
     onChange && onChange(val)
   }

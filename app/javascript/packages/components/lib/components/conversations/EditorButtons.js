@@ -1,36 +1,31 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import {
-  model,
-  utils
-} from 'Dante2'
+import { model, utils } from 'Dante2'
 
-const {addNewBlock, resetBlockWithType, getCurrentBlock} = model
+const { addNewBlock, resetBlockWithType, getCurrentBlock } = model
 
-const {
-  selection
-} = utils
+const { selection } = utils
 
-const {getSelection, getRelativeParent, getSelectionRect } = selection
+const { getSelection, getRelativeParent, getSelectionRect } = selection
 
 import { InlinetooltipWrapper } from './tooltipMenuStyle'
 
 export default class DanteInlineTooltip extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       position: { top: 0, left: 0 },
       show: false,
       scaled: false,
-      scaledWidth: '0px'
+      scaledWidth: '0px',
     }
     this.initialPosition = 0
-    this.tooltip  = null
+    this.tooltip = null
     this.fileInput = null
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // this.initialPosition = this.refs.tooltip.offsetLeft
   }
 
@@ -40,25 +35,25 @@ export default class DanteInlineTooltip extends React.Component {
     } else {
       return this.hide()
     }
-  };
+  }
 
   show = () => {
     return this.setState({
-      show: true
+      show: true,
     })
-  };
+  }
 
   hide = () => {
     return this.setState({
-      show: false
+      show: false,
     })
-  };
+  }
 
   setPosition = (coords) => {
     return this.setState({
-      position: coords
+      position: coords,
     })
-  };
+  }
 
   _toggleScaled = (ev) => {
     ev.preventDefault()
@@ -67,7 +62,7 @@ export default class DanteInlineTooltip extends React.Component {
     } else {
       return this.scale()
     }
-  };
+  }
 
   scale = () => {
     if (this.state.scaled) {
@@ -75,13 +70,13 @@ export default class DanteInlineTooltip extends React.Component {
     }
     return this.setState(
       {
-        scaled: true
+        scaled: true,
       },
       () => {
         this.setState({ scaledWidth: '300px' })
       }
     )
-  };
+  }
 
   collapse = () => {
     if (!this.state.scaled) {
@@ -89,7 +84,7 @@ export default class DanteInlineTooltip extends React.Component {
     }
     return this.setState(
       {
-        scaled: false
+        scaled: false,
       },
       () => {
         setTimeout(() => {
@@ -97,9 +92,9 @@ export default class DanteInlineTooltip extends React.Component {
         }, 300)
       }
     )
-  };
+  }
 
-  UNSAFE_componentWillReceiveProps (_newProps) {
+  UNSAFE_componentWillReceiveProps(_newProps) {
     return this.collapse()
   }
 
@@ -110,11 +105,11 @@ export default class DanteInlineTooltip extends React.Component {
     } else {
       return ''
     }
-  };
+  }
 
   isActive = () => {
     return this.state.show
-  };
+  }
 
   scaledClass = () => {
     // if (this.state.scaled) {
@@ -122,7 +117,7 @@ export default class DanteInlineTooltip extends React.Component {
     // } else {
     //  return ""
     // }
-  };
+  }
 
   // expand , 1, widht 2. class
   // collapse , class, width
@@ -131,41 +126,41 @@ export default class DanteInlineTooltip extends React.Component {
     this.fileInput.click()
     this.collapse()
     return this.hide()
-  };
+  }
 
   handlePlaceholder = (input) => {
     const opts = {
       type: input.widget_options.insert_block,
       placeholder: input.options.placeholder,
-      endpoint: input.options.endpoint
+      endpoint: input.options.endpoint,
     }
 
     return this.props.onChange(
       resetBlockWithType(this.props.editorState, 'placeholder', opts)
     )
-  };
+  }
 
   insertImage = (file) => {
     const opts = {
       url: URL.createObjectURL(file),
-      file
+      file,
     }
 
     return this.props.onChange(
       addNewBlock(this.props.editorState, 'image', opts)
     )
-  };
+  }
 
   insertFile = (file) => {
     const opts = {
       url: URL.createObjectURL(file),
-      file
+      file,
     }
 
     return this.props.onChange(
       addNewBlock(this.props.editorState, 'file', opts)
     )
-  };
+  }
 
   handleFileInput = (e) => {
     const fileList = e.target.files
@@ -177,22 +172,22 @@ export default class DanteInlineTooltip extends React.Component {
     */
     if (file.type.match('image/')) return this.insertImage(file)
     return this.insertFile(file)
-  };
+  }
 
   handleInsertion = (e) => {
     this.hide()
     return this.props.onChange(addNewBlock(this.props.editorState, e.type, {}))
-  };
+  }
 
   handleFunc = (e) => {
     this.hide()
     console.log(e.widget_options)
     return e.widget_options.funcHandler(this)
-  };
+  }
 
   widgets = () => {
     return this.props.editor.props.widgets
-  };
+  }
 
   clickHandler = (e, type) => {
     const request_block = this.widgets().find((o) => o.type === type)
@@ -210,13 +205,13 @@ export default class DanteInlineTooltip extends React.Component {
           `WRONG TYPE FOR ${request_block.widget_options.insertion}`
         )
     }
-  };
+  }
 
   getItems = () => {
     return this.widgets().filter((o) => {
       return o.widget_options ? o.widget_options.displayOnInlineTooltip : null
     })
-  };
+  }
 
   isDescendant = (parent, child) => {
     let node = child.parentNode
@@ -227,7 +222,7 @@ export default class DanteInlineTooltip extends React.Component {
       node = node.parentNode
     }
     return false
-  };
+  }
 
   relocate = () => {
     const { editorState } = this.props
@@ -281,15 +276,15 @@ export default class DanteInlineTooltip extends React.Component {
 
     this.setPosition({
       top: top, // + window.scrollY - 5,
-      left: left
+      left: left,
       // show: block.getText().length === 0 && blockType === "unstyled"
     })
-  };
+  }
 
-  render () {
+  render() {
     return (
       <InlinetooltipWrapper
-        ref={(comp)=>this.tooltip = comp }
+        ref={(comp) => (this.tooltip = comp)}
         className={`inlineTooltip ${this.activeClass()} ${this.scaledClass()}`}
         style={this.state.position}
       >
@@ -318,7 +313,7 @@ export default class DanteInlineTooltip extends React.Component {
             type="file"
             // accept="image/*"
             style={{ display: 'none' }}
-            ref={(comp)=> this.fileInput = comp }
+            ref={(comp) => (this.fileInput = comp)}
             // multiple="multiple"
             onChange={this.handleFileInput}
           />
@@ -332,9 +327,9 @@ class InlineTooltipItem extends React.Component {
   clickHandler = (e) => {
     e.preventDefault()
     return this.props.clickHandler(e, this.props.item.type)
-  };
+  }
 
-  render () {
+  render() {
     return (
       <button
         type="button"
@@ -354,7 +349,7 @@ class InlineTooltipItem extends React.Component {
 export const DanteInlineTooltipConfig = (options = {}) => {
   const config = {
     ref: 'add_tooltip',
-    component: DanteInlineTooltip
+    component: DanteInlineTooltip,
   }
   return Object.assign(config, options)
 }

@@ -3,19 +3,13 @@
 import React from 'react'
 import { EditorBlock, EditorState } from 'draft-js'
 import axios from 'axios'
-import {
-  model,
-  Icons
-} from 'Dante2'
+import { model, Icons } from 'Dante2'
 
 const { image } = Icons
 
-const {
-  updateDataOfBlock,
-  addNewBlockAt
-} = model
+const { updateDataOfBlock, addNewBlockAt } = model
 export default class ImageBlock extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     const existing_data = this.props.block.getData().toJS()
 
@@ -32,21 +26,21 @@ export default class ImageBlock extends React.Component {
       height: 0,
       // file: null,
       url: this.blockPropsSrc() || this.defaultUrl(existing_data),
-      aspect_ratio: this.defaultAspectRatio(existing_data)
+      aspect_ratio: this.defaultAspectRatio(existing_data),
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     return this.replaceImg()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // debugger
   }
 
   blockPropsSrc = () => {
     return this.props.blockProps.data.src
-  };
+  }
 
   defaultUrl = (data) => {
     if (data.url) {
@@ -62,27 +56,27 @@ export default class ImageBlock extends React.Component {
     } else {
       return this.props.blockProps.data.src
     }
-  };
+  }
 
   defaultPlaceholder = () => {
     return this.props.blockProps.config.image_caption_placeholder
-  };
+  }
 
   defaultAspectRatio = (data) => {
     if (data.aspect_ratio) {
       return {
         width: data.aspect_ratio.width,
         height: data.aspect_ratio.height,
-        ratio: data.aspect_ratio.ratio
+        ratio: data.aspect_ratio.ratio,
       }
     } else {
       return {
         width: 0,
         height: 0,
-        ratio: 100
+        ratio: 100,
       }
     }
-  };
+  }
 
   getAspectRatio = (w, h) => {
     const maxWidth = 1000
@@ -108,7 +102,7 @@ export default class ImageBlock extends React.Component {
     const result = { width, height, ratio: fill_ratio }
     // console.log result
     return result
-  };
+  }
 
   // will update block state
   updateData = () => {
@@ -118,13 +112,13 @@ export default class ImageBlock extends React.Component {
     const data = block.getData()
     const newData = data.merge(this.state).merge({ forceUpload: false })
     return setEditorState(updateDataOfBlock(getEditorState(), block, newData))
-  };
+  }
 
   replaceImg = () => {
     this.img = new Image()
     this.img.src = this.image_tag.src
     this.setState({
-      url: this.img.src
+      url: this.img.src,
     })
     const self = this
     // exit only when not blob and not forceUload
@@ -135,67 +129,70 @@ export default class ImageBlock extends React.Component {
       return
     }
     return (this.img.onload = () => {
-      this.setState({
-        width: this.img.width,
-        height: this.img.height,
-        aspect_ratio: self.getAspectRatio(this.img.width, this.img.height)
-      }, () => {
-        this.handleUpload()
-      })
+      this.setState(
+        {
+          width: this.img.width,
+          height: this.img.height,
+          aspect_ratio: self.getAspectRatio(this.img.width, this.img.height),
+        },
+        () => {
+          this.handleUpload()
+        }
+      )
     })
-  };
+  }
 
   startLoader = () => {
     return this.setState({
-      loading: true
+      loading: true,
     })
-  };
+  }
 
   stopLoader = () => {
     return this.setState({
-      loading: false
+      loading: false,
     })
-  };
+  }
 
   handleUpload = () => {
     this.startLoader()
     this.updateData()
     return this.uploadFile()
-  };
+  }
 
   aspectRatio = () => {
     return {
       maxWidth: `${this.state.aspect_ratio.width}`,
       maxHeight: `${this.state.aspect_ratio.height}`,
-      ratio: `${this.state.aspect_ratio.height}`
+      ratio: `${this.state.aspect_ratio.height}`,
     }
-  };
+  }
 
   updateDataSelection = () => {
     const { getEditorState, setEditorState } = this.props.blockProps
     const newselection = getEditorState().getSelection().merge({
       anchorKey: this.props.block.getKey(),
-      focusKey: this.props.block.getKey()
+      focusKey: this.props.block.getKey(),
     })
 
     return setEditorState(
       EditorState.forceSelection(getEditorState(), newselection)
     )
-  };
+  }
 
   handleGrafFigureSelectImg = (e) => {
     e.preventDefault()
     return this.setState({ selected: true }, this.updateDataSelection)
-  };
+  }
 
   // main_editor.onChange(main_editor.state.editorState)
 
   coords = () => {
     return {
       maxWidth: `${this.state.aspect_ratio.width}px`,
-      maxHeight: `${this.state.aspect_ratio.height}px`
+      maxHeight: `${this.state.aspect_ratio.height}px`,
     }
-  };
+  }
 
   getBase64Image = (img) => {
     const canvas = document.createElement('canvas')
@@ -206,7 +203,7 @@ export default class ImageBlock extends React.Component {
     const dataURL = canvas.toDataURL('image/png')
 
     return dataURL
-  };
+  }
 
   formatData = () => {
     const formData = new FormData()
@@ -219,7 +216,7 @@ export default class ImageBlock extends React.Component {
       formData.append('url', this.props.blockProps.data.get('url'))
       return formData
     }
-  };
+  }
 
   getUploadUrl = () => {
     const url = this.config.upload_url
@@ -228,9 +225,9 @@ export default class ImageBlock extends React.Component {
     } else {
       return url
     }
-  };
+  }
 
-  getUploadHeaders () {
+  getUploadHeaders() {
     return this.config.upload_headers || {}
   }
 
@@ -254,7 +251,7 @@ export default class ImageBlock extends React.Component {
       data: this.formatData(),
       onUploadProgress: (e) => {
         return this.updateProgressBar(e)
-      }
+      },
     })
       .then((result) => {
         this.uploadCompleted(result.data.url)
@@ -275,14 +272,14 @@ export default class ImageBlock extends React.Component {
     return (json_response) => {
       return this.uploadCompleted(json_response.url)
     }
-  };
+  }
 
   uploadFailed = () => {
     this.props.blockProps.removeLock()
     this.stopLoader()
-  };
+  }
 
-  uploadCompleted (url, cb) {
+  uploadCompleted(url, cb) {
     this.setState({ url }, this.updateData)
     this.props.blockProps.removeLock()
     this.stopLoader()
@@ -290,13 +287,13 @@ export default class ImageBlock extends React.Component {
     cb && cb()
   }
 
-  updateProgressBar (e) {
+  updateProgressBar(e) {
     let complete = this.state.loading_progress
     if (e.lengthComputable) {
       complete = (e.loaded / e.total) * 100
       complete = complete != null ? complete : { complete: 0 }
       this.setState({
-        loading_progress: complete
+        loading_progress: complete,
       })
       return console.log(`complete: ${complete}`)
     }
@@ -304,18 +301,18 @@ export default class ImageBlock extends React.Component {
 
   placeHolderEnabled = () => {
     return this.state.enabled || this.props.block.getText()
-  };
+  }
 
   placeholderText = () => {
     return this.config.image_caption_placeholder || 'caption here (optional)'
-  };
+  }
 
-  handleFocus (_e) {}
+  handleFocus(_e) {}
 
   imageUrl = () => {
     if (this.state.url.includes('://')) return this.state.url
     return `${this.config.domain ? this.config.domain : ''}${this.state.url}`
-  };
+  }
 
   render = () => {
     return (
@@ -326,12 +323,14 @@ export default class ImageBlock extends React.Component {
           onClick={this.handleGrafFigureSelectImg}
         >
           <div
-            style={{ paddingBottom: `${this.state.aspect_ratio.ratio}%` }}
+            style={{
+              paddingBottom: `${this.state.aspect_ratio.ratio}%`,
+            }}
             className="aspect-ratio-fill"
           />
           <img
             src={this.imageUrl()}
-            ref={(comp)=> this.image_tag = comp}
+            ref={(comp) => (this.image_tag = comp)}
             height={this.state.aspect_ratio.height}
             width={this.state.aspect_ratio.width}
             className="graf-image"
@@ -352,13 +351,13 @@ export default class ImageBlock extends React.Component {
           <EditorBlock
             {...Object.assign({}, this.props, {
               editable: true,
-              className: 'imageCaption'
+              className: 'imageCaption',
             })}
           />
         </figcaption>
       </div>
     )
-  };
+  }
 }
 
 class Loader extends React.Component {
@@ -380,7 +379,7 @@ class Loader extends React.Component {
         ) : undefined}
       </div>
     )
-  };
+  }
 }
 
 export const ImageBlockConfig = (options = {}) => {
@@ -409,18 +408,18 @@ export const ImageBlockConfig = (options = {}) => {
           return ''
       }
     },
-    handleEnterWithoutText (ctx, block) {
+    handleEnterWithoutText(ctx, block) {
       const { editorState } = ctx.state
       return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
     },
-    handleEnterWithText (ctx, block) {
+    handleEnterWithText(ctx, block) {
       const { editorState } = ctx.state
       return ctx.onChange(addNewBlockAt(editorState, block.getKey()))
     },
     widget_options: {
       displayOnInlineTooltip: true,
       insertion: 'upload',
-      insert_block: 'image'
+      insert_block: 'image',
     },
     options: {
       upload_url: '',
@@ -429,8 +428,8 @@ export const ImageBlockConfig = (options = {}) => {
       upload_callback: null,
       upload_error_callback: null,
       delete_block_callback: null,
-      image_caption_placeholder: 'type a caption (optional)'
-    }
+      image_caption_placeholder: 'type a caption (optional)',
+    },
   }
 
   return Object.assign(config, options)

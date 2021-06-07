@@ -1,13 +1,11 @@
 import React from 'react'
 import { EditorBlock } from 'draft-js'
 import styled from '@emotion/styled'
-import {ReactMediaRecorder, model, Icons} from 'Dante2'
-const {
-  updateDataOfBlock
-} = model // '../../../model/index.js'
+import { ReactMediaRecorder, model, Icons } from 'Dante2'
+const { updateDataOfBlock } = model // '../../../model/index.js'
 import axios from 'axios'
 
-const {videoRecorderIcon} = Icons
+const { videoRecorderIcon } = Icons
 
 const VideoContainer = styled.div`
   background: ${(props) => props.theme.inversed_color};
@@ -16,7 +14,7 @@ const VideoContainer = styled.div`
   //border: 1px solid ${(props) => props.theme.dante_control_color};
   box-shadow: 0 1px 4px ${(props) => props.theme.dante_control_color};
   border-radius: 10px;
-  position:relative;
+  position: relative;
 `
 
 const VideoBody = styled.div`
@@ -73,7 +71,6 @@ const SecondsLeft = styled.div`
 `
 
 const RecButton = styled.div`
-
   display: inline-block;
   cursor: pointer;
   -webkit-transition: all 0.25s ease;
@@ -85,13 +82,12 @@ const RecButton = styled.div`
   color: #d9ece5;
   text-shadow: 0px 1px 0px #101010;
 
-  &:hover{
+  &:hover {
     //color: ${green}
     color: #d9ece5;
   }
 
-
-  &:before{
+  &:before {
     position: absolute;
     width: 31px;
     height: 30px;
@@ -103,41 +99,38 @@ const RecButton = styled.div`
     left: 2px;
   }
 
-  &.recording{
-    &:before{
-
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 6px;
-    content: '';
-    border-radius: 2px;
-    background: #e80415;
-    cursor: pointer;
-    left: 7px;
+  &.recording {
+    &:before {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 6px;
+      content: '';
+      border-radius: 2px;
+      background: #e80415;
+      cursor: pointer;
+      left: 7px;
     }
   }
 
-
-  &:after{
+  &:after {
     position: absolute;
     width: 38px;
     height: 38px;
     top: 4px;
     content: '';
-    -webkit-transform: translate(-6px,-6px);
-    -ms-transform: translate(-6px,-6px);
-    -webkit-transform: translate(-6px,-6px);
-    -ms-transform: translate(-6px,-6px);
-    -webkit-transform: translate(-6px,-6px);
-    -ms-transform: translate(-6px,-6px);
-    transform: translate(-6px,-6px);
+    -webkit-transform: translate(-6px, -6px);
+    -ms-transform: translate(-6px, -6px);
+    -webkit-transform: translate(-6px, -6px);
+    -ms-transform: translate(-6px, -6px);
+    -webkit-transform: translate(-6px, -6px);
+    -ms-transform: translate(-6px, -6px);
+    transform: translate(-6px, -6px);
     border-radius: 50%;
     border: 2px solid #fff;
     cursor: pointer;
     left: 4px;
   }
-
 `
 
 const Button = styled.button`
@@ -184,7 +177,7 @@ const Button = styled.button`
     animation: rotating 2s 0.25s linear infinite;
 
     &:after {
-      content: "";
+      content: '';
     }
     &:hover {
       color: $green;
@@ -208,7 +201,7 @@ const Button = styled.button`
 `
 
 class VideoRecorderBlock extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.file = this.props.blockProps.data.get('file')
     this.config = this.props.blockProps.config
@@ -224,7 +217,7 @@ class VideoRecorderBlock extends React.Component {
       fileReady: false,
       secondsLeft: 0,
       loading: false,
-      url: this.props.block.data.get('url')
+      url: this.props.block.data.get('url'),
     }
 
     this.video = null
@@ -245,7 +238,7 @@ class VideoRecorderBlock extends React.Component {
     this.mediaRecorder = null
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.video = this.app.querySelector('video')
     if (this.state.url) {
       this.setUrlToVideo(this.state.url)
@@ -261,22 +254,22 @@ class VideoRecorderBlock extends React.Component {
     const data = block.getData()
     const newData = data.merge(this.state).merge(options)
     return setEditorState(updateDataOfBlock(getEditorState(), block, newData))
-  };
+  }
 
-  handleGranted () {
+  handleGranted() {
     this.setState({ granted: true })
     console.log('Permission Granted!')
   }
 
-  handleDenied (err) {
+  handleDenied(err) {
     this.setState({ rejectedReason: err.name })
     console.log('Permission Denied!', err)
   }
 
-  handleStart (stream, context) {
+  handleStart(stream, context) {
     this.setState({
       recording: true,
-      fileReady: false
+      fileReady: false,
     })
 
     this.setStreamToVideo(stream)
@@ -299,7 +292,7 @@ class VideoRecorderBlock extends React.Component {
     }, context.config.seconds_to_record)
   }
 
-  handleStop (blob) {
+  handleStop(blob) {
     if (this.stopTimeout) {
       clearTimeout(this.secondInterval)
       this.setState({ secondsLeft: 0 })
@@ -308,7 +301,7 @@ class VideoRecorderBlock extends React.Component {
 
     this.setState({
       recording: false,
-      fileReady: true
+      fileReady: true,
     })
 
     this.releaseStreamFromVideo()
@@ -321,25 +314,25 @@ class VideoRecorderBlock extends React.Component {
 
   confirm = () => {
     this.downloadVideo(this.file)
-  };
+  }
 
-  handlePause () {
+  handlePause() {
     this.releaseStreamFromVideo()
 
     this.setState({
-      paused: true
+      paused: true,
     })
   }
 
-  handleResume (stream) {
+  handleResume(stream) {
     this.setStreamToVideo(stream)
 
     this.setState({
-      paused: false
+      paused: false,
     })
   }
 
-  handleError (err) {
+  handleError(err) {
     console.log(err)
   }
 
@@ -347,15 +340,15 @@ class VideoRecorderBlock extends React.Component {
     this.video.loop = false
     this.video.controls = false
     this.video.muted = true
-  };
+  }
 
   playMode = () => {
     this.video.loop = false
     this.video.controls = true
     this.video.muted = true
-  };
+  }
 
-  setStreamToVideo (stream) {
+  setStreamToVideo(stream) {
     const video = this.app.querySelector('video')
     this.recordMode(video)
 
@@ -370,14 +363,14 @@ class VideoRecorderBlock extends React.Component {
   setUrlToVideo = (url) => {
     this.playMode()
     this.video.src = url
-  };
+  }
 
-  releaseStreamFromVideo () {
+  releaseStreamFromVideo() {
     this.video.src = ''
     this.video.srcObject = null
   }
 
-  downloadVideo (blob) {
+  downloadVideo(blob) {
     // video.loop = true
     this.setStreamToVideo(blob)
     this.playMode()
@@ -399,7 +392,7 @@ class VideoRecorderBlock extends React.Component {
       formData.append('url', this.state.url)
       return formData
     }
-  };
+  }
 
   getUploadUrl = () => {
     const url = this.config.upload_url
@@ -408,18 +401,18 @@ class VideoRecorderBlock extends React.Component {
     } else {
       return url
     }
-  };
+  }
 
-  getUploadHeaders () {
+  getUploadHeaders() {
     return this.config.upload_headers || {}
   }
 
   stopLoader = () => {
     return this.setState({
       loading: false,
-      fileReady: false
+      fileReady: false,
     })
-  };
+  }
 
   uploadFile = (blob) => {
     this.file = blob
@@ -435,7 +428,7 @@ class VideoRecorderBlock extends React.Component {
     }
 
     this.setState({
-      loading: true
+      loading: true,
     })
 
     axios({
@@ -445,7 +438,7 @@ class VideoRecorderBlock extends React.Component {
       data: this.formatData(),
       onUploadProgress: (e) => {
         return this.updateProgressBar(e)
-      }
+      },
     })
       .then((result) => {
         this.uploadCompleted(result.data.url)
@@ -466,14 +459,14 @@ class VideoRecorderBlock extends React.Component {
     return (json_response) => {
       return this.uploadCompleted(json_response.url)
     }
-  };
+  }
 
   uploadFailed = () => {
     this.props.blockProps.removeLock()
     this.stopLoader()
-  };
+  }
 
-  uploadCompleted (url) {
+  uploadCompleted(url) {
     this.setState({ url }, this.updateData)
     this.props.blockProps.removeLock()
     this.stopLoader()
@@ -481,13 +474,13 @@ class VideoRecorderBlock extends React.Component {
     this.setUrlToVideo(url)
   }
 
-  updateProgressBar (e) {
+  updateProgressBar(e) {
     let complete = this.state.loading_progress
     if (e.lengthComputable) {
       complete = (e.loaded / e.total) * 100
       complete = complete != null ? complete : { complete: 0 }
       this.setState({
-        loading_progress: complete
+        loading_progress: complete,
       })
       return console.log(`complete: ${complete}`)
     }
@@ -495,38 +488,38 @@ class VideoRecorderBlock extends React.Component {
 
   isReadOnly = () => {
     return this.props.blockProps.getEditor().props.read_only
-  };
+  }
 
   placeHolderEnabled = () => {
     return this.state.enabled || this.props.block.getText()
-  };
+  }
 
   placeholderText = () => {
     return this.config.image_caption_placeholder || 'caption here (optional)'
-  };
+  }
 
   defaultPlaceholder = () => {
     return this.props.blockProps.config.image_caption_placeholder
-  };
+  }
 
-  render () {
+  render() {
     //const granted = this.state.granted
     //const rejectedReason = this.state.rejectedReason
     //const recording = this.state.recording
     //const paused = this.state.paused
     return (
-      <div ref={(comp)=> this.app  = comp }>
+      <div ref={(comp) => (this.app = comp)}>
         <VideoContainer>
           <ReactMediaRecorder
-            ref={(comp)=> this.mediaRecorder = comp }
+            ref={(comp) => (this.mediaRecorder = comp)}
             constraints={{
               audio: {
                 sampleSize: 16,
                 channelCount: 2,
                 echoCancellation: true,
-                noiseSuppression: false
+                noiseSuppression: false,
               },
-              video: true
+              video: true,
             }}
             timeSlice={10}
             onGranted={this.handleGranted}
@@ -605,7 +598,7 @@ class VideoRecorderBlock extends React.Component {
                     <EditorBlock
                       {...Object.assign({}, this.props, {
                         editable: true,
-                        className: 'imageCaption'
+                        className: 'imageCaption',
                       })}
                     />
                   </figcaption>
@@ -642,7 +635,7 @@ class Loader extends React.Component {
         ) : null}
       </React.Fragment>
     )
-  };
+  }
 }
 
 export const VideoRecorderBlockConfig = (options = {}) => {
@@ -669,11 +662,11 @@ export const VideoRecorderBlockConfig = (options = {}) => {
     widget_options: {
       displayOnInlineTooltip: true,
       insertion: 'insertion',
-      insert_block: 'image'
+      insert_block: 'image',
     },
     options: {
-      seconds_to_record: 10000
-    }
+      seconds_to_record: 10000,
+    },
   }
 
   return Object.assign(config, options)

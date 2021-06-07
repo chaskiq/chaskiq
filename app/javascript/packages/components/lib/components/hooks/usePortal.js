@@ -6,7 +6,7 @@ import { useRef, useEffect } from 'react'
  * Creates DOM element to be used as React root.
  * @returns {HTMLElement}
  */
-function createRootElement (id) {
+function createRootElement(id) {
   const rootContainer = document.createElement('div')
   rootContainer.setAttribute('id', id)
   return rootContainer
@@ -16,7 +16,7 @@ function createRootElement (id) {
  * Appends element as last child of body.
  * @param {HTMLElement} rootElem
  */
-function addRootElement (rootElem) {
+function addRootElement(rootElem) {
   document.body.insertBefore(
     rootElem,
     document.body.lastElementChild.nextElementSibling
@@ -34,12 +34,12 @@ function addRootElement (rootElem) {
  * @param {String} id The id of the target container, e.g 'modal' or 'spotlight'
  * @returns {HTMLElement} The DOM node to use as the Portal target.
  */
-function usePortal (id, doc = null) {
+function usePortal(id, doc = null) {
   const rootElemRef = useRef(null)
 
   const documentObject = doc || document
 
-  useEffect(function setupElement () {
+  useEffect(function setupElement() {
     // Look for existing target dom element to append to
     const existingParent = documentObject.querySelector(`#${id}`)
     // Parent is either a new root or the existing dom element
@@ -53,7 +53,7 @@ function usePortal (id, doc = null) {
     // Add the detached element to the parent
     parentElem.appendChild(rootElemRef.current)
 
-    return function removeElement () {
+    return function removeElement() {
       rootElemRef.current.remove()
       if (parentElem.childNodes.length === -1) {
         parentElem.remove()
@@ -71,7 +71,7 @@ function usePortal (id, doc = null) {
    *   ever run once.
    * @link https://reactjs.org/docs/hooks-faq.html#how-to-create-expensive-objects-lazily
    */
-  function getRootElem () {
+  function getRootElem() {
     if (!rootElemRef.current) {
       rootElemRef.current = documentObject.createElement('div')
     }

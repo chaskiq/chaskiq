@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Hints from '../../shared/Hints'
 
 import serialize from 'form-serialize'
 
 import {
+  Hints,
   Button,
   FormDialog,
   List,
@@ -15,33 +15,33 @@ import {
   ItemListPrimaryContent,
   ItemListSecondaryContent,
   Input,
-  icons
+  icons,
 } from '@chaskiq/components'
 
 const { DeleteIcon, PlusIcon, EditIcon } = icons
 
-function CustomizationColors ({ app, update, _dispatch }) {
+function CustomizationColors({ app, update, _dispatch }) {
   const [fields, setFields] = useState(app.tagList || [])
   const [isOpen, setOpen] = useState(false)
   const [selected, setSelected] = useState(null)
 
   const form = React.useRef(null)
 
-  function addField () {
+  function addField() {
     setOpen(true)
   }
 
-  function close () {
+  function close() {
     setSelected(null)
     setOpen(false)
   }
 
-  function submit () {
+  function submit() {
     setFields(handleFields())
     setOpen(false)
   }
 
-  function handleFields () {
+  function handleFields() {
     const s = serialize(form.current, { hash: true, empty: true })
 
     if (selected === null) {
@@ -56,7 +56,7 @@ function CustomizationColors ({ app, update, _dispatch }) {
     })
   }
 
-  function renderModal () {
+  function renderModal() {
     const selectedItem = fields[selected]
 
     return (
@@ -87,17 +87,17 @@ function CustomizationColors ({ app, update, _dispatch }) {
     )
   }
 
-  function handleEdit (o) {
+  function handleEdit(o) {
     setSelected(o)
     setOpen(true)
   }
 
-  function removeField (index) {
+  function removeField(index) {
     const newFields = fields.filter((o, i) => i !== index)
     setFields(newFields)
   }
 
-  function renderSubmitButton () {
+  function renderSubmitButton() {
     return (
       <Button
         variant={'success'}
@@ -105,8 +105,8 @@ function CustomizationColors ({ app, update, _dispatch }) {
         onClick={() =>
           update({
             app: {
-              tag_list: fields
-            }
+              tag_list: fields,
+            },
           })
         }
       >
@@ -117,7 +117,6 @@ function CustomizationColors ({ app, update, _dispatch }) {
 
   return (
     <div className="py-4">
-
       <Hints type="tags" />
 
       <div className="flex items-center justify-between">
@@ -126,11 +125,13 @@ function CustomizationColors ({ app, update, _dispatch }) {
         </p>
 
         <div className="flex w-1/4 justify-end">
-          <Button onClick={addField}
+          <Button
+            onClick={addField}
             variant="outlined"
             className="mr-2"
-            aria-label="add">
-            <PlusIcon /> {I18n.t("common.add_new")}
+            aria-label="add"
+          >
+            <PlusIcon /> {I18n.t('common.add_new')}
           </Button>
 
           {renderSubmitButton()}
@@ -146,7 +147,7 @@ function CustomizationColors ({ app, update, _dispatch }) {
               key={`fields-items-${o.name}-${i}`}
               primary={o.name}
               // secondary={o.type}
-              secondary={ o.color }
+              secondary={o.color}
               terciary={
                 <React.Fragment>
                   <Button
@@ -178,7 +179,7 @@ function CustomizationColors ({ app, update, _dispatch }) {
   )
 }
 
-function FieldsItems ({ primary, secondary, terciary }) {
+function FieldsItems({ primary, secondary, terciary }) {
   return (
     <ListItem divider={true}>
       <ListItemText
@@ -202,14 +203,14 @@ function FieldsItems ({ primary, secondary, terciary }) {
   )
 }
 
-function FieldsForm ({ selected }) {
+function FieldsForm({ selected }) {
   const [field, setField] = useState(selected || {})
 
-  function setName (e) {
+  function setName(e) {
     setField(Object.assign({}, field, { name: e.target.value }))
   }
 
-  function setColor (e) {
+  function setColor(e) {
     setField(Object.assign({}, field, { color: e.value }))
   }
 
@@ -218,9 +219,9 @@ function FieldsForm ({ selected }) {
       <Input
         variant="outlined"
         margin="normal"
-        required    
+        required
         name="name"
-        label={ I18n.t('settings.tags.inputs.name')}
+        label={I18n.t('settings.tags.inputs.name')}
         type={'text'}
         // type="password"
         // id="password"
@@ -235,7 +236,7 @@ function FieldsForm ({ selected }) {
         margin="normal"
         required
         name="color"
-        label={ I18n.t('settings.tags.inputs.color')}
+        label={I18n.t('settings.tags.inputs.color')}
         type={'color'}
         // type="password"
         // id="password"
@@ -244,15 +245,14 @@ function FieldsForm ({ selected }) {
         value={field.color}
         onChange={setColor}
       />
-
     </React.Fragment>
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app } = state
   return {
-    app
+    app,
   }
 }
 

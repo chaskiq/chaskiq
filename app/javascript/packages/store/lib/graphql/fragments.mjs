@@ -1,4 +1,3 @@
-
 export const conversationAttributesFragment = `
 id
 key
@@ -148,5 +147,5 @@ export default {
   converstionMessagesFragment,
   conversationLastMessageFragment,
   conversationFragment,
-  appFragment
+  appFragment,
 }

@@ -10,7 +10,7 @@ const SIGNOUT = 'auth/SIGNOUT'
 const REFRESHING = 'auth/REFRESHING'
 
 // Action Creators
-export function authenticate (email, password, cb) {
+export function authenticate(email, password, cb) {
   return (dispatch, getState) => {
     if (getState().auth.loading) return
 
@@ -27,8 +27,8 @@ export function authenticate (email, password, cb) {
         agent: { email, password },
         email: email,
         password: password,
-        grant_type: 'password'
-      }
+        grant_type: 'password',
+      },
     })
       .then((response) => {
         const accessToken = response.data.access_token
@@ -46,7 +46,7 @@ export function authenticate (email, password, cb) {
   }
 }
 
-export function signout () {
+export function signout() {
   return (dispatch, getState) => {
     const { auth } = getState()
 
@@ -55,8 +55,8 @@ export function signout () {
         headers: {
           'access-token': auth.accessToken,
           client: auth.client,
-          uid: auth.uid
-        }
+          uid: auth.uid,
+        },
       })
       .then(() => {
         dispatch(doSignout())
@@ -68,60 +68,64 @@ export function signout () {
   }
 }
 
-export function successAuthentication (accessToken, refreshToken) {
+export function successAuthentication(accessToken, refreshToken) {
   //, uid, client, accessToken, expiry) {
   return {
     type: RECEIVED,
     data: {
       refresh_token: refreshToken,
-      access_token: accessToken
-    }
+      access_token: accessToken,
+    },
   } // uid, client, accessToken, expiry }
 }
 
-export function refreshToken (auth) {
+export function refreshToken(auth) {
   return (dispatch, _getState) => {
     dispatch(startAuthentication())
     dispatch(errorMessage('refresh token, hang tight'))
 
-    axios.create({
-      baseURL: '/oauth/token'
-    }).post('', {
-      refresh_token: auth.refreshToken,
-      grant_type: 'refresh_token'
-    }).then(res => {
-      const accessToken = res.data.access_token
-      const refreshToken = res.data.refresh_token
-      dispatch(successAuthentication(accessToken, refreshToken))
-      window.location = '/'
-    }).catch(() => {
-      dispatch(expireAuthentication())
-    })
+    axios
+      .create({
+        baseURL: '/oauth/token',
+      })
+      .post('', {
+        refresh_token: auth.refreshToken,
+        grant_type: 'refresh_token',
+      })
+      .then((res) => {
+        const accessToken = res.data.access_token
+        const refreshToken = res.data.refresh_token
+        dispatch(successAuthentication(accessToken, refreshToken))
+        window.location = '/'
+      })
+      .catch(() => {
+        dispatch(expireAuthentication())
+      })
   }
 }
 
-export function expireAuthentication () {
+export function expireAuthentication() {
   return doSignout()
 }
 
-export function startAuthentication () {
+export function startAuthentication() {
   return { type: REQUEST }
 }
 
-function failAuthentication () {
+function failAuthentication() {
   return { type: FAILED }
 }
 
-export function doSignout () {
+export function doSignout() {
   return { type: SIGNOUT }
 }
 
-export function doRefresh () {
+export function doRefresh() {
   return { type: REFRESHING }
 }
 
 // Reducer
-export default function reducer (state, action = {}) {
+export default function reducer(state, action = {}) {
   const REQUEST = 'auth/REQUEST'
   const RECEIVED = 'auth/RECEIVED'
   const FAILED = 'auth/FAILED'
@@ -134,13 +138,13 @@ export default function reducer (state, action = {}) {
     accessToken: null,
     uid: null,
     expiry: null,
-    status: null
+    status: null,
   }
 
   switch (action.type) {
     case REQUEST:
       return Object.assign({}, state, {
-        loading: true
+        loading: true,
       })
     case RECEIVED:
       return Object.assign({}, state, {
@@ -149,13 +153,13 @@ export default function reducer (state, action = {}) {
         // uid: action.uid,
         // client: action.client,
         accessToken: action.data.access_token,
-        refreshToken: action.data.refresh_token
+        refreshToken: action.data.refresh_token,
         // jwt: action.jwt,
         // expiry: action.expiry
       })
     case FAILED:
       return Object.assign({}, state, {
-        loading: false
+        loading: false,
       })
     case SIGNOUT:
       return Object.assign({}, initialState)
