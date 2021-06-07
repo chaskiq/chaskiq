@@ -140,7 +140,7 @@ class App extends Component {
                 <div className="flex justify-between items-baseline py-2">
                   <div>
 
-                    <h3 className="text-3xl leading-6 font-medium text-gray-900 py-4">
+                    <h3 className="text-3xl leading-6 font-medium text-gray-900 py-4 dark:text-gray-100">
                       {o.title}
                     </h3>
                   </div>
@@ -190,13 +190,13 @@ class App extends Component {
                                   <ListItemText
                                     primary={
                                       <AnchorLink to={`/apps/${this.props.app.key}/articles/${item.slug}`}>
-                                        <p className="text-lg leading-6 font-medium text-gray-900 pb-1 hover:underline">
+                                        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-1 hover:underline">
                                           {item.title}
                                         </p>
                                       </AnchorLink>
                                     }
                                     secondary={
-                                      <span className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+                                      <span className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
                                         {item.author.name}
                                         <br />
                                         {item.author.email}
@@ -235,7 +235,7 @@ class App extends Component {
                         )}
                       </div>
 
-                      <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+                      <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
                         {o.articles.length} articles
                       </p>
                     </div>

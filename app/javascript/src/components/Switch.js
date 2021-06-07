@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+
 import { Switch } from '@headlessui/react'
 
 export default function CustomLabelExample({label, enabled, setEnabled }) {

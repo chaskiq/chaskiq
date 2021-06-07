@@ -22,7 +22,7 @@ function FormDialog (props) {
         leave="ease-in duration-200"
         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        className="relative bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
+        className="relative bg-white dark:bg-black dark:text-gray-100 rounded-lg px-4 pt-5 pb-4 overflow-hidden--- shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6"
 
       >
 
@@ -60,7 +60,7 @@ function FormDialog (props) {
 
           <div className="mt-3 sm:mt-0 text-left">
             {props.titleContent && (
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
                 {props.titleContent}
               </h3>
             )}

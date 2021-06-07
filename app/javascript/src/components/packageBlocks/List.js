@@ -26,6 +26,7 @@ const ListWrapper = styled.div`
 
 const ListItemWrapper = styled.div`
   ${() => tw`block
+  dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800
   hover:bg-gray-100
   focus:outline-none focus:bg-gray-200 transition duration-150
   ease-in-out`}
@@ -75,12 +76,12 @@ const ItemAvatarWrapper = styled.div`
 const ItemListPrimaryContentWrapper = styled.div`
   ${() => tw`text-sm leading-5 font-bold truncate`}
   ${(props) => props.theme.palette
-    ? `color: ${props.theme.palette.primary};` : tw`text-gray-800`
+    ? `color: ${props.theme.palette.primary};` : tw`dark:text-gray-200 text-gray-800`
   }
 `
 
 const ItemListSecondaryContentWrapper = styled.div`
-  ${() => tw`mt-2 flex items-center text-xs leading-4 text-gray-500`}
+  ${() => tw`mt-2 flex items-center text-xs leading-4 dark:text-gray-300 text-gray-500`}
   .span{
     ${() => tw`truncate`}
   }

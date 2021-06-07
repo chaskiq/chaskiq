@@ -70,16 +70,17 @@ export default function ConversationItemList ({ app, conversation }) {
 
   function stateClass () {
     return conversation.state == 'opened'
-      ? 'bg-red-200' : 'bg-green-600'
+      ? 'bg-red-200 dark:bg-red-600' : 'bg-green-600'
   }
 
   return (
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
-      className="flex justify-between hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
+      className="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out"
+      data-cy={`conversation-item`}
     >
       <div className={`block w-2 ${stateClass()}`}></div>
-      <div className="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 ">
+      <div className="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
             <img
@@ -91,11 +92,11 @@ export default function ConversationItemList ({ app, conversation }) {
 
           <div className="ml-4 truncate w-full">
             <div className="flex justify-between">
-              <span className="text-md leading-5 font-semibold text-gray-800 truncate mr-2">
+              <span className="text-md leading-5 font-semibold text-gray-800 dark:text-gray-100 truncate mr-2">
                 {user.displayName}
               </span>
 
-              <span className="text-xs leading-5 font-light text-gray-300">
+              <span className="text-xs leading-5 font-light text-gray-300 dark:text-gray-300">
                 <Moment fromNow ago>
                   {message.createdAt}
                 </Moment>
@@ -105,7 +106,7 @@ export default function ConversationItemList ({ app, conversation }) {
 
         </div>
         <div className="flex flex-col mt-5 space-y-2">
-          <div className="space-x-2 text-sm leading-5 text-gray-500 flex pb-2 pt-1">
+          <div className="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1">
             {appUser && appUser.id !== participant.id && (
               <img
                 alt={appUser.displayName}

@@ -105,7 +105,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
               <div
                 // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
                 className="flex items-center"

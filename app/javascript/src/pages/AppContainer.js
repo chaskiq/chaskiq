@@ -153,7 +153,7 @@ function AppContainer ({
   }
 
   return (
-    <div className="h-screen flex overflow-hidden bg-white">
+    <div className="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">
       {app && <Sidebar />}
 
       {drawer.open && (

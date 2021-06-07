@@ -81,11 +81,11 @@ function Schedule ({ app, data, updateData, _namespace, _submit }) {
         hint={I18n.t('task_bots.settings.enable_hint')}
       ></Input> */}
 
-      <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+      <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
         {I18n.t('task_bots.settings.specific_times_title')}
       </p>
 
-      <p className="max-w-xl text-sm leading-5 text-gray-500 mb-4">
+      <p className="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
         {I18n.t('task_bots.settings.tz_hint', { timezone: app.timezone })}
       </p>
 

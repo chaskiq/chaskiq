@@ -77,9 +77,16 @@ const BaseButton = styled.button`
         shadow-sm 
         text-sm 
         font-medium 
-        rounded-md text-gray-700 
+        rounded-md 
+        text-gray-700 
+        dark:bg-black
+
         bg-white 
         hover:bg-gray-50 
+
+        dark:text-gray-100 
+        dark:hover:bg-gray-900
+
         focus:outline-none 
         focus:ring-2 
         focus:ring-offset-2 
@@ -99,7 +106,7 @@ const BaseButton = styled.button`
         text-sm 
         font-medium 
         rounded-md 
-        text-gray-100 
+        text-gray-100
         bg-transparent
         hover:text-gray-800 
         focus:outline-none 
@@ -133,6 +140,10 @@ const BaseButton = styled.button`
         border 
         border-transparent 
         text-indigo-700 
+        dark:bg-white
+        dark:text-gray-900
+        dark:hover:text-gray-600
+        dark:hover:bg-gray-200
         bg-indigo-100 
         hover:bg-indigo-200
         focus:outline-none 
@@ -220,7 +231,7 @@ export function DropdownButton ({ onClick, label, icon }) {
       <button
         onClick={onClick}
         type="button"
-        className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
+        className="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white dark:border-gray-200 dark:bg-gray-800 text-sm leading-5 font-medium text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
       >
         {icon && icon} {label}
       </button>
@@ -229,7 +240,7 @@ export function DropdownButton ({ onClick, label, icon }) {
         <button
           onClick={onClick}
           type="button"
-          className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
+          className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white  dark:border-gray-200 dark:bg-gray-800  text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
         >
           <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
             <path

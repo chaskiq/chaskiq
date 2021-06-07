@@ -222,7 +222,7 @@ function Integrations ({ app, dispatch }) {
             // icon: <HomeIcon />,
             content: (
               <div className="py-6">
-                <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+                <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
                   {I18n.t('settings.integrations.active.text')}
                 </p>
 
@@ -254,7 +254,7 @@ function Integrations ({ app, dispatch }) {
             label: I18n.t('settings.integrations.available.title'),
             content: (
               <div className="py-6">
-                <p className="text-lg leading-6 font-medium text-gray-900 pb-4">
+                <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
                   {I18n.t('settings.integrations.available.text')}
                 </p>
                 {loading && <Progress />}
@@ -361,7 +361,7 @@ function Integrations ({ app, dispatch }) {
                     }/${open.name.toLocaleLowerCase()}/${open.id}` */}
                     <input
                       className={`shadow appearance-none border border-gray-500 
-                          rounded w-full py-2 px-3 text-gray-700
+                          rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100
                           leading-tight focus:outline-none focus:shadow-outline`}
                       type={'text'}
                       defaultValue={open.hookUrl}
@@ -482,6 +482,7 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                   <Button
                     onClick={() => handleOpen(service)}
                     aria-label="add"
+                    data-cy={`services-${service.name}-add`}
                     variant="outlined"
                     className="mr-2"
                     border={true}
@@ -961,9 +962,9 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
   }
 
   return (
-    <div className="border bg-white rounded shadow">
+    <div className="border bg-white dark:bg-black rounded shadow">
       <div className="flex">
-        <div className="w-1/3 bg-gray-100 px-4 py-2">
+        <div className="w-1/3 bg-gray-100 dark:bg-gray-900 px-4 py-2">
           {/* <ul>
             <li>ijij</li>
             <li>aaa</li>

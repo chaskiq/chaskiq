@@ -36,7 +36,7 @@ export default function Dropdown ({
           {triggerButton ? (
             triggerButton(() => setOpen(!open))
           ) : (
-            <span className="rounded-md shadow-sm">
+            <span className="rounded-md shadow-sm dark:text-gray-100 dark:bg-gray-800">
               <Button
                 variant="outlined"
                 onClick={() => setOpen(!open)}>
@@ -64,7 +64,7 @@ export default function Dropdown ({
             ${origin || ''}
              mt-2 w-56 rounded-md shadow-lg`}
           >
-            <div className="rounded-md bg-white shadow-xs">{children}</div>
+            <div className="rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs">{children}</div>
           </div>
         )}
       </div>

@@ -32,12 +32,12 @@ function UserData ({ app_user, app, disableAvatar }) {
               <div className="flex justify-center mt-5">
                 <img
                   src={app_user.avatarUrl}
-                  className="rounded-full border-solid border-white border-2 -mt-3"
+                  className="rounded-full border-solid border-white dark:border-gray-800 border-2 -mt-3"
                 />
               </div>
 
               <div className="text-center px-3 pb-6 pt-2">
-                <h3 className="text-sm leading-5 font-medium text-gray-900 flex flex-col justify-center items-center">
+                <h3 className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center">
                   {app_user.properties.name}
 
                   <span
@@ -54,12 +54,12 @@ function UserData ({ app_user, app, disableAvatar }) {
                   </span>
                 </h3>
 
-                <p className="text-sm leading-5 text-gray-500">
+                <p className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                   {app_user.email}
                 </p>
 
                 <Link
-                  className="text-sm leading-5 font-medium text-gray-900"
+                  className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100"
                   to={`/apps/${app.key}/users/${app_user.id}`}
                 >
                   show profile

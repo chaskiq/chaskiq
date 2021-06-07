@@ -9,13 +9,13 @@ export default function Breadcrumbs ({ breadcrumbs }) {
           {o.to && (
             <Link
               to={o.to}
-              className="text-gray-600 hover:text-gray-700 focus:outline-none focus:underline transition duration-150 ease-in-out"
+              className="dark:text-gray-100 dark:hover:text-gray-400 text-gray-600 hover:text-gray-700 focus:outline-none focus:underline transition duration-150 ease-in-out"
             >
               {o.title}
             </Link>
           )}
 
-          {!o.to && <span className="text-gray-400">{o.title}</span>}
+          {!o.to && <span className="text-gray-400 dark:text-gray-200">{o.title}</span>}
 
           {breadcrumbs.length - 1 !== i && (
             <svg

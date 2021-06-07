@@ -12,7 +12,7 @@ const userFormat = function (showUserDrawer, app) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
               <div
                 onClick={() => showUserDrawer && showUserDrawer(row)}
                 className="flex items-center"
@@ -27,10 +27,10 @@ const userFormat = function (showUserDrawer, app) {
 
                 </div>
                 <div className="ml-4">
-                  <div className="text-sm leading-5 font-medium text-gray-900">
+                  <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
                     {row.displayName}
                   </div>
-                  <div className="text-sm leading-5 text-gray-500">
+                  <div className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                     {row.email}
                   </div>
                 </div>
@@ -49,7 +49,7 @@ const userFormat = function (showUserDrawer, app) {
       title: I18n.t('data_tables.users.tag_list'),
       hidden: false,
       render: (row) => (
-        <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+        <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
 
           <div className="flex flex-wrap space-y-1">
             {
@@ -71,7 +71,7 @@ const userFormat = function (showUserDrawer, app) {
       title: I18n.t('data_tables.users.state'),
       render: (row) => {
         return (
-          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200">
+          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
 
             <Badge variant={
               row.state === 'subscribed' ? 'green' : 'yellow'
@@ -117,7 +117,7 @@ const userFormat = function (showUserDrawer, app) {
       title: o.name,
       render: (row) =>
         row && (
-          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
             {row.properties[o.name]}
           </td>
         )

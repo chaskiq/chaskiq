@@ -42,8 +42,10 @@ describe('Conversations Spec', function () {
 
     cy.get("a[aria-label='Conversations']")
       .click({ force: true }).then(() => {
-        cy.xpath('/html/body/div/div[2]/div[2]/div[2]/div[2]/div[2]/div[2]/a')
-          .click()
+
+        cy.get('[data-cy=conversation-item]').first().click({force: true})
+        //cy.xpath('/html/body/div/div[2]/div[2]/div[2]/div[2]/div[2]/div[2]/a')
+        //  .click()
 
         cy.contains('some text from backend')
 
@@ -53,12 +55,10 @@ describe('Conversations Spec', function () {
           .type('foo \r\n')
 
         // selects package button
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div[3]/div/button[8]')
-          .click()
+        cy.get('[data-cy=inline-tooltip-button-AppPackage]').click()
 
         // selects content showcase
-        cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/ul/li[2]/div/div/div/div/div[2]/div/div/button')
-          .click()
+        cy.get('[data-cy=add-package-ContentShowcase]').click()
 
         cy.contains('Pick a template')
         cy.contains('Announcement').click()
@@ -73,12 +73,9 @@ describe('Conversations Spec', function () {
         cy.get('input[name="cover_image"]').should('not.have.value', '')
 
         cy.contains('Add to messenger home').click().then(() => {
-          cy.contains('Send App').should('not.be.disabled').then(() => {
-            cy.wait(2000)
-            cy.xpath('/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div/div[4]/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/button[2]')
-              .click()
-            cy.get('#message-id-2').contains('Hello, World')
-          })
+          cy.contains('Send App').should('not.be.disabled')
+          cy.get('[data-cy=send-app-ContentShowcase]').click()
+          cy.get('#message-id-2').contains('Hello, World')
         })
       })
   })

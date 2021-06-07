@@ -36,10 +36,13 @@ export default function FilterMenu ({
               onClick={() => selectOption(option)}
               className={`w-full group flex items-center
               px-4 py-2 text-sm leading-5 text-gray-700
-              ${value === option.name ? 'bg-gray-100 text-gray-900' : ''}
+              ${value === option.name ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100 ' : ''}
               hover:bg-gray-100 hover:text-gray-900
               focus:outline-none focus:bg-gray-100
-              focus:text-gray-900`}
+              focus:text-gray-900
+              dark:hover:bg-gray-700 dark:hover:text-gray-100
+              dark:focus:bg-gray-800
+              `}
             >
               {
                 option.state === 'checked' &&
@@ -51,12 +54,12 @@ export default function FilterMenu ({
               {option.icon && <icon>{option.icon}</icon>}
 
               <div className="flex flex-col justify-between ml-2">
-                <span className="font-bold self-start">
+                <span className="font-bold self-start dark:text-gray-100">
                   {option.name || option.title}
                 </span>
 
                 {option.description && (
-                  <span className="text-xs text-left">
+                  <span className="text-xs text-left dark:text-gray-300">
                     {option.description}
                   </span>
                 )}

@@ -210,7 +210,7 @@ export default class SegmentItemButton extends Component {
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 text-gray-900 font-bold">
+            <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
               {I18n.t('segment_manager.filter_for', {name: this.props.predicate.attribute})}
             </h2>
           </div>
@@ -266,7 +266,7 @@ export default class SegmentItemButton extends Component {
       { label: I18n.t('segment_manager.ends_with'), value: 'contains_ends', defaultSelected: false },
       { label: I18n.t('segment_manager.contains'), value: 'contains', defaultSelected: false },
       {
-        label: I18n.t('segment_manager.does_not_contains'),
+        label: I18n.t('segment_manager.does_not_contain'),
         value: 'not_contains',
         defaultSelected: false
       },
@@ -278,7 +278,7 @@ export default class SegmentItemButton extends Component {
       <div>
         {
           <div className="p-2">
-            <h2 className="text-sm leading-5 text-gray-900 font-bold">
+            <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
               { I18n.t('segment_manager.filter_for', {name: this.props.predicate.attribute}) }
             </h2>
           </div>
@@ -300,7 +300,7 @@ export default class SegmentItemButton extends Component {
                         this.onRadioTypeChange(e.target, o)
                       }}
                     />
-                    <span className="ml-2 block text-sm leading-5 font-medium text-gray-700">
+                    <span className="ml-2 block text-sm leading-5 font-medium text-gray-700 dark:text-gray-100">
                       {o.label}
                     </span>
                   </label>
@@ -313,7 +313,11 @@ export default class SegmentItemButton extends Component {
                         defaultValue={this.props.predicate.value}
                         ref={(input) => (this.relative_input = input)}
                         className={
-                          'mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
+                          `mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input 
+                          block w-full transition duration-150 ease-in-out 
+                          sm:text-sm sm:leading-5
+                          dark:text-gray-100 dark:bg-gray-900
+                          `
                         }
                         label={'value'}
                         margin="normal"
@@ -373,7 +377,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900 font-bold">
+          <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
             { I18n.t('segment_manager.date_filter_for', {name: this.props.predicate.attribute}) }
           </h2>
         </div>
@@ -468,7 +472,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900 font-bold">
+          <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
             { I18n.t('segment_manager.integer_filter_for', {name: this.props.predicate.attribute}) }
           </h2>
         </div>
@@ -552,7 +556,7 @@ export default class SegmentItemButton extends Component {
     return (
       <div className="p-2">
         <div>
-          <h2 className="text-sm leading-5 text-gray-900 font-bold">
+          <h2 className="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">
             {I18n.t('segment_manager.match_criteria_for', {name:this.props.predicate.type })}
           </h2>
         </div>

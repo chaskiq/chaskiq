@@ -118,7 +118,7 @@ function CustomizationColors ({ app, update, _dispatch }) {
       <Hints type="tags" />
 
       <div className="flex items-center justify-between">
-        <p className="text-lg leading-6 font-medium  text-gray-900 py-4">
+        <p className="text-lg leading-6 font-medium  text-gray-900 dark:text-gray-100 py-4">
           {I18n.t('settings.tags.title')}
         </p>
 
@@ -181,14 +181,14 @@ function FieldsItems ({ primary, secondary, terciary }) {
       <ListItemText
         primary={
           <ItemListPrimaryContent variant="h5">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
               {primary}
             </h3>
           </ItemListPrimaryContent>
         }
         secondary={
           <ItemListSecondaryContent>
-            <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+            <p className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
               {secondary}
             </p>
           </ItemListSecondaryContent>

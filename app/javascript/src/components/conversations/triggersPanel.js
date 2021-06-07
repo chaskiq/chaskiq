@@ -74,11 +74,11 @@ function TriggersPanel (props) {
             </svg>
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
+            <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-headline">
               {I18n.t('conversation.editor.panels.bot.confirm', { title: o.title })}
             </h3>
             <div className="mt-2">
-              <p className="text-sm leading-5 text-gray-500">
+              <p className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                 {I18n.t('conversation.editor.panels.bot.confirm_msg')}
                 <Button size="xs" variant="success" onClick={() => setBotTask(null)}>
                   {I18n.t('conversation.editor.panels.bot.choose_another')}

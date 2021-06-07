@@ -10,17 +10,20 @@ import AcceptInvitation from './pages/auth/acceptInvitation'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import ZoomImage from './components/ImageZoomOverlay'
 import LoadingView from './components/loadingView'
+import Snackbar from './components/Alert'
+
 import {
   clearLocks
 } from './actions/upgradePages'
 
 function mapStateToProps (state) {
-  const { auth, current_user } = state
+  const { auth, current_user, theme } = state
   const { loading, isAuthenticated } = auth
   return {
     current_user,
     loading,
-    isAuthenticated
+    isAuthenticated,
+    theme
   }
 }
 
@@ -28,7 +31,8 @@ function AppRouter ({
   isAuthenticated,
   current_user,
   location,
-  dispatch
+  dispatch,
+  theme
 }) {
   const [reload, setReload] = React.useState(false)
 
@@ -52,9 +56,11 @@ function AppRouter ({
   }, [location.key])
 
   return (
-    <div>
+    <div className={`${theme}`}>
 
       <ZoomImage/>
+
+      <Snackbar />
 
       {
         reload && <LoadingView/>

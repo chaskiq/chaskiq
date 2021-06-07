@@ -1,4 +1,5 @@
 import React from 'react'
+import I18n from '../shared/FakeI18n'
 
 export default class ErrorBoundary extends React.Component {
   constructor (props) {
@@ -41,18 +42,23 @@ export default class ErrorBoundary extends React.Component {
   }
 
   renderVery () {
-    return <div className="bg-white">
+    return <div className="bg-white dark:bg-black">
       <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
-          <span className="block">Woops! something went wrong.</span>
-          <span className="block">Unfortunately 🤯</span>
+        <h2 className="text-3xl font-extrabold text-black dark:text-white sm:text-4xl">
+          <span className="block">{I18n.t('error_view.title')}</span>
+          <span className="block">{I18n.t('error_view.subtitle')}</span>
         </h2>
 
-        <p className="mt-4 text-lg leading-6 text-indigo-600">
-          try refreshing the page
+        <p className="mt-4 text-lg leading-6 text-indigo-600 dark:text-indigo-300">
+          {I18n.t('error_view.exp')}
         </p>
-        <a href="/" className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-800 sm:w-auto">
-          try to go home
+        <a href="/" className="mt-8 w-full inline-flex items-center 
+        justify-center px-5 py-3 border border-transparent text-base 
+        font-medium rounded-md 
+        bg-indigo-600 text-white hover:bg-indigo-800 
+        dark:bg-indigo-300 dark:text-black dark:hover:bg-indigo-100 
+        sm:w-auto">
+          {I18n.t('error_view.cta')}
         </a>
       </div>
     </div>

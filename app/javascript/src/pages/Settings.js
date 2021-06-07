@@ -254,7 +254,7 @@ class AppSettingsContainer extends Component {
             content: (
               <div className="py-4">
 
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
                   {I18n.t('email_forwarding.subtitle')}
                 </h3>
                 <div className="mt-2 max-w-xl text-sm text-gray-500">

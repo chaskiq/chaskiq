@@ -18,7 +18,7 @@ export default function Avatar ({ src, indicator, size, classes }) {
   return (
     <span className="inline-block relative">
       <img
-        className={`${sizeClassName(size)} rounded-full ${classes || ''}`}
+        className={`${sizeClassName(size)} rounded-full bg-white ${classes || ''}`}
         src={src}
         alt={src}
       />

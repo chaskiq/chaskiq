@@ -36,7 +36,7 @@ export default function PageHeader ({
                 {o.to && (
                   <Link
                     to={o.to}
-                    className="text-gray-600 hover:text-gray-700 focus:outline-none focus:underline transition duration-150 ease-in-out"
+                    className="dark:text-gray-100 dark:hover:text-gray-400 text-gray-600 hover:text-gray-700 focus:outline-none focus:underline transition duration-150 ease-in-out"
                   >
                     {o.title}
                   </Link>
@@ -65,7 +65,7 @@ export default function PageHeader ({
 
       <div className="mt-2 md:flex md:items-center md:justify-between">
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-gray-50 sm:text-3xl sm:leading-9 sm:truncate">
             {title}
           </h2>
         </div>
