@@ -8,7 +8,14 @@ import CampaignEditor from './campaigns/editor'
 
 import { isEmpty } from 'lodash'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import { 
+  client as graphql, 
+  queries, 
+  mutations, 
+  actions,
+  parseJwt,
+  generateJWT
+} from '@chaskiq/store'
 
 import {
   AnchorLink,
@@ -21,14 +28,13 @@ import {
   SegmentManager,
   DeleteDialog,
   CampaignStats,
-  parseJwt,
-  generateJWT,
   TourManager,
   ContentHeader,
   Content,
   EmptyView,
   FilterMenu,
   Badge,
+  userFormat,
   icons,
 } from '@chaskiq/components'
 
@@ -50,7 +56,6 @@ const {
   ClearAll,
   DeleteOutlineRounded,
   CopyContentIcon,
-  userFormat,
 } = icons
 
 import I18n from '../shared/FakeI18n'

@@ -42,11 +42,12 @@ const {
 } = actions
 
 import {
-  Sidebar,
   UserProfileCard,
   LoadingView,
   ErrorBoundary,
 } from '@chaskiq/components'
+
+import Sidebar from '../layout/sidebar'
 
 function AppContainer({
   match,

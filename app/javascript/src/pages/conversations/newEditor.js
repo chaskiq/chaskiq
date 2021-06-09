@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import TextEditor from '../textEditor'
 import {
   DanteImagePopoverConfig,
   DanteAnchorPopoverConfig,
@@ -9,32 +8,29 @@ import {
   Icons,
 } from 'Dante2'
 
+import TextEditor from  '@chaskiq/components/src/components/textEditor'
+
 import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
 
 const { html2content } = utils // from 'Dante2/package/es/utils/html2content.js'
 import { Map } from 'immutable'
 import { EditorState, convertToRaw } from 'draft-js' // { compose
 
-//import Icons from 'Dante2/package/es/components/icons.js'
+import styled from '@emotion/styled'
 
 import { ThemeProvider } from 'emotion-theming'
 
-import theme from '../textEditor/theme'
-import EditorContainer from '../textEditor/editorStyles'
-
-import styled from '@emotion/styled'
-
-import { AppPackageBlockConfig } from '../textEditor/blocks/appPackage'
-
-import { OnDemandTriggersBlockConfig } from '../textEditor/blocks/onDemandTriggers'
-
-import { QuickRepliesBlockConfig } from '../textEditor/blocks/quickReplies'
+import theme from '@chaskiq/components/src/components/textEditor/theme'
+import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles'
+import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage'
+import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers'
+import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/quickReplies'
+import { SendIcon } from '@chaskiq/components/src/components/icons'
 
 import AppPackagePanel from './appPackagePanel'
 import TriggersPanel from './triggersPanel'
 import QuickReplyPanel from './quickRepliesPanel'
 
-import { SendIcon } from '../icons'
 
 export const ArticlePad = styled.div`
   @media (max-width: 640px) {

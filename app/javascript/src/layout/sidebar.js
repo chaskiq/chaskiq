@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Tooltip from 'rc-tooltip'
-
-import icon from '../../../../src/images/favicon.png' // '../images/favicon.png'
-
+import icon from '../images/favicon.png'
 import {
   MoreIcon,
   WebhooksIcon,
@@ -33,17 +31,17 @@ import {
   AppSettingsIcon,
   DarkModeIcon,
   LightModeIcon,
-} from '../components/icons'
+} from '@chaskiq/components/src/components/icons'
 
-import SidebarAgents from '../components/conversations/SidebarAgents'
+import SidebarAgents from '../pages/conversations/SidebarAgents'
 
 import { client as graphql, mutations, actions } from '@chaskiq/store'
 
-import FilterMenu from '../components/FilterMenu'
-import WebSetup from '../components/webSetup'
-import LangChooser from '../components/LangChooser'
-import Toggle from '../components/forms/Toggle'
-import Badge from './Badge'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import WebSetup from '@chaskiq/components/src/components/webSetup'
+import LangChooser from '@chaskiq/components/src/components/LangChooser'
+import Toggle from '@chaskiq/components/src/components/forms/Toggle'
+import Badge from '@chaskiq/components/src/components/Badge'
 
 const { UPDATE_AGENT } = mutations
 
@@ -618,7 +616,7 @@ function Sidebar({
                         onClick: () => (window.location = '/agents/edit'),
                       },
                       {
-                        id: 'edit-profile',
+                        id: 'toggle-dark-mode',
                         title: (
                           <span className="flex space-x-2 items-center">
                             {theme === 'light' ? (

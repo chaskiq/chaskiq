@@ -5,14 +5,18 @@ import { connect } from 'react-redux'
 import {
   Button,
   SegmentManager,
-  parseJwt,
-  generateJWT,
   Input,
   userFormat,
   Hints
 } from '@chaskiq/components'
 
-import { client as graphql, mutations, actions } from '@chaskiq/store'
+import { 
+  client as graphql, 
+  mutations, 
+  actions,
+  parseJwt,
+  generateJWT
+} from '@chaskiq/store'
 
 const { toggleDrawer, getAppUser } = actions
 

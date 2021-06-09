@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Avatar from '../Avatar'
-import { FolderIcon, LabelIcon } from '../icons'
+import Avatar from '@chaskiq/components/src/components/Avatar'
+import { FolderIcon, LabelIcon } from '@chaskiq/components/src/components/icons'
 
 import { client as graphql, queries, actions } from '@chaskiq/store'
 

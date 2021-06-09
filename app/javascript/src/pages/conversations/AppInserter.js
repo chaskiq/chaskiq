@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '../Button'
 import arrayMove from 'array-move'
 import { connect } from 'react-redux'
 import {
@@ -10,9 +9,10 @@ import {
 
 import { client as graphql, queries } from '@chaskiq/store'
 
-import { QueueIcon, DeleteIcon } from '../icons'
-import { DefinitionRenderer } from '../packageBlocks/components'
-import InserterForm from '../packageBlocks/InserterForm'
+import Button from '@chaskiq/components/src/components/Button'
+import { QueueIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
+import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm'
 
 const { APP_PACKAGES_BY_CAPABILITY } = queries
 

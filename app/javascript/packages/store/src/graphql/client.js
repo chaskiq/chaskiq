@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { isObject, isEmpty } from 'lodash'
-import store from '../store'
+import store from '..'
 import { errorMessage } from '../actions/status_messages' //  '../actions/status_messages'
 import { lockPage } from '../actions/upgradePages'
 

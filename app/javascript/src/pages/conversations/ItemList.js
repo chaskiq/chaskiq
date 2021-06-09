@@ -1,12 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import sanitizeHtml from 'sanitize-html'
 import Moment from 'react-moment'
-import { LabelIcon } from '../icons'
-
 import { readableColor } from 'polished'
-
-window.readableColor = readableColor
+import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
+import { LabelIcon } from '@chaskiq/components/src/components/icons'
 
 export function textColor(color) {
   const lightReturnColor = '#121212'

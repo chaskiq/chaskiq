@@ -5,16 +5,24 @@ import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 
 import {
-  ConversationSearch,
+  //ConversationSearch,
   FilterMenu,
-  ConversationItemList,
-  AssignmentRules,
-  Conversation,
+  //ConversationItemList,
+  //AssignmentRules,
+  //Conversation,
   Progress,
   EmptyView,
   Button,
-  ConversationSidebar,
+  //ConversationSidebar,
 } from '@chaskiq/components'
+
+
+import ConversationSearch from './conversations/Search'
+import ConversationItemList from './conversations/ItemList'
+import AssignmentRules from './conversations/AssignmentRules'
+import Conversation from './conversations/Conversation'
+import ConversationSidebar from './conversations/Sidebar'
+
 
 import emptyImage from '../images/empty-icon8.png'
 import I18n from '../shared/FakeI18n'

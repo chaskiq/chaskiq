@@ -1,14 +1,15 @@
 import React from 'react'
-import FormDialog from '../FormDialog'
-import Button from '../Button'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import EditorContainer from '../textEditor/editorStyles'
-import DraftRenderer from '../textEditor/draftRenderer'
-import Tabs from '../Tabs'
 
-import { SeachIcon } from '../icons'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Button from '@chaskiq/components/src/components/Button'
+import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles'
+import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+
+import { SeachIcon } from '@chaskiq/components/src/components/icons'
 
 import { client as graphql, queries } from '@chaskiq/store'
 

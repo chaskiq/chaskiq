@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from '@emotion/styled'
-import { BannerRenderer } from '../../../packages/messenger/lib/client_messenger/Banner' //'../../../client_messenger/Banner'
+import { BannerRenderer } from '../../../packages/messenger/src/client_messenger/Banner' //'../../../client_messenger/Banner'
 
 import serialize from 'form-serialize'
 import I18n from '../../shared/FakeI18n'

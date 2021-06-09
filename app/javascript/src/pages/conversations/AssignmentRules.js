@@ -1,24 +1,24 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import FormDialog from '../FormDialog'
-import Button from '../Button'
-import { InlineFilterDialog } from '../segmentManager'
-import SegmentItemButton from '../segmentManager/itemButton'
-
-import defaultFields from '../../utils/defaultFields'
-import Input from '../forms/Input'
-import arrayMove from 'array-move'
-
-import serialize from 'form-serialize'
-import { QueueIcon } from '../icons'
-import PageHeader from '../PageHeader'
-
 import {
   sortableContainer,
   sortableElement,
   sortableHandle,
 } from 'react-sortable-hoc'
+
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Button from '@chaskiq/components/src/components/Button'
+import { InlineFilterDialog } from '@chaskiq/components/src/components/segmentManager'
+import SegmentItemButton from '@chaskiq/components/src/components/segmentManager/itemButton'
+
+import defaultFields from '@chaskiq/components/src/utils/defaultFields'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import arrayMove from 'array-move'
+
+import serialize from 'form-serialize'
+import { QueueIcon } from '@chaskiq/components/src/components/icons'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
 
 import { client as graphql, queries, mutations } from '@chaskiq/store'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import FormDialog from '../FormDialog'
-import Button from '../Button'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Button from '@chaskiq/components/src/components/Button'
 import { client as graphql, mutations, actions } from '@chaskiq/store'
 
 const { successMessage, errorMessage } = actions

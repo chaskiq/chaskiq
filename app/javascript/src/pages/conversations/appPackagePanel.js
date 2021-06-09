@@ -1,17 +1,14 @@
 import React from 'react'
-import FormDialog from '../../components/FormDialog'
-import Button from '../../components/Button'
-import Progress from '../../components/Progress'
-import ErrorBoundary from '../../components/ErrorBoundary'
-
 import { connect } from 'react-redux'
-
 import { client as graphql, queries } from '@chaskiq/store'
 
-import { DefinitionRenderer } from '../packageBlocks/components'
-
-import { getPackage } from '../packageBlocks/utils'
-import { AppList } from '../packageBlocks/AppList'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Button from '@chaskiq/components/src/components/Button'
+import Progress from '@chaskiq/components/src/components/Progress'
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
+import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
+import { AppList } from '@chaskiq/components/src/components/packageBlocks/AppList'
 
 const { APP_PACKAGES_BY_CAPABILITY } = queries
 

@@ -7,16 +7,16 @@ import Tooltip from 'rc-tooltip'
 
 import { last } from 'lodash'
 import Moment from 'react-moment'
-import { toCamelCase } from '../../utils/caseConverter'
+import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter'
 import ConversationEditor from './Editor.js'
-import Rtc from '../rtc'
-import Progress from '../Progress'
-import Button from '../Button'
+import Rtc from '@chaskiq/components/src/components/rtc'
+import Progress from '@chaskiq/components/src/components/Progress'
+import Button from '@chaskiq/components/src/components/Button'
 import tw from 'twin.macro'
-import { DefinitionRenderer } from '../packageBlocks/components'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
 import QuickRepliesDialog from './QuickReplyDialog'
-import ErrorBoundary from '../ErrorBoundary'
-import { getPackage } from '../packageBlocks/utils'
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
+import { getPackage } from  '@chaskiq/components/src/components/packageBlocks/utils'
 
 import {
   CheckmarkIcon,
@@ -26,16 +26,16 @@ import {
   Call,
   LabelIcon,
   MoreIcon,
-} from '../icons'
+} from '@chaskiq/components/src/components/icons'
 
-import FilterMenu from '../FilterMenu'
-import theme from '../textEditor/theme'
-import themeDark from '../textEditor/darkTheme'
-import EditorContainer from '../textEditor/editorStyles'
-import DraftRenderer from '../textEditor/draftRenderer'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import theme from '@chaskiq/components/src/components/textEditor/theme'
+import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme'
+import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles'
+import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer'
 import styled from '@emotion/styled'
-import RtcDisplayWrapper from '../rtcView' // './RtcWrapper'
-import TagDialog from '../TagDialog'
+import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView' // './RtcWrapper'
+import TagDialog from '@chaskiq/components/src/components/TagDialog'
 import AppPackagePanel from './appPackagePanel'
 
 import { client as graphql, queries, actions } from '@chaskiq/store'

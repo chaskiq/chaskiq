@@ -2,16 +2,13 @@ import React from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
-import { LabelIcon, LeftArrow } from '../icons'
-import AppInserter from './AppInserter'
-import Button from '../Button'
-import ErrorBoundary from '../ErrorBoundary'
-
-import { DefinitionRenderer } from '../packageBlocks/components'
-
-import { getPackage } from '../packageBlocks/utils'
-
+import { LabelIcon, LeftArrow } from '@chaskiq/components/src/components/icons'
+import Button from '@chaskiq/components/src/components/Button'
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
+import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
 import { actions } from '@chaskiq/store'
+import AppInserter from './AppInserter'
 
 const { updateApp } = actions
 

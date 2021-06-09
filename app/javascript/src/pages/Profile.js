@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import styled from '@emotion/styled'
 import { isEmpty } from 'lodash'
 
-import sanitizeHtml from 'sanitize-html'
-
 import {
   UserData,
   DialogEditor,
@@ -21,6 +19,9 @@ import {
 } from '@chaskiq/components'
 
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+
+import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
+//require('sanitize-html')
 
 const { setCurrentSection, getAppUser } = actions
 

@@ -4,14 +4,18 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import {
-  parseJwt,
-  generateJWT,
   SegmentManager,
   Button,
   userFormat,
 } from '@chaskiq/components'
 
-import { client as graphql, mutations, actions } from '@chaskiq/store'
+import { 
+  client as graphql, 
+  mutations, 
+  actions,
+  parseJwt,
+  generateJWT
+} from '@chaskiq/store'
 
 const { toggleDrawer, getAppUser } = actions
 

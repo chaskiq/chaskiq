@@ -1,10 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import FormDialog from '../FormDialog'
-import { SeachIcon } from '../icons'
-import Button from '../Button'
-import SearchInput from '../SearchInput'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import { SeachIcon } from '@chaskiq/components/src/components/icons'
+import Button from '@chaskiq/components/src/components/Button'
+import SearchInput from '@chaskiq/components/src/components/SearchInput'
 
 import { actions } from '@chaskiq/store'
 

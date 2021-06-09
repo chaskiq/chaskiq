@@ -11,6 +11,11 @@ import auth, {
 } from './actions/auth'
 import app, { clearApp, setApp } from './actions/app'
 
+import {
+  parseJwt,
+  generateJWT
+} from './jwt'
+
 import segment, {
   dispatchSegmentUpdate,
   fetchAppSegment,
@@ -187,4 +192,13 @@ const actions = {
   upgradePages,
 }
 
-export { client, docsQueries, fragments, mutations, queries, actions }
+export { 
+  client, 
+  docsQueries, 
+  fragments,
+  mutations, 
+  queries, 
+  actions,
+  parseJwt,
+  generateJWT
+}

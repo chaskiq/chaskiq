@@ -16,8 +16,9 @@ import {
   directUpload
 } from '@chaskiq/components'
 
-import sanitizeHtml from 'sanitize-html'
+import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 
+//import sanitizeHtml from 'sanitize-html'
 const { EditIcon, MoreIcon } = icons
 
 const {
