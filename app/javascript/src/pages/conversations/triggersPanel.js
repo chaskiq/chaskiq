@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 
 import { client as graphql, queries, mutations } from '@chaskiq/store'
 
-import { FormDialog, Button } from '@chaskiq/components'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Button from '@chaskiq/components/src/components/Button'
 
 const { BOT_TASKS } = queries
 

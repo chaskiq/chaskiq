@@ -12,7 +12,10 @@ import timezones from '../shared/timezones'
 import { client as graphql, queries, mutations, 
   actions } from '@chaskiq/store'
 
-import { Content, Tabs, ContentHeader, getFileMetadata, directUpload } from '@chaskiq/components'
+import Content from '@chaskiq/components/src/components/Content'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import { getFileMetadata, directUpload } from '@chaskiq/components/src/components/fileUploader'
 
 const { setCurrentPage, setCurrentSection, updateApp } = actions
 const { APP } = queries

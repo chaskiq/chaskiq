@@ -7,16 +7,14 @@ import I18n from '../../shared/FakeI18n'
 
 import { client as graphql, queries, mutations } from '@chaskiq/store'
 
+import TextEditor from '@chaskiq/components/src/components/textEditor'
+import Button from '@chaskiq/components/src/components/Button'
+import Badge from '@chaskiq/components/src/components/Badge'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import BrowserSimulator from '@chaskiq/components/src/components/BrowserSimulator'
 import {
-  TextEditor,
-  Button,
-  Badge,
-  Input,
-  BrowserSimulator,
-  icons,
-} from '@chaskiq/components'
-
-const { VisibilityRounded } = icons
+  VisibilityRounded
+} from '@chaskiq/components/src/components/icons'
 
 const { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } = mutations
 const { AGENTS } = queries

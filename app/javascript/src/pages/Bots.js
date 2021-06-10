@@ -9,19 +9,17 @@ import BotEditor from './bots/editor'
 
 import SettingsForm from './bots/settings'
 
-import {
-  AnchorLink,
-  FormDialog,
-  Badge,
-  EmptyView,
-  DeleteDialog,
-  FilterMenu,
-  Button,
-  Input,
-  ContentHeader,
-  Content,
-  Table,
-} from '@chaskiq/components'
+import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Badge from '@chaskiq/components/src/components/Badge'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import Table from '@chaskiq/components/src/components/Table'
 
 const { successMessage, errorMessage, setCurrentSection, setCurrentPage } =
   actions

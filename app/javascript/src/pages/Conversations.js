@@ -4,18 +4,10 @@ import { Switch, Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
 
-import {
-  //ConversationSearch,
-  FilterMenu,
-  //ConversationItemList,
-  //AssignmentRules,
-  //Conversation,
-  Progress,
-  EmptyView,
-  Button,
-  //ConversationSidebar,
-} from '@chaskiq/components'
-
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Progress from '@chaskiq/components/src/components/Progress'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import Button from '@chaskiq/components/src/components/Button'
 
 import ConversationSearch from './conversations/Search'
 import ConversationItemList from './conversations/ItemList'

@@ -9,7 +9,7 @@ import Docs from '@chaskiq/docs' //'./pages/docs'
 
 import { Provider } from 'react-redux'
 import store from '@chaskiq/store'
-import { ErrorBoundary } from '@chaskiq/components'
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
 
 function App() {
   const host = document

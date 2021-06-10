@@ -3,22 +3,20 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import serialize from 'form-serialize'
 
-import {
-  Hints,
-  List,
-  ListItem,
-  ListItemText,
+import Hints from '@chaskiq/components/src/components/Hints'
+import List, {
+  ListItem, 
+  ListItemText, 
   ItemListPrimaryContent,
-  ItemListSecondaryContent,
-  Button,
-  FormDialog,
-  UpgradeButton,
-  Input,
-  defaultFields,
-  icons,
-} from '@chaskiq/components'
+  ItemListSecondaryContent 
+} from '@chaskiq/components/src/components/List'
+import Button from '@chaskiq/components/src/components/Button'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import defaultFields from '@chaskiq/components/src/utils/defaultFields'
+import { DeleteIcon, PlusIcon, EditIcon } from '@chaskiq/components/src/components/icons'
 
-const { DeleteIcon, PlusIcon, EditIcon } = icons
 
 function UserDataFields({ app, _settings, update, _dispatch }) {
   const [fields, setFields] = useState(app.customFields || [])

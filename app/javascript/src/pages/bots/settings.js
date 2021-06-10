@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
-import {
-  Button,
-  Tabs,
-  ContentHeader,
-  Content,
-  Input,
-} from '@chaskiq/components'
+import Button from '@chaskiq/components/src/components/Button'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import Input from '@chaskiq/components/src/components/forms/Input'
 
 import I18n from '../../shared/FakeI18n'
 

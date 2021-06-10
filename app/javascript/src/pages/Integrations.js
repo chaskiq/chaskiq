@@ -4,26 +4,26 @@ import Tooltip from 'rc-tooltip'
 import { isEmpty } from 'lodash'
 import I18n from '../shared/FakeI18n'
 
-import {
-  Hints,
-  Progress,
-  Content,
-  FormDialog,
-  DeleteDialog,
-  Tabs,
-  PageHeader,
-  Button,
-  Badge,
-  FieldRenderer,
-  Avatar,
-  List,
-  ListItem,
-  ListItemText,
-  ItemListPrimaryContent,
-  ItemListSecondaryContent,
-  ItemAvatar,
-  icons,
-} from '@chaskiq/components'
+import Hints from '@chaskiq/components/src/components/Hints'
+import Progress from '@chaskiq/components/src/components/Progress'
+import Content from '@chaskiq/components/src/components/Content'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Button from '@chaskiq/components/src/components/Button'
+import Badge from '@chaskiq/components/src/components/Badge'
+import FieldRenderer from '@chaskiq/components/src/components/forms/Input'
+import Avatar from '@chaskiq/components/src/components/Avatar'
+import List, { 
+  ListItem, 
+  ListItemText, 
+  ItemListPrimaryContent, 
+  ItemListSecondaryContent, 
+  ItemAvatar
+} from '@chaskiq/components/src/components/List'
+import { EditIcon, AddIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
+
 
 import logos from '../shared/logos'
 
@@ -33,7 +33,6 @@ import serialize from 'form-serialize'
 
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
-const { EditIcon, AddIcon, DeleteIcon } = icons
 
 const {
   errorMessage,

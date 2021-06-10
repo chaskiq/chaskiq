@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import I18n from '../../shared/FakeI18n'
 import Tooltip from 'rc-tooltip'
 
-import { Button, Input, Hints, icons } from '@chaskiq/components'
-
-const { PlusIcon, DeleteIcon } = icons
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import Hints from '@chaskiq/components/src/components/Hints'
+import { PlusIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
 
 export default function LanguageForm({
   settings,

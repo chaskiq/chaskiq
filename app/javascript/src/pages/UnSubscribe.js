@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button, CircularProgress } from '@chaskiq/components'
+import Button from '@chaskiq/components/src/components/Button'
+import CircularProgress from '@chaskiq/components/src/components/Progress'
 import I18n from '../shared/FakeI18n'
 
 import { client as graphql, queries } from '@chaskiq/store'

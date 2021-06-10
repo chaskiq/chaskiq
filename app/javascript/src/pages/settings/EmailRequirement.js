@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
-import { Button, Input, Hints } from '@chaskiq/components'
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import Hints from '@chaskiq/components/src/components/Hints'
 
 export default function EmailRequirement({ settings, update }) {
   const [value, setValue] = useState(settings.emailRequirement)

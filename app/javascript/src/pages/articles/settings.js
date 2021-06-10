@@ -8,21 +8,17 @@ import { connect } from 'react-redux'
 import serialize from 'form-serialize'
 import langsOptions from '../../shared/langsOptions'
 
-import {
-  toSnakeCase,
-  DeleteDialog,
-  ContentHeader,
-  Tabs,
-  Button,
-  Table,
-  FormDialog,
-  Input,
-  FieldRenderer,
-  gridClasses,
-  UpgradeButton,
-  getFileMetadata, 
-  directUpload
-} from '@chaskiq/components'
+import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import Button from '@chaskiq/components/src/components/Button'
+import Table from '@chaskiq/components/src/components/Table'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer'
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader'
 
 import { client as graphql, mutations, actions } from '@chaskiq/store'
 

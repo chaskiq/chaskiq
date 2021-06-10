@@ -9,14 +9,14 @@
   "author": "michelson <miguelmichelson@gmail.com>",
   "homepage": "https://github.com/chaskiq/chaskiq",
   "license": "AGPL-3.0-or-later",
-  "main": "lib/components.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "dist/components.js",
+  "umd": "dist/components.umd.js",
+  "module": "dist/components.esm.js",
   "files": [
-    "lib"
+    "src",
+    "dist"
   ],
+
   "publishConfig": {
     "access": "public"
   },

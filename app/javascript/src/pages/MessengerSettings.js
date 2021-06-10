@@ -3,7 +3,10 @@ import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
-import { Content, ContentHeader, Tabs, getFileMetadata, directUpload } from '@chaskiq/components'
+import Content from '@chaskiq/components/src/components/Content' 
+import ContentHeader from '@chaskiq/components/src/components/PageHeader' 
+import Tabs from '@chaskiq/components/src/components/Tabs' 
+import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader' 
 
 import SettingsForm from './settings/form'
 import AvailabilitySettings from './settings/Availability'

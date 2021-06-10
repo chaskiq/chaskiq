@@ -9,7 +9,10 @@ import styled from '@emotion/styled'
 
 import { client as graphql, queries, actions } from '@chaskiq/store'
 
-import { LoadingView, Badge, Card } from '@chaskiq/components'
+import LoadingView from '@chaskiq/components/src/components/loadingView' 
+import Badge from '@chaskiq/components/src/components/Badge' 
+import Card from '@chaskiq/components/src/components/Card'
+
 import { connect } from 'react-redux'
 import logo from '../images/favicon.png'
 

@@ -5,7 +5,9 @@ import axios from 'axios'
 import logo from '../../images/logo.png'
 import queryString from 'query-string'
 
-import { Button, TextField, Snackbar } from '@chaskiq/components'
+import Button from '@chaskiq/components/src/components/Button'
+import TextField from '@chaskiq/components/src/components/forms/Input'
+import Snackbar from '@chaskiq/components/src/components/Alert'
 
 import { actions } from '@chaskiq/store'
 

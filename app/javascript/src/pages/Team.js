@@ -4,19 +4,16 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
 
-import {
-  PageHeader,
-  Content,
-  Tabs,
-  Progress,
-  DataTable,
-  Input,
-  Button,
-  FieldRenderer,
-  gridClasses,
-  Badge,
-  FormDialog,
-} from '@chaskiq/components'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import Progress from '@chaskiq/components/src/components/Progress'
+import DataTable from '@chaskiq/components/src/components/Table'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import Button from '@chaskiq/components/src/components/Button'
+import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer'
+import Badge from '@chaskiq/components/src/components/Badge'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
 
 import serialize from 'form-serialize'
 

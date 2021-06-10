@@ -4,27 +4,28 @@ import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
-import {
-  Hints,
-  UpgradeButton,
-  Content,
-  PageHeader,
-  Tabs,
-  Panel,
-  DeleteDialog,
-  EmptyView,
-  FormDialog,
-  Button,
-  Badge,
-  FieldRenderer,
-  gridClasses,
-  List,
-  ListItem,
-  ListItemText,
+import Hints from '@chaskiq/components/src/components/Hints'
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+import Content from '@chaskiq/components/src/components/Content'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import Panel from '@chaskiq/components/src/components/Panel'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Button from '@chaskiq/components/src/components/Button'
+import Badge from '@chaskiq/components/src/components/Badge'
+import FieldRenderer, {
+  gridClasses
+} from '@chaskiq/components/src/components/forms/FieldRenderer'
+import List, {
+  ListItem, 
+  ListItemText, 
   ItemListPrimaryContent,
-  ItemListSecondaryContent,
-  icons,
-} from '@chaskiq/components'
+  ItemListSecondaryContent
+} from '@chaskiq/components/src/components/List'
+
+import { EditIcon, AddIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
 
 import I18n from '../shared/FakeI18n'
 
@@ -39,8 +40,6 @@ const {
   setCurrentSection,
   camelizeKeys,
 } = actions
-
-const { EditIcon, AddIcon, DeleteIcon } = icons
 
 const { EVENT_TYPES, OUTGOING_WEBHOOKS } = queries
 const { WEBHOOK_CREATE, WEBHOOK_UPDATE, WEBHOOK_DELETE } = mutations

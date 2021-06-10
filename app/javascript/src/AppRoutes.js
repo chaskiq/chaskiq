@@ -9,7 +9,9 @@ import UnSubscribe from './pages/UnSubscribe'
 import AcceptInvitation from './pages/auth/acceptInvitation'
 import { Switch, Route, withRouter } from 'react-router-dom'
 
-import { ZoomImage, LoadingView, Snackbar } from '@chaskiq/components'
+import ZoomImage from '@chaskiq/components/src/components/ImageZoomOverlay' 
+import LoadingView from '@chaskiq/components/src/components/loadingView' 
+import Snackbar from '@chaskiq/components/src/components/Alert'
 
 import { actions } from '@chaskiq/store'
 

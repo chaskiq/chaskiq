@@ -14,18 +14,15 @@ import {
 } from 'react-router-dom'
 import serialize from 'form-serialize'
 
-import {
-  FieldRenderer,
-  gridClasses,
-  FormDialog,
-  PageHeader,
-  Content,
-  Tabs,
-  Progress,
-  DataTable,
-  Button,
-  DeleteDialog,
-} from '@chaskiq/components'
+import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer' 
+import FormDialog from '@chaskiq/components/src/components/FormDialog' 
+import PageHeader from '@chaskiq/components/src/components/PageHeader' 
+import Content from '@chaskiq/components/src/components/Content' 
+import Tabs from '@chaskiq/components/src/components/Tabs' 
+import Progress from '@chaskiq/components/src/components/Progress' 
+import DataTable from '@chaskiq/components/src/components/Table' 
+import Button from '@chaskiq/components/src/components/Button' 
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog' 
 
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 

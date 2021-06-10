@@ -3,14 +3,12 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  Hints,
-  TextEditor,
-  Button,
-  EmptyView,
-  DeleteDialog,
-  Tabs,
-} from '@chaskiq/components'
+import Hints from '@chaskiq/components/src/components/Hints'
+import TextEditor from '@chaskiq/components/src/components/textEditor'
+import Button from '@chaskiq/components/src/components/Button'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import Tabs from '@chaskiq/components/src/components/Tabs'
 
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 

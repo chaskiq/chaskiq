@@ -12,13 +12,12 @@
   "author": "michelson <miguelmichelson@gmail.com>",
   "homepage": "https://chaskiq.io",
   "license": "AGPL-3.0-or-later",
-  "main": "lib/docs.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "dist/docs.js",
+  "umd": "dist/docs.umd.js",
+  "module": "dist/docs.esm.js",
   "files": [
-    "lib"
+    "src",
+    "dist"
   ],
   "publishConfig": {
     "access": "public"

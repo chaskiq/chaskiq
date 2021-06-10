@@ -16,22 +16,21 @@ import CollectionDetail from './articles/collections/show'
 const { errorMessage, successMessage, setCurrentSection, setCurrentPage } =
   actions
 
+import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import Hints from '@chaskiq/components/src/components/Hints'
+import DataTable from '@chaskiq/components/src/components/Table'
+import Badge from '@chaskiq/components/src/components/Badge'
+import Content from '@chaskiq/components/src/components/Content'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import Button from '@chaskiq/components/src/components/Button'
+import CircularProgress from '@chaskiq/components/src/components/Progress'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
 import {
-  AnchorLink,
-  Hints,
-  DataTable,
-  Badge,
-  Content,
-  ContentHeader,
-  Tabs,
-  Button,
-  CircularProgress,
-  DeleteDialog,
-  ScrollableTabsButtonForce,
-  icons,
-} from '@chaskiq/components'
+  AddIcon, GestureIcon, CheckCircleIcon
+} from '@chaskiq/components/src/components/icons'
 
-const { AddIcon, GestureIcon, CheckCircleIcon } = icons
 
 const { ARTICLES, ARTICLE_SETTINGS } = queries
 const {

@@ -25,7 +25,8 @@ import UpgradePage from './UpgradePage'
 
 import actioncable from 'actioncable'
 import CampaignHome from './campaigns/home'
-import { Progress, UserSlide } from '@chaskiq/components'
+import Progress from '@chaskiq/components/src/components/Progress'
+import UserSlide from '@chaskiq/components/src/components/UserSlide'
 
 import { actions } from '@chaskiq/store'
 
@@ -41,11 +42,10 @@ const {
   toggleDrawer,
 } = actions
 
-import {
-  UserProfileCard,
-  LoadingView,
-  ErrorBoundary,
-} from '@chaskiq/components'
+
+import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard'
+import LoadingView from '@chaskiq/components/src/components/loadingView'
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
 
 import Sidebar from '../layout/sidebar'
 

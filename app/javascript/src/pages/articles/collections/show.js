@@ -2,19 +2,19 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  Button,
-  TextField,
-  List,
+import Button from '@chaskiq/components/src/components/Button'
+import TextField from '@chaskiq/components/src/components/forms/Input'
+import List,
+  {
   ListItem,
-  ListItemText,
-  CircularProgress,
-  Input,
-  ContentHeader,
-  FormDialog,
-  ScrollableTabsButtonForce,
-  AnchorLink
-} from '@chaskiq/components'
+  ListItemText
+} from '@chaskiq/components/src/components/List'
+import CircularProgress from '@chaskiq/components/src/components/Progress'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
+import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
 
 import langs from '../../../shared/langsOptions'
 import Dnd from './dnd'

@@ -8,18 +8,14 @@ import {
   sortableHandle,
 } from 'react-sortable-hoc'
 
+import Button from '@chaskiq/components/src/components/Button'
+import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm'
+import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
+import {QueueIcon, DeleteIcon} from '@chaskiq/components/src/components/icons'
+
 import { client as graphql, queries } from '@chaskiq/store'
 
-import {
-  Button,
-  InserterForm,
-  DefinitionRenderer,
-  icons,
-} from '@chaskiq/components'
-
 const { APP_PACKAGES_BY_CAPABILITY } = queries
-
-const { QueueIcon, DeleteIcon } = icons
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>

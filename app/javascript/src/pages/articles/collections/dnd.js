@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import { Button, ListItem, ItemAvatar, ListItemText, AnchorLink } from '@chaskiq/components'
+import Button from '@chaskiq/components/src/components/Button'
+import {ListItem, ItemAvatar, ListItemText} from '@chaskiq/components/src/components/List' 
+import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list)

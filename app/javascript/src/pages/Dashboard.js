@@ -4,15 +4,13 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import I18n from '../shared/FakeI18n'
 
-import {
-  Content,
-  PageHeader,
-  Progress,
-  HeatMap,
-  Pie,
-  Count,
-  DashboardCard,
-} from '@chaskiq/components'
+import Content from '@chaskiq/components/src/components/Content'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Progress from '@chaskiq/components/src/components/Progress'
+import HeatMap from '@chaskiq/components/src/components/charts/heatMap'
+import Pie from '@chaskiq/components/src/components/charts/pie'
+import Count from '@chaskiq/components/src/components/charts/count'
+import DashboardCard from '@chaskiq/components/src/components/dashboard/card'
 
 import { client as graphql, queries, actions } from '@chaskiq/store'
 

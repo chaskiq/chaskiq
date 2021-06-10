@@ -3,12 +3,10 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 
-import {
-  ContentHeader,
-  Content,
-  Tabs,
-  CircularProgress,
-} from '@chaskiq/components'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import CircularProgress from '@chaskiq/components/src/components/Progress'
 
 import { client as graphql, queries, actions } from '@chaskiq/store'
 

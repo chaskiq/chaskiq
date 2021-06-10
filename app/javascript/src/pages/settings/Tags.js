@@ -5,20 +5,17 @@ import { connect } from 'react-redux'
 
 import serialize from 'form-serialize'
 
-import {
-  Hints,
-  Button,
-  FormDialog,
-  List,
+import Hints from '@chaskiq/components/src/components/Hints'
+import Button from '@chaskiq/components/src/components/Button'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent,
-  Input,
-  icons,
-} from '@chaskiq/components'
-
-const { DeleteIcon, PlusIcon, EditIcon } = icons
+  ItemListSecondaryContent
+} from '@chaskiq/components/src/components/List'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import { DeleteIcon, PlusIcon, EditIcon } from '@chaskiq/components/src/components/icons'
 
 function CustomizationColors({ app, update, _dispatch }) {
   const [fields, setFields] = useState(app.tagList || [])

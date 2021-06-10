@@ -10,6 +10,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import babel from '@rollup/plugin-babel'
 import sizes from '@atomico/rollup-plugin-sizes'
 import autoExternal from 'rollup-plugin-auto-external'
+import multiInput from 'rollup-plugin-multi-input';
 import css from "rollup-plugin-import-css";
 import json from "@rollup/plugin-json";
 import image from '@rollup/plugin-image';
@@ -19,7 +20,7 @@ async function getSortedPackages(scope, ignore) {
   const filtered = filterPackages(packages, scope, ignore, false)
 
   return batchPackages(filtered)
-    .filter(item => item.name !== '@chaskiq/docs')
+    .filter(item => item.name !== '@chaskiq/do')
     .reduce((arr, batch) => arr.concat(batch), [])
 }
 
@@ -90,23 +91,25 @@ async function build(commandLineArgs) {
         },
       ],
       plugins: [
-        autoExternal({
-          packagePath: [path.join(basePath, 'package.json'), './package.json'],
-        }),
-        ...basePlugins,
-        //typescript({
-        //  tsconfigOverride: {
-        //    compilerOptions: {
-        //      declaration: true,
-        //      paths: {
-        //        '@chaskiq/*': ['packages/*/src'],
-        //      },
-        //    },
-        //    include: null,
-        //  },
+        //autoExternal({
+        //  packagePath: [path.join(basePath, 'package.json'), './package.json'],
         //}),
+        ...basePlugins,
       ],
     })
+
+    // an additional multi output
+    config.push(
+      {
+        input: [path.join(basePath, "/src/**/*.js")],
+        output: {
+          format: 'esm',
+          dir: path.join(basePath, "/dist/esm"),
+        },
+        plugins: [ multiInput(), ...basePlugins]
+      },
+    )
+
   })
 
   return config

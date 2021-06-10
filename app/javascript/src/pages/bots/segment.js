@@ -3,11 +3,10 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  SegmentManager,
-  Button,
-  userFormat,
-} from '@chaskiq/components'
+
+import SegmentManager from '@chaskiq/components/src/components/segmentManager'
+import Button from '@chaskiq/components/src/components/Button'
+import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 
 import { 
   client as graphql, 

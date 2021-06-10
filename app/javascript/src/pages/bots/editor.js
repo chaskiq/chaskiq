@@ -7,27 +7,32 @@ import styled from '@emotion/styled'
 import Segment from './segment'
 import BotTaskSetting from './taskSettings'
 
+import TextEditor from '@chaskiq/components/src/components/textEditor'
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+import InplaceInputEditor from '@chaskiq/components/src/components/InplaceInputEditor'
+import SwitchControl from '@chaskiq/components/src/components/Switch'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import Dropdown from '@chaskiq/components/src/components/Dropdown'
+import Button from '@chaskiq/components/src/components/Button'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
+import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
+import Stats from '@chaskiq/components/src/components/stats'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import {
-  TextEditor,
-  UpgradeButton,
-  InplaceInputEditor,
-  SwitchControl,
-  ContentHeader,
-  Content,
-  FormDialog,
-  Input,
-  Dropdown,
-  Button,
-  Tabs,
-  ErrorBoundary,
-  DefinitionRenderer,
-  Stats,
-  AppPackagePanel,
-  FilterMenu,
-  icons,
-  List,
-  ListItem,
-} from '@chaskiq/components'
+  PlusIcon,
+  DragHandle,
+  DeleteForever,
+  CopyContentIcon,
+  DeleteForeverRounded,
+} from '@chaskiq/components/src/components/icons'
+
+import List, {ListItem} from '@chaskiq/components/src/components/List'
+
+import AppPackagePanel from '../conversations/appPackagePanel'
 
 import { isEmpty } from 'lodash'
 
@@ -35,16 +40,6 @@ import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
 const { errorMessage, successMessage, setCurrentSection, setCurrentPage } =
   actions
-
-const {
-  PlusIcon,
-  DragHandle,
-  DeleteForever,
-  CopyContentIcon,
-  // RemoveCircle ,
-  DeleteForeverRounded,
-} = icons
-
 const { BOT_TASK, AGENTS, BOT_TASK_METRICS } = queries
 const { UPDATE_BOT_TASK, CLONE_MESSAGE } = mutations
 

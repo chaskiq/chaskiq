@@ -17,26 +17,23 @@ import {
   generateJWT
 } from '@chaskiq/store'
 
-import {
-  AnchorLink,
-  SwitchControl,
-  Table,
-  Tabs,
-  Button,
-  CircularProgress,
-  UpgradeButton,
-  SegmentManager,
-  DeleteDialog,
-  CampaignStats,
-  TourManager,
-  ContentHeader,
-  Content,
-  EmptyView,
-  FilterMenu,
-  Badge,
-  userFormat,
-  icons,
-} from '@chaskiq/components'
+import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import SwitchControl from '@chaskiq/components/src/components/Switch'
+import Table from '@chaskiq/components/src/components/Table'
+import Tabs from '@chaskiq/components/src/components/Table'
+import Button from '@chaskiq/components/src/components/Button'
+import CircularProgress from '@chaskiq/components/src/components/Progress'
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+import SegmentManager from '@chaskiq/components/src/components/segmentManager'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import CampaignStats from '@chaskiq/components/src/components/stats'
+import TourManager from '@chaskiq/components/src/components/Tour'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Badge from '@chaskiq/components/src/components/Badge'
+import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 
 const {
   getAppUser,
@@ -47,7 +44,7 @@ const {
   successMessage,
 } = actions
 
-const {
+import {
   Pause,
   SendIcon,
   EmailIcon,
@@ -56,7 +53,7 @@ const {
   ClearAll,
   DeleteOutlineRounded,
   CopyContentIcon,
-} = icons
+} from '@chaskiq/components/src/components/icons'
 
 import I18n from '../shared/FakeI18n'
 

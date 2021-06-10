@@ -3,23 +3,23 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
 
+import Button from '@chaskiq/components/src/components/Button'
+import Avatar from '@chaskiq/components/src/components/Avatar'
+import TextField from '@chaskiq/components/src/components/forms/Input'
+import Content from '@chaskiq/components/src/components/Content'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import { EditIcon, MoreIcon } from '@chaskiq/components/src/components/icons'
 import {
-  Button,
-  Avatar,
-  TextField,
-  Content,
-  UserListItem,
-  DialogEditor,
-  FilterMenu,
-  icons,
-  getFileMetadata, 
-  directUpload
-} from '@chaskiq/components'
+  directUpload, 
+  getFileMetadata
+} from '@chaskiq/components/src/components/fileUploader'
+
+import DialogEditor from './conversations/DialogEditor'
+import UserListItem from './conversations/ItemList'
+
 
 import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
-
 //import sanitizeHtml from 'sanitize-html'
-const { EditIcon, MoreIcon } = icons
 
 const {
   CREATE_DIRECT_UPLOAD,

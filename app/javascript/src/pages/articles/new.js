@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  Avatar,
-  Button,
-  DropdownButton,
-  Input,
-  ContentHeader,
-  FilterMenu,
-  Tabs,
-  icons,
-} from '@chaskiq/components'
+
+import Avatar from '@chaskiq/components/src/components/Avatar'
+import Button from '@chaskiq/components/src/components/Button'
+import DropdownButton from '@chaskiq/components/src/components/Dropdown'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import { 
+  GestureIcon, CheckCircle
+} from '@chaskiq/components/src/components/icons'
 
 import ArticleEditor from './editor'
 
@@ -19,8 +20,6 @@ import langs from '../../shared/langsOptions'
 import I18n from '../../shared/FakeI18n'
 
 import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
-
-const { GestureIcon, CheckCircle } = icons
 
 const { setCurrentSection, setCurrentPage, successMessage } = actions
 

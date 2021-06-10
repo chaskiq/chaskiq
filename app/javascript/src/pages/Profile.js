@@ -5,27 +5,28 @@ import { connect } from 'react-redux'
 import styled from '@emotion/styled'
 import { isEmpty } from 'lodash'
 
-import {
-  UserData,
-  DialogEditor,
-  Mapa,
-  Button,
-  Avatar,
-  DataTable,
-  FilterMenu,
-  CircularProgress,
-  TextField,
-  icons,
-} from '@chaskiq/components'
+import UserData from '@chaskiq/components/src/components/UserData'
+import Mapa from '@chaskiq/components/src/components/map'
+import Button from '@chaskiq/components/src/components/Button'
+import Avatar from '@chaskiq/components/src/components/Avatar'
+import DataTable from '@chaskiq/components/src/components/Table'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import CircularProgress from '@chaskiq/components/src/components/Progress'
+import TextField from '@chaskiq/components/src/components/forms/Input'
+import { 
+  EditIcon, 
+  ArchiveIcon, 
+  BlockIcon, 
+  UnsubscribeIcon,
+  MoreIcon 
+} from '@chaskiq/components/src/components/icons'
 
 import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
-
+import DialogEditor from './conversations/DialogEditor'
 import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 //require('sanitize-html')
 
 const { setCurrentSection, getAppUser } = actions
-
-const { EditIcon, ArchiveIcon, BlockIcon, UnsubscribeIcon, MoreIcon } = icons
 
 const { APP_USER_CONVERSATIONS, APP_USER_VISITS } = queries
 

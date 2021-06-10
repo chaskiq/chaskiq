@@ -2,7 +2,9 @@ import React from 'react'
 import Prism from 'prismjs'
 import { connect } from 'react-redux'
 
-import { FilterMenu, Button, Input } from '@chaskiq/components'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
 
 function VerificationView({ app }) {
   const [currentLang, setCurrentLang] = React.useState('ruby')

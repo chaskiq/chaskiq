@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  Button,
-  TextField,
-  ContentHeader,
-  FormDialog,
-  ScrollableTabsButtonForce,
-  Table,
-  getFileMetadata, directUpload
-} from '@chaskiq/components'
+import Button from '@chaskiq/components/src/components/Button'
+import TextField from '@chaskiq/components/src/components/forms/Input'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
+import Table from '@chaskiq/components/src/components/Table'
+import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader'
 
 import { arrayMove } from 'react-sortable-hoc'
 import langs from '../../../shared/langsOptions'

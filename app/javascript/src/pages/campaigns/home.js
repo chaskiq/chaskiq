@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Content, EmptyView } from '@chaskiq/components'
+import Content from '@chaskiq/components/src/components/PageHeader'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
 
 import { actions } from '@chaskiq/store'
 

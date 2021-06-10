@@ -5,12 +5,10 @@ import { connect } from 'react-redux'
 
 import { actions } from '@chaskiq/store'
 
-import {
-  AppContent,
-  PageHeader,
-  Content,
-  ContactManager,
-} from '@chaskiq/components'
+import AppContent from '@chaskiq/components/src/components/segmentManager/container'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import ContactManager from '@chaskiq/components/src/components/ContactManager'
 
 const {
   setCurrentPage,

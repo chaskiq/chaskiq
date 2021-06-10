@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Content, EmptyView } from '@chaskiq/components'
+import Content from '@chaskiq/components/src/components/Content'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
 
 import image from '../images/notfound-icon8.png'
 import logo from '../images/logo.png'

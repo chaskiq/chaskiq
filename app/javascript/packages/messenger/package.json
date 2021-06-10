@@ -11,13 +11,12 @@
   "author": "michelson <miguelmichelson@gmail.com>",
   "homepage": "https://github.com/chaskiq/chaskiq",
   "license": "AGPL-3.0-or-later",
-  "main": "lib/messenger.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "dist/messenger.js",
+  "umd": "dist/messenger.umd.js",
+  "module": "dist/messenger.esm.js",
   "files": [
-    "lib"
+    "src",
+    "dist"
   ],
   "publishConfig": {
     "access": "public"

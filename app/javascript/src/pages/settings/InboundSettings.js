@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  Button,
-  SegmentManager,
-  Input,
-  userFormat,
-  Hints
-} from '@chaskiq/components'
+import Button from '@chaskiq/components/src/components/Button'
+import SegmentManager from '@chaskiq/components/src/components/segmentManager'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import userFormat from '@chaskiq/components/src/components/Table/userFormat'
+import Hints from '@chaskiq/components/src/components/Hints'
 
 import { 
   client as graphql, 

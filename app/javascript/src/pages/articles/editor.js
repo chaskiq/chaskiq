@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { TextEditor } from '@chaskiq/components'
+import TextEditor from '@chaskiq/components/src/components/textEditor'
 
 export default class ArticleEditor extends Component {
   constructor(props) {
