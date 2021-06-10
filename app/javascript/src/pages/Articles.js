@@ -6,15 +6,21 @@ import { connect } from 'react-redux'
 import langs from '../shared/langsOptions'
 import isEmpty from 'lodash/isEmpty'
 
-import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
+
 import ArticlesNew from './articles/new'
 import Settings from './articles/settings'
 
 import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
-const { errorMessage, successMessage, setCurrentSection, setCurrentPage } =
-  actions
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
 
 import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
 import Hints from '@chaskiq/components/src/components/Hints'
@@ -32,12 +38,12 @@ import {
 } from '@chaskiq/components/src/components/icons'
 
 
-const { ARTICLES, ARTICLE_SETTINGS } = queries
-const {
+import { ARTICLES, ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/queries'
+import {
   DELETE_ARTICLE,
   ARTICLE_SETTINGS_UPDATE,
   ARTICLE_SETTINGS_DELETE_LANG,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 class Articles extends Component {
   state = {
     meta: {},

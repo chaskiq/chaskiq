@@ -24,12 +24,12 @@ import DataTable from '@chaskiq/components/src/components/Table'
 import Button from '@chaskiq/components/src/components/Button' 
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog' 
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { setCurrentPage, setCurrentSection } = actions
+import { setCurrentPage, setCurrentSection } from '@chaskiq/store/src/actions/navigation'
 
-const { OAUTH_APPS, OAUTH_APP, AUTHORIZED_OAUTH_APPS } = queries
-const { CREATE_OAUTH_APP, UPDATE_OAUTH_APP, DELETE_OAUTH_APP } = mutations
+import { OAUTH_APPS, OAUTH_APP, AUTHORIZED_OAUTH_APPS } from '@chaskiq/store/src/graphql/queries'
+import { CREATE_OAUTH_APP, UPDATE_OAUTH_APP, DELETE_OAUTH_APP } from '@chaskiq/store/src/graphql/mutations'
 
 function formDefinitions() {
   return [

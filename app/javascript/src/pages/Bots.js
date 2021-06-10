@@ -3,7 +3,7 @@ import { withRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import arrayMove from 'array-move'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
 import BotEditor from './bots/editor'
 
@@ -21,11 +21,17 @@ import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import Content from '@chaskiq/components/src/components/Content'
 import Table from '@chaskiq/components/src/components/Table'
 
-const { successMessage, errorMessage, setCurrentSection, setCurrentPage } =
-  actions
 
-const { BOT_TASKS } = queries
-const { CREATE_BOT_TASK, DELETE_BOT_TASK, REORDER_BOT_TASK } = mutations
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
+
+import { BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
+import { CREATE_BOT_TASK, DELETE_BOT_TASK, REORDER_BOT_TASK } from '@chaskiq/store/src/graphql/mutations'
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [loading, _setLoading] = useState(false)

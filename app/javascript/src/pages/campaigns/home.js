@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import Content from '@chaskiq/components/src/components/PageHeader'
 import EmptyView from '@chaskiq/components/src/components/EmptyView'
 
-import { actions } from '@chaskiq/store'
-
 import { withRouter } from 'react-router-dom'
 import image from '../../images/delivery-icon8.png'
 
-const { setCurrentSection } = actions
+import {
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
 
 function CampaignHome({ dispatch }) {
   React.useEffect(() => {

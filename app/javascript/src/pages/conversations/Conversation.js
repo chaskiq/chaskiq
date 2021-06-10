@@ -38,16 +38,38 @@ import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView' // '.
 import TagDialog from '@chaskiq/components/src/components/TagDialog'
 import AppPackagePanel from './appPackagePanel'
 
-import { client as graphql, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const {
+import {
+  toggleDrawer
+} from '@chaskiq/store/src/actions/drawer'
+
+import {
+  appendConversation
+} from '@chaskiq/store/src/actions/conversations'
+
+import {
+  getAppUser
+} from '@chaskiq/store/src/actions/app_user'
+
+import {
+  updateRtcEvents
+} from '@chaskiq/store/src/actions/rtc'
+
+import {
   setCurrentPage,
   setCurrentSection,
-  appendConversation,
-  toggleDrawer,
-  getAppUser,
-  updateRtcEvents,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
   getConversation,
+  assignAgent,
+  setLoading,
+  updateConversationTagList,
   typingNotifier,
   insertComment,
   insertAppBlockComment,
@@ -55,13 +77,10 @@ const {
   clearConversation,
   updateConversationState,
   updateConversationPriority,
-  assignAgent,
-  setLoading,
-  updateConversationTagList,
-  successMessage,
-} = actions
+} from '@chaskiq/store/src/actions/conversation'
 
-const { AGENTS } = queries
+
+import { AGENTS } from '@chaskiq/store/src/graphql/queries'
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;

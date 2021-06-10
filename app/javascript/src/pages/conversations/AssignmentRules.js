@@ -20,19 +20,25 @@ import serialize from 'form-serialize'
 import { QueueIcon } from '@chaskiq/components/src/components/icons'
 import PageHeader from '@chaskiq/components/src/components/PageHeader'
 
-import { client as graphql, queries, mutations } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-import { actions } from '@chaskiq/store'
-const { successMessage, setCurrentPage, setCurrentSection } = actions
+import {
+  setCurrentPage,
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 
-const { AGENTS, ASSIGNMENT_RULES } = queries
+import {
+  successMessage,
+} from '@chaskiq/store/src/actions/status_messages'
 
-const {
+import { AGENTS, ASSIGNMENT_RULES } from '@chaskiq/store/src/graphql/queries'
+
+import {
   CREATE_ASSIGNMENT_RULE,
   EDIT_ASSIGNMENT_RULE,
   DELETE_ASSIGNMENT_RULE,
   UPDATE_RULE_PRIORITIES,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 
 const DragHandle = sortableHandle(() => (
   <div>

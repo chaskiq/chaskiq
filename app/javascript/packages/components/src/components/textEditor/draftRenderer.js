@@ -4,13 +4,12 @@
 
 import React, { Component } from 'react'
 import redraft from 'redraft'
-import { actions } from '@chaskiq/store'
 import { connect } from 'react-redux'
 import { AttachmentIcon } from '../icons'
 
 import Prism from 'prismjs'
 // Prism.highlightAll();
-const { setImageZoom } = actions
+import {setImageZoom} from '@chaskiq/store/src/actions/imageZoom'
 
 const handlePrismRenderer = (syntax, children) => {
   const code = children

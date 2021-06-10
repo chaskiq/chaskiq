@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
 import Button from '@chaskiq/components/src/components/Button'
 import Avatar from '@chaskiq/components/src/components/Avatar'
@@ -21,16 +21,16 @@ import UserListItem from './conversations/ItemList'
 import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 //import sanitizeHtml from 'sanitize-html'
 
-const {
+import {
   CREATE_DIRECT_UPLOAD,
   START_CONVERSATION,
   APP_USER_UPDATE_STATE,
   UPDATE_AGENT,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 
-const { APP_USER_CONVERSATIONS, AGENT } = queries
+import { APP_USER_CONVERSATIONS, AGENT } from '@chaskiq/store/src/graphql/queries'
 
-const { getAppUser } = actions
+import {getAppUser} from '@chaskiq/store/src/actions/app_user'
 
 class ProfilePage extends Component {
   state = {

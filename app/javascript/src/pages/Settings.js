@@ -9,17 +9,24 @@ import UserData from './settings/UserDataFields'
 import VerificationView from './settings/VerificationView'
 import timezones from '../shared/timezones'
 
-import { client as graphql, queries, mutations, 
-  actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
 import Content from '@chaskiq/components/src/components/Content'
 import Tabs from '@chaskiq/components/src/components/Tabs'
 import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import { getFileMetadata, directUpload } from '@chaskiq/components/src/components/fileUploader'
 
-const { setCurrentPage, setCurrentSection, updateApp } = actions
-const { APP } = queries
-const { CREATE_DIRECT_UPLOAD } = mutations
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  updateApp,
+} from '@chaskiq/store/src/actions/app'
+
+
+import { APP } from '@chaskiq/store/src/graphql/queries'
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
 class AppSettingsContainer extends Component {
   constructor(props) {
     super(props)

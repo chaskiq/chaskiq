@@ -31,32 +31,36 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import serialize from 'form-serialize'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
+
+import {
+  camelizeKeys
+} from '@chaskiq/store/src/actions/conversation'
+
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
 
 
-const {
-  errorMessage,
-  successMessage,
-  setCurrentPage,
-  setCurrentSection,
-  camelizeKeys,
-} = actions
-
-const {
+import {
   APP_PACKAGES,
   APP_PACKAGE_INTEGRATIONS,
   AGENT_APP_PACKAGES,
   AGENT_APP_PACKAGE,
-} = queries
+} from '@chaskiq/store/src/graphql/queries'
 
-const {
+import {
   CREATE_INTEGRATION,
   UPDATE_INTEGRATION,
   DELETE_INTEGRATION,
   CREATE_PACKAGE,
   UPDATE_PACKAGE,
   DELETE_PACKAGE,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 
 function Integrations({ app, dispatch }) {
   const [open, setOpen] = useState(false)

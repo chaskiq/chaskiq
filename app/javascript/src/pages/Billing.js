@@ -8,16 +8,23 @@ import Content from '@chaskiq/components/src/components/Content'
 import Tabs from '@chaskiq/components/src/components/Tabs'
 import CircularProgress from '@chaskiq/components/src/components/Progress'
 
-import { client as graphql, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { setCurrentSection, setCurrentPage, clearSubscriptionState } = actions
+import {
+  clearSubscriptionState,
+} from '@chaskiq/store/src/actions/paddleSubscription'
 
-const {
+import {
+  setCurrentSection, setCurrentPage,
+} from '@chaskiq/store/src/actions/navigation'
+
+
+import {
   PLANS,
   SUBSCRIPTION_TRANSACTIONS,
   SUBSCRIPTION_DETAILS,
   UPDATE_SUBSCRIPTION_PLAN,
-} = queries
+} from '@chaskiq/store/src/graphql/queries'
 
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([])

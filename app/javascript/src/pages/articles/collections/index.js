@@ -13,20 +13,25 @@ import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/
 import { arrayMove } from 'react-sortable-hoc'
 import langs from '../../../shared/langsOptions'
 
-import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { setCurrentSection, setCurrentPage, errorMessage, successMessage } =
-  actions
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 
-const {
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
   ARTICLE_COLLECTION_CREATE,
   ARTICLE_COLLECTION_EDIT,
   ARTICLE_COLLECTION_DELETE,
   ARTICLE_COLLECTION_REORDER,
   CREATE_DIRECT_UPLOAD,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 
-const { ARTICLE_COLLECTIONS } = queries
+import { ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/queries'
 class Collections extends Component {
   state = {
     isOpen: false,

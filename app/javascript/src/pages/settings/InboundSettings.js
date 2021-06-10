@@ -8,17 +8,22 @@ import Input from '@chaskiq/components/src/components/forms/Input'
 import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 import Hints from '@chaskiq/components/src/components/Hints'
 
-import { 
-  client as graphql, 
-  mutations, 
-  actions,
+import graphql from '@chaskiq/store/src/graphql/client'
+
+import {
   parseJwt,
   generateJWT
-} from '@chaskiq/store'
+} from '@chaskiq/store/src/jwt'
 
-const { toggleDrawer, getAppUser } = actions
+import {
+  toggleDrawer
+} from '@chaskiq/store/src/actions/drawer'
 
-const { PREDICATES_SEARCH } = mutations
+import {
+  getAppUser
+} from '@chaskiq/store/src/actions/app_user'
+
+import { PREDICATES_SEARCH } from '@chaskiq/store/src/graphql/mutations'
 
 function InboundSettings({ settings, update, dispatch }) {
   const [state, setState] = React.useState({

@@ -12,9 +12,9 @@ import Button from './Button'
 // import tw from "tailwind.macro";
 import tw from 'twin.macro'
 
-import { client as graphql, mutations } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { UPDATE_CAMPAIGN, CREATE_URL_UPLOAD, CREATE_DIRECT_UPLOAD } = mutations
+import { UPDATE_CAMPAIGN, CREATE_URL_UPLOAD, CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`

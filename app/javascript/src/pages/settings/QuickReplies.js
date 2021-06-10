@@ -10,13 +10,16 @@ import EmptyView from '@chaskiq/components/src/components/EmptyView'
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
 import Tabs from '@chaskiq/components/src/components/Tabs'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { successMessage, errorMessage } = actions
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
 
-const { QUICK_REPLIES, QUICK_REPLY } = queries
 
-const { QUICK_REPLY_CREATE, QUICK_REPLY_UPDATE, QUICK_REPLY_DELETE } = mutations
+import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries'
+
+import { QUICK_REPLY_CREATE, QUICK_REPLY_UPDATE, QUICK_REPLY_DELETE } from '@chaskiq/store/src/graphql/mutations'
 
 function QuickReplies({ app, _update, dispatch }) {
   const [quickReplies, setQuickReplies] = React.useState([])

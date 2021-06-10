@@ -3,9 +3,9 @@ import Button from '@chaskiq/components/src/components/Button'
 import CircularProgress from '@chaskiq/components/src/components/Progress'
 import I18n from '../shared/FakeI18n'
 
-import { client as graphql, queries } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { CAMPAIGN_SUBSCRIPTION_TOGGLE } = queries
+import { CAMPAIGN_SUBSCRIPTION_TOGGLE } from '@chaskiq/store/src/graphql/queries'
 
 export default function UnSubscribe({ match }) {
   const [loading, setLoading] = React.useState(true)

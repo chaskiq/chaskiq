@@ -5,11 +5,11 @@ import FormDialog from './FormDialog'
 import Input from './forms/Input' 
 import CircularProgress from './Progress'
 
-import { client as graphql, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { getCurrentUser } = actions
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
 
-const { UPDATE_AGENT } = mutations
+import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
 
 function LangChooser({ open, handleClose, current_user, app, dispatch }) {
   const [setted, setSetted] = React.useState(false)

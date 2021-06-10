@@ -13,9 +13,9 @@ import InserterForm from '@chaskiq/components/src/components/packageBlocks/Inser
 import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
 import {QueueIcon, DeleteIcon} from '@chaskiq/components/src/components/icons'
 
-import { client as graphql, queries } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { APP_PACKAGES_BY_CAPABILITY } = queries
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries'
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>

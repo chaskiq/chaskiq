@@ -4,12 +4,14 @@ import { connect } from 'react-redux'
 import Avatar from '@chaskiq/components/src/components/Avatar'
 import { FolderIcon, LabelIcon } from '@chaskiq/components/src/components/icons'
 
-import { client as graphql, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { getConversations, updateConversationsData, clearConversations } =
-  actions
+import {
+  getConversations, updateConversationsData, clearConversations
+} from '@chaskiq/store/src/actions/conversations'
 
-const { CONVERSATIONS_COUNTS } = queries
+
+import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries'
 
 function SidebarAgents({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null)

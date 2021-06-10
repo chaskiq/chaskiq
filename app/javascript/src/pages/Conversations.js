@@ -19,15 +19,15 @@ import ConversationSidebar from './conversations/Sidebar'
 import emptyImage from '../images/empty-icon8.png'
 import I18n from '../shared/FakeI18n'
 
-import { actions } from '@chaskiq/store'
-
-const {
-  setCurrentPage,
-  setCurrentSection,
+import {
   getConversations,
   updateConversationsData,
   clearConversations,
-} = actions
+} from '@chaskiq/store/src/actions/conversations'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
 
 function Conversations({
   dispatch,

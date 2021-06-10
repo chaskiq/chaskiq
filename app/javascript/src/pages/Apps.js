@@ -7,7 +7,7 @@ import bg from '../images/bg/welcome-icon8.png'
 
 import styled from '@emotion/styled'
 
-import { client as graphql, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
 import LoadingView from '@chaskiq/components/src/components/loadingView' 
 import Badge from '@chaskiq/components/src/components/Badge' 
@@ -16,8 +16,16 @@ import Card from '@chaskiq/components/src/components/Card'
 import { connect } from 'react-redux'
 import logo from '../images/favicon.png'
 
-const { APPS } = queries
-const { setCurrentSection, clearApp } = actions
+import { APPS } from '@chaskiq/store/src/graphql/queries'
+
+import {
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  clearApp
+} from '@chaskiq/store/src/actions/app'
+
 
 const Container = styled.div`
   background: url(${bg});

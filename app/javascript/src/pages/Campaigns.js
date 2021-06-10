@@ -8,14 +8,7 @@ import CampaignEditor from './campaigns/editor'
 
 import { isEmpty } from 'lodash'
 
-import { 
-  client as graphql, 
-  queries, 
-  mutations, 
-  actions,
-  parseJwt,
-  generateJWT
-} from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
 import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
 import SwitchControl from '@chaskiq/components/src/components/Switch'
@@ -35,14 +28,26 @@ import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import Badge from '@chaskiq/components/src/components/Badge'
 import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 
-const {
-  getAppUser,
-  toggleDrawer,
-  setCurrentSection,
-  setCurrentPage,
-  errorMessage,
-  successMessage,
-} = actions
+import {
+  parseJwt,
+  generateJWT
+} from '@chaskiq/store/src/jwt'
+
+import {
+  getAppUser
+} from '@chaskiq/store/src/actions/app_user'
+
+import {
+  toggleDrawer
+} from '@chaskiq/store/src/actions/drawer'
+
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
 
 import {
   Pause,
@@ -57,8 +62,8 @@ import {
 
 import I18n from '../shared/FakeI18n'
 
-const { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } = queries
-const {
+import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } from '@chaskiq/store/src/graphql/queries'
+import {
   PREDICATES_SEARCH,
   UPDATE_CAMPAIGN,
   CREATE_CAMPAIGN,
@@ -66,7 +71,7 @@ const {
   PURGE_METRICS,
   DELETE_CAMPAIGN,
   CLONE_MESSAGE,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 
 class CampaignSegment extends Component {
   constructor(props) {

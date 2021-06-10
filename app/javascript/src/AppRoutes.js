@@ -13,9 +13,7 @@ import ZoomImage from '@chaskiq/components/src/components/ImageZoomOverlay'
 import LoadingView from '@chaskiq/components/src/components/loadingView' 
 import Snackbar from '@chaskiq/components/src/components/Alert'
 
-import { actions } from '@chaskiq/store'
-
-const { clearLocks } = actions
+import {clearLocks} from '@chaskiq/store/src/actions/upgradePages'
 
 function mapStateToProps(state) {
   const { auth, current_user, theme } = state

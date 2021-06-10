@@ -17,18 +17,24 @@ import FormDialog from '@chaskiq/components/src/components/FormDialog'
 
 import serialize from 'form-serialize'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const {
-  camelizeKeys,
+import {
+  camelizeKeys
+} from '@chaskiq/store/src/actions/conversation'
+
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
   successMessage,
   errorMessage,
-  setCurrentPage,
-  setCurrentSection,
-} = actions
+} from '@chaskiq/store/src/actions/status_messages'
 
-const { ROLE_AGENTS, PENDING_AGENTS } = queries
-const { INVITE_AGENT, UPDATE_AGENT_ROLE, DESTROY_AGENT_ROLE } = mutations
+
+import { ROLE_AGENTS, PENDING_AGENTS } from '@chaskiq/store/src/graphql/queries'
+import { INVITE_AGENT, UPDATE_AGENT_ROLE, DESTROY_AGENT_ROLE } from '@chaskiq/store/src/graphql/mutations'
 class TeamPage extends Component {
   state = {
     meta: {},

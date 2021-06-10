@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { client as graphql, queries } from '@chaskiq/store'
 
+import graphql from '@chaskiq/store/src/graphql/client'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import Button from '@chaskiq/components/src/components/Button'
 import Progress from '@chaskiq/components/src/components/Progress'
@@ -10,7 +10,7 @@ import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBl
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
 import { AppList } from '@chaskiq/components/src/components/packageBlocks/AppList'
 
-const { APP_PACKAGES_BY_CAPABILITY } = queries
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries'
 
 function AppPackagePanel(props) {
   const [open, setOpen] = React.useState(props.open)

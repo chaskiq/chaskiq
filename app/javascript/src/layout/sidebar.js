@@ -35,7 +35,7 @@ import {
 
 import SidebarAgents from '../pages/conversations/SidebarAgents'
 
-import { client as graphql, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import WebSetup from '@chaskiq/components/src/components/webSetup'
@@ -43,9 +43,12 @@ import LangChooser from '@chaskiq/components/src/components/LangChooser'
 import Toggle from '@chaskiq/components/src/components/forms/Toggle'
 import Badge from '@chaskiq/components/src/components/Badge'
 
-const { UPDATE_AGENT } = mutations
+import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
 
-const { getCurrentUser, toggleTheme, signout } = actions
+import {getCurrentUser} from '@chaskiq/store/src/actions/current_user'
+import {toggleTheme} from '@chaskiq/store/src/actions/theme'
+import {signout} from '@chaskiq/store/src/actions/auth'
+
 
 function mapStateToProps(state) {
   const {

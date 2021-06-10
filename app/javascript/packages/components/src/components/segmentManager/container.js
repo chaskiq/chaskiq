@@ -11,15 +11,11 @@ import Map from '../map/index.js'
 
 import userFormat from '../Table/userFormat'
 import Progress from '../Progress'
-import { actions } from '@chaskiq/store'
 
-const {
-  dispatchSegmentUpdate,
-  setCurrentSection,
-  setCurrentPage,
-  toggleDrawer,
-  getAppUser,
-} = actions
+import {dispatchSegmentUpdate} from '@chaskiq/store/src/actions/segments'
+import {setCurrentSection, setCurrentPage} from '@chaskiq/store/src/actions/navigation'
+import {toggleDrawer} from '@chaskiq/store/src/actions/drawer'
+import {getAppUser} from '@chaskiq/store/src/actions/app_user'
 
 const Wrapper = styled.div`
   //min-width: 600px;

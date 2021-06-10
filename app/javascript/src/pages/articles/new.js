@@ -19,20 +19,26 @@ import ArticleEditor from './editor'
 import langs from '../../shared/langsOptions'
 import I18n from '../../shared/FakeI18n'
 
-import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { setCurrentSection, setCurrentPage, successMessage } = actions
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 
-const {
+import {
+  successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
   CREATE_ARTICLE,
   EDIT_ARTICLE,
   ARTICLE_BLOB_ATTACH,
   TOGGLE_ARTICLE,
   ARTICLE_ASSIGN_AUTHOR,
   ARTICLE_COLLECTION_CHANGE,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 
-const { ARTICLE, AGENTS, ARTICLE_COLLECTIONS } = queries
+import { ARTICLE, AGENTS, ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/queries'
 
 const options = [
   {

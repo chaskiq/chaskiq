@@ -19,20 +19,21 @@ import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
 import langs from '../../../shared/langsOptions'
 import Dnd from './dnd'
 
-import { client as graphql, mutations, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const {
+import {
   ARTICLE_SECTION_CREATE,
   ARTICLE_SECTION_DELETE,
   REORDER_ARTICLE,
   ADD_ARTICLES_TO_COLLECTION,
   ARTICLE_SECTION_EDIT,
-} = mutations
+} from '@chaskiq/store/src/graphql/mutations'
 
-const { ARTICLE_COLLECTION_WITH_SECTIONS, ARTICLES_UNCATEGORIZED } = queries
+import { ARTICLE_COLLECTION_WITH_SECTIONS, ARTICLES_UNCATEGORIZED } from '@chaskiq/store/src/graphql/queries'
 
-const { setCurrentSection, setCurrentPage } = actions
-
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 class CollectionDetail extends Component {
   state = {
     isOpen: false,

@@ -20,12 +20,13 @@ import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/for
 import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
 import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader'
 
-import { client as graphql, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { setCurrentSection, setCurrentPage } = actions
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
 
-const { CREATE_DIRECT_UPLOAD } = mutations
-
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 class Settings extends Component {
   state = {
     loading: true,

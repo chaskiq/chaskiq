@@ -15,12 +15,19 @@ import LanguageSettings from './settings/Language'
 import InboundSettings from './settings/InboundSettings'
 import StylingSettings from './settings/Styling'
 import AppInserter from './settings/AppInserter'
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
 
-const { setCurrentPage, setCurrentSection, updateApp } = actions
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { APP } = queries
-const { CREATE_DIRECT_UPLOAD } = mutations
+import {
+  updateApp
+} from '@chaskiq/store/src/actions/app'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
+
+import { APP } from '@chaskiq/store/src/graphql/queries'
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
 class AppSettingsContainer extends Component {
   constructor(props) {
     super(props)

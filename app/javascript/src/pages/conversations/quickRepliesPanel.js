@@ -11,9 +11,9 @@ import Tabs from '@chaskiq/components/src/components/Tabs'
 
 import { SeachIcon } from '@chaskiq/components/src/components/icons'
 
-import { client as graphql, queries } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { QUICK_REPLIES, QUICK_REPLY } = queries
+import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries'
 
 function QuickRepliesPanel(props) {
   const [open, setOpen] = React.useState(props.open)

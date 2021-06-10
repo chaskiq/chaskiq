@@ -8,7 +8,7 @@ import AppRouter from './AppRoutes'
 import Docs from '@chaskiq/docs' //'./pages/docs'
 
 import { Provider } from 'react-redux'
-import store from '@chaskiq/store'
+import store from '@chaskiq/store/src/index'
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
 
 function App() {

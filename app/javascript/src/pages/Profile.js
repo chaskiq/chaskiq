@@ -21,16 +21,24 @@ import {
   MoreIcon 
 } from '@chaskiq/components/src/components/icons'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
+
 import DialogEditor from './conversations/DialogEditor'
 import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 //require('sanitize-html')
 
-const { setCurrentSection, getAppUser } = actions
+import {
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 
-const { APP_USER_CONVERSATIONS, APP_USER_VISITS } = queries
+import {
+  getAppUser,
+} from '@chaskiq/store/src/actions/app_user'
 
-const { START_CONVERSATION, APP_USER_UPDATE_STATE, APP_USER_UPDATE } = mutations
+
+import { APP_USER_CONVERSATIONS, APP_USER_VISITS } from '@chaskiq/store/src/graphql/queries'
+
+import { START_CONVERSATION, APP_USER_UPDATE_STATE, APP_USER_UPDATE } from '@chaskiq/store/src/graphql/mutations'
 
 const AppUserHeaderOverlay = styled.div`
   position: absolute;

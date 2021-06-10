@@ -8,11 +8,17 @@ import timezones from '../shared/timezones'
 import SettingsForm from '../pages/settings/form'
 import image from '../images/up-icon8.png'
 
-import { client as graphql, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { errorMessage, successMessage, clearApp } = actions
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
 
-const { CREATE_APP } = mutations
+import {
+  clearApp
+} from '@chaskiq/store/src/actions/app'
+
+import { CREATE_APP } from '@chaskiq/store/src/graphql/mutations'
 
 class NewApp extends Component {
   state = {

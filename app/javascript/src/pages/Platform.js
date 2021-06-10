@@ -3,16 +3,25 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { actions } from '@chaskiq/store'
-
 import AppContent from '@chaskiq/components/src/components/segmentManager/container'
 import PageHeader from '@chaskiq/components/src/components/PageHeader'
 import Content from '@chaskiq/components/src/components/Content'
 import ContactManager from '@chaskiq/components/src/components/ContactManager'
 
-const {
+import {
   setCurrentPage,
   setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  setApp
+} from '@chaskiq/store/src/actions/app'
+
+import {
+  searchAppUsers
+} from '@chaskiq/store/src/actions/app_users'
+
+import {
   dispatchSegmentUpdate,
   fetchAppSegment,
   updateSegment,
@@ -21,9 +30,7 @@ const {
   addPredicate,
   updatePredicate,
   deletePredicate,
-  searchAppUsers,
-  setApp,
-} = actions
+} from '@chaskiq/store/src/actions/segments'
 
 function Platform({ dispatch, match, app, app_users, segment }) {
   React.useEffect(() => {

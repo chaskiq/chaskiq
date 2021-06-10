@@ -9,9 +9,9 @@ import Button from '@chaskiq/components/src/components/Button'
 import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer'
 import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
 
-import { client as graphql, mutations } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } = mutations
+import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '@chaskiq/store/src/graphql/mutations'
 
 // import moment from 'moment-timezone';
 

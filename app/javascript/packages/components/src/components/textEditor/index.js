@@ -45,11 +45,11 @@ import {
   directUpload,
 } from '../fileUploader' //"../../shared/fileUploader";
 
-import { client as graphql, mutations } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
 import CircularProgress from '../Progress'
 
-const { CREATE_URL_UPLOAD, CREATE_DIRECT_UPLOAD } = mutations
+import { CREATE_URL_UPLOAD, CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
 
 const EditorStylesExtend = styled(EditorContainer)`
   line-height: ${(props) => props.styles.lineHeight || '2em'};

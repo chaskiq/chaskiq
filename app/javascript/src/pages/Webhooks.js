@@ -31,18 +31,24 @@ import I18n from '../shared/FakeI18n'
 
 import serialize from 'form-serialize'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const {
-  errorMessage,
+import {
+  camelizeKeys
+} from '@chaskiq/store/src/actions/conversation'
+
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
   successMessage,
-  setCurrentPage,
-  setCurrentSection,
-  camelizeKeys,
-} = actions
+  errorMessage,
+} from '@chaskiq/store/src/actions/status_messages'
 
-const { EVENT_TYPES, OUTGOING_WEBHOOKS } = queries
-const { WEBHOOK_CREATE, WEBHOOK_UPDATE, WEBHOOK_DELETE } = mutations
+
+import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '@chaskiq/store/src/graphql/queries'
+import { WEBHOOK_CREATE, WEBHOOK_UPDATE, WEBHOOK_DELETE } from '@chaskiq/store/src/graphql/mutations'
 
 function Settings({ app, dispatch }) {
   const [open, setOpen] = useState(false)

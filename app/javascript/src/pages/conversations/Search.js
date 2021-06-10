@@ -6,10 +6,10 @@ import { SeachIcon } from '@chaskiq/components/src/components/icons'
 import Button from '@chaskiq/components/src/components/Button'
 import SearchInput from '@chaskiq/components/src/components/SearchInput'
 
-import { actions } from '@chaskiq/store'
+import {
+  getConversations, updateConversationsData, clearConversations
+} from '@chaskiq/store/src/actions/conversations'
 
-const { getConversations, updateConversationsData, clearConversations } =
-  actions
 
 function ConversationSearch({ _app, dispatch, conversations, asButton }) {
   const [open, setOpen] = React.useState(false)

@@ -12,11 +12,13 @@ import Pie from '@chaskiq/components/src/components/charts/pie'
 import Count from '@chaskiq/components/src/components/charts/count'
 import DashboardCard from '@chaskiq/components/src/components/dashboard/card'
 
-import { client as graphql, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { setCurrentSection } = actions
+import {
+  setCurrentSection
+} from '@chaskiq/store/src/actions/navigation'
 
-const { DASHBOARD } = queries
+import { DASHBOARD } from '@chaskiq/store/src/graphql/queries'
 
 export function Home() {
   return (

@@ -2,11 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import Button from '@chaskiq/components/src/components/Button'
-import { client as graphql, mutations, actions } from '@chaskiq/store'
 
-const { successMessage, errorMessage } = actions
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
 
-const { QUICK_REPLY_CREATE } = mutations
+import { QUICK_REPLY_CREATE } from '@chaskiq/store/src/graphql/mutations'
 
 function QuickReplyDialog({ open, app, lang, dispatch, closeHandler }) {
   const [isOpen, setIsOpen] = React.useState(open)

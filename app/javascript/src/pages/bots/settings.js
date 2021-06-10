@@ -8,11 +8,17 @@ import Input from '@chaskiq/components/src/components/forms/Input'
 
 import I18n from '../../shared/FakeI18n'
 
-import { client as graphql, queries, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { updateApp, setCurrentPage } = actions
+import {
+  setCurrentPage,
+} from '@chaskiq/store/src/actions/navigation'
 
-const { AGENTS, BOT_TASKS } = queries
+import {
+  updateApp,
+} from '@chaskiq/store/src/actions/app'
+
+import { AGENTS, BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
 
 const SettingsForm = ({ app, data, _errors, dispatch }) => {
   const [tabValue, setTabValue] = useState(0)

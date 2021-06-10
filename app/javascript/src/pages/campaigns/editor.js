@@ -5,8 +5,7 @@ import { BannerRenderer } from '../../../packages/messenger/src/client_messenger
 import serialize from 'form-serialize'
 import I18n from '../../shared/FakeI18n'
 
-import { client as graphql, queries, mutations } from '@chaskiq/store'
-
+import graphql from '@chaskiq/store/src/graphql/client'
 import TextEditor from '@chaskiq/components/src/components/textEditor'
 import Button from '@chaskiq/components/src/components/Button'
 import Badge from '@chaskiq/components/src/components/Badge'
@@ -16,8 +15,8 @@ import {
   VisibilityRounded
 } from '@chaskiq/components/src/components/icons'
 
-const { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } = mutations
-const { AGENTS } = queries
+import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } from '@chaskiq/store/src/graphql/mutations'
+import { AGENTS } from '@chaskiq/store/src/graphql/queries'
 
 const EditorContentWrapper = styled.div``
 

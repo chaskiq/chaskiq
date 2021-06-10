@@ -11,10 +11,13 @@ import {
 } from './fileUploader'
 import serialize from 'form-serialize'
 
-import { client as graphql, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { successMessage } = actions
-const { CREATE_DIRECT_UPLOAD, IMPORT_CONTACTS } = mutations
+import {
+  successMessage,
+} from  '@chaskiq/store/src/actions/status_messages'
+
+import { CREATE_DIRECT_UPLOAD, IMPORT_CONTACTS } from '@chaskiq/store/src/graphql/mutations'
 
 function optionsForFilter() {
   const options = [

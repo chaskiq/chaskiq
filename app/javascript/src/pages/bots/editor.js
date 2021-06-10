@@ -36,12 +36,18 @@ import AppPackagePanel from '../conversations/appPackagePanel'
 
 import { isEmpty } from 'lodash'
 
-import { client as graphql, queries, mutations, actions } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { errorMessage, successMessage, setCurrentSection, setCurrentPage } =
-  actions
-const { BOT_TASK, AGENTS, BOT_TASK_METRICS } = queries
-const { UPDATE_BOT_TASK, CLONE_MESSAGE } = mutations
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import { BOT_TASK, AGENTS, BOT_TASK_METRICS } from '@chaskiq/store/src/graphql/queries'
+import { UPDATE_BOT_TASK, CLONE_MESSAGE } from '@chaskiq/store/src/graphql/mutations'
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;

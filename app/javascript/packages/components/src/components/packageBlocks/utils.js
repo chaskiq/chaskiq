@@ -1,6 +1,6 @@
-import { client as graphql, queries } from '@chaskiq/store'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-const { APP_PACKAGE_HOOK } = queries
+import { APP_PACKAGE_HOOK } from '@chaskiq/store/src/graphql/queries'
 
 export function getPackage(data, location, cb) {
   // inbox, conversation, bla

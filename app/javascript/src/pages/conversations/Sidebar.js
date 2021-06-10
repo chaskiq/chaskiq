@@ -7,10 +7,11 @@ import Button from '@chaskiq/components/src/components/Button'
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
 import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
-import { actions } from '@chaskiq/store'
 import AppInserter from './AppInserter'
 
-const { updateApp } = actions
+import {
+  updateApp
+} from '@chaskiq/store/src/actions/app'
 
 function localeDate(date) {
   return new Date(date).toLocaleString()
