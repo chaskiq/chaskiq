@@ -1,11 +1,8 @@
 import styled from '@emotion/styled'
 
-// import { Styled } from 'Dante2'
 import prismStyle from './prismStyle'
 
 import EditorContainer from 'Dante2/package/esm/editor/styled/base'
-
-// const { EditorContainer } = Styled
 
 const NewEditorStyles = styled(EditorContainer)`
   display: flex;

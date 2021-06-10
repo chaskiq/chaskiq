@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
 
-import {
-  DanteImagePopoverConfig,
-  DanteAnchorPopoverConfig,
-  DanteTooltipConfig,
-  utils,
-  Icons,
-} from 'Dante2'
+import {DanteImagePopoverConfig} from 'Dante2/package/esm/editor/components/popovers/image'
+import {DanteAnchorPopoverConfig} from 'Dante2/package/esm/editor/components/popovers/link'
+import {DanteTooltipConfig} from 'Dante2/package/esm/editor/components/popovers/toolTip'
+
+import Icons from 'Dante2/package/esm/editor/components/icons'
 
 import TextEditor from  '@chaskiq/components/src/components/textEditor'
 
 import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
 
-const { html2content } = utils // from 'Dante2/package/es/utils/html2content.js'
+import html2content from 'Dante2/package/esm/editor/utils/html2content'
 import { Map } from 'immutable'
 import { EditorState, convertToRaw } from 'draft-js' // { compose
 

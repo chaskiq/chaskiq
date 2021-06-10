@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import history from './history.js'
 
 import AppRouter from './AppRoutes'
-import Docs from '@chaskiq/docs' //'./pages/docs'
+import Docs from '@chaskiq/docs/src/index' //'./pages/docs'
 
 import { Provider } from 'react-redux'
 import store from '@chaskiq/store/src/index'

@@ -10,8 +10,8 @@ import UAParser from 'ua-parser-js'
 import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
-//import Tour from './UserTour'
-//import TourManager from './tourManager'
+import Tour from './UserTour'
+import TourManager from './tourManager'
 import UrlPattern from 'url-pattern'
 import { withTranslation } from 'react-i18next'
 import i18n from './i18n'
@@ -1626,7 +1626,7 @@ class Messenger extends Component {
           )}
         </EditorWrapper>
 
-        {/*this.state.tourManagerEnabled ? (
+        {this.state.tourManagerEnabled ? (
           <TourManager ev={this.state.ev} domain={this.props.domain} />
         ) : this.state.tours.length > 0 ? (
           <Tour
@@ -1635,7 +1635,7 @@ class Messenger extends Component {
             events={App.events}
             domain={this.props.domain}
           />
-        ) : null*/}
+        ) : null}
 
         <div id="TourManager"></div>
 

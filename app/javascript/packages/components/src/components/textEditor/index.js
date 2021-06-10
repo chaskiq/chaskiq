@@ -43,7 +43,7 @@ import styled from '@emotion/styled'
 import {
   getFileMetadata,
   directUpload,
-} from '../fileUploader' //"../../shared/fileUploader";
+} from '../fileUploader'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
