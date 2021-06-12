@@ -11,6 +11,8 @@
     "@babel/plugin-transform-react-jsx": "^7.10.4",
     "@babel/plugin-transform-typescript": "^7.9.4",
     "@babel/preset-react": "^7.9.4",
+    "@chaskiq/components": "0.0.0",
+    "@chaskiq/store": "0.0.0",
     "@date-io/moment": "^1.3.6",
     "@emotion/babel-plugin-jsx-pragmatic": "^0.1.5",
     "@emotion/cache": "^10.0.14",
@@ -87,17 +89,24 @@
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-dev-server": "^3.1.4",
-    "@chaskiq/components": "0.0.0",
-    "@chaskiq/store": "0.0.0"
+    "webpack-dev-server": "^3.1.4"
   },
   "devDependencies": {
+    "@atomico/rollup-plugin-sizes": "^1.1.4",
     "@fullhuman/postcss-purgecss": "^3.1.3",
+    "@lerna/batch-packages": "^3.16.0",
+    "@lerna/filter-packages": "^3.18.0",
+    "@lerna/project": "^3.21.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-image": "^2.0.6",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "autoprefixer": "^7.1.1",
+    "babel-eslint": "^10.1.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-prismjs": "^1.1.1",
-    "autoprefixer": "^7.1.1",
-    "babel-eslint": "^10.1.0",
     "cypress": "6.1.0",
     "cypress-xpath": "^1.4.0",
     "dotenv": "^8.2.0",
@@ -108,24 +117,15 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-tree-shaking": "^1.9.2",
     "eslint-plugin-unused-imports": "^0.1.2",
     "lerna": "^4.0.0",
-    "rollup": "^2.50.5",
-    "@atomico/rollup-plugin-sizes": "^1.1.4",
-    "@lerna/batch-packages": "^3.16.0",
-    "@lerna/filter-packages": "^3.18.0",
-    "@lerna/project": "^3.21.0",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^19.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.0",
     "minimist": "^1.2.5",
+    "rollup": "^2.50.5",
     "rollup-plugin-auto-external": "^2.0.0",
-    "rollup-plugin-sourcemaps": "^0.6.3",
-    "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-import-css": "^2.0.1",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-image": "^2.0.6",
-    "eslint-plugin-tree-shaking": "^1.9.2"
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-typescript2": "^0.30.0"
   },
   "resolutions": {
     "styled-components": "^4.3.2"
@@ -139,12 +139,9 @@
     "cypress:run": "./node_modules/.bin/cypress run --headless --browser chrome",
     "cypress:ci": "./node_modules/.bin/cypress run --headless --browser chrome --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd --parallel --ci-build-id $TRAVIS_BUILD_ID",
     "cypress:ga-ci": "./node_modules/.bin/cypress run --headless --browser chrome --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd --parallel --ci-build-id $GITHUB_RUN_ID",
-    
     "clean:packages": "rm -rf ./app/javascript/packages/*/dist",
     "build:packages": "yarn clean:packages && lerna changed | while read package; do rollup -c --scope $package || exit 1; done",
     "build:allpackages": "yarn clean:packages && for dir in app/javascript/packages/*; do package=${dir#'packages/'}; rollup -c --scope @chaskiq/$package || exit 1; done",
-
-    
     "dev": "./bin/webpack-dev-server",
     "build": "bundle exec rake assets:precompile"
   }

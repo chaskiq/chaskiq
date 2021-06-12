@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import Avatar from '@chaskiq/components/src/components/Avatar'
 import Button from '@chaskiq/components/src/components/Button'
-import DropdownButton from '@chaskiq/components/src/components/Dropdown'
+import {DropdownButton} from '@chaskiq/components/src/components/Button'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'

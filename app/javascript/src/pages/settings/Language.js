@@ -5,7 +5,7 @@ import serialize from 'form-serialize'
 import Button from '@chaskiq/components/src/components/Button'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import DataTable from '@chaskiq/components/src/components/Tabs'
+import DataTable from '@chaskiq/components/src/components/Table'
 import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
 
 export default function LanguageForm({ settings, update, namespace, fields }) {

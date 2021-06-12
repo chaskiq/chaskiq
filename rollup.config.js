@@ -91,9 +91,9 @@ async function build(commandLineArgs) {
         },
       ],
       plugins: [
-        //autoExternal({
-        //  packagePath: [path.join(basePath, 'package.json'), './package.json'],
-        //}),
+        autoExternal({
+          packagePath: [path.join(basePath, 'package.json'), './package.json'],
+        }),
         ...basePlugins,
       ],
     })

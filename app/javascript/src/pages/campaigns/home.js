@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Content from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
 import EmptyView from '@chaskiq/components/src/components/EmptyView'
 
 import { withRouter } from 'react-router-dom'

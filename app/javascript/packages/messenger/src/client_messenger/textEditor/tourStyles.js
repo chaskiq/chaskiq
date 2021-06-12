@@ -1,6 +1,6 @@
 
 
-
+import styled from '@emotion/styled'
 import EditorContainer from 'Dante2/package/esm/editor/styled/base'
 
 export const EditorStylesExtend = styled(EditorContainer)`
