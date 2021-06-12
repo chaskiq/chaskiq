@@ -13,7 +13,7 @@ import { isEmpty } from 'lodash'
 import Loader from './loader'
 
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary' 
-import DefinitionRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer' 
+import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components' 
 import Button from '@chaskiq/components/src/components/Button' 
 import {toCamelCase} from '@chaskiq/components/src/utils/caseConverter'
 
@@ -844,7 +844,7 @@ class AppPackageBlock extends Component {
       case 'button':
         return (
           <AppPackageBlockButtonItem>
-            {/*<Button
+            <Button
               // variant="outlined"
               disabled={isDisabled}
               onClick={() => this.handleStepControlClick(item)}
@@ -852,7 +852,7 @@ class AppPackageBlock extends Component {
               type={'button'}
             >
               {item.label}
-            </Button>*/}
+            </Button>
           </AppPackageBlockButtonItem>
         )
       default:
