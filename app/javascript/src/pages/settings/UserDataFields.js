@@ -291,14 +291,14 @@ function FieldsForm({ selected }) {
         options={options}
       ></Input>
 
-      <Input
+      {/*<Input
         name={'validation'}
         value={field.validation}
         onChange={setValidation}
         label={I18n.t('settings.user_data.inputs.validation')}
         helperText={I18n.t('settings.user_data.inputs.validation_hint')}
         type={'textarea'}
-      ></Input>
+      ></Input>*/}
     </React.Fragment>
   )
 }
