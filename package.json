@@ -52,7 +52,7 @@
     "mr-emoji": "^1.1.4",
     "nivo": "^0.31.0",
     "polished": "^3.6.6",
-    "postcss": "^7.0.35",
+    "postcss": "^8.2.10",
     "postcss-cssnext": "^3.1.0",
     "prop-types": "^15.6.1",
     "rc-tooltip": "^4.0.3",
