@@ -2833,8 +2833,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"Dante2@file:../../node_apps/dante2/packages/dante2":
-  version "0.5.1"
+Dante2@0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.2.tgz#3f261217b971e148257ab07789ba55828f66081e"
+  integrity sha512-LKmrV9hHqrgRf2+4J5bjuT9+j+mjJJbqKwsIBJSGHRKP1t2hk/9WXtzmh7iRuDi+rRF+VWKJR2Pimm4pe1w8Dg==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@emotion/cache" "^10.0.14"

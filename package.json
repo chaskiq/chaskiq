@@ -27,7 +27,7 @@
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.3.1",
     "@tailwindcss/ui": "^0.6.2",
-    "Dante2": "file:/Users/michelson/Documents/node_apps/dante2/packages/dante2",
+    "Dante2": "0.5.2",
     "actioncable": "^5.2.4-1",
     "activestorage": "^5.2.3",
     "add": "^2.0.6",
