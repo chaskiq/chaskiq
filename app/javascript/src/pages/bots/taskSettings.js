@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
 
 import I18n from '../../shared/FakeI18n'
 
 const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
   const [state, _setState] = useState(data || {})
 
-  function update (data) {
+  function update(data) {
     const newState = Object.assign({}, state, data)
     // setState(newState)
     updateData(newState)
@@ -43,14 +44,14 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
   )
 }
 
-function Schedule ({ app, data, updateData, _namespace, _submit }) {
+function Schedule({ app, data, updateData, _namespace, _submit }) {
   const [state, setState] = React.useState(data)
 
   useEffect(() => {
     updateData(state)
   }, [state])
 
-  function handleRadioChange (event) {
+  function handleRadioChange(event) {
     setValue(event.target.name, event.target.value)
   }
 
@@ -86,7 +87,9 @@ function Schedule ({ app, data, updateData, _namespace, _submit }) {
       </p>
 
       <p className="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
-        {I18n.t('task_bots.settings.tz_hint', { timezone: app.timezone })}
+        {I18n.t('task_bots.settings.tz_hint', {
+          timezone: app.timezone,
+        })}
       </p>
 
       <Input

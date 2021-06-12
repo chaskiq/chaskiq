@@ -1,14 +1,13 @@
 import React from 'react'
-import graphql from '../graphql/client'
-import Button from '../components/Button'
-import CircularProgress from '../components/Progress'
+import Button from '@chaskiq/components/src/components/Button'
+import CircularProgress from '@chaskiq/components/src/components/Progress'
 import I18n from '../shared/FakeI18n'
 
-import {
-  CAMPAIGN_SUBSCRIPTION_TOGGLE
-} from '../graphql/queries'
+import graphql from '@chaskiq/store/src/graphql/client'
 
-export default function UnSubscribe ({ match }) {
+import { CAMPAIGN_SUBSCRIPTION_TOGGLE } from '@chaskiq/store/src/graphql/queries'
+
+export default function UnSubscribe({ match }) {
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState({})
 
@@ -16,28 +15,32 @@ export default function UnSubscribe ({ match }) {
     toggleSubscription()
   }, [])
 
-  function reSubscribe () {
+  function reSubscribe() {
     toggleSubscription(true)
   }
 
-  function subscribe () {
+  function subscribe() {
     toggleSubscription(false)
   }
 
-  function toggleSubscription (op = false) {
+  function toggleSubscription(op = false) {
     setLoading(true)
-    graphql(CAMPAIGN_SUBSCRIPTION_TOGGLE, {
-      encoded: match.params.subscriber,
-      op: op
-    }, {
-      success: (data) => {
-        setLoading(false)
-        setData(data.campaignSubscriptionToggle)
+    graphql(
+      CAMPAIGN_SUBSCRIPTION_TOGGLE,
+      {
+        encoded: match.params.subscriber,
+        op: op,
       },
-      error: () => {
-        console.log('errorroor')
+      {
+        success: (data) => {
+          setLoading(false)
+          setData(data.campaignSubscriptionToggle)
+        },
+        error: () => {
+          console.log('errorroor')
+        },
       }
-    })
+    )
   }
 
   return (
@@ -46,41 +49,42 @@ export default function UnSubscribe ({ match }) {
         <div className="bg-white shadow sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start sm:justify-between">
+              {loading && <CircularProgress />}
 
-              {
-                loading && <CircularProgress/>
-              }
-
-              {
-                !loading &&
+              {!loading && (
                 <div>
                   <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-                    {I18n.t('campaign.unsubscribe.status', { state: data.state })}
+                    {I18n.t('campaign.unsubscribe.status', {
+                      state: data.state,
+                    })}
                   </h3>
                   <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
-
-                    {
-                      data.state === 'unsubscribed' && <p>
-                        {I18n.t('campaign.unsubscribe.success', { email: data.email })}
+                    {data.state === 'unsubscribed' && (
+                      <p>
+                        {I18n.t('campaign.unsubscribe.success', {
+                          email: data.email,
+                        })}
                         <Button
                           onClick={reSubscribe}
                           className="ml-4 my-3"
-                          size="small">
-                          { I18n.t('campaign.unsubscribe.resubscribe') }
+                          size="small"
+                        >
+                          {I18n.t('campaign.unsubscribe.resubscribe')}
                         </Button>
                       </p>
-                    }
+                    )}
 
-                    {
-                      data.state === 'subscribed' && <p>
+                    {data.state === 'subscribed' && (
+                      <p>
                         <Button
                           onClick={subscribe}
                           className="ml-4 my-3"
-                          size="small">
+                          size="small"
+                        >
                           {I18n.t('campaign.unsubscribe.cancel')}
                         </Button>
                       </p>
-                    }
+                    )}
                   </div>
 
                   {/*
@@ -103,8 +107,7 @@ export default function UnSubscribe ({ match }) {
                     </ul>
                   </div> */}
                 </div>
-              }
-
+              )}
             </div>
           </div>
         </div>

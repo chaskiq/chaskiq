@@ -1,53 +1,68 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { camelizeKeys } from '../actions/conversation'
 import Tooltip from 'rc-tooltip'
 import { isEmpty } from 'lodash'
-import Progress from '../components/Progress'
-import Content from '../components/Content'
-import FormDialog from '../components/FormDialog'
-import DeleteDialog from '../components/DeleteDialog'
-import Tabs from '../components/Tabs'
-import PageHeader from '../components/PageHeader'
-import Hints from '../shared/Hints'
 import I18n from '../shared/FakeI18n'
-import Button from '../components/Button'
-import Badge from '../components/Badge'
-import FieldRenderer from '../components/forms/FieldRenderer'
-import Avatar from '../components/Avatar'
+
+import Hints from '@chaskiq/components/src/components/Hints'
+import Progress from '@chaskiq/components/src/components/Progress'
+import Content from '@chaskiq/components/src/components/Content'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Button from '@chaskiq/components/src/components/Button'
+import Badge from '@chaskiq/components/src/components/Badge'
+import FieldRenderer from '@chaskiq/components/src/components/forms/Input'
+import Avatar from '@chaskiq/components/src/components/Avatar'
+import List, { 
+  ListItem, 
+  ListItemText, 
+  ItemListPrimaryContent, 
+  ItemListSecondaryContent, 
+  ItemAvatar
+} from '@chaskiq/components/src/components/List'
+import { EditIcon, AddIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
+
+
 import logos from '../shared/logos'
 
-import { EditIcon, AddIcon, DeleteIcon } from '../components/icons'
-import List, {
-  ListItem,
-  ListItemText,
-  ItemListPrimaryContent,
-  ItemListSecondaryContent,
-  ItemAvatar
-} from '../components/List'
-import { errorMessage, successMessage } from '../actions/status_messages'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import serialize from 'form-serialize'
 
-import graphql from '../graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client'
+
+import {
+  camelizeKeys
+} from '@chaskiq/store/src/actions/conversation'
+
+import {
+  errorMessage, successMessage
+} from '@chaskiq/store/src/actions/status_messages'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
+
+
 import {
   APP_PACKAGES,
   APP_PACKAGE_INTEGRATIONS,
   AGENT_APP_PACKAGES,
-  AGENT_APP_PACKAGE
-} from '../graphql/queries'
+  AGENT_APP_PACKAGE,
+} from '@chaskiq/store/src/graphql/queries'
+
 import {
   CREATE_INTEGRATION,
   UPDATE_INTEGRATION,
   DELETE_INTEGRATION,
   CREATE_PACKAGE,
   UPDATE_PACKAGE,
-  DELETE_PACKAGE
-} from '../graphql/mutations'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import serialize from 'form-serialize'
+  DELETE_PACKAGE,
+} from '@chaskiq/store/src/graphql/mutations'
 
-function Integrations ({ app, dispatch }) {
+function Integrations({ app, dispatch }) {
   const [open, setOpen] = useState(false)
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(false)
@@ -63,12 +78,12 @@ function Integrations ({ app, dispatch }) {
     dispatch(setCurrentPage('integrations'))
   }, [])
 
-  function getAppPackages () {
+  function getAppPackages() {
     setLoading(true)
     graphql(
       APP_PACKAGES,
       {
-        appKey: app.key
+        appKey: app.key,
       },
       {
         success: (data) => {
@@ -77,17 +92,17 @@ function Integrations ({ app, dispatch }) {
         },
         error: () => {
           setLoading(false)
-        }
+        },
       }
     )
   }
 
-  function getAppPackageIntegration () {
+  function getAppPackageIntegration() {
     setLoading(true)
     graphql(
       APP_PACKAGE_INTEGRATIONS,
       {
-        appKey: app.key
+        appKey: app.key,
       },
       {
         success: (data) => {
@@ -96,23 +111,23 @@ function Integrations ({ app, dispatch }) {
         },
         error: () => {
           setLoading(false)
-        }
+        },
       }
     )
   }
 
-  function handleOpen (service) {
+  function handleOpen(service) {
     setOpen(service)
   }
 
-  function close () {
+  function close() {
     setOpen(false)
   }
 
-  function submit () {
+  function submit() {
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     open.id
@@ -120,13 +135,13 @@ function Integrations ({ app, dispatch }) {
       : createIntegration(serializedData)
   }
 
-  function createIntegration (serializedData) {
+  function createIntegration(serializedData) {
     graphql(
       CREATE_INTEGRATION,
       {
         appKey: app.key,
         appPackage: open.name,
-        params: serializedData.app || {}
+        params: serializedData.app || {},
       },
       {
         success: (data) => {
@@ -144,23 +159,25 @@ function Integrations ({ app, dispatch }) {
           setIntegrations(newIntegrations)
 
           setOpen(null)
-          dispatch(successMessage(I18n.t('settings.integrations.create_success')))
+          dispatch(
+            successMessage(I18n.t('settings.integrations.create_success'))
+          )
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
-        }
+        },
       }
     )
   }
 
-  function updateIntegration (serializedData) {
+  function updateIntegration(serializedData) {
     graphql(
       UPDATE_INTEGRATION,
       {
         appKey: app.key,
         appPackage: open.name,
         id: parseInt(open.id),
-        params: serializedData.app
+        params: serializedData.app,
       },
       {
         success: (data) => {
@@ -172,21 +189,23 @@ function Integrations ({ app, dispatch }) {
           setIntegrations(newIntegrations)
           // getAppPackageIntegration()
           setOpen(null)
-          dispatch(successMessage(I18n.t('settings.integrations.update_success')))
+          dispatch(
+            successMessage(I18n.t('settings.integrations.update_success'))
+          )
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.update_error')))
-        }
+        },
       }
     )
   }
 
-  function removeIntegration () {
+  function removeIntegration() {
     graphql(
       DELETE_INTEGRATION,
       {
         appKey: app.key,
-        id: parseInt(openDeleteDialog.id)
+        id: parseInt(openDeleteDialog.id),
       },
       {
         success: (data) => {
@@ -198,24 +217,24 @@ function Integrations ({ app, dispatch }) {
           setIntegrations(newIntegrations)
           setOpen(null)
           setOpenDeleteDialog(null)
-          dispatch(successMessage(I18n.t('settings.integrations.remove_success')))
+          dispatch(
+            successMessage(I18n.t('settings.integrations.remove_success'))
+          )
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.remove_error')))
-        }
+        },
       }
     )
   }
 
   return (
     <Content>
-      <PageHeader
-        title={ I18n.t('settings.integrations.title') }
-      />
+      <PageHeader title={I18n.t('settings.integrations.title')} />
 
       <Tabs
         currentTab={tabValue}
-        onChange={ (value) => setTabValue(value) }
+        onChange={(value) => setTabValue(value)}
         tabs={[
           {
             label: I18n.t('settings.integrations.active.title'),
@@ -226,7 +245,7 @@ function Integrations ({ app, dispatch }) {
                   {I18n.t('settings.integrations.active.text')}
                 </p>
 
-                <Hints type="integrations"/>
+                <Hints type="integrations" />
 
                 {loading && <Progress />}
 
@@ -248,7 +267,7 @@ function Integrations ({ app, dispatch }) {
                   />
                 }
               </div>
-            )
+            ),
           },
           {
             label: I18n.t('settings.integrations.available.title'),
@@ -268,7 +287,7 @@ function Integrations ({ app, dispatch }) {
                   />
                 }
               </div>
-            )
+            ),
           },
           {
             label: I18n.t('settings.integrations.yours.title'),
@@ -278,11 +297,11 @@ function Integrations ({ app, dispatch }) {
                   app={app}
                   open={openIntegrationDialog}
                   handleOpen={handleOpen}
-                  dispatch={dispatch}>
-                </MyAppPackages>
+                  dispatch={dispatch}
+                ></MyAppPackages>
               </div>
-            )
-          }
+            ),
+          },
         ]}
       />
 
@@ -311,7 +330,7 @@ function Integrations ({ app, dispatch }) {
                         props={{
                           data: open.settings
                             ? camelizeKeys(open.settings)
-                            : {}
+                            : {},
                         }}
                         errors={{}}
                       />
@@ -322,15 +341,12 @@ function Integrations ({ app, dispatch }) {
 
               {open.id && (
                 <div>
+                  {open.oauthAuthorize && (
+                    <div className="mb-4">
+                      <p variant="overline">Authorize App</p>
 
-                  {
-                    open.oauthAuthorize && <div className="mb-4">
-
-                      <p variant="overline">
-                        Authorize App
-                      </p>
-
-                      <a href={open.oauthAuthorize}
+                      <a
+                        href={open.oauthAuthorize}
                         className="p-2 outline-none
                       inline-flex
                       items-center
@@ -341,15 +357,17 @@ function Integrations ({ app, dispatch }) {
                       border-1
                       focus:shadow-outline-indigo
                       focus:border-indigo-700
-                      active:bg-indigo-700">
-                        <Avatar size={10}
+                      active:bg-indigo-700"
+                      >
+                        <Avatar
+                          size={10}
                           classes={'mr-4'}
                           src={logos[open.name.toLocaleLowerCase()]}
                         />
                         Install {open.name}
                       </a>
                     </div>
-                  }
+                  )}
 
                   <p variant="overline">
                     {I18n.t('settings.integrations.hints.hook_url')}
@@ -379,8 +397,7 @@ function Integrations ({ app, dispatch }) {
               </Button>
 
               <Button onClick={submit} className="mr-1">
-                {open
-                  ? I18n.t('common.update') : I18n.t('common.create')}
+                {open ? I18n.t('common.update') : I18n.t('common.create')}
               </Button>
             </React.Fragment>
           }
@@ -390,7 +407,9 @@ function Integrations ({ app, dispatch }) {
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={I18n.t('settings.integrations.delete_dialog.title', { name: openDeleteDialog.name }) }
+          title={I18n.t('settings.integrations.delete_dialog.title', {
+            name: openDeleteDialog.name,
+          })}
           closeHandler={() => {
             setOpenDeleteDialog(null)
           }}
@@ -399,7 +418,9 @@ function Integrations ({ app, dispatch }) {
           }}
         >
           <p variant="subtitle2">
-            {I18n.t('settings.integrations.delete_dialog.text', { name: openDeleteDialog.name })}
+            {I18n.t('settings.integrations.delete_dialog.text', {
+              name: openDeleteDialog.name,
+            })}
           </p>
         </DeleteDialog>
       )}
@@ -407,14 +428,12 @@ function Integrations ({ app, dispatch }) {
   )
 }
 
-function EmptyCard ({ goTo }) {
+function EmptyCard({ goTo }) {
   return (
     <div style={{ marginTop: '2em' }}>
       <div>
         <p color="textSecondary"></p>
-        <p>
-          {I18n.t('settings.integrations.empty.title')}
-        </p>
+        <p>{I18n.t('settings.integrations.empty.title')}</p>
         <p color="textSecondary">
           {I18n.t('settings.integrations.empty.text')}
           <a href="#" onClick={goTo}>
@@ -426,31 +445,36 @@ function EmptyCard ({ goTo }) {
   )
 }
 
-function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
-  function available () {
+function ServiceBlock({ service, handleOpen, kind, setOpenDeleteDialog }) {
+  function available() {
     if (kind === 'services') return service.state === 'enabled'
-    if (kind === 'integrations') { return service.id && service.state === 'enabled' }
+    if (kind === 'integrations') {
+      return service.id && service.state === 'enabled'
+    }
   }
 
   return (
     <ListItem
       avatar={
-        logos[service.name.toLocaleLowerCase()] &&
-        <ItemAvatar avatar={logos[service.name.toLocaleLowerCase()]} />
-      }>
+        logos[service.name.toLocaleLowerCase()] && (
+          <ItemAvatar avatar={logos[service.name.toLocaleLowerCase()]} />
+        )
+      }
+    >
       <ListItemText
         primary={
           <ItemListPrimaryContent variant="h5">
             <div className="flex">
-              {service.name} {
-                kind === 'services' &&
+              {service.name}{' '}
+              {kind === 'services' && (
                 <div className="ml-2">
                   <Badge
-                    variant={service.state === 'enabled' ? 'green' : 'gray' }>
+                    variant={service.state === 'enabled' ? 'green' : 'gray'}
+                  >
                     {service.state}
                   </Badge>
                 </div>
-              }
+              )}
             </div>
           </ItemListPrimaryContent>
         }
@@ -459,14 +483,17 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
             <div className="flex flex-col">
               <span className="mb-2">{service.description}</span>
               <div className="flex">
-                {service.capabilities && service.capabilities.map((o) =>
-                  <Badge className="mr-2"
-                    key={`cap-${o}`}
-                    size="sm"
-                    variant="blue">
-                    {o}
-                  </Badge>
-                )}
+                {service.capabilities &&
+                  service.capabilities.map((o) => (
+                    <Badge
+                      className="mr-2"
+                      key={`cap-${o}`}
+                      size="sm"
+                      variant="blue"
+                    >
+                      {o}
+                    </Badge>
+                  ))}
               </div>
             </div>
           </ItemListSecondaryContent>
@@ -487,15 +514,16 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                     className="mr-2"
                     border={true}
                   >
-                    {service.id ? <EditIcon />
-                      : <Tooltip
+                    {service.id ? (
+                      <EditIcon />
+                    ) : (
+                      <Tooltip
                         placement="bottom"
                         overlay={'add app to workspace'}
                       >
                         <AddIcon />
                       </Tooltip>
-
-                    }
+                    )}
                   </Button>
 
                   {service.id && (
@@ -503,7 +531,7 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
                       onClick={() =>
                         setOpenDeleteDialog && setOpenDeleteDialog(service)
                       }
-                      variant='danger'
+                      variant="danger"
                       border={true}
                       aria-label="remove"
                     >
@@ -520,12 +548,12 @@ function ServiceBlock ({ service, handleOpen, kind, setOpenDeleteDialog }) {
   )
 }
 
-function ServiceIntegration ({
+function ServiceIntegration({
   services,
   handleOpen,
   getAppPackages,
   kind,
-  setOpenDeleteDialog
+  setOpenDeleteDialog,
 }) {
   useEffect(() => {
     getAppPackages()
@@ -546,7 +574,7 @@ function ServiceIntegration ({
   )
 }
 
-function APIServices ({ services, handleOpen, getAppPackages, kind }) {
+function APIServices({ services, handleOpen, getAppPackages, kind }) {
   useEffect(() => {
     getAppPackages()
   }, [])
@@ -565,18 +593,18 @@ function APIServices ({ services, handleOpen, getAppPackages, kind }) {
   )
 }
 
-function MyAppPackages ({ app, dispatch, handleOpen }) {
+function MyAppPackages({ app, dispatch, handleOpen }) {
   const [loading, setLoading] = React.useState(false)
   const [integrations, setIntegrations] = React.useState([])
   const [integration, setIntegration] = React.useState(null)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null)
 
-  function getAppPackages () {
+  function getAppPackages() {
     setLoading(true)
     graphql(
       AGENT_APP_PACKAGES,
       {
-        appKey: app.key
+        appKey: app.key,
       },
       {
         success: (data) => {
@@ -585,18 +613,18 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
         },
         error: () => {
           setLoading(false)
-        }
+        },
       }
     )
   }
 
-  function getAppPackage ({ id }) {
+  function getAppPackage({ id }) {
     setLoading(true)
     graphql(
       AGENT_APP_PACKAGE,
       {
         appKey: app.key,
-        id: id
+        id: id,
       },
       {
         success: (data) => {
@@ -605,18 +633,18 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
         },
         error: () => {
           setLoading(false)
-        }
+        },
       }
     )
   }
 
-  function deleteAppPackage ({ id }) {
+  function deleteAppPackage({ id }) {
     setLoading(true)
     graphql(
       DELETE_PACKAGE,
       {
         appKey: app.key,
-        id: id
+        id: id,
       },
       {
         success: (_data) => {
@@ -624,13 +652,15 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
           setIntegration(null)
           // setIntegration(data.app.agentAppPackage)
           setLoading(false)
-          dispatch(successMessage(I18n.t('settings.integrations.remove_success')))
+          dispatch(
+            successMessage(I18n.t('settings.integrations.remove_success'))
+          )
           getAppPackages()
         },
         error: () => {
           setLoading(false)
           dispatch(errorMessage(I18n.t('settings.integrations.remove_error')))
-        }
+        },
       }
     )
   }
@@ -638,21 +668,16 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
   React.useEffect(getAppPackages, [])
 
   return (
-
     <div>
-
       <div className="py-4 flex justify-end">
         <Button onClick={() => setIntegration({})}>
           {I18n.t('settings.integrations.create_integration')}
         </Button>
       </div>
 
-      {
-        loading && <Progress/>
-      }
+      {loading && <Progress />}
 
-      {
-        integration &&
+      {integration && (
         <AppPackageForm
           app={app}
           open={{}}
@@ -664,11 +689,11 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
           }}
           dispatch={dispatch}
         />
-      }
+      )}
 
-      { !loading && !integration &&
+      {!loading && !integration && (
         <List>
-          { integrations.map((service) => (
+          {integrations.map((service) => (
             <ListItem
               key={`my-apps-${service.id}`}
               // onClick={ () => getAppPackage({ id: service.id }) }
@@ -679,7 +704,11 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                     <div className="flex">
                       {service.name}
                       <div className="ml-2">
-                        <Badge variant={service.state === 'enabled' ? 'green' : 'gray' }>
+                        <Badge
+                          variant={
+                            service.state === 'enabled' ? 'green' : 'gray'
+                          }
+                        >
                           {service.state}
                         </Badge>
                       </div>
@@ -691,14 +720,17 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                     <div className="flex flex-col">
                       <span className="mb-2">{service.description}</span>
                       <div className="flex">
-                        {service.capabilities && service.capabilities.map((o) =>
-                          <Badge className="mr-2"
-                            key={`cap-${o}`}
-                            size="sm"
-                            variant="blue">
-                            {o}
-                          </Badge>
-                        )}
+                        {service.capabilities &&
+                          service.capabilities.map((o) => (
+                            <Badge
+                              className="mr-2"
+                              key={`cap-${o}`}
+                              size="sm"
+                              variant="blue"
+                            >
+                              {o}
+                            </Badge>
+                          ))}
                       </div>
                     </div>
                   </ItemListSecondaryContent>
@@ -709,9 +741,8 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                       className="mt-2 flex items-center
                   text-sm leading-5 text-gray-500 justify-end"
                     >
-                      { (
+                      {
                         <React.Fragment>
-
                           <Button
                             onClick={(e) => {
                               e.preventDefault()
@@ -719,7 +750,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                               // instead of using the old handleOpen
                               handleOpen({
                                 name: service.name,
-                                definitions: []
+                                definitions: [],
                               })
                             }}
                             aria-label="add"
@@ -727,33 +758,38 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                             className="mr-2"
                             border={true}
                           >
-                            {<Tooltip
-                              placement="bottom"
-                              overlay={'add app to workspace'}
-                            >
-                              <AddIcon />
-                            </Tooltip>
-                            }
-                          </Button>
-
-                          <Button
-                            // onClick={() => handleOpen(service)}
-                            onClick={ () => getAppPackage({ id: service.id }) }
-                            aria-label="add"
-                            variant="icon"
-                            className="mr-2"
-                            border={true}
-                          >
-                            {service.id
-                              ? <EditIcon />
-                              : <Tooltip
+                            {
+                              <Tooltip
                                 placement="bottom"
                                 overlay={'add app to workspace'}
                               >
                                 <AddIcon />
                               </Tooltip>
-
                             }
+                          </Button>
+
+                          <Button
+                            // onClick={() => handleOpen(service)}
+                            onClick={() =>
+                              getAppPackage({
+                                id: service.id,
+                              })
+                            }
+                            aria-label="add"
+                            variant="icon"
+                            className="mr-2"
+                            border={true}
+                          >
+                            {service.id ? (
+                              <EditIcon />
+                            ) : (
+                              <Tooltip
+                                placement="bottom"
+                                overlay={'add app to workspace'}
+                              >
+                                <AddIcon />
+                              </Tooltip>
+                            )}
                           </Button>
 
                           {service.id && (
@@ -762,8 +798,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                                 e.preventDefault()
                                 setOpenDeleteDialog &&
                                   setOpenDeleteDialog(service)
-                              }
-                              }
+                              }}
                               border={true}
                               aria-label="remove"
                               variant="icon"
@@ -772,22 +807,22 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
                             </Button>
                           )}
                         </React.Fragment>
-                      )
                       }
                     </div>
                   </React.Fragment>
                 }
               />
             </ListItem>
-          ))
-          }
+          ))}
         </List>
-      }
+      )}
 
-      { openDeleteDialog && (
+      {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={I18n.t('settings.integrations.delete_dialog.title', { name: openDeleteDialog.name }) }
+          title={I18n.t('settings.integrations.delete_dialog.title', {
+            name: openDeleteDialog.name,
+          })}
           closeHandler={() => {
             setOpenDeleteDialog(null)
           }}
@@ -796,7 +831,9 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
           }}
         >
           <p variant="subtitle2">
-            {I18n.t('settings.integrations.delete_dialog.text', { name: openDeleteDialog.name })}
+            {I18n.t('settings.integrations.delete_dialog.text', {
+              name: openDeleteDialog.name,
+            })}
           </p>
         </DeleteDialog>
       )}
@@ -805,7 +842,7 @@ function MyAppPackages ({ app, dispatch, handleOpen }) {
 }
 
 // form for my apps packages
-function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
+function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
   const form = React.useRef()
 
   const [errors, setErrors] = React.useState({})
@@ -819,23 +856,23 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
     { label: 'Home', value: 'home' },
     { label: 'Conversations', value: 'conversations' },
     { label: 'Bots', value: 'bots' },
-    { label: 'Inbox detail', value: 'inbox' }
+    { label: 'Inbox detail', value: 'inbox' },
   ]
 
-  function integrationDefinitions () {
+  function integrationDefinitions() {
     return [
       {
         name: 'name',
         label: I18n.t('definitions.app_packages.name.label'),
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'published',
         label: I18n.t('definitions.app_packages.published.label'),
         type: 'checkbox',
         hint: I18n.t('definitions.app_packages.published.hint'),
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'capability_list',
@@ -844,14 +881,14 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         hint: I18n.t('definitions.app_packages.capability_list.hint'),
         multiple: true,
         options: capabilitiesTypes,
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'description',
         label: I18n.t('definitions.app_packages.description.label'),
         type: 'textarea',
         hint: I18n.t('definitions.app_packages.description.hint'),
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
@@ -859,7 +896,7 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         label: 'oauth url (Optional)',
         type: 'string',
         hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
@@ -867,16 +904,20 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         label: I18n.t('definitions.app_packages.initialize_url.label'),
         type: 'string',
         hint: I18n.t('definitions.app_packages.initialize_url.hint'),
-        placeholder: I18n.t('definitions.app_packages.initialize_url.placeholder'),
-        grid: { xs: 'w-full', sm: 'w-full' }
+        placeholder: I18n.t(
+          'definitions.app_packages.initialize_url.placeholder'
+        ),
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         label: I18n.t('definitions.app_packages.configure_url.label'),
         name: 'configure_url',
         type: 'string',
         hint: I18n.t('definitions.app_packages.configure_url.hint'),
-        placeholder: I18n.t('definitions.app_packages.configure_url.placeholder'),
-        grid: { xs: 'w-full', sm: 'w-full' }
+        placeholder: I18n.t(
+          'definitions.app_packages.configure_url.placeholder'
+        ),
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'submit_url',
@@ -884,7 +925,7 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         type: 'string',
         hint: I18n.t('definitions.app_packages.submit_url.hint'),
         placeholder: I18n.t('definitions.app_packages.submit_url.placeholder'),
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         label: I18n.t('definitions.app_packages.sheet_url.label'),
@@ -892,16 +933,16 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
         name: 'sheet_url',
         hint: I18n.t('definitions.app_packages.sheet_url.hint'),
         placeholder: I18n.t('definitions.app_packages.sheet_url.placeholder'),
-        grid: { xs: 'w-full', sm: 'w-full' }
-      }
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
     ]
   }
 
-  function submit (e) {
+  function submit(e) {
     e.preventDefault()
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     !appPackage.id
@@ -909,13 +950,13 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
       : updatePackage(serializedData)
   }
 
-  function createPackage (serializedData) {
+  function createPackage(serializedData) {
     graphql(
       CREATE_PACKAGE,
       {
         appKey: app.key,
         appPackage: open.name,
-        params: serializedData.app || {}
+        params: serializedData.app || {},
       },
       {
         success: (data) => {
@@ -926,23 +967,25 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
           }
           setAppPackage(data.appPackagesCreate.appPackage)
           onCancel()
-          dispatch(successMessage(I18n.t('settings.app_packages.create_success')))
+          dispatch(
+            successMessage(I18n.t('settings.app_packages.create_success'))
+          )
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.app_packages.create_error')))
-        }
+        },
       }
     )
   }
 
-  function updatePackage (serializedData) {
+  function updatePackage(serializedData) {
     graphql(
       UPDATE_PACKAGE,
       {
         appKey: app.key,
         appPackage: open.name,
         params: serializedData.app || {},
-        id: appPackage.id
+        id: appPackage.id,
       },
       {
         success: (data) => {
@@ -952,11 +995,13 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
             return
           }
           setAppPackage(data.appPackagesUpdate.appPackage)
-          dispatch(successMessage(I18n.t('settings.app_packages.update_success')))
+          dispatch(
+            successMessage(I18n.t('settings.app_packages.update_success'))
+          )
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.app_packages.update_error')))
-        }
+        },
       }
     )
   }
@@ -985,7 +1030,7 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
                     data={camelizeKeys(field)}
                     type={field.type}
                     props={{
-                      data: appPackage
+                      data: appPackage,
                     }}
                     errors={errors}
                   />
@@ -995,17 +1040,12 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
           </div>
 
           <div className="flex justify-end">
-            <Button
-              onClick={onCancel}
-              variant="outlined">
+            <Button onClick={onCancel} variant="outlined">
               {I18n.t('common.cancel')}
             </Button>
 
-            <Button
-              onClick={submit}
-              className="ml-1">
-              {open
-                ? I18n.t('common.update') : I18n.t('common.create')}
+            <Button onClick={submit} className="ml-1">
+              {open ? I18n.t('common.update') : I18n.t('common.create')}
             </Button>
           </div>
         </form>
@@ -1014,11 +1054,11 @@ function AppPackageForm ({ app, open, dispatch, onCancel, integration }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app } = state
 
   return {
-    app
+    app,
   }
 }
 

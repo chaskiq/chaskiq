@@ -14,8 +14,6 @@ import '../src/styles/tailwind.css'
 import 'rc-tooltip/assets/bootstrap.css'
 import App from '../src/App'
 
-// import MainRouter from '../src/modules/MainRouter';
-
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(

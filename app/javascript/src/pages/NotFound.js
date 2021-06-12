@@ -1,12 +1,14 @@
 import React from 'react'
-import Content from '../components/Content'
-import EmptyView from '../components/EmptyView'
+
+import Content from '@chaskiq/components/src/components/Content'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+
 import image from '../images/notfound-icon8.png'
 import logo from '../images/logo.png'
 import { Link } from 'react-router-dom'
 import I18n from '../shared/FakeI18n'
 
-export default function NoFound () {
+export default function NoFound() {
   return (
     <Content>
       <img src={logo} />

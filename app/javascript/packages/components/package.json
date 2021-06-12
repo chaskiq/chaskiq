@@ -1,0 +1,36 @@
+{
+  "name": "@chaskiq/components",
+  "version": "0.0.0",
+  "description": "chaskiq base components",
+  "keywords": [
+    "chaskiq",
+    "components"
+  ],
+  "author": "michelson <miguelmichelson@gmail.com>",
+  "homepage": "https://github.com/chaskiq/chaskiq",
+  "license": "AGPL-3.0-or-later",
+  "main": "dist/components.js",
+  "umd": "dist/components.umd.js",
+  "module": "dist/components.esm.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michelson/chaskiq.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/michelson/chaskiq/issues"
+  },
+  "dependencies": {
+    "@chaskiq/store": "^0.0.0"
+  }
+}

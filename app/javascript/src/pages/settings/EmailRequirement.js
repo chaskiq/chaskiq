@@ -1,30 +1,28 @@
 import React, { useState } from 'react'
 
-import I18n from '../../shared/FakeI18n'
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
-import Hints from '../../shared/Hints'
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import Hints from '@chaskiq/components/src/components/Hints'
 
-export default function EmailRequirement ({ settings, update }) {
+export default function EmailRequirement({ settings, update }) {
   const [value, setValue] = useState(settings.emailRequirement)
 
-  function handleChange (e) {
+  function handleChange(e) {
     setValue(e.target.value)
   }
 
-  function handleSubmit () {
+  function handleSubmit() {
     const data = {
       app: {
-        email_requirement: value
-      }
+        email_requirement: value,
+      },
     }
     update(data)
   }
 
   return (
     <div className="py-4">
-
-      <Hints type="email_requirement"/>
+      <Hints type="email_requirement" />
 
       {/* <p className="text-lg leading-6 font-medium text-gray-900 pb-2">
         {I18n.t('settings.email_requirement.title')}
@@ -62,7 +60,8 @@ export default function EmailRequirement ({ settings, update }) {
         size="md"
         onClick={handleSubmit}
         variant={'success'}
-        color={'primary'}>
+        color={'primary'}
+      >
         {I18n.t('common.save')}
       </Button>
     </div>

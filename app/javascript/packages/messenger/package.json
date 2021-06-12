@@ -1,0 +1,37 @@
+{
+  "name": "@chaskiq/messenger",
+  "version": "0.0.0",
+  "description": "chaskiq messenger client",
+  "keywords": [
+    "chaskiq",
+    "chat",
+    "messenger",
+    "client"
+  ],
+  "author": "michelson <miguelmichelson@gmail.com>",
+  "homepage": "https://github.com/chaskiq/chaskiq",
+  "license": "AGPL-3.0-or-later",
+  "main": "dist/messenger.js",
+  "umd": "dist/messenger.umd.js",
+  "module": "dist/messenger.esm.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michelson/chaskiq.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/michelson/chaskiq/issues"
+  },
+  "dependencies": {
+    "@chaskiq/components": "^0.0.0"
+  }
+}

@@ -1,37 +1,21 @@
 import React from 'react'
-
-import Button from '../../components/Button'
-
-
 import arrayMove from 'array-move'
-
-
 import { connect } from 'react-redux'
 
 import {
   sortableContainer,
   sortableElement,
-  sortableHandle
+  sortableHandle,
 } from 'react-sortable-hoc'
 
+import Button from '@chaskiq/components/src/components/Button'
+import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm'
+import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
+import {QueueIcon, DeleteIcon} from '@chaskiq/components/src/components/icons'
 
+import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  APP_PACKAGES_BY_CAPABILITY
-} from '../../graphql/queries'
-import graphql from '../../graphql/client'
-import {
-  QueueIcon,
-  DeleteIcon
-} from '../../components/icons'
-
-import {
-  DefinitionRenderer,
-} from '../../components/packageBlocks/components'
-
-
-import InserterForm from '../../components/packageBlocks/InserterForm'
-
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries'
 
 const SortableContainer = sortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>
@@ -47,10 +31,10 @@ const SortableItem = sortableElement(
   ({ object, deleteItem, _edit, _updatePackage }) => (
     <li>
       <div>
-
-        <div key={`apps-${object.id}`}
-          className="bg-gray-100 dark:bg-gray-900 mb-2 p-4 flex justify-between items-center">
-
+        <div
+          key={`apps-${object.id}`}
+          className="bg-gray-100 dark:bg-gray-900 mb-2 p-4 flex justify-between items-center"
+        >
           <div className="border-md bg-white dark:bg-black p-4 shadow w-full mx-2 ">
             <p>{object.name}</p>
 
@@ -67,52 +51,52 @@ const SortableItem = sortableElement(
             </div>
             <Button
               className="h-10 w-10"
-              variant='icon'
+              variant="icon"
               size="small"
-              onClick={deleteItem}>
+              onClick={deleteItem}
+            >
               <DeleteIcon />
             </Button>
           </div>
-
         </div>
       </div>
     </li>
   )
 )
 
-function AppInserter ({ app, update }) {
+function AppInserter({ app, update }) {
   const options = [
     {
       name: 'users',
       namespace: 'userHomeApps',
       n: 'user_home_apps',
-      classes: 'rounded-l-lg'
+      classes: 'rounded-l-lg',
     },
     {
       name: 'visitors',
       namespace: 'visitorHomeApps',
       n: 'visitor_home_apps',
-      classes: 'rounded-r-lg'
-    }
+      classes: 'rounded-r-lg',
+    },
   ]
 
   const [option, setOption] = React.useState(options[0])
 
-  const activeClass = 'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none'
+  const activeClass =
+    'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none'
 
-  function handleClick (o) {
+  function handleClick(o) {
     setOption(o)
   }
 
   return (
     <div className="flex flex-col">
       <div className="inline-flex mt-4">
-        {
-          options.map((o, i) => (
-            <button onClick={(_e) => handleClick(o)}
-              key={`tabtab-${i}`}
-              className={
-                `${option.name === o.name ? activeClass : ''}
+        {options.map((o, i) => (
+          <button
+            onClick={(_e) => handleClick(o)}
+            key={`tabtab-${i}`}
+            className={`${option.name === o.name ? activeClass : ''}
                 
                 focus:outline-none 
                 focus:shadow-outline-gray 
@@ -120,11 +104,11 @@ function AppInserter ({ app, update }) {
                 outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
                 font-light py-2 px-4
                 ${o.classes}
-                `}>
-              {o.name}
-            </button>
-          ))
-        }
+                `}
+          >
+            {o.name}
+          </button>
+        ))}
       </div>
 
       <HomeAppInserter
@@ -137,25 +121,28 @@ function AppInserter ({ app, update }) {
   )
 }
 
-function HomeAppInserter ({ app, update, option, capability }) {
+function HomeAppInserter({ app, update, option, capability }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [items, setItems] = React.useState(app[option.namespace] || [])
   const [packages, setPackages] = React.useState([])
   const [loading, setLoading] = React.useState(false)
 
-  function getPackages () {
+  function getPackages() {
     setLoading(true)
-    graphql(APP_PACKAGES_BY_CAPABILITY, {
-      appKey: app.key,
-      kind: capability
-    },
-    {
-      success: (data) => {
-        setLoading(false)
-        setPackages(data.app.appPackagesCapabilities)
+    graphql(
+      APP_PACKAGES_BY_CAPABILITY,
+      {
+        appKey: app.key,
+        kind: capability,
       },
-      error: () => {}
-    })
+      {
+        success: (data) => {
+          setLoading(false)
+          setPackages(data.app.appPackagesCapabilities)
+        },
+        error: () => {},
+      }
+    )
   }
 
   React.useEffect(() => {
@@ -166,11 +153,11 @@ function HomeAppInserter ({ app, update, option, capability }) {
     if (option) setItems(app[option.namespace] || [])
   }, [option])
 
-  function closeHandler () {
+  function closeHandler() {
     setIsOpen(false)
   }
 
-  function handleAdd (item) {
+  function handleAdd(item) {
     setItems(items.concat(item))
     setIsOpen(false)
   }
@@ -179,23 +166,22 @@ function HomeAppInserter ({ app, update, option, capability }) {
     setItems(arrayMove(items, oldIndex, newIndex))
   }
 
-  function deleteItem (item, index) {
+  function deleteItem(item, index) {
     setItems(items.filter((o, i) => i !== index))
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
     const data = {
       app: {
-        [option.n]: items
-      }
+        [option.n]: items,
+      },
     }
     update(data)
   }
 
   return (
     <div className="my-4">
-
       <div className="flex justify-around items-center">
         <div>
           <h2 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
@@ -206,42 +192,42 @@ function HomeAppInserter ({ app, update, option, capability }) {
         </div>
 
         <div className="flex justify-end my-8">
-          <Button
-            variant={'success'}
-            onClick={() => setIsOpen(true)}>
+          <Button variant={'success'} onClick={() => setIsOpen(true)}>
             Add app
           </Button>
         </div>
       </div>
 
-      <InserterForm 
-        isOpen={isOpen} 
-        app={app} 
+      <InserterForm
+        isOpen={isOpen}
+        app={app}
         closeHandler={closeHandler}
         handleAdd={handleAdd}
         packages={packages}
         loading={loading}
       />
-      
+
       <div className="w-2/4">
         <SortableContainer onSortEnd={onSortEnd} useDragHandle>
-          {items && items.map((o, index) => (
-            <SortableItem
-              key={`item-${index}`}
-              index={index}
-              value={o.id}
-              object={o}
-              // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
-              deleteItem={() => deleteItem(o, index)}
-            />
-          ))}
+          {items &&
+            items.map((o, index) => (
+              <SortableItem
+                key={`item-${index}`}
+                index={index}
+                value={o.id}
+                object={o}
+                // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
+                deleteItem={() => deleteItem(o, index)}
+              />
+            ))}
         </SortableContainer>
 
         <Button
           onClick={handleSubmit}
           size="md"
           variant={'success'}
-          className="mt-5">
+          className="mt-5"
+        >
           {I18n.t('common.save')}
         </Button>
       </div>
@@ -249,11 +235,11 @@ function HomeAppInserter ({ app, update, option, capability }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app_user, app } = state
   return {
     app_user,
-    app
+    app,
   }
 }
 

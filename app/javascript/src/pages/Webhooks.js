@@ -1,48 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { isEmpty } from 'lodash'
 import { withRouter } from 'react-router-dom'
-import UpgradeButton from '../components/upgradeButton'
 
 import { connect } from 'react-redux'
-import Content from '../components/Content'
-import { errorMessage, successMessage } from '../actions/status_messages'
 
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
-
-import { camelizeKeys } from '../actions/conversation'
-
-import PageHeader from '../components/PageHeader'
-import Tabs from '../components/Tabs'
-import Panel from '../components/Panel'
-import Hints from '../shared/Hints'
-import DeleteDialog from '../components/DeleteDialog'
-import EmptyView from '../components/EmptyView'
-
-import { EditIcon, AddIcon, DeleteIcon } from '../components/icons'
-import FormDialog from '../components/FormDialog'
-import Button from '../components/Button'
-import Badge from '../components/Badge'
-import FieldRenderer, { gridClasses } from '../components/forms/FieldRenderer'
-import graphql from '../graphql/client'
-import I18n from '../shared/FakeI18n'
-
-import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '../graphql/queries'
-import {
-  WEBHOOK_CREATE,
-  WEBHOOK_UPDATE,
-  WEBHOOK_DELETE
-} from '../graphql/mutations'
-
+import Hints from '@chaskiq/components/src/components/Hints'
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+import Content from '@chaskiq/components/src/components/Content'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import Panel from '@chaskiq/components/src/components/Panel'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Button from '@chaskiq/components/src/components/Button'
+import Badge from '@chaskiq/components/src/components/Badge'
+import FieldRenderer, {
+  gridClasses
+} from '@chaskiq/components/src/components/forms/FieldRenderer'
 import List, {
-  ListItem,
-  ListItemText,
+  ListItem, 
+  ListItemText, 
   ItemListPrimaryContent,
   ItemListSecondaryContent
-} from '../components/List'
+} from '@chaskiq/components/src/components/List'
+
+import { EditIcon, AddIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
+
+import I18n from '../shared/FakeI18n'
 
 import serialize from 'form-serialize'
 
-function Settings ({ app, dispatch }) {
+import graphql from '@chaskiq/store/src/graphql/client'
+
+import {
+  camelizeKeys
+} from '@chaskiq/store/src/actions/conversation'
+
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  successMessage,
+  errorMessage,
+} from '@chaskiq/store/src/actions/status_messages'
+
+
+import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '@chaskiq/store/src/graphql/queries'
+import { WEBHOOK_CREATE, WEBHOOK_UPDATE, WEBHOOK_DELETE } from '@chaskiq/store/src/graphql/mutations'
+
+function Settings({ app, dispatch }) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [eventTypes, setEventTypes] = useState([])
@@ -59,7 +67,7 @@ function Settings ({ app, dispatch }) {
     getWebhooks()
   }, [])
 
-  function getEventTypes () {
+  function getEventTypes() {
     graphql(
       EVENT_TYPES,
       { appKey: app.key },
@@ -67,17 +75,16 @@ function Settings ({ app, dispatch }) {
         success: (data) => {
           const types = data.app.eventTypes.map((o) => ({
             label: o.identifier,
-            value: o.name
+            value: o.name,
           }))
           setEventTypes(types)
         },
-        error: (_data) => {
-        }
+        error: (_data) => {},
       }
     )
   }
 
-  function getWebhooks () {
+  function getWebhooks() {
     setLoading(true)
 
     setWebhooks([])
@@ -85,7 +92,7 @@ function Settings ({ app, dispatch }) {
     graphql(
       OUTGOING_WEBHOOKS,
       {
-        appKey: app.key
+        appKey: app.key,
       },
       {
         success: (data) => {
@@ -94,25 +101,25 @@ function Settings ({ app, dispatch }) {
         },
         error: () => {
           setLoading(false)
-        }
+        },
       }
     )
   }
 
-  function close () {
+  function close() {
     setOpen(false)
   }
 
-  function submit () {
+  function submit() {
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
   }
 
-  function definitions () {
+  function definitions() {
     return [
       {
         name: 'url',
@@ -120,13 +127,13 @@ function Settings ({ app, dispatch }) {
         label: 'url for outgoing webhook',
         hint: "we'll send POST requests",
         placeholder: 'https://mysite.com',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'enabled',
         type: 'bool',
         label: 'enable webhook',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'tag_list',
@@ -135,23 +142,23 @@ function Settings ({ app, dispatch }) {
         hint: 'chaskiq will deliver this events to configured endpoint',
         multiple: true,
         options: eventTypes,
-        grid: { xs: 'w-full', sm: 'w-full' }
-      }
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
     ]
   }
 
-  function newWebhook () {
+  function newWebhook() {
     setOpen({
       name: 'webhook',
       tag_list: [],
       description: 'Outgoing webhook',
       state: 'disabled',
       enabled: false,
-      definitions: definitions()
+      definitions: definitions(),
     })
   }
 
-  function createWebhook (serializedData) {
+  function createWebhook(serializedData) {
     const { url, tag_list, enabled } = serializedData.app
     graphql(
       WEBHOOK_CREATE,
@@ -159,7 +166,7 @@ function Settings ({ app, dispatch }) {
         appKey: app.key,
         url: url,
         state: enabled,
-        tags: tag_list
+        tags: tag_list,
       },
       {
         success: (data) => {
@@ -180,12 +187,12 @@ function Settings ({ app, dispatch }) {
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.webhooks.create_error')))
-        }
+        },
       }
     )
   }
 
-  function updateWebhook (serializedData) {
+  function updateWebhook(serializedData) {
     const { url, tag_list, enabled } = serializedData.app
     graphql(
       WEBHOOK_UPDATE,
@@ -195,7 +202,7 @@ function Settings ({ app, dispatch }) {
         id: parseInt(open.id),
         url: url,
         state: enabled,
-        tags: tag_list
+        tags: tag_list,
       },
       {
         success: (data) => {
@@ -216,17 +223,17 @@ function Settings ({ app, dispatch }) {
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.webhooks.update_error')))
-        }
+        },
       }
     )
   }
 
-  function removeWebhook () {
+  function removeWebhook() {
     graphql(
       WEBHOOK_DELETE,
       {
         appKey: app.key,
-        id: parseInt(openDeleteDialog.id)
+        id: parseInt(openDeleteDialog.id),
       },
       {
         success: (data) => {
@@ -245,16 +252,16 @@ function Settings ({ app, dispatch }) {
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.webhooks.delete_error')))
-        }
+        },
       }
     )
   }
 
-  function activeWebhooks () {
+  function activeWebhooks() {
     return webhooks.filter((o) => o.enabled)
   }
 
-  function disabledWebhooks () {
+  function disabledWebhooks() {
     return webhooks.filter((o) => !o.enabled)
   }
 
@@ -264,14 +271,13 @@ function Settings ({ app, dispatch }) {
         title={I18n.t('settings.webhooks.outgoing_webhooks')}
         actions={
           <UpgradeButton
-            classes={
-              `absolute z-10 ml-1 mt-3 transform w-screen 
+            classes={`absolute z-10 ml-1 mt-3 transform w-screen 
               max-w-md px-2 origin-top-right right-0
               md:-ml-4 sm:px-0 lg:ml-0
-              lg:right-2/6 lg:translate-x-1/6`
-            }
+              lg:right-2/6 lg:translate-x-1/6`}
             label={I18n.t('settings.webhooks.new_webhook')}
-            feature="OutgoingWebhooks">
+            feature="OutgoingWebhooks"
+          >
             <Button
               className={'transition duration-150 ease-in-out'}
               variant={'main'}
@@ -281,7 +287,6 @@ function Settings ({ app, dispatch }) {
               {I18n.t('settings.webhooks.new_webhook')}
             </Button>
           </UpgradeButton>
-
         }
       />
 
@@ -293,8 +298,7 @@ function Settings ({ app, dispatch }) {
             // icon: <HomeIcon />,
             content: (
               <React.Fragment>
-
-                <Hints type="webhooks"/>
+                <Hints type="webhooks" />
 
                 {activeWebhooks().length > 0 && (
                   <List>
@@ -314,8 +318,7 @@ function Settings ({ app, dispatch }) {
                     title={I18n.t('settings.webhooks.empty.title')}
                     subtitle={
                       <span>
-                        {I18n.t('settings.webhooks.empty.desc')}
-                        {' '}
+                        {I18n.t('settings.webhooks.empty.desc')}{' '}
                         <a href="#" onClick={() => setTabValue(1)}>
                           {I18n.t('settings.webhooks.empty.disabled_webhooks')}
                         </a>
@@ -324,7 +327,7 @@ function Settings ({ app, dispatch }) {
                   />
                 )}
               </React.Fragment>
-            )
+            ),
           },
           {
             label: I18n.t('settings.webhooks.disabled_webhooks'),
@@ -351,8 +354,8 @@ function Settings ({ app, dispatch }) {
                   </List>
                 )}
               </React.Fragment>
-            )
-          }
+            ),
+          },
         ]}
       />
 
@@ -360,7 +363,8 @@ function Settings ({ app, dispatch }) {
         <FormDialog
           open={open}
           handleClose={close}
-          titleContent={`${open.id ? I18n.t('common.update') : I18n.t('common.add')
+          titleContent={`${
+            open.id ? I18n.t('common.update') : I18n.t('common.add')
           } webhook`}
           formComponent={
             <form ref={form}>
@@ -368,16 +372,16 @@ function Settings ({ app, dispatch }) {
                 return (
                   <div
                     className={`${gridClasses(field)} py-2 pr-2`}
-
                     key={field.name}
                     xs={field.grid.xs}
-                    sm={field.grid.sm}>
+                    sm={field.grid.sm}
+                  >
                     <FieldRenderer
                       namespace={'app'}
                       type={field.type}
                       data={camelizeKeys(field)}
                       props={{
-                        data: camelizeKeys(open)
+                        data: camelizeKeys(open),
                       }}
                       errors={errors}
                     />
@@ -412,7 +416,9 @@ function Settings ({ app, dispatch }) {
           }}
         >
           <p variant="subtitle2">
-            {I18n.t('settings.webhooks.delete.text', { name: openDeleteDialog.dialog })}
+            {I18n.t('settings.webhooks.delete.text', {
+              name: openDeleteDialog.dialog,
+            })}
           </p>
         </DeleteDialog>
       )}
@@ -420,7 +426,7 @@ function Settings ({ app, dispatch }) {
   )
 }
 
-function WebhookItem ({ webhook, handleEdit, handleDelete }) {
+function WebhookItem({ webhook, handleEdit, handleDelete }) {
   return (
     <ListItem>
       <ListItemText
@@ -474,7 +480,7 @@ function WebhookItem ({ webhook, handleEdit, handleDelete }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, segment, app_users, current_user, navigation } = state
   const { loading, isAuthenticated } = auth
   const { current_section } = navigation
@@ -485,7 +491,7 @@ function mapStateToProps (state) {
     app,
     loading,
     isAuthenticated,
-    current_section
+    current_section,
   }
 }
 

@@ -1,11 +1,11 @@
 import React from 'react'
 
 export default class Loader extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
   }
 
-  render () {
+  render() {
     return (
       <div className="mx-auto" style={{ width: '95%' }}>
         <div className="jumbotron" style={{ backgroundColor: '#fff' }}>

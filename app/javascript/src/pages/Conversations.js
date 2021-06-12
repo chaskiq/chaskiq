@@ -3,36 +3,39 @@ import { Switch, Route, withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { isEmpty } from 'lodash'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
-import {
-  getConversations,
-  updateConversationsData,
-  clearConversations
-} from '../actions/conversations'
 
-import ConversationSearch from '../components/conversations/Search'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Progress from '@chaskiq/components/src/components/Progress'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import Button from '@chaskiq/components/src/components/Button'
 
-import FilterMenu from '../components/FilterMenu'
+import ConversationSearch from './conversations/Search'
+import ConversationItemList from './conversations/ItemList'
+import AssignmentRules from './conversations/AssignmentRules'
+import Conversation from './conversations/Conversation'
+import ConversationSidebar from './conversations/Sidebar'
 
-import ConversationItemList from '../components/conversations/ItemList'
-import AssignmentRules from '../components/conversations/AssignmentRules'
-import Conversation from '../components/conversations/Conversation'
-import Progress from '../components/Progress'
-import EmptyView from '../components/EmptyView'
-import Button from '../components/Button'
-import ConversationSidebar from '../components/conversations/Sidebar'
+
 import emptyImage from '../images/empty-icon8.png'
 import I18n from '../shared/FakeI18n'
 
-// import {toCamelCase} from '../shared/caseConverter'
+import {
+  getConversations,
+  updateConversationsData,
+  clearConversations,
+} from '@chaskiq/store/src/actions/conversations'
 
-function Conversations ({
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
+
+function Conversations({
   dispatch,
   conversations,
   conversation,
   app,
   events,
-  app_user
+  app_user,
 }) {
   const [fetching, setFetching] = React.useState(false)
   const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false)
@@ -62,11 +65,14 @@ function Conversations ({
     if (scrollDiff === element.clientHeight) {
       if (conversations.meta.next_page && !fetching) {
         setFetching(true)
-        fetchConversations({
-          page: conversations.meta.next_page
-        }, () => {
-          setFetching(false)
-        })
+        fetchConversations(
+          {
+            page: conversations.meta.next_page,
+          },
+          () => {
+            setFetching(false)
+          }
+        )
       }
     }
   }
@@ -108,7 +114,7 @@ function Conversations ({
       updateConversationsData(
         {
           filter: options.id,
-          collection: []
+          collection: [],
         },
         () => {
           fetchConversations({ page: 1 }, cb)
@@ -123,7 +129,7 @@ function Conversations ({
       updateConversationsData(
         {
           sort: options.id,
-          collection: []
+          collection: [],
         },
         () => {
           fetchConversations({ page: 1 })
@@ -145,21 +151,51 @@ function Conversations ({
 
   const renderConversations = () => {
     const filters = [
-      { id: 'opened', name: I18n.t('conversations.states.opened'), count: 1, icon: null },
-      { id: 'closed', name: I18n.t('conversations.states.closed'), count: 2, icon: null }
+      {
+        id: 'opened',
+        name: I18n.t('conversations.states.opened'),
+        count: 1,
+        icon: null,
+      },
+      {
+        id: 'closed',
+        name: I18n.t('conversations.states.closed'),
+        count: 2,
+        icon: null,
+      },
     ]
 
     const sorts = [
-      { id: 'newest', name: I18n.t('conversations.sorts.newest'), count: 1, selected: true },
-      { id: 'oldest', name: I18n.t('conversations.sorts.oldest'), count: 1 },
-      { id: 'waiting', name: I18n.t('conversations.sorts.waiting'), count: 1 },
-      { id: 'priority_first', name: I18n.t('conversations.sorts.priority_first'), count: 1 },
-      { id: 'unfiltered', name: I18n.t('conversations.sorts.all'), count: 1 }
+      {
+        id: 'newest',
+        name: I18n.t('conversations.sorts.newest'),
+        count: 1,
+        selected: true,
+      },
+      {
+        id: 'oldest',
+        name: I18n.t('conversations.sorts.oldest'),
+        count: 1,
+      },
+      {
+        id: 'waiting',
+        name: I18n.t('conversations.sorts.waiting'),
+        count: 1,
+      },
+      {
+        id: 'priority_first',
+        name: I18n.t('conversations.sorts.priority_first'),
+        count: 1,
+      },
+      {
+        id: 'unfiltered',
+        name: I18n.t('conversations.sorts.all'),
+        count: 1,
+      },
     ]
 
     return (
       <React.Fragment>
-
         <div className="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
@@ -168,9 +204,9 @@ function Conversations ({
             triggerButton={filterButton}
           />
 
-          <ConversationSearch/>
+          <ConversationSearch />
 
-          { /*
+          {/*
                 conversations.term &&
                 <span className="ml-3 text-sm leading-5 text-gray-700 flex items-center">
                   {conversations.term}
@@ -187,8 +223,7 @@ function Conversations ({
                     </svg>
                   </button>
                 </span>
-              */
-          }
+              */}
 
           <FilterMenu
             options={sorts}
@@ -199,9 +234,11 @@ function Conversations ({
           />
         </div>
 
-        <div className="overflow-scroll"
+        <div
+          className="overflow-scroll"
           onScroll={handleScroll}
-          style={{ height: 'calc(100vh - 60px)' }}>
+          style={{ height: 'calc(100vh - 60px)' }}
+        >
           {conversations.collection.map((o) => {
             const user = o.mainParticipant
             return (
@@ -214,7 +251,7 @@ function Conversations ({
             )
           })}
 
-          { conversations.meta.total_pages === 0 &&
+          {conversations.meta.total_pages === 0 && (
             <EmptyView
               title={I18n.t('conversations.empty.title')}
               shadowless
@@ -222,17 +259,16 @@ function Conversations ({
               font-extrabold text-gray-900 sm:text-3xl
               sm:leading-none md:text-2xl`}
             />
-          }
+          )}
 
-          {
-            (fetching || conversations.loading) && <div className="m-2">
-              <Progress size={
-                conversations.collection.length === 0 ? '16' : '4'
-              }/>
+          {(fetching || conversations.loading) && (
+            <div className="m-2">
+              <Progress
+                size={conversations.collection.length === 0 ? '16' : '4'}
+              />
             </div>
-          }
+          )}
         </div>
-
       </React.Fragment>
     )
   }
@@ -251,7 +287,11 @@ function Conversations ({
         </Route>
       </Switch>
 
-      <div className={'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900'}>
+      <div
+        className={
+          'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900'
+        }
+      >
         {renderConversations()}
       </div>
 
@@ -280,8 +320,13 @@ function Conversations ({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/:id`}>
-          <div className={`${fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'} w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r dark:border-black`}>
-            <Conversation events={events}
+          <div
+            className={`${
+              fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'
+            } w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r dark:border-black`}
+          >
+            <Conversation
+              events={events}
               fixedSidebarOpen={fixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}
             />
@@ -291,11 +336,8 @@ function Conversations ({
 
       {!isEmpty(conversation) && fixedSidebarOpen && (
         <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
-
           {app_user && app_user.id ? (
-            <ConversationSidebar
-              toggleFixedSidebar={toggleFixedSidebar}
-            />
+            <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
           ) : (
             <Progress />
           )}
@@ -305,7 +347,7 @@ function Conversations ({
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, conversations, conversation, app_user } = state
   const { isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
@@ -315,7 +357,7 @@ function mapStateToProps (state) {
     conversation,
     app_user,
     app,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

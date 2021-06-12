@@ -2,19 +2,18 @@ import React from 'react'
 import langsOptions from '../../shared/langsOptions'
 import serialize from 'form-serialize'
 
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import DataTable from '@chaskiq/components/src/components/Table'
+import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
 
-import { toSnakeCase } from '../../shared/caseConverter'
-import FormDialog from '../../components/FormDialog'
-import DataTable from '../../components/Table'
-
-export default function LanguageForm ({ settings, update, namespace, fields }) {
+export default function LanguageForm({ settings, update, namespace, fields }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedLang, _setSelectedLang] = React.useState(null)
   const formRef = React.createRef()
 
-  function handleChange (value) {
+  function handleChange(value) {
     /*const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true
@@ -35,11 +34,11 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
     toggleDialog()
   }
 
-  function close () {
+  function close() {
     setIsOpen(false)
   }
 
-  function renderLangDialog () {
+  function renderLangDialog() {
     return (
       isOpen && (
         <FormDialog
@@ -84,21 +83,21 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
     )
   }
 
-  function toggleDialog () {
+  function toggleDialog() {
     setIsOpen(!isOpen)
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
     const data = toSnakeCase(serializedData)
     update(data)
   }
 
-  function columns () {
+  function columns() {
     const cols = fields.map((field) => ({
       field: field,
       title: field,
@@ -128,7 +127,7 @@ export default function LanguageForm ({ settings, update, namespace, fields }) {
             </td>
           )
         )
-      }
+      },
     }))
 
     return cols

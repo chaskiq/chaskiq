@@ -1,21 +1,32 @@
 // src/App.js
 import React from 'react'
-import Card from '../components/Card'
 import { Link, withRouter } from 'react-router-dom'
 import I18n from '../shared/FakeI18n'
 
 import bg from '../images/bg/welcome-icon8.png'
 
 import styled from '@emotion/styled'
-import graphql from '../graphql/client'
-import { APPS } from '../graphql/queries'
-import LoadingView from '../components/loadingView'
+
+import graphql from '@chaskiq/store/src/graphql/client'
+
+import LoadingView from '@chaskiq/components/src/components/loadingView' 
+import Badge from '@chaskiq/components/src/components/Badge' 
+import Card from '@chaskiq/components/src/components/Card'
 
 import { connect } from 'react-redux'
-import { clearApp } from '../actions/app'
-import { setCurrentSection } from '../actions/navigation'
 import logo from '../images/favicon.png'
-import Badge from '../components/Badge'
+
+import { APPS } from '@chaskiq/store/src/graphql/queries'
+
+import {
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  clearApp
+} from '@chaskiq/store/src/actions/app'
+
+
 const Container = styled.div`
   background: url(${bg});
   background-repeat: no-repeat;
@@ -24,7 +35,7 @@ const Container = styled.div`
   marginbottom: 0px;
 `
 
-function App ({ dispatch, loading }) {
+function App({ dispatch, loading }) {
   const [apps, setApps] = React.useState([])
   const [ready, setReady] = React.useState(false)
 
@@ -39,14 +50,14 @@ function App ({ dispatch, loading }) {
           setApps(data.apps)
           setReady(true)
         },
-        error: () => {}
+        error: () => {},
       }
     )
   }, [])
 
   return (
     <Container className="h-screen flex overflow-hidden bg-white">
-      {loading || !ready && <LoadingView />}
+      {loading || (!ready && <LoadingView />)}
 
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         <div className="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
@@ -125,7 +136,9 @@ function App ({ dispatch, loading }) {
                       className="lg:w-1/4 w-screen overflow-hidden-- my-1 px-1"
                     >
                       <Card
-                        className={'hover:bg-gray-100 border rounded overflow-hidden shadow-lg bg-white h-full'}
+                        className={
+                          'hover:bg-gray-100 border rounded overflow-hidden shadow-lg bg-white h-full'
+                        }
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}
                         description={a.tagline}
                       />
@@ -141,14 +154,14 @@ function App ({ dispatch, loading }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

@@ -36,7 +36,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
   before do
-    file = Rails.root + "app/javascript/client_messenger/graphql/testEntry.mjs"
+    file = Rails.root + "app/javascript/packages/messenger/src/client_messenger/graphql/testEntry.mjs"
     GraphQL::TestClient.configure(file)
     app.update(encryption_key: "unodostrescuatro")
 

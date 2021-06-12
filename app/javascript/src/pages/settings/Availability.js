@@ -2,35 +2,31 @@ import React, { useState, useEffect } from 'react'
 import I18n from '../../shared/FakeI18n'
 import Tooltip from 'rc-tooltip'
 
-import Button from '../../components/Button'
-import Hints from '../../shared/Hints'
-import { PlusIcon, DeleteIcon } from '../../components/icons'
-import Input from '../../components/forms/Input'
-// const options = I18n.t("settings.availability.reply_time.options")
-/* [
-  {value: "auto", label: "Automatic reply time. Currently El equipo responderá lo antes posible"},
-  {value: "minutes", label: "El equipo suele responder en cuestión de minutos."},
-  {value: "hours", label: "El equipo suele responder en cuestión de horas."},
-  {value: "1 day", label: "El equipo suele responder en un día."},
-] */
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import Hints from '@chaskiq/components/src/components/Hints'
+import { PlusIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
 
-export default function LanguageForm ({ settings, update, _namespace, _fields }) {
-  const [selectedOption, setSelectedOption] = React.useState(
-    settings.replyTime
-  )
+export default function LanguageForm({
+  settings,
+  update,
+  _namespace,
+  _fields,
+}) {
+  const [selectedOption, setSelectedOption] = React.useState(settings.replyTime)
   const [records, setRecords] = useState(settings.teamSchedule)
 
-  function handleChange (e) {
+  function handleChange(e) {
     setSelectedOption(e.target.value)
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
     const data = {
       app: {
         team_schedule: records,
-        reply_time: selectedOption
-      }
+        reply_time: selectedOption,
+      },
     }
     update(data)
   }
@@ -38,15 +34,13 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
   return (
     <form>
       <div className="py-4">
-        <Hints type="availability"/>
+        <Hints type="availability" />
 
         <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
           {I18n.t('settings.availability.title')}
         </p>
 
-        <p>
-          {I18n.t('settings.availability.hint')}
-        </p>
+        <p>{I18n.t('settings.availability.hint')}</p>
       </div>
 
       <hr />
@@ -63,7 +57,9 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
 
       <div className="py-4">
         <p className="text-xs text-gray-900 dark:text-gray-100 font-bold">
-          {I18n.t('settings.availability.timezone', { tz: settings.timezone })}
+          {I18n.t('settings.availability.timezone', {
+            tz: settings.timezone,
+          })}
         </p>
 
         <AvailabilitySchedule records={records} setRecords={setRecords} />
@@ -101,10 +97,12 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
       </div>
 
       <div className="py-4">
-        <Button onClick={handleSubmit}
+        <Button
+          onClick={handleSubmit}
           variant={'success'}
           color={'primary'}
-          size="md">
+          size="md"
+        >
           {I18n.t('common.save')}
         </Button>
       </div>
@@ -112,27 +110,27 @@ export default function LanguageForm ({ settings, update, _namespace, _fields })
   )
 }
 
-function AvailabilitySchedule ({ records, setRecords }) {
-  function addRecord (e) {
+function AvailabilitySchedule({ records, setRecords }) {
+  function addRecord(e) {
     e.preventDefault()
 
     const newRecords = records.concat({
       day: null,
       from: null,
-      to: null
+      to: null,
     })
 
     setRecords(newRecords)
   }
 
-  function update (item, index) {
+  function update(item, index) {
     const newRecords = records.map((o, i) => {
       return i === index ? item : o
     })
     setRecords(newRecords)
   }
 
-  function removeItem (index) {
+  function removeItem(index) {
     const newRecords = records.filter((o, i) => i != index)
     setRecords(newRecords)
   }
@@ -171,14 +169,14 @@ function AvailabilitySchedule ({ records, setRecords }) {
   )
 }
 
-function AvailabilityRecord ({ record, update, index, removeItem }) {
+function AvailabilityRecord({ record, update, index, removeItem }) {
   const [item, setRecord] = useState(record)
 
-  function handleChange (data) {
+  function handleChange(data) {
     setRecord(Object.assign({}, item, data))
   }
 
-  function genHours (_t1, _t2) {
+  function genHours(_t1, _t2) {
     return Array(24 * 4)
       .fill(0)
       .map((_, i) => {
@@ -193,7 +191,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
     update(item, index)
   }, [item])
 
-  function deleteItem () {
+  function deleteItem() {
     removeItem(index)
   }
 
@@ -210,7 +208,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
           onChange={(e) => handleChange({ day: e.value })}
           options={I18n.translations.en.date.abbr_day_names.map((o, i) => ({
             value: o.toLocaleLowerCase(),
-            label: I18n.translations.en.date.day_names[i]
+            label: I18n.translations.en.date.day_names[i],
           }))}
         ></Input>
       </div>
@@ -228,7 +226,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
           }}
           options={genHours('00:00', '23:30').map((o) => ({
             label: o,
-            value: o
+            value: o,
           }))}
         ></Input>
       </div>
@@ -244,7 +242,7 @@ function AvailabilityRecord ({ record, update, index, removeItem }) {
           onChange={(e) => handleChange({ to: e.value })}
           options={genHours('00:00', '23:30').map((o) => ({
             label: o,
-            value: o
+            value: o,
           }))}
         ></Input>
       </div>

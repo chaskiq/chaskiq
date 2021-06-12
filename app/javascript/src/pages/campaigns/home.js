@@ -1,12 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Content from '../../components/Content'
-import EmptyView from '../../components/EmptyView'
-import { setCurrentSection } from '../../actions/navigation'
+import Content from '@chaskiq/components/src/components/Content'
+import EmptyView from '@chaskiq/components/src/components/EmptyView'
+
 import { withRouter } from 'react-router-dom'
 import image from '../../images/delivery-icon8.png'
-import I18n from '../../shared/FakeI18n'
-function CampaignHome ({ dispatch }) {
+
+import {
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+
+function CampaignHome({ dispatch }) {
   React.useEffect(() => {
     dispatch(setCurrentSection('Campaigns'))
   }, [])
@@ -29,14 +34,14 @@ function CampaignHome ({ dispatch }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

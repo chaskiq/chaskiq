@@ -1,0 +1,32 @@
+{
+  "name": "@chaskiq/store",
+  "version": "0.0.0",
+  "description": "chaskiq store",
+  "keywords": [
+    "chaskiq",
+    "store"
+  ],
+  "author": "michelson <miguelmichelson@gmail.com>",
+  "homepage": "https://github.com/chaskiq/chaskiq",
+  "license": "AGPL-3.0-or-later",
+  "main": "dist/store.js",
+  "umd": "dist/store.umd.js",
+  "module": "dist/store.esm.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michelson/chaskiq.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/michelson/chaskiq/issues"
+  }
+}

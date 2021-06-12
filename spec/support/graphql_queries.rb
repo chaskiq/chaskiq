@@ -3,7 +3,7 @@ require "rspec/expectations"
 
 module GraphQL
   class TestClient
-    def self.configure(entry = Rails.root + "app/javascript/src/graphql/testEntry.mjs")
+    def self.configure(entry = Rails.root + "app/javascript/packages/store/src/graphql/testEntry.mjs")
       @entry = entry
     end
 

@@ -1,23 +1,29 @@
 import React, { useRef } from 'react'
 import { connect } from 'react-redux'
 // import { Redirect } from 'react-router-dom'
-import { authenticate, doSignout } from '../../actions/auth'
-import { getCurrentUser } from '../../actions/current_user'
 
 import logo from '../../images/logo.png'
 import serialize from 'form-serialize'
 
-function Login ({ dispatch }) {
+import {
+  authenticate, doSignout
+} from '@chaskiq/store/src/actions/auth'
+
+import {
+  getCurrentUser
+} from '@chaskiq/store/src/actions/current_user'
+
+function Login({ dispatch }) {
   const form = useRef(null)
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault()
 
     dispatch(doSignout())
 
     const serializedData = serialize(form.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
 
     const { email, password } = serializedData // this.state
@@ -28,7 +34,7 @@ function Login ({ dispatch }) {
     )
   }
 
-  function getUser () {
+  function getUser() {
     dispatch(getCurrentUser())
   }
 
@@ -206,7 +212,7 @@ function Login ({ dispatch }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, current_user, theme } = state
   const { loading, isAuthenticated } = auth
 
@@ -214,7 +220,7 @@ function mapStateToProps (state) {
     current_user,
     loading,
     isAuthenticated,
-    theme
+    theme,
   }
 }
 

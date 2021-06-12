@@ -149,7 +149,7 @@ const zones = [
   'Pacific/Chatham',
   'Pacific/Tongatapu',
   'Pacific/Apia',
-  'Pacific/Fakaofo'
+  'Pacific/Fakaofo',
 ]
 
 export default zones
