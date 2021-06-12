@@ -30,7 +30,7 @@ class SegmentFactory
                                                                  type: "date",
                                                                  value: "30 days ago" }.with_indifferent_access] },
 
-                          { name: "sleeping away", predicates: [default_predicate, user_predicate,
+                          { name: "sliping away", predicates: [default_predicate, user_predicate,
                                                                 { attribute: "last_visited_at",
                                                                   comparison: "gteq",
                                                                   type: "date",

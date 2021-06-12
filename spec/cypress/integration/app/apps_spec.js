@@ -47,7 +47,7 @@ describe('Login Spec', function () {
                     cy.get('body').should('contain', 'all users')
                     cy.get('body').should('contain', 'all leads')
                     cy.get('body').should('contain', 'active users')
-                    cy.get('body').should('contain', 'sleeping away')
+                    cy.get('body').should('contain', 'sliping away')
                   })
 
                 cy.get("a[aria-label='Conversations']")

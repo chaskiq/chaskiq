@@ -911,6 +911,17 @@ class CampaignContainer extends Component {
     )
   }
 
+  titleMapping = (kind)=>{
+    const mapping = { 
+      banners: I18n.t('navigator.childs.banners'),
+      tours: I18n.t('navigator.childs.guided_tours'),
+      user_auto_messages: I18n.t('navigator.childs.in_app_messages'),
+      campaigns: I18n.t('navigator.childs.mailing_campaigns')
+    }
+
+    return mapping[kind]
+  } 
+
   render() {
     return (
       <div className="m-4">
@@ -933,7 +944,7 @@ class CampaignContainer extends Component {
             exact
             path={`${this.props.match.url}`}
             render={(_props) => (
-              <div>
+              <Content>
                 {this.state.openDeleteDialog && (
                   <DeleteDialog
                     open={this.state.openDeleteDialog}
@@ -965,7 +976,9 @@ class CampaignContainer extends Component {
                 )}
 
                 <ContentHeader
-                  title={I18n.t('campaigns.home.title')}
+                  title={
+                    this.titleMapping(this.props.match.params.message_type)
+                  }
                   actions={this.renderActions()}
                 />
 
@@ -1120,7 +1133,7 @@ class CampaignContainer extends Component {
 
                   {this.state.loading ? <CircularProgress /> : null}
                 </Content>
-              </div>
+              </Content>
             )}
           />
         </Switch>

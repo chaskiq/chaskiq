@@ -13,7 +13,7 @@ import Tabs from '@chaskiq/components/src/components/Tabs'
 import PageHeader from '@chaskiq/components/src/components/PageHeader'
 import Button from '@chaskiq/components/src/components/Button'
 import Badge from '@chaskiq/components/src/components/Badge'
-import FieldRenderer from '@chaskiq/components/src/components/forms/Input'
+import FieldRenderer from '@chaskiq/components/src/components/forms/FieldRenderer'
 import Avatar from '@chaskiq/components/src/components/Avatar'
 import List, { 
   ListItem, 
