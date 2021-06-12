@@ -1,11 +1,26 @@
 import React from 'react'
 
-import PageHeader from '../components/PageHeader'
-import Content from '../components/Content'
-import ContactManager from '../components/ContactManager'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
+
+import AppContent from '@chaskiq/components/src/components/segmentManager/container'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import ContactManager from '@chaskiq/components/src/components/ContactManager'
+
+import {
+  setCurrentPage,
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
+
+import {
+  setApp
+} from '@chaskiq/store/src/actions/app'
+
+import {
+  searchAppUsers
+} from '@chaskiq/store/src/actions/app_users'
+
 import {
   dispatchSegmentUpdate,
   fetchAppSegment,
@@ -14,23 +29,10 @@ import {
   deleteSegment,
   addPredicate,
   updatePredicate,
-  deletePredicate
-} from '../actions/segments'
-import { searchAppUsers } from '../actions/app_users'
+  deletePredicate,
+} from '@chaskiq/store/src/actions/segments'
 
-import { setApp } from '../actions/app'
-
-import AppContent from '../components/segmentManager/container'
-
-// <PageContainer>jiiojioj</PageContainer>
-
-function Platform ({
-  dispatch,
-  match,
-  app,
-  app_users,
-  segment
-}) {
+function Platform({ dispatch, match, app, app_users, segment }) {
   React.useEffect(() => {
     dispatch(setCurrentSection('Platform'))
 
@@ -39,7 +41,7 @@ function Platform ({
     dispatch(
       dispatchSegmentUpdate({
         id: match.params.segmentID,
-        jwt: match.params.Jwt
+        jwt: match.params.Jwt,
       })
     )
 
@@ -50,7 +52,7 @@ function Platform ({
 
   const search = (page) => {
     const options = {
-      page: page || 1
+      page: page || 1,
     }
 
     dispatch(searchAppUsers(options, () => {}))
@@ -73,7 +75,7 @@ function Platform ({
 
   const createSegmentD = (data, cb) => {
     const params = {
-      name: data.input
+      name: data.input,
     }
 
     dispatch(
@@ -97,7 +99,7 @@ function Platform ({
       attribute: data.name,
       comparison: null,
       type: data.type,
-      value: data.value
+      value: data.value,
     }
     dispatch(
       addPredicate(pending_predicate, (token) => {
@@ -145,9 +147,7 @@ function Platform ({
     <Content>
       <PageHeader
         title={segment && segment.name}
-        actions={
-          <ContactManager app={app}/>
-        }
+        actions={<ContactManager app={app} />}
       />
 
       <div className="flex flex-col">
@@ -164,7 +164,7 @@ function Platform ({
             addPredicate: addPredicateD,
             updatePredicate: updatePredicateD,
             savePredicates: savePredicates,
-            deletePredicate: deletePredicateD
+            deletePredicate: deletePredicateD,
           }}
           // history={props.history}
           // actions={this.actions()}
@@ -174,7 +174,7 @@ function Platform ({
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, segment, app_users, app_user } = state
   const { loading, isAuthenticated } = auth
 
@@ -188,7 +188,7 @@ function mapStateToProps (state) {
     segment,
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

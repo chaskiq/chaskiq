@@ -5,14 +5,13 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import history from './history.js'
 
 import AppRouter from './AppRoutes'
-import Docs from './pages/docs'
+import Docs from '@chaskiq/docs/src/index' //'./pages/docs'
 
 import { Provider } from 'react-redux'
-import store from './store'
-import ErrorBoundary from './components/ErrorBoundary'
+import store from '@chaskiq/store/src/index'
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
 
 function App() {
-
   const host = document
     .querySelector("meta[name='chaskiq-host']")
     .getAttribute('content')
@@ -20,28 +19,18 @@ function App() {
 
   return (
     <Provider store={store}>
-
       <Router history={history}>
         <Route
           render={(props) => {
             const subdomain = window.location.hostname.split('.')
 
-            if (
-              chaskiqHost && chaskiqHost != window.location.hostname
-            ) {
-              return (
-                <Docs
-                  {...props}
-                  subdomain={subdomain[0]}
-                />
-              )
+            if (chaskiqHost && chaskiqHost != window.location.hostname) {
+              return <Docs {...props} subdomain={subdomain[0]} />
             }
 
             return (
               <ErrorBoundary variant={'very-wrong'}>
-                <AppRouter
-                  {...props}
-                />
+                <AppRouter {...props} />
               </ErrorBoundary>
             )
           }}

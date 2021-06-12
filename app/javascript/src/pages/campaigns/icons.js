@@ -2,7 +2,7 @@ import React from 'react'
 
 // INLINE TOOLTIP
 
-function image () {
+function image() {
   return (
     <svg
       className="icon-photo"
@@ -20,7 +20,7 @@ function image () {
   )
 }
 
-function video () {
+function video() {
   return (
     <svg
       className="icon-video"
@@ -39,7 +39,7 @@ function video () {
   )
 }
 
-function divider () {
+function divider() {
   return (
     <svg
       className="icon-spacer"
@@ -72,7 +72,7 @@ function divider () {
   )
 }
 
-function button () {
+function button() {
   return (
     <svg
       className="icon-button"
@@ -95,7 +95,7 @@ function button () {
   )
 }
 
-function card () {
+function card() {
   return (
     <svg
       className="icon-signature"
@@ -137,7 +137,7 @@ function card () {
   )
 }
 
-function add () {
+function add() {
   return (
     <svg
       className="icon-add"
@@ -155,7 +155,7 @@ function add () {
   )
 }
 
-function embed () {
+function embed() {
   return (
     <svg
       className="icon-embed"
@@ -178,7 +178,7 @@ function embed () {
 
 // TEXT TOOLTIP
 
-function fontColor () {
+function fontColor() {
   return (
     <svg
       className="icon-fontcolor"
@@ -212,7 +212,7 @@ function fontColor () {
   )
 }
 
-function bold () {
+function bold() {
   return (
     <svg
       className="icon-bold"
@@ -230,7 +230,7 @@ function bold () {
   )
 }
 
-function italic () {
+function italic() {
   return (
     <svg
       className="icon-italic"
@@ -249,7 +249,7 @@ function italic () {
   )
 }
 
-function insertunorderedlist () {
+function insertunorderedlist() {
   return (
     <svg
       className="icon-unorderedlist"
@@ -268,7 +268,7 @@ function insertunorderedlist () {
   )
 }
 
-function insertorderedlist () {
+function insertorderedlist() {
   return (
     <svg
       className="icon-orderedlist"
@@ -287,7 +287,7 @@ function insertorderedlist () {
   )
 }
 
-function link () {
+function link() {
   return (
     <svg
       className="icon-link"
@@ -306,7 +306,7 @@ function link () {
   )
 }
 
-function close () {
+function close() {
   return (
     <svg
       className="icon-close"
@@ -339,5 +339,5 @@ export default {
   insertunorderedlist,
   insertorderedlist,
   link,
-  close
+  close,
 }

@@ -8,6 +8,7 @@ module Types
     field :site_description, String, null: true
     field :website, String, null: true
     field :google_code, String, null: true
+    field :domain, String, null: true
 
     field :color, String, null: true
     field :logo, String, null: true

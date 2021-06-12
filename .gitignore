@@ -8,6 +8,7 @@
 /.bundle
 .sass-cache
 .DS_STORE
+dist
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

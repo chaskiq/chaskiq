@@ -1,20 +1,26 @@
 import React from 'react'
-import PageHeader from '../components/PageHeader'
-import Progress from '../components/Progress'
 import moment from 'moment'
-import HeatMap from '../components/charts/heatMap'
-import Pie from '../components/charts/pie'
-import Count from '../components/charts/count'
-import DashboardCard from '../components/dashboard/card'
-import { DASHBOARD } from '../graphql/queries'
-import graphql from '../graphql/client'
-import { setCurrentSection } from '../actions/navigation'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Content from '../components/Content'
 import I18n from '../shared/FakeI18n'
 
-export function Home () {
+import Content from '@chaskiq/components/src/components/Content'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Progress from '@chaskiq/components/src/components/Progress'
+import HeatMap from '@chaskiq/components/src/components/charts/heatMap'
+import Pie from '@chaskiq/components/src/components/charts/pie'
+import Count from '@chaskiq/components/src/components/charts/count'
+import DashboardCard from '@chaskiq/components/src/components/dashboard/card'
+
+import graphql from '@chaskiq/store/src/graphql/client'
+
+import {
+  setCurrentSection
+} from '@chaskiq/store/src/actions/navigation'
+
+import { DASHBOARD } from '@chaskiq/store/src/graphql/queries'
+
+export function Home() {
   return (
     <div>
       <PageHeader title={'Dashboard'} />
@@ -22,7 +28,7 @@ export function Home () {
   )
 }
 
-function Dashboard (props) {
+function Dashboard(props) {
   const { app, dispatch } = props
 
   React.useEffect(() => {
@@ -32,7 +38,7 @@ function Dashboard (props) {
   const initialData = {
     loading: true,
     from: moment().add(-1, 'week'),
-    to: moment() // .add(-1, 'day')
+    to: moment(), // .add(-1, 'day')
   }
 
   const [dashboard, _setDashboard] = React.useState(initialData)
@@ -161,7 +167,6 @@ function Dashboard (props) {
                     kind={'user_os'}
                   />
                 </DashboardCard>
-
               </div>
             </div>
 
@@ -185,7 +190,7 @@ function Dashboard (props) {
   )
 }
 
-function DashboardItem ({
+function DashboardItem({
   app,
   kind,
   dashboard,
@@ -193,7 +198,7 @@ function DashboardItem ({
   label,
   appendLabel,
   classes,
-  styles
+  styles,
 }) {
   const [data, setData] = React.useState([])
   const [loading, setLoading] = React.useState(true)
@@ -202,16 +207,16 @@ function DashboardItem ({
     getData()
   }, [])
 
-  function getData () {
+  function getData() {
     graphql(
       DASHBOARD,
       {
         appKey: app.key,
         range: {
           from: dashboard.from,
-          to: dashboard.to
+          to: dashboard.to,
         },
-        kind: kind
+        kind: kind,
       },
       {
         success: (data) => {
@@ -220,12 +225,12 @@ function DashboardItem ({
         },
         error: (_err) => {
           setLoading(false)
-        }
+        },
       }
     )
   }
 
-  function renderChart () {
+  function renderChart() {
     switch (chartType) {
       case 'heatMap':
         return <HeatMap data={data} from={dashboard.from} to={dashboard.to} />
@@ -263,23 +268,26 @@ function DashboardItem ({
   )
 }
 
-function DashboardAppPackages (props) {
+function DashboardAppPackages(props) {
   const packages = props.data
   return (
     packages &&
-      packages.map((o) => (
-        <div key={`appPackage-${o.name}`} className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-          <DashboardAppPackage
-            package={o}
-            dashboard={props.dashboard}
-            classes={props.classes}
-          />
-        </div>
-      ))
+    packages.map((o) => (
+      <div
+        key={`appPackage-${o.name}`}
+        className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4"
+      >
+        <DashboardAppPackage
+          package={o}
+          dashboard={props.dashboard}
+          classes={props.classes}
+        />
+      </div>
+    ))
   )
 }
 
-function DashboardAppPackage (props) {
+function DashboardAppPackage(props) {
   const dashboard = props.dashboard
   const pkg = props.package
   const data = pkg.data
@@ -325,14 +333,14 @@ function DashboardAppPackage (props) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { loading, isAuthenticated } = auth
 
   return {
     app,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

@@ -1,24 +1,23 @@
 import React from 'react'
 import Prism from 'prismjs'
 import { connect } from 'react-redux'
-import FilterMenu from '../../components/FilterMenu'
 
-import Button from '../../components/Button'
-import Input from '../../components/forms/Input'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Button from '@chaskiq/components/src/components/Button'
+import Input from '@chaskiq/components/src/components/forms/Input'
 
-
-function VerificationView({app}){
-  const [currentLang, setCurrentLang] = React.useState("ruby")
+function VerificationView({ app }) {
+  const [currentLang, setCurrentLang] = React.useState('ruby')
   const [show, setShow] = React.useState(false)
 
-  function setupScript () {
+  function setupScript() {
     const hostname = window.location.hostname
     const port = window.location.port ? ':' + window.location.port : ''
     const secure = window.location.protocol === 'https:'
     const httpProtocol = window.location.protocol
     const wsProtocol = secure ? 'wss' : 'ws'
     const hostnamePort = `${hostname}${port}`
-  
+
     const code = `
       <script>
         (function(d,t) {
@@ -44,16 +43,13 @@ function VerificationView({app}){
     return Prism.highlight(code, Prism.languages.javascript, 'javascript')
   }
 
-  function keyGeneration () {
-
-    const code = optionsForFilter().find(
-      (o)=> o.id === currentLang
-    ).code
+  function keyGeneration() {
+    const code = optionsForFilter().find((o) => o.id === currentLang).code
 
     return Prism.highlight(code, Prism.languages.ruby, 'ruby')
   }
 
-  function optionsForFilter(){
+  function optionsForFilter() {
     return [
       {
         title: 'Ruby',
@@ -65,7 +61,7 @@ function VerificationView({app}){
           'sha256', # hash function
           '${app.encryptionKey}', # secret key (keep safe!)
           current_user.email
-        )`
+        )`,
       },
       {
         title: 'NodeJs',
@@ -75,7 +71,7 @@ function VerificationView({app}){
         const crypto = require('crypto');
         const hmac = crypto.createHmac('sha256', '${app.encryptionKey}');
         hmac.update('Message');
-        console.log(hmac.digest('hex'));`
+        console.log(hmac.digest('hex'));`,
       },
       {
         title: 'PHP',
@@ -86,7 +82,7 @@ function VerificationView({app}){
           'sha256', // hash function
           $user->email, // user's id
           '${app.encryptionKey}' // secret key (keep safe!)
-        );`
+        );`,
       },
       {
         title: 'Python 3',
@@ -100,7 +96,7 @@ function VerificationView({app}){
           bytes(request.user.id, encoding='utf-8'), # user's id
           digestmod=hashlib.sha256 # hash function
         ).hexdigest()
-        `
+        `,
       },
       {
         title: 'Golang',
@@ -127,64 +123,57 @@ function VerificationView({app}){
             fmt.Println(ComputeHmac256("Message", "secret")) // ${app.encryptionKey}
         }
         
-        `
-      }
+        `,
+      },
     ]
   }
 
   function toggleButton(clickHandler) {
     return (
       <div>
-        <Button 
-          variant={'outlined'} 
-          onClick={clickHandler}>
+        <Button variant={'outlined'} onClick={clickHandler}>
           {currentLang}
         </Button>
       </div>
     )
   }
 
-  function changeLang(item){
+  function changeLang(item) {
     setCurrentLang(item.id)
   }
 
   return (
     <div className="space-y-6 mx-10-- py-6 text-sm">
+      <h2 className="text-lg font-bold-">{I18n.t('identified_users.title')}</h2>
 
-      <h2 className="text-lg font-bold-">{I18n.t("identified_users.title")}</h2>
-    
       <div className="flex md:w-1/4 items-center">
-
-        <Input 
-          label="Identity verification secret" 
+        <Input
+          label="Identity verification secret"
           disabled={true}
-          value={app.encryptionKey} 
+          value={app.encryptionKey}
           type={show ? 'text' : 'password'}
-          helperText={
-            "Don't share this code"
-          }
+          helperText={"Don't share this code"}
         />
 
-        <Button 
+        <Button
           className="ml-2"
           variant="success"
           style={{
-            marginTop: '-12px'
+            marginTop: '-12px',
           }}
-          onClick={()=>setShow(!show)}>
-          show 
+          onClick={() => setShow(!show)}
+        >
+          show
         </Button>
-        
       </div>
 
-    
       <p className="">
-        {I18n.t("identified_users.hint1")}
-        To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
+        {I18n.t('identified_users.hint1')}
+        To configure identity verification, you will need to generate an HMAC on
+        your server for each logged in user and submit it to Chaskiq.
       </p>
 
-      <p className="font-bold">{I18n.t("identified_users.lang")}</p>
-
+      <p className="font-bold">{I18n.t('identified_users.lang')}</p>
 
       <div className="flex justify-between items-center">
         <p className="font-bold text-lg">{currentLang}:</p>
@@ -196,37 +185,36 @@ function VerificationView({app}){
             filterHandler={changeLang}
             triggerButton={toggleButton}
             position={'right'}
-          />      
+          />
         </div>
       </div>
 
-      <CodeBox content={keyGeneration()}/>
+      <CodeBox content={keyGeneration()} />
 
-      <p 
-        dangerouslySetInnerHTML={{__html: I18n.t("identified_users.hint2")
-      }}/>
+      <p
+        dangerouslySetInnerHTML={{
+          __html: I18n.t('identified_users.hint2'),
+        }}
+      />
 
-      <CodeBox content={setupScript()}/>
-
+      <CodeBox content={setupScript()} />
     </div>
   )
 }
 
-function CodeBox ({content}){
+function CodeBox({ content }) {
   return (
     <pre className="p-3 bg-black rounded-md border-black border-2 dark:border-gray-100 text-white text-sm overflow-auto shadow-sm">
-      <div dangerouslySetInnerHTML={{__html: content }}/>    
+      <div dangerouslySetInnerHTML={{ __html: content }} />
     </pre>
   )
 }
 
-
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app } = state
   return {
-    app
+    app,
   }
 }
 
 export default connect(mapStateToProps)(VerificationView)
-

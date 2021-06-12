@@ -1,17 +1,16 @@
-
 import React, { Component } from 'react'
 
-import TextEditor from '../../components/textEditor'
+import TextEditor from '@chaskiq/components/src/components/textEditor'
 
 export default class ArticleEditor extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       read_only: false,
       data: {},
       status: '',
-      statusButton: 'inprogress'
+      statusButton: 'inprogress',
     }
   }
 
@@ -21,16 +20,16 @@ export default class ArticleEditor extends Component {
       statusButton: 'success',
       content: {
         html: content.html,
-        serialized: content.serialized
-      }
+        serialized: content.serialized,
+      },
     })
-  };
+  }
 
   isLoading = () => {
     return this.props.loading // || !this.props.article.content
-  };
+  }
 
-  render () {
+  render() {
     //! this.state.loading &&
     // if(this.props.loading) //|| !this.props.article.content)
     //  return <CircularProgress/>
@@ -47,16 +46,16 @@ export default class ArticleEditor extends Component {
         read_only={this.state.read_only}
         toggleEditable={() => {
           this.setState({
-            read_only: !this.state.read_only
+            read_only: !this.state.read_only,
           })
         }}
         serializedContent={serializedContent}
         data={{
-          serialized_content: serializedContent
+          serialized_content: serializedContent,
         }}
         styles={{
           lineHeight: '2em',
-          fontSize: '1.2em'
+          fontSize: '1.2em',
         }}
         updateState={({ _status, _statusButton, content }) => {
           console.log('get content', content)

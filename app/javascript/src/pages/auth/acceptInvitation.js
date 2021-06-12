@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
-import Button from '../../components/Button'
-import TextField from '../../components/forms/Input'
-import Container from '../../components/Content'
 import axios from 'axios'
-import { getCurrentUser } from '../../actions/current_user'
-import {
-  successAuthentication
-} from '../../actions/auth'
 import logo from '../../images/logo.png'
-import Snackbar from '../../components/Alert'
 import queryString from 'query-string'
 
-function MadeWithLove () {
+import Button from '@chaskiq/components/src/components/Button'
+import TextField from '@chaskiq/components/src/components/forms/Input'
+import Snackbar from '@chaskiq/components/src/components/Alert'
+
+import {
+  getCurrentUser,
+} from '@chaskiq/store/src/actions/current_user'
+
+import {
+  successAuthentication,
+} from '@chaskiq/store/src/actions/auth'
+
+
+function MadeWithLove() {
   return (
     <p className="mt-3 text-base text-gray-500 text-center">
       {'Built with love by the '}
@@ -25,7 +30,7 @@ function MadeWithLove () {
   )
 }
 
-function AcceptInvitation (props) {
+function AcceptInvitation(props) {
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [password, setPassword] = useState('')
   const [token, _setToken] = useState(queryString.parse(props.location.search))
@@ -39,15 +44,12 @@ function AcceptInvitation (props) {
         agent: {
           password: password,
           password_confirmation: passwordConfirmation,
-          invitation_token: token.invitation_token
-        }
+          invitation_token: token.invitation_token,
+        },
       })
       .then(function (response) {
         props.dispatch(
-          successAuthentication(
-            response.data.token,
-            response.data.refreshToken
-          )
+          successAuthentication(response.data.token, response.data.refreshToken)
         )
         props.dispatch(getCurrentUser())
         // use router redirect + snackbar status
@@ -67,7 +69,7 @@ function AcceptInvitation (props) {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <div component="main" maxWidth="xs">
       <div>
         <Snackbar />
 
@@ -120,11 +122,7 @@ function AcceptInvitation (props) {
                 }
               />
 
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
+              <Button type="submit" variant="contained" color="primary">
                 Set my password
               </Button>
             </form>
@@ -133,18 +131,18 @@ function AcceptInvitation (props) {
           <MadeWithLove />
         </div>
       </div>
-    </Container>
+    </div>
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, current_user } = state
   const { loading, isAuthenticated } = auth
 
   return {
     current_user,
     loading,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

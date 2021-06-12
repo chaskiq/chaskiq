@@ -2,44 +2,48 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import Content from '../components/Content'
 
-import Tabs from '../components/Tabs'
+import Content from '@chaskiq/components/src/components/Content' 
+import ContentHeader from '@chaskiq/components/src/components/PageHeader' 
+import Tabs from '@chaskiq/components/src/components/Tabs' 
+import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader' 
 
-import { setCurrentPage, setCurrentSection } from '../actions/navigation'
 import SettingsForm from './settings/form'
-
-import graphql from '../graphql/client'
-import { APP } from '../graphql/queries'
-import { CREATE_DIRECT_UPLOAD } from '../graphql/mutations'
-
-import ContentHeader from '../components/PageHeader'
 import AvailabilitySettings from './settings/Availability'
 import EmailRequirement from './settings/EmailRequirement'
 import LanguageSettings from './settings/Language'
 import InboundSettings from './settings/InboundSettings'
 import StylingSettings from './settings/Styling'
 import AppInserter from './settings/AppInserter'
-import { getFileMetadata, directUpload } from '../shared/fileUploader'
 
-import { updateApp } from '../actions/app'
+import graphql from '@chaskiq/store/src/graphql/client'
 
+import {
+  updateApp
+} from '@chaskiq/store/src/actions/app'
+
+import {
+  setCurrentSection, setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
+
+import { APP } from '@chaskiq/store/src/graphql/queries'
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
 class AppSettingsContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      tabValue: 0
+      tabValue: 0,
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.dispatch(setCurrentPage('messenger'))
     this.props.dispatch(setCurrentSection('Settings'))
   }
 
   url = () => {
     return `/apps/${this.props.match.params.appId}.json`
-  };
+  }
 
   fetchApp = () => {
     graphql(
@@ -51,10 +55,10 @@ class AppSettingsContainer extends Component {
         },
         errors: (error) => {
           console.log(error)
-        }
+        },
       }
     )
-  };
+  }
 
   // Form Event Handlers
   update = (data) => {
@@ -63,7 +67,7 @@ class AppSettingsContainer extends Component {
         console.log(d)
       })
     )
-  };
+  }
 
   uploadHandler = (file, kind) => {
     getFileMetadata(file).then((input) => {
@@ -85,18 +89,17 @@ class AppSettingsContainer extends Component {
         },
         error: (error) => {
           console.log('error on signing blob', error)
-        }
+        },
       })
     })
-  };
+  }
 
   handleTabChange = (e, i) => {
     this.setState({ tabValue: i })
-  };
+  }
 
   definitionsForPrivacy = () => {
     return [
-
       {
         name: 'privacyConsentRequired',
         label: I18n.t('definitions.settings.privacy_consent_required_ue.label'),
@@ -104,28 +107,32 @@ class AppSettingsContainer extends Component {
         value: 'ue',
         type: 'radio',
         defaultChecked: this.props.app.privacyConsentRequired === 'ue',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
         name: 'privacyConsentRequired',
-        label: I18n.t('definitions.settings.privacy_consent_required_all.label'),
+        label: I18n.t(
+          'definitions.settings.privacy_consent_required_all.label'
+        ),
         hint: I18n.t('definitions.settings.privacy_consent_required_all.hint'),
         type: 'radio',
         value: 'all',
         defaultChecked: this.props.app.privacyConsentRequired === 'all',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
         name: 'privacyConsentRequired',
-        label: I18n.t('definitions.settings.privacy_consent_required_none.label'),
+        label: I18n.t(
+          'definitions.settings.privacy_consent_required_none.label'
+        ),
         hint: I18n.t('definitions.settings.privacy_consent_required_none.hint'),
         type: 'radio',
         value: 'none',
         defaultChecked: this.props.app.privacyConsentRequired === '',
-        grid: { xs: 'w-full', sm: 'w-full' }
-      }
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
     ]
   }
 
@@ -136,7 +143,7 @@ class AppSettingsContainer extends Component {
         label: I18n.t('definitions.settings.active_messenger.label'),
         hint: I18n.t('definitions.settings.active_messenger.hint'),
         type: 'bool',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
@@ -144,10 +151,10 @@ class AppSettingsContainer extends Component {
         label: I18n.t('definitions.settings.inline_conversation.label'),
         hint: I18n.t('definitions.settings.inline_conversation.hint'),
         type: 'bool',
-        grid: { xs: 'w-full', sm: 'w-full' }
-      }
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
     ]
-  };
+  }
 
   definitionsForStyling = () => {
     return [
@@ -157,7 +164,7 @@ class AppSettingsContainer extends Component {
         handler: (color) => {
           this.props.updateMemSettings({ color: color })
         },
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
@@ -166,7 +173,7 @@ class AppSettingsContainer extends Component {
         handler: (color) => {
           this.props.updateMemSettings({ color: color })
         },
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
@@ -174,10 +181,10 @@ class AppSettingsContainer extends Component {
         type: 'upload',
         label: 'Header Image',
         handler: (file) => this.uploadHandler(file, 'header_image'),
-        grid: { xs: 'w-full', sm: 'w-1/3' }
-      }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
+      },
     ]
-  };
+  }
 
   tabsContent = () => {
     return (
@@ -201,7 +208,7 @@ class AppSettingsContainer extends Component {
                 definitions={this.definitionsForAppearance}
                 {...this.props}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.translations'),
@@ -212,7 +219,7 @@ class AppSettingsContainer extends Component {
                 namespace={'app'}
                 fields={['locale', 'greetings', 'intro', 'tagline']}
               />
-            )
+            ),
           },
 
           {
@@ -228,7 +235,7 @@ class AppSettingsContainer extends Component {
                 definitions={this.definitionsForPrivacy}
                 {...this.props}
               />
-            )
+            ),
           },
           {
             label: 'Apps',
@@ -238,7 +245,7 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={'app'}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.availability'),
@@ -249,7 +256,7 @@ class AppSettingsContainer extends Component {
                 namespace={'app'}
                 fields={['greetings', 'intro', 'tagline']}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.email_requirement'),
@@ -259,7 +266,7 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={'app'}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.inbound_settings'),
@@ -269,7 +276,7 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={'app'}
               />
-            )
+            ),
           },
           {
             label: I18n.t('settings.app.messenger_style'),
@@ -279,14 +286,14 @@ class AppSettingsContainer extends Component {
                 update={this.update}
                 namespace={'app'}
               />
-            )
-          }
+            ),
+          },
         ]}
       />
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <Content>
         {this.props.app && (
@@ -301,7 +308,7 @@ class AppSettingsContainer extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app, segment, app_users, current_user, navigation } = state
   const { loading, isAuthenticated } = auth
   const { current_section } = navigation
@@ -312,7 +319,7 @@ function mapStateToProps (state) {
     app,
     loading,
     isAuthenticated,
-    current_section
+    current_section,
   }
 }
 

@@ -1,11 +1,11 @@
 import React from 'react'
-import Button from '../../components/Button'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 // import {ColorPicker} from '../../shared/FormFields'
 import styled from '@emotion/styled'
 
-import { ColorPicker } from '../../components/forms/ColorPicker'
+import Button from '@chaskiq/components/src/components/Button'
+import {ColorPicker} from '@chaskiq/components/src/components/forms/ColorPicker'
 
 const PatternButton = styled.button`
   padding: 0px;
@@ -26,9 +26,9 @@ const Image = styled.div`
   background-size: 310px 310px,cover;
 `
 
-function CustomizationColors ({ settings, update, _dispatch }) {
+function CustomizationColors({ settings, update, _dispatch }) {
   const [state, setState] = React.useState({
-    customization_colors: settings.customizationColors || {}
+    customization_colors: settings.customizationColors || {},
   })
 
   /*const handleChange = (name) => (event) => {
@@ -58,7 +58,7 @@ function CustomizationColors ({ settings, update, _dispatch }) {
     'christmas-colour',
     'intersection',
     'doodles',
-    'memphis-colorful'
+    'memphis-colorful',
   ]
 
   const pattern_base_url =
@@ -68,20 +68,20 @@ function CustomizationColors ({ settings, update, _dispatch }) {
     return { name: o, url: pattern_base_url + o + '.png' }
   })
 
-  function handleSubmit () {
+  function handleSubmit() {
     const { customization_colors } = state
 
     const data = {
       app: {
-        customization_colors: customization_colors
-      }
+        customization_colors: customization_colors,
+      },
     }
     update(data)
   }
 
-  function selectPattern (pattern) {
+  function selectPattern(pattern) {
     const color = Object.assign({}, state.customization_colors, {
-      pattern: pattern ? pattern.url : null
+      pattern: pattern ? pattern.url : null,
     })
     setState({ customization_colors: color })
   }
@@ -100,7 +100,7 @@ function CustomizationColors ({ settings, update, _dispatch }) {
             color={state.customization_colors.primary}
             colorHandler={(hex) => {
               const color = Object.assign({}, state.customization_colors, {
-                primary: hex
+                primary: hex,
               })
               setState({ customization_colors: color })
             }}
@@ -114,7 +114,7 @@ function CustomizationColors ({ settings, update, _dispatch }) {
             color={state.customization_colors.secondary}
             colorHandler={(hex) => {
               const color = Object.assign({}, state.customization_colors, {
-                secondary: hex
+                secondary: hex,
               })
               setState({ customization_colors: color })
             }}
@@ -133,8 +133,10 @@ function CustomizationColors ({ settings, update, _dispatch }) {
 
             {patterns.map((o, i) => {
               return (
-                <PatternButton key={`patterns-${i}`}
-                  onClick={(_e) => selectPattern(o)}>
+                <PatternButton
+                  key={`patterns-${i}`}
+                  onClick={(_e) => selectPattern(o)}
+                >
                   <Image image={o.url} />
                 </PatternButton>
               )
@@ -166,7 +168,8 @@ function CustomizationColors ({ settings, update, _dispatch }) {
           onClick={handleSubmit}
           variant={'success'}
           size="md"
-          color={'primary'}>
+          color={'primary'}
+        >
           {I18n.t('common.save')}
         </Button>
       </div>
@@ -174,10 +177,10 @@ function CustomizationColors ({ settings, update, _dispatch }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { drawer } = state
   return {
-    drawer
+    drawer,
   }
 }
 

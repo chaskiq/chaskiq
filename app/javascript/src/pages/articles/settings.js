@@ -1,47 +1,43 @@
-
 import React, { Component } from 'react'
 
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import ContentHeader from '../../components/PageHeader'
-import Tabs from '../../components/Tabs'
-import Button from '../../components/Button'
-import Table from '../../components/Table'
 // import Select from '@material-ui/core/Select'
 
-import { getFileMetadata, directUpload } from '../../shared/fileUploader'
-
-// import {Link} from 'react-router-dom'
-
-import graphql from '../../graphql/client'
-import { toSnakeCase } from '../../shared/caseConverter'
-import FormDialog from '../../components/FormDialog'
-
-import { CREATE_DIRECT_UPLOAD } from '../../graphql/mutations'
-
 import serialize from 'form-serialize'
-
-import { setCurrentSection, setCurrentPage } from '../../actions/navigation'
-
 import langsOptions from '../../shared/langsOptions'
-import DeleteDialog from '../../components/DeleteDialog'
-import Input from '../../components/forms/Input'
-import FieldRenderer, {
-  gridClasses
-} from '../../components/forms/FieldRenderer'
-import UpgradeButton from '../../components/upgradeButton'
+
+import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import Button from '@chaskiq/components/src/components/Button'
+import Table from '@chaskiq/components/src/components/Table'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Input from '@chaskiq/components/src/components/forms/Input'
+import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer'
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader'
+
+import graphql from '@chaskiq/store/src/graphql/client'
+
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
+
+import {
+  setCurrentPage, setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 class Settings extends Component {
   state = {
     loading: true,
-    tabValue: 0
-  };
+    tabValue: 0,
+  }
 
-  titleRef = null;
-  descriptionRef = null;
-  switch_ref = null;
+  titleRef = null
+  descriptionRef = null
+  switch_ref = null
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.getSettings(() => this.setState({ loading: false }))
     this.props.dispatch(setCurrentSection('HelpCenter'))
 
@@ -50,7 +46,7 @@ class Settings extends Component {
 
   updateState = (data) => {
     this.setState(data)
-  };
+  }
 
   uploadHandler = (file, kind) => {
     getFileMetadata(file).then((input) => {
@@ -71,10 +67,10 @@ class Settings extends Component {
         },
         error: (error) => {
           console.log('error on signing blob', error)
-        }
+        },
       })
     })
-  };
+  }
 
   definitionsForSettings = () => {
     return [
@@ -83,7 +79,7 @@ class Settings extends Component {
         label: I18n.t('definitions.articles.subdomain.label'),
         hint: I18n.t('definitions.articles.subdomain.hint'),
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
 
       {
@@ -91,24 +87,24 @@ class Settings extends Component {
         hint: I18n.t('definitions.articles.domain.hint'),
         label: I18n.t('definitions.articles.domain.label'),
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'website',
         hint: I18n.t('definitions.articles.website.hint'),
         label: I18n.t('definitions.articles.website.label'),
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-3/4' }
+        grid: { xs: 'w-full', sm: 'w-3/4' },
       },
       {
         name: 'googleCode',
         label: I18n.t('definitions.articles.google_code.label'),
         hint: I18n.t('definitions.articles.google_code.hint'),
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/4' }
-      }
+        grid: { xs: 'w-full', sm: 'w-1/4' },
+      },
     ]
-  };
+  }
 
   definitionsForAppearance = () => {
     return [
@@ -118,14 +114,14 @@ class Settings extends Component {
         handler: (color) => {
           this.props.updateMemSettings({ color: color })
         },
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
         name: 'logo',
         type: 'upload',
         handler: (file) => this.uploadHandler(file, 'logo'),
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
@@ -133,7 +129,7 @@ class Settings extends Component {
         type: 'upload',
         label: 'Header logo',
         handler: (file) => this.uploadHandler(file, 'header_image'),
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
@@ -141,7 +137,7 @@ class Settings extends Component {
         label: 'Facebook',
         startAdornment: 'facebook/',
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
@@ -149,7 +145,7 @@ class Settings extends Component {
         label: 'Twitter',
         startAdornment: 'twitter/',
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
@@ -157,7 +153,7 @@ class Settings extends Component {
         label: 'Linkedin',
         startAdornment: 'linkedin/',
         type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/3' }
+        grid: { xs: 'w-full', sm: 'w-1/3' },
       },
 
       {
@@ -165,10 +161,10 @@ class Settings extends Component {
         label: I18n.t('definitions.articles.credits.label'),
         type: 'bool',
         hint: I18n.t('definitions.articles.credits.hint'),
-        grid: { xs: 'w-full', sm: 'w-3/4' }
-      }
+        grid: { xs: 'w-full', sm: 'w-3/4' },
+      },
     ]
-  };
+  }
 
   definitionsForLang = () => {
     return [
@@ -179,14 +175,14 @@ class Settings extends Component {
         options: langsOptions,
         default: 'es',
         hint: 'Choose langs',
-        grid: { xs: 'w-full', sm: 'w-3/4' }
-      }
+        grid: { xs: 'w-full', sm: 'w-3/4' },
+      },
     ]
-  };
+  }
 
   handleTabChange = (e, i) => {
     this.setState({ tabValue: i })
-  };
+  }
 
   tabsContent = () => {
     return (
@@ -199,7 +195,7 @@ class Settings extends Component {
             label: I18n.t('articles.settings.basic'),
             content: (
               <SettingsForm
-                title={ I18n.t('articles.settings.general_app')}
+                title={I18n.t('articles.settings.general_app')}
                 // currentUser={this.props.currentUser}
                 data={this.props.settings}
                 update={this.props.update.bind(this)}
@@ -210,7 +206,7 @@ class Settings extends Component {
                 errors={this.props.errors}
                 {...this.props}
               />
-            )
+            ),
           },
           {
             label: I18n.t('articles.settings.lang'),
@@ -246,7 +242,7 @@ class Settings extends Component {
                   {...this.props}
                 />
               </div>
-            )
+            ),
           },
           {
             label: I18n.t('articles.settings.appearance'),
@@ -262,14 +258,14 @@ class Settings extends Component {
                 errors={this.props.errors}
                 {...this.props}
               />
-            )
-          }
+            ),
+          },
         ]}
       ></Tabs>
     )
-  };
+  }
 
-  render () {
+  render() {
     return (
       <React.Fragment>
         <ContentHeader
@@ -277,14 +273,13 @@ class Settings extends Component {
           actions={
             <div>
               <UpgradeButton
-                classes={
-                  `absolute z-10 ml-1 mt-3 transform w-screen 
+                classes={`absolute z-10 ml-1 mt-3 transform w-screen 
                   max-w-md px-2 origin-top-right right-0
                   md:-ml-4 sm:px-0 lg:ml-0
-                  lg:right-2/6 lg:translate-x-1/6`
-                }
-                label={ I18n.t('articles.activate_help_center') }
-                feature="Articles">
+                  lg:right-2/6 lg:translate-x-1/6`}
+                label={I18n.t('articles.activate_help_center')}
+                feature="Articles"
+              >
                 <Button>{I18n.t('articles.activate_help_center')}</Button>
               </UpgradeButton>
             </div>
@@ -313,16 +308,19 @@ class Settings extends Component {
 }
 
 class SettingsForm extends Component {
-  formRef;
+  formRef
 
   onSubmitHandler = (e) => {
     e.preventDefault()
-    const serializedData = serialize(this.formRef, { hash: true, empty: true })
+    const serializedData = serialize(this.formRef, {
+      hash: true,
+      empty: true,
+    })
     const data = toSnakeCase(serializedData)
     this.props.update(data)
-  };
+  }
 
-  render () {
+  render() {
     return (
       <form
         onSubmit={this.onSubmitHandler.bind(this)}
@@ -368,26 +366,24 @@ class SettingsForm extends Component {
               {I18n.t('common.save')}
             </Button>
           </div>
-
         </div>
-
       </form>
     )
   }
 }
 
-function LanguageForm ({ settings, update, deleteLang }) {
+function LanguageForm({ settings, update, deleteLang }) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [selectedLang, _setSelectedLang] = React.useState(null)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null)
 
   const formRef = React.createRef()
 
-  function handleChange (e) {
+  function handleChange(e) {
     const val = e.value
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
     const data = toSnakeCase(serializedData)
 
@@ -400,7 +396,7 @@ function LanguageForm ({ settings, update, deleteLang }) {
     toggleDialog()
   }
 
-  function renderLangDialog () {
+  function renderLangDialog() {
     return (
       isOpen && (
         <FormDialog
@@ -445,20 +441,20 @@ function LanguageForm ({ settings, update, deleteLang }) {
     )
   }
 
-  function toggleDialog () {
+  function toggleDialog() {
     setIsOpen(!isOpen)
   }
 
-  function handleSubmit () {
+  function handleSubmit() {
     const serializedData = serialize(formRef.current, {
       hash: true,
-      empty: true
+      empty: true,
     })
     const data = toSnakeCase(serializedData)
     update(data)
   }
 
-  function columns () {
+  function columns() {
     const fields = ['locale', 'site_title', 'site_description', 'action']
 
     const cols = fields.map((field) => ({
@@ -473,7 +469,7 @@ function LanguageForm ({ settings, update, deleteLang }) {
                 className="flex items-center"
               >
                 {field === 'locale' ? (
-                  <p className="block text-gray-700 text-sm font-bold mb-2">
+                  <p className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
                     {row[field]}
                   </p>
                 ) : field === 'action' ? (
@@ -498,7 +494,7 @@ function LanguageForm ({ settings, update, deleteLang }) {
             </td>
           )
         )
-      }
+      },
     }))
 
     return cols
@@ -510,10 +506,9 @@ function LanguageForm ({ settings, update, deleteLang }) {
         <UpgradeButton
           label={I18n.t('articles.settings.add_language')}
           size="sm"
-          feature="Articles">
-          <Button
-            onClick={toggleDialog}
-            variant={'outlined'}>
+          feature="Articles"
+        >
+          <Button onClick={toggleDialog} variant={'outlined'}>
             {I18n.t('articles.settings.add_language')}
           </Button>
         </UpgradeButton>
@@ -555,9 +550,9 @@ function LanguageForm ({ settings, update, deleteLang }) {
       {openDeleteDialog && (
         <DeleteDialog
           open={openDeleteDialog}
-          title={
-            I18n.t('articles.settings.delete.title', { name: openDeleteDialog.locale })
-          }
+          title={I18n.t('articles.settings.delete.title', {
+            name: openDeleteDialog.locale,
+          })}
           closeHandler={() => {
             setOpenDeleteDialog(null)
           }}
@@ -568,7 +563,9 @@ function LanguageForm ({ settings, update, deleteLang }) {
           }}
         >
           <p variant="subtitle2">
-            {I18n.t('articles.settings.delete.text', { name: openDeleteDialog.locale })}
+            {I18n.t('articles.settings.delete.text', {
+              name: openDeleteDialog.locale,
+            })}
           </p>
         </DeleteDialog>
       )}
@@ -576,14 +573,14 @@ function LanguageForm ({ settings, update, deleteLang }) {
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { auth, app } = state
   const { isAuthenticated } = auth
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
-    isAuthenticated
+    isAuthenticated,
   }
 }
 

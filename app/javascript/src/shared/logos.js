@@ -40,5 +40,5 @@ export default {
   gumroad,
   paddle,
   openai,
-  reveniu
+  reveniu,
 }
