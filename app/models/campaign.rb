@@ -11,10 +11,10 @@ class Campaign < Message
   def config_fields
     [
       { name: "name", label: I18n.t("definitions.campaigns.campaign_name.label"), hint: I18n.t("definitions.campaigns.campaign_name.hint"), type: "string", grid: { xs: "w-full", sm: "w-full" } },
-      { name: "subject", label: I18n.t("definitions.campaigns.email_subject.label"), hint: I18n.t("definitions.campaigns.email_subject.hint"), type: "text", grid: { xs: "w-full", sm: "w-full" } },
       { name: "fromName", label: I18n.t("definitions.campaigns.from_name.label"), type: "string", grid: { xs: "w-full", sm: "w-1/2" } },
+      { name: "subject", label: I18n.t("definitions.campaigns.email_subject.label"), hint: I18n.t("definitions.campaigns.email_subject.hint"), type: "text", grid: { xs: "w-full", sm: "w-full" } },
       # { name: 'fromEmail', label: I18n.t('definitions.campaigns.from_email.label'), type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-      { name: "replyEmail", label: I18n.t("definitions.campaigns.reply_email.label"), type: "string", grid: { xs: "w-full", sm: "w-1/2" } },
+      # { name: "replyEmail", label: I18n.t("definitions.campaigns.reply_email.label"), type: "string", grid: { xs: "w-full", sm: "w-1/2" } },
       { name: "description", type: "textarea", grid: { xs: "w-full", sm: "w-full" } },
       { name: "timezone", type: "timezone",
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
@@ -184,10 +184,33 @@ class Campaign < Message
     campaign_outgoing_email
   end
 
+  def self.decode_email(address)
+    # "campaigns-#{app.key}-#{id}@#{app.outgoing_email_domain}"
+    begin
+      addr, domain = address.split("@")
+      camp, encoded = addr.split("+")
+      app_key, campaign_id = self.decoded_email(encoded).split("-")
+      app = App.find_by(key: app_key)
+      campaign = app.campaigns.find(campaign_id)
+    rescue => e
+      puts "error on decoding campaign email #{e}"
+      nil
+    end
+  end
+
+  def self.encode_email(address)
+    URLcrypt.encode(address)
+  end
+
+  def self.decoded_email(address)
+    URLcrypt.decode(address)
+  end
+
   def campaign_outgoing_email
     self[:from_email] ||
       (if app.outgoing_email_domain.present?
-         "campaigns-#{app.key}-#{id}@#{app.outgoing_email_domain}"
+          part = "#{app.key}-#{id}"
+         "campaigns+#{self.class.encode_email(part)}@#{app.outgoing_email_domain}"
        else
          ""
        end)
