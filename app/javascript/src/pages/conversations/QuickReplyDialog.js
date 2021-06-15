@@ -9,6 +9,8 @@ import {
 
 import { QUICK_REPLY_CREATE } from '@chaskiq/store/src/graphql/mutations'
 
+import graphql from '@chaskiq/store/src/graphql/client'
+
 function QuickReplyDialog({ open, app, lang, dispatch, closeHandler }) {
   const [isOpen, setIsOpen] = React.useState(open)
   const [title, setTitle] = React.useState('')
