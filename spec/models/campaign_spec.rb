@@ -132,4 +132,19 @@ RSpec.describe Campaign, type: :model do
       expect(c.name).to include("copy")
     end
   end
+
+  context "email address" do
+    it "campaign address finds compaigns" do
+      expect(campaign.campaign_outgoing_email).to_not be_blank
+      c = Campaign.decode_email(campaign.campaign_outgoing_email)
+      expect(c.id).to be_eql(campaign.id) 
+    end
+
+    it "campaign address, a hacky one" do
+      expect(campaign.campaign_outgoing_email).to_not be_blank
+      address = campaign.campaign_outgoing_email
+      c = Campaign.decode_email(address.gsub("campaigns+", "campaigns+xxxx"))
+      expect(c).to be_nil
+    end
+  end
 end
