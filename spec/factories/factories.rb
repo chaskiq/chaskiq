@@ -12,8 +12,8 @@ FactoryBot.define do
     name { "some Campaign" }
     subject { "Hello" }
     from_name { "Me" }
-    from_email { "me@me.com" }
-    reply_email { "reply-me@me.com" }
+    # from_email { "me@me.com" }
+    # reply_email { "reply-me@me.com" }
     # plain_content "hi this is the plain content"
     # html_content "<h1>hi this is htmlcontent </h1>"
     # query_string "opt=1&out=2"

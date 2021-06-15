@@ -1145,4 +1145,27 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       expect(conversation.assignee.id).to be(conversation.app.agents.first.id)
     end
   end
+
+  describe "SNS reply on campaign" do
+
+    it "message" do
+      allow_any_instance_of(Api::V1::HooksController).to receive(
+        :read_mail_file
+      ).and_return(
+        File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml").read
+      )
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :recipients
+      ).and_return([campaign.campaign_outgoing_email])
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :message_id
+      ).and_return("message_id-1234")
+
+      response = send_data(message_notification_params)
+      expect(ConversationPart.last.email_message_id).to be == "message_id-1234"
+      expect(ConversationPart.last.messageable.serialized_content).to be_present
+    end
+  end
 end

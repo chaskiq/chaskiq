@@ -21,11 +21,12 @@ class CampaignMailer < ApplicationMailer
 
     @body = campaign.compiled_template_for(subscriber).html_safe
 
-    mail(from: "#{campaign.from_name}<#{campaign.campaign_outgoing_email}>",
+    mail(
+         from: "#{campaign.from_name}<#{campaign.campaign_outgoing_email}>",
          to: subscriber.email,
          subject: campaign.subject,
-         content_type: content_type,
-         return_path: campaign.reply_email)
+         content_type: content_type
+        )
   end
 
   def test(campaign)

@@ -185,7 +185,29 @@ class Api::V1::HooksController < ActionController::API
     recipient = mail.recipients.first
     app, agent = decode_inbound_address(recipient)
     return if app.blank?
+    create_conversation_from_incoming(app, mail)
+  end
 
+  def handle_campaigns_recipient(mail)
+    recipient = mail.recipients.first
+    campaign = Campaign.decode_email(recipient)
+    return if campaign.nil?
+    app = campaign.app
+    create_conversation_from_incoming(app, mail)
+  end
+
+  def handle_conversation_part(mail)
+    recipient = mail.recipients.first
+    if recipient.starts_with?("messages+")
+      handle_message_recipient(mail)
+    elsif recipient.starts_with?("inbound+")
+      handle_inbound_recipient(mail)
+    elsif recipient.starts_with?("campaigns+")
+      handle_campaigns_recipient(mail)
+    end
+  end
+
+  def create_conversation_from_incoming(app, mail)
     conversation = app.conversation_parts.find_by(email_message_id: mail.message_id)&.conversation
     if conversation.blank?
       mail_from = mail.from.first
@@ -195,15 +217,6 @@ class Api::V1::HooksController < ActionController::API
       conversation = app.start_conversation(from: from)
     end
     [app, conversation, from]
-  end
-
-  def handle_conversation_part(mail)
-    recipient = mail.recipients.first
-    if recipient.starts_with?("messages+")
-      handle_message_recipient(mail)
-    elsif recipient.starts_with?("inbound+")
-      handle_inbound_recipient(mail)
-    end
   end
 
   def process_attachments(mail, message)
