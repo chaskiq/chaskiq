@@ -69,6 +69,10 @@ const EditorStylesExtend = styled(EditorContainer)`
   .dante-menu-input {
     background: #333333;
   }
+
+  .inlineTooltip-button {
+    background: white !important;
+  }
   ${(props) =>
     !props.inlineMenu
       ? `.tooltip-icon{
@@ -78,7 +82,6 @@ const EditorStylesExtend = styled(EditorContainer)`
     .inlineTooltip-menu {
       display: inline-block;
       margin-left: 41px !important;
-      background: white;
     }`
       : ''}
 `
@@ -361,28 +364,33 @@ class ArticleEditor extends Component {
           endpoint: `/oembed?url=`,
         },
       }),
-      VideoBlockConfig({
-        breakOnContinuous: true,
-        options: {
-          placeholder:
-            'put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..',
-          endpoint: `/oembed?url=`,
-          caption: 'optional caption',
-        },
-      }),
       PlaceholderBlockConfig(),
-      VideoRecorderBlockConfig({
-        options: {
-          seconds_to_record: 20000,
-          upload_handler: this.uploadHandler,
-          //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-        },
-      }),
       GiphyBlockConfig(),
       //SpeechToTextBlockConfig(),
       //ButtonBlockConfig()
     ]
 
+    if(!this.props.videoless){
+      widgets = widgets.concat([
+        VideoBlockConfig({
+          breakOnContinuous: true,
+          options: {
+            placeholder:
+              'put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..',
+            endpoint: `/oembed?url=`,
+            caption: 'optional caption',
+          },
+        }),
+        VideoRecorderBlockConfig({
+          options: {
+            seconds_to_record: 20000,
+            upload_handler: this.uploadHandler,
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+          },
+        }),
+      ])
+    }
+    
     if (this.props.appendWidgets)
       widgets = widgets.concat(this.props.appendWidgets)
 
