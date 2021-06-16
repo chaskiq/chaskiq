@@ -172,6 +172,7 @@ export default class CampaignEditor extends Component {
             <React.Fragment>
               {!this.state.preview && (
                 <TextEditor
+                  videoless={ this.props.mode === 'campaigns' }
                   campaign={true}
                   uploadHandler={this.uploadHandler}
                   serializedContent={this.props.data.serializedContent}
