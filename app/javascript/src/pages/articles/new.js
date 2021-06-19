@@ -26,7 +26,8 @@ import {
 } from '@chaskiq/store/src/actions/navigation'
 
 import {
-  successMessage
+  successMessage,
+  errorMessage
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
@@ -228,7 +229,7 @@ class ArticlesNew extends Component {
   }
 
   errorMessage = () => {
-    this.props.dispatch(successMessage(I18n.t('articles.updated_error')))
+    this.props.dispatch(errorMessage(I18n.t('articles.updated_error')))
   }
 
   submitChanges = () => {

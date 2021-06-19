@@ -35,6 +35,28 @@ class AppPackageIntegration < ApplicationRecord
     end
   end
 
+  validate :integration_validation, on: [:create, :update]
+
+  def integration_validation
+    return if app_package.is_external?
+
+    error_response = message_api_validations
+    
+    return if error_response.blank?
+    
+    error_response.each do |err|
+      errors.add(:base, err)
+    end
+  end
+
+  def message_api_validations
+    return nil unless message_api_klass.respond_to?(:validate_integration)
+
+    error_response = message_api_klass.validate_integration
+
+    error_response
+  end
+
   def message_api_klass
     @message_api_klass ||= "MessageApis::#{app_package.name}::Api".constantize.new(
       config: settings.dup.merge(package: self).merge(

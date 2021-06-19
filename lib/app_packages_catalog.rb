@@ -172,21 +172,25 @@ class AppPackagesCatalog
       },
 
       {
+        tag_list: ["conversations.added"],
+        capability_list: %w[conversations bots],
         name: "Dialogflow",
-        tag_list: ["bot"],
         description: "Convesation Bot integration from dialogflow",
         icon: "https://logo.clearbit.com/dialogflow.com",
-        state: "disabled",
+        state: Rails.env.production? ? "disabled" : "enabled",
         definitions: [
           {
             name: "project_id",
+            label: "project id",
             type: "string",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
           },
           {
+            label: "credentials",
+            hint: "JSON credential needed",
             name: "credentials",
-            type: "string",
+            type: "textarea",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
           }

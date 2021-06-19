@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/michelson/chaskiq/issues"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@chaskiq/store": "^0.0.0"
   }
 }

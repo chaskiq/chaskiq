@@ -847,7 +847,7 @@ export const CREATE_ARTICLE = `
 `
 
 export const EDIT_ARTICLE = `
-  mutation EditArticle($appKey: String!, $content: Json!, $id: String!, $title: String!, $description: String!, $lang: String){
+  mutation EditArticle($appKey: String!, $content: Json, $id: String!, $title: String!, $description: String!, $lang: String){
     editArticle(appKey: $appKey, content: $content, id: $id, title: $title, description: $description, lang: $lang){
       article {
         id
