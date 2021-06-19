@@ -104,7 +104,9 @@ class Articles extends Component {
             }
           )
         },
-        error: () => {},
+        error: () => {
+          errorMessage(I18n.t('articles.settings_updated_error'))
+        },
       }
     )
   }
@@ -131,7 +133,9 @@ class Articles extends Component {
             }
           )
         },
-        error: () => {},
+        error: () => {
+          errorMessage(I18n.t('articles.settings_updated_error'))
+        },
       }
     )
   }

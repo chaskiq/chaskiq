@@ -70,6 +70,7 @@ function Integrations({ app, dispatch }) {
   const [tabValue, setTabValue] = useState(0)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(false)
+  const [baseErrors, setBaseErrors] = useState(null)
 
   const form = useRef(null)
 
@@ -136,6 +137,8 @@ function Integrations({ app, dispatch }) {
   }
 
   function createIntegration(serializedData) {
+    setBaseErrors(null)
+
     graphql(
       CREATE_INTEGRATION,
       {
@@ -171,6 +174,9 @@ function Integrations({ app, dispatch }) {
   }
 
   function updateIntegration(serializedData) {
+
+    setBaseErrors(null)
+
     graphql(
       UPDATE_INTEGRATION,
       {
@@ -186,12 +192,22 @@ function Integrations({ app, dispatch }) {
           const newIntegrations = integrations.map((o) =>
             o.name === integration.name ? integration : o
           )
-          setIntegrations(newIntegrations)
-          // getAppPackageIntegration()
-          setOpen(null)
+
+          if (isEmpty(data.integrationsUpdate.errors)) {
+            setIntegrations(newIntegrations)
+            // getAppPackageIntegration()
+            setOpen(null)
+            dispatch(
+              successMessage(I18n.t('settings.integrations.update_success'))
+            )
+            return
+          } 
+
+          setBaseErrors(data.integrationsUpdate.errors.base)
           dispatch(
-            successMessage(I18n.t('settings.integrations.update_success'))
+            errorMessage(I18n.t('settings.integrations.update_error'))
           )
+    
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.update_error')))
@@ -315,6 +331,12 @@ function Integrations({ app, dispatch }) {
           formComponent={
             <form ref={form}>
               <div>
+                { 
+                  baseErrors && 
+                  <p className="p-2 border-red-600 bg-red-500 text-red-100 rounded-md my-2">
+                    {baseErrors.join(", ")}
+                  </p>
+                }
                 {open.definitions.map((field) => {
                   return (
                     <div
