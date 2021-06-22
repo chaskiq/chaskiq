@@ -6,7 +6,9 @@
 # assign one dialog flow integration for agents
 # tbd
 
-require "google/cloud/dialogflow"
+# require "google/cloud/dialogflow"
+require "google/cloud/dialogflow/v2"
+
 
 module MessageApis::Dialogflow
   class Api < MessageApis::BasePackage
@@ -34,7 +36,6 @@ module MessageApis::Dialogflow
     end
 
     def trigger(event)
-      return # dont do nothing
       subject = event.eventable
       action = event.action
       case action
@@ -96,9 +97,34 @@ module MessageApis::Dialogflow
         }
       }
 
+      #query_parameters = 
+        #payload: {
+        #  email: "aa@aa.cl"
+        #}
+        #session_entity_types: [
+          #Google::Cloud::Dialogflow::V2::SessionEntityType.new(
+          #  name: "email",
+          #  entities: [
+          #    Google::Cloud::Dialogflow::V2::EntityType::Entity.new(
+          #      value: "aa@aaaa.cl", 
+          #      #synonyms: ["@sys.email"]
+          #    )
+          #  ]
+          #)
+        #]
+      #}
+
+      query_parameters = Google::Cloud::Dialogflow::V2::QueryParameters.new
+
+      #query_parameters.contexts << Google::Cloud::Dialogflow::V2::Context.new(
+      #  name: "Lead", 
+      #  lifespan_count: 1
+      #)
+
       request = Google::Cloud::Dialogflow::V2::DetectIntentRequest.new(
         session: "projects/#{@project_id}/agent/sessions/#{session_id}",
-        query_input: query_input
+        query_input: query_input,
+        query_params: query_parameters
       )
 
       response = @conn.detect_intent request
