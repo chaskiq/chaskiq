@@ -192,7 +192,7 @@ class AppUsers extends React.Component {
       {
         name: 'name',
         type: 'string',
-        label: "Agent's email",
+        label: "Agent's Name",
         // hint: "we'll send POST requests",
         placeholder: 'John Doe',
         grid: { xs: 'w-full', sm: 'w-full' },
