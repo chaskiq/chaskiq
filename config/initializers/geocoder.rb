@@ -6,6 +6,11 @@ GEOCODER_SERVICES = [
     api_key: ENV['GEOCODER_API_KEY'],
     timeout: 2
   },
+  {
+    name: :google,
+    api_key: ENV['GEOCODER_API_KEY'],
+    timeout: 2
+  },
   { name: :maxmind_local,
     file: File.join(Rails.root, 'vendor/data', 'GeoLiteCityv6.dat') },
   {
