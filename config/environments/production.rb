@@ -116,18 +116,15 @@ Rails.application.configure do
     }
   else
     ses_config = {
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      signature_version: 4
+      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
     }
     ses_config.merge!(
       {
-        server: "email.#{ENV['SES_REGION']}.amazonaws.com",
-        message_id_domain: "#{ENV['SES_REGION']}.amazonses.com"
+        region: ENV['SES_REGION']
       }
     ) if ENV['SES_REGION']
 
-    ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base, ses_config
+    Aws::Rails.add_action_mailer_delivery_method(:ses, ses_config)
 
     config.action_mailer.delivery_method = :ses
   end

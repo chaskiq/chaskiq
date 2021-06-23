@@ -37,17 +37,6 @@ GIT
     faker (2.15.1)
       i18n (>= 1.6, < 2)
 
-GIT
-  remote: https://github.com/zebitex/aws-ses.git
-  revision: 65e1ff1c3c2031b243f773cb9e61df6e49db71dd
-  ref: 78-sigv4-problem
-  specs:
-    aws-ses (0.7.1)
-      builder
-      mail (> 2.2.5)
-      mime-types
-      xml-simple
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -136,18 +125,39 @@ GEM
     ast (2.4.2)
     aws-eventstream (1.1.0)
     aws-partitions (1.405.0)
+    aws-record (2.6.0)
+      aws-sdk-dynamodb (~> 1.18)
     aws-sdk-core (3.110.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
+    aws-sdk-dynamodb (1.58.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.39.0)
       aws-sdk-core (~> 3, >= 3.109.0)
       aws-sigv4 (~> 1.1)
+    aws-sdk-rails (3.6.1)
+      aws-record (~> 2)
+      aws-sdk-ses (~> 1)
+      aws-sdk-sqs (~> 1)
+      aws-sessionstore-dynamodb (~> 2)
+      concurrent-ruby (~> 1)
+      railties (>= 5.2.0)
     aws-sdk-s3 (1.86.0)
       aws-sdk-core (~> 3, >= 3.109.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
+    aws-sdk-ses (1.36.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-sqs (1.35.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
+      aws-sigv4 (~> 1.1)
+    aws-sessionstore-dynamodb (2.0.1)
+      aws-sdk-dynamodb (~> 1)
+      rack (~> 2)
     aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
@@ -335,9 +345,6 @@ GEM
     marcel (1.0.0)
     memoist (0.16.2)
     method_source (1.0.0)
-    mime-types (3.3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.1104)
     mini_magick (4.11.0)
     mini_mime (1.0.3)
     mini_portile2 (2.5.1)
@@ -572,7 +579,6 @@ GEM
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    xml-simple (1.1.8)
     zeitwerk (2.4.2)
 
 PLATFORMS
@@ -585,8 +591,8 @@ DEPENDENCIES
   acts-as-taggable-on!
   acts_as_list (~> 0.9.19)
   anycable-rails
+  aws-sdk-rails
   aws-sdk-s3 (~> 1.48)
-  aws-ses!
   biz (~> 1.8)
   bootsnap (>= 1.1.0)
   brakeman
