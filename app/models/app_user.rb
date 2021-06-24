@@ -155,7 +155,7 @@ class AppUser < ApplicationRecord
     end
 
     event :unsubscribe do
-      transitions from: %i[subscribed passive archived blocked passive], to: :unsubscribed
+      transitions from: %i[subscribed passive archived blocked], to: :unsubscribed
     end
 
     event :block do
