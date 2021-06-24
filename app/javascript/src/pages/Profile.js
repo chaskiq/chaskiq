@@ -35,6 +35,11 @@ import {
   getAppUser,
 } from '@chaskiq/store/src/actions/app_user'
 
+import {
+  successMessage,
+  errorMessage
+} from  '@chaskiq/store/src/actions/status_messages'
+
 
 import { APP_USER_CONVERSATIONS, APP_USER_VISITS } from '@chaskiq/store/src/graphql/queries'
 
@@ -128,10 +133,11 @@ class ProfilePage extends Component {
       {
         success: (_data) => {
           this.props.dispatch(getAppUser(parseInt(this.props.app_user.id)))
-
-          // data.appUserUpdateData.appUser
+          this.props.dispatch(successMessage("status updated"))
         },
-        error: (_error) => {},
+        error: (_error) => {
+          this.props.dispatch(errorMessage("error"))
+        },
       }
     )
   }
@@ -172,24 +178,27 @@ class ProfilePage extends Component {
     return [
       {
         title: 'Archive',
+        name: 'archived',
         description: 'Archive this person and their conversation history',
         icon: <ArchiveIcon />,
         id: 'archive',
-        state: 'archived',
+        state: 'archive',
       },
       {
         title: 'Block',
+        name: 'blocked',
         description: 'Blocks them so you won’t get their replies',
         icon: <BlockIcon />,
         id: 'block',
-        state: 'blocked',
+        state: 'block',
       },
       {
         title: 'Unsubscribe',
+        name: 'unsubscribed',
         description: 'Removes them from your email list',
         icon: <UnsubscribeIcon />,
         id: 'unsubscribe',
-        state: 'unsubscribed',
+        state: 'unsubscribe',
       },
     ]
   }
@@ -318,7 +327,9 @@ class ProfilePage extends Component {
                     <FilterMenu
                       options={this.optionsForFilter()}
                       value={this.props.app_user.state}
-                      filterHandler={(e) => this.updateState(e.state)}
+                      filterHandler={(e) => {
+                        this.updateState(e.state)
+                      }}
                       triggerButton={this.toggleButton}
                       position={'right'}
                     />
