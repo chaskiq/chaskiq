@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
     render "campaigns/iframe", layout: false
   end
 
+  def find_app
+    @app = current_agent.apps.find_by(key: params[:app_id])
+  end
+
   def dummy_webhook
     render status: :ok, json: { ok: true }
   end
@@ -102,10 +106,13 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
+    return false if turbo_frame_request? 
+
     if devise_controller?
       "devise"
     else
-      "application"
+      #"hotwire"
+      "application" 
     end
   end
 end

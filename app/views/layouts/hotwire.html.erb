@@ -42,23 +42,10 @@
   </head>
 
   <body>
-    <div class="page" id="main-page" 
-      data-controller="modal" 
-      data-modal-allow-background-close="false">
-
-      <% if @app.present? %>
-      <div class="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">
-        <%= render "shared/nav" %>
-        <div class="flex flex-col w-0 flex-1 overflow-auto">
-          <%= yield %>
-        </div>	
+    <div class="page" id="main-page">
+      <div id="light">
+			  <%= yield %>
       </div>
-      <% else %>
-        <%= yield %>
-      <% end %>
-
-      <%= turbo_frame_tag "modal" %>
-
     </div>
 
     <% if enabled_subscriptions? %>

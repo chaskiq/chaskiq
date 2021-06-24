@@ -43,6 +43,17 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_agent_session
   end
 
+  resources :apps do
+    resources :campaigns , controller: "apps/campaigns"
+    resources :settings , controller: "apps/settings"
+    resources :conversations , controller: "apps/conversations"
+    resources :articles , controller: "apps/articles"
+    resources :bots , controller: "apps/bots"
+    resources :segments , controller: "apps/segments"
+    resources :contacts, controller: "apps/contacts"
+    resources :segment_managers, controller: "apps/segment_manager"
+  end
+
   resource :oembed, controller: 'oembed', only: :show
   get '/package_iframe/:package' => 'application#package_iframe'
   post '/package_iframe_internal/:package' => 'application#package_iframe_internal'

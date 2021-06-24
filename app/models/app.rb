@@ -271,6 +271,10 @@ class App < ApplicationRecord
     (custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
   end
 
+  def fields_for_segments
+    (custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS + AppUser::BROWSING_FIELDS
+  end
+
   def app_user_updateable_fields
     (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
   end

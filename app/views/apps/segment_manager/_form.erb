@@ -1,0 +1,103 @@
+<% @segment_manager.to_json %>
+
+<%= turbo_frame_tag "segment_form" do %>
+	<%= form_for @segment_manager, url: app_segment_managers_path(@app.key), data: {controller: 'segment-manager'}  do |f| %>
+
+		<%= f.submit("submit!")%>
+		<div>
+			<div class="flex space-x-3">
+
+				<% @segment_manager.predicates.each_with_index do |segment, index|%>
+
+					<%= f.fields_for segment, index: index do |predicate_form| %>
+						<% path = case segment.attribute 
+								when "match", "type" then "apps/segment_manager/#{segment.attribute}"
+								else  
+									#"apps/segment_manager/#{segment.type}"
+									"apps/segment_manager/string"
+
+								end
+						%>
+						<%= render path, locals: {index: index, segment: segment, f: predicate_form} %>
+
+					<% end %>
+					<% #= segment.to_json %>
+
+				<% end %>
+
+				<div>
+					<div class="relative inline-block text-left">
+						<div class="flex">
+							<%= render DropdownComponent.new(
+								label: 'Add filters', 
+								variant: 'success', 
+								size: 'sm') do %>
+								<div class="p-2--">
+									<div class="p-2">
+											<h2 class="text-sm leading-5 text-gray-900 dark:text-gray-100 font-bold">Select fields:</h2>
+									</div>
+									<div class="overflow-scroll h-48">
+											<input type="text" data-segment-manager-target="newElement" name="new_segment">
+											<ul class="divide-y divide-gray-200">
+												<% @app.fields_for_segments.each do |field|%>
+													<li>
+															<button
+																type="button" 
+																data-action="click->segment-manager#addField"
+																data-field="<%= field['name'] %>"
+																class="w-full cursor-pointer block hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:text-gray-800 transition duration-150 ease-in-out">
+																<div class="flex items-center px-4 py-4 sm:px-6">
+																	<span class="flex items-center text-sm leading-5 text-gray-700 dark:text-gray-100">
+																	<%= field['name'] %>
+																	</span>
+																</div>
+															</button>
+													</li>
+												<% end %>
+											</ul>
+									</div>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex items-center">
+					<button disabled="" class="css-es907d">
+						<svg fill="currentColor" viewBox="0 0 22 22" class="css-yq96v9">
+							<path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path>
+						</svg>
+					</button>
+
+					<button class="css-1coknnr">
+						<svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
+							<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="flex justify-end">
+			<div>
+				<div class="relative inline-block text-left">
+					<div class="flex">
+						<button class="transition duration-150 ease-in-out  css-1coknnr">
+							<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+								<path d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z"></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="relative inline-block text-left">
+				<button class="transition duration-150 ease-in-out  css-1coknnr">
+					<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+						<path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"></path>
+					</svg>
+				</button>
+			</div>
+		</div>
+
+	<% end %>
+
+<% end %>

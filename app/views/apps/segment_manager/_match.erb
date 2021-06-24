@@ -1,0 +1,42 @@
+<% f = locals[:f] %>
+
+<div>
+	<div class="relative inline-block text-left">
+		<div class="flex">
+			<%= render DropdownComponent.new(
+				label: 'Match all criteria',
+				variant: 'outlined', 
+				size: 'sm',
+				orientation: 'left'
+			) do %>
+
+
+				<div class="p-2">
+
+						Match all criteria
+						
+						<%= f.hidden_field :type %>
+						<%= f.hidden_field :attribute %>
+						<%= f.hidden_field :comparison %>
+						<% #= f.hidden_field :value %>
+
+						<% options = { 
+							'Match all': 'and', 
+							'Match any': 'or', 
+						} %>
+
+						<%= f.collection_radio_buttons(:value, options, :last, :first) do |b| %>
+							<div class="form-check form-check-inline">
+								<%= b.radio_button class: 'form-check-input', checked: locals[:segment].value.include?(b.value) %>
+								<%= b.label class: 'form-check-label' %>
+							</div>
+						<% end %>
+
+					
+				</div>
+
+				<%= f.submit "submit" %>
+			<% end %>
+		</div>
+	</div>
+</div>

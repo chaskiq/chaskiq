@@ -28,7 +28,6 @@ gem "devise", "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder"
 # gem 'haml'
@@ -65,6 +64,10 @@ gem "browser", "~> 2.5"
 gem "geocoder", "~> 1.6"
 gem "geoip"
 gem "truemail"
+
+gem 'hotwire-rails'
+gem "view_component", require: "view_component/engine"
+
 
 gem "google-cloud-dialogflow"
 
