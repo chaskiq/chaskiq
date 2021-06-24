@@ -621,7 +621,7 @@ pt:
     all: todos
     any: qualquer
     criteria: critério
-    days ago: dias atrás
+    days_ago: dias atrás
     filter_for: selecionar filtro para %{name}
     date_filter_for: Selecione o filtro de data para  %{name}
     integer_filter_for: Select the integer filter for %{name}
