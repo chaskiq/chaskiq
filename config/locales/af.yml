@@ -621,7 +621,7 @@ af:
     all: all
     any: any
     criteria: criteria
-    days ago: days ago
+    days_ago: days ago
     filter_for: select filter for %{name}
     date_filter_for: Select the date filter for  %{name}
     integer_filter_for: Select the integer filter for %{name}
