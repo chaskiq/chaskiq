@@ -1925,6 +1925,8 @@ export default class ChaskiqMessenger {
     if (!g) {
       g = document.createElement('div')
       g.setAttribute('id', this.props.wrapperId)
+      g.dataset.turboPermanent=true
+
       document.body.appendChild(g)
     }
 

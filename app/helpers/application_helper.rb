@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+
+  ActionView::Base.default_form_builder = TailwindFormBuilder
+
   def flash_messages(_opts = {})
     flash.each do |msg_type, message|
       flash.delete(msg_type)
@@ -39,4 +42,6 @@ module ApplicationHelper
     # { enc: encrypted_data, app: support_app }
     { enc: json_payload.to_json, app: support_app }
   end
+
+
 end

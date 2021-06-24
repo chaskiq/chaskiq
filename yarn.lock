@@ -1272,7 +1272,7 @@
   resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-1.0.1.tgz#66d25f6441920bd5c2146ea27fd33995885452dd"
   integrity sha512-uikw2gKCmqnvjVxitecWfFLMOKyL9BTFcU4VM3hHj9OMwpkCr5Ke+MRMyY2/aQVmsYs4VTq7NCFX05MYwAHi3g==
 
-"@hotwired/turbo-rails@^7.0.0-beta.5":
+"@hotwired/turbo-rails@^7.0.0-beta.7":
   version "7.0.0-beta.7"
   resolved "https://registry.yarnpkg.com/@hotwired/turbo-rails/-/turbo-rails-7.0.0-beta.7.tgz#ca347999d4a62af447554bebe0ab46dd7c241661"
   integrity sha512-aoX91p2pIApEywhWNHqbaQ+gtNBr3+u38X0jSEHPdqVAK8lLRtHJomP3s1psSuYTiRaOuIeh6IhHDRYyAmZxKg==

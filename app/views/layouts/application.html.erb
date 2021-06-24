@@ -43,16 +43,18 @@
 
   <body>
     <div class="page" id="main-page" 
-      data-controller="modal" 
+      data-controller="modal history" 
       data-modal-allow-background-close="false">
 
-      <% if @app.present? %>
-      <div class="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">
-        <%= render "shared/nav" %>
-        <div class="flex flex-col w-0 flex-1 overflow-auto">
-          <%= yield %>
-        </div>	
-      </div>
+      <% if @app.present? && @app.persisted? %>
+        <% #= turbo_frame_tag "content" , data: {'history-target': 'contentframe'} do %>
+          <div class="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">
+            <%= render "shared/nav" %>
+            <div class="flex flex-col w-0 flex-1 overflow-auto">
+              <%= yield %>
+            </div>	
+          </div>
+        <% #end %>
       <% else %>
         <%= yield %>
       <% end %>
@@ -77,6 +79,7 @@
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
           g.src="<%=ENV['HOST']%>/embed.js"
           s.parentNode.insertBefore(g,s);
+          s.parentNode.dataset.turboPermanent=true
           g.onload=function(){
             new window.ChaskiqMessengerEncrypted({
               domain: "<%= ENV['HOST'] %>",

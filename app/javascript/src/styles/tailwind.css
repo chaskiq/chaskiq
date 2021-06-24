@@ -13,3 +13,25 @@ html {
 li {
   list-style: none;
 }
+
+%focus-style {
+  @apply shadow outline-none border-gray-500;
+
+  box-shadow: 0 0 0 0.2rem theme("colors.gray.200");
+  background-clip: padding-box;
+}
+
+.input {
+  @apply appearance-none block w-full text-gray-700 border border-gray-400 rounded px-3 leading-tight bg-white shadow-inner;
+  padding-top: .65rem;
+  padding-bottom: .65rem;
+}
+
+.field_with_errors .input {
+  @apply  text-red-700 border border-red-400;
+}
+
+.input:focus,
+.input:hover {
+  @extend %focus-style;
+}

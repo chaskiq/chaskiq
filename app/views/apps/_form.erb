@@ -1,0 +1,10 @@
+<%= turbo_frame_tag 'app_form' do %>
+	<%= form_for @app , data: { "turbo-frame" => "_top" } do |f| %>
+		<%= @app.errors.full_messages %>
+
+		<%= f.text_field :name %>
+		<%= f.text_field :domain_url %>
+		<%= f.text_field :tagline %>
+		<%= f.submit %>
+	<% end %>
+<% end %>

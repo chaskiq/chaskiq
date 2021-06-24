@@ -13,22 +13,22 @@
 			</div>
     </div>
     <div class="overflow-y-auto h-full">
-      <%= link_to app_path(@app.key), 'aria-label': "Dashboard", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+      <%= link_to app_path(@app.key), data: {"turbo-frame"=>"content", "turbo-action": "replace"},  'aria-label': "Dashboard", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
         <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
           <path d="M.5 3.498L7.5.5l7 2.998m-14 0l7 2.998m-7-2.998V3.5m14-.002l-7 2.998m7-2.998V11.5l-7 3m7-11.002L7.5 6.5v8m0-8.004V14.5m0-8.004L.5 3.5m7 11l-7-3v-8" stroke="currentColor" stroke-linejoin="round"></path>
         </svg>
       <% end %>
-      <%= link_to app_segments_path(@app.key), 'aria-label': "Platform", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+      <%= link_to app_segments_path(@app.key), data: {"turbo-frame"=>"content", "turbo-action": "replace"}, 'aria-label': "Platform", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
         <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
           <path d="M5.5 11.5H5v.5h.5v-.5zm5 0v.5h.5v-.5h-.5zm-4.5 0V11H5v.5h1zm4-.5v.5h1V11h-1zm.5 0h-5v1h5v-1zM8 9a2 2 0 012 2h1a3 3 0 00-3-3v1zm-2 2a2 2 0 012-2V8a3 3 0 00-3 3h1zm2-8a2 2 0 00-2 2h1a1 1 0 011-1V3zm2 2a2 2 0 00-2-2v1a1 1 0 011 1h1zM8 7a2 2 0 002-2H9a1 1 0 01-1 1v1zm0-1a1 1 0 01-1-1H6a2 2 0 002 2V6zM3.5 1h9V0h-9v1zm9.5.5v12h1v-12h-1zM12.5 14h-9v1h9v-1zM3 13.5v-12H2v12h1zm.5.5a.5.5 0 01-.5-.5H2A1.5 1.5 0 003.5 15v-1zm9.5-.5a.5.5 0 01-.5.5v1a1.5 1.5 0 001.5-1.5h-1zM12.5 1a.5.5 0 01.5.5h1A1.5 1.5 0 0012.5 0v1zm-9-1A1.5 1.5 0 002 1.5h1a.5.5 0 01.5-.5V0zM4 4H1v1h3V4zm0 6H1v1h3v-1z" fill="currentColor"></path>
         </svg>
       <% end %>
-      <%= link_to app_conversations_path(@app.key) , 'aria-label': "Conversations", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+      <%= link_to app_conversations_path(@app.key) ,data: {"turbo-frame"=>"content", "turbo-action": "replace"},  'aria-label': "Conversations", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
         <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
           <path d="M11.5 13.5l.157-.475-.218-.072-.197.119.258.428zm2-2l-.421-.27-.129.202.076.226.474-.158zm1 2.99l-.157.476a.5.5 0 00.631-.634l-.474.159zm-3.258-1.418c-.956.575-2.485.919-3.742.919v1c1.385 0 3.106-.37 4.258-1.063l-.516-.856zM7.5 13.99c-3.59 0-6.5-2.909-6.5-6.496H0a7.498 7.498 0 007.5 7.496v-1zM1 7.495A6.498 6.498 0 017.5 1V0A7.498 7.498 0 000 7.495h1zM7.5 1C11.09 1 14 3.908 14 7.495h1A7.498 7.498 0 007.5 0v1zM14 7.495c0 1.331-.296 2.758-.921 3.735l.842.54C14.686 10.575 15 8.937 15 7.495h-1zm-2.657 6.48l3 .99.314-.949-3-.99-.314.949zm3.631.357l-1-2.99-.948.316 1 2.991.948-.317z" fill="currentColor"></path>
         </svg>
       <% end %>
-      <%= link_to app_campaigns_path(@app.key) , 'aria-label': "Campaigns", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
+      <%= link_to app_campaigns_path(@app.key) , data: {"turbo-frame"=>"content", "turbo-action": "replace"}, 'aria-label': "Campaigns", class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
         <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">
           <path d="M14.5.5l.457.203A.5.5 0 0014.5 0v.5zM.5.5V0a.5.5 0 00-.5.5h.5zm14 9v.5a.5.5 0 00.457-.703L14.5 9.5zm-2-4.5l-.457-.203a.5.5 0 000 .406L12.5 5zm2-5H.5v1h14V0zM0 .5v9h1v-9H0zM.5 10h14V9H.5v1zm14.457-.703l-2-4.5-.914.406 2 4.5.914-.406zm-2-4.094l2-4.5-.914-.406-2 4.5.914.406zM1 15V9.5H0V15h1z" fill="currentColor"></path>
         </svg>
@@ -62,7 +62,11 @@
         <h3 class="font-bold w-full">Dashboard</h3>
       </div>
       <nav class="mt-5 flex-1 px-4 space-y-2">
-        <%= render "apps/#{controller.controller_name}/navigator" %>
+        <% if controller.controller_name === 'apps' %>
+          <%= render "apps/navigator" %>
+        <% else %>
+          <%= render "apps/#{controller.controller_name}/navigator" %>
+        <% end %>
       </nav>
     </div>
 
