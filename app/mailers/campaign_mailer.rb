@@ -45,7 +45,7 @@ class CampaignMailer < ApplicationMailer
     content_type = "text/html"
 
     mail(from: "#{campaign.from_name}<#{campaign.from_email}>",
-         to: "miguelmichelson@gmail.com",
+         to: ENV["ADMIN_EMAIL"],
          subject: campaign.subject,
          body: campaign.reply_email,
          content_type: content_type) do |format|
