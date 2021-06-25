@@ -1,0 +1,87 @@
+<%
+=begin %>
+<div id="message-id-fe5eYFJCapGmMEdoyqtAwST4" class="flex items-start py-2 text-sm flex-row-reverse">
+							<div class="
+								shadow sm:rounded-lg
+								flex-1 
+								p-3 
+								max-w-full css-18nhwl5">
+								<div class="flex justify-between pb-4">
+										<div class="flex items-center"><span class="font-bold text-gray-100">chaskiq bot</span></div>
+										<span class="flex items-center text-xs text-gray-100">
+											<time datetime="1624574997000">6 hours</time><span class="text-gray-100"> - <span>Seen</span></span>
+											<div class="relative inline-block text-left">
+													<div class="flex">
+														<button class="transition duration-150 ease-in-out ml-2 css-1coknnr">
+																<svg class="text-gray-400 css-1dhg8p7" fill="currentColor" viewBox="0 0 20 20">
+																	<path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
+																</svg>
+														</button>
+													</div>
+											</div>
+										</span>
+								</div>
+								<div class="css-1qhlrzf">
+										<div>
+											<p class="graf graf--p">Hey, that's great, would you like to explore more ?<br></p>
+										</div>
+								</div>
+							</div>
+					</div>
+					<div id="message-id-117576" class="flex items-start py-2 text-sm">
+							<div class="bg-green-400
+								flex 
+								overflow-hidden p-2 
+								rounded-md mx-auto text-white">
+								<div class="flex flex-col justify-between">
+										<span class="text-xs text-center"><time datetime="1624574973000">6 hours</time><span> - <span>Not seen</span></span></span>
+										<p class="text-md text-center text-bold"></p>
+										<p><strong>reply button:</strong> I'm just visiting</p>
+										<p></p>
+								</div>
+							</div>
+					</div>
+					<div id="message-id-xXSBkmkjGmoc4a3KLj8KqtPx" class="flex items-start py-2 text-sm flex-row-reverse">
+							<div class="
+								shadow sm:rounded-lg
+								flex-1 
+								p-3 
+								max-w-full css-18nhwl5">
+								<div class="flex justify-between pb-4">
+										<div class="flex items-center"><span class="font-bold text-gray-100">chaskiq bot</span></div>
+										<span class="flex items-center text-xs text-gray-100">
+											<time datetime="1624574970000">6 hours</time><span class="text-gray-100"> - <span>Seen</span></span>
+											<div class="relative inline-block text-left">
+													<div class="flex">
+														<button class="transition duration-150 ease-in-out ml-2 css-1coknnr">
+																<svg class="text-gray-400 css-1dhg8p7" fill="currentColor" viewBox="0 0 20 20">
+																	<path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
+																</svg>
+														</button>
+													</div>
+											</div>
+										</span>
+								</div>
+								<div class="css-1qhlrzf">
+										<div>
+											<p class="graf graf--p">Hey, Welcome! 👋, and thanks for visting!<br>Can I help you with anything today?<br></p>
+										</div>
+								</div>
+							</div>
+					</div>
+<%
+=end %>
+
+
+<%= case message.message.class.table_name
+		when 'conversation_part_contents'
+			render ConversationPartComponent.new(message: message)
+		when 'conversation_part_blocks'
+			render ConversationPartBlockComponent.new(message: message)
+		else
+			"no match for #{message.class.table_name}"
+		end 
+%>
+
+<% #= message.class.table_name %>
+<% #= message.to_json %>

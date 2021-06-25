@@ -135,7 +135,7 @@ function Dashboard(props) {
                     chartType={'pie'}
                     dashboard={dashboard}
                     app={app}
-                    label={I18n.t('dashboasrd.browser')}
+                    label={I18n.t('dashboard.browser')}
                     kind={'browser'}
                   />
                 </DashboardCard>

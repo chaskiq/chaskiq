@@ -1,0 +1,32 @@
+<div class="p-4">
+	<div class="flex mb-2">
+		<div class="mr-4">
+			<img src="<%= @icon %>" width='64' />
+		</div>
+
+		<div>
+			<p class="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
+				<%= @name%>: <%= @data[:title] %>
+			</p>
+
+			<p class="text-sm leading-5 font-medium text-gray-500 truncate">
+				<%= @data[:subtitle] %>
+			</p>
+		</div>
+	</div>
+
+	<hr class="my-4 border-gray-200" />
+
+	<div class="flex">
+		<% @data[:values].each do |v| %>
+		  <div class="w-1/4">
+				<%= render CountChartComponent.new(
+					data: v[:value],
+					label: v[:label],
+					subtitle: v[:value2],
+					append_label: nil
+				)%>
+			</div>
+		<% end %>
+	</div>
+</div>

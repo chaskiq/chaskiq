@@ -79,7 +79,8 @@
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
           g.src="<%=ENV['HOST']%>/embed.js"
           s.parentNode.insertBefore(g,s);
-          s.parentNode.dataset.turboPermanent=true
+          g.dataset.turboTrack = 'reload'
+          //s.parentNode.dataset.turboPermanent=true
           g.onload=function(){
             new window.ChaskiqMessengerEncrypted({
               domain: "<%= ENV['HOST'] %>",

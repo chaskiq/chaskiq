@@ -52,6 +52,8 @@ Rails.application.routes.draw do
     resources :segments , controller: "apps/segments"
     resources :contacts, controller: "apps/contacts"
     resources :segment_managers, controller: "apps/segment_manager"
+    resources :dashboards, controller: "apps/dashboards"
+    resources :assignment_rules, controller: "apps/assignment_rules"
   end
 
   resource :oembed, controller: 'oembed', only: :show

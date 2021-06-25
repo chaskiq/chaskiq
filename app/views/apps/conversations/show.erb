@@ -1,0 +1,132 @@
+<%= turbo_frame_tag 'conversation', 
+	class: "md:w-0 md:flex-grow w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r dark:border-black" do %>
+
+	<div class="flex-1 flex flex-col overflow-hidden-- h-screen css-9hoalo-">
+		<div class="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900">
+				
+				<div class="flex items-center">
+					<a class="block md:hidden" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations">
+							<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+								<path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
+							</svg>
+					</a>
+					<%= image_tag conversation.main_participant.avatar_url, class: "h-9 w-9 rounded-full mr-2 cursor-pointer" %>
+					<h3 class="mb-1 text-xs text-grey-darkest hidden md:block">
+						Conversation with <br>
+						<span class="font-extrabold hover:text-underline">
+							<%= conversation.main_participant.display_name%>
+						</span>
+					</h3>
+				</div>
+
+				<div class="ml-auto flex">
+					<button aria-label="Close" class="
+							focus:outline-none outline-none mr-1 rounded-full 
+							font-semibold border
+							border-gray-400 shadow
+							bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800
+							">
+							<svg fill="currentColor" viewBox="0 0 20 20" class="css-1aj24n8">
+								<polygon id="Path-126" points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
+							</svg>
+					</button>
+					<button class="focus:outline-none outline-none mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800  font-semibold border border-gray-400 shadow">
+							<svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" title="Call" class="css-1aj24n8">
+								<path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"></path>
+							</svg>
+					</button>
+					<div id="button-element" class="hidden"></div>
+					<button aria-label="Priorize conversation" class="focus:outline-none outline-none mr-1 rounded-full  bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800  font-semibold border border-gray-400 shadow">
+							<svg fill="currentColor" viewBox="0 0 20 20" class="css-1aj24n8">
+								<path d="M3,-1.41345269e-14 L17,-1.41345269e-14 L17,1 L14,2 L14,10 L17,11 L17,12 L3,12 L3,11 L6,10 L6,2 L3,1 L3,-1.41345269e-14 L3,-1.41345269e-14 Z M9,12 L11,12 L11,19 L10,20 L9,19 L9,12 L9,12 Z" id="Combined-Shape"></path>
+							</svg>
+					</button>
+					<button aria-label="tag conversation" class="focus:outline-none outline-none mr-1 rounded-full  bg-white hover:bg-gray-100 text-gray-800 font-semibold border  dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800  border-gray-400 shadow">
+							<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" title="fontSize small" class="css-1aj24n8">
+								<path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"></path>
+							</svg>
+					</button>
+					<div class="relative inline-block text-left">
+							<div class="flex">
+								<div class="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 border shadow items-center justify-center"><img class="h-6 w-6 rounded-full" src="https://app.chaskiq.io/assets/icons8-bot-50-c7450d39e2a2808b93e0abf784a77841e50eb527a38324c26f5718ceab1e3fde.png"></div>
+							</div>
+					</div>
+					<div class="flex items-center text-gray-300" style="margin-right: -30px; margin-left: 16px;">
+							<button class="transition duration-150 ease-in-out hidden md:block css-o2cca7">
+								<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+										<path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
+								</svg>
+							</button>
+					</div>
+				</div>
+		</div>
+
+		<div class="hidden">
+				<div class="flex bg-gray-900- h-44 justify-center items-center shadow-lg text-black" style="backdrop-filter: blur(4px);">
+					<div id="callStatus" class="css-i698ao"></div>
+					<div class="flex" style="visibility: hidden;">
+							<div id="call-wrapper" class="flex" style="visibility: hidden;">
+								<div class="flex justify-between w-full items-center lg:space-x-10 space-x-2">
+										<div id="callButtons" class="space-x-4 css-12du1so">
+											<div></div>
+										</div>
+										<div id="localVideo" class="bg-black overflow-hidden lg:h-32 lg:w-32 h-20 w-20 rounded-full border-2 border-green-600">
+											<div>
+													<div id="local-video-wrapper">
+														<video id="local-video" autoplay=""></video>
+													</div>
+											</div>
+										</div>
+										<div id="remoteVideo" class="bg-black overflow-hidden h-32 w-32 rounded-full border-2 border-green-600">
+											<div>
+													<div id="remote-video-container"></div>
+											</div>
+										</div>
+										<div id="callInitiator" class="flex flex-col justify-center items-center space-y-5 css-i698ao">
+											<div></div>
+										</div>
+										<div id="status-information" class="hidden lg:block">
+											<div id="info">
+													<div></div>
+											</div>
+										</div>
+								</div>
+								<div id="status-information" class="block lg:hidden">
+										<div id="info"></div>
+								</div>
+								<div class="justify-end hidden">
+										<button class="expand-viewer">
+											<svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" title="Fullscreen" class="css-13s0wde">
+													<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
+											</svg>
+										</button>
+								</div>
+							</div>
+					</div>
+				</div>
+		</div>
+
+
+		<div class="overflow-y-scroll" style="height: calc(100vh - 220px);">
+				<div class="flex flex-col-reverse px-6 py-4">
+					
+					<p class="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
+						<a href="#" class="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white">
+							<span class="absolute flex-shrink-0 flex items-center justify-center">
+								<span class="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black" aria-hidden="true">
+								</span>
+							</span>
+							<span class="ml-3.5 font-medium text-gray-700">waiting for reply</span>
+						</a>
+					</p>
+
+					<%= render partial: 'apps/conversations/part', collection: @collection, as: :message %>
+
+				</div>
+		</div>
+		<div>
+		</div>
+	</div>
+
+
+<%end%>

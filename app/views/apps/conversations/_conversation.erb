@@ -1,0 +1,41 @@
+<%= link_to app_conversation_path(@app.key, conversation.key), 
+ 	class:"flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out", 
+ 	data: {cy: "conversation-item", 'turbo-action': 'replace', 'turbo-frame': 'conversation' } do %>
+		<div class="block w-2 bg-red-200 dark:bg-red-600"></div>
+		<div class="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
+			<div class="flex items-center">
+					<div class="flex-shrink-0 h-10 w-10">
+						<%= image_tag conversation.main_participant.avatar_url, class: "h-10 w-10 rounded-full" %>
+					</div>
+					<div class="ml-4 truncate w-full">
+						<div class="flex justify-between">
+							<span class="text-md leading-5 font-semibold text-gray-800 dark:text-gray-100 truncate mr-2">
+								<%= conversation.main_participant.display_name %>
+							</span>
+							<span class="text-xs leading-5 font-light text-gray-300 dark:text-gray-300">
+							<time datetime="1624592616003">25 minutes</time>
+							</span>
+						</div>
+					</div>
+			</div>
+			<div class="flex flex-col mt-5 space-y-2">
+					<% if latest = conversation.latest_message and latest.present? %>
+						<div class="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1">
+							<%= image_tag latest.authorable.avatar_url, class: "rounded-full h-5 w-5 self-start" %>
+							<span class="truncate">
+								<% if latest.message.is_a?(ConversationPart)%>
+								<%= latest.message&.html_content %>
+								<% end %>
+
+								<% if latest.message.is_a?(ConversationPartBlock)%>
+								sent a block!
+								<% end %>
+							</span>
+						</div>
+					<% end %>
+					<div class="flex justify-between">
+						<div class="flex"></div>
+					</div>
+			</div>
+		</div>
+<% end %>

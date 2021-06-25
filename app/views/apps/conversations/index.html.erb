@@ -1,1 +1,87 @@
-content here!! <%= controller.controller_name %>
+   <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
+      <button class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150">
+         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+         </svg>
+      </button>
+   </div>
+
+   <div class="flex">
+      <div class="w-full md:w-1/4 h-screen md:border-r sm:hidden">
+         
+				 <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+            <div class="relative inline-block text-left">
+               <div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Opened</button></div>
+            </div>
+            <div class="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
+               <svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
+                  <path d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+               </svg>
+               <input class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" placeholder="search conversations" value="">
+            </div>
+            <div class="relative inline-block text-left">
+               <div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Newest</button></div>
+            </div>
+         </div>
+
+         <div class="overflow-scroll" style="height: calc(100vh - 60px);">
+
+				 
+            <a class="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out" data-cy="conversation-item" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations/G8n2iTimrFdkw7rHfoYnP1sg">
+               <div class="block w-2 bg-red-200 dark:bg-red-600"></div>
+               <div class="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
+                  <div class="flex items-center">
+                     <div class="flex-shrink-0 h-10 w-10"><img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/visitor+QG189/128/f5f5dc/888/4" alt="visitor QG189"></div>
+                     <div class="ml-4 truncate w-full">
+                        <div class="flex justify-between"><span class="text-md leading-5 font-semibold text-gray-800 dark:text-gray-100 truncate mr-2">visitor QG189</span><span class="text-xs leading-5 font-light text-gray-300 dark:text-gray-300"><time datetime="1624592616003">25 minutes</time></span></div>
+                     </div>
+                  </div>
+                  <div class="flex flex-col mt-5 space-y-2">
+                     <div class="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1"><img alt="chaskiq bot" class="rounded-full h-5 w-5 self-start" src="https://app.chaskiq.io/assets/icons8-bot-50-c7450d39e2a2808b93e0abf784a77841e50eb527a38324c26f5718ceab1e3fde.png"><span class="truncate"></span></div>
+                     <div class="flex justify-between">
+                        <div class="flex"></div>
+                     </div>
+                  </div>
+               </div>
+            </a>
+            
+         </div>
+      </div>
+
+
+      <div class="w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900">
+         <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+            <div class="relative inline-block text-left">
+               <div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Opened</button></div>
+            </div>
+            <div class="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
+               <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M14.5 14.5l-4-4m-4 2a6 6 0 110-12 6 6 0 010 12z" stroke="currentColor"></path></svg>
+               <input class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" placeholder="search conversations" value="">
+            </div>
+            <div class="relative inline-block text-left">
+               <div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Newest</button></div>
+            </div>
+         </div>
+         <div class="overflow-scroll" style="height: calc(100vh - 60px);">
+
+				 		<%= render partial: 'conversation', collection: @conversations %>
+
+         </div>
+      </div>
+
+			<%= turbo_frame_tag 'conversation',
+				 class: "hidden sm:block flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12" do %>
+					<div class="bg-white dark:bg-black overflow-hidden  rounded-lg py-5 h-full">
+							<div class="flex flex-col px-4 py-5 sm:p-6 items-center">
+								<h2 class="text-2xl tracking-tight
+										font-extrabold text-gray-900 dark:text-white sm:text-3xl
+										sm:leading-none md:text-4xl">No conversations</h2>
+								<div class="py-4 mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">Choose conversations on the side</div>
+								<img src="/packs/media/src/images/empty-icon8-7e9395acb08c999bd741defee01e03e8.png" class="h-56 w-56" alt="No conversations">
+							</div>
+					</div>
+				</div>
+			<% end %>
+      
+   </div>
