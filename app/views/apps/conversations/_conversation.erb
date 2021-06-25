@@ -21,7 +21,9 @@
 			<div class="flex flex-col mt-5 space-y-2">
 					<% if latest = conversation.latest_message and latest.present? %>
 						<div class="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1">
-							<%= image_tag latest.authorable.avatar_url, class: "rounded-full h-5 w-5 self-start" %>
+							<% if latest.authorable.present? %>
+								<%= image_tag latest.authorable.avatar_url, class: "rounded-full h-5 w-5 self-start" %>
+							<% end %>
 							<span class="truncate">
 								<% if latest.message.is_a?(ConversationPart)%>
 								<%= latest.message&.html_content %>

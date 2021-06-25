@@ -35,3 +35,10 @@ li {
 .input:hover {
   @extend %focus-style;
 }
+
+
+.conversation-bg {
+  background-image: radial-gradient(currentcolor 2px, transparent 2px), radial-gradient(currentcolor 2px, transparent 2px);
+  background-size: calc(40px) calc(40px);
+  background-position: 0px 0px, calc(20px) calc(20px);
+}

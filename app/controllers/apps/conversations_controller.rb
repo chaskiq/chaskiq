@@ -3,8 +3,26 @@ class Apps::ConversationsController < ApplicationController
 
 	def index
 
-		@conversations = @app.conversations.includes(:main_participant)
-													.page(params[:page]).per(20)
+		@conversations = @app.conversations
+													.includes(:main_participant)
+													.page(params[:page]).per(10)
+
+
+		if params[:page]
+			render turbo_stream: [
+				turbo_stream.append(
+					"conversation-list", 
+					partial: "apps/conversations/conversation", 
+					collection: @conversations,
+				),
+
+				turbo_stream.replace(
+					"conversation-list-pagination", 
+					partial: "apps/conversations/pagination" 
+				),
+			] 
+		end
+
 	end
 
 
@@ -15,15 +33,22 @@ class Apps::ConversationsController < ApplicationController
 		@collection = @conversation.messages
 			.order("id desc")
 			.page(params[:page])
-			.per(params[:per] || 20)
+			.per(params[:per] || 2)
 
 		render turbo_stream: [
 			turbo_stream.replace(
-				"conversation", 
+				"conversation",
 				template: "apps/conversations/show", 
 				locals: { app: @app, conversation: @conversation },
 			),
-		]
+		] unless params[:page]
+
+		render turbo_stream: [
+			turbo_stream.append(
+				"messages-list", 
+				partial: "apps/conversations/messages" 
+			),
+		] if params[:page]
 
 	end
 end

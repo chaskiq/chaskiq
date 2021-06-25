@@ -7,7 +7,7 @@ class ConversationPartComponent < ViewComponent::Base
   end
 
   def block_class
-    return 'bg-white text-green-500' if @message.authorable.class.is_a?(AppUser)
+    return 'bg-white text-green-500' if @message.authorable.is_a?(AppUser)
     @message.private_note? ? 'bg-yellow-300 text-black' : 'bg-gray-700 text-white'
   end
 

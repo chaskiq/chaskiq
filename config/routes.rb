@@ -46,7 +46,9 @@ Rails.application.routes.draw do
   resources :apps do
     resources :campaigns , controller: "apps/campaigns"
     resources :settings , controller: "apps/settings"
-    resources :conversations , controller: "apps/conversations"
+    resources :conversations , controller: "apps/conversations" do
+      resources :conversation_messages, controller: "apps/conversation_messages"
+    end
     resources :articles , controller: "apps/articles"
     resources :bots , controller: "apps/bots"
     resources :segments , controller: "apps/segments"

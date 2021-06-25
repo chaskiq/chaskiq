@@ -1,0 +1,7 @@
+
+<%= turbo_frame_tag 'conversation-messages' do %>
+	<%= render 'apps/conversation_messages/messages' %>
+<% end %>
+<div class="hidden.." data-infinite-scroll-target="pagination">
+	<%= render partial: 'apps/conversation_messages/pagination' %>
+</div>

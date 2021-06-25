@@ -14,8 +14,10 @@
 						</span>
 					</div>
 					<span class="flex items-center text-xs text-gray-100">
-						<time datetime="1624574997000">6 hours</time>
-						<span class="text-gray-100"> - <span>Seen</span>
+						<time datetime="<%= @message.created_at %>"> <%= time_ago_in_words @message.created_at %> </time>
+						<span class="text-gray-100"> - <span>
+							<%= @message.read? ? t("messages.seen") : t("messages.not_seen") %>
+						</span>
 					</span>
 
 						<div class="relative inline-block text-left">
