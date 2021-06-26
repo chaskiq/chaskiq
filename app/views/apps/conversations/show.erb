@@ -1,8 +1,8 @@
 <%= turbo_frame_tag 'conversation',
-	data: { controller: 'history-frame' },
-	class: "md:w-0 md:flex-grow w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r dark:border-black" do %>
+	data: { controller: 'history-frame conversation' },
+	class: "flex hidden- sm:block- flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12-" do %>
 
-	<div data-controller="infinite-scroll"
+	<div
 		class="flex-1 flex flex-col h-screen conversation-bg">
 		<div class="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900">
 				
@@ -12,11 +12,11 @@
 								<path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
 							</svg>
 					</a>
-					<%= image_tag conversation.main_participant.avatar_url, class: "h-9 w-9 rounded-full mr-2 cursor-pointer" %>
+					<%= image_tag @conversation.main_participant.avatar_url, class: "h-9 w-9 rounded-full mr-2 cursor-pointer" %>
 					<h3 class="mb-1 text-xs text-grey-darkest hidden md:block">
 						Conversation with <br>
 						<span class="font-extrabold hover:text-underline">
-							<%= conversation.main_participant.display_name%>
+							<%= @conversation.main_participant.display_name%>
 						</span>
 					</h3>
 				</div>
@@ -53,8 +53,12 @@
 								<div class="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 border shadow items-center justify-center"><img class="h-6 w-6 rounded-full" src="https://app.chaskiq.io/assets/icons8-bot-50-c7450d39e2a2808b93e0abf784a77841e50eb527a38324c26f5718ceab1e3fde.png"></div>
 							</div>
 					</div>
-					<div class="flex items-center text-gray-300" style="margin-right: -30px; margin-left: 16px;">
-							<button class="transition duration-150 ease-in-out hidden md:block css-o2cca7">
+					<div
+						
+						class="flex items-center text-gray-300" style="margin-right: -30px; margin-left: 16px;">
+							<button
+								data-action="click->conversation#toggleSidebar" 
+								class="transition duration-150 ease-in-out hidden md:block css-o2cca7">
 								<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
 										<path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
 								</svg>
@@ -108,31 +112,35 @@
 				</div>
 		</div>
 
-
 		<div
-			data-infinite-scroll-target="entries" 
+			id="conversation-overflow"
 			class="overflow-y-scroll" style="height: calc(100vh - 220px);">
-				<div class="flex flex-col-reverse px-6 py-4">
-					
-					<p class="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
-						<a href="#" class="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white">
-							<span class="absolute flex-shrink-0 flex items-center justify-center">
-								<span class="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black" aria-hidden="true">
-								</span>
-							</span>
-							<span class="ml-3.5 font-medium text-gray-700">waiting for reply</span>
-						</a>
-					</p>
 
-					<%= turbo_frame_tag 'conversation-messages', src: app_conversation_conversation_messages_path(@app.key, @conversation.key) do %>
-						loading....
-					<% end %>
-
-				</div>
+				<%= turbo_frame_tag 'conversation-messages', src: app_conversation_conversation_messages_path(@app.key, @conversation.key) do %>
+					loading....
+				<% end %>
 		</div>
+
+		<%= render 'editor' %>
+
 		<div>
 		</div>
 	</div>
 
+	<!-- sidebar -->
+	<div id="conversation-sidebar" class="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative sm:block sm:w-4/12 ">
+		<div class="">
+				<div class="py-2 pt-2">
+					<div class="flex items-center justify-between">
+							<div class="flex-1 space-y-8 break-all">
+								<div class="space-y-8 sm:space-y-0 sm:flex sm:justify-between sm:items-center xl:block xl:space-y-2">
+									SIDEBAR
+								</div>
+							</div>
+					</div>
+				</div>
+		</div>
+	</div>
 
 <%end%>
+

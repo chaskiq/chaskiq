@@ -1,0 +1,36 @@
+<%= turbo_frame_tag "conversations" do %>
+	<div data-controller="infinite-scroll" class="w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900">
+			<div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+				<div class="relative inline-block text-left">
+						<div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Opened</button></div>
+				</div>
+				<div class="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
+						<svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M14.5 14.5l-4-4m-4 2a6 6 0 110-12 6 6 0 010 12z" stroke="currentColor"></path></svg>
+						<input class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" placeholder="search conversations" value="">
+				</div>
+				<div class="relative inline-block text-left">
+						<div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Newest</button></div>
+				</div>
+			</div>
+
+			<div 
+			class="overflow-scroll" 
+			style="height: calc(100vh - 60px);"
+			data-infinite-scroll-target="entries"
+			>
+
+				<%= turbo_frame_tag 'conversation-list' do %>
+					<%= render partial: 'conversation', collection: @conversations %>
+				<% end %>
+
+				<div class="hidden.." data-infinite-scroll-target="pagination">
+					<%= render partial: 'apps/conversations/pagination' %>
+				</div>
+
+			</div>
+
+
+		<% #= turbo_frame_tag dom_id(@next_conversations), loading: :lazy, src: app_conversations_path(@app, page: @next_page]) if @next_page.present? %>
+
+	</div>
+<% end %>

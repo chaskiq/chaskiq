@@ -2384,6 +2384,11 @@
   dependencies:
     spark-md5 "^3.0.0"
 
+"@rails/request.js@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@rails/request.js/-/request.js-0.0.3.tgz#98689fda25232c3a8d26554b1a018fc4e895701b"
+  integrity sha512-i4q6bhp/yeNeaPCAidZwTg6FYb1MwpM0PQMK2ycWJDm5+yv7RLTjUGdgoMzPDrVWuOBGg/jUD9DZp+JyiGTuaQ==
+
 "@rails/webpacker@^5.2.1":
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-5.2.1.tgz#87cdbd4af2090ae2d74bdc51f6f04717d907c5b3"

@@ -35,7 +35,7 @@
 
          <div class="overflow-scroll" style="height: calc(100vh - 60px);">
 
-				 
+		
             <a class="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out" data-cy="conversation-item" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations/G8n2iTimrFdkw7rHfoYnP1sg">
                <div class="block w-2 bg-red-200 dark:bg-red-600"></div>
                <div class="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
@@ -57,7 +57,7 @@
          </div>
       </div>
 
-
+			
       <div data-controller="infinite-scroll" class="w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900">
          <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
             <div class="relative inline-block text-left">
@@ -94,8 +94,9 @@
       </div>
 
 			<%= turbo_frame_tag 'conversation',
-				 data: { controller: 'history-frame' },
-				 class: "hidden sm:block flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12" do %>
+				 data: { controller: 'history-frame conversation' },
+				 src: @conversation ? app_conversation_path(@app.key, @conversation.key ) : nil,
+				 class: "flex hidden- sm:block- flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12-" do %>
 					<div class="bg-white dark:bg-black overflow-hidden  rounded-lg py-5 h-full">
 							<div class="flex flex-col px-4 py-5 sm:p-6 items-center">
 								<h2 class="text-2xl tracking-tight

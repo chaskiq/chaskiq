@@ -5,7 +5,7 @@ export default class extends Controller {
 
   initialize() {
     let options = {
-      rootMargin: '200px',
+      rootMargin: '20px',
     }
 
     this.intersectionObserver = new IntersectionObserver(entries => this.processIntersectionEntries(entries), options)
@@ -20,6 +20,7 @@ export default class extends Controller {
   }
 
   processIntersectionEntries(entries) {
+    console.log("ENTRIES", entries)
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         this.loadMore()
@@ -32,7 +33,7 @@ export default class extends Controller {
     if (next_page == null) { return }
     let url = next_page.href
 
-		console.log(next_page)
+		console.log("NEXT PAGE:", next_page)
 
 		next_page.click()
     
