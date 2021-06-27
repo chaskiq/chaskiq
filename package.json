@@ -92,6 +92,7 @@
     "simple-peer": "^9.7.0",
     "stimulus": "^2.0.0",
     "stimulus-use": "^0.25.0",
+    "sortablejs": "^1.7.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "twin.macro": "^2.4.2",
     "ua-parser-js": "^0.7.20",

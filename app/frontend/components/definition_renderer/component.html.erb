@@ -1,0 +1,30 @@
+
+<% #= @values %>
+<% #= @schema %>
+
+<% @schema.each do |item| %>
+	<%= case item["type"]
+		when "text" then render TextRenderer::Component.new(
+			text: item['text'],
+			align: item['align'],
+			style: item['style']
+		) 
+			
+		when "list" then render ListRenderer::Component.new(
+			field: item['items'],
+		) 
+			
+		when "content" then render ContentRenderer::Component.new(
+			id: item['id'],
+			values: @values,
+			path: content_app_package_path(@app, @app_package)
+		)
+		else 
+		
+		"no definition for"
+			
+		end %>
+
+<% end %>
+
+

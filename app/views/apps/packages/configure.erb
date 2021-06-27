@@ -1,0 +1,18 @@
+<%= render(Modal::Component.new(
+	title: "Add apps to chat home", 
+	subtitle: "hshsh", 
+	btn: "ss")
+	) do %>
+
+	<div data-controller="definitions-renderer">
+		<%= render DefinitionRenderer::Component.new(
+			schema: @blocks["definitions"], 
+			size: 'sm', 
+			values: {}, 
+			location: 'inbox',
+			app_package: @package,
+			app: @ap
+		)%>
+	</div>
+
+<% end %>

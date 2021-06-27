@@ -26,7 +26,6 @@ class Apps::ConversationsController < ApplicationController
 		end										
 	end
 
-
 	def show
 
 		@conversation = @app.conversations.find_by(key: params[:id])
@@ -35,22 +34,7 @@ class Apps::ConversationsController < ApplicationController
 		.includes(:main_participant)
 		.page(params[:page]).per(10)
 
-=begin
-		render turbo_stream: [
-			turbo_stream.replace(
-				"conversation",
-				template: "apps/conversations/show", 
-				locals: { app: @app, conversation: @conversation },
-			),
-		] unless params[:page]
 
-		render turbo_stream: [
-			turbo_stream.append(
-				"messages-list", 
-				partial: "apps/conversations/messages" 
-			),
-		] if params[:page]
-=end
 
 		if request.headers['Turbo-Frame'].present?
 			turbo_stream.replace(
@@ -67,6 +51,22 @@ class Apps::ConversationsController < ApplicationController
 
 			render 'index' 
 		end	
+
+	end
+
+	def sidebar
+
+		if params[:q] == 'cancel' 
+			render turbo_stream: turbo_stream.replace(
+				"conversation-sidebar-packages", 
+				partial: "apps/packages/inbox_packages1", 
+			)
+		else
+			render turbo_stream: turbo_stream.replace(
+				"conversation-sidebar-packages", 
+				partial: "apps/packages/inbox_packages", 
+			)
+		end
 
 	end
 end

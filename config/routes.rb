@@ -47,6 +47,9 @@ Rails.application.routes.draw do
     resources :campaigns , controller: "apps/campaigns"
     resources :settings , controller: "apps/settings"
     resources :conversations , controller: "apps/conversations" do
+      collection do
+        get :sidebar
+      end
       resources :conversation_messages, controller: "apps/conversation_messages"
     end
     resources :articles , controller: "apps/articles"
@@ -56,6 +59,16 @@ Rails.application.routes.draw do
     resources :segment_managers, controller: "apps/segment_manager"
     resources :dashboards, controller: "apps/dashboards"
     resources :assignment_rules, controller: "apps/assignment_rules"
+    resources :packages, controller: "apps/packages" do
+      member do
+        post :configure
+        post :content
+      end
+      collection do
+        post :sort
+        get :capabilities
+      end
+    end
   end
 
   resource :oembed, controller: 'oembed', only: :show

@@ -26,3 +26,4 @@ import 'rc-tooltip/assets/bootstrap.css'
 })*/
 
 import "controllers"
+import "../../frontend/components/index"

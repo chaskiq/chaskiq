@@ -164,3 +164,7 @@ end
 gem "php_serialize", "~> 1.2"
 gem "scout_apm", "~> 2.6"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+
+gem "view_component-contrib", "~> 0.1.0"
+
+gem "dry-initializer", "~> 3.0"

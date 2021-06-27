@@ -75,9 +75,9 @@
 
 <%= case message.message.class.table_name
 		when 'conversation_part_contents'
-			render ConversationPartComponent.new(message: message)
+			render ConversationPart::Component.new(message: message)
 		when 'conversation_part_blocks'
-			render ConversationPartBlockComponent.new(message: message)
+			render ConversationPartBlock::Component.new(message: message)
 		else
 			"no match for #{message.class.table_name}"
 		end 

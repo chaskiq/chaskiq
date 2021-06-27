@@ -42,3 +42,9 @@ li {
   background-size: calc(40px) calc(40px);
   background-position: 0px 0px, calc(20px) calc(20px);
 }
+
+
+
+.view-components  h3{
+  @apply text-lg font-semibold;
+}

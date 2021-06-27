@@ -22,11 +22,11 @@
                 <div class="relative inline-block text-left">
                   <div class="flex">
                     <div>
-											<%= render ButtonComponent.new(size: 'sm', variant: 'success') do %>
+											<%= render Button::Component.new(size: 'sm', variant: 'success') do %>
 												oli oli lki
 											<% end %>
 
-											<%= render DropdownComponent.new(label: t('contact_manager.create') ) do |c| %>
+											<%= render Dropdown::Component.new(label: t('contact_manager.create') ) do |c| %>
                         
 
                           <!--<a href="#" data-action="click->modal#open" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">

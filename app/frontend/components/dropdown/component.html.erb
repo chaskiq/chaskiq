@@ -1,0 +1,40 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="relative inline-block text-left" data-controller="dropdown" >
+  <div>
+
+		<%= render Button::Component.new(
+      size: @size, 
+      variant: @variant, data: { action: "click->dropdown#toggle" }) do %>
+			<%= @label %>
+		<% end %>
+    
+  </div>
+
+  <!--
+    Dropdown menu, show/hide based on menu state.
+
+    Entering: "transition ease-out duration-100"
+      From: "transform opacity-0 scale-95"
+      To: "transform opacity-100 scale-100"
+    Leaving: "transition ease-in duration-75"
+      From: "transform opacity-100 scale-100"
+      To: "transform opacity-0 scale-95"
+  -->
+  <div data-dropdown-target="toggleable" 
+		class="z-10 hidden origin-top-right absolute <%=@orientation%>-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" 
+		role="menu" 
+		aria-orientation="vertical" 
+		aria-labelledby="menu-button" 
+		tabindex="-1">
+		
+
+    <div class="py-1" role="none">
+      <%= content %>
+
+      <% actions.each do |item| %>
+        <%= item %>
+      <% end %>
+    </div>
+	
+  </div>
+</div>

@@ -1,0 +1,20 @@
+/* Use component-local class names and add them to HTML via #class_for(name) helper */
+
+.spacer.xs{
+	@apply h-1;
+}
+.spacer.s{
+	@apply h-2;
+}
+.spacer.m{
+	@apply h-4;
+}
+.spacer.l{
+	@apply h-6;
+}
+.spacer.xl{
+	@apply h-8;
+}
+.space.default{
+	@apply h-1;
+}
