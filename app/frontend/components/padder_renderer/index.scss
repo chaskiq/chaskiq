@@ -1,6 +1,10 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
 
-.definition-renderer {
-	@apply py-2.5;
+.padder {
+	@apply py-3 px-4;
+
+	&.sm {
+		@apply py-1 px-2;
+	} 
 }

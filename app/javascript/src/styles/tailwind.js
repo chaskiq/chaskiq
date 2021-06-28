@@ -24,11 +24,13 @@ const nums = [
 module.exports = {
   darkMode: 'class',
   experimental: {},
+  mode: 'jit',
   purge: {
     //enabled: true,
     content: [
       './app/**/*.html.erb',
       './app/**/*.erb',
+      './app/frontend/**/*.scss',
       './app/javascript/**/*.scss',
       './app/helpers/**/*.rb',
       './app/javascript/**/*.js',

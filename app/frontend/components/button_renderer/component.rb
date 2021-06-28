@@ -5,9 +5,19 @@ class ButtonRenderer::Component < ApplicationViewComponent
   option :variant, default: -> { "success" }
   option :size, default: ->{'md'}
   option :label
+  option :align, default: ->{'left'}
   option :action, default: ->{nil}
 
   def json_data
     {label: @label, id: @id, action: @action}.to_json
+  end
+
+  def action_method
+    case @action["type"]
+    when "submit" then 'click->definition_renderer#sendForm'
+    when "link" then 'click->definition_renderer#visitLink'
+    else 
+      nil
+    end
   end
 end

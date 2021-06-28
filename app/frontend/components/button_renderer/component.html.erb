@@ -2,7 +2,8 @@
 	<button id="<%= @id %>" 
 	class="<%= @variant %> <%= @size %>"
 	data-field-json="<%= json_data %>"
-	data-action="click->definition_renderer#sendForm">
+	<%= @action['url'] ? "data-action-url=#{@action['url']}" : '' %>
+	data-action="<%= action_method %>">
 		<%= @label%>
 	</button>
 </div>

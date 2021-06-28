@@ -9,6 +9,7 @@ class InputRenderer::Component < ApplicationViewComponent
   option :disabled, default: ->{false}
   option :loading, default: ->{false}
   option :name
+  option :size, default: ->{nil}
   option :hint, default: ->{nil}
   option :errors, default: ->{nil}
 end

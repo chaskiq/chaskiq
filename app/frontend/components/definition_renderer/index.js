@@ -40,6 +40,12 @@ export class Controller extends BaseController {
 		}
 	}
 
+	visitLink(e){
+		e.preventDefault()
+		const url = e.currentTarget.dataset.actionUrl
+		window.location = url
+	}
+
 	configurePath(){
 		return `${this.element.dataset.path}/configure`
 	}

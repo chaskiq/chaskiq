@@ -3,7 +3,6 @@
 let environment = {
   plugins: [
     require('tailwindcss')('./app/javascript/src/styles/tailwind.js'),
-    require('autoprefixer'),
     require('postcss-import'),
     require('postcss-flexbugs-fixes'),
     require('postcss-preset-env')({
@@ -11,7 +10,7 @@ let environment = {
         flexbox: 'no-2009'
       },
       stage: 3
-    }),
+    })
   ]
 }
 
