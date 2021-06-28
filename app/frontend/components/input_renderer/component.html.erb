@@ -1,0 +1,48 @@
+<div class="input-wrapper">
+
+
+  <label for="<%= @name%>"><%= @label %></label>
+
+	<% if @action %>
+		action
+	<% end %>
+
+	<input 
+		type="text" 
+		auto-complete="off"
+		value="<%= @value %>"
+		id="<%= @id %>"
+		name="ctx[values][<%= @name || @id %>]"
+	></input>
+
+	<!--
+	        {field.action && (
+          <TextInputButton
+            onClick={(e) => {
+              if (!isDisabled() && !isSaved()) handleAction(e, field)
+            }}
+            saved={field.save_state === 'saved'}
+            disabled={isDisabled()}
+          >
+            {field.save_state === 'saved' ? (
+              <CheckIcon />
+            ) : loading ? (
+              <Progress />
+            ) : (
+              <ArrowRight />
+            )}
+          </TextInputButton>
+        )}
+	-->
+
+	<% if @errors %>
+		<span class="error"><%= @error %></span>
+	<% end %>
+
+	<% if @hint %>
+	<span class="helper-text">
+		<%= @hint %>
+	</span>
+	<% end %>
+
+</div>

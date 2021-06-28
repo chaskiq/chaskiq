@@ -59,7 +59,9 @@ class Apps::ConversationsController < ApplicationController
 		if params[:q] == 'cancel' 
 			render turbo_stream: turbo_stream.replace(
 				"conversation-sidebar-packages", 
-				partial: "apps/packages/inbox_packages1", 
+				partial: "apps/packages/inbox_packages1", locals: {
+					ctx: { conversation_key: @conversation.key }
+				}
 			)
 		else
 			render turbo_stream: turbo_stream.replace(

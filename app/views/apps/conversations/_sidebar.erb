@@ -6,7 +6,7 @@
                <div class="space-y-8 sm:space-y-0 sm:flex sm:justify-between sm:items-center xl:block xl:space-y-2">
 						<div class="px-2">
 
-                     <%= render 'apps/packages/inbox_packages1' %>
+                     <%= render 'apps/packages/inbox_packages1', locals: {ctx: { conversation_key: @conversation.key }} %>
                   </div>
 				   </div>
             </div>

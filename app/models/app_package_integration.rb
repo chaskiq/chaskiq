@@ -162,6 +162,7 @@ class AppPackageIntegration < ApplicationRecord
 
     params[:ctx][:package] = self unless external_package?
 
+    
     response = presenter_hook_response(params, presenter)&.with_indifferent_access
 
     validate_schema!(response[:definitions])

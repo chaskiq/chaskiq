@@ -24,7 +24,7 @@
 						<%= d["name"]%>
 				</p>
 
-				<%= d %>
+				<% #= d %>
 
 				<%= render DefinitionRenderer::Component.new(
 						schema: d["definitions"],
@@ -32,7 +32,10 @@
 						app_package: d["name"],
 						location: "inbox",
 						values: d["values"],
-						app: @app
+						conversation_key: @conversation.key,
+						path: app_package_path(@app.key, d["name"]),
+						app: @app,
+						ctx: locals[:ctx]
 				)%>
 			</div>
 	<% end %>

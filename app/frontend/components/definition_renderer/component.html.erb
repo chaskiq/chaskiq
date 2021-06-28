@@ -1,30 +1,74 @@
 
 <% #= @values %>
 <% #= @schema %>
+<div 
+	data-controller="<%= identifier %>"
+	data-conversation-key="<%= @conversation_key %>"
+	data-location="<%= @location %>"
+	data-path="<%= app_package_path(@app.key, @app_package) %>">
+	<form data-<%= identifier %>-target="form"
+		data-action="submit-><%=identifier%>#onSubmit">
+		<input type="hidden" name="ctx[conversation_key]" value="<%= @conversation_key %>">
+		<% @schema.each do |item| %>
+			<%= case item["type"]
+				when "text" then render TextRenderer::Component.new(
+					text: item['text'],
+					align: item['align'],
+					style: item['style']
+				) 
+					
+				when "list" then render ListRenderer::Component.new(
+					field: item['items'],
+				) 
+							
+				when "image" then render ImageRenderer::Component.new(
+					url: item['url'],
+					height: item['height'],
+					width: item['width'],
+					align: item['align'],
+					rounded: item['rounded']
+				) 
 
-<% @schema.each do |item| %>
-	<%= case item["type"]
-		when "text" then render TextRenderer::Component.new(
-			text: item['text'],
-			align: item['align'],
-			style: item['style']
-		) 
-			
-		when "list" then render ListRenderer::Component.new(
-			field: item['items'],
-		) 
-			
-		when "content" then render ContentRenderer::Component.new(
-			id: item['id'],
-			values: @values,
-			path: content_app_package_path(@app, @app_package)
-		)
-		else 
-		
-		"no definition for"
-			
-		end %>
+				when "button" then render ButtonRenderer::Component.new(
+					id: item['id'],
+					variant: item['variant'] || 'default',
+					label: item['label'],
+					action: item['action']
+				) 
 
-<% end %>
+				when "data-table" then render DataTableRenderer::Component.new(
+					id: item['id'],
+					items: item['items'],
+					size: item['size']
+				) 
+					
+				when "content" then render ContentRenderer::Component.new(
+					id: item['id'],
+					values: {values: @values}.to_json,
+					path: content_app_package_path(@app.key, @app_package, @ctx)
+				)
+
+				when "input" then render InputRenderer::Component.new(
+					id: item['id'],
+					placeholder: item['placeholder'],
+					errors: item['errors'],
+					label: item['label'],
+					save_state: item['save_state'],
+					value: item['value'],   
+					disabled: item['disabled'],
+					loading: item['loading'], 
+					name: item['name'],   
+					hint: item['hint']   
+				)
+
+				else 
+				
+				"---- no definition for #{item["type"]}--- \n"
+					
+				end %>
+
+		<% end %>
+	</form>
+</div>
 
 

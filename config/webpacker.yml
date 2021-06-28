@@ -9,7 +9,7 @@ default: &default
   extract_css: true
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
-  resolved_paths: []
+  resolved_paths: ['app/frontend/components']
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false

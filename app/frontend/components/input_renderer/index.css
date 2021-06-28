@@ -1,0 +1,106 @@
+/* Use component-local class names and add them to HTML via #class_for(name) helper */
+
+.data-wrapper {
+	@apply flex relative;
+}
+
+.data-wrapper.shadow {
+	@apply shadow-sm;
+}
+
+.input-wrapper.action {
+	@apply rounded-none rounded-l-md;
+}
+
+
+.input-wrapper input {
+	@apply border relative shadow-sm block w-full;
+	@apply block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5;
+  margin:0px !important;
+
+	@apply p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5;
+
+/*
+  ${(props) =>
+    props.disabled && props.field.save_state === 'failed'
+      ? tw`border-red-300 text-red-200 placeholder-red-300 bg-red-100 focus:border-red-300`
+      : ''}
+
+  ${(props) =>
+    props.disabled && !props.field.save_state
+      ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-200 placeholder-gray-300 bg-gray-100 border-r-0 focus:border-gray-300`
+      : ''}
+
+  ${(props) =>
+    !props.field.save_state && !props.error
+      ? tw`dark:bg-gray-900 dark:text-gray-100 border-gray-300 text-gray-900 placeholder-gray-300 focus:border-gray-300`
+      : ''}
+
+  ${(props) =>
+    !props.field.save_state && props.error
+      ? tw`border-red-300 text-red-900 placeholder-red-300 focus:border-red-300`
+      : ''}
+
+  margin:0px !important;
+
+  ${(props) =>
+    props.field.action
+      ? `border-top-right-radius: 0rem !important;
+    border-bottom-right-radius: 0rem !important;`
+      : ''}
+
+  ${(props) =>
+    props.disabled
+      ? `background: #f6f4f4 !important;
+    color: #ddd !important;`
+      : ''}
+*/
+
+}
+
+.input-wrapper.sm input {
+	@apply p-1 text-sm !important;
+}
+
+.input-wrapper label {
+	@apply block text-gray-700 dark:text-gray-200 font-bold mb-2;
+  /*${(props) => (props.theme.size === 'sm' ? tw`text-xs` : tw`text-sm`)}*/
+}
+
+.input-wrapper .helper-text {
+	@apply mt-2 text-xs text-gray-500 dark:text-gray-200;
+} 
+
+.input-wrapper.sm label {
+  @apply text-xs;
+}
+
+.input-wrapper input.disabled {
+	background: #f6f4f4 !important;
+  color: #ddd !important;
+}
+
+.input-wrapper input.action {
+	border-top-right-radius: 0rem !important;
+	border-bottom-right-radius: 0rem !important;
+}
+
+.input-wrapper input.failed {
+	@apply border-red-300 text-red-500 placeholder-red-300 bg-red-100 focus:border-red-300;
+}
+
+.input-wrapper input.error {
+	@apply border-red-300 text-red-900 placeholder-red-300 focus:border-red-300;
+}
+
+.input-wrapper .error {
+  @apply text-red-500 mb-2 text-sm;
+
+	/*
+	  ${(props) =>
+    props.theme.size === 'sm'
+      ? tw`p-1 text-sm`
+      : tw`p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5`}
+
+	*/
+}

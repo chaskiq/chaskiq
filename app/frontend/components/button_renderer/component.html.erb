@@ -1,0 +1,10 @@
+<div class="button-wrapper <%= @align %>">
+	<button id="<%= @id %>" 
+	class="<%= @variant %> <%= @size %>"
+	data-field-json="<%= json_data %>"
+	data-action="click->definition_renderer#sendForm">
+		<%= @label%>
+	</button>
+</div>
+
+

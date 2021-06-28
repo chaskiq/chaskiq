@@ -63,6 +63,7 @@ Rails.application.routes.draw do
       member do
         post :configure
         post :content
+        post :submit
       end
       collection do
         post :sort

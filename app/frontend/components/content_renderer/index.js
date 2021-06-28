@@ -10,19 +10,23 @@ import { post } from '@rails/request.js'
 export class Controller extends BaseController {
 	connect() {
 		console.log("ajajajaja")
+		this.sendData()
 	}
 
 	disconnect() {
 	}
 
-	async sendData(data, cb){
+	async sendData(){
 		const response = await post(
 			this.element.dataset.url, { 
-				body: JSON.stringify(data),
-				responseKind: 'turbo-stream'
+				body: this.element.dataset.values,
+				responseKind: 'html' //'turbo-stream'
 			})
 		if (response.ok) {
-			cb && cb()
+			const body = await response.html
+			// this.element.innerHTML = body
+			this.element.closest("[data-controller='definition_renderer']").outerHTML = body
+			console.log("response!")
 		}
 	}
 }

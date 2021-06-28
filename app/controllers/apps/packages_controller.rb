@@ -24,6 +24,7 @@ class Apps::PackagesController < ApplicationController
 
 	def configure
 		@package = get_app_package
+		@package_name = params[:id]
 
 		@blocks = @package.call_hook({
 			kind: 'configure',
@@ -41,19 +42,40 @@ class Apps::PackagesController < ApplicationController
 
 	def content
 		@package = get_app_package
+		@package_name = params[:id]
+		@conversation_key = params[:conversation_key]
 
 		@blocks = @package.call_hook({
 			kind: 'content',
 			ctx: {
+				  values: params[:values],
 					lang: I18n.locale,
-					current_user: current_agent
+					current_user: current_agent,
+					conversation_key: params[:conversation_key]
 				}
 		})
 
-		render turbo_stream: turbo_stream.replace(
-			"modal", 
-			template: "apps/packages/configure", 
-		)
+		render template: "apps/packages/content", layout: false
+	end
+
+	def submit
+		@package = get_app_package
+		@package_name = params[:id]
+		@conversation_key = params[:ctx][:conversation_key]
+
+		@blocks = @package.call_hook({
+			kind: 'submit',
+			ctx: {
+				  values: params[:values],
+					lang: I18n.locale,
+					current_user: current_agent,
+					field: params[:ctx][:field],
+					values: params[:ctx][:values],
+					conversation_key: params[:ctx][:conversation_key]
+				}
+		})
+
+		render template: "apps/packages/content", layout: false
 	end
 
 	def sort
