@@ -70,6 +70,8 @@ class Agent < ApplicationRecord
 
   has_one_attached :avatar
 
+  attr_accessor :roles_for_current_app, :roles_for_current_app_ids
+
   def can_create_apps?
     true
   end

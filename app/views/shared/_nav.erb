@@ -62,7 +62,9 @@
         <h3 class="font-bold w-full">Dashboard</h3>
       </div>
       <nav class="mt-5 flex-1 px-4 space-y-2">
-        <% if controller.controller_name === 'apps' %>
+        <% if @navigator.present? %>
+          <%= render @navigator %>
+        <% elsif controller.controller_name === 'apps' %>
           <%= render "apps/navigator" %>
         <% else %>
           <%= render "apps/#{controller.controller_name}/navigator" %>

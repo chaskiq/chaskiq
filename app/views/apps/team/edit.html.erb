@@ -1,0 +1,25 @@
+
+<%= render(Modal::Component.new(
+		title: t('settings.team.update_agent_title'), 
+		action_content: t('common.update')
+	)
+) do %>
+
+		<%= form_for @agent, url: app_team_path(@app.key, @agent_role), data: {"modal-target": 'form'} do |f| %>
+			<%= f.text_field :name, hint: "agent name" %>
+			<%= f.text_field :email %>
+
+			<% data = [
+					{label: 'mananger', value: 'manage'},
+					{label: 'admin', value: 'admin'}
+				]
+			%>
+
+			<%= f.select :roles_for_current_app, options_for_select(data.map { |o| [o[:label], o[:value]] }, @agent.roles_for_current_app ), 
+				{}, {
+					multiple: true, 
+					data: {'select-target': 'select', options: data.to_json }}
+			%>
+
+	<% end %>
+<% end %>

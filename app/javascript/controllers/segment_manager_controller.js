@@ -1,22 +1,22 @@
-import { Controller } from "stimulus"
+import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ['radio', 'newElement'];
+  static targets = ['radio', 'newElement']
 
   connect() {
     //this.element.textContent = "Hello World!"
   }
 
-  delete(e){
+  delete(e) {
     const target = e.target
     document.getElementById(target.dataset.segment).remove()
   }
 
-  addField(e){
+  addField(e) {
     const target = e.currentTarget
     console.log(target)
     console.log(this.newElementTarget)
     this.newElementTarget.value = target.dataset.field
-    this.element.requestSubmit();
+    this.element.requestSubmit()
   }
 }

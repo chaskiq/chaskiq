@@ -1,13 +1,11 @@
-import { Controller } from "stimulus"       
+import { Controller } from 'stimulus'
 
-export default class extends Controller {   
-
+export default class extends Controller {
   connect() {
-    console.log("DEFINITIONSSSSNNSNS")
+    console.log('DEFINITIONSSSSNNSNS')
   }
 
-
-	dispatchAction(e){
-		console.log("DISPATCHED ", e)
-	}
+  dispatchAction(e) {
+    console.log('DISPATCHED ', e)
+  }
 }

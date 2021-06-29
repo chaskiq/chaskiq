@@ -1,0 +1,11 @@
+<%= render Content::Component.new do %>
+
+	<%= render PageHeader::Component.new(title: I18n.t('settings.team.title')) do %>
+		action here!!
+	<% end %>
+
+	<%= turbo_frame_tag 'agents-table' do %>
+		<%= render 'table' %>
+	<% end %>
+	
+<% end %>

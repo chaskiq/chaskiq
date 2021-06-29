@@ -115,4 +115,12 @@ class ApplicationController < ActionController::Base
       "application" 
     end
   end
+
+  def set_settings_navigator
+    @navigator = "apps/settings/navigator"
+  end
+
+  def flash_stream
+    turbo_stream.replace("flash", partial: "shared/flash", locals: { flash: flash })
+  end
 end

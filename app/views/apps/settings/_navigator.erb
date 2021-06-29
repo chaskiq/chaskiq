@@ -1,40 +1,31 @@
+<% menu = [
+	{ name: t('navigator.app_settings'), path: app_settings_path(@app.key) },
+	{ name: t('navigator.team'), path: app_team_index_path(@app.key) },
+	{ name: t('navigator.messenger_settings'), path: app_messenger_index_path(@app.key) },
+	{ name: t('navigator.integrations'), path: app_integrations_path(@app.key) },
+	{ name: t('navigator.webhooks'), path: app_webhooks_path(@app.key) },
+	{ name: t('navigator.api_access'), path: app_settings_path(@app.key) },
+	{ name: t('navigator.billing'), path: app_billing_index_path(@app.key) }
+] %>
 
-<div class="h-0-- flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-	<div class="flex items-center flex-shrink-0 px-4 text-lg leading-6 font-bold text-gray-900 dark:text-gray-100">
-		<h3 class="font-bold w-full">Dashboard</h3>
-	</div>
-	<nav class="mt-5 flex-1 px-4 space-y-2">
-		<div class="space-y-2">
-			<p class="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light">
-				👋 Hey!, you are viewing the <strong>Chaskiq's</strong> dashboard! <br> Get you installation snippet for the web setup <br></p>
-			<button class="text-xs bg-green-500 hover:bg-green-600 text-green-100 font-bold py-1 px-2 rounded inline-flex items-center text-gray-100">
-				Get the snippet
-			</button>
+<% menu.each do |item| %>
+	<a data-turbo-frame="content" 
+		class="
+		bg-gray-200 dark:bg-gray-900 
+		bg-white hover:text-gray-600 hover:bg-gray-100 
+		dark:hover:text-gray-100 dark:hover:bg-gray-700
+		dark:bg-black dark:text-gray-100 dark:focus:bg-black
+		focus:outline-none focus:bg-gray-200
+		group flex items-center 
+		px-2 py-2 
+		text-sm leading-5 font-medium text-gray-900 
+		rounded-md transition ease-in-out duration-150" 
+		href="<%= item[:path] %>">
+		<div class="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
+				<svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+					<path d="M7.5 12.5V15m5-15v2.5M2.5 0v6.5m0 2V15m5-4.5V0m5 4.5V15m-2-10.5h4v-2h-4v2zm-5 8h4v-2h-4v2zm-5-4h4v-2h-4v2z" stroke="currentColor"></path>
+				</svg>
 		</div>
-		<div class="space-y-2">
-			<div class="mt-1 space-y-1" aria-labelledby="projects-headline">
-				<a class="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" 
-				href="/apps/GPi9haWV1ocbr4My_Q8xPw/billing">
-					<span class="truncate">
-						Plan: 
-						<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-						bg-pink-300 text-pink-800
-						">super</span>
-					</span>
-				</a>
-				<a class="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" 
-					href="/apps/GPi9haWV1ocbr4My_Q8xPw/messenger">
-					<span class="truncate--">
-						Live chat status 
-						<span class=" inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-						bg-green-300 text-green-800
-						">Running</span>
-					</span>
-				</a>
-				<a href="https://dev.chaskiq.io" target="_blank" rel="noopener noreferrer" class="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
-					<span class="truncate">Chaskiq Guides</span>
-				</a>
-				</div>
-		</div>
-	</nav>
-</div>
+		<%= item[:name]%>
+	</a>
+<% end %>

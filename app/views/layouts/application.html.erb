@@ -46,6 +46,8 @@
       data-controller="modal" 
       data-modal-allow-background-close="false">
 
+      <%= render "shared/flash" %>
+
       <% if @app.present? && @app.persisted? %>
         <% #= turbo_frame_tag "content" , data: {'history-target': 'contentframe'} do %>
           <div class="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">

@@ -1,14 +1,17 @@
-import { Controller } from "stimulus"
+import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ["entries", "pagination"]
+  static targets = ['entries', 'pagination']
 
   initialize() {
     let options = {
       rootMargin: '20px',
     }
 
-    this.intersectionObserver = new IntersectionObserver(entries => this.processIntersectionEntries(entries), options)
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => this.processIntersectionEntries(entries),
+      options
+    )
   }
 
   connect() {
@@ -20,8 +23,8 @@ export default class extends Controller {
   }
 
   processIntersectionEntries(entries) {
-    console.log("ENTRIES", entries)
-    entries.forEach(entry => {
+    console.log('ENTRIES', entries)
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         this.loadMore()
       }
@@ -30,13 +33,15 @@ export default class extends Controller {
 
   loadMore() {
     let next_page = this.paginationTarget.querySelector("a[rel='next']")
-    if (next_page == null) { return }
+    if (next_page == null) {
+      return
+    }
     let url = next_page.href
 
-		console.log("NEXT PAGE:", next_page)
+    console.log('NEXT PAGE:', next_page)
 
-		next_page.click()
-    
+    next_page.click()
+
     /*Rails.ajax({
       type: 'GET',
       url: url,

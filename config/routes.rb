@@ -45,6 +45,8 @@ Rails.application.routes.draw do
 
   resources :apps do
     resources :campaigns , controller: "apps/campaigns"
+    resources :agents , controller: "apps/agents"
+
     resources :settings , controller: "apps/settings"
     resources :conversations , controller: "apps/conversations" do
       collection do
@@ -70,6 +72,17 @@ Rails.application.routes.draw do
         get :capabilities
       end
     end
+
+    resources :messenger , controller: "apps/messenger"
+    resources :settings , controller: "apps/settings"
+    resources :billing , controller: "apps/billing"
+    resources :webhooks , controller: "apps/webhooks"
+    resources :team , controller: "apps/team" do
+      collection do 
+        get :invitations 
+      end
+    end
+    resources :integrations, controller: 'apps/integrations'
   end
 
   resource :oembed, controller: 'oembed', only: :show

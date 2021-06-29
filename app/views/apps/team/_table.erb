@@ -1,0 +1,81 @@
+<%= render Tabs::Component.new(
+	items: [{
+		href: app_team_index_path(@app.key),
+		label: I18n.t('settings.team.title'),
+		active: @active_tab == 'team'
+	},
+	{
+		href: invitations_app_team_index_path(@app.key),
+		label: I18n.t('settings.team.invitations'),
+		active: @active_tab == 'invitations'
+	}
+]) do %>
+	<%= render Table::Component.new(
+			data: @agents, 
+			config: {
+				columns: [
+					{ name: :email, 
+						render: lambda{|record| 
+							raw(%{
+
+								<div class="flex items-center">
+									<div class="flex-shrink-0 h-10 w-10">
+										#{ 
+											link_to app_agent_path(@app.key, record) do
+												image_tag record.avatar_url , class: 'h-10 w-10 rounded-full'
+											end
+										}
+									</div>
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ link_to record.name , app_agent_path(@app.key, record) }
+											</div>
+											<div class="text-sm leading-5 text-gray-500">
+												#{ link_to record.email , app_agent_path(@app.key, record) }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{name: :sign_in_count},
+					{name: :last_sign_in_at},
+					{name: :owner, render: lambda{|record|
+
+						@app.owner_id === record.agent_id ? 
+						render( Badge::Component.new(variant: 'green', class_name: 'mr-2')){ 'yes' } : nil
+					
+					}},
+					{name: :access_list, render: lambda{|record| 
+							raw record.access_list do |tag|
+									render( Badge::Component.new(class_name: 'mr-2')){ tag }
+							end
+						}
+					},
+					{name: :actions, render: lambda{|record|
+						%{
+							<div class="flex space-x-3">
+							#{
+								[
+								button_to( 'edit', edit_app_team_path(@app.key, record), method: :get, class: "btn btn-outlined sm"),
+								button_to( 'remove', edit_app_team_path(@app.key, record), method: :get, class: "btn btn-danger sm"),
+							].join(" ")
+							}
+							</div>
+						}.html_safe
+							
+						}
+					},
+					{name: :invitation_accepted_at, render: lambda{ |record|
+							raw(%{
+								<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full #{record.agent.invitation_accepted_at ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+									#{record.agent.invitation_accepted_at ? time_ago_in_words( record.agent.invitation_accepted_at) : ''}
+								</span>
+							})
+						}
+					}
+				]
+			},
+			paginate: paginate(@agents)
+		)%>
+<% end %>

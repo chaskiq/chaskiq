@@ -643,3 +643,18 @@ en:
     match_any: match any
     match_all: match all
     missing_value: Missing value!
+
+
+
+  activerecord:
+    models:
+      agent: Agent
+    attributes:
+      agent:
+        name: "Agent name"
+        email: "Agent email"
+        roles_for_current_app: "Agent roles"
+
+    hints:
+      agent:
+        roles_for_current_app: "blank access will disable account settings access for user"

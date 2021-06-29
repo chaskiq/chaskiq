@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class Modal::Component < ApplicationViewComponent
-	def initialize(title:, subtitle:, btn:)
-    @title = title
-    @subtitle = subtitle
-    @btn = btn
-  end
+  option :title
+  option :subtitle, default: ->{''}
+  option :action_content, default: -> {nil}
 end

@@ -1,0 +1,18 @@
+<div class="tabs w-full">
+	<div class="border-b border-gray-200 dark:border-gray-800">
+		<div class="scrollable overflow-auto">
+			<nav class="-mb-px flex justify-start w-screen">
+				<% items.each_with_index do |item, i|%>
+					<a 
+						href="<%= item[:href] %>"
+						class="tab-item <%= item[:active] ? 'active' : '' %> <%= i > 0 and 'ml-4 lg:ml-8' %>">
+						<%= item[:icon] and item[:icon] %>
+						<span><%= item[:label] %></span>
+					</a>
+				<% end %>
+			</nav>
+		</div>
+	</div>
+
+	<div><%= content %></div>
+</div>

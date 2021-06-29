@@ -1,8 +1,8 @@
-import { Controller } from "stimulus"       
+import { Controller } from 'stimulus'
 import { useClickOutside } from 'stimulus-use'
 
-export default class extends Controller {   
-  static targets = [ "toggleable" ] 
+export default class extends Controller {
+  static targets = ['toggleable']
 
   connect() {
     useClickOutside(this) //, { element: this.toggleableTarget })
@@ -10,8 +10,8 @@ export default class extends Controller {
 
   toggle() {
     this.toggleableTarget.classList.toggle('hidden')
-  } 
-  
+  }
+
   clickOutside(event) {
     // example to close a modal
     // event.preventDefault()

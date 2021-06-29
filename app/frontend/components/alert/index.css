@@ -1,0 +1,14 @@
+/* Use component-local class names and add them to HTML via #class_for(name) helper */
+
+
+.alert {
+	@apply fixed 
+				z-50 
+				inset-0 
+				flex 
+				items-end 
+				justify-center 
+				px-4 py-6 
+				pointer-events-none 
+				sm:p-6;
+}
