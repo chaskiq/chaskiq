@@ -1,8 +1,7 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
-
 .alert {
-	@apply fixed 
+  @apply fixed 
 				z-50 
 				inset-0 
 				flex 

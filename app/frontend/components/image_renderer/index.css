@@ -1,14 +1,14 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
 .image {
-	@apply flex;
+  @apply flex;
 }
 .image.left {
-	@apply justify-start;
+  @apply justify-start;
 }
 .image.center {
-	@apply justify-center;
+  @apply justify-center;
 }
 .image.right {
-	@apply justify-end;
+  @apply justify-end;
 }

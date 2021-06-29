@@ -105,6 +105,8 @@ export default class extends Controller {
     if (this.background) {
       this.background.remove()
     }
+
+    document.getElementById('modal').innerHTML = null
   }
 
   closeBackground(e) {

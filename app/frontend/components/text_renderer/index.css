@@ -1,34 +1,33 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
+.text.header {
+  @apply text-lg leading-8 font-bold text-gray-800 dark:text-gray-100;
+}
+.text.muted {
+  @apply text-sm leading-5 text-gray-500 dark:text-gray-300;
+}
+.text.error {
+  @apply text-sm leading-5 text-red-500;
+}
+.text.notice {
+  @apply p-2 bg-blue-50 text-blue-400 rounded-md text-xs;
+}
+.text.notice-error {
+  @apply p-2 bg-red-50 text-red-400 rounded-md text-xs;
+}
+.text.notice-success {
+  @apply p-2 bg-green-50 text-green-400 rounded-md text-xs;
+}
 
-.text.header{
-	@apply text-lg leading-8 font-bold text-gray-800 dark:text-gray-100;
+.text.left {
+  @apply text-left;
 }
-.text.muted{
-	@apply text-sm leading-5 text-gray-500 dark:text-gray-300;
+.text.center {
+  @apply text-center;
 }
-.text.error{
-	@apply text-sm leading-5 text-red-500;
+.text.right {
+  @apply text-right;
 }
-.text.notice{
-	@apply p-2 bg-blue-50 text-blue-400 rounded-md text-xs;
-}
-.text.notice-error{
-	@apply p-2 bg-red-50 text-red-400 rounded-md text-xs;
-}
-.text.notice-success{
-	@apply p-2 bg-green-50 text-green-400 rounded-md text-xs;
-}
-
-.text.left{
-	@apply text-left;
-}
-.text.center{
-	@apply text-center;
-}
-.text.right{
-	@apply text-right;
-}
-.text.justify{
-	@apply text-justify;
+.text.justify {
+  @apply text-justify;
 }

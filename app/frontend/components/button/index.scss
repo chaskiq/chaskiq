@@ -1,31 +1,33 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
 .btn {
+  @apply transition duration-150 ease-in-out cursor-pointer;
+  @apply px-2 py-1 text-sm font-medium leading-7;
 
-	@apply transition duration-150 ease-in-out cursor-pointer; 
-	@apply px-2 py-1 text-sm font-medium leading-7;
+  &.xs {
+    @apply px-2 py-1 text-xs font-medium #{!important};
+  }
+  &.sm,
+  &small {
+    @apply px-2.5 py-1.5 text-xs leading-4 #{!important};
+  }
 
+  &.md,
+  &.medium {
+    @apply px-4 py-2 text-sm leading-7 font-medium uppercase #{!important};
+  }
 
-	&.xs{	@apply px-2 py-1 text-xs font-medium #{!important}; }
-	&.sm, &small{
-		@apply px-2.5 py-1.5 text-xs leading-4 #{!important};
-	}
+  &.lg,
+  &.large {
+    @apply px-8 py-4 text-xl font-light uppercase #{!important};
+  }
 
-	&.md, &.medium {
-		@apply px-4 py-2 text-sm leading-7 font-medium uppercase #{!important};
-	}
-
-	&.lg, &.large {
-		@apply px-8 py-4 text-xl font-light uppercase #{!important};
-	}
-
-	&.icon {
-		@apply p-1;
-	}
+  &.icon {
+    @apply p-1;
+  }
 
   &.btn-success {
-     @apply
-        outline-none 
+    @apply outline-none 
         rounded-md 
         bg-green-400 
         text-white
@@ -33,11 +35,10 @@
         focus:outline-none 
         focus:border-green-700 
         focus:shadow-outline;
-	}
-    
-	&.btn-flat {
-		@apply
-			inline-flex 
+  }
+
+  &.btn-flat {
+    @apply inline-flex 
 			items-center 
 			border 
 			border-transparent 
@@ -47,11 +48,10 @@
 			text-indigo-700 
 			bg-indigo-100 
 			hover:bg-indigo-200 
-			focus:outline-none ;
-	}
-	&.btn-flat-dark {
-		@apply
-		flex
+			focus:outline-none;
+  }
+  &.btn-flat-dark {
+    @apply flex
 		items-center
 		border 
 		border-transparent 
@@ -61,11 +61,10 @@
 		hover:bg-gray-800 
 		focus:outline-none 
 		focus:border-gray-700 
-		active:bg-gray-800 ;
-	}
-	&.btn-main {
-		@apply
-		outline-none 
+		active:bg-gray-800;
+  }
+  &.btn-main {
+    @apply outline-none 
 			inline-flex 
 			items-center 
 			border 
@@ -77,15 +76,15 @@
 			focus:shadow-outline 
 			focus:border-indigo-700 
 			active:bg-indigo-700;
-	}
+  }
 
-	&.btn-link {
-		@apply flex text-indigo-700 hover:text-indigo-900 inline-flex items-center;
-	}
-	&.btn-clean {}
-	&.btn-outlined {
-		@apply
-			items-center
+  &.btn-link {
+    @apply flex text-indigo-700 hover:text-indigo-900 inline-flex items-center;
+  }
+  &.btn-clean {
+  }
+  &.btn-outlined {
+    @apply items-center
 			inline-flex 
 			justify-center 
 			border 
@@ -107,11 +106,10 @@
 			focus:ring-2 
 			focus:ring-offset-2 
 			focus:ring-pink-500;
-	}
+  }
 
-	&.btn-outlined-transparent {
-		@apply
-			items-center
+  &.btn-outlined-transparent {
+    @apply items-center
 			inline-flex 
 			justify-center 
 			border 
@@ -127,18 +125,16 @@
 			focus:ring-2 
 			focus:ring-offset-2 
 			focus:ring-pink-500;
-	}
-	&.btn-icon {
-		@apply
-			outline-none 
+  }
+  &.btn-icon {
+    @apply outline-none 
 			rounded-full 
 			p-1 
 			bg-transparent
 			hover:text-gray-400;
-	}
-	&.btn-danger {
-		@apply
-			outline-none 
+  }
+  &.btn-danger {
+    @apply outline-none 
 			rounded 
 			bg-red-400 
 			text-white
@@ -146,10 +142,9 @@
 			focus:outline-none 
 			focus:border-red-700 
 			focus:shadow-outline;
-	}
-	&.btn-default {
-		@apply
-			flex 
+  }
+  &.btn-default {
+    @apply flex 
 			flex-wrap 
 			items-center
 			rounded
@@ -165,5 +160,5 @@
 			focus:outline-none 
 			focus:border-indigo-300 
 			active:bg-indigo-200;
-	}
+  }
 }

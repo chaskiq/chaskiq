@@ -1,11 +1,10 @@
-
 .badge {
-	@apply inline-flex items-center;
+  @apply inline-flex items-center;
 }
-.badge.sm{
-	@apply inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5;
+.badge.sm {
+  @apply inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5;
 }
 
-.badge.default{
-	@apply inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5;
+.badge.default {
+  @apply inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-5;
 }

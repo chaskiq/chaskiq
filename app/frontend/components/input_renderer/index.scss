@@ -1,19 +1,18 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
 .data-wrapper {
-	@apply flex relative;
+  @apply flex relative;
 }
 
+.input-wrapper {
+  input {
+    @apply border relative shadow-sm block w-full;
+    @apply block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5;
 
-.input-wrapper { 
-	input {
-	@apply border relative shadow-sm block w-full;
-	@apply block w-full transition ease-in-out duration-150 sm:text-sm sm:leading-5;
-  
-  margin:0px !important;
+    margin: 0px !important;
 
-	@apply p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5;
-/*
+    @apply p-3 m-0 pr-10 focus:shadow-outline sm:text-sm sm:leading-5;
+    /*
   ${(props) =>
     props.disabled && props.field.save_state === 'failed'
       ? tw`border-red-300 text-red-200 placeholder-red-300 bg-red-100 focus:border-red-300`
@@ -48,14 +47,12 @@
     color: #ddd !important;`
       : ''}
 */
-
-	}
-
+  }
 
   &.shadow {
     @apply shadow-sm;
   }
-  
+
   &.action {
     @apply rounded-none rounded-l-md;
   }
@@ -69,12 +66,12 @@
     @apply mt-2 text-xs text-gray-500 dark:text-gray-200;
   }
 
-  &.sm { 
+  &.sm {
     input {
       @apply p-1 text-sm #{!important};
     }
   }
-  
+
   label {
     @apply text-xs;
   }
@@ -85,7 +82,6 @@
   }
 
   input {
-
     &.action {
       border-top-right-radius: 0rem !important;
       border-bottom-right-radius: 0rem !important;
@@ -94,7 +90,7 @@
     &.failed {
       @apply border-red-300 text-red-500 placeholder-red-300 bg-red-100 focus:border-red-300;
     }
-  
+
     &.error {
       @apply border-red-300 text-red-900 placeholder-red-300 focus:border-red-300;
     }
@@ -110,4 +106,3 @@
     */
   }
 }
-
