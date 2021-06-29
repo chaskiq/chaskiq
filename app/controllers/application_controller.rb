@@ -60,6 +60,16 @@ class ApplicationController < ActionController::Base
       ENV["PADDLE_SECRET_TOKEN"].present?
   end
 
+  def modal_close
+    render turbo_stream: [
+			turbo_stream.replace(
+				"modal", 
+				partial: "shared/modal",
+			),
+		]
+  end
+
+
   helper_method :enabled_subscriptions?
 
   protected
@@ -123,4 +133,6 @@ class ApplicationController < ActionController::Base
   def flash_stream
     turbo_stream.replace("flash", partial: "shared/flash", locals: { flash: flash })
   end
+
+
 end

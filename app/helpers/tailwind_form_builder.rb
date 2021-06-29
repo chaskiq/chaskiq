@@ -10,14 +10,14 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
 	end
 
 	def error(attribute, object)
-		return '' if object.errors[attribute].blank?
+		return '' if object.errors[attribute.to_sym].blank?
 		@template.content_tag( :div, class: "text-red-500 text-xs italic" ) {
-			object.errors[attribute]
+			object.errors[attribute.to_sym].join(", ").to_s
 		}
 	end
 
 	def field_details(attribute, object, options )
-		@template.content_tag( :div, class: "mt-2 text-xs text-gray-500 dark:text-gray-100" ){ 
+		@template.content_tag( :div, class: "mt-1 text-xs text-gray-500 dark:text-gray-100" ){ 
 			(error(attribute, object) + hint(attribute, options)).html_safe
 		}
 	end

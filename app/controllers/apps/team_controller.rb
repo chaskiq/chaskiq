@@ -28,13 +28,13 @@ class Apps::TeamController < ApplicationController
 		#	role: app.roles.find_by(agent_id: current_user.id)
 		#}
 
-		render turbo_stream: [
-			turbo_stream.replace(
-				"modal", 
-				template: "apps/team/edit", 
-				locals: { app: @app },
-			),
-		]
+		#render turbo_stream: [
+		#	turbo_stream.replace(
+		#		"modal", 
+		#		template: "apps/team/edit", 
+		#		locals: { app: @app },
+		#	),
+		#]
 	end
 
 	def update
@@ -52,20 +52,18 @@ class Apps::TeamController < ApplicationController
 			:email
 		)
 
-		@agent.update(data)
+		
 		roles = params[:agent][:roles]
-		@agent_role.update(access_list: roles )
 
-		flash.now[:notice] = "Place was updated!"
-
-		render turbo_stream: [
-			turbo_stream.replace(
-				"modal", 
-				template: "apps/team/edit", 
-				locals: { app: @app },
-			),
-			flash_stream
-		]
+		# this is a bad pattern, consider nested attribs on @agent_role
+		if @agent_role.update(access_list: roles ) and @agent.update(data)
+			flash.now[:notice] = "Place was updated!"
+			render turbo_stream: [flash_stream]
+			# redirect_to app_team_index_path(@app.key), notice: "epa!", status: 303
+		else
+			@agent.errors.add(:name, :blank, message: "cannot be nil")
+			render "edit", status: 422
+		end
 	end
 
 	def new

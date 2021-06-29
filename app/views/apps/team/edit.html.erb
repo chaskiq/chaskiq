@@ -1,25 +1,38 @@
 
-<%= render(Modal::Component.new(
+<%#= render(Modal::Component.new(
 		title: t('settings.team.update_agent_title'), 
 		action_content: t('common.update')
 	)
 ) do %>
+<%= turbo_frame_tag 'modal' do %>
 
-		<%= form_for @agent, url: app_team_path(@app.key, @agent_role), data: {"modal-target": 'form'} do |f| %>
-			<%= f.text_field :name, hint: "agent name" %>
-			<%= f.text_field :email %>
+<h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+	<%= t('settings.team.update_agent_title') %>
+</h3>
 
-			<% data = [
-					{label: 'mananger', value: 'manage'},
-					{label: 'admin', value: 'admin'}
-				]
-			%>
+	<%= form_for @agent, url: app_team_path(@app.key, @agent_role), data: {"modal-target": 'form'} do |f| %>
+		<%= f.text_field :name, hint: "agent name" %>
+		<%= f.text_field :email %>
 
-			<%= f.select :roles_for_current_app, options_for_select(data.map { |o| [o[:label], o[:value]] }, @agent.roles_for_current_app ), 
-				{}, {
-					multiple: true, 
-					data: {'select-target': 'select', options: data.to_json }}
-			%>
+		<% data = [
+				{label: 'mananger', value: 'manage'},
+				{label: 'admin', value: 'admin'}
+			]
+		%>
 
+		<%= f.select :roles_for_current_app, options_for_select(data.map { |o| [o[:label], o[:value]] }, @agent.roles_for_current_app ), 
+			{}, {
+				multiple: true, 
+				data: {'select-target': 'select', options: data.to_json }}
+		%>
+
+		<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+			<button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+				<%= t('common.update') %>
+			</button>
+			<button data-action="click->modal#close" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+				<%= t('common.cancel') %>
+			</button>
+		</div>
 	<% end %>
 <% end %>
