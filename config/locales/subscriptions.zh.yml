@@ -1,70 +1,70 @@
 zh-CN:
   subscriptions:
-    upgrade: Upgrade
+    upgrade: 升级
     tabs:
-      - Plans
-      - Transaction history
+      - 计划
+      - 交易历史
     features:
       Segments:
-        title: Segments
+        title: 片段 Segments
         description: true
-        upgrade_message: Enable contact segments and targeting
+        upgrade_message: 启用联系人区段和目标对象
       Leads:
-        title: Leads
+        title: 线索
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: 获取外部应用，许多许多应用
       AppUsers:
         title: AppUsers
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: 获取外部应用，许多许多程序
       Conversations:
-        title: Conversations
+        title: 会话
         description: true
-        upgrade_message: Enable conversations
+        upgrade_message: 启用会话
       BotTasks:
-        title: BotTasks
+        title: Bot任务列表
         description: true
-        upgrade_message: Add automated chatflows to your app
+        upgrade_message: 添加自动聊天流到你的应用
       Integrations:
-        title: Integrations
+        title: 集成 Integrations
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: 获取外部应用，许多许多程序
       Campaigns:
-        title: Campaigns
+        title: 营销活动 Campaigns
         active: false
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: 获取 outbound messages, newsletter and Tours!
       Tours:
         title: Tours
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: 获取outbound messages, newsletter and Tours!
       UserAutoMessages:
-        title: UserAutoMessages
+        title: 用户自动消息
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: 获取 outbound messages, newsletter and Tours!
       OutgoingWebhooks:
-        title: OutgoingWebhooks
+        title: Outgoing Webhooks
         active: false
-        upgrade_message: Enable outgoing webhooks
+        upgrade_message: 启用 outgoing webhooks
       OauthApplications:
-        title: OauthApplications
+        title: Oauth 应用程序
         description: true
-        upgrade_message: Enable API access support through OAUTH
+        upgrade_message: 通过 OAUTH 启用 API 访问支持
       Articles:
-        title: Articles
+        title: 文章
         active: false
-        upgrade_message: Enable Documentation & Help Center
+        upgrade_message: 启用文档和帮助中心
       QuickReplies:
-        title: QuickReplies
+        title: 快速回复
         description: true
-        upgrade_message: add Quick replies to your conversations
+        upgrade_message: 添加快速回复到您的对话
       CustomAttributes:
-        title: CustomAttributes
-        upgrade_message: Enable custom attributes
+        title: 自定义属性
+        upgrade_message: 启用自定义属性
     plans:
       - 
-        name: "free one"
-        description: This is a frebie plan!
-        id: 618560
+        name: "免费"
+        description: 这是一个免费的计划！
+        id: 65960
       - 
         name: "rookie"
         description: This is the simple plan
