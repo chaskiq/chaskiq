@@ -54,61 +54,61 @@ zh-CN:
     go_to_doc: 转到文档
   dashboard:
     hey: "👋 Hey!, 你正在查看 <strong>%{name} 的</strong> 仪表板！ <br /> 为网页设置获取安装代码 <br />"
-    response_avg: Response Time avg
-    new_conversations: New conversations
-    resolutions: Resolutions
-    incoming_messages: Incoming Messages
-    visit_activity: Visit activity
-    users_browser: Users browser
-    lead_os: Lead Os
-    user_os: User Os
+    response_avg: 平均响应时间
+    new_conversations: 新对话
+    resolutions: 解决方案
+    incoming_messages: 收到的消息
+    visit_activity: 访客活动
+    users_browser: 用户浏览器
+    lead_os: 线索 Os
+    user_os: 用户 Os
     mac_os: Mac OS
-    user_country: User country
-    snippet: Put the following script on the end of your html <body> tag
-    status: Live chat status
-    status_running: Running
-    status_paused: Paused
-    guides: Chaskiq Guides
+    user_country: 用户国家
+    snippet: 放置以下脚本到您的 html <body> 标签的末端
+    status: 在线聊天状态
+    status_running: 运行中
+    status_paused: 已暂停
+    guides: Chaskiq 指南
   navigator:
-    dashboard: Dashboard
-    platform: Platform
-    conversations: Conversations
-    campaigns: Campaigns
+    dashboard: 仪表板
+    platform: 工作台
+    conversations: 会话
+    campaigns: 营销活动 Campaigns
     routing_bots: Routing Bots
     help_center: Help Center
-    settings: Settings
+    settings: 设置
     childs:
-      conversations: Conversations
-      assignment_rules: Assignment Rules
-      mailing_campaigns: Mailing Campaigns
-      in_app_messages: In App Messages
-      banners: Banners
+      conversations: 会话
+      assignment_rules: 作业规则
+      mailing_campaigns: 邮件营销活动
+      in_app_messages: 应用内消息
+      banners: 横幅
       guided_tours: Guided Tours
-      for_leads: For Leads
-      for_users: For Users
-      bot_settings: Bot Tasks
+      for_leads: 为线索客户
+      for_users: 为用户
+      bot_settings: Bot任务
       outbound: Outbound
-      new_conversations: New conversations
-      articles: Articles
-      collections: Collections
-      article_settings: Settings
-      app_settings: App Settings
-      team: Team
-      messenger_settings: Messenger settings
-      integrations: Integrations
+      new_conversations: 新建会话
+      articles: 文章
+      collections: 文档集
+      article_settings: 设置
+      app_settings: App 设置
+      team: 团队
+      messenger_settings: Messenger 设置
+      integrations: 集成 Integrations
       webhooks: Webhooks
-      api_access: API access
-      billing: Billing
+      api_access: API权限
+      billing: 账单
     user_menu:
-      create_app: 'Create new app'
-      create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      create_app: '创建新应用'
+      create_app_description: '创建您公司的 Chaskiq 应用'
+      signout: 退出
+      title: 用户菜单
   conversations:
-    start_conversation: Start conversation
-    title: Conversations
+    start_conversation: 开始会话
+    title: 会话
     menu:
-      conversations: Conversations
+      conversations: 会话
       all: 全部对话
       assignment_rules: 代理路由规则
       tags: 标签
@@ -151,10 +151,10 @@ zh-CN:
     editor:
       panels:
         bot:
-          title: 启动机器人任务
+          title: 启动Bot任务
           confirm: 确认 %{title} 触发器
-          confirm_msg: 此机器人任务将会在用户当前对话中传递，如果用户离开聊天室，则会在新对话中传递。
-          empty: 没有机器人可用
+          confirm_msg: 此Bot任务将会在用户当前对话中传递，如果用户离开聊天室，则会在新对话中传递。
+          empty: 没有Bot可用
           choose_another: 选择另一个
         quick_reply:
           title: 快速回复
@@ -290,14 +290,14 @@ zh-CN:
         ask: 询问联系人的详细信息
         ask_hint: 如果我们还没有他们的联系详细信息， Bot将建议客户留下他们的电子邮件地址或电话号码，以随时收到通知。
         dont_ask_email: 不要给我发送邮件
-        ask_email_phone: Ask for email or mobile number
-        email_only: Ask for email only
+        ask_email_phone: 索取邮件或手机号码
+        email_only: 仅电子邮件
         override:
-          label: Override default behavior with your own task bot
-          hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
+          label: 用您自己的 Bot 任务覆盖默认行为
+          hint: "当您这样做时，下面的默认行为将不会发生，任务将在每个新的对话中被触发"
       users:
-        tab: For Users
-        start_conversation: When users start a conversation
+        tab: 为用户
+        start_conversation: 当用户开始对话
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
         override:
           label: Override default behavior with your own task
@@ -520,33 +520,33 @@ zh-CN:
       title: Tags
       modal:
         title: 创建应用程序标签
-        hint: Looking for more tags ? look at
-        link: account settings
+        hint: '更多标签 ? 查看:'
+        link: 帐户设置
       inputs:
-        name: Field name
-        color: Field color
+        name: 字段名称
+        color: 字段颜色
     user_data:
-      title: Custom Fields
-      default_fields: Default attributes
-      non_editable: This fields are not editable
+      title: 自定义字段
+      default_fields: 默认属性
+      non_editable: 该字段不可编辑
       modal:
-        title: Create user data field
+        title: 创建用户数据字段
       inputs:
-        name: Field name
-        type: Field type
-        validation: Validation
-        validation_hint: Validation is optional
+        name: 字段名称
+        type: 字段类型
+        validation: 验证
+        validation_hint: 验证是可选的
       attr_types:
-        date: Date
-        integer: Integer
-        string: String
+        date: 日期
+        integer: 整数
+        string: 字符串
   articles:
-    title: Articles
-    all: All
-    published: Published
-    draft: Drafts
-    visit: visit the help center
-    new: New article
+    title: 文章
+    all: 全部
+    published: 已发布
+    draft: 草稿
+    visit: 访问帮助中心
+    new: 新建文章
     add: Add item
     collections: Collections
     help_center: Help Center
@@ -603,43 +603,43 @@ zh-CN:
   contact_manager:
     create: Create Users & Leads
     import_csv: Import csv
-    success_message: Processing file import, you will be notified the status soon
-    import_contacts: import_contacts
-    import_exp: You can upload a csv or excel file in order to import contacts
-    import_type: Import Type
-    import_choose: Choose what kind of contacts you will import
-    select_file: Select a file
+    success_message: 正在处理文件导入，您将很快收到状态提醒
+    import_contacts: 导入联系人
+    import_exp: 您可以上传 csv 或 excel 文件来导入联系人
+    import_type: 导入类型
+    import_choose: 选择您要导入哪种联系人
+    select_file: 选择文件
   segment_manager:
-    add_filters: Add filters
-    select_fields: 'Select fields:'
-    create_segment: Create new segment
-    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
-    changes_notice: The changes will be saved to the app segments.
-    delete_segment: 'Delete segment'
-    save_segment: Save segment
-    match: match
-    all: all
-    any: any
-    criteria: criteria
-    days_ago: days ago
-    filter_for: select filter for %{name}
-    date_filter_for: Select the date filter for  %{name}
-    integer_filter_for: Select the integer filter for %{name}
-    match_criteria_for: Match criteria options for %{name}
-    apply: apply
-    is: is
-    is_not: is not
-    starts_with: starts with
-    ends_with: ends with
-    contains: contains
-    does_not_contain: does not contain
-    is_unknown: is unknown
-    has_any_value: has any value
-    exactly: exactly
-    less_than: less than
-    less_than_eq: less than eq
-    more_than: more than
-    more_than_eq: more than eq
-    match_any: match any
-    match_all: match all
-    missing_value: Missing value!
+    add_filters: 添加过滤器
+    select_fields: '选择字段'
+    create_segment: 创建新脚本
+    save_changes_to: 保存更改到 <b>%{name}</b>{' '} 部分。
+    changes_notice: 更改将被保存到应用中。
+    delete_segment: '删除片段'
+    save_segment: 保存 Segment
+    match: 符合
+    all: 全部
+    any: 任何
+    criteria: 标准
+    days_ago: 天前
+    filter_for: 选择 %{name} 的过滤规则
+    date_filter_for: 选择  %{name} 的日期过滤器
+    integer_filter_for: 选择 %{name} 的整数过滤器
+    match_criteria_for: 匹配 %{name} 的标准选项
+    apply: 应用
+    is: 是
+    is_not: 不是
+    starts_with: 开始于
+    ends_with: 结束于
+    contains: 包含
+    does_not_contain: 不包含
+    is_unknown: 未知的
+    has_any_value: 有任何值
+    exactly: 精确
+    less_than: 小于
+    less_than_eq: 小于等于
+    more_than: 大于
+    more_than_eq: 大于等于
+    match_any: 匹配任意
+    match_all: 匹配全部
+    missing_value: 数值缺失
