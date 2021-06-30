@@ -12,82 +12,82 @@ zh-CN:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               unspecified_scheme: 'must specify a scheme.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              relative_uri: '必须是绝对的URI。'
+              secured_uri: '必须是一个 HTTPS/SSL URI。'
+              forbidden_uri: '被服务器禁止。'
             scopes:
-              not_match_configured: "doesn't match configured on the server."
+              not_match_configured: "服务器配置不匹配。"
   doorkeeper:
     applications:
       confirmations:
-        destroy: 'Are you sure?'
+        destroy: '您确定吗？'
       buttons:
-        edit: 'Edit'
-        destroy: 'Destroy'
-        submit: 'Submit'
-        cancel: 'Cancel'
-        authorize: 'Authorize'
+        edit: '编辑'
+        destroy: '销毁'
+        submit: '提交'
+        cancel: '取消'
+        authorize: '授权'
       form:
-        error: 'Whoops! Check your form for possible errors'
+        error: '糟糕！请检查您的表单以了解可能的错误'
       help:
-        confidential: 'Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.'
-        redirect_uri: 'Use one line per URI'
-        blank_redirect_uri: "Leave it blank if you configured your provider to use Client Credentials, Resource Owner Password Credentials or any other grant type that doesn't require redirect URI."
-        scopes: 'Separate scopes with spaces. Leave blank to use the default scopes.'
+        confidential: '应用程序可用于客户端密钥可以保持保密的地方。原生移动应用和单页应用被视为为非保密。'
+        redirect_uri: '每行一个URI'
+        blank_redirect_uri: "如果您将您的提供商设置为使用客户端信用额度，请留空 资源拥有者密码凭据或不需要重定向的 URI 的任何其他授予类型。"
+        scopes: '用空格分隔权限范围，留空则使用默认设置。'
       edit:
-        title: 'Edit application'
+        title: '编辑应用'
       index:
-        title: 'Your applications'
-        new: 'New Application'
-        name: 'Name'
-        callback_url: 'Callback URL'
-        confidential: 'Confidential?'
-        actions: 'Actions'
+        title: '您的应用程序'
+        new: '新建应用程序'
+        name: '名称'
+        callback_url: '回调 URL'
+        confidential: '使用加密？'
+        actions: '操作'
         confidentiality:
-          'yes': 'Yes'
-          'no': 'No'
+          'yes': '是'
+          'no': '否'
       new:
-        title: 'New Application'
+        title: '新建应用程序'
       show:
-        title: 'Application: %{name}'
-        application_id: 'Application UID'
-        secret: 'Secret'
-        scopes: 'Scopes'
-        confidential: 'Confidential'
-        callback_urls: 'Callback urls'
-        actions: 'Actions'
+        title: '应用：%{name}'
+        application_id: '应用程序的 UID'
+        secret: '机密'
+        scopes: '作用域'
+        confidential: '保密'
+        callback_urls: '回调 URL'
+        actions: '操作'
     authorizations:
       buttons:
-        authorize: 'Authorize'
-        deny: 'Deny'
+        authorize: '授权'
+        deny: '拒绝'
       error:
-        title: 'An error has occurred'
+        title: '发生了一个错误'
       new:
-        title: 'Authorization required'
-        prompt: 'Authorize %{client_name} to use your account?'
-        able_to: 'This application will be able to'
+        title: '需要授权验证'
+        prompt: '使用您的账户授权 %{client_name} 吗？'
+        able_to: '该应用将可以：'
       show:
-        title: 'Authorization code'
+        title: '授权码'
     authorized_applications:
       confirmations:
-        revoke: 'Are you sure?'
+        revoke: '您确定吗？'
       buttons:
-        revoke: 'Revoke'
+        revoke: '撤消'
       index:
-        title: 'Your authorized applications'
-        application: 'Application'
-        created_at: 'Created At'
+        title: '已授权的应用列表'
+        application: '应用'
+        created_at: '创建于'
         date_format: '%Y-%m-%d %H:%M:%S'
     pre_authorization:
-      status: 'Pre-authorization'
+      status: '预授权'
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-          missing_param: 'Missing required parameter: %{value}.'
-          not_support_pkce: 'Invalid code_verifier parameter. Server does not support pkce.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+          unknown: '请求缺少必要参数，包括不受支持的参数值，或者格式不正确。'
+          missing_param: '缺少必需的参数：%{value}'
+          not_support_pkce: '无效的代码验证参数。服务器不支持pkce。'
+          request_not_authorized: '请求需要被授权。授权请求所需的参数缺失或无效。'
         invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
