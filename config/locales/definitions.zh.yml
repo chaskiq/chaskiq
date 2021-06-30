@@ -2,24 +2,24 @@ zh-CN:
   definitions:
     articles:
       title:
-        label: Title
+        label: 标题
       author:
-        label: Author
+        label: 作者
       state:
-        label: State
+        label: 省
       collection:
-        label: Collection
+        label: 文档集
       actions:
-        label: Actions
+        label: 操作
       website:
-        label: Website
-        hint: Website of your main domain
+        label: 站点
+        hint: 主域名的网站
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: 域名 Domain
+        hint: 帮助中心域名
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: 二级域名
+        hint: 帮助中心可以使用的二级域名
       google_code:
         label: Google Code
         hint: Google tracking ID
@@ -115,69 +115,69 @@ zh-CN:
       host:
         label: Host
       createdAt:
-        label: CreatedAt
+        label: 创建日期
       from:
-        label: From
+        label: 来自
       actions:
-        label: Actions
+        label: 操作
       when:
-        label: When
+        label: 当
       data:
-        label: Data
+        label: 数据
     app_packages:
       name:
-        label: 'Integration Name'
+        label: '集成应用名称'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: '在平台上发布'
+        type: '勾选框 checkbox'
+        hint: '如果禁用，您将在您有权访问的应用上使用程序'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: '集成能力'
+        hint: '选择软件包功能，如：集成将在哪里运行？'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: '应用软件包描述'
+        hint: '告诉您的插件可以做什么'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        label: '初始化流 Webhook URL'
+        hint: '当应用程序被插入对话、 消息或主屏幕时发送，以便您能够渲染应用程序。'
+        placeholder: '例如：https://yourdomain.com/initialize-url/'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: '提交流 webhook URL'
+        hint: '当最终用户通过按钮、链接或文本输入与您的应用互动时发送。 此流可以多次与您的应用进行交互。'
+        placeholder: '例如：https://yourdomain.com/submit-url/'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: '配置流 webhook URL (可选)'
+        hint: '当队友想要使用您的应用程序时发送，所以您可以在插入之前显示它们的配置选项。 留空此选项将跳过配置。'
+        placeholder: '例如：https://yourdomain.com/configure-url/'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: '配置流 webhook URL (可选)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: '当工作表已提交时发送。 工作表是一个您已经在信使中加载并且在调用JS方法时提交的iframe。'
+        placeholder: '例如：https://yourdomain.com/submit-sheet-url/'
   data_tables:
     users:
-      name: Name
+      name: 名称
       email: Email
-      state: State
-      online: Online
+      state: 省
+      online: Online（在线）
       ip: Ip
-      country: Country
-      city: City
-      lat: Lat
-      lng: Lng
-      postal: Postal
-      browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
-      referrer: Referrer
-      tag_list: Tag List
-      os: Os
-      os_version: Os Version
-      lang: Lang
+      country: 国家
+      city: 城市
+      lat: 纬度(Lat)
+      lng: 经度(Lng)
+      postal: 邮局
+      browser: 浏览器
+      browser_version: 浏览器版本
+      browser_lang: 浏览器Lang
+      referrer: 反向链接
+      tag_list: 标签列表
+      os: OS
+      os_version: 操作系统版本
+      lang: 语言
       web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      last_seen: 首次出现
+      first_seen: 最后出现
       subscription_status:
-        subscribed: Subscribed
+        subscribed: 订阅
         unsubscribed: Unsubscribed
         passive: Passive
