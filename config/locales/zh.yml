@@ -1,35 +1,35 @@
 zh-CN:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: add new
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    save_changes: Save changes
-    preview: Preview
-    cancel: Cancel
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
-    get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: "Confirm deletion ?"
-    confirm_deletion_ready: are you ready to delete ?
-    next: Next
-    prev: Prev
-    showing: Showing
-    to: to
-    of: of
-    results: results
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
-    actions: Actions
+    edit: 编辑
+    new: 新增
+    add: 添加
+    add_new: 新增
+    update: 更新
+    remove: 移除
+    delete: 删除
+    create: 新建
+    save: 保存
+    save_changes: 保存更改
+    preview: 预览
+    cancel: 取消
+    back_to_site: 返回站点
+    not_found: 您要查找的页面不存在。
+    get_snippet: 获取代码片段
+    submit: 提交
+    confirm_deletion: "删除确认"
+    confirm_deletion_ready: 确定要删除吗？
+    next: 下一个
+    prev: 上一个
+    showing: 显示中
+    to: 至
+    of: 共
+    results: 搜索结果
+    tz_hint: 您的浏览器时区是 <b className="text-bold">%{timezone}</b>
+    send: 发送
+    actions: 操作
     langs:
-      en: English
-      es: Spanish
+      en: 英文
+      es: 西班牙语
       pt: Portuguese
       de: Deutsch
       ca: Catalan
