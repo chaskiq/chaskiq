@@ -173,65 +173,65 @@ zh-CN:
       text: 这是营销活动项，您可以创建Newsletters、popup messages 和 guided tours。
     remove_success: 已移除活动
     remove_hint: 我们将销毁任何内容和相关数据
-    delete_campaign: Delete campaign %{name}
-    create_new: Create new campaign
+    delete_campaign: 删除营销活动 %{name}
+    create_new: 创建营销活动
     empty:
-      title: No campaigns found
-    mailing: Mailing campaign
-    in_app: In app messages
-    cloned_success: cloned successfully
-    cloned_error: error while cloning record
-    campaign_updated: Campaign updated
-    updated_error: Error updating campaign
-    error_purge: Error purging metrics
-    purge_description: Purges campaigns metrics
-    purge_title: Purge Metrics
-    deliver_title: Deliver
-    deliver_description: Delivers the campaign
-    pause_title: Pause
-    pause_description: pauses the campaign
-    clone_title: Clone
-    clone_description: clones the campaign
-    activate: "Activate Campaigns"
-    enables: Enables campaign
-    disables: Disables campaign
+      title: 未找到任何活动
+    mailing: 邮件营销活动
+    in_app: 应用内消息
+    cloned_success: 复制成功
+    cloned_error: 复制记录时出错
+    campaign_updated: 活动已更新
+    updated_error: 更新出错
+    error_purge: 清除计量指标时出错
+    purge_description: 促销活动指标
+    purge_title: 清除指标
+    deliver_title: 送达
+    deliver_description: 发送该营销活动
+    pause_title: 暂停
+    pause_description: 暂停此活动
+    clone_title: 复制
+    clone_description: 克隆此活动
+    activate: "激活活动"
+    enables: 启用活动
+    disables: 禁用活动
     state:
-      enabled: enabled
-      disabled: disabled
+      enabled: 启用
+      disabled: 关闭
     tabs:
-      stats: Stats
-      settings: Settings
-      audience: Audience
-      editor: Editor
+      stats: 统计
+      settings: 设置
+      audience: 受众
+      editor: 编辑者
     banners:
-      settings: Settings
-      action: Action
-      style: Style
-      top: top
-      bottom: bottom
+      settings: 设置
+      action: 行为
+      style: 样式
+      top: 热门
+      bottom: 底部
       inline: inline
-      floating: floating
+      floating: 浮动
   campaign:
-    edit: Edit Campaign Settings
-    create: Create a new campaign
-    preview: This is a preview
-    preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
+    edit: 编辑营销活动设置
+    create: 创建营销活动
+    preview: 这是预览
+    preview_hint: 这是您的电子邮件应该如何显示。如果您使用的变量像 {{name}} ，它应该显示在这里。
     stats:
-      title: Campaign Stats
-      refresh_data: Refresh data
+      title: 营销活动统计
+      refresh_data: 刷新数据
     unsubscribe:
-      status: You've been %{state}
-      success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
-      resubscribe: Resubscribe from this list
-      cancel: Cancel your subscription
+      status: 你已经是 %{state}
+      success: 成功, %{ email } 将不再收到此发送者的电子邮件。这是一个错误吗？
+      resubscribe: 从列表取消订阅
+      cancel: 取消订阅
   task_bots:
     type_filters:
-      title_visitors: 'Visitors'
-      description_visitors: 'visitors on the platform'
-      title_leads: 'Leads'
-      description_leads: 'Visitors who make an actions'
-      title_users: 'Users'
-      description_users: "your platform's registered users"
+      title_visitors: '访客'
+      description_visitors: '平台上的访客数'
+      title_leads: '线索'
+      description_leads: '进行操作的访客数量'
+      title_users: '用户'
+      description_users: "平台注册用户"
     state_filters:
       enabled_title: '已启用'
       enabled_description: '已启用的机器人任务'
@@ -298,66 +298,66 @@ zh-CN:
       users:
         tab: 为用户
         start_conversation: 当用户开始对话
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        delay: 在办公时间触发任务机器人之前请留出2分钟的延迟
         override:
-          label: Override default behavior with your own task
-          hint: hint!
-      settings_title: Bot Task settings
-      specific_times_title: Set specific times to show this bot to your audience.
-      tz_hint: Your app's timezone is %{timezone} See your office hours.
-      office_hours: During office hours
-      outside_office: Outside office hours
-      custom_time: Custom time
-      enable_title: Enable bot task
-      enable_hint: when enabled the bot task will start operating
-    new: Create new task
-    remove_success: bot removed
+          label: 用您自己的 Bot 任务覆盖默认行为
+          hint: 提示
+      settings_title: Bot 任务设置
+      specific_times_title: 设置特定时间向您的听众显示此Bot。
+      tz_hint: 您的应用时区是 %{timezone} 。请查看您的办公时间。
+      office_hours: 在工作时间
+      outside_office: 工作时间以外
+      custom_time: 自定义时间
+      enable_title: 启用 Bot 任务
+      enable_hint: 启用后，Bot 任务将开始运行
+    new: 创建新任务
+    remove_success: Bot 已移除
     empty:
-      title: No bot tasks found
-      create_new: Create a new one
+      title: 未发现 Bot 任务
+      create_new: 创建一个新的
     delete:
-      title: Delete bot "%{name}"
-      hint: we will destroy any content and related data
+      title: 删除 Bot "%{name}"
+      hint: 我们将销毁任何内容和相关数据
     create:
-      title: Create Bot task
+      title: 创建 Bot 任务
   email_forwarding:
-    title: Email Forwarding
-    subtitle: Default Inbound Address
-    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+    title: 邮件转发中
+    subtitle: 默认入站地址
+    ex: 从您的普通支持电子邮件地址(例如help@mycompany.com)转发到Chaskiq ，以便您可以回复代理面板的电子邮件
   identified_users:
-    title: Verified users setup
-    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
-    lang: Your code to generate an HMAC for your app is
-    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    title: 已验证用户设置
+    hint1: 要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。
+    lang: 您为您的应用生成HMAC的代码是
+    hint2: '在哪里你上传用户数据并有一个Chaskiq代码片段 添加一个名为 <span className="font-bold">identifier_key</span> 的新属性并通过 <span className="font-bold">email</span> 并给予它登录用户的 HMAC标签：'
   quick_replies:
-    title: Quick Replies
-    search: Search Quick replies
-    will_send: The "%{lang}" version will be sent to the conversation.
+    title: 快捷回复
+    search: 搜索快速回复
+    will_send: '"%{lang}"版本将被发送到对话中。'
     empty:
-      title: No quick replies
-      create_new: Create new
+      title: 没有快速回复
+      create_new: 新建
     delete:
-      title: Delete quick reply %{name}
-      hint: we will destroy any content and related data, conversations will keep content though
+      title: 删除快速回复 %{name}
+      hint: 我们将销毁任何内容和相关数据，对话将保持内容通过
     create:
-      success: Quick reply was created successfully
-      error: Error creating quick reply
+      success: 分类已成功创建
+      error: 创建快速回复出错
     update:
-      success: Quick reply was updated successfully
-      error: Error updating quick reply
+      success: 分类已成功创建
+      error: 创建快速回复出错
     add_as_dialog:
-      title: Add this message as a Quick Reply
+      title: 将此消息添加为快速回复
   new_app:
-    title: "Create your company’s Chaskiq app"
-    text: Provide basic information to setup Chaskiq for your team and customers.
-    hint: Create your company’s Chaskiq app
+    title: "创建您公司的 Chaskiq 应用"
+    text: 为您的团队和客户设置Chaskiq基本信息。
+    hint: 创建您公司的 Chaskiq 应用
   settings:
     api:
-      title: Oauth Applications
+      title: OAuth 应用程序
       tabs:
-        apps: OAUTH Applications
-        authorized: Authorized OAUTH Applications
-      oauth_information: Oauth App Information
+        apps: OAuth 应用程序
+        authorized: 已授权的 Oauth 应用
+      oauth_information: Oauth 应用信息
       details: Oauth认证细节和凭据。
       delete_app: 删除 Oauth 应用程序？
       create_app: 创建 Oauth应用程序
@@ -547,62 +547,62 @@ zh-CN:
     draft: 草稿
     visit: 访问帮助中心
     new: 新建文章
-    add: Add item
-    collections: Collections
+    add: 添加项目
+    collections: 文档集
     help_center: Help Center
-    description_placeholder: Describe your collection to help you find it.
-    title_placeholder: Write the title of the sections
-    new_section: New section
-    new_collection: New collection
-    edit_collection: Edit collection
+    description_placeholder: 描述集合以帮助你找到它。
+    title_placeholder: 填写该章节的标题
+    new_section: 新建章节
+    new_collection: 新建文档集
+    edit_collection: 编辑文档集
     create_article:
-      placeholder: Write the title of the article
-      description_placeholder: Add a summary to find the article later
+      placeholder: 填写文章的标题
+      description_placeholder: 添加摘要以便以后找到文章
     create:
-      title: New collection of articles
-      placeholder: Enter the title of the collection
-      description: Describe your collection to help you find it.
-    deleted_success: article deleted
-    new_article: new article
-    settings_updated_success: 'article settings updated'
-    settings_updated_error: 'article settings failed'
-    activate_help_center: Activate Help Center
-    delete_article: Delete article "%{title} ?
-    delete_article_exp: we will destroy any content and related data
-    square_preferred: square images preferred (min size 200x200px)
-    square_preferred_hint: squared images will be optimal resized
-    reordered_success: 'reordered correctly'
-    reordered_error: 'reordered error'
-    add_articles: Add articles
-    updated_success: article updated
-    updated_error: article error on save
-    delete_section: Delete section
-    author: Author
-    written_by: written by
-    created_on: Created on
+      title: 新建文档集的文章
+      placeholder: 输入文档集的标题。
+      description: 添加文档集描述
+    deleted_success: 文章已删除！
+    new_article: 新建文章
+    settings_updated_success: '文章设置已更新'
+    settings_updated_error: '保存设置失败'
+    activate_help_center: 激活帮助中心
+    delete_article: 删除文章 "%{title}？
+    delete_article_exp: 我们将销毁任何内容和相关数据
+    square_preferred: 首选方形图像 (最小 200x200px)
+    square_preferred_hint: 平方图像将是最佳调整大小
+    reordered_success: '已正确排序'
+    reordered_error: '排序错误'
+    add_articles: 添加文章
+    updated_success: 文章已更新
+    updated_error: 保存文章时出错
+    delete_section: 删除章节
+    author: 作者
+    written_by: 作者
+    created_on: 创建于
     state:
-      published: published
-      published_desc: 'shows article on the help center'
-      draft: draft
-      draft_desc: 'hides the article on the help center'
+      published: 已发布
+      published_desc: '在帮助中心显示文章'
+      draft: 草稿
+      draft_desc: '在帮助中心显示文章'
     settings:
-      title: Help Center settings
-      add_language: Add language
-      select_lang: Select language
-      add_language_to_help: Add new language to Help Center
+      title: Help Center 设置
+      add_language: 添加语言
+      select_lang: 选择语言
+      add_language_to_help: 添加新语言到 Help Center
       delete:
-        title: Delete translation "%{name}"
-        text: We will destroy the translation and hide any article with the language "%{name}"
-      appearance: Appearance
-      appearance_settings: Appearance settings
-      lang: Language
-      lang_title: Find your Help Center
-      lang_desc: Manage supported languages and customize your Help Center header
-      basic: Basic setup
-      general_app: Application overview
+        title: 删除翻译 "%{name}"
+        text: 我们将销毁翻译并隐藏任何带有语言的文章 "%{name}"
+      appearance: 外观
+      appearance_settings: 外观设置
+      lang: 语言
+      lang_title: 查找您的 Help Center
+      lang_desc: 管理支持的语言并自定义您的 Help Center 标题
+      basic: 基本设置
+      general_app: 应用程序概述
   contact_manager:
-    create: Create Users & Leads
-    import_csv: Import csv
+    create: 创建用户&线索
+    import_csv: 导入CSV
     success_message: 正在处理文件导入，您将很快收到状态提醒
     import_contacts: 导入联系人
     import_exp: 您可以上传 csv 或 excel 文件来导入联系人
