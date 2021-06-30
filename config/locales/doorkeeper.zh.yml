@@ -88,11 +88,11 @@ zh-CN:
           missing_param: '缺少必需的参数：%{value}'
           not_support_pkce: '无效的代码验证参数。服务器不支持pkce。'
           request_not_authorized: '请求需要被授权。授权请求所需的参数缺失或无效。'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
+        invalid_redirect_uri: "请求的重定向 URI 格式不正确，或者与客户端重定向 URI 不匹配。"
+        unauthorized_client: '客户未被授权用此方法提交申请.'
+        access_denied: '资源拥有人或认证服务器拒绝此申请'
+        invalid_scope: '申请范围无效、未知或形式错误'
+        invalid_code_challenge_method: '代码质询方法必须为普通或 S256。'
         server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
         temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
         #Configuration error messages
