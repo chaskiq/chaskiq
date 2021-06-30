@@ -2,14 +2,13 @@
 
 	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
 
-		<%= render PageHeader::Component.new(title: I18n.t('settings.app.app_settings')) do %>
-			
+		<%= render PageHeader::Component.new( title: t('settings.app.email_forwarding') ) do %>
+
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: settings_menu_data ) do %>
-			<%= render 'form' %>
+			SECURITY VIEW!
 		<% end %>
 
 	<% end %>
-	
 <% end %>

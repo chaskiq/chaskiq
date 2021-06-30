@@ -43,6 +43,36 @@ module ApplicationHelper
     { enc: json_payload.to_json, app: support_app }
   end
 
+  def billing_menu_data
+    [
+      {
+        label: I18n.t('subscriptions.tabs')[0],
+        active: controller.controller_name == 'team',
+        href: app_team_index_path(@app.key)
+      },
+      {
+        label: I18n.t('subscriptions.tabs')[1],
+        active: controller.controller_name == 'team',
+        href: app_team_index_path(@app.key),
+      },
+    ]
+  end
+
+  def oauth_apps_menu_data
+    [
+      {
+        label: I18n.t('settings.api.tabs.apps'),
+        active: controller.controller_name == 'team',
+        href: app_team_index_path(@app.key)
+      },
+      {
+        label: I18n.t('settings.api.tabs.authorized'),
+        active: controller.controller_name == 'team',
+        href: app_team_index_path(@app.key)
+      }
+    ]
+  end
+
   def team_menu_data
     [{
       href: app_team_index_path(@app.key),
@@ -65,8 +95,8 @@ module ApplicationHelper
 			},
 			{
 				label: I18n.t('settings.app.security'),
-				href: app_invitations_path(@app.key),
-				active: controller.controller_name == 'user_data'
+				href: app_security_index_path(@app.key),
+				active: controller.controller_name == 'security'
 			},
 			{
 				label: I18n.t('settings.app.user_data'),
@@ -75,20 +105,95 @@ module ApplicationHelper
 			},
 			{
 				label: I18n.t('settings.app.tags'),
-				href: app_invitations_path(@app.key),
+				href: app_tags_path(@app.key),
 				active: controller.controller_name == 'tags'
 			},
 			{
 				label: I18n.t('settings.app.quick_replies'),
-				href: app_invitations_path(@app.key),
+				href: app_quick_replies_path(@app.key),
 				active: controller.controller_name == 'quick_replies'
 			},
 			{
 				label: I18n.t('settings.app.email_forwarding'),
-				href: app_invitations_path(@app.key),
+				href: app_email_forwarding_index_path(@app.key),
 				active: controller.controller_name == 'email_forwarding',
 			}
 		]
+  end
+
+  def webhooks_menu_data
+    [{
+      label: I18n.t('settings.webhooks.active_webhooks'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'      
+    },
+    {
+      label: I18n.t('settings.webhooks.disabled_webhooks'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    }]
+  end
+
+  def integrations_menu_data
+    [{
+      label: I18n.t('settings.integrations.active.title'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.integrations.available.title'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.integrations.yours.title'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    }]
+
+  end
+
+  def messenger_menu_data
+    [{
+      label: I18n.t('settings.app.appearance'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.app.translations'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.app.privacy'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: 'Apps',
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.app.availability'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.app.email_requirement'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.app.inbound_settings'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    },
+    {
+      label: I18n.t('settings.app.messenger_style'),
+      href: app_webhooks_path(@app.key),
+      active: controller.controller_name == 'webhooks'
+    }]
   end
 
 

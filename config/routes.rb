@@ -78,6 +78,11 @@ Rails.application.routes.draw do
     resources :messenger , controller: "apps/messenger"
     resources :settings , controller: "apps/settings"
     resources :user_data , controller: "apps/user_data"
+    resources :quick_replies, controller: "apps/quick_replies"
+    resources :tags, controller: "apps/tags"
+    resources :security, controller: "apps/security"
+    resources :email_forwarding, controller: "apps/email_forwarding"
+    resources :oauth_applications, controller: "apps/oauth_applications"
 
     resources :billing , controller: "apps/billing"
     resources :webhooks , controller: "apps/webhooks"

@@ -1,0 +1,27 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t('settings.api.title') ) do %>
+
+			<%= link_to( I18n.t('common.add_new'), 
+				new_app_user_datum_path(@app.key), 
+				data: {
+				'turbo-frame': 'modal', 
+				'turbo-action': 'replace', 
+				'action': 'click->modal#open'
+				}, 
+				class: "btn btn-flat-dark md") 
+			%>
+		<% end %>
+
+		<%= render Hints::Component.new(type: 'tags') %>
+
+		<%= render Tabs::Component.new(	items: oauth_apps_menu_data ) do %>
+
+				mememem
+		<% end %>
+
+	<% end %>
+	
+<% end %>

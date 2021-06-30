@@ -1,0 +1,15 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t('settings.integrations.title') ) do %>
+			
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: integrations_menu_data ) do %>
+			webhooks
+		<% end %>
+
+	<% end %>
+	
+<% end %>
