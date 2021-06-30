@@ -1,1 +1,11 @@
-content here!! <%= controller.controller_name %>
+<%= render Content::Component.new do %>
+
+	<%= render PageHeader::Component.new(title: I18n.t('settings.app.app_settings')) do %>
+		
+	<% end %>
+
+	<%= render Tabs::Component.new(	items: settings_menu_data ) do %>
+		<%= render 'form' %>
+	<% end %>
+	
+<% end %>

@@ -1,15 +1,4 @@
-<%= render Tabs::Component.new(
-	items: [{
-		href: app_team_index_path(@app.key),
-		label: I18n.t('settings.team.title'),
-		active: @active_tab == 'team'
-	},
-	{
-		href: invitations_app_team_index_path(@app.key),
-		label: I18n.t('settings.team.invitations'),
-		active: @active_tab == 'invitations'
-	}
-]) do %>
+<%= render Tabs::Component.new(items: team_menu_data) do %>
 	<%= render Table::Component.new(
 			data: @agents, 
 			config: {

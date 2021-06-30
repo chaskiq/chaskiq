@@ -1,0 +1,9 @@
+<%= form_for @app, url: app_settings_path(@app.key) do |f| %>
+	<%= f.text_field :name %>
+	<%= f.text_field :domain_url %>
+	<%= f.file_field :logo %>
+	<%= f.text_field :outgoing_email_domain %>
+	<%= f.text_field :tagline %>
+	<%= f.text_field :gather_social_data %>
+	<%= f.text_field :register_visits %>
+<% end %>

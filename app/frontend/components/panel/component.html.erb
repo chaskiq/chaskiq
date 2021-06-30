@@ -1,0 +1,25 @@
+<div class="<%= "#{variant_classes} #{classes || ''} sm:rounded-lg" %>">
+	<div class="px-4 py-5 sm:p-6">
+		<% if @title %>
+			<h3 class="text-lg leading-6 font-medium">
+				<%= @title %>
+			</h3>
+		<% end %>
+
+		<% if @text %>
+			<div class="mt-2-- max-w-xl text-sm leading-5">
+				<p><%= @text %></p>
+			</div>
+		<% end %>
+
+		<% if @link %>
+			<div class="mt-3 text-sm leading-5">
+				<a
+					href="<%= @link['href'] %>"
+					class="font-medium text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150">
+					<%= @link['text'] %> →
+				</a>
+			</div>
+		<% end %>
+	</div>
+</div>

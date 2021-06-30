@@ -4,17 +4,10 @@ class Apps::TeamController < ApplicationController
 
 	def index
 		@active_tab = 'team'
-		@agents = @app.roles.includes(:agent) # agents.with_attached_avatar.where(invitation_token: nil)
+		@agents = @app.roles.includes(:agent)
+			.where("agents.invitation_token": nil) # agents.with_attached_avatar.where(invitation_token: nil)
 			.page(params[:page])
 			.per(params[:per] || 2)
-	end
-
-	def invitations
-		@active_tab = 'invitations'
-		@agents = @app.agents.invitation_not_accepted			
-			.page(params[:page])
-			.per(params[:per] || 2)
-		render :index
 	end
 
 	def edit
@@ -52,7 +45,6 @@ class Apps::TeamController < ApplicationController
 			:email
 		)
 
-		
 		roles = params[:agent][:roles]
 
 		# this is a bad pattern, consider nested attribs on @agent_role

@@ -48,6 +48,8 @@ Rails.application.routes.draw do
     resources :agents , controller: "apps/agents"
 
     resources :settings , controller: "apps/settings"
+    resources :invitations , controller: "apps/invitations"
+
     resources :conversations , controller: "apps/conversations" do
       collection do
         get :sidebar
@@ -75,6 +77,8 @@ Rails.application.routes.draw do
 
     resources :messenger , controller: "apps/messenger"
     resources :settings , controller: "apps/settings"
+    resources :user_data , controller: "apps/user_data"
+
     resources :billing , controller: "apps/billing"
     resources :webhooks , controller: "apps/webhooks"
     resources :team , controller: "apps/team" do

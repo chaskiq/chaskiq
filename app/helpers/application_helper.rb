@@ -43,5 +43,53 @@ module ApplicationHelper
     { enc: json_payload.to_json, app: support_app }
   end
 
+  def team_menu_data
+    [{
+      href: app_team_index_path(@app.key),
+      label: I18n.t('settings.team.title'),
+      active: controller.controller_name == 'team'
+    },
+    {
+      href: app_invitations_path(@app.key),
+      label: I18n.t('settings.team.invitations'),
+      active: controller.controller_name == 'invitations'
+    }]
+  end
+
+  def settings_menu_data
+    [
+			{
+				label: I18n.t('settings.app.app_settings'),
+				href: app_settings_path(@app.key),
+				active: controller.controller_name == 'settings'
+			},
+			{
+				label: I18n.t('settings.app.security'),
+				href: app_invitations_path(@app.key),
+				active: controller.controller_name == 'user_data'
+			},
+			{
+				label: I18n.t('settings.app.user_data'),
+				href: app_user_data_path(@app.key),
+				active: controller.controller_name == 'user_data'
+			},
+			{
+				label: I18n.t('settings.app.tags'),
+				href: app_invitations_path(@app.key),
+				active: controller.controller_name == 'tags'
+			},
+			{
+				label: I18n.t('settings.app.quick_replies'),
+				href: app_invitations_path(@app.key),
+				active: controller.controller_name == 'quick_replies'
+			},
+			{
+				label: I18n.t('settings.app.email_forwarding'),
+				href: app_invitations_path(@app.key),
+				active: controller.controller_name == 'email_forwarding',
+			}
+		]
+  end
+
 
 end
