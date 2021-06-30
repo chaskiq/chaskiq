@@ -24,91 +24,91 @@ zh-CN:
         label: Google Code
         hint: Google tracking ID
       credits:
-        label: show credits
+        label: 显示 credits
         hint: ""
     settings:
       name:
-        label: Name
+        label: 名称
         hint:
       logo:
         label: Logo
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "在聊天窗口中显示文章"
+        hint: "此选项将在信使主页中显示文章"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: 在浮动框中显示新消息
+        hint: 此选项将不会打开聊天框部件
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: 加密密钥
+        placeholder: "留空不加密。"
+        hint: 此密钥将用于加密和解密JWE用户数据
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: GDPR 所需隐私同意
+        hint: 在建立对话前将显示欧盟国家的确认视图
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: 要求全球范围的隐私同意
+        hint: 在建立对话之前将显示所有访客的确认视图
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: 不需要隐私同意
+        hint: 不会向任何人显示确认视图 (不推荐)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: 激活 messenger
+        hint: 当此激活时，messenger 小部件将被激活
       domain:
         label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        hint: 当chaskiq 将被使用时，这将是主机站点
       outgoing_email_domain:
         label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        hint: 发送会话的电子邮件域 domain，@yourapp使用 'your app'
       tagline:
         label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        hint: 这将会在聊天框底部渲染。
       timezone:
-        label: Timezone
+        label: 时区 Timezone
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: 收集社交数据
+        hint: "通过完整联系服务 (例如LinkedIn, Twitter等) 为我的用户通过第三方收集社交资料"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: 注册访问
+        hint: "即使禁用此功能，我们也会收集全球访客计数器，并在访客资料中存储最后一次访客信息"
       languages:
-        select_lang: "select lang"
+        select_lang: "选择语言"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: 宣传活动名称
+        hint: 这将不会显示在电子邮件中
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: 邮件主题
+        hint: 这是邮件主题本身。
       from_name:
-        label: From Name
+        label: 发件人姓名
       from_email:
-        label: From Email
+        label: 发件人邮箱
       reply_email:
-        label: Reply Email
+        label: 回复邮件
       scheduled_at:
-        label: Scheduled at
+        label: 预定
       scheduled_to:
-        label: Scheduled to
+        label: 预定到
       state:
-        label: State
+        label: 省
       description:
-        label: Description
+        label: 描述
       actions:
-        label: Actions
+        label: 操作
     bot_tasks:
       state:
-        label: State
+        label: 省
       name:
-        label: Name
+        label: 名称
       actions:
-        label: Actions
+        label: 操作
       title:
-        label: Title
-        placeholder: write task title
-        hint: "Task name ie: welcoming users bot task"
+        label: 标题
+        placeholder: 填写标题
+        hint: "任务名称如：欢迎用户 Bot 任务"
     stats:
       email:
         label: Email
