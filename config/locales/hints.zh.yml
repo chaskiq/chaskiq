@@ -1,52 +1,52 @@
 zh-CN:
   hints:
     platform:
-      title: Here you can manage your contact list via segments
-      description: Segments allows to filter specific contacts through multiple filter
+      title: 这里您可以管理您的联系人列表
+      description: 部分可以通过多个过滤器筛选特定联系人
     #link: {  href: '/', title: 'Learn how filters works on our knowledge base
     webhooks:
-      title: Active Webhooks
-      description: "Webhooks feature it's all about delivering notifications of chaskiq events"
+      title: 活动的 Webhooks
+      description: "Webhooks 功能是关于发送chaskiq 事件的通知"
     #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
     integrations:
       title:
-      description: This is the third party API integrations section.
+      description: 这是第三方API 集成部分。
     #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}
     team:
     app_config:
     security:
-      title: Security
-      description: This is the encryption key to identify registered users on your service
+      title: 安全
+      description: 这是用于识别您服务中注册用户的加密密钥
     #link: { href: '/', text: 'Learn how Encryption & security settings works on Chaskiq'
     appearance:
     languages:
     availability:
-      title: Team Availability Settings
-      description: Availability settings let your team set office hours & reply times.
+      title: 可用性设置
+      description: 可用性设置让您的团队设置办公时间和回复时间。
     #link: {href: '/', text: 'Learn how Availability settings works on Chaskiq'}
     email_requirement:
-      title: Require an email for new conversations
-      description: So you can always get back to your website visitors
+      title: 新对话需要一封电子邮件
+      description: 所以您总是可以回到您的网站访问者
     #link: {href: '/',text: 'Learn how Email requirement works on Chaskiq'}
     inbound_settings:
-      title: Control inbound conversations and the launcher
-      description: Control who can send you messages and where they see the launcher
+      title: 控制入站对话和启动器
+      description: 控制谁可以向您发送消息以及他们在哪里看到启动器
     #link: { href: '/',text: 'Learn how Inbound settings works on Chaskiq'}
     user_data:
-      title: Manage user attributes
-      description: User attributes provides a way to customize data for segment filtering
+      title: 管理属性
+      description: 用户属性提供了一个自定义部门过滤数据的方式
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     tags:
-      title: Manage app tags
-      description: Tags attributes provides a way to customize data for segment filtering and organize conversations
+      title: 管理应用标签
+      description: 标签属性提供了一个自定义分区过滤和组织对话的数据
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     quick_replies:
-      title: Manage quick replies
-      description: Quick replies provides a way to organize common anwsers for your bussiness
+      title: 管理快捷回复
+      description: 快速回复提供了一种为你的组织通用的上下午回复
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     articles:
-      title: Chaskiq HelpCenter platform
-      description: Here you can manage the articles of Chaskiq
+      title: Chaskiq 帮助中心平台
+      description: 您可以在这里管理Chaskiq 的文章
     #link: { href: '/', text: 'Learn how to configure & manage the helpcenter system on Chaskiq'}
     bots:
     mailing_campaigns:

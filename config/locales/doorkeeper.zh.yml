@@ -12,122 +12,122 @@ zh-CN:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               unspecified_scheme: 'must specify a scheme.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              relative_uri: '必须是绝对的URI。'
+              secured_uri: '必须是一个 HTTPS/SSL URI。'
+              forbidden_uri: '被服务器禁止。'
             scopes:
-              not_match_configured: "doesn't match configured on the server."
+              not_match_configured: "服务器配置不匹配。"
   doorkeeper:
     applications:
       confirmations:
-        destroy: 'Are you sure?'
+        destroy: '您确定吗？'
       buttons:
-        edit: 'Edit'
-        destroy: 'Destroy'
-        submit: 'Submit'
-        cancel: 'Cancel'
-        authorize: 'Authorize'
+        edit: '编辑'
+        destroy: '销毁'
+        submit: '提交'
+        cancel: '取消'
+        authorize: '授权'
       form:
-        error: 'Whoops! Check your form for possible errors'
+        error: '糟糕！请检查您的表单以了解可能的错误'
       help:
-        confidential: 'Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.'
-        redirect_uri: 'Use one line per URI'
-        blank_redirect_uri: "Leave it blank if you configured your provider to use Client Credentials, Resource Owner Password Credentials or any other grant type that doesn't require redirect URI."
-        scopes: 'Separate scopes with spaces. Leave blank to use the default scopes.'
+        confidential: '应用程序可用于客户端密钥可以保持保密的地方。原生移动应用和单页应用被视为为非保密。'
+        redirect_uri: '每行一个URI'
+        blank_redirect_uri: "如果您将您的提供商设置为使用客户端信用额度，请留空 资源拥有者密码凭据或不需要重定向的 URI 的任何其他授予类型。"
+        scopes: '用空格分隔权限范围，留空则使用默认设置。'
       edit:
-        title: 'Edit application'
+        title: '编辑应用'
       index:
-        title: 'Your applications'
-        new: 'New Application'
-        name: 'Name'
-        callback_url: 'Callback URL'
-        confidential: 'Confidential?'
-        actions: 'Actions'
+        title: '您的应用程序'
+        new: '新建应用程序'
+        name: '名称'
+        callback_url: '回调 URL'
+        confidential: '使用加密？'
+        actions: '操作'
         confidentiality:
-          'yes': 'Yes'
-          'no': 'No'
+          'yes': '是'
+          'no': '否'
       new:
-        title: 'New Application'
+        title: '新建应用程序'
       show:
-        title: 'Application: %{name}'
-        application_id: 'Application UID'
-        secret: 'Secret'
-        scopes: 'Scopes'
-        confidential: 'Confidential'
-        callback_urls: 'Callback urls'
-        actions: 'Actions'
+        title: '应用：%{name}'
+        application_id: '应用程序的 UID'
+        secret: '机密'
+        scopes: '作用域'
+        confidential: '保密'
+        callback_urls: '回调 URL'
+        actions: '操作'
     authorizations:
       buttons:
-        authorize: 'Authorize'
-        deny: 'Deny'
+        authorize: '授权'
+        deny: '拒绝'
       error:
-        title: 'An error has occurred'
+        title: '发生了一个错误'
       new:
-        title: 'Authorization required'
-        prompt: 'Authorize %{client_name} to use your account?'
-        able_to: 'This application will be able to'
+        title: '需要授权验证'
+        prompt: '使用您的账户授权 %{client_name} 吗？'
+        able_to: '该应用将可以：'
       show:
-        title: 'Authorization code'
+        title: '授权码'
     authorized_applications:
       confirmations:
-        revoke: 'Are you sure?'
+        revoke: '您确定吗？'
       buttons:
-        revoke: 'Revoke'
+        revoke: '撤消'
       index:
-        title: 'Your authorized applications'
-        application: 'Application'
-        created_at: 'Created At'
+        title: '已授权的应用列表'
+        application: '应用'
+        created_at: '创建于'
         date_format: '%Y-%m-%d %H:%M:%S'
     pre_authorization:
-      status: 'Pre-authorization'
+      status: '预授权'
     errors:
       messages:
         #Common error messages
         invalid_request:
-          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-          missing_param: 'Missing required parameter: %{value}.'
-          not_support_pkce: 'Invalid code_verifier parameter. Server does not support pkce.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+          unknown: '请求缺少必要参数，包括不受支持的参数值，或者格式不正确。'
+          missing_param: '缺少必需的参数：%{value}'
+          not_support_pkce: '无效的代码验证参数。服务器不支持pkce。'
+          request_not_authorized: '请求需要被授权。授权请求所需的参数缺失或无效。'
+        invalid_redirect_uri: "请求的重定向 URI 格式不正确，或者与客户端重定向 URI 不匹配。"
+        unauthorized_client: '客户未被授权用此方法提交申请.'
+        access_denied: '资源拥有人或认证服务器拒绝此申请'
+        invalid_scope: '申请范围无效、未知或形式错误'
+        invalid_code_challenge_method: '代码质询方法必须为普通或 S256。'
+        server_error: '授权服务器遇到了意外情况，无法完成请求。'
+        temporarily_unavailable: '由于暂时性过载或维护，授权服务器当前无法处理请求。'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_from_credentials，资源所有者密码凭据流失败。'
+        resource_owner_authenticator_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_authenticator，资源所有者查找失败。'
+        admin_authenticator_not_configured: '由于未配置 Doorkeeper.configure.admin_authenticator，禁止访问管理面板。'
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_type: '授权服务不支持此响应类型。'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: '未知客户、客户未认证或认证方式不支持，认证失败'
+        invalid_grant: '提供的授权无效、已过期或者已被撤销，与授权请求中使用的重定向 URI 不匹配，或者颁发给其他客户端。'
+        unsupported_grant_type: '授权服务器不支持此授权类型。'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "通行证（Access token）已被撤销"
+          expired: "Access token 已过期"
+          unknown: "Access token 无效"
         revoke:
-          unauthorized: "You are not authorized to revoke this token"
+          unauthorized: "您不具备移除此设备的权限。"
     flash:
       applications:
         create:
-          notice: 'Application created.'
+          notice: '应用已创建'
         destroy:
-          notice: 'Application deleted.'
+          notice: '应用已删除'
         update:
-          notice: 'Application updated.'
+          notice: '程序已更新。'
       authorized_applications:
         destroy:
-          notice: 'Application revoked.'
+          notice: '应用已撤销'
     layouts:
       admin:
         title: 'Doorkeeper'
         nav:
-          oauth2_provider: 'OAuth2 Provider'
-          applications: 'Applications'
-          home: 'Home'
+          oauth2_provider: 'OAuth2 提供方'
+          applications: '应用程序'
+          home: '主页'
       application:
-        title: 'OAuth authorization required'
+        title: '需要 OAuth 授权验证'

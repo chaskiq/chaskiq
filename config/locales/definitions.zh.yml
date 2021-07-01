@@ -2,182 +2,182 @@ zh-CN:
   definitions:
     articles:
       title:
-        label: Title
+        label: 标题
       author:
-        label: Author
+        label: 作者
       state:
-        label: State
+        label: 省
       collection:
-        label: Collection
+        label: 文档集
       actions:
-        label: Actions
+        label: 操作
       website:
-        label: Website
-        hint: Website of your main domain
+        label: 站点
+        hint: 主域名的网站
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: 域名 Domain
+        hint: 帮助中心域名
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: 二级域名
+        hint: 帮助中心可以使用的二级域名
       google_code:
         label: Google Code
         hint: Google tracking ID
       credits:
-        label: show credits
+        label: 显示 credits
         hint: ""
     settings:
       name:
-        label: Name
+        label: 名称
         hint:
       logo:
         label: Logo
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "在聊天窗口中显示文章"
+        hint: "此选项将在信使主页中显示文章"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: 在浮动框中显示新消息
+        hint: 此选项将不会打开聊天框部件
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: 加密密钥
+        placeholder: "留空不加密。"
+        hint: 此密钥将用于加密和解密JWE用户数据
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: GDPR 所需隐私同意
+        hint: 在建立对话前将显示欧盟国家的确认视图
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: 要求全球范围的隐私同意
+        hint: 在建立对话之前将显示所有访客的确认视图
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: 不需要隐私同意
+        hint: 不会向任何人显示确认视图 (不推荐)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: 激活 messenger
+        hint: 当此激活时，messenger 小部件将被激活
       domain:
         label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        hint: 当chaskiq 将被使用时，这将是主机站点
       outgoing_email_domain:
         label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        hint: 发送会话的电子邮件域 domain，@yourapp使用 'your app'
       tagline:
         label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        hint: 这将会在聊天框底部渲染。
       timezone:
-        label: Timezone
+        label: 时区 Timezone
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: 收集社交数据
+        hint: "通过完整联系服务 (例如LinkedIn, Twitter等) 为我的用户通过第三方收集社交资料"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: 注册访问
+        hint: "即使禁用此功能，我们也会收集全球访客计数器，并在访客资料中存储最后一次访客信息"
       languages:
-        select_lang: "select lang"
+        select_lang: "选择语言"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: 宣传活动名称
+        hint: 这将不会显示在电子邮件中
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: 邮件主题
+        hint: 这是邮件主题本身。
       from_name:
-        label: From Name
+        label: 发件人姓名
       from_email:
-        label: From Email
+        label: 发件人邮箱
       reply_email:
-        label: Reply Email
+        label: 回复邮件
       scheduled_at:
-        label: Scheduled at
+        label: 预定
       scheduled_to:
-        label: Scheduled to
+        label: 预定到
       state:
-        label: State
+        label: 省
       description:
-        label: Description
+        label: 描述
       actions:
-        label: Actions
+        label: 操作
     bot_tasks:
       state:
-        label: State
+        label: 省
       name:
-        label: Name
+        label: 名称
       actions:
-        label: Actions
+        label: 操作
       title:
-        label: Title
-        placeholder: write task title
-        hint: "Task name ie: welcoming users bot task"
+        label: 标题
+        placeholder: 填写标题
+        hint: "任务名称如：欢迎用户 Bot 任务"
     stats:
       email:
         label: Email
       host:
         label: Host
       createdAt:
-        label: CreatedAt
+        label: 创建日期
       from:
-        label: From
+        label: 来自
       actions:
-        label: Actions
+        label: 操作
       when:
-        label: When
+        label: 当
       data:
-        label: Data
+        label: 数据
     app_packages:
       name:
-        label: 'Integration Name'
+        label: '集成应用名称'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: '在平台上发布'
+        type: '勾选框 checkbox'
+        hint: '如果禁用，您将在您有权访问的应用上使用程序'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: '集成能力'
+        hint: '选择软件包功能，如：集成将在哪里运行？'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: '应用软件包描述'
+        hint: '告诉您的插件可以做什么'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        label: '初始化流 Webhook URL'
+        hint: '当应用程序被插入对话、 消息或主屏幕时发送，以便您能够渲染应用程序。'
+        placeholder: '例如：https://yourdomain.com/initialize-url/'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: '提交流 webhook URL'
+        hint: '当最终用户通过按钮、链接或文本输入与您的应用互动时发送。 此流可以多次与您的应用进行交互。'
+        placeholder: '例如：https://yourdomain.com/submit-url/'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: '配置流 webhook URL (可选)'
+        hint: '当队友想要使用您的应用程序时发送，所以您可以在插入之前显示它们的配置选项。 留空此选项将跳过配置。'
+        placeholder: '例如：https://yourdomain.com/configure-url/'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: '配置流 webhook URL (可选)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: '当工作表已提交时发送。 工作表是一个您已经在信使中加载并且在调用JS方法时提交的iframe。'
+        placeholder: '例如：https://yourdomain.com/submit-sheet-url/'
   data_tables:
     users:
-      name: Name
+      name: 名称
       email: Email
-      state: State
-      online: Online
+      state: 省
+      online: Online（在线）
       ip: Ip
-      country: Country
-      city: City
-      lat: Lat
-      lng: Lng
-      postal: Postal
-      browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
-      referrer: Referrer
-      tag_list: Tag List
-      os: Os
-      os_version: Os Version
-      lang: Lang
+      country: 国家
+      city: 城市
+      lat: 纬度(Lat)
+      lng: 经度(Lng)
+      postal: 邮局
+      browser: 浏览器
+      browser_version: 浏览器版本
+      browser_lang: 浏览器Lang
+      referrer: 反向链接
+      tag_list: 标签列表
+      os: OS
+      os_version: 操作系统版本
+      lang: 语言
       web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      last_seen: 首次出现
+      first_seen: 最后出现
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: 订阅
+        unsubscribed: 取消订阅
+        passive: 被动模式

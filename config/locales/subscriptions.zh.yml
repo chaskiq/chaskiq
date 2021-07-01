@@ -1,70 +1,70 @@
 zh-CN:
   subscriptions:
-    upgrade: Upgrade
+    upgrade: 升级
     tabs:
-      - Plans
-      - Transaction history
+      - 计划
+      - 交易历史
     features:
       Segments:
-        title: Segments
+        title: 片段 Segments
         description: true
-        upgrade_message: Enable contact segments and targeting
+        upgrade_message: 启用联系人区段和目标对象
       Leads:
-        title: Leads
+        title: 线索
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: 获取外部应用，许多许多应用
       AppUsers:
         title: AppUsers
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: 获取外部应用，许多许多程序
       Conversations:
-        title: Conversations
+        title: 会话
         description: true
-        upgrade_message: Enable conversations
+        upgrade_message: 启用会话
       BotTasks:
-        title: BotTasks
+        title: Bot任务列表
         description: true
-        upgrade_message: Add automated chatflows to your app
+        upgrade_message: 添加自动聊天流到你的应用
       Integrations:
-        title: Integrations
+        title: 集成 Integrations
         description: true
-        upgrade_message: Get external apps, many many apps
+        upgrade_message: 获取外部应用，许多许多程序
       Campaigns:
-        title: Campaigns
+        title: 营销活动 Campaigns
         active: false
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: 获取 outbound messages, newsletter and Tours!
       Tours:
         title: Tours
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: 获取outbound messages, newsletter and Tours!
       UserAutoMessages:
-        title: UserAutoMessages
+        title: 用户自动消息
         description: true
-        upgrade_message: Get outbound messages, newsletter and Tours!
+        upgrade_message: 获取 outbound messages, newsletter and Tours!
       OutgoingWebhooks:
-        title: OutgoingWebhooks
+        title: Outgoing Webhooks
         active: false
-        upgrade_message: Enable outgoing webhooks
+        upgrade_message: 启用 outgoing webhooks
       OauthApplications:
-        title: OauthApplications
+        title: Oauth 应用程序
         description: true
-        upgrade_message: Enable API access support through OAUTH
+        upgrade_message: 通过 OAUTH 启用 API 访问支持
       Articles:
-        title: Articles
+        title: 文章
         active: false
-        upgrade_message: Enable Documentation & Help Center
+        upgrade_message: 启用文档和帮助中心
       QuickReplies:
-        title: QuickReplies
+        title: 快速回复
         description: true
-        upgrade_message: add Quick replies to your conversations
+        upgrade_message: 添加快速回复到您的对话
       CustomAttributes:
-        title: CustomAttributes
-        upgrade_message: Enable custom attributes
+        title: 自定义属性
+        upgrade_message: 启用自定义属性
     plans:
       - 
-        name: "free one"
-        description: This is a frebie plan!
-        id: 618560
+        name: "免费"
+        description: 这是一个免费的计划！
+        id: 65960
       - 
         name: "rookie"
         description: This is the simple plan
@@ -72,32 +72,32 @@ zh-CN:
       - 
         name: "super"
         id: 596123
-        description: This is the super plan
+        description: 这是超级方案
     plan:
-      included: What's included
-      pay_by: Pay by %{billing_type}
-      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
-      get_access: Get access
+      included: 包含的内容
+      pay_by: '%{billing_type} 支付'
+      trial_days: 免费试用此计划 <span class="font-bold"> %{trial_days} 天 </span>
+      get_access: 获得访问
     alerts:
       subscription_updated:
-        title: Subscription updated
-        desc: The Subscription was updated successfully, You will receive an email notification
+        title: 订阅已更新
+        desc: 订阅已成功更新，您将收到电子邮件通知
       subscription_created:
-        title: Subscription Created
-        desc: The subscription was created successfully, You will receive a receipt soon
+        title: 订阅已创建
+        desc: 订阅已成功更新，您将收到收据通知
       subscription_cancelled:
-        title: Subscription Cancelled
-        desc: The subscription was cancelled
-      close: Close this dialog
+        title: 订阅已取消
+        desc: 订阅被取消。
+      close: 关闭对话框
     billing_information:
-      title: Billing plan information
-      description: You are currently using "%{plan_name}" plan.
-      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
-      cancel_plan: cancel plan
-      update_payment_method: Update payment method
-      subscription_state: Estado de subscripción %{state}
+      title: 账单信息
+      description: 您目前正在使用 "%{plan_name}" 计划。
+      next_billing: 下次计费 %{next_payment_date} ，$%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: 取消计划
+      update_payment_method: 更新付款方式
+      subscription_state: 订阅状态 %{state}
     update_subscription:
-      cta: Update subscription
-      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
-      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
-      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
+      cta: 更新订阅
+      billed_on: 您将被计费到每 <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: 金额为 <span class="font-bold">$ %{recurring_price} $</span>
+      next_payment: 下次付款将在 <span class="font-bold">%{next_payment_date}</span>
