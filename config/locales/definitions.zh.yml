@@ -179,5 +179,5 @@ zh-CN:
       first_seen: 最后出现
       subscription_status:
         subscribed: 订阅
-        unsubscribed: Unsubscribed
-        passive: Passive
+        unsubscribed: 取消订阅
+        passive: 被动模式
