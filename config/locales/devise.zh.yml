@@ -2,32 +2,32 @@
 zh-CN:
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      confirmed: "已成功确认你的邮箱地址。"
+      send_instructions: "您将很快收到一封关于如何确认您的帐户的电子邮件。"
+      send_paranoid_instructions: "如果我们的数据库有您的电子邮件地址，您将很快收到一封有关如何确认您的帐户的电子邮件。"
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys} or password."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      already_authenticated: "您已登录。"
+      inactive: "您的账户尚未激活。"
+      invalid: "%{authentication_keys} 或密码无效。"
+      locked: "您的帐号已被锁定。"
+      last_attempt: "这是最后一次尝试机会，失败后你的帐户将被锁定。"
+      not_found_in_database: "%{authentication_keys} 或密码无效。"
+      timeout: "你的会话已经过期，请重新登录以继续操作。"
+      unauthenticated: "你需要登录或注册才能继续。"
+      unconfirmed: "你必须先确认你的电子邮件地址才能继续。"
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "确认说明"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "重设密码的说明"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "解锁说明"
       email_changed:
-        subject: "Email Changed"
+        subject: "电子邮箱已更改"
       password_change:
-        subject: "Password Changed"
+        subject: "密码已更改"
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      failure: "因\"%{reason}\"，无法从%{kind} 对您进行身份验证。"
       success: "Successfully authenticated from %{kind} account."
     passwords:
       no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
