@@ -44,7 +44,7 @@ module Chaskiq
 
     URLcrypt.key = [ENV['SECRET_KEY_BASE']].pack('H*')
 
-    locales = %w[af sq ar eu bg be ca hr cs da nl en eo et fo fi fr gl de el iw hu is ga it ja ko lv lt mk mt no pl pt ro ru gd sr sr sk sl es sv tr uk]
+    locales = %w[af sq ar eu bg be ca hr cs da nl en eo et fo fi fr gl de el iw hu is ga it ja ko lv lt mk mt no pl pt ro ru gd sr sr sk sl es sv tr uk zh]
     config.available_locales = locales
     I18n.available_locales = locales
     config.i18n.default_locale = :en
