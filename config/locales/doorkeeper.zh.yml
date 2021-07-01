@@ -93,41 +93,41 @@ zh-CN:
         access_denied: '资源拥有人或认证服务器拒绝此申请'
         invalid_scope: '申请范围无效、未知或形式错误'
         invalid_code_challenge_method: '代码质询方法必须为普通或 S256。'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        server_error: '授权服务器遇到了意外情况，无法完成请求。'
+        temporarily_unavailable: '由于暂时性过载或维护，授权服务器当前无法处理请求。'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        credential_flow_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_from_credentials，资源所有者密码凭据流失败。'
+        resource_owner_authenticator_not_configured: '由于未配置 Doorkeeper.configure.resource_owner_authenticator，资源所有者查找失败。'
+        admin_authenticator_not_configured: '由于未配置 Doorkeeper.configure.admin_authenticator，禁止访问管理面板。'
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_type: '授权服务不支持此响应类型。'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: '未知客户、客户未认证或认证方式不支持，认证失败'
+        invalid_grant: '提供的授权无效、已过期或者已被撤销，与授权请求中使用的重定向 URI 不匹配，或者颁发给其他客户端。'
+        unsupported_grant_type: '授权服务器不支持此授权类型。'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "通行证（Access token）已被撤销"
+          expired: "Access token 已过期"
+          unknown: "Access token 无效"
         revoke:
-          unauthorized: "You are not authorized to revoke this token"
+          unauthorized: "您不具备移除此设备的权限。"
     flash:
       applications:
         create:
-          notice: 'Application created.'
+          notice: '应用已创建'
         destroy:
-          notice: 'Application deleted.'
+          notice: '应用已删除'
         update:
-          notice: 'Application updated.'
+          notice: '程序已更新。'
       authorized_applications:
         destroy:
-          notice: 'Application revoked.'
+          notice: '应用已撤销'
     layouts:
       admin:
         title: 'Doorkeeper'
         nav:
-          oauth2_provider: 'OAuth2 Provider'
-          applications: 'Applications'
-          home: 'Home'
+          oauth2_provider: 'OAuth2 提供方'
+          applications: '应用程序'
+          home: '主页'
       application:
-        title: 'OAuth authorization required'
+        title: '需要 OAuth 授权验证'
