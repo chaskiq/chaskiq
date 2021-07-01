@@ -15,10 +15,8 @@
 			%>
 		<% end %>
 
-		<%= render Hints::Component.new(type: 'tags') %>
-
 		<%= render Tabs::Component.new(	items: settings_menu_data ) do %>
-
+			<%= render Hints::Component.new(type: 'tags') %>
 				mememem
 		<% end %>
 

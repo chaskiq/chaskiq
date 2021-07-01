@@ -15,11 +15,11 @@
 			%>
 		<% end %>
 
-		<%= render Hints::Component.new(type: 'quick_replies') %>
-
 		<%= render Tabs::Component.new(	items: settings_menu_data ) do %>
 
-				mememem
+			<%= render Hints::Component.new(type: 'quick_replies') %>
+
+			mememem
 		<% end %>
 
 	<% end %>

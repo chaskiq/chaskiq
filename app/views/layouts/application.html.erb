@@ -79,15 +79,14 @@
       support_data = support_app_data and
       support_data.present? %> 
 
-      <script>
+      <script data-turbo-eval='false'>
         (function(d,t) {
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
           g.src="<%=ENV['HOST']%>/embed.js"
           s.parentNode.insertBefore(g,s);
-          g.dataset.turboTrack = 'reload'
-          //s.parentNode.dataset.turboPermanent=true
           g.onload=function(){
             new window.ChaskiqMessengerEncrypted({
+              wrapperId: 'ChaskiqMessengerRoot',
               domain: "<%= ENV['HOST'] %>",
               ws:  "<%= ENV['WS'] %>",
               app_id: "<%= support_app_data[:app].key %>",
@@ -98,6 +97,8 @@
       </script>
 
     <% end %>
+
+    <div id="ChaskiqMessengerRoot" data-turbo-permanent="true">aa</div>
 
     <div class="fixed right-0 top-0 ml-5 z-50" 
       data-controller="main-loader"

@@ -75,7 +75,8 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :messenger , controller: "apps/messenger"
+    resources :messenger , controller: "apps/messenger" do
+    end
     resources :settings , controller: "apps/settings"
     resources :user_data , controller: "apps/user_data"
     resources :quick_replies, controller: "apps/quick_replies"

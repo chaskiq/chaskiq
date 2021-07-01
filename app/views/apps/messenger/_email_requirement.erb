@@ -1,0 +1,7 @@
+<%= form_for @app, url: edit_app_messenger_path(@app.key) do |f| %>
+
+	EMAIL REQUIREMENT
+	<%= render Hints::Component.new(type: 'email_requirement') %>
+
+
+<% end %>

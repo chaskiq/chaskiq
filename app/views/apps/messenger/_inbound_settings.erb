@@ -1,0 +1,6 @@
+<%= form_for @app, url: edit_app_messenger_path(@app.key) do |f| %>
+
+	<%= render Hints::Component.new(type: 'inbound_settings') %>
+
+
+<% end %>
