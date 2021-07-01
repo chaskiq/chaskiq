@@ -1,16 +1,16 @@
 zh-CN:
   hints:
     platform:
-      title: Here you can manage your contact list via segments
-      description: Segments allows to filter specific contacts through multiple filter
+      title: 这里您可以管理您的联系人列表
+      description: 部分可以通过多个过滤器筛选特定联系人
     #link: {  href: '/', title: 'Learn how filters works on our knowledge base
     webhooks:
-      title: Active Webhooks
-      description: "Webhooks feature it's all about delivering notifications of chaskiq events"
+      title: 活动的 Webhooks
+      description: "Webhooks 功能是关于发送chaskiq 事件的通知"
     #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
     integrations:
       title:
-      description: This is the third party API integrations section.
+      description: 这是第三方API 集成部分。
     #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}
     team:
     app_config:
