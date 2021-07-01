@@ -1,31 +1,31 @@
 zh-CN:
   devise:
     failure:
-      invited: "You have a pending invitation, accept it to finish creating your account."
+      invited: "您有一个待处理的邀请，接受它来完成创建您的帐户。"
     invitations:
-      send_instructions: "An invitation email has been sent to %{email}."
-      invitation_token_invalid: "The invitation token provided is not valid!"
-      updated: "Your password was set successfully. You are now signed in."
-      updated_not_active: "Your password was set successfully."
-      no_invitations_remaining: "No invitations remaining"
-      invitation_removed: "Your invitation was removed."
+      send_instructions: "邀请已发送到 %{email}。"
+      invitation_token_invalid: "无效的邀请码。"
+      updated: "您已修改密码，现在已成功登录。"
+      updated_not_active: "您已成功修改密码。"
+      no_invitations_remaining: "没有任务发送邀请"
+      invitation_removed: "您的邀请已被移除。"
       new:
-        header: "Send invitation"
-        submit_button: "Send an invitation"
+        header: "发送邀请"
+        submit_button: "发送邀请"
       edit:
-        header: "Set your password"
-        submit_button: "Set my password"
+        header: "设置您的密码"
+        submit_button: "设置我的密码"
     mailer:
       invitation_instructions:
-        subject: "Invitation instructions"
-        hello: "Hello %{email}"
-        someone_invited_you: "Someone has invited you to %{url}, you can accept it through the link below."
-        accept: "Accept invitation"
-        accept_until: "This invitation will be due in %{due_date}."
-        ignore: "If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password."
+        subject: "邀请说明"
+        hello: "你好 %{email}"
+        someone_invited_you: "有人邀请您访问 %{url}，您可以通过下面的链接接受它。"
+        accept: "接受邀请"
+        accept_until: "此邀请将于 %{due_date} 到期."
+        ignore: "如果您不想接受邀请，请忽略此电子邮件。 在您访问上面的链接并设置密码之前，您的帐户不会被创建。"
   time:
     formats:
       devise:
         mailer:
           invitation_instructions:
-            accept_until_format: "%B %d, %Y %I:%M %p"
+            accept_until_format: "%Y年%m月%d日 %H:%M"
