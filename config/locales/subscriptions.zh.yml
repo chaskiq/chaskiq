@@ -72,32 +72,32 @@ zh-CN:
       - 
         name: "super"
         id: 596123
-        description: This is the super plan
+        description: 这是超级方案
     plan:
-      included: What's included
-      pay_by: Pay by %{billing_type}
-      trial_days: Try this plan for free for <span class="font-bold"> %{trial_days} days </span>
-      get_access: Get access
+      included: 包含的内容
+      pay_by: '%{billing_type} 支付'
+      trial_days: 免费试用此计划 <span class="font-bold"> %{trial_days} 天 </span>
+      get_access: 获得访问
     alerts:
       subscription_updated:
-        title: Subscription updated
-        desc: The Subscription was updated successfully, You will receive an email notification
+        title: 订阅已更新
+        desc: 订阅已成功更新，您将收到电子邮件通知
       subscription_created:
-        title: Subscription Created
-        desc: The subscription was created successfully, You will receive a receipt soon
+        title: 订阅已创建
+        desc: 订阅已成功更新，您将收到收据通知
       subscription_cancelled:
-        title: Subscription Cancelled
-        desc: The subscription was cancelled
-      close: Close this dialog
+        title: 订阅已取消
+        desc: 订阅被取消。
+      close: 关闭对话框
     billing_information:
-      title: Billing plan information
-      description: You are currently using "%{plan_name}" plan.
-      next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
-      cancel_plan: cancel plan
-      update_payment_method: Update payment method
-      subscription_state: Estado de subscripción %{state}
+      title: 账单信息
+      description: 您目前正在使用 "%{plan_name}" 计划。
+      next_billing: 下次计费 %{next_payment_date} ，$%{next_payment_amount} %{next_payment_currency}
+      cancel_plan: 取消计划
+      update_payment_method: 更新付款方式
+      subscription_state: 订阅状态 %{state}
     update_subscription:
-      cta: Update subscription
-      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
-      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
-      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
+      cta: 更新订阅
+      billed_on: 您将被计费到每 <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: 金额为 <span class="font-bold">$ %{recurring_price} $</span>
+      next_payment: 下次付款将在 <span class="font-bold">%{next_payment_date}</span>
