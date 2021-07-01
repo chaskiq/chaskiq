@@ -419,73 +419,73 @@ zh-CN:
     availability:
       title: 设定状态
       hint: 设定团队办公时间和回复时间
-      title2: Set office hours
-      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
-      timezone: YOUR APP’S TIMEZONE IS %{tz}
+      title2: 设置工作时间
+      hint2: 在这几个小时之外，顾客会在相对于他们的时区返回时看到。
+      timezone: 您的应用程序时区为 %{tz}
       reply_time:
-        title: Set reply time
-        hint: During office hours, let your customers know when they can expect a reply.
+        title: 设置回复时间
+        hint: 在办公时间内，让您的顾客知道他们何时可以得到答复。
         options:
           - 
-            value: "auto"
-            label: "Automatic reply time. Currently El equipo responderá lo antes posible"
+            value: "自动"
+            label: "自动回复时间。"
           - 
-            value: "minutes"
-            label: "Team usually responds within minutes."
+            value: "分钟"
+            label: "团队通常在几分钟内回复。"
           - 
-            value: "hours"
-            label: "Team usually responds within hours."
+            value: "小时"
+            label: "团队通常在小时内回复。"
           - 
-            value: "1 day"
-            label: "The team usually responds in one day."
-        hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
+            value: "1 天"
+            label: "团队通常在一天内回复。"
+        hint2: "注意：访客将收到您团队可用的自动回复。在您的超时或长时间回复。"
     email_requirement:
-      title: Require an email for new conversations
-      hint: So you can always get back to your website visitors
-      ask: "Ask your website visitors to leave their email before starting a live chat:"
+      title: 新对话需要请求访客电子邮件地址
+      hint: 所以您总是可以回到您的网站访问者上
+      ask: "要求访客留下一个电子邮件地址，在开启新会话之前。"
       options:
         - 
-          label: Only outside of office hours
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
-          value: office
+          label: 工作时间以外
+          hint: 平均减少5%的会话量
+          value: 办公
         - 
-          label: Always
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
-          value: Always
+          label: 始终
+          hint: 平均减少30%的会话量
+          value: 始终
         - 
-          label: Never
-          value: Never
-          hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
+          label: 从不
+          value: 从不
+          hint: 将允许网站访问者在任何时候开始对话
     languages:
-      add: Add Language
-      title: Languages
+      add: 添加语言
+      title: 语言
     inbound:
-      title: New conversations button
-      checkbox: Let people start new inbound conversations with you
-      hint: When this is turned off, people can only reply to the outbound messages you send.
-      title2: visibility
-      hint2: Control who sees the standard Messenger launcher on your website.
-      note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
-      note3: "On the web, show the standard Messenger launcher to:"
+      title: 新对话按钮
+      checkbox: 让访客开始新的入站对话
+      hint: 关闭后，只能回复您发送的出站消息。
+      title2: 公开范围
+      hint2: 控制谁可以在你的网站上看到标准的Messenger 启动器。
+      note2: 你发送的任何信息仍将被送达。
+      note3: "在网页上显示标准的Messenger 启动器："
       filters:
         users:
-          label: Users
-          all: All Users
-          some: Users who match certain data
+          label: 用户
+          all: 全部用户
+          some: 匹配特定数据的用户
         leads:
-          label: Leads
-          all: All Visitors
-          some: Visitors who match certain data
-        hint: This doesn’t affect the outbound messages you send.
+          label: 线索
+          all: 所有访客
+          some: 匹配特定数据的访客
+        hint: 这并不影响您发送的出站消息。
     team:
-      title: Team
-      invitations: invitations
-      agents: Agents
-      invitation_success: invitation sent!
-      invitatin_error: invitation not sent!
-      action_button: add user
-      title_content: Add a new agent
-      content_text: send an activable invitation
+      title: 团队
+      invitations: 邀请
+      agents: Agents 代理人
+      invitation_success: 邀请已发送！
+      invitatin_error: 邀请未发送！
+      action_button: 添加用户
+      title_content: 添加新代理
+      content_text: 发送激活邀请
       hint: 新团队成员将通过它的电子邮件收到通知
       send_invitation: 发送邀请
       resend_invitation: 重新发送邀请
