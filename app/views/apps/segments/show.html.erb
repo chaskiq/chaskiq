@@ -27,15 +27,10 @@
 											<% end %>
 
 											<%= render Dropdown::Component.new(label: t('contact_manager.create') ) do |c| %>
-                        
-
                           <!--<a href="#" data-action="click->modal#open" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
                             <span>Open Modal</span>
                           </a>-->
-
-
                         <%= button_to "oli", new_app_contact_path(@app.key), form: { data: {"turbo-frame": "modal"}}, method: :get %>
-
 
                         <%= turbo_frame_tag "sss" do %>
                           <%= link_to new_app_contact_path(@app.key), data: {'turbo-frame': 'modal'} do %>
@@ -44,8 +39,6 @@
                         <% end %>
 
                         <% #= turbo_frame_tag "modal", src: new_app_contact_path(@app) %>
-
-                
 
                         <button class="w-full group flex items-center
                                       px-4 py-2 text-sm leading-5 text-gray-700
@@ -86,7 +79,7 @@
           <div style="margin-top: 20px;">
             <div class="css-9y61j4">
 
-              <%= render 'apps/segment_manager/form' %>
+              <%= render 'apps/segment_manager/form',  segment_manager: @segment_manager%>
               
               <%= render 'apps/segment_manager/table' %>
             </div>

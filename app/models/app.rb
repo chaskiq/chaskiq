@@ -322,6 +322,48 @@ class App < ApplicationRecord
     end
   end
 
+  attr_accessor :new_language
+
+  def new_language=(attribute)
+    assign_attributes(
+      "greetings_#{attribute}": "", 
+      "tagline_#{attribute}": "", 
+      "intro_#{attribute}": ""
+    )
+  end
+
+  def team_schedule_objects
+    return [] if team_schedule.blank?
+    @team_schedule_objects ||= team_schedule.map{|o| ScheduleRecord.new(o)}
+  end
+
+  def team_schedule_objects_attributes=(attributes)
+    array = attributes.keys.map{|o| attributes[o] }
+    self.team_schedule = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
+    # array.map{|o| ScheduleRecord.new(o) }
+  end
+
+  def inbound_settings_objects
+    return [] if inbound_settings.blank?
+    @inbound_settings_objects ||= InboundSettingsRecord.new(inbound_settings)
+  end
+
+  def inbound_settings_attributes=(attributes)
+  
+    #array = attributes.keys.map{|o| attributes[o] }
+    #self.inbound_settings = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
+    # array.map{|o| ScheduleRecord.new(o) }
+  end
+
+  def customization_colors_objects
+    @customization_colors_objects ||= CustomizationRecord.new(customization_colors)
+  end
+
+  def customization_colors_attributes=(attributes)
+    @customization_colors_objects = CustomizationRecord.new(attributes)
+    self.customization_colors = @customization_colors_objects.as_json
+  end
+
   private
 
   def init_app_segments
@@ -353,5 +395,113 @@ class App < ApplicationRecord
       h[f["day"].to_sym] = (h[f["day"].to_sym] || {}).merge!(f["from"] => f["to"])
     end
     h
+  end
+end
+
+
+class ScheduleRecord
+  include ActiveModel::Model
+
+  attr_accessor :day, :from, :to
+
+  def marked_for_destruction?
+    false
+  end
+
+  def self.hours_ranges
+    date = Date.today
+    c = date.to_time.beginning_of_day
+    (1..48).map{|i| c += 30.minutes; c.strftime("%H:%M")    }
+  end
+
+  def new_record?
+    true
+  end
+end
+
+class InboundSettingsRecord
+  include ActiveModel::Model
+
+  attr_accessor :enabled, 
+                :users_enabled, 
+                :users_segment,
+                :users_predicates,
+                :visitors_enabled,
+                :visitors_segment,
+                :visitors_predicates
+
+  def initialize(options)
+    self.enabled = options["enabled"] 
+    self.users_enabled = options.dig("users", "enabled")
+    self.users_segment = options.dig("users", "segment")
+    self.users_predicates = options.dig("users", "predicates") || []
+
+    self.visitors_enabled = options.dig("visitors", "enabled")
+    self.visitors_segment = options.dig("visitors", "segment")
+    self.visitors_predicates = options.dig("users", "predicates") || []
+  end
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
+end
+
+class CustomizationRecord
+  include ActiveModel::Model
+
+  attr_accessor :pattern, :primary, :secondary
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
+
+
+  def self.pattern_names
+    [
+      'email-pattern',
+      '5-dots',
+      'greek-vase',
+      'criss-cross',
+      'chevron',
+      'blue-snow',
+      'let-there-be-sun',
+      'triangle-mosaic',
+      'dot-grid',
+      'so-white',
+      'cork-board',
+      'hotel-wallpaper',
+      'trees',
+      'beanstalk',
+      'fishnets-and-hearts',
+      'lilypads',
+      'floor-tile',
+      'beige-tiles',
+      'memphis-mini',
+      'christmas-colour',
+      'intersection',
+      'doodles',
+      'memphis-colorful',
+    ]
+  end
+
+  def self.pattern_base_url
+    'https://www.toptal.com/designers/subtlepatterns/patterns/'
+  end
+
+  def self.patterns 
+    pattern_names.map do |o|
+      { 
+        name: o, 
+        url: pattern_base_url + o + '.png' 
+      }
+    end
   end
 end

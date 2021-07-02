@@ -1,7 +1,29 @@
-<%= form_for @app, url: edit_app_messenger_path(@app.key) do |f| %>
+<%= form_for @app, url: app_messenger_path(@app.key, :email_requirement) do |f| %>
 
-	EMAIL REQUIREMENT
 	<%= render Hints::Component.new(type: 'email_requirement') %>
+
+	<% options = t("settings.email_requirement.options").map{ |o| 
+			{o[:label] => o[:value]} 
+		}.reduce Hash.new, :merge 
+	%>
+
+	<%= f.collection_radio_buttons :email_requirement, options, :last, :first do |b| %>
+		<div class="form-check form-check-inline mb-4 space-y-2">
+			<div class="flex items-center">
+				<%= b.radio_button %>
+				<%= b.label class: 'ml-2 block font-bold text-sm leading-5 text-gray-900 dark:text-white' %>
+			</div>
+			<% 
+			
+				%>
+				<% hint = t("settings.email_requirement.options").find{|o| o[:value] == b.value} %>
+			<div class="input-placeholder text-gray-500 text-xs">
+				<%= hint[:hint] %>
+			</div>
+		</div>
+	<% end %>
+
+	<%= f.submit t("common.submit"), class: "btn btn-success my-6" %>
 
 
 <% end %>

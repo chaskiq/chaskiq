@@ -157,42 +157,42 @@ module ApplicationHelper
     [{
       label: I18n.t('settings.app.appearance'),
       href: app_messenger_index_path(@app.key),
-      active: controller.controller_name == 'webhooks'
+      active: controller.controller_name == 'messenger' && controller.action_name == 'index' 
     },
     {
       label: I18n.t('settings.app.translations'),
       href: edit_app_messenger_path(@app.key, :translations ),
-      active: controller.controller_name == 'webhooks'
+      active: params[:id] == 'translations'
     },
     {
       label: I18n.t('settings.app.privacy'),
       href: edit_app_messenger_path(@app.key, :privacy),
-      active: controller.controller_name == 'webhooks'
+      active: params[:id] == 'privacy'
     },
     {
       label: 'Apps',
       href: edit_app_messenger_path(@app.key, :apps),
-      active: controller.controller_name == 'webhooks'
+      active: params[:id] == 'apps'
     },
     {
       label: I18n.t('settings.app.availability'),
       href: edit_app_messenger_path(@app.key, :availability),
-      active: controller.controller_name == 'webhooks'
+      active: params[:id] == 'availability'
     },
     {
       label: I18n.t('settings.app.email_requirement'),
       href: edit_app_messenger_path(@app.key, :email_requirement),
-      active: controller.controller_name == 'webhooks'
+      active: params[:id] == 'email_requirement'
     },
     {
       label: I18n.t('settings.app.inbound_settings'),
       href: edit_app_messenger_path(@app.key, :inbound_settings),
-      active: controller.controller_name == 'webhooks'
+      active: params[:id] == 'inbound_settings'
     },
     {
       label: I18n.t('settings.app.messenger_style'),
       href: edit_app_messenger_path(@app.key, :style_settings),
-      active: controller.controller_name == 'webhooks'
+      active: params[:id] == 'style_settings'
     }]
   end
 

@@ -34,7 +34,7 @@ export default class extends Controller {
 
   // format the hash for react select from the current selected
   selectOptionsFormatted() {
-    return [...this.selectTarget.options].map((o) =>
+    return [...this.selectTarget.selectedOptions].map((o) =>
       this.options.find((op) => op.value === o.value)
     )
   }
@@ -43,7 +43,12 @@ export default class extends Controller {
   handleChange(e, q) {
     console.log('Handle Change', e, q)
     this.selectOptions().forEach((option) => {
-      option.selected = e.find((o) => o.value === option.value)
+      if(!e) return
+      if(e.find){
+        option.selected = e.find((o) => o.value === option.value) 
+      }else{
+        option.selected = e.value === option.value
+      }
     })
   }
 }

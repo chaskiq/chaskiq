@@ -1,13 +1,13 @@
-<% @segment_manager.to_json %>
+<%= segment_manager.to_json %>
 
 <%= turbo_frame_tag "segment_form" do %>
-	<%= form_for @segment_manager, url: app_segment_managers_path(@app.key), data: {controller: 'segment-manager'}  do |f| %>
+	<%= form_for segment_manager, url: app_segment_managers_path(@app.key), data: {controller: 'segment-manager'}  do |f| %>
 
 		<%= f.submit("submit!")%>
 		<div>
 			<div class="flex space-x-3">
 
-				<% @segment_manager.predicates.each_with_index do |segment, index|%>
+				<% segment_manager.predicates.each_with_index do |segment, index|%>
 
 					<%= f.fields_for segment, index: index do |predicate_form| %>
 						<% path = case segment.attribute 
@@ -30,7 +30,8 @@
 						<div class="flex">
 							<%= render Dropdown::Component.new(
 								label: 'Add filters', 
-								variant: 'success', 
+								variant: 'success',
+								orientation: 'left', 
 								size: 'sm') do %>
 								<div class="p-2--">
 									<div class="p-2">

@@ -1,5 +1,69 @@
-<%= form_for @app, url: edit_app_messenger_path(@app.key) do |f| %>
+<%= form_for @app, 
+	url: app_messenger_path(@app.key, :style_settings), 
+	data: {controller: 'style-settings'} do |f| %>
 
-	STYLE SETTINGS
+	<div>
+		<div class="py-6">
+			<p class="text-lg leading-6 font-medium  text-gray-900 dark:text-gray-100 py-4">
+				Customize chat window
+			</p>
+		</div>
+
+		<%= f.fields_for :customization_colors, @app.customization_colors_objects, include_id: false do |ff| %>
+			<div class="flex">
+				<div class="w-1/2 pr-3">
+					<%= ff.color_field :primary %>
+					<% #= ff.object.to_json %>
+					<p>For color backgrounds, buttons ands</p>
+				</div>
+
+				<div class="w-1/2">
+					<%= ff.color_field :secondary %>
+					<p>Secondary color</p>
+				</div>
+
+				<%= ff.hidden_field :pattern, data: {"style-settings-target": "patternInput" } %>
+			</div>
+		<% end %>
+
+		<div class="flex py-4">
+			<div class="w-1/2">
+				<div>
+
+					<div class="grid grid-cols-4 overflow-auto" style="height:540px">
+						<% CustomizationRecord.patterns.each do |pattern|%>
+							<button data-action="click->style-settings#selectPattern" data-pattern="<%= pattern[:url] %>">
+								<%= image_tag pattern[:url]%>
+							</button>
+						<% end %>
+					</div>
+
+					<p class="text-md leading-6 font-medium text-gray-400 pb-2">
+						Choose a pattern From
+						<a
+							target='blank'
+							href='https://www.toptal.com/designers/subtlepatterns/'
+						>
+							Subtle patterns
+						</a>
+					</p>
+				</div>
+			</div>
+
+			<% if @app.customization_colors_objects.pattern %>
+				<div class="w-1/2">
+					<img data-style-settings-target="patternHolder"
+						class="w-full mx-3 border-4 border-gray-900" 
+						src="<%= @app.customization_colors_objects.pattern %>" />
+				</div>
+			<% end %>
+		</div>
+
+		<hr />
+
+		<div class="py-4">
+			<%= f.submit(I18n.t('common.save'), class: "btn btn-success")%>
+		</div>
+	</div>
 
 <% end %>
