@@ -80,35 +80,35 @@ it:
     childs:
       conversations: Conversazioni
       assignment_rules: Regole di assegnazione
-      mailing_campaigns: Mailing Campaigns
-      in_app_messages: In App Messages
-      banners: Banners
-      guided_tours: Guided Tours
+      mailing_campaigns: Campagne mail
+      in_app_messages: Messaggi In App
+      banners: Banner
+      guided_tours: Tour guidati
       for_leads: For Leads
-      for_users: For Users
-      bot_settings: Bot Tasks
-      outbound: Outbound
-      new_conversations: New conversations
-      articles: Articles
-      collections: Collections
-      article_settings: Settings
-      app_settings: App Settings
-      team: Team
-      messenger_settings: Messenger settings
-      integrations: Integrations
-      webhooks: Webhooks
-      api_access: API access
-      billing: Billing
+      for_users: Per utenti
+      bot_settings: Attività Del Bot
+      outbound: In uscita
+      new_conversations: Nuove conversazioni
+      articles: Articoli
+      collections: Collezioni
+      article_settings: Impostazioni
+      app_settings: Impostazioni App
+      team: Squadra
+      messenger_settings: Impostazioni di Messenger
+      integrations: Integrazioni
+      webhooks: Webhook
+      api_access: Accesso API
+      billing: Fatturazione
     user_menu:
-      create_app: 'Create new app'
-      create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      create_app: 'Crea una nuova app'
+      create_app_description: 'Crea l''app Chaskiq della tua azienda'
+      signout: Esci
+      title: Menu utente
   conversations:
-    start_conversation: Start conversation
-    title: Conversations
+    start_conversation: Inizia conversazione
+    title: Conversazioni
     menu:
-      conversations: Conversations
+      conversations: Conversazioni
       all: Tutte le conversazioni
       assignment_rules: Regole di routing degli agenti
       tags: Etichette
@@ -186,64 +186,64 @@ it:
     error_purge: Error purging metrics
     purge_description: Purges campaigns metrics
     purge_title: Purge Metrics
-    deliver_title: Deliver
-    deliver_description: Delivers the campaign
-    pause_title: Pause
-    pause_description: pauses the campaign
-    clone_title: Clone
-    clone_description: clones the campaign
-    activate: "Activate Campaigns"
-    enables: Enables campaign
-    disables: Disables campaign
+    deliver_title: Consegna
+    deliver_description: Consegna la campagna
+    pause_title: Pausa
+    pause_description: ferma la campagna
+    clone_title: Duplica
+    clone_description: clona la campagna
+    activate: "Attivare la campagna"
+    enables: Abilita la campagna
+    disables: Disabilita la campagna
     state:
-      enabled: enabled
-      disabled: disabled
+      enabled: abilitato
+      disabled: disabilitato
     tabs:
-      stats: Stats
-      settings: Settings
-      audience: Audience
+      stats: Statistiche
+      settings: Impostazioni
+      audience: Pubblico
       editor: Editor
     banners:
-      settings: Settings
-      action: Action
-      style: Style
-      top: top
-      bottom: bottom
+      settings: Impostazioni
+      action: Azione
+      style: Stile
+      top: superiore
+      bottom: inferiore
       inline: inline
-      floating: floating
+      floating: fluttuante
   campaign:
-    edit: Edit Campaign Settings
-    create: Create a new campaign
-    preview: This is a preview
-    preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
+    edit: Impostazioni della campagna
+    create: Crea nuova campagna
+    preview: Questa è una anteprima
+    preview_hint: Questo è come la tua email dovrebbe essere visualizzata. Se stai usando variabili come {{name}} dovrebbero essere visualizzate qui.
     stats:
-      title: Campaign Stats
-      refresh_data: Refresh data
+      title: Statistiche Campagna
+      refresh_data: Aggiorna dati
     unsubscribe:
-      status: You've been %{state}
-      success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
-      resubscribe: Resubscribe from this list
-      cancel: Cancel your subscription
+      status: Sei stato %{state}
+      success: Completato, %{ email } non riceverà più email da questo mittente. È stato un errore?
+      resubscribe: Reiscriviti a questa lista
+      cancel: Annulla la tua iscrizione
   task_bots:
     type_filters:
-      title_visitors: 'Visitors'
-      description_visitors: 'visitors on the platform'
-      title_leads: 'Leads'
-      description_leads: 'Visitors who make an actions'
-      title_users: 'Users'
-      description_users: "your platform's registered users"
+      title_visitors: 'Visitatori'
+      description_visitors: 'visitatori sulla piattaforma'
+      title_leads: 'Potenziali Clienti'
+      description_leads: 'Visitatori che fanno azioni'
+      title_users: 'Utenti'
+      description_users: "gli utenti registrati della tua piattaforma"
     state_filters:
-      enabled_title: 'Enabled'
-      enabled_description: 'enabled bot tasks'
-      disabled_title: 'Disabled'
-      disabled_description: 'Disabled bot tasks'
-    title: Bot Tasks
-    reply_soon: Hi, %{name} will reply as soon as they can.
-    reply_agent: you will get a reply from one of our agents
-    email_support: to get support you can email at %{email}
-    outbound: "🏓 Outbound"
-    new_conversations: "👋 New conversations"
-    new_conversations_notice: This is what people will see when they start a new conversation
+      enabled_title: 'Abilitato'
+      enabled_description: 'attività bot abilitate'
+      disabled_title: 'Disabilitato'
+      disabled_description: 'Attività bot disabilitate'
+    title: Compiti Del bot
+    reply_soon: Ciao, %{name} risponderà il prima possibile.
+    reply_agent: riceverai una risposta da uno dei nostri agenti
+    email_support: per ottenere il supporto è possibile inviare un'email a %{email}
+    outbound: "🏓 In uscita"
+    new_conversations: "👋 Nuove conversazioni"
+    new_conversations_notice: Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione
     options:
       add_message: Add Message Bubble
       wait_user_input: Wait for user input
