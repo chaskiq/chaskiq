@@ -1,57 +1,57 @@
 it:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: add new
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    save_changes: Save changes
-    preview: Preview
-    cancel: Cancel
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
-    get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: "Confirm deletion ?"
-    confirm_deletion_ready: are you ready to delete ?
-    next: Next
-    prev: Prev
-    showing: Showing
-    to: to
-    of: of
-    results: results
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
-    actions: Actions
+    edit: Modifica
+    new: Nuovo
+    add: Aggiungi
+    add_new: aggiungi nuovo
+    update: Aggiorna
+    remove: Rimuovi
+    delete: Elimina
+    create: Crea
+    save: Salva
+    save_changes: Salva modifiche
+    preview: Anteprima
+    cancel: Annulla
+    back_to_site: Ritorna al sito
+    not_found: La pagina che stai cercando non esiste.
+    get_snippet: Ottieni la snippet
+    submit: Invia
+    confirm_deletion: "Confermi la cancellazione ?"
+    confirm_deletion_ready: sei pronto a cancellare?
+    next: Successivo
+    prev: Precedente
+    showing: Visualizzati
+    to: a
+    of: di
+    results: risultati
+    tz_hint: Il fuso orario del browser è di <b className="text-bold">%{timezone}</b>
+    send: Invia
+    actions: Azioni
     langs:
-      en: English
-      es: Spanish
-      pt: Portuguese
-      de: Deutsch
-      ca: Catalan
-    redirecting: Redirecting
-    select_language: Select Language
-    send_on_enter: Publish on enter
-    away_mode: Away mode
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+      en: Inglese
+      es: Spagnolo
+      pt: Portoghese
+      de: Tedesco
+      ca: Catalano
+    redirecting: Reindirizzamento
+    select_language: Seleziona la Lingua
+    send_on_enter: Pubblica al momento dell'invio
+    away_mode: Modo assente
+    toggle_light_mode: Attiva tema chiaro
+    toggle_dark_mode: Attiva tema scuro
   error_view:
-    title: Woops! something went wrong.
-    subtitle: Unfortunately 🤯
-    exp: try refreshing the page
-    cta: try to go home
+    title: Woops! qualcosa è andato storto.
+    subtitle: Sfortunatamente 🤯
+    exp: prova ad aggiornare la pagina
+    cta: prova a tornare alla home
   home:
-    welcome: Welcome to
+    welcome: Benvenuto a
     welcome_site: Chaskiq
-    tagline: Find your current applications here
-    create_new: Create new app
-    choose_lang: Choose language
-    edit_profile: Edit profile
-    go_to_doc: Go to documentation
+    tagline: Trova qui le applicazioni correnti
+    create_new: Crea una nuova app
+    choose_lang: Scegli la lingua
+    edit_profile: Modifica profilo
+    go_to_doc: Vai alla documentazione
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
     response_avg: Response Time avg
