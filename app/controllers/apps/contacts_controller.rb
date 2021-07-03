@@ -18,6 +18,23 @@ class Apps::ContactsController < ApplicationController
 		end
 	end
 
+
+	def show
+
+		@app_user = @app.app_users.find(params[:id])
+
+		return render turbo_stream: [
+			turbo_stream.replace(
+				"slide-modal", 
+				partial: "contact",
+			),
+		]
+				
+		respond_to do |format|
+      format.html { }
+		end
+	end
+
 	def create
 		
     respond_to do |format|

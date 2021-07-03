@@ -11,32 +11,11 @@ export default class extends Controller {
     Array.from(document.getElementsByClassName('checkbox-input')).forEach(
       (el) => {
         // Do stuff here
-        el.remove()
+        el.classList.add("hidden")
       }
     )
 
-    const classNames = `mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input 
-    block w-full transition duration-150 ease-in-out 
-    sm:text-sm sm:leading-5
-    dark:text-gray-100 dark:bg-gray-900
-    `
-
-    const inputType =
-      e.target.dataset.attributeType === 'date' ? 'number' : 'text'
-    // add element
-    e.target.insertAdjacentHTML(
-      'afterend',
-      `
-      <div class="checkbox-input">
-        <input
-          class="${classNames}"
-          value="${this.valueInputTarget.value}" 
-          type="${inputType}" 
-          data-action="change->segment-manager-input#copyText"
-        />
-      </div>
-    `
-    )
+    e.currentTarget.parentElement.querySelector(".checkbox-input").classList.remove("hidden")
   }
 
   copyText(e) {

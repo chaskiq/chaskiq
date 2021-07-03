@@ -1,9 +1,6 @@
 
 import { Controller } from 'stimulus'
-import { useMutation } from 'stimulus-use'
 import { FetchRequest } from '@rails/request.js'
-import serialize from 'form-serialize'
-
 export default class extends Controller {
   static targets = ['container', 'form']
 

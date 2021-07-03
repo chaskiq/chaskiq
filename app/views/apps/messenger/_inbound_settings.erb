@@ -1,4 +1,4 @@
-<%= form_for @app, url: app_messenger_path(@app.key, :inbound_settings) do |f| %>
+<%= form_for @app, url: app_messenger_path(@app.key, :inbound_settings), data: {controller: 'segment-manager'} do |f| %>
 
 	<%= render Hints::Component.new(type: 'inbound_settings') %>
 

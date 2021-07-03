@@ -79,9 +79,11 @@
           <div style="margin-top: 20px;">
             <div class="css-9y61j4">
 
-              <%= render 'apps/segment_manager/form',  segment_manager: @segment_manager%>
+              <% #= @segment.predicates  %> 
+
+              <%= render 'apps/segment_manager/form',  segment_manager: @segment_manager, url_form: edit_segment_app_segment_path(@app.key, @segment), incomplete: false, changed: false %>
               
-              <%= render 'apps/segment_manager/table' %>
+              <%= render 'apps/segment_manager/table', segment_manager: @segment_manager, results: @app_users %>
             </div>
           </div>
         </div>

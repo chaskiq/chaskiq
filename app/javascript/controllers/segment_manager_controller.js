@@ -10,6 +10,7 @@ export default class extends Controller {
   delete(e) {
     const target = e.target
     document.getElementById(target.dataset.segment).remove()
+    this.element.requestSubmit()
   }
 
   addField(e) {

@@ -1,4 +1,8 @@
-<% f = locals[:f] %>
+<% 
+ f = locals[:f]
+ segment = locals[:segment] 
+ index = locals[:index]
+%>
 
 <div>
 	<div class="relative inline-block text-left">
@@ -35,7 +39,19 @@
 					
 				</div>
 
-				<%= f.submit "submit" %>
+				<div class="flex m-2 justify-between">
+					
+					<%= f.submit t("segment_manager.apply"), class: 'btn xs btn-default' %>
+
+					<button type="button"
+						data-segment="segment-index-<%=index%>"
+						class='btn xs btn-danger'
+						data-action="click->segment-manager#delete" >
+						delete
+					</button>
+
+				</div>
+
 			<% end %>
 		</div>
 	</div>

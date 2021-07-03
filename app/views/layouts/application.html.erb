@@ -43,7 +43,7 @@
 
   <body>
     <div class="page" id="main-page" 
-      data-controller="modal dark-mode" 
+      data-controller="modal slide-modal dark-mode" 
       data-modal-allow-background-close="false">
 
       <%= render "shared/flash" %>
@@ -64,6 +64,10 @@
       <% #= turbo_frame_tag "modal" %>
       <div data-controller="modal-form">
         <%= render 'shared/modal' %>
+      </div>
+
+      <div data-controller="slide-modal-form">
+        <%= render 'shared/slide-modal' %>
       </div>
 
     </div>

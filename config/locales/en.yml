@@ -15,6 +15,11 @@ en:
     back_to_site: Back to site
     not_found: The page you are looking for does not exist.
     get_snippet: Get the snippet
+    create_success_message: Created successfully
+    create_error_message: Error creating record
+    update_error_message: Error creating record
+    update_success_message: updated successfully
+
     submit: Submit
     confirm_deletion: "Confirm deletion ?"
     confirm_deletion_ready: are you ready to delete ?

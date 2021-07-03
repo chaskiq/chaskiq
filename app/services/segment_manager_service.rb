@@ -40,20 +40,64 @@ class SegmentManagerService
 			)
 		end
 
+    def results(params)
+      #@segment = params[:id].present? ? 
+      #@app.segments.find(params[:id]) : 
+      @segment = @app.segments.new
+
+      @segment.assign_attributes(predicates: predicates.as_json)
+  
+      @segment.execute_query.page(params[:page] || 1)
+                            .per(params[:per] || 20)
+    end
+
 end
 
 class SegmentPredicate
 
 	include ActiveModel::Model
+  include ActiveModel::Dirty
 
-	attr_accessor :type, :attribute, :comparison, :value
+  attr_accessor :type, :attribute, :comparison, :value
+  define_attribute_methods :value, :comparison, :type, :attribute
 
 	def initialize(type: nil, attribute: nil, comparison: nil, value: nil)
-		@type = type
+    @type = type
 		@attribute = attribute
 		@comparison = comparison
-		@value = value
+		@value = value.is_a?(Array) ? value.reject(&:blank?) : value
 	end
+
+  def type=(val)
+    type_will_change! unless @type == val
+    @type = val
+  end
+
+  #def attribute=(val)
+  #  attribute_will_change! unless	@attribute == val
+  #  @attribute = val
+  #end
+
+  def comparison=(val)
+    comparison_will_change! unless	@comparison == val
+    @comparison = val
+  end
+
+  def value=(val)
+    val = val.reject!( &:blank?) if val.is_a?(Array)
+    value_will_change! unless @value == val
+    @value = val
+  end
+
+  def type=(val)
+    type_will_change! unless @type == val
+    @type = val
+  end
+
+  def comparison=(val)
+    comparison_will_change! unless	@comparison == val
+    @comparison = val
+  end
 
   def relative_options
     return string_predicates if @type == "string" 
@@ -125,5 +169,17 @@ class SegmentPredicate
     ]
 	end
 
+  def save
+    # do persistence work
+    changes_applied
+  end
 
+  def as_json(*)
+    {
+      type: type, 
+      attribute: attribute, 
+      comparison: comparison, 
+      value: value
+    }
+  end
 end

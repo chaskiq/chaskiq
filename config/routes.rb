@@ -58,7 +58,11 @@ Rails.application.routes.draw do
     end
     resources :articles , controller: "apps/articles"
     resources :bots , controller: "apps/bots"
-    resources :segments , controller: "apps/segments"
+    resources :segments , controller: "apps/segments" do
+      member do
+        post :edit_segment
+      end
+    end
     resources :contacts, controller: "apps/contacts"
     resources :segment_managers, controller: "apps/segment_manager"
     resources :dashboards, controller: "apps/dashboards"
