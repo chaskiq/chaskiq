@@ -53,33 +53,33 @@ it:
     edit_profile: Modifica profilo
     go_to_doc: Vai alla documentazione
   dashboard:
-    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Response Time avg
-    new_conversations: New conversations
-    resolutions: Resolutions
-    incoming_messages: Incoming Messages
-    visit_activity: Visit activity
-    users_browser: Users browser
+    hey: "👋 Hey!, stai visualizzando la dashboard di <strong>%{name} </strong>! <br /> Ricevi la snippet di installazione per la configurazione web <br />"
+    response_avg: Tempo di risposta medio
+    new_conversations: Nuove conversazioni
+    resolutions: Risoluzioni
+    incoming_messages: Messaggi in arrivo
+    visit_activity: Visita attività
+    users_browser: Browser utenti
     lead_os: Lead Os
     user_os: User Os
     mac_os: Mac OS
-    user_country: User country
-    snippet: Put the following script on the end of your html <body> tag
-    status: Live chat status
-    status_running: Running
-    status_paused: Paused
-    guides: Chaskiq Guides
+    user_country: Paese dell'utente
+    snippet: Inserisci il seguente script alla fine del tag html <body>
+    status: Stato della Live Chat
+    status_running: In Esecuzione
+    status_paused: In pausa
+    guides: Guida Chaskiq
   navigator:
     dashboard: Dashboard
-    platform: Platform
-    conversations: Conversations
-    campaigns: Campaigns
-    routing_bots: Routing Bots
-    help_center: Help Center
-    settings: Settings
+    platform: Piattaforma
+    conversations: Conversazioni
+    campaigns: Campagne
+    routing_bots: Bot Di Routing
+    help_center: Centro assistenza
+    settings: Impostazioni
     childs:
-      conversations: Conversations
-      assignment_rules: Assignment Rules
+      conversations: Conversazioni
+      assignment_rules: Regole di assegnazione
       mailing_campaigns: Mailing Campaigns
       in_app_messages: In App Messages
       banners: Banners
@@ -109,23 +109,23 @@ it:
     title: Conversations
     menu:
       conversations: Conversations
-      all: All conversations
-      assignment_rules: Agent routing Rules
-      tags: Tags
-      unassigned: Unassigned
+      all: Tutte le conversazioni
+      assignment_rules: Regole di routing degli agenti
+      tags: Etichette
+      unassigned: Non Assegnato
     states:
-      opened: Opened
-      closed: Closed
+      opened: Aperto
+      closed: Chiuso
     sorts:
-      newest: Newest
-      oldest: Oldest
-      waiting: Waiting
-      priority_first: Priorized
-      all: All
-      unfiltered: All
+      newest: Più Recenti
+      oldest: Più Vecchi
+      waiting: In Attesa
+      priority_first: Priorizzato
+      all: Tutti
+      unfiltered: Tutti
     empty:
-      title: No conversations
-      text: Choose conversations on the side
+      title: Nessuna conversazione
+      text: Scegli conversazioni dal lato
   conversation:
     with: Conversation with
     actions:
