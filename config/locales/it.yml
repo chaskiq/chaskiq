@@ -61,7 +61,7 @@ it:
     visit_activity: Visita attività
     users_browser: Browser utenti
     lead_os: Sistema Operativo Potenziali Clienti
-    user_os: User Os
+    user_os: Sistema Operativo utente
     mac_os: Mac OS
     user_country: Paese dell'utente
     snippet: Inserisci il seguente script alla fine del tag html <body>
@@ -84,7 +84,7 @@ it:
       in_app_messages: Messaggi In App
       banners: Banner
       guided_tours: Tour guidati
-      for_leads: For Leads
+      for_leads: Per potenziali clienti
       for_users: Per utenti
       bot_settings: Attività Del Bot
       outbound: In uscita
@@ -127,38 +127,38 @@ it:
       title: Nessuna conversazione
       text: Scegli conversazioni dal lato
   conversation:
-    with: Conversation with
+    with: Conversazione con
     actions:
-      priorize: Priorize conversation
-      remove_priority: Remove priority
-      close: Close
-      reopen: Reopen
-      start_call: Start videocall
-      end_call: End Call
-      assign_agent: Assign Agent
+      priorize: Priorizzare la conversazione
+      remove_priority: Rimuovi la priorità
+      close: Chiudi
+      reopen: Riapri
+      start_call: Inizia una videochiamata
+      end_call: Termina chiamata
+      assign_agent: Assegna Agente
     messages:
-      seen: Seen
-      not_seen: Not seen
-      note: Note
+      seen: Letti
+      not_seen: Non visto
+      note: Nota
     sidebar:
-      show_profile: Show profile
-      location: Location
-      browser: User Browser
-      latest_user_visible_comment_at: Last comment
-      created_at: Created at
-      assignee: Assignee
-      first_agent_reply: First agent reply
+      show_profile: Mostra profilo
+      location: Posizione
+      browser: Browser utente
+      latest_user_visible_comment_at: Ultimo commento
+      created_at: Creato il
+      assignee: Assegnato a
+      first_agent_reply: Prima risposta agente
     editor:
       panels:
         bot:
-          title: Start a Bot Task
-          confirm: Confirm %{title} trigger
-          confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
-          empty: no bots available
-          choose_another: Choose another
+          title: Avvia un'attività Bot
+          confirm: Conferma attivazione %{title}
+          confirm_msg: Questo task del bot verrà consegnato nella conversazione corrente dell'utente o in una nuova se l'utente ha lasciato la chat.
+          empty: nessun bot disponibile
+          choose_another: Scegli un altro
         quick_reply:
-          title: Send a quick reply
-          confirm: Confirm send %{title} ?
+          title: Invia una risposta rapida
+          confirm: Confermi l'invio di %{title}?
           confirm_msg: This quick reply will be delivered on user's current conversation.
           empty: no quick replies available
           choose_another: Choose another
