@@ -47,13 +47,13 @@ module ApplicationHelper
     [
       {
         label: I18n.t('subscriptions.tabs')[0],
-        active: controller.controller_name == 'team',
-        href: app_team_index_path(@app.key)
+        active: controller.controller_name == 'billing' && controller.action_name == "index",
+        href: app_billing_index_path(@app.key)
       },
       {
         label: I18n.t('subscriptions.tabs')[1],
-        active: controller.controller_name == 'team',
-        href: app_team_index_path(@app.key),
+        active: controller.controller_name == 'billing' && controller.action_name == "transactions",
+        href: transactions_app_billing_index_path(@app.key),
       },
     ]
   end
@@ -62,13 +62,13 @@ module ApplicationHelper
     [
       {
         label: I18n.t('settings.api.tabs.apps'),
-        active: controller.controller_name == 'team',
-        href: app_team_index_path(@app.key)
+        active: controller.controller_name == 'oauth_applications' && controller.action_name == "index",
+        href: app_oauth_applications_path(@app.key)
       },
       {
         label: I18n.t('settings.api.tabs.authorized'),
         active: controller.controller_name == 'team',
-        href: app_team_index_path(@app.key)
+        href: app_oauth_applications_path(@app.key, authorized: true)
       }
     ]
   end
@@ -125,30 +125,30 @@ module ApplicationHelper
     [{
       label: I18n.t('settings.webhooks.active_webhooks'),
       href: app_webhooks_path(@app.key),
-      active: controller.controller_name == 'webhooks'      
+      active: controller.controller_name == 'webhooks' && params[:kind].blank? || params[:kind] != "disabled"
     },
     {
       label: I18n.t('settings.webhooks.disabled_webhooks'),
-      href: app_webhooks_path(@app.key),
-      active: controller.controller_name == 'webhooks'
+      href: app_webhooks_path(@app.key, kind: :disabled),
+      active: controller.controller_name == 'webhooks' && params[:kind] == "disabled"
     }]
   end
 
   def integrations_menu_data
     [{
       label: I18n.t('settings.integrations.active.title'),
-      href: app_webhooks_path(@app.key),
-      active: controller.controller_name == 'webhooks'
+      href: app_integrations_path(@app.key),
+      active: controller.controller_name == 'integrations' && !params[:kind]
     },
     {
       label: I18n.t('settings.integrations.available.title'),
-      href: app_webhooks_path(@app.key),
-      active: controller.controller_name == 'webhooks'
+      href: app_integrations_path(@app.key, kind: :available),
+      active: controller.controller_name == 'integrations' && params[:kind] == "available"
     },
     {
       label: I18n.t('settings.integrations.yours.title'),
-      href: app_webhooks_path(@app.key),
-      active: controller.controller_name == 'webhooks'
+      href: app_integrations_path(@app.key, kind: :yours),
+      active: controller.controller_name == 'integrations' && params[:kind] == "yours"
     }]
 
   end

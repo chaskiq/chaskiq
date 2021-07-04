@@ -11,8 +11,8 @@
 				</tr>
 			</thead>
 			<tbody class="bg-white dark:bg-black">
-				<% @data.each do |record| %>
-					<tr id="<%= "#{record.class.table_name}-#{record.id}" %>" class="hover:bg-gray-50 dark:hover:bg-gray-600">
+				<% @data.each_with_index do |record, index| %>
+					<tr id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>" class="hover:bg-gray-50 dark:hover:bg-gray-600">
 						<% @config[:columns].each do |c| %>
 							<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
 								<% if c[:render] %>

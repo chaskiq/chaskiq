@@ -89,7 +89,11 @@ Rails.application.routes.draw do
     resources :email_forwarding, controller: "apps/email_forwarding"
     resources :oauth_applications, controller: "apps/oauth_applications"
 
-    resources :billing , controller: "apps/billing"
+    resources :billing , controller: "apps/billing" do
+      collection do
+        get :transactions
+      end
+    end
     resources :webhooks , controller: "apps/webhooks"
     resources :team , controller: "apps/team" do
       collection do 

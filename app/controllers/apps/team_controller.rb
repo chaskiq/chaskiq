@@ -63,7 +63,6 @@ class Apps::TeamController < ApplicationController
 
 	def create
 		# authorize! app, to: :invite_user?, with: AppPolicy
-
 		@agent = @app.agents.find_by(email: email)
 
 		if agent.blank?
@@ -73,7 +72,13 @@ class Apps::TeamController < ApplicationController
 		else
 			@agent.deliver_invitation
 		end
+	end
 
-
+	def destroy
+		@agent_role = @app.roles.find_by(id: params[:id])
+		if @agent_role.destroy
+			flash.now[:notice] = "Place was updated!"
+			redirect_to app_team_path(@app.key)
+		end
 	end
 end

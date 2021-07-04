@@ -1,0 +1,29 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t('settings.integrations.title') ) do %>
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: integrations_menu_data ) do %>
+			<%= render Hints::Component.new(type: 'integrations') %>
+
+			<div class="
+				bg-white 
+				shadow 
+				overflow-hidden sm:rounded-md">
+					<div class="flex">
+						<div class="w-1/3 bg-gray-100 dark:bg-gray-900 px-4 py-2"></div>
+						
+						<div class="px-4 py-2 w-full">
+							
+							<%= form_for @app_package, url: app_package_path(@app.key, @app_package) do |f|%>
+								<%= render 'form_fields', f: f %>
+							<% end %>
+						</div>
+					</div>
+			</div>
+
+		<% end %>
+	<% end %>
+<% end %>

@@ -51,7 +51,8 @@
 									'turbo-action': 'replace', 
 									'action': 'click->modal#open'
 									}, class: "btn btn-outlined sm"),
-								button_to( 'remove', edit_app_team_path(@app.key, record), method: :get, class: "btn btn-danger sm"),
+								button_to( 'remove', 
+									app_team_path(@app.key, record), method: :delete, class: "btn btn-danger sm"),
 							].join(" ")
 							}
 							</div>

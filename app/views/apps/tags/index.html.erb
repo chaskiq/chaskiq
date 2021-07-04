@@ -5,7 +5,7 @@
 		<%= render PageHeader::Component.new(title: I18n.t('settings.app.app_settings')) do %>
 
 			<%= link_to( I18n.t('common.add_new'), 
-				new_app_user_datum_path(@app.key), 
+				new_app_tag_path(@app.key), 
 				data: {
 				'turbo-frame': 'modal', 
 				'turbo-action': 'replace', 
@@ -17,7 +17,7 @@
 
 		<%= render Tabs::Component.new(	items: settings_menu_data ) do %>
 			<%= render Hints::Component.new(type: 'tags') %>
-				mememem
+			<%= render 'table' %>
 		<% end %>
 
 	<% end %>

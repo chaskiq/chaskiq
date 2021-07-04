@@ -2,16 +2,75 @@ class Apps::PackagesController < ApplicationController
 
 	before_action :find_app
 
+	before_action :set_settings_navigator, only: [:new, :create, :update, :edit]
+
 	def index
 	end
 
 	def show
 	end
 
+	def new
+		@app_package = current_agent.app_packages.new
+	end
+
+	def edit
+		@app_package = current_agent.app_packages.find(params[:id])
+	end
+
 	def create
+		resource_params = params.require(:app_package).permit( 
+			:name,
+			:description,
+			:published,
+			:oauth_url,
+			:initialize_url,
+			:configure_url,
+			:submit_url,
+			:sheet_url,
+			capability_list: []
+		)
+
+		@app_package = current_agent.app_packages.create(resource_params)
+
+		if @app_package.errors.blank?
+			flash.now[:notice] = "Place was updated!"
+			redirect_to app_integrations_path(@app.key, kind: :yours)
+		else
+			render "new", status: 422
+		end
 	end
 
 	def update
+		@app_package = current_agent.app_packages.find(params[:id])
+		resource_params = params.require(:app_package).permit( 
+			:name,
+			:description,
+			:published,
+			:oauth_url,
+			:initialize_url,
+			:configure_url,
+			:submit_url,
+			:sheet_url,
+			capability_list: []
+		)
+
+		if @app_package.update(resource_params)
+			flash.now[:notice] = "Place was updated!"
+			redirect_to app_integrations_path(@app.key, kind: :yours)
+		else
+			render "edit", status: 422
+		end
+	end
+
+	def destroy
+		@app_package = current_agent.app_packages.find(params[:id])
+		if @app_package.destroy
+			flash.now[:notice] = "Place was updated!"
+			redirect_to app_integrations_path(@app.key, kind: :yours)
+		else
+			render "new", status: 422
+		end
 	end
 
 	def capabilities

@@ -364,6 +364,16 @@ class App < ApplicationRecord
     self.customization_colors = @customization_colors_objects.as_json
   end
 
+  def tag_list_objects
+    return [] if tag_list.blank?
+    @tag_list_objects ||= tag_list.map{|o| TagListRecord.new(o)}
+  end
+
+  def tag_list_objects_attributes=(attributes)
+    array = attributes.keys.map{|o| attributes[o] }
+    self.tag_list = array.map{|o| TagListRecord.new(o) }.as_json
+  end
+
   private
 
   def init_app_segments
@@ -503,5 +513,23 @@ class CustomizationRecord
         url: pattern_base_url + o + '.png' 
       }
     end
+  end
+end
+
+class TagListRecord
+  include ActiveModel::Model
+
+  attr_accessor :name, :color
+
+  def self.table_name
+    "taglist-record-tableless"
+  end
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
   end
 end
