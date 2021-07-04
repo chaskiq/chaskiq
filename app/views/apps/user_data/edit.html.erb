@@ -1,10 +1,11 @@
 <%= turbo_frame_tag "modal" do %>
-	<%= form_for @custom_field, 
-		url: app_tags_path(@app.key, @custom_field), 
+	<%= form_for @tag, 
+		url: app_tag_path(@app.key, @tag.name), 
+		method: :patch,
 		data: {'turbo-frame': '_top' } do |f|%>
 
 		<%= f.text_field :name %>
-		<%= f.text_field :type %>
+		<%= f.text_field :color %>
 
 		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
 	<% end %>

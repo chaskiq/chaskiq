@@ -1,7 +1,85 @@
 <%= form_for @app, url: app_messenger_path(@app.key, :apps) do |f| %>
 
-	APPs!
 
+	<div class="inline-flex mt-4">
+
+		<% user_apps_class = !params[:kind] ? 
+			"bg-indigo-600 text-gray-100
+			border-indigo-600 pointer-events-none
+			focus:outline-none focus:shadow-outline-gray
+			outline-none	border bg-white
+			dark:bg-gray-900 dark:text-gray-100 font-light
+			py-2 px-4 rounded-l-lg" : 
+			
+			"focus:outline-none focus:shadow-outline-gray 
+			 outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+       font-light py-2 px-4 rounded-l-lg"
+		%>
+
+		<a 
+			href="<%= edit_app_messenger_path(@app.key, 'apps') %>"
+			class="<%= user_apps_class %>">
+			users
+		</a>
+
+
+		<% visitor_class = params[:kind] == 'visitors' ? 
+							 "bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none
+                focus:outline-none 
+                focus:shadow-outline-gray 
+                outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+                font-light py-2 px-4
+                rounded-r-lg
+                " : "focus:outline-none focus:shadow-outline-gray 
+                outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
+                font-light py-2 px-4
+                rounded-r-lg" 
+		%>
+		<a 
+			href="<%= edit_app_messenger_path(@app.key, 'apps', kind: :visitors) %>"
+			class="<%= visitor_class %>">
+			visitors
+		</a>
+	</div>
+
+
+
+	<div class="my-4">
+		<div class="flex justify-around items-center">
+			<div>
+				<h2 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+					Add apps to your Messenger
+				</h2>
+
+				<p>Help your customers before they start a conversation</p>
+			</div>
+
+			<div class="flex justify-end my-8">
+				<button class="btn btn-success" 
+					onClickjjj="() => setIsOpen(true)">
+					Add app
+				</button>
+			</div>
+		</div>
+
+		<% if params[:kind] === "visitors" %>
+			<%= render partial: 'apps/messenger/forms/app_sortable', 
+				locals: {
+					sortables: @app.user_home_apps || []
+				} 
+			%>
+		<% else %>
+			<%= render partial: 'apps/messenger/forms/app_sortable', 
+				locals: {
+					sortables: @app.visitor_home_apps || []
+				} 
+			%>
+		<% end %>
+	</div>
+
+	<button class="btn btn-success md">
+	<%= I18n.t('common.save') %>
+	</button>
 
 	<%= f.submit t("common.submit"), class: "btn btn-success my-6" %>
 

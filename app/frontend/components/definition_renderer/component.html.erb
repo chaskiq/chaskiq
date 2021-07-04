@@ -70,6 +70,10 @@
 							size: @size || item['size'] 
 						)
 					end
+				when "spacer"
+					render SpacerRenderer::Component.new(size: item["size"])
+				when "separator"
+					render SeparatorRenderer::Component.new()
 				else 
 				
 				"---- no definition for #{item["type"]}--- \n"

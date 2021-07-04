@@ -1,0 +1,39 @@
+<%= turbo_frame_tag "home-sortable" do %>
+
+	<div class="w-2/4" 
+		data-controller="sortable" 
+		data-handle=".cursor-move"
+		data-url="<%= sort_user_apps_app_messenger_index_path(@app.key) %>"
+		data-ghost="bg-red-200">
+		<% sortables.each_with_index do |d, index|%>
+			
+			<div 
+				data-id="<%= index %>"
+				class="bg-gray-100 dark:bg-gray-900 mb-2 p-4 flex justify-between items-center">
+				<div 
+					class="border-md bg-white dark:bg-black p-4 shadow w-full mx-2 ">
+					<%= render DefinitionRenderer::Component.new(
+							schema: d["definitions"],
+							size: d["sm"],
+							app_package: d["name"],
+							location: "home",
+							values: d["values"],
+							conversation_key: nil,
+							path: app_package_path(@app.key, d["name"]),
+							app: @app,
+							ctx: {}
+					) do %>
+					<% end %>
+				</div>
+				
+				<div class="flex flex-col items-center">
+					<div class="cursor-move btn btn-dark-flat">+</div>
+					<div class="btn btn-danger sm">delete</div>
+
+				</div>
+			</div>
+
+		<% end %>
+	</div>
+
+<% end %>

@@ -80,6 +80,10 @@ Rails.application.routes.draw do
     end
 
     resources :messenger , controller: "apps/messenger" do
+      collection do
+        post :sort_user_apps
+        post :sort_visitor_apps
+      end
     end
     resources :settings , controller: "apps/settings"
     resources :user_data , controller: "apps/user_data"

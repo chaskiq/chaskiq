@@ -138,7 +138,6 @@ class Apps::PackagesController < ApplicationController
 	end
 
 	def sort
-
 		a = @app.inbox_apps
 
 		a.insert(

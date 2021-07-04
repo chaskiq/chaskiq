@@ -332,6 +332,9 @@ class App < ApplicationRecord
     )
   end
 
+
+  ### JSON DATA OBJECTS ###
+
   def team_schedule_objects
     return [] if team_schedule.blank?
     @team_schedule_objects ||= team_schedule.map{|o| ScheduleRecord.new(o)}
@@ -372,6 +375,16 @@ class App < ApplicationRecord
   def tag_list_objects_attributes=(attributes)
     array = attributes.keys.map{|o| attributes[o] }
     self.tag_list = array.map{|o| TagListRecord.new(o) }.as_json
+  end
+
+  def custom_fields_objects
+    return [] if custom_fields.blank?
+    @custom_fields_objects ||= custom_fields.map{|o| CustomFieldRecord.new(o)}
+  end
+
+  def custom_fields_objects_attributes=(attributes)
+    array = attributes.keys.map{|o| attributes[o] }
+    self.custom_fields = array.map{|o| CustomFieldRecord.new(o) }.as_json
   end
 
   private
@@ -523,6 +536,24 @@ class TagListRecord
 
   def self.table_name
     "taglist-record-tableless"
+  end
+
+  def marked_for_destruction?
+    false
+  end
+
+  def new_record?
+    true
+  end
+end
+
+class CustomFieldRecord
+  include ActiveModel::Model
+
+  attr_accessor :name, :type, :validation
+
+  def self.table_name
+    "custom-field-tableless"
   end
 
   def marked_for_destruction?
