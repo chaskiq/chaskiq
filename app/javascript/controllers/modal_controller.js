@@ -4,7 +4,9 @@ import { FetchRequest } from '@rails/request.js'
 export default class extends Controller {
   static targets = ['container', 'form']
 
-  connect() {}
+  connect() {
+    document.addEventListener("modal-close", this.close.bind(this))
+  }
 
   disconnect() {
     this.close()

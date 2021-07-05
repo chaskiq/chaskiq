@@ -2,7 +2,8 @@
 <%= render DefinitionRenderer::Component.new(
 		schema: @blocks["definitions"], 
 		size: 'sm', 
-		values: {}, 
+		values: {},
+		blocks: @blocks,
 		location: 'inbox',
 		conversation_key: @conversation_key,
 		app_package: @package_name,

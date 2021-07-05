@@ -12,6 +12,10 @@ export default class extends Controller {
 
   next(event) {
     if (event.detail.success) {
+      // if the modal need to be persisted , return status 202
+      if (event.detail.fetchResponse.response.status == 202) return
+      
+      console.log("CLOSING MODAL HERE")
       this.modalController.close()
       // console.log(event.detail.fetchResponse.response.url)
       // Turbo.visit(event.detail.fetchResponse.response.url) // THIS WILL FOLLOW REDIRECT

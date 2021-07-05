@@ -1,0 +1,46 @@
+<%= turbo_frame_tag 'conversation-sidebar-packages', class: "space-y-2" do %>
+
+	<div class="flex justify-between">
+			<div class="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100">
+				<button class="transition duration-150 ease-in-out  css-o2cca7">
+				<svg fill="currentColor" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+				<path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
+				</svg>
+				</button>
+			</div>
+			<a
+				turbo-frame="conversation-sidebar-packages"
+				turbo-action="replace"
+				href="<%= app_inbox_packages_path(@app.key, kind: 'edit', conversation_key: params[:conversation_key]) %>"
+				class="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100 hover:text-indigo-500">
+				customize
+			</a>
+	</div>
+
+	<div class="space-y-3">
+		<% @inbox_packages.each do |d| %>
+				
+				<div class="rounded-md border border-gray-200 bg-white dark:bg-black dark:border-gray-800 w-full p-2--">
+					<p class="hidden text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
+						<%= d["name"]%>
+					</p>
+
+					<% #= d %>
+
+					<%= render DefinitionRenderer::Component.new(
+							schema: d["definitions"],
+							blocks: d,
+							size: d["sm"],
+							app_package: d["name"],
+							location: "inbox",
+							values: d["values"],
+							conversation_key: params[:conversation_key],
+							path: app_inbox_package_path(@app.key, d["name"]),
+							app: @app,
+							ctx: {conversation_key: params[:conversation_key] } #locals[:ctx]
+					)%>
+				</div>
+		<% end %>
+	</div>
+
+<% end %>

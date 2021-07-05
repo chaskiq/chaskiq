@@ -55,14 +55,20 @@
 			</div>
 
 			<div class="flex justify-end my-8">
-				<button class="btn btn-success" 
-					onClickjjj="() => setIsOpen(true)">
-					Add app
-				</button>
+				<%= link_to "Add app", 
+					capabilities_app_packages_path(@app.key, kind: 'home'),
+					data: {
+						'turbo-frame': 'modal', 
+						'turbo-action': 'replace', 
+						'action': 'click->modal#open'
+					},
+					class: "btn btn-success"
+
+				%>
 			</div>
 		</div>
 
-		<% if params[:kind] === "visitors" %>
+		<% if params[:kind] != "visitors" %>
 			<%= render partial: 'apps/messenger/forms/app_sortable', 
 				locals: {
 					sortables: @app.user_home_apps || []

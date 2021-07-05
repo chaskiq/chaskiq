@@ -8,8 +8,7 @@
 
    <div class="flex">
       <div class="w-full md:w-1/4 h-screen md:border-r sm:hidden">
-         
-				 <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+			<div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
             <div class="relative inline-block text-left">
                <div class="flex">
 							 	<button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">
@@ -34,8 +33,6 @@
          </div>
 
          <div class="overflow-scroll" style="height: calc(100vh - 60px);">
-
-		
             <a class="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out" data-cy="conversation-item" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations/G8n2iTimrFdkw7rHfoYnP1sg">
                <div class="block w-2 bg-red-200 dark:bg-red-600"></div>
                <div class="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
@@ -53,11 +50,9 @@
                   </div>
                </div>
             </a>
-            
          </div>
       </div>
 
-			
       <div data-controller="infinite-scroll" class="w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900">
          <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
             <div class="relative inline-block text-left">
@@ -73,42 +68,43 @@
          </div>
 
          <div 
-				 	class="overflow-scroll" 
-				 	style="height: calc(100vh - 60px);"
-					data-infinite-scroll-target="entries"
-					>
+            class="overflow-scroll" 
+            style="height: calc(100vh - 60px);"
+            data-infinite-scroll-target="entries"
+            >
 
-						<%= turbo_frame_tag 'conversation-list' do %>
-				 			<%= render partial: 'conversation', collection: @conversations %>
-						<% end %>
+            <%= turbo_frame_tag 'conversation-list' do %>
+               <%= render partial: 'conversation', collection: @conversations %>
+            <% end %>
 
-						<div class="hidden.." data-infinite-scroll-target="pagination">
-							<%= render partial: 'apps/conversations/pagination' %>
-						</div>
+            <div class="hidden.." data-infinite-scroll-target="pagination">
+               <%= render partial: 'apps/conversations/pagination' %>
+            </div>
 
          </div>
 
 		
-				<% #= turbo_frame_tag dom_id(@next_conversations), loading: :lazy, src: app_conversations_path(@app, page: @next_page]) if @next_page.present? %>
+			<% #= turbo_frame_tag dom_id(@next_conversations), loading: :lazy, src: app_conversations_path(@app, page: @next_page]) if @next_page.present? %>
 
       </div>
 
-			<%= turbo_frame_tag 'conversation',
-				 data: { controller: 'history-frame conversation' },
-				 src: @conversation ? app_conversation_path(@app.key, @conversation.key ) : nil,
-				 class: "flex hidden- sm:block- flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12-" do %>
-					<div class="bg-white dark:bg-black overflow-hidden  rounded-lg py-5 h-full">
-							<div class="flex flex-col px-4 py-5 sm:p-6 items-center">
-								<h2 class="text-2xl tracking-tight
-										font-extrabold text-gray-900 dark:text-white sm:text-3xl
-										sm:leading-none md:text-4xl">No conversations</h2>
-								<div class="py-4 mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-									Choose conversations on the side
-								</div>
-								<img src="/packs/media/src/images/empty-icon8-7e9395acb08c999bd741defee01e03e8.png" class="h-56 w-56" alt="No conversations">
-							</div>
-					</div>
-				</div>
-			<% end %>
+      <%= turbo_frame_tag 'conversation',
+         data: { controller: 'history-frame conversation' },
+         src: @conversation ? app_conversation_path(@app.key, @conversation.key ) : nil,
+         class: "flex hidden- sm:block- flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12-" do %>
+         <div class="bg-white dark:bg-black overflow-hidden  rounded-lg py-5 h-full">
+            <div class="flex flex-col px-4 py-5 sm:p-6 items-center">
+               <h2 class="text-2xl tracking-tight
+                     font-extrabold text-gray-900 dark:text-white sm:text-3xl
+                     sm:leading-none md:text-4xl">
+                     No conversations
+               </h2>
+               <div class="py-4 mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                  Choose conversations on the side
+               </div>
+               <img src="/packs/media/src/images/empty-icon8-7e9395acb08c999bd741defee01e03e8.png" class="h-56 w-56" alt="No conversations">
+            </div>
+         </div>
+      <% end %>
       
    </div>

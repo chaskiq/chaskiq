@@ -1,15 +1,13 @@
-<%= render(Modal::Component.new(
-	title: "Add apps to chat home", 
-	subtitle: "hshsh", 
-	btn: "ss")
-	) do %>
-
+<%= turbo_frame_tag 'modal' do %>
 	<div data-controller="definitions-renderer">
+
 		<%= render DefinitionRenderer::Component.new(
 			schema: @blocks["definitions"], 
 			size: 'sm', 
+			blocks: @blocks,
 			values: {}, 
-			location: 'inbox',
+			location: @location,
+			path: "/apps/#{@app.key}/packages/#{@package_name}",
 			conversation_key: @conversation_key,
 			app_package: @package_name,
 			app: @app

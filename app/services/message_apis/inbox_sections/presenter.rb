@@ -149,29 +149,9 @@ module MessageApis::InboxSections
     # them configuration options before it’s inserted. Leaving this option
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
-      nonoo_definitions = [
-        {
-          id: "bubu",
-          label: "fuckya",
-          type: "button",
-          action: {
-            type: "submit"
-          },
-          grid: { xs: "w-full", sm: "w-full" }
-        },
-        {
-          id: "content-url",
-          name: "content-url",
-          label: "content-url",
-          type: "button",
-          action: {
-            type: "submit"
-          }
-        }
-      ]
 
       definitions = base_schema
-
+      
       if %w[user-properties-block
             assignee-block
             user-blocks

@@ -74,6 +74,7 @@ class Apps::PackagesController < ApplicationController
 	end
 
 	def capabilities
+		@location = params[:kind]
 		@packages = @app.app_package_integrations
 		.joins(:app_package)
 		.where(
@@ -84,19 +85,27 @@ class Apps::PackagesController < ApplicationController
 	def configure
 		@package = get_app_package
 		@package_name = params[:id]
+		@location = params[:location] || params.dig(:ctx, :location)
 
 		@blocks = @package.call_hook({
 			kind: 'configure',
 			ctx: {
 					lang: I18n.locale,
-					current_user: current_agent
+					current_user: current_agent,
+					field: params.dig(:ctx,:field)
 				}
 		})
 
-		render turbo_stream: turbo_stream.replace(
-			"modal", 
-			template: "apps/packages/configure", 
-		)
+		case @blocks[:kind]
+		when "configure"
+			render turbo_stream: turbo_stream.replace(
+				"modal", 
+				template: "apps/packages/configure", 
+			), status: 202
+		when "initialize"
+			return process_initialize
+		else
+		end
 	end
 
 	def content
@@ -121,6 +130,7 @@ class Apps::PackagesController < ApplicationController
 		@package = get_app_package
 		@package_name = params[:id]
 		@conversation_key = params[:ctx][:conversation_key]
+		
 
 		@blocks = @package.call_hook({
 			kind: 'submit',
@@ -137,25 +147,29 @@ class Apps::PackagesController < ApplicationController
 		render template: "apps/packages/content", layout: false
 	end
 
-	def sort
-		a = @app.inbox_apps
+	def process_initialize
+		@location = params.dig(:ctx, :location) || params[:location]
+		case @location
+		when "inbox"
 
-		a.insert(
-			params["section"]["position"], 
-			a.delete_at( params["section"]["id"].to_i )
-		)
+			@app.inbox_apps <<  {
+				"hooKind"=>"initialize",
+				"definitions": @blocks[:definitions],
+				"values"=> @blocks[:values],
+				"id"=> @package.id,
+				"name"=> @package.app_package.name
+			}
 
-		@app.update(inbox_apps: a)
+			@app.save
 
-		render turbo_stream: turbo_stream.replace(
-			"conversation-sidebar-packages", 
-			partial: "apps/packages/inbox_packages", 
-		)
-
-		# my_index = [1,3,5,7,9,2,4,6,8,10]
-		# my_collection = [{"id"=>1}, {"id"=>4}, {"id"=>9}, {"id"=>2}, {"id"=>7}]
-		# my_collection.sort_by{|x| my_index.index x['id'] }
-		# [{"id"=>1}, {"id"=>7}, {"id"=>9}, {"id"=>2}, {"id"=>4}]
+			render turbo_stream: turbo_stream.replace(
+				"inbox-sorts", 
+				partial: "apps/inbox_packages/inbox_sorts", 
+			)
+			
+		else
+			
+		end
 	end
 
 

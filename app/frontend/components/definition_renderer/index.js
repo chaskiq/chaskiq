@@ -25,16 +25,46 @@ export class Controller extends BaseController {
     let data = serialize(this.formTarget, { hash: true })
     const field = JSON.parse(e.currentTarget.dataset.fieldJson)
     data['ctx']['field'] = field
-    // data['ctx']['values'] = data.ctx.values
+    data['ctx']['values'] = data.ctx.values || {}
     // console.log("DATA", data)
-    const response = await post(this.submitPath(), {
+
+    console.log(field.action.type)
+    console.log("GO TO:", this.formTarget.dataset )
+    
+    const kk = this.formTarget.dataset.kind || field.action.type
+    // this.formTarget.dataset.kind
+    const response = await post(this.resolvePath(kk), {
       body: JSON.stringify(data),
-      responseKind: 'html', //'turbo-stream'
+      //responseKind: 'turbo-stream'
     })
+
     if (response.ok) {
-      const body = await response.html
-      this.element.outerHTML = body
+    
+      if (response.isTurboStream ){
+        const body = await response.turbo
+        if(response.response.status !== 202){
+          const closeEvent = new Event('modal-close')
+          document.dispatchEvent(closeEvent)
+        }
+  
+        return
+      }
+
+      const bodyHtml = await response.html
+      // custom event que será leido por modal controller
+      this.element.outerHTML = bodyHtml
       console.log('response!')
+    }
+  }
+
+  resolvePath(kind){
+     switch (kind) {
+      case 'configure':
+        return this.configurePath()  
+      case 'submit':
+        return this.submitPath()    
+      default:
+        break;
     }
   }
 
@@ -54,5 +84,12 @@ export class Controller extends BaseController {
 
   async sendData(e) {
     console.log('SEND SUBMIT', e)
+  }
+
+
+  get modalController() {
+    return this.application.getControllerForElementAndIdentifier(
+      document.querySelector("#main-page"), "modal"
+    )
   }
 }

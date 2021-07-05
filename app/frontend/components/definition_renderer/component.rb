@@ -6,6 +6,7 @@ class DefinitionRenderer::Component < ApplicationViewComponent
   option :app_package
   option :location
   option :values
+  option :blocks
   option :size, default: -> { 'sm' }
   option :theme, default: -> { nil }
   option :conversation_key, default: ->{nil}

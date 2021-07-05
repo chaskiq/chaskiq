@@ -56,6 +56,14 @@ Rails.application.routes.draw do
       end
       resources :conversation_messages, controller: "apps/conversation_messages"
     end
+
+
+    resources :inbox_packages, controller: 'apps/inbox_packages' do
+      collection do
+        post :sort
+      end
+    end
+
     resources :articles , controller: "apps/articles"
     resources :bots , controller: "apps/bots"
     resources :segments , controller: "apps/segments" do

@@ -1,8 +1,4 @@
-<%= render(Modal::Component.new(
-	title: "Add apps to chat home", 
-	subtitle: "hshsh", 
-	btn: "ss")
-	) do %>
+<%= turbo_frame_tag 'modal' do %>
 	<div class="h-64 overflow-auto">
 		<div>
 				<div class="
@@ -36,8 +32,8 @@
 																<div>
 																	<div class="mt-2 flex items-center text-sm leading-5 text-gray-500 justify-end">
 																		<form action="<%= configure_app_package_path(@app.key, pkg.app_package.name) %>" method="post">
-																			<input type="hidden" name="location" value="inbox">
-																			<input type="hidden" name="kind" value="inbox">
+																			<input type="hidden" name="location" value="<%= @location %>">
+																			<input type="hidden" name="kind" value="<%= @location %>">
 																			<button type="submit" class="transition duration-150 ease-in-out  css-zwcswv" 
 																				data-cy="add-package-<%= pkg.app_package.name %>">
 																				Add
