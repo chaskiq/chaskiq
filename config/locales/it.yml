@@ -1,164 +1,164 @@
 it:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: add new
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    save_changes: Save changes
-    preview: Preview
-    cancel: Cancel
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
-    get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: "Confirm deletion ?"
-    confirm_deletion_ready: are you ready to delete ?
-    next: Next
-    prev: Prev
-    showing: Showing
-    to: to
-    of: of
-    results: results
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
-    actions: Actions
+    edit: Modifica
+    new: Nuovo
+    add: Aggiungi
+    add_new: aggiungi nuovo
+    update: Aggiorna
+    remove: Rimuovi
+    delete: Elimina
+    create: Crea
+    save: Salva
+    save_changes: Salva modifiche
+    preview: Anteprima
+    cancel: Annulla
+    back_to_site: Ritorna al sito
+    not_found: La pagina che stai cercando non esiste.
+    get_snippet: Ottieni la snippet
+    submit: Invia
+    confirm_deletion: "Confermi la cancellazione ?"
+    confirm_deletion_ready: sei pronto a cancellare?
+    next: Successivo
+    prev: Precedente
+    showing: Visualizzati
+    to: a
+    of: di
+    results: risultati
+    tz_hint: Il fuso orario del browser è di <b className="text-bold">%{timezone}</b>
+    send: Invia
+    actions: Azioni
     langs:
-      en: English
-      es: Spanish
-      pt: Portuguese
-      de: Deutsch
-      ca: Catalan
-    redirecting: Redirecting
-    select_language: Select Language
-    send_on_enter: Publish on enter
-    away_mode: Away mode
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+      en: Inglese
+      es: Spagnolo
+      pt: Portoghese
+      de: Tedesco
+      ca: Catalano
+    redirecting: Reindirizzamento
+    select_language: Seleziona la Lingua
+    send_on_enter: Pubblica al momento dell'invio
+    away_mode: Modo assente
+    toggle_light_mode: Attiva tema chiaro
+    toggle_dark_mode: Attiva tema scuro
   error_view:
-    title: Woops! something went wrong.
-    subtitle: Unfortunately 🤯
-    exp: try refreshing the page
-    cta: try to go home
+    title: Woops! qualcosa è andato storto.
+    subtitle: Sfortunatamente 🤯
+    exp: prova ad aggiornare la pagina
+    cta: prova a tornare alla home
   home:
-    welcome: Welcome to
+    welcome: Benvenuto a
     welcome_site: Chaskiq
-    tagline: Find your current applications here
-    create_new: Create new app
-    choose_lang: Choose language
-    edit_profile: Edit profile
-    go_to_doc: Go to documentation
+    tagline: Trova qui le applicazioni correnti
+    create_new: Crea una nuova app
+    choose_lang: Scegli la lingua
+    edit_profile: Modifica profilo
+    go_to_doc: Vai alla documentazione
   dashboard:
-    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Response Time avg
-    new_conversations: New conversations
-    resolutions: Resolutions
-    incoming_messages: Incoming Messages
-    visit_activity: Visit activity
-    users_browser: Users browser
-    lead_os: Lead Os
-    user_os: User Os
+    hey: "👋 Hey!, stai visualizzando la dashboard di <strong>%{name} </strong>! <br /> Ricevi la snippet di installazione per la configurazione web <br />"
+    response_avg: Tempo di risposta medio
+    new_conversations: Nuove conversazioni
+    resolutions: Risoluzioni
+    incoming_messages: Messaggi in arrivo
+    visit_activity: Visita attività
+    users_browser: Browser utenti
+    lead_os: Sistema Operativo Potenziali Clienti
+    user_os: Sistema Operativo utente
     mac_os: Mac OS
-    user_country: User country
-    snippet: Put the following script on the end of your html <body> tag
-    status: Live chat status
-    status_running: Running
-    status_paused: Paused
-    guides: Chaskiq Guides
+    user_country: Paese dell'utente
+    snippet: Inserisci il seguente script alla fine del tag html <body>
+    status: Stato della Live Chat
+    status_running: In Esecuzione
+    status_paused: In pausa
+    guides: Guida Chaskiq
   navigator:
     dashboard: Dashboard
-    platform: Platform
-    conversations: Conversations
-    campaigns: Campaigns
-    routing_bots: Routing Bots
-    help_center: Help Center
-    settings: Settings
+    platform: Piattaforma
+    conversations: Conversazioni
+    campaigns: Campagne
+    routing_bots: Bot Di Routing
+    help_center: Centro assistenza
+    settings: Impostazioni
     childs:
-      conversations: Conversations
-      assignment_rules: Assignment Rules
-      mailing_campaigns: Mailing Campaigns
-      in_app_messages: In App Messages
-      banners: Banners
-      guided_tours: Guided Tours
-      for_leads: For Leads
-      for_users: For Users
-      bot_settings: Bot Tasks
-      outbound: Outbound
-      new_conversations: New conversations
-      articles: Articles
-      collections: Collections
-      article_settings: Settings
-      app_settings: App Settings
-      team: Team
-      messenger_settings: Messenger settings
-      integrations: Integrations
-      webhooks: Webhooks
-      api_access: API access
-      billing: Billing
+      conversations: Conversazioni
+      assignment_rules: Regole di assegnazione
+      mailing_campaigns: Campagne mail
+      in_app_messages: Messaggi In App
+      banners: Banner
+      guided_tours: Tour guidati
+      for_leads: Per potenziali clienti
+      for_users: Per utenti
+      bot_settings: Attività Del Bot
+      outbound: In uscita
+      new_conversations: Nuove conversazioni
+      articles: Articoli
+      collections: Collezioni
+      article_settings: Impostazioni
+      app_settings: Impostazioni App
+      team: Squadra
+      messenger_settings: Impostazioni di Messenger
+      integrations: Integrazioni
+      webhooks: Webhook
+      api_access: Accesso API
+      billing: Fatturazione
     user_menu:
-      create_app: 'Create new app'
-      create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      create_app: 'Crea una nuova app'
+      create_app_description: 'Crea l''app Chaskiq della tua azienda'
+      signout: Esci
+      title: Menu utente
   conversations:
-    start_conversation: Start conversation
-    title: Conversations
+    start_conversation: Inizia conversazione
+    title: Conversazioni
     menu:
-      conversations: Conversations
-      all: All conversations
-      assignment_rules: Agent routing Rules
-      tags: Tags
-      unassigned: Unassigned
+      conversations: Conversazioni
+      all: Tutte le conversazioni
+      assignment_rules: Regole di routing degli agenti
+      tags: Etichette
+      unassigned: Non Assegnato
     states:
-      opened: Opened
-      closed: Closed
+      opened: Aperto
+      closed: Chiuso
     sorts:
-      newest: Newest
-      oldest: Oldest
-      waiting: Waiting
-      priority_first: Priorized
-      all: All
-      unfiltered: All
+      newest: Più Recenti
+      oldest: Più Vecchi
+      waiting: In Attesa
+      priority_first: Priorizzato
+      all: Tutti
+      unfiltered: Tutti
     empty:
-      title: No conversations
-      text: Choose conversations on the side
+      title: Nessuna conversazione
+      text: Scegli conversazioni dal lato
   conversation:
-    with: Conversation with
+    with: Conversazione con
     actions:
-      priorize: Priorize conversation
-      remove_priority: Remove priority
-      close: Close
-      reopen: Reopen
-      start_call: Start videocall
-      end_call: End Call
-      assign_agent: Assign Agent
+      priorize: Priorizzare la conversazione
+      remove_priority: Rimuovi la priorità
+      close: Chiudi
+      reopen: Riapri
+      start_call: Inizia una videochiamata
+      end_call: Termina chiamata
+      assign_agent: Assegna Agente
     messages:
-      seen: Seen
-      not_seen: Not seen
-      note: Note
+      seen: Letti
+      not_seen: Non visto
+      note: Nota
     sidebar:
-      show_profile: Show profile
-      location: Location
-      browser: User Browser
-      latest_user_visible_comment_at: Last comment
-      created_at: Created at
-      assignee: Assignee
-      first_agent_reply: First agent reply
+      show_profile: Mostra profilo
+      location: Posizione
+      browser: Browser utente
+      latest_user_visible_comment_at: Ultimo commento
+      created_at: Creato il
+      assignee: Assegnato a
+      first_agent_reply: Prima risposta agente
     editor:
       panels:
         bot:
-          title: Start a Bot Task
-          confirm: Confirm %{title} trigger
-          confirm_msg: This bot task will be delivered on user's current conversation or in a new one if the user left the chat.
-          empty: no bots available
-          choose_another: Choose another
+          title: Avvia un'attività Bot
+          confirm: Conferma attivazione %{title}
+          confirm_msg: Questo task del bot verrà consegnato nella conversazione corrente dell'utente o in una nuova se l'utente ha lasciato la chat.
+          empty: nessun bot disponibile
+          choose_another: Scegli un altro
         quick_reply:
-          title: Send a quick reply
-          confirm: Confirm send %{title} ?
+          title: Invia una risposta rapida
+          confirm: Confermi l'invio di %{title}?
           confirm_msg: This quick reply will be delivered on user's current conversation.
           empty: no quick replies available
           choose_another: Choose another
@@ -186,64 +186,64 @@ it:
     error_purge: Error purging metrics
     purge_description: Purges campaigns metrics
     purge_title: Purge Metrics
-    deliver_title: Deliver
-    deliver_description: Delivers the campaign
-    pause_title: Pause
-    pause_description: pauses the campaign
-    clone_title: Clone
-    clone_description: clones the campaign
-    activate: "Activate Campaigns"
-    enables: Enables campaign
-    disables: Disables campaign
+    deliver_title: Consegna
+    deliver_description: Consegna la campagna
+    pause_title: Pausa
+    pause_description: ferma la campagna
+    clone_title: Duplica
+    clone_description: clona la campagna
+    activate: "Attivare la campagna"
+    enables: Abilita la campagna
+    disables: Disabilita la campagna
     state:
-      enabled: enabled
-      disabled: disabled
+      enabled: abilitato
+      disabled: disabilitato
     tabs:
-      stats: Stats
-      settings: Settings
-      audience: Audience
+      stats: Statistiche
+      settings: Impostazioni
+      audience: Pubblico
       editor: Editor
     banners:
-      settings: Settings
-      action: Action
-      style: Style
-      top: top
-      bottom: bottom
+      settings: Impostazioni
+      action: Azione
+      style: Stile
+      top: superiore
+      bottom: inferiore
       inline: inline
-      floating: floating
+      floating: fluttuante
   campaign:
-    edit: Edit Campaign Settings
-    create: Create a new campaign
-    preview: This is a preview
-    preview_hint: This is how your email should display. If you are using variables like {{name}} it should be displayed here.
+    edit: Impostazioni della campagna
+    create: Crea nuova campagna
+    preview: Questa è una anteprima
+    preview_hint: Questo è come la tua email dovrebbe essere visualizzata. Se stai usando variabili come {{name}} dovrebbero essere visualizzate qui.
     stats:
-      title: Campaign Stats
-      refresh_data: Refresh data
+      title: Statistiche Campagna
+      refresh_data: Aggiorna dati
     unsubscribe:
-      status: You've been %{state}
-      success: Success, %{ email } will no longer receive emails from this sender. Was this a mistake?
-      resubscribe: Resubscribe from this list
-      cancel: Cancel your subscription
+      status: Sei stato %{state}
+      success: Completato, %{ email } non riceverà più email da questo mittente. È stato un errore?
+      resubscribe: Reiscriviti a questa lista
+      cancel: Annulla la tua iscrizione
   task_bots:
     type_filters:
-      title_visitors: 'Visitors'
-      description_visitors: 'visitors on the platform'
-      title_leads: 'Leads'
-      description_leads: 'Visitors who make an actions'
-      title_users: 'Users'
-      description_users: "your platform's registered users"
+      title_visitors: 'Visitatori'
+      description_visitors: 'visitatori sulla piattaforma'
+      title_leads: 'Potenziali Clienti'
+      description_leads: 'Visitatori che fanno azioni'
+      title_users: 'Utenti'
+      description_users: "gli utenti registrati della tua piattaforma"
     state_filters:
-      enabled_title: 'Enabled'
-      enabled_description: 'enabled bot tasks'
-      disabled_title: 'Disabled'
-      disabled_description: 'Disabled bot tasks'
-    title: Bot Tasks
-    reply_soon: Hi, %{name} will reply as soon as they can.
-    reply_agent: you will get a reply from one of our agents
-    email_support: to get support you can email at %{email}
-    outbound: "🏓 Outbound"
-    new_conversations: "👋 New conversations"
-    new_conversations_notice: This is what people will see when they start a new conversation
+      enabled_title: 'Abilitato'
+      enabled_description: 'attività bot abilitate'
+      disabled_title: 'Disabilitato'
+      disabled_description: 'Attività bot disabilitate'
+    title: Compiti Del bot
+    reply_soon: Ciao, %{name} risponderà il prima possibile.
+    reply_agent: riceverai una risposta da uno dei nostri agenti
+    email_support: per ottenere il supporto è possibile inviare un'email a %{email}
+    outbound: "🏓 In uscita"
+    new_conversations: "👋 Nuove conversazioni"
+    new_conversations_notice: Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione
     options:
       add_message: Add Message Bubble
       wait_user_input: Wait for user input
