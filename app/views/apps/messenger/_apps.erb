@@ -1,6 +1,4 @@
 <%= form_for @app, url: app_messenger_path(@app.key, :apps) do |f| %>
-
-
 	<div class="inline-flex mt-4">
 
 		<% user_apps_class = !params[:kind] ? 
@@ -42,8 +40,6 @@
 		</a>
 	</div>
 
-
-
 	<div class="my-4">
 		<div class="flex justify-around items-center">
 			<div>
@@ -56,37 +52,23 @@
 
 			<div class="flex justify-end my-8">
 				<%= link_to "Add app", 
-					capabilities_app_packages_path(@app.key, kind: 'home'),
+					capabilities_app_packages_path(@app.key, kind: 'home', category: params[:kind]),
 					data: {
 						'turbo-frame': 'modal', 
 						'turbo-action': 'replace', 
 						'action': 'click->modal#open'
 					},
 					class: "btn btn-success"
-
 				%>
 			</div>
 		</div>
 
-		<% if params[:kind] != "visitors" %>
-			<%= render partial: 'apps/messenger/forms/app_sortable', 
-				locals: {
-					sortables: @app.user_home_apps || []
-				} 
-			%>
-		<% else %>
-			<%= render partial: 'apps/messenger/forms/app_sortable', 
-				locals: {
-					sortables: @app.visitor_home_apps || []
-				} 
-			%>
+
+		<%= turbo_frame_tag 'home-sortable', src: app_home_packages_path(@app.key, kind: params[:kind]) do %>
+			loading
 		<% end %>
+
 	</div>
 
-	<button class="btn btn-success md">
-	<%= I18n.t('common.save') %>
-	</button>
-
-	<%= f.submit t("common.submit"), class: "btn btn-success my-6" %>
 
 <% end %>

@@ -1,0 +1,443 @@
+<%= turbo_frame_tag "app-settings" do %>
+	
+	<div class="py-8 xl:py-10">
+			<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-5xl xl:grid xl:grid-cols-3">
+					<div class="xl:col-span-2 xl:pr-8 xl:border-r xl:border-gray-200 xl:dark:border-gray-900">
+							<div>
+									<div>
+											<div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6 dark:border-gray-900">
+													<div>
+															<h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+																<%= @article.title %>
+															</h1>
+															<p class="mt-2 text-sm text-gray-500 dark:text-gray-300">
+																	<span>
+																		<%= I18n.t('articles.written_by') %> 
+																		<%= link_to app_agent_path(@article.author), 
+																			class: "font-medium text-gray-900 dark:text-gray-100" do %>
+																			<%= @article.author.display_name %>
+																		<% end %>
+																	</span>
+
+																	<% if @article.collection.present? %>
+																		<span>
+																		in 
+																		<%= link_to app_agent_path(@article.author), 
+																			class: "font-medium text-gray-900 dark:text-gray-100" do %>
+																				<%= @article.collection.title %>
+																		<% end %>
+																		</span>
+																	<% end %>
+															</p>
+													</div>
+
+													<div class="mt-4 flex space-x-3 md:mt-0">
+															
+															<button class="transition duration-150 ease-in-out css-o3vlb3" color="primary">
+																Guardar
+															</button>
+															
+															<div class="relative inline-block text-left">
+																	<div class="flex">
+																			<div variant="outlined" color="primary">
+																					<span class="relative z-0 inline-flex shadow-sm">
+																							<button
+																									type="button"
+																									class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white dark:border-gray-200 dark:bg-gray-800 text-sm leading-5 font-medium text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-300 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150"
+																							>
+																									<svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" class="css-1dhg8p7">
+																										<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
+																									</svg>
+
+																									published
+																							</button>
+
+																							<span class="-ml-px relative block">
+																									<button
+																											type="button"
+																											class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white dark:border-gray-200 dark:bg-gray-800 text-sm leading-5 font-medium text-gray-500 dark:text-gray-300 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
+																									>
+																											<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+																													<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+																											</svg>
+																									</button>
+																							</span>
+
+																					</span>
+																			</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+
+											<aside class="mt-8 xl:hidden">
+													<h2 class="sr-only">Details</h2>
+													<div class="mt-6 border-t border-b border-gray-200 py-6 space-y-8 dark:border-gray-900">
+															<div>
+																	<h2 class="text-sm font-medium text-gray-500">Autor</h2>
+																	<ul class="mt-3 space-y-3">
+																			<li class="flex justify-start">
+																					<a href="#" class="flex items-center space-x-3">
+																							<div class="flex flex-shrink-0 items-center">
+																									<span class="inline-block relative">
+																											<img
+																													class="h-6 w-6 rounded-full bg-white"
+																													src="https://app.chaskiq.io/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXdEIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--827f2d0b5794f7bb660c48b79e228655bd857bed/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf24ea7784b3789671bb09c4029aca003c26b32d/me.jpg"
+																													alt="https://app.chaskiq.io/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXdEIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--827f2d0b5794f7bb660c48b79e228655bd857bed/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf24ea7784b3789671bb09c4029aca003c26b32d/me.jpg"
+																											/>
+																									</span>
+																							</div>
+																							<div class="text-sm font-medium text-gray-900 dark:text-gray-100">Miguel Michelson</div>
+																					</a>
+																			</li>
+																	</ul>
+																	<div class="flex">
+																			<div class="flex items-center">
+																					<div class="mb-4 w-32">
+																							<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2" for="author"></label>
+																							<div class="css-2b097c-container">
+																									<span aria-live="polite" aria-atomic="false" aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
+																									<div class="css-yk16xz-control">
+																											<div class="css-1hwfws3">
+																													<div class="css-1uccc91-singleValue">miguelmichelson@gmail.com</div>
+																													<div class="css-1g6gooi">
+																															<div class="" style="display: inline-block;">
+																																	<input
+																																			autocapitalize="none"
+																																			autocomplete="off"
+																																			autocorrect="off"
+																																			id="react-select-2-input"
+																																			spellcheck="false"
+																																			tabindex="0"
+																																			type="text"
+																																			aria-autocomplete="list"
+																																			value=""
+																																			style="box-sizing: content-box; width: 2px; background: 0px center; border: 0px; font-size: inherit; opacity: 1; outline: 0px; padding: 0px; color: inherit;"
+																																	/>
+																																	<div
+																																			style="
+																																					position: absolute;
+																																					top: 0px;
+																																					left: 0px;
+																																					visibility: hidden;
+																																					height: 0px;
+																																					overflow: scroll;
+																																					white-space: pre;
+																																					font-size: 16px;
+																																					font-family: Inter, sans-serif;
+																																					font-weight: 400;
+																																					font-style: normal;
+																																					letter-spacing: normal;
+																																					text-transform: none;
+																																			"
+																																	></div>
+																															</div>
+																													</div>
+																											</div>
+																											<div class="css-1wy0on6">
+																													<span class="css-1okebmr-indicatorSeparator"></span>
+																													<div class="css-tlfecz-indicatorContainer" aria-hidden="true">
+																															<svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg">
+																																	<path
+																																			d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+																																	></path>
+																															</svg>
+																													</div>
+																											</div>
+																									</div>
+																									<input name="author" type="hidden" value="miguelmichelson@gmail.com" />
+																							</div>
+																					</div>
+																			</div>
+																			<div class="flex items-center">
+																					<strong class="m-2">In</strong>
+																					<div class="mb-4 w-32">
+																							<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2" for="collection"></label>
+																							<div class="css-2b097c-container">
+																									<span aria-live="polite" aria-atomic="false" aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
+																									<div class="css-yk16xz-control">
+																											<div class="css-1hwfws3">
+																													<div class="css-1uccc91-singleValue">Getting started</div>
+																													<div class="css-1g6gooi">
+																															<div class="" style="display: inline-block;">
+																																	<input
+																																			autocapitalize="none"
+																																			autocomplete="off"
+																																			autocorrect="off"
+																																			id="react-select-3-input"
+																																			spellcheck="false"
+																																			tabindex="0"
+																																			type="text"
+																																			aria-autocomplete="list"
+																																			value=""
+																																			style="box-sizing: content-box; width: 2px; background: 0px center; border: 0px; font-size: inherit; opacity: 1; outline: 0px; padding: 0px; color: inherit;"
+																																	/>
+																																	<div
+																																			style="
+																																					position: absolute;
+																																					top: 0px;
+																																					left: 0px;
+																																					visibility: hidden;
+																																					height: 0px;
+																																					overflow: scroll;
+																																					white-space: pre;
+																																					font-size: 16px;
+																																					font-family: Inter, sans-serif;
+																																					font-weight: 400;
+																																					font-style: normal;
+																																					letter-spacing: normal;
+																																					text-transform: none;
+																																			"
+																																	></div>
+																															</div>
+																													</div>
+																											</div>
+																											<div class="css-1wy0on6">
+																													<span class="css-1okebmr-indicatorSeparator"></span>
+																													<div class="css-tlfecz-indicatorContainer" aria-hidden="true">
+																															<svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg">
+																																	<path
+																																			d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+																																	></path>
+																															</svg>
+																													</div>
+																											</div>
+																									</div>
+																									<input name="collection" type="hidden" value="1" />
+																							</div>
+																					</div>
+																			</div>
+																	</div>
+																	<div class="mb-4">
+																			<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2"></label>
+																			<input
+																					class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white leading-tight focus:outline-none focus:shadow-outline"
+																					type="text"
+																					placeholder="Escribe el título del artículo"
+																					id="article-title"
+																					margin="normal"
+																					value="Install Chaskiq on Ubuntu for Development"
+																			/>
+																	</div>
+																	<div class="mb-4">
+																			<div class="mt-6">
+																					<div class="">
+																							<textarea
+																									id="about"
+																									rows="3"
+																									class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+																									placeholder="Añadir un resumen para encontrar el artículo más tarde"
+																							></textarea>
+																					</div>
+																			</div>
+																	</div>
+															</div>
+													</div>
+											</aside>
+
+											<div class="py-3 xl:pt-6 xl:pb-0">
+													<h2 class="sr-only">Description</h2>
+													<div class="prose max-w-none">
+															<div>
+																	<div>
+																			<div class="w-full">
+																					<div class="border-b border-gray-200 dark:border-gray-800">
+																							<div class="overflow-auto css-4qv6jb">
+																									<nav class="-mb-px flex justify-start w-screen">
+																											<a class="false css-15q3zvb" href="#">
+																												<span>English</span>
+																											</a>
+																											<a class="ml-4 lg:ml-8 css-18vyd9v" href="#">
+																												<span>Spanish</span>
+																											</a>
+																									</nav>
+																							</div>
+																					</div>
+																					<div></div>
+																			</div>
+																	</div>
+																	<div class="relative z-0 p-6 shadow rounded border bg-yellow-50 dark:border-pink-800 dark:bg-gray-800 border-yellow-100 mb-4 my-4">
+																			Aca editor
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+							</div>
+					</div>
+					<aside class="hidden xl:block xl:pl-8">
+							<h2 class="sr-only">Details</h2>
+							<div class="space-y-5">
+									<div class="flex items-center space-x-2">
+											<svg class="h-5 w-5 text-green-500" x-description="Heroicon name: solid/lock-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+													<path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z"></path>
+											</svg>
+											<span class="text-green-700 text-sm font-medium">published</span>
+									</div>
+							</div>
+							<div class="mt-6 border-t border-b border-gray-200 py-6 space-y-8 dark:border-gray-900">
+									<div>
+											<h2 class="text-sm font-medium text-gray-500">Autor</h2>
+											<ul class="mt-3 space-y-3">
+													<li class="flex justify-start">
+															<a href="#" class="flex items-center space-x-3">
+																	<div class="flex flex-shrink-0 items-center">
+																			<span class="inline-block relative">
+																					<img
+																							class="h-6 w-6 rounded-full bg-white"
+																							src="https://app.chaskiq.io/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXdEIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--827f2d0b5794f7bb660c48b79e228655bd857bed/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf24ea7784b3789671bb09c4029aca003c26b32d/me.jpg"
+																							alt="https://app.chaskiq.io/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbXdEIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--827f2d0b5794f7bb660c48b79e228655bd857bed/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--cf24ea7784b3789671bb09c4029aca003c26b32d/me.jpg"
+																					/>
+																			</span>
+																	</div>
+																	<div class="text-sm font-medium text-gray-900 dark:text-gray-100">Miguel Michelson</div>
+															</a>
+													</li>
+											</ul>
+											<div class="flex">
+													<div class="flex items-center">
+															<div class="mb-4 w-32">
+																	<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2" for="author"></label>
+																	<div class="css-2b097c-container">
+																			<span aria-live="polite" aria-atomic="false" aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
+																			<div class="css-yk16xz-control">
+																					<div class="css-1hwfws3">
+																							<div class="css-1uccc91-singleValue">miguelmichelson@gmail.com</div>
+																							<div class="css-1g6gooi">
+																									<div class="" style="display: inline-block;">
+																											<input
+																													autocapitalize="none"
+																													autocomplete="off"
+																													autocorrect="off"
+																													id="react-select-4-input"
+																													spellcheck="false"
+																													tabindex="0"
+																													type="text"
+																													aria-autocomplete="list"
+																													value=""
+																													style="box-sizing: content-box; width: 2px; background: 0px center; border: 0px; font-size: inherit; opacity: 1; outline: 0px; padding: 0px; color: inherit;"
+																											/>
+																											<div
+																													style="
+																															position: absolute;
+																															top: 0px;
+																															left: 0px;
+																															visibility: hidden;
+																															height: 0px;
+																															overflow: scroll;
+																															white-space: pre;
+																															font-size: 16px;
+																															font-family: Inter, sans-serif;
+																															font-weight: 400;
+																															font-style: normal;
+																															letter-spacing: normal;
+																															text-transform: none;
+																													"
+																											></div>
+																									</div>
+																							</div>
+																					</div>
+																					<div class="css-1wy0on6">
+																							<span class="css-1okebmr-indicatorSeparator"></span>
+																							<div class="css-tlfecz-indicatorContainer" aria-hidden="true">
+																									<svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg">
+																											<path
+																													d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+																											></path>
+																									</svg>
+																							</div>
+																					</div>
+																			</div>
+																			<input name="author" type="hidden" value="miguelmichelson@gmail.com" />
+																	</div>
+															</div>
+													</div>
+													<div class="flex items-center">
+															<strong class="m-2">In</strong>
+															<div class="mb-4 w-32">
+																	<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2" for="collection"></label>
+																	<div class="css-2b097c-container">
+																			<span aria-live="polite" aria-atomic="false" aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
+																			<div class="css-yk16xz-control">
+																					<div class="css-1hwfws3">
+																							<div class="css-1uccc91-singleValue">Getting started</div>
+																							<div class="css-1g6gooi">
+																									<div class="" style="display: inline-block;">
+																											<input
+																													autocapitalize="none"
+																													autocomplete="off"
+																													autocorrect="off"
+																													id="react-select-5-input"
+																													spellcheck="false"
+																													tabindex="0"
+																													type="text"
+																													aria-autocomplete="list"
+																													value=""
+																													style="box-sizing: content-box; width: 2px; background: 0px center; border: 0px; font-size: inherit; opacity: 1; outline: 0px; padding: 0px; color: inherit;"
+																											/>
+																											<div
+																													style="
+																															position: absolute;
+																															top: 0px;
+																															left: 0px;
+																															visibility: hidden;
+																															height: 0px;
+																															overflow: scroll;
+																															white-space: pre;
+																															font-size: 16px;
+																															font-family: Inter, sans-serif;
+																															font-weight: 400;
+																															font-style: normal;
+																															letter-spacing: normal;
+																															text-transform: none;
+																													"
+																											></div>
+																									</div>
+																							</div>
+																					</div>
+																					<div class="css-1wy0on6">
+																							<span class="css-1okebmr-indicatorSeparator"></span>
+																							<div class="css-tlfecz-indicatorContainer" aria-hidden="true">
+																									<svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg">
+																											<path
+																													d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+																											></path>
+																									</svg>
+																							</div>
+																					</div>
+																			</div>
+																			<input name="collection" type="hidden" value="1" />
+																	</div>
+															</div>
+													</div>
+											</div>
+											<div class="mb-4">
+													<label class="block text-gray-700 dark:text-white text-sm font-bold mb-2"></label>
+													<input
+															class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white leading-tight focus:outline-none focus:shadow-outline"
+															type="text"
+															placeholder="Escribe el título del artículo"
+															id="article-title"
+															margin="normal"
+															value="Install Chaskiq on Ubuntu for Development"
+													/>
+											</div>
+											<div class="mb-4">
+													<div class="mt-6">
+															<div class="">
+																	<textarea
+																			id="about"
+																			rows="3"
+																			class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+																			placeholder="Añadir un resumen para encontrar el artículo más tarde"
+																	></textarea>
+															</div>
+													</div>
+											</div>
+									</div>
+							</div>
+					</aside>
+			</div>
+	</div>
+	
+<% end %>

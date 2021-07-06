@@ -75,6 +75,7 @@ class Apps::PackagesController < ApplicationController
 
 	def capabilities
 		@location = params[:kind]
+		@category = params[:category]
 		@packages = @app.app_package_integrations
 		.joins(:app_package)
 		.where(
@@ -85,6 +86,8 @@ class Apps::PackagesController < ApplicationController
 	def configure
 		@package = get_app_package
 		@package_name = params[:id]
+
+		@category = params[:category] || params.dig(:ctx, :category)
 		@location = params[:location] || params.dig(:ctx, :location)
 
 		@blocks = @package.call_hook({
@@ -92,7 +95,8 @@ class Apps::PackagesController < ApplicationController
 			ctx: {
 					lang: I18n.locale,
 					current_user: current_agent,
-					field: params.dig(:ctx,:field)
+					field: params.dig(:ctx,:field),
+					values: params.dig(:ctx,:values)
 				}
 		})
 
@@ -149,17 +153,28 @@ class Apps::PackagesController < ApplicationController
 
 	def process_initialize
 		@location = params.dig(:ctx, :location) || params[:location]
+
 		case @location
+
+		when "home"
+			@category = params.dig(:ctx, :category) || params[:category]
+			resource_name = @category == "visitors" ? :visitor_home_apps : :user_home_apps
+			resource = @app.send(resource_name)
+			# refactor here
+			result_data = resource.blank? ? [package_build_data] : resource << package_build_data
+			
+			@app.update(resource_name => result_data)
+
+			@app_packages = @app.send(resource_name)
+
+			render turbo_stream: turbo_stream.replace(
+				"home-sortable", 
+				partial: "apps/home_packages/sorts"
+			)
+
 		when "inbox"
 
-			@app.inbox_apps <<  {
-				"hooKind"=>"initialize",
-				"definitions": @blocks[:definitions],
-				"values"=> @blocks[:values],
-				"id"=> @package.id,
-				"name"=> @package.app_package.name
-			}
-
+			@app.inbox_apps <<  package_build_data
 			@app.save
 
 			render turbo_stream: turbo_stream.replace(
@@ -174,6 +189,16 @@ class Apps::PackagesController < ApplicationController
 
 
 	protected
+
+	def package_build_data
+		{
+			"hooKind"=>"initialize",
+			"definitions": @blocks[:definitions],
+			"values"=> @blocks[:values],
+			"id"=> @package.id,
+			"name"=> @package.app_package.name
+		}
+	end
 
 	def get_app_package
 		@app.app_package_integrations

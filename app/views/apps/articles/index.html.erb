@@ -1,1 +1,15 @@
-content here!! <%= controller.controller_name %>
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t('articles.title') ) do %>
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: articles_menu_data ) do %>
+			<%= render Hints::Component.new(type: "articles")%>
+			<%= render 'table'%>
+		<% end %>
+
+	<% end %>
+	
+<% end %>

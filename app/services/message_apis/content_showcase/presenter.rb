@@ -129,7 +129,7 @@ module MessageApis::ContentShowcase
           )
           aa.autofill
           aa.schema
-
+          
           return {
             kind: kind,
             definitions: aa.schema
@@ -300,7 +300,6 @@ module MessageApis::ContentShowcase
 
       def autofill
         return if (!valid? && errors[:page_url].present?) || page_url.blank?
-
         res = FetchLinkCardService.new.call(page_url)
         self.title = res.title
         self.cover_image = res.images.first[:url] if res.images.any?

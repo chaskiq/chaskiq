@@ -15,6 +15,7 @@
 		data-action="submit-><%=identifier%>#onSubmit">
 		<input type="hidden" name="ctx[conversation_key]" value="<%= @conversation_key %>">
 		<input type="hidden" name="ctx[location]" value="<%= @location %>">
+		<input type="hidden" name="ctx[category]" value="<%= @category %>">
 
 		<% @schema.each do |item| %>
 			<%= case item["type"]

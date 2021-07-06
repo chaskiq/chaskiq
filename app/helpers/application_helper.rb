@@ -148,7 +148,7 @@ module ApplicationHelper
     {
       label: I18n.t('settings.integrations.yours.title'),
       href: app_integrations_path(@app.key, kind: :yours),
-      active: controller.controller_name == 'integrations' && params[:kind] == "yours"
+      active: (controller.controller_name == 'integrations' && params[:kind] == "yours") || (controller.controller_name == 'packages')  
     }]
 
   end
@@ -196,5 +196,22 @@ module ApplicationHelper
     }]
   end
 
+  def articles_menu_data
+    [{
+      label: t('articles.all'),
+      href: app_articles_path(@app.key),
+      active: params[:kind].blank?
+    },
+    {
+      label: t('articles.published'),
+      href: app_articles_path(@app.key, kind: :published),
+      active: params[:kind] == 'published'
+    },
+    {
+      label: t('articles.draft'),
+      href: app_articles_path(@app.key, kind: :draft),
+      active: params[:kind] == 'draft'
+    }]
+  end
 
 end

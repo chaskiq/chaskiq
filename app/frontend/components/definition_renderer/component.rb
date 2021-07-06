@@ -5,6 +5,7 @@ class DefinitionRenderer::Component < ApplicationViewComponent
   option :size
   option :app_package
   option :location
+  option :category, default: -> {nil}
   option :values
   option :blocks
   option :size, default: -> { 'sm' }
