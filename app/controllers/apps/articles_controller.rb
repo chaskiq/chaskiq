@@ -1,5 +1,6 @@
 class Apps::ArticlesController < ApplicationController
 	before_action :find_app
+	before_action :find_article, only: [:show, :edit, :update, :destroy]
 
 	def index
 		articles = @app.articles  
@@ -8,16 +9,30 @@ class Apps::ArticlesController < ApplicationController
 	end
 	
 	def show
-		@article = @app.articles.friendly.find(params[:id])
 	end
 
 	def update
-		if @article.update_attributes(params[:object])
+
+		I18n.with_locale(params[:locale] || I18n.default_locale) do
+			resource_params = params.require(:article).permit(
+				:serialized_content, 
+				:title, 
+				:description, 
+				:author_id, 
+				:article_collection_id,
+				article_content_attributes: [:id, :serialized_content]
+			)
+			@article.update(resource_params)
+		end
+
+		if @article.errors.blank?
 			flash[:success] = "Object was successfully updated"
-			redirect_to @article
+			flash.now[:notice] = "Place was updated!"
+			render turbo_stream: [flash_stream]
+			#redirect_to app_article_path(@app.key, @article)
 		else
 			flash[:error] = "Something went wrong"
-			render 'edit'
+			render 'show'
 		end
 	end
 
@@ -42,6 +57,11 @@ class Apps::ArticlesController < ApplicationController
 	end
 
 	private
+
+
+	def find_article
+		@article = @app.articles.friendly.find(params[:id])
+	end
 
 	def resource_type
 		case params[:kind]

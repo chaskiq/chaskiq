@@ -1,0 +1,43 @@
+<%= turbo_frame_tag "translations_table" do %>
+	<%= form_for @article_setting, url: app_articles_setting_path(@app.key, :translations) do |f| %>
+
+		<%= render Table::Component.new(
+			data: @article_setting.translations, 
+			config: {
+				columns: [
+					{ name: :locale },
+					{ name: :site_title, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ f.text_field "site_title_#{record.locale}".to_sym }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					},
+					{ name: :site_description, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												#{ f.text_field "site_description_#{record.locale}".to_sym }
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					}
+				]
+			},
+			paginate: nil
+		)%>
+
+		<%= f.submit t("common.submit"), class: "btn btn-success" %>
+
+	<% end %>
+<% end %>

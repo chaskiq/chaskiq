@@ -3,6 +3,11 @@
 		<table class="min-w-full">
 			<thead>
 				<tr class="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
+					<% if @sortable %>
+						<th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+								sortable
+						</th>
+					<% end %>
 					<% @config[:columns].each do |c|%>
 						<th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
 							<%= c[:name] %>
@@ -10,9 +15,32 @@
 					<% end %>
 				</tr>
 			</thead>
-			<tbody class="bg-white dark:bg-black">
+			<tbody class="bg-white dark:bg-black"
+				
+				<% if @sortable%>
+					data-controller="sortable" 
+					data-handle=".cursor-move"
+					data-url="<%= @sortable %>"
+					<% if @sortable_group %>
+					data-group="<%= @sortable_group %>"
+					<% end %>
+				<% end %>
+			>
+
 				<% @data.each_with_index do |record, index| %>
-					<tr id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>" class="hover:bg-gray-50 dark:hover:bg-gray-600">
+					<tr 
+						data-id="<%= record.try(:id) || index %>"
+						id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>" 
+						class="hover:bg-gray-50 dark:hover:bg-gray-600">
+								
+						<% if @sortable %>
+							<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+								sort element here!
+								<div class="cursor-move btn btn-dark-flat">+</div>
+
+							</td>
+						<% end %>
+								
 						<% @config[:columns].each do |c| %>
 							<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
 								<% if c[:render] %>

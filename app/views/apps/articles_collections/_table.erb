@@ -1,0 +1,37 @@
+<%= turbo_frame_tag "translations_table" do %>
+
+		<%= render Table::Component.new(
+			data: @article_collections, 
+			config: {
+				columns: [
+					{name: :position },
+					{ name: :title, render: lambda{|record|
+						raw(
+							%{
+								<div class="text-lg font-bold text-md">
+									#{link_to record.title, app_articles_collection_path(@app.key, record), data: {'turbo-frame': 'app-settings'}}
+								</div>
+							}
+						)
+					
+					} },
+					{ name: :actions, 
+						render: lambda{|record| 
+							raw(%{
+								<div class="flex items-center">
+									<div class="ml-4">
+											<div class="text-sm leading-5 font-medium text-gray-900">
+												jjjj
+											</div>
+									</div>
+								</div>
+							}) 
+						}
+					}
+				]
+			},
+			sortable: sort_app_articles_collections_path(@app.key),
+			paginate: nil
+		)%>
+
+<% end %>

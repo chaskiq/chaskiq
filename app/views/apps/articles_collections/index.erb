@@ -1,0 +1,27 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+
+		<%= render PageHeader::Component.new(title: I18n.t("articles.collections") ) do %>
+			
+			<%= link_to( t("articles.new_collection"), 
+				new_app_articles_collection_path(@app.key), 
+				data: {
+				'turbo-frame': 'modal', 
+				'turbo-action': 'replace', 
+				'action': 'click->modal#open'
+				}, 
+				class: "btn btn-flat-dark md") 
+			%>
+
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: articles_collections_menu_data ) do %>
+			<% I18n.with_locale(params[:locale] || I18n.locale) do  %>			
+				<%= render 'table' %>
+			<% end %>
+		<% end %>
+
+	<% end %>
+	
+<% end %>

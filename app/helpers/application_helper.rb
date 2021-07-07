@@ -214,4 +214,94 @@ module ApplicationHelper
     }]
   end
 
+  def articles_settings_menu_data
+    [{
+      label: I18n.t('articles.settings.basic'),
+      href: app_articles_setting_path(@app.key, :basic),
+      active: (params[:id].blank? or params[:id] == "basic")
+    },
+    {
+      label: I18n.t('articles.settings.lang'),
+      href: app_articles_setting_path(@app.key, :translations),
+      active: params[:id] == 'translations'
+    },
+    {
+      label: I18n.t('articles.settings.appearance'),
+      href: app_articles_setting_path(@app.key, :appearance),
+      active: params[:id] == 'appearance'
+    }]
+  end
+
+  def articles_collections_menu_data
+    @article_setting.translations.map(&:locale).map do |locale|
+      {
+        label: langs_options.find{|o| o[:value] == locale.to_s }.try(:[], :label),
+        href: app_articles_collections_path(@app.key, locale: locale),
+        active: params[:locale] == locale.to_s
+      }
+    end
+  end
+
+  def articles_collection_menu_data
+    @article_setting.translations.map(&:locale).map do |locale|
+      {
+        label: langs_options.find{|o| o[:value] == locale.to_s }.try(:[], :label),
+        href: app_articles_collection_path(@app.key, @article_collection, locale: locale),
+        active: params[:locale] == locale.to_s
+      }
+    end
+  end
+
+  
+
+  def langs_options
+    [
+      { label: 'Afrikaans', value: 'af' },
+      { label: 'Albanian', value: 'sq' },
+      { label: 'Arabic', value: 'ar' },
+      { label: 'Basque', value: 'eu' },
+      { label: 'Bulgarian', value: 'bg' },
+      { label: 'Byelorussian', value: 'be' },
+      { label: 'Catalan', value: 'ca' },
+      { label: 'Croatian', value: 'hr' },
+      { label: 'Czech', value: 'cs' },
+      { label: 'Danish', value: 'da' },
+      { label: 'Dutch', value: 'nl' },
+      { label: 'English', value: 'en' },
+      { label: 'Esperanto', value: 'eo' },
+      { label: 'Estonian', value: 'et' },
+      { label: 'Faroese', value: 'fo' },
+      { label: 'Finnish', value: 'fi' },
+      { label: 'French', value: 'fr' },
+      { label: 'Galician', value: 'gl' },
+      { label: 'German', value: 'de' },
+      { label: 'Greek', value: 'el' },
+      { label: 'Hebrew', value: 'iw' },
+      { label: 'Hungarian', value: 'hu' },
+      { label: 'Icelandic', value: 'is' },
+      { label: 'Irish', value: 'ga' },
+      { label: 'Italian', value: 'it' },
+      { label: 'Japanese', value: 'ja' },
+      { label: 'Korean', value: 'ko' },
+      { label: 'Latvian', value: 'lv' },
+      { label: 'Lithuanian', value: 'lt' },
+      { label: 'Macedonian', value: 'mk' },
+      { label: 'Maltese', value: 'mt' },
+      { label: 'Norwegian', value: 'no' },
+      { label: 'Polish', value: 'pl' },
+      { label: 'Portuguese', value: 'pt' },
+      { label: 'Romanian', value: 'ro' },
+      { label: 'Russian', value: 'ru' },
+      { label: 'Scottish', value: 'gd' },
+      { label: 'Serbian', value: 'sr' },
+      { label: 'Serbian', value: 'sr' },
+      { label: 'Slovak', value: 'sk' },
+      { label: 'Slovenian', value: 'sl' },
+      { label: 'Spanish', value: 'es' },
+      { label: 'Swedish', value: 'sv' },
+      { label: 'Turkish', value: 'tr' },
+      { label: 'Ukrainian', value: 'uk' }
+    ]
+  end
+
 end

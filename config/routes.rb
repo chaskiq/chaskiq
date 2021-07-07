@@ -69,7 +69,26 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :articles , controller: "apps/articles"
+    resources :articles , controller: "apps/articles" do
+      collection do 
+        resources :settings, controller: "apps/articles_settings", as: :articles_settings
+        resources :collections, controller: "apps/articles_collections", as: :articles_collections do
+          collection do
+            post :sort
+          end
+        end
+      end
+
+      #resources :articles_settings, controller: "apps/article_settings"
+    end
+
+
+    #namespace :help_center do
+    #  resources :articles , controller: "apps/articles"
+    #  resources :collections, controller: "apps/article_collections"
+    #  resources :settings, controller: "apps/article_settings"
+    #end
+
     resources :bots , controller: "apps/bots"
     resources :segments , controller: "apps/segments" do
       member do

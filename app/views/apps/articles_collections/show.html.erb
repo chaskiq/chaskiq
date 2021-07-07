@@ -1,0 +1,49 @@
+<%= render Content::Component.new do %>
+
+	<%= turbo_frame_tag 'app-settings', data: {controller: 'history-frame'} do %>
+
+		<%= render PageHeader::Component.new(title: @article_collection.title ) do %>
+			
+			<%= link_to( t("articles.new_collection"), 
+				new_app_articles_collection_path(@app.key), 
+				data: {
+				'turbo-frame': 'modal', 
+				'turbo-action': 'replace', 
+				'action': 'click->modal#open'
+				}, 
+				class: "btn btn-flat-dark md") 
+			%>
+
+		<% end %>
+
+		<%= render Tabs::Component.new(	items: articles_collection_menu_data ) do %>
+			<% I18n.with_locale(params[:locale] || I18n.locale) do  %>			
+				
+
+					<% @article_collection.sections.each do |section| %>
+
+						<h3 class="text-3xl leading-6 font-medium text-gray-900 py-4 dark:text-gray-100">
+							<%= section.title%>
+						</h3>
+
+						<%= render Table::Component.new(
+							data: section.articles, 
+							config: {
+								columns: [
+									{name: :position },
+									{name: :title },
+								]
+							},
+							sortable: '/',
+							sortable_group: section.id,
+							paginate: nil
+						)%>
+
+					<% end %>
+
+			<% end %>
+		<% end %>
+
+	<% end %>
+	
+<% end %>

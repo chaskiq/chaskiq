@@ -18,7 +18,6 @@ export default class extends Controller {
 
     this.sortable = Sortable.create(this.element, {
       onEnd: this.end.bind(this),
-      //handle: ".my-handle",
       group: group,
       ghostClass: this.element.dataset.ghost,
       handle: this.element.dataset.handle,
@@ -52,6 +51,7 @@ export default class extends Controller {
       {
         section: {
           id: item,
+          group: this.element.dataset.group,
           parent_section_id: parentSectionId,
           position: e.newIndex,
         },
