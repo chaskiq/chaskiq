@@ -1,7 +1,7 @@
 	<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
 	
 		<table class="min-w-full">
-			<thead>
+			<thead class="<%= 'hidden' if @headless %>">
 				<tr class="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
 					<% if @sortable %>
 						<th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -35,9 +35,17 @@
 								
 						<% if @sortable %>
 							<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-								sort element here!
-								<div class="cursor-move btn btn-dark-flat">+</div>
-
+								<div class="cursor-move btn btn-dark-flat">
+									<svg class="w-6 h-6" 
+										fill="none" stroke="currentColor" 
+										viewBox="0 0 24 24">
+										<path stroke-linecap="round" 
+											stroke-linejoin="round" 
+											stroke-width="2" 
+											d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4">
+										</path>
+									</svg>
+								</div>
 							</td>
 						<% end %>
 								

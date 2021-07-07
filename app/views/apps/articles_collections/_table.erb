@@ -4,7 +4,7 @@
 			data: @article_collections, 
 			config: {
 				columns: [
-					{name: :position },
+					#{name: :position },
 					{ name: :title, render: lambda{|record|
 						raw(
 							%{

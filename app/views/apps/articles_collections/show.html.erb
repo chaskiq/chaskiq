@@ -4,7 +4,7 @@
 
 		<%= render PageHeader::Component.new(title: @article_collection.title ) do %>
 			
-			<%= link_to( t("articles.new_collection"), 
+			<%= link_to( t("articles.new_section"), 
 				new_app_articles_collection_path(@app.key), 
 				data: {
 				'turbo-frame': 'modal', 
@@ -17,33 +17,62 @@
 		<% end %>
 
 		<%= render Tabs::Component.new(	items: articles_collection_menu_data ) do %>
-			<% I18n.with_locale(params[:locale] || I18n.locale) do  %>			
-				
+			<% @article_collection.sections.each do |section| %>
 
-					<% @article_collection.sections.each do |section| %>
+				<div class="flex justify-between py-4 items-center">
+					<h3 class="text-3xl leading-6 font-medium text-gray-900 py-4 dark:text-gray-100">
+						<%= section.title%>
+					</h3>
 
-						<h3 class="text-3xl leading-6 font-medium text-gray-900 py-4 dark:text-gray-100">
-							<%= section.title%>
-						</h3>
+					<div>
+						<button class="btn btn-outlined sm">
+							<%= t("articles.add_articles")%>
+						</button>
 
-						<%= render Table::Component.new(
-							data: section.articles, 
-							config: {
-								columns: [
-									{name: :position },
-									{name: :title },
-								]
-							},
-							sortable: '/',
-							sortable_group: section.id,
-							paginate: nil
-						)%>
+						<button class="btn btn-danger sm">
+							<%= t("articles.delete_section")%>
+						</button>
+					</div>
 
-					<% end %>
+				</div>
 
+				<% I18n.with_locale(params[:locale] || I18n.locale) do  %>
+
+					<%= render Table::Component.new(
+						data: section.articles, 
+						config: {
+							columns: [
+								{name: :position },
+								{name: :title, render: lambda{ |record|
+										raw %{
+											<div class="min-w-0 flex-1 flex items-center">
+												<div class="flex-shrink-0">
+													#{ image_tag( record.author.avatar_url, class:"rounded-full") if record.author and record.author.avatar_url}
+												</div>
+
+												<div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+													<div>
+														#{ link_to record.title, class: 'text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-1 hover:underline' }
+														<br/>
+														<span class="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
+															#{record.author.display_name}<br/>#{record.author.email}
+														</span>
+													</div>
+												</div>
+											</div>
+										}
+									} 
+								},
+							]
+						},
+						sortable: '/',
+						sortable_group: section.id,
+						paginate: nil,
+						headless: true
+					)%>
+
+				<% end %>
 			<% end %>
 		<% end %>
-
 	<% end %>
-	
 <% end %>
