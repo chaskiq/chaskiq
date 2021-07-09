@@ -56,8 +56,25 @@ class Apps::ArticlesController < ApplicationController
 		end
 	end
 
-	private
+	def add_uncategorized
+		@articles = @app.articles.without_collection.page(params[:page]).per(params[:page])
+		collection = @app.article_collections.friendly.find(params[:collection_id])
+		section = @app.sections.friendly.find(params[:section_id]) rescue nil
 
+		@app.articles.where(id: params[:article]).each do |a|
+			a.update(collection: collection, section: section )
+		end
+
+		flash[:success] = 'Object assigned'
+		redirect_to app_articles_collection_path(@app.key, params[:collection_id])
+	end
+
+	def uncategorized
+		@articles = @app.articles.without_collection.page(params[:page]).per(params[:page])
+		render partial: 'uncategorized_form'
+	end
+
+	private
 
 	def find_article
 		@article = @app.articles.friendly.find(params[:id])

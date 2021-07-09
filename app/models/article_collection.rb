@@ -14,4 +14,22 @@ class ArticleCollection < ApplicationRecord
   translates :title, :description
   globalize_accessors attributes: %i[description title]
   has_one_attached :icon
+
+  def icon_url
+    options = {
+      resize: "200x200^",
+      gravity: "center",
+      # crop: '200x200+0+0',
+      strip: true,
+      quality: "86"
+    }
+
+    return "" if icon_blob.blank?
+
+    Rails.application.routes.url_helpers.rails_representation_url(
+      icon.variant(options).processed,
+      only_path: true
+    )
+  end
+
 end

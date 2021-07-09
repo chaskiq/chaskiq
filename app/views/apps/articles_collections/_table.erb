@@ -8,8 +8,12 @@
 					{ name: :title, render: lambda{|record|
 						raw(
 							%{
-								<div class="text-lg font-bold text-md">
-									#{link_to record.title, app_articles_collection_path(@app.key, record), data: {'turbo-frame': 'app-settings'}}
+								<div class="flex items-center">
+									#{image_tag record.icon_url, class: 'h-10 mr-2' }
+									<div class="flex flex-col space-y-1">
+										#{link_to record.title, app_articles_collection_path(@app.key, record), class: 'text-lg font-bold text-md', data: {'turbo-frame': 'app-settings'}}
+										<p class="text-sm text-gray-400">#{record.description}</p>
+									</div>
 								</div>
 							}
 						)
@@ -19,10 +23,23 @@
 						render: lambda{|record| 
 							raw(%{
 								<div class="flex items-center">
-									<div class="ml-4">
-											<div class="text-sm leading-5 font-medium text-gray-900">
-												jjjj
-											</div>
+									<div class="ml-4 flex space-x-2">
+										#{
+											link_to( t("common.edit"), edit_app_articles_collection_path(@app.key, record), 
+												data: {
+												'turbo-frame': 'modal', 
+												'turbo-action': 'replace', 
+												'action': 'click->modal#open'
+												}, 
+												class: "btn btn-default sm"
+											)
+										 }
+
+										#{
+											button_to app_articles_collection_path(@app.key, record), class: "btn btn-danger sm", method: :delete do 
+											 t("common.delete")
+											end
+										 }
 									</div>
 								</div>
 							}) 

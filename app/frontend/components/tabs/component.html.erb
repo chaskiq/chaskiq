@@ -5,6 +5,7 @@
 				<% items.each_with_index do |item, i|%>
 					<a 
 						href="<%= item[:href] %>"
+						<%= item[:turbo_frame] ? "data-turbo-frame=#{item[:turbo_frame]}" : ''  %>
 						class="tab-item <%= item[:active] ? 'active' : '' %> <%= i > 0 and 'ml-4 lg:ml-8' %>">
 						<%= item[:icon] and item[:icon] %>
 						<span><%= item[:label] %></span>

@@ -1,11 +1,9 @@
-
 <%= turbo_frame_tag 'modal' do %>
+	<h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+		<%= t("articles.edit_collection") %>
+	</h3>
 
-<h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-	<%= t("articles.new_collection") %>
-</h3>
-
-	<%= form_for @article_collection, url: app_articles_collections_path(@app.key), data: {"modal-target": 'form', 'turbo-frame': '_top'} do |f| %>
+	<%= form_for @article_collection, url: app_articles_collection_path(@app.key, @article_collection), data: {"modal-target": 'form', 'turbo-frame': '_top'} do |f| %>
 		
 		<%= f.text_field :title %>
 		<%= f.file_field :icon %>

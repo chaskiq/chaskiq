@@ -5,15 +5,9 @@
 	</h3>
 
 	<div class="flex-col space-y-4">
-		<%= f.check_box :active_messenger, 
-			label: t("definitions.settings.active_messenger.label"),
-			hint: t("definitions.settings.active_messenger.hint")
-		%>
+		<%= f.check_box :active_messenger%>
 
-		<%= f.check_box :inline_new_conversations, 
-			label: t("definitions.settings.inline_conversation.label"),
-			hint: t("definitions.settings.inline_conversation.hint")
-		%>
+		<%= f.check_box :inline_new_conversations%>
 	</div>
 
 	<%= f.submit t("common.submit"), class: "btn btn-success my-6" %>

@@ -1,0 +1,16 @@
+<%= turbo_frame_tag 'modal' do |f| %>
+
+	<form action="<%= add_uncategorized_app_articles_path(
+		@app.key, 
+		collection_id: params[:collection_id],
+		section_id: params[:section_id]
+		)%>" method="post">
+		<% @articles.each do |article|%>
+			<%= article.title %>
+			<%= check_box_tag "article[]", article.id %>
+		<% end %>
+		<button class="btn sm btn-success">
+			<%= t("common.submit") %>
+		</button>
+	</form>
+<% end %>

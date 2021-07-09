@@ -1,19 +1,10 @@
 # frozen_string_literal: true
 
 class Dropdown::Component < ApplicationViewComponent
-  
   option :label
-  option :variant
-  option :size
-  option :orientation
+  option :variant, default: -> {'flat-dark'}
+  option :size, default: -> {'md'}
+  option :orientation, default: -> {'right'}
 
   renders_many :actions
-
-  def initialize(label: , variant: 'flat-dark', size: 'md', orientation: 'right')
-    @label = label
-    @variant = variant
-    @size = size
-    @orientation = orientation
-  end
-
 end

@@ -5,11 +5,12 @@
 	<%= t("articles.new_collection") %>
 </h3>
 
-	<%= form_for @article_collection, url: app_articles_collections_path(@app.key), data: {"modal-target": 'form', 'turbo-frame': '_top'} do |f| %>
+	<%= form_for @article_section, url: app_articles_sections_path(@app.key), data: {"modal-target": 'form', 'turbo-frame': '_top'} do |f| %>
 		
 		<%= f.text_field :title %>
 		<%= f.file_field :icon %>
 		<%= f.text_area :description %>
+		<%= f.hidden_field :article_collection_id %>
 
 		<div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
 			<button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">

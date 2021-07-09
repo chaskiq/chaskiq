@@ -1,21 +1,22 @@
 	<div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
 	
-		<table class="min-w-full">
-			<thead class="<%= 'hidden' if @headless %>">
-				<tr class="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
+		<div class="table min-w-full">
+			<div class="table-header-group <%= 'hidden' if @headless %> border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
+				<!-- <tr class="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600"> -->
 					<% if @sortable %>
-						<th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+						<div class="table-cell border-b px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
 								sortable
-						</th>
+						</div>
 					<% end %>
 					<% @config[:columns].each do |c|%>
-						<th class="px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+						<div class="table-cell border-b px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
 							<%= c[:name] %>
-						</th>
+						</div>
 					<% end %>
-				</tr>
-			</thead>
-			<tbody class="bg-white dark:bg-black"
+				<!-- </tr> -->
+			</div>
+
+			<div class="table-row-group bg-white dark:bg-black"
 				
 				<% if @sortable%>
 					data-controller="sortable" 
@@ -28,13 +29,13 @@
 			>
 
 				<% @data.each_with_index do |record, index| %>
-					<tr 
+					<div 
 						data-id="<%= record.try(:id) || index %>"
 						id="<%= "#{record.class.table_name}-#{record.try(:id) || index}" %>" 
-						class="hover:bg-gray-50 dark:hover:bg-gray-600">
+						class="table-row hover:bg-gray-50 dark:hover:bg-gray-600">
 								
 						<% if @sortable %>
-							<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
 								<div class="cursor-move btn btn-dark-flat">
 									<svg class="w-6 h-6" 
 										fill="none" stroke="currentColor" 
@@ -46,22 +47,22 @@
 										</path>
 									</svg>
 								</div>
-							</td>
+							</div>
 						<% end %>
 								
 						<% @config[:columns].each do |c| %>
-							<td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+							<div class="table-cell align-middle px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
 								<% if c[:render] %>
 									<%= c[:render].call(record) %>
 								<% else %>
 									<%= record.send(c[:name].to_sym) %>
 								<% end %>
-							</td>
+							</div>
 						<% end %>
-					</tr>
+					</div>
 				<% end %>
-			</tbody>
-		</table>
+			</div>
+		</div>
 
 	</div>
 

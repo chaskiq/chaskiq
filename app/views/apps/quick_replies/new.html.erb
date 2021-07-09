@@ -1,0 +1,27 @@
+<%= turbo_frame_tag "quick_reply_editor", 
+	class: 'w-2/3 relative z-0 p-6 shadow bg-yellow rounded rounded-l-none' do %>
+	<% if @quick_reply.present? %>
+
+		<%= render Tabs::Component.new(	items: quick_replies_menu_data ) do %>
+
+			<%= form_for @quick_reply, url: app_quick_replies_path(@app.key) do |f| %>
+
+				<div class="flex justify-end">
+					<%= f.submit t("common.submit"), class: 'btn btn-success sm' %>			
+				</div>
+
+				<%=  f.text_field :title %>
+				<div 
+					class="border-2 p-4 border-blue-200 rounded"
+					data-controller="dante-editor" 
+					data-content="<%= @quick_reply.content %>">
+					<div data-dante-editor-target="container"></div>
+						<%= f.hidden_field :content, 
+							data: {"dante-editor-target": "serializedInput"},
+							value: f.object.content
+						%>
+				</div>
+			<% end %>
+		<% end %>
+	<% end %>
+<%end %>

@@ -233,21 +233,36 @@ module ApplicationHelper
   end
 
   def articles_collections_menu_data
+    locale_param = params[:locale] ? params[:locale] : I18n.locale.to_s
     @article_setting.translations.map(&:locale).map do |locale|
       {
         label: langs_options.find{|o| o[:value] == locale.to_s }.try(:[], :label),
         href: app_articles_collections_path(@app.key, locale: locale),
-        active: params[:locale] == locale.to_s
+        active: locale_param == locale.to_s
       }
     end
   end
 
   def articles_collection_menu_data
+    locale_param = params[:locale] ? params[:locale] : I18n.locale.to_s
     @article_setting.translations.map(&:locale).map do |locale|
       {
         label: langs_options.find{|o| o[:value] == locale.to_s }.try(:[], :label),
         href: app_articles_collection_path(@app.key, @article_collection, locale: locale),
-        active: params[:locale] == locale.to_s
+        active: locale_param == locale.to_s
+      }
+    end
+  end
+
+  def quick_replies_menu_data
+    locale_param = params[:locale] ? params[:locale] : I18n.locale.to_s
+    return [] if @quick_reply.new_record?
+    @app.translations.map(&:locale).map do |locale|
+      {
+        label: langs_options.find{|o| o[:value] == locale.to_s }.try(:[], :label),
+        href: app_quick_reply_path(@app.key, @quick_reply, locale: locale),
+        active: locale_param == locale.to_s
+        #turbo_frame: 'quick_reply_editor'
       }
     end
   end

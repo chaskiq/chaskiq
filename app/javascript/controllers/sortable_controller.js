@@ -51,7 +51,8 @@ export default class extends Controller {
       {
         section: {
           id: item,
-          group: this.element.dataset.group,
+          group_from: e.from.dataset.group,
+          group_to: e.to.dataset.group,
           parent_section_id: parentSectionId,
           position: e.newIndex,
         },
