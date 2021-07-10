@@ -2,9 +2,7 @@ class Apps::ConversationMessagesController < ApplicationController
 	before_action :find_app
 
 	def index
-
 		@conversation = @app.conversations.find_by(key: params[:conversation_id])
-
 		@messages = @conversation.messages
 															.order("id desc")
 															.page(params[:page])
@@ -32,13 +30,9 @@ class Apps::ConversationMessagesController < ApplicationController
 	end
 
 	def create
-
 		conversation = @app.conversations.find_by(key: params[:conversation_id])
-
 		#author = @app.agents.where("agents.email =?", current_agent.email).first
-
 		message = params[:conversation_message]
-
 		options = {
 			from: current_agent,
 			message: {

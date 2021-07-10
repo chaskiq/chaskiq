@@ -30,11 +30,14 @@
 					</span>
 			</div>
 			<div class="css-1qhlrzf">
-					<div>
-						<p class="graf graf--p">
-							<%= @message.message.serialized_content %><br>
-						</p>
-					</div>
+				<div
+					data-controller="<%= identifier %>"
+					<%= @message.private_note? ? 'data-is-private-note=true' : '' %>
+					<%= @message.authorable.is_a?(Agent) ? 'data-from-admin=true' : '' %>
+					data-serialized="<%= @message.message.serialized_content %>"
+					data-html="<%= @message.message.html_content %>">
+					<%= @message.message.serialized_content %><br>
+				</div>
 			</div>
 		</div>
 </div>

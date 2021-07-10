@@ -91,11 +91,13 @@ class ConversationPart < ApplicationRecord
   end
 
   def notify_agents
-    EventsChannel.broadcast_to(
-      conversation.app.key.to_s,
-      type: :conversation_part,
-      data: as_json
-    )
+    #EventsChannel.broadcast_to(
+    #  conversation.app.key.to_s,
+    #  type: :conversation_part,
+    #  data: as_json
+    #)
+
+    self.conversation.notify_conversation_list
   end
 
   def notify_app_users

@@ -73,6 +73,7 @@
     "react-hot-loader": "^4.12.14",
     "react-i18next": "^10.12.4",
     "react-markdown": "^4.3.1",
+    "react-medium-image-zoom": "^4.3.4",
     "react-moment": "^0.7.0",
     "react-popper": "^1.0.0",
     "react-redux": "^7.2.4",

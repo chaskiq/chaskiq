@@ -7,6 +7,7 @@ class ConversationPartBlock < ApplicationRecord
   value :trigger_locked, expireat: -> { Time.zone.now + 5.seconds }
 
   def create_fase(app)
+    
     return if blocks["app_package"].blank?
 
     # this right now only works for trusted plugins

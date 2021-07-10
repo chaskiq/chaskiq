@@ -1,0 +1,31 @@
+
+<div
+	id="<%= "message-id-#{@message.id}" %>"
+	class="flex items-start py-2 text-sm"
+>
+	<div
+		class="bg-yellow-300 flex overflow-hidden p-2 rounded-md mx-auto">
+		<div class="flex flex-col justify-between">
+			<span class="text-xs text-center">
+			
+				<Moment fromNow ago>
+					<%= @message.created_at %>
+				</Moment>
+
+				<span>
+					-
+					<% if @message.read_at %>
+						<span><%= I18n.t('conversation.messages.seen') %> </span>
+					<% else %>
+						<span><%= I18n.t('conversation.messages.not_seen')%></span>
+					<% end %>
+				</span>
+			</span>
+
+			<p class="text-md text-center font-bold">
+				<%= @message.message.action %> 
+				<%= @message.message.data['name'] || @message.message.data['email'] %>
+			</p>
+		</div>
+	</div>
+</div>

@@ -1,8 +1,23 @@
 <div class="pb-3 px-4 flex-none mt-auto">
   <div
-		data-turbo="false" data-controller="chat-editor"
+		data-turbo="false" 
+		data-controller="chat-editor"
 		data-editor-action-path="<%= app_conversation_conversation_messages_path(@app.key, @conversation.key)%>" 
 		class="bg-white flex rounded-lg border border-grey overflow-hidden shadow-lg">
 	</div>
+
+	<%= link_to "Add app", 
+		capabilities_app_packages_path(
+			@app.key, 
+			kind: 'conversations', 
+			conversation_key: @conversation.key
+		),
+		data: {
+			'turbo-frame': 'modal', 
+			'turbo-action': 'replace', 
+			'action': 'click->modal#open'
+		},
+		class: "btn btn-success"
+	%>
 
 </div>

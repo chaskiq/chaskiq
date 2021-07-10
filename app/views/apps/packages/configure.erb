@@ -1,6 +1,14 @@
 <%= turbo_frame_tag 'modal' do %>
 	<div data-controller="definitions-renderer">
 
+
+		ºkkkk 
+		<%= @blocks[:kind] %>
+
+		<% #= @blocks[:definitions] %>
+		zzz
+		<%= @conversation_key %>
+
 		<%= render DefinitionRenderer::Component.new(
 			schema: @blocks["definitions"], 
 			size: 'sm', 

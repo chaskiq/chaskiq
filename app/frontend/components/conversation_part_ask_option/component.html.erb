@@ -1,0 +1,67 @@
+
+<% if @message.message.data %>
+
+	<div
+		id="message-id-<%= @message.id %>"
+		class="flex items-start py-2 text-sm"
+	>
+		<div
+			class="bg-green-400
+			flex 
+			overflow-hidden p-2 
+			rounded-md mx-auto text-white"
+		>
+			<div class="flex flex-col justify-between">
+				<span class="text-xs text-center">
+					<Moment fromNow ago>
+						<%= @message.created_at %>
+					</Moment>
+
+					<span>
+						<% if @message.read_at %>
+							<span>
+								<%= I18n.t('conversation.messages.seen') %>
+							</span>
+						<% else %>
+							<span>
+								<%= I18n.t('conversation.messages.not_seen') %>
+							</span>
+						<% end %>
+					</span>
+				</span>
+
+				<p class="text-md text-center text-bold">
+					<%= 
+						case @message.message.data.dig('element')
+						when "button"  
+							"<strong>reply button:</strong> #{@message.message.data["label"]}".html_safe
+						else 
+						"eehm"
+						end
+					%>
+				</p>
+			</div>
+		</div>
+	</div>
+
+<% else %>
+
+	<p class="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
+		<a
+			href="#"
+			class="relative inline-flex items-center rounded-full border border-gray-400 px-3 py-0.5 text-sm bg-white"
+		>
+			<span class="absolute flex-shrink-0 flex items-center justify-center">
+				<span
+					class="h-1.5 w-1.5 rounded-full bg-yellow-200 border border-black"
+					aria-hidden="true"
+				></span>
+			</span>
+			<span class="ml-3.5 font-medium text-gray-700">
+				waiting for reply
+			</span>
+		</a>
+	</p>
+
+<% end %>
+

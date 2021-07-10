@@ -380,7 +380,8 @@ export default class ChatEditor extends Component {
                     read_only: !this.state.read_only,
                   })
                 }}
-                appendWidgets={[
+                appendWidgets={
+                  this.props.appendExtensions || [
                   AppPackageBlockConfig({
                     handleFunc: this.handleAppFunc,
                   }),

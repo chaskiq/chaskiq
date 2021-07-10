@@ -73,8 +73,10 @@
             data-infinite-scroll-target="entries"
             >
 
+			   <%= turbo_stream_from @app, :conversations %>
+
             <%= turbo_frame_tag 'conversation-list' do %>
-               <%= render partial: 'conversation', collection: @conversations %>
+               <%= render partial: 'conversation', collection: @conversations, locals: {app: @app} %>
             <% end %>
 
             <div class="hidden.." data-infinite-scroll-target="pagination">

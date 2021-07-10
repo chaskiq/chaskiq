@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     resources :campaigns , controller: "apps/campaigns"
     resources :agents , controller: "apps/agents"
 
-    resources :settings , controller: "apps/settings"
+    resource :settings , controller: "apps/settings"
     resources :invitations , controller: "apps/invitations"
 
     resources :conversations , controller: "apps/conversations" do
@@ -116,8 +116,7 @@ Rails.application.routes.draw do
         post :sort_visitor_apps
       end
     end
-    resources :settings , controller: "apps/settings"
-    resources :user_data , controller: "apps/user_data"
+    resources :user_data, controller: "apps/user_data"
     resources :quick_replies, controller: "apps/quick_replies"
     resources :tags, controller: "apps/tags"
     resources :security, controller: "apps/security"

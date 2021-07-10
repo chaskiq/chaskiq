@@ -5,7 +5,7 @@ class Apps::InboxPackagesController < ApplicationController
 	layout false 
 
 	def index
-		@inbox_packages = @app.inbox_apps
+		@inbox_packages = @app.inbox_apps ||= []
 		if params[:kind] == "edit"
 			render 'edit_packages' and return
 		end

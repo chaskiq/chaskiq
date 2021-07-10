@@ -6,6 +6,8 @@ import React, { Component } from 'react'
 import redraft from 'redraft'
 import { connect } from 'react-redux'
 import { AttachmentIcon } from '../icons'
+import ImageZoom from 'react-medium-image-zoom'
+
 
 import Prism from 'prismjs'
 // Prism.highlightAll();
@@ -296,7 +298,12 @@ function ImageRenderer({ children, blockKey, data }) {
             style={{ paddingBottom: `${ratio}%` }}
           ></div>
 
-          <ConnectedImage url={url} width={width} height={height} />
+
+          <Image url={url} width={width} height={height}></Image>
+          {/*
+            TODO: add medium image
+            <ConnectedImage url={url} width={width} height={height} />
+          */}
         </div>
       </div>
 
@@ -313,6 +320,8 @@ function ImageRenderer({ children, blockKey, data }) {
 
 function Image({ dispatch, url, width, height }) {
   return (
+
+
     <img
       src={url}
       className="graf-image"
@@ -320,6 +329,7 @@ function Image({ dispatch, url, width, height }) {
       height={height}
       contentEditable="false"
       onClick={(_e) =>
+        dispatch &&
         dispatch(
           setImageZoom({
             url: url,
@@ -329,6 +339,23 @@ function Image({ dispatch, url, width, height }) {
         )
       }
     />
+
+    /*<ImageZoom
+      key={`photo`}
+      image={{
+        src: url,
+        alt: 'image',
+        className:"graf-image",
+        width: width,
+        height: height
+        //className: 'min-h-full w-full h-96 shadow-- shadow-md rounded-',
+        //style: { width: '50em' }
+      }}
+      zoomImage={{
+        src: url,
+        alt: url
+      }}
+    />*/
   )
 }
 

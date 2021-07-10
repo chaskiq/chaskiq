@@ -181,6 +181,29 @@ class Conversation < ApplicationRecord
     latest_user_visible_comment_at.present?
   end
 
+  def notify_conversation_list
+    broadcast_replace_later_to self.app,
+      :conversations ,
+      action: "replace",
+      target: "conversation-item-#{self.key}",
+      partial: "apps/conversations/conversation",
+      locals: { 
+        app: self.app.key,
+        conversation: self.id
+        #conversation: {a: 1} 
+      }
+
+    #broadcast_replace_later_to app,
+    #  :conversations ,
+    #  target: "conversation-item-#{self.conversation.key}",
+    #  partial: "apps/conversations/conversation",
+    #  action: "replace",
+    #  locals: { 
+    #    app: self.app,
+    #    conversation: self.conversation 
+    #  }
+  end
+
   private
 
   def handle_part_details(part, opts)

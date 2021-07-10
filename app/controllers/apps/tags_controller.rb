@@ -19,6 +19,7 @@ class Apps::TagsController < ApplicationController
 		@tag.assign_attributes(params[:tag_list_record].permit!)
 		@app.tag_list = @app.tag_list_objects.as_json
 
+		
 		if @app.save
 			flash.now[:notice] = "Place was updated!"
 			redirect_to app_tags_path(@app.key)

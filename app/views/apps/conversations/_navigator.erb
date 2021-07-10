@@ -144,7 +144,7 @@
 				">
 				
 				<svg 
-					style="<%= "color:#{@app.tag_list.find{|o| o["name"] == tag.name}['color'] }" %>"
+					style="<%= "color:#{@app.tag_list.find{|o| o["name"] == tag.name}&.dig('color') }" %>"
 					viewBox="0 0 15 15"
 					class="mr-3"
 					fill="none" xmlns="http://www.w3.org/2000/svg" 

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class ConversationPart::Component < ApplicationViewComponent
-	def initialize(message:)
+	def initialize(message:, app:)
+    @app = app
     @message = message
     @block_class = block_class
   end

@@ -113,7 +113,7 @@
                <th class="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 dark:text-gray-100 text-left" scope="row">Pricing</th>
 
 							<% plans.each do |plan|%>
-								<% if plan.name == @app.plan.name %>
+								<% if plan.name == @app.plan['name'] %>
 									<td class="h-full py-8 px-6 align-top">
 										<div class="h-full flex flex-col justify-between">
 											<div>
@@ -193,7 +193,7 @@
             <tr class="border-t border-gray-200">
               <th class="sr-only" scope="row">Choose your plan</th>
 							<% plans.each do |plan|%>
-								<% if plan.name == @app.plan.name %>
+								<% if plan.name == @app.plan['name'] %>
 									<td class="pt-5 px-6">
 											<p class="mt-4 text-sm text-gray-500 dark:text-gray-300">
 												This is your current plan

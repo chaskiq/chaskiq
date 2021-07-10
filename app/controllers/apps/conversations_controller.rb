@@ -2,6 +2,17 @@ class Apps::ConversationsController < ApplicationController
 	before_action :find_app
 
 	def index
+		@conversations = filter_by_agent(params[:agent_id], params[:filter])
+		@conversations = @conversations.page(params[:page]).per(params[:per])
+		sort_conversations(params[:sort])
+		@conversations = @conversations.tagged_with(params[:tag]) if params[:tag].present?
+		# TODO: add _or_main_participant_name_cont, or do this with Arel
+		if params[:term]
+			@conversations = @conversations.ransack(
+				messages_messageable_of_ConversationPartContent_type_text_content_cont: params[:term]
+			).result
+		end
+
 
 		@conversations = @app.conversations
 													.includes(:main_participant)
@@ -70,5 +81,42 @@ class Apps::ConversationsController < ApplicationController
 			)
 		end
 
+	end
+
+
+
+	private def filter_by_agent(agent_id, filter)
+		collection = @app.conversations
+											 .left_joins(:messages)
+											 .where.not(conversation_parts: { id: nil })
+											 .distinct
+
+		collection = collection.where(state: filter) if filter.present?
+
+		if agent_id.present?
+			agent = agent_id.zero? ? nil : agent_id
+			collection = collection.where(assignee_id: agent)
+		end
+
+		collection
+	end
+
+	private def sort_conversations(sort)
+		if sort.present?
+			s = case sort
+					when "newest" then "updated_at desc"
+					when "oldest" then "updated_at asc"
+					when "priority_first" then "priority asc, updated_at desc"
+					else
+						"id desc"
+					end
+
+			if sort != "unfiltered" # && agent_id.blank?
+				@conversations = @conversations.where
+																 .not(latest_user_visible_comment_at: nil)
+			end
+
+			@conversations = @conversations.order(s)
+		end
 	end
 end

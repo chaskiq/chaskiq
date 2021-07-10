@@ -15,7 +15,7 @@ class Apps::TeamController < ApplicationController
 		@agent = @agent_role.agent
 		# binding.pry
 
-		@agent.roles_for_current_app = @agent_role.access_list.split
+		@agent.roles_for_current_app = @agent_role.access_list.split || []
 
 		#authorize! agent, to: :update_agent?, with: AppPolicy, context: {
 		#	role: app.roles.find_by(agent_id: current_user.id)
