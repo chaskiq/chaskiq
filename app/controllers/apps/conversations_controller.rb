@@ -13,7 +13,6 @@ class Apps::ConversationsController < ApplicationController
 			).result
 		end
 
-
 		@conversations = @app.conversations
 													.includes(:main_participant)
 													.page(params[:page]).per(10)
@@ -21,9 +20,12 @@ class Apps::ConversationsController < ApplicationController
 		if request.headers['Turbo-Frame'].present?
 				render turbo_stream: [
 					turbo_stream.append(
-						"conversation-list", 
+						"conversation-list-#{@app.key}", 
 						partial: "apps/conversations/conversation", 
 						collection: @conversations,
+						locals: {
+							app: @app
+						}
 					),
 	
 					turbo_stream.replace(
@@ -44,8 +46,6 @@ class Apps::ConversationsController < ApplicationController
 		@conversations = @app.conversations
 		.includes(:main_participant)
 		.page(params[:page]).per(10)
-
-
 
 		if request.headers['Turbo-Frame'].present?
 			turbo_stream.replace(
@@ -83,7 +83,43 @@ class Apps::ConversationsController < ApplicationController
 
 	end
 
+	def update
+		@conversation = @app.conversations.find_by(key: params[:id])
 
+		case params[:step]
+		when "state"
+			menu_items_response("state", 
+				->{ @conversation.update(state: params[:state] == 'opened' ? 'closed' : 'opened') }
+			)
+		when "priorize"
+			menu_items_response("priorize", ->{ @conversation.toggle_priority() } )
+		when "assignee"
+			@agent = @app.agents.find(params[:conversation][:assignee_id])
+			menu_items_response("assignee", ->{ @conversation.update(assignee_id: @agent.id ) } )
+		when "tags"
+			@conversation.tag_list = params[:conversation][:tag_list].reject(&:empty?)
+			@conversation.save
+
+			flash.now[:notice] = "Place was updated!"
+
+			render turbo_stream: [
+				flash_stream,
+				turbo_stream.replace(
+					"conversation-item-#{@conversation.key}", 
+					partial: "apps/conversations/conversation",
+					locals: {
+						conversation: @conversation,
+						app: @app
+					} 
+				)
+			]
+		end
+	end
+
+	def edit
+		@conversation = @app.conversations.find_by(key: params[:id])
+
+	end
 
 	private def filter_by_agent(agent_id, filter)
 		collection = @app.conversations
@@ -117,6 +153,17 @@ class Apps::ConversationsController < ApplicationController
 			end
 
 			@conversations = @conversations.order(s)
+		end
+	end
+
+	private def menu_items_response(item, method)
+		if method.call 
+			render turbo_stream: [
+				turbo_stream.replace(
+				"conversation-#{item}-#{@conversation.key}", 
+				partial: "apps/conversations/menu_items/#{item}"
+				)
+			]
 		end
 	end
 end

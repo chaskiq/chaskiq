@@ -176,7 +176,7 @@ class Apps::PackagesController < ApplicationController
 			)
 
 		when "inbox"
-
+			@app.inbox_apps ||= []
 			@app.inbox_apps <<  package_build_data
 			@app.save
 

@@ -6,7 +6,14 @@ class Apps::ConversationMessagesController < ApplicationController
 		@messages = @conversation.messages
 															.order("id desc")
 															.page(params[:page])
-															.per(params[:per] || 2)
+															.per(2)
+
+
+
+		puts "PAGES #{params[:page]} #{@messages.map(&:id)}"
+
+  # [48302, 48301, 48300, 48299, 48298, 48297]
+	# [48296, 48295, 48294, 48293, 48292, 48291]
 
 
 		render turbo_stream: [
@@ -17,10 +24,12 @@ class Apps::ConversationMessagesController < ApplicationController
 		] unless params[:page]
 
 		render turbo_stream: [
-			turbo_stream.prepend(
-				"conversation-messages-list", 
-				partial: "apps/conversation_messages/messages",
-				collection: @messages 
+			turbo_stream.append(
+				"conversation-messages-list-#{@conversation.key}", 
+				partial: "apps/conversation_messages/part",
+				collection: @messages,
+				as: :message,
+				locals: { app: @app, notified: false }
 			),
 			turbo_stream.replace(
 				"conversation-messages-list-pagination", 
@@ -44,10 +53,23 @@ class Apps::ConversationMessagesController < ApplicationController
 
 		@message = conversation.add_message(options)
 
-		render turbo_stream: turbo_stream.append( "conversation-messages-list", 
+		render turbo_stream: turbo_stream.prepend( "conversation-messages-list-#{conversation.key}", 
 																								partial: "apps/conversation_messages/part",
-																								locals: {message: @message}
+																								locals: {
+																									message: @message, 
+																									app: @app,
+																									notified: false # since we are creating a record to be seend for the agent we don't need to makr thid notified
+																								}
 																							)
 
+	end
+
+	def update
+		if params[:read]
+			@conversation_part = @app.conversation_parts.find_by(key: params[:id])
+			@conversation_part.read! if @conversation_part.present?
+		end
+
+		head :ok
 	end
 end

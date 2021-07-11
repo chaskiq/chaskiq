@@ -97,6 +97,17 @@ class ConversationPart < ApplicationRecord
     #  data: as_json
     #)
 
+    broadcast_append_later_to self.conversation.app,
+      :conversations ,
+      #action: "append",
+      target: "conversation-messages-list-#{self.conversation.key}",
+      partial: "apps/conversation_messages/part",
+      locals: { 
+        app: self.conversation.app,
+        message: self,
+        notified: true
+      }
+
     self.conversation.notify_conversation_list
   end
 

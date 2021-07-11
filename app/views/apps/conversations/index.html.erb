@@ -6,32 +6,29 @@
       </button>
    </div>
 
-   <div class="flex">
-      <div class="w-full md:w-1/4 h-screen md:border-r sm:hidden">
-			<div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
-            <div class="relative inline-block text-left">
-               <div class="flex">
-							 	<button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-								 Opened
-								</button>
-							</div>
-            </div>
-            <div class="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
-               <svg fill="currentColor" viewBox="0 0 20 20" class="css-1dhg8p7">
-                  <path d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-               </svg>
-               <input class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" placeholder="search conversations" value="">
-            </div>
-            <div class="relative inline-block text-left">
-              <div class="flex">
-							 	<button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">
-								 Newest
-								</button>
-							</div>
-            </div>
-         </div>
 
+   <% 
+      filter_items = I18n.t("conversations.states").map do |k,v| 
+      { 
+            title: v, 
+            href: app_security_index_path(@app.key, states: k ),
+            checked: false
+         }
+      end 
+
+      sorts_items = I18n.t("conversations.sorts").map do |k,v| 
+      { 
+            title: v, 
+            href: app_security_index_path(@app.key, states: k ),
+            checked: false
+         }
+      end 
+   %>
+
+
+   <div class="flex">
+
+      <div class="w-full md:w-1/4 h-screen md:border-r sm:hidden">
          <div class="overflow-scroll" style="height: calc(100vh - 60px);">
             <a class="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out" data-cy="conversation-item" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations/G8n2iTimrFdkw7rHfoYnP1sg">
                <div class="block w-2 bg-red-200 dark:bg-red-600"></div>
@@ -53,19 +50,46 @@
          </div>
       </div>
 
-      <div data-controller="infinite-scroll" class="w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900">
+      <div data-controller="infinite-scroll" 
+         class="w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900">
+         
          <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+            
             <div class="relative inline-block text-left">
-               <div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Opened</button></div>
+               <div class="flex">
+                  <%= render FilterMenu::Component.new(
+                     label: "select lang", 
+                     items: filter_items,
+                     orientation: 'left',
+                     variant: 'outlined',
+                     size: 'sm'
+                  )%>
+               </div>
             </div>
+
             <div class="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M14.5 14.5l-4-4m-4 2a6 6 0 110-12 6 6 0 010 12z" stroke="currentColor"></path></svg>
-               <input class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" placeholder="search conversations" value="">
+               <input 
+                  class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" 
+                  placeholder="search conversations" 
+                  value=""
+               >
             </div>
+
             <div class="relative inline-block text-left">
-               <div class="flex"><button class="transition duration-150 ease-in-out  css-wckgdt" aria-label="More" aria-controls="long-menu" aria-haspopup="true">Newest</button></div>
+               <div class="flex">
+                  <%= render FilterMenu::Component.new(
+                     label: "Newest", 
+                     items: sorts_items,
+                     orientation: 'right',
+                     variant: 'outlined',
+                     size: 'sm'
+                  )%>
+               </div>
             </div>
          </div>
+
+         <%= turbo_stream_from @app, :conversations %>
 
          <div 
             class="overflow-scroll" 
@@ -73,13 +97,11 @@
             data-infinite-scroll-target="entries"
             >
 
-			   <%= turbo_stream_from @app, :conversations %>
-
-            <%= turbo_frame_tag 'conversation-list' do %>
+            <%= turbo_frame_tag "conversation-list-#{@app.key}" do %>
                <%= render partial: 'conversation', collection: @conversations, locals: {app: @app} %>
             <% end %>
 
-            <div class="hidden.." data-infinite-scroll-target="pagination">
+            <div class="invisible h-1" data-infinite-scroll-target="pagination">
                <%= render partial: 'apps/conversations/pagination' %>
             </div>
 

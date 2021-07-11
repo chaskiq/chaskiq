@@ -31,7 +31,6 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 export class Controller extends BaseController {
   connect() {
 		var message = JSON.parse(this.element.dataset.serialized)
-		console.log(this.element.dataset)
 		var messageForTheme = this.element.dataset.fromAdmin ? 
 													this.element.dataset.isPrivateNote
                             ? theme

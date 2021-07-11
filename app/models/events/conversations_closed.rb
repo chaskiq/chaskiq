@@ -15,6 +15,15 @@ module Events
       AppIdentity.new(app.key)
                  .resolution_avg
                  .set(diff)
+
+      #conversation.broadcast_replace_later_to conversation.app,
+      #  :conversations ,
+      #  target: "conversation-list-#{self.app.key}",
+      #  partial: "apps/conversations/conversation",
+      #  locals: { 
+      #    app: self.app,
+      #    conversation: self.id
+      #  }
     end
   end
 end

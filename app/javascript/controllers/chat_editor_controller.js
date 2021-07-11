@@ -12,9 +12,9 @@ export default class extends Controller {
   //static targets = ['contentframe'];
 
   connect() {
-    console.log('editor!!!!!!')
-
     this.actionPath = this.element.dataset.editorActionPath
+
+    console.log('INIT EDITOR FOR', this.actionPath)
 
     const extensions = [
       AppPackageBlockConfig({
@@ -37,6 +37,10 @@ export default class extends Controller {
       />,
       this.element
     )
+
+    setTimeout(() => {
+      this.scrollToBottom()
+    }, 400);
   }
 
   handleAppFunc(){

@@ -1,2 +1,4 @@
 
-<%= render partial: 'apps/conversation_messages/part', collection: @messages, as: :message %>
+<%= render partial: 'apps/conversation_messages/part', 
+	collection: @messages, as: :message , locals: { app: @app, notified: false }
+%>

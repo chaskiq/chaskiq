@@ -1,0 +1,16 @@
+<div id="<%= "conversation-assignee-#{@conversation.key}"%>">
+	<%= link_to( 
+		edit_app_conversation_path(@app.key, @conversation.key, mode: 'assignee'),
+		class: "flex items-center btn btn-rounded btn-padless w-9 h-9",
+		data: {
+				'turbo-frame': 'modal', 
+				'turbo-action': 'replace', 
+				'action': 'click->modal#open'
+			}
+		) do %>
+		<%= @conversation.assignee ? 
+			image_tag( @conversation&.assignee&.avatar_url, class: "rounded-full") 
+			: nil 
+		%>
+	<% end %>
+</div>
