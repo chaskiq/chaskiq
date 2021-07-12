@@ -118,6 +118,7 @@ en:
       assignment_rules: Agent routing Rules
       tags: Tags
       unassigned: Unassigned
+      search: search conversations
     states:
       opened: Opened
       closed: Closed

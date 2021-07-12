@@ -1,5 +1,5 @@
 <div id="conversation-sidebar"
-   class="hidden flex-grow bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12">
+   class="hidden bg-gray-100 dark:bg-black h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12">
    <div class="xl:border-r-- xl:border-gray-200--">
       <div class="py-2 pt-2">
          <div class="flex items-center justify-between">
@@ -8,7 +8,7 @@
 						<div class="px-2">
                      
                      <%= turbo_frame_tag 'conversation-sidebar-packages', src: app_inbox_packages_path(@app.key, conversation_key: @conversation.key) do %>
-                        oliii
+                        loading sidebar packages...
                      <% end %>
                      <% #= render 'apps/packages/', locals: {ctx: { conversation_key: @conversation.key }} %>
                   </div>

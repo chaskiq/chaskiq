@@ -1,5 +1,5 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
 .definition-renderer {
-  @apply py-2.5;
+  @apply py-2.5 dark:bg-gray-900;
 }

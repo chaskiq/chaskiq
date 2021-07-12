@@ -4,10 +4,18 @@ exclude:
   - '**/vendor/**/*'
   - '**/node_modules/**/*'
 EnableDefaultLinters: true
+Layout/InitialIndentation:
+  Enabled: false # This rule removes the "<%" e "<%="  from the code, if enabled.
+Layout/TrailingEmptyLines:
+  Enabled: false
+Layout/TrailingWhitespace:
+  Enabled: false  # This rule removes the "<%" e "<%="  from the code, if enabled.
+Layout/LeadingEmptyLines:
+  Enabled: false
 linters:
   ErbSafety:
-    #enabled: true
-    #better_html_config: .better-html.yml
+    enabled: true
+    better_html_config: .better-html.yml
   Rubocop:
     enabled: true
     rubocop_config:

@@ -31,6 +31,8 @@ module ApplicationCable
 
     def get_session_data
       params = request.query_parameters
+      return if params[:app].blank?
+
       self.app = App.find_by(key: params[:app])
 
       if app.blank?

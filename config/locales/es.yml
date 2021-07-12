@@ -113,6 +113,7 @@ es:
       assignment_rules: Reglas de ruta del agente
       tags: Etiquetas
       unassigned: No Asignado
+      search: buscar conversaciones
     states:
       opened: Abierto
       closed: Cerrado

@@ -40,30 +40,8 @@
 
    <div class="flex">
 
-      <div class="w-full md:w-1/4 h-screen md:border-r sm:hidden">
-         <div class="overflow-scroll" style="height: calc(100vh - 60px);">
-            <a class="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out" data-cy="conversation-item" href="/apps/GPi9haWV1ocbr4My_Q8xPw/conversations/G8n2iTimrFdkw7rHfoYnP1sg">
-               <div class="block w-2 bg-red-200 dark:bg-red-600"></div>
-               <div class="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 ">
-                  <div class="flex items-center">
-                     <div class="flex-shrink-0 h-10 w-10"><img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/visitor+QG189/128/f5f5dc/888/4" alt="visitor QG189"></div>
-                     <div class="ml-4 truncate w-full">
-                        <div class="flex justify-between"><span class="text-md leading-5 font-semibold text-gray-800 dark:text-gray-100 truncate mr-2">visitor QG189</span><span class="text-xs leading-5 font-light text-gray-300 dark:text-gray-300"><time datetime="1624592616003">25 minutes</time></span></div>
-                     </div>
-                  </div>
-                  <div class="flex flex-col mt-5 space-y-2">
-                     <div class="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1"><img alt="chaskiq bot" class="rounded-full h-5 w-5 self-start" src="https://app.chaskiq.io/assets/icons8-bot-50-c7450d39e2a2808b93e0abf784a77841e50eb527a38324c26f5718ceab1e3fde.png"><span class="truncate"></span></div>
-                     <div class="flex justify-between">
-                        <div class="flex"></div>
-                     </div>
-                  </div>
-               </div>
-            </a>
-         </div>
-      </div>
-
       <div data-controller="infinite-scroll" 
-         class="w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900">
+         class="<%= params[:id] ? 'hidden' : '' %> w-full md:w-4/12 h-screen md:border-r sm:block border-gray-200 dark:border-gray-900">
          
          <div class="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
             
@@ -83,7 +61,7 @@
                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M14.5 14.5l-4-4m-4 2a6 6 0 110-12 6 6 0 010 12z" stroke="currentColor"></path></svg>
                <input 
                   class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" 
-                  placeholder="search conversations" 
+                  placeholder="<%= t('conversations.menu.search') %>"
                   value=""
                   data-controller="attribute-clone"
 			         data-clone-to="#conversation_search_service_term"
@@ -148,18 +126,21 @@
       <%= turbo_frame_tag 'conversation',
          data: { controller: 'history-frame conversation' },
          src: @conversation ? app_conversation_path(@app.key, @conversation.key ) : nil,
-         class: "flex hidden- sm:block- flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12-" do %>
-         <div class="bg-white dark:bg-black overflow-hidden  rounded-lg py-5 h-full">
+         class: "hidden- flex flex-grow sm:block- bg-gray-50 dark:bg-black h-screen border-r-0 w-1/12-" do %>
+         <div class="w-full bg-white dark:bg-black overflow-hidden  rounded-lg py-5 h-full">
             <div class="flex flex-col px-4 py-5 sm:p-6 items-center">
                <h2 class="text-2xl tracking-tight
                      font-extrabold text-gray-900 dark:text-white sm:text-3xl
                      sm:leading-none md:text-4xl">
-                     No conversations
+                     <%= t("conversations.empty.title")%>
                </h2>
                <div class="py-4 mt-3 text-base text-gray-500 dark:text-gray-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  Choose conversations on the side
+                  <%= t("conversations.empty.text")%>
                </div>
-               <img src="/packs/media/src/images/empty-icon8-7e9395acb08c999bd741defee01e03e8.png" class="h-56 w-56" alt="No conversations">
+               <%= image_tag 'empty-icon8', 
+                  class: "h-56 w-56",
+                  alt: t("conversations.empty.title")
+               %>
             </div>
          </div>
       <% end %>

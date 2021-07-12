@@ -1,7 +1,7 @@
 /* Use component-local class names and add them to HTML via #class_for(name) helper */
 
 .data-table {
-  @apply grid sm:grid-cols-3 sm:gap-4 sm:px-6;
+  @apply grid sm:grid-cols-3 sm:gap-2 sm:px-6;
 
   dt {
     @apply text-sm leading-5 font-medium text-gray-500 dark:text-gray-200;
