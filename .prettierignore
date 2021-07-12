@@ -1,0 +1,8 @@
+app/javascript/packages/components/dist/**/*
+dist
+esm
+app/javascript/src/styles/styles.css
+config/locales
+public/packs
+config
+spec
