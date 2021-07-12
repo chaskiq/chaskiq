@@ -97,6 +97,7 @@
     "stimulus": "^2.0.0",
     "stimulus-use": "^0.25.0",
     "tailwindcss": "2.1.4",
+    "tippy.js": "^6.3.1",
     "twin.macro": "^2.4.2",
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",

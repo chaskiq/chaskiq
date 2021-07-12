@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
   def set_locale
     locale = if cookies[:lang]
                cookies[:lang]
-             elsif current_agent.lang
+             elsif current_agent&.lang
                cookies[:lang] = current_agent.lang
                current_agent.lang
              elsif lang_available?(http_splitted_locale)
