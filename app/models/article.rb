@@ -66,5 +66,7 @@ class Article < ApplicationRecord
 
   def serialized_content
     JSON.parse(article_content.serialized_content)
+  rescue StandardError
+    nil
   end
 end

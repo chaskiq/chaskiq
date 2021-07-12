@@ -149,9 +149,8 @@ module MessageApis::InboxSections
     # them configuration options before it’s inserted. Leaving this option
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
-
       definitions = base_schema
-      
+
       if %w[user-properties-block
             assignee-block
             user-blocks

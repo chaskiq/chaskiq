@@ -141,7 +141,7 @@
   },
   "scripts": {
     "format:js": "npx eslint --fix ./app/javascript",
-    "format:ruby": "rubocop -a",
+    "format:ruby": "rubocop -a ; bundle exec erblint --lint-all --autocorrect",
     "format:all": "yarn format:js ; yarn format:ruby",
     "rails-cy": "bundle exec rails server -e test -p 5002",
     "cypress:open": "./node_modules/.bin/cypress open",

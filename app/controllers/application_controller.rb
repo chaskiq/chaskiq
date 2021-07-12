@@ -63,22 +63,21 @@ class ApplicationController < ActionController::Base
 
   def modal_close
     render turbo_stream: [
-			turbo_stream.replace(
-				"modal", 
-				partial: "shared/modal",
-			),
-		]
+      turbo_stream.replace(
+        "modal",
+        partial: "shared/modal"
+      )
+    ]
   end
 
   def languages
-    agent_param = params.dig(:agent,:lang)
-    if( agent_param && set_lang_for_agent(agent_param) )
+    agent_param = params.dig(:agent, :lang)
+    if agent_param && set_lang_for_agent(agent_param)
       cookies[:lang] = agent_param
-      redirect_to '/' and return
+      redirect_to "/" and return
     end
-    render partial: 'shared/languages'
+    render partial: "shared/languages"
   end
-
 
   helper_method :enabled_subscriptions?
 
@@ -94,14 +93,14 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     locale = if cookies[:lang]
-                cookies[:lang]
-             elsif current_agent.lang 
-                cookies[:lang] = current_agent.lang
-                current_agent.lang
+               cookies[:lang]
+             elsif current_agent.lang
+               cookies[:lang] = current_agent.lang
+               current_agent.lang
              elsif lang_available?(http_splitted_locale)
-                http_splitted_locale
+               http_splitted_locale
              else
-                I18n.default_locale
+               I18n.default_locale
              end
 
     I18n.locale = begin
@@ -140,13 +139,13 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    return false if turbo_frame_request? 
+    return false if turbo_frame_request?
 
     if devise_controller?
       "devise"
     else
-      #"hotwire"
-      "application" 
+      # "hotwire"
+      "application"
     end
   end
 
@@ -157,6 +156,4 @@ class ApplicationController < ActionController::Base
   def flash_stream
     turbo_stream.replace("flash", partial: "shared/flash", locals: { flash: flash })
   end
-
-
 end

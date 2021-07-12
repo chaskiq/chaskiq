@@ -185,6 +185,7 @@ class Api::V1::HooksController < ActionController::API
     recipient = mail.recipients.first
     app, agent = decode_inbound_address(recipient)
     return if app.blank?
+
     create_conversation_from_incoming(app, mail)
   end
 
@@ -192,6 +193,7 @@ class Api::V1::HooksController < ActionController::API
     recipient = mail.recipients.first
     campaign = Campaign.decode_email(recipient)
     return if campaign.nil?
+
     app = campaign.app
     create_conversation_from_incoming(app, mail)
   end

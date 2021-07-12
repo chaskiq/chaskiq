@@ -5,8 +5,8 @@ class OutgoingWebhook < ApplicationRecord
 
   acts_as_taggable
 
-  scope :enabled, lambda { where(state: 'enabled') }
-  scope :disabled, lambda { where(state: 'disabled') }
+  scope :enabled, -> { where(state: "enabled") }
+  scope :disabled, -> { where(state: "disabled") }
 
   def send_verification; end
 
@@ -17,11 +17,11 @@ class OutgoingWebhook < ApplicationRecord
 
   def state=(val)
     self[:state] = case val
-    when "1" then "enabled"
-    when "0" then "disabled"
-    else
-      val
-    end
+                   when "1" then "enabled"
+                   when "0" then "disabled"
+                   else
+                     val
+                   end
   end
 
   def is_enabled

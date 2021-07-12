@@ -3,7 +3,7 @@
 class Content::Component < ApplicationViewComponent
   option :data
   option :label
-  def initialize(data: '', label: '')
+  def initialize(data: "", label: "")
     @data = data
     @label = label
   end

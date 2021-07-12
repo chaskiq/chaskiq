@@ -5,11 +5,11 @@ class InputRenderer::Component < ApplicationViewComponent
   option :label
   option :placeholder
   option :save_state
-  option :value, default: ->{nil}
-  option :disabled, default: ->{false}
-  option :loading, default: ->{false}
+  option :value, default: -> {}
+  option :disabled, default: -> { false }
+  option :loading, default: -> { false }
   option :name
-  option :size, default: ->{nil}
-  option :hint, default: ->{nil}
-  option :errors, default: ->{nil}
+  option :size, default: -> {}
+  option :hint, default: -> {}
+  option :errors, default: -> {}
 end

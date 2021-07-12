@@ -151,6 +151,14 @@ GEM
     aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
+    better_html (1.0.16)
+      actionview (>= 4.0)
+      activesupport (>= 4.0)
+      ast (~> 2.0)
+      erubi (~> 1.4)
+      html_tokenizer (~> 0.0.6)
+      parser (>= 2.4)
+      smart_properties
     bindex (0.8.1)
     biz (1.8.2)
       clavius (~> 1.0)
@@ -205,6 +213,14 @@ GEM
     dry-initializer (3.0.4)
     email_reply_parser (0.5.10)
     email_reply_trimmer (0.1.13)
+    erb_lint (0.0.37)
+      activesupport
+      better_html (~> 1.0.7)
+      html_tokenizer
+      parser (>= 2.7.1.4)
+      rainbow
+      rubocop
+      smart_properties
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
@@ -294,6 +310,7 @@ GEM
       rails (>= 6.0.0)
       stimulus-rails
       turbo-rails
+    html_tokenizer (0.0.7)
     http (4.4.1)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -532,6 +549,7 @@ GEM
       multi_json (~> 1.10)
     simpleidn (0.2.1)
       unf (~> 0.1.4)
+    smart_properties (1.15.0)
     spring (2.1.1)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
@@ -617,6 +635,7 @@ DEPENDENCIES
   email_reply_parser (~> 0.5.9)
   email_reply_trimmer
   emoji_data!
+  erb_lint
   factory_bot_rails
   faker!
   faraday

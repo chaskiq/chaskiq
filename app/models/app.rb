@@ -326,35 +326,35 @@ class App < ApplicationRecord
 
   def new_language=(attribute)
     assign_attributes(
-      "greetings_#{attribute}": "", 
-      "tagline_#{attribute}": "", 
+      "greetings_#{attribute}": "",
+      "tagline_#{attribute}": "",
       "intro_#{attribute}": ""
     )
   end
-
 
   ### JSON DATA OBJECTS ###
 
   def team_schedule_objects
     return [] if team_schedule.blank?
-    @team_schedule_objects ||= team_schedule.map{|o| ScheduleRecord.new(o)}
+
+    @team_schedule_objects ||= team_schedule.map { |o| ScheduleRecord.new(o) }
   end
 
   def team_schedule_objects_attributes=(attributes)
-    array = attributes.keys.map{|o| attributes[o] }
-    self.team_schedule = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
+    array = attributes.keys.map { |o| attributes[o] }
+    self.team_schedule = JSON.parse(array.map { |o| ScheduleRecord.new(o) }.to_json)
     # array.map{|o| ScheduleRecord.new(o) }
   end
 
   def inbound_settings_objects
     return [] if inbound_settings.blank?
+
     @inbound_settings_objects ||= InboundSettingsRecord.new(inbound_settings)
   end
 
   def inbound_settings_attributes=(attributes)
-  
-    #array = attributes.keys.map{|o| attributes[o] }
-    #self.inbound_settings = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
+    # array = attributes.keys.map{|o| attributes[o] }
+    # self.inbound_settings = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
     # array.map{|o| ScheduleRecord.new(o) }
   end
 
@@ -369,22 +369,24 @@ class App < ApplicationRecord
 
   def tag_list_objects
     return [] if tag_list.blank?
-    @tag_list_objects ||= tag_list.map{|o| TagListRecord.new(o)}
+
+    @tag_list_objects ||= tag_list.map { |o| TagListRecord.new(o) }
   end
 
   def tag_list_objects_attributes=(attributes)
-    array = attributes.keys.map{|o| attributes[o] }
-    self.tag_list = array.map{|o| TagListRecord.new(o) }.as_json
+    array = attributes.keys.map { |o| attributes[o] }
+    self.tag_list = array.map { |o| TagListRecord.new(o) }.as_json
   end
 
   def custom_fields_objects
     return [] if custom_fields.blank?
-    @custom_fields_objects ||= custom_fields.map{|o| CustomFieldRecord.new(o)}
+
+    @custom_fields_objects ||= custom_fields.map { |o| CustomFieldRecord.new(o) }
   end
 
   def custom_fields_objects_attributes=(attributes)
-    array = attributes.keys.map{|o| attributes[o] }
-    self.custom_fields = array.map{|o| CustomFieldRecord.new(o) }.as_json
+    array = attributes.keys.map { |o| attributes[o] }
+    self.custom_fields = array.map { |o| CustomFieldRecord.new(o) }.as_json
   end
 
   private
@@ -421,7 +423,6 @@ class App < ApplicationRecord
   end
 end
 
-
 class ScheduleRecord
   include ActiveModel::Model
 
@@ -434,7 +435,7 @@ class ScheduleRecord
   def self.hours_ranges
     date = Date.today
     c = date.to_time.beginning_of_day
-    (1..48).map{|i| c += 30.minutes; c.strftime("%H:%M")    }
+    (1..48).map { |_i| c += 30.minutes; c.strftime("%H:%M") }
   end
 
   def new_record?
@@ -445,8 +446,8 @@ end
 class InboundSettingsRecord
   include ActiveModel::Model
 
-  attr_accessor :enabled, 
-                :users_enabled, 
+  attr_accessor :enabled,
+                :users_enabled,
                 :users_segment,
                 :users_predicates,
                 :visitors_enabled,
@@ -454,7 +455,7 @@ class InboundSettingsRecord
                 :visitors_predicates
 
   def initialize(options)
-    self.enabled = options["enabled"] 
+    self.enabled = options["enabled"]
     self.users_enabled = options.dig("users", "enabled")
     self.users_segment = options.dig("users", "segment")
     self.users_predicates = options.dig("users", "predicates") || []
@@ -486,44 +487,43 @@ class CustomizationRecord
     true
   end
 
-
   def self.pattern_names
-    [
-      'email-pattern',
-      '5-dots',
-      'greek-vase',
-      'criss-cross',
-      'chevron',
-      'blue-snow',
-      'let-there-be-sun',
-      'triangle-mosaic',
-      'dot-grid',
-      'so-white',
-      'cork-board',
-      'hotel-wallpaper',
-      'trees',
-      'beanstalk',
-      'fishnets-and-hearts',
-      'lilypads',
-      'floor-tile',
-      'beige-tiles',
-      'memphis-mini',
-      'christmas-colour',
-      'intersection',
-      'doodles',
-      'memphis-colorful',
+    %w[
+      email-pattern
+      5-dots
+      greek-vase
+      criss-cross
+      chevron
+      blue-snow
+      let-there-be-sun
+      triangle-mosaic
+      dot-grid
+      so-white
+      cork-board
+      hotel-wallpaper
+      trees
+      beanstalk
+      fishnets-and-hearts
+      lilypads
+      floor-tile
+      beige-tiles
+      memphis-mini
+      christmas-colour
+      intersection
+      doodles
+      memphis-colorful
     ]
   end
 
   def self.pattern_base_url
-    'https://www.toptal.com/designers/subtlepatterns/patterns/'
+    "https://www.toptal.com/designers/subtlepatterns/patterns/"
   end
 
-  def self.patterns 
+  def self.patterns
     pattern_names.map do |o|
-      { 
-        name: o, 
-        url: pattern_base_url + o + '.png' 
+      {
+        name: o,
+        url: pattern_base_url + o + ".png"
       }
     end
   end

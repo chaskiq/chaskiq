@@ -30,6 +30,7 @@ class ViewComponentGenerator < Rails::Generators::NamedBase
 
     template "preview.rb", File.join("app/frontend/components", class_path, file_name, "preview.rb")
   end
+
   def create_css_file
     return if options[:skip_css] || options[:skip_js]
 
@@ -57,5 +58,4 @@ class ViewComponentGenerator < Rails::Generators::NamedBase
 
     attributes.map { |attr| "option :#{attr.name}" }.join("\n  ")
   end
-
 end

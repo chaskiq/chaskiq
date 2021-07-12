@@ -31,5 +31,4 @@ class ArticleCollection < ApplicationRecord
       only_path: true
     )
   end
-
 end

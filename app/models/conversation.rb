@@ -182,25 +182,25 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_list
-    broadcast_append_later_to self.app,
-      :conversations ,
-      #action: "replace",
-      target: "conversation-list-#{self.app.key}",
-      partial: "apps/conversations/conversation",
-      locals: { 
-        app: self.app,
-        conversation: self.id
-        #conversation: {a: 1} 
-      }
+    broadcast_append_later_to app,
+                              :conversations,
+                              # action: "replace",
+                              target: "conversation-list-#{app.key}",
+                              partial: "apps/conversations/conversation",
+                              locals: {
+                                app: app,
+                                conversation: id
+                                # conversation: {a: 1}
+                              }
 
-    #broadcast_replace_later_to app,
+    # broadcast_replace_later_to app,
     #  :conversations ,
     #  target: "conversation-item-#{self.conversation.key}",
     #  partial: "apps/conversations/conversation",
     #  action: "replace",
-    #  locals: { 
+    #  locals: {
     #    app: self.app,
-    #    conversation: self.conversation 
+    #    conversation: self.conversation
     #  }
   end
 

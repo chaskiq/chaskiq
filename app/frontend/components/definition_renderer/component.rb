@@ -5,13 +5,13 @@ class DefinitionRenderer::Component < ApplicationViewComponent
   option :size
   option :app_package
   option :location
-  option :category, default: -> {nil}
+  option :category, default: -> {}
   option :values
   option :blocks
-  option :size, default: -> { 'sm' }
-  option :theme, default: -> { nil }
-  option :conversation_key, default: ->{nil}
-  option :app, default: ->{nil}
-  option :path, default: ->{nil}
-  option :ctx, default: ->{ {} }
+  option :size, default: -> { "sm" }
+  option :theme, default: -> {}
+  option :conversation_key, default: -> {}
+  option :app, default: -> {}
+  option :path, default: -> {}
+  option :ctx, default: -> { {} }
 end

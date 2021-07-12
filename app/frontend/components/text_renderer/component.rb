@@ -2,7 +2,6 @@
 
 class TextRenderer::Component < ApplicationViewComponent
   option :text
-  option :style, default: proc { 'paragraph' }
-  option :align, default: proc { 'left' }
-
+  option :style, default: proc { "paragraph" }
+  option :align, default: proc { "left" }
 end

@@ -2,5 +2,5 @@
 
 class CodeBox::Component < ApplicationViewComponent
   option :code
-  option :lang, default: ->{'javascript'}
+  option :lang, default: -> { "javascript" }
 end

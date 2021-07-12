@@ -2,12 +2,12 @@
 
 class Dropdown::Component < ApplicationViewComponent
   option :label
-  option :variant, default: -> {'flat-dark'}
-  option :size, default: -> {'md'}
-  option :orientation, default: -> {'right'}
-  option :origin, default: -> {''}
+  option :variant, default: -> { "flat-dark" }
+  option :size, default: -> { "md" }
+  option :orientation, default: -> { "right" }
+  option :origin, default: -> { "" }
 
-  option :button, default: -> { nil }
+  option :button, default: -> {}
 
   renders_many :actions
 end

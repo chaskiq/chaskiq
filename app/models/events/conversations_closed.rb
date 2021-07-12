@@ -16,11 +16,11 @@ module Events
                  .resolution_avg
                  .set(diff)
 
-      #conversation.broadcast_replace_later_to conversation.app,
+      # conversation.broadcast_replace_later_to conversation.app,
       #  :conversations ,
       #  target: "conversation-list-#{self.app.key}",
       #  partial: "apps/conversations/conversation",
-      #  locals: { 
+      #  locals: {
       #    app: self.app,
       #    conversation: self.id
       #  }

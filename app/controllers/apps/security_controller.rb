@@ -1,57 +1,57 @@
 class Apps::SecurityController < ApplicationController
-	before_action :find_app
-	before_action :set_settings_navigator
+  before_action :find_app
+  before_action :set_settings_navigator
 
-	def index
-		@default_code_lang = params[:code_lang] || 'ruby'
-		@key_options = key_gen_options.find{|o| o[:id] == @default_code_lang}
-		@script = setup_script
-		@showkey = true if params[:show]
-	end
+  def index
+    @default_code_lang = params[:code_lang] || "ruby"
+    @key_options = key_gen_options.find { |o| o[:id] == @default_code_lang }
+    @script = setup_script
+    @showkey = true if params[:show]
+  end
 
+  private
 
-	private 
-
-	def key_gen_options
-		return [
-			{
-				title: 'Ruby',
-				description: 'ruby',
-				id: 'ruby',
-				state: 'archived',
-				code: %{
+  def key_gen_options
+    [
+      {
+        title: "Ruby",
+        description: "ruby",
+        id: "ruby",
+        state: "archived",
+        code: %{
 				OpenSSL::HMAC.hexdigest(
 					'sha256', # hash function
 					'#{@app.encryption_key}', # secret key (keep safe!)
 					current_user.email
-				)},
-			},
-			{
-				title: 'NodeJs',
-				description: 'nodejs',
-				id: 'nodejs',
-				code: %{
+				)}
+      },
+      {
+        title: "NodeJs",
+        description: "nodejs",
+        id: "nodejs",
+        code: %{
 				const crypto = require('crypto');
 				const hmac = crypto.createHmac('sha256', '#{@app.encryption_key}');
 				hmac.update('Message');
 				console.log(hmac.digest('hex'));`,
-			}},
-			{
-				title: 'PHP',
-				description: 'PHP',
-				id: 'php',
-				code: %{
+			}
+      },
+      {
+        title: "PHP",
+        description: "PHP",
+        id: "php",
+        code: %{
 				hash_hmac(
 					'sha256', // hash function
 					$user->email, // user's id
 					'#{@app.encryption_key}' // secret key (keep safe!)
-				);},
-			},
-			{
-				title: 'Python 3',
-				description: 'python',
-				id: 'python',
-				code: %{
+				);}
+      },
+      {
+        title: "Python 3",
+        description: "python",
+        id: "python",
+        code: %{
 				import hmac
 				import hashlib
 				hmac.new(
@@ -59,13 +59,13 @@ class Apps::SecurityController < ApplicationController
 					bytes(request.user.id, encoding='utf-8'), # user's id
 					digestmod=hashlib.sha256 # hash function
 				).hexdigest()
-				},
-			},
-			{
-				title: 'Golang',
-				description: 'golang',
-				id: 'golang',
-				code: %{
+				}
+      },
+      {
+        title: "Golang",
+        description: "golang",
+        id: "golang",
+        code: %{
 				package main
 
 				import (
@@ -85,15 +85,15 @@ class Apps::SecurityController < ApplicationController
 				func main() {
 						fmt.Println(ComputeHmac256("Message", "secret")) // #{@app.encryption_key}
 				}
-				
-				},
-			},
-		]
-	end
 
-	def setup_script
-    hostname = ENV['HOST']
-    ws_hostname = ENV['WS']
+				}
+      }
+    ]
+  end
+
+  def setup_script
+    hostname = ENV["HOST"]
+    ws_hostname = ENV["WS"]
 
     code = %{
         (function(d,t) {
@@ -110,11 +110,10 @@ class Apps::SecurityController < ApplicationController
                 identifier_key: "INSERT_HMAC_VALUE_HERE",
                 properties: { }
               },
-              lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG" 
+              lang: "USER_LANG_OR_DEFAULTS_TO_BROWSER_LANG"
             })
           }
         })(document,"script");
 		}
   end
-
 end

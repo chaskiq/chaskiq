@@ -91,24 +91,24 @@ class ConversationPart < ApplicationRecord
   end
 
   def notify_agents
-    #EventsChannel.broadcast_to(
+    # EventsChannel.broadcast_to(
     #  conversation.app.key.to_s,
     #  type: :conversation_part,
     #  data: as_json
-    #)
+    # )
 
-    broadcast_append_later_to self.conversation.app,
-      :conversations ,
-      #action: "append",
-      target: "conversation-messages-list-#{self.conversation.key}",
-      partial: "apps/conversation_messages/part",
-      locals: { 
-        app: self.conversation.app,
-        message: self,
-        notified: true
-      }
+    broadcast_append_later_to conversation.app,
+                              :conversations,
+                              # action: "append",
+                              target: "conversation-messages-list-#{conversation.key}",
+                              partial: "apps/conversation_messages/part",
+                              locals: {
+                                app: conversation.app,
+                                message: self,
+                                notified: true
+                              }
 
-    self.conversation.notify_conversation_list
+    conversation.notify_conversation_list
   end
 
   def notify_app_users

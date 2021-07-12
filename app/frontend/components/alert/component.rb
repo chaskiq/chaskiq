@@ -4,17 +4,17 @@ class Alert::Component < ApplicationViewComponent
   option :title
   option :message
   option :status
-  option :placement, default: -> {
+  option :placement, default: lambda {
     {
-      vertical: 'bottom',
-      horizontal: 'left',
+      vertical: "bottom",
+      horizontal: "left"
     }
   }
 
   def status_icon
     case status
-    when 'notice', 'success'
-      %{
+    when "notice", "success"
+      %(
         <svg
           class="h-6 w-6 text-green-400"
           fill="none"
@@ -27,9 +27,9 @@ class Alert::Component < ApplicationViewComponent
             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-      }
-    when 'error'
-      %{
+      )
+    when "error"
+      %(
           <svg
             class="h-6 w-6 text-red-400"
             fill="none"
@@ -41,32 +41,32 @@ class Alert::Component < ApplicationViewComponent
               id="Combined-Shape"
             ></path>
           </svg>
-      }
+      )
     else
       ""
     end
   end
 
   def placement_class
-    vertical = 'end'
-    horizontal = 'end'
+    vertical = "end"
+    horizontal = "end"
 
     vertical = case @placement[:vertical]
-    when 'bottom' then 'end'
-    when 'top' then 'start'
-    when 'center' then 'center'
-    else 
-      'end'
-    end
+               when "bottom" then "end"
+               when "top" then "start"
+               when "center" then "center"
+               else
+                 "end"
+               end
 
     horizontal = case @placement[:horizontal]
-    when 'left' then 'end'
-    when 'right' then 'start'
-    when 'center' then 'center'
-    else 
-      'end'
-    end
+                 when "left" then "end"
+                 when "right" then "start"
+                 when "center" then "center"
+                 else
+                   "end"
+                 end
 
-    return "sm:items-#{vertical} sm:justify-#{horizontal}"
+    "sm:items-#{vertical} sm:justify-#{horizontal}"
   end
 end

@@ -1,5 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Apps::Integrations", type: :request do
-
 end

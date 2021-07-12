@@ -65,9 +65,8 @@ gem "geocoder", "~> 1.6"
 gem "geoip"
 gem "truemail"
 
-gem 'hotwire-rails'
+gem "hotwire-rails"
 gem "view_component", require: "view_component/engine"
-
 
 gem "google-cloud-dialogflow"
 
@@ -137,6 +136,7 @@ group :development do
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "web-console", ">= 3.3.0"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem "erb_lint", require: false
   gem "spring"
 end
 

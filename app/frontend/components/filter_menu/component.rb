@@ -3,10 +3,9 @@
 class FilterMenu::Component < ApplicationViewComponent
   option :items
   option :label
-  option :variant, default: ->{nil}
-  option :size, default: ->{nil}
-  option :orientation, default: ->{nil}
-  option :origin, default: ->{nil}
-  option :button, default: ->{nil}
-
+  option :variant, default: -> {}
+  option :size, default: -> {}
+  option :orientation, default: -> {}
+  option :origin, default: -> {}
+  option :button, default: -> {}
 end

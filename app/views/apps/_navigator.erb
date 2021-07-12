@@ -13,7 +13,7 @@
 			<WebSetup />
 		</div>
 
-		<% if @app.plan %>
+		<% if @app.plan.present?  %>
 			<%= link_to app_billing_index_path(@app.key), 
 				class: "group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" do %>
 				<span class="truncate">
@@ -21,7 +21,7 @@
 					<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
 					bg-pink-300 text-pink-800
 					">
-						<%= @app.plan[:name] %>
+						<%= @app.plan.is_a?(Plan) ? @app.plan.name : @app.plan[:name] %>
 					</span>
 				</span>
 			<% end %>
@@ -32,15 +32,20 @@
 			class: "group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" do %>
 			<span class="truncate--">
 				<%= t("conversations.menu.conversations") %>
+				
 				<%= render Badge::Component.new(
 					size: 'sm',
-					variant: @app.active_messenger ? 'green' : 'gray') do %>
+					variant: @app.active_messenger ? 'green' : 'gray') do 
+				%>
+
 					<% if @app.active_messenger %>
 						<%= t('dashboard.status_running') %> 
 					<% else %>
 						<%= t('dashboard.status_paused') %>
 					<% end %>
+
 				<% end %>
+
 			</span>
 		<% end %>
 

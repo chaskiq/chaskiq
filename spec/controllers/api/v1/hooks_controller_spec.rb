@@ -1147,7 +1147,6 @@ RSpec.describe Api::V1::HooksController, type: :controller do
   end
 
   describe "SNS reply on campaign" do
-
     it "message" do
       allow_any_instance_of(Api::V1::HooksController).to receive(
         :read_mail_file

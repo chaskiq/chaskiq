@@ -2,6 +2,6 @@
 
 class PageHeader::Component < ApplicationViewComponent
   option :title
-  option :breadcrumbs, default: ->{nil}
-  option :actions, default: ->{nil}
+  option :breadcrumbs, default: -> {}
+  option :actions, default: -> {}
 end
