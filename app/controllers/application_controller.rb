@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery unless: -> { request.format.json? }
   include PackageIframeBehavior
   # protect_from_forgery with: :null_session
+  before_action :set_locale
 
   layout :layout_by_resource
 
@@ -69,6 +70,15 @@ class ApplicationController < ActionController::Base
 		]
   end
 
+  def languages
+    agent_param = params.dig(:agent,:lang)
+    if( agent_param && set_lang_for_agent(agent_param) )
+      cookies[:lang] = agent_param
+      redirect_to '/' and return
+    end
+    render partial: 'shared/languages'
+  end
+
 
   helper_method :enabled_subscriptions?
 
@@ -83,13 +93,15 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    http_locale = request.headers["HTTP_LANG"]
-    http_splitted_locale = http_locale ? http_locale.to_s.split("-").first.to_sym : nil
-
-    locale = if lang_available?(http_splitted_locale)
-               http_splitted_locale
+    locale = if cookies[:lang]
+                cookies[:lang]
+             elsif current_agent.lang 
+                cookies[:lang] = current_agent.lang
+                current_agent.lang
+             elsif lang_available?(http_splitted_locale)
+                http_splitted_locale
              else
-               I18n.default_locale
+                I18n.default_locale
              end
 
     I18n.locale = begin
@@ -101,10 +113,22 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def http_splitted_locale
+    http_locale = request.headers["HTTP_LANG"]
+    http_locale ? http_locale.to_s.split("-").first.to_sym : nil
+  end
+
   def lang_available?(lang)
     return if lang.blank?
 
     I18n.available_locales.include?(lang.to_sym)
+  end
+
+  def set_lang_for_agent(lang)
+    return unless lang_available?(lang)
+
+    current_agent.update(lang: lang)
+    I18n.locale = lang
   end
 
   def current_resource_owner

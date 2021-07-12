@@ -1,26 +1,55 @@
 
 <div class="space-y-2">
 	<div class="mt-1 space-y-1" aria-labelledby="projects-headline">
-		<a class="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" 
-		href="/apps/GPi9haWV1ocbr4My_Q8xPw/billing">
-			<span class="truncate">
-				Plan: 
-				<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-				bg-pink-300 text-pink-800
-				">super</span>
-			</span>
-		</a>
-		<a class="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" 
-			href="/apps/GPi9haWV1ocbr4My_Q8xPw/messenger">
+
+		<div class="space-y-2">
+			<p
+				class="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light">
+				<%= I18n.t('dashboard.hey', {
+						name: @app.name,
+					}).html_safe
+				%>
+			</p>
+			<WebSetup />
+		</div>
+
+		<% if @app.plan %>
+			<%= link_to app_billing_index_path(@app.key), 
+				class: "group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" do %>
+				<span class="truncate">
+					Plan: 
+					<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+					bg-pink-300 text-pink-800
+					">
+						<%= @app.plan[:name] %>
+					</span>
+				</span>
+			<% end %>
+		<% end %>
+
+
+		<%= link_to app_messenger_index_path(@app.key), 
+			class: "group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black" do %>
 			<span class="truncate--">
-				Live chat status 
-				<span class=" inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-				bg-green-300 text-green-800
-				">Running</span>
+				<%= t("conversations.menu.conversations") %>
+				<%= render Badge::Component.new(
+					size: 'sm',
+					variant: @app.active_messenger ? 'green' : 'gray') do %>
+					<% if @app.active_messenger %>
+						<%= t('dashboard.status_running') %> 
+					<% else %>
+						<%= t('dashboard.status_paused') %>
+					<% end %>
+				<% end %>
 			</span>
-		</a>
-		<a href="https://dev.chaskiq.io" target="_blank" rel="noopener noreferrer" class="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
-			<span class="truncate">Chaskiq Guides</span>
+		<% end %>
+
+		<a href="https://dev.chaskiq.io" target="_blank" 
+			rel="noopener noreferrer" 
+			class="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black">
+			<span class="truncate">
+				<%= t('dashboard.guides') %> 
+			</span>
 		</a>
 		</div>
 </div>

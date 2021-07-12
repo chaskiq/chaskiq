@@ -1,7 +1,9 @@
 <%= render Dropdown::Component.new( label: @label,
 																		variant: @variant, 
 																		size: @size,
-																		orientation: @orientation
+																		orientation: @orientation,
+																		origin: @origin,
+																		button: @button
 																	) do %>
 	<% @items.each do |item| %>
 
@@ -10,18 +12,18 @@
 		%>
 		
 		<div className="py-1">
-			<a
-				href="<%= item[:href] %>"
-				class="w-full group flex items-center
+			<%= content_tag(:a, 
+				href: item[:href], 
+				data: item[:data],
+				class: "w-full group flex items-center
 				px-4 py-2 text-sm leading-5 text-gray-700
 				hover:bg-gray-100 hover:text-gray-900
 				focus:outline-none focus:bg-gray-100
 				focus:text-gray-900
 				dark:hover:bg-gray-700 dark:hover:text-gray-100
 				dark:focus:bg-gray-800
-				<%= checked_class %>
-				"
-			>
+				#{checked_class}") do %>
+	
 				<% if item[:state] == "checked" %>
 					<div className="text-sm text-green-500">
 						<CheckmarkIcon>check</CheckmarkIcon>
@@ -43,7 +45,8 @@
 						</span>
 					<% end %>
 				</div>
-			</a>
+
+			<% end %>	
 		</div>
 	<% end %>
 <% end %>

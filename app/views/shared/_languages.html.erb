@@ -1,0 +1,26 @@
+<%= turbo_frame_tag 'modal' do %>
+	<%= form_for current_agent, url: '/languages', "data": {'turbo-frame': '_top'} do |f| %>
+
+		<% langs = I18n.t('common.langs').map{|k,v| {
+				label: I18n.t("common.langs.#{k}"),
+				value: k
+			} 
+		} %>
+
+		<%= f.select :lang, options_for_select(langs.map{|o| [o[:label], o[:value]]}, f.object.lang), {}, {
+				data: {
+					'select-target': 'select', 
+					options: langs.to_json 
+				},
+				label: false
+			} 
+			%>
+
+		<%= f.submit(
+				t("common.submit"), 
+				class: 'btn btn-success py-4'
+			)
+		%>
+
+	<% end %>
+<% end %>

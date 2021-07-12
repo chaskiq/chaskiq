@@ -2,11 +2,21 @@
 <div class="relative inline-block text-left" data-controller="dropdown" >
   <div>
 
-		<%= render Button::Component.new(
-      size: @size, 
-      variant: @variant, data: { action: "click->dropdown#toggle" }) do %>
-			<%= @label %>
-		<% end %>
+    <% if @button.present? %>
+
+      <%= @button.call( {
+        size: @size, 
+        variant: @variant, data: { action: "click->dropdown#toggle" }
+      }) 
+      %>
+
+    <% else %>
+      <%= render Button::Component.new(
+        size: @size, 
+        variant: @variant, data: { action: "click->dropdown#toggle" }) do %>
+        <%= @label %>
+      <% end %>
+    <% end %>
     
   </div>
 
@@ -21,7 +31,7 @@
       To: "transform opacity-0 scale-95"
   -->
   <div data-dropdown-target="toggleable" 
-		class="z-10 hidden origin-top-right absolute <%=@orientation%>-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" 
+		class="z-10 hidden origin-top-right absolute <%=@orientation%>-0 <%=@origin%>-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" 
 		role="menu" 
 		aria-orientation="vertical" 
 		aria-labelledby="menu-button" 

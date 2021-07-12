@@ -3,7 +3,7 @@ import { patch } from '@rails/request.js'
 
 export default class extends Controller {
   connect() {
-    console.log("Listening for notifications", this.element.dataset)
+    // console.log("Listening for notifications", this.element.dataset)
     this.pling = new Audio('/sounds/BLIB.wav')
 
     if(this.element.dataset.read == "false" && this.element.dataset.notified === "true"){

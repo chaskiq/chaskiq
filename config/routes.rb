@@ -16,6 +16,10 @@ Rails.application.routes.draw do
 
   mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
 
+
+  patch '/languages', to: 'application#languages'
+  get '/languages', to: 'application#languages'
+
   post '/graphql', to: 'graphql#execute'
   post '/api/graphql', to: 'api/graphql#execute'
   get :widget, to: 'widgets#show', path: '/embed'
@@ -43,6 +47,8 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_agent_session
   end
 
+
+
   resources :apps do
     resources :campaigns , controller: "apps/campaigns"
     resources :agents , controller: "apps/agents"
@@ -53,6 +59,7 @@ Rails.application.routes.draw do
     resources :conversations , controller: "apps/conversations" do
       collection do
         get :sidebar
+        post :search
       end
       resources :conversation_messages, controller: "apps/conversation_messages"
     end

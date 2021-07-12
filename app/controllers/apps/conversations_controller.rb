@@ -2,20 +2,10 @@ class Apps::ConversationsController < ApplicationController
 	before_action :find_app
 
 	def index
-		@conversations = filter_by_agent(params[:agent_id], params[:filter])
-		@conversations = @conversations.page(params[:page]).per(params[:per])
-		sort_conversations(params[:sort])
-		@conversations = @conversations.tagged_with(params[:tag]) if params[:tag].present?
-		# TODO: add _or_main_participant_name_cont, or do this with Arel
-		if params[:term]
-			@conversations = @conversations.ransack(
-				messages_messageable_of_ConversationPartContent_type_text_content_cont: params[:term]
-			).result
-		end
-
-		@conversations = @app.conversations
-													.includes(:main_participant)
-													.page(params[:page]).per(10)
+		@conversations = search_service.search
+		@conversations = @conversations
+			.includes(:main_participant)
+			.page(params[:page]).per(10)
 
 		if request.headers['Turbo-Frame'].present?
 				render turbo_stream: [
@@ -39,11 +29,30 @@ class Apps::ConversationsController < ApplicationController
 		end										
 	end
 
+	def search
+		@conversations = search_service.search
+		@conversations = @conversations
+			.includes(:main_participant)
+			.page(params[:page]).per(10)
+
+		render turbo_stream: [
+			
+			turbo_stream.replace(
+				"conversation-list-#{@app.key}", 
+				partial: "apps/conversations/collection"
+			),
+
+			turbo_stream.replace(
+				"conversation-list-pagination", 
+				partial: "apps/conversations/pagination" 
+			),
+		]									
+	end
+
 	def show
-
 		@conversation = @app.conversations.find_by(key: params[:id])
-
-		@conversations = @app.conversations
+		@conversations = search_service.search
+		@conversations = @conversations
 		.includes(:main_participant)
 		.page(params[:page]).per(10)
 
@@ -121,39 +130,16 @@ class Apps::ConversationsController < ApplicationController
 
 	end
 
-	private def filter_by_agent(agent_id, filter)
-		collection = @app.conversations
-											 .left_joins(:messages)
-											 .where.not(conversation_parts: { id: nil })
-											 .distinct
-
-		collection = collection.where(state: filter) if filter.present?
-
-		if agent_id.present?
-			agent = agent_id.zero? ? nil : agent_id
-			collection = collection.where(assignee_id: agent)
-		end
-
-		collection
-	end
-
-	private def sort_conversations(sort)
-		if sort.present?
-			s = case sort
-					when "newest" then "updated_at desc"
-					when "oldest" then "updated_at asc"
-					when "priority_first" then "priority asc, updated_at desc"
-					else
-						"id desc"
-					end
-
-			if sort != "unfiltered" # && agent_id.blank?
-				@conversations = @conversations.where
-																 .not(latest_user_visible_comment_at: nil)
-			end
-
-			@conversations = @conversations.order(s)
-		end
+	private def search_service
+		@search_service ||= ConversationSearchService.new(
+			options: {
+				app: @app,
+				term: params.dig(:conversation_search_service, :term),
+				sort: params.dig(:conversation_search_service, :sort),
+				tag: params.dig(:conversation_search_service, :tag),
+				agent_id: params.dig(:conversation_search_service, :agent_id)
+			}
+		)
 	end
 
 	private def menu_items_response(item, method)

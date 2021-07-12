@@ -6,4 +6,7 @@ class FilterMenu::Component < ApplicationViewComponent
   option :variant, default: ->{nil}
   option :size, default: ->{nil}
   option :orientation, default: ->{nil}
+  option :origin, default: ->{nil}
+  option :button, default: ->{nil}
+
 end

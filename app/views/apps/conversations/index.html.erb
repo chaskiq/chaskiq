@@ -11,16 +11,28 @@
       filter_items = I18n.t("conversations.states").map do |k,v| 
       { 
             title: v, 
-            href: app_security_index_path(@app.key, states: k ),
-            checked: false
+            href: "#",
+            checked: false,
+            data: {
+               controller: "attribute-clone",
+               "clone-to": "#conversation_search_service_filter",
+               value: "#{k}",
+               action: "click->attribute-clone#cloneTo"
+            }
          }
       end 
 
       sorts_items = I18n.t("conversations.sorts").map do |k,v| 
-      { 
+         { 
             title: v, 
-            href: app_security_index_path(@app.key, states: k ),
-            checked: false
+            href: "#",
+            checked: false,
+            data: {
+               controller: "attribute-clone",
+               "clone-to": "#conversation_search_service_sort",
+               value: "#{k}",
+               action: "click->attribute-clone#cloneTo"
+            }
          }
       end 
    %>
@@ -73,6 +85,10 @@
                   class="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1" 
                   placeholder="search conversations" 
                   value=""
+                  data-controller="attribute-clone"
+			         data-clone-to="#conversation_search_service_term"
+			         data-value=""
+			         data-action="input->attribute-clone#cloneTo"
                >
             </div>
 
@@ -91,15 +107,32 @@
 
          <%= turbo_stream_from @app, :conversations %>
 
+         <div class="hidden">
+            <%= form_for @search_service, 
+               url: search_app_conversations_path(@app.key), 
+               method: :post,
+               data: {
+                  controller: 'search-conversations',
+                  action: "item:add->cart#refreshTotal"
+               } do |f| %>
+               <%= f.text_field :term, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :tag, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :agent_id, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :filter, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.text_field :sort, "data-action": "change->search-conversations#handleChange" %>
+               <%= f.submit %>
+            <% end %>
+         </div>
+
+
+
          <div 
             class="overflow-scroll" 
             style="height: calc(100vh - 60px);"
             data-infinite-scroll-target="entries"
             >
 
-            <%= turbo_frame_tag "conversation-list-#{@app.key}" do %>
-               <%= render partial: 'conversation', collection: @conversations, locals: {app: @app} %>
-            <% end %>
+            <%= render 'collection' %>
 
             <div class="invisible h-1" data-infinite-scroll-target="pagination">
                <%= render partial: 'apps/conversations/pagination' %>
