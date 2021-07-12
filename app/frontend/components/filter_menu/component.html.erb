@@ -11,12 +11,13 @@
 			"bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100" : '' 
 		%>
 		
-		<div className="py-1">
+		<div class="py-1">
 			<%= content_tag(:a, 
 				href: item[:href], 
 				data: item[:data],
 				class: "w-full group flex items-center
-				px-4 py-2 text-sm leading-5 text-gray-700
+				px-4 py-2 text-sm leading-5 
+				text-gray-700 dark:text-gray-200
 				hover:bg-gray-100 hover:text-gray-900
 				focus:outline-none focus:bg-gray-100
 				focus:text-gray-900
@@ -25,7 +26,7 @@
 				#{checked_class}") do %>
 	
 				<% if item[:state] == "checked" %>
-					<div className="text-sm text-green-500">
+					<div class="text-sm text-green-500">
 						<CheckmarkIcon>check</CheckmarkIcon>
 					</div>
 				<% end %>
@@ -34,13 +35,13 @@
 					<%= item[:icon] %>
 				<% end %>
 
-				<div className="flex flex-col justify-between ml-2">
-					<span className="font-bold self-start dark:text-gray-100">
+				<div class="flex flex-col justify-between ml-2">
+					<span class="font-bold self-start dark:text-gray-100">
 						<%= item[:name] || item[:title] %>
 					</span>
 
 					<% if item[:description] %>
-						<span className="text-xs text-left dark:text-gray-300">
+						<span class="text-xs text-left dark:text-gray-300">
 							<%= item[:description] %>
 						</span>
 					<% end %>

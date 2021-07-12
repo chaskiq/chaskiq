@@ -17,7 +17,7 @@ class Apps::UserDataController < ApplicationController
   end
 
   def edit
-    @custom_field = @app.custom_fields_objects.find { |o| o.name == params[:id] }
+    @tag = @app.custom_fields_objects.find { |o| o.name == params[:id] }
   end
 
   def update

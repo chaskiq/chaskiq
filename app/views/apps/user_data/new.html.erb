@@ -4,7 +4,19 @@
 		data: {'turbo-frame': '_top' } do |f|%>
 
 		<%= f.text_field :name %>
-		<%= f.text_field :type %>
+		<%= f.select :type, options_for_select() %>
+
+		<% options = @custom_field.translations.map(&:locale)  %>
+		
+		<%= f.select :type, options_for_select(options.map{|o| [o,o]}, nil), {}, {
+			data: {
+				'select-target': 'select', 
+				options: labeled_options.to_json 
+			},
+			label: I18n.t('definitions.settings.languages.select_lang')
+		} 
+		%>
+
 
 		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
 	<% end %>

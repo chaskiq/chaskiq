@@ -14,7 +14,9 @@
     </div>
     <div class="overflow-y-auto h-full">
       <%= link_to app_path(@app.key), 
-        data: {"controller"=> "tippy", "content": "eooeoe", "turbo-frame"=>"content", "turbo-action": "replace"}, 
+        data: {
+          "controller"=> "tippy", "content": "eooeoe", "placement": 'right', 
+          "turbo-frame"=>"content", "turbo-action": "replace"}, 
         'aria-label': "Dashboard", 
         class: "text-gray-400  rounded-md flex  justify-center  cursor-pointer bg-gray-800 hover:bg-gray-900 h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden" do %>
         <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="15" height="15">

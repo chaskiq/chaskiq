@@ -5,7 +5,23 @@
 		data: {'turbo-frame': '_top' } do |f|%>
 
 		<%= f.text_field :name %>
-		<%= f.text_field :color %>
+
+		<% options = I18n.t('settings.user_data.attr_types') %>
+		
+		<%= f.select :type, options_for_select(options.map{|k,v| [k,v]}, nil), {}, {
+			data: {
+				'select-target': 'select', 
+				options: options.map{|k,v| {label: k, value: v }  }.to_json 
+			},
+			label: I18n.t('definitions.settings.languages.select_lang')
+		} 
+		%>
+
+
+		"[erb]": {
+        "editor.defaultFormatter": "aliariff.vscode-erb-beautify"
+    },
+
 
 		<%= f.submit(t("common.submit"), class: "btn btn-success")%>
 	<% end %>
