@@ -193,25 +193,25 @@ class AppUsers extends React.Component {
       {
         name: 'name',
         type: 'string',
-        label: "Agent's Name",
+        label: I18n.t("definitions.agents.name.label"),
         // hint: "we'll send POST requests",
-        placeholder: 'John Doe',
+        placeholder: I18n.t("definitions.agents.name.placeholder"),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
         name: 'email',
         type: 'string',
-        label: 'Email for agent',
+        label: I18n.t("definitions.agents.email.label"),
         // hint: "we'll send POST requests",
-        placeholder: 'john@example.com',
+        placeholder: I18n.t("definitions.agents.email.placeholder"),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'access_list',
         type: 'select',
-        label: 'Roles for agent',
-        hint: 'blank access will disable account settings access for user',
+        label: I18n.t("definitions.agents.access_list.label"),
+        hint: I18n.t("definitions.agents.access_list.hint"),
         multiple: true,
         options: [
           { label: 'none', value: null },

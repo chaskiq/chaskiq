@@ -220,7 +220,7 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
                 />
                 <label htmlFor="leads" className="ml-3">
                   <span className="block text-sm leading-5 font-medium text-gray-700 dark:text-gray-300">
-                    Leads
+                    {I18n.t("common.leads")}
                   </span>
                 </label>
               </div>
@@ -235,7 +235,7 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
                 />
                 <label htmlFor="users" className="ml-3">
                   <span className="block text-sm leading-5 font-medium text-gray-700 dark:text-gray-300">
-                    Users
+                    {I18n.t("common.users")}
                   </span>
                 </label>
               </div>
@@ -266,7 +266,7 @@ function FileUpload({ onChange, loading }) {
         </svg>
         {loading && <Progress size={8} />}
 
-        <span className="mt-2 text-base leading-normal">
+        <span className="mt-2 text-xs leading-normal">
           {I18n.t('contact_manager.select_file')}
         </span>
         <input

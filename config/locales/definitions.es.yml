@@ -165,6 +165,18 @@ es:
         label: eventos para enviar
         hint: chaskiq entregará estos eventos al punto final configurado
 
+    agents:
+      email: 
+        label: Correo electrónico de agente
+        placeholder: john@example.com
+      name:	
+        label: Nombre de agente
+        placeholder: John Doe
+      roles: 
+        label: Access List
+      access_list: 
+        label: 'Roles de agente'
+        hint: 'La lista en blanco bloqueará el acceso a los ajuste de cuenta para este usuario'
 
   data_tables:
     articles:
@@ -205,6 +217,12 @@ es:
       last_seen: Visto por primera vez
       first_seen: Ultima vez visto
       subscription_status:
-        subscribed: Subscrito
+        subscribed: Suscrito
         unsubscribed: Desuscrito
         passive: Pasiva
+
+    settings:
+      locale: Idioma
+      greetings: Saludo
+      intro: Intro
+      tagline: Eslogan

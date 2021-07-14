@@ -100,7 +100,7 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
   function columns() {
     const cols = fields.map((field) => ({
       field: field,
-      title: field,
+      title: I18n.t(`data_tables.settings.${field}`),
       render: (row) => {
         return (
           row && (

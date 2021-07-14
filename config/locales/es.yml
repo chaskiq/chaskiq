@@ -46,9 +46,19 @@ es:
     leads: Prospectos
     visitors: Visitantes
     users: Usuarios
+    type_message: Escribe tu mensaje aquí
+    search_conversations: Buscar conversaciones
   status_messages:
     error: "Error"
     success: "Éxito"
+    updated_success: Actualizado correctamente
+    updated_error: Error actualizado
+    created_success: Creado correctamente
+    created_error: Error creando
+    deleted_success: Eliminado correctamente
+    deleted_error: Error eliminando
+    reordered_error: Error reordenando
+    reordered_success: Reordenado correctamente
   error_view:
     title: Woops! something went wrong.
     subtitle: Unfortunately 🤯
@@ -204,7 +214,7 @@ es:
     clone_title: Clonar
     clone_description: clona la campaña
     activate: "Activar campaña"
-    enables: Enables campaign
+    enables: Activa la campaña
     disables: Desactiva la campaña
     state:
       enabled: habilitado
@@ -298,7 +308,7 @@ es:
         route_costumer: '¿Qué quieres hacer cuando elijan "Sí, soy un cliente"?'
         assign: Participar en la conversación
         close: Borrar conversación
-        ask: Color para los detalles del contacto
+        ask: Solicitar los detalles del contacto
         ask_hint: Si aún no tenemos sus datos de contacto, Bot sugerirá que los clientes dejen su dirección de correo electrónico o su número de teléfono para recibir notificaciones cuando usted responda.
         dont_ask_email: No pedir email
         ask_email_phone: Solicitar correo electrónico o número móvil
@@ -498,7 +508,7 @@ es:
         hint: Esto no afecta a los mensajes salientes que envía.
     team:
       title: Equipo
-      invitations: invitaciones
+      invitations: Invitaciones
       agents: Agentes
       invitation_success: '¡Invitación enviada!'
       invitatin_error: '¡Invitación enviada!'
@@ -623,7 +633,7 @@ es:
     create: Crear Usuarios y Prospectos
     import_csv: Importar csv
     success_message: Procesando la importación de archivos, se le notificará el estado pronto
-    import_contacts: importar_contactos
+    import_contacts: importar contactos
     import_exp: Puedes subir un archivo csv o excel para importar contactos
     import_type: Tipo de importación
     import_choose: Elija qué tipo de contactos importará

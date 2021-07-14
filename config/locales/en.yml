@@ -47,9 +47,19 @@ en:
     leads: Leads
     visitors: Visitors
     users: Users
+    type_message: type your message
+    search_conversations: search conversations
   status_messages:
     error: "Error"
-    success: "Éxito"
+    success: "Success"
+    updated_success: Updated successfully
+    updated_error: Error on upddate
+    created_success: Successfully created
+    created_error: Error creating
+    deleted_success: Successfully deleted
+    deleted_error: Error deleting
+    reordered_error: Error reordering
+    reordered_success: Successfully Reordered
   error_view:
     title: Woops! something went wrong.
     subtitle: Unfortunately 🤯
