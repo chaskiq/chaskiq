@@ -333,10 +333,18 @@ class App < ApplicationRecord
   end
 
   ### JSON DATA OBJECTS ###
+  def lead_tasks_settings_objects
+    return LeadTasksSettings.new if lead_tasks_settings.blank?
+    @lead_tasks_settings_objects ||= LeadTasksSettings.new(lead_tasks_settings)
+  end
+
+  def user_tasks_settings_objects
+    return UserTasksSettings.new if user_tasks_settings.blank?
+    @user_tasks_settings_objects ||= UserTasksSettings.new(user_tasks_settings)
+  end
 
   def team_schedule_objects
     return [] if team_schedule.blank?
-
     @team_schedule_objects ||= team_schedule.map { |o| ScheduleRecord.new(o) }
   end
 
@@ -563,4 +571,24 @@ class CustomFieldRecord
   def new_record?
     true
   end
+end
+
+class LeadTasksSettings
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :assignee,
+                :delay,
+                :email_requirement,
+                :override_with_task,
+                :routing,
+                :share_typical_time,
+                :task_rules,
+                :tasks_rules,
+                :trigger
+end
+
+class UserTasksSettings
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :delay
 end

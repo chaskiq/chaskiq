@@ -1,0 +1,66 @@
+<%= turbo_frame_tag 'bot-task-editor' do %>
+	<%= form_for @bot, url: app_bot_path(@app.key, @bot, tab: params[:tab]) do |f| %>
+
+		<%= f.text_field :name %>
+
+		<%= Time.now %>
+
+		<div class="">
+
+			<p class="text-lg">PATHS</p>
+
+			<div class="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow">
+				
+				<div class="hidden sm:w-2/4 bg-gray-50 dark:bg-gray-900 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5">
+					
+					<%= f.text_field :new_path_title, hint: t("doorkeeper.applications.help.name") %>
+					
+					<% @bot.bot_paths_objects.each do |path| %>
+						<button class="ring-2 ring-black
+													focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50
+													cursor-pointer w-full py-2 px-2 
+													bg-white dark:bg-gray-900 border-1 
+													shadow max-w-3xl break-all flex items-center">
+							<%= path.title %>
+						</button>
+					<% end %>
+
+				<%= link_to( I18n.t('common.add_new'), 
+					edit_app_bot_path(@app.key, @bot, mode: 'new-step'), 
+					data: {
+					'turbo-frame': 'modal', 
+					'turbo-action': 'replace', 
+					'action': 'click->modal#open'
+					}, 
+					class: "self-center btn btn-flat-dark") 
+				%>
+
+				</div>
+
+				<div class="w-full shadow">
+					<div class="top-0 sticky py-4">
+
+						<div>
+							<%= f.fields_for :bot_paths_objects do |ff| %>
+
+							<div class="hidden">
+								<div class="w-full p-6 border-b-2 border-gray-200">
+									<%= ff.text_field :id, label: "path id" %>
+									<%= ff.text_field :title, label: "path name" %>
+								</div>
+
+									<p class="text-lg">STEPS</p>
+
+									<%= render 'apps/bots/editor/steps', f: ff %>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<%= f.submit t("common.save"), class: 'btn btn-success my-5'%>
+		</div>
+
+	<% end %>
+<% end %>

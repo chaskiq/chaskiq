@@ -9,10 +9,13 @@ class Apps::SettingsController < ApplicationController
       :outgoing_email_domain,
       :tagline,
       :gather_social_data,
-      :register_visits
+      :register_visits,
+      user_tasks_settings: [:delay],
+      lead_tasks_settings: [:delay, :routing, :share_typical_time, :share_typical_time, :assignee, :email_requirement ]
     )
+
     @app.update(request_params)
 
-    redirect_to app_settings_path(@app.key)
+    redirect_to params[:redirect] ? params[:redirect] : app_settings_path(@app.key)
   end
 end

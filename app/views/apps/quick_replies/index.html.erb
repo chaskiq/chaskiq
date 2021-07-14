@@ -19,12 +19,12 @@
         </div>
   
         <div class="flex">
-          <div class="w-1/3 bg-white dark:bg-black shadow overflow-hidden rounded rounded-r-none">
+          <div class="w-1/3 bg-white dark:bg-gray-900 shadow overflow-hidden rounded rounded-r-none">
             <%= render 'list' %>
           </div>
 
 					<%= turbo_frame_tag "quick_reply_editor", 
-						class: 'w-2/3 relative z-0 p-6 shadow bg-yellow rounded rounded-l-none' do %>
+						class: 'w-2/3 relative z-0 p-6 shadow dark:bg-gray-800 rounded rounded-l-none' do %>
 		 				
           <%end %>
         </div>

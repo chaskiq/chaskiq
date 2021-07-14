@@ -30,6 +30,8 @@ class SegmentManagerService
   end
 
   def generate_predicates(predicate)
+    predicate = predicate.with_indifferent_access
+        
     SegmentPredicate.new(
       type: predicate[:type],
       attribute: predicate[:attribute],

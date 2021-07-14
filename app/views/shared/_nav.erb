@@ -129,6 +129,11 @@
                                 {
                                   title: I18n.t('navigator.user_menu.signout'),
                                   id: 'sign-out',
+                                  render: lambda{|o| 
+                                    %{
+                                      #{button_to I18n.t('navigator.user_menu.signout'), destroy_agent_session_path, method: :delete, form: {"data-turbo": false} }
+                                    }
+                                  }
                                 }
                               ]
               %>

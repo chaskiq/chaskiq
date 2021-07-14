@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "modal" do %>
 	<%= form_for @tag, 
-		url: app_tag_path(@app.key, @tag.name), 
+		url: app_user_datum_path(@app.key, @tag.name), 
 		method: :patch,
 		data: {'turbo-frame': '_top' } do |f|%>
 

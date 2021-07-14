@@ -21,13 +21,14 @@ class Apps::UserDataController < ApplicationController
   end
 
   def update
+    resource_params = params.require(:custom_field_record).permit(:name, :type)
     @custom_field = @app.custom_fields_objects.find { |o| o.name == params[:id] }
-    @custom_field.assign_attributes(params[:tag_list_record].permit!)
+    @custom_field.assign_attributes(resource_params)
     @app.custom_fields = @app.custom_fields_objects.as_json
 
     if @app.save
       flash.now[:notice] = "Place was updated!"
-      redirect_to app_tags_path(@app.key)
+      redirect_to app_user_data_path(@app.key)
     else
       render "new", status: :unprocessable_entity
     end

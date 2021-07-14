@@ -95,7 +95,16 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :bots , controller: "apps/bots"
+    resources :bots , controller: "apps/bots" do
+      collection do
+        get :outbound
+        get :new_conversations
+        post :sort
+        get :users
+        get :leads
+      end
+    end
+    
     resources :segments , controller: "apps/segments" do
       member do
         post :edit_segment

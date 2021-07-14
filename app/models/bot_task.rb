@@ -201,4 +201,114 @@ class BotTask < Message
   def self.duplicate(record)
     create(record.dup)
   end
+
+
+  attr_accessor :new_path_title
+
+  def bot_paths_objects
+    @bot_paths_objects ||= (paths.map{|o| BotPath.new(o) } || [])
+  end
+
+  def bot_paths_objects=(attrs)
+    @bot_paths_objects = attrs.map{|o| BotPath.new(o) }
+  end
+
+  def bot_paths_objects_attributes=(attributes)
+    
+    binding.pry
+    
+    #array = attributes.keys.map { |o| attributes[o] }
+    #self.paths = JSON.parse(array.map { |o| ScheduleRecord.new(o) }.to_json)
+    # array.map{|o| ScheduleRecord.new(o) }
+  end
+
+end
+
+
+class BotPath
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :id,
+                :steps,
+                :title,
+                :follow_actions
+
+  def steps=(attrs)
+    @steps = attrs ? attrs.map{|o| BotPathStep.new(o)} : []
+  end
+
+  def steps_attributes=(attrs)
+    @steps = attrs ? attrs.map{|o| BotPathStep.new(o)} : []
+  end
+end
+
+class BotPathStep
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :type,
+                :controls,
+                :messages,
+                :step_uid
+
+  def messages=(attrs)
+    @messages = attrs ? attrs.map{|o| BotPathStepMessage.new(o)} : []
+  end
+
+  def messages
+    @messages || []
+  end
+
+  def controls
+    @controls || []
+  end
+
+  def controls=(attrs)
+    @controls = BotPathStepControl.new(attrs)
+  end
+end
+
+class BotPathStepControl
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :type,
+                :schema,
+                :messages,
+                :wait_for_input,
+                :label
+  def schema
+    @schema || []
+  end
+
+  def schema=(attrs)
+    @schema = attrs.map {|o| BotPathStepSchema.new(o) }
+  end
+
+  def messages
+    @messages ||= []
+  end
+
+  def messages=(attrs)
+    @messages = attrs.map {|o| BotPathStepMessage.new(o) }
+  end
+end
+
+class BotPathStepSchema
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :id, 
+                :label, 
+                :element, 
+                :next_step_uuid, 
+                :type, 
+                :controls,
+                :messages,
+                :step_uid
+  #              :,
+  #              :messages
+end
+
+class BotPathStepMessage
+  include ActiveModel::AttributeAssignment
+  include ActiveModel::Model
+  attr_accessor :app_user, :html_content, :serialized_content
 end
