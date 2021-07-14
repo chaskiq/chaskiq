@@ -67,13 +67,13 @@ const SortableItem = sortableElement(
 function AppInserter({ app, update }) {
   const options = [
     {
-      name: 'users',
+      name: I18n.t('common.users'),
       namespace: 'userHomeApps',
       n: 'user_home_apps',
       classes: 'rounded-l-lg',
     },
     {
-      name: 'visitors',
+      name: I18n.t('common.visitors'),
       namespace: 'visitorHomeApps',
       n: 'visitor_home_apps',
       classes: 'rounded-r-lg',
@@ -185,15 +185,15 @@ function HomeAppInserter({ app, update, option, capability }) {
       <div className="flex justify-around items-center">
         <div>
           <h2 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-            Add apps to your Messenger
+            {I18n.t("settings.app_inserter.title")}
           </h2>
 
-          <p>Help your customers before they start a conversation</p>
+          <p>{I18n.t("settings.app_inserter.subtitle")}</p>
         </div>
 
         <div className="flex justify-end my-8">
           <Button variant={'success'} onClick={() => setIsOpen(true)}>
-            Add app
+            {I18n.t("settings.app_inserter.action")}
           </Button>
         </div>
       </div>

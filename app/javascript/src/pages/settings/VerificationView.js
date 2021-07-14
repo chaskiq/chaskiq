@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import Button from '@chaskiq/components/src/components/Button'
 import Input from '@chaskiq/components/src/components/forms/Input'
+import I18n from '../../shared/FakeI18n'
 
 function VerificationView({ app }) {
   const [currentLang, setCurrentLang] = React.useState('ruby')
@@ -148,11 +149,11 @@ function VerificationView({ app }) {
 
       <div className="flex md:w-1/4 items-center">
         <Input
-          label="Identity verification secret"
+          label={I18n.t("identified_users.encryption_key_label")}
           disabled={true}
           value={app.encryptionKey}
           type={show ? 'text' : 'password'}
-          helperText={"Don't share this code"}
+          helperText={I18n.t("identified_users.dont_share_code")}
         />
 
         <Button
@@ -169,8 +170,7 @@ function VerificationView({ app }) {
 
       <p className="">
         {I18n.t('identified_users.hint1')}
-        To configure identity verification, you will need to generate an HMAC on
-        your server for each logged in user and submit it to Chaskiq.
+        {I18n.t("identified_users.hmac_hint1")}
       </p>
 
       <p className="font-bold">{I18n.t('identified_users.lang')}</p>

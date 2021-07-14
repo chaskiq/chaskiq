@@ -255,7 +255,10 @@ function FieldsForm({ selected }) {
       value: 'integer',
       label: I18n.t('settings.user_data.attr_types.integer'),
     },
-    { value: 'date', label: I18n.t('settings.user_data.attr_types.date') },
+    { 
+      value: 'date', 
+      label: I18n.t('settings.user_data.attr_types.date') 
+    },
   ]
 
   function selectedOption() {

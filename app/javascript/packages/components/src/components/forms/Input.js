@@ -164,7 +164,10 @@ const WrappedComponent = React.forwardRef(function Input(
     return (
       <FormField name={name} error={error} label={null} helperText={helperText}>
         <div className="flex flex-col items-center">
-          <img className="pb-2" src={defaultValue} alt={label || name} />
+          {
+            !props.hideImage &&
+            <img className="pb-2" src={defaultValue} alt={label || name} />
+          }
 
           <input
             accept={props.accept || 'image/*'}
@@ -185,7 +188,7 @@ const WrappedComponent = React.forwardRef(function Input(
                 ref.current && ref.current.click()
               }}
             >
-              Upload {label}
+              {I18n.t("common.upload_field", {field: label})}
             </Button>
           </label>
         </div>

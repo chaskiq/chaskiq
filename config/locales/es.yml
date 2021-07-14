@@ -21,12 +21,16 @@ es:
     next: Siguente
     prev: Anterior
     showing: Mostrando
+    your_apps: Tus apps
     to: para
     of: de
     results: resultados
     tz_hint: La zona horaria de tu navegador es <b className="text-bold">%{timezone}</b>
     send: Enviar
     actions: Acciones
+    upload_field: subir %{field}
+    choose_color: Elegir color
+    image: Imagen
     langs:
       en: Inglés
       es: Español
@@ -37,8 +41,14 @@ es:
     select_language: Seleccionar Idioma
     send_on_enter: Publicar al entrar
     away_mode: Modo Ausente
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+    toggle_light_mode: Cambiar a modo light
+    toggle_dark_mode: Cambiar a modo dark
+    leads: Prospectos
+    visitors: Visitantes
+    users: Usuarios
+  status_messages:
+    error: "Error"
+    success: "Éxito"
   error_view:
     title: Woops! something went wrong.
     subtitle: Unfortunately 🤯
@@ -139,7 +149,8 @@ es:
     messages:
       seen: Visto
       not_seen: No Visto
-      note: Nota
+      note: Nota Privada
+      reply: Respuesta
     sidebar:
       show_profile: mostrar perfil
       location: Ubicación
@@ -329,6 +340,10 @@ es:
     hint1: Para configurar la verificación de identidad, necesitará generar un HMAC en su servidor para cada usuario conectado y enviarlo a Chaskiq.
     lang: Tu código para generar un HMAC para tu aplicación es
     hint2: 'Dondequiera que suba datos de usuario y tenga un fragmento de código de Chaskiq, Añade un nuevo atributo llamado <span className="font-bold">identifier_key</span> y pasa el <span className="font-bold">email</span> y dale la etiqueta HMAC para el usuario conectado:'
+    encryption_key_label: Secreto de verificación de identidad
+    dont_share_code: "No comparta este código"
+    hmac_hint1: para configurar la verificación de identidad, deberá generar un HMAC en
+        su servidor para cada usuario que haya iniciado sesión y envíelo a Chaskiq.
   quick_replies:
     title: Respuestas rápidas
     search: Buscar respuestas rápidas
@@ -375,7 +390,7 @@ es:
       privacy_title: Configuración de privacidad
       translations: Traducciones
       availability: Disponibilidad
-      email_requirement: Se requiere Email.
+      email_requirement: Requerimiento de correo
       inbound_settings: Ajustes de entrada
       messenger_style: Estilo de Messenger
       user_data: Datos del usuario
@@ -390,6 +405,10 @@ es:
       remove_success: Paquete eliminado correctamente
       remove_error: Error al procesar el paquete
       create_integration: Cree nuevo paquete
+    app_inserter:
+      title: Agrega apps a la ventana de chat
+      subtitle: Ayuda a tus clientes antes de que comiencen a conversar
+      action: Agregar app
     integrations:
       title: Integración de terceros
       create_success: Nombre de integración

@@ -120,6 +120,7 @@ class Settings extends Component {
       {
         name: 'logo',
         type: 'upload',
+        label: 'logo',
         handler: (file) => this.uploadHandler(file, 'logo'),
         grid: { xs: 'w-full', sm: 'w-1/3' },
       },
@@ -459,7 +460,7 @@ function LanguageForm({ settings, update, deleteLang }) {
 
     const cols = fields.map((field) => ({
       field: field,
-      title: field,
+      title: I18n.t(`data_tables.articles.settings.${field}`),
       render: (row) => {
         return (
           row && (
@@ -484,7 +485,7 @@ function LanguageForm({ settings, update, deleteLang }) {
                   <Input
                     type={'text'}
                     // id="standard-name"
-                    label={field}
+                    label={false}
                     defaultValue={row[field]}
                     name={`settings[${field}_${row.locale}]`}
                     margin="normal"

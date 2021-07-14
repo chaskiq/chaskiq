@@ -117,7 +117,7 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
                   <Input
                     type={'text'}
                     // id="standard-name"
-                    label={field}
+                    label={false}
                     defaultValue={row[field]}
                     name={`${namespace}[${field}_${row.locale}]`}
                     margin="normal"
