@@ -438,6 +438,7 @@ function StyleBanner({ app, campaign, onChange }) {
           <Input
           type="select"
           options={[
+            {label: 'None', value: null},
             {label: 'Lato', value: 'Lato'},
             {label: 'OpenSans', value: 'Open+Sans'},
             {label: 'Roboto', value: 'Roboto'},

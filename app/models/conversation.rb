@@ -33,9 +33,15 @@ class Conversation < ApplicationRecord
       transitions from: :closed, to: :opened
     end
 
-    event :close, after: :add_closed_event do
+    event :close,
+      before: :touch_closed_at, 
+      after: :add_closed_event do
       transitions from: :opened, to: :closed
     end
+  end
+
+  def touch_closed_at
+    touch(:closed_at)
   end
 
   def convert_visitor_to_lead

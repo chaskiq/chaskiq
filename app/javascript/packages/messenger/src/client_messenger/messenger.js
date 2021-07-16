@@ -1449,6 +1449,8 @@ class Messenger extends Component {
                             pushEvent={this.pushEvent}
                             getPackage={this.getPackage}
                             displayAppBlockFrame={this.displayAppBlockFrame}
+                            kind={this.props.kind}
+                            displayNewConversation={this.displayNewConversation}
                             t={this.props.t}
                           />
                         )}
@@ -1553,6 +1555,7 @@ class Messenger extends Component {
                     domain={this.props.domain}
                     // conversation_messages={this.state.conversation_messages}
                     conversation={this.state.conversation}
+                    displayNewConversation={this.displayNewConversation}
                     // conversation_messagesMeta={this.state.conversation_messagesMeta}
                     isUserAutoMessage={this.isUserAutoMessage}
                     insertComment={this.insertComment}

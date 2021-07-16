@@ -55,6 +55,35 @@ const WrappedComponent = React.forwardRef(function Input(
     }
   }
 
+  function handeRenderType() {
+    switch (type) {
+      case 'text':
+      case 'string':
+      case 'password':
+      case 'number':
+        return renderText()
+      case 'textarea':
+        return renderTextArea()
+      case 'checkbox':
+      case 'bool':
+        return renderCheckbox()
+      case 'select':
+        return renderSelect()
+      case 'radio':
+        return renderRadioButton()
+      case 'timezone':
+        return renderTimezone()
+      case 'upload':
+        return renderUpload()
+      case 'datetime':
+        return renderDatetime()
+      case 'color':
+        return renderColor()
+      default:
+        return <p>nada {type}</p>
+    }
+  }
+
   function themeForSelect() {
     if (theme === 'dark') {
       return {
@@ -70,15 +99,17 @@ const WrappedComponent = React.forwardRef(function Input(
   }
 
   function renderText() {
+    const {className, labelMargin, ...options} = props
     return (
       <FormField
         name={name}
         label={label}
         error={error}
         helperText={helperText}
+        labelMargin={labelMargin}
       >
         <input
-          className={inputAppearance(props.variant)}
+          className={`${inputAppearance(props.variant)}`}
           name={name}
           type={type}
           defaultValue={defaultValue}
@@ -88,7 +119,7 @@ const WrappedComponent = React.forwardRef(function Input(
           placeholder={props.placeholder}
           ref={ref}
           id={id}
-          {...props}
+          {...options}
         />
       </FormField>
     )
@@ -223,34 +254,6 @@ const WrappedComponent = React.forwardRef(function Input(
     )
   }
 
-  function handeRenderType() {
-    switch (type) {
-      case 'text':
-      case 'string':
-      case 'password':
-        return renderText()
-      case 'textarea':
-        return renderTextArea()
-      case 'checkbox':
-      case 'bool':
-        return renderCheckbox()
-      case 'select':
-        return renderSelect()
-      case 'radio':
-        return renderRadioButton()
-      case 'timezone':
-        return renderTimezone()
-      case 'upload':
-        return renderUpload()
-      case 'datetime':
-        return renderDatetime()
-      case 'color':
-        return renderColor()
-      default:
-        return <p>nada {type}</p>
-    }
-  }
-
   function renderTextArea() {
     return (
       <div className="mt-6">
@@ -368,11 +371,12 @@ export default connect(mapStateToProps, null, null, { forwardRef: true })(
   WrappedComponent
 )
 
-function FormField({ name, label, helperText, children, _error }) {
+function FormField({ name, label, helperText, children, labelMargin, _error }) {
+  const margin = labelMargin ? labelMargin : 'mb-2'
   return (
     <React.Fragment>
       <label
-        className="block text-gray-700 dark:text-white text-sm font-bold mb-2"
+        className={`block text-gray-700 dark:text-white text-sm font-bold ${margin}`}
         htmlFor={name}
       >
         {label}

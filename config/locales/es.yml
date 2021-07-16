@@ -48,6 +48,7 @@ es:
     users: Usuarios
     type_message: Escribe tu mensaje aquí
     search_conversations: Buscar conversaciones
+    days: Días
   status_messages:
     error: "Error"
     success: "Éxito"
@@ -496,6 +497,9 @@ es:
       hint2: Controla quién ve el lanzador estándar de Messenger en tu sitio web.
       note2: CUALQUIER MESAJE QUE ENVÍE SERÁ ENTREGADO.
       note3: "En la web, mostrar el lanzador estándar de Messenger para:"
+      closed_replies_title: Impedir respuestas a conversaciones cerradas para %{name}
+      closed_replies_enabled: Permitir a los usuarios responder a mensajes cerrados en cualquier momento.
+      closed_replies_disabled: Evitar que los usuarios respondan a conversaciones cerradas después.
       filters:
         users:
           label: Usuarios

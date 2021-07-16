@@ -49,6 +49,7 @@ en:
     users: Users
     type_message: type your message
     search_conversations: search conversations
+    days: Days
   status_messages:
     error: "Error"
     success: "Success"
@@ -497,6 +498,9 @@ en:
       hint2: Control who sees the standard Messenger launcher on your website.
       note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
       note3: "On the web, show the standard Messenger launcher to:"
+      closed_replies_title: Prevent replies to closed conversations for %{name}
+      closed_replies_enabled: Letting users reply to closed messages at any time.
+      closed_replies_disabled: Preventing users from responding to closed conversations after.
       filters:
         users:
           label: Users
@@ -630,6 +634,7 @@ en:
       lang_desc: Manage supported languages and customize your Help Center header
       basic: Basic setup
       general_app: Application overview
+     
   contact_manager:
     create: Create Users & Leads
     import_csv: Import csv
