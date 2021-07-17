@@ -536,7 +536,7 @@ export class Conversation extends Component {
   footerReplyIndicator = ()=>{
     if(this.props.conversation.state === "closed")
       return this.renderNewConversationButton()
-    return this.this.renderReplyAbove()
+    return this.renderReplyAbove()
   }
 
   renderFooter = () => {
