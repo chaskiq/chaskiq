@@ -24,6 +24,8 @@ class ConversationPart < ApplicationRecord
 
   attr_accessor :check_assignment_rules
 
+  delegate :broadcast_key, to: :conversation 
+
   def from_bot?
     trigger_id.present? && step_id.present?
   end
@@ -100,13 +102,13 @@ class ConversationPart < ApplicationRecord
 
   def notify_app_users
     MessengerEventsChannel.broadcast_to(
-      conversation.broadcast_key,
+      broadcast_key,
       type: "conversations:conversation_part",
       data: as_json
     )
 
     MessengerEventsChannel.broadcast_to(
-      conversation.broadcast_key,
+      broadcast_key,
       type: "conversations:unreads",
       data: conversation.main_participant.new_messages.value
     )
