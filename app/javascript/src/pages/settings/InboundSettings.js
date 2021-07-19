@@ -7,6 +7,7 @@ import SegmentManager from '@chaskiq/components/src/components/segmentManager'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 import Hints from '@chaskiq/components/src/components/Hints'
+import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
@@ -54,21 +55,11 @@ function InboundSettings({ settings, update, dispatch }) {
   return (
   <div className="flex flex-col">
     <div className="inline-flex mt-4">
-      {options.map((o, i) => (
-        <button
-          onClick={(_e) => handleClick(o)}
-          key={`tabtab-${i}`}
-          className={`${option.name === o.name ? activeClass : ''}
-              focus:outline-none 
-              focus:shadow-outline-gray 
-              outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
-              font-light py-2 px-4
-              ${o.classes}
-              `}
-        >
-          {o.name}
-        </button>
-      ))}
+      <ButtonTabSwitch 
+        options={options} 
+        option={option} 
+        handleClick={handleClick} 
+      />
     </div>
 
     <ErrorBoundary variant="very-wrong">
