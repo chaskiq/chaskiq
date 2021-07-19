@@ -27,18 +27,40 @@ ca:
     tz_hint: La zona horària del teu navegador és <b className="text-bold">%{timezone}</b>
     send: Envia
     actions: Accions
+    your_apps: Your apps
+    upload_field: upload %{field}
+    choose_color: Choose color
+    image: Imagen
     langs:
       en: Anglès
       es: Espanyol
       pt: Portuguès
       de: Alemany
       ca: Catalan
+      zh: Chinese
     redirecting: Redireccionant
     select_language: Selecciona un Idioma
     send_on_enter: Publicar al entrar
     away_mode: Away mode
     toggle_light_mode: Toggle light mode
     toggle_dark_mode: Toggle dark mode
+    leads: Client potencial
+    visitors: Visitors
+    users: Usuaris
+    type_message: type your message
+    search_conversations: search conversations
+    days: Days
+  status_messages:
+    error: "Error"
+    success: "Success"
+    updated_success: Updated successfully
+    updated_error: Error on upddate
+    created_success: Successfully created
+    created_error: Error creating
+    deleted_success: Successfully deleted
+    deleted_error: Error deleting
+    reordered_error: Error reordering
+    reordered_success: Successfully Reordered
   error_view:
     title: Woops! something went wrong.
     subtitle: Unfortunately 🤯
@@ -139,7 +161,8 @@ ca:
     messages:
       seen: Vist
       not_seen: No vist
-      note: Nota
+      note: Private Note
+      reply: Reply
     sidebar:
       show_profile: Mostra el perfil
       location: Ubicación
@@ -329,6 +352,9 @@ ca:
     hint1: Per configurar la verificació d’identitat, haureu de generar un HMAC al servidor per a cada usuari que hàgiu iniciat la sessió i enviar-lo a Chaskiq.
     lang: El vostre codi per generar un HMAC per a la vostra aplicació és
     hint2: 'Sempre que pengeu dades d’usuari i tingueu un fragment de codi Chaskiq, afegiu un atribut nou anomenat <span className="font-bold"> identifier_key </span> i passeu el <span className="font-bold"> correu electrònic </span> i doneu-li l''etiqueta HMAC per a l''usuari connectat:'
+    encryption_key_label: Identity verification secret
+    dont_share_code: "Don't share this code"
+    hmac_hint1: Per configurar la verificació d’identitat, haureu de generar un HMAC al servidor per a cada usuari que hàgiu iniciat la sessió i enviar-lo a Chaskiq.
   quick_replies:
     title: Respostes ràpides
     search: Cerca de respostes ràpides
@@ -390,6 +416,10 @@ ca:
       remove_success: Paquet eliminat correctament
       remove_error: Error al eliminar el paquet
       create_integration: Crea un nou paquet
+    app_inserter:
+      title: Add apps to your Messenger
+      subtitle: Help your customers before they start a conversation
+      action: Add app
     integrations:
       title: Integracions de tercers
       create_success: Integració creada
@@ -467,6 +497,9 @@ ca:
       hint2: Controleu qui veu el llançador estàndard de Messenger al vostre lloc web.
       note2: TOTS ELS MISSATGES QUE ENVIïS SERAN ENTREGATS.
       note3: "Al web, mostreu el llançador estàndard de Messenger a:"
+      closed_replies_title: Prevent replies to closed conversations for %{name}
+      closed_replies_enabled: Letting users reply to closed messages at any time.
+      closed_replies_disabled: Preventing users from responding to closed conversations after.
       filters:
         users:
           label: Usuaris
