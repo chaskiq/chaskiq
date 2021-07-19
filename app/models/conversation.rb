@@ -40,6 +40,10 @@ class Conversation < ApplicationRecord
     end
   end
 
+  def broadcast_key
+    "#{app.key}-#{main_participant.session_id}"
+  end
+
   def touch_closed_at
     touch(:closed_at)
   end
@@ -66,10 +70,21 @@ class Conversation < ApplicationRecord
 
   def add_closed_event
     events.log(action: :conversation_closed)
+
+    dispatch_conversation_event_to_contacts
+  end
+
+  def dispatch_conversation_event_to_contacts
+    MessengerEventsChannel.broadcast_to(
+      broadcast_key,
+      type: "conversations:update_state",
+      data: as_json
+    )
   end
 
   def add_reopened_event
     events.log(action: :conversation_reopened)
+    dispatch_conversation_event_to_contacts
   end
 
   def first_user_interaction

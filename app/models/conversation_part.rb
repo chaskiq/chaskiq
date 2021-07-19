@@ -100,13 +100,13 @@ class ConversationPart < ApplicationRecord
 
   def notify_app_users
     MessengerEventsChannel.broadcast_to(
-      broadcast_key,
+      conversation.broadcast_key,
       type: "conversations:conversation_part",
       data: as_json
     )
 
     MessengerEventsChannel.broadcast_to(
-      broadcast_key,
+      conversation.broadcast_key,
       type: "conversations:unreads",
       data: conversation.main_participant.new_messages.value
     )
@@ -123,10 +123,6 @@ class ConversationPart < ApplicationRecord
     conversation.conversation_channels.each do |channel|
       channel.notify_part(conversation: conversation, part: self)
     end
-  end
-
-  def broadcast_key
-    "#{conversation.app.key}-#{conversation.main_participant.session_id}"
   end
 
   def controls_ping_apis
