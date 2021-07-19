@@ -72,7 +72,7 @@ function InboundSettings({ settings, update, dispatch }) {
     </div>
 
     <ErrorBoundary variant="very-wrong">
-      <InboundSettings2
+      <InboundSettingsForm
         option={option}
         settings={settings}
         update={update}
@@ -85,7 +85,69 @@ function InboundSettings({ settings, update, dispatch }) {
 
 }
 
-function InboundSettings2({ settings, update, dispatch, option }) {
+function RepliesClosedConversationsControls({kind, option, handleChangeNumber, state}){
+  const afterKind = `${kind}_after`
+  const enabledKind = `${kind}_enabled`
+
+  const enabledValue = state[enabledKind]
+  return (
+
+    <div>
+      <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
+        {I18n.t('settings.inbound.closed_replies_title', {name: option.name})}
+      </p>
+
+      <div className="flex items-center space-x-1 h-24 py-3">
+        <Input
+          type="checkbox"
+          checked={enabledValue}
+          defaultValue={enabledValue}
+          onChange={(e) => {
+              handleChangeNumber(
+                enabledKind, 
+                e.currentTarget.checked
+              )
+            }
+          }
+          value={enabledValue}
+          color="primary"
+          label={
+            !enabledValue ?
+            I18n.t('settings.inbound.closed_replies_enabled') :
+            I18n.t('settings.inbound.closed_replies_disabled')
+          }
+        />
+
+        { 
+          enabledValue && 
+          <div className="w-[10em]">
+            <Input
+              type="number"
+              onChange={(e) => {
+                const num = parseInt(e.currentTarget.value)
+                if(num < 0) return
+                handleChangeNumber(
+                  afterKind, num
+                  )
+                }
+              }
+              value={state[afterKind]}
+              className="flex flex-row-reverse space-x-2"
+              labelMargin={'mx-3 py-2'}
+              color="primary"
+              label={
+                I18n.t('common.days')
+              }
+              />          
+          </div>
+        }
+      </div>
+    </div>
+  )
+
+}
+
+function InboundSettingsForm({ settings, update, dispatch, option }) {
   const [state, setState] = React.useState({
     enable_inbound: settings.inboundSettings.enabled,
 
@@ -159,155 +221,87 @@ function InboundSettings2({ settings, update, dispatch, option }) {
     update(data)
   }
 
-  function renderRepliesClosedConversationsControls(kind){
-    const afterKind = `${kind}_after`
-    const enabledKind = `${kind}_enabled`
-
-    const enabledValue = state[enabledKind]
-    return (
-
-      <div>
-        <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
-          {I18n.t('settings.inbound.closed_replies_title', {name: option.name})}
-        </p>
-
-        <div className="flex items-center space-x-1 h-24 py-3">
-          <Input
-            type="checkbox"
-            checked={enabledValue}
-            defaultValue={enabledValue}
-            onChange={(e) => {
-                handleChangeNumber(
-                  enabledKind, 
-                  e.currentTarget.checked
-                )
-              }
-            }
-            value={enabledValue}
-            color="primary"
-            label={
-              !enabledValue ?
-              I18n.t('settings.inbound.closed_replies_enabled') :
-              I18n.t('settings.inbound.closed_replies_disabled')
-            }
-          />
-
-          { 
-            enabledValue && 
-            <div className="w-[10em]">
-              <Input
-                type="number"
-                onChange={(e) => {
-                  const num = parseInt(e.currentTarget.value)
-                  if(num < 0) return
-                  handleChangeNumber(
-                    afterKind, num
-                    )
-                  }
-                }
-                value={state[afterKind]}
-                className="flex flex-row-reverse space-x-2"
-                labelMargin={'mx-3 py-2'}
-                color="primary"
-                label={
-                  I18n.t('common.days')
-                }
-                />          
-            </div>
-          }
-        </div>
-      </div>
-    )
-  }
-
-  function renderForm(){
-    return (
-      <React.Fragment>
-        <div className="py-4">
-          <Hints type="inbound_settings" />
-        </div>
-
-        <p className="text-lg font-bold text-gray-900 pb-2">
-          {I18n.t('settings.inbound.title')}
-        </p>
-
-        <div>
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            color="primary"
-            label={I18n.t('settings.inbound.checkbox')}
-          />
-        </div>
-
-        <p className="my-2 max-w-xl text-sm leading-5 text-gray-500">
-          {I18n.t('settings.inbound.hint')}
-        </p>
-
-        <hr />
-
-        <div className="py-4">
-          <p className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
-            {I18n.t('settings.inbound.title2')}
-          </p>
-        </div>
-
-        {
-          renderRepliesClosedConversationsControls(
-            `${option.namespace}_close_conversations`
-          )
-        }
-
-        <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
-          {I18n.t('settings.inbound.hint2')}
-        </p>
-
-        <p className="text-sm leading-4 font-light text-gray-800 dark:text-gray-300 pb-2">
-          {I18n.t('settings.inbound.note2')}
-        </p>
-
-        <div className="py-4">
-          <p className="py-2">{I18n.t('settings.inbound.note3')}</p>
-          <hr />
-          <AppSegmentManager
-            app={settings}
-            label={I18n.t(`settings.inbound.filters.${option.i18n}.label`)}
-            namespace={option.namespace}
-            all={I18n.t(`settings.inbound.filters.${option.i18n}.all`)}
-            checked={state[`${option.namespace}_enabled`]}
-            updateChecked={handleChange}
-            predicates={state[`${option.namespace}Predicates`] || []}
-            setPredicates={setPredicates}
-            radioValue={state[`${option.namespace}_radio`]}
-            dispatch={dispatch}
-            some={I18n.t(`settings.inbound.filters.${option.i18n}.some`)}
-          />
-          <hr />
-          <p className="text-sm leading-6 font-medium text-gray-400 pb-2">
-            {I18n.t('settings.inbound.filters.hint')}
-          </p>
-        </div>
-
-        <div className="pb-4">
-          <Button
-            onClick={handleSubmit}
-            variant={'success'}
-            size="md"
-            color={'primary'}
-          >
-            {I18n.t('common.save')}
-          </Button>
-        </div>
-
-      </React.Fragment>
-    )
-  }
-
   return (
     <div>
-      {renderForm()}
+      <div className="py-4">
+        <Hints type="inbound_settings" />
+      </div>
+
+      <p className="text-lg font-bold text-gray-900 pb-2">
+        {I18n.t('settings.inbound.title')}
+      </p>
+
+      <div>
+        <Input
+          type="checkbox"
+          checked={state.enable_inbound}
+          onChange={(e) => handleChange('enable_inbound', e)}
+          value={state.enable_inbound}
+          color="primary"
+          label={I18n.t('settings.inbound.checkbox')}
+        />
+      </div>
+
+      <p className="my-2 max-w-xl text-sm leading-5 text-gray-500">
+        {I18n.t('settings.inbound.hint')}
+      </p>
+
+      <hr />
+
+      <div className="py-4">
+        <p className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
+          {I18n.t('settings.inbound.title2')}
+        </p>
+      </div>
+
+      <RepliesClosedConversationsControls 
+        state={state}
+        option={option}
+        kind={`${option.namespace}_close_conversations`}
+        handleChangeNumber={handleChangeNumber}
+      />
+
+      <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
+        {I18n.t('settings.inbound.hint2')}
+      </p>
+
+      <p className="text-sm leading-4 font-light text-gray-800 dark:text-gray-300 pb-2">
+        {I18n.t('settings.inbound.note2')}
+      </p>
+
+      <div className="py-4">
+        <p className="py-2">{I18n.t('settings.inbound.note3')}</p>
+        <hr />
+        <AppSegmentManager
+          app={settings}
+          label={I18n.t(`settings.inbound.filters.${option.i18n}.label`)}
+          namespace={option.namespace}
+          all={I18n.t(`settings.inbound.filters.${option.i18n}.all`)}
+          checked={state[`${option.namespace}_enabled`]}
+          updateChecked={handleChange}
+          predicates={state[`${option.namespace}Predicates`] || []}
+          setPredicates={setPredicates}
+          radioValue={state[`${option.namespace}_radio`]}
+          dispatch={dispatch}
+          some={I18n.t(`settings.inbound.filters.${option.i18n}.some`)}
+        />
+        <hr />
+        <p className="text-sm leading-6 font-medium text-gray-400 pb-2">
+          {I18n.t('settings.inbound.filters.hint')}
+        </p>
+      </div>
+
+      <div className="pb-4">
+        <Button
+          onClick={handleSubmit}
+          variant={'success'}
+          size="md"
+          color={'primary'}
+        >
+          {I18n.t('common.save')}
+        </Button>
+      </div>
+
     </div>
   )
 }
@@ -333,15 +327,6 @@ function AppSegmentManager({
   radioValue,
   dispatch,
 }) {
-  // const [checked, setChecked]= useState(checked)
-  // const [radioValue, setRadioValue] = useState("all")
-  // const [predicates, setPredicates] = useState([])
-
-  /*function handleChange (e) {
-    updateChecked(e)
-    // setChecked(!checked)
-  }*/
-
   function handleChangeRadio(e) {
     setPredicates(`${namespace}_radio`, e.target.value)
   }
