@@ -202,7 +202,6 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    email_reply_parser (0.5.10)
     email_reply_trimmer (0.1.13)
     erubi (1.10.0)
     et-orbi (1.2.4)
@@ -602,7 +601,6 @@ DEPENDENCIES
   devise_invitable (~> 2.0)
   doorkeeper (~> 5.4)
   dotenv-rails
-  email_reply_parser (~> 0.5.9)
   email_reply_trimmer
   emoji_data!
   factory_bot_rails
