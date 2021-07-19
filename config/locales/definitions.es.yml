@@ -156,43 +156,41 @@ es:
         placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
     webhooks:
       url:
-        label: URL para webhook saliente
-        hint: enviaremos solicitudes POST
+        label: url for outgoing webhook
+        hint: "we'll send POST requests"
       enabled:
-        label: habilitar webhook
+        label: enable webhook
       tag_list:
-        label: eventos para enviar
-        hint: chaskiq entregará estos eventos al punto final configurado
-
+        label: events to send
+        hint: chaskiq will deliver this events to configured endpoint
     agents:
-      email: 
-        label: Correo electrónico de agente
+      email:
+        label: Agent's Email
         placeholder: john@example.com
-      name:	
-        label: Nombre de agente
+      name:
+        label: Agent's Name
         placeholder: John Doe
-      roles: 
-        label: Access List
-      access_list: 
-        label: 'Roles de agente'
-        hint: 'La lista en blanco bloqueará el acceso a los ajuste de cuenta para este usuario'
-
+      owner:
+        label: Owner
+      access_list:
+        label: 'Roles for agent'
+        hint: 'blank access will disable account settings access for user'
   data_tables:
+    agents:
+      email: Email
+      0: name:	Name
+      owner: Owner
+      access_list: Access List
+      1: actions:	Actions
+      sign_in_count: Sign in count
+      last_sign_in_at: Last sign in at
+      invitation_accepted_at: Invitation accepted at
     articles:
       settings:
-        locale: Idioma
-        site_title: Titulo del sitio
-        site_description: Descripción del sitio
-        action: Acciones
-    agents:
-      email: Correo electronico
-      name:	Nombre
-      owner: Propietario
-      access_list: Lista de acceso
-      actions:	Acciones
-      sign_in_count: Numero de ingresos
-      last_sign_in_at: última vez ingresado
-      invitation_accepted_at: Invitación aceptada el
+        locale: Locale
+        site_title: Site Title
+        site_description: Site Description
+        action: Acción
     users:
       name: Nombre
       email: Email
@@ -216,11 +214,11 @@ es:
       last_seen: Visto por primera vez
       first_seen: Ultima vez visto
       subscription_status:
-        subscribed: Suscrito
+        subscribed: Subscrito
         unsubscribed: Desuscrito
         passive: Pasiva
     settings:
-      locale: Idioma
-      greetings: Saludo
+      locale: Locale
+      greetings: Greetings
       intro: Intro
       tagline: Eslogan
