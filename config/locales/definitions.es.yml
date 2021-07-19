@@ -154,7 +154,6 @@ es:
         name: 'sheet_url'
         hint: 'Enviado cuando una hoja ha sido enviada. Una hoja es un iframe que ha cargado en el Messenger que se cierra y envía cuando se llama al método Enviar Hojas JS.'
         placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
-
     webhooks:
       url:
         label: URL para webhook saliente
@@ -220,7 +219,6 @@ es:
         subscribed: Suscrito
         unsubscribed: Desuscrito
         passive: Pasiva
-
     settings:
       locale: Idioma
       greetings: Saludo
