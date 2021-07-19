@@ -306,6 +306,11 @@ function StyleBanner({ app, campaign, onChange }) {
   const [agent, setAgent] = React.useState(
     agentData(campaign.bannerData.sender_data)
   )
+
+  const [fontOptions, setFontOptions] = React.useState(
+    campaign.bannerData.font_options || {}
+  )
+
   const [agents, setAgents] = React.useState([])
 
   React.useEffect(() => {
@@ -314,7 +319,7 @@ function StyleBanner({ app, campaign, onChange }) {
 
   React.useEffect(() => {
     handleChange()
-  }, [agent])
+  }, [agent, fontOptions ])
 
   function fetchAgents() {
     graphql(
@@ -361,6 +366,7 @@ function StyleBanner({ app, campaign, onChange }) {
       placement: data.placement || 'top',
       show_sender: data.show_sender,
       url: data.url,
+      font_options: fontOptions
     }
   }
 
@@ -430,7 +436,33 @@ function StyleBanner({ app, campaign, onChange }) {
           </h3>
 
           <Input
+          type="select"
+          options={[
+            {label: 'None', value: null},
+            {label: 'Lato', value: 'Lato'},
+            {label: 'OpenSans', value: 'Open+Sans'},
+            {label: 'Roboto', value: 'Roboto'},
+            {label: 'Montserrat', value: 'Montserrat'},
+            {label: 'Merriweather', value: 'Merriweather'},
+            {label: 'Poppins', value: 'Poppins'},
+            {label: 'Roboto+Mono', value: 'Roboto+Mono'},
+            {label: 'Pt+Sans', value: 'Pt+Sans'},
+            {label: 'Ubuntu', value: 'Ubuntu'}
+          ]}
+          onChange={(data) => {
+            setFontOptions({family: data.value})
+          }}
+          defaultValue={ {
+            label: fontOptions.family,
+            value: fontOptions.family
+          } }
+          label="font"
+          name="font_options"
+        />
+
+          <Input
             type="color"
+            value={bannerData.bg_color}
             defaultValue={bannerData.bg_color}
             label="color"
             onChange={(color) => {

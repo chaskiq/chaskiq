@@ -126,7 +126,7 @@ function App({ dispatch, loading }) {
                 </div>
 
                 <Badge variant="green" className="mb-3 ">
-                  Your apps
+                  {I18n.t("common.your_apps")}
                 </Badge>
 
                 <div className="flex flex-wrap overflow-hidden sm:-mx-1 pb-20">

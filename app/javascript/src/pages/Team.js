@@ -35,6 +35,7 @@ import {
 
 import { ROLE_AGENTS, PENDING_AGENTS } from '@chaskiq/store/src/graphql/queries'
 import { INVITE_AGENT, UPDATE_AGENT_ROLE, DESTROY_AGENT_ROLE } from '@chaskiq/store/src/graphql/mutations'
+import I18n from '../shared/FakeI18n'
 class TeamPage extends Component {
   state = {
     meta: {},
@@ -192,25 +193,25 @@ class AppUsers extends React.Component {
       {
         name: 'name',
         type: 'string',
-        label: "Agent's Name",
+        label: I18n.t("definitions.agents.name.label"),
         // hint: "we'll send POST requests",
-        placeholder: 'John Doe',
+        placeholder: I18n.t("definitions.agents.name.placeholder"),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
         name: 'email',
         type: 'string',
-        label: 'Email for agent',
+        label: I18n.t("definitions.agents.email.label"),
         // hint: "we'll send POST requests",
-        placeholder: 'john@example.com',
+        placeholder: I18n.t("definitions.agents.email.placeholder"),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'access_list',
         type: 'select',
-        label: 'Roles for agent',
-        hint: 'blank access will disable account settings access for user',
+        label: I18n.t("definitions.agents.access_list.label"),
+        hint: I18n.t("definitions.agents.access_list.hint"),
         multiple: true,
         options: [
           { label: 'none', value: null },
@@ -334,7 +335,7 @@ class AppUsers extends React.Component {
             columns={[
               {
                 field: 'email',
-                title: 'email',
+                title: I18n.t("data_tables.agents.email"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
@@ -371,10 +372,12 @@ class AppUsers extends React.Component {
                     </td>
                   ),
               },
-              { field: 'name', title: 'Name' },
+              { field: 'name', 
+                title: I18n.t("data_tables.agents.email") 
+              },
               {
                 field: 'owner',
-                title: 'Owner',
+                title: I18n.t("data_tables.agents.owner"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
@@ -384,7 +387,7 @@ class AppUsers extends React.Component {
               },
               {
                 field: 'accessList',
-                title: 'Access list',
+                title: I18n.t("data_tables.agents.access_list"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
@@ -401,7 +404,7 @@ class AppUsers extends React.Component {
               },
               {
                 field: 'Actions',
-                title: 'Actions',
+                title: I18n.t("data_tables.agents.actions"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
@@ -411,7 +414,7 @@ class AppUsers extends React.Component {
                         className="mr-1"
                         size="small"
                       >
-                        edit
+                        {I18n.t("common.edit")}
                       </Button>
                       <Button
                         onClick={() => this.handleDelete(row)}
@@ -419,15 +422,17 @@ class AppUsers extends React.Component {
                         variant="outlined"
                         size="small"
                       >
-                        delete
+                        {I18n.t("common.delete")}
                       </Button>
                     </td>
                   ),
               },
-              { field: 'Sign In Count', title: 'Sign in Count' },
+              { field: 'Sign In Count', 
+                title: I18n.t("data_tables.agents.sign_in_count") 
+              },
               {
                 field: 'Last Sign in at',
-                title: 'Last sign in at',
+                title: I18n.t("data_tables.agents.last_sign_in_at"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
@@ -448,7 +453,7 @@ class AppUsers extends React.Component {
               },
               {
                 field: 'invitationAcceptedAt',
-                title: 'invitation Accepted At',
+                title: I18n.t("data_tables.agents.invitation_accepted_at"),
                 render: (row) =>
                   row && (
                     <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
@@ -644,10 +649,13 @@ class NonAcceptedAppUsers extends React.Component {
             disablePagination={true}
             columns={[
               { field: 'email', title: 'email' },
-              { field: 'name', title: 'name' },
+              { 
+                field: 'name', 
+                title: I18n.t("data_tables.agents.email") 
+              },
               {
                 field: 'actions',
-                title: 'actions',
+                title: I18n.t("data_tables.agents.actions"),
                 render: (row) => {
                   return (
                     <tr className="flex items-center px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">

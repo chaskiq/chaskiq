@@ -91,7 +91,7 @@ const defaultProps = {
   //read_only: false,
   spellcheck: false,
   title_placeholder: 'Title',
-  body_placeholder: 'Write your story',
+  body_placeholder: '',
 
   default_wrappers: [
     { className: 'graf--p', block: 'unstyled' },
@@ -691,7 +691,12 @@ class ArticleEditor extends Component {
         >
           {!this.props.loading ? (
             <DanteEditor
-              {...defaultProps}
+              {... 
+                { 
+                  ...defaultProps, 
+                  body_placeholder: I18n.t('common.type_message') 
+                }
+              }
               read_only={this.props.read_only}
               toggleEditable={this.props.toggleEditable}
               ref={forwardedRef}

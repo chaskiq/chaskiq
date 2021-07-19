@@ -12,6 +12,7 @@ import Button from '@chaskiq/components/src/components/Button'
 import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm'
 import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
 import {QueueIcon, DeleteIcon} from '@chaskiq/components/src/components/icons'
+import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
@@ -67,13 +68,13 @@ const SortableItem = sortableElement(
 function AppInserter({ app, update }) {
   const options = [
     {
-      name: 'users',
+      name: I18n.t('common.users'),
       namespace: 'userHomeApps',
       n: 'user_home_apps',
       classes: 'rounded-l-lg',
     },
     {
-      name: 'visitors',
+      name: I18n.t('common.visitors'),
       namespace: 'visitorHomeApps',
       n: 'visitor_home_apps',
       classes: 'rounded-r-lg',
@@ -82,9 +83,6 @@ function AppInserter({ app, update }) {
 
   const [option, setOption] = React.useState(options[0])
 
-  const activeClass =
-    'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none'
-
   function handleClick(o) {
     setOption(o)
   }
@@ -92,23 +90,11 @@ function AppInserter({ app, update }) {
   return (
     <div className="flex flex-col">
       <div className="inline-flex mt-4">
-        {options.map((o, i) => (
-          <button
-            onClick={(_e) => handleClick(o)}
-            key={`tabtab-${i}`}
-            className={`${option.name === o.name ? activeClass : ''}
-                
-                focus:outline-none 
-                focus:shadow-outline-gray 
-
-                outline-none border bg-white dark:bg-gray-900 dark:text-gray-100
-                font-light py-2 px-4
-                ${o.classes}
-                `}
-          >
-            {o.name}
-          </button>
-        ))}
+        <ButtonTabSwitch 
+          options={options} 
+          option={option} 
+          handleClick={handleClick} 
+        />
       </div>
 
       <HomeAppInserter
@@ -185,15 +171,15 @@ function HomeAppInserter({ app, update, option, capability }) {
       <div className="flex justify-around items-center">
         <div>
           <h2 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-            Add apps to your Messenger
+            {I18n.t("settings.app_inserter.title")}
           </h2>
 
-          <p>Help your customers before they start a conversation</p>
+          <p>{I18n.t("settings.app_inserter.subtitle")}</p>
         </div>
 
         <div className="flex justify-end my-8">
           <Button variant={'success'} onClick={() => setIsOpen(true)}>
-            Add app
+            {I18n.t("settings.app_inserter.action")}
           </Button>
         </div>
       </div>

@@ -209,37 +209,8 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
               {I18n.t('contact_manager.import_choose')}
             </p>
             <div className="mt-4">
-              <div className="flex items-center">
-                <input
-                  id="leads"
-                  name="contact_type"
-                  type="radio"
-                  value="leads"
-                  defaultChecked={true}
-                  className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                />
-                <label htmlFor="leads" className="ml-3">
-                  <span className="block text-sm leading-5 font-medium text-gray-700 dark:text-gray-300">
-                    Leads
-                  </span>
-                </label>
-              </div>
-
-              <div className="mt-4 flex items-center">
-                <input
-                  id="users"
-                  name="contact_type"
-                  type="radio"
-                  value={'users'}
-                  className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                />
-                <label htmlFor="users" className="ml-3">
-                  <span className="block text-sm leading-5 font-medium text-gray-700 dark:text-gray-300">
-                    Users
-                  </span>
-                </label>
-              </div>
-
+              <ContactTypeInput kind={'leads'}/>
+              <ContactTypeInput kind={'users'}/>
               <FileUpload
                 onChange={(file) => uploadHandler(file, 'csv')}
                 loading={loading}
@@ -248,6 +219,25 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
           </fieldset>
         </div>
       </form>
+    </div>
+  )
+}
+
+function ContactTypeInput({kind}){
+  return (
+    <div className="mt-4 flex items-center">
+      <input
+        id={kind}
+        name="contact_type"
+        type="radio"
+        value={kind}
+        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+      />
+      <label htmlFor={kind} className="ml-3">
+        <span className="block text-sm leading-5 font-medium text-gray-700 dark:text-gray-300">
+          {I18n.t(`common.${kind}`)}
+        </span>
+      </label>
     </div>
   )
 }
@@ -266,7 +256,7 @@ function FileUpload({ onChange, loading }) {
         </svg>
         {loading && <Progress size={8} />}
 
-        <span className="mt-2 text-base leading-normal">
+        <span className="mt-2 text-xs leading-normal">
           {I18n.t('contact_manager.select_file')}
         </span>
         <input

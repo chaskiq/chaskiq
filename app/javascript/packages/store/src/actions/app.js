@@ -3,7 +3,7 @@ import graphql from '../graphql/client'
 import { APP } from '../graphql/queries'
 import { UPDATE_APP } from '../graphql/mutations'
 
-import { successMessage } from './status_messages'
+import { successMessage, errorMessage } from './status_messages'
 import { isEmpty } from 'lodash'
 
 export function setApp(key, cb) {
@@ -56,11 +56,12 @@ export function updateApp(appParams, cb) {
           })
           dispatch(getApp(newObject))
           if (isEmpty(data.appsUpdate.errors)) {
-            dispatch(successMessage('app settings updated'))
+            dispatch(successMessage(I18n.t("status_messages.updated_success")))
           }
           cb && cb()
         },
         error: (error) => {
+          dispatch(errorMessage(I18n.t("status_messages.updated_error")))
           console.log('ERRR Updating app', error)
           cb && cb()
         },

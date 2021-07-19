@@ -1,4 +1,4 @@
-zh-CN:
+zh:
   devise:
     failure:
       invited: "您有一个待处理的邀请，接受它来完成创建您的帐户。"
@@ -28,4 +28,4 @@ zh-CN:
       devise:
         mailer:
           invitation_instructions:
-            accept_until_format: "%Y年%m月%d日 %H:%M"
+            accept_until_format: "%Y年%m月%d日"

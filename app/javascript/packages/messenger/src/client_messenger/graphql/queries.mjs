@@ -82,6 +82,7 @@ export const CONVERSATIONS = `
           key
           state
           readAt
+          closedAt
           priority
           assignee {
             id
@@ -138,6 +139,7 @@ export const CONVERSATION = `
         key
         state
         readAt
+        closedAt
         priority
         assignee {
           id

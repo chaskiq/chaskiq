@@ -35,30 +35,32 @@ function formDefinitions() {
   return [
     {
       name: 'name',
-      label: 'Oauth app name',
+      label: I18n.t("doorkeeper.applications.index.name"),
       type: 'string',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
     {
       name: 'confidential',
-      label: 'Confidential',
-      hint: 'Application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are considered non-confidential.',
+      label: I18n.t("doorkeeper.applications.show.confidential"),
+      hint: I18n.t("doorkeeper.applications.help.confidential"),
       type: 'bool',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
     {
       name: 'redirect_uri',
-      label: 'Redirect URI',
-      hint: `Use one line per URI
-              Leave it blank if you configured your provider to use Client Credentials, 
-              Resource Owner Password Credentials or any other grant type that doesn't require redirect URI.`,
-      type: 'string',
+      label: I18n.t("doorkeeper.applications.show.callback_urls"),
+      hint: <React.Fragment> 
+              {I18n.t("doorkeeper.applications.help.redirect_uri")}
+              <br/>
+              {I18n.t("doorkeeper.applications.help.blank_redirect_uri")}
+            </React.Fragment>,   
+     type: 'string',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
     {
       name: 'scopes',
-      label: 'Scopes for application',
-      hint: 'Separate scopes with spaces. Leave blank to use the default scopes.',
+      label: I18n.t("doorkeeper.applications.show.scopes"),
+      hint: I18n.t("doorkeeper.applications.help.scopes"),
       type: 'string',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
@@ -266,7 +268,7 @@ function OauthApp(props) {
         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              Name
+              {I18n.t("doorkeeper.applications.index.name")}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.name}
@@ -274,7 +276,7 @@ function OauthApp(props) {
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              Confidential
+              {I18n.t("doorkeeper.applications.index.confidential")}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.confidential}
@@ -282,7 +284,7 @@ function OauthApp(props) {
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              Client id
+              {I18n.t("doorkeeper.applications.show.application_id")}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.uid}
@@ -290,7 +292,7 @@ function OauthApp(props) {
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100">
-              Redirect URI
+              {I18n.t("doorkeeper.applications.index.callback_url")}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 flex justify-between items-center">
               {data.redirectUri}
@@ -299,13 +301,13 @@ function OauthApp(props) {
                 variant="outlined"
                 onClick={() => (window.location = authorizeUrl())}
               >
-                authorize
+                {I18n.t("doorkeeper.applications.buttons.authorize")}
               </Button>
             </dd>
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              Secret
+              {I18n.t("doorkeeper.applications.show.secret")}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.secret}

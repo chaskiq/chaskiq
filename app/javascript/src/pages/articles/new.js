@@ -40,24 +40,6 @@ import {
 } from '@chaskiq/store/src/graphql/mutations'
 
 import { ARTICLE, AGENTS, ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/queries'
-
-const options = [
-  {
-    name: I18n.t('articles.state.published'),
-    description: I18n.t('articles.state.published_desc'),
-    icon: <CheckCircle />,
-    id: 'published',
-    state: 'published',
-  },
-  {
-    name: I18n.t('articles.state.draft'),
-    description: I18n.t('articles.state.draft_desc'),
-    icon: <GestureIcon />,
-    id: 'draft',
-    state: 'draft',
-  },
-]
-
 class ArticlesNew extends Component {
   state = {
     currentContent: null,
@@ -73,6 +55,23 @@ class ArticlesNew extends Component {
   titleRef = null
   descriptionRef = null
   switch_ref = null
+
+  options = [
+    {
+      name: I18n.t('articles.state.published'),
+      description: I18n.t('articles.state.published_desc'),
+      icon: <CheckCircle />,
+      id: 'published',
+      state: 'published',
+    },
+    {
+      name: I18n.t('articles.state.draft'),
+      description: I18n.t('articles.state.draft_desc'),
+      icon: <GestureIcon />,
+      id: 'draft',
+      state: 'draft',
+    },
+  ]
 
   componentDidMount() {
     if (this.props.match.params.id !== 'new') {
@@ -254,7 +253,7 @@ class ArticlesNew extends Component {
       <div variant="outlined" color={stateColor}>
         <DropdownButton
           onClick={clickHandler}
-          label={this.state.article.state}
+          label={I18n.t(`articles.state.${this.state.article.state}`)}
           icon={
             this.state.article.state === 'published' ? (
               <CheckCircle />
@@ -566,7 +565,7 @@ class ArticlesNew extends Component {
                           </Button>
 
                           <FilterMenu
-                            options={options}
+                            options={this.options}
                             value={this.state.article.state}
                             filterHandler={this.togglePublishState}
                             triggerButton={this.toggleButton}

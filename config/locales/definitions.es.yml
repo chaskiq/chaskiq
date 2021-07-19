@@ -154,7 +154,46 @@ es:
         name: 'sheet_url'
         hint: 'Enviado cuando una hoja ha sido enviada. Una hoja es un iframe que ha cargado en el Messenger que se cierra y envía cuando se llama al método Enviar Hojas JS.'
         placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
+
+    webhooks:
+      url:
+        label: URL para webhook saliente
+        hint: enviaremos solicitudes POST
+      enabled:
+        label: habilitar webhook
+      tag_list:
+        label: eventos para enviar
+        hint: chaskiq entregará estos eventos al punto final configurado
+
+    agents:
+      email: 
+        label: Correo electrónico de agente
+        placeholder: john@example.com
+      name:	
+        label: Nombre de agente
+        placeholder: John Doe
+      roles: 
+        label: Access List
+      access_list: 
+        label: 'Roles de agente'
+        hint: 'La lista en blanco bloqueará el acceso a los ajuste de cuenta para este usuario'
+
   data_tables:
+    articles:
+      settings:
+        locale: Idioma
+        site_title: Titulo del sitio
+        site_description: Descripción del sitio
+        action: Acciones
+    agents:
+      email: Correo electronico
+      name:	Nombre
+      owner: Propietario
+      access_list: Lista de acceso
+      actions:	Acciones
+      sign_in_count: Numero de ingresos
+      last_sign_in_at: última vez ingresado
+      invitation_accepted_at: Invitación aceptada el
     users:
       name: Nombre
       email: Email
@@ -178,6 +217,12 @@ es:
       last_seen: Visto por primera vez
       first_seen: Ultima vez visto
       subscription_status:
-        subscribed: Subscrito
+        subscribed: Suscrito
         unsubscribed: Desuscrito
         passive: Pasiva
+
+    settings:
+      locale: Idioma
+      greetings: Saludo
+      intro: Intro
+      tagline: Eslogan

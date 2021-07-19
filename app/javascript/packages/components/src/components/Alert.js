@@ -176,7 +176,7 @@ function Alert({ title, message, status, onClose, placementClass }) {
               <div className="flex-shrink-0">{statusIcon()}</div>
               <div className="ml-3 w-0 flex-1 pt-0.5">
                 <p className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
-                  {title || status}
+                  {title || I18n.t(`status_messages.${status}`)}
                 </p>
                 <p className="mt-1 text-sm leading-5 text-gray-500 dark:text-gray-300">
                   {message}

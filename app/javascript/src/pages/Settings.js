@@ -192,7 +192,7 @@ class AppSettingsContainer extends Component {
             label: I18n.t('settings.app.app_settings'),
             content: (
               <SettingsForm
-                title={"General app's information"}
+                title={ I18n.t('settings.app.app_settings') }
                 currentUser={this.props.currentUser}
                 data={this.props.app}
                 update={this.update.bind(this)}

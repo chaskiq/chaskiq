@@ -16,7 +16,8 @@ class Banner < Message
     bg_color
     action_text
     url
-    show_sender
+    show_sender,
+    font_options
   ]
 
   def banner_data
@@ -30,7 +31,8 @@ class Banner < Message
       action_text: action_text,
       url: url,
       show_sender: show_sender,
-      sender_data: sender_data
+      sender_data: sender_data,
+      font_options: font_options
     }
   end
 
