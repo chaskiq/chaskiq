@@ -27,18 +27,40 @@ fr:
     tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
     send: Envoyer
     actions: Actions
+    your_apps: Your apps
+    upload_field: upload %{field}
+    choose_color: Choose color
+    image: Imagen
     langs:
       en: Anglais
       es: Espagnol
       pt: Portugais
       de: Allemand
       ca: Catalan
+      zh: Chinese
     redirecting: Redirection
     select_language: Sélectionnez une langue
     send_on_enter: Publier à la saisie
     away_mode: Away mode
     toggle_light_mode: Toggle light mode
     toggle_dark_mode: Toggle dark mode
+    leads: Prospects
+    visitors: Visitors
+    users: Utilisateurs
+    type_message: type your message
+    search_conversations: search conversations
+    days: Days
+  status_messages:
+    error: "Error"
+    success: "Success"
+    updated_success: Updated successfully
+    updated_error: Error on upddate
+    created_success: Successfully created
+    created_error: Error creating
+    deleted_success: Successfully deleted
+    deleted_error: Error deleting
+    reordered_error: Error reordering
+    reordered_success: Successfully Reordered
   error_view:
     title: Woops! something went wrong.
     subtitle: Unfortunately 🤯
@@ -139,7 +161,8 @@ fr:
     messages:
       seen: Vu
       not_seen: Non vu
-      note: Commentaire
+      note: Private Note
+      reply: Reply
     sidebar:
       show_profile: Voir le profil
       location: Localisation
@@ -329,6 +352,9 @@ fr:
     hint1: Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.
     lang: Votre code pour générer un HMAC pour votre application est
     hint2: 'Où que vous importiez des données utilisateur et que vous ayez un extrait de code Chaskiq, ajoutez un nouvel attribut appelé <span className = "font-bold"> identifier_key </span> et transmettez l''adresse e-mail <span className = "font-bold"> </span> et donnez-lui le tag HMAC pour l''utilisateur connecté:'
+    encryption_key_label: Identity verification secret
+    dont_share_code: "Don't share this code"
+    hmac_hint1: Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.
   quick_replies:
     title: Réponses rapides
     search: Rechercher des réponses rapides
@@ -390,6 +416,10 @@ fr:
       remove_success: Paquet supprimé correctement
       remove_error: Erreur lors de la suppression du paquet
       create_integration: Créer un nouveau paquet
+    app_inserter:
+      title: Add apps to your Messenger
+      subtitle: Help your customers before they start a conversation
+      action: Add app
     integrations:
       title: Intégrations de tiers
       create_success: L'intégration a été créée
@@ -467,6 +497,9 @@ fr:
       hint2: Contrôlez qui voit le lanceur standard Messenger sur votre site Web.
       note2: TOUS LES MESSAGES QUE VOUS ENVOYEZ SERONT DÉLIVÉS.
       note3: "Sur le web, montrez le lanceur standard Messenger à:"
+      closed_replies_title: Prevent replies to closed conversations for %{name}
+      closed_replies_enabled: Letting users reply to closed messages at any time.
+      closed_replies_disabled: Preventing users from responding to closed conversations after.
       filters:
         users:
           label: Utilisateurs

@@ -154,29 +154,27 @@ en:
         name: 'sheet_url'
         hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
         placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
-
     webhooks:
-      url: 
+      url:
         label: url for outgoing webhook
         hint: "we'll send POST requests"
-      enabled: 
+      enabled:
         label: enable webhook
       tag_list:
         label: events to send
         hint: chaskiq will deliver this events to configured endpoint
     agents:
-      email: 
+      email:
         label: Agent's Email
         placeholder: john@example.com
-      name:	
+      name:
         label: Agent's Name
         placeholder: John Doe
-      owner: 
+      owner:
         label: Owner
-      access_list: 
+      access_list:
         label: 'Roles for agent'
         hint: 'blank access will disable account settings access for user'
-
   data_tables:
     agents:
       email: Email
@@ -187,7 +185,6 @@ en:
       sign_in_count: Sign in count
       last_sign_in_at: Last sign in at
       invitation_accepted_at: Invitation accepted at
-
     articles:
       settings:
         locale: Locale
@@ -220,7 +217,6 @@ en:
         subscribed: Subscribed
         unsubscribed: Unsubscribed
         passive: Passive
-
     settings:
       locale: Locale
       greetings: Greetings
