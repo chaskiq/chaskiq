@@ -83,12 +83,32 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
-                                         access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-                                         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+  delivery_method = ENV.fetch('SMTP_DELIVERY_METHOD', 'ses')
+
+  if delivery_method.downcase == 'smtp'
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address: ENV['SMTP_ADDRESS'],
+      user_name: ENV['SMTP_USERNAME'], # Your SMTP user here.
+      password: ENV['SMTP_PASSWORD'], # Your SMTP password here.
+      authentication: :login,
+      enable_starttls_auto: true
+    }
+  else
+    zone = ENV['AWS_S3_REGION']
+    ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
+                                           access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                                           secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+                                           signature_version: 4,
+                                           region: zone,
+                                           server: "email.#{zone}.amazonaws.com"
+                                           # message_id_domain: "#{zone}.amazonses.com"
+    config.action_mailer.delivery_method = :ses
+  end
 
   config.action_mailer.perform_deliveries = false
-  config.action_mailer.delivery_method = :ses
+  config.action_mailer.raise_delivery_errors = true
+
 
   # ACTIVE JOB
   config.active_job.queue_adapter = :sidekiq
