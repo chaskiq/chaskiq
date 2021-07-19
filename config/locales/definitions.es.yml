@@ -156,40 +156,40 @@ es:
         placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
     webhooks:
       url:
-        label: url for outgoing webhook
-        hint: "we'll send POST requests"
+        label: url para webhook saliente
+        hint: "enviaremos solicitudes POST"
       enabled:
-        label: enable webhook
+        label: activar webhook
       tag_list:
-        label: events to send
-        hint: chaskiq will deliver this events to configured endpoint
+        label: eventos a enviar
+        hint: chaskiq entregará estos eventos al endpoint configurado
     agents:
       email:
-        label: Agent's Email
-        placeholder: john@example.com
+        label: Email agente
+        placeholder: john@ejemplo.com
       name:
-        label: Agent's Name
-        placeholder: John Doe
+        label: Nombre del Agente
+        placeholder: Juan Pérez
       owner:
-        label: Owner
+        label: Propietario
       access_list:
-        label: 'Roles for agent'
-        hint: 'blank access will disable account settings access for user'
+        label: 'Rol para el agente'
+        hint: 'el acceso en blanco desactivará el acceso a la configuración de la cuenta para el usuario'
   data_tables:
     agents:
       email: Email
-      0: name:	Name
-      owner: Owner
-      access_list: Access List
-      1: actions:	Actions
-      sign_in_count: Sign in count
-      last_sign_in_at: Last sign in at
-      invitation_accepted_at: Invitation accepted at
+      0: 'nombre: Nombre'
+      owner: Propietario
+      access_list: Lista de acceso
+      1: 'acciones: Acciones'
+      sign_in_count: Cantidad de ingresos
+      last_sign_in_at: Fecha del último ingreso
+      invitation_accepted_at: Invitación aceptada el
     articles:
       settings:
-        locale: Locale
-        site_title: Site Title
-        site_description: Site Description
+        locale: Configuración regional
+        site_title: Título del sitio
+        site_description: Descripción del Sitio
         action: Acción
     users:
       name: Nombre
@@ -218,7 +218,7 @@ es:
         unsubscribed: Desuscrito
         passive: Pasiva
     settings:
-      locale: Locale
-      greetings: Greetings
-      intro: Intro
+      locale: Configuración regional
+      greetings: Saludos
+      intro: Introducción
       tagline: Eslogan
