@@ -27,18 +27,40 @@ de:
     tz_hint: Ihre Browser-Zeitzone ist <b className="text-bold">%{timezone}</b>
     send: Senden
     actions: Aktionen
+    your_apps: Your apps
+    upload_field: upload %{field}
+    choose_color: Choose color
+    image: Imagen
     langs:
       en: Englisch
       es: Spanisch
       pt: Portugiesisch
       de: Deutsch
       ca: Catalan
+      zh: Chinese
     redirecting: Leite weiter
     select_language: Sprache auswählen
     send_on_enter: Veröffentlichen bei Enter
     away_mode: Away mode
     toggle_light_mode: Toggle light mode
     toggle_dark_mode: Toggle dark mode
+    leads: Leads
+    visitors: Visitors
+    users: Nutzer
+    type_message: type your message
+    search_conversations: search conversations
+    days: Days
+  status_messages:
+    error: "Error"
+    success: "Success"
+    updated_success: Updated successfully
+    updated_error: Error on upddate
+    created_success: Successfully created
+    created_error: Error creating
+    deleted_success: Successfully deleted
+    deleted_error: Error deleting
+    reordered_error: Error reordering
+    reordered_success: Successfully Reordered
   error_view:
     title: Woops! something went wrong.
     subtitle: Unfortunately 🤯
@@ -139,7 +161,8 @@ de:
     messages:
       seen: Gesehen
       not_seen: Nicht gesehen
-      note: Notiz
+      note: Private Note
+      reply: Reply
     sidebar:
       show_profile: Profil öffnen
       location: Ort
@@ -329,6 +352,9 @@ de:
     hint1: Um die Identitätsüberprüfung zu konfigurieren, müssen Sie für jeden angemeldeten Benutzer ein HMAC auf Ihrem Server generieren und es an Chaskiq senden.
     lang: Ihr Code, um ein HMAC für Ihre App zu generieren ist
     hint2: 'Wo immer Sie Benutzerdaten hochladen und ein Chaskiq-Code-Snippet haben, Fügen Sie ein neues Attribut namens <span className="font-bold">identifier_key</span> hinzu und übergeben Sie die <span className="font-bold">E-Mail</span> und geben Sie ihm das HMAC Tag für den eingeloggten Benutzer:'
+    encryption_key_label: Identity verification secret
+    dont_share_code: "Don't share this code"
+    hmac_hint1: Um die Identitätsüberprüfung zu konfigurieren, müssen Sie für jeden angemeldeten Benutzer ein HMAC auf Ihrem Server generieren und es an Chaskiq senden.
   quick_replies:
     title: Schnellantworten
     search: Schnellantworten durchsuchen
@@ -390,6 +416,10 @@ de:
       remove_success: Paket erfolgreich entfernt
       remove_error: Fehler beim Entfernen des Pakets
       create_integration: Neues Paket erstellen
+    app_inserter:
+      title: Add apps to your Messenger
+      subtitle: Help your customers before they start a conversation
+      action: Add app
     integrations:
       title: Drittanbieter Integrationen
       create_success: Integration erstellt
@@ -467,6 +497,9 @@ de:
       hint2: Legen Sie fest, wer den Standard Messenger Launcher auf Ihrer Website sieht.
       note2: JEGLICHE NACHRICHTEN DIE SIE SENDEN, WERDEN WEITERHIN GELIEFERT.
       note3: "Zeigen Sie im Web den Standard Messenger Launcher an für:"
+      closed_replies_title: Prevent replies to closed conversations for %{name}
+      closed_replies_enabled: Letting users reply to closed messages at any time.
+      closed_replies_disabled: Preventing users from responding to closed conversations after.
       filters:
         users:
           label: Nutzer
