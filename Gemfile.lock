@@ -202,7 +202,6 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    email_reply_parser (0.5.10)
     email_reply_trimmer (0.1.13)
     erubi (1.10.0)
     et-orbi (1.2.4)
@@ -387,7 +386,7 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (2.3.1)
       rack (>= 1.2.0)
-    rack-proxy (0.6.5)
+    rack-proxy (0.7.0)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -506,7 +505,7 @@ GEM
       tilt (>= 1.1, < 3)
     scout_apm (2.6.10)
       parser
-    semantic_range (2.3.1)
+    semantic_range (3.0.0)
     shoulda (4.0.0)
       shoulda-context (~> 2.0)
       shoulda-matchers (~> 4.0)
@@ -564,7 +563,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webpacker (5.2.1)
+    webpacker (5.4.0)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
@@ -602,7 +601,6 @@ DEPENDENCIES
   devise_invitable (~> 2.0)
   doorkeeper (~> 5.4)
   dotenv-rails
-  email_reply_parser (~> 0.5.9)
   email_reply_trimmer
   emoji_data!
   factory_bot_rails
@@ -671,7 +669,7 @@ DEPENDENCIES
   urlcrypt
   web-console (>= 3.3.0)
   webmock
-  webpacker (~> 5.0)
+  webpacker (~> 5.4.0)
 
 RUBY VERSION
    ruby 2.7.2p137

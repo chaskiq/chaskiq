@@ -163,7 +163,9 @@ class AppUsers extends Component {
 
   getTextForPredicate = (o) => {
     if (o.type === 'match') {
-      return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
+      if(o.value === 'and') return I18n.t("segment_manager.match_all")
+      return I18n.t("segment_manager.match_any")
+      //return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
     } else {
       return `${this.displayName(o)} ${o.comparison ? o.comparison : ''} ${
         o.value ? o.value : ''

@@ -53,14 +53,14 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
 
       {!asButton && (
         <div className="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
-          <SeachIcon size="small" />
+          <SeachIcon size="small" onClick={()=>setOpen(true)} />
           <input
             className="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1"
             defaultValue={conversations.term}
             onKeyDown={(e) => {
               handleEnter(e)
             }}
-            placeholder={'search conversations'}
+            placeholder={I18n.t("common.search_conversations")}
           />
         </div>
       )}
@@ -71,13 +71,13 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
         title={'eeie'}
         formComponent={
           <div>
-            <h3>search some shit</h3>
+            <h3>{I18n.t("common.search_conversations")}</h3>
             <SearchInput
               defaultValue={conversations.term}
               onSubmit={(term) => {
                 handleSubmit(term)
               }}
-              placeholder={'search conversations'}
+              placeholder={ I18n.t("common.search_conversations") }
             />
           </div>
         }

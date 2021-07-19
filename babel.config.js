@@ -1,4 +1,3 @@
-
 module.exports = function (api) {
   var validEnv = ['development', 'test', 'production']
   var currentEnv = api.env()
@@ -39,7 +38,6 @@ module.exports = function (api) {
       ['@babel/preset-react']
     ].filter(Boolean),
     plugins: [
-      'lodash',
       'babel-plugin-macros',
       '@babel/plugin-syntax-dynamic-import',
       isTestEnv && 'babel-plugin-dynamic-import-node',
@@ -70,35 +68,13 @@ module.exports = function (api) {
           async: false
         }
       ],
-
-      /*
-        [
-        "babel-plugin-import",
-        {
-          "libraryName": "@material-ui/core",
-          "libraryDirectory": "esm",
-          "camel2DashComponentName": false
-        },
-        "core"
-      ],
-      [
-        "babel-plugin-import",
-        {
-          "libraryName": "@material-ui/icons",
-          "libraryDirectory": "esm",
-          "camel2DashComponentName": false
-        },
-        "icons"
-      ],
-      */
-
+      ['@babel/plugin-proposal-private-methods', { loose: true }],
       ['prismjs', {
         languages: ['javascript', 'css', 'markup', 'ruby', 'typescript'],
         plugins: ['line-numbers'],
         theme: 'twilight',
         css: true
       }]
-
     ].filter(Boolean)
   }
 }

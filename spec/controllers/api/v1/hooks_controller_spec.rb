@@ -1138,11 +1138,11 @@ RSpec.describe Api::V1::HooksController, type: :controller do
 
       response = send_data(message_notification_params)
 
-      conversation = ConversationPart.last.conversation
-
-      expect(ConversationPart.first.email_message_id).to be == "message_id-1234"
-      expect(ConversationPart.first.messageable.serialized_content).to be_present
-      expect(conversation.assignee.id).to be(conversation.app.agents.first.id)
+      conversation_part = ConversationPart.where(messageable_type: 'ConversationPartContent').last
+      
+      expect(conversation_part.email_message_id).to be == "message_id-1234"
+      expect(conversation_part.messageable.serialized_content).to be_present
+      expect(conversation_part.conversation.assignee.id).to be(conversation_part.conversation.app.agents.first.id)
     end
   end
 

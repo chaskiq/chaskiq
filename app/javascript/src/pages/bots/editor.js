@@ -208,11 +208,17 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           setPaths(data.updateBotTask.botTask.paths)
           setErrors(data.updateBotTask.botTask.errors)
           // setSelectedPath(data.updateBotTask.botTask.paths[0]);
-          dispatch(successMessage('bot updated'))
+          dispatch(
+            successMessage(
+              I18n.t("status_messages.updated_success")
+            )
+          )
           cb && cb()
         },
         error: (_err) => {
-          dispatch(errorMessage('bot not updated'))
+          dispatch(errorMessage(
+            I18n.t("status_messages.error_success")
+          ))
         },
       }
     )
@@ -231,10 +237,14 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       {
         success: (data) => {
           setBotTask(data.updateBotTask.botTask)
-          dispatch(successMessage('bot updated'))
+          dispatch(successMessage(
+            I18n.t("status_messages.updated_success")
+          ))
         },
         error: (_err) => {
-          dispatch(errorMessage('bot not updated'))
+          dispatch(errorMessage(
+            I18n.t("status_messages.updated_error")
+          ))
         },
       }
     )
@@ -339,8 +349,8 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   function optionsForFilter() {
     return [
       {
-        title: 'Clone',
-        description: 'clones the campaign',
+        title: I18n.t("campaigns.clone_title"),
+        description: I18n.t("campaigns.clone_description"),
         icon: <CopyContentIcon />,
         id: 'enabled',
         state: 'enabled',
@@ -357,12 +367,16 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
 
     graphql(CLONE_MESSAGE, params, {
       success: (_data) => {
-        dispatch(successMessage('cloned successfully'))
+        dispatch(successMessage(
+          I18n.t("campaigns.cloned_success")
+        ))
 
         // this.props.init()
       },
       error: () => {
-        dispatch(errorMessage('error while cloning record'))
+        dispatch(errorMessage(
+           I18n.t("campaigns.cloned_error")
+        ))
       },
     })
   }
@@ -422,7 +436,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
 
               <FilterMenu
                 options={optionsForFilter()}
-                value={'Actions'}
+                value={I18n.t("common.actions")}
                 filterHandler={(option, _closeHandler) => {
                   return option.onClick && option.onClick(option)
                 }}
@@ -435,7 +449,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                       color="inherit"
                       size="small"
                     >
-                      {'actions'}
+                      {I18n.t("common.actions")}
                     </Button>
                   )
                 }}

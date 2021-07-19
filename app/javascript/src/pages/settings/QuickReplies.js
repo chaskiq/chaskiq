@@ -337,7 +337,7 @@ function QuickReplies({ app, _update, dispatch }) {
                   className="mr-2"
                   onClick={updateQuickReply}
                 >
-                  Save
+                  {I18n.t('common.save')}
                 </Button>
                 <Button
                   variant="danger"

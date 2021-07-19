@@ -52,4 +52,6 @@ app/javascript/old-src
 
 spec/cypress/videos/**/*
 
+package/esm
+
 rubocop.sarif

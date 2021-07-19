@@ -492,7 +492,7 @@ function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
         disabled={loading}
         onKeyPress={handleReturn}
         onKeyUp={handleUp}
-        placeholder={'write your comment'}
+        placeholder={I18n.t('common.type_message')}
         // disabled={this.state.loading}
         ref={input}
       />

@@ -23,9 +23,11 @@ const nums = [
 
 module.exports = {
   darkMode: 'class',
+  mode: 'jit',
   experimental: {},
   purge: {
     //enabled: true,
+    enabled: ["production", "staging"].includes(process.env.NODE_ENV),
     content: [
       './app/**/*.html.erb',
       './app/**/*.erb',
