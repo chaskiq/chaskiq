@@ -55,7 +55,7 @@ class Collections extends Component {
   submitAssignment = () => {}
 
   close = () => {
-    this.setState({ isOpen: false })
+    this.setState({ isOpen: false, editCollection: null })
   }
 
   displayDialog = (_e) => {
@@ -295,23 +295,31 @@ class Collections extends Component {
             }
             formComponent={
               <form>
-                <div className="flex justify-start items-center">
+                <div className="flex justify-start items-start flex-col">
                   {editCollection && editCollection.icon && (
                     <img src={editCollection.icon} className="w-32 mr-2 mt-4" />
                   )}
 
-                  <TextField
-                    type="upload"
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    ref={(comp) => (this.fileInput = comp)}
-                    textHelper={I18n.t('articles.square_preferred_hint')}
-                    handler={(file) => this.uploadHandler(file, 'icon')}
-                  />
+                  {
+                    editCollection && 
+                    <>
+                      <TextField
+                        type="upload"
+                        accept="image/*"
+                        hideImage={false}
+                        label={I18n.t("common.image")}
+                        style={{ display: 'none' }}
+                        ref={(comp) => (this.fileInput = comp)}
+                        textHelper={I18n.t('articles.square_preferred_hint')}
+                        handler={(file) => this.uploadHandler(file, 'icon')}
+                      />
+                      <p className="text-sm text-gray-500 mb-3">
+                        {I18n.t('articles.square_preferred')}
+                      </p>
+                    </>
+                  }
                 </div>
-                <p className="text-sm text-gray-500 mb-3">
-                  {I18n.t('articles.square_preferred')}
-                </p>
+                
 
                 <TextField
                   id="collection-title"

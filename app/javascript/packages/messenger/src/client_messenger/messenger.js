@@ -397,6 +397,8 @@ class Messenger extends Component {
               const newMessage = toCamelCase(data.data)
               setTimeout(() => this.receiveMessage(newMessage), 100)
               break
+            case 'conversations:update_state':
+              this.handleConversationState(toCamelCase(data.data))
             case 'conversations:typing':
               this.handleTypingNotification(toCamelCase(data.data))
               break
@@ -432,6 +434,14 @@ class Messenger extends Component {
         this.delayTimer = setTimeout(() => {
           this.setState({ agent_typing: null })
         }, 1000)
+      })
+    }
+  }
+
+  handleConversationState = (data) => {
+    if (this.state.conversation.key === data.key) {
+      this.setState({
+        conversation: Object.assign({}, this.state.conversation, data)
       })
     }
   }
@@ -1449,6 +1459,8 @@ class Messenger extends Component {
                             pushEvent={this.pushEvent}
                             getPackage={this.getPackage}
                             displayAppBlockFrame={this.displayAppBlockFrame}
+                            kind={this.props.kind}
+                            displayNewConversation={this.displayNewConversation}
                             t={this.props.t}
                           />
                         )}
@@ -1553,6 +1565,7 @@ class Messenger extends Component {
                     domain={this.props.domain}
                     // conversation_messages={this.state.conversation_messages}
                     conversation={this.state.conversation}
+                    displayNewConversation={this.displayNewConversation}
                     // conversation_messagesMeta={this.state.conversation_messagesMeta}
                     isUserAutoMessage={this.isUserAutoMessage}
                     insertComment={this.insertComment}

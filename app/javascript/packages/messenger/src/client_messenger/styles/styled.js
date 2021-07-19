@@ -1096,6 +1096,13 @@ export const NewConvoBtnContainer = styled.div`
   padding: 0 37px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  ${
+    ({styles})=> styles ? styles : '' 
+  }
 `
 // ${(props) => FadeBottomAnimation(props)}
 

@@ -30,6 +30,7 @@ i18n
           submit: 'Submit',
           article_meta: 'By: <strong>{{name}}</strong> on <0>{{date}}</0>',
           enter_your: 'Enter your {{field}}',
+          closed_conversation: 'This conversation has ended',
 
           'editor.placeholder': 'Send message...',
           'conversations.events.assigned':
@@ -107,6 +108,7 @@ i18n
           dismiss: 'Descartar',
           submit: 'Enviar',
           enter_your: 'Escribe tu {{field}}',
+          closed_conversation: 'Tu conversación ha finalizado',
           'editor.placeholder': 'Envía tu mensaje...',
           article_meta: 'Por: <strong>{{name}}</strong> en <0>{{date}}</0>',
           'reply_time.auto': 'El equipo responderá lo antes posible',

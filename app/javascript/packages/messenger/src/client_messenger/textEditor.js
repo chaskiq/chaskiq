@@ -411,6 +411,7 @@ export default class UnicornEditor extends Component {
             onKeyPress={this.handleReturn}
             placeholder={this.props.t('editor.placeholder')}
             disabled={this.state.loading}
+            data-cy="messenger-editor"
             ref={(comp) => (this.input = comp)}
           ></Input>
 

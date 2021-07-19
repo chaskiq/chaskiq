@@ -56,6 +56,30 @@ const DanteStylesExtend = styled(DanteContainer)`
     overflow: auto;
   }
 `
+
+function NewConversationBlock({ 
+  app, 
+  t, 
+  transition, 
+  displayNewConversation,
+  children,
+  styles
+}){
+  return(
+    app.inboundSettings.enabled && (
+      <NewConvoBtnContainer styles={styles}>
+        {children && children}
+        <NewConvoBtn
+          in={transition}
+          onClick={displayNewConversation}
+        >
+          {t('create_new_conversation')}
+        </NewConvoBtn>
+      </NewConvoBtnContainer>
+    )
+  )
+}
+
 export class Conversations extends Component {
   state = {
     loading: true,
@@ -130,17 +154,12 @@ export class Conversations extends Component {
 
           <ConversationsFooter>
             <Hint>{this.props.app.tagline}</Hint>
-
-            {this.props.app.inboundSettings.enabled && (
-              <NewConvoBtnContainer>
-                <NewConvoBtn
-                  in={this.props.transition}
-                  onClick={this.props.displayNewConversation}
-                >
-                  {t('create_new_conversation')}
-                </NewConvoBtn>
-              </NewConvoBtnContainer>
-            )}
+            <NewConversationBlock
+              app={this.props.app}
+              t={this.props.t}
+              transition={this.props.transition}
+              displayNewConversation={this.props.displayNewConversation}
+            />
           </ConversationsFooter>
         </div>
       </div>
@@ -262,7 +281,40 @@ export class Conversation extends Component {
     )
   }
 
+  isInboundRepliesClosed = ()=>{
+    const namespace = this.props.kind === 'AppUser' ? 'users' : 'visitors'
+
+    const inboundSettings = this.props.appData.inboundSettings[namespace]
+
+    // if this option is not enabled then replies are allowed
+    if(!inboundSettings.close_conversations_enabled)
+      return
+
+    // if this is not a number asume closed
+    if( isNaN(inboundSettings.close_conversations_after) )
+      return true
+
+    // if zero we asume closed
+    if( inboundSettings.close_conversations_after === 0) 
+      return true
+
+    const now = new Date()
+    const closedAtDate = new Date(this.props.conversation.closedAt)
+    const diff = (now - new Date(closedAtDate)) / (1000 * 3600 * 24);
+
+    // if diff is greather than setting assume closed
+    if( Math.round(diff) >= inboundSettings.close_conversations_after) 
+      return true
+  }
+
   isInputEnabled = () => {
+
+    if(this.props.conversation.state === 'closed') {
+      if(this.isInboundRepliesClosed()) {
+        return false
+      }
+    }
+
     if (isEmpty(this.props.conversation.messages)) return true
 
     const messages = this.props.conversation.messages.collection
@@ -431,6 +483,26 @@ export class Conversation extends Component {
     return this.props.t('reply_above')
   }
 
+  renderNewConversationButton = () => {
+    return <NewConversationBlock
+              styles={
+                ` bottom: 0px;
+                  height: 93px;
+                  background: #ffffff;
+                  box-shadow: -2px 1px 9px 0px #a0a0a0;
+                `
+              }
+              app={this.props.appData}
+              t={this.props.t}
+              transition={this.props.transition}
+              displayNewConversation={this.props.displayNewConversation}
+            >
+            <p style={{margin: '0 0 9px 0px'}}>
+              {this.props.t('closed_conversation')}
+            </p>
+            </NewConversationBlock>
+  }
+
   handleBeforeSubmit = () => {
     const { messages } = this.props.conversation
     if (isEmpty(messages)) return
@@ -461,6 +533,12 @@ export class Conversation extends Component {
     this.wait_for_input = null
   }
 
+  footerReplyIndicator = ()=>{
+    if(this.props.conversation.state === "closed")
+      return this.renderNewConversationButton()
+    return this.renderReplyAbove()
+  }
+
   renderFooter = () => {
     return (
       <Footer
@@ -469,7 +547,7 @@ export class Conversation extends Component {
         className={this.props.footerClassName || ''}
       >
         {!this.isInputEnabled() ? (
-          this.renderReplyAbove()
+          this.footerReplyIndicator()
         ) : (
           <UnicornEditor
             t={this.props.t}

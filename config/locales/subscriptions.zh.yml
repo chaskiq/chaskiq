@@ -1,4 +1,4 @@
-zh-CN:
+zh:
   subscriptions:
     upgrade: 升级
     tabs:
@@ -64,10 +64,10 @@ zh-CN:
       - 
         name: "免费"
         description: 这是一个免费的计划！
-        id: 65960
+        id: 618560
       - 
         name: "rookie"
-        description: This is the simple plan
+        description: 这是一个简单的计划
         id: 616249
       - 
         name: "super"

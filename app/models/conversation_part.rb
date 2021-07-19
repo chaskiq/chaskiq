@@ -24,6 +24,8 @@ class ConversationPart < ApplicationRecord
 
   attr_accessor :check_assignment_rules
 
+  delegate :broadcast_key, to: :conversation 
+
   def from_bot?
     trigger_id.present? && step_id.present?
   end
@@ -123,10 +125,6 @@ class ConversationPart < ApplicationRecord
     conversation.conversation_channels.each do |channel|
       channel.notify_part(conversation: conversation, part: self)
     end
-  end
-
-  def broadcast_key
-    "#{conversation.app.key}-#{conversation.main_participant.session_id}"
   end
 
   def controls_ping_apis
