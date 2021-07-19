@@ -27,18 +27,40 @@ ru:
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
     send: Send
     actions: Actions
+    your_apps: Your apps
+    upload_field: upload %{field}
+    choose_color: Choose color
+    image: Imagen
     langs:
       en: English
       es: Spanish
       pt: Portuguese
       de: Deutsch
       ca: Catalan
+      zh: Chinese
     redirecting: Redirecting
     select_language: Select Language
     send_on_enter: Publish on enter
     away_mode: Away mode
     toggle_light_mode: Toggle light mode
     toggle_dark_mode: Toggle dark mode
+    leads: Leads
+    visitors: Visitors
+    users: Users
+    type_message: type your message
+    search_conversations: search conversations
+    days: Days
+  status_messages:
+    error: "Error"
+    success: "Success"
+    updated_success: Updated successfully
+    updated_error: Error on upddate
+    created_success: Successfully created
+    created_error: Error creating
+    deleted_success: Successfully deleted
+    deleted_error: Error deleting
+    reordered_error: Error reordering
+    reordered_success: Successfully Reordered
   error_view:
     title: Woops! something went wrong.
     subtitle: Unfortunately 🤯
@@ -139,7 +161,8 @@ ru:
     messages:
       seen: Seen
       not_seen: Not seen
-      note: Note
+      note: Private Note
+      reply: Reply
     sidebar:
       show_profile: Show profile
       location: Location
@@ -329,6 +352,9 @@ ru:
     hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
     lang: Your code to generate an HMAC for your app is
     hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    encryption_key_label: Identity verification secret
+    dont_share_code: "Don't share this code"
+    hmac_hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
   quick_replies:
     title: Quick Replies
     search: Search Quick replies
@@ -390,6 +416,10 @@ ru:
       remove_success: Package removed correctly
       remove_error: Error removing package
       create_integration: Create New package
+    app_inserter:
+      title: Add apps to your Messenger
+      subtitle: Help your customers before they start a conversation
+      action: Add app
     integrations:
       title: Third party integrations
       create_success: Integration created
@@ -467,6 +497,9 @@ ru:
       hint2: Control who sees the standard Messenger launcher on your website.
       note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
       note3: "On the web, show the standard Messenger launcher to:"
+      closed_replies_title: Prevent replies to closed conversations for %{name}
+      closed_replies_enabled: Letting users reply to closed messages at any time.
+      closed_replies_disabled: Preventing users from responding to closed conversations after.
       filters:
         users:
           label: Users
