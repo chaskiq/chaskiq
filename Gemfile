@@ -49,8 +49,6 @@ gem "graphql"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
-gem "email_reply_trimmer"
 # gem 'tunable'
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
