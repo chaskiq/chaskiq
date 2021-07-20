@@ -121,6 +121,7 @@ en:
       webhooks: Webhooks
       api_access: API access
       billing: Billing
+      series: "Series"
     user_menu:
       create_app: 'Create new app'
       create_app_description: 'Create your company’s Chaskiq app'

@@ -17,6 +17,7 @@ import Profile from './Profile'
 import AgentProfile from './AgentProfile'
 import Billing from './Billing'
 import Api from './Api'
+import Workflows from './workflows'
 
 import { connect } from 'react-redux'
 
@@ -215,7 +216,7 @@ function AppContainer({
 
           {!isEmpty(upgradePages) && <UpgradePage page={upgradePages} />}
 
-          {app && isEmpty(upgradePages) && (
+          { app && isEmpty(upgradePages) && 
             <ErrorBoundary variant={'very-wrong'}>
               <Switch>
                 <Route path={`${match.url}/`} exact>
@@ -278,7 +279,11 @@ function AppContainer({
                   <Bots />
                 </Route>
 
-                <Route path={`${match.url}/campaigns`}>
+                <Route path={`${match.url}/workflows`}>
+                  <Workflows />
+                </Route>
+
+                <Route path={`${match.path}/campaigns`}>
                   <CampaignHome />
                 </Route>
 
@@ -287,7 +292,8 @@ function AppContainer({
                 </Route>
               </Switch>
             </ErrorBoundary>
-          )}
+          }
+
         </div>
       )}
     </div>

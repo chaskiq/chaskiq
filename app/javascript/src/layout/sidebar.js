@@ -31,6 +31,7 @@ import {
   AppSettingsIcon,
   DarkModeIcon,
   LightModeIcon,
+  LabIcon
 } from '@chaskiq/components/src/components/icons'
 
 import SidebarAgents from '../pages/conversations/SidebarAgents'
@@ -265,6 +266,13 @@ function Sidebar({
           url: `${appid}/messages/tours`,
           active: isActivePage('tours'),
         },
+        {
+          id: 'tours',
+          label: I18n.t('navigator.childs.series'),
+          icon: <LabIcon />,
+          url: `${appid}/workflows`,
+          active: isActivePage('workflows')
+        }
       ],
     },
 
