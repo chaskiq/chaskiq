@@ -24,8 +24,21 @@ function textColor(color) {
   return readableColor(color, lightReturnColor, darkReturnColor, true)
 }
 
+
+
 const SingleSelect = styled.div`
   ${() => tw`flex flex-col`}
+  ${(props) => {
+      switch (props.align) {
+        case 'center':
+          return tw`items-center`;
+        case 'right':
+          return tw`items-end`;
+        default:
+          break;
+      }
+    }
+  }
   .label {
     ${() => tw`py-2`}
   }
@@ -163,7 +176,7 @@ export function SingleSelectRenderer({ field, handleAction }) {
   }
 
   return (
-    <SingleSelect>
+    <SingleSelect align={field.align}>
       <p className="label">{field.label}</p>
       <div className="content">
         {field.options.map((o, i) => {
