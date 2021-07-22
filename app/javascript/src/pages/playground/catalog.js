@@ -40,6 +40,63 @@ export function basic(){
         {"type": "option","id": "option-2","text": "Option 2"}
         ]
       },
+
+
+      {
+        "type": "single-select",
+        "id": "checkbox-12",
+        "align": "center",
+        "variant": "hovered",
+        "direction": "column",
+        "label": "How would you rate your experience with our service?",
+        "options": [
+              {
+                "type": "option",
+                "id": "option-12",
+                "text": "😡",
+                "action": {
+                  "type": "submit"
+                }
+              },
+              {
+                "type": "option",
+                "id": "option-13",
+                "text": "🙁",
+                "action": {
+                  "type": "submit"
+                }
+              }
+              , {
+                "type": "option",
+                "id": "option-14",
+                "text": "😐",
+                "action": {
+                  "type": "submit"
+                }
+              }
+              , {
+                "type": "option",
+                "id": "option-15",
+                "text": "🙂",
+                "action": {
+                  "type": "submit"
+                }
+              },
+              {
+                "type": "option",
+                "id": "option-16",
+                "text": "😍",
+                "action": {
+                  "type": "submit"
+                }
+              }
+          ]
+      },
+
+
+
+
+
       {
         "type": "single-select",
         "id": "checkbox-1",
@@ -55,7 +112,7 @@ export function basic(){
               },
               {
                 "type": "option",
-                "id": "option-1",
+                "id": "option-2",
                 "text": "uno",
                 "action": {
                   "type": "submit"
@@ -63,7 +120,7 @@ export function basic(){
               }
               , {
                 "type": "option",
-                "id": "option-1",
+                "id": "option-3",
                 "text": "Option 1",
                 "action": {
                   "type": "submit"
@@ -71,7 +128,7 @@ export function basic(){
               }
               , {
                 "type": "option",
-                "id": "option-1",
+                "id": "option-4",
                 "text": "tres",
                 "action": {
                   "type": "submit"
