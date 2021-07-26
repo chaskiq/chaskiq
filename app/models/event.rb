@@ -27,6 +27,16 @@ class Event < ApplicationRecord
 
   after_commit :trigger_webhooks, on: :create
 
+  # counts for plugins
+  scope :custom_counts, lambda{| namespace = "plugins.csat", column = 'val' | 
+    select(
+      "properties -> 'value' #{column},  
+      count(*)::INTEGER freq"
+    )
+    .where("events.action =?", namespace)
+    .group(column)
+  }
+
   def trigger_webhooks
     OutgoingWebhookJob.perform_later(event_id: id)
 
@@ -53,5 +63,9 @@ class Event < ApplicationRecord
     raise "event \"#{name}\" constant missing" if ev.blank?
 
     ev
+  end
+
+  def serialize_properties
+    self.as_json(only: [:id, :action, :created_at, :updated_at]).merge(self.properties)
   end
 end

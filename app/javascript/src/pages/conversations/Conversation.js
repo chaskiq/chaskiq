@@ -505,7 +505,7 @@ function Conversation({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
-      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900">
+      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-900 dark:border-gray-900">
         <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}
@@ -1017,7 +1017,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 
             <br />
 
-            <p variant={'caption'}>
+            <div variant={'caption'}>
               {data && (
                 <span
                   dangerouslySetInnerHTML={{
@@ -1025,7 +1025,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
                   }}
                 />
               )}
-            </p>
+            </div>
           </div>
         )
 
@@ -1082,7 +1082,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
             </span>
           </span>
 
-          <p className="text-md text-center text-bold">{blockElement}</p>
+          <div className="text-md text-center text-bold">{blockElement}</div>
         </div>
       </div>
     </div>

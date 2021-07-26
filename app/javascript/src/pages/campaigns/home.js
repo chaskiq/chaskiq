@@ -8,12 +8,14 @@ import image from '../../images/delivery-icon8.png'
 
 import {
   setCurrentSection,
+  setCurrentPage
 } from '@chaskiq/store/src/actions/navigation'
 
 
 function CampaignHome({ dispatch }) {
   React.useEffect(() => {
     dispatch(setCurrentSection('Campaigns'))
+    dispatch(setCurrentPage('Campaigns'))
   }, [])
 
   return (

@@ -8,7 +8,7 @@ export default function Card({ title, children }) {
           {title}
         </p>
       )}
-      <p>{children}</p>
+      {children}
     </div>
   )
 }

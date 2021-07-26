@@ -66,6 +66,14 @@ class AppPackageIntegration < ApplicationRecord
     # rescue nil
   end
 
+  def report(path, options={})
+    self.message_api_klass.report(
+      path, 
+      self, 
+      options
+    )
+  end
+
   def merged_credentials; end
 
   def trigger(event)

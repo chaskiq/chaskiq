@@ -147,7 +147,7 @@ function VerificationView({ app }) {
     <div className="space-y-6 mx-10-- py-6 text-sm">
       <h2 className="text-lg font-bold-">{I18n.t('identified_users.title')}</h2>
 
-      <div className="flex md:w-1/4 items-center">
+      <div className="flex md:w-3/4 items-center">
         <Input
           label={I18n.t("identified_users.encryption_key_label")}
           disabled={true}
