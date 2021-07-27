@@ -335,7 +335,7 @@ function Conversations({
       </Switch>
 
       {!isEmpty(conversation) && fixedSidebarOpen && (
-        <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           {app_user && app_user.id ? (
             <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
           ) : (

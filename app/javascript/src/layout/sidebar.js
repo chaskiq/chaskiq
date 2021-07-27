@@ -116,7 +116,81 @@ function Sidebar({
       icon: <DashboardIcon />,
       url: `/apps/${app.key}`,
       hidden: true,
-      children: [],
+      children: [
+        /* {
+          id: 'campaigns', label: 'Mailing Campaigns',
+          icon: <EmailIcon/>,
+          url: `${appid}/messages/campaigns`,
+          active: isActivePage("campaigns")
+        } */
+        {
+          render: (_props) => [
+            <div key={'dashboard-hey'} className="space-y-2">
+              <p
+                className="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light"
+                dangerouslySetInnerHTML={{
+                  __html: I18n.t('dashboard.hey', {
+                    name: app.name,
+                  }),
+                }}
+              />
+              <WebSetup />
+            </div>,
+          ],
+        },
+        {
+          render: (_props) => [
+            <div key={'dashboard-status'} className="space-y-2">
+              <div
+                className="mt-1 space-y-1"
+                aria-labelledby="projects-headline"
+              >
+                {app.plan.name && (
+                  <Link
+                    to={`/apps/${app.key}/billing`}
+                    className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black"
+                  >
+                    <span className="truncate">
+                      Plan:{' '}
+                      <Badge size="sm" variant="pink">
+                        {app.plan.name}
+                      </Badge>
+                    </span>
+                  </Link>
+                )}
+
+                <Link
+                  to={`/apps/${app.key}/messenger`}
+                  className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black"
+                >
+                  <span className="truncate--">
+                    {I18n.t('dashboard.status')}{' '}
+                    {app.activeMessenger && (
+                      <Badge size="sm" variant="green">
+                        {I18n.t('dashboard.status_running')}
+                      </Badge>
+                    )}
+                    {!app.activeMessenger && (
+                      <Badge size="sm" variant="gray">
+                        {I18n.t('dashboard.status_paused')}
+                      </Badge>
+                    )}
+                  </span>
+                </Link>
+
+                <a
+                  href="https://dev.chaskiq.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black"
+                >
+                  <span className="truncate">{I18n.t('dashboard.guides')}</span>
+                </a>
+              </div>
+            </div>,
+          ],
+        },
+      ],
     },
     {
       id: 'Platform',
@@ -390,9 +464,9 @@ function Sidebar({
                         key={`sidebar-section-child-${id}-${childId}`}
                         to={url}
                         className={`
-                        ${active ? 'bg-gray-200 dark:bg-gray-900' : ''} 
+                        ${active ? 'bg-gray-200 dark:bg-black' : ''} 
                         bg-white hover:text-gray-600 hover:bg-gray-100 
-                        dark:hover:text-gray-100 dark:hover:bg-gray-700
+                        dark:hover:text-gray-300 dark:hover:bg-black
                         dark:bg-black dark:text-gray-100 dark:focus:bg-black
                         focus:outline-none focus:bg-gray-200
                         group flex items-center 
@@ -452,7 +526,7 @@ function Sidebar({
       {app && (
         <div
           className={`md:block 
-            bg-white dark:bg-gray-900
+            bg-white dark:bg-black
             text-purple-lighter 
             flex-none w-23 
             p-2 
@@ -480,7 +554,7 @@ function Sidebar({
                     className="text-gray-700 dark:text-white
                     rounded-md flex 
                     justify-center 
-                    cursor-pointer bg-gray-50 dark:bg-gray-900
+                    cursor-pointer bg-gray-50 dark:bg-black
                     hover:bg-gray-100 dark:hover:bg-gray-800 
                     h-10 w-full 
                     items-center 
@@ -502,7 +576,7 @@ function Sidebar({
 
       {
         current_page &&
-        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-gray-900 bg-gray-100 shadow-inner">
+        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
           <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-yellow-400">
             <h3 className="font-semibold w-full text-gray-600 text-xs">
               {app.name}
