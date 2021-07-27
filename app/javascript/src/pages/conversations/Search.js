@@ -52,7 +52,7 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
       )}
 
       {!asButton && (
-        <div className="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1- mx-2">
+        <div className="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-900 rounded-md px-2 py-1- mx-2">
           <SeachIcon size="small" onClick={()=>setOpen(true)} />
           <input
             className="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1"

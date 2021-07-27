@@ -716,7 +716,7 @@ export function BotPathEditor({
         </span>
       </div>
 
-      <div className="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow">
+      <div className="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow border dark:border-gray-600">
         {isOpen && (
           <PathDialog
             isOpen={isOpen}
@@ -729,7 +729,7 @@ export function BotPathEditor({
         <div
           className={`${
             !menuDisplay ? 'hidden' : ''
-          } sm:w-2/4 bg-gray-50 dark:bg-gray-900 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}
+          } sm:w-2/4 bg-gray-50 dark:bg-gray-800 dark:border-gray-600 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}
         >
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppablePaths">
@@ -1258,7 +1258,7 @@ const Path = ({
 
   const renderControls = () => {
     return (
-      <div className="w-full p-6 border-b-2 border-gray-200">
+      <div className="w-full p-6 border-b-2 border-gray-200 dark:border-black">
         <div className="flex justify-between">
           <div className="flex items-center">
             <div className="text-lg text-center text-gray-900 font-semibold leading-4 my-6 mr-3">

@@ -505,7 +505,7 @@ function Conversation({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
-      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-900 dark:border-gray-800">
+      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}

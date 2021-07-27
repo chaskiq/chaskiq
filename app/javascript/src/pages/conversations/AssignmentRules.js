@@ -50,7 +50,7 @@ const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
   <li>
     <div
       href="#"
-      className="border-b bg-white dark:border-gray-800 dark:bg-black block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out"
+      className="border-b bg-white dark:border-gray-800 dark:bg-gray-900 block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out"
     >
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div>
