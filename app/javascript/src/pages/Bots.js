@@ -274,17 +274,15 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.name.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <div className="flex items-center">
-                        {row.id && (
-                          <span className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
-                            <AnchorLink to={`${match.url}/${row.id}`}>
-                              {row.title}
-                            </AnchorLink>
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                    <div className="flex items-center">
+                      {row.id && (
+                        <span className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
+                          <AnchorLink to={`${match.url}/${row.id}`}>
+                            {row.title}
+                          </AnchorLink>
+                        </span>
+                      )}
+                    </div>
                   ),
               },
 
@@ -293,34 +291,30 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.state.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <Badge
-                        className={`bg-${
-                          row.state === 'enabled' ? 'green-500' : 'gray-200'
-                        }`}
-                      >
-                        {I18n.t(`campaigns.state.${row.state}`)}
-                      </Badge>
-                    </td>
+                    <Badge
+                      className={`bg-${
+                        row.state === 'enabled' ? 'green-500' : 'gray-200'
+                      }`}
+                    >
+                      {I18n.t(`campaigns.state.${row.state}`)}
+                    </Badge>
                   ),
               },
               {
                 field: 'actions',
                 title: I18n.t('definitions.bot_tasks.actions.label'),
                 render: (row) => (
-                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                    <div className="flex items-center">
-                      {row.id && (
-                        <Button
-                          color={'secondary'}
-                          variant={'danger'}
-                          onClick={() => setOpenDeleteDialog(row)}
-                        >
-                          {I18n.t('common.delete')}
-                        </Button>
-                      )}
-                    </div>
-                  </td>
+                  <div className="flex items-center">
+                    {row.id && (
+                      <Button
+                        color={'secondary'}
+                        variant={'danger'}
+                        onClick={() => setOpenDeleteDialog(row)}
+                      >
+                        {I18n.t('common.delete')}
+                      </Button>
+                    )}
+                  </div>
                 ),
               },
             ]}

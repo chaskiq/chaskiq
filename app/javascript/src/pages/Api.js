@@ -525,14 +525,12 @@ class OauthList extends React.Component {
                 title: 'name',
                 render: (row) => {
                   return (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <Link
-                        className="font-bold text-2xl"
-                        to={`${this.props.match.path}/${row.uid}`}
-                      >
-                        {row.name}
-                      </Link>
-                    </td>
+                    <Link
+                      className="font-bold text-2xl"
+                      to={`${this.props.match.path}/${row.uid}`}
+                    >
+                      {row.name}
+                    </Link>
                   )
                 },
               },
@@ -543,20 +541,18 @@ class OauthList extends React.Component {
                 title: 'Created at',
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${
-                        row.state === 'subscribed'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}
-                      >
-                        {row.lastSignInAt && (
-                          <Moment fromNow>{row.lastSignInAt}</Moment>
-                        )}
-                      </span>
-                    </td>
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                    ${
+                      row.state === 'subscribed'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}
+                    >
+                      {row.lastSignInAt && (
+                        <Moment fromNow>{row.lastSignInAt}</Moment>
+                      )}
+                    </span>
                   ),
               },
             ]}

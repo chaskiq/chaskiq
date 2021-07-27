@@ -48,9 +48,9 @@ export default function Table({
       {sortable && <DragHandle></DragHandle>}
 
       {visibleColumns().map((object) => {
-        return object.render
-          ? object.render(item)
-          : renderDefaultRow(item[object.field])
+        return  renderDefaultRow(
+          object.render ? object.render(item) : item[object.field]
+        )
       })}
     </tr>
   ))

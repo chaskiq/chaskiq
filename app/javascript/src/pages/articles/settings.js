@@ -464,35 +464,33 @@ function LanguageForm({ settings, update, deleteLang }) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-              <div
-                // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
-                className="flex items-center"
-              >
-                {field === 'locale' ? (
-                  <p className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
-                    {row[field]}
-                  </p>
-                ) : field === 'action' ? (
-                  <Button
-                    variant="danger"
-                    color="secondary"
-                    onClick={() => setOpenDeleteDialog(row)}
-                  >
-                    {I18n.t('common.delete')}
-                  </Button>
-                ) : (
-                  <Input
-                    type={'text'}
-                    // id="standard-name"
-                    label={false}
-                    defaultValue={row[field]}
-                    name={`settings[${field}_${row.locale}]`}
-                    margin="normal"
-                  />
-                )}
-              </div>
-            </td>
+            <div
+              // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
+              className="flex items-center"
+            >
+              {field === 'locale' ? (
+                <p className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
+                  {row[field]}
+                </p>
+              ) : field === 'action' ? (
+                <Button
+                  variant="danger"
+                  color="secondary"
+                  onClick={() => setOpenDeleteDialog(row)}
+                >
+                  {I18n.t('common.delete')}
+                </Button>
+              ) : (
+                <Input
+                  type={'text'}
+                  // id="standard-name"
+                  label={false}
+                  defaultValue={row[field]}
+                  name={`settings[${field}_${row.locale}]`}
+                  margin="normal"
+                />
+              )}
+            </div>
           )
         )
       },
