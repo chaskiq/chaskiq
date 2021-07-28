@@ -186,7 +186,7 @@ const Button = styled(BaseButton)`
   }};
 `
 
-export function SingleSelectRenderer({ field, handleAction }) {
+export function SingleSelectRenderer({ field, handleAction, disabled }) {
   function handleClick(e, o) {
     if (!o.action) {
       e.preventDefault()
@@ -202,7 +202,7 @@ export function SingleSelectRenderer({ field, handleAction }) {
         {field.options.map((o, i) => {
           const isSelected = field.value === o.id
           const isFailed = field.save_state === 'failed'
-          const isDisabled = field.disabled || o.disabled
+          const isDisabled = disabled || field.disabled || o.disabled
           const isSaved = field.save_state === 'saved'
           return (
             <SingleSelectButton
@@ -982,6 +982,7 @@ export function DefinitionRenderer({
             <SingleSelectRenderer
               field={field}
               loading={loading}
+              disabled={disabled}
               handleAction={handleAction}
             />
           </Padder>
