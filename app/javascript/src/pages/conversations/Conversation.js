@@ -929,6 +929,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
               schema={schema}
               values={blocks.values}
               updatePackage={updatePackage}
+              disabled={true}
             />
           </div>
         )
