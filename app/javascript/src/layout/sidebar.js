@@ -43,7 +43,6 @@ import graphql from '@chaskiq/store/src/graphql/client'
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import WebSetup from '@chaskiq/components/src/components/webSetup'
 import LangChooser from '@chaskiq/components/src/components/LangChooser'
-import Toggle from '@chaskiq/components/src/components/forms/Toggle'
 import Badge from '@chaskiq/components/src/components/Badge'
 
 import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
@@ -51,6 +50,8 @@ import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
 import {getCurrentUser} from '@chaskiq/store/src/actions/current_user'
 import {toggleTheme} from '@chaskiq/store/src/actions/theme'
 import {signout} from '@chaskiq/store/src/actions/auth'
+
+import SwitchControl from '@chaskiq/components/src/components/Switch'
 
 
 function mapStateToProps(state) {
@@ -585,7 +586,7 @@ function Sidebar({
 
           {renderInner()}
 
-          <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
+          <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
             <a href="#" className="flex-shrink-0 group block focus:outline-none">
               <div className="flex items-center">
                 <div>
@@ -598,22 +599,21 @@ function Sidebar({
                   />
                 </div>
                 <div className="ml-3 w-2/5 flex flex-wrap">
-                  <p className="text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
+                  <p className="my-1 text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
                     {current_user.email}
                   </p>
 
-                  <div className="flex items-center">
-                    <Toggle
-                      id="user-away-mode-toggle"
-                      text={
+                  <div className="flex items-center space-x-2">
+                    <SwitchControl
+                      label={
                         <span className="text-xs text-gray-500 dark:text-gray-50">
                           {I18n.t('common.away_mode')}
                         </span>
                       }
-                      checked={current_user.available}
-                      disabled={loading}
-                      onChange={handleAwaymode}
-                    />
+                      setEnabled={handleAwaymode}
+                      enabled={current_user.available}
+                    >
+                    </SwitchControl>
 
                     <FilterMenu
                       options={[
