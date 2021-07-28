@@ -34,6 +34,9 @@ module MessageApis::Csat
       case path
       when 'general'
         options = integration.app.conversation_events.custom_counts
+        data_options = MessageApis::Csat::Presenter.csat_buttons[:options]
+
+
         {
           id: 'ididid',
           title: 'Conversation ratings',
@@ -41,8 +44,9 @@ module MessageApis::Csat
           package_icon: integration.app_package.icon,
           package_name: integration.app_package.name,
           values: options.map do |o|
+            
             {
-              label: o.val,
+              label: data_options.find{|d| d[:id] === o.val}[:text],
               name: o.val,
               value: o.freq,
               value2: nil
@@ -52,7 +56,7 @@ module MessageApis::Csat
       when 'events_table'
         collection = integration.app.conversation_events.where(
           "events.action =?", 'plugins.csat'
-        ).page(options[:page]).per(1)
+        ).page(options[:page]).per(10)
 
         {
           collection: collection.map(&:serialize_properties),
@@ -76,5 +80,32 @@ module MessageApis::Csat
         
       end
     end
+
+    def trigger(event)
+      subject = event.eventable
+      action = event.action
+      case action
+      when "conversations.closed" then send_survey(subject)
+      end
+    end
+
+    def send_survey(subject)
+      data = MessageApis::Csat::Presenter.csat_buttons
+
+      author = subject.app.agents.first
+
+      controls = {
+        app_package: "Csat",
+        schema: [data],
+        type: "app_package",
+        wait_for_input: true
+      }
+
+      subject.add_message(
+        from: author,
+        controls: controls
+      )
+    end
+
   end
 end

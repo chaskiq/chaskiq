@@ -19,7 +19,8 @@ module MessageApis::Csat
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
-
+      # return nil if ctx[:current_user].is_a?(Agent)
+       
       data = JSON.parse(Base64.decode64 ctx[:field][:id]) rescue nil
 
       if(data)
@@ -53,7 +54,6 @@ module MessageApis::Csat
         
       end
       
-
       {
         kind: kind,
         # ctx: ctx,
@@ -141,8 +141,6 @@ module MessageApis::Csat
       []
     end
 
-
-
     def self.csat_buttons
 
       {
@@ -154,7 +152,7 @@ module MessageApis::Csat
         "options": [
           {
             "type": "option",
-            "id": "option-12",
+            "id": "1",
             "text": "😡",
             "action": {
               "type": "submit"
@@ -162,7 +160,7 @@ module MessageApis::Csat
           },
           {
             "type": "option",
-            "id": "option-13",
+            "id": "2",
             "text": "🙁",
             "action": {
               "type": "submit"
@@ -170,7 +168,7 @@ module MessageApis::Csat
           }, 
           {
             "type": "option",
-            "id": "option-14",
+            "id": "3",
             "text": "😐",
             "action": {
               "type": "submit"
@@ -178,7 +176,7 @@ module MessageApis::Csat
           }, 
           {
             "type": "option",
-            "id": "option-15",
+            "id": "4",
             "text": "🙂",
             "action": {
               "type": "submit"
@@ -186,7 +184,7 @@ module MessageApis::Csat
           },
           {
             "type": "option",
-            "id": "option-16",
+            "id": "5",
             "text": "😍",
             "action": {
               "type": "submit"

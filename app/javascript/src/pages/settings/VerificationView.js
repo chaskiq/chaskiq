@@ -71,7 +71,7 @@ function VerificationView({ app }) {
         code: `
         const crypto = require('crypto');
         const hmac = crypto.createHmac('sha256', '${app.encryptionKey}');
-        hmac.update('Message');
+        hmac.update(email);
         console.log(hmac.digest('hex'));`,
       },
       {

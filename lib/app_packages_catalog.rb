@@ -115,7 +115,7 @@ class AppPackagesCatalog
       {
         name: "Csat",
         capability_list: %w[conversation_part, conversations, bot],
-        tag_list: ["conversation_closed", "dashboard"],
+        tag_list: ["conversations.closed", "dashboard"],
         description: "Offers CSat capabilities",
         state: "enabled",
         definitions: []

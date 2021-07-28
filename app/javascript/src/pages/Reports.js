@@ -10,6 +10,7 @@ import Package from './reports/Package'
 import {
   setCurrentSection, setCurrentPage
 } from '@chaskiq/store/src/actions/navigation'
+import { ChartsIcons } from '@chaskiq/components/src/components/icons'
 
 function Reports({match, dispatch, app}){
 
@@ -30,7 +31,13 @@ function Reports({match, dispatch, app}){
     <div>
     <Content>
       <ContentHeader
-        title={'Reports'}
+        title={
+          <span className="space-x-3">
+            <ChartsIcons/>
+            Reports
+          </span>
+      
+        }
         // actions={}
       />
 
