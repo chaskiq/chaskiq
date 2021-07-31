@@ -230,10 +230,8 @@ module Types
 
       collection = collection.where(state: filter) if filter.present?
 
-      #if agent_id.present?
-        agent = agent_id.present? && agent_id.zero? ? nil : agent_id
-        collection = collection.where(assignee_id: agent)
-      #end
+      agent = agent_id.present? && agent_id.zero? ? nil : agent_id
+      collection = collection.where(assignee_id: agent)
 
       collection
     end
