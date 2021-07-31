@@ -15,10 +15,10 @@ module Mutations
 
         if AppUser.aasm.events.map(&:name).include?(state.to_sym)
           begin
-            app_user.send("#{state}".to_sym)
+            app_user.send(state.to_s.to_sym)
           rescue AASM::InvalidTransition => e
             return { app_user: app_user, errors: [e.message] }
-          end 
+          end
         end
 
         { app_user: app_user }

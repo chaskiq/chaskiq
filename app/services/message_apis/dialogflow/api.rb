@@ -9,30 +9,27 @@
 # require "google/cloud/dialogflow"
 require "google/cloud/dialogflow/v2"
 
-
 module MessageApis::Dialogflow
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
 
-    PROVIDER = 'dialogflow'
+    PROVIDER = "dialogflow"
 
     attr_accessor :key, :secret
 
     def initialize(config:)
-      credentials = JSON.parse(config['credentials']) 
+      credentials = JSON.parse(config["credentials"])
       @project_id = config["project_id"]
-      @conn = Google::Cloud::Dialogflow::sessions do |config|
+      @conn = Google::Cloud::Dialogflow.sessions do |config|
         config.credentials = credentials
       end
     end
 
     def validate_integration
-      begin
-        get_response_for(text: "hi" , session_id: "test", lang: 'en-US')
-        nil
-      rescue => e
-        return [e.class.to_s]
-      end
+      get_response_for(text: "hi", session_id: "test", lang: "en-US")
+      nil
+    rescue StandardError => e
+      [e.class.to_s]
     end
 
     def trigger(event)
@@ -45,7 +42,6 @@ module MessageApis::Dialogflow
     end
 
     def notify_added(conversation)
-      
       participant = conversation.main_participant
 
       # should identify something from dialogflow here ?
@@ -57,8 +53,7 @@ module MessageApis::Dialogflow
     end
 
     def notify_message(conversation:, part:, channel:)
-      
-      #return if conversation.assignee.present? || 
+      # return if conversation.assignee.present? ||
       return if part.authorable_type != "AppUser"
 
       part.read!
@@ -69,9 +64,9 @@ module MessageApis::Dialogflow
         message["serialized_content"]
       )["blocks"]
 
-      text = blocks.map{|o| 
+      text = blocks.map do |o|
         o["text"]
-      }.join("\r\n")
+      end.join("\r\n")
 
       response_text = get_response_for(text: text, session_id: conversation.id)
 
@@ -85,11 +80,11 @@ module MessageApis::Dialogflow
           html_content: response_text,
           serialized_content: serialized_text
         },
-        provider: 'dialogflow'
+        provider: "dialogflow"
       )
     end
 
-    def get_response_for(text:, session_id:, lang: 'en-US')
+    def get_response_for(text:, session_id:, lang: "en-US")
       query_input = {
         text: {
           text: text,
@@ -97,29 +92,29 @@ module MessageApis::Dialogflow
         }
       }
 
-      #query_parameters = 
-        #payload: {
-        #  email: "aa@aa.cl"
-        #}
-        #session_entity_types: [
-          #Google::Cloud::Dialogflow::V2::SessionEntityType.new(
-          #  name: "email",
-          #  entities: [
-          #    Google::Cloud::Dialogflow::V2::EntityType::Entity.new(
-          #      value: "aa@aaaa.cl", 
-          #      #synonyms: ["@sys.email"]
-          #    )
-          #  ]
-          #)
-        #]
-      #}
+      # query_parameters =
+      # payload: {
+      #  email: "aa@aa.cl"
+      # }
+      # session_entity_types: [
+      # Google::Cloud::Dialogflow::V2::SessionEntityType.new(
+      #  name: "email",
+      #  entities: [
+      #    Google::Cloud::Dialogflow::V2::EntityType::Entity.new(
+      #      value: "aa@aaaa.cl",
+      #      #synonyms: ["@sys.email"]
+      #    )
+      #  ]
+      # )
+      # ]
+      # }
 
       query_parameters = Google::Cloud::Dialogflow::V2::QueryParameters.new
 
-      #query_parameters.contexts << Google::Cloud::Dialogflow::V2::Context.new(
-      #  name: "Lead", 
+      # query_parameters.contexts << Google::Cloud::Dialogflow::V2::Context.new(
+      #  name: "Lead",
       #  lifespan_count: 1
-      #)
+      # )
 
       request = Google::Cloud::Dialogflow::V2::DetectIntentRequest.new(
         session: "projects/#{@project_id}/agent/sessions/#{session_id}",
@@ -134,17 +129,13 @@ module MessageApis::Dialogflow
       puts "Query text:        #{query_result.query_text}"
       puts "Intent detected:   #{query_result.intent.display_name}"
       puts "Intent confidence: #{query_result.intent_detection_confidence}"
-      puts "Fulfillment text:  #{query_result.fulfillment_text}" 
+      puts "Fulfillment text:  #{query_result.fulfillment_text}"
 
       query_result.fulfillment_text
     end
 
-    def create_hook_from_params(params, package)
+    def create_hook_from_params(params, package); end
 
-    end
-
-    def process_event(params, package)
-
-    end
+    def process_event(params, package); end
   end
 end

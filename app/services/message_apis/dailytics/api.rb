@@ -34,33 +34,31 @@ module MessageApis::Dailytics
     def report_kinds
       [
         {
-          chartType: 'app_package',
-          kind: 'general',
-          label: I18n.t('dashboard.response_avg'),
-          appendLabel: 'Hrs',
-          classes: 'col-span-4',
-          styles: {a:1}
+          chartType: "app_package",
+          kind: "general",
+          label: I18n.t("dashboard.response_avg"),
+          appendLabel: "Hrs",
+          classes: "col-span-4",
+          styles: { a: 1 }
         },
         {
-          chartType: 'count',
-          kind: 'custom',
-          label: I18n.t('dashboard.response_avg'),
-          appendLabel: 'Hrs'
+          chartType: "count",
+          kind: "custom",
+          label: I18n.t("dashboard.response_avg"),
+          appendLabel: "Hrs"
         }
       ]
     end
 
     def report(path, integration, options)
       case path
-      when 'general'
+      when "general"
         get_stats.merge({
-          package_icon: integration.app_package.icon,
-          package_name: integration.app_package.name
-        })
-      when 'custom'
+                          package_icon: integration.app_package.icon,
+                          package_name: integration.app_package.name
+                        })
+      when "custom"
         100
-      else
-        
       end
     end
 

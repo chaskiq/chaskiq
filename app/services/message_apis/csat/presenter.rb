@@ -20,22 +20,26 @@ module MessageApis::Csat
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
       # return nil if ctx[:current_user].is_a?(Agent)
-       
-      data = JSON.parse(Base64.decode64 ctx[:field][:id]) rescue nil
 
-      if(data)
+      data = begin
+        JSON.parse(Base64.decode64(ctx[:field][:id]))
+      rescue StandardError
+        nil
+      end
+
+      if data
 
         c = Conversation.find_by(key: ctx[:conversation_key])
 
         c.events.create(
-          action: "plugins.csat", 
+          action: "plugins.csat",
           properties: {
-            label: data["text"], 
-            value: data["id"], 
-            comment: ctx[:values][:label]  
+            label: data["text"],
+            value: data["id"],
+            comment: ctx[:values][:label]
           }
         )
-        
+
         return {
           results: {
             data: {
@@ -46,36 +50,36 @@ module MessageApis::Csat
           },
           definitions: [
             {
-              type: 'text',
+              type: "text",
               text: "many thanks!"
-            },
+            }
           ]
         }
-        
+
       end
-      
+
       {
         kind: kind,
         # ctx: ctx,
         definitions: [
-          { 
-            "type": "input", 
-            "id": "label", 
-            "label": "CSAT label", 
-            "placeholder": "How would you rate your experience with our service?", 
-            "save_state": "unsaved" 
+          {
+            type: "input",
+            id: "label",
+            label: "CSAT label",
+            placeholder: "How would you rate your experience with our service?",
+            save_state: "unsaved"
           },
-          #{
+          # {
           #  type: 'text',
           #  text: ctx[:field].to_json
-          #},
+          # },
           {
             type: "button",
             id: Base64.encode64(ctx[:field].to_json),
             name: "command-submit",
             variant: "outlined",
             size: "small",
-            align: 'center',
+            align: "center",
             label: "confirm",
             action: {
               type: "submit"
@@ -90,27 +94,26 @@ module MessageApis::Csat
     # them configuration options before it’s inserted. Leaving this option
     # blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
-            
       api = ctx[:package].message_api_klass
-      #conversation_part = ctx[:package].app.conversation_parts.find_by(key: ctx[:conversation_part])
-      #json = JSON.parse(conversation_part.message.serialized_content)["blocks"]
+      # conversation_part = ctx[:package].app.conversation_parts.find_by(key: ctx[:conversation_part])
+      # json = JSON.parse(conversation_part.message.serialized_content)["blocks"]
 
       definitions = [
 
-        { 
-          "type": "input", 
-          "id": "label", 
-          "label": "CSAT label", 
-          "placeholder": "How would you rate your experience with our service?", 
-          "save_state": "unsaved" 
-        },
+        #{
+        #  type: "input",
+        #  id: "label",
+        #  label: "CSAT label",
+        #  placeholder: "How would you rate your experience with our service?",
+        #  save_state: "unsaved"
+        #},
         csat_buttons,
         {
           type: "button",
           id: "command-confirm",
           variant: "outlined",
           size: "small",
-          align: 'center',
+          align: "center",
           label: "confirm",
           action: {
             type: "submit"
@@ -118,10 +121,10 @@ module MessageApis::Csat
         }
       ]
 
-      if ctx[:field] && ctx[:field]['id'] === "command-confirm"
+      if ctx[:field] && ctx[:field]["id"] === "command-confirm"
 
         return {
-          kind: 'initialize',
+          kind: "initialize",
           definitions: [
             csat_buttons
           ]
@@ -142,57 +145,55 @@ module MessageApis::Csat
     end
 
     def self.csat_buttons
-
       {
-        "type": "single-select",
-        "id": "checkbox-12",
-        "align": "center",
-        "variant": "hovered",
-        "label": "How would you rate your experience with our service?",
-        "options": [
+        type: "single-select",
+        id: "checkbox-12",
+        align: "center",
+        variant: "hovered",
+        label: "How would you rate your experience with our service?",
+        options: [
           {
-            "type": "option",
-            "id": "1",
-            "text": "😡",
-            "action": {
-              "type": "submit"
+            type: "option",
+            id: "1",
+            text: "😡",
+            action: {
+              type: "submit"
             }
           },
           {
-            "type": "option",
-            "id": "2",
-            "text": "🙁",
-            "action": {
-              "type": "submit"
-            }
-          }, 
-          {
-            "type": "option",
-            "id": "3",
-            "text": "😐",
-            "action": {
-              "type": "submit"
-            }
-          }, 
-          {
-            "type": "option",
-            "id": "4",
-            "text": "🙂",
-            "action": {
-              "type": "submit"
+            type: "option",
+            id: "2",
+            text: "🙁",
+            action: {
+              type: "submit"
             }
           },
           {
-            "type": "option",
-            "id": "5",
-            "text": "😍",
-            "action": {
-              "type": "submit"
+            type: "option",
+            id: "3",
+            text: "😐",
+            action: {
+              type: "submit"
+            }
+          },
+          {
+            type: "option",
+            id: "4",
+            text: "🙂",
+            action: {
+              type: "submit"
+            }
+          },
+          {
+            type: "option",
+            id: "5",
+            text: "😍",
+            action: {
+              type: "submit"
             }
           }
         ]
       }
-
     end
   end
 end

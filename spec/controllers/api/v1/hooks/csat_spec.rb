@@ -48,8 +48,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     describe "single hook" do
       it "receive message" do
-        
-
         serialized = "{\"blocks\":
         [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
         \"entityMap\":{}}"
@@ -64,9 +62,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           )
 
           conversation.close!
-          
         end
-
 
         expect(conversation.messages.last.message).to be_an_instance_of ConversationPartBlock
       end

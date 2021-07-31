@@ -8,11 +8,10 @@ class ConversationChannel < ApplicationRecord
                       .where("app_packages.name =?", provider.classify)
                       .limit(1).first
 
-                     
     # TODO: notify from time to time that this package is not delivering
     # due to there is no installed package,
     # this could happen when channels are available but there is no package added
-    return if pkg.blank? 
+    return if pkg.blank?
 
     pkg.message_api_klass.notify_message(
       conversation: conversation,

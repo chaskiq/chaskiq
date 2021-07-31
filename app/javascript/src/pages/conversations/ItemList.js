@@ -132,9 +132,9 @@ export default function ConversationItemList({ app, conversation }) {
                 conversation.conversationChannels.map((o) => (
                   <div
                     key={`${conversation.key}-${o}`}
-                    className="mr-0.5 border inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                  bg-gray-100 text-blue-800 capitalize"
-                  >
+                    className="mr-0.5 border inline-flex items-center px-2.5 py-0.5 
+                    rounded-full text-xs font-medium bg-gray-100 
+                    text-blue-800 capitalize dark:bg-gray-900 dark:text-gray-100">
                     {o}
                   </div>
                 ))}

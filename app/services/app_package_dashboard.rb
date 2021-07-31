@@ -16,7 +16,7 @@ class AppPackageDashboard
   end
 
   def report_for(path)
-    integration = self.class.app_package(@app, @package_name)    
+    integration = self.class.app_package(@app, @package_name)
     integration.report(path, { range: @range, page: @page })
   end
 
@@ -35,7 +35,7 @@ class AppPackageDashboard
   def self.app_package(app, package)
     dashboard_tags = app.app_packages.tagged_with("dashboard").find_by(name: package)
     integration = app.app_package_integrations.includes(:app_package)
-                                              .find_by(app_package: dashboard_tags)
+                     .find_by(app_package: dashboard_tags)
   end
 
   def app_packages

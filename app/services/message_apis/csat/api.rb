@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module MessageApis::Csat
   class Api
     attr_accessor :secret
@@ -13,58 +14,56 @@ module MessageApis::Csat
     def report_kinds
       [
         {
-          chartType: 'app_package',
-          kind: 'general',
-          label: 'dddd',
-          appendLabel: 'Hrs',
-          classes: 'col-span-4',
-          styles: {a:1}
+          chartType: "app_package",
+          kind: "general",
+          label: "dddd",
+          appendLabel: "Hrs",
+          classes: "col-span-4",
+          styles: { a: 1 }
         },
         {
-          chartType: 'table',
-          kind: 'events_table',
-          label: 'events table',
-          appendLabel: 'Hrs',
-          classes: 'col-span-4'
+          chartType: "table",
+          kind: "events_table",
+          label: "events table",
+          appendLabel: "Hrs",
+          classes: "col-span-4"
         }
       ]
     end
 
     def report(path, integration, options)
       case path
-      when 'general'
-        options = integration.app.conversation_events.custom_counts
+      when "general"
+        options = integration.app.conversation_events.custom_counts("plugins.csat", "val")
         data_options = MessageApis::Csat::Presenter.csat_buttons[:options]
 
-
         {
-          id: 'ididid',
-          title: 'Conversation ratings',
-          subtitle: 'csat plugin',
+          id: "csat-plugin",
+          title: "Conversation ratings",
+          subtitle: "csat plugin",
           package_icon: integration.app_package.icon,
           package_name: integration.app_package.name,
           values: options.map do |o|
-            
             {
-              label: data_options.find{|d| d[:id] === o.val}[:text],
+              label: data_options.find { |d| d[:id] === o.val }[:text],
               name: o.val,
               value: o.freq,
               value2: nil
             }
           end
         }
-      when 'events_table'
+      when "events_table"
         collection = integration.app.conversation_events.where(
-          "events.action =?", 'plugins.csat'
+          "events.action =?", "plugins.csat"
         ).page(options[:page]).per(10)
 
         {
           collection: collection.map(&:serialize_properties),
           columns: [
             # { field: 'action', title: 'action' },
-            { field: 'value', title: 'value' },
-            { field: 'label', title: 'label' },
-            { field: 'comment', title: 'comment' },
+            { field: "value", title: "value" },
+            { field: "label", title: "label" },
+            { field: "comment", title: "comment" }
           ],
           meta: {
             current_page: collection.current_page,
@@ -74,10 +73,8 @@ module MessageApis::Csat
             total_count: collection.total_count
           }
         }
-      when 'custom'
+      when "custom"
         100
-      else
-        
       end
     end
 
@@ -106,6 +103,5 @@ module MessageApis::Csat
         controls: controls
       )
     end
-
   end
 end

@@ -231,9 +231,7 @@ module Types
       collection = collection.where(state: filter) if filter.present?
 
       agent = agent_id.present? && agent_id.zero? ? nil : agent_id
-      collection = collection.where(assignee_id: agent)
-
-      collection
+      collection.where(assignee_id: agent)
     end
 
     private def sort_conversations(sort)
@@ -488,11 +486,13 @@ module Types
     def dashboard(range:, kind:, package: nil)
       authorize! object, to: :show?, with: AppPolicy
 
-      return AppPackageDashboard.new(
-        app: object,
-        range: range,
-        package: package
-      ).report_for(kind) if package.present?
+      if package.present?
+        return AppPackageDashboard.new(
+          app: object,
+          range: range,
+          package: package
+        ).report_for(kind)
+      end
 
       whitelist = %w[
         visits
@@ -535,10 +535,10 @@ module Types
     end
 
     field :app_package_dashboard, Types::JsonType, null: true do
-      argument :package,  String, required: false
+      argument :package, String, required: false
     end
 
-    def app_package_dashboard(package:)      
+    def app_package_dashboard(package:)
       integration = AppPackageDashboard.app_package(object, package)
       {
         name: integration.app_package.name,
@@ -569,6 +569,5 @@ module Types
       authorize! object, to: :manage?, with: AppPolicy
       object.oauth_applications.authorized_for(current_user)
     end
-
   end
 end

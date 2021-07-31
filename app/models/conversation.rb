@@ -34,8 +34,8 @@ class Conversation < ApplicationRecord
     end
 
     event :close,
-      before: :touch_closed_at, 
-      after: :add_closed_event do
+          before: :touch_closed_at,
+          after: :add_closed_event do
       transitions from: :opened, to: :closed
     end
   end
