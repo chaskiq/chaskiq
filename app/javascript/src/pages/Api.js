@@ -245,8 +245,8 @@ function OauthApp(props) {
   }
 
   return (
-    <div className="bg-white shadow overflow-hidden  sm:rounded-lg">
-      <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
+    <div className="bg-white dark:bg-black shadow overflow-hidden  sm:rounded-lg">
+      <div className="px-4 py-5 border-b border-gray-200 dark:border-gray-800  sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
           {I18n.t('settings.api.oauth_information')}
         </h3>
@@ -254,7 +254,7 @@ function OauthApp(props) {
           <p className="mt-1 max-w-2xl text-sm leading-5 text-gray-500 dark:text-gray-300">
             {I18n.t('settings.api.details')}
           </p>
-          <div>
+          <div className="flex items-center space-x-2">
             <Button className="mr-3" onClick={() => setEditIsOpen(true)}>
               {I18n.t('common.edit')}
             </Button>
