@@ -113,6 +113,15 @@ class AppPackagesCatalog
       },
 
       {
+        name: "Csat",
+        capability_list: %w[conversation_part, conversations, bot],
+        tag_list: ["conversations.closed", "dashboard"],
+        description: "Offers CSat capabilities",
+        state: "enabled",
+        definitions: []
+      },
+
+      {
         name: "Clearbit",
         tag_list: ["enrichment"],
         description: "Clearbit data enrichment",

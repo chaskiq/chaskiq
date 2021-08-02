@@ -81,7 +81,7 @@ describe('AppPackages', function () {
             cy.get('input[name="page_url"]').type('https://github.com/rails/rails')
             cy.contains('autofill inputs with page details').click()
 
-            cy.get('input[name="title"]').should('have.value', 'rails/rails')
+            cy.get('input[name="title"]').should('have.value', 'GitHub - rails/rails: Ruby on Rails')
             cy.get('input[name="cover_image"]').should('not.have.value', '')
 
             cy.contains('Add to messenger home').click()

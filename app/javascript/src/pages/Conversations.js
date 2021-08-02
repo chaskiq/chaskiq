@@ -196,7 +196,7 @@ function Conversations({
 
     return (
       <React.Fragment>
-        <div className="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+        <div className="items-center bg-white dark:bg-gray-800 px-3 py-4 border-b border-gray-200 dark:border-gray-700 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
             value={conversations.filter}
@@ -207,23 +207,23 @@ function Conversations({
           <ConversationSearch />
 
           {/*
-                conversations.term &&
-                <span className="ml-3 text-sm leading-5 text-gray-700 flex items-center">
-                  {conversations.term}
-                  <button className="focus:outline-none" onClick={ clearSearchTerm }>
-                    <svg className="w-5 h-5 text-indigo-400 hover:text-indigo-900"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </button>
-                </span>
-              */}
+            conversations.term &&
+            <span className="ml-3 text-sm leading-5 text-gray-700 flex items-center">
+              {conversations.term}
+              <button className="focus:outline-none" onClick={ clearSearchTerm }>
+                <svg className="w-5 h-5 text-indigo-400 hover:text-indigo-900"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            </span>
+          */}
 
           <FilterMenu
             options={sorts}
@@ -289,7 +289,7 @@ function Conversations({
 
       <div
         className={
-          'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900'
+          'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-800'
         }
       >
         {renderConversations()}
@@ -297,7 +297,7 @@ function Conversations({
 
       <Switch>
         <Route exact path={`/apps/${app.key}/conversations`}>
-          <div className="hidden sm:block flex-grow bg-gray-50 dark:bg-gray-900 h-12 h-screen border-r-0 w-1/12">
+          <div className="hidden sm:block flex-grow bg-gray-50 dark:bg-gray-800 h-screen border-r-0 w-1/12">
             <EmptyView
               title={I18n.t('conversations.empty.title')}
               shadowless
@@ -314,7 +314,7 @@ function Conversations({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
-          <div className="flex-grow bg-gray-50 dark:bg-black h-12 h-screen border-r w-1/12 dark:border-black">
+          <div className="flex-grow bg-gray-50 dark:bg-gray-800 h-screen border-r w-1/12 dark:border-black">
             <AssignmentRules />
           </div>
         </Route>
@@ -323,7 +323,7 @@ function Conversations({
           <div
             className={`${
               fixedSidebarOpen ? 'md:w-5/12' : 'md:w-0 md:flex-grow'
-            } w-full bg-gray-200 dark:bg-gray-900 h-12 h-screen border-r dark:border-black`}
+            } w-full bg-gray-200 dark:bg-gray-900 h-screen border-r dark:border-black`}
           >
             <Conversation
               events={events}
@@ -335,7 +335,7 @@ function Conversations({
       </Switch>
 
       {!isEmpty(conversation) && fixedSidebarOpen && (
-        <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           {app_user && app_user.id ? (
             <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
           ) : (

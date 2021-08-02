@@ -16,7 +16,7 @@ class Banner < Message
     bg_color
     action_text
     url
-    show_sender,
+    show_sender
     font_options
   ]
 

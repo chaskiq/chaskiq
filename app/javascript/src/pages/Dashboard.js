@@ -1,24 +1,47 @@
 import React from 'react'
-import moment from 'moment'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import I18n from '../shared/FakeI18n'
+import WebSetup from '@chaskiq/components/src/components/webSetup'
+import Badge from '@chaskiq/components/src/components/Badge'
 
 import Content from '@chaskiq/components/src/components/Content'
 import PageHeader from '@chaskiq/components/src/components/PageHeader'
-import Progress from '@chaskiq/components/src/components/Progress'
-import HeatMap from '@chaskiq/components/src/components/charts/heatMap'
-import Pie from '@chaskiq/components/src/components/charts/pie'
-import Count from '@chaskiq/components/src/components/charts/count'
-import DashboardCard from '@chaskiq/components/src/components/dashboard/card'
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import DashboardItem from './reports/ReportItem'
 
 import {
-  setCurrentSection
-} from '@chaskiq/store/src/actions/navigation'
+  MoreIcon,
+  WebhooksIcon,
+  ApiIcon,
+  DashboardIcon,
+  PlatformIcon,
+  ConversationChatIcon,
+  AssignmentIcon,
+  CampaignsIcon,
+  MailingIcon,
+  AutoMessages,
+  BannersIcon,
+  ToursIcon,
+  BotIcon,
+  OutboundIcon,
+  NewconversationIcon,
+  SettingsIcon,
+  HelpCenterIcon,
+  ArticlesIcon,
+  CollectionsIcon,
+  ChatIcon,
+  BillingIcon,
+  IntegrationsIcon,
+  TeamIcon,
+  MessengerIcon,
+  AppSettingsIcon,
+  ChartsIcons,
+} from '@chaskiq/components/src/components/icons'
 
-import { DASHBOARD } from '@chaskiq/store/src/graphql/queries'
+import {
+  setCurrentSection,
+  setCurrentPage
+} from '@chaskiq/store/src/actions/navigation'
 
 export function Home() {
   return (
@@ -32,303 +55,117 @@ function Dashboard(props) {
   const { app, dispatch } = props
 
   React.useEffect(() => {
-    dispatch(setCurrentSection('Dashboard'))
+    dispatch(setCurrentSection(null))
+    dispatch(setCurrentPage(null))
   }, [])
 
-  const initialData = {
-    loading: true,
-    from: moment().add(-1, 'week'),
-    to: moment(), // .add(-1, 'day')
-  }
 
-  const [dashboard, _setDashboard] = React.useState(initialData)
+  const actions = [
+    {
+      title:  I18n.t('navigator.conversations'),
+      href: `/apps/${app.key}/conversations`,
+      icon: ConversationChatIcon,
+      iconForeground: 'text-sky-700',
+      iconBackground: 'bg-sky-50',
+      render: ()=>(
+        <div className="mt-2 text-sm text-gray-500">
+          <span className="truncate--">
+          {I18n.t('dashboard.status')}{' '}
+          {app.activeMessenger && (
+            <Badge size="sm" variant="green">
+              {I18n.t('dashboard.status_running')}
+            </Badge>
+          )}
+          {!app.activeMessenger && (
+            <Badge size="sm" variant="gray">
+              {I18n.t('dashboard.status_paused')}
+            </Badge>
+          )}
+        </span>
+
+        </div>
+      )
+    },
+    {
+      title: 'Reports',
+      href: `/apps/${app.key}/reports`,
+      icon: ChartsIcons,
+      iconForeground: 'text-purple-700',
+      iconBackground: 'bg-purple-50',
+    },
+    {
+      title: I18n.t('navigator.childs.messenger_settings'),
+      href: `/apps/${app.key}/messenger`,
+      icon: AppSettingsIcon,
+      iconForeground: 'text-teal-700',
+      iconBackground: 'bg-teal-50',
+    },
+    {
+      title: I18n.t('navigator.childs.app_settings'),
+      href: `/apps/${app.key}/settings`,
+      icon: SettingsIcon,
+      iconForeground: 'text-teal-700',
+      iconBackground: 'bg-teal-50',
+    },
+    {
+      title: I18n.t('navigator.campaigns'),
+      href: `/apps/${app.key}/campaigns`,
+      icon: CampaignsIcon,
+      iconForeground: 'text-sky-700',
+      iconBackground: 'bg-sky-50',
+    },
+    {
+      title: I18n.t('dashboard.guides'),
+      externalLink: 'https://dev.chaskiq.io',
+      icon: HelpCenterIcon,
+      iconForeground: 'text-sky-700',
+      iconBackground: 'bg-sky-50',
+      text: I18n.t('navigator.help_center')
+    }
+  ]
 
   return (
     <div>
       <Content>
-        <div>
-          <div className="flex flex-wrap -mx-4">
-            <div className={'w-full p-4'}>
-              <DashboardItem
-                chartType={'app_packages'}
-                dashboard={dashboard}
-                app={app}
-                label={I18n.t('dashboasrd.user_country')}
-                kind={'app_packages'}
-                // classes={classes}
-                styles={{}}
-              />
-            </div>
+        
+        <div key={'dashboard-hey'} className="space-y-2">
+          <p
+            className="text-4xl leading-2 text-gray-900 dark:text-gray-100 font-bold"
+            dangerouslySetInnerHTML={{
+              __html: I18n.t('dashboard.hey', {
+                name: app.name,
+              }),
+            }}
+          />
 
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardItem
-                  chartType={'count'}
-                  dashboard={dashboard}
-                  app={app}
-                  kind={'first_response_time'}
-                  label={I18n.t('dashboard.response_avg')}
-                  appendLabel={'Hrs'}
-                />
-              </div>
-            </div>
-
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardItem
-                  chartType={'count'}
-                  dashboard={dashboard}
-                  app={app}
-                  kind={'opened_conversations'}
-                  label={I18n.t('dashboard.new_conversations')}
-                  appendLabel={''}
-                />
-              </div>
-            </div>
-
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardItem
-                  chartType={'count'}
-                  dashboard={dashboard}
-                  app={app}
-                  kind={'solved_conversations'}
-                  label={I18n.t('dashboard.resolutions')}
-                  appendLabel={''}
-                />
-              </div>
-            </div>
-
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardItem
-                  chartType={'count'}
-                  dashboard={dashboard}
-                  app={app}
-                  kind={'incoming_messages'}
-                  label={I18n.t('dashboard.incoming_messages')}
-                  appendLabel={''}
-                />
-              </div>
-            </div>
-
-            <div className={'w-full p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                {/* <Chart /> */}
-                <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
-                  {I18n.t('dashboard.visit_activity')}
-                </div>
-
-                <DashboardItem
-                  chartType={'heatMap'}
-                  dashboard={dashboard}
-                  app={app}
-                  kind={'visits'}
-                />
-              </div>
-            </div>
-            {/* Recent Deposits */}
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardCard title={I18n.t('dashboard.users_browser')}>
-                  <DashboardItem
-                    chartType={'pie'}
-                    dashboard={dashboard}
-                    app={app}
-                    label={I18n.t('dashboasrd.browser')}
-                    kind={'browser'}
-                  />
-                </DashboardCard>
-              </div>
-            </div>
-
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardCard title={I18n.t('dashboard.lead_os')}>
-                  <DashboardItem
-                    chartType={'pie'}
-                    dashboard={dashboard}
-                    app={app}
-                    label={I18n.t('dashboasrd.lead_os')}
-                    kind={'lead_os'}
-                  />
-                </DashboardCard>
-              </div>
-            </div>
-
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardCard title={I18n.t('dashboard.user_os')}>
-                  <DashboardItem
-                    chartType={'pie'}
-                    dashboard={dashboard}
-                    app={app}
-                    label={I18n.t('dashboasrd.user_os')}
-                    kind={'user_os'}
-                  />
-                </DashboardCard>
-              </div>
-            </div>
-
-            <div className={'lg:w-1/4 w-1/2 p-4'}>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
-                <DashboardCard title={I18n.t('dashboard.user_country')}>
-                  <DashboardItem
-                    chartType={'pie'}
-                    dashboard={dashboard}
-                    app={app}
-                    label={I18n.t('dashboasrd.user_country')}
-                    kind={'user_country'}
-                  />
-                </DashboardCard>
-              </div>
-            </div>
-          </div>
+          <WebSetup />
+          
         </div>
+    
+        <div key={'dashboard-status'} className="space-y-2">
+          {/*<div
+            className="mt-1 space-y-1"
+            aria-labelledby="projects-headline"
+          >
+            {app.plan.name && (
+              <Link
+                to={`/apps/${app.key}/billing`}
+                className="group flex items-center py-2 text-sm font-medium text-gray-600 dark:text-gray-100 rounded-md hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-black"
+              >
+                <span className="truncate">
+                  Plan:{' '}
+                  <Badge size="sm" variant="pink">
+                    {app.plan.name}
+                  </Badge>
+                </span>
+              </Link>
+            )}
+            </div>*/}
+
+          <Example actions={actions}/>
+        </div>
+
       </Content>
-    </div>
-  )
-}
-
-function DashboardItem({
-  app,
-  kind,
-  dashboard,
-  chartType,
-  label,
-  appendLabel,
-  classes,
-  styles,
-}) {
-  const [data, setData] = React.useState([])
-  const [loading, setLoading] = React.useState(true)
-
-  React.useEffect(() => {
-    getData()
-  }, [])
-
-  function getData() {
-    graphql(
-      DASHBOARD,
-      {
-        appKey: app.key,
-        range: {
-          from: dashboard.from,
-          to: dashboard.to,
-        },
-        kind: kind,
-      },
-      {
-        success: (data) => {
-          setData(data.app.dashboard)
-          setLoading(false)
-        },
-        error: (_err) => {
-          setLoading(false)
-        },
-      }
-    )
-  }
-
-  function renderChart() {
-    switch (chartType) {
-      case 'heatMap':
-        return <HeatMap data={data} from={dashboard.from} to={dashboard.to} />
-
-      case 'pie':
-        return <Pie data={data} from={dashboard.from} to={dashboard.to} />
-      case 'count':
-        return (
-          <Count
-            data={data}
-            from={dashboard.from}
-            to={dashboard.to}
-            label={label}
-            appendLabel={appendLabel}
-          />
-        )
-      case 'app_packages':
-        return (
-          <DashboardAppPackages
-            data={data}
-            dashboard={dashboard}
-            classes={classes}
-          />
-        )
-      default:
-        return <p>no chart type</p>
-    }
-  }
-
-  return (
-    <div style={styles || { height: '140px' }}>
-      {loading && <Progress />}
-      {!loading && renderChart()}
-    </div>
-  )
-}
-
-function DashboardAppPackages(props) {
-  const packages = props.data
-  return (
-    packages &&
-    packages.map((o) => (
-      <div
-        key={`appPackage-${o.name}`}
-        className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4"
-      >
-        <DashboardAppPackage
-          package={o}
-          dashboard={props.dashboard}
-          classes={props.classes}
-        />
-      </div>
-    ))
-  )
-}
-
-function DashboardAppPackage(props) {
-  const dashboard = props.dashboard
-  const pkg = props.package
-  const data = pkg.data
-
-  return (
-    <div className="p-4">
-      <div className="flex mb-2">
-        <div className="mr-4">
-          <img src={pkg.icon} width={64} />
-        </div>
-
-        <div>
-          <p className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
-            {pkg.name}: {data.title}
-          </p>
-
-          <p className="text-sm leading-5 font-medium text-gray-500 truncate">
-            {data.subtitle}
-          </p>
-        </div>
-      </div>
-
-      <hr className="my-4 border-gray-200" />
-
-      <div className="flex">
-        {data.values &&
-          data.values.map((v, i) => {
-            return (
-              <div className="w-1/4" key={`count-${i}`}>
-                <Count
-                  data={v.value}
-                  from={dashboard.from}
-                  to={dashboard.to}
-                  label={v.label}
-                  subtitle={`${v.value2}`}
-                  // appendLabel={appendLabel}
-                />
-              </div>
-            )
-          })}
-      </div>
     </div>
   )
 }
@@ -345,3 +182,79 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(connect(mapStateToProps)(Dashboard))
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+function Example({actions}) {
+  return (
+    <div className="mt-5 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+      {actions.map((action, actionIdx) => (
+        <div
+          key={action.title}
+          className={classNames(
+            actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
+            actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
+            actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '',
+            actionIdx === actions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
+            'relative group bg-white dark:bg-black dark:border-gray-900 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+          )}
+        >
+          <div>
+            {action.icon && <span
+              className={classNames(
+                action.iconBackground,
+                action.iconForeground,
+                'rounded-lg inline-flex p-3 ring-4 ring-white'
+              )}
+            >
+              <action.icon className="h-6 w-6" aria-hidden="true" />
+            </span>}
+          </div>
+          <div className="mt-8">
+            <h3 className="text-lg font-medium">
+              {
+                !action.externalLink && 
+                <Link to={action.href} className="focus:outline-none">
+                  {/* Extend touch target to entire panel */}
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  {action.title}
+                </Link>
+              }
+
+              {
+                action.externalLink && 
+                <a href={action.externalLink} 
+                  rel="noopener noreferrer"
+                  className="focus:outline-none">
+                  {/* Extend touch target to entire panel */}
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  {action.title}
+                </a>
+              }
+            </h3>
+
+            {
+              action.render && action.render()
+            }
+
+            { action.text && 
+              <p className="mt-2 text-sm text-gray-500">
+                {action.text}
+              </p>
+            }
+          </div>
+          <span
+            className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+            aria-hidden="true"
+          >
+            <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+            </svg>
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}

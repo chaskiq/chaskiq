@@ -338,38 +338,36 @@ class AppUsers extends React.Component {
                 title: I18n.t("data_tables.agents.email"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 h-10 w-10">
+                        <Link
+                          to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
+                        >
+                          <img
+                            className="h-10 w-10 rounded-full"
+                            src={row.avatarUrl}
+                            alt=""
+                          />
+                        </Link>
+                      </div>
+
+                      <div className="ml-4">
+                        <div className="text-sm leading-5 font-medium text-gray-900">
                           <Link
                             to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                           >
-                            <img
-                              className="h-10 w-10 rounded-full"
-                              src={row.avatarUrl}
-                              alt=""
-                            />
+                            {row.displayName}
                           </Link>
                         </div>
-
-                        <div className="ml-4">
-                          <div className="text-sm leading-5 font-medium text-gray-900">
-                            <Link
-                              to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
-                            >
-                              {row.displayName}
-                            </Link>
-                          </div>
-                          <div className="text-sm leading-5 text-gray-500">
-                            <Link
-                              to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
-                            >
-                              {row.email}
-                            </Link>
-                          </div>
+                        <div className="text-sm leading-5 text-gray-500">
+                          <Link
+                            to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
+                          >
+                            {row.email}
+                          </Link>
                         </div>
                       </div>
-                    </td>
+                    </div>
                   ),
               },
               { field: 'name', 
@@ -380,9 +378,7 @@ class AppUsers extends React.Component {
                 title: I18n.t("data_tables.agents.owner"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      {row.owner && <Badge variant="green">OWNER</Badge>}
-                    </td>
+                    row.owner && <Badge variant="green">OWNER</Badge>
                   ),
               },
               {
@@ -390,16 +386,14 @@ class AppUsers extends React.Component {
                 title: I18n.t("data_tables.agents.access_list"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      {row.accessList.map((o) => (
-                        <Badge
-                          className="mr-2"
-                          key={`access-list-${o}-${row.id}`}
-                        >
-                          {o}
-                        </Badge>
-                      ))}
-                    </td>
+                    row.accessList.map((o) => (
+                      <Badge
+                        className="mr-2"
+                        key={`access-list-${o}-${row.id}`}
+                      >
+                        {o}
+                      </Badge>
+                    ))
                   ),
               },
               {
@@ -407,7 +401,7 @@ class AppUsers extends React.Component {
                 title: I18n.t("data_tables.agents.actions"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+                    <React.Fragment>
                       <Button
                         onClick={() => this.handleEdit(row)}
                         variant="outlined"
@@ -424,7 +418,7 @@ class AppUsers extends React.Component {
                       >
                         {I18n.t("common.delete")}
                       </Button>
-                    </td>
+                    </React.Fragment>
                   ),
               },
               { field: 'Sign In Count', 
@@ -435,20 +429,18 @@ class AppUsers extends React.Component {
                 title: I18n.t("data_tables.agents.last_sign_in_at"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${
-                        row.state === 'subscribed'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}
-                      >
-                        {row.lastSignInAt && (
-                          <Moment fromNow>{row.lastSignInAt}</Moment>
-                        )}
-                      </span>
-                    </td>
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                    ${
+                      row.state === 'subscribed'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}
+                    >
+                      {row.lastSignInAt && (
+                        <Moment fromNow>{row.lastSignInAt}</Moment>
+                      )}
+                    </span>
                   ),
               },
               {
@@ -456,20 +448,18 @@ class AppUsers extends React.Component {
                 title: I18n.t("data_tables.agents.invitation_accepted_at"),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${
-                        row.state === 'subscribed'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}
-                      >
-                        {row.invitationAcceptedAt && (
-                          <Moment fromNow>{row.invitationAcceptedAt}</Moment>
-                        )}
-                      </span>
-                    </td>
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                    ${
+                      row.state === 'subscribed'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}
+                    >
+                      {row.invitationAcceptedAt && (
+                        <Moment fromNow>{row.invitationAcceptedAt}</Moment>
+                      )}
+                    </span>
                   ),
               },
             ]}
@@ -658,15 +648,13 @@ class NonAcceptedAppUsers extends React.Component {
                 title: I18n.t("data_tables.agents.actions"),
                 render: (row) => {
                   return (
-                    <tr className="flex items-center px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <Button
-                        onClick={() => this.resendInvitation(row.email)}
-                        variant="outlined"
-                        size="md"
-                      >
-                        {I18n.t('settings.team.resend_invitation')}
-                      </Button>
-                    </tr>
+                    <Button
+                      onClick={() => this.resendInvitation(row.email)}
+                      variant="outlined"
+                      size="md"
+                    >
+                      {I18n.t('settings.team.resend_invitation')}
+                    </Button>
                   )
                 },
               },

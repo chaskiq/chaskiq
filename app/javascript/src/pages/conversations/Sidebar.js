@@ -351,7 +351,7 @@ function AppItem({ app, object, conversation, app_user }) {
 
   return (
     <ErrorBoundary>
-      <div className="rounded-md border border-gray-200 bg-white dark:bg-black dark:border-gray-800 w-full p-2--">
+      <div className="rounded-md border border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-800 w-full p-2--">
         <p className="hidden text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
           {object.name}
         </p>

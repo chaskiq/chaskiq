@@ -16,6 +16,7 @@ const Loader = styled.div`
 
 export default function CircularIndeterminate({ size }) {
   const sizeVariant = size || 16
+  // h-16 w-16
   return (
     <div className="flex justify-center items-center">
       <Loader

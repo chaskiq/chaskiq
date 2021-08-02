@@ -137,7 +137,7 @@ RSpec.describe Campaign, type: :model do
     it "campaign address finds compaigns" do
       expect(campaign.campaign_outgoing_email).to_not be_blank
       c = Campaign.decode_email(campaign.campaign_outgoing_email)
-      expect(c.id).to be_eql(campaign.id) 
+      expect(c.id).to be_eql(campaign.id)
     end
 
     it "campaign address, a hacky one" do

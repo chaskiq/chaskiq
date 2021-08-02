@@ -999,17 +999,15 @@ class CampaignContainer extends Component {
                           ),
                           render: (row) =>
                             row && (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <div className="flex items-center">
-                                  <div className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
-                                    <AnchorLink
-                                      to={`${this.props.match.url}/${row.id}`}
-                                    >
-                                      {row.name}
-                                    </AnchorLink>
-                                  </div>
+                              <div className="flex items-center">
+                                <div className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
+                                  <AnchorLink
+                                    to={`${this.props.match.url}/${row.id}`}
+                                  >
+                                    {row.name}
+                                  </AnchorLink>
                                 </div>
-                              </td>
+                              </div>
                             ),
                         },
                         {
@@ -1023,15 +1021,13 @@ class CampaignContainer extends Component {
                           title: I18n.t('definitions.campaigns.state.label'),
                           render: (row) => {
                             return (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <Badge
-                                  variant={
-                                    row.state === 'enabled' ? 'green' : null
-                                  }
-                                >
-                                  {I18n.t(`campaigns.state.${row.state}`)}
-                                </Badge>
-                              </td>
+                              <Badge
+                                variant={
+                                  row.state === 'enabled' ? 'green' : null
+                                }
+                              >
+                                {I18n.t(`campaigns.state.${row.state}`)}
+                              </Badge>
                             )
                           },
                         },
@@ -1076,9 +1072,7 @@ class CampaignContainer extends Component {
                           type: 'datetime',
                           render: (row) =>
                             row ? (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <Moment fromNow>{row.scheduledAt}</Moment>
-                              </td>
+                              <Moment fromNow>{row.scheduledAt}</Moment>
                             ) : undefined,
                         },
                         {
@@ -1090,34 +1084,30 @@ class CampaignContainer extends Component {
                           type: 'datetime',
                           render: (row) =>
                             row ? (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <Moment fromNow>{row.scheduledTo}</Moment>
-                              </td>
+                              <Moment fromNow>{row.scheduledTo}</Moment>
                             ) : undefined,
                         },
                         {
                           field: 'actions',
                           title: I18n.t('definitions.campaigns.actions.label'),
                           render: (row) => (
-                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                              <span
-                                className={
-                                  'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '
+                            <span
+                              className={
+                                'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '
+                              }
+                            >
+                              <Button
+                                color={'secondary'}
+                                variant={'danger'}
+                                onClick={() =>
+                                  this.setState({
+                                    openDeleteDialog: row,
+                                  })
                                 }
                               >
-                                <Button
-                                  color={'secondary'}
-                                  variant={'danger'}
-                                  onClick={() =>
-                                    this.setState({
-                                      openDeleteDialog: row,
-                                    })
-                                  }
-                                >
-                                  {I18n.t('common.remove')}
-                                </Button>
-                              </span>
-                            </td>
+                                {I18n.t('common.remove')}
+                              </Button>
+                            </span>
                           ),
                         },
                       ]}

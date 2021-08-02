@@ -107,7 +107,7 @@ gem "timezone", "~> 1.2"
 
 gem "bugsnag" # , '~> 6.11'
 # gem "email_reply_parser", "~> 0.5.9"
-gem 'email_reply_trimmer'
+gem "email_reply_trimmer"
 gem "rack-cors", "~> 1.0"
 
 gem "biz", "~> 1.8"

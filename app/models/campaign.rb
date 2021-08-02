@@ -186,16 +186,15 @@ class Campaign < Message
 
   def self.decode_email(address)
     # "campaigns-#{app.key}-#{id}@#{app.outgoing_email_domain}"
-    begin
-      addr, domain = address.split("@")
-      camp, encoded = addr.split("+")
-      app_key, campaign_id = self.decoded_email(encoded).split("-")
-      app = App.find_by(key: app_key)
-      campaign = app.campaigns.find(campaign_id)
-    rescue => e
-      puts "error on decoding campaign email #{e}"
-      nil
-    end
+
+    addr, domain = address.split("@")
+    camp, encoded = addr.split("+")
+    app_key, campaign_id = decoded_email(encoded).split("-")
+    app = App.find_by(key: app_key)
+    campaign = app.campaigns.find(campaign_id)
+  rescue StandardError => e
+    puts "error on decoding campaign email #{e}"
+    nil
   end
 
   def self.encode_email(address)
@@ -209,7 +208,7 @@ class Campaign < Message
   def campaign_outgoing_email
     self[:from_email] ||
       (if app.outgoing_email_domain.present?
-          part = "#{app.key}-#{id}"
+         part = "#{app.key}-#{id}"
          "campaigns+#{self.class.encode_email(part)}@#{app.outgoing_email_domain}"
        else
          ""

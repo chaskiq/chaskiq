@@ -95,11 +95,11 @@ class NewApp extends Component {
 
   render() {
     return (
-      <div>
-        <div className="p-3 sm:m-16 sm:p-12 shadow rounded bg-white shadow flex">
+      <div className="dark:bg-gray-900 dark:text-white">
+        <div className="p-3 sm:p-12 rounded flex">
           <div className="w-1/2 hidden sm:block">
             <div className="p-8 pt-0">
-              <p className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:leading-none">
+              <p className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 dark:text-white sm:leading-none">
                 {I18n.t('new_app.title')}
               </p>
 

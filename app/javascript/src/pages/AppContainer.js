@@ -17,6 +17,7 @@ import Profile from './Profile'
 import AgentProfile from './AgentProfile'
 import Billing from './Billing'
 import Api from './Api'
+import Reports from './Reports'
 
 import { connect } from 'react-redux'
 
@@ -150,7 +151,7 @@ function AppContainer({
   }
 
   return (
-    <div className="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">
+    <div className="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
       {app && <Sidebar />}
 
       {drawer.open && (
@@ -256,6 +257,10 @@ function AppContainer({
 
                 <Route path={`${match.url}/integrations`}>
                   <Integrations />
+                </Route>
+
+                <Route path={`${match.url}/reports`}>
+                  <Reports />
                 </Route>
 
                 <Route path={`${match.url}/articles`}>

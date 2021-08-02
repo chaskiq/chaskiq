@@ -26,31 +26,31 @@ export default function Table({
   const visibleColumns = () => tableColums.filter((o) => !o.hidden)
 
   const SortableContainer = sortableContainer(({ children }) => {
-    return <tbody className="bg-white dark:bg-black">{children}</tbody>
+    return <tbody className="bg-white dark:bg-gray-800">{children}</tbody>
   })
 
   const DragHandle = sortableHandle(() => (
-    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+    renderDefaultRow(
       <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-    </td>
+    )
   ))
 
   const renderDefaultRow = (value) => {
     return (
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
+      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-gray-50">
         {value}
       </td>
     )
   }
 
   const SortableItem = sortableElement(({ item, sortable }) => (
-    <tr className="hover:bg-gray-50 dark:hover:bg-gray-600">
+    <tr className="hover:bg-gray-50 dark:hover:bg-gray-900">
       {sortable && <DragHandle></DragHandle>}
 
       {visibleColumns().map((object) => {
-        return object.render
-          ? object.render(item)
-          : renderDefaultRow(item[object.field])
+        return  renderDefaultRow(
+          object.render ? object.render(item) : item[object.field]
+        )
       })}
     </tr>
   ))

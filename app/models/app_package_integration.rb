@@ -35,15 +35,15 @@ class AppPackageIntegration < ApplicationRecord
     end
   end
 
-  validate :integration_validation, on: [:create, :update]
+  validate :integration_validation, on: %i[create update]
 
   def integration_validation
     return if app_package.is_external?
 
     error_response = message_api_validations
-    
+
     return if error_response.blank?
-    
+
     error_response.each do |err|
       errors.add(:base, err)
     end
@@ -52,9 +52,7 @@ class AppPackageIntegration < ApplicationRecord
   def message_api_validations
     return nil unless message_api_klass.respond_to?(:validate_integration)
 
-    error_response = message_api_klass.validate_integration
-
-    error_response
+    message_api_klass.validate_integration
   end
 
   def message_api_klass
@@ -64,6 +62,14 @@ class AppPackageIntegration < ApplicationRecord
       )
     )
     # rescue nil
+  end
+
+  def report(path, options = {})
+    message_api_klass.report(
+      path,
+      self,
+      options
+    )
   end
 
   def merged_credentials; end
