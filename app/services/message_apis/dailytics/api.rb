@@ -40,13 +40,13 @@ module MessageApis::Dailytics
           appendLabel: "Hrs",
           classes: "col-span-4",
           styles: { a: 1 }
-        },
-        {
-          chartType: "count",
-          kind: "custom",
-          label: I18n.t("dashboard.response_avg"),
-          appendLabel: "Hrs"
         }
+        # {
+        #   chartType: "count",
+        #   kind: "custom",
+        #   label: I18n.t("dashboard.response_avg"),
+        #   appendLabel: "Hrs"
+        # }
       ]
     end
 

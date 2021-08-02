@@ -30,9 +30,9 @@ export default function Table({
   })
 
   const DragHandle = sortableHandle(() => (
-    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-gray-50">
+    renderDefaultRow(
       <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-    </td>
+    )
   ))
 
   const renderDefaultRow = (value) => {
