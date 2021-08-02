@@ -77,13 +77,13 @@ const SingleSelectButton = styled.button`
       : ''}
   ${(props) => (props.i !== 0 && props.variant === 'bordered' ? tw`border-l-0` : '')}
   ${(props) =>
-    props.isDisabled || props.isSaved ? tw`bg-white pointer-events-none` : ''}
+    props.isDisabled || props.isSaved ? tw`pointer-events-none` : ''}
   ${(props) =>
     props.variant === 'bordered' && !props.isSaved && !props.isSelected && !props.isDisabled && !props.isSaved
-      ? tw`text-indigo-400 hover:text-gray-600 bg-white hover:bg-gray-100 border-indigo-400`
+      ? tw`text-indigo-400 hover:text-gray-600 hover:bg-gray-100 border-indigo-400`
       : ''}
   ${(props) =>
-    props.isFailed && props.variant === 'bordered' ? tw`bg-white hover:bg-gray-100 border-red-400` : ''}
+    props.isFailed && props.variant === 'bordered' ? tw`hover:bg-gray-100 border-red-400` : ''}
   ${(props) =>
     props.isSelected && props.variant === 'bordered'
       ? tw`bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none`

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_16_054317) do
+ActiveRecord::Schema.define(version: 2021_08_02_034139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -518,6 +518,7 @@ ActiveRecord::Schema.define(version: 2021_07_16_054317) do
     t.datetime "updated_at", null: false
     t.datetime "first_agent_reply"
     t.datetime "closed_at"
+    t.string "subject"
     t.index ["app_id"], name: "index_conversations_on_app_id"
     t.index ["assignee_id"], name: "index_conversations_on_assignee_id"
     t.index ["key"], name: "index_conversations_on_key"
