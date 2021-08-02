@@ -24,38 +24,71 @@ function textColor(color) {
   return readableColor(color, lightReturnColor, darkReturnColor, true)
 }
 
+
+
 const SingleSelect = styled.div`
   ${() => tw`flex flex-col`}
+  ${(props) => {
+      switch (props.align) {
+        case 'center':
+          return tw`items-center`;
+        case 'right':
+          return tw`items-end`;
+        default:
+          break;
+      }
+    }
+  }
+
   .label {
     ${() => tw`py-2`}
   }
 
   .content {
     ${() => tw`inline-flex`}
+
+    ${({direction}) => {
+      switch (direction) {
+        case 'column':
+          return tw`flex-col`;
+        default:
+          break;
+      }
+    }
+
   }
 `
 
 const SingleSelectButton = styled.button`
   ${() => tw`outline-none border font-light py-2 px-4`}
+
+  ${
+    (props) => props.variant === 'hovered' && (
+      tw`text-2xl border-0 transition delay-150 duration-200 ease-in-out transform hover:scale-125`
+    )
+  
+  }
+
   ${(props) =>
-    props.i === 0
+    props.i === 0 && props.variant === 'bordered'
       ? tw`rounded-l`
       : props.i === props.field.options.length - 1
       ? tw`rounded-r`
       : ''}
-  ${(props) => (props.i !== 0 ? tw`border-l-0` : '')}
+  ${(props) => (props.i !== 0 && props.variant === 'bordered' ? tw`border-l-0` : '')}
   ${(props) =>
     props.isDisabled || props.isSaved ? tw`bg-white pointer-events-none` : ''}
   ${(props) =>
-    !props.isSaved && !props.isSelected && !props.isDisabled && !props.isSaved
+    props.variant === 'bordered' && !props.isSaved && !props.isSelected && !props.isDisabled && !props.isSaved
       ? tw`text-indigo-400 hover:text-gray-600 bg-white hover:bg-gray-100 border-indigo-400`
       : ''}
   ${(props) =>
-    props.isFailed ? tw`bg-white hover:bg-gray-100 border-red-400` : ''}
+    props.isFailed && props.variant === 'bordered' ? tw`bg-white hover:bg-gray-100 border-red-400` : ''}
   ${(props) =>
-    props.isSelected
+    props.isSelected && props.variant === 'bordered'
       ? tw`bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none`
       : ''}
+
 `
 
 // const Button = styled(BaseButton)``
@@ -153,7 +186,7 @@ const Button = styled(BaseButton)`
   }};
 `
 
-export function SingleSelectRenderer({ field, handleAction }) {
+export function SingleSelectRenderer({ field, handleAction, disabled }) {
   function handleClick(e, o) {
     if (!o.action) {
       e.preventDefault()
@@ -163,13 +196,13 @@ export function SingleSelectRenderer({ field, handleAction }) {
   }
 
   return (
-    <SingleSelect>
+    <SingleSelect align={field.align} direction={field.direction}>
       <p className="label">{field.label}</p>
       <div className="content">
         {field.options.map((o, i) => {
           const isSelected = field.value === o.id
           const isFailed = field.save_state === 'failed'
-          const isDisabled = field.disabled || o.disabled
+          const isDisabled = disabled || field.disabled || o.disabled
           const isSaved = field.save_state === 'saved'
           return (
             <SingleSelectButton
@@ -179,9 +212,10 @@ export function SingleSelectRenderer({ field, handleAction }) {
               isFailed={isFailed}
               isDisabled={isDisabled}
               isSaved={isSaved}
+              variant={ field.variant || 'bordered'}
               i={i}
               field={field}
-              className={'outline-none border'}
+              //className={'outline-none border'}
             >
               {o.text}
             </SingleSelectButton>
@@ -948,6 +982,7 @@ export function DefinitionRenderer({
             <SingleSelectRenderer
               field={field}
               loading={loading}
+              disabled={disabled}
               handleAction={handleAction}
             />
           </Padder>

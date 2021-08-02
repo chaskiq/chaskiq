@@ -9,25 +9,28 @@ import moment from 'moment'
 export default function Count({ data, label, appendLabel, subtitle }) {
   return (
     <React.Fragment>
-      <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 truncate">
+      <div className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 truncate">
         {label}
-      </p>
+      </div>
 
-      <p
+      <div
         className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100"
         component="p"
         variant="h4"
       >
         {data || 0} {appendLabel}
-      </p>
+      </div>
 
-      <p
-        className="mt-1 max-w-2xl text-sm leading-5 text-gray-500"
-        color="textSecondary"
-        variant={'caption'}
-      >
-        {subtitle || moment().format('LL')}
-      </p>
+      {
+        subtitle && 
+        <div
+          className="mt-1 max-w-2xl text-sm leading-5 text-gray-500"
+          color="textSecondary"
+          variant={'caption'}
+        >
+          {subtitle || moment().format('LL')}
+        </div>
+      }
       {/* <div>
         <Link color="primary" href="javascript:;">
           View Data

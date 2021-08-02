@@ -203,7 +203,7 @@ function SidebarAppInserter({
         items-center border rounded-md my-2 py-2"
       >
         <div>
-          <h2 className="text-sm leading-6 font-medium text-gray-900">
+          <h2 className="text-sm leading-6 font-medium text-gray-900 dark:text-gray-100">
             Add apps to inbox sidebar
           </h2>
         </div>

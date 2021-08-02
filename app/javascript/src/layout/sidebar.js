@@ -31,16 +31,18 @@ import {
   AppSettingsIcon,
   DarkModeIcon,
   LightModeIcon,
+  ChartsIcons,
 } from '@chaskiq/components/src/components/icons'
 
 import SidebarAgents from '../pages/conversations/SidebarAgents'
+
+import SidebarReportMenu from '../pages/reports/SidebarMenu'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import WebSetup from '@chaskiq/components/src/components/webSetup'
 import LangChooser from '@chaskiq/components/src/components/LangChooser'
-import Toggle from '@chaskiq/components/src/components/forms/Toggle'
 import Badge from '@chaskiq/components/src/components/Badge'
 
 import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
@@ -48,6 +50,8 @@ import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
 import {getCurrentUser} from '@chaskiq/store/src/actions/current_user'
 import {toggleTheme} from '@chaskiq/store/src/actions/theme'
 import {signout} from '@chaskiq/store/src/actions/auth'
+
+import SwitchControl from '@chaskiq/components/src/components/Switch'
 
 
 function mapStateToProps(state) {
@@ -327,7 +331,20 @@ function Sidebar({
         },
       ],
     },
-
+    {
+      id: 'Reports',
+      label: 'Reports',
+      icon: <ChartsIcons/>,
+      url: `/apps/${app.key}/reports`,
+      children: [
+        {
+          id: 'ReportsMenu',
+          render: () => [
+            <SidebarReportMenu key={'reports-sidebar-menu'} />,
+          ],
+        }
+      ]
+    },
     {
       id: 'Settings',
       label: I18n.t('navigator.settings'),
@@ -411,7 +428,7 @@ function Sidebar({
         },
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
-    },
+    }
   ]
 
   function renderInner() {
@@ -448,9 +465,9 @@ function Sidebar({
                         key={`sidebar-section-child-${id}-${childId}`}
                         to={url}
                         className={`
-                        ${active ? 'bg-gray-200 dark:bg-gray-900' : ''} 
+                        ${active ? 'bg-gray-200 dark:bg-black' : ''} 
                         bg-white hover:text-gray-600 hover:bg-gray-100 
-                        dark:hover:text-gray-100 dark:hover:bg-gray-700
+                        dark:hover:text-gray-300 dark:hover:bg-black
                         dark:bg-black dark:text-gray-100 dark:focus:bg-black
                         focus:outline-none focus:bg-gray-200
                         group flex items-center 
@@ -510,11 +527,11 @@ function Sidebar({
       {app && (
         <div
           className={`md:block 
-            bg-gray-800 
+            bg-white dark:bg-black
             text-purple-lighter 
             flex-none w-23 
             p-2 
-            overflow-y-auto--`}
+            border-r border-gray-300 dark:border-gray-800`}
         >
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
@@ -535,11 +552,12 @@ function Sidebar({
                   <Link
                     to={`${o.url}`}
                     aria-label={o.label}
-                    className="text-gray-400 
+                    className="text-gray-700 dark:text-white
                     rounded-md flex 
                     justify-center 
-                    cursor-pointer bg-gray-800
-                    hover:bg-gray-900 h-10 w-full 
+                    cursor-pointer bg-gray-50 dark:bg-black
+                    hover:bg-gray-100 dark:hover:bg-gray-800 
+                    h-10 w-full 
                     items-center 
                     text-2xl font-semibold 
                     my-5 overflow-hidden"
@@ -557,121 +575,123 @@ function Sidebar({
         <LangChooser open={langChooser} handleClose={setLangChooser} />
       )}
 
-      <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
-        <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-yellow-400">
-          <h3 className="font-semibold w-full text-gray-600 text-xs">
-            {app.name}
-          </h3>
-        </div>
+      {
+        current_page &&
+        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
+          <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-yellow-400">
+            <h3 className="font-semibold w-full text-gray-600 text-xs">
+              {app.name}
+            </h3>
+          </div>
 
-        {renderInner()}
+          {renderInner()}
 
-        <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-4">
-          <a href="#" className="flex-shrink-0 group block focus:outline-none">
-            <div className="flex items-center">
-              <div>
-                <img
-                  className="inline-block h-9 w-9 rounded-full"
-                  src={current_user.avatarUrl}
-                  alt=""
-                  width={40}
-                  height={40}
-                />
-              </div>
-              <div className="ml-3 w-2/5 flex flex-wrap">
-                <p className="text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
-                  {current_user.email}
-                </p>
-
-                <div className="flex items-center">
-                  <Toggle
-                    id="user-away-mode-toggle"
-                    text={
-                      <span className="text-xs text-gray-500 dark:text-gray-50">
-                        {I18n.t('common.away_mode')}
-                      </span>
-                    }
-                    checked={current_user.available}
-                    disabled={loading}
-                    onChange={handleAwaymode}
-                  />
-
-                  <FilterMenu
-                    options={[
-                      {
-                        title: I18n.t('navigator.user_menu.create_app'),
-                        description: I18n.t(
-                          'navigator.user_menu.create_app_description'
-                        ),
-                        // icon: <SendIcon />,
-                        id: 'new-app',
-                        onClick: () => history.push('/apps/new'),
-                      },
-
-                      {
-                        id: 'choose-lang',
-                        title: I18n.t('home.choose_lang'),
-                        onClick: openLangChooser,
-                      },
-                      {
-                        id: 'edit-profile',
-                        title: I18n.t('home.edit_profile'),
-                        onClick: () => (window.location = '/agents/edit'),
-                      },
-                      {
-                        id: 'toggle-dark-mode',
-                        title: (
-                          <span className="flex space-x-2 items-center">
-                            {theme === 'light' ? (
-                              <DarkModeIcon />
-                            ) : (
-                              <LightModeIcon />
-                            )}
-                            <span>
-                              {theme === 'light'
-                                ? I18n.t('common.toggle_dark_mode')
-                                : I18n.t('common.toggle_light_mode')}
-                            </span>
-                          </span>
-                        ),
-                        onClick: () =>
-                          dispatch(
-                            toggleTheme(theme === 'light' ? 'dark' : 'light')
-                          ),
-                      },
-                      {
-                        title: I18n.t('navigator.user_menu.signout'),
-                        // description: "delivers the campaign",
-                        // icon: <SendIcon />,
-                        id: 'sign-out',
-                        onClick: handleSignout,
-                      },
-                    ]}
-                    value={null}
-                    filterHandler={(e) => e.onClick && e.onClick()}
-                    triggerButton={(handler) => (
-                      <button
-                        onClick={handler}
-                        id="user_menu"
-                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150"
-                      >
-                        <div className="flex items-center">
-                          {/*
-                            I18n.t('navigator.user_menu.title')
-                          */}
-                          <MoreIcon />
-                        </div>
-                      </button>
-                    )}
-                    position={'left'}
-                    origin={'bottom-0'}
+          <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
+            <a href="#" className="flex-shrink-0 group block focus:outline-none">
+              <div className="flex items-center">
+                <div>
+                  <img
+                    className="inline-block h-9 w-9 rounded-full"
+                    src={current_user.avatarUrl}
+                    alt=""
+                    width={40}
+                    height={40}
                   />
                 </div>
+                <div className="ml-3 w-2/5 flex flex-wrap">
+                  <p className="my-1 text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
+                    {current_user.email}
+                  </p>
+
+                  <div className="flex items-center space-x-2">
+                    <SwitchControl
+                      label={
+                        <span className="text-xs text-gray-500 dark:text-gray-50">
+                          {I18n.t('common.away_mode')}
+                        </span>
+                      }
+                      setEnabled={handleAwaymode}
+                      enabled={current_user.available}
+                    >
+                    </SwitchControl>
+
+                    <FilterMenu
+                      options={[
+                        {
+                          title: I18n.t('navigator.user_menu.create_app'),
+                          description: I18n.t(
+                            'navigator.user_menu.create_app_description'
+                          ),
+                          // icon: <SendIcon />,
+                          id: 'new-app',
+                          onClick: () => history.push('/apps/new'),
+                        },
+
+                        {
+                          id: 'choose-lang',
+                          title: I18n.t('home.choose_lang'),
+                          onClick: openLangChooser,
+                        },
+                        {
+                          id: 'edit-profile',
+                          title: I18n.t('home.edit_profile'),
+                          onClick: () => (window.location = '/agents/edit'),
+                        },
+                        {
+                          id: 'toggle-dark-mode',
+                          title: (
+                            <span className="flex space-x-2 items-center">
+                              {theme === 'light' ? (
+                                <DarkModeIcon />
+                              ) : (
+                                <LightModeIcon />
+                              )}
+                              <span>
+                                {theme === 'light'
+                                  ? I18n.t('common.toggle_dark_mode')
+                                  : I18n.t('common.toggle_light_mode')}
+                              </span>
+                            </span>
+                          ),
+                          onClick: () =>
+                            dispatch(
+                              toggleTheme(theme === 'light' ? 'dark' : 'light')
+                            ),
+                        },
+                        {
+                          title: I18n.t('navigator.user_menu.signout'),
+                          // description: "delivers the campaign",
+                          // icon: <SendIcon />,
+                          id: 'sign-out',
+                          onClick: handleSignout,
+                        },
+                      ]}
+                      value={null}
+                      filterHandler={(e) => e.onClick && e.onClick()}
+                      triggerButton={(handler) => (
+                        <button
+                          onClick={handler}
+                          id="user_menu"
+                          className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150"
+                        >
+                          <div className="flex items-center">
+                            {/*
+                              I18n.t('navigator.user_menu.title')
+                            */}
+                            <MoreIcon />
+                          </div>
+                        </button>
+                      )}
+                      position={'left'}
+                      origin={'bottom-0'}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
-      </div>
+      }
     </div>
   )
 }

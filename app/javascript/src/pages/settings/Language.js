@@ -104,27 +104,25 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-              <div
-                // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
-                className="flex items-center"
-              >
-                {field === 'locale' ? (
-                  <p className="block text-gray-700 text-sm font-bold mb-2">
-                    {row[field]}
-                  </p>
-                ) : (
-                  <Input
-                    type={'text'}
-                    // id="standard-name"
-                    label={false}
-                    defaultValue={row[field]}
-                    name={`${namespace}[${field}_${row.locale}]`}
-                    margin="normal"
-                  />
-                )}
-              </div>
-            </td>
+            <div
+              // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
+              className="flex items-center"
+            >
+              {field === 'locale' ? (
+                <p className="block text-gray-700 text-sm font-bold mb-2">
+                  {row[field]}
+                </p>
+              ) : (
+                <Input
+                  type={'text'}
+                  // id="standard-name"
+                  label={false}
+                  defaultValue={row[field]}
+                  name={`${namespace}[${field}_${row.locale}]`}
+                  margin="normal"
+                />
+              )}
+            </div>
           )
         )
       },

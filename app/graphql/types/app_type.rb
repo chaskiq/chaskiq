@@ -230,12 +230,8 @@ module Types
 
       collection = collection.where(state: filter) if filter.present?
 
-      if agent_id.present?
-        agent = agent_id.zero? ? nil : agent_id
-        collection = collection.where(assignee_id: agent)
-      end
-
-      collection
+      agent = agent_id.present? && agent_id.zero? ? nil : agent_id
+      collection.where(assignee_id: agent)
     end
 
     private def sort_conversations(sort)
@@ -487,8 +483,16 @@ module Types
       object.bot_tasks.find(id)
     end
 
-    def dashboard(range:, kind:)
+    def dashboard(range:, kind:, package: nil)
       authorize! object, to: :show?, with: AppPolicy
+
+      if package.present?
+        return AppPackageDashboard.new(
+          app: object,
+          range: range,
+          package: package
+        ).report_for(kind)
+      end
 
       whitelist = %w[
         visits
@@ -503,19 +507,44 @@ module Types
         opened_conversations
         solved_conversations
         resolution_avg
+        app_package
         app_packages
+        app_packages_list
       ]
       raise "no dashboard available at this address" unless whitelist.include?(kind)
 
       Dashboard.new(
         app: object,
-        range: range
+        range: range,
+        package: package
       ).send(kind)
     end
 
     field :dashboard, Types::JsonType, null: true do
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
+      argument :package,  String, required: false
+    end
+
+    field :app_packages_dashboard, Types::JsonType, null: true do
+      argument :package,  String, required: false
+    end
+
+    def app_packages_dashboard
+      AppPackageDashboard.app_packages_list(object)
+    end
+
+    field :app_package_dashboard, Types::JsonType, null: true do
+      argument :package, String, required: false
+    end
+
+    def app_package_dashboard(package:)
+      integration = AppPackageDashboard.app_package(object, package)
+      {
+        name: integration.app_package.name,
+        icon: integration.app_package.icon,
+        paths: integration.message_api_klass.try(:report_kinds) || []
+      }
     end
 
     # OAUTH

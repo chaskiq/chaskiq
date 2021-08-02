@@ -19,7 +19,7 @@ export default function EmptyView({
 
   return (
     <div
-      className={`bg-white dark:bg-black overflow-hidden ${
+      className={`bg-white dark:bg-gray-900 overflow-hidden ${
         shadowless ? '' : 'shadow'
       } rounded-lg py-5 h-full`}
     >

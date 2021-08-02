@@ -12,28 +12,26 @@ const userFormat = function (showUserDrawer, app) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-              <div
-                onClick={() => showUserDrawer && showUserDrawer(row)}
-                className="flex items-center"
-              >
-                <div className="flex-shrink-0 h-10 w-10">
-                  <Avatar
-                    size={'medium'}
-                    src={row.avatarUrl}
-                    indicator={row.online}
-                  />
+            <div
+              onClick={() => showUserDrawer && showUserDrawer(row)}
+              className="flex items-center"
+            >
+              <div className="flex-shrink-0 h-10 w-10">
+                <Avatar
+                  size={'medium'}
+                  src={row.avatarUrl}
+                  indicator={row.online}
+                />
+              </div>
+              <div className="ml-4">
+                <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
+                  {row.displayName}
                 </div>
-                <div className="ml-4">
-                  <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
-                    {row.displayName}
-                  </div>
-                  <div className="text-sm leading-5 text-gray-500 dark:text-gray-300">
-                    {row.email}
-                  </div>
+                <div className="text-sm leading-5 text-gray-500 dark:text-gray-300">
+                  {row.email}
                 </div>
               </div>
-            </td>
+            </div>
           )
         )
       },
@@ -59,15 +57,13 @@ const userFormat = function (showUserDrawer, app) {
       title: I18n.t('data_tables.users.tag_list'),
       hidden: false,
       render: (row) => (
-        <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-          <div className="flex flex-wrap space-y-1">
-            {row.tagList.map((tag, i) => (
-              <Badge key={`tags-${row.id}-${i}`} size="sm" variant={'gray'}>
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </td>
+        <div className="flex flex-wrap space-y-1">
+          {row.tagList.map((tag, i) => (
+            <Badge key={`tags-${row.id}-${i}`} size="sm" variant={'gray'}>
+              {tag}
+            </Badge>
+          ))}
+        </div>
       ),
     },
     {
@@ -75,11 +71,9 @@ const userFormat = function (showUserDrawer, app) {
       title: I18n.t('data_tables.users.state'),
       render: (row) => {
         return (
-          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-            <Badge variant={row.state === 'subscribed' ? 'green' : 'yellow'}>
-              {I18n.t(`data_tables.users.subscription_status.${row.state}`)}
-            </Badge>
-          </td>
+          <Badge variant={row.state === 'subscribed' ? 'green' : 'yellow'}>
+            {I18n.t(`data_tables.users.subscription_status.${row.state}`)}
+          </Badge>
         )
       },
     },
@@ -138,9 +132,7 @@ const userFormat = function (showUserDrawer, app) {
       title: 'Last visited at',
       render: (row) =>
         row && (
-          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-            <Moment fromNow>{row.lastVisitedAt}</Moment>
-          </td>
+          <Moment fromNow>{row.lastVisitedAt}</Moment>
         ),
     },
   ]
@@ -152,9 +144,7 @@ const userFormat = function (showUserDrawer, app) {
       title: o.name,
       render: (row) =>
         row && (
-          <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-            {row.properties[o.name]}
-          </td>
+          row.properties[o.name]
         ),
     }))
     opts = opts.concat(other)

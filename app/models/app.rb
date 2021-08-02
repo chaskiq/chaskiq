@@ -60,6 +60,7 @@ class App < ApplicationRecord
   has_many :sections, through: :article_collections
   has_many :conversations, dependent: :destroy_async
   has_many :conversation_parts, through: :conversations, source: :messages
+  has_many :conversation_events, through: :conversations, source: :events
   has_many :segments, dependent: :destroy_async
   has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles

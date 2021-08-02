@@ -31,6 +31,37 @@ module MessageApis::Dailytics
 
     def trigger(event); end
 
+    def report_kinds
+      [
+        {
+          chartType: "app_package",
+          kind: "general",
+          label: I18n.t("dashboard.response_avg"),
+          appendLabel: "Hrs",
+          classes: "col-span-4",
+          styles: { a: 1 }
+        }
+        # {
+        #   chartType: "count",
+        #   kind: "custom",
+        #   label: I18n.t("dashboard.response_avg"),
+        #   appendLabel: "Hrs"
+        # }
+      ]
+    end
+
+    def report(path, integration, options)
+      case path
+      when "general"
+        get_stats.merge({
+                          package_icon: integration.app_package.icon,
+                          package_name: integration.app_package.name
+                        })
+      when "custom"
+        100
+      end
+    end
+
     def get_reports
       url = url("/reports")
       response = @conn.get(url, nil)

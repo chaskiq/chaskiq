@@ -1,10 +1,12 @@
 // https://tailwindcss.com/docs/theme/
 
-const { lighten, darken } = require('polished')
+// const { lighten, darken } = require('polished')
+
+const colors = require('tailwindcss/colors')
 
 const baseGray = '#ccc'
 const grayColors = {}
-
+/*
 const nums = [
   { label: 100, amount: 0 },
   { label: 200, amount: 0.06 },
@@ -16,10 +18,11 @@ const nums = [
   { label: 800, amount: 0.7 },
   { label: 900, amount: 0.8 },
 ]
-/* nums.map(
+ nums.map(
   (c) => {
     grayColors[c.label] = darken(c.amount, '#f7f7f7')
-  }) */
+  }) 
+*/
 
 module.exports = {
   darkMode: 'class',
@@ -63,8 +66,9 @@ module.exports = {
       2: '2px',
       4: '4px'
     }, */
+
     extend: {
-      colors: {
+      colorsDisabled: {
         cyan: '#9cdbff',
         gray: grayColors,
         /* gray: {
@@ -78,6 +82,16 @@ module.exports = {
           800: '#2d3748',
           900: '#1a202c'
         } */
+      },
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        black: colors.black,
+        white: colors.white,
+        gray: colors.trueGray,
+        indigo: colors.indigo,
+        red: colors.rose,
+        yellow: colors.amber,
       },
       spacing: {
         px: '1px',

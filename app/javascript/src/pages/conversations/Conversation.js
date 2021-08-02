@@ -505,7 +505,7 @@ function Conversation({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
-      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900">
+      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}
@@ -575,7 +575,7 @@ function Conversation({
               ${
                 conversation.state === 'closed'
                   ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                  : 'bg-white hover:bg-gray-100 text-gray-800 dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800'
+                  : 'bg-white hover:bg-gray-100 text-gray-800 dark:hover:bg-gray-800 dark:text-gray-100 dark:bg-gray-900 dark:border-gray-200'
               }
               `}
             >
@@ -592,8 +592,8 @@ function Conversation({
             <button
               className="focus:outline-none outline-none mr-1 rounded-full
                bg-white hover:bg-gray-100 text-gray-800
-               dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
-               font-semibold border border-gray-400 shadow"
+              dark:hover:bg-gray-800 dark:text-gray-100
+               font-semibold border border-gray-400 shadow dark:bg-gray-900 dark:border-gray-200"
               onClick={() => setVideoSession(!videoSession)}
             >
               {videoSession ? (
@@ -643,7 +643,8 @@ function Conversation({
               )}
               className="focus:outline-none outline-none mr-1 rounded-full 
               bg-white hover:bg-gray-100 text-gray-800
-              dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
+              dark:hover:bg-gray-800 dark:text-gray-100 
+              dark:bg-gray-900 dark:border-gray-200 
               font-semibold border border-gray-400 shadow"
             >
               <PinIcon variant="rounded" />
@@ -656,7 +657,8 @@ function Conversation({
               aria-label={'tag conversation'}
               className="focus:outline-none outline-none mr-1 rounded-full 
               bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
-              dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800 
+              dark:hover:bg-gray-800 dark:text-gray-100 
+              dark:bg-gray-900 dark:border-gray-200
               border-gray-400 shadow"
             >
               <LabelIcon variant="rounded" />
@@ -692,7 +694,8 @@ function Conversation({
                     onClick={cb}
                     className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
                     bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
-                    dark:bg-black dark:hover:bg-gray-800 dark:text-gray-100 dark:border-gray-800
+                    dark:hover:bg-gray-800 dark:text-gray-100 
+                    dark:bg-gray-900 dark:border-gray-200
                     border shadow items-center justify-center"
                   >
                     {conversation.assignee && (
@@ -926,6 +929,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
               schema={schema}
               values={blocks.values}
               updatePackage={updatePackage}
+              disabled={true}
             />
           </div>
         )
@@ -1017,7 +1021,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 
             <br />
 
-            <p variant={'caption'}>
+            <div variant={'caption'}>
               {data && (
                 <span
                   dangerouslySetInnerHTML={{
@@ -1025,7 +1029,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
                   }}
                 />
               )}
-            </p>
+            </div>
           </div>
         )
 
@@ -1082,7 +1086,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
             </span>
           </span>
 
-          <p className="text-md text-center text-bold">{blockElement}</p>
+          <div className="text-md text-center text-bold">{blockElement}</div>
         </div>
       </div>
     </div>

@@ -20,17 +20,19 @@ module Mutations
         options = {
           author: current_user,
           title: title,
-          description: description,
+          description: description
         }
 
-        options.merge!({article_content_attributes: {
-          id: article.article_content.id,
-          html_content: content["html"],
-          serialized_content: content["serialized"],
-          text_content: content["serialized"]
-        }}) if content.present?
+        if content.present?
+          options.merge!({ article_content_attributes: {
+                           id: article.article_content.id,
+                           html_content: content["html"],
+                           serialized_content: content["serialized"],
+                           text_content: content["serialized"]
+                         } })
+        end
 
-        article.update( options )
+        article.update(options)
 
         { article: article }
       end
