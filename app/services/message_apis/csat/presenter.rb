@@ -58,35 +58,7 @@ module MessageApis::Csat
 
       end
 
-      {
-        kind: kind,
-        # ctx: ctx,
-        definitions: [
-          {
-            type: "input",
-            id: "label",
-            label: "CSAT label",
-            placeholder: "How would you rate your experience with our service?",
-            save_state: "unsaved"
-          },
-          # {
-          #  type: 'text',
-          #  text: ctx[:field].to_json
-          # },
-          {
-            type: "button",
-            id: Base64.encode64(ctx[:field].to_json),
-            name: "command-submit",
-            variant: "outlined",
-            size: "small",
-            align: "center",
-            label: "confirm",
-            action: {
-              type: "submit"
-            }
-          }
-        ]
-      }
+      submit_response(kind, ctx)
     end
 
     # Configure flow webhook URL (optional)
@@ -188,6 +160,39 @@ module MessageApis::Csat
             type: "option",
             id: "5",
             text: "😍",
+            action: {
+              type: "submit"
+            }
+          }
+        ]
+      }
+    end
+
+    ###
+    def self.submit_response(kind:, ctx:)
+      {
+        kind: kind,
+        # ctx: ctx,
+        definitions: [
+          {
+            type: "input",
+            id: "label",
+            label: "CSAT label",
+            placeholder: "How would you rate your experience with our service?",
+            save_state: "unsaved"
+          },
+          # {
+          #  type: 'text',
+          #  text: ctx[:field].to_json
+          # },
+          {
+            type: "button",
+            id: Base64.encode64(ctx[:field].to_json),
+            name: "command-submit",
+            variant: "outlined",
+            size: "small",
+            align: "center",
+            label: "confirm",
             action: {
               type: "submit"
             }
