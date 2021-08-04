@@ -34,12 +34,12 @@ fr:
         app_package_non_wait: 'vous a envoyé un contenu'
 
     reply:
-      auto: 'L\'équipe va vous répondre dès que possible'
-      minutes: 'L\'équipe répond habituellement en quelques minutes'
-      hours: 'L\'équipe répond habituellement en quelques heures'
-      1day: 'L\'équipe répond habituellement en quelques jours'
+      auto: "L'équipe va vous répondre dès que possible"
+      minutes: "L'équipe répond habituellement en quelques minutes"
+      hours: "L'équipe répond habituellement en quelques heures"
+      1day: "L'équipe répond habituellement en quelques jours"
 
-    is_typing: '%{name} est en train d\'écrire'
+    is_typing: "%{name} est en train d'écrire"
     availability:
       aprox: 'nous serons de retour dans quelques %{time} heures'
       tomorrow: "nous serons de retour dans demain"
