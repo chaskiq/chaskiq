@@ -1,0 +1,70 @@
+
+en:
+  messenger:
+    runon: 'We run on Chaskiq'
+    conversation_block:
+      choosen: 'You replied <strong>%{field}</strong>'
+    continue_conversation: 'Continue the conversation'
+    start_conversation: 'Start a conversation'
+    view_all_conversations: 'view all conversations'
+    see_previous: 'See previous'
+    search_article_title: "Find answers in our article's repository"
+    search_articles: 'Search articles'
+    latest_articles: 'Our latest articles'
+    reply_above: 'Reply above'
+    create_new_conversation: 'create new conversation'
+    you: 'You'
+    not_seen: 'not seen'
+    by: 'By'
+    dismiss: 'Dismiss'
+    submit: 'Submit'
+    article_meta: 'By: <strong>%{name}</strong> on <time>%{date}</time>'
+    enter_your: 'Enter your %{field}'
+    closed_conversation: 'This conversation has ended'
+
+    editor:
+      placeholder: 'Send message...'
+    conversations:
+      title: 'Conversations'
+      events:
+        assigned: '%{name} was assigned to this conversation'
+      message_blocks:
+        ask_option: 'is waiting for your reply'
+        data_retrieval: 'is waiting for your reply'
+        app_package_wait_reply: 'is waiting for your reply'
+        app_package_non_wait: 'sent you a content'
+
+    reply_time:
+      auto: 'The team will respond as soon as possible'
+      minutes: 'The team usually responds in minutes'
+      hours: 'The team usually responds in a matter of hours'
+      1day: 'The team usually responds in one day'
+
+    is_typing: '%{name} is typing'
+    availability:
+      aprox: "we'll back in approximately %{time} hrs"
+      tomorrow: "we'll back back tomorrow"
+      days: "we'll back in %{val} days"
+      next_week: "we'll back next week"
+      back_from: "we'll back online from %{hours} hrs"
+      tomorrow_from: "we'll back online tomorrow from %{hours} hrs"
+    tours:
+      done: 'Done!'
+    invalid: '%{name} entered is invalid'
+    gdpr_title: 'Data protection'
+    gdpr_ok: 'Yes, Accept'
+    gdpr_nok: 'No, not now'
+    gdpr: "<p>
+        Hi there! we at %{name} love to talk with you.
+        Under the EU General Data Protection Regulation, we need your approval for our use of personal information
+        (e.g your name and email address) you may provide as we communicate:
+      </p>
+      <p>(1) We'll store your personal information so that we can pick up the conversation if  we talk later.</p>
+      <p>(2) We may send you email to follow up on our discussion here.</p>
+      <p>(3) We may send you emails about %{name} upcoming service and promotions.</p>
+
+      <p>is this okay with you?</p>
+    "
+      
+
+

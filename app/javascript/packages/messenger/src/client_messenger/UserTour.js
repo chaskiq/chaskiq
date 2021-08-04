@@ -160,7 +160,7 @@ class UserTour extends Component {
                 })
               }}
             >
-              {this.props.t('tours.done')}
+              {this.props.t('messenger.tours.done')}
             </Button>
           }
         />
