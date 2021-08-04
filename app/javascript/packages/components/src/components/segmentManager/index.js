@@ -141,10 +141,11 @@ export class SaveSegmentModal extends Component {
                       value={'update'}
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="ml-2">
-                      {I18n.t('segment_manager.save_changes_to', {
+                    <span className="ml-2" dangerouslySetInnerHTML={{
+                      __html: I18n.t('segment_manager.save_changes_to', {
                         name: this.props.segment.name,
-                      })}
+                      })
+                    }}>
                     </span>
                   </label>
 
