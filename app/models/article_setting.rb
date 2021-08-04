@@ -23,13 +23,15 @@ class ArticleSetting < ApplicationRecord
   has_one_attached :logo
   has_one_attached :header_image
 
-  validates :subdomain, uniqueness: true
+  validates :subdomain, uniqueness: true, allow_blank: true
 
   validates :subdomain,
             exclusion: { in: %w[www],
-                         message: "%{value} is reserved." },
+                         message: "%{value} is reserved." 
+                        },
             presence: true,
-            uniqueness: true
+            uniqueness: true,
+            allow_blank: true
 
   validates :website, url: true, allow_blank: true
   validates :color, hex: true, if: -> { color.present? }
