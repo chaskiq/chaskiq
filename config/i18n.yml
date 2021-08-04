@@ -30,5 +30,7 @@ translations:
   - file: "app/javascript/src/locales/translations.json"
     patterns: 
       - "*"
+      - "!*.ransack"
+      - "!*.faker"
   - file: "app/javascript/src/locales/messenger-translations.json"
     patterns: ["*.messenger.*"]
