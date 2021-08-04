@@ -131,7 +131,7 @@ export function CommentsItemComp({ displayConversation, message, o, i18n }) {
 
             <ConversationSummaryBodyItems>
               {message.appUser && message.appUser.kind != 'agent' ? (
-                <div className="you">{i18n.t('you')}:</div>
+                <div className="you">{i18n.t('messenger.you')}:</div>
               ) : null}
 
               <ConversationSummaryBodyContent>

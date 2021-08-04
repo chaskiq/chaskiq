@@ -170,7 +170,7 @@ export default class AppPackageBlock extends Component {
           return (
             <span
               dangerouslySetInnerHTML={{
-                __html: this.props.i18n.t('conversation_block.choosen', {
+                __html: this.props.i18n.t('messenger.conversation_block.choosen', {
                   field: item.label,
                 }),
               }}
@@ -221,7 +221,6 @@ export default class AppPackageBlock extends Component {
     const element = item.element
     const isDisabled =
       this.props.message.message.state === 'replied' || this.state.loading
-    const { t } = this.props
     const key = `${item.type}-${index}`
     switch (element) {
       case 'separator':
@@ -240,20 +239,20 @@ export default class AppPackageBlock extends Component {
             className={`form-group ${errorClass}`}
             key={key}
           >
-            <label>{this.props.i18n.t('enter_your', { field: item.name })}</label>
+            <label>{this.props.i18n.t('messenger.enter_your', { field: item.name })}</label>
             <input
               disabled={isDisabled}
               type={isEmailType || item.type}
               name={`submit[${item.name}]`}
               required
-              placeholder={this.props.i18n.t('enter_your', { field: item.name })}
+              placeholder={this.props.i18n.t('messenger.enter_your', { field: item.name })}
               // onKeyDown={(e)=>{ e.keyCode === 13 ?
               //  this.handleStepControlClick(item) : null
               // }}
             />
             {this.state.errors[item.name] && (
               <span className="errors">
-                {this.props.i18n.t('invalid', { name: item.name })}
+                {this.props.i18n.t('messenger.invalid', { name: item.name })}
               </span>
             )}
             <button
@@ -262,7 +261,7 @@ export default class AppPackageBlock extends Component {
               style={{ alignSelf: 'flex-end' }}
               type={'submit'}
             >
-              {this.props.i18n.t('submit')}
+              {this.props.i18n.t('messenger.submit')}
             </button>
           </div>
         )
@@ -275,7 +274,7 @@ export default class AppPackageBlock extends Component {
             style={{ alignSelf: 'flex-end' }}
             type={'submit'}
           >
-            {this.props.i18n.t('submit')}
+            {this.props.i18n.t('messenger.submit')}
           </Button>
         )
       case 'button':

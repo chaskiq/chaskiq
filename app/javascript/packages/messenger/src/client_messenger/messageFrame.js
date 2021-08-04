@@ -1,6 +1,13 @@
 
 import React, {Component} from 'react'
 
+import {
+  UserAutoMessage,
+  UserAutoMessageStyledFrame,
+  UserAutoMessageFlex
+} from './styles/styled'
+
+import MessageContainer from './messageContainer'
 export default class MessageFrame extends Component {
   constructor(props) {
     super(props)
@@ -58,8 +65,8 @@ export default class MessageFrame extends Component {
   }
 
   handleClose = (message) => {
-    App.events &&
-      App.events.perform('track_close', {
+    this.props.events &&
+      this.props.events.perform('track_close', {
         trackable_id: message.id,
       })
   }
@@ -82,6 +89,7 @@ export default class MessageFrame extends Component {
                   toggleMinimize={this.toggleMinimize}
                   handleClose={this.handleClose}
                   availableMessage={o}
+                  events={this.props.events}
                   domain={this.props.domain}
                   i18n={this.props.i18n}
                 />

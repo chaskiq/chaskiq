@@ -100,13 +100,13 @@ const HomePanel = () => {
     if (nextWeek)
       return (
         <Availability>
-          <p>{t('messenger.availability.next_week')}</p>
+          <p>{i18n.t('messenger.availability.next_week')}</p>
         </Availability>
       )
     if (sameDay)
       return (
         <Availability>
-          <p>{t('messenger.availability.aprox', { time: at.getHours() })}</p>
+          <p>{i18n.t('messenger.availability.aprox', { time: at.getHours() })}</p>
         </Availability>
       )
 
@@ -118,20 +118,20 @@ const HomePanel = () => {
   function text(val, sameDay, at) {
     switch (val) {
       case 1:
-        return <p>{t('messenger.availability.tomorrow')}</p>
+        return <p>{i18n.t('messenger.availability.tomorrow')}</p>
       case 2:
       case 3:
       case 4:
       case 5:
-        return <p>{t('messenger.availability.days', { val: val })}</p>
+        return <p>{i18n.t('messenger.availability.days', { val: val })}</p>
       case 6:
-        return <p>{t('messenger.availability.next_week')}</p>
+        return <p>{i18n.t('messenger.availability.next_week')}</p>
       default:
         if (val === 0) {
           if (sameDay) {
             return (
               <p>
-                {t('messenger.availability.back_from', {
+                {i18n.t('messenger.availability.back_from', {
                   hours: at.getHours(),
                 })}
               </p>
@@ -139,7 +139,7 @@ const HomePanel = () => {
           } else {
             return (
               <p>
-                {t('messenger.availability.tomorrow_from', {
+                {i18n.t('messenger.availability.tomorrow_from', {
                   hours: at.getHours(),
                 })}
               </p>

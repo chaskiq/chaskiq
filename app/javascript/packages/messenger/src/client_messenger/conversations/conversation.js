@@ -34,7 +34,7 @@ const DanteStylesExtend = styled(DanteContainer)`
   }
 `
 export function Conversation(props){
-  let wait_for_input = null
+  let wait_for_input = React.useRef(null)
   const {
     value: {
       kind,
@@ -394,14 +394,15 @@ export function Conversation(props){
       message.message.blocks &&
       message.message.blocks.type === 'wait_for_reply'
     ) {
-      wait_for_input = message
+
+      wait_for_input.current = message
     }
   }
 
   function handleSent() {
-    if (!wait_for_input) return
+    if (!wait_for_input.current) return
 
-    const message = wait_for_input
+    const message = wait_for_input.current
 
     pushEvent('receive_conversation_part', {
       conversation_key: conversation.key,
@@ -411,7 +412,7 @@ export function Conversation(props){
       // submit: data
     })
 
-    wait_for_input = null
+    wait_for_input.current = null
   }
 
   function footerReplyIndicator(){

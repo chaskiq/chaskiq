@@ -40,7 +40,6 @@ import AppBlockPackageFrame from './packageFrame'
 
 import {
   Container,
-  UserAutoMessage,
   EditorWrapper,
   Prime,
   Header,
@@ -48,11 +47,8 @@ import {
   HeaderOption,
   HeaderTitle,
   SuperDuper,
-  UserAutoMessageStyledFrame,
   CloseButtonWrapper,
   SuperFragment,
-  UserAutoMessageFlex,
-  MessageCloseBtn,
   HeaderAvatar,
   CountBadge,
   ShowMoreWrapper,
@@ -1331,7 +1327,8 @@ class Messenger extends Component {
                   app_id={this.props.app_id}
                   availableMessages={this.state.availableMessages}
                   domain={this.props.domain}
-                  t={i18n.t}
+                  i18n={i18n}
+                  events={App.events}
                 />
               )}
 
@@ -1358,7 +1355,6 @@ class Messenger extends Component {
                             state={this.state}
                             props={this.props}
                             events={App.events}
-                            t={i18n.t}
                             updateRtc={(data) => this.setState({ rtc: data })}
                             toggleAudio={this.toggleAudio}
                             toggleVideo={this.toggleVideo}
@@ -1484,7 +1480,7 @@ class Messenger extends Component {
                             {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
                               <GDPRView
                                 app={this.state.appData}
-                                i18n={this.props.i18n}
+                                i18n={i18n}
                                 confirm={(_e) => this.updateGdprConsent(true)}
                                 cancel={(_e) => this.updateGdprConsent(false)}
                               />
@@ -1636,7 +1632,7 @@ class Messenger extends Component {
             <TourManager ev={this.state.ev} domain={this.props.domain} />
           ) : this.state.tours.length > 0 ? (
             <Tour
-              i18n={this.props.i18n}
+              i18n={i18n}
               tours={this.state.tours}
               events={App.events}
               domain={this.props.domain}

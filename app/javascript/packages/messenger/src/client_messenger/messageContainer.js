@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import { ThemeProvider } from 'emotion-theming'
 import DanteContainer from './textEditor/editorStyles'
 import DraftRenderer from './textEditor/draftRenderer'
+import theme from './textEditor/theme'
 
 import {
   MessageCloseBtn,
@@ -11,14 +12,13 @@ import Quest from './messageWindow'
 
 export default class MessageContainer extends Component {
   componentDidMount() {
-    App.events &&
-      App.events.perform('track_open', {
+    this.props.events &&
+      this.props.events.perform('track_open', {
         trackable_id: this.props.availableMessage.id,
       })
   }
 
   render() {
-    const { t } = this.props
     const editorTheme = theme
 
     return (
@@ -27,7 +27,7 @@ export default class MessageContainer extends Component {
           href="#"
           onClick={() => this.props.handleClose(this.props.availableMessage)}
         >
-          {t('dismiss')}
+          {this.props.i18n.t('dismiss')}
         </MessageCloseBtn>
 
         <ThemeProvider theme={editorTheme}>
