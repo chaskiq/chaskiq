@@ -328,15 +328,22 @@ const WrappedComponent = React.forwardRef(function Input(
 
   function renderColor() {
     return (
-      <ColorPicker
-        color={value}
+      <FormField
         name={name}
         label={label}
-        placeholder={props.placeholder}
-        colorHandler={props.onChange}
-        // label={'Primary color'}
         error={error}
-      />
+        helperText={helperText}
+      >
+        <ColorPicker
+          color={value}
+          name={name}
+          label={label}
+          placeholder={props.placeholder}
+          colorHandler={props.onChange}
+          // label={'Primary color'}
+          error={error}
+        />      
+      </FormField>
     )
   }
 
