@@ -10,11 +10,11 @@ zh-CN:
           attributes:
             redirect_uri:
               fragment_present: '不能包含片段'
-              invalid_uri: '请输入合法的网址'
+              invalid_uri: 'Must be a valid URI.'
               unspecified_scheme: '必须指定 scheme 计划。'
               relative_uri: '必须是绝对的URI。'
-              secured_uri: '必须是一个 HTTPS/SSL URI。'
-              forbidden_uri: '被服务器禁止。'
+              secured_uri: 'This URI must have HTTPS!'
+              forbidden_uri: 'Forbidden by the server!'
             scopes:
               not_match_configured: "服务器配置不匹配。"
   doorkeeper:
@@ -54,7 +54,7 @@ zh-CN:
         secret: '机密'
         scopes: '作用域'
         confidential: '保密'
-        callback_urls: '回调 URL'
+        callback_urls: 'Callback URL''s'
         actions: '操作'
     authorizations:
       buttons:
