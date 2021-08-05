@@ -37,7 +37,7 @@ de:
       pt: Portugiesisch
       de: Deutsch
       ca: Catalan
-      zh: Chinese
+      zh-CN: Chinese
     redirecting: Leite weiter
     select_language: Sprache auswählen
     send_on_enter: Veröffentlichen bei Enter
