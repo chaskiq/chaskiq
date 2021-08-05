@@ -178,10 +178,10 @@ zh-CN:
   data_tables:
     agents:
       email: Email
-      name:	Name
+      0: name:	Name
       owner: Owner
       access_list: Access List
-      actions:	Actions
+      1: actions:	Actions
       sign_in_count: Sign in count
       last_sign_in_at: Last sign in at
       invitation_accepted_at: Invitation accepted at
@@ -189,7 +189,7 @@ zh-CN:
       settings:
         locale: Locale
         site_title: Site Title
-        site_description: Site Description
+        site_description: 网站说明
         action: 行为
     users:
       name: 名称
@@ -218,7 +218,7 @@ zh-CN:
         unsubscribed: 取消订阅
         passive: 被动模式
     settings:
-      locale: Locale
-      greetings: Greetings
-      intro: Intro
+      locale: 地点
+      greetings: 问候
+      intro: 介绍
       tagline: Tagline
