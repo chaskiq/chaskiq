@@ -24,7 +24,7 @@ es:
         label: Google Code
         hint: ID de seguimiento de Google
       credits:
-        label: Show credits
+        label: Mostrar créditos
         hint: ""
     settings:
       name:
@@ -178,10 +178,10 @@ es:
   data_tables:
     agents:
       email: Email
-      name: Nombre
+      0: 'nombre: Nombre'
       owner: Propietario
       access_list: Lista de acceso
-      actions: Acciones
+      1: 'acciones: Acciones'
       sign_in_count: Cantidad de ingresos
       last_sign_in_at: Fecha del último ingreso
       invitation_accepted_at: Invitación aceptada el
