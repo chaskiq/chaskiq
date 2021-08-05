@@ -37,7 +37,7 @@ es:
       pt: Portugués
       de: Alemán
       ca: Catalán
-      zh: Chino
+      zh-CN: Chino
     redirecting: Redireccionando
     select_language: Seleccionar Idioma
     send_on_enter: Publicar al entrar
