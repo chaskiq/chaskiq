@@ -12,11 +12,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -201,7 +201,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -441,7 +441,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -751,7 +751,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -872,7 +872,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -1571,11 +1571,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -1760,7 +1760,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -2000,7 +2000,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -2310,7 +2310,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -2431,7 +2431,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "few": "%{count} errors prohibited this %{resource} from being saved:",
@@ -3136,11 +3136,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "està prohibit pel servidor.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "no pot contenir un fragment.",
-                "invalid_uri": "ha de ser una adreça URL vàlida.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "ha de ser un URI absolut.",
-                "secured_uri": "ha de ser un URI de HTTPS/SSL.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "ha d’especificar un esquema."
               },
               "scopes": {
@@ -3325,7 +3325,7 @@
       "results": "resultats",
       "save": "Desa",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Selecciona un Idioma",
       "send": "Envia",
       "send_on_enter": "Publicar al entrar",
@@ -3565,7 +3565,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "mostrar crèdits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domini del vostre domini centre d'ajuda",
@@ -3875,7 +3875,7 @@
         "show": {
           "actions": "Accions",
           "application_id": "UID de l'aplicació",
-          "callback_urls": "Url de devolució de trucada",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidencial",
           "scopes": "Àmbits",
           "secret": "Clau secreta",
@@ -3996,7 +3996,7 @@
         "already_confirmed": "ja s'ha confirmat, si us plau intenta iniciar la sessió",
         "confirmation_period_expired": "s'ha de confirmar dins de %{period}, si us plau sol·licita'n un de nou",
         "expired": "ha caducat, si us plau, sol·licita'n un de nou",
-        "not_found": "no s'ha trobat",
+        "not_found": "Not found",
         "not_locked": "no està bloquejada",
         "not_saved": {
           "one": "Un error ha impedit que es guardés aquest %{resource}:",
@@ -4695,11 +4695,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -4884,7 +4884,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -5124,7 +5124,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -5434,7 +5434,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -5555,7 +5555,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "few": "%{count} errors prohibited this %{resource} from being saved:",
@@ -6265,11 +6265,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -6440,7 +6440,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -6454,7 +6454,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -6694,7 +6694,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -7004,7 +7004,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -7125,7 +7125,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -7824,11 +7824,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "ist vom Server nicht erlaubt.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "darf kein Fragment enthalten.",
-                "invalid_uri": "muss ein gültiger URI sein.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "muss ein absoluter URI sein.",
-                "secured_uri": "muss ein HTTPS/SSL URI sein.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "muss ein Schema angeben."
               },
               "scopes": {
@@ -8013,7 +8013,7 @@
       "results": "results",
       "save": "Speichern",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Sprache auswählen",
       "send": "Senden",
       "send_on_enter": "Veröffentlichen bei Enter",
@@ -8253,7 +8253,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Credits anzeigen"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Help Center Domain",
@@ -8563,7 +8563,7 @@
         "show": {
           "actions": "Aktionen",
           "application_id": "Anwendungs UID",
-          "callback_urls": "Callback-URLs",
+          "callback_urls": "Callback URL's",
           "confidential": "Vertraulich",
           "scopes": "Bereiche",
           "secret": "Secret",
@@ -8684,7 +8684,7 @@
         "already_confirmed": "wurde bereits bestätigt, bitte versuche, Dich anzumelden",
         "confirmation_period_expired": "muss innerhalb von %{period} bestätigt werden, bitte neu anfordern",
         "expired": "ist abgelaufen, bitte neu anfordern",
-        "not_found": "nicht gefunden",
+        "not_found": "Not found",
         "not_locked": "war nicht gesperrt",
         "not_saved": {
           "one": "1 Fehler hat das Speichern dieser %{resource} verhindert:",
@@ -9383,11 +9383,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -9558,7 +9558,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -9572,7 +9572,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -9812,7 +9812,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -10122,7 +10122,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -10243,7 +10243,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -12246,8 +12246,8 @@
         }
       },
       "nth": {
-        "ordinalized": "#<Proc:0x00007fce8d359a40 /Users/michelson/.rvm/gems/ruby-2.7.2/gems/activesupport-6.1.3.1/lib/active_support/locale/en.rb:26 (lambda)>",
-        "ordinals": "#<Proc:0x00007fce8d35b750 /Users/michelson/.rvm/gems/ruby-2.7.2/gems/activesupport-6.1.3.1/lib/active_support/locale/en.rb:7 (lambda)>"
+        "ordinalized": "#<Proc:0x00007f9aa5025908 /Users/michelson/.rvm/gems/ruby-2.7.2/gems/activesupport-6.1.3.1/lib/active_support/locale/en.rb:26 (lambda)>",
+        "ordinals": "#<Proc:0x00007f9aa5025930 /Users/michelson/.rvm/gems/ruby-2.7.2/gems/activesupport-6.1.3.1/lib/active_support/locale/en.rb:7 (lambda)>"
       },
       "percentage": {
         "format": {
@@ -12866,11 +12866,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "está prohibida por el servidor.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "No puede contener un fragmento.",
-                "invalid_uri": "debe ser una URI válida.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "debe ser una URI absoluta.",
-                "secured_uri": "debe ser un URI de HTTPS/SSL.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "debe especificar un esquema."
               },
               "scopes": {
@@ -13055,7 +13055,7 @@
       "results": "resultados",
       "save": "Guardar",
       "save_changes": "Guardar cambios",
-      "search_conversations": "buscar conversaciones",
+      "search_conversations": "Search conversations",
       "select_language": "Seleccionar Idioma",
       "send": "Enviar",
       "send_on_enter": "Publicar al entrar",
@@ -13416,7 +13416,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "mostrar créditos"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Dominio del Centro de Ayuda",
@@ -13726,7 +13726,7 @@
         "show": {
           "actions": "Acciones",
           "application_id": "UID de la aplicación",
-          "callback_urls": "URL de Callback",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidenciales",
           "scopes": "Scopes",
           "secret": "Secreto",
@@ -13864,7 +13864,7 @@
         "model_invalid": "La validación falló: %{errors}",
         "not_a_number": "no es un número",
         "not_an_integer": "debe ser un entero",
-        "not_found": "no encontrado",
+        "not_found": "Not found",
         "not_locked": "no se ha bloqueado.",
         "not_saved": {
           "one": "1 error prohíbe guardar este %{resource}:",
@@ -14772,11 +14772,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -14947,7 +14947,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -14961,7 +14961,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -15201,7 +15201,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -15511,7 +15511,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -15632,7 +15632,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -16331,11 +16331,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "est interdit par le serveur.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "ne peut pas contenir un fragment.",
-                "invalid_uri": "doit être une URI valide.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "doit être un URI absolu.",
-                "secured_uri": "doit être une URI HTTPS/SSL.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "doit spécifier un schéma."
               },
               "scopes": {
@@ -16520,7 +16520,7 @@
       "results": "Résultats",
       "save": "Enregistrer",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Sélectionnez une langue",
       "send": "Envoyer",
       "send_on_enter": "Publier à la saisie",
@@ -16760,7 +16760,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "montrer les crédits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domaine du Centre d'Aide",
@@ -17073,7 +17073,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "UID de l'application",
-          "callback_urls": "Urls de rappel",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidentiel",
           "scopes": "Portées",
           "secret": "Secret",
@@ -17194,7 +17194,7 @@
         "already_confirmed": "a déjà été confirmé, tentez de vous connecter",
         "confirmation_period_expired": "doit être confirmé dans %{period}, veuillez en demander un nouveau",
         "expired": "a expiré, veuillez en demander un nouveau",
-        "not_found": "pas trouvé",
+        "not_found": "Not found",
         "not_locked": "n'était pas verrouillé(e)",
         "not_saved": {
           "one": "1 erreur a empêché l'enregistrement de %{resource}:",
@@ -17952,11 +17952,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -18127,7 +18127,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -18141,7 +18141,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -18381,7 +18381,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -18691,7 +18691,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -18812,7 +18812,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -19511,11 +19511,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -19686,7 +19686,7 @@
         "en": "Inglese",
         "es": "Spagnolo",
         "pt": "Portoghese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Potenziali Clienti",
       "new": "Nuovo",
@@ -19700,7 +19700,7 @@
       "results": "risultati",
       "save": "Salva",
       "save_changes": "Salva modifiche",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Seleziona la Lingua",
       "send": "Invia",
       "send_on_enter": "Pubblica al momento dell'invio",
@@ -19940,7 +19940,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -20250,7 +20250,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -20371,7 +20371,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -21070,11 +21070,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -21245,7 +21245,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -21259,7 +21259,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -21499,7 +21499,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -21809,7 +21809,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -21930,7 +21930,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "other": "%{count} errors prohibited this %{resource} from being saved:"
@@ -22628,11 +22628,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -22803,7 +22803,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -22817,7 +22817,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -23057,7 +23057,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -23367,7 +23367,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -23488,7 +23488,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "other": "%{count} errors prohibited this %{resource} from being saved:"
@@ -24186,11 +24186,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -24361,7 +24361,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -24375,7 +24375,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -24615,7 +24615,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -24925,7 +24925,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -25046,7 +25046,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -25745,11 +25745,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -25920,7 +25920,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -25934,7 +25934,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -26174,7 +26174,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -26484,7 +26484,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -26605,7 +26605,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -27304,11 +27304,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -27479,7 +27479,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -27493,7 +27493,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -27733,7 +27733,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -28043,7 +28043,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -28164,7 +28164,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "few": "%{count} errors prohibited this %{resource} from being saved:",
@@ -28865,11 +28865,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "acesso proibido pelo servidor.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "não pode conter um fragmento.",
-                "invalid_uri": "deve ser uma URI válida.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "deve ser uma URI absoluta.",
-                "secured_uri": "deve ser uma URI HTTPS/SSL.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "deve especificar um esquema."
               },
               "scopes": {
@@ -29040,7 +29040,7 @@
         "en": "Português",
         "es": "Espanhol",
         "pt": "Português",
-        "zh": "Chinês"
+        "zh-CN": "Chinês"
       },
       "leads": "Contactos",
       "new": "Novo",
@@ -29054,7 +29054,7 @@
       "results": "resultados",
       "save": "Salvar",
       "save_changes": "Salvar as alterações",
-      "search_conversations": "pesquisar conversas",
+      "search_conversations": "Search conversations",
       "select_language": "Selecione o idioma",
       "send": "Enviar",
       "send_on_enter": "Publicar no website",
@@ -29294,7 +29294,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "mostrar créditos"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domínio do Centro de Ajuda",
@@ -29604,7 +29604,7 @@
         "show": {
           "actions": "Ações",
           "application_id": "UID do aplicativo",
-          "callback_urls": "URLs de retorno",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secreto",
@@ -29725,7 +29725,7 @@
         "already_confirmed": "já foi confirmado(a), tente iniciar sessão",
         "confirmation_period_expired": "tem de ser confirmado(a) no prazo de %{period}, solicite um novo",
         "expired": "expirou, solicite um(a) novo(a)",
-        "not_found": "não foi encontrado",
+        "not_found": "Not found",
         "not_locked": "não foi bloqueado",
         "not_saved": {
           "one": "1 erro proibiu que esta %{resource} fosse guardada:",
@@ -30424,11 +30424,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -30599,7 +30599,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -30613,7 +30613,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -30853,7 +30853,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -31163,7 +31163,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -31284,7 +31284,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "few": "%{count} errors prohibited this %{resource} from being saved:",
@@ -31984,11 +31984,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -32159,7 +32159,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -32173,7 +32173,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -32413,7 +32413,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -32723,7 +32723,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -32844,7 +32844,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "few": "%{count} errors prohibited this %{resource} from being saved:",
@@ -33545,11 +33545,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -33720,7 +33720,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -33734,7 +33734,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -33974,7 +33974,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -34284,7 +34284,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -34405,7 +34405,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -35104,11 +35104,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -35279,7 +35279,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -35293,7 +35293,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -35533,7 +35533,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Hazırlayan"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Yardım Merkezi Alan Adı",
@@ -35843,7 +35843,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -35964,7 +35964,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "one": "1 error prohibited this %{resource} from being saved:",
@@ -36663,11 +36663,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "is forbidden by the server.",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "cannot contain a fragment.",
-                "invalid_uri": "must be a valid URI.",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "must be an absolute URI.",
-                "secured_uri": "must be an HTTPS/SSL URI.",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "must specify a scheme."
               },
               "scopes": {
@@ -36838,7 +36838,7 @@
         "en": "English",
         "es": "Spanish",
         "pt": "Portuguese",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "Leads",
       "new": "New",
@@ -36852,7 +36852,7 @@
       "results": "results",
       "save": "Save",
       "save_changes": "Save changes",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "Select Language",
       "send": "Send",
       "send_on_enter": "Publish on enter",
@@ -37092,7 +37092,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "show credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "Domain of the Help Center",
@@ -37402,7 +37402,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "Application UID",
-          "callback_urls": "Callback urls",
+          "callback_urls": "Callback URL's",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secret",
@@ -37523,7 +37523,7 @@
         "already_confirmed": "was already confirmed, please try signing in",
         "confirmation_period_expired": "needs to be confirmed within %{period}, please request a new one",
         "expired": "has expired, please request a new one",
-        "not_found": "not found",
+        "not_found": "Not found",
         "not_locked": "was not locked",
         "not_saved": {
           "few": "%{count} errors prohibited this %{resource} from being saved:",
@@ -38224,11 +38224,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "被服务器禁止。",
+                "forbidden_uri": "Forbidden by the server!",
                 "fragment_present": "不能包含片段",
-                "invalid_uri": "请输入合法的网址",
+                "invalid_uri": "Must be a valid URI.",
                 "relative_uri": "必须是绝对的URI。",
-                "secured_uri": "必须是一个 HTTPS/SSL URI。",
+                "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "必须指定 scheme 计划。"
               },
               "scopes": {
@@ -38399,7 +38399,7 @@
         "en": "英文",
         "es": "西班牙语",
         "pt": "葡萄牙语",
-        "zh": "Chinese"
+        "zh-CN": "Chinese"
       },
       "leads": "线索",
       "new": "新增",
@@ -38413,7 +38413,7 @@
       "results": "搜索结果",
       "save": "保存",
       "save_changes": "保存更改",
-      "search_conversations": "search conversations",
+      "search_conversations": "Search conversations",
       "select_language": "选择语言",
       "send": "发送",
       "send_on_enter": "回车发布",
@@ -38653,7 +38653,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "显示 credits"
+          "label": "Show credits"
         },
         "domain": {
           "hint": "帮助中心域名",
@@ -38963,7 +38963,7 @@
         "show": {
           "actions": "操作",
           "application_id": "应用程序的 UID",
-          "callback_urls": "回调 URL",
+          "callback_urls": "Callback URL's",
           "confidential": "保密",
           "scopes": "作用域",
           "secret": "机密",
@@ -39084,7 +39084,7 @@
         "already_confirmed": "已经证实，请尝试登录",
         "confirmation_period_expired": "需要在%{period} 内确认，请重新申请",
         "expired": "已过期，请申请一个新的",
-        "not_found": "未找到",
+        "not_found": "Not found",
         "not_locked": "未锁定",
         "not_saved": {
           "other": "因%{count} 个错误，使此%{resource} 无法保存："
