@@ -206,9 +206,6 @@ export function BannerRenderer({
   font_options
 }) {
   let wrapper = React.useRef(null)
-
-  
-
   const size = useWindowSize()
 
   React.useEffect(() => {

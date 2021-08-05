@@ -40,7 +40,7 @@ export default class UserTours extends Component {
   render() {
     return this.props.tours.length > 0 ? (
       <UserTour
-        t={this.props.t}
+        i18n={this.props.i18n}
         tour={this.props.tours[0]}
         events={this.props.events}
         domain={this.props.domain}
@@ -160,7 +160,7 @@ class UserTour extends Component {
                 })
               }}
             >
-              {this.props.t('tours.done')}
+              {this.props.i18n.t('messenger.tours.done')}
             </Button>
           }
         />

@@ -37,7 +37,7 @@ fr:
       pt: Portugais
       de: Allemand
       ca: Catalan
-      zh: Chinese
+      zh-CN: Chinese
     redirecting: Redirection
     select_language: Sélectionnez une langue
     send_on_enter: Publier à la saisie

@@ -30,21 +30,21 @@ py-2 border border-transparent font-medium rounded-md text-gray-700 bg-gray-100
 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 
 focus:ring-gray-500 sm:text-sm`
 
-export default function View({ confirm, cancel, t, app }) {
+export default function GDPRView({ confirm, cancel, i18n, app }) {
   return (
     <Wrapper>
       <Padder>
-        <Title>{t('gdpr_title')}</Title>
+        <Title>{i18n.t('messenger.gdpr_title')}</Title>
         <TextContent
           dangerouslySetInnerHTML={{
-            __html: t('gdpr', { name: app.name }),
+            __html: i18n.t('messenger.gdpr', { name: app.name }),
           }}
         ></TextContent>
 
         <ButtonWrapped>
-          <Button onClick={confirm}>{t('gdpr_ok')}</Button>
+          <Button onClick={confirm}>{i18n.t('messenger.gdpr_ok')}</Button>
 
-          <ButtonCancel onClick={cancel}>{t('gdpr_nok')}</ButtonCancel>
+          <ButtonCancel onClick={cancel}>{i18n.t('messenger.gdpr_nok')}</ButtonCancel>
         </ButtonWrapped>
 
         {/* <Link href="#">

@@ -2,35 +2,40 @@ import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import tw from 'twin.macro'
 import { AnchorButton, FadeRightAnimation, CountBadge } from './styles/styled'
-import { CommentsItemComp } from './conversation'
+import { CommentsItemComp } from './conversations/commentItem'
 
 import Loader from './loader'
 import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
 
+import { MessengerContext } from './context'
 // import graphql from './graphql/client'
 
 import { lighten } from 'polished'
 
 import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 
-const HomePanel = ({
-  viewConversations,
-  displayNewConversation,
-  updateHeader,
-  transition,
-  appData,
-  agents,
-  t,
-  displayAppBlockFrame,
-  displayConversation,
-  conversations,
-  conversationsMeta,
-  getConversations,
-  newMessages,
-  getPackage,
-  homeHeaderRef,
-}) => {
+const HomePanel = () => {
   const [loading, _setLoading] = useState(false)
+
+  const {
+    value: {
+      i18n,
+      viewConversations,
+      displayNewConversation,
+      updateHeader,
+      transition,
+      appData,
+      agents,
+      displayAppBlockFrame,
+      displayConversation,
+      conversations,
+      conversationsMeta,
+      getConversations,
+      newMessages,
+      getPackage,
+      homeHeaderRef,
+    }
+  } = React.useContext(MessengerContext);
 
   const [conversationLoading, setConversationLoading] = useState(false)
 
@@ -95,13 +100,13 @@ const HomePanel = ({
     if (nextWeek)
       return (
         <Availability>
-          <p>{t('availability.next_week')}</p>
+          <p>{i18n.t('messenger.availability.next_week')}</p>
         </Availability>
       )
     if (sameDay)
       return (
         <Availability>
-          <p>{t('availability.aprox', { time: at.getHours() })}</p>
+          <p>{i18n.t('messenger.availability.aprox', { time: at.getHours() })}</p>
         </Availability>
       )
 
@@ -113,20 +118,20 @@ const HomePanel = ({
   function text(val, sameDay, at) {
     switch (val) {
       case 1:
-        return <p>{t('availability.tomorrow')}</p>
+        return <p>{i18n.t('messenger.availability.tomorrow')}</p>
       case 2:
       case 3:
       case 4:
       case 5:
-        return <p>{t('availability.days', { val: val })}</p>
+        return <p>{i18n.t('messenger.availability.days', { val: val })}</p>
       case 6:
-        return <p>{t('availability.next_week')}</p>
+        return <p>{i18n.t('messenger.availability.next_week')}</p>
       default:
         if (val === 0) {
           if (sameDay) {
             return (
               <p>
-                {t('availability.back_from', {
+                {i18n.t('messenger.availability.back_from', {
                   hours: at.getHours(),
                 })}
               </p>
@@ -134,7 +139,7 @@ const HomePanel = ({
           } else {
             return (
               <p>
-                {t('availability.tomorrow_from', {
+                {i18n.t('messenger.availability.tomorrow_from', {
                   hours: at.getHours(),
                 })}
               </p>
@@ -148,7 +153,7 @@ const HomePanel = ({
   function replyTimeMessage() {
     return (
       appData.replyTime && (
-        <ReplyTime>{t(`reply_time.${appData.replyTime}`)}</ReplyTime>
+        <ReplyTime>{i18n.t(`messenger.reply_time.${appData.replyTime}`)}</ReplyTime>
       )
     )
   }
@@ -174,7 +179,7 @@ const HomePanel = ({
                 message={message}
                 o={o}
                 index={i}
-                t={t}
+                i18n={i18n}
                 displayConversation={displayConversation}
                 sanitizeMessageSummary={sanitizeMessageSummary}
               />
@@ -184,7 +189,7 @@ const HomePanel = ({
         {conversationsMeta.next_page && (
           <CardFooterLinks>
             <button onClick={viewConversations}>
-              {t('view_all_conversations')}
+              {i18n.t('messenger.view_all_conversations')}
             </button>
           </CardFooterLinks>
         )}
@@ -207,7 +212,7 @@ const HomePanel = ({
           in={transition}
         >
           <CardPadder>
-            <h2>{t('continue_conversation')}</h2>
+            <h2>{i18n.t('messenger.continue_conversation')}</h2>
           </CardPadder>
           {renderLastConversation()}
         </ConversationInitiator>
@@ -221,7 +226,7 @@ const HomePanel = ({
           in={transition}
         >
           <CardPadder>
-            <h2>{t('start_conversation')}</h2>
+            <h2>{i18n.t('messenger.start_conversation')}</h2>
 
             {renderAvailability()}
 
@@ -246,7 +251,7 @@ const HomePanel = ({
                 */}
 
                 <AnchorButton href="#" onClick={displayNewConversation}>
-                  {t('start_conversation')}
+                  {i18n.t('messenger.start_conversation')}
                 </AnchorButton>
 
                 <a
@@ -254,7 +259,7 @@ const HomePanel = ({
                   className="see_previous"
                   onClick={viewConversations}
                 >
-                  {t('see_previous')}
+                  {i18n.t('messenger.see_previous')}
                 </a>
               </CardButtonsGroup>
             </CardContent>
@@ -271,14 +276,14 @@ const HomePanel = ({
       {!appData.inboundSettings.enabled && (
         <ConversationsBlock in={transition}>
           <CardButtonsGroup style={{ padding: '2em' }}>
-            <h2>{t('conversations')}</h2>
+            <h2>{i18n.t('messenger.conversations')}</h2>
 
             {newMessages > 0 && (
               <CountBadge section={'home'}>{newMessages}</CountBadge>
             )}
 
             <a className="see_previous" href="#" onClick={viewConversations}>
-              {t('see_previous')}
+              {i18n.t('messenger.see_previous')}
             </a>
           </CardButtonsGroup>
           {renderLastConversation()}
