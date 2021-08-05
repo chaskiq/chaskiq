@@ -48,7 +48,7 @@ ar:
     visitors: Visitors
     users: Users
     type_message: type your message
-    search_conversations: search conversations
+    search_conversations: Search conversations
     days: Days
   status_messages:
     error: "Error"
