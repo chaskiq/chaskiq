@@ -24,7 +24,7 @@ ca:
         label: Codi Google
         hint: ID de seguiment de Google
       credits:
-        label: mostrar crèdits
+        label: Show credits
         hint: ""
     settings:
       name:
