@@ -37,7 +37,7 @@ zh-CN:
       pt: 葡萄牙语
       de: 德语
       ca: 加泰罗尼亚语
-      zh: Chinese
+      zh-CN: Chinese
     redirecting: 重定向中
     select_language: 选择语言
     send_on_enter: 回车发布
@@ -48,7 +48,7 @@ zh-CN:
     visitors: 访客
     users: 用户
     type_message: type your message
-    search_conversations: search conversations
+    search_conversations: Search conversations
     days: Days
   status_messages:
     error: "Error"

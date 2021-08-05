@@ -56,7 +56,7 @@ de:
       already_confirmed: "wurde bereits bestätigt, bitte versuche, Dich anzumelden"
       confirmation_period_expired: "muss innerhalb von %{period} bestätigt werden, bitte neu anfordern"
       expired: "ist abgelaufen, bitte neu anfordern"
-      not_found: "nicht gefunden"
+      not_found: "Not found"
       not_locked: "war nicht gesperrt"
       not_saved:
         one: "1 Fehler hat das Speichern dieser %{resource} verhindert:"
