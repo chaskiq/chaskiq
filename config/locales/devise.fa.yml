@@ -1,5 +1,5 @@
 #Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-en:
+fa:
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."
@@ -56,7 +56,7 @@ en:
       already_confirmed: "was already confirmed, please try signing in"
       confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
       expired: "has expired, please request a new one"
-      not_found: "Not found"
+      not_found: "not found"
       not_locked: "was not locked"
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
