@@ -48,7 +48,7 @@ es:
     visitors: Visitantes
     users: Usuarios
     type_message: escribe tu mensaje
-    search_conversations: buscar conversaciones
+    search_conversations: Search conversations
     days: Días
   status_messages:
     error: "Error"
