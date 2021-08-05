@@ -1,18 +1,18 @@
-en:
+fa:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: add new
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    save_changes: Save changes
-    preview: Preview
-    cancel: Cancel
-    back_to_site: Back to site
+    edit: ويرايش
+    new: جدید
+    add: ﺍﻓﺰﻭﺩﻥ
+    add_new: افزودن مورد جدید
+    update: به‌روز رسانی
+    remove: حذف
+    delete: حذف
+    create: ایجاد کردن
+    save: ذخیره
+    save_changes: ذخیره تغییرات
+    preview: پیش نمایش
+    cancel: لغو
+    back_to_site: بازگشت به سایت
     not_found: The page you are looking for does not exist.
     get_snippet: Get the snippet
     submit: Submit
@@ -48,7 +48,7 @@ en:
     visitors: Visitors
     users: Users
     type_message: type your message
-    search_conversations: Search conversations
+    search_conversations: search conversations
     days: Days
   status_messages:
     error: "Error"

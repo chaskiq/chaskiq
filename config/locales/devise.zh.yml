@@ -1,5 +1,5 @@
 #Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-zh:
+zh-CN:
   devise:
     confirmations:
       confirmed: "已成功确认你的邮箱地址。"

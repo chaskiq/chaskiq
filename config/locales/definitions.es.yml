@@ -156,43 +156,41 @@ es:
         placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
     webhooks:
       url:
-        label: URL para webhook saliente
-        hint: enviaremos solicitudes POST
+        label: url para webhook saliente
+        hint: "enviaremos solicitudes POST"
       enabled:
-        label: habilitar webhook
+        label: activar webhook
       tag_list:
-        label: eventos para enviar
-        hint: chaskiq entregará estos eventos al punto final configurado
-
+        label: eventos a enviar
+        hint: chaskiq entregará estos eventos al endpoint configurado
     agents:
-      email: 
-        label: Correo electrónico de agente
-        placeholder: john@example.com
-      name:	
-        label: Nombre de agente
-        placeholder: John Doe
-      roles: 
-        label: Access List
-      access_list: 
-        label: 'Roles de agente'
-        hint: 'La lista en blanco bloqueará el acceso a los ajuste de cuenta para este usuario'
-
+      email:
+        label: Email agente
+        placeholder: john@ejemplo.com
+      name:
+        label: Nombre del Agente
+        placeholder: Juan Pérez
+      owner:
+        label: Propietario
+      access_list:
+        label: 'Rol para el agente'
+        hint: 'el acceso en blanco desactivará el acceso a la configuración de la cuenta para el usuario'
   data_tables:
-    articles:
-      settings:
-        locale: Idioma
-        site_title: Titulo del sitio
-        site_description: Descripción del sitio
-        action: Acciones
     agents:
-      email: Correo electronico
-      name:	Nombre
+      email: Email
+      name: Nombre
       owner: Propietario
       access_list: Lista de acceso
-      actions:	Acciones
-      sign_in_count: Numero de ingresos
-      last_sign_in_at: última vez ingresado
+      actions: Acciones
+      sign_in_count: Cantidad de ingresos
+      last_sign_in_at: Fecha del último ingreso
       invitation_accepted_at: Invitación aceptada el
+    articles:
+      settings:
+        locale: Configuración regional
+        site_title: Título del sitio
+        site_description: Descripción del Sitio
+        action: Acción
     users:
       name: Nombre
       email: Email
@@ -216,11 +214,11 @@ es:
       last_seen: Visto por primera vez
       first_seen: Ultima vez visto
       subscription_status:
-        subscribed: Suscrito
+        subscribed: Subscrito
         unsubscribed: Desuscrito
         passive: Pasiva
     settings:
-      locale: Idioma
-      greetings: Saludo
-      intro: Intro
+      locale: Configuración regional
+      greetings: Saludos
+      intro: Introducción
       tagline: Eslogan
