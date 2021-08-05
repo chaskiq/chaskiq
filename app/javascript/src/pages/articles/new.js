@@ -564,13 +564,16 @@ class ArticlesNew extends Component {
                             {I18n.t('common.save')}
                           </Button>
 
-                          <FilterMenu
-                            options={this.options}
-                            value={this.state.article.state}
-                            filterHandler={this.togglePublishState}
-                            triggerButton={this.toggleButton}
-                            position={'right'}
-                          />
+                          {
+                            this.state.article.id && 
+                            <FilterMenu
+                              options={this.options}
+                              value={this.state.article.state}
+                              filterHandler={this.togglePublishState}
+                              triggerButton={this.toggleButton}
+                              position={'right'}
+                            />
+                          }
                         </React.Fragment>
                       )}
                     </div>
