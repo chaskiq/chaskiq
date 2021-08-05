@@ -21,15 +21,15 @@ es:
     next: Siguente
     prev: Anterior
     showing: Mostrando
-    your_apps: Tus apps
     to: para
     of: de
     results: resultados
     tz_hint: La zona horaria de tu navegador es <b className="text-bold">%{timezone}</b>
     send: Enviar
     actions: Acciones
+    your_apps: Tus aplicaciones
     upload_field: subir %{field}
-    choose_color: Elegir color
+    choose_color: Escoger color
     image: Imagen
     langs:
       en: Inglés
@@ -37,35 +37,35 @@ es:
       pt: Portugués
       de: Alemán
       ca: Catalán
-      zh: Chinese
+      zh: Chino
     redirecting: Redireccionando
     select_language: Seleccionar Idioma
     send_on_enter: Publicar al entrar
     away_mode: Modo Ausente
-    toggle_light_mode: Cambiar a modo light
-    toggle_dark_mode: Cambiar a modo dark
+    toggle_light_mode: Cambiar modo luz
+    toggle_dark_mode: Cambiar modo oscuro
     leads: Prospectos
     visitors: Visitantes
     users: Usuarios
-    type_message: Escribe tu mensaje aquí
-    search_conversations: Buscar conversaciones
+    type_message: escribe tu mensaje
+    search_conversations: buscar conversaciones
     days: Días
   status_messages:
     error: "Error"
     success: "Éxito"
     updated_success: Actualizado correctamente
-    updated_error: Error actualizado
-    created_success: Creado correctamente
-    created_error: Error creando
-    deleted_success: Eliminado correctamente
-    deleted_error: Error eliminando
-    reordered_error: Error reordenando
+    updated_error: Error actualizando
+    created_success: Creado con éxito
+    created_error: Error al crear
+    deleted_success: Borrado correctamente
+    deleted_error: Error de eliminación
+    reordered_error: Error al reordenar
     reordered_success: Reordenado correctamente
   error_view:
-    title: Woops! something went wrong.
-    subtitle: Unfortunately 🤯
-    exp: try refreshing the page
-    cta: try to go home
+    title: Algo salió mal.
+    subtitle: Desafortunadamente 🤯
+    exp: intenta actualizar la página
+    cta: pulsa para volver al inicio
   home:
     welcome: Iniciar sesión
     welcome_site: Chaskiq
@@ -162,7 +162,7 @@ es:
       seen: Visto
       not_seen: No Visto
       note: Nota Privada
-      reply: Respuesta
+      reply: Responder
     sidebar:
       show_profile: mostrar perfil
       location: Ubicación
@@ -216,7 +216,7 @@ es:
     clone_title: Clonar
     clone_description: clona la campaña
     activate: "Activar campaña"
-    enables: Activa la campaña
+    enables: Habilita campaña
     disables: Desactiva la campaña
     state:
       enabled: habilitado
@@ -310,7 +310,7 @@ es:
         route_costumer: '¿Qué quieres hacer cuando elijan "Sí, soy un cliente"?'
         assign: Participar en la conversación
         close: Borrar conversación
-        ask: Solicitar los detalles del contacto
+        ask: Color para los detalles del contacto
         ask_hint: Si aún no tenemos sus datos de contacto, Bot sugerirá que los clientes dejen su dirección de correo electrónico o su número de teléfono para recibir notificaciones cuando usted responda.
         dont_ask_email: No pedir email
         ask_email_phone: Solicitar correo electrónico o número móvil
@@ -352,10 +352,9 @@ es:
     hint1: Para configurar la verificación de identidad, necesitará generar un HMAC en su servidor para cada usuario conectado y enviarlo a Chaskiq.
     lang: Tu código para generar un HMAC para tu aplicación es
     hint2: 'Dondequiera que suba datos de usuario y tenga un fragmento de código de Chaskiq, Añade un nuevo atributo llamado <span className="font-bold">identifier_key</span> y pasa el <span className="font-bold">email</span> y dale la etiqueta HMAC para el usuario conectado:'
-    encryption_key_label: Secreto de verificación de identidad
-    dont_share_code: "No comparta este código"
-    hmac_hint1: para configurar la verificación de identidad, deberá generar un HMAC en
-        su servidor para cada usuario que haya iniciado sesión y envíelo a Chaskiq.
+    encryption_key_label: Verificación de identidad obligatoria
+    dont_share_code: "No compartir este código"
+    hmac_hint1: Para configurar la verificación de identidad, necesitará generar un HMAC en su servidor para cada usuario conectado y enviarlo a Chaskiq.
   quick_replies:
     title: Respuestas rápidas
     search: Buscar respuestas rápidas
@@ -402,7 +401,7 @@ es:
       privacy_title: Configuración de privacidad
       translations: Traducciones
       availability: Disponibilidad
-      email_requirement: Requerimiento de correo
+      email_requirement: Se requiere Email.
       inbound_settings: Ajustes de entrada
       messenger_style: Estilo de Messenger
       user_data: Datos del usuario
@@ -418,9 +417,9 @@ es:
       remove_error: Error al procesar el paquete
       create_integration: Cree nuevo paquete
     app_inserter:
-      title: Agrega apps a la ventana de chat
-      subtitle: Ayuda a tus clientes antes de que comiencen a conversar
-      action: Agregar app
+      title: Añadir aplicaciones a tu Messenger
+      subtitle: Ayuda a tus clientes antes de que inicien una conversación
+      action: Añadir aplicación
     integrations:
       title: Integración de terceros
       create_success: Nombre de integración
@@ -498,9 +497,9 @@ es:
       hint2: Controla quién ve el lanzador estándar de Messenger en tu sitio web.
       note2: CUALQUIER MESAJE QUE ENVÍE SERÁ ENTREGADO.
       note3: "En la web, mostrar el lanzador estándar de Messenger para:"
-      closed_replies_title: Impedir respuestas a conversaciones cerradas para %{name}
-      closed_replies_enabled: Permitir a los usuarios responder a mensajes cerrados en cualquier momento.
-      closed_replies_disabled: Evitar que los usuarios respondan a conversaciones cerradas después.
+      closed_replies_title: Evitar respuestas a conversaciones cerradas para %{name}
+      closed_replies_enabled: Dejar que los usuarios respondan a mensajes cerrados en cualquier momento.
+      closed_replies_disabled: Impedir que los usuarios respondan a conversaciones cerradas después.
       filters:
         users:
           label: Usuarios
@@ -513,7 +512,7 @@ es:
         hint: Esto no afecta a los mensajes salientes que envía.
     team:
       title: Equipo
-      invitations: Invitaciones
+      invitations: invitaciones
       agents: Agentes
       invitation_success: '¡Invitación enviada!'
       invitatin_error: '¡Invitación enviada!'
@@ -638,7 +637,7 @@ es:
     create: Crear Usuarios y Prospectos
     import_csv: Importar csv
     success_message: Procesando la importación de archivos, se le notificará el estado pronto
-    import_contacts: importar contactos
+    import_contacts: importar_contactos
     import_exp: Puedes subir un archivo csv o excel para importar contactos
     import_type: Tipo de importación
     import_choose: Elija qué tipo de contactos importará
@@ -658,7 +657,7 @@ es:
     days_ago: días antes
     filter_for: seleccionar filtro para %{name}
     date_filter_for: Seleccione el filtro de fecha para  %{name}
-    integer_filter_for: Select the integer filter for %{name}
+    integer_filter_for: Seleccione el filtro numérico para %{name}
     match_criteria_for: Coincidir con las opciones de criterio para %{name}
     apply: aplicar
     is: es

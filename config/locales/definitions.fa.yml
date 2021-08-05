@@ -1,4 +1,4 @@
-en:
+fa:
   definitions:
     articles:
       title:
@@ -24,7 +24,7 @@ en:
         label: Google Code
         hint: Google tracking ID
       credits:
-        label: Show credits
+        label: show credits
         hint: ""
     settings:
       name:
