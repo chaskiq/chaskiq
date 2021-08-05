@@ -24,7 +24,7 @@ tr:
         label: Google Analytics Kodu
         hint: Google Takip ID
       credits:
-        label: Hazırlayan
+        label: Show credits
         hint: ""
     settings:
       name:
