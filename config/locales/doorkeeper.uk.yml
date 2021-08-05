@@ -10,11 +10,11 @@ uk:
           attributes:
             redirect_uri:
               fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
+              invalid_uri: 'Must be a valid URI.'
               unspecified_scheme: 'must specify a scheme.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              secured_uri: 'This URI must have HTTPS!'
+              forbidden_uri: 'Forbidden by the server!'
             scopes:
               not_match_configured: "doesn't match configured on the server."
   doorkeeper:
@@ -54,7 +54,7 @@ uk:
         secret: 'Secret'
         scopes: 'Scopes'
         confidential: 'Confidential'
-        callback_urls: 'Callback urls'
+        callback_urls: 'Callback URL''s'
         actions: 'Actions'
     authorizations:
       buttons:
