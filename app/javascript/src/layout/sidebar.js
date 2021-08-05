@@ -198,7 +198,7 @@ function Sidebar({
       label: I18n.t('navigator.platform'),
       icon: <PlatformIcon />,
       url: `/apps/${app.key}/segments/${
-        app.segments ? app.segments[0].id : ''
+        app.segments.length > 0 ? app.segments[0].id : ''
       }`,
       children: app.segments.map((o) => ({
         id: o.name,
