@@ -37,7 +37,7 @@ it:
       pt: Portoghese
       de: Tedesco
       ca: Catalano
-      zh: Chinese
+      zh-CN: Chinese
     redirecting: Reindirizzamento
     select_language: Seleziona la Lingua
     send_on_enter: Pubblica al momento dell'invio
