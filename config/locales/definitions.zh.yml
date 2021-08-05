@@ -24,7 +24,7 @@ zh-CN:
         label: Google Code
         hint: Google tracking ID
       credits:
-        label: 显示 credits
+        label: Show credits
         hint: ""
     settings:
       name:

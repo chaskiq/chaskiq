@@ -37,7 +37,7 @@ it:
       pt: Portoghese
       de: Tedesco
       ca: Catalano
-      zh: Chinese
+      zh-CN: Chinese
     redirecting: Reindirizzamento
     select_language: Seleziona la Lingua
     send_on_enter: Pubblica al momento dell'invio
@@ -48,7 +48,7 @@ it:
     visitors: Visitatori
     users: Utenti
     type_message: type your message
-    search_conversations: search conversations
+    search_conversations: Search conversations
     days: Days
   status_messages:
     error: "Error"

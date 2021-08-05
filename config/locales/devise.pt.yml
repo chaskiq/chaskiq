@@ -56,7 +56,7 @@ pt:
       already_confirmed: "já foi confirmado(a), tente iniciar sessão"
       confirmation_period_expired: "tem de ser confirmado(a) no prazo de %{period}, solicite um novo"
       expired: "expirou, solicite um(a) novo(a)"
-      not_found: "não foi encontrado"
+      not_found: "Not found"
       not_locked: "não foi bloqueado"
       not_saved:
         one: "1 erro proibiu que esta %{resource} fosse guardada:"

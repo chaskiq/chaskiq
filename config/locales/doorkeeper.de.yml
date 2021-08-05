@@ -10,11 +10,11 @@ de:
           attributes:
             redirect_uri:
               fragment_present: 'darf kein Fragment enthalten.'
-              invalid_uri: 'muss ein gültiger URI sein.'
+              invalid_uri: 'Must be a valid URI.'
               unspecified_scheme: 'muss ein Schema angeben.'
               relative_uri: 'muss ein absoluter URI sein.'
-              secured_uri: 'muss ein HTTPS/SSL URI sein.'
-              forbidden_uri: 'ist vom Server nicht erlaubt.'
+              secured_uri: 'This URI must have HTTPS!'
+              forbidden_uri: 'Forbidden by the server!'
             scopes:
               not_match_configured: "stimmt nicht mit der Konfiguration auf dem Server überein."
   doorkeeper:
@@ -54,7 +54,7 @@ de:
         secret: 'Secret'
         scopes: 'Bereiche'
         confidential: 'Vertraulich'
-        callback_urls: 'Callback-URLs'
+        callback_urls: 'Callback URL''s'
         actions: 'Aktionen'
     authorizations:
       buttons:
