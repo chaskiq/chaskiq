@@ -45,7 +45,7 @@
     "emotion-theming": "^10.0.14",
     "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",
-    "i18n-js": "^3.5.1",
+    "i18n-js": "^4.0.0-alpha.4",
     "i18next": "^17.0.15",
     "i18next-browser-languagedetector": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",
@@ -143,7 +143,9 @@
     "clean:packages": "rm -rf ./app/javascript/packages/*/dist",
     "build:packages": "yarn clean:packages && lerna changed | while read package; do rollup -c --scope $package || exit 1; done",
     "build:allpackages": "yarn clean:packages && for dir in app/javascript/packages/*; do package=${dir#'packages/'}; rollup -c --scope @chaskiq/$package || exit 1; done",
-    "dev": "./bin/webpack-dev-server",
-    "build": "bundle exec rake assets:precompile"
+    "build": "bundle exec rake assets:precompile",
+    "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
+    "dev": "yarn i18n:export && ./bin/webpack-dev-server"
+
   }
 }

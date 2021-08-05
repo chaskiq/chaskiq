@@ -169,7 +169,7 @@ module MessageApis::Csat
     end
 
     ###
-    def self.submit_response(kind:, ctx:)
+    def self.submit_response(kind, ctx)
       {
         kind: kind,
         # ctx: ctx,
