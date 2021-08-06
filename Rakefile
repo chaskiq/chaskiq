@@ -10,7 +10,7 @@ Rails.application.load_tasks
 namespace :locales do
   desc "compile i18n before compile"
   task :build do
-    system('yarn i18n:export')
+    system("yarn i18n:export")
   end
 end
 

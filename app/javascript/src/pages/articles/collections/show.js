@@ -335,8 +335,11 @@ class CollectionDetail extends Component {
           if (collection) {
             this.getCollection()
           }
+          this.setState({ addArticlesDialog: false })
         },
-        error: () => {},
+        error: () => {
+          this.setState({ addArticlesDialog: false })
+        },
       }
     )
   }
@@ -469,9 +472,9 @@ class AddArticleDialog extends Component {
           <List>
             {this.state.articles.map((o) => (
               <ListItem key={`article-list-${o.id}`}>
-                <Input
+                <input
                   type="checkbox"
-                  checked={o.id}
+                  // checked={o.id}
                   // onChange={handleChange('checkedA')}
                   value={o.id}
                   name="article[]"
@@ -479,7 +482,7 @@ class AddArticleDialog extends Component {
 
                 <ListItemText
                   primary={o.title}
-                  secondary={<p noWrap>{o.state}</p>}
+                  secondary={<p>{o.state}</p>}
                 />
               </ListItem>
             ))}

@@ -114,7 +114,6 @@ gem "biz", "~> 1.8"
 # gem "i18n-js"
 gem "i18n-js", "~> 4.0.0.alpha1"
 
-
 gem "globalize", github: "globalize/globalize"
 
 # Reduces boot times through caching; required in config/boot.rb

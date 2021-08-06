@@ -32,5 +32,6 @@ translations:
       - "*"
       - "!*.ransack"
       - "!*.faker"
+      - "!*.number.nth"
   - file: "app/javascript/src/locales/messenger-translations.json"
     patterns: ["*.messenger.*"]

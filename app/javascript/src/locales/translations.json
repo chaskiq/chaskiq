@@ -12245,10 +12245,6 @@
           }
         }
       },
-      "nth": {
-        "ordinalized": "#<Proc:0x00007fd0e5582e20 /Users/michelson/.rvm/gems/ruby-2.7.2/gems/activesupport-6.1.3.1/lib/active_support/locale/en.rb:26 (lambda)>",
-        "ordinals": "#<Proc:0x00007fd0e5583cd0 /Users/michelson/.rvm/gems/ruby-2.7.2/gems/activesupport-6.1.3.1/lib/active_support/locale/en.rb:7 (lambda)>"
-      },
       "percentage": {
         "format": {
           "delimiter": "",

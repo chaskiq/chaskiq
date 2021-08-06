@@ -10,7 +10,7 @@ import { refreshToken } from '../actions/auth'
 const graphql = (query, variables, callbacks) => {
   const { auth, current_user } = store.getState()
 
-  const locale = current_user.lang || I18n.defaultLocale
+  const locale = current_user.lang || (window.I18n && window.I18n.defaultLocale) || 'en'
 
   const config = {
     authorization: `Bearer ${auth.accessToken}`,
