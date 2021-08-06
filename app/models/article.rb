@@ -48,9 +48,9 @@ class Article < ApplicationRecord
 
   scope :without_section, -> { where(article_section_id: nil).order(position: :asc) }
   scope :with_section, -> { where.not(article_section_id: nil).order(position: :asc) }
-  scope :without_collection, -> { 
+  scope :without_collection, lambda {
     where(article_collection_id: [nil, 0])
-    .order(position: :asc) 
+      .order(position: :asc)
   }
 
   aasm column: :state do
