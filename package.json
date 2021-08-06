@@ -149,6 +149,6 @@
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
     "dev": "yarn i18n:export && ./bin/webpack-dev-server",
     "prepare": "husky install",
-    "prettify": "prettier './app/javascript/**/*.{js,ts,tsx,css,scss,json,yml}'"
+    "prettify": "prettier --write './app/javascript/**/*.{js,ts,tsx,css,scss,json,yml}'"
   }
 }
