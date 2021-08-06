@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import WebSetup from '@chaskiq/components/src/components/webSetup'
 import Badge from '@chaskiq/components/src/components/Badge'
+import { useHistory } from "react-router-dom";
 
 import Content from '@chaskiq/components/src/components/Content'
 import PageHeader from '@chaskiq/components/src/components/PageHeader'
@@ -10,30 +11,10 @@ import PageHeader from '@chaskiq/components/src/components/PageHeader'
 import DashboardItem from './reports/ReportItem'
 
 import {
-  MoreIcon,
-  WebhooksIcon,
-  ApiIcon,
-  DashboardIcon,
-  PlatformIcon,
   ConversationChatIcon,
-  AssignmentIcon,
   CampaignsIcon,
-  MailingIcon,
-  AutoMessages,
-  BannersIcon,
-  ToursIcon,
-  BotIcon,
-  OutboundIcon,
-  NewconversationIcon,
   SettingsIcon,
   HelpCenterIcon,
-  ArticlesIcon,
-  CollectionsIcon,
-  ChatIcon,
-  BillingIcon,
-  IntegrationsIcon,
-  TeamIcon,
-  MessengerIcon,
   AppSettingsIcon,
   ChartsIcons,
 } from '@chaskiq/components/src/components/icons'
@@ -42,6 +23,7 @@ import {
   setCurrentSection,
   setCurrentPage
 } from '@chaskiq/store/src/actions/navigation'
+import { LinkButton } from '@chaskiq/components/src/components/RouterLink'
 
 export function Home() {
   return (
@@ -59,6 +41,8 @@ function Dashboard(props) {
     dispatch(setCurrentPage(null))
   }, [])
 
+  const history = useHistory()
+
 
   const actions = [
     {
@@ -70,6 +54,7 @@ function Dashboard(props) {
       render: ()=>(
         <div className="mt-2 text-sm text-gray-500">
           <span className="truncate--">
+
           {I18n.t('dashboard.status')}{' '}
           {app.activeMessenger && (
             <Badge size="sm" variant="green">
@@ -138,8 +123,24 @@ function Dashboard(props) {
             }}
           />
 
-          <WebSetup />
-          
+
+          <div className="py-3 flex space-x-3 justify-end">
+            <WebSetup />
+
+            <LinkButton
+              variant="outlined"
+              onClick={ ()=> window.open(`/tester/${app.key}`, '_blank').focus() }
+              target="blank">
+              Chat tester
+            </LinkButton>
+
+            <LinkButton
+              variant="outlined"
+              onClick={ ()=> history.push("/playground") }>
+              Playground
+            </LinkButton>
+          </div>
+            
         </div>
     
         <div key={'dashboard-status'} className="space-y-2">

@@ -27,8 +27,7 @@ class ArticleSetting < ApplicationRecord
 
   validates :subdomain,
             exclusion: { in: %w[www],
-                         message: "%{value} is reserved." 
-                        },
+                         message: "%{value} is reserved." },
             presence: true,
             uniqueness: true,
             allow_blank: true
