@@ -13,8 +13,7 @@ class Conversation < ApplicationRecord
   has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message, -> { order("id desc") },
-          class_name: "ConversationPart",
-          inverse_of: :conversations
+          class_name: "ConversationPart"
 
   acts_as_taggable_on :tags
 

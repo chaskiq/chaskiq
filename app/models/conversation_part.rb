@@ -9,8 +9,7 @@ class ConversationPart < ApplicationRecord
   # belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true,
                               class_name: "Message",
-                              foreign_key: :message_id,
-                              inverse_of: :conversation_parts
+                              foreign_key: :message_id
 
   belongs_to :messageable, polymorphic: true, optional: true
   belongs_to :authorable, polymorphic: true, optional: true

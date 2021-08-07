@@ -35,24 +35,21 @@ class Agent < ApplicationRecord
   has_many :access_grants,
            class_name: "Doorkeeper::AccessGrant",
            foreign_key: :resource_owner_id,
-           dependent: :delete_all, # or :destroy if you need callbacks
-           inverse_of: :agent
+           dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :access_tokens,
            class_name: "Doorkeeper::AccessToken",
            foreign_key: :resource_owner_id,
-           dependent: :delete_all, # or :destroy if you need callbacks
-           inverse_of: :agent
+           dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
   has_many :owned_apps, class_name: "App",
                         foreign_key: "owner_id",
-                        dependent: :nullify,
-                        inverse_of: :owner
+                        dependent: :nullify
   has_many :assignment_rules, dependent: :nullify
-  has_many :articles, foreign_key: "author_id", dependent: :nullify, inverse_of: :author
-  has_many :conversations, foreign_key: "assignee_id", inverse_of: :assignee, dependent: :nullify
+  has_many :articles, foreign_key: "author_id", dependent: :nullify
+  has_many :conversations, foreign_key: "assignee_id", dependent: :nullify
 
   scope :bots, -> { where(bot: true) }
   scope :humans, -> { where(bot: nil).or(where(bot: false)) }

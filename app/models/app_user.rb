@@ -49,8 +49,7 @@ class AppUser < ApplicationRecord
   belongs_to :app
   has_many :conversations,
            foreign_key: :main_participant_id,
-           dependent: :destroy_async,
-           inverse_of: :main_participant
+           dependent: :destroy_async
 
   # has_many :metrics , as: :trackable
   has_many :metrics, dependent: :destroy_async

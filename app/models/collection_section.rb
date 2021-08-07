@@ -5,13 +5,10 @@ class CollectionSection < ApplicationRecord
   # model with a parent id and deprecate this class
   include GlobalizeAccessors
   belongs_to :collection, class_name: "ArticleCollection",
-                          foreign_key: "article_collection_id",
-                          inverse_of: :collection_sections
+                          foreign_key: "article_collection_id"
 
   has_many :articles, -> { order(position: :asc) },
-           foreign_key: "article_section_id",
-           inverse_of: :collection_sections,
-           dependent: :nullify
+           foreign_key: "article_section_id"
 
   acts_as_list scope: [:article_collection_id]
   extend FriendlyId

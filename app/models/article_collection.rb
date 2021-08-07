@@ -3,7 +3,7 @@
 class ArticleCollection < ApplicationRecord
   include GlobalizeAccessors
 
-  belongs_to :app, inverse_of: :article_collections
+  belongs_to :app
   has_many :articles, dependent: :nullify
   has_many :sections, class_name: "CollectionSection", dependent: :nullify
   acts_as_list scope: [:app_id]
