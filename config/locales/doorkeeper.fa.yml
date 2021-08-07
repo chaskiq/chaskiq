@@ -22,10 +22,10 @@ fa:
       confirmations:
         destroy: 'Are you sure?'
       buttons:
-        edit: 'Edit'
+        edit: 'ويرايش'
         destroy: 'Destroy'
         submit: 'Submit'
-        cancel: 'Cancel'
+        cancel: 'لغو'
         authorize: 'Authorize'
       form:
         error: 'Whoops! Check your form for possible errors'

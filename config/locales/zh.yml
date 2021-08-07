@@ -334,7 +334,7 @@ zh-CN:
       enable_title: 启用 Bot 任务
       enable_hint: 启用后，Bot 任务将开始运行
     new: 创建新任务
-    remove_success: Bot 已移除
+    remove_success: 机器人已删除
     empty:
       title: 未发现 Bot 任务
       create_new: 创建一个新的

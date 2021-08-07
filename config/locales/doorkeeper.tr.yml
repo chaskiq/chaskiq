@@ -2,7 +2,7 @@ tr:
   activerecord:
     attributes:
       doorkeeper/application:
-        name: 'Name'
+        name: 'İsim'
         redirect_uri: 'Redirect URI'
     errors:
       models:
@@ -39,10 +39,10 @@ tr:
       index:
         title: 'Your applications'
         new: 'New Application'
-        name: 'Name'
+        name: 'İsim'
         callback_url: 'Callback URL'
         confidential: 'Confidential?'
-        actions: 'Actions'
+        actions: 'İşlemler'
         confidentiality:
           'yes': 'Yes'
           'no': 'No'
@@ -55,7 +55,7 @@ tr:
         scopes: 'Scopes'
         confidential: 'Confidential'
         callback_urls: 'Callback URL''s'
-        actions: 'Actions'
+        actions: 'İşlemler'
     authorizations:
       buttons:
         authorize: 'Authorize'

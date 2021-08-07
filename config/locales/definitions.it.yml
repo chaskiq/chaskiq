@@ -10,7 +10,7 @@ it:
       collection:
         label: Collection
       actions:
-        label: Actions
+        label: Azioni
       website:
         label: Website
         hint: Website of your main domain
@@ -97,14 +97,14 @@ it:
       description:
         label: Description
       actions:
-        label: Actions
+        label: Azioni
     bot_tasks:
       state:
         label: State
       name:
         label: Name
       actions:
-        label: Actions
+        label: Azioni
       title:
         label: Title
         placeholder: write task title
@@ -119,7 +119,7 @@ it:
       from:
         label: From
       actions:
-        label: Actions
+        label: Azioni
       when:
         label: When
       data:
@@ -178,10 +178,10 @@ it:
   data_tables:
     agents:
       email: Email
-      name:	Name
+      name: Name
       owner: Owner
       access_list: Access List
-      actions:	Actions
+      actions: Azioni
       sign_in_count: Sign in count
       last_sign_in_at: Last sign in at
       invitation_accepted_at: Invitation accepted at

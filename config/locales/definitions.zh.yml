@@ -178,18 +178,18 @@ zh-CN:
   data_tables:
     agents:
       email: Email
-      name:	Name
+      name: 名称
       owner: Owner
       access_list: Access List
-      actions:	Actions
+      actions: 操作
       sign_in_count: Sign in count
       last_sign_in_at: Last sign in at
       invitation_accepted_at: Invitation accepted at
     articles:
       settings:
-        locale: Locale
+        locale: 地点
         site_title: Site Title
-        site_description: Site Description
+        site_description: 网站说明
         action: 行为
     users:
       name: 名称
@@ -207,7 +207,7 @@ zh-CN:
       browser_lang: 浏览器Lang
       referrer: 反向链接
       tag_list: 标签列表
-      os: OS
+      os: 操作模式
       os_version: 操作系统版本
       lang: 语言
       web_sessions: Web Sessions
@@ -218,7 +218,7 @@ zh-CN:
         unsubscribed: 取消订阅
         passive: 被动模式
     settings:
-      locale: Locale
-      greetings: Greetings
-      intro: Intro
+      locale: 地点
+      greetings: 问候
+      intro: 介绍
       tagline: Tagline

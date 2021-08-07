@@ -184,15 +184,15 @@ it:
           confirm: Confermi l'invio di %{title}?
           confirm_msg: This quick reply will be delivered on user's current conversation.
           empty: no quick replies available
-          choose_another: Choose another
+          choose_another: Scegli un altro
   assignment_rules:
-    title: Assignment Rules
+    title: Regole di assegnazione
     create_button: Create Rule
     success_message: Assignment rule created sucessfully
   campaigns:
     title: Campaign
     home:
-      title: Campaigns
+      title: Campagne
       text: This is the campaigns section, you can create newsletters , popup messages and guided tours
     remove_success: Campaign removed
     remove_hint: We will destroy any content and related data
@@ -301,7 +301,7 @@ it:
         op2: ok, let us know if you need something and an agent will reply as soon as possible
     settings:
       leads:
-        tab: For Leads
+        tab: Per potenziali clienti
         start_conversation: When leads start a conversation
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
         share_time: Share your typical reply time
@@ -319,7 +319,7 @@ it:
           label: Override default behavior with your own task bot
           hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
       users:
-        tab: For Users
+        tab: Per utenti
         start_conversation: When users start a conversation
         delay: Leave a 2 minute delay before triggering Task Bots during office hours
         override:
@@ -374,9 +374,9 @@ it:
     add_as_dialog:
       title: Add this message as a Quick Reply
   new_app:
-    title: "Create your company’s Chaskiq app"
+    title: "Crea l'app Chaskiq della tua azienda"
     text: Provide basic information to setup Chaskiq for your team and customers.
-    hint: Create your company’s Chaskiq app
+    hint: Crea l'app Chaskiq della tua azienda
   settings:
     api:
       title: Oauth Applications
@@ -392,7 +392,7 @@ it:
         title: Add a new agent
         text: send an activable invitation
     app:
-      app_settings: App Settings
+      app_settings: Impostazioni App
       security: Security
       messenger_settings: Messenger Settings
       appearance: Appearance
@@ -405,7 +405,7 @@ it:
       inbound_settings: Inbound settings
       messenger_style: Messenger Style
       user_data: User data
-      tags: Tags
+      tags: Etichette
       quick_replies: Quick Replies
       email_forwarding: Email Forwarding
     app_packages:
@@ -502,16 +502,16 @@ it:
       closed_replies_disabled: Preventing users from responding to closed conversations after.
       filters:
         users:
-          label: Users
+          label: Utenti
           all: All Users
           some: Users who match certain data
         leads:
-          label: Leads
+          label: Potenziali Clienti
           all: All Visitors
           some: Visitors who match certain data
         hint: This doesn’t affect the outbound messages you send.
     team:
-      title: Team
+      title: Squadra
       invitations: invitations
       agents: Agents
       invitation_success: invitation sent!
@@ -527,11 +527,11 @@ it:
       updated_agent: Information updated successfully
       destroyed_agent: Agent deleted successfully
       destroy_agent_title: Delete Agent
-      destroy_agent: Delete
+      destroy_agent: Elimina
       destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
-      update_agent: Update
+      update_agent: Aggiorna
     webhooks:
-      title: Webhooks
+      title: Webhook
       create_success: Webhook created
       create_error: Error adding webhook
       update_success: Webhook updated
@@ -550,7 +550,7 @@ it:
         title: Delete webhook ?
         text: The webhook with %{name} service will be disabled immediately
     tags:
-      title: Tags
+      title: Etichette
       modal:
         title: Create app's tag
         hint: Looking for more tags ? look at
@@ -574,15 +574,15 @@ it:
         integer: Integer
         string: String
   articles:
-    title: Articles
-    all: All
+    title: Articoli
+    all: Tutti
     published: Published
     draft: Drafts
     visit: visit the help center
     new: New article
     add: Add item
-    collections: Collections
-    help_center: Help Center
+    collections: Collezioni
+    help_center: Centro assistenza
     description_placeholder: Describe your collection to help you find it.
     title_placeholder: Write the title of the sections
     new_section: New section

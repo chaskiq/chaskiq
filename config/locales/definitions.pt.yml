@@ -24,7 +24,7 @@ pt:
         label: Google Code
         hint: ID do Google tracking
       credits:
-        label: Show credits
+        label: Mostrar créditos
         hint: ""
     settings:
       name:
@@ -156,40 +156,40 @@ pt:
         placeholder: 'ex: https://yourdomain.com/submit-sheet-url/'
     webhooks:
       url:
-        label: url for outgoing webhook
-        hint: "we'll send POST requests"
+        label: url para webhook de saída
+        hint: "enviaremos solicitações POST"
       enabled:
-        label: enable webhook
+        label: webhooks Desativados
       tag_list:
-        label: events to send
-        hint: chaskiq will deliver this events to configured endpoint
+        label: eventos para enviar
+        hint: chaskiq entregará este evento para um endpoint configurado
     agents:
       email:
-        label: Agent's Email
-        placeholder: john@example.com
+        label: E-mail do Representante
+        placeholder: joao@exemplo.com
       name:
-        label: Agent's Name
+        label: Nome do Agente
         placeholder: John Doe
       owner:
-        label: Owner
+        label: Proprietário
       access_list:
-        label: 'Roles for agent'
-        hint: 'blank access will disable account settings access for user'
+        label: 'Papéis para o agente'
+        hint: 'o acesso em branco desabilitará o acesso às configurações de conta para o usuário'
   data_tables:
     agents:
       email: Email
-      name:	Name
-      owner: Owner
-      access_list: Access List
-      actions:	Actions
-      sign_in_count: Sign in count
-      last_sign_in_at: Last sign in at
-      invitation_accepted_at: Invitation accepted at
+      name: Nome
+      owner: Proprietário
+      access_list: Lista de acesso
+      actions: Ações
+      sign_in_count: Contagem de ínicio de sessão
+      last_sign_in_at: Data do último início de sessão
+      invitation_accepted_at: Convite aceite em
     articles:
       settings:
-        locale: Locale
-        site_title: Site Title
-        site_description: Site Description
+        locale: Localidade
+        site_title: Título da Área
+        site_description: Descrição
         action: Acão
     users:
       name: Nome
@@ -218,7 +218,7 @@ pt:
         unsubscribed: Subscrição cancelada
         passive: Passiva
     settings:
-      locale: Locale
-      greetings: Greetings
-      intro: Intro
+      locale: Localidade
+      greetings: Saudações
+      intro: Introdução
       tagline: Mote / Slogan
