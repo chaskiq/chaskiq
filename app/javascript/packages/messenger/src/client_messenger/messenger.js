@@ -58,7 +58,6 @@ import {
 } from './styles/styled'
 
 import { CloseIcon, LeftIcon, MessageIcon } from './icons'
-import Quest from './messageWindow'
 import StyledFrame from './styledFrame'
 import FrameBridge from './frameBridge'
 
@@ -1462,6 +1461,7 @@ class Messenger extends Component {
 
                           {this.state.display_mode === 'article' && (
                             <Article
+                              i18n={i18n}
                               //graphqlClient={this.graphqlClient}
                               //updateHeader={this.updateHeader}
                               //transition={this.state.transition}
