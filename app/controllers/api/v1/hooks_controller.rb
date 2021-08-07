@@ -64,7 +64,8 @@ class Api::V1::HooksController < ActionController::API
 
     # EmailReplyParser.parse_reply(mail.text_part.body.to_s)
     # message = EmailReplyParser.parse_reply(mail.text_part.body.to_s).gsub("\n", "<br/>").force_encoding(Encoding::UTF_8)
-    message = EmailReplyTrimmer.trim(mail.text_part.body.to_s).gsub("\n", "<br/>").force_encoding(Encoding::UTF_8)
+    body = mail.text_part.body.to_s.force_encoding(Encoding::UTF_8)
+    message = EmailReplyTrimmer.trim(body).gsub("\n", "<br/>")
 
     app, conversation, from = handle_conversation_part(mail)
 
