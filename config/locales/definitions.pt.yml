@@ -178,10 +178,10 @@ pt:
   data_tables:
     agents:
       email: Email
-      0: 'nome: Nome'
+      name: Nome
       owner: Proprietário
       access_list: Lista de acesso
-      1: 'ações: Ações'
+      actions: Ações
       sign_in_count: Contagem de ínicio de sessão
       last_sign_in_at: Data do último início de sessão
       invitation_accepted_at: Convite aceite em
