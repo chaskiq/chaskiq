@@ -45,7 +45,7 @@ const ArticleMeta = styled.span`
   margin-bottom: 1em;
 `
 
-const Article = ({i18n}) => {
+const Article = ({ i18n }) => {
   const domain = window.domain
   const [article, _setArticle] = useState(window.articleJson)
   const [loading, _setLoading] = useState(false)
@@ -64,7 +64,9 @@ const Article = ({i18n}) => {
           )}
           <ArticleTitle>{article.title}</ArticleTitle>
           <ArticleMeta>
-            <span dangerouslySetInnerHTML={{__html: window.article_meta }}></span>
+            <span
+              dangerouslySetInnerHTML={{ __html: window.article_meta }}
+            ></span>
             {/*<Trans
               i18nKey="article_meta"
               i18n={i18n}
