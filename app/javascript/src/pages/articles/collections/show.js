@@ -4,17 +4,16 @@ import { connect } from 'react-redux'
 
 import Button from '@chaskiq/components/src/components/Button'
 import TextField from '@chaskiq/components/src/components/forms/Input'
-import List,
-  {
+import List, {
   ListItem,
-  ListItemText
+  ListItemText,
 } from '@chaskiq/components/src/components/List'
 import CircularProgress from '@chaskiq/components/src/components/Progress'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 
 import langs from '../../../shared/langsOptions'
 import Dnd from './dnd'
@@ -29,10 +28,14 @@ import {
   ARTICLE_SECTION_EDIT,
 } from '@chaskiq/store/src/graphql/mutations'
 
-import { ARTICLE_COLLECTION_WITH_SECTIONS, ARTICLES_UNCATEGORIZED } from '@chaskiq/store/src/graphql/queries'
+import {
+  ARTICLE_COLLECTION_WITH_SECTIONS,
+  ARTICLES_UNCATEGORIZED,
+} from '@chaskiq/store/src/graphql/queries'
 
 import {
-  setCurrentPage, setCurrentSection,
+  setCurrentPage,
+  setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 class CollectionDetail extends Component {
   state = {
@@ -335,8 +338,11 @@ class CollectionDetail extends Component {
           if (collection) {
             this.getCollection()
           }
+          this.setState({ addArticlesDialog: false })
         },
-        error: () => {},
+        error: () => {
+          this.setState({ addArticlesDialog: false })
+        },
       }
     )
   }
@@ -469,18 +475,15 @@ class AddArticleDialog extends Component {
           <List>
             {this.state.articles.map((o) => (
               <ListItem key={`article-list-${o.id}`}>
-                <Input
+                <input
                   type="checkbox"
-                  checked={o.id}
+                  // checked={o.id}
                   // onChange={handleChange('checkedA')}
                   value={o.id}
                   name="article[]"
                 />
 
-                <ListItemText
-                  primary={o.title}
-                  secondary={<p noWrap>{o.state}</p>}
-                />
+                <ListItemText primary={o.title} secondary={<p>{o.state}</p>} />
               </ListItem>
             ))}
           </List>

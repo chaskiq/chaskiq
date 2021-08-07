@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import styled from '@emotion/styled'
 
 import Button from '@chaskiq/components/src/components/Button'
-import {ColorPicker} from '@chaskiq/components/src/components/forms/ColorPicker'
+import { ColorPicker } from '@chaskiq/components/src/components/forms/ColorPicker'
 
 const PatternButton = styled.button`
   padding: 0px;

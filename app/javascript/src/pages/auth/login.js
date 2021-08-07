@@ -5,13 +5,9 @@ import { connect } from 'react-redux'
 import logo from '../../images/logo.png'
 import serialize from 'form-serialize'
 
-import {
-  authenticate, doSignout
-} from '@chaskiq/store/src/actions/auth'
+import { authenticate, doSignout } from '@chaskiq/store/src/actions/auth'
 
-import {
-  getCurrentUser
-} from '@chaskiq/store/src/actions/current_user'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
 
 function Login({ dispatch }) {
   const form = useRef(null)

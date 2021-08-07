@@ -1,7 +1,8 @@
 require "rails_helper"
-include ActiveJob::TestHelper
 
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
+  include ActiveJob::TestHelper
+
   let!(:app) do
     FactoryBot.create(:app)
   end

@@ -1,0 +1,5 @@
+.esm
+dist
+app/javascript/src/styles/styles.css
+translations.json
+messenger-translations.json

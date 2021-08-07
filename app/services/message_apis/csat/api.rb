@@ -37,7 +37,7 @@ module MessageApis::Csat
         options = integration.app.conversation_events.custom_counts("plugins.csat", "val")
         data_options = MessageApis::Csat::Presenter.csat_buttons[:options]
 
-        total = options.map{|o| o.freq.to_f }.inject(:+)
+        total = options.map { |o| o.freq.to_f }.inject(:+)
 
         {
           id: "csat-plugin",
@@ -49,7 +49,7 @@ module MessageApis::Csat
             {
               label: data_options.find { |d| d[:id] === o.val }[:text],
               name: o.val,
-              value: "#{o.freq.to_f / total.to_f * 100.0}%",
+              value: "#{o.freq.to_f / total * 100.0}%",
               value2: "#{o.freq} events"
             }
           end

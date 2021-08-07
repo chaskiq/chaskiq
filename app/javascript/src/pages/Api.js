@@ -14,53 +14,68 @@ import {
 } from 'react-router-dom'
 import serialize from 'form-serialize'
 
-import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer' 
-import FormDialog from '@chaskiq/components/src/components/FormDialog' 
-import PageHeader from '@chaskiq/components/src/components/PageHeader' 
-import Content from '@chaskiq/components/src/components/Content' 
-import Tabs from '@chaskiq/components/src/components/Tabs' 
-import Progress from '@chaskiq/components/src/components/Progress' 
-import DataTable from '@chaskiq/components/src/components/Table' 
-import Button from '@chaskiq/components/src/components/Button' 
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog' 
+import FieldRenderer, {
+  gridClasses,
+} from '@chaskiq/components/src/components/forms/FieldRenderer'
+import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import Progress from '@chaskiq/components/src/components/Progress'
+import DataTable from '@chaskiq/components/src/components/Table'
+import Button from '@chaskiq/components/src/components/Button'
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import { setCurrentPage, setCurrentSection } from '@chaskiq/store/src/actions/navigation'
+import {
+  setCurrentPage,
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation'
 
-import { OAUTH_APPS, OAUTH_APP, AUTHORIZED_OAUTH_APPS } from '@chaskiq/store/src/graphql/queries'
-import { CREATE_OAUTH_APP, UPDATE_OAUTH_APP, DELETE_OAUTH_APP } from '@chaskiq/store/src/graphql/mutations'
+import {
+  OAUTH_APPS,
+  OAUTH_APP,
+  AUTHORIZED_OAUTH_APPS,
+} from '@chaskiq/store/src/graphql/queries'
+import {
+  CREATE_OAUTH_APP,
+  UPDATE_OAUTH_APP,
+  DELETE_OAUTH_APP,
+} from '@chaskiq/store/src/graphql/mutations'
 
 function formDefinitions() {
   return [
     {
       name: 'name',
-      label: I18n.t("doorkeeper.applications.index.name"),
+      label: I18n.t('doorkeeper.applications.index.name'),
       type: 'string',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
     {
       name: 'confidential',
-      label: I18n.t("doorkeeper.applications.show.confidential"),
-      hint: I18n.t("doorkeeper.applications.help.confidential"),
+      label: I18n.t('doorkeeper.applications.show.confidential'),
+      hint: I18n.t('doorkeeper.applications.help.confidential'),
       type: 'bool',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
     {
       name: 'redirect_uri',
-      label: I18n.t("doorkeeper.applications.show.callback_urls"),
-      hint: <React.Fragment> 
-              {I18n.t("doorkeeper.applications.help.redirect_uri")}
-              <br/>
-              {I18n.t("doorkeeper.applications.help.blank_redirect_uri")}
-            </React.Fragment>,   
-     type: 'string',
+      label: I18n.t('doorkeeper.applications.show.callback_urls'),
+      hint: (
+        <React.Fragment>
+          {I18n.t('doorkeeper.applications.help.redirect_uri')}
+          <br />
+          {I18n.t('doorkeeper.applications.help.blank_redirect_uri')}
+        </React.Fragment>
+      ),
+      type: 'string',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
     {
       name: 'scopes',
-      label: I18n.t("doorkeeper.applications.show.scopes"),
-      hint: I18n.t("doorkeeper.applications.help.scopes"),
+      label: I18n.t('doorkeeper.applications.show.scopes'),
+      hint: I18n.t('doorkeeper.applications.help.scopes'),
       type: 'string',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
@@ -268,7 +283,7 @@ function OauthApp(props) {
         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t("doorkeeper.applications.index.name")}
+              {I18n.t('doorkeeper.applications.index.name')}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.name}
@@ -276,7 +291,7 @@ function OauthApp(props) {
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t("doorkeeper.applications.index.confidential")}
+              {I18n.t('doorkeeper.applications.index.confidential')}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.confidential}
@@ -284,7 +299,7 @@ function OauthApp(props) {
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t("doorkeeper.applications.show.application_id")}
+              {I18n.t('doorkeeper.applications.show.application_id')}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.uid}
@@ -292,7 +307,7 @@ function OauthApp(props) {
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100">
-              {I18n.t("doorkeeper.applications.index.callback_url")}
+              {I18n.t('doorkeeper.applications.index.callback_url')}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 flex justify-between items-center">
               {data.redirectUri}
@@ -301,13 +316,13 @@ function OauthApp(props) {
                 variant="outlined"
                 onClick={() => (window.location = authorizeUrl())}
               >
-                {I18n.t("doorkeeper.applications.buttons.authorize")}
+                {I18n.t('doorkeeper.applications.buttons.authorize')}
               </Button>
             </dd>
           </div>
           <div className="sm:col-span-1">
             <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t("doorkeeper.applications.show.secret")}
+              {I18n.t('doorkeeper.applications.show.secret')}
             </dt>
             <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
               {data.secret}

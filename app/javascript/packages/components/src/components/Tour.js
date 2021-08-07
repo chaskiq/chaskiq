@@ -14,7 +14,11 @@ import tw from 'twin.macro'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import { UPDATE_CAMPAIGN, CREATE_URL_UPLOAD, CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
+import {
+  UPDATE_CAMPAIGN,
+  CREATE_URL_UPLOAD,
+  CREATE_DIRECT_UPLOAD,
+} from '@chaskiq/store/src/graphql/mutations'
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`
@@ -198,8 +202,12 @@ class TourManager extends Component {
       { url: url },
       {
         success: (data) => {
-          const { signedBlobId, headers, url, serviceUrl } =
-            data.createUrlUpload.directUpload
+          const {
+            signedBlobId,
+            headers,
+            url,
+            serviceUrl,
+          } = data.createUrlUpload.directUpload
           // imageBlock.uploadCompleted(serviceUrl)
           // this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
           // this.setDisabled(false)
@@ -219,8 +227,12 @@ class TourManager extends Component {
   handleDirectUpload = (file, input) => {
     graphql(CREATE_DIRECT_UPLOAD, input, {
       success: (data) => {
-        const { signedBlobId, headers, url, serviceUrl } =
-          data.createDirectUpload.directUpload
+        const {
+          signedBlobId,
+          headers,
+          url,
+          serviceUrl,
+        } = data.createDirectUpload.directUpload
         console.log('DRECT', signedBlobId, headers, url, serviceUrl)
         directUpload(url, JSON.parse(headers), file).then(() => {
           window.__CHILD_WINDOW_HANDLE_2.postMessage(

@@ -12,10 +12,13 @@ import Map from '../map/index.js'
 import userFormat from '../Table/userFormat'
 import Progress from '../Progress'
 
-import {dispatchSegmentUpdate} from '@chaskiq/store/src/actions/segments'
-import {setCurrentSection, setCurrentPage} from '@chaskiq/store/src/actions/navigation'
-import {toggleDrawer} from '@chaskiq/store/src/actions/drawer'
-import {getAppUser} from '@chaskiq/store/src/actions/app_user'
+import { dispatchSegmentUpdate } from '@chaskiq/store/src/actions/segments'
+import {
+  setCurrentSection,
+  setCurrentPage,
+} from '@chaskiq/store/src/actions/navigation'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
 
 const Wrapper = styled.div`
   //min-width: 600px;
@@ -163,8 +166,8 @@ class AppUsers extends Component {
 
   getTextForPredicate = (o) => {
     if (o.type === 'match') {
-      if(o.value === 'and') return I18n.t("segment_manager.match_all")
-      return I18n.t("segment_manager.match_any")
+      if (o.value === 'and') return I18n.t('segment_manager.match_all')
+      return I18n.t('segment_manager.match_any')
       //return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
     } else {
       return `${this.displayName(o)} ${o.comparison ? o.comparison : ''} ${

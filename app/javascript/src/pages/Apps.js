@@ -9,8 +9,8 @@ import styled from '@emotion/styled'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import LoadingView from '@chaskiq/components/src/components/loadingView' 
-import Badge from '@chaskiq/components/src/components/Badge' 
+import LoadingView from '@chaskiq/components/src/components/loadingView'
+import Badge from '@chaskiq/components/src/components/Badge'
 import Card from '@chaskiq/components/src/components/Card'
 
 import { connect } from 'react-redux'
@@ -18,14 +18,9 @@ import logo from '../images/favicon.png'
 
 import { APPS } from '@chaskiq/store/src/graphql/queries'
 
-import {
-  setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+import { setCurrentSection } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  clearApp
-} from '@chaskiq/store/src/actions/app'
-
+import { clearApp } from '@chaskiq/store/src/actions/app'
 
 const Container = styled.div`
   background: url(${bg});
@@ -126,7 +121,7 @@ function App({ dispatch, loading }) {
                 </div>
 
                 <Badge variant="green" className="mb-3 ">
-                  {I18n.t("common.your_apps")}
+                  {I18n.t('common.your_apps')}
                 </Badge>
 
                 <div className="flex flex-wrap overflow-hidden sm:-mx-1 pb-20">

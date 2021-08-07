@@ -16,16 +16,20 @@ import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import Button from '@chaskiq/components/src/components/Button'
 import Badge from '@chaskiq/components/src/components/Badge'
 import FieldRenderer, {
-  gridClasses
+  gridClasses,
 } from '@chaskiq/components/src/components/forms/FieldRenderer'
 import List, {
-  ListItem, 
-  ListItemText, 
+  ListItem,
+  ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
+  ItemListSecondaryContent,
 } from '@chaskiq/components/src/components/List'
 
-import { EditIcon, AddIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
+import {
+  EditIcon,
+  AddIcon,
+  DeleteIcon,
+} from '@chaskiq/components/src/components/icons'
 
 import I18n from '../shared/FakeI18n'
 
@@ -33,12 +37,11 @@ import serialize from 'form-serialize'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  camelizeKeys
-} from '@chaskiq/store/src/actions/conversation'
+import { camelizeKeys } from '@chaskiq/store/src/actions/conversation'
 
 import {
-  setCurrentPage, setCurrentSection,
+  setCurrentPage,
+  setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
 import {
@@ -46,9 +49,15 @@ import {
   errorMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
-
-import { EVENT_TYPES, OUTGOING_WEBHOOKS } from '@chaskiq/store/src/graphql/queries'
-import { WEBHOOK_CREATE, WEBHOOK_UPDATE, WEBHOOK_DELETE } from '@chaskiq/store/src/graphql/mutations'
+import {
+  EVENT_TYPES,
+  OUTGOING_WEBHOOKS,
+} from '@chaskiq/store/src/graphql/queries'
+import {
+  WEBHOOK_CREATE,
+  WEBHOOK_UPDATE,
+  WEBHOOK_DELETE,
+} from '@chaskiq/store/src/graphql/mutations'
 
 function Settings({ app, dispatch }) {
   const [open, setOpen] = useState(false)
@@ -124,22 +133,22 @@ function Settings({ app, dispatch }) {
       {
         name: 'url',
         type: 'string',
-        label: I18n.t("definitions.webhooks.url.label"),
-        hint: I18n.t("definitions.webhooks.url.hint"),
+        label: I18n.t('definitions.webhooks.url.label'),
+        hint: I18n.t('definitions.webhooks.url.hint'),
         placeholder: 'https://mysite.com',
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'enabled',
         type: 'bool',
-        label: I18n.t("definitions.webhooks.enabled.label"),
+        label: I18n.t('definitions.webhooks.enabled.label'),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'tag_list',
         type: 'select',
-        label: I18n.t("definitions.webhooks.tag_list.label"),
-        hint: I18n.t("definitions.webhooks.tag_list.hint"),
+        label: I18n.t('definitions.webhooks.tag_list.label'),
+        hint: I18n.t('definitions.webhooks.tag_list.hint'),
         multiple: true,
         options: eventTypes,
         grid: { xs: 'w-full', sm: 'w-full' },

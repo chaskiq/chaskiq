@@ -72,13 +72,13 @@ module MessageApis::Csat
 
       definitions = [
 
-        #{
+        # {
         #  type: "input",
         #  id: "label",
         #  label: "CSAT label",
         #  placeholder: "How would you rate your experience with our service?",
         #  save_state: "unsaved"
-        #},
+        # },
         csat_buttons,
         {
           type: "button",
@@ -169,7 +169,7 @@ module MessageApis::Csat
     end
 
     ###
-    def self.submit_response(kind:, ctx:)
+    def self.submit_response(kind, ctx)
       {
         kind: kind,
         # ctx: ctx,

@@ -235,8 +235,7 @@ class App < ApplicationRecord
   def find_app_package(name)
     app_package_integrations
       .joins(:app_package)
-      .where("app_packages.name =?", name)
-      .first
+      .find_by("app_packages.name =?", name)
   end
 
   def stats_for(name)
@@ -285,9 +284,9 @@ class App < ApplicationRecord
     pkg_id = begin
       app_package_integrations
         .joins(:app_package)
-        .where(
+        .find_by(
           "app_packages.name": "InboxSections"
-        ).first.id
+        ).id
     rescue StandardError
       nil
     end

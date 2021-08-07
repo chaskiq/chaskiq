@@ -222,37 +222,6 @@ module Types
       object.conversations.find_by(key: id)
     end
 
-    private def filter_by_agent(agent_id, filter)
-      collection = object.conversations
-                         .left_joins(:messages)
-                         .where.not(conversation_parts: { id: nil })
-                         .distinct
-
-      collection = collection.where(state: filter) if filter.present?
-
-      agent = agent_id.present? && agent_id.zero? ? nil : agent_id
-      collection.where(assignee_id: agent)
-    end
-
-    private def sort_conversations(sort)
-      if sort.present?
-        s = case sort
-            when "newest" then "updated_at desc"
-            when "oldest" then "updated_at asc"
-            when "priority_first" then "priority asc, updated_at desc"
-            else
-              "id desc"
-            end
-
-        if sort != "unfiltered" # && agent_id.blank?
-          @collection = @collection.where
-                                   .not(latest_user_visible_comment_at: nil)
-        end
-
-        @collection = @collection.order(s)
-      end
-    end
-
     field :app_user, Types::AppUserType, null: true do
       argument :id, Integer, required: false
     end
@@ -463,16 +432,6 @@ module Types
       handle_bot_tasks_filters(filters, collection).ordered
     end
 
-    private def handle_bot_tasks_filters(filters, collection)
-      return collection if filters["users"].blank?
-
-      ors = nil
-      filters["users"].each_with_index do |filter, _index|
-        ors = ors.nil? ? BotTask.infix([filter]) : ors.or(BotTask.infix([filter]))
-      end
-      collection = collection.where(ors) if ors.present?
-    end
-
     field :bot_task, Types::BotTaskType, null: true do
       argument :id, String, required: true
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
@@ -568,6 +527,49 @@ module Types
     def authorized_oauth_applications
       authorize! object, to: :manage?, with: AppPolicy
       object.oauth_applications.authorized_for(current_user)
+    end
+
+    private
+
+    def filter_by_agent(agent_id, filter)
+      collection = object.conversations
+                         .left_joins(:messages)
+                         .where.not(conversation_parts: { id: nil })
+                         .distinct
+
+      collection = collection.where(state: filter) if filter.present?
+
+      agent = agent_id.present? && agent_id.zero? ? nil : agent_id
+      collection.where(assignee_id: agent)
+    end
+
+    def sort_conversations(sort)
+      if sort.present?
+        s = case sort
+            when "newest" then "updated_at desc"
+            when "oldest" then "updated_at asc"
+            when "priority_first" then "priority asc, updated_at desc"
+            else
+              "id desc"
+            end
+
+        if sort != "unfiltered" # && agent_id.blank?
+          @collection = @collection.where
+                                   .not(latest_user_visible_comment_at: nil)
+        end
+
+        @collection = @collection.order(s)
+      end
+    end
+
+    def handle_bot_tasks_filters(filters, collection)
+      return collection if filters["users"].blank?
+
+      ors = nil
+      filters["users"].each_with_index do |filter, _index|
+        ors = ors.nil? ? BotTask.infix([filter]) : ors.or(BotTask.infix([filter]))
+      end
+      collection = collection.where(ors) if ors.present?
     end
   end
 end

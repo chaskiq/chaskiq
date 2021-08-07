@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_034139) do
+ActiveRecord::Schema.define(version: 2021_08_07_022619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_034139) do
     t.bigint "agent_id"
     t.boolean "published", default: false
     t.index ["agent_id"], name: "index_app_packages_on_agent_id"
+    t.index ["name"], name: "index_app_packages_on_name", unique: true
   end
 
   create_table "app_translations", force: :cascade do |t|
@@ -261,6 +262,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_034139) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["app_id"], name: "index_article_settings_on_app_id"
+    t.index ["subdomain"], name: "index_article_settings_on_subdomain", unique: true
   end
 
   create_table "article_settings_translations", force: :cascade do |t|

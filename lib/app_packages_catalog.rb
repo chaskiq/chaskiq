@@ -596,7 +596,7 @@ class AppPackagesCatalog
     packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-      puts "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
+      Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
     end
   end
 end

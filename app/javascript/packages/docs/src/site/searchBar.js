@@ -3,7 +3,10 @@ import React from 'react'
 import graphql from '@chaskiq/store/src/graphql/client'
 import { SEARCH_ARTICLES } from '@chaskiq/store/src/graphql/docsQueries'
 
-import List, { ListItem, ListItemText } from '@chaskiq/components/src/components/List'
+import List, {
+  ListItem,
+  ListItemText,
+} from '@chaskiq/components/src/components/List'
 import { Link } from 'react-router-dom'
 
 export default function CustomizedInputBase({

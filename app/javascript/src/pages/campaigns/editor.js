@@ -11,11 +11,12 @@ import Button from '@chaskiq/components/src/components/Button'
 import Badge from '@chaskiq/components/src/components/Badge'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import BrowserSimulator from '@chaskiq/components/src/components/BrowserSimulator'
-import {
-  VisibilityRounded
-} from '@chaskiq/components/src/components/icons'
+import { VisibilityRounded } from '@chaskiq/components/src/components/icons'
 
-import { UPDATE_CAMPAIGN, DELIVER_CAMPAIGN } from '@chaskiq/store/src/graphql/mutations'
+import {
+  UPDATE_CAMPAIGN,
+  DELIVER_CAMPAIGN,
+} from '@chaskiq/store/src/graphql/mutations'
 import { AGENTS } from '@chaskiq/store/src/graphql/queries'
 
 const EditorContentWrapper = styled.div``
@@ -172,7 +173,7 @@ export default class CampaignEditor extends Component {
             <React.Fragment>
               {!this.state.preview && (
                 <TextEditor
-                  videoless={ this.props.mode === 'campaigns' }
+                  videoless={this.props.mode === 'campaigns'}
                   campaign={true}
                   uploadHandler={this.uploadHandler}
                   serializedContent={this.props.data.serializedContent}
@@ -319,7 +320,7 @@ function StyleBanner({ app, campaign, onChange }) {
 
   React.useEffect(() => {
     handleChange()
-  }, [agent, fontOptions ])
+  }, [agent, fontOptions])
 
   function fetchAgents() {
     graphql(
@@ -366,7 +367,7 @@ function StyleBanner({ app, campaign, onChange }) {
       placement: data.placement || 'top',
       show_sender: data.show_sender,
       url: data.url,
-      font_options: fontOptions
+      font_options: fontOptions,
     }
   }
 
@@ -436,29 +437,29 @@ function StyleBanner({ app, campaign, onChange }) {
           </h3>
 
           <Input
-          type="select"
-          options={[
-            {label: 'None', value: null},
-            {label: 'Lato', value: 'Lato'},
-            {label: 'OpenSans', value: 'Open+Sans'},
-            {label: 'Roboto', value: 'Roboto'},
-            {label: 'Montserrat', value: 'Montserrat'},
-            {label: 'Merriweather', value: 'Merriweather'},
-            {label: 'Poppins', value: 'Poppins'},
-            {label: 'Roboto+Mono', value: 'Roboto+Mono'},
-            {label: 'Pt+Sans', value: 'Pt+Sans'},
-            {label: 'Ubuntu', value: 'Ubuntu'}
-          ]}
-          onChange={(data) => {
-            setFontOptions({family: data.value})
-          }}
-          defaultValue={ {
-            label: fontOptions.family,
-            value: fontOptions.family
-          } }
-          label="font"
-          name="font_options"
-        />
+            type="select"
+            options={[
+              { label: 'None', value: null },
+              { label: 'Lato', value: 'Lato' },
+              { label: 'OpenSans', value: 'Open+Sans' },
+              { label: 'Roboto', value: 'Roboto' },
+              { label: 'Montserrat', value: 'Montserrat' },
+              { label: 'Merriweather', value: 'Merriweather' },
+              { label: 'Poppins', value: 'Poppins' },
+              { label: 'Roboto+Mono', value: 'Roboto+Mono' },
+              { label: 'Pt+Sans', value: 'Pt+Sans' },
+              { label: 'Ubuntu', value: 'Ubuntu' },
+            ]}
+            onChange={(data) => {
+              setFontOptions({ family: data.value })
+            }}
+            defaultValue={{
+              label: fontOptions.family,
+              value: fontOptions.family,
+            }}
+            label="font"
+            name="font_options"
+          />
 
           <Input
             type="color"

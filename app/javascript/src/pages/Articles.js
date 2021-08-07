@@ -15,14 +15,16 @@ import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 import Hints from '@chaskiq/components/src/components/Hints'
 import DataTable from '@chaskiq/components/src/components/Table'
 import Badge from '@chaskiq/components/src/components/Badge'
@@ -34,9 +36,10 @@ import CircularProgress from '@chaskiq/components/src/components/Progress'
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
 import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
 import {
-  AddIcon, GestureIcon, CheckCircleIcon
+  AddIcon,
+  GestureIcon,
+  CheckCircleIcon,
 } from '@chaskiq/components/src/components/icons'
-
 
 import { ARTICLES, ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/queries'
 import {
@@ -459,18 +462,18 @@ class AllArticles extends React.Component {
                   title: I18n.t('definitions.articles.title.label'),
                   render: (row) =>
                     row ? (
-                        <div className="flex items-center text-lg font-bold">
-                          {row.id && (
-                            <Link
-                              className="truncate w-64"
-                              to={`/apps/${this.props.app.key}/articles/${row.slug}`}
-                            >
-                              {row.title
-                                ? row.title
-                                : '-- missing translation --'}
-                            </Link>
-                          )}
-                        </div>
+                      <div className="flex items-center text-lg font-bold">
+                        {row.id && (
+                          <Link
+                            className="truncate w-64"
+                            to={`/apps/${this.props.app.key}/articles/${row.slug}`}
+                          >
+                            {row.title
+                              ? row.title
+                              : '-- missing translation --'}
+                          </Link>
+                        )}
+                      </div>
                     ) : undefined,
                 },
                 {

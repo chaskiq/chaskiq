@@ -13,13 +13,17 @@ import Tabs from '@chaskiq/components/src/components/Tabs'
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
-
 
 import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries'
 
-import { QUICK_REPLY_CREATE, QUICK_REPLY_UPDATE, QUICK_REPLY_DELETE } from '@chaskiq/store/src/graphql/mutations'
+import {
+  QUICK_REPLY_CREATE,
+  QUICK_REPLY_UPDATE,
+  QUICK_REPLY_DELETE,
+} from '@chaskiq/store/src/graphql/mutations'
 
 function QuickReplies({ app, _update, dispatch }) {
   const [quickReplies, setQuickReplies] = React.useState([])

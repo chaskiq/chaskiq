@@ -114,8 +114,14 @@ export default class ConversationEditor extends Component {
 
   render() {
     const tabs = [
-      { label: I18n.t('conversation.messages.reply'), content: this.renderEditor({}) },
-      { label: I18n.t('conversation.messages.note'), content: this.renderEditor({ note: true }) },
+      {
+        label: I18n.t('conversation.messages.reply'),
+        content: this.renderEditor({}),
+      },
+      {
+        label: I18n.t('conversation.messages.note'),
+        content: this.renderEditor({ note: true }),
+      },
     ]
 
     return (

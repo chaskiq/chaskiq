@@ -11,9 +11,6 @@ import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Loader from './loader'
 
-import { Trans, withTranslation } from 'react-i18next'
-import i18n from './i18n'
-
 const DanteContainerExtend = styled(DanteContainer)`
   margin-top: 1.2em;
 `
@@ -48,7 +45,7 @@ const ArticleMeta = styled.span`
   margin-bottom: 1em;
 `
 
-const Article = () => {
+const Article = ({ i18n }) => {
   const domain = window.domain
   const [article, _setArticle] = useState(window.articleJson)
   const [loading, _setLoading] = useState(false)
@@ -67,12 +64,15 @@ const Article = () => {
           )}
           <ArticleTitle>{article.title}</ArticleTitle>
           <ArticleMeta>
-            <Trans
+            <span
+              dangerouslySetInnerHTML={{ __html: window.article_meta }}
+            ></span>
+            {/*<Trans
               i18nKey="article_meta"
               i18n={i18n}
               values={{ name: article.author.name }}
               components={[renderDate()]}
-            />
+            />*/}
           </ArticleMeta>
 
           <ThemeProvider
@@ -94,5 +94,4 @@ const Article = () => {
   )
 }
 
-const TranslatedArticle = withTranslation()(Article)
-export default TranslatedArticle
+export default Article
