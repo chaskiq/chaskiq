@@ -1,5 +1,5 @@
 // frame internals grab
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 export default class FrameBridge extends Component {
   constructor(props) {
@@ -31,4 +31,3 @@ export default class FrameBridge extends Component {
     return <React.Fragment>{children}</React.Fragment>
   }
 }
-

@@ -16,7 +16,7 @@ import tw from 'twin.macro'
 import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
 import QuickRepliesDialog from './QuickReplyDialog'
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
-import { getPackage } from  '@chaskiq/components/src/components/packageBlocks/utils'
+import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
 
 import {
   CheckmarkIcon,
@@ -40,30 +40,20 @@ import AppPackagePanel from './appPackagePanel'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  toggleDrawer
-} from '@chaskiq/store/src/actions/drawer'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
 
-import {
-  appendConversation
-} from '@chaskiq/store/src/actions/conversations'
+import { appendConversation } from '@chaskiq/store/src/actions/conversations'
 
-import {
-  getAppUser
-} from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
 
-import {
-  updateRtcEvents
-} from '@chaskiq/store/src/actions/rtc'
+import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc'
 
 import {
   setCurrentPage,
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  successMessage
-} from '@chaskiq/store/src/actions/status_messages'
+import { successMessage } from '@chaskiq/store/src/actions/status_messages'
 
 import {
   getConversation,
@@ -78,7 +68,6 @@ import {
   updateConversationState,
   updateConversationPriority,
 } from '@chaskiq/store/src/actions/conversation'
-
 
 import { AGENTS } from '@chaskiq/store/src/graphql/queries'
 
@@ -147,8 +136,10 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false)
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
 
-  const [conversationPartSelected, setConversationPartSelected] =
-    React.useState(false)
+  const [
+    conversationPartSelected,
+    setConversationPartSelected,
+  ] = React.useState(false)
 
   const appId = app.key
 

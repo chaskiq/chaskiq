@@ -10,11 +10,11 @@ import AcceptInvitation from './pages/auth/acceptInvitation'
 import BlocksPlayground from './pages/BlocksPlayground'
 import { Switch, Route, withRouter } from 'react-router-dom'
 
-import ZoomImage from '@chaskiq/components/src/components/ImageZoomOverlay' 
-import LoadingView from '@chaskiq/components/src/components/loadingView' 
+import ZoomImage from '@chaskiq/components/src/components/ImageZoomOverlay'
+import LoadingView from '@chaskiq/components/src/components/loadingView'
 import Snackbar from '@chaskiq/components/src/components/Alert'
 
-import {clearLocks} from '@chaskiq/store/src/actions/upgradePages'
+import { clearLocks } from '@chaskiq/store/src/actions/upgradePages'
 
 function mapStateToProps(state) {
   const { auth, current_user, theme } = state

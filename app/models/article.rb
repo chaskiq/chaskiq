@@ -5,17 +5,21 @@ class Article < ApplicationRecord
   include GlobalizeAccessors
   include PgSearch::Model
 
-  belongs_to :author, class_name: "Agent"
-  belongs_to :app
+  belongs_to :author, class_name: "Agent", inverse_of: :articles
+
+  belongs_to :app, inverse_of: :articles
+
   belongs_to :collection,
              class_name: "ArticleCollection",
              foreign_key: "article_collection_id",
-             optional: true
+             optional: true,
+             inverse_of: :articles
 
   belongs_to :section,
              class_name: "CollectionSection",
              foreign_key: "article_section_id",
-             optional: true
+             optional: true,
+             inverse_of: :articles
 
   include PgSearch::Model
   pg_search_scope :search,
@@ -29,7 +33,7 @@ class Article < ApplicationRecord
                     translations: %i[title description]
                   }
 
-  has_one :article_content
+  has_one :article_content, dependent: :destroy_async
 
   acts_as_list scope: %i[app_id article_collection_id article_section_id]
 

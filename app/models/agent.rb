@@ -15,7 +15,7 @@ class Agent < ApplicationRecord
           :validatable,
           :omniauthable, omniauth_providers: %i[doorkeeper]
 
-  has_many :app_packages
+  has_many :app_packages, dependent: :nullify
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -35,19 +35,24 @@ class Agent < ApplicationRecord
   has_many :access_grants,
            class_name: "Doorkeeper::AccessGrant",
            foreign_key: :resource_owner_id,
-           dependent: :delete_all # or :destroy if you need callbacks
+           dependent: :delete_all, # or :destroy if you need callbacks
+           inverse_of: :agent
 
   has_many :access_tokens,
            class_name: "Doorkeeper::AccessToken",
            foreign_key: :resource_owner_id,
-           dependent: :delete_all # or :destroy if you need callbacks
+           dependent: :delete_all, # or :destroy if you need callbacks
+           inverse_of: :agent
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
-  has_many :owned_apps, class_name: "App", foreign_key: "owner_id"
-  has_many :assignment_rules
-  has_many :articles, foreign_key: "author_id"
-  has_many :conversations, foreign_key: "assignee_id"
+  has_many :owned_apps, class_name: "App",
+                        foreign_key: "owner_id",
+                        dependent: :nullify,
+                        inverse_of: :owner
+  has_many :assignment_rules, dependent: :nullify
+  has_many :articles, foreign_key: "author_id", dependent: :nullify, inverse_of: :author
+  has_many :conversations, foreign_key: "assignee_id", inverse_of: :assignee, dependent: :nullify
 
   scope :bots, -> { where(bot: true) }
   scope :humans, -> { where(bot: nil).or(where(bot: false)) }

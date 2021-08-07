@@ -1,10 +1,9 @@
-
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 import {
   UserAutoMessage,
   UserAutoMessageStyledFrame,
-  UserAutoMessageFlex
+  UserAutoMessageFlex,
 } from './styles/styled'
 
 import MessageContainer from './messageContainer'

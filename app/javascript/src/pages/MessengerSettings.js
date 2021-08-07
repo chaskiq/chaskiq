@@ -3,10 +3,13 @@ import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 
-import Content from '@chaskiq/components/src/components/Content' 
-import ContentHeader from '@chaskiq/components/src/components/PageHeader' 
-import Tabs from '@chaskiq/components/src/components/Tabs' 
-import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader' 
+import Content from '@chaskiq/components/src/components/Content'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Tabs from '@chaskiq/components/src/components/Tabs'
+import {
+  getFileMetadata,
+  directUpload,
+} from '@chaskiq/components/src/components/fileUploader'
 
 import SettingsForm from './settings/form'
 import AvailabilitySettings from './settings/Availability'
@@ -18,12 +21,11 @@ import AppInserter from './settings/AppInserter'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  updateApp
-} from '@chaskiq/store/src/actions/app'
+import { updateApp } from '@chaskiq/store/src/actions/app'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
 import { APP } from '@chaskiq/store/src/graphql/queries'

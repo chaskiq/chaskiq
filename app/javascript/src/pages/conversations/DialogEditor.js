@@ -5,18 +5,18 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import NewEditor from './newEditor'
 
-function DialogEditor (props) {
+function DialogEditor(props) {
   const [open, setOpen] = React.useState(props.open)
 
   React.useEffect(() => {
     setOpen(props.open)
   }, [props.open])
 
-  function handleClickOpen () {
+  function handleClickOpen() {
     setOpen(true)
   }
 
-  function handleClose () {
+  function handleClose() {
     setOpen(false)
     props.close()
   }
@@ -39,39 +39,33 @@ function DialogEditor (props) {
           <div>
             To:
             {props.app_user.displayName}
-
-            <div className="relative rounded-lg border
+            <div
+              className="relative rounded-lg border
              border-gray-300 bg-white
              my-5 shadow-sm
              flex items-center space-x-3
               hover:border-gray-400 focus-within:ring-2
-              focus-within:ring-offset-2 focus-within:ring-pink-500">
-              <NewEditor
-                {...props}
-                data={{}}
-                submitData={props.handleSubmit}
-              />
+              focus-within:ring-offset-2 focus-within:ring-pink-500"
+            >
+              <NewEditor {...props} data={{}} submitData={props.handleSubmit} />
             </div>
           </div>
         }
         dialogButtons={
-          <Button onClick={handleClose}
-            color="secondary">
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
         }
-      >
-
-      </FormDialog>
+      ></FormDialog>
     </div>
   )
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   const { app_user, app } = state
   return {
     app_user,
-    app
+    app,
   }
 }
 

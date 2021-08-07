@@ -78,7 +78,11 @@ export function ListItemText({ primary, secondary, terciary, cols }) {
 export function ItemAvatar({ avatar }) {
   return (
     <div className="flex-shrink-0">
-      <img className="h-12 w-12 rounded-full dark:bg-white" src={avatar} alt="" />
+      <img
+        className="h-12 w-12 rounded-full dark:bg-white"
+        src={avatar}
+        alt=""
+      />
     </div>
   )
 }

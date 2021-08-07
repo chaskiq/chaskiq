@@ -2,11 +2,7 @@ import React from 'react'
 
 import { MessengerContext } from '../context'
 
-import {
-  CommentsWrapper,
-  Hint,
-  ConversationsFooter,
-} from '../styles/styled'
+import { CommentsWrapper, Hint, ConversationsFooter } from '../styles/styled'
 
 import Loader from '../loader'
 
@@ -14,7 +10,7 @@ import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 import { CommentsItemComp } from './commentItem'
 import NewConversationBlock from './newConversationBlock'
 
-export default function Conversations(){
+export default function Conversations() {
   const [loading, setLoading] = React.useState()
   const {
     value: {
@@ -26,17 +22,17 @@ export default function Conversations(){
       getConversations,
       isMobile,
       displayConversation,
-      appData
-    }
-  } = React.useContext(MessengerContext);
+      appData,
+    },
+  } = React.useContext(MessengerContext)
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     clearAndGetConversations({}, () => {
-      setLoading(false) 
+      setLoading(false)
     })
   }, [])
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     updateHeader({
       translateY: 0,
       opacity: 1,
@@ -53,7 +49,7 @@ export default function Conversations(){
       }
     }
   }
-  
+
   function sanitizeMessageSummary(message) {
     if (!message) {
       return
@@ -64,7 +60,6 @@ export default function Conversations(){
       ? `${sanitized.substring(0, 100)} ...`
       : sanitized
   }
-  
 
   return (
     <div
@@ -99,7 +94,7 @@ export default function Conversations(){
 
         <ConversationsFooter>
           <Hint>{appData.tagline}</Hint>
-          <NewConversationBlock/>
+          <NewConversationBlock />
         </ConversationsFooter>
       </div>
     </div>

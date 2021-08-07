@@ -6,10 +6,10 @@ import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js'
 import MultiDecorator from 'draft-js-multidecorators'
 
 import DanteEditor from 'Dante2/package/esm/editor/components/core/editor'
-import {DanteImagePopoverConfig} from 'Dante2/package/esm/editor/components/popovers/image.js'
-import {DanteAnchorPopoverConfig} from 'Dante2/package/esm/editor/components/popovers/link.js'
-import {DanteInlineTooltipConfig} from 'Dante2/package/esm/editor/components/popovers/addButton.js'
-import {DanteTooltipConfig} from 'Dante2/package/esm/editor/components/popovers/toolTip.js'
+import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js'
+import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js'
+import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js'
+import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip.js'
 
 import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed'
 import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video'
@@ -17,20 +17,20 @@ import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blo
 import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index'
 import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code'
 import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider'
-import {  LinkDecorator as Link, PrismDraftDecorator } from 'Dante2/package/esm/editor/components/decorators'
+import {
+  LinkDecorator as Link,
+  PrismDraftDecorator,
+} from 'Dante2/package/esm/editor/components/decorators'
 import findEntities from 'Dante2/package/esm/editor/utils/find_entities'
 import EditorContainer from 'Dante2/package/esm/editor/styled/base'
-
-
 
 import Prism from 'prismjs'
 import { ThemeProvider } from 'emotion-theming'
 import theme from './theme'
 import styled from '@emotion/styled'
 
-
 import CircularProgress from '@chaskiq/components/src/components/Progress'
-import {getFileMetadata} from '@chaskiq/components/src/components/fileUploader'
+import { getFileMetadata } from '@chaskiq/components/src/components/fileUploader'
 
 export const EditorStylesExtend = styled(EditorContainer)`
   @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
@@ -424,7 +424,7 @@ export default class ArticleEditor extends Component {
               </div>
             )
           } else {
-            <p />
+            ;<p />
           }
         }
 

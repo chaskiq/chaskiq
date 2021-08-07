@@ -3,8 +3,11 @@
 import React from 'react'
 import { EditorBlock, EditorState } from 'draft-js'
 import axios from 'axios'
-import { updateDataOfBlock, addNewBlockAt } from 'Dante2/package/esm/editor/model'
-import {image} from 'Dante2/package/esm/editor/components/icons'
+import {
+  updateDataOfBlock,
+  addNewBlockAt,
+} from 'Dante2/package/esm/editor/model'
+import { image } from 'Dante2/package/esm/editor/components/icons'
 
 export default class ImageBlock extends React.Component {
   constructor(props) {

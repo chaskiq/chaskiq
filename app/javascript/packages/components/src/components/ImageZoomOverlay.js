@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Button from './Button' 
-import {CloseIcon} from './icons' 
+import Button from './Button'
+import { CloseIcon } from './icons'
 import { connect } from 'react-redux'
 
 import styled from '@emotion/styled'

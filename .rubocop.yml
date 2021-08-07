@@ -25,6 +25,8 @@ Style/AsciiComments:
   Enabled: false
 Lint/MissingSuper:
   Enabled: false
+Rails/SkipsModelValidations:
+  Enabled: false
 Metrics/ModuleLength:
   Exclude:
     - app/services/message_apis/helpers.rb

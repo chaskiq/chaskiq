@@ -135,8 +135,9 @@
   },
   "scripts": {
     "format:js": "npx eslint --silent --fix ./app/javascript",
-    "format:ruby": "rubocop -a",
-    "format:all": "yarn format:js ; yarn format:ruby",
+    "format:ruby": "rubocop -A",
+    "format:prettier": "prettier --write './app/javascript/**/*.{js,ts,tsx,css,scss,json,yml}'",
+    "format:all": "yarn format:prettier ; yarn format:ruby",
     "rails-cy": "bundle exec rails server -e test -p 5002",
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run --headless --browser chrome",
@@ -148,7 +149,6 @@
     "build": "bundle exec rake assets:precompile",
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
     "dev": "yarn i18n:export && ./bin/webpack-dev-server",
-    "prepare": "husky install",
-    "prettify": "prettier --write './app/javascript/**/*.{js,ts,tsx,css,scss,json,yml}'"
+    "prepare": "husky install"
   }
 }

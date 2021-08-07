@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 
 export default class MessageItemWrapper extends Component {
   componentDidMount() {

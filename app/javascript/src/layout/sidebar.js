@@ -47,12 +47,11 @@ import Badge from '@chaskiq/components/src/components/Badge'
 
 import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
 
-import {getCurrentUser} from '@chaskiq/store/src/actions/current_user'
-import {toggleTheme} from '@chaskiq/store/src/actions/theme'
-import {signout} from '@chaskiq/store/src/actions/auth'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
+import { toggleTheme } from '@chaskiq/store/src/actions/theme'
+import { signout } from '@chaskiq/store/src/actions/auth'
 
 import SwitchControl from '@chaskiq/components/src/components/Switch'
-
 
 function mapStateToProps(state) {
   const {
@@ -334,16 +333,14 @@ function Sidebar({
     {
       id: 'Reports',
       label: 'Reports',
-      icon: <ChartsIcons/>,
+      icon: <ChartsIcons />,
       url: `/apps/${app.key}/reports`,
       children: [
         {
           id: 'ReportsMenu',
-          render: () => [
-            <SidebarReportMenu key={'reports-sidebar-menu'} />,
-          ],
-        }
-      ]
+          render: () => [<SidebarReportMenu key={'reports-sidebar-menu'} />],
+        },
+      ],
     },
     {
       id: 'Settings',
@@ -428,7 +425,7 @@ function Sidebar({
         },
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
-    }
+    },
   ]
 
   function renderInner() {
@@ -575,8 +572,7 @@ function Sidebar({
         <LangChooser open={langChooser} handleClose={setLangChooser} />
       )}
 
-      {
-        current_page &&
+      {current_page && (
         <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
           <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-yellow-400">
             <h3 className="font-semibold w-full text-gray-600 text-xs">
@@ -587,7 +583,10 @@ function Sidebar({
           {renderInner()}
 
           <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
-            <a href="#" className="flex-shrink-0 group block focus:outline-none">
+            <a
+              href="#"
+              className="flex-shrink-0 group block focus:outline-none"
+            >
               <div className="flex items-center">
                 <div>
                   <img
@@ -612,8 +611,7 @@ function Sidebar({
                       }
                       setEnabled={handleAwaymode}
                       enabled={current_user.available}
-                    >
-                    </SwitchControl>
+                    ></SwitchControl>
 
                     <FilterMenu
                       options={[
@@ -691,7 +689,7 @@ function Sidebar({
             </a>
           </div>
         </div>
-      }
+      )}
     </div>
   )
 }

@@ -1,13 +1,10 @@
-
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { ThemeProvider } from 'emotion-theming'
 import DanteContainer from './textEditor/editorStyles'
 import DraftRenderer from './textEditor/draftRenderer'
 import theme from './textEditor/theme'
 
-import {
-  MessageCloseBtn,
-} from './styles/styled'
+import { MessageCloseBtn } from './styles/styled'
 import Quest from './messageWindow'
 
 export default class MessageContainer extends Component {

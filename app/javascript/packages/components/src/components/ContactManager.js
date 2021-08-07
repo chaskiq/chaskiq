@@ -5,19 +5,17 @@ import FormDialog from './FormDialog'
 import Progress from './Progress'
 
 import { connect } from 'react-redux'
-import {
-  getFileMetadata,
-  directUpload,
-} from './fileUploader'
+import { getFileMetadata, directUpload } from './fileUploader'
 import serialize from 'form-serialize'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  successMessage,
-} from  '@chaskiq/store/src/actions/status_messages'
+import { successMessage } from '@chaskiq/store/src/actions/status_messages'
 
-import { CREATE_DIRECT_UPLOAD, IMPORT_CONTACTS } from '@chaskiq/store/src/graphql/mutations'
+import {
+  CREATE_DIRECT_UPLOAD,
+  IMPORT_CONTACTS,
+} from '@chaskiq/store/src/graphql/mutations'
 
 function optionsForFilter() {
   const options = [
@@ -209,8 +207,8 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
               {I18n.t('contact_manager.import_choose')}
             </p>
             <div className="mt-4">
-              <ContactTypeInput kind={'leads'}/>
-              <ContactTypeInput kind={'users'}/>
+              <ContactTypeInput kind={'leads'} />
+              <ContactTypeInput kind={'users'} />
               <FileUpload
                 onChange={(file) => uploadHandler(file, 'csv')}
                 loading={loading}
@@ -223,7 +221,7 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
   )
 }
 
-function ContactTypeInput({kind}){
+function ContactTypeInput({ kind }) {
   return (
     <div className="mt-4 flex items-center">
       <input

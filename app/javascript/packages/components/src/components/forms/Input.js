@@ -99,7 +99,7 @@ const WrappedComponent = React.forwardRef(function Input(
   }
 
   function renderText() {
-    const {className, labelMargin, ...options} = props
+    const { className, labelMargin, ...options } = props
     return (
       <FormField
         name={name}
@@ -195,10 +195,9 @@ const WrappedComponent = React.forwardRef(function Input(
     return (
       <FormField name={name} error={error} label={null} helperText={helperText}>
         <div className="flex flex-col items-center">
-          {
-            !props.hideImage &&
+          {!props.hideImage && (
             <img className="pb-2" src={defaultValue} alt={label || name} />
-          }
+          )}
 
           <input
             accept={props.accept || 'image/*'}
@@ -219,7 +218,7 @@ const WrappedComponent = React.forwardRef(function Input(
                 ref.current && ref.current.click()
               }}
             >
-              {I18n.t("common.upload_field", {field: label})}
+              {I18n.t('common.upload_field', { field: label })}
             </Button>
           </label>
         </div>
@@ -342,7 +341,7 @@ const WrappedComponent = React.forwardRef(function Input(
           colorHandler={props.onChange}
           // label={'Primary color'}
           error={error}
-        />      
+        />
       </FormField>
     )
   }

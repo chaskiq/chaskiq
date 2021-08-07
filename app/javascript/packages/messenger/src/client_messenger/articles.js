@@ -52,12 +52,10 @@ const Article = () => {
   const [loading, _setLoading] = useState(false)
 
   const {
-    value: {
-      i18n
-    }
-  } = React.useContext(MessengerContext);
+    value: { i18n },
+  } = React.useContext(MessengerContext)
 
-  const {t} = i18n
+  const { t } = i18n
 
   function renderDate() {
     return <Moment format="MMM Do, YYYY">{article.updatedAt}</Moment>
@@ -73,9 +71,7 @@ const Article = () => {
           )}
           <ArticleTitle>{article.title}</ArticleTitle>
           <ArticleMeta>
-            {
-              t('messenger.article_meta', { name: article.author.name })
-            }
+            {t('messenger.article_meta', { name: article.author.name })}
             {/*<Trans
               i18nKey="article_meta"
               i18n={i18n}

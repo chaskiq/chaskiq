@@ -9,7 +9,7 @@ import BotEditor from './bots/editor'
 
 import SettingsForm from './bots/settings'
 
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import Badge from '@chaskiq/components/src/components/Badge'
 import EmptyView from '@chaskiq/components/src/components/EmptyView'
@@ -21,17 +21,22 @@ import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import Content from '@chaskiq/components/src/components/Content'
 import Table from '@chaskiq/components/src/components/Table'
 
-
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
 import { BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
-import { CREATE_BOT_TASK, DELETE_BOT_TASK, REORDER_BOT_TASK } from '@chaskiq/store/src/graphql/mutations'
+import {
+  CREATE_BOT_TASK,
+  DELETE_BOT_TASK,
+  REORDER_BOT_TASK,
+} from '@chaskiq/store/src/graphql/mutations'
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [loading, _setLoading] = useState(false)
@@ -82,14 +87,10 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       },
       {
         success: (_res) => {
-          dispatch(successMessage(
-            I18n.t("status_messages.reordered_success")
-          ))
+          dispatch(successMessage(I18n.t('status_messages.reordered_success')))
         },
         error: (_res) => {
-          dispatch(errorMessage(
-            I18n.t("status_messages.reordered_error")
-          ))
+          dispatch(errorMessage(I18n.t('status_messages.reordered_error')))
         },
       }
     )

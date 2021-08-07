@@ -20,8 +20,8 @@ module MessageApis::Dialogflow
     def initialize(config:)
       credentials = JSON.parse(config["credentials"])
       @project_id = config["project_id"]
-      @conn = Google::Cloud::Dialogflow.sessions do |config|
-        config.credentials = credentials
+      @conn = Google::Cloud::Dialogflow.sessions do |c|
+        c.credentials = credentials
       end
     end
 
@@ -36,8 +36,7 @@ module MessageApis::Dialogflow
       subject = event.eventable
       action = event.action
       case action
-      when "conversations.added" then notify_added(subject)
-      when "conversation.user.first.comment" then notify_added(subject)
+      when "conversations.added", "conversation.user.first.comment" then notify_added(subject)
       end
     end
 
@@ -126,10 +125,10 @@ module MessageApis::Dialogflow
 
       query_result = response.query_result
 
-      puts "Query text:        #{query_result.query_text}"
-      puts "Intent detected:   #{query_result.intent.display_name}"
-      puts "Intent confidence: #{query_result.intent_detection_confidence}"
-      puts "Fulfillment text:  #{query_result.fulfillment_text}"
+      Rails.logger.info("Query text:        #{query_result.query_text}")
+      Rails.logger.info("Intent detected:   #{query_result.intent.display_name}")
+      Rails.logger.info("Intent confidence: #{query_result.intent_detection_confidence}")
+      Rails.logger.info("Fulfillment text:  #{query_result.fulfillment_text}")
 
       query_result.fulfillment_text
     end

@@ -11,18 +11,11 @@ import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  parseJwt,
-  generateJWT
-} from '@chaskiq/store/src/jwt'
+import { parseJwt, generateJWT } from '@chaskiq/store/src/jwt'
 
-import {
-  toggleDrawer
-} from '@chaskiq/store/src/actions/drawer'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
 
-import {
-  getAppUser
-} from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
 
 import { PREDICATES_SEARCH } from '@chaskiq/store/src/graphql/mutations'
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
@@ -53,39 +46,41 @@ function InboundSettings({ settings, update, dispatch }) {
   }
 
   return (
-  <div className="flex flex-col">
-    <div className="inline-flex mt-4">
-      <ButtonTabSwitch 
-        options={options} 
-        option={option} 
-        handleClick={handleClick} 
-      />
+    <div className="flex flex-col">
+      <div className="inline-flex mt-4">
+        <ButtonTabSwitch
+          options={options}
+          option={option}
+          handleClick={handleClick}
+        />
+      </div>
+
+      <ErrorBoundary variant="very-wrong">
+        <InboundSettingsForm
+          option={option}
+          settings={settings}
+          update={update}
+          dispatch={dispatch}
+        />
+      </ErrorBoundary>
     </div>
-
-    <ErrorBoundary variant="very-wrong">
-      <InboundSettingsForm
-        option={option}
-        settings={settings}
-        update={update}
-        dispatch={dispatch}
-      />
-    </ErrorBoundary>
-
-  </div>
   )
-
 }
 
-function RepliesClosedConversationsControls({kind, option, handleChangeNumber, state}){
+function RepliesClosedConversationsControls({
+  kind,
+  option,
+  handleChangeNumber,
+  state,
+}) {
   const afterKind = `${kind}_after`
   const enabledKind = `${kind}_enabled`
 
   const enabledValue = state[enabledKind]
   return (
-
     <div>
       <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
-        {I18n.t('settings.inbound.closed_replies_title', {name: option.name})}
+        {I18n.t('settings.inbound.closed_replies_title', { name: option.name })}
       </p>
 
       <div className="flex items-center space-x-1 h-24 py-3">
@@ -94,48 +89,37 @@ function RepliesClosedConversationsControls({kind, option, handleChangeNumber, s
           checked={enabledValue}
           defaultValue={enabledValue}
           onChange={(e) => {
-              handleChangeNumber(
-                enabledKind, 
-                e.currentTarget.checked
-              )
-            }
-          }
+            handleChangeNumber(enabledKind, e.currentTarget.checked)
+          }}
           value={enabledValue}
           color="primary"
           label={
-            !enabledValue ?
-            I18n.t('settings.inbound.closed_replies_enabled') :
-            I18n.t('settings.inbound.closed_replies_disabled')
+            !enabledValue
+              ? I18n.t('settings.inbound.closed_replies_enabled')
+              : I18n.t('settings.inbound.closed_replies_disabled')
           }
         />
 
-        { 
-          enabledValue && 
+        {enabledValue && (
           <div className="w-[10em]">
             <Input
               type="number"
               onChange={(e) => {
                 const num = parseInt(e.currentTarget.value)
-                if(num < 0) return
-                handleChangeNumber(
-                  afterKind, num
-                  )
-                }
-              }
+                if (num < 0) return
+                handleChangeNumber(afterKind, num)
+              }}
               value={state[afterKind]}
               className="flex flex-row-reverse space-x-2"
               labelMargin={'mx-3 py-2'}
               color="primary"
-              label={
-                I18n.t('common.days')
-              }
-              />          
+              label={I18n.t('common.days')}
+            />
           </div>
-        }
+        )}
       </div>
     </div>
   )
-
 }
 
 function InboundSettingsForm({ settings, update, dispatch, option }) {
@@ -146,15 +130,19 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
     users_radio: settings.inboundSettings.users.segment,
     users_enabled: settings.inboundSettings.users.enabled,
     users_predicates: settings.inboundSettings.users.predicates,
-    users_close_conversations_enabled: settings.inboundSettings.users.close_conversations_enabled,
-    users_close_conversations_after: settings.inboundSettings.users.close_conversations_after || 0,
+    users_close_conversations_enabled:
+      settings.inboundSettings.users.close_conversations_enabled,
+    users_close_conversations_after:
+      settings.inboundSettings.users.close_conversations_after || 0,
 
     visitors_enable_inbound: settings.inboundSettings.enabled,
     visitors_radio: settings.inboundSettings.visitors.segment,
     visitors_enabled: settings.inboundSettings.visitors.enabled,
     visitors_predicates: settings.inboundSettings.visitors.predicates,
-    visitors_close_conversations_enabled: settings.inboundSettings.visitors.close_conversations_enabled,
-    visitors_close_conversations_after: settings.inboundSettings.visitors.close_conversations_after || 0
+    visitors_close_conversations_enabled:
+      settings.inboundSettings.visitors.close_conversations_enabled,
+    visitors_close_conversations_after:
+      settings.inboundSettings.visitors.close_conversations_after || 0,
   })
 
   const handleChange = (name, event) => {
@@ -183,7 +171,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
       visitors_close_conversations_after,
       visitors_close_conversations_enabled,
       users_close_conversations_after,
-      users_close_conversations_enabled
+      users_close_conversations_enabled,
     } = state
 
     const data = {
@@ -196,7 +184,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
             segment: users_radio,
             predicates: users_predicates,
             close_conversations_enabled: users_close_conversations_enabled,
-            close_conversations_after: users_close_conversations_after
+            close_conversations_after: users_close_conversations_after,
           },
           visitors: {
             visitors_enable_inbound: visitors_enable_inbound,
@@ -204,7 +192,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
             segment: visitors_radio,
             predicates: visitors_predicates,
             close_conversations_enabled: visitors_close_conversations_enabled,
-            close_conversations_after: visitors_close_conversations_after
+            close_conversations_after: visitors_close_conversations_after,
           },
         },
       },
@@ -245,7 +233,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         </p>
       </div>
 
-      <RepliesClosedConversationsControls 
+      <RepliesClosedConversationsControls
         state={state}
         option={option}
         kind={`${option.namespace}_close_conversations`}
@@ -292,7 +280,6 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
           {I18n.t('common.save')}
         </Button>
       </div>
-
     </div>
   )
 }
