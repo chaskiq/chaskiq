@@ -212,6 +212,7 @@ export const CONVERSATIONS = `
           readAt
           priority
           tagList
+          subject
           conversationChannels
           assignee {
             displayName
