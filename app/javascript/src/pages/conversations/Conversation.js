@@ -496,7 +496,10 @@ function Conversation({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
-      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700">
+      <div
+        className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
+        style={{ height: '63px' }}
+      >
         <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}
@@ -514,15 +517,24 @@ function Conversation({
               alt=""
             />
           )}
-          <h3 className="mb-1 text-xs text-grey-darkest hidden md:block">
-            {I18n.t('conversation.with')} <br />
-            <span
-              className="font-extrabold hover:text-underline"
-              onClick={toggleFixedSidebar}
-              // onClick={handleUserSidebar}
-            >
-              {conversation.mainParticipant &&
-                conversation.mainParticipant.displayName}
+          <h3
+            className="mb-1 text-grey-darkest hidden md:flex 
+            flex-col justify-center items-start"
+          >
+            {conversation.subject && (
+              <span className="font-bold text-sm">{conversation.subject}</span>
+            )}
+
+            <span className="flex space-x-1 text-xs">
+              <span>{I18n.t('conversation.with')}</span>
+              <span
+                className="font-extrabold hover:text-underline"
+                onClick={toggleFixedSidebar}
+                // onClick={handleUserSidebar}
+              >
+                {conversation.mainParticipant &&
+                  conversation.mainParticipant.displayName}
+              </span>
             </span>
           </h3>
         </div>
@@ -943,14 +955,18 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
         className={`
         w-full
         bg-white
+        dark:bg-black
+        dark:text-white
+        dark:border-gray-900
         opacity-75
         border
         border-gray-400
+        text-gray-600
         shadow-lg
         flex 
         overflow-hidden p-2 
         rounded-md mx-auto
-        text-gray-600`}
+        `}
       >
         <div className="w-full flex flex-col justify-between">{output}</div>
       </div>

@@ -175,7 +175,8 @@ class App < ApplicationRecord
     conversation = conversations.create(
       main_participant: participant,
       initiator: user,
-      assignee: options[:assignee]
+      assignee: options[:assignee],
+      subject: options[:subject]
     )
 
     if message.present?
