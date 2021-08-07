@@ -496,8 +496,10 @@ function Conversation({
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
-      <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
-        style={{height: '63px'}}>
+      <div
+        className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
+        style={{ height: '63px' }}
+      >
         <div className="flex items-center">
           <Link
             to={`/apps/${app.key}/conversations`}
@@ -515,15 +517,13 @@ function Conversation({
               alt=""
             />
           )}
-          <h3 className="mb-1 text-grey-darkest hidden md:flex 
-            flex-col justify-center items-start">
-
-            {
-              conversation.subject && 
-              <span className="font-bold text-sm">
-                {conversation.subject}
-              </span>
-            }
+          <h3
+            className="mb-1 text-grey-darkest hidden md:flex 
+            flex-col justify-center items-start"
+          >
+            {conversation.subject && (
+              <span className="font-bold text-sm">{conversation.subject}</span>
+            )}
 
             <span className="flex space-x-1 text-xs">
               <span>{I18n.t('conversation.with')}</span>
@@ -533,9 +533,8 @@ function Conversation({
                 // onClick={handleUserSidebar}
               >
                 {conversation.mainParticipant &&
-                  conversation.mainParticipant.displayName
-                }
-              </span>            
+                  conversation.mainParticipant.displayName}
+              </span>
             </span>
           </h3>
         </div>
