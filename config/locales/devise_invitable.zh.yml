@@ -28,4 +28,4 @@ zh-CN:
       devise:
         mailer:
           invitation_instructions:
-            accept_until_format: "%Y年%m月%d日"
+            accept_until_format: "%B %d, %Y %I:%M %p"

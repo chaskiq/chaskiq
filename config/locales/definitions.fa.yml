@@ -178,10 +178,10 @@ fa:
   data_tables:
     agents:
       email: Email
-      name:	Name
+      name: Name
       owner: Owner
       access_list: Access List
-      actions:	Actions
+      actions: Actions
       sign_in_count: Sign in count
       last_sign_in_at: Last sign in at
       invitation_accepted_at: Invitation accepted at

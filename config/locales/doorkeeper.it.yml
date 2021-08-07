@@ -22,10 +22,10 @@ it:
       confirmations:
         destroy: 'Are you sure?'
       buttons:
-        edit: 'Edit'
+        edit: 'Modifica'
         destroy: 'Destroy'
-        submit: 'Submit'
-        cancel: 'Cancel'
+        submit: 'Invia'
+        cancel: 'Annulla'
         authorize: 'Authorize'
       form:
         error: 'Whoops! Check your form for possible errors'
@@ -42,7 +42,7 @@ it:
         name: 'Name'
         callback_url: 'Callback URL'
         confidential: 'Confidential?'
-        actions: 'Actions'
+        actions: 'Azioni'
         confidentiality:
           'yes': 'Yes'
           'no': 'No'
@@ -55,7 +55,7 @@ it:
         scopes: 'Scopes'
         confidential: 'Confidential'
         callback_urls: 'Callback URL''s'
-        actions: 'Actions'
+        actions: 'Azioni'
     authorizations:
       buttons:
         authorize: 'Authorize'

@@ -527,9 +527,9 @@ fa:
       updated_agent: Information updated successfully
       destroyed_agent: Agent deleted successfully
       destroy_agent_title: Delete Agent
-      destroy_agent: Delete
+      destroy_agent: حذف
       destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
-      update_agent: Update
+      update_agent: به‌روز رسانی
     webhooks:
       title: Webhooks
       create_success: Webhook created

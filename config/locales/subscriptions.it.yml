@@ -10,7 +10,7 @@ it:
         description: true
         upgrade_message: Enable contact segments and targeting
       Leads:
-        title: Leads
+        title: Potenziali Clienti
         description: true
         upgrade_message: Get external apps, many many apps
       AppUsers:
@@ -18,7 +18,7 @@ it:
         description: true
         upgrade_message: Get external apps, many many apps
       Conversations:
-        title: Conversations
+        title: Conversazioni
         description: true
         upgrade_message: Enable conversations
       BotTasks:
@@ -26,11 +26,11 @@ it:
         description: true
         upgrade_message: Add automated chatflows to your app
       Integrations:
-        title: Integrations
+        title: Integrazioni
         description: true
         upgrade_message: Get external apps, many many apps
       Campaigns:
-        title: Campaigns
+        title: Campagne
         active: false
         upgrade_message: Get outbound messages, newsletter and Tours!
       Tours:
@@ -50,7 +50,7 @@ it:
         description: true
         upgrade_message: Enable API access support through OAUTH
       Articles:
-        title: Articles
+        title: Articoli
         active: false
         upgrade_message: Enable Documentation & Help Center
       QuickReplies:

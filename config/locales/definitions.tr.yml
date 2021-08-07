@@ -93,20 +93,20 @@ tr:
       scheduled_to:
         label: Scheduled to
       state:
-        label: State
+        label: Durum
       description:
         label: Description
       actions:
-        label: Actions
+        label: İşlemler
     bot_tasks:
       state:
-        label: State
+        label: Durum
       name:
-        label: Name
+        label: İsim
       actions:
-        label: Actions
+        label: İşlemler
       title:
-        label: Title
+        label: Başlık
         placeholder: write task title
         hint: "Task name ie: welcoming users bot task"
     stats:
@@ -119,7 +119,7 @@ tr:
       from:
         label: From
       actions:
-        label: Actions
+        label: İşlemler
       when:
         label: When
       data:
@@ -178,10 +178,10 @@ tr:
   data_tables:
     agents:
       email: Email
-      name:	Name
+      name: İsim
       owner: Owner
       access_list: Access List
-      actions:	Actions
+      actions: İşlemler
       sign_in_count: Sign in count
       last_sign_in_at: Last sign in at
       invitation_accepted_at: Invitation accepted at
@@ -192,9 +192,9 @@ tr:
         site_description: Site Description
         action: Action
     users:
-      name: Name
+      name: İsim
       email: Email
-      state: State
+      state: Durum
       online: Online
       ip: Ip
       country: Country

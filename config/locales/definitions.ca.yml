@@ -178,10 +178,10 @@ ca:
   data_tables:
     agents:
       email: Email
-      name:	Name
+      name: Nom
       owner: Owner
       access_list: Access List
-      actions:	Actions
+      actions: Accions
       sign_in_count: Sign in count
       last_sign_in_at: Last sign in at
       invitation_accepted_at: Invitation accepted at
