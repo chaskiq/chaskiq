@@ -44,7 +44,9 @@ export default function GDPRView({ confirm, cancel, i18n, app }) {
         <ButtonWrapped>
           <Button onClick={confirm}>{i18n.t('messenger.gdpr_ok')}</Button>
 
-          <ButtonCancel onClick={cancel}>{i18n.t('messenger.gdpr_nok')}</ButtonCancel>
+          <ButtonCancel onClick={cancel}>
+            {i18n.t('messenger.gdpr_nok')}
+          </ButtonCancel>
         </ButtonWrapped>
 
         {/* <Link href="#">

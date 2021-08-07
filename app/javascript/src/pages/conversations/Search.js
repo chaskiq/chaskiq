@@ -7,9 +7,10 @@ import Button from '@chaskiq/components/src/components/Button'
 import SearchInput from '@chaskiq/components/src/components/SearchInput'
 
 import {
-  getConversations, updateConversationsData, clearConversations
+  getConversations,
+  updateConversationsData,
+  clearConversations,
 } from '@chaskiq/store/src/actions/conversations'
-
 
 function ConversationSearch({ _app, dispatch, conversations, asButton }) {
   const [open, setOpen] = React.useState(false)
@@ -53,14 +54,14 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
 
       {!asButton && (
         <div className="flex items-center justify-space w-full bg-gray-200 dark:bg-gray-900 rounded-md px-2 py-1- mx-2">
-          <SeachIcon size="small" onClick={()=>setOpen(true)} />
+          <SeachIcon size="small" onClick={() => setOpen(true)} />
           <input
             className="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1"
             defaultValue={conversations.term}
             onKeyDown={(e) => {
               handleEnter(e)
             }}
-            placeholder={I18n.t("common.search_conversations")}
+            placeholder={I18n.t('common.search_conversations')}
           />
         </div>
       )}
@@ -71,13 +72,13 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
         title={'eeie'}
         formComponent={
           <div>
-            <h3>{I18n.t("common.search_conversations")}</h3>
+            <h3>{I18n.t('common.search_conversations')}</h3>
             <SearchInput
               defaultValue={conversations.term}
               onSubmit={(term) => {
                 handleSubmit(term)
               }}
-              placeholder={ I18n.t("common.search_conversations") }
+              placeholder={I18n.t('common.search_conversations')}
             />
           </div>
         }

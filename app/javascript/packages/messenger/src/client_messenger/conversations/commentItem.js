@@ -15,7 +15,6 @@ import {
 } from '../styles/styled'
 
 export function CommentsItemComp({ displayConversation, message, o, i18n }) {
-
   const [display, setDisplay] = React.useState(false)
 
   function renderEventBlock(o) {

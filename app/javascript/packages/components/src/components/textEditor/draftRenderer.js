@@ -9,7 +9,7 @@ import { AttachmentIcon } from '../icons'
 
 import Prism from 'prismjs'
 // Prism.highlightAll();
-import {setImageZoom} from '@chaskiq/store/src/actions/imageZoom'
+import { setImageZoom } from '@chaskiq/store/src/actions/imageZoom'
 
 const handlePrismRenderer = (syntax, children) => {
   const code = children

@@ -1100,9 +1100,7 @@ export const NewConvoBtnContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${
-    ({styles})=> styles ? styles : '' 
-  }
+  ${({ styles }) => (styles ? styles : '')}
 `
 // ${(props) => FadeBottomAnimation(props)}
 

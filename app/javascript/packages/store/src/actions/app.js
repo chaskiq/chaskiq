@@ -56,12 +56,12 @@ export function updateApp(appParams, cb) {
           })
           dispatch(getApp(newObject))
           if (isEmpty(data.appsUpdate.errors)) {
-            dispatch(successMessage(I18n.t("status_messages.updated_success")))
+            dispatch(successMessage(I18n.t('status_messages.updated_success')))
           }
           cb && cb()
         },
         error: (error) => {
-          dispatch(errorMessage(I18n.t("status_messages.updated_error")))
+          dispatch(errorMessage(I18n.t('status_messages.updated_error')))
           console.log('ERRR Updating app', error)
           cb && cb()
         },

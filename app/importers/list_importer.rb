@@ -66,6 +66,6 @@ class ListImporter < ActiveImporter::Base
   private
 
   def send_notification(message)
-    puts message
+    Rails.logger.info message
   end
 end

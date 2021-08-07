@@ -11,12 +11,11 @@ import image from '../images/up-icon8.png'
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
-import {
-  clearApp
-} from '@chaskiq/store/src/actions/app'
+import { clearApp } from '@chaskiq/store/src/actions/app'
 
 import { CREATE_APP } from '@chaskiq/store/src/graphql/mutations'
 

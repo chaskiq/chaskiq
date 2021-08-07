@@ -1,16 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { 
-  addNewBlock, 
-  resetBlockWithType, 
-  getCurrentBlock 
+import {
+  addNewBlock,
+  resetBlockWithType,
+  getCurrentBlock,
 } from 'Dante2/package/esm/editor/model'
 
-import { 
-  getSelection, 
-  getRelativeParent, 
-  getSelectionRect 
+import {
+  getSelection,
+  getRelativeParent,
+  getSelectionRect,
 } from 'Dante2/package/esm/editor/utils/selection'
 
 import { InlinetooltipWrapper } from './tooltipMenuStyle'

@@ -15,7 +15,6 @@ import AssignmentRules from './conversations/AssignmentRules'
 import Conversation from './conversations/Conversation'
 import ConversationSidebar from './conversations/Sidebar'
 
-
 import emptyImage from '../images/empty-icon8.png'
 import I18n from '../shared/FakeI18n'
 
@@ -26,7 +25,8 @@ import {
 } from '@chaskiq/store/src/actions/conversations'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
 function Conversations({

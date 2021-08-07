@@ -7,9 +7,10 @@ import { FolderIcon, LabelIcon } from '@chaskiq/components/src/components/icons'
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import {
-  getConversations, updateConversationsData, clearConversations
+  getConversations,
+  updateConversationsData,
+  clearConversations,
 } from '@chaskiq/store/src/actions/conversations'
-
 
 import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries'
 
@@ -203,11 +204,13 @@ function ListItem({ agent, count, label, filterHandler, icon, active }) {
         {!agent && (label || I18n.t('conversations.menu.unassigned'))}
       </span>
 
-      <span className="ml-auto inline-block py-0.5 px-3 text-xs 
+      <span
+        className="ml-auto inline-block py-0.5 px-3 text-xs 
         leading-4 rounded-full
          text-gray-600 bg-gray-200 group-hover:bg-gray-200 
          dark:text-gray-100 dark:bg-gray-800 dark:group-hover:bg-gray-800 
-         group-focus:bg-gray-300 transition ease-in-out duration-150">
+         group-focus:bg-gray-300 transition ease-in-out duration-150"
+      >
         {count}
       </span>
     </a>

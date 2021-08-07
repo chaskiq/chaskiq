@@ -6,14 +6,12 @@ import translation from './translation'
 import { ThemeProvider } from 'emotion-theming'
 import EditorContainer from 'Dante2/package/esm/editor/styled/base'
 
-
 import graphql from '@chaskiq/store/src/graphql/client'
-import {ARTICLE} from '@chaskiq/store/src/graphql/docsQueries'
-
+import { ARTICLE } from '@chaskiq/store/src/graphql/docsQueries'
 
 import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs'
 import Avatar from '@chaskiq/components/src/components/Avatar'
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer' 
+import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer'
 
 const NewEditorStyles = styled(EditorContainer)`
   font-size: 1.3em;

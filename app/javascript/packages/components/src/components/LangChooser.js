@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
- 
-import FormDialog from './FormDialog' 
-import Input from './forms/Input' 
+
+import FormDialog from './FormDialog'
+import Input from './forms/Input'
 import CircularProgress from './Progress'
 
 import graphql from '@chaskiq/store/src/graphql/client'

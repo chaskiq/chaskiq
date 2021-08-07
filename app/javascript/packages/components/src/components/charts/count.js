@@ -21,8 +21,7 @@ export default function Count({ data, label, appendLabel, subtitle }) {
         {data || 0} {appendLabel}
       </div>
 
-      {
-        subtitle && 
+      {subtitle && (
         <div
           className="mt-1 max-w-2xl text-sm leading-5 text-gray-500"
           color="textSecondary"
@@ -30,7 +29,7 @@ export default function Count({ data, label, appendLabel, subtitle }) {
         >
           {subtitle || moment().format('LL')}
         </div>
-      }
+      )}
       {/* <div>
         <Link color="primary" href="javascript:;">
           View Data

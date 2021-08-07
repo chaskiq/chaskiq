@@ -30,7 +30,7 @@ module.exports = {
   experimental: {},
   purge: {
     //enabled: true,
-    enabled: ["production", "staging"].includes(process.env.NODE_ENV),
+    enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
     content: [
       './app/**/*.html.erb',
       './app/**/*.erb',

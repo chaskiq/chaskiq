@@ -3,11 +3,9 @@ import { EditorBlock } from 'draft-js'
 import styled from '@emotion/styled'
 
 import ReactMediaRecorder from 'Dante2/package/esm/editor/components/blocks/videoRecorder/MediaRecorder'
-import {
-  videoRecorderIcon
-} from 'Dante2/package/esm/editor/components/icons'
+import { videoRecorderIcon } from 'Dante2/package/esm/editor/components/icons'
 
-import {updateDataOfBlock} from 'Dante2/package/esm/editor/model'
+import { updateDataOfBlock } from 'Dante2/package/esm/editor/model'
 
 import axios from 'axios'
 

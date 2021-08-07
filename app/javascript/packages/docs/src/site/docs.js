@@ -3,9 +3,12 @@ import React from 'react'
 import graphql from '@chaskiq/store/src/graphql/client'
 import { ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/docsQueries'
 
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu' 
-import Button from '@chaskiq/components/src/components/Button' 
-import { LangGlobeIcon, LaunchIcon } from '@chaskiq/components/src/components/icons' 
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import Button from '@chaskiq/components/src/components/Button'
+import {
+  LangGlobeIcon,
+  LaunchIcon,
+} from '@chaskiq/components/src/components/icons'
 import danteTheme from '@chaskiq/components/src/components/textEditor/theme'
 
 import Article from './article'
@@ -16,7 +19,6 @@ import CustomizedInputBase from './searchBar'
 import { Facebook, Twitter, LinkedIn } from './icons'
 import { Route, Switch, Link } from 'react-router-dom'
 import { Global, css } from '@emotion/core'
-
 
 const subdomain = window.location.host.split('.')[1]
   ? window.location.host.split('.')[0]

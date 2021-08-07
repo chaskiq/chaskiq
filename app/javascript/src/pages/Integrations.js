@@ -15,15 +15,18 @@ import Button from '@chaskiq/components/src/components/Button'
 import Badge from '@chaskiq/components/src/components/Badge'
 import FieldRenderer from '@chaskiq/components/src/components/forms/FieldRenderer'
 import Avatar from '@chaskiq/components/src/components/Avatar'
-import List, { 
-  ListItem, 
-  ListItemText, 
-  ItemListPrimaryContent, 
-  ItemListSecondaryContent, 
-  ItemAvatar
+import List, {
+  ListItem,
+  ListItemText,
+  ItemListPrimaryContent,
+  ItemListSecondaryContent,
+  ItemAvatar,
 } from '@chaskiq/components/src/components/List'
-import { EditIcon, AddIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
-
+import {
+  EditIcon,
+  AddIcon,
+  DeleteIcon,
+} from '@chaskiq/components/src/components/icons'
 
 import logos from '../shared/logos'
 
@@ -33,18 +36,17 @@ import serialize from 'form-serialize'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  camelizeKeys
-} from '@chaskiq/store/src/actions/conversation'
+import { camelizeKeys } from '@chaskiq/store/src/actions/conversation'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
-
 
 import {
   APP_PACKAGES,
@@ -174,7 +176,6 @@ function Integrations({ app, dispatch }) {
   }
 
   function updateIntegration(serializedData) {
-
     setBaseErrors(null)
 
     graphql(
@@ -201,13 +202,10 @@ function Integrations({ app, dispatch }) {
               successMessage(I18n.t('settings.integrations.update_success'))
             )
             return
-          } 
+          }
 
           setBaseErrors(data.integrationsUpdate.errors.base)
-          dispatch(
-            errorMessage(I18n.t('settings.integrations.update_error'))
-          )
-    
+          dispatch(errorMessage(I18n.t('settings.integrations.update_error')))
         },
         error: () => {
           dispatch(errorMessage(I18n.t('settings.integrations.update_error')))
@@ -331,12 +329,11 @@ function Integrations({ app, dispatch }) {
           formComponent={
             <form ref={form}>
               <div>
-                { 
-                  baseErrors && 
+                {baseErrors && (
                   <p className="p-2 border-red-600 bg-red-500 text-red-100 rounded-md my-2">
-                    {baseErrors.join(", ")}
+                    {baseErrors.join(', ')}
                   </p>
-                }
+                )}
                 {open.definitions.map((field) => {
                   return (
                     <div
@@ -917,7 +914,8 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         name: 'oauth_url',
         label: 'oauth url (Optional)',
         type: 'string',
-        hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
+        hint:
+          "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 

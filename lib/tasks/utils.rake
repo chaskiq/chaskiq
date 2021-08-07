@@ -72,9 +72,8 @@ namespace :upgrade_tasks do
             end
             step.merge!({ "controls" => step["controls"].merge!({ "schema" => new_controls }) })
             step
-          else
-            step
           end
+          step
         end
       end
 

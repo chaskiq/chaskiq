@@ -1,6 +1,5 @@
-
-import React, {Component} from 'react'
-import {toCamelCase} from '@chaskiq/components/src/utils/caseConverter'
+import React, { Component } from 'react'
+import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter'
 export default class AppBlockPackageFrame extends Component {
   componentDidMount() {}
 

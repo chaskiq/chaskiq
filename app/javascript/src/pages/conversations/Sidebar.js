@@ -9,9 +9,7 @@ import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBl
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
 import AppInserter from './AppInserter'
 
-import {
-  updateApp
-} from '@chaskiq/store/src/actions/app'
+import { updateApp } from '@chaskiq/store/src/actions/app'
 
 function localeDate(date) {
   return new Date(date).toLocaleString()

@@ -10,7 +10,6 @@ import theme from './textEditor/theme'
 import DraftRenderer from './textEditor/draftRenderer'
 import DanteContainer from './textEditor/editorStyles'
 import Loader from './loader'
-import MessengerContext from './context'
 
 const DanteContainerExtend = styled(DanteContainer)`
   margin-top: 1.2em;
@@ -46,18 +45,10 @@ const ArticleMeta = styled.span`
   margin-bottom: 1em;
 `
 
-const Article = () => {
+const Article = ({ i18n }) => {
   const domain = window.domain
   const [article, _setArticle] = useState(window.articleJson)
   const [loading, _setLoading] = useState(false)
-
-  const {
-    value: {
-      i18n
-    }
-  } = React.useContext(MessengerContext);
-
-  const {t} = i18n
 
   function renderDate() {
     return <Moment format="MMM Do, YYYY">{article.updatedAt}</Moment>
@@ -73,9 +64,9 @@ const Article = () => {
           )}
           <ArticleTitle>{article.title}</ArticleTitle>
           <ArticleMeta>
-            {
-              t('messenger.article_meta', { name: article.author.name })
-            }
+            <span
+              dangerouslySetInnerHTML={{ __html: window.article_meta }}
+            ></span>
             {/*<Trans
               i18nKey="article_meta"
               i18n={i18n}
@@ -103,7 +94,4 @@ const Article = () => {
   )
 }
 
-//const TranslatedArticle = withTranslation()(Article)
-const TranslatedArticle = Article
-
-export default TranslatedArticle
+export default Article

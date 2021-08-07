@@ -8,15 +8,13 @@ import theme from './textEditor/theme'
 import { ThemeProvider } from 'emotion-theming'
 
 const BannerWrapp = styled.div`
-
-  ${
-    ({font_options})=> (
-      font_options && font_options.family ? `
+  ${({ font_options }) =>
+    font_options && font_options.family
+      ? `
       @import url('https://fonts.googleapis.com/css2?family=${font_options.family}&display=swap');
       font-family: '${font_options.family}', sans-serif;
-      ` : ''
-    )
-  }
+      `
+      : ''}
 
   ${({ mode }) => (mode === 'inline' ? tw`inset-x-0` : '')}
 
@@ -37,7 +35,6 @@ const BannerWrapp = styled.div`
   }
 
   .content-wrapp {
-
     ${tw`flex items-center justify-between flex-wrap text-xs`}
   }
 
@@ -99,9 +96,8 @@ export default function Banner({
   url,
   onAction,
   onClose,
-  font_options
+  font_options,
 }) {
-
   const [height, setHeight] = React.useState('73px')
 
   const style = {
@@ -203,7 +199,7 @@ export function BannerRenderer({
   onAction,
   onClose,
   notifyHeight,
-  font_options
+  font_options,
 }) {
   let wrapper = React.useRef(null)
   const size = useWindowSize()
@@ -217,11 +213,12 @@ export function BannerRenderer({
   }, [size])
 
   return (
-    <BannerWrapp 
+    <BannerWrapp
       font_options={font_options}
-      placement={placement} 
-      bg_color={bg_color} 
-      mode={mode}>
+      placement={placement}
+      bg_color={bg_color}
+      mode={mode}
+    >
       <div className="w">
         <div className="color" ref={wrapper}>
           <div className="content-wrapp">
