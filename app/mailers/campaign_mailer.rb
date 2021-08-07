@@ -19,7 +19,9 @@ class CampaignMailer < ApplicationMailer
 
     @subscriber = subscriber
 
+    # rubocop:disable Rails/OutputSafety
     @body = campaign.compiled_template_for(subscriber).html_safe
+    # rubocop:enable Rails/OutputSafety
 
     mail(
       from: "#{campaign.from_name}<#{campaign.campaign_outgoing_email}>",
@@ -40,7 +42,9 @@ class CampaignMailer < ApplicationMailer
       email: "test@test.com"
     }
 
+    # rubocop:disable Rails/OutputSafety
     @body = campaign.compiled_template_for(@subscriber).html_safe
+    # rubocop:enable Rails/OutputSafety
 
     content_type = "text/html"
 

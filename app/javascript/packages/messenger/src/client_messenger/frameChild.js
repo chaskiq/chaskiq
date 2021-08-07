@@ -1,7 +1,6 @@
 import React from 'react'
 import RtcView from '@chaskiq/components/src/components/rtcView'
 
-
 const FrameChild = ({
   // window,
   document,

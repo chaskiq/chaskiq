@@ -120,8 +120,10 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-tree-shaking": "^1.9.2",
     "eslint-plugin-unused-imports": "^0.1.2",
+    "husky": "^7.0.0",
     "lerna": "^4.0.0",
     "minimist": "^1.2.5",
+    "pretty-quick": "^3.1.1",
     "rollup": "^2.50.5",
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-import-css": "^2.0.1",
@@ -132,9 +134,10 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "format:js": "npx eslint --fix ./app/javascript",
-    "format:ruby": "rubocop -a",
-    "format:all": "yarn format:js ; yarn format:ruby",
+    "format:js": "npx eslint --silent --fix ./app/javascript",
+    "format:ruby": "rubocop -A",
+    "format:prettier": "prettier --write './app/javascript/**/*.{js,ts,tsx,css,scss,json,yml}'",
+    "format:all": "yarn format:prettier ; yarn format:ruby",
     "rails-cy": "bundle exec rails server -e test -p 5002",
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run --headless --browser chrome",
@@ -145,6 +148,7 @@
     "build:allpackages": "yarn clean:packages && for dir in app/javascript/packages/*; do package=${dir#'packages/'}; rollup -c --scope @chaskiq/$package || exit 1; done",
     "build": "bundle exec rake assets:precompile",
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
-    "dev": "yarn i18n:export && ./bin/webpack-dev-server"
+    "dev": "yarn i18n:export && ./bin/webpack-dev-server",
+    "prepare": "husky install"
   }
 }

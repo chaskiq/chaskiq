@@ -11,8 +11,8 @@ import Button from './Button'
 import Count from './charts/count'
 import { isEmpty } from 'lodash'
 
-import {getAppUser} from '@chaskiq/store/src/actions/app_user'
-import {toggleDrawer} from '@chaskiq/store/src/actions/drawer'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
 
 const PieContainer = styled.div`
   padding: 0.75em;

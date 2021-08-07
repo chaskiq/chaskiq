@@ -9,7 +9,7 @@ import Button, { ButtonIndigo } from '../Button'
 
 // import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
-import defaultFields from  '../../utils/defaultFields'
+import defaultFields from '../../utils/defaultFields'
 
 import styled from '@emotion/styled'
 
@@ -141,12 +141,14 @@ export class SaveSegmentModal extends Component {
                       value={'update'}
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="ml-2" dangerouslySetInnerHTML={{
-                      __html: I18n.t('segment_manager.save_changes_to', {
-                        name: this.props.segment.name,
-                      })
-                    }}>
-                    </span>
+                    <span
+                      className="ml-2"
+                      dangerouslySetInnerHTML={{
+                        __html: I18n.t('segment_manager.save_changes_to', {
+                          name: this.props.segment.name,
+                        }),
+                      }}
+                    ></span>
                   </label>
 
                   <label className="inline-flex items-center">

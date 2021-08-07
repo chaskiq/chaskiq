@@ -33,7 +33,7 @@ const DanteStylesExtend = styled(DanteContainer)`
     overflow: auto;
   }
 `
-export function Conversation(props){
+export function Conversation(props) {
   let wait_for_input = React.useRef(null)
   const {
     value: {
@@ -57,22 +57,21 @@ export function Conversation(props){
       getPackage,
       visible,
       email,
-      isUserAutoMessage
-    }
-  } = React.useContext(MessengerContext);
+      isUserAutoMessage,
+    },
+  } = React.useContext(MessengerContext)
 
-  const {footerClassName} = props
+  const { footerClassName } = props
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     updateHeader({
       translateY: 0,
       opacity: 1,
       height: '0',
     })
-  },[])
+  }, [])
 
-
-    // TODO: skip on xhr progress
+  // TODO: skip on xhr progress
   function handleConversationScroll(e) {
     if (props.disablePagination) return
 
@@ -167,36 +166,32 @@ export function Conversation(props){
     )
   }
 
-  function isInboundRepliesClosed(){
+  function isInboundRepliesClosed() {
     const namespace = kind === 'AppUser' ? 'users' : 'visitors'
 
     const inboundSettings = appData.inboundSettings[namespace]
 
     // if this option is not enabled then replies are allowed
-    if(!inboundSettings.close_conversations_enabled)
-      return
+    if (!inboundSettings.close_conversations_enabled) return
 
     // if this is not a number asume closed
-    if( isNaN(inboundSettings.close_conversations_after) )
-      return true
+    if (isNaN(inboundSettings.close_conversations_after)) return true
 
     // if zero we asume closed
-    if( inboundSettings.close_conversations_after === 0) 
-      return true
+    if (inboundSettings.close_conversations_after === 0) return true
 
     const now = new Date()
     const closedAtDate = new Date(conversation.closedAt)
-    const diff = (now - new Date(closedAtDate)) / (1000 * 3600 * 24);
+    const diff = (now - new Date(closedAtDate)) / (1000 * 3600 * 24)
 
     // if diff is greather than setting assume closed
-    if( Math.round(diff) >= inboundSettings.close_conversations_after) 
+    if (Math.round(diff) >= inboundSettings.close_conversations_after)
       return true
   }
 
   function isInputEnabled() {
-
-    if(conversation.state === 'closed') {
-      if(isInboundRepliesClosed()) {
+    if (conversation.state === 'closed') {
+      if (isInboundRepliesClosed()) {
         return false
       }
     }
@@ -281,7 +276,7 @@ export function Conversation(props){
                 <img src={o.appUser.avatarUrl} />
                 <span>{o.appUser.name || '^'}</span>
               </UserAutoChatAvatar>
-            ) }
+            )}
 
             {/* render light theme on user or private note */}
 
@@ -369,19 +364,19 @@ export function Conversation(props){
   }
 
   function renderNewConversationButton() {
-    return <NewConversationBlock
-              styles={
-                ` bottom: -8px;
+    return (
+      <NewConversationBlock
+        styles={` bottom: -8px;
                   height: 93px;
                   background: #ffffff;
                   box-shadow: -2px 1px 9px 0px #a0a0a0;
-                `
-              }
-            >
-            <p style={{margin: '0 0 9px 0px'}}>
-              {i18n.t('messenger.closed_conversation')}
-            </p>
-          </NewConversationBlock>
+                `}
+      >
+        <p style={{ margin: '0 0 9px 0px' }}>
+          {i18n.t('messenger.closed_conversation')}
+        </p>
+      </NewConversationBlock>
+    )
   }
 
   function handleBeforeSubmit() {
@@ -394,7 +389,6 @@ export function Conversation(props){
       message.message.blocks &&
       message.message.blocks.type === 'wait_for_reply'
     ) {
-
       wait_for_input.current = message
     }
   }
@@ -415,9 +409,8 @@ export function Conversation(props){
     wait_for_input.current = null
   }
 
-  function footerReplyIndicator(){
-    if(conversation.state === "closed")
-      return renderNewConversationButton()
+  function footerReplyIndicator() {
+    if (conversation.state === 'closed') return renderNewConversationButton()
     return renderReplyAbove()
   }
 
@@ -480,12 +473,9 @@ export function Conversation(props){
         right: '0',
       }}
     >
-      {inline_conversation
-        ? renderInline()
-        : renderDefault()}
+      {inline_conversation ? renderInline() : renderDefault()}
     </div>
   )
-
 }
 
 export function InlineConversation({ conversation }) {

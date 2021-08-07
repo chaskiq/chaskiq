@@ -10,8 +10,8 @@ import {
 
 import Button from '@chaskiq/components/src/components/Button'
 import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm'
-import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
-import {QueueIcon, DeleteIcon} from '@chaskiq/components/src/components/icons'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
+import { QueueIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
 import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch'
 
 import graphql from '@chaskiq/store/src/graphql/client'
@@ -90,10 +90,10 @@ function AppInserter({ app, update }) {
   return (
     <div className="flex flex-col">
       <div className="inline-flex mt-4">
-        <ButtonTabSwitch 
-          options={options} 
-          option={option} 
-          handleClick={handleClick} 
+        <ButtonTabSwitch
+          options={options}
+          option={option}
+          handleClick={handleClick}
         />
       </div>
 
@@ -171,15 +171,15 @@ function HomeAppInserter({ app, update, option, capability }) {
       <div className="flex justify-around items-center">
         <div>
           <h2 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-            {I18n.t("settings.app_inserter.title")}
+            {I18n.t('settings.app_inserter.title')}
           </h2>
 
-          <p>{I18n.t("settings.app_inserter.subtitle")}</p>
+          <p>{I18n.t('settings.app_inserter.subtitle')}</p>
         </div>
 
         <div className="flex justify-end my-8">
           <Button variant={'success'} onClick={() => setIsOpen(true)}>
-            {I18n.t("settings.app_inserter.action")}
+            {I18n.t('settings.app_inserter.action')}
           </Button>
         </div>
       </div>

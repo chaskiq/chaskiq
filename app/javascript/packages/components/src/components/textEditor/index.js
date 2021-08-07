@@ -5,12 +5,11 @@ import { convertToHTML } from 'draft-convert'
 import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js'
 import MultiDecorator from 'draft-js-multidecorators'
 
-
 import DanteEditor from 'Dante2/package/esm/editor/components/core/editor'
-import {DanteImagePopoverConfig} from 'Dante2/package/esm/editor/components/popovers/image.js'
-import {DanteAnchorPopoverConfig} from 'Dante2/package/esm/editor/components/popovers/link.js'
-import {DanteInlineTooltipConfig} from 'Dante2/package/esm/editor/components/popovers/addButton.js'
-import {DanteTooltipConfig} from 'Dante2/package/esm/editor/components/popovers/toolTip.js'
+import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js'
+import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js'
+import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js'
+import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip.js'
 
 import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed'
 import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video'
@@ -18,7 +17,10 @@ import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blo
 import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index'
 import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code'
 import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider'
-import {  LinkDecorator as Link, PrismDraftDecorator } from 'Dante2/package/esm/editor/components/decorators'
+import {
+  LinkDecorator as Link,
+  PrismDraftDecorator,
+} from 'Dante2/package/esm/editor/components/decorators'
 import findEntities from 'Dante2/package/esm/editor/utils/find_entities'
 import EditorContainer from 'Dante2/package/esm/editor/styled/base'
 
@@ -40,16 +42,16 @@ import { GiphyBlockConfig } from './blocks/giphyBlock'
 import theme from './theme'
 import styled from '@emotion/styled'
 
-import {
-  getFileMetadata,
-  directUpload,
-} from '../fileUploader'
+import { getFileMetadata, directUpload } from '../fileUploader'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import CircularProgress from '../Progress'
 
-import { CREATE_URL_UPLOAD, CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
+import {
+  CREATE_URL_UPLOAD,
+  CREATE_DIRECT_UPLOAD,
+} from '@chaskiq/store/src/graphql/mutations'
 
 const EditorStylesExtend = styled(EditorContainer)`
   line-height: ${(props) => props.styles.lineHeight || '2em'};
@@ -296,8 +298,12 @@ class ArticleEditor extends Component {
       { url: url },
       {
         success: (data) => {
-          const { signedBlobId, headers, url, serviceUrl } =
-            data.createUrlUpload.directUpload
+          const {
+            signedBlobId,
+            headers,
+            url,
+            serviceUrl,
+          } = data.createUrlUpload.directUpload
           this.props.uploadHandler({
             signedBlobId,
             headers,
@@ -317,8 +323,12 @@ class ArticleEditor extends Component {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const { signedBlobId, headers, url, serviceUrl } =
-            data.createDirectUpload.directUpload
+          const {
+            signedBlobId,
+            headers,
+            url,
+            serviceUrl,
+          } = data.createDirectUpload.directUpload
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             this.props.uploadHandler({
@@ -370,7 +380,7 @@ class ArticleEditor extends Component {
       //ButtonBlockConfig()
     ]
 
-    if(!this.props.videoless){
+    if (!this.props.videoless) {
       widgets = widgets.concat([
         VideoBlockConfig({
           breakOnContinuous: true,
@@ -390,7 +400,7 @@ class ArticleEditor extends Component {
         }),
       ])
     }
-    
+
     if (this.props.appendWidgets)
       widgets = widgets.concat(this.props.appendWidgets)
 
@@ -691,12 +701,10 @@ class ArticleEditor extends Component {
         >
           {!this.props.loading ? (
             <DanteEditor
-              {... 
-                { 
-                  ...defaultProps, 
-                  body_placeholder: I18n.t('common.type_message') 
-                }
-              }
+              {...{
+                ...defaultProps,
+                body_placeholder: I18n.t('common.type_message'),
+              }}
               read_only={this.props.read_only}
               toggleEditable={this.props.toggleEditable}
               ref={forwardedRef}

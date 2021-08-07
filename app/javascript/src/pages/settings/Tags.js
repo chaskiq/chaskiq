@@ -12,10 +12,14 @@ import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent
+  ItemListSecondaryContent,
 } from '@chaskiq/components/src/components/List'
 import Input from '@chaskiq/components/src/components/forms/Input'
-import { DeleteIcon, PlusIcon, EditIcon } from '@chaskiq/components/src/components/icons'
+import {
+  DeleteIcon,
+  PlusIcon,
+  EditIcon,
+} from '@chaskiq/components/src/components/icons'
 
 function CustomizationColors({ app, update, _dispatch }) {
   const [fields, setFields] = useState(app.tagList || [])

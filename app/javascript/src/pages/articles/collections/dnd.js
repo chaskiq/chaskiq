@@ -3,8 +3,12 @@ import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import Button from '@chaskiq/components/src/components/Button'
-import {ListItem, ItemAvatar, ListItemText} from '@chaskiq/components/src/components/List' 
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import {
+  ListItem,
+  ItemAvatar,
+  ListItemText,
+} from '@chaskiq/components/src/components/List'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list)
@@ -147,13 +151,14 @@ class App extends Component {
                   </div>
 
                   <div item>
-                    {o.id !== "base" && 
+                    {o.id !== 'base' && (
                       <Button
                         variant={'outlined'}
-                        onClick={() => this.props.requestUpdate(o)}>
+                        onClick={() => this.props.requestUpdate(o)}
+                      >
                         {I18n.t('common.edit')}
                       </Button>
-                    }
+                    )}
                   </div>
                 </div>
 

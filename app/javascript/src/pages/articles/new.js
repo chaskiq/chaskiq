@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-
 import Avatar from '@chaskiq/components/src/components/Avatar'
 import Button from '@chaskiq/components/src/components/Button'
-import {DropdownButton} from '@chaskiq/components/src/components/Button'
+import { DropdownButton } from '@chaskiq/components/src/components/Button'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import Tabs from '@chaskiq/components/src/components/Tabs'
-import { 
-  GestureIcon, CheckCircle
+import {
+  GestureIcon,
+  CheckCircle,
 } from '@chaskiq/components/src/components/icons'
 
 import ArticleEditor from './editor'
@@ -22,12 +22,13 @@ import I18n from '../../shared/FakeI18n'
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import {
-  setCurrentPage, setCurrentSection,
+  setCurrentPage,
+  setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
 import {
   successMessage,
-  errorMessage
+  errorMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
@@ -39,7 +40,11 @@ import {
   ARTICLE_COLLECTION_CHANGE,
 } from '@chaskiq/store/src/graphql/mutations'
 
-import { ARTICLE, AGENTS, ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/queries'
+import {
+  ARTICLE,
+  AGENTS,
+  ARTICLE_COLLECTIONS,
+} from '@chaskiq/store/src/graphql/queries'
 class ArticlesNew extends Component {
   state = {
     currentContent: null,
@@ -564,8 +569,7 @@ class ArticlesNew extends Component {
                             {I18n.t('common.save')}
                           </Button>
 
-                          {
-                            this.state.article.id && 
+                          {this.state.article.id && (
                             <FilterMenu
                               options={this.options}
                               value={this.state.article.state}
@@ -573,7 +577,7 @@ class ArticlesNew extends Component {
                               triggerButton={this.toggleButton}
                               position={'right'}
                             />
-                          }
+                          )}
                         </React.Fragment>
                       )}
                     </div>

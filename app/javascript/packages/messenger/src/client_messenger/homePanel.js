@@ -5,7 +5,7 @@ import { AnchorButton, FadeRightAnimation, CountBadge } from './styles/styled'
 import { CommentsItemComp } from './conversations/commentItem'
 
 import Loader from './loader'
-import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
 
 import { MessengerContext } from './context'
 // import graphql from './graphql/client'
@@ -34,8 +34,8 @@ const HomePanel = () => {
       newMessages,
       getPackage,
       homeHeaderRef,
-    }
-  } = React.useContext(MessengerContext);
+    },
+  } = React.useContext(MessengerContext)
 
   const [conversationLoading, setConversationLoading] = useState(false)
 
@@ -106,7 +106,9 @@ const HomePanel = () => {
     if (sameDay)
       return (
         <Availability>
-          <p>{i18n.t('messenger.availability.aprox', { time: at.getHours() })}</p>
+          <p>
+            {i18n.t('messenger.availability.aprox', { time: at.getHours() })}
+          </p>
         </Availability>
       )
 
@@ -153,7 +155,9 @@ const HomePanel = () => {
   function replyTimeMessage() {
     return (
       appData.replyTime && (
-        <ReplyTime>{i18n.t(`messenger.reply_time.${appData.replyTime}`)}</ReplyTime>
+        <ReplyTime>
+          {i18n.t(`messenger.reply_time.${appData.replyTime}`)}
+        </ReplyTime>
       )
     )
   }

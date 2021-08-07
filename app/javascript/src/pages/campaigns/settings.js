@@ -6,12 +6,17 @@ import serialize from 'form-serialize'
 import I18n from '../../shared/FakeI18n'
 
 import Button from '@chaskiq/components/src/components/Button'
-import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer'
-import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
+import FieldRenderer, {
+  gridClasses,
+} from '@chaskiq/components/src/components/forms/FieldRenderer'
+import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import { UPDATE_CAMPAIGN, CREATE_CAMPAIGN } from '@chaskiq/store/src/graphql/mutations'
+import {
+  UPDATE_CAMPAIGN,
+  CREATE_CAMPAIGN,
+} from '@chaskiq/store/src/graphql/mutations'
 
 // import moment from 'moment-timezone';
 

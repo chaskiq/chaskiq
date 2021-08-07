@@ -49,7 +49,7 @@ module MessageApis::Csat
             {
               label: data_options.find { |d| d[:id] === o.val }[:text],
               name: o.val,
-              value: "#{o.freq.to_f / total.to_f * 100.0}%",
+              value: "#{o.freq.to_f / total * 100.0}%",
               value2: "#{o.freq} events"
             }
           end

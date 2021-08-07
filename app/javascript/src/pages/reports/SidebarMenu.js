@@ -6,7 +6,7 @@ import { APP_PACKAGES_DASHBOARD } from '@chaskiq/store/src/graphql/queries'
 import graphql from '@chaskiq/store/src/graphql/client'
 import moment from 'moment'
 
-function SidebarMenu({dispatch, app}){
+function SidebarMenu({ dispatch, app }) {
   const cc = `              
   bg-white hover:text-gray-600 hover:bg-gray-100 
   dark:hover:text-gray-100 dark:hover:bg-gray-700
@@ -23,30 +23,33 @@ function SidebarMenu({dispatch, app}){
     graphql(
       APP_PACKAGES_DASHBOARD,
       {
-        appKey: app.key
+        appKey: app.key,
       },
       {
         success: (data) => {
           setData(data.app.appPackagesDashboard)
         },
-        error: (_err) => {
-        },
+        error: (_err) => {},
       }
     )
   }
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     getData()
   }, [])
 
   return (
     <>
-      <Link className={cc} to={`/apps/${app.key}/reports/`}>overview</Link>
+      <Link className={cc} to={`/apps/${app.key}/reports/`}>
+        overview
+      </Link>
       {/*<Link className={cc} to={`/apps/${app.key}/reports/leads`}>leads</Link>*/}
-      {data.map((d,i)=>(
-        <Link key={`packages-sidebar-${i}`} 
-          className={cc} 
-          to={`/apps/${app.key}/reports/packages/${d.name}`}>
+      {data.map((d, i) => (
+        <Link
+          key={`packages-sidebar-${i}`}
+          className={cc}
+          to={`/apps/${app.key}/reports/packages/${d.name}`}
+        >
           {d.name}
         </Link>
       ))}

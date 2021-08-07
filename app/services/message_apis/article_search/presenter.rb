@@ -179,38 +179,32 @@ module MessageApis::ArticleSearch
       )
 
       template = ERB.new <<~SHEET_VIEW
-        										<html lang="en">
-        											<head>
-        												<meta charset="UTF-8">
-        												<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        												<meta http-equiv="X-UA-Compatible" content="ie=edge">
-        												<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800;900&display=swap" rel="stylesheet">
-        												<title>[Chaskiq Article]</title>
-        #{'          '}
-        												<style>
-        													body {
-        														font-family: 'Inter', sans-serif;
-        													}
-        												</style>
-        #{'          '}
-        												<script>
-        #{'          '}
-        													window.articleJson=<%= @json_article.to_json %>
-        													window.domain="<%= Rails.application.config.action_controller.asset_host %>";
-        					#{'              '}
-        												</script>
-        												<script src="<%= "#{ActionController::Base.helpers.asset_pack_url('article.js')}" %>"></script>
-        #{'          '}
-        											</head>
-        #{'          '}
-        											<body>
-        												<div class="container">
-        													<div id="main-page">
-        													</div>
-        												</div>
-        #{'          '}
-        											</body>
-        										</html>
+        <html lang="en">
+        	<head>
+        		<meta charset="UTF-8">
+        		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+        		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800;900&display=swap" rel="stylesheet">
+        		<title>[Chaskiq Article]</title>
+        		<style>
+        			body {
+        				font-family: 'Inter', sans-serif;
+        			}
+        		</style>
+        		<script>
+                        window.article_meta = "<%= I18n.t('messenger.article_meta', name: @article.author.name, date: I18n.l(@article.updated_at,:format => :short) ) %>"
+        			window.articleJson=<%= @json_article.to_json %>
+        			window.domain="<%= Rails.application.config.action_controller.asset_host %>";
+        		</script>
+        		<script src="<%= "#{ActionController::Base.helpers.asset_pack_url('article.js')}" %>"></script>
+        	</head>
+        	<body>
+        		<div class="container">
+        			<div id="main-page">
+        			</div>
+        		</div>
+        	</body>
+        </html>
       SHEET_VIEW
 
       template.result(binding)

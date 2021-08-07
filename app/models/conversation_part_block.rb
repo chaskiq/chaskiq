@@ -3,7 +3,7 @@
 class ConversationPartBlock < ApplicationRecord
   include Redis::Objects
 
-  has_one :conversation_part, as: :messageable
+  has_one :conversation_part, as: :messageable, dependent: :destroy_async
   value :trigger_locked, expireat: -> { Time.zone.now + 5.seconds }
 
   def create_fase(app)
@@ -35,8 +35,8 @@ class ConversationPartBlock < ApplicationRecord
     app
       .app_package_integrations
       .joins(:app_package)
-      .where("app_packages.name =?", package_class_name)
-      .first.message_api_klass
+      .find_by("app_packages.name =?", package_class_name)
+      .message_api_klass
   rescue StandardError
     nil
   end

@@ -82,21 +82,23 @@ import Stats from './components/stats'
 import InplaceInputEditor from './components/InplaceInputEditor'
 import Dropdown from './components/Dropdown'
 import Hints from './components/Hints'
-import {
-  LinkButton,
-  AnchorLink
-} from './components/RouterLink'
+import { LinkButton, AnchorLink } from './components/RouterLink'
 import JsonDebug from './components/jsonDebug'
-import {
-  getFileMetadata,
-  directUpload 
-} from './components/fileUploader'
+import { getFileMetadata, directUpload } from './components/fileUploader'
 
-import { toCamelCase, toSnakeCase, toKebabCase, toPascalCase } from './utils/caseConverter'
+import {
+  toCamelCase,
+  toSnakeCase,
+  toKebabCase,
+  toPascalCase,
+} from './utils/caseConverter'
 import defaultFields from './utils/defaultFields'
 export {
   defaultFields,
-  toCamelCase, toSnakeCase, toKebabCase, toPascalCase,
+  toCamelCase,
+  toSnakeCase,
+  toKebabCase,
+  toPascalCase,
   getFileMetadata,
   directUpload,
   JsonDebug,

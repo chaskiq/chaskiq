@@ -29,11 +29,11 @@ export default function Table({
     return <tbody className="bg-white dark:bg-gray-800">{children}</tbody>
   })
 
-  const DragHandle = sortableHandle(() => (
+  const DragHandle = sortableHandle(() =>
     renderDefaultRow(
       <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
     )
-  ))
+  )
 
   const renderDefaultRow = (value) => {
     return (
@@ -48,7 +48,7 @@ export default function Table({
       {sortable && <DragHandle></DragHandle>}
 
       {visibleColumns().map((object) => {
-        return  renderDefaultRow(
+        return renderDefaultRow(
           object.render ? object.render(item) : item[object.field]
         )
       })}

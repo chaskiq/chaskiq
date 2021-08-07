@@ -14,13 +14,12 @@ import UrlPattern from 'url-pattern'
 //import { withTranslation } from 'react-i18next'
 //import i18n from './i18n'
 
-import { I18n } from "i18n-js";
-import translations from "../../../../src/locales/messenger-translations.json";
-export const i18n = new I18n(translations);
+import { I18n } from 'i18n-js'
+import translations from '../../../../src/locales/messenger-translations.json'
+export const i18n = new I18n(translations)
 
 import FrameChild from './frameChild'
 import MessengerContext from './context.js'
-
 
 import {
   PING,
@@ -59,7 +58,6 @@ import {
 } from './styles/styled'
 
 import { CloseIcon, LeftIcon, MessageIcon } from './icons'
-import Quest from './messageWindow'
 import StyledFrame from './styledFrame'
 import FrameBridge from './frameBridge'
 
@@ -72,7 +70,7 @@ import { Conversation } from './conversations/conversation.js'
 import Conversations from './conversations/conversations'
 
 //import RtcView from '@chaskiq/components/src/components/rtcView'
-import {toCamelCase} from '@chaskiq/components/src/utils/caseConverter'
+import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter'
 
 import MessageFrame from './messageFrame'
 
@@ -81,7 +79,6 @@ import RtcViewWrapper from './rtcView'
 let App = {}
 
 class Messenger extends Component {
-
   constructor(props) {
     super(props)
 
@@ -452,7 +449,7 @@ class Messenger extends Component {
   handleConversationState = (data) => {
     if (this.state.conversation.key === data.key) {
       this.setState({
-        conversation: Object.assign({}, this.state.conversation, data)
+        conversation: Object.assign({}, this.state.conversation, data),
       })
     }
   }
@@ -1134,7 +1131,9 @@ class Messenger extends Component {
               <p>{assignee.name}</p>
               {this.state.appData && this.state.appData.replyTime && (
                 <AssigneeStatus>
-                  {i18n.t(`messenger.reply_time.${this.state.appData.replyTime}`)}
+                  {i18n.t(
+                    `messenger.reply_time.${this.state.appData.replyTime}`
+                  )}
                 </AssigneeStatus>
               )}
             </AssigneeStatusWrapper>
@@ -1266,10 +1265,9 @@ class Messenger extends Component {
           isMessengerActive: this.isMessengerActive(),
         }}
       >
-
-        <MessengerContext value={
-          {
-            i18n: i18n, 
+        <MessengerContext
+          value={{
+            i18n: i18n,
             ...this.props,
             homeHeaderRef: this.homeHeaderRef,
             newMessages: this.state.new_messages,
@@ -1312,14 +1310,13 @@ class Messenger extends Component {
             enc_data: this.props.encData,
             appBlock: this.state.currentAppBlock,
 
-
             // disablePagination: true,
             inline_conversation: this.state.inline_conversation,
             // conversation_messages: this.state.conversation_messages,
             // conversation_messagesMeta: this.state.conversation_messagesMeta,
             setInlineOverflow: this.setInlineOverflow,
-          }
-        }>
+          }}
+        >
           <EditorWrapper>
             {this.state.availableMessages.length > 0 &&
               this.isMessengerActive() && (
@@ -1332,196 +1329,195 @@ class Messenger extends Component {
                 />
               )}
 
-            {
-              this.state.open && this.isMessengerActive() && (
-                <Container
-                  data-chaskiq-container="true"
-                  open={this.state.open}
-                  isMobile={this.state.isMobile}
-                >
-                  <SuperDuper>
-                    <StyledFrame
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        border: 'none',
-                      }}
+            {this.state.open && this.isMessengerActive() && (
+              <Container
+                data-chaskiq-container="true"
+                open={this.state.open}
+                isMobile={this.state.isMobile}
+              >
+                <SuperDuper>
+                  <StyledFrame
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                    }}
+                  >
+                    <FrameBridge
+                      handleAppPackageEvent={this.handleAppPackageEvent}
                     >
-                      <FrameBridge
-                        handleAppPackageEvent={this.handleAppPackageEvent}
-                      >
-                        {this.state.display_mode === 'conversation' ? (
-                          <FrameChild
-                            state={this.state}
-                            props={this.props}
-                            events={App.events}
-                            updateRtc={(data) => this.setState({ rtc: data })}
-                            toggleAudio={this.toggleAudio}
-                            toggleVideo={this.toggleVideo}
-                            setVideoSession={this.setVideoSession.bind(this)}
-                          />
-                        ) : (
-                          <div></div>
-                        )}
+                      {this.state.display_mode === 'conversation' ? (
+                        <FrameChild
+                          state={this.state}
+                          props={this.props}
+                          events={App.events}
+                          updateRtc={(data) => this.setState({ rtc: data })}
+                          toggleAudio={this.toggleAudio}
+                          toggleVideo={this.toggleVideo}
+                          setVideoSession={this.setVideoSession.bind(this)}
+                        />
+                      ) : (
+                        <div></div>
+                      )}
 
-                        <SuperFragment>
-                          {this.state.isMobile ? (
-                            <CloseButtonWrapper>
-                              <button onClick={() => this.toggleMessenger()}>
-                                <CloseIcon
-                                  palette={palette}
-                                  style={{
-                                    height: '16px',
-                                    width: '16px',
-                                  }}
-                                />
-                              </button>
-                            </CloseButtonWrapper>
-                          ) : null}
-
-                          <Header
-                            style={{
-                              height: this.state.header.height,
-                            }}
-                            isMobile={this.state.isMobile}
-                          >
-                            <HeaderOption in={this.state.transition}>
-                              {this.state.display_mode != 'home' &&
-                                this.state.new_messages > 0 && (
-                                  <CountBadge section={this.state.display_mode}>
-                                    {this.state.new_messages}
-                                  </CountBadge>
-                                )}
-
-                              {this.state.display_mode != 'home' ? (
-                                <LeftIcon
-                                  className="fade-in-right"
-                                  onClick={this.displayHome.bind(this)}
-                                  palette={palette}
-                                  /// onClick={this.displayConversationList.bind(this)}
-                                  style={{
-                                    margin: '20px',
-                                    cursor: 'pointer',
-                                  }}
-                                />
-                              ) : null}
-
-                              {this.state.display_mode === 'conversation' && (
-                                <HeaderTitle in={this.state.transition}>
-                                  {this.renderAsignee()}
-                                </HeaderTitle>
-                              )}
-
-                              {this.state.display_mode === 'home' && (
-                                <HeaderTitle
-                                  ref={this.homeHeaderRef}
-                                  style={{
-                                    padding: '2em',
-                                    opacity: this.state.header.opacity,
-                                    transform: `translateY(${this.state.header.translateY}px)`,
-                                  }}
-                                >
-                                  {this.state.appData.logo && (
-                                    <img
-                                      style={{
-                                        height: 50,
-                                        width: 50,
-                                      }}
-                                      src={this.state.appData.logo}
-                                    />
-                                  )}
-                                  <h2 className={'title'}>
-                                    {this.state.appData.greetings}
-                                  </h2>
-                                  <p className={'tagline'}>
-                                    {this.state.appData.intro}
-                                  </p>
-                                </HeaderTitle>
-                              )}
-
-                              {this.state.display_mode === 'conversations' && (
-                                <HeaderTitle in={this.state.transition}>
-                                  {i18n.t('messenger.conversations.title')}
-                                </HeaderTitle>
-                              )}
-
-                              {/* this.props.app_id */}
-                            </HeaderOption>
-                          </Header>
-                          <Body>
-                            {this.state.display_mode === 'home' && (
-                              <React.Fragment>
-                                <Home />
-                                <FooterAck>
-                                  <a href="https://chaskiq.io" target="blank">
-                                    <img
-                                      src={`${this.props.domain}/logo-gray.png`}
-                                    />
-                                    {i18n.t('messenger.runon')}
-                                  </a>
-                                </FooterAck>
-                              </React.Fragment>
-                            )}
-
-                            {this.state.display_mode === 'article' && (
-                              <Article
-                                //graphqlClient={this.graphqlClient}
-                                //updateHeader={this.updateHeader}
-                                //transition={this.state.transition}
-                                articleSlug={this.state.article.slug}
-                                //transition={this.state.transition}
-                                //appData={this.state.appData}
-                                //i18n={this.props.i18n}
-                                //domain={this.props.domain}
-                                //lang={this.props.lang}
+                      <SuperFragment>
+                        {this.state.isMobile ? (
+                          <CloseButtonWrapper>
+                            <button onClick={() => this.toggleMessenger()}>
+                              <CloseIcon
+                                palette={palette}
+                                style={{
+                                  height: '16px',
+                                  width: '16px',
+                                }}
                               />
-                            )}
+                            </button>
+                          </CloseButtonWrapper>
+                        ) : null}
 
-                            {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
-                              <GDPRView
-                                app={this.state.appData}
-                                i18n={i18n}
-                                confirm={(_e) => this.updateGdprConsent(true)}
-                                cancel={(_e) => this.updateGdprConsent(false)}
+                        <Header
+                          style={{
+                            height: this.state.header.height,
+                          }}
+                          isMobile={this.state.isMobile}
+                        >
+                          <HeaderOption in={this.state.transition}>
+                            {this.state.display_mode != 'home' &&
+                              this.state.new_messages > 0 && (
+                                <CountBadge section={this.state.display_mode}>
+                                  {this.state.new_messages}
+                                </CountBadge>
+                              )}
+
+                            {this.state.display_mode != 'home' ? (
+                              <LeftIcon
+                                className="fade-in-right"
+                                onClick={this.displayHome.bind(this)}
+                                palette={palette}
+                                /// onClick={this.displayConversationList.bind(this)}
+                                style={{
+                                  margin: '20px',
+                                  cursor: 'pointer',
+                                }}
                               />
-                            )}
+                            ) : null}
 
                             {this.state.display_mode === 'conversation' && (
-                              <Conversation/>
+                              <HeaderTitle in={this.state.transition}>
+                                {this.renderAsignee()}
+                              </HeaderTitle>
                             )}
 
-                            {
-                              <RtcViewWrapper
-                                toggleVideo={this.toggleVideo}
-                                toggleAudio={this.toggleAudio}
-                                rtcVideo={this.state.rtcVideo}
-                                rtcAudio={this.state.rtcAudio}
-                                setVideoSession={this.setVideoSession.bind(this)}
-                                videoSession={this.state.videoSession}
-                              ></RtcViewWrapper>
-                            }
+                            {this.state.display_mode === 'home' && (
+                              <HeaderTitle
+                                ref={this.homeHeaderRef}
+                                style={{
+                                  padding: '2em',
+                                  opacity: this.state.header.opacity,
+                                  transform: `translateY(${this.state.header.translateY}px)`,
+                                }}
+                              >
+                                {this.state.appData.logo && (
+                                  <img
+                                    style={{
+                                      height: 50,
+                                      width: 50,
+                                    }}
+                                    src={this.state.appData.logo}
+                                  />
+                                )}
+                                <h2 className={'title'}>
+                                  {this.state.appData.greetings}
+                                </h2>
+                                <p className={'tagline'}>
+                                  {this.state.appData.intro}
+                                </p>
+                              </HeaderTitle>
+                            )}
 
                             {this.state.display_mode === 'conversations' && (
-                              <Conversations />
+                              <HeaderTitle in={this.state.transition}>
+                                {i18n.t('messenger.conversations.title')}
+                              </HeaderTitle>
                             )}
 
-                            {this.state.display_mode === 'appBlockAppPackage' && (
-                              <AppBlockPackageFrame
-                                domain={this.props.domain}
-                                app_id={this.props.app_id}
-                                enc_data={this.props.encData}
-                                conversation={this.state.conversation}
-                                appBlock={this.state.currentAppBlock}
-                              />
-                            )}
-                          </Body>
-                        </SuperFragment>
-                      </FrameBridge>
-                    </StyledFrame>
-                  </SuperDuper>
-                </Container>
-              ) 
-            }
+                            {/* this.props.app_id */}
+                          </HeaderOption>
+                        </Header>
+                        <Body>
+                          {this.state.display_mode === 'home' && (
+                            <React.Fragment>
+                              <Home />
+                              <FooterAck>
+                                <a href="https://chaskiq.io" target="blank">
+                                  <img
+                                    src={`${this.props.domain}/logo-gray.png`}
+                                  />
+                                  {i18n.t('messenger.runon')}
+                                </a>
+                              </FooterAck>
+                            </React.Fragment>
+                          )}
+
+                          {this.state.display_mode === 'article' && (
+                            <Article
+                              i18n={i18n}
+                              //graphqlClient={this.graphqlClient}
+                              //updateHeader={this.updateHeader}
+                              //transition={this.state.transition}
+                              articleSlug={this.state.article.slug}
+                              //transition={this.state.transition}
+                              //appData={this.state.appData}
+                              //i18n={this.props.i18n}
+                              //domain={this.props.domain}
+                              //lang={this.props.lang}
+                            />
+                          )}
+
+                          {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
+                            <GDPRView
+                              app={this.state.appData}
+                              i18n={i18n}
+                              confirm={(_e) => this.updateGdprConsent(true)}
+                              cancel={(_e) => this.updateGdprConsent(false)}
+                            />
+                          )}
+
+                          {this.state.display_mode === 'conversation' && (
+                            <Conversation />
+                          )}
+
+                          {
+                            <RtcViewWrapper
+                              toggleVideo={this.toggleVideo}
+                              toggleAudio={this.toggleAudio}
+                              rtcVideo={this.state.rtcVideo}
+                              rtcAudio={this.state.rtcAudio}
+                              setVideoSession={this.setVideoSession.bind(this)}
+                              videoSession={this.state.videoSession}
+                            ></RtcViewWrapper>
+                          }
+
+                          {this.state.display_mode === 'conversations' && (
+                            <Conversations />
+                          )}
+
+                          {this.state.display_mode === 'appBlockAppPackage' && (
+                            <AppBlockPackageFrame
+                              domain={this.props.domain}
+                              app_id={this.props.app_id}
+                              enc_data={this.props.encData}
+                              conversation={this.state.conversation}
+                              appBlock={this.state.currentAppBlock}
+                            />
+                          )}
+                        </Body>
+                      </SuperFragment>
+                    </FrameBridge>
+                  </StyledFrame>
+                </SuperDuper>
+              </Container>
+            )}
 
             {!this.state.open && this.state.inline_conversation && (
               <StyledFrame
@@ -1564,9 +1560,7 @@ class Messenger extends Component {
                       </ShowMoreWrapper>
                     )}
 
-                    <Conversation 
-                      footerClassName="inline"
-                    />
+                    <Conversation footerClassName="inline" />
                   </div>
                 }
               </StyledFrame>
@@ -1619,7 +1613,7 @@ class Messenger extends Component {
                   </div>
                 </Prime>
               </StyledFrame>
-            ) }
+            )}
 
             {(this.state.open || this.state.inline_conversation) && (
               <div>
@@ -1665,7 +1659,6 @@ class Messenger extends Component {
   }
 }
 
-
 export default class ChaskiqMessenger {
   constructor(props) {
     this.props = props
@@ -1681,10 +1674,7 @@ export default class ChaskiqMessenger {
     }
 
     ReactDOM.render(
-      <Messenger
-          {...this.props}
-        />
-      ,
+      <Messenger {...this.props} />,
       document.getElementById('ChaskiqMessengerRoot')
     )
   }

@@ -10,13 +10,12 @@ import Content from '@chaskiq/components/src/components/Content'
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import { EditIcon, MoreIcon } from '@chaskiq/components/src/components/icons'
 import {
-  directUpload, 
-  getFileMetadata
+  directUpload,
+  getFileMetadata,
 } from '@chaskiq/components/src/components/fileUploader'
 
 import DialogEditor from './conversations/DialogEditor'
 import UserListItem from './conversations/ItemList'
-
 
 import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 //import sanitizeHtml from 'sanitize-html'
@@ -28,9 +27,12 @@ import {
   UPDATE_AGENT,
 } from '@chaskiq/store/src/graphql/mutations'
 
-import { APP_USER_CONVERSATIONS, AGENT } from '@chaskiq/store/src/graphql/queries'
+import {
+  APP_USER_CONVERSATIONS,
+  AGENT,
+} from '@chaskiq/store/src/graphql/queries'
 
-import {getAppUser} from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
 
 class ProfilePage extends Component {
   state = {
@@ -171,8 +173,12 @@ class ProfilePage extends Component {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const { signedBlobId, headers, url, _serviceUrl } =
-            data.createDirectUpload.directUpload
+          const {
+            signedBlobId,
+            headers,
+            url,
+            _serviceUrl,
+          } = data.createDirectUpload.directUpload
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             const params = {}

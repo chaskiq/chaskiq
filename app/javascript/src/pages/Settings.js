@@ -14,16 +14,17 @@ import graphql from '@chaskiq/store/src/graphql/client'
 import Content from '@chaskiq/components/src/components/Content'
 import Tabs from '@chaskiq/components/src/components/Tabs'
 import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import { getFileMetadata, directUpload } from '@chaskiq/components/src/components/fileUploader'
+import {
+  getFileMetadata,
+  directUpload,
+} from '@chaskiq/components/src/components/fileUploader'
 
 import {
-  setCurrentPage, setCurrentSection,
+  setCurrentPage,
+  setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  updateApp,
-} from '@chaskiq/store/src/actions/app'
-
+import { updateApp } from '@chaskiq/store/src/actions/app'
 
 import { APP } from '@chaskiq/store/src/graphql/queries'
 import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
@@ -192,7 +193,7 @@ class AppSettingsContainer extends Component {
             label: I18n.t('settings.app.app_settings'),
             content: (
               <SettingsForm
-                title={ I18n.t('settings.app.app_settings') }
+                title={I18n.t('settings.app.app_settings')}
                 currentUser={this.props.currentUser}
                 data={this.props.app}
                 update={this.update.bind(this)}

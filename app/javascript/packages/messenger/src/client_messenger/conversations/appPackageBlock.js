@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components' 
-import Button from '@chaskiq/components/src/components/Button' 
-import {toCamelCase} from '@chaskiq/components/src/utils/caseConverter'
+import React, { Component } from 'react'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
+import Button from '@chaskiq/components/src/components/Button'
+import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter'
 import autolink from '../autolink'
 import serialize from 'form-serialize'
 import { isEmpty } from 'lodash'
@@ -89,8 +89,11 @@ export default class AppPackageBlock extends Component {
         return cb && cb()
       }
 
-      const { definitions, _kind, results } =
-        data.messenger.app.appPackage.callHook
+      const {
+        definitions,
+        _kind,
+        results,
+      } = data.messenger.app.appPackage.callHook
 
       if (!results) {
         // this.setState({schema: definitions}, cb && cb())
@@ -170,9 +173,12 @@ export default class AppPackageBlock extends Component {
           return (
             <span
               dangerouslySetInnerHTML={{
-                __html: this.props.i18n.t('messenger.conversation_block.choosen', {
-                  field: item.label,
-                }),
+                __html: this.props.i18n.t(
+                  'messenger.conversation_block.choosen',
+                  {
+                    field: item.label,
+                  }
+                ),
               }}
             />
           )
@@ -239,13 +245,17 @@ export default class AppPackageBlock extends Component {
             className={`form-group ${errorClass}`}
             key={key}
           >
-            <label>{this.props.i18n.t('messenger.enter_your', { field: item.name })}</label>
+            <label>
+              {this.props.i18n.t('messenger.enter_your', { field: item.name })}
+            </label>
             <input
               disabled={isDisabled}
               type={isEmailType || item.type}
               name={`submit[${item.name}]`}
               required
-              placeholder={this.props.i18n.t('messenger.enter_your', { field: item.name })}
+              placeholder={this.props.i18n.t('messenger.enter_your', {
+                field: item.name,
+              })}
               // onKeyDown={(e)=>{ e.keyCode === 13 ?
               //  this.handleStepControlClick(item) : null
               // }}

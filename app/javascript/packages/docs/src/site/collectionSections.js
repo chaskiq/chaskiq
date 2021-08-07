@@ -8,7 +8,7 @@ import { ARTICLE_COLLECTION_WITH_SECTIONS } from '@chaskiq/store/src/graphql/doc
 import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs'
 import Avatar from '@chaskiq/components/src/components/Avatar'
 import List from '@chaskiq/components/src/components/List'
-import {ListItem, ListItemText} from '@chaskiq/components/src/components/List'
+import { ListItem, ListItemText } from '@chaskiq/components/src/components/List'
 
 import translation from './translation'
 import Moment from 'react-moment'

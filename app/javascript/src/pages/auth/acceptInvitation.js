@@ -9,14 +9,9 @@ import Button from '@chaskiq/components/src/components/Button'
 import TextField from '@chaskiq/components/src/components/forms/Input'
 import Snackbar from '@chaskiq/components/src/components/Alert'
 
-import {
-  getCurrentUser,
-} from '@chaskiq/store/src/actions/current_user'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
 
-import {
-  successAuthentication,
-} from '@chaskiq/store/src/actions/auth'
-
+import { successAuthentication } from '@chaskiq/store/src/actions/auth'
 
 function MadeWithLove() {
   return (

@@ -8,7 +8,10 @@ import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
 import Table from '@chaskiq/components/src/components/Table'
-import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader'
+import {
+  getFileMetadata,
+  directUpload,
+} from '@chaskiq/components/src/components/fileUploader'
 
 import { arrayMove } from 'react-sortable-hoc'
 import langs from '../../../shared/langsOptions'
@@ -16,11 +19,13 @@ import langs from '../../../shared/langsOptions'
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import {
-  setCurrentPage, setCurrentSection,
+  setCurrentPage,
+  setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
@@ -300,14 +305,13 @@ class Collections extends Component {
                     <img src={editCollection.icon} className="w-32 mr-2 mt-4" />
                   )}
 
-                  {
-                    editCollection && 
+                  {editCollection && (
                     <>
                       <TextField
                         type="upload"
                         accept="image/*"
                         hideImage={false}
-                        label={I18n.t("common.image")}
+                        label={I18n.t('common.image')}
                         style={{ display: 'none' }}
                         ref={(comp) => (this.fileInput = comp)}
                         textHelper={I18n.t('articles.square_preferred_hint')}
@@ -317,9 +321,8 @@ class Collections extends Component {
                         {I18n.t('articles.square_preferred')}
                       </p>
                     </>
-                  }
+                  )}
                 </div>
-                
 
                 <TextField
                   id="collection-title"

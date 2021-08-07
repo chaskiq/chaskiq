@@ -13,13 +13,9 @@ import {
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  setApp
-} from '@chaskiq/store/src/actions/app'
+import { setApp } from '@chaskiq/store/src/actions/app'
 
-import {
-  searchAppUsers
-} from '@chaskiq/store/src/actions/app_users'
+import { searchAppUsers } from '@chaskiq/store/src/actions/app_users'
 
 import {
   dispatchSegmentUpdate,

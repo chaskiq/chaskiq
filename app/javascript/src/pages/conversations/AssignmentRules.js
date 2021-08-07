@@ -27,9 +27,7 @@ import {
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+import { successMessage } from '@chaskiq/store/src/actions/status_messages'
 
 import { AGENTS, ASSIGNMENT_RULES } from '@chaskiq/store/src/graphql/queries'
 
@@ -355,12 +353,12 @@ function AssignmentRules({ dispatch, app }) {
             <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
               <span className="flex w-full sm:col-start-2">
                 <Button type="submit" onClick={submitAssignment}>
-                  {I18n.t("common.update")}
+                  {I18n.t('common.update')}
                 </Button>
               </span>
               <span className="mt-3 flex w-full sm:mt-0 sm:col-start-1">
                 <Button type="button" variant={'outlined'} onClick={close}>
-                  {I18n.t("common.cancel")}
+                  {I18n.t('common.cancel')}
                 </Button>
               </span>
             </div>

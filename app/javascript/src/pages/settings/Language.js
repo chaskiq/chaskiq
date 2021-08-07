@@ -6,7 +6,7 @@ import Button from '@chaskiq/components/src/components/Button'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import DataTable from '@chaskiq/components/src/components/Table'
-import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
+import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'
 
 export default function LanguageForm({ settings, update, namespace, fields }) {
   const [isOpen, setIsOpen] = React.useState(false)

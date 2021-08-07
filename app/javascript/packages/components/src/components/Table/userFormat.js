@@ -130,10 +130,7 @@ const userFormat = function (showUserDrawer, app) {
     {
       field: 'lastVisitedAt',
       title: 'Last visited at',
-      render: (row) =>
-        row && (
-          <Moment fromNow>{row.lastVisitedAt}</Moment>
-        ),
+      render: (row) => row && <Moment fromNow>{row.lastVisitedAt}</Moment>,
     },
   ]
 
@@ -142,10 +139,7 @@ const userFormat = function (showUserDrawer, app) {
       hidden: true,
       field: o.name,
       title: o.name,
-      render: (row) =>
-        row && (
-          row.properties[o.name]
-        ),
+      render: (row) => row && row.properties[o.name],
     }))
     opts = opts.concat(other)
   }

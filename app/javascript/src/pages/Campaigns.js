@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 import SwitchControl from '@chaskiq/components/src/components/Switch'
 import Table from '@chaskiq/components/src/components/Table'
 import Tabs from '@chaskiq/components/src/components/Tabs'
@@ -28,25 +28,20 @@ import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import Badge from '@chaskiq/components/src/components/Badge'
 import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 
-import {
-  parseJwt,
-  generateJWT
-} from '@chaskiq/store/src/jwt'
+import { parseJwt, generateJWT } from '@chaskiq/store/src/jwt'
+
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
+
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
 
 import {
-  getAppUser
-} from '@chaskiq/store/src/actions/app_user'
-
-import {
-  toggleDrawer
-} from '@chaskiq/store/src/actions/drawer'
-
-import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
 import {
@@ -62,7 +57,11 @@ import {
 
 import I18n from '../shared/FakeI18n'
 
-import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } from '@chaskiq/store/src/graphql/queries'
+import {
+  CAMPAIGN,
+  CAMPAIGNS,
+  CAMPAIGN_METRICS,
+} from '@chaskiq/store/src/graphql/queries'
 import {
   PREDICATES_SEARCH,
   UPDATE_CAMPAIGN,
@@ -911,16 +910,16 @@ class CampaignContainer extends Component {
     )
   }
 
-  titleMapping = (kind)=>{
-    const mapping = { 
+  titleMapping = (kind) => {
+    const mapping = {
       banners: I18n.t('navigator.childs.banners'),
       tours: I18n.t('navigator.childs.guided_tours'),
       user_auto_messages: I18n.t('navigator.childs.in_app_messages'),
-      campaigns: I18n.t('navigator.childs.mailing_campaigns')
+      campaigns: I18n.t('navigator.childs.mailing_campaigns'),
     }
 
     return mapping[kind]
-  } 
+  }
 
   render() {
     return (
@@ -976,9 +975,9 @@ class CampaignContainer extends Component {
                 )}
 
                 <ContentHeader
-                  title={
-                    this.titleMapping(this.props.match.params.message_type)
-                  }
+                  title={this.titleMapping(
+                    this.props.match.params.message_type
+                  )}
                   actions={this.renderActions()}
                 />
 

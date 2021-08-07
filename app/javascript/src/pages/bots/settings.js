@@ -10,13 +10,9 @@ import I18n from '../../shared/FakeI18n'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+import { setCurrentPage } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  updateApp,
-} from '@chaskiq/store/src/actions/app'
+import { updateApp } from '@chaskiq/store/src/actions/app'
 
 import { AGENTS, BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
 

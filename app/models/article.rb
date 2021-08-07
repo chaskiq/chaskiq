@@ -6,7 +6,9 @@ class Article < ApplicationRecord
   include PgSearch::Model
 
   belongs_to :author, class_name: "Agent"
+
   belongs_to :app
+
   belongs_to :collection,
              class_name: "ArticleCollection",
              foreign_key: "article_collection_id",
@@ -29,7 +31,7 @@ class Article < ApplicationRecord
                     translations: %i[title description]
                   }
 
-  has_one :article_content
+  has_one :article_content, dependent: :destroy_async
 
   acts_as_list scope: %i[app_id article_collection_id article_section_id]
 

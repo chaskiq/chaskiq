@@ -13,12 +13,12 @@ import DataTable from '@chaskiq/components/src/components/Table'
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import CircularProgress from '@chaskiq/components/src/components/Progress'
 import TextField from '@chaskiq/components/src/components/forms/Input'
-import { 
-  EditIcon, 
-  ArchiveIcon, 
-  BlockIcon, 
+import {
+  EditIcon,
+  ArchiveIcon,
+  BlockIcon,
   UnsubscribeIcon,
-  MoreIcon 
+  MoreIcon,
 } from '@chaskiq/components/src/components/icons'
 
 import graphql from '@chaskiq/store/src/graphql/client'
@@ -27,23 +27,25 @@ import DialogEditor from './conversations/DialogEditor'
 import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
 //require('sanitize-html')
 
-import {
-  setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+import { setCurrentSection } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  getAppUser,
-} from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
 
 import {
   successMessage,
-  errorMessage
-} from  '@chaskiq/store/src/actions/status_messages'
+  errorMessage,
+} from '@chaskiq/store/src/actions/status_messages'
 
+import {
+  APP_USER_CONVERSATIONS,
+  APP_USER_VISITS,
+} from '@chaskiq/store/src/graphql/queries'
 
-import { APP_USER_CONVERSATIONS, APP_USER_VISITS } from '@chaskiq/store/src/graphql/queries'
-
-import { START_CONVERSATION, APP_USER_UPDATE_STATE, APP_USER_UPDATE } from '@chaskiq/store/src/graphql/mutations'
+import {
+  START_CONVERSATION,
+  APP_USER_UPDATE_STATE,
+  APP_USER_UPDATE,
+} from '@chaskiq/store/src/graphql/mutations'
 
 const AppUserHeaderOverlay = styled.div`
   position: absolute;
@@ -133,10 +135,10 @@ class ProfilePage extends Component {
       {
         success: (_data) => {
           this.props.dispatch(getAppUser(parseInt(this.props.app_user.id)))
-          this.props.dispatch(successMessage("status updated"))
+          this.props.dispatch(successMessage('status updated'))
         },
         error: (_error) => {
-          this.props.dispatch(errorMessage("error"))
+          this.props.dispatch(errorMessage('error'))
         },
       }
     )

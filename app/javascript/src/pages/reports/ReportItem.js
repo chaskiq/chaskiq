@@ -1,7 +1,7 @@
 import React from 'react'
 import { DASHBOARD } from '@chaskiq/store/src/graphql/queries'
 import graphql from '@chaskiq/store/src/graphql/client'
-import DataTable from '@chaskiq/components/src/components/Table' 
+import DataTable from '@chaskiq/components/src/components/Table'
 
 import Progress from '@chaskiq/components/src/components/Progress'
 import HeatMap from '@chaskiq/components/src/components/charts/heatMap'
@@ -26,7 +26,7 @@ export default function DashboardItem({
     getData()
   }, [])
 
-  function getData(page=null) {
+  function getData(page = null) {
     graphql(
       DASHBOARD,
       {
@@ -35,7 +35,7 @@ export default function DashboardItem({
         range: {
           from: dashboard.from,
           to: dashboard.to,
-          page: page
+          page: page,
         },
         kind: kind,
       },
@@ -51,7 +51,7 @@ export default function DashboardItem({
     )
   }
 
-  function handleSearch(page){
+  function handleSearch(page) {
     getData(page)
   }
 
@@ -86,14 +86,14 @@ export default function DashboardItem({
           />
         )
       case 'app_package':
-          return (
-            <DashboardAppPackage
-              data={data}
-              pkg={pkg}
-              dashboard={dashboard}
-              classes={classes}
-            />
-          )
+        return (
+          <DashboardAppPackage
+            data={data}
+            pkg={pkg}
+            dashboard={dashboard}
+            classes={classes}
+          />
+        )
       default:
         return <div>no chart type</div>
     }
@@ -107,16 +107,15 @@ export default function DashboardItem({
   )
 }
 
-function DashboardAppPackage({data, dashboard}) {
+function DashboardAppPackage({ data, dashboard }) {
   return (
     <div className="p-4 shadow-sm">
       <div className="flex mb-2">
-        {
-          data.package_icon && 
+        {data.package_icon && (
           <div className="mr-4">
             <img src={data.package_icon} width={64} />
           </div>
-        }
+        )}
 
         <div>
           <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
