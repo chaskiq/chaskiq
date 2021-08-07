@@ -43,6 +43,7 @@ function Dashboard(props) {
 
   const history = useHistory()
 
+
   const actions = [
     {
       title: I18n.t('navigator.conversations'),
