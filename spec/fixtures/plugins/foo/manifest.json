@@ -1,0 +1,7 @@
+{
+  "name": "Foo",
+  "description": "Sample Chaskiq UI kit, development sample",
+  "capability_list": ["home", "conversations"],
+  "state": "enabled",
+  "definitions": []
+}
