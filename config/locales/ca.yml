@@ -37,7 +37,7 @@ ca:
       pt: Portuguès
       de: Alemany
       ca: Catalan
-      zh: Chinese
+      zh-CN: Chinese
     redirecting: Redireccionant
     select_language: Selecciona un Idioma
     send_on_enter: Publicar al entrar
@@ -48,7 +48,7 @@ ca:
     visitors: Visitors
     users: Usuaris
     type_message: type your message
-    search_conversations: search conversations
+    search_conversations: Search conversations
     days: Days
   status_messages:
     error: "Error"

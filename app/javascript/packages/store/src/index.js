@@ -41,7 +41,7 @@ const rootReducer = combineReducers({
   rtc,
   campaigns,
   paddleSubscription,
-  upgradePages
+  upgradePages,
 })
 
 const middlewares = [thunkMiddleware] //, routerMiddleware(history)]

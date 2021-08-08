@@ -31,10 +31,10 @@ class SegmentFactory
                                                                  value: "30 days ago" }.with_indifferent_access] },
 
                           { name: "sliping away", predicates: [default_predicate, user_predicate,
-                                                                { attribute: "last_visited_at",
-                                                                  comparison: "gteq",
-                                                                  type: "date",
-                                                                  value: "1 days ago" }.with_indifferent_access] }
+                                                               { attribute: "last_visited_at",
+                                                                 comparison: "gteq",
+                                                                 type: "date",
+                                                                 value: "1 days ago" }.with_indifferent_access] }
                         ])
   end
 end

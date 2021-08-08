@@ -60,6 +60,7 @@ class App < ApplicationRecord
   has_many :sections, through: :article_collections
   has_many :conversations, dependent: :destroy_async
   has_many :conversation_parts, through: :conversations, source: :messages
+  has_many :conversation_events, through: :conversations, source: :events
   has_many :segments, dependent: :destroy_async
   has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles
@@ -174,7 +175,8 @@ class App < ApplicationRecord
     conversation = conversations.create(
       main_participant: participant,
       initiator: user,
-      assignee: options[:assignee]
+      assignee: options[:assignee],
+      subject: options[:subject]
     )
 
     if message.present?
@@ -233,8 +235,7 @@ class App < ApplicationRecord
   def find_app_package(name)
     app_package_integrations
       .joins(:app_package)
-      .where("app_packages.name =?", name)
-      .first
+      .find_by("app_packages.name =?", name)
   end
 
   def stats_for(name)
@@ -283,9 +284,9 @@ class App < ApplicationRecord
     pkg_id = begin
       app_package_integrations
         .joins(:app_package)
-        .where(
+        .find_by(
           "app_packages.name": "InboxSections"
-        ).first.id
+        ).id
     rescue StandardError
       nil
     end

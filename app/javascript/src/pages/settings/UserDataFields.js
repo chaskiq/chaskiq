@@ -5,18 +5,21 @@ import serialize from 'form-serialize'
 
 import Hints from '@chaskiq/components/src/components/Hints'
 import List, {
-  ListItem, 
-  ListItemText, 
+  ListItem,
+  ListItemText,
   ItemListPrimaryContent,
-  ItemListSecondaryContent 
+  ItemListSecondaryContent,
 } from '@chaskiq/components/src/components/List'
 import Button from '@chaskiq/components/src/components/Button'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
 import Input from '@chaskiq/components/src/components/forms/Input'
 import defaultFields from '@chaskiq/components/src/utils/defaultFields'
-import { DeleteIcon, PlusIcon, EditIcon } from '@chaskiq/components/src/components/icons'
-
+import {
+  DeleteIcon,
+  PlusIcon,
+  EditIcon,
+} from '@chaskiq/components/src/components/icons'
 
 function UserDataFields({ app, _settings, update, _dispatch }) {
   const [fields, setFields] = useState(app.customFields || [])
@@ -255,9 +258,9 @@ function FieldsForm({ selected }) {
       value: 'integer',
       label: I18n.t('settings.user_data.attr_types.integer'),
     },
-    { 
-      value: 'date', 
-      label: I18n.t('settings.user_data.attr_types.date') 
+    {
+      value: 'date',
+      label: I18n.t('settings.user_data.attr_types.date'),
     },
   ]
 

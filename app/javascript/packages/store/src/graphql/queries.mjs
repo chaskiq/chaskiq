@@ -212,6 +212,7 @@ export const CONVERSATIONS = `
           readAt
           priority
           tagList
+          subject
           conversationChannels
           assignee {
             displayName
@@ -785,9 +786,25 @@ export const BOT_TASK_METRICS = `
 `
 
 export const DASHBOARD = `
-  query Dashboard($appKey: String!, $range: Json!, $kind: String! )  {
+  query Dashboard($appKey: String!, $range: Json!, $kind: String!, $package: String)  {
     app(key: $appKey){
-      dashboard(range: $range, kind: $kind)
+      dashboard(range: $range, kind: $kind, package: $package)
+    }
+  }
+`
+
+export const APP_PACKAGES_DASHBOARD = `
+  query App($appKey: String!) { 
+    app(key: $appKey){
+      appPackagesDashboard
+    }
+  }
+`
+
+export const APP_PACKAGE_DASHBOARD = `
+  query App($appKey: String!, $package: String) { 
+    app(key: $appKey){
+      appPackageDashboard(package: $package)
     }
   }
 `

@@ -37,7 +37,7 @@ en:
       pt: Portuguese
       de: Deutsch
       ca: Catalan
-      zh: Chinese
+      zh-CN: Chinese
     redirecting: Redirecting
     select_language: Select Language
     send_on_enter: Publish on enter
@@ -48,7 +48,7 @@ en:
     visitors: Visitors
     users: Users
     type_message: type your message
-    search_conversations: search conversations
+    search_conversations: Search conversations
     days: Days
   status_messages:
     error: "Error"
@@ -355,8 +355,7 @@ en:
     hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
     encryption_key_label: Identity verification secret
     dont_share_code: "Don't share this code"
-    hmac_hint1: To configure identity verification, you will need to generate an HMAC on
-        your server for each logged in user and submit it to Chaskiq.
+    hmac_hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
   quick_replies:
     title: Quick Replies
     search: Search Quick replies
@@ -635,7 +634,6 @@ en:
       lang_desc: Manage supported languages and customize your Help Center header
       basic: Basic setup
       general_app: Application overview
-     
   contact_manager:
     create: Create Users & Leads
     import_csv: Import csv

@@ -56,9 +56,10 @@ module PackageIframeBehavior
 
     html = presenter.sheet_view(opts)
 
+    # rubocop:disable Rails/OutputSafety
     response.headers.delete "X-Frame-Options"
-
     render html: html.html_safe, layout: false
+    # rubocop:enable Rails/OutputSafety
   end
 
   def handle_user_data(data)
@@ -88,6 +89,8 @@ module PackageIframeBehavior
     resp = Faraday.post(url, data.merge!(user: app_user).to_json,
                         "Content-Type" => "application/json")
     response.headers.delete "X-Frame-Options"
+    # rubocop:disable Rails/OutputSafety
     resp.body.html_safe
+    # rubocop:enable Rails/OutputSafety
   end
 end

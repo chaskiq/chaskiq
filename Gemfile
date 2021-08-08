@@ -7,7 +7,7 @@ ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
-gem "rails", "6.1.3.1" # , github: "rails/rails",
+gem "rails", "6.1.4" # , github: "rails/rails",
 
 gem "anycable-rails"
 # Use sqlite3 as the database for Active Record
@@ -107,11 +107,12 @@ gem "timezone", "~> 1.2"
 
 gem "bugsnag" # , '~> 6.11'
 # gem "email_reply_parser", "~> 0.5.9"
-gem 'email_reply_trimmer'
+gem "email_reply_trimmer"
 gem "rack-cors", "~> 1.0"
 
 gem "biz", "~> 1.8"
-gem "i18n-js"
+# gem "i18n-js"
+gem "i18n-js", "~> 4.0.0.alpha1"
 
 gem "globalize", github: "globalize/globalize"
 

@@ -8,6 +8,7 @@ createdAt
 tagList
 firstAgentReply
 latestUserVisibleCommentAt
+subject
 assignee {
   id
   email

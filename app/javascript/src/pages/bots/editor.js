@@ -19,7 +19,7 @@ import Dropdown from '@chaskiq/components/src/components/Dropdown'
 import Button from '@chaskiq/components/src/components/Button'
 import Tabs from '@chaskiq/components/src/components/Tabs'
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
-import {DefinitionRenderer} from '@chaskiq/components/src/components/packageBlocks/components'
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
 import Stats from '@chaskiq/components/src/components/stats'
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import {
@@ -30,7 +30,7 @@ import {
   DeleteForeverRounded,
 } from '@chaskiq/components/src/components/icons'
 
-import List, {ListItem} from '@chaskiq/components/src/components/List'
+import List, { ListItem } from '@chaskiq/components/src/components/List'
 
 import AppPackagePanel from '../conversations/appPackagePanel'
 
@@ -39,15 +39,24 @@ import { isEmpty } from 'lodash'
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import {
-  setCurrentPage, setCurrentSection,
+  setCurrentPage,
+  setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
-import { BOT_TASK, AGENTS, BOT_TASK_METRICS } from '@chaskiq/store/src/graphql/queries'
-import { UPDATE_BOT_TASK, CLONE_MESSAGE } from '@chaskiq/store/src/graphql/mutations'
+import {
+  BOT_TASK,
+  AGENTS,
+  BOT_TASK_METRICS,
+} from '@chaskiq/store/src/graphql/queries'
+import {
+  UPDATE_BOT_TASK,
+  CLONE_MESSAGE,
+} from '@chaskiq/store/src/graphql/mutations'
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
@@ -208,17 +217,11 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           setPaths(data.updateBotTask.botTask.paths)
           setErrors(data.updateBotTask.botTask.errors)
           // setSelectedPath(data.updateBotTask.botTask.paths[0]);
-          dispatch(
-            successMessage(
-              I18n.t("status_messages.updated_success")
-            )
-          )
+          dispatch(successMessage(I18n.t('status_messages.updated_success')))
           cb && cb()
         },
         error: (_err) => {
-          dispatch(errorMessage(
-            I18n.t("status_messages.error_success")
-          ))
+          dispatch(errorMessage(I18n.t('status_messages.error_success')))
         },
       }
     )
@@ -237,14 +240,10 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       {
         success: (data) => {
           setBotTask(data.updateBotTask.botTask)
-          dispatch(successMessage(
-            I18n.t("status_messages.updated_success")
-          ))
+          dispatch(successMessage(I18n.t('status_messages.updated_success')))
         },
         error: (_err) => {
-          dispatch(errorMessage(
-            I18n.t("status_messages.updated_error")
-          ))
+          dispatch(errorMessage(I18n.t('status_messages.updated_error')))
         },
       }
     )
@@ -349,8 +348,8 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   function optionsForFilter() {
     return [
       {
-        title: I18n.t("campaigns.clone_title"),
-        description: I18n.t("campaigns.clone_description"),
+        title: I18n.t('campaigns.clone_title'),
+        description: I18n.t('campaigns.clone_description'),
         icon: <CopyContentIcon />,
         id: 'enabled',
         state: 'enabled',
@@ -367,16 +366,12 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
 
     graphql(CLONE_MESSAGE, params, {
       success: (_data) => {
-        dispatch(successMessage(
-          I18n.t("campaigns.cloned_success")
-        ))
+        dispatch(successMessage(I18n.t('campaigns.cloned_success')))
 
         // this.props.init()
       },
       error: () => {
-        dispatch(errorMessage(
-           I18n.t("campaigns.cloned_error")
-        ))
+        dispatch(errorMessage(I18n.t('campaigns.cloned_error')))
       },
     })
   }
@@ -436,7 +431,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
 
               <FilterMenu
                 options={optionsForFilter()}
-                value={I18n.t("common.actions")}
+                value={I18n.t('common.actions')}
                 filterHandler={(option, _closeHandler) => {
                   return option.onClick && option.onClick(option)
                 }}
@@ -449,7 +444,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                       color="inherit"
                       size="small"
                     >
-                      {I18n.t("common.actions")}
+                      {I18n.t('common.actions')}
                     </Button>
                   )
                 }}
@@ -716,7 +711,7 @@ export function BotPathEditor({
         </span>
       </div>
 
-      <div className="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow">
+      <div className="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow border dark:border-gray-600">
         {isOpen && (
           <PathDialog
             isOpen={isOpen}
@@ -729,7 +724,7 @@ export function BotPathEditor({
         <div
           className={`${
             !menuDisplay ? 'hidden' : ''
-          } sm:w-2/4 bg-gray-50 dark:bg-gray-900 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}
+          } sm:w-2/4 bg-gray-50 dark:bg-gray-800 dark:border-gray-600 sm:flex flex-col py-3 sm:relative absolute z-10 w-full px-5`}
         >
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppablePaths">
@@ -1258,7 +1253,7 @@ const Path = ({
 
   const renderControls = () => {
     return (
-      <div className="w-full p-6 border-b-2 border-gray-200">
+      <div className="w-full p-6 border-b-2 border-gray-200 dark:border-black">
         <div className="flex justify-between">
           <div className="flex items-center">
             <div className="text-lg text-center text-gray-900 font-semibold leading-4 my-6 mr-3">

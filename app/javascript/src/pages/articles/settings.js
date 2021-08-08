@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import serialize from 'form-serialize'
 import langsOptions from '../../shared/langsOptions'
 
-import {toSnakeCase} from '@chaskiq/components/src/utils/caseConverter'
+import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
 import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import Tabs from '@chaskiq/components/src/components/Tabs'
@@ -16,16 +16,22 @@ import Button from '@chaskiq/components/src/components/Button'
 import Table from '@chaskiq/components/src/components/Table'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import Input from '@chaskiq/components/src/components/forms/Input'
-import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer'
+import FieldRenderer, {
+  gridClasses,
+} from '@chaskiq/components/src/components/forms/FieldRenderer'
 import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
-import {getFileMetadata, directUpload} from '@chaskiq/components/src/components/fileUploader'
+import {
+  getFileMetadata,
+  directUpload,
+} from '@chaskiq/components/src/components/fileUploader'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
 import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
 
 import {
-  setCurrentPage, setCurrentSection,
+  setCurrentPage,
+  setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 class Settings extends Component {
   state = {
@@ -464,35 +470,33 @@ function LanguageForm({ settings, update, deleteLang }) {
       render: (row) => {
         return (
           row && (
-            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-              <div
-                // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
-                className="flex items-center"
-              >
-                {field === 'locale' ? (
-                  <p className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
-                    {row[field]}
-                  </p>
-                ) : field === 'action' ? (
-                  <Button
-                    variant="danger"
-                    color="secondary"
-                    onClick={() => setOpenDeleteDialog(row)}
-                  >
-                    {I18n.t('common.delete')}
-                  </Button>
-                ) : (
-                  <Input
-                    type={'text'}
-                    // id="standard-name"
-                    label={false}
-                    defaultValue={row[field]}
-                    name={`settings[${field}_${row.locale}]`}
-                    margin="normal"
-                  />
-                )}
-              </div>
-            </td>
+            <div
+              // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
+              className="flex items-center"
+            >
+              {field === 'locale' ? (
+                <p className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
+                  {row[field]}
+                </p>
+              ) : field === 'action' ? (
+                <Button
+                  variant="danger"
+                  color="secondary"
+                  onClick={() => setOpenDeleteDialog(row)}
+                >
+                  {I18n.t('common.delete')}
+                </Button>
+              ) : (
+                <Input
+                  type={'text'}
+                  // id="standard-name"
+                  label={false}
+                  defaultValue={row[field]}
+                  name={`settings[${field}_${row.locale}]`}
+                  margin="normal"
+                />
+              )}
+            </div>
           )
         )
       },

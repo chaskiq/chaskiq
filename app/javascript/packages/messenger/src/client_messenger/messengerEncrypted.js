@@ -3,7 +3,6 @@ import { setCookie, getCookie, deleteCookie } from './cookies'
 
 import { AUTH } from './graphql/queries'
 import GraphqlClient from './graphql/client'
-
 export default class ChaskiqMessengerEncrypted {
   constructor(props) {
     this.props = props

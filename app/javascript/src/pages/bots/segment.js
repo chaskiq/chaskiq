@@ -3,25 +3,17 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-
 import SegmentManager from '@chaskiq/components/src/components/segmentManager'
 import Button from '@chaskiq/components/src/components/Button'
 import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  toggleDrawer
-} from '@chaskiq/store/src/actions/drawer'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
 
-import {
-  getAppUser
-} from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
 
-import {
-  parseJwt, generateJWT
-} from '@chaskiq/store/src/jwt'
-
+import { parseJwt, generateJWT } from '@chaskiq/store/src/jwt'
 
 import { PREDICATES_SEARCH } from '@chaskiq/store/src/graphql/mutations'
 class Segment extends Component {

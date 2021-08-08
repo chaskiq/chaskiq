@@ -1,7 +1,7 @@
 import React from 'react'
 import { EditorBlock } from 'draft-js'
 import ReactMediaRecorder from 'Dante2/package/esm/editor/components/blocks/videoRecorder/MediaRecorder'
-import {updateDataOfBlock} from 'Dante2/package/esm/editor/model'
+import { updateDataOfBlock } from 'Dante2/package/esm/editor/model'
 
 import styled from '@emotion/styled'
 import axios from 'axios'

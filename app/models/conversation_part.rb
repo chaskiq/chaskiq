@@ -24,7 +24,7 @@ class ConversationPart < ApplicationRecord
 
   attr_accessor :check_assignment_rules
 
-  delegate :broadcast_key, to: :conversation 
+  delegate :broadcast_key, to: :conversation
 
   def from_bot?
     trigger_id.present? && step_id.present?

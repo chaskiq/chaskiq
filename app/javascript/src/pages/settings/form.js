@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import serialize from 'form-serialize'
 
-import FieldRenderer, {gridClasses} from '@chaskiq/components/src/components/forms/FieldRenderer' 
+import FieldRenderer, {
+  gridClasses,
+} from '@chaskiq/components/src/components/forms/FieldRenderer'
 import Button from '@chaskiq/components/src/components/Button'
 import Hints from '@chaskiq/components/src/components/Hints'
 import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'

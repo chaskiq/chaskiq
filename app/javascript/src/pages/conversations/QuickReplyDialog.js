@@ -4,7 +4,8 @@ import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import Button from '@chaskiq/components/src/components/Button'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import { QUICK_REPLY_CREATE } from '@chaskiq/store/src/graphql/mutations'

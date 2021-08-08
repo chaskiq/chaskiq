@@ -17,15 +17,16 @@ describe('Login Spec', function () {
       // debugger
       // findButtonByName("View app").click()
       cy.get('a').contains('my app').click().then(() => {
-        cy.get('body').should('contain', 'Visit activity')
-        cy.get('body').should('contain', 'New conversations')
-        cy.get('body').should('contain', 'Resolutions')
-        cy.get('body').should('contain', 'Incoming Messages')
+        cy.get('body').should('contain', 'Hey!, you are viewing the')
+        //cy.get('body').should('contain', 'New conversations')
+        //cy.get('body').should('contain', 'Resolutions')
+        //cy.get('body').should('contain', 'Incoming Messages')
 
         // cy.xpath('//*[@id="main-page"]/div/div[1]/nav/div/div/ul/button')
-        cy.get('#user_menu')
-          .click().then(() => {
-            findElementByName('button', 'Create new app').click().then(() => {
+        cy.visit('/apps/new')
+        //cy.get('#user_menu')
+        //  .click().then(() => {
+            // findElementByName('button', 'Create new app').click().then(() => {
               cy.get('body').should('contain', 'Create your company’s Chaskiq app')
 
               cy.get('input[name="app[name]"]')
@@ -37,10 +38,10 @@ describe('Login Spec', function () {
                 .should('have.value', 'http://test.cl')
 
               findButtonByName('Save').click().then(() => {
-                cy.get('body').should('contain', 'Visit activity')
-                cy.get('body').should('contain', 'New conversations')
-                cy.get('body').should('contain', 'Resolutions')
-                cy.get('body').should('contain', 'Incoming Messages')
+                //cy.get('body').should('contain', 'Visit activity')
+                //cy.get('body').should('contain', 'New conversations')
+                //cy.get('body').should('contain', 'Resolutions')
+                //cy.get('body').should('contain', 'Incoming Messages')
 
                 cy.get("a[aria-label='Platform']")
                   .click({ force: true }).then(() => {
@@ -77,8 +78,8 @@ describe('Login Spec', function () {
                     cy.get('body').should('contain', 'Integrations')
                   })
               })
-            })
-          })
+            // })
+        //  })
       })
     })
   })

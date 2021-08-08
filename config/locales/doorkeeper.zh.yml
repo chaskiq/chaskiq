@@ -1,4 +1,4 @@
-zh:
+zh-CN:
   activerecord:
     attributes:
       doorkeeper/application:
@@ -10,10 +10,10 @@ zh:
           attributes:
             redirect_uri:
               fragment_present: '不能包含片段'
-              invalid_uri: '请输入合法的网址'
+              invalid_uri: '必须是一个有效的 URI'
               unspecified_scheme: '必须指定 scheme 计划。'
               relative_uri: '必须是绝对的URI。'
-              secured_uri: '必须是一个 HTTPS/SSL URI。'
+              secured_uri: '此 URI 必须有 HTTPS!'
               forbidden_uri: '被服务器禁止。'
             scopes:
               not_match_configured: "服务器配置不匹配。"

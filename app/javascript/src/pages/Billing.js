@@ -10,14 +10,12 @@ import CircularProgress from '@chaskiq/components/src/components/Progress'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {
-  clearSubscriptionState,
-} from '@chaskiq/store/src/actions/paddleSubscription'
+import { clearSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription'
 
 import {
-  setCurrentSection, setCurrentPage,
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
-
 
 import {
   PLANS,
@@ -29,8 +27,9 @@ import {
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([])
   const [openCheckout, setOpenCheckout] = React.useState(null)
-  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] =
-    React.useState(null)
+  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] = React.useState(
+    null
+  )
   const [subscriptionDetails, setSubscriptionDetails] = React.useState([])
 
   React.useEffect(() => {

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-import {DanteImagePopoverConfig} from 'Dante2/package/esm/editor/components/popovers/image'
-import {DanteAnchorPopoverConfig} from 'Dante2/package/esm/editor/components/popovers/link'
-import {DanteTooltipConfig} from 'Dante2/package/esm/editor/components/popovers/toolTip'
+import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image'
+import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link'
+import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip'
 
 import Icons from 'Dante2/package/esm/editor/components/icons'
 
-import TextEditor from  '@chaskiq/components/src/components/textEditor'
+import TextEditor from '@chaskiq/components/src/components/textEditor'
 
 import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
 
@@ -28,7 +28,6 @@ import { SendIcon } from '@chaskiq/components/src/components/icons'
 import AppPackagePanel from './appPackagePanel'
 import TriggersPanel from './triggersPanel'
 import QuickReplyPanel from './quickRepliesPanel'
-
 
 export const ArticlePad = styled.div`
   @media (max-width: 640px) {

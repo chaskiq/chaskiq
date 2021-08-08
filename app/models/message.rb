@@ -6,10 +6,10 @@ class Message < ApplicationRecord
   belongs_to :app
   belongs_to :workflow, optional: true
 
-  has_many :metrics, as: :trackable
+  has_many :metrics, as: :trackable, dependent: :destroy_async
   has_many_attached :attachments
 
-  has_many :conversation_parts
+  has_many :conversation_parts, dependent: :nullify
 
   acts_as_list scope: %i[app_id type]
 
@@ -21,7 +21,7 @@ class Message < ApplicationRecord
   scope :enabled, -> { where(state: "enabled") }
   scope :disabled, -> { where(state: "disabled") }
   scope :ordered, -> { order("position asc") }
-  scope :in_time, -> { where(["scheduled_at <= ? AND scheduled_to >= ?", Date.today, Date.today]) }
+  scope :in_time, -> { where(["scheduled_at <= ? AND scheduled_to >= ?", Time.zone.today, Time.zone.today]) }
   # before_save :detect_changed_template
   before_create :add_default_predicate
   before_create :initial_state
@@ -71,11 +71,11 @@ class Message < ApplicationRecord
   end
 
   def enable!
-    update_attribute(:state, "enabled")
+    update_column(:state, "enabled")
   end
 
   def disable!
-    update_attribute(:state, "disabled")
+    update_column(:state, "disabled")
   end
 
   def initial_state

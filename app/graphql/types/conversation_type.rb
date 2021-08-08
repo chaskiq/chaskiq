@@ -13,6 +13,7 @@ module Types
     field :read_at, GraphQL::Types::ISO8601DateTime, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: true
     field :closed_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :subject, String, null: true
 
     field :first_agent_reply, GraphQL::Types::ISO8601DateTime, null: true
     field :latest_user_visible_comment_at, GraphQL::Types::ISO8601DateTime, null: true

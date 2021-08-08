@@ -12,7 +12,7 @@ export default function Content({ children, actions }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="py-4">
-          <div className="rounded-lg h-96">
+          <div className="rounded-lg h-96--">
             {children}
 
             {actions && actions}

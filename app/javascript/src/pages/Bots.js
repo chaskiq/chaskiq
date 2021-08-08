@@ -9,7 +9,7 @@ import BotEditor from './bots/editor'
 
 import SettingsForm from './bots/settings'
 
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 import FormDialog from '@chaskiq/components/src/components/FormDialog'
 import Badge from '@chaskiq/components/src/components/Badge'
 import EmptyView from '@chaskiq/components/src/components/EmptyView'
@@ -21,17 +21,22 @@ import ContentHeader from '@chaskiq/components/src/components/PageHeader'
 import Content from '@chaskiq/components/src/components/Content'
 import Table from '@chaskiq/components/src/components/Table'
 
-
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
 import { BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
-import { CREATE_BOT_TASK, DELETE_BOT_TASK, REORDER_BOT_TASK } from '@chaskiq/store/src/graphql/mutations'
+import {
+  CREATE_BOT_TASK,
+  DELETE_BOT_TASK,
+  REORDER_BOT_TASK,
+} from '@chaskiq/store/src/graphql/mutations'
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [loading, _setLoading] = useState(false)
@@ -82,14 +87,10 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       },
       {
         success: (_res) => {
-          dispatch(successMessage(
-            I18n.t("status_messages.reordered_success")
-          ))
+          dispatch(successMessage(I18n.t('status_messages.reordered_success')))
         },
         error: (_res) => {
-          dispatch(errorMessage(
-            I18n.t("status_messages.reordered_error")
-          ))
+          dispatch(errorMessage(I18n.t('status_messages.reordered_error')))
         },
       }
     )
@@ -274,17 +275,15 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.name.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <div className="flex items-center">
-                        {row.id && (
-                          <span className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
-                            <AnchorLink to={`${match.url}/${row.id}`}>
-                              {row.title}
-                            </AnchorLink>
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                    <div className="flex items-center">
+                      {row.id && (
+                        <span className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
+                          <AnchorLink to={`${match.url}/${row.id}`}>
+                            {row.title}
+                          </AnchorLink>
+                        </span>
+                      )}
+                    </div>
                   ),
               },
 
@@ -293,34 +292,30 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.state.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                      <Badge
-                        className={`bg-${
-                          row.state === 'enabled' ? 'green-500' : 'gray-200'
-                        }`}
-                      >
-                        {I18n.t(`campaigns.state.${row.state}`)}
-                      </Badge>
-                    </td>
+                    <Badge
+                      className={`bg-${
+                        row.state === 'enabled' ? 'green-500' : 'gray-200'
+                      }`}
+                    >
+                      {I18n.t(`campaigns.state.${row.state}`)}
+                    </Badge>
                   ),
               },
               {
                 field: 'actions',
                 title: I18n.t('definitions.bot_tasks.actions.label'),
                 render: (row) => (
-                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                    <div className="flex items-center">
-                      {row.id && (
-                        <Button
-                          color={'secondary'}
-                          variant={'danger'}
-                          onClick={() => setOpenDeleteDialog(row)}
-                        >
-                          {I18n.t('common.delete')}
-                        </Button>
-                      )}
-                    </div>
-                  </td>
+                  <div className="flex items-center">
+                    {row.id && (
+                      <Button
+                        color={'secondary'}
+                        variant={'danger'}
+                        onClick={() => setOpenDeleteDialog(row)}
+                      >
+                        {I18n.t('common.delete')}
+                      </Button>
+                    )}
+                  </div>
                 ),
               },
             ]}

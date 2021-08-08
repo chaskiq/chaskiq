@@ -18,6 +18,7 @@ import AgentProfile from './AgentProfile'
 import Billing from './Billing'
 import Api from './Api'
 import Workflows from './workflows'
+import Reports from './Reports'
 
 import { connect } from 'react-redux'
 
@@ -29,17 +30,15 @@ import CampaignHome from './campaigns/home'
 import Progress from '@chaskiq/components/src/components/Progress'
 import UserSlide from '@chaskiq/components/src/components/UserSlide'
 
-
-import {toggleDrawer} from '@chaskiq/store/src/actions/drawer'
-import {getCurrentUser} from '@chaskiq/store/src/actions/current_user'
-import {appendConversation} from '@chaskiq/store/src/actions/conversations'
-import {updateCampaignEvents} from '@chaskiq/store/src/actions/campaigns'
-import {updateRtcEvents} from '@chaskiq/store/src/actions/rtc'
-import {updateAppUserPresence} from '@chaskiq/store/src/actions/app_users'
-import {setSubscriptionState} from '@chaskiq/store/src/actions/paddleSubscription'
-import {setApp} from '@chaskiq/store/src/actions/app'
-import {camelizeKeys} from '@chaskiq/store/src/actions/conversation'
-
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
+import { appendConversation } from '@chaskiq/store/src/actions/conversations'
+import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns'
+import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc'
+import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users'
+import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription'
+import { setApp } from '@chaskiq/store/src/actions/app'
+import { camelizeKeys } from '@chaskiq/store/src/actions/conversation'
 
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard'
 import LoadingView from '@chaskiq/components/src/components/loadingView'
@@ -151,7 +150,7 @@ function AppContainer({
   }
 
   return (
-    <div className="h-screen flex overflow-hidden bg-white dark:bg-black dark:text-white">
+    <div className="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
       {app && <Sidebar />}
 
       {drawer.open && (
@@ -257,6 +256,10 @@ function AppContainer({
 
                 <Route path={`${match.url}/integrations`}>
                   <Integrations />
+                </Route>
+
+                <Route path={`${match.url}/reports`}>
+                  <Reports />
                 </Route>
 
                 <Route path={`${match.url}/articles`}>

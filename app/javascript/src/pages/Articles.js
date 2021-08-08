@@ -15,14 +15,16 @@ import Collections from './articles/collections/index'
 import CollectionDetail from './articles/collections/show'
 
 import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 import Hints from '@chaskiq/components/src/components/Hints'
 import DataTable from '@chaskiq/components/src/components/Table'
 import Badge from '@chaskiq/components/src/components/Badge'
@@ -34,9 +36,10 @@ import CircularProgress from '@chaskiq/components/src/components/Progress'
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
 import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
 import {
-  AddIcon, GestureIcon, CheckCircleIcon
+  AddIcon,
+  GestureIcon,
+  CheckCircleIcon,
 } from '@chaskiq/components/src/components/icons'
-
 
 import { ARTICLES, ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/queries'
 import {
@@ -459,20 +462,18 @@ class AllArticles extends React.Component {
                   title: I18n.t('definitions.articles.title.label'),
                   render: (row) =>
                     row ? (
-                      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                        <div className="flex items-center text-lg font-bold">
-                          {row.id && (
-                            <Link
-                              className="truncate w-64"
-                              to={`/apps/${this.props.app.key}/articles/${row.slug}`}
-                            >
-                              {row.title
-                                ? row.title
-                                : '-- missing translation --'}
-                            </Link>
-                          )}
-                        </div>
-                      </td>
+                      <div className="flex items-center text-lg font-bold">
+                        {row.id && (
+                          <Link
+                            className="truncate w-64"
+                            to={`/apps/${this.props.app.key}/articles/${row.slug}`}
+                          >
+                            {row.title
+                              ? row.title
+                              : '-- missing translation --'}
+                          </Link>
+                        )}
+                      </div>
                     ) : undefined,
                 },
                 {
@@ -480,15 +481,13 @@ class AllArticles extends React.Component {
                   title: I18n.t('definitions.articles.author.label'),
                   render: (row) =>
                     row ? (
-                      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                        <div className="flex items-center">
-                          <span>
-                            <b className="font-bold">{row.author.name}</b>
-                            <br />
-                            {row.author.email}
-                          </span>
-                        </div>
-                      </td>
+                      <div className="flex items-center">
+                        <span>
+                          <b className="font-bold">{row.author.name}</b>
+                          <br />
+                          {row.author.email}
+                        </span>
+                      </div>
                     ) : undefined,
                 },
                 {
@@ -496,20 +495,18 @@ class AllArticles extends React.Component {
                   title: I18n.t('definitions.articles.state.label'),
                   render: (row) =>
                     row && (
-                      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                        <div className="flex items-center">
-                          <Badge
-                            variant={row.state === 'draft' ? 'yellow' : 'green'}
-                          >
-                            {row.state === 'draft' ? (
-                              <GestureIcon />
-                            ) : (
-                              <CheckCircleIcon />
-                            )}{' '}
-                            {I18n.t(`articles.state.${row.state}`)}
-                          </Badge>
-                        </div>
-                      </td>
+                      <div className="flex items-center">
+                        <Badge
+                          variant={row.state === 'draft' ? 'yellow' : 'green'}
+                        >
+                          {row.state === 'draft' ? (
+                            <GestureIcon />
+                          ) : (
+                            <CheckCircleIcon />
+                          )}{' '}
+                          {I18n.t(`articles.state.${row.state}`)}
+                        </Badge>
+                      </div>
                     ),
                 },
                 {
@@ -517,17 +514,15 @@ class AllArticles extends React.Component {
                   title: I18n.t('definitions.articles.collection.label'),
                   render: (row) =>
                     row && (
-                      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                        <div className="flex items-center">
-                          {row.collection && (
-                            <Link
-                              to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}
-                            >
-                              {row.collection.title}
-                            </Link>
-                          )}
-                        </div>
-                      </td>
+                      <div className="flex items-center">
+                        {row.collection && (
+                          <Link
+                            to={`/apps/${this.props.app.key}/articles/collections/${row.collection.id}`}
+                          >
+                            {row.collection.title}
+                          </Link>
+                        )}
+                      </div>
                     ),
                 },
                 {
@@ -535,18 +530,16 @@ class AllArticles extends React.Component {
                   title: I18n.t('definitions.articles.actions.label'),
                   render: (row) =>
                     row && (
-                      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                        <div className="flex items-center">
-                          <Button
-                            variant={'danger'}
-                            onClick={() => {
-                              this.setOpenDeleteDialog(row)
-                            }}
-                          >
-                            {I18n.t('common.delete')}
-                          </Button>
-                        </div>
-                      </td>
+                      <div className="flex items-center">
+                        <Button
+                          variant={'danger'}
+                          onClick={() => {
+                            this.setOpenDeleteDialog(row)
+                          }}
+                        >
+                          {I18n.t('common.delete')}
+                        </Button>
+                      </div>
                     ),
                 },
               ]}

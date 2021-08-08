@@ -27,9 +27,7 @@ import {
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation'
 
-import {
-  successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+import { successMessage } from '@chaskiq/store/src/actions/status_messages'
 
 import { AGENTS, ASSIGNMENT_RULES } from '@chaskiq/store/src/graphql/queries'
 
@@ -50,7 +48,7 @@ const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
   <li>
     <div
       href="#"
-      className="border-b bg-white dark:border-gray-800 dark:bg-black block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out"
+      className="border-b bg-white dark:border-gray-800 dark:bg-gray-900 block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out"
     >
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div>
@@ -355,12 +353,12 @@ function AssignmentRules({ dispatch, app }) {
             <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
               <span className="flex w-full sm:col-start-2">
                 <Button type="submit" onClick={submitAssignment}>
-                  {I18n.t("common.update")}
+                  {I18n.t('common.update')}
                 </Button>
               </span>
               <span className="mt-3 flex w-full sm:mt-0 sm:col-start-1">
                 <Button type="button" variant={'outlined'} onClick={close}>
-                  {I18n.t("common.cancel")}
+                  {I18n.t('common.cancel')}
                 </Button>
               </span>
             </div>

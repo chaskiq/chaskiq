@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash'
 
 import graphql from '@chaskiq/store/src/graphql/client'
 
-import {AnchorLink} from '@chaskiq/components/src/components/RouterLink'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
 import SwitchControl from '@chaskiq/components/src/components/Switch'
 import Table from '@chaskiq/components/src/components/Table'
 import Tabs from '@chaskiq/components/src/components/Tabs'
@@ -28,25 +28,20 @@ import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
 import Badge from '@chaskiq/components/src/components/Badge'
 import userFormat from '@chaskiq/components/src/components/Table/userFormat'
 
-import {
-  parseJwt,
-  generateJWT
-} from '@chaskiq/store/src/jwt'
+import { parseJwt, generateJWT } from '@chaskiq/store/src/jwt'
+
+import { getAppUser } from '@chaskiq/store/src/actions/app_user'
+
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
 
 import {
-  getAppUser
-} from '@chaskiq/store/src/actions/app_user'
-
-import {
-  toggleDrawer
-} from '@chaskiq/store/src/actions/drawer'
-
-import {
-  errorMessage, successMessage
+  errorMessage,
+  successMessage,
 } from '@chaskiq/store/src/actions/status_messages'
 
 import {
-  setCurrentSection, setCurrentPage
+  setCurrentSection,
+  setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation'
 
 import {
@@ -62,7 +57,11 @@ import {
 
 import I18n from '../shared/FakeI18n'
 
-import { CAMPAIGN, CAMPAIGNS, CAMPAIGN_METRICS } from '@chaskiq/store/src/graphql/queries'
+import {
+  CAMPAIGN,
+  CAMPAIGNS,
+  CAMPAIGN_METRICS,
+} from '@chaskiq/store/src/graphql/queries'
 import {
   PREDICATES_SEARCH,
   UPDATE_CAMPAIGN,
@@ -911,16 +910,16 @@ class CampaignContainer extends Component {
     )
   }
 
-  titleMapping = (kind)=>{
-    const mapping = { 
+  titleMapping = (kind) => {
+    const mapping = {
       banners: I18n.t('navigator.childs.banners'),
       tours: I18n.t('navigator.childs.guided_tours'),
       user_auto_messages: I18n.t('navigator.childs.in_app_messages'),
-      campaigns: I18n.t('navigator.childs.mailing_campaigns')
+      campaigns: I18n.t('navigator.childs.mailing_campaigns'),
     }
 
     return mapping[kind]
-  } 
+  }
 
   render() {
     return (
@@ -976,9 +975,9 @@ class CampaignContainer extends Component {
                 )}
 
                 <ContentHeader
-                  title={
-                    this.titleMapping(this.props.match.params.message_type)
-                  }
+                  title={this.titleMapping(
+                    this.props.match.params.message_type
+                  )}
                   actions={this.renderActions()}
                 />
 
@@ -999,17 +998,15 @@ class CampaignContainer extends Component {
                           ),
                           render: (row) =>
                             row && (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <div className="flex items-center">
-                                  <div className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
-                                    <AnchorLink
-                                      to={`${this.props.match.url}/${row.id}`}
-                                    >
-                                      {row.name}
-                                    </AnchorLink>
-                                  </div>
+                              <div className="flex items-center">
+                                <div className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100">
+                                  <AnchorLink
+                                    to={`${this.props.match.url}/${row.id}`}
+                                  >
+                                    {row.name}
+                                  </AnchorLink>
                                 </div>
-                              </td>
+                              </div>
                             ),
                         },
                         {
@@ -1023,15 +1020,13 @@ class CampaignContainer extends Component {
                           title: I18n.t('definitions.campaigns.state.label'),
                           render: (row) => {
                             return (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <Badge
-                                  variant={
-                                    row.state === 'enabled' ? 'green' : null
-                                  }
-                                >
-                                  {I18n.t(`campaigns.state.${row.state}`)}
-                                </Badge>
-                              </td>
+                              <Badge
+                                variant={
+                                  row.state === 'enabled' ? 'green' : null
+                                }
+                              >
+                                {I18n.t(`campaigns.state.${row.state}`)}
+                              </Badge>
                             )
                           },
                         },
@@ -1076,9 +1071,7 @@ class CampaignContainer extends Component {
                           type: 'datetime',
                           render: (row) =>
                             row ? (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <Moment fromNow>{row.scheduledAt}</Moment>
-                              </td>
+                              <Moment fromNow>{row.scheduledAt}</Moment>
                             ) : undefined,
                         },
                         {
@@ -1090,34 +1083,30 @@ class CampaignContainer extends Component {
                           type: 'datetime',
                           render: (row) =>
                             row ? (
-                              <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                                <Moment fromNow>{row.scheduledTo}</Moment>
-                              </td>
+                              <Moment fromNow>{row.scheduledTo}</Moment>
                             ) : undefined,
                         },
                         {
                           field: 'actions',
                           title: I18n.t('definitions.campaigns.actions.label'),
                           render: (row) => (
-                            <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-50">
-                              <span
-                                className={
-                                  'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '
+                            <span
+                              className={
+                                'px-2 inline-flex text-xs leading-5 font-semibold rounded-full '
+                              }
+                            >
+                              <Button
+                                color={'secondary'}
+                                variant={'danger'}
+                                onClick={() =>
+                                  this.setState({
+                                    openDeleteDialog: row,
+                                  })
                                 }
                               >
-                                <Button
-                                  color={'secondary'}
-                                  variant={'danger'}
-                                  onClick={() =>
-                                    this.setState({
-                                      openDeleteDialog: row,
-                                    })
-                                  }
-                                >
-                                  {I18n.t('common.remove')}
-                                </Button>
-                              </span>
-                            </td>
+                                {I18n.t('common.remove')}
+                              </Button>
+                            </span>
                           ),
                         },
                       ]}

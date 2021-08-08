@@ -1,0 +1,66 @@
+
+fr:
+  messenger:
+    runon: Nous utilisons Chaskiq
+    conversations:
+      title: Discussions
+    conversation_block:
+      choosen: Vous avez répondu <strong>%{field}</strong>
+    continue_conversation: Continuer la discussion
+    start_conversation: Commencer une discussion
+    view_all_conversations: voir toutes les discussions
+    see_previous: Voir les précedentes
+    search_article_title: "Trouver les réponses dans notre répertoire d'article"
+    search_articles: Rechercher un article
+    latest_articles: Nos derniers articles
+    reply_above: Répondre en dessous
+    create_new_conversation: créer une nouvelle discussion
+    you: Vous
+    not_seen: non lu
+    by: Par
+    dismiss: Rejeter
+    submit: Soumettre
+    article_meta: 'Par: <strong>%{name}</strong> le <0>%{date}</0>'
+    enter_your: 'Entrez votre %{field}'
+
+    editor:
+      placeholder: 'Envoyer un message...'
+    conversations:
+      events.assigned': '%{name} a été assigné à cette discussion'
+      message_blocks:
+        ask_option: 'attend votre réponse'
+        data_retrieval: 'attend votre réponse'
+        app_package_wait_reply: 'attend votre réponse'
+        app_package_non_wait: 'vous a envoyé un contenu'
+
+    reply:
+      auto: "L'équipe va vous répondre dès que possible"
+      minutes: "L'équipe répond habituellement en quelques minutes"
+      hours: "L'équipe répond habituellement en quelques heures"
+      1day: "L'équipe répond habituellement en quelques jours"
+
+    is_typing: "%{name} est en train d'écrire"
+    availability:
+      aprox: 'nous serons de retour dans quelques %{time} heures'
+      tomorrow: "nous serons de retour dans demain"
+      days: "nous serons de retour dans quelque %{val} jours"
+      next_week: "nous serons de retour la semaine prochaine"
+      back_from: "nous serons en ligne à partir de %{hours} heure"
+      tomorrow_from: "nous serons en ligne demain à partir de %{hours} heure"
+    tours:
+      done: 'Fait !'
+    invalid: '%{name} entré est incorrect'
+    gdpr_title: 'Protection des données'
+    gdpr_ok: 'Oui, accepter'
+    gdpr_nok: 'Non, pas maintenant'
+    gdpr: "
+      <p>
+        Bonjour ! Chez %{name} nous aimons vous parler.
+        Sous la GRPD (General Data Protection Regulation), nous avons besoins de votre approbation pour utiliser les informations personnelles
+        (ex: votre nom et adresse email) que vous nous fournissez quand nous communiquons:
+      </p>
+      <p>(1) Nous allons stocker vos informations personnelles pour que nous puissions sélectionner une discuter plus tard.</p>
+      <p>(2) Nous avons besoin d'un email pour suivre nos discussions.</p>
+      <p>(3) Nous pourrions envoyer des email a propos des futurs services ou offres de %{name}.</p>
+      <p>êtes vous d'accord ?</p>
+      "
