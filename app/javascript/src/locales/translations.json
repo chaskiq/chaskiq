@@ -3445,11 +3445,11 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "Accions",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
-        "name": "Name",
+        "name": "Nom",
         "owner": "Owner",
         "sign_in_count": "Sign in count"
       },
@@ -8133,7 +8133,7 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "Aktionen",
         "email": "E-Mail",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
@@ -12170,6 +12170,7 @@
         "messenger_settings": "Messenger settings",
         "new_conversations": "New conversations",
         "outbound": "Outbound",
+        "series": "Series",
         "team": "Team",
         "webhooks": "Webhooks"
       },
@@ -12862,11 +12863,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "Está prohibida por el servidor!",
                 "fragment_present": "No puede contener un fragmento.",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "Debe ser una URI válida.",
                 "relative_uri": "debe ser una URI absoluta.",
-                "secured_uri": "This URI must have HTTPS!",
+                "secured_uri": "¡Esta URI debe tener HTTPS!",
                 "unspecified_scheme": "debe especificar un esquema."
               },
               "scopes": {
@@ -13051,7 +13052,7 @@
       "results": "resultados",
       "save": "Guardar",
       "save_changes": "Guardar cambios",
-      "search_conversations": "Search conversations",
+      "search_conversations": "Buscar conversaciones",
       "select_language": "Seleccionar Idioma",
       "send": "Enviar",
       "send_on_enter": "Publicar al entrar",
@@ -13412,7 +13413,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Mostrar créditos"
         },
         "domain": {
           "hint": "Dominio del Centro de Ayuda",
@@ -13722,7 +13723,7 @@
         "show": {
           "actions": "Acciones",
           "application_id": "UID de la aplicación",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "URLs de callback",
           "confidential": "Confidenciales",
           "scopes": "Scopes",
           "secret": "Secreto",
@@ -13860,7 +13861,7 @@
         "model_invalid": "La validación falló: %{errors}",
         "not_a_number": "no es un número",
         "not_an_integer": "debe ser un entero",
-        "not_found": "Not found",
+        "not_found": "No encontrado",
         "not_locked": "no se ha bloqueado.",
         "not_saved": {
           "one": "1 error prohíbe guardar este %{resource}:",
@@ -14057,6 +14058,7 @@
         "messenger_settings": "Configuración de Messenger",
         "new_conversations": "Nuevas conversaciones",
         "outbound": "Salida",
+        "series": "Series",
         "team": "Equipo",
         "webhooks": "Webhooks"
       },
@@ -16640,7 +16642,7 @@
         "email": "E-mail",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
-        "name": "Name",
+        "name": "Nom",
         "owner": "Owner",
         "sign_in_count": "Sign in count"
       },
@@ -19526,9 +19528,9 @@
       "activate_help_center": "Activate Help Center",
       "add": "Add item",
       "add_articles": "Add articles",
-      "all": "All",
+      "all": "Tutti",
       "author": "Author",
-      "collections": "Collections",
+      "collections": "Collezioni",
       "create": {
         "description": "Describe your collection to help you find it.",
         "placeholder": "Enter the title of the collection",
@@ -19546,7 +19548,7 @@
       "description_placeholder": "Describe your collection to help you find it.",
       "draft": "Drafts",
       "edit_collection": "Edit collection",
-      "help_center": "Help Center",
+      "help_center": "Centro assistenza",
       "new": "New article",
       "new_article": "new article",
       "new_collection": "New collection",
@@ -19581,7 +19583,7 @@
         "published": "published",
         "published_desc": "shows article on the help center"
       },
-      "title": "Articles",
+      "title": "Articoli",
       "title_placeholder": "Write the title of the sections",
       "updated_error": "article error on save",
       "updated_success": "article updated",
@@ -19591,7 +19593,7 @@
     "assignment_rules": {
       "create_button": "Create Rule",
       "success_message": "Assignment rule created sucessfully",
-      "title": "Assignment Rules"
+      "title": "Regole di assegnazione"
     },
     "campaign": {
       "create": "Crea nuova campagna",
@@ -19637,7 +19639,7 @@
       "error_purge": "Error purging metrics",
       "home": {
         "text": "This is the campaigns section, you can create newsletters , popup messages and guided tours",
-        "title": "Campaigns"
+        "title": "Campagne"
       },
       "in_app": "In app messages",
       "mailing": "Mailing campaign",
@@ -19743,7 +19745,7 @@
             "title": "Avvia un'attività Bot"
           },
           "quick_reply": {
-            "choose_another": "Choose another",
+            "choose_another": "Scegli un altro",
             "confirm": "Confermi l'invio di %{title}?",
             "confirm_msg": "This quick reply will be delivered on user's current conversation.",
             "empty": "no quick replies available",
@@ -19816,7 +19818,7 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "Azioni",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
@@ -19926,7 +19928,7 @@
       },
       "articles": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "author": {
           "label": "Author"
@@ -19963,7 +19965,7 @@
       },
       "bot_tasks": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "name": {
           "label": "Name"
@@ -19979,7 +19981,7 @@
       },
       "campaigns": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "campaign_name": {
           "hint": "This will not be shown in the email",
@@ -20079,7 +20081,7 @@
       },
       "stats": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "createdAt": {
           "label": "CreatedAt"
@@ -20208,10 +20210,10 @@
       "applications": {
         "buttons": {
           "authorize": "Authorize",
-          "cancel": "Cancel",
+          "cancel": "Annulla",
           "destroy": "Destroy",
-          "edit": "Edit",
-          "submit": "Submit"
+          "edit": "Modifica",
+          "submit": "Invia"
         },
         "confirmations": {
           "destroy": "Are you sure?"
@@ -20229,7 +20231,7 @@
           "scopes": "Separate scopes with spaces. Leave blank to use the default scopes."
         },
         "index": {
-          "actions": "Actions",
+          "actions": "Azioni",
           "callback_url": "Callback URL",
           "confidential": "Confidential?",
           "confidentiality": {
@@ -20244,7 +20246,7 @@
           "title": "New Application"
         },
         "show": {
-          "actions": "Actions",
+          "actions": "Azioni",
           "application_id": "Application UID",
           "callback_urls": "Callback URL's",
           "confidential": "Confidential",
@@ -20486,9 +20488,9 @@
       }
     },
     "new_app": {
-      "hint": "Create your company’s Chaskiq app",
+      "hint": "Crea l'app Chaskiq della tua azienda",
       "text": "Provide basic information to setup Chaskiq for your team and customers.",
-      "title": "Create your company’s Chaskiq app"
+      "title": "Crea l'app Chaskiq della tua azienda"
     },
     "quick_replies": {
       "add_as_dialog": {
@@ -20567,7 +20569,7 @@
         "title": "Oauth Applications"
       },
       "app": {
-        "app_settings": "App Settings",
+        "app_settings": "Impostazioni App",
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
@@ -20580,7 +20582,7 @@
         "privacy_title": "Privacy settings",
         "quick_replies": "Quick Replies",
         "security": "Security",
-        "tags": "Tags",
+        "tags": "Etichette",
         "translations": "Translations",
         "user_data": "User data"
       },
@@ -20659,12 +20661,12 @@
           "hint": "This doesn’t affect the outbound messages you send.",
           "leads": {
             "all": "All Visitors",
-            "label": "Leads",
+            "label": "Potenziali Clienti",
             "some": "Visitors who match certain data"
           },
           "users": {
             "all": "All Users",
-            "label": "Users",
+            "label": "Utenti",
             "some": "Users who match certain data"
           }
         },
@@ -20722,14 +20724,14 @@
           "link": "account settings",
           "title": "Create app's tag"
         },
-        "title": "Tags"
+        "title": "Etichette"
       },
       "team": {
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
         "content_text": "send an activable invitation",
-        "destroy_agent": "Delete",
+        "destroy_agent": "Elimina",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent} ?",
         "destroyed_agent": "Agent deleted successfully",
@@ -20739,9 +20741,9 @@
         "invitations": "invitations",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
-        "title": "Team",
+        "title": "Squadra",
         "title_content": "Add a new agent",
-        "update_agent": "Update",
+        "update_agent": "Aggiorna",
         "update_agent_title": "Update Agent information",
         "updated_agent": "Information updated successfully"
       },
@@ -20782,7 +20784,7 @@
         },
         "new_webhook": "New webhook",
         "outgoing_webhooks": "Outgoing webhooks",
-        "title": "Webhooks",
+        "title": "Webhook",
         "update_error": "Error updating webhook",
         "update_success": "Webhook updated"
       }
@@ -20831,7 +20833,7 @@
         },
         "Articles": {
           "active": false,
-          "title": "Articles",
+          "title": "Articoli",
           "upgrade_message": "Enable Documentation & Help Center"
         },
         "BotTasks": {
@@ -20841,12 +20843,12 @@
         },
         "Campaigns": {
           "active": false,
-          "title": "Campaigns",
+          "title": "Campagne",
           "upgrade_message": "Get outbound messages, newsletter and Tours!"
         },
         "Conversations": {
           "description": true,
-          "title": "Conversations",
+          "title": "Conversazioni",
           "upgrade_message": "Enable conversations"
         },
         "CustomAttributes": {
@@ -20855,12 +20857,12 @@
         },
         "Integrations": {
           "description": true,
-          "title": "Integrations",
+          "title": "Integrazioni",
           "upgrade_message": "Get external apps, many many apps"
         },
         "Leads": {
           "description": true,
-          "title": "Leads",
+          "title": "Potenziali Clienti",
           "upgrade_message": "Get external apps, many many apps"
         },
         "OauthApplications": {
@@ -20997,7 +20999,7 @@
           "route_desc": "Route leads to the right people by asking if they are an existing customer when they start a new conversation.",
           "share_time": "Share your typical reply time",
           "start_conversation": "When leads start a conversation",
-          "tab": "For Leads"
+          "tab": "Per potenziali clienti"
         },
         "office_hours": "During office hours",
         "outside_office": "Outside office hours",
@@ -21011,7 +21013,7 @@
             "label": "Override default behavior with your own task"
           },
           "start_conversation": "When users start a conversation",
-          "tab": "For Users"
+          "tab": "Per utenti"
         }
       },
       "state_filters": {
@@ -28861,11 +28863,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "Acesso proibido pelo servidor!",
                 "fragment_present": "não pode conter um fragmento.",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "Deve ser uma URI válida.",
                 "relative_uri": "deve ser uma URI absoluta.",
-                "secured_uri": "This URI must have HTTPS!",
+                "secured_uri": "Este URI deve ter HTTPS!",
                 "unspecified_scheme": "deve especificar um esquema."
               },
               "scopes": {
@@ -29050,7 +29052,7 @@
       "results": "resultados",
       "save": "Salvar",
       "save_changes": "Salvar as alterações",
-      "search_conversations": "Search conversations",
+      "search_conversations": "Pesquisar conversas",
       "select_language": "Selecione o idioma",
       "send": "Enviar",
       "send_on_enter": "Publicar no website",
@@ -29169,27 +29171,27 @@
     },
     "data_tables": {
       "agents": {
-        "access_list": "Access List",
-        "actions": "Actions",
+        "access_list": "Lista de acesso",
+        "actions": "Ações",
         "email": "Email",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
-        "name": "Name",
-        "owner": "Owner",
-        "sign_in_count": "Sign in count"
+        "invitation_accepted_at": "Convite aceite em",
+        "last_sign_in_at": "Data do último início de sessão",
+        "name": "Nome",
+        "owner": "Proprietário",
+        "sign_in_count": "Contagem de ínicio de sessão"
       },
       "articles": {
         "settings": {
           "action": "Acão",
-          "locale": "Locale",
-          "site_description": "Site Description",
-          "site_title": "Site Title"
+          "locale": "Localidade",
+          "site_description": "Descrição",
+          "site_title": "Título da Área"
         }
       },
       "settings": {
-        "greetings": "Greetings",
-        "intro": "Intro",
-        "locale": "Locale",
+        "greetings": "Saudações",
+        "intro": "Introdução",
+        "locale": "Localidade",
         "tagline": "Mote / Slogan"
       },
       "users": {
@@ -29224,19 +29226,19 @@
     "definitions": {
       "agents": {
         "access_list": {
-          "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "hint": "o acesso em branco desabilitará o acesso às configurações de conta para o usuário",
+          "label": "Papéis para o agente"
         },
         "email": {
-          "label": "Agent's Email",
-          "placeholder": "john@example.com"
+          "label": "E-mail do Representante",
+          "placeholder": "joao@exemplo.com"
         },
         "name": {
-          "label": "Agent's Name",
+          "label": "Nome do Agente",
           "placeholder": "John Doe"
         },
         "owner": {
-          "label": "Owner"
+          "label": "Proprietário"
         }
       },
       "app_packages": {
@@ -29290,7 +29292,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Mostrar créditos"
         },
         "domain": {
           "hint": "Domínio do Centro de Ajuda",
@@ -29456,15 +29458,15 @@
       },
       "webhooks": {
         "enabled": {
-          "label": "enable webhook"
+          "label": "webhooks Desativados"
         },
         "tag_list": {
-          "hint": "chaskiq will deliver this events to configured endpoint",
-          "label": "events to send"
+          "hint": "chaskiq entregará este evento para um endpoint configurado",
+          "label": "eventos para enviar"
         },
         "url": {
-          "hint": "we'll send POST requests",
-          "label": "url for outgoing webhook"
+          "hint": "enviaremos solicitações POST",
+          "label": "url para webhook de saída"
         }
       }
     },
@@ -29600,7 +29602,7 @@
         "show": {
           "actions": "Ações",
           "application_id": "UID do aplicativo",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "URL de Callback",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secreto",
@@ -29721,7 +29723,7 @@
         "already_confirmed": "já foi confirmado(a), tente iniciar sessão",
         "confirmation_period_expired": "tem de ser confirmado(a) no prazo de %{period}, solicite um novo",
         "expired": "expirou, solicite um(a) novo(a)",
-        "not_found": "Not found",
+        "not_found": "Não foi encontrado",
         "not_locked": "não foi bloqueado",
         "not_saved": {
           "one": "1 erro proibiu que esta %{resource} fosse guardada:",
@@ -35091,7 +35093,7 @@
     "activerecord": {
       "attributes": {
         "doorkeeper/application": {
-          "name": "Name",
+          "name": "İsim",
           "redirect_uri": "Redirect URI"
         }
       },
@@ -35409,11 +35411,11 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "İşlemler",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
-        "name": "Name",
+        "name": "İsim",
         "owner": "Owner",
         "sign_in_count": "Sign in count"
       },
@@ -35444,13 +35446,13 @@
         "last_seen": "First Seen",
         "lat": "Lat",
         "lng": "Lng",
-        "name": "Name",
+        "name": "İsim",
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
         "postal": "Postal",
         "referrer": "Referrer",
-        "state": "State",
+        "state": "Durum",
         "subscription_status": {
           "passive": "Passive",
           "subscribed": "Subscribed",
@@ -35556,23 +35558,23 @@
       },
       "bot_tasks": {
         "actions": {
-          "label": "Actions"
+          "label": "İşlemler"
         },
         "name": {
-          "label": "Name"
+          "label": "İsim"
         },
         "state": {
-          "label": "State"
+          "label": "Durum"
         },
         "title": {
           "hint": "Task name ie: welcoming users bot task",
-          "label": "Title",
+          "label": "Başlık",
           "placeholder": "write task title"
         }
       },
       "campaigns": {
         "actions": {
-          "label": "Actions"
+          "label": "İşlemler"
         },
         "campaign_name": {
           "hint": "This will not be shown in the email",
@@ -35601,7 +35603,7 @@
           "label": "Scheduled to"
         },
         "state": {
-          "label": "State"
+          "label": "Durum"
         }
       },
       "settings": {
@@ -35672,7 +35674,7 @@
       },
       "stats": {
         "actions": {
-          "label": "Actions"
+          "label": "İşlemler"
         },
         "createdAt": {
           "label": "CreatedAt"
@@ -35822,14 +35824,14 @@
           "scopes": "Separate scopes with spaces. Leave blank to use the default scopes."
         },
         "index": {
-          "actions": "Actions",
+          "actions": "İşlemler",
           "callback_url": "Callback URL",
           "confidential": "Confidential?",
           "confidentiality": {
             "no": "No",
             "yes": "Yes"
           },
-          "name": "Name",
+          "name": "İsim",
           "new": "New Application",
           "title": "Your applications"
         },
@@ -35837,7 +35839,7 @@
           "title": "New Application"
         },
         "show": {
-          "actions": "Actions",
+          "actions": "İşlemler",
           "application_id": "Application UID",
           "callback_urls": "Callback URL's",
           "confidential": "Confidential",
@@ -38220,11 +38222,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "被服务器禁止。",
                 "fragment_present": "不能包含片段",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "必须是一个有效的 URI",
                 "relative_uri": "必须是绝对的URI。",
-                "secured_uri": "This URI must have HTTPS!",
+                "secured_uri": "此 URI 必须有 HTTPS!",
                 "unspecified_scheme": "必须指定 scheme 计划。"
               },
               "scopes": {
@@ -38529,26 +38531,26 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "操作",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
-        "name": "Name",
+        "name": "名称",
         "owner": "Owner",
         "sign_in_count": "Sign in count"
       },
       "articles": {
         "settings": {
           "action": "行为",
-          "locale": "Locale",
-          "site_description": "Site Description",
+          "locale": "地点",
+          "site_description": "网站说明",
           "site_title": "Site Title"
         }
       },
       "settings": {
-        "greetings": "Greetings",
-        "intro": "Intro",
-        "locale": "Locale",
+        "greetings": "问候",
+        "intro": "介绍",
+        "locale": "地点",
         "tagline": "Tagline"
       },
       "users": {
@@ -38566,7 +38568,7 @@
         "lng": "经度(Lng)",
         "name": "名称",
         "online": "Online（在线）",
-        "os": "OS",
+        "os": "操作模式",
         "os_version": "操作系统版本",
         "postal": "邮局",
         "referrer": "反向链接",
@@ -38959,7 +38961,7 @@
         "show": {
           "actions": "操作",
           "application_id": "应用程序的 UID",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "回调 URL",
           "confidential": "保密",
           "scopes": "作用域",
           "secret": "机密",
@@ -39080,7 +39082,7 @@
         "already_confirmed": "已经证实，请尝试登录",
         "confirmation_period_expired": "需要在%{period} 内确认，请重新申请",
         "expired": "已过期，请申请一个新的",
-        "not_found": "Not found",
+        "not_found": "未找到",
         "not_locked": "未锁定",
         "not_saved": {
           "other": "因%{count} 个错误，使此%{resource} 无法保存："
@@ -39682,7 +39684,7 @@
       },
       "outbound": "🏓 出站",
       "path_title_hint": "路径名称",
-      "remove_success": "Bot 已移除",
+      "remove_success": "机器人已删除",
       "reply_agent": "您将从我们的代理人中获得回复",
       "reply_button": "回复按钮",
       "reply_soon": "您好， %{name} 会尽快回复。",
@@ -39758,7 +39760,7 @@
         "devise": {
           "mailer": {
             "invitation_instructions": {
-              "accept_until_format": "%Y年%m月%d日"
+              "accept_until_format": "%B %d, %Y %I:%M %p"
             }
           }
         }
