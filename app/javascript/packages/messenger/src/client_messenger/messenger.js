@@ -1132,7 +1132,10 @@ class Messenger extends Component {
               {this.state.appData && this.state.appData.replyTime && (
                 <AssigneeStatus>
                   {i18n.t(
-                    `messenger.reply_time.${this.state.appData.replyTime}`
+                    `messenger.reply_time.${this.state.appData.replyTime.replace(
+                      ' ',
+                      ''
+                    )}`
                   )}
                 </AssigneeStatus>
               )}
