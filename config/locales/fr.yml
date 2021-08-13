@@ -9,7 +9,7 @@ fr:
     delete: Effacer
     create: Créer
     save: Enregistrer
-    save_changes: Save changes
+    save_changes: Enregistrer les modifications
     preview: Prévisualisation
     cancel: Annuler
     back_to_site: Retour au site
@@ -17,7 +17,7 @@ fr:
     get_snippet: Obtenir le snippet
     submit: Valider
     confirm_deletion: "Confirmer la suppression ?"
-    confirm_deletion_ready: are you ready to delete ?
+    confirm_deletion_ready: êtes-vous prêt(e) à supprimer ?
     next: Suivant
     prev: Précédent
     showing: Afficher
@@ -27,9 +27,9 @@ fr:
     tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
     send: Envoyer
     actions: Actions
-    your_apps: Your apps
-    upload_field: upload %{field}
-    choose_color: Choose color
+    your_apps: Vos apps
+    upload_field: téléverser %{field}
+    choose_color: Choisir une couleur
     image: Imagen
     langs:
       en: Anglais
@@ -37,21 +37,21 @@ fr:
       pt: Portugais
       de: Allemand
       ca: Catalan
-      zh-CN: Chinese
+      zh-CN: Chinois
     redirecting: Redirection
     select_language: Sélectionnez une langue
     send_on_enter: Publier à la saisie
-    away_mode: Away mode
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+    away_mode: Mode Absent
+    toggle_light_mode: Basculer en mode clair
+    toggle_dark_mode: Basculer en mode sombre
     leads: Prospects
-    visitors: Visitors
+    visitors: Visiteurs
     users: Utilisateurs
-    type_message: type your message
-    search_conversations: Search conversations
-    days: Days
+    type_message: saisissez votre message
+    search_conversations: Rechercher des conversations 
+    days: Jours
   status_messages:
-    error: "Error"
+    error: "Erreur"
     success: "Success"
     updated_success: Updated successfully
     updated_error: Error on upddate
