@@ -215,10 +215,20 @@ export function RtcView(props) {
         })
       }
 
-      setStreamUrl(stream)
-      setLocalStream(stream)
-      localVideo.current.srcObject = stream
-      peer.addStream(stream)
+      const currentTrack = localStream.getVideoTracks()
+
+      if (stream) {
+        localStream.removeTrack(currentTrack[0])
+        localStream.addTrack(stream.getVideoTracks()[0])
+        // replace track to all peers
+        peer.replaceTrack(
+          currentTrack[0],
+          stream.getVideoTracks()[0],
+          localStream
+        )
+        // Set Local video
+        localVideo.current.srcObject = stream
+      }
     })
   }
 
