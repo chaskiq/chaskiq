@@ -532,13 +532,13 @@ function AssignmentForm(props) {
         ></Input>
       )}
 
-      <Input
+      {/*<Input
         label={'Activate'}
         type={'checkbox'}
         name={'active'}
         value={checked}
         onChange={(e) => setChecked(e.target.checked)}
-      />
+      />*/}
     </div>
   )
 }
