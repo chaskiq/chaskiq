@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'rack/mime'
+
+require "rack/mime"
 
 module MessageApis::Dialog360
   class Api < MessageApis::BasePackage
@@ -116,11 +117,10 @@ module MessageApis::Dialog360
     end
 
     def send_message(conversation, message)
-
       # TODO: implement event format
 
       return nil if message["serialized_content"].blank?
-      
+
       blocks = JSON.parse(
         message["serialized_content"]
       )["blocks"]
@@ -251,7 +251,7 @@ module MessageApis::Dialog360
 
       mime = content_type.split(";").first
       extension = Rack::Mime::MIME_TYPES.invert[mime].to_s
-      
+
       direct_upload(
         file: StringIO.new(file_string),
         filename: "#{id}#{extension}",

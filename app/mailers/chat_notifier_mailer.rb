@@ -65,6 +65,8 @@ class ChatNotifierMailer < ApplicationMailer
 
     from_name_parametrized = from_name.parameterize(separator: " ").capitalize.titleize
 
+    @content = image_rewrite(@conversation_part.message.html_content)
+
     roadie_mail(from: "#{from_name_parametrized}<#{from_email}>",
                 to: email,
                 subject: subject,
@@ -73,5 +75,10 @@ class ChatNotifierMailer < ApplicationMailer
       format.html { render "chat_notifier_mailer/#{template}" }
       # format.text # assuming you want a text fallback as well
     end
+  end
+
+  # rewrites local uploads to absolute urls
+  def image_rewrite(html)
+    html.gsub("/rails/active_storage/", "#{ENV['HOST']}/rails/active_storage/")
   end
 end
