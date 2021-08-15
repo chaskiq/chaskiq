@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ConversationPartContent < ApplicationRecord
-
   has_one :conversation_part, as: :messageable, dependent: :destroy_async
 
   def as_json(*)

@@ -42,7 +42,7 @@ class ChatNotifierMailer < ApplicationMailer
     email         = recipient.email
     subject       = "new message from #{app.name}"
     reply_email   = from_email
-               
+
     return if email.blank?
 
     options = { "In-Reply-To" => from_email }
@@ -64,7 +64,7 @@ class ChatNotifierMailer < ApplicationMailer
     return if recipient.is_a?(Agent) && (recipient.bot? && !recipient.enable_deliveries)
 
     from_name_parametrized = from_name.parameterize(separator: " ").capitalize.titleize
-    
+
     @content = image_rewrite(@conversation_part.message.html_content)
 
     roadie_mail(from: "#{from_name_parametrized}<#{from_email}>",
