@@ -198,7 +198,7 @@ module Types
 
       @collection = @collection.where(state: filter) if filter.present?
 
-      @collection = filter_by_agent(agent_id) if !agent_id.nil?
+      @collection = filter_by_agent(agent_id) unless agent_id.nil?
       @collection = @collection.page(page).per(per)
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
