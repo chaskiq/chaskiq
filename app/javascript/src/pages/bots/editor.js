@@ -1473,7 +1473,7 @@ const FollowActions = ({
               controls={controlStep.controls}
               path={path}
               step={controlStep}
-              options={options}
+              options={options.filter((o) => o.value)}
               searchFields={searchFields}
               update={update}
             />
@@ -1528,7 +1528,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
   }
 
   return (
-    <div className="shadow border border-gray-400 rounded p-6 relative bg-gray-100 max-w-sm">
+    <div className="shadow border border-gray-400 rounded p-6 relative dark:bg-gray-800 bg-gray-100 max-w-sm">
       <TextEditor
         uploadHandler={uploadHandler}
         serializedContent={message.serialized_content}

@@ -156,7 +156,7 @@ const HomePanel = () => {
     return (
       appData.replyTime && (
         <ReplyTime>
-          {i18n.t(`messenger.reply_time.${appData.replyTime}`)}
+          {i18n.t(`messenger.reply_time.${appData.replyTime.replace(' ', '')}`)}
         </ReplyTime>
       )
     )

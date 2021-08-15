@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { ThemeProvider } from 'emotion-theming'
 
 import theme from '../textEditor/theme'

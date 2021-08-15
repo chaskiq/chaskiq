@@ -197,6 +197,11 @@ const CallButtons = styled.div`
   bottom: 0;
 `
 
+const BaseIcon = styled.svg`
+  height: 30px;
+  width: 30px;
+`
+
 export default function RtcViewWrapper({
   videoSession,
   relativePosition,
@@ -244,11 +249,6 @@ export default function RtcViewWrapper({
     </React.Fragment>
   )
 }
-
-const BaseIcon = styled.svg`
-  height: 30px;
-  width: 30px;
-`
 
 export function FullScreenIcon(props) {
   return (

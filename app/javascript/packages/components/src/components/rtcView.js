@@ -76,20 +76,15 @@ const CallButtons = styled.div`
   //bottom: 0;
 `
 
-export default function RtcViewWrapper({
-  videoSession,
-  /*setVideoSession,
-  toggleVideo,
-  toggleAudio,
-  rtcVideo,
-  rtcAudio,
-  relativePosition,*/
-  expand,
-  setExpand,
-}) {
-  //const [localFullScreen, setLocalFullScreen] = React.useState(false)
-  //const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
+const LocalVideo = styled.div`
+  video {
+    height: 127px;
+    width: 169px;
+    max-width: none;
+  }
+`
 
+export default function RtcViewWrapper({ videoSession, expand, setExpand }) {
   return (
     <React.Fragment>
       <CallStatus id="callStatus" />
@@ -109,7 +104,7 @@ export default function RtcViewWrapper({
           <div className="flex justify-between w-full items-center lg:space-x-10 space-x-2">
             <CallButtons id="callButtons" className="space-x-4" />
 
-            <div
+            <LocalVideo
               id="localVideo"
               className="bg-black overflow-hidden lg:h-32 lg:w-32 h-20 w-20 rounded-full border-2 border-green-600"
             />
