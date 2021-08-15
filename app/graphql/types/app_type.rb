@@ -190,7 +190,15 @@ module Types
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
       # object.plan.allow_feature!("Conversations")
       authorize! object, to: :show?, with: AppPolicy
-      @collection = filter_by_agent(agent_id, filter)
+
+      @collection = object.conversations
+                          .left_joins(:messages)
+                          .where.not(conversation_parts: { id: nil })
+                          .distinct
+
+      @collection = @collection.where(state: filter) if filter.present?
+
+      @collection = filter_by_agent(agent_id) if !agent_id.nil?
       @collection = @collection.page(page).per(per)
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
@@ -531,14 +539,7 @@ module Types
 
     private
 
-    def filter_by_agent(agent_id, filter)
-      collection = object.conversations
-                         .left_joins(:messages)
-                         .where.not(conversation_parts: { id: nil })
-                         .distinct
-
-      collection = collection.where(state: filter) if filter.present?
-
+    def filter_by_agent(agent_id)
       agent = agent_id.present? && agent_id.zero? ? nil : agent_id
       collection.where(assignee_id: agent)
     end

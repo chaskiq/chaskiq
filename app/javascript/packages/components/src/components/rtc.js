@@ -147,25 +147,6 @@ export function RtcView(props) {
 
   function getUserMedia(_cb) {
     return new Promise((resolve, _reject) => {
-      /* const op = {
-        video: {
-          enabled: props.rtcVideo,
-          width: { min: 160, ideal: 640, max: 1280 },
-          height: { min: 120, ideal: 360, max: 720 }
-        },
-        audio: {
-          enabled: props.rtcAudio,
-          noiseSuppression: true,
-          echoCancellation: true,
-          autoGainControl: true,
-          sampleRate: 44000,
-          channelCount: {
-            ideal: 1
-          },
-          volume: 0.9
-        },
-      }; */
-
       const op = {
         audio: true,
         video: true,
@@ -215,10 +196,20 @@ export function RtcView(props) {
         })
       }
 
-      setStreamUrl(stream)
-      setLocalStream(stream)
-      localVideo.current.srcObject = stream
-      peer.addStream(stream)
+      const currentTrack = localStream.getVideoTracks()
+
+      if (stream) {
+        localStream.removeTrack(currentTrack[0])
+        localStream.addTrack(stream.getVideoTracks()[0])
+        // replace track to all peers
+        peer.replaceTrack(
+          currentTrack[0],
+          stream.getVideoTracks()[0],
+          localStream
+        )
+        // Set Local video
+        localVideo.current.srcObject = stream
+      }
     })
   }
 
@@ -306,8 +297,6 @@ export function RtcView(props) {
 
       element.autoplay = 'autoplay'
       element.srcObject = stream
-      // element.muted = true
-      // element.setAttribute('muted', 'muted')
       element.volume = 0.9
 
       setConnecting(false)
@@ -350,22 +339,7 @@ export function RtcView(props) {
       {localVideoTarget &&
         createPortal(
           <div id="local-video-wrapper">
-            <video
-              id="local-video"
-              muted="muted"
-              autoPlay
-              ref={localVideo}
-            ></video>
-            {callStarted && (
-              <button
-                className="control-btn"
-                onClick={() => {
-                  getDisplay()
-                }}
-              >
-                share screen
-              </button>
-            )}
+            <video id="local-video" muted="muted" autoPlay ref={localVideo} />
           </div>,
           localVideoTarget
         )}
@@ -509,6 +483,15 @@ export function RtcView(props) {
               }}
             >
               <MicIcon />
+            </Button>
+
+            <Button
+              variant="outlined"
+              onClick={() => {
+                getDisplay()
+              }}
+            >
+              <ScreenShareIcon />
             </Button>
 
             <Button
