@@ -136,10 +136,8 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false)
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
 
-  const [
-    conversationPartSelected,
-    setConversationPartSelected,
-  ] = React.useState(false)
+  const [conversationPartSelected, setConversationPartSelected] =
+    React.useState(false)
 
   const appId = app.key
 
@@ -353,10 +351,13 @@ function Conversation({
           userOrAdmin={userOrAdmin}
           privateNote={message.privateNote}
           className={`
-        shadow sm:rounded-lg
-        flex-1 
-        p-3 
-        max-w-full`}
+            shadow 
+            sm:rounded-lg
+            flex-1 
+            p-3 
+            max-w-full
+            break-words	
+          `}
         >
           <div className="flex justify-between pb-4">
             <div className="flex items-center">
