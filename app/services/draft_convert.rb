@@ -14,7 +14,7 @@ class DraftConvert
       block_map: {
         "header-one" => { element: "h1", className: "graf graf--h2" },
         "header-two" => { element: "h2", className: "graf graf--h3" },
-        "header-tree" => { element: "h3", className: "graf graf--h4" },
+        "header-three" => { element: "h3", className: "graf graf--h4" },
         "header-four" => { element: "h4", className: "graf graf--h5" },
         "blockquote" => { element: "blockquote", className: "graf graf--blockquote" },
         "code-block" => { element: "pre", className: "graf graf--code" },
