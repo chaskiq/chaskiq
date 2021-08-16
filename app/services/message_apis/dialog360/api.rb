@@ -162,7 +162,7 @@ module MessageApis::Dialog360
                                 }
                               })
 
-      elsif file_block        
+      elsif file_block
         message_params.merge!({
                                 type: "document",
                                 document: {

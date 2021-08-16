@@ -25,7 +25,7 @@ class ChatNotifierMailer < ApplicationMailer
                 else
                   conversation.main_participant
                 end
-         
+
     return if recipient.blank?
     return if recipient.is_a?(AppUser) && recipient.unsubscribed?
 
@@ -66,10 +66,14 @@ class ChatNotifierMailer < ApplicationMailer
     from_name_parametrized = from_name.parameterize(separator: " ").capitalize.titleize
 
     # pick serialized-content or html_content
-    @content = image_rewrite(
-      serialized_to_html(@conversation_part.message.serialized_content) ||
-      @conversation_part.message.html_content
-    ) rescue nil
+    @content = begin
+      image_rewrite(
+        serialized_to_html(@conversation_part.message.serialized_content) ||
+        @conversation_part.message.html_content
+      )
+    rescue StandardError
+      nil
+    end
 
     return if @content.nil?
 
@@ -89,13 +93,11 @@ class ChatNotifierMailer < ApplicationMailer
   end
 
   def serialized_to_html(serialized_content)
-    begin
-      content = JSON.parse(serialized_content)&.with_indifferent_access
-      DraftConvert.perform(content)
-    rescue => e
-      Rails.logger.error(e)
-      Bugsnag.notify(e)
-      nil
-    end
+    content = JSON.parse(serialized_content)&.with_indifferent_access
+    DraftConvert.perform(content)
+  rescue StandardError => e
+    Rails.logger.error(e)
+    Bugsnag.notify(e)
+    nil
   end
 end

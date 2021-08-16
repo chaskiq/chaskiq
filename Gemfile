@@ -86,9 +86,9 @@ gem "roadie"
 gem "roadie-rails"
 gem "urlcrypt"
 
-gem 'draftjs_exporter', github: 'chaskiq/draftjs_exporter'
+gem "aws-sdk-rails"
 gem "aws-sdk-s3", "~> 1.48"
-gem 'aws-sdk-rails'
+gem "draftjs_exporter", github: "chaskiq/draftjs_exporter"
 
 gem "mini_magick", "~> 4.8"
 
