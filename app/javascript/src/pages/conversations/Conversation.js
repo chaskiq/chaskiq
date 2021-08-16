@@ -93,6 +93,7 @@ const BgContainer = styled.div`
 `
 
 const MessageItem = styled.div`
+  ${tw`break-all`}
   ${
     (props) =>
       props.userOrAdmin === 'user'
@@ -136,10 +137,8 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false)
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
 
-  const [
-    conversationPartSelected,
-    setConversationPartSelected,
-  ] = React.useState(false)
+  const [conversationPartSelected, setConversationPartSelected] =
+    React.useState(false)
 
   const appId = app.key
 
