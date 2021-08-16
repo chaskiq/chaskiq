@@ -93,6 +93,7 @@ const BgContainer = styled.div`
 `
 
 const MessageItem = styled.div`
+  ${tw`break-all`}
   ${
     (props) =>
       props.userOrAdmin === 'user'
