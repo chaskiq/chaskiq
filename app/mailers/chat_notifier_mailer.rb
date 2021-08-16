@@ -25,7 +25,7 @@ class ChatNotifierMailer < ApplicationMailer
                 else
                   conversation.main_participant
                 end
-
+         
     return if recipient.blank?
     return if recipient.is_a?(AppUser) && recipient.unsubscribed?
 
@@ -65,7 +65,13 @@ class ChatNotifierMailer < ApplicationMailer
 
     from_name_parametrized = from_name.parameterize(separator: " ").capitalize.titleize
 
-    @content = image_rewrite(@conversation_part.message.html_content)
+    # pick serialized-content or html_content
+    @content = image_rewrite(
+      serialized_to_html(@conversation_part.message.serialized_content) ||
+      @conversation_part.message.html_content
+    ) rescue nil
+
+    return if @content.nil?
 
     roadie_mail(from: "#{from_name_parametrized}<#{from_email}>",
                 to: email,
@@ -80,5 +86,16 @@ class ChatNotifierMailer < ApplicationMailer
   # rewrites local uploads to absolute urls
   def image_rewrite(html)
     html.gsub("/rails/active_storage/", "#{ENV['HOST']}/rails/active_storage/")
+  end
+
+  def serialized_to_html(serialized_content)
+    begin
+      content = JSON.parse(serialized_content)&.with_indifferent_access
+      DraftConvert.perform(content)
+    rescue => e
+      Rails.logger.error(e)
+      Bugsnag.notify(e)
+      nil
+    end
   end
 end
