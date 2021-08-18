@@ -187,7 +187,16 @@ const initialState = {
 }
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(
+  state = {
+    id: null,
+    name: null,
+    predicates: [],
+    initialPredicates: [],
+    jwt: null,
+  },
+  action = {}
+) {
   switch (action.type) {
     case ActionTypes.updateSegment: {
       return Object.assign({}, state, action.data)

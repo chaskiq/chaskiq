@@ -12,10 +12,10 @@ import store from '@chaskiq/store/src/index'
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
 
 function App() {
-  const host = document
+  const host: string = document
     .querySelector("meta[name='chaskiq-host']")
     .getAttribute('content')
-  const chaskiqHost = new URL(host).hostname
+  const chaskiqHost: string = new URL(host).hostname
 
   return (
     <Provider store={store}>

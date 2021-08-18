@@ -1,4 +1,4 @@
-const zones = [
+const zones : Array<string> = [
   'Etc/GMT+12',
   'Pacific/Pago_Pago',
   'Pacific/Midway',

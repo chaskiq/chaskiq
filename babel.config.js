@@ -21,9 +21,9 @@ module.exports = function (api) {
         '@babel/preset-env',
         {
           targets: {
-            node: 'current'
-          }
-        }
+            node: 'current',
+          },
+        },
       ],
       (isProductionEnv || isDevelopmentEnv) && [
         '@babel/preset-env',
@@ -32,10 +32,11 @@ module.exports = function (api) {
           useBuiltIns: 'entry',
           corejs: 3,
           modules: false,
-          exclude: ['transform-typeof-symbol']
-        }
+          exclude: ['transform-typeof-symbol'],
+        },
       ],
-      ['@babel/preset-react']
+      ['@babel/preset-react'],
+      ['@babel/preset-typescript', { allExtensions: true, isTSX: true }],
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
@@ -45,36 +46,40 @@ module.exports = function (api) {
       [
         '@babel/plugin-proposal-class-properties',
         {
-          loose: true
-        }
+          loose: true,
+        },
       ],
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
-          useBuiltIns: true
-        }
+          useBuiltIns: true,
+        },
       ],
       [
         '@babel/plugin-transform-runtime',
         {
           helpers: false,
           regenerator: true,
-          corejs: false
-        }
+          corejs: false,
+        },
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
-          async: false
-        }
+          async: false,
+        },
       ],
+      ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
       ['@babel/plugin-proposal-private-methods', { loose: true }],
-      ['prismjs', {
-        languages: ['javascript', 'css', 'markup', 'ruby', 'typescript'],
-        plugins: ['line-numbers'],
-        theme: 'twilight',
-        css: true
-      }]
-    ].filter(Boolean)
+      [
+        'prismjs',
+        {
+          languages: ['javascript', 'css', 'markup', 'ruby', 'typescript'],
+          plugins: ['line-numbers'],
+          theme: 'twilight',
+          css: true,
+        },
+      ],
+    ].filter(Boolean),
   }
 }

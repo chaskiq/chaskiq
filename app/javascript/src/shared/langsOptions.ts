@@ -1,4 +1,9 @@
-const langsOptions = [
+interface Lang {
+  label: string;
+  value: string;
+}
+
+const langsOptions : Array<Lang> = [
   { label: 'Afrikaans', value: 'af' },
   { label: 'Albanian', value: 'sq' },
   { label: 'Arabic', value: 'ar' },

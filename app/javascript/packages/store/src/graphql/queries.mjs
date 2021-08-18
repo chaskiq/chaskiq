@@ -7,14 +7,14 @@ import {
 } from './fragments.mjs'
 
 export const APPS = `
-query Apps{
-  apps{
-    key
-    name
-    state
-    tagline
-  }  
-}
+  query Apps{
+    apps{
+      key
+      name
+      state
+      tagline
+    }  
+  }
 `
 
 export const APP = `

@@ -6,7 +6,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 // Get the actual sass-loader config
 const sassLoader = environment.loaders.get('sass')
 const sassLoaderConfig = sassLoader.use.find(function (element) {
-return element.loader == 'sass-loader'
+  return element.loader == 'sass-loader'
 })
 
 // Use Dart-implementation of Sass (default is node-sass)
@@ -21,11 +21,10 @@ function hotfixPostcssLoaderConfig(subloader) {
   }
 }
 
-environment.loaders.keys().forEach(loaderName => {
-const loader = environment.loaders.get(loaderName)
-loader.use.forEach(hotfixPostcssLoaderConfig)
+environment.loaders.keys().forEach((loaderName) => {
+  const loader = environment.loaders.get(loaderName)
+  loader.use.forEach(hotfixPostcssLoaderConfig)
 })
-
 
 environment.config.merge({
   resolve: {
@@ -33,12 +32,13 @@ environment.config.merge({
       lodash: path.resolve('./node_modules/lodash'),
       immutable: path.resolve('./node_modules/immutable'),
       'react-dom': path.resolve('./node_modules/react-dom'),
-      react: path.resolve('./node_modules/react')
-    }
-  }
+      react: path.resolve('./node_modules/react'),
+    },
+  },
 })
 
-environment.loaders.get('file').test = /\.(jpg|jpeg|png|gif|tiff|ico|svg|eot|otf|ttf|woff|woff2|mp3|wav)$/i
+environment.loaders.get('file').test =
+  /\.(jpg|jpeg|png|gif|tiff|ico|svg|eot|otf|ttf|woff|woff2|mp3|wav)$/i
 
 // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
 environment.plugins.append(
@@ -47,12 +47,11 @@ environment.plugins.append(
 )
 
 // run this with
-if (process.env.ANALIZE_BUNDLE === 'true' &&
-  process.env.NODE_ENV === 'production') {
-  environment.plugins.append(
-    'BundleAnalyzer',
-    new BundleAnalyzerPlugin()
-  )
+if (
+  process.env.ANALIZE_BUNDLE === 'true' &&
+  process.env.NODE_ENV === 'production'
+) {
+  environment.plugins.append('BundleAnalyzer', new BundleAnalyzerPlugin())
 }
 
 module.exports = environment
