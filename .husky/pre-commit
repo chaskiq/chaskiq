@@ -1,5 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+yarn i18n:export
 yarn format:prettier
 yarn format:ruby

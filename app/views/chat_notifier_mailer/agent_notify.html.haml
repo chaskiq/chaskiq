@@ -20,6 +20,17 @@
       font-size: 16px;
       line-height: 1.9;
 
+      .graf--code {
+        position: relative;
+        overflow: visible;
+        background: rgb(0, 0, 0);
+        font-family: Menlo, Monaco, Consolas, "Courier New", Courier, monospace;
+        font-size: 16px;
+        margin-bottom: 20px;
+        padding: 20px;
+        white-space: pre-wrap;
+        color: rgb(255, 255, 255);
+      }
       .graf--h2 {
           font-family: jaf-bernino-sans,Open Sans,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Geneva,Verdana,sans-serif;
           //font-size: 60px;
@@ -519,7 +530,7 @@
                       %a{:target => "_blank", href: "#{ENV['HOST']}/apps/#{@app_key}/users/#{@user_id}"}
                         = @author_name
           %td#rightSide{:align => "right", :style => "", :valign => "middle"}
-            %img{:height => "16", :src => "", :style => "", :width => "16"}/
+            -# %img{:height => "16", :src => "", :style => "", :width => "16"}/
             %a{:href => "#{ENV['HOST']}/apps/#{@app_key}/conversations/#{@conversation_key}", :style => "", :target => "_blank"} 
               View conversation
   
@@ -547,9 +558,9 @@
                     %table.part-content{:border => "0", :cellpadding => "0", :cellspacing => "0"}
                       %tbody
                         %tr
-                          %td{}
+                          %td
                             #editor-container
-                              = @conversation_part.message.html_content.html_safe
+                              = @content.html_safe
                 %tr
                   %td{:style => "padding:0"}
                   %td{:style => "padding:0"}
@@ -566,7 +577,7 @@
                       %tbody
                         %tr
                           %td{:align => "center", :style => ""}
-                            %img{:height => "13", :src => ".png", :width => "13"}/
+                            -# %img{:height => "13", :src => ".png", :width => "13"}/
                           %td{:style => ""} EMAIL
                           %td{:style => ""}
                           %td{:style => ""}
@@ -595,13 +606,15 @@
                 %tr
                   %td{:colspan => "3", :style => "font-size:1px;font-weight:normal;height:40px;line-height:1;max-height:40px;padding:0"}  
 
+  
   %table#footer{:align => "center", :border => "0", :cellpadding => "0", :cellspacing => "0", :style => "", :valign => "top"}
     %tbody
       %tr
         %td#logo{:style => ""}
-          %a{:href => "", :style => "", :target => "_blank"}
-            %img{:height => "25", :src => @app_logo, :style => "border:none", :width => "25"}/
-        
+          - if @app_logo.present?
+            %a{:href => "", :style => "", :target => "_blank"}
+              %img{:height => "25", :src => @app_logo, :style => "border:none", :width => "25"}/
+          
         %td#source{:style => ""}
           This email was sent from
           %a{ :href => "https://chaskiq.io", :style => "", :target => "_blank"} 

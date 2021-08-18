@@ -20,7 +20,7 @@ class ChatNotifierMailer < ApplicationMailer
     message_author = conversation_part.app_user
     @author_name = message_author.display_name || message_author.email.split("@").first
     @author_email = message_author.email
-    recipient = if message_author.id == conversation.main_participant.id
+    recipient = if message_author.is_a?(AppUser) && message_author.id == conversation.main_participant.id
                   conversation.assignee
                 else
                   conversation.main_participant
@@ -65,6 +65,18 @@ class ChatNotifierMailer < ApplicationMailer
 
     from_name_parametrized = from_name.parameterize(separator: " ").capitalize.titleize
 
+    # pick serialized-content or html_content
+    @content = begin
+      image_rewrite(
+        serialized_to_html(@conversation_part.message.serialized_content) ||
+        @conversation_part.message.html_content
+      )
+    rescue StandardError
+      nil
+    end
+
+    return if @content.nil?
+
     roadie_mail(from: "#{from_name_parametrized}<#{from_email}>",
                 to: email,
                 subject: subject,
@@ -73,5 +85,19 @@ class ChatNotifierMailer < ApplicationMailer
       format.html { render "chat_notifier_mailer/#{template}" }
       # format.text # assuming you want a text fallback as well
     end
+  end
+
+  # rewrites local uploads to absolute urls
+  def image_rewrite(html)
+    html.gsub("/rails/active_storage/", "#{ENV['HOST']}/rails/active_storage/")
+  end
+
+  def serialized_to_html(serialized_content)
+    content = JSON.parse(serialized_content)&.with_indifferent_access
+    DraftConvert.perform(content)
+  rescue StandardError => e
+    Rails.logger.error(e)
+    Bugsnag.notify(e)
+    nil
   end
 end

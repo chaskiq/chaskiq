@@ -24,7 +24,7 @@ fr:
         label: Google Code
         hint: ID Google Tracking
       credits:
-        label: Show credits
+        label: Montrer les crédits
         hint: ""
     settings:
       name:
@@ -156,40 +156,40 @@ fr:
         placeholder: 'par exemple https://votredomaine.fr/submit-sheet-url/'
     webhooks:
       url:
-        label: url for outgoing webhook
-        hint: "we'll send POST requests"
+        label: url du webhook sortant
+        hint: "nous enverrons des requêtes POST"
       enabled:
-        label: enable webhook
+        label: activer le Webhook
       tag_list:
-        label: events to send
-        hint: chaskiq will deliver this events to configured endpoint
+        label: événements à envoyer
+        hint: chaskiq fournira ces événements au endpoint configuré
     agents:
       email:
-        label: Agent's Email
-        placeholder: john@example.com
+        label: E-mail de l’agent
+        placeholder: john@exemple.com
       name:
-        label: Agent's Name
+        label: Nom de l'agent
         placeholder: John Doe
       owner:
-        label: Owner
+        label: Propriétaire
       access_list:
-        label: 'Roles for agent'
-        hint: 'blank access will disable account settings access for user'
+        label: 'Rôles de l''agent'
+        hint: 'un accès vide désactivera l''accès aux paramètres du compte de l''utilisateur'
   data_tables:
     agents:
       email: E-mail
       name: Nom
-      owner: Owner
-      access_list: Access List
+      owner: Propriétaire
+      access_list: Liste d'accès
       actions: Actions
-      sign_in_count: Sign in count
-      last_sign_in_at: Last sign in at
-      invitation_accepted_at: Invitation accepted at
+      sign_in_count: Nombre de connexions
+      last_sign_in_at: Dernière connexion à
+      invitation_accepted_at: Invitation acceptée à
     articles:
       settings:
         locale: Locale
-        site_title: Site Title
-        site_description: Site Description
+        site_title: Titre du Site
+        site_description: Description du Site
         action: Action
     users:
       name: Nom
@@ -219,6 +219,6 @@ fr:
         passive: Passif
     settings:
       locale: Locale
-      greetings: Greetings
+      greetings: Salutations
       intro: Intro
       tagline: Slogan
