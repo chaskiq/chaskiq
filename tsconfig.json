@@ -17,5 +17,9 @@
     "vendor",
     "public"
   ],
-  "compileOnSave": false
+  "compileOnSave": false,
+  "include": [
+    "./app/javascript/src/pages", 
+    //"./app/javascript/packages", // let's bypass packages for now
+    "./index.d.ts"]
 }

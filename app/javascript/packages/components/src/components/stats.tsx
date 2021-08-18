@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Moment from 'react-moment'
-import CampaignChart from './charts/charts.js'
+import CampaignChart from './charts/charts'
 import styled from '@emotion/styled'
 import { connect } from 'react-redux'
 

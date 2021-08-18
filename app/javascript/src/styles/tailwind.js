@@ -45,7 +45,7 @@ module.exports = {
     ],
   },
   theme: {
-    /*minWidth: {
+    minWidth: {
       0: '0',
       '1/4': '25%',
       '1/2': '50%',
@@ -67,7 +67,7 @@ module.exports = {
     //  0: '0',
     //  2: '2px',
     //  4: '4px'
-    //}, 
+    //},
 
     extend: {
       colorsDisabled: {
@@ -110,7 +110,7 @@ module.exports = {
         'outline-purple': '0 0 0 3px rgba(221, 214, 254,, .5)',
         'outline-indigo': '0 0 0 3px rgba(199, 210, 254, .5)',
       },
-    },*/
+    },
   },
   variants: {},
   corePlugins: {

@@ -7,7 +7,7 @@ import { InlineFilterDialog, SaveSegmentModal } from '.'
 import SegmentItemButton from './itemButton'
 
 import Table from '../Table/index'
-import Map from '../map/index.js'
+import Map from '../map/index'
 
 import userFormat from '../Table/userFormat'
 import Progress from '../Progress'

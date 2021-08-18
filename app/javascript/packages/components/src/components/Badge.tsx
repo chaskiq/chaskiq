@@ -2,7 +2,17 @@ import React from 'react'
 
 // alert, info, success
 
-export default function Badge({ variant, children, className, size }) {
+export default function Badge({
+  variant,
+  children,
+  className,
+  size,
+}: {
+  variant: string
+  children: any
+  className: string
+  size: string
+}) {
   function variantColor() {
     if (!variant) return 'gray'
     return variant

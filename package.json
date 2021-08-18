@@ -124,6 +124,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-tree-shaking": "^1.9.2",
     "eslint-plugin-unused-imports": "^0.1.2",
+    "fork-ts-checker-webpack-plugin": "^6.3.2",
     "husky": "^7.0.0",
     "lerna": "^4.0.0",
     "minimist": "^1.2.5",

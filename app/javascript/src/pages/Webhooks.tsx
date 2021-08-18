@@ -382,8 +382,6 @@ function Settings({ app, dispatch }) {
                   <div
                     className={`${gridClasses(field)} py-2 pr-2`}
                     key={field.name}
-                    xs={field.grid.xs}
-                    sm={field.grid.sm}
                   >
                     <FieldRenderer
                       namespace={'app'}
@@ -424,7 +422,7 @@ function Settings({ app, dispatch }) {
             removeWebhook(openDeleteDialog)
           }}
         >
-          <p variant="subtitle2">
+          <p>
             {I18n.t('settings.webhooks.delete.text', {
               name: openDeleteDialog.dialog,
             })}

@@ -5,9 +5,14 @@ import styled from '@emotion/styled'
 import tw from 'twin.macro'
 // https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components
 
-const BaseButton = styled.button`
-  ${(props) => {
-    switch (props.variant) {
+interface ButtonComponentProps {
+  variant: any
+  size: any
+}
+
+const BaseButton = styled.button<ButtonComponentProps>`
+  ${({ variant }) => {
+    switch (variant) {
       case 'success':
         return tw`
         outline-none 
@@ -153,8 +158,8 @@ const BaseButton = styled.button`
     }
   }};
 
-  ${(props) => {
-    switch (props.border) {
+  ${({ border }) => {
+    switch (border) {
       case true:
         return tw`border`
       default:
@@ -163,9 +168,9 @@ const BaseButton = styled.button`
   }}
 `
 
-const SizeButton = styled(BaseButton)`
-  ${(props) => {
-    switch (props.size) {
+const SizeButton = styled(BaseButton)<ButtonComponentProps>`
+  ${({ size, variant }) => {
+    switch (size) {
       case 'xs':
         return tw`
         px-2 py-1
@@ -193,7 +198,7 @@ const SizeButton = styled(BaseButton)`
         uppercase`
       default:
         // const isIcon = props.variant === "icon" ? 'p-1' : 'px-2 py-1'
-        if (props.variant === 'icon') {
+        if (variant === 'icon') {
           return tw`p-1`
         } else {
           return tw`
@@ -206,7 +211,20 @@ const SizeButton = styled(BaseButton)`
   }};
 `
 
-export default function Button({ children, className, ...buttonProps }) {
+interface ButtonProps {
+  children?: any
+  className?: any
+  buttonProps: any
+  onClick?: any
+  'aria-label'?: any
+  variant: any
+}
+
+export default function Button({
+  children,
+  className,
+  ...buttonProps
+}: ButtonProps) {
   return (
     <SizeButton
       className={`transition duration-150 ease-in-out ${className || ''}`}

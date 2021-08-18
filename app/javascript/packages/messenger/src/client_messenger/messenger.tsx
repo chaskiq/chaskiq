@@ -19,7 +19,7 @@ import translations from '../../../../src/locales/messenger-translations.json'
 export const i18n = new I18n(translations)
 
 import FrameChild from './frameChild'
-import MessengerContext from './context.js'
+import MessengerContext from './context'
 
 import {
   PING,
@@ -65,7 +65,7 @@ import Home from './homePanel'
 import Article from './articles'
 import Banner from './Banner'
 
-import { Conversation } from './conversations/conversation.js'
+import { Conversation } from './conversations/conversation'
 
 import Conversations from './conversations/conversations'
 
