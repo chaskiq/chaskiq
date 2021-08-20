@@ -15,49 +15,49 @@ fa:
     back_to_site: بازگشت به سایت
     not_found: The page you are looking for does not exist.
     get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: "Confirm deletion ?"
+    submit: ثبت کردن
+    confirm_deletion: "حذف شود؟"
     confirm_deletion_ready: are you ready to delete ?
-    next: Next
-    prev: Prev
+    next: بعدی
+    prev: قبلی
     showing: Showing
-    to: to
-    of: of
-    results: results
+    to: به
+    of: از
+    results: نتایج
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
+    send: ارسال
     actions: Actions
     your_apps: Your apps
     upload_field: upload %{field}
-    choose_color: Choose color
+    choose_color: انتخاب رنگ
     image: Imagen
     langs:
-      en: English
-      es: Spanish
-      pt: Portuguese
-      de: Deutsch
-      ca: Catalan
-      zh-CN: Chinese
+      en: انگلیسی
+      es: اسپانیایی
+      pt: پرتغالی
+      de: آلمانی
+      ca: کاتالان
+      zh-CN: چینی
     redirecting: Redirecting
-    select_language: Select Language
+    select_language: انتخاب زبان
     send_on_enter: Publish on enter
     away_mode: Away mode
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+    toggle_light_mode: فعال کردن تم روشن
+    toggle_dark_mode: فعال کردن تم تاریک
     leads: Leads
-    visitors: Visitors
-    users: Users
-    type_message: type your message
-    search_conversations: Search conversations
-    days: Days
+    visitors: بازدید کنندگان
+    users: کاربران
+    type_message: پیام خود را یادداشت کنید
+    search_conversations: جستجو در مکالمه ها
+    days: روز
   status_messages:
-    error: "Error"
-    success: "Success"
-    updated_success: Updated successfully
+    error: "خطا"
+    success: "با موفقیت انجام شد"
+    updated_success: با موفقیت به روز شد
     updated_error: Error on upddate
     created_success: Successfully created
     created_error: Error creating
-    deleted_success: Successfully deleted
+    deleted_success: با موفقیت حذف شد
     deleted_error: Error deleting
     reordered_error: Error reordering
     reordered_success: Successfully Reordered
