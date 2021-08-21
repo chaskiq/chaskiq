@@ -1,12 +1,26 @@
-import React from 'react'
+import React from 'react';
 
-export default function Panel({ title, text, variant, link, classes }) {
+type PanelProps = {
+  title: string;
+  text?: React.ReactNode;
+  variant: string;
+  link?: React.ReactNode;
+  classes?: string;
+};
+
+export default function Panel({
+  title,
+  text,
+  variant,
+  link,
+  classes,
+}: PanelProps) {
   function variantClasses() {
     switch (variant) {
       case 'shadowless':
-        return ''
+        return '';
       default:
-        return 'shadow'
+        return 'shadow';
     }
   }
 
@@ -33,5 +47,5 @@ export default function Panel({ title, text, variant, link, classes }) {
         )}
       </div>
     </div>
-  )
+  );
 }

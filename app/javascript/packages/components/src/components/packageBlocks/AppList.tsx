@@ -1,18 +1,28 @@
-import React from 'react'
+import React from 'react';
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent,
-} from '../List'
+} from '../List';
 
-import { LeftArrow } from '../icons'
+import { LeftArrow } from '../icons';
 
-import { BaseInserter } from './baseInserter'
+import { BaseInserter } from './baseInserter';
 
-import Button from '../Button'
+import Button from '../Button';
 
-import Progress from '../Progress'
+import Progress from '../Progress';
+
+interface IAppList {
+  location: string;
+  loading: boolean;
+  handleAdd: (data: any) => void;
+  packages: any;
+  app: any;
+  conversation?: any;
+  conversation_part?: any;
+}
 
 export function AppList({
   handleAdd,
@@ -22,15 +32,15 @@ export function AppList({
   conversation,
   conversation_part,
   location,
-}) {
-  const [selected, setSelected] = React.useState(null)
+}: IAppList) {
+  const [selected, setSelected] = React.useState(null);
 
   function handleSelect(o) {
-    setSelected(o)
+    setSelected(o);
   }
 
   function handleInsert(data) {
-    handleAdd(data)
+    handleAdd(data);
   }
 
   return (
@@ -44,9 +54,7 @@ export function AppList({
               <ListItem key={o.name}>
                 <ListItemText
                   primary={
-                    <ItemListPrimaryContent variant="h5">
-                      {o.name}
-                    </ItemListPrimaryContent>
+                    <ItemListPrimaryContent>{o.name}</ItemListPrimaryContent>
                   }
                   secondary={
                     <ItemListSecondaryContent>
@@ -97,5 +105,5 @@ export function AppList({
         </div>
       )}
     </div>
-  )
+  );
 }

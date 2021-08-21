@@ -1,4 +1,13 @@
-import React from 'react'
+import React from 'react';
+
+type EmptyViewProps = {
+  title: string;
+  subtitle?: React.ReactNode;
+  icon?: React.ReactNode;
+  image?: React.ReactNode;
+  shadowless?: Boolean;
+  h2Classes?: string;
+};
 
 export default function EmptyView({
   title,
@@ -7,14 +16,14 @@ export default function EmptyView({
   image,
   shadowless,
   h2Classes,
-}) {
+}: EmptyViewProps) {
   function h2Styles() {
     return (
       h2Classes ||
       `text-2xl tracking-tight
         font-extrabold text-gray-900 dark:text-white sm:text-3xl
         sm:leading-none md:text-4xl`
-    )
+    );
   }
 
   return (
@@ -36,5 +45,5 @@ export default function EmptyView({
         {image && image}
       </div>
     </div>
-  )
+  );
 }

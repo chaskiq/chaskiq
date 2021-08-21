@@ -1,6 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-export default function List({ children, shadowless }) {
+export default function List({
+  children,
+  shadowless,
+}: {
+  children?: React.ReactNode;
+  shadowless?: boolean;
+}) {
   return (
     <div
       className={`
@@ -10,11 +16,25 @@ export default function List({ children, shadowless }) {
     >
       <ul>{children}</ul>
     </div>
-  )
+  );
 }
 
-export function ListItem({ avatar, action, children, onClick, divider }) {
-  const clicableClasses = onClick && 'cursor-pointer'
+interface IListItem {
+  avatar?: React.ReactNode;
+  action?: boolean;
+  children: React.ReactNode;
+  onClick?: any;
+  divider?: string;
+}
+
+export function ListItem({
+  avatar,
+  action,
+  children,
+  onClick,
+  divider,
+}: IListItem) {
+  const clicableClasses = onClick && 'cursor-pointer';
 
   return (
     <li className={`${divider ? 'border-b dark:border-gray-800' : ''}`}>
@@ -53,11 +73,23 @@ export function ListItem({ avatar, action, children, onClick, divider }) {
         </div>
       </div>
     </li>
-  )
+  );
 }
 
-export function ListItemText({ primary, secondary, terciary, cols }) {
-  const colsMd = cols ? cols : 2
+interface IListItemText {
+  primary?: React.ReactNode;
+  secondary?: React.ReactNode;
+  terciary?: React.ReactNode;
+  cols?: number;
+}
+
+export function ListItemText({
+  primary,
+  secondary,
+  terciary,
+  cols,
+}: IListItemText) {
+  const colsMd = cols ? cols : 2;
   return (
     <div
       className={`min-w-0 flex-1 px-4 md:grid md:grid-cols-${colsMd} md:gap-4`}
@@ -72,7 +104,7 @@ export function ListItemText({ primary, secondary, terciary, cols }) {
         <div>{terciary && terciary}</div>
       </div>
     </div>
-  )
+  );
 }
 
 export function ItemAvatar({ avatar }) {
@@ -84,7 +116,7 @@ export function ItemAvatar({ avatar }) {
         alt=""
       />
     </div>
-  )
+  );
 }
 
 export function ItemListPrimaryContent({ children }) {
@@ -92,7 +124,7 @@ export function ItemListPrimaryContent({ children }) {
     <div className="text-lg leading-5 font-medium text-gray-600 dark:text-gray-200 truncate">
       {children}
     </div>
-  )
+  );
 }
 
 export function ItemListSecondaryContent({ children }) {
@@ -103,5 +135,5 @@ export function ItemListSecondaryContent({ children }) {
       </svg> */}
       <span className="truncate">{children}</span>
     </div>
-  )
+  );
 }

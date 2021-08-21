@@ -1,6 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-export default function Content({ children, actions }) {
+export type Props = {
+  children?: React.ReactNode;
+  actions?: React.ReactNode;
+};
+
+export default function Content({ children, actions }: Props) {
   return (
     <main
       className="flex-1 relative z-0 overflow-y-auto
@@ -20,5 +25,5 @@ export default function Content({ children, actions }) {
         </div>
       </div>
     </main>
-  )
+  );
 }

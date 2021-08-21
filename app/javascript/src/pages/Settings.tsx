@@ -1,50 +1,50 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import { connect } from 'react-redux'
-import SettingsForm from './settings/form'
-import Tags from './settings/Tags'
-import QuickReplies from './settings/QuickReplies'
-import UserData from './settings/UserDataFields'
-import VerificationView from './settings/VerificationView'
-import timezones from '../shared/timezones'
+import { connect } from 'react-redux';
+import SettingsForm from './settings/form';
+import Tags from './settings/Tags';
+import QuickReplies from './settings/QuickReplies';
+import UserData from './settings/UserDataFields';
+import VerificationView from './settings/VerificationView';
+import timezones from '../shared/timezones';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import Content from '@chaskiq/components/src/components/Content'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
 import {
   getFileMetadata,
   directUpload,
-} from '@chaskiq/components/src/components/fileUploader'
+} from '@chaskiq/components/src/components/fileUploader';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
-import { updateApp } from '@chaskiq/store/src/actions/app'
+import { updateApp } from '@chaskiq/store/src/actions/app';
 
-import { APP } from '@chaskiq/store/src/graphql/queries'
-import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
+import { APP } from '@chaskiq/store/src/graphql/queries';
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations';
 class AppSettingsContainer extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       tabValue: 0,
-    }
+    };
   }
 
   componentDidMount() {
     // this.fetchApp()
-    this.props.dispatch(setCurrentPage('app_settings'))
-    this.props.dispatch(setCurrentSection('Settings'))
+    this.props.dispatch(setCurrentPage('app_settings'));
+    this.props.dispatch(setCurrentSection('Settings'));
   }
 
   url = () => {
-    return `/apps/${this.props.match.params.appId}.json`
-  }
+    return `/apps/${this.props.match.params.appId}.json`;
+  };
 
   fetchApp = () => {
     graphql(
@@ -52,23 +52,23 @@ class AppSettingsContainer extends Component {
       { appKey: this.props.match.params.appId },
       {
         success: (data) => {
-          this.setState({ app: data.app })
+          this.setState({ app: data.app });
         },
         errors: (error) => {
-          console.log(error)
+          console.log(error);
         },
       }
-    )
-  }
+    );
+  };
 
   // Form Event Handlers
   update = (data) => {
     this.props.dispatch(
       updateApp(data.app, (d) => {
-        console.log(d)
+        console.log(d);
       })
-    )
-  }
+    );
+  };
 
   uploadHandler = (file, kind) => {
     getFileMetadata(file).then((input) => {
@@ -79,25 +79,25 @@ class AppSettingsContainer extends Component {
             headers,
             url,
             //serviceUrl
-          } = data.createDirectUpload.directUpload
+          } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            const params = {}
-            params[kind] = signedBlobId
+            const params = {};
+            params[kind] = signedBlobId;
 
-            this.update({ app: params })
-          })
+            this.update({ app: params });
+          });
         },
         error: (error) => {
-          console.log('error on signing blob', error)
+          console.log('error on signing blob', error);
         },
-      })
-    })
-  }
+      });
+    });
+  };
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i })
-  }
+    this.setState({ tabValue: i });
+  };
 
   definitionsForSettings = () => {
     return [
@@ -162,8 +162,8 @@ class AppSettingsContainer extends Component {
         hint: I18n.t('definitions.settings.register_visits.hint'),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
-    ]
-  }
+    ];
+  };
 
   definitionsForSecurity = () => {
     return [
@@ -177,8 +177,8 @@ class AppSettingsContainer extends Component {
         hint: I18n.t('definitions.settings.encryption_key.hint'),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
-    ]
-  }
+    ];
+  };
 
   tabsContent = () => {
     return (
@@ -264,10 +264,7 @@ class AppSettingsContainer extends Component {
                   <p>{I18n.t('email_forwarding.ex')}</p>
                 </div>
                 <div className="mt-3 text-sm bg-gray-200 p-4 rounded-md">
-                  <p
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
+                  <p className="font-medium text-indigo-600 hover:text-indigo-500">
                     {this.props.app.inboundEmailAddress}
                   </p>
                 </div>
@@ -276,8 +273,8 @@ class AppSettingsContainer extends Component {
           },
         ]}
       />
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -290,14 +287,14 @@ class AppSettingsContainer extends Component {
           </React.Fragment>
         )}
       </Content>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app, segment, app_users, current_user, navigation } = state
-  const { loading, isAuthenticated } = auth
-  const { current_section } = navigation
+  const { auth, app, segment, app_users, current_user, navigation } = state;
+  const { loading, isAuthenticated } = auth;
+  const { current_section } = navigation;
   return {
     segment,
     app_users,
@@ -306,7 +303,7 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     current_section,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(AppSettingsContainer))
+export default withRouter(connect(mapStateToProps)(AppSettingsContainer));

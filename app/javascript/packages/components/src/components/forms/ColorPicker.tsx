@@ -1,43 +1,60 @@
-import React from 'react'
-import { HexColorPicker, HexColorInput } from 'react-colorful'
+import React from 'react';
+import { HexColorPicker, HexColorInput } from 'react-colorful';
 
-import Button from '../Button'
-import { DockerIcon, PaintIcon } from '../icons'
-export class ColorPicker extends React.Component {
+import Button from '../Button';
+import { DockerIcon, PaintIcon } from '../icons';
+
+interface IColorPickerProps {
+  color: string;
+  name: string;
+  label: string;
+  placeholder: string;
+  colorHandler: Function;
+  // label: 'Primary color';
+  error: string;
+}
+interface IColorPickerState {
+  displayColorPicker: boolean;
+  value: string;
+}
+export class ColorPicker extends React.Component<
+  IColorPickerProps,
+  IColorPickerState
+> {
   state = {
     displayColorPicker: false,
     value: this.props.color,
-  }
+  };
 
   handleClick = (e) => {
-    e.preventDefault()
-    this.setState({ displayColorPicker: !this.state.displayColorPicker })
-  }
+    e.preventDefault();
+    this.setState({ displayColorPicker: !this.state.displayColorPicker });
+  };
 
   handleClose = () => {
-    this.setState({ displayColorPicker: false })
-  }
+    this.setState({ displayColorPicker: false });
+  };
 
   handleColorChangeComplete = (color) => {
     this.setState({ value: color }, () => {
-      this.props.colorHandler && this.props.colorHandler(color)
-    })
+      this.props.colorHandler && this.props.colorHandler(color);
+    });
     //,
     //  ()=> this.props.onChangeComplete(color.hex))
-  }
+  };
 
   render() {
     const popover = {
       position: 'absolute',
       zIndex: '2',
-    }
+    };
     const cover = {
       position: 'fixed',
       top: '0px',
       right: '0px',
       bottom: '0px',
       left: '0px',
-    }
+    };
     return (
       <React.Fragment>
         <div className="mt-1 flex rounded-md shadow-sm">
@@ -79,7 +96,7 @@ export class ColorPicker extends React.Component {
           </button>
         </div>
 
-        {this.state.displayColorPicker ? (
+        {this.state.displayColorPicker && (
           <div style={popover}>
             <div style={cover} onClick={this.handleClose} />
             <HexColorPicker
@@ -88,8 +105,8 @@ export class ColorPicker extends React.Component {
             />
             ;
           </div>
-        ) : null}
+        )}
       </React.Fragment>
-    )
+    );
   }
 }

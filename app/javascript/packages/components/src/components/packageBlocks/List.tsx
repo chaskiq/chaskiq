@@ -1,6 +1,6 @@
-import React from 'react'
-import tw from 'twin.macro'
-import styled from '@emotion/styled'
+import React from 'react';
+import tw from 'twin.macro';
+import styled from '@emotion/styled';
 
 const ListWrapper = styled.div`
   ${() => tw`subpixel-antialiased bg-white overflow-hidden`}
@@ -8,7 +8,7 @@ const ListWrapper = styled.div`
   ${() => tw`my-2`}
 
   ${() => {
-    return tw`border-b border-gray-200`
+    return tw`border-b border-gray-200`;
   }}
 
   ul {
@@ -22,9 +22,18 @@ const ListWrapper = styled.div`
   .list-item:last-child {
     border-bottom: none;
   }
-`
+`;
 
-const ListItemWrapper = styled.div`
+interface ITheme {
+  size: string;
+  palette: any;
+}
+
+type ListItemWrapperProps = {
+  pointer: boolean;
+  theme: ITheme;
+};
+const ListItemWrapper = styled.div<ListItemWrapperProps>`
   ${() => tw`block
   dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800
   hover:bg-gray-100
@@ -46,9 +55,13 @@ const ListItemWrapper = styled.div`
   .action-svg {
     ${() => tw`h-5 w-5 text-gray-400`}
   }
-`
+`;
 
-const ListItemTextWrapper = styled.div`
+type ListItemTextWrapperProps = {
+  theme: ITheme;
+};
+
+const ListItemTextWrapper = styled.div<ListItemTextWrapperProps>`
   ${(props) => (props.theme.size === 'sm' ? tw`px-1` : tw`px-4 md:gap-4`)};
 
   ${() => tw`min-w-0 flex-1 md:grid md:grid-cols-1`}
@@ -56,22 +69,26 @@ const ListItemTextWrapper = styled.div`
   .tertiary {
     ${() => tw`hidden md:block`}
   }
-`
+`;
 
 const ItemAvatarWrapper = styled.div`
   ${() => tw`flex-shrink-0`}
   img {
     ${() => tw`h-12 w-12 rounded-full dark:bg-white`}
   }
-`
+`;
 
-const ItemListPrimaryContentWrapper = styled.div`
+type ItemListPrimaryContentWrapperProps = {
+  theme: ITheme;
+};
+
+const ItemListPrimaryContentWrapper = styled.div<ItemListPrimaryContentWrapperProps>`
   ${() => tw`text-sm leading-5 font-bold truncate`}
   ${(props) =>
     props.theme.palette
       ? `color: ${props.theme.palette.primary};`
       : tw`dark:text-gray-200 text-gray-800`}
-`
+`;
 
 const ItemListSecondaryContentWrapper = styled.div`
   ${() =>
@@ -79,21 +96,32 @@ const ItemListSecondaryContentWrapper = styled.div`
   .span {
     ${() => tw`truncate`}
   }
-`
+`;
 
-export default function List({ children, shadowless }) {
-  return (
-    <ListWrapper shadowless={shadowless}>
-      <ul>{children}</ul>
-    </ListWrapper>
-  )
+interface IList {
+  children: React.ReactChild;
 }
 
-export function ListItem({ avatar, action, children, onClick, _divider }) {
+export default function List({ children }: IList) {
+  return (
+    <ListWrapper>
+      <ul>{children}</ul>
+    </ListWrapper>
+  );
+}
+
+interface IListItem {
+  avatar?: React.ReactElement<any>;
+  action: string;
+  children: React.ReactChild;
+  onClick: any;
+}
+
+export function ListItem({ avatar, action, children, onClick }: IListItem) {
   //const clicableClasses = onClick && 'cursor-pointer'
 
   return (
-    <ListItemWrapper className="list-item" pointer={onClick} divider={true}>
+    <ListItemWrapper className="list-item" pointer={onClick}>
       <div className="list-item-b" onClick={onClick && onClick}>
         <div className="content">
           <div className="avatar-content">
@@ -120,7 +148,7 @@ export function ListItem({ avatar, action, children, onClick, _divider }) {
         </div>
       </div>
     </ListItemWrapper>
-  )
+  );
 }
 
 export function ListItemText({ primary, secondary, terciary }) {
@@ -136,7 +164,7 @@ export function ListItemText({ primary, secondary, terciary }) {
         <div>{terciary && terciary}</div>
       </div>
     </ListItemTextWrapper>
-  )
+  );
 }
 
 export function ItemAvatar({ avatar }) {
@@ -144,13 +172,13 @@ export function ItemAvatar({ avatar }) {
     <ItemAvatarWrapper className="flex-shrink-0">
       <img src={avatar} alt="" />
     </ItemAvatarWrapper>
-  )
+  );
 }
 
 export function ItemListPrimaryContent({ children }) {
   return (
     <ItemListPrimaryContentWrapper>{children}</ItemListPrimaryContentWrapper>
-  )
+  );
 }
 
 export function ItemListSecondaryContent({ children }) {
@@ -161,5 +189,43 @@ export function ItemListSecondaryContent({ children }) {
       </svg> */}
       <span>{children}</span>
     </ItemListSecondaryContentWrapper>
-  )
+  );
+}
+
+// image support
+export function ListRenderer({ field, handleAction }) {
+  return (
+    <List>
+      {field.items.map((o) => (
+        <ListItem
+          key={o.id}
+          avatar={o.image && <img width={55} src={o.image} />}
+          onClick={(e) => {
+            o.action && handleAction(e, o);
+          }}
+        >
+          <ListItemText
+            primary={
+              <ItemListPrimaryContent variant="h5">
+                {o.title}
+              </ItemListPrimaryContent>
+            }
+            secondary={
+              <ItemListSecondaryContent>{o.subtitle}</ItemListSecondaryContent>
+            }
+            terciary={
+              <React.Fragment>
+                <div
+                  className="mt-2 flex items-center
+                        text-sm leading-5 text-gray-500 dark:text-gray-200 justify-end"
+                >
+                  {o.tertiary_text}
+                </div>
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+      ))}
+    </List>
+  );
 }

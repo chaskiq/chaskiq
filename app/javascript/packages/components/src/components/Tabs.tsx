@@ -1,20 +1,25 @@
-import React from 'react'
+import React from 'react';
+import tw from 'twin.macro';
+import styled from '@emotion/styled';
 
-// import tw from 'tailwind.macro'
-import tw from 'twin.macro'
-import styled from '@emotion/styled'
+interface ITabItem {
+  onClick: () => void;
+  active: boolean;
+  key: string;
+  className: string;
+  href: string;
+  props: any;
+}
 
-// https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components
-
-const TabItem = styled.a`
+const TabItem = styled.a<ITabItem>`
   ${(props) => {
     if (props.active) {
-      return tw`border-pink-500 text-gray-900 dark:text-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`
+      return tw`border-pink-500 text-gray-900 dark:text-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`;
     } else {
-      return tw`border-transparent text-gray-800 dark:text-gray-200 hover:dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`
+      return tw`border-transparent text-gray-800 dark:text-gray-200 hover:dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`;
     }
   }};
-`
+`;
 
 const Scrollable = styled.div`
   &::-webkit-scrollbar {
@@ -22,19 +27,32 @@ const Scrollable = styled.div`
   }
 
   -ms-overflow-style: none;
-`
+`;
 
-export default function SimpleTabs({ tabs, currentTab, onChange }) {
-  const [value, setValue] = React.useState(currentTab || 0)
+type SimpleTabsProps = {
+  tabs: Array<any>;
+  currentTab?: number;
+  variant?: string;
+  scrollButtons?: string;
+  textColor?: string;
+  onChange?: (e: any, i?: any) => void;
+};
+
+export default function SimpleTabs({
+  tabs,
+  currentTab,
+  onChange,
+}: SimpleTabsProps) {
+  const [value, setValue] = React.useState(currentTab || 0);
 
   React.useEffect(() => {
-    setValue(currentTab || 0)
-  }, [currentTab])
+    setValue(currentTab || 0);
+  }, [currentTab]);
 
   React.useEffect(() => {
-    if (!onChange) return
-    onChange(value)
-  }, [value])
+    if (!onChange) return;
+    onChange(value);
+  }, [value]);
 
   return (
     <div className="w-full">
@@ -59,5 +77,5 @@ export default function SimpleTabs({ tabs, currentTab, onChange }) {
 
       {<div>{tabs[value] && tabs[value].content && tabs[value].content}</div>}
     </div>
-  )
+  );
 }

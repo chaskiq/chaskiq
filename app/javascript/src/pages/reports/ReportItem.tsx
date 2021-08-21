@@ -1,12 +1,12 @@
-import React from 'react'
-import { DASHBOARD } from '@chaskiq/store/src/graphql/queries'
-import graphql from '@chaskiq/store/src/graphql/client'
-import DataTable from '@chaskiq/components/src/components/Table'
+import React from 'react';
+import { DASHBOARD } from '@chaskiq/store/src/graphql/queries';
+import graphql from '@chaskiq/store/src/graphql/client';
+import DataTable from '@chaskiq/components/src/components/Table';
 
-import Progress from '@chaskiq/components/src/components/Progress'
-import HeatMap from '@chaskiq/components/src/components/charts/heatMap'
-import Pie from '@chaskiq/components/src/components/charts/pie'
-import Count from '@chaskiq/components/src/components/charts/count'
+import Progress from '@chaskiq/components/src/components/Progress';
+import HeatMap from '@chaskiq/components/src/components/charts/heatMap';
+import Pie from '@chaskiq/components/src/components/charts/pie';
+import Count from '@chaskiq/components/src/components/charts/count';
 
 export default function DashboardItem({
   app,
@@ -19,12 +19,12 @@ export default function DashboardItem({
   styles,
   pkg,
 }) {
-  const [data, setData] = React.useState([])
-  const [loading, setLoading] = React.useState(true)
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   function getData(page = null) {
     graphql(
@@ -41,27 +41,27 @@ export default function DashboardItem({
       },
       {
         success: (data) => {
-          setData(data.app.dashboard)
-          setLoading(false)
+          setData(data.app.dashboard);
+          setLoading(false);
         },
         error: (_err) => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   function handleSearch(page) {
-    getData(page)
+    getData(page);
   }
 
   function renderChart() {
     switch (chartType) {
       case 'heatMap':
-        return <HeatMap data={data} from={dashboard.from} to={dashboard.to} />
+        return <HeatMap data={data} from={dashboard.from} to={dashboard.to} />;
 
       case 'pie':
-        return <Pie data={data} from={dashboard.from} to={dashboard.to} />
+        return <Pie data={data} from={dashboard.from} to={dashboard.to} />;
       case 'count':
         return (
           <Count
@@ -71,7 +71,7 @@ export default function DashboardItem({
             label={label}
             appendLabel={appendLabel}
           />
-        )
+        );
       case 'table':
         return (
           <DataTable
@@ -84,7 +84,7 @@ export default function DashboardItem({
             columns={data.columns}
             enableMapView={false}
           />
-        )
+        );
       case 'app_package':
         return (
           <DashboardAppPackage
@@ -93,9 +93,9 @@ export default function DashboardItem({
             dashboard={dashboard}
             classes={classes}
           />
-        )
+        );
       default:
-        return <div>no chart type</div>
+        return <div>no chart type</div>;
     }
   }
 
@@ -104,7 +104,7 @@ export default function DashboardItem({
       {loading && <Progress />}
       {!loading && renderChart()}
     </div>
-  )
+  );
 }
 
 function DashboardAppPackage({ data, dashboard }) {
@@ -144,9 +144,9 @@ function DashboardAppPackage({ data, dashboard }) {
                   // appendLabel={appendLabel}
                 />
               </div>
-            )
+            );
           })}
       </div>
     </div>
-  )
+  );
 }

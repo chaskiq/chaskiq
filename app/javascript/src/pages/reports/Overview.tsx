@@ -1,12 +1,12 @@
-import React from 'react'
-import ReportRenderer from './renderer'
+import React from 'react';
+import ReportRenderer from './renderer';
 
 export default function Overview({ dashboard, app }) {
   const reportSchema = [
     {
       chartType: 'count',
       kind: 'first_response_time',
-      label: I18n.t('dashboard.response_avg'),
+      label: window.I18n.t('dashboard.response_avg'),
       appendLabel: 'Hrs',
     },
     {
@@ -33,6 +33,7 @@ export default function Overview({ dashboard, app }) {
       label: I18n.t('dashboard.visit_activity'),
       appendLabel: '',
       classes: 'col-span-4',
+      styled: { heigth: '100%' },
     },
     {
       chartType: 'pie',
@@ -58,7 +59,7 @@ export default function Overview({ dashboard, app }) {
       label: I18n.t('dashboard.user_country'),
       appendLabel: '',
     },
-  ]
+  ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -71,5 +72,5 @@ export default function Overview({ dashboard, app }) {
         />
       ))}
     </div>
-  )
+  );
 }

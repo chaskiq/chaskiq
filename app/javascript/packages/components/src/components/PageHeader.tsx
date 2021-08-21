@@ -1,7 +1,23 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function PageHeader({ title, breadcrumbs, actions }) {
+export type Props = {
+  title: string;
+  breadcrumbs?: Array<IBreadCrumbs>;
+  actions?: React.ReactNode;
+};
+
+export type IBreadCrumbs = {
+  to: string;
+  title: string;
+};
+
+export type IActions = {
+  to: string;
+  title: string;
+};
+
+export default function PageHeader({ title, breadcrumbs, actions }: Props) {
   return (
     <div className="mb-5">
       <div>
@@ -71,5 +87,5 @@ export default function PageHeader({ title, breadcrumbs, actions }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

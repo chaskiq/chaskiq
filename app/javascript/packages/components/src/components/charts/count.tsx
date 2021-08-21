@@ -1,10 +1,7 @@
 /* eslint-disable no-script-url */
 
-import React from 'react'
-// import Link from '@material-ui/core/Link';
-// import { makeStyles } from '@material-ui/core/styles';
-// import p from '@material-ui/core/p';
-import moment from 'moment'
+import React from 'react';
+import moment from 'moment';
 
 export default function Count({ data, label, appendLabel, subtitle }) {
   return (
@@ -13,20 +10,12 @@ export default function Count({ data, label, appendLabel, subtitle }) {
         {label}
       </div>
 
-      <div
-        className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100"
-        component="p"
-        variant="h4"
-      >
+      <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
         {data || 0} {appendLabel}
       </div>
 
       {subtitle && (
-        <div
-          className="mt-1 max-w-2xl text-sm leading-5 text-gray-500"
-          color="textSecondary"
-          variant={'caption'}
-        >
+        <div className="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
           {subtitle || moment().format('LL')}
         </div>
       )}
@@ -36,5 +25,5 @@ export default function Count({ data, label, appendLabel, subtitle }) {
         </Link>
       </div> */}
     </React.Fragment>
-  )
+  );
 }

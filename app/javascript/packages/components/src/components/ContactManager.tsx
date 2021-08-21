@@ -1,21 +1,21 @@
-import React from 'react'
-import FilterMenu from './FilterMenu'
-import Button from './Button'
-import FormDialog from './FormDialog'
-import Progress from './Progress'
+import React from 'react';
+import FilterMenu from './FilterMenu';
+import Button from './Button';
+import FormDialog from './FormDialog';
+import Progress from './Progress';
 
-import { connect } from 'react-redux'
-import { getFileMetadata, directUpload } from './fileUploader'
-import serialize from 'form-serialize'
+import { connect } from 'react-redux';
+import { getFileMetadata, directUpload } from './fileUploader';
+import serialize from 'form-serialize';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { successMessage } from '@chaskiq/store/src/actions/status_messages'
+import { successMessage } from '@chaskiq/store/src/actions/status_messages';
 
 import {
   CREATE_DIRECT_UPLOAD,
   IMPORT_CONTACTS,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 function optionsForFilter() {
   const options = [
@@ -41,9 +41,9 @@ function optionsForFilter() {
       id: 'import-csv',
       state: 'import-csv',
     },
-  ]
+  ];
 
-  return options
+  return options;
 }
 
 function toggleButton(clickHandler) {
@@ -53,15 +53,15 @@ function toggleButton(clickHandler) {
         {I18n.t('contact_manager.create')}
       </Button>
     </div>
-  )
+  );
 }
 
 function ContactManager({ app, current_user, dispatch }) {
-  const [selectedItem, setSelectedItem] = React.useState(null)
-  const [enableForm, setEnableForm] = React.useState(null)
+  const [selectedItem, setSelectedItem] = React.useState(null);
+  const [enableForm, setEnableForm] = React.useState(null);
 
   function submitHandler(_e) {
-    console.log('sends:;', enableForm)
+    console.log('sends:;', enableForm);
 
     graphql(
       IMPORT_CONTACTS,
@@ -71,38 +71,38 @@ function ContactManager({ app, current_user, dispatch }) {
       },
       {
         success: () => {
-          setSelectedItem(null)
-          dispatch(successMessage(I18n.t('contact_manager.success_message')))
+          setSelectedItem(null);
+          dispatch(successMessage(I18n.t('contact_manager.success_message')));
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function handleCreateForm(e) {
     switch (e.state) {
       case 'import-csv':
-        setSelectedItem(e.state)
-        break
+        setSelectedItem(e.state);
+        break;
       default:
-        break
+        break;
     }
   }
 
   function closeHandler() {
-    setSelectedItem(null)
+    setSelectedItem(null);
   }
 
   function enableSubmit(data) {
-    setEnableForm(data)
+    setEnableForm(data);
   }
 
   function renderForm() {
     switch (selectedItem) {
       case 'import-csv':
-        return <CsvUploader enableSubmit={enableSubmit} />
+        return <CsvUploader enableSubmit={enableSubmit} />;
       default:
-        break
+        break;
     }
   }
 
@@ -141,15 +141,15 @@ function ContactManager({ app, current_user, dispatch }) {
         ></FormDialog>
       )}
     </div>
-  )
+  );
 }
 
-function CsvUploader({ _handleSubmit, enableSubmit }) {
-  const formRef = React.useRef()
-  const [loading, setLoading] = React.useState(false)
+function CsvUploader({ enableSubmit }) {
+  const formRef = React.useRef();
+  const [loading, setLoading] = React.useState(false);
 
   function uploadHandler(file, _kind) {
-    setLoading(true)
+    setLoading(true);
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
@@ -158,29 +158,29 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
             headers,
             url,
             //serviceUrl
-          } = data.createDirectUpload.directUpload
+          } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             // setFile({ signedBlobId })
             const data = serialize(formRef.current, {
               hash: true,
               empty: true,
-            })
-            data.file = signedBlobId
-            submitHandler(data)
-            setLoading(false)
-          })
+            });
+            data.file = signedBlobId;
+            submitHandler(data);
+            setLoading(false);
+          });
         },
         error: (error) => {
-          setLoading(false)
-          console.log('error on signing blob', error)
+          setLoading(false);
+          console.log('error on signing blob', error);
         },
-      })
-    })
+      });
+    });
   }
 
   function submitHandler(data) {
-    enableSubmit(data)
+    enableSubmit(data);
   }
 
   return (
@@ -218,7 +218,7 @@ function CsvUploader({ _handleSubmit, enableSubmit }) {
         </div>
       </form>
     </div>
-  )
+  );
 }
 
 function ContactTypeInput({ kind }) {
@@ -237,7 +237,7 @@ function ContactTypeInput({ kind }) {
         </span>
       </label>
     </div>
-  )
+  );
 }
 
 function FileUpload({ onChange, loading }) {
@@ -267,15 +267,15 @@ function FileUpload({ onChange, loading }) {
         />
       </label>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app, current_user } = state
+  const { app, current_user } = state;
   return {
     app,
     current_user,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(ContactManager)
+export default connect(mapStateToProps)(ContactManager);

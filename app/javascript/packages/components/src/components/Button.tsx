@@ -1,13 +1,22 @@
 // src/components/button.js
-import React from 'react'
+import React from 'react';
 // import tw from 'tailwind.macro'
-import styled from '@emotion/styled'
-import tw from 'twin.macro'
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
 // https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components
 
 interface ButtonComponentProps {
-  variant: any
-  size: any
+  variant?: any;
+  size?: any;
+  children?: React.ReactNode;
+}
+interface ButtonProps {
+  children?: any;
+  className?: any;
+  onClick?: any;
+  'aria-label'?: any;
+  variant?: any;
+  size?: string;
 }
 
 const BaseButton = styled.button<ButtonComponentProps>`
@@ -23,7 +32,7 @@ const BaseButton = styled.button<ButtonComponentProps>`
         focus:outline-none 
         focus:border-green-700 
         focus:shadow-outline
-        `
+        `;
       case 'flat':
         return tw`
         inline-flex 
@@ -37,7 +46,7 @@ const BaseButton = styled.button<ButtonComponentProps>`
         bg-indigo-100 
         hover:bg-indigo-200 
         focus:outline-none 
-        `
+        `;
       case 'flat-dark':
         return tw`
           flex
@@ -51,7 +60,7 @@ const BaseButton = styled.button<ButtonComponentProps>`
           focus:outline-none 
           focus:border-gray-700 
           active:bg-gray-800 
-          `
+          `;
       case 'main':
         return tw`outline-none 
         inline-flex 
@@ -64,11 +73,11 @@ const BaseButton = styled.button<ButtonComponentProps>`
         focus:outline-none 
         focus:shadow-outline 
         focus:border-indigo-700 
-        active:bg-indigo-700`
+        active:bg-indigo-700`;
       case 'link':
-        return tw`flex text-indigo-700 hover:text-indigo-900 inline-flex items-center`
+        return tw`flex text-indigo-700 hover:text-indigo-900 inline-flex items-center`;
       case 'clean':
-        return ''
+        return '';
       case 'outlined':
         return tw`
         flex 
@@ -96,7 +105,7 @@ const BaseButton = styled.button<ButtonComponentProps>`
         focus:ring-2 
         focus:ring-offset-2 
         focus:ring-pink-500
-        `
+        `;
       case 'outlined-transparent':
         return tw`
         flex 
@@ -118,14 +127,14 @@ const BaseButton = styled.button<ButtonComponentProps>`
         focus:ring-2 
         focus:ring-offset-2 
         focus:ring-pink-500
-        `
+        `;
       case 'icon':
         return tw`
         outline-none 
         rounded-full 
         p-1 
         bg-transparent
-        hover:text-gray-400`
+        hover:text-gray-400`;
       case 'danger':
         return tw`outline-none 
         rounded 
@@ -135,7 +144,7 @@ const BaseButton = styled.button<ButtonComponentProps>`
         focus:outline-none 
         focus:border-red-700 
         focus:shadow-outline
-        `
+        `;
       default:
         return tw`
         flex 
@@ -154,19 +163,19 @@ const BaseButton = styled.button<ButtonComponentProps>`
         focus:outline-none 
         focus:border-indigo-300 
         active:bg-indigo-200
-        `
+        `;
     }
   }};
 
   ${({ border }) => {
     switch (border) {
       case true:
-        return tw`border`
+        return tw`border`;
       default:
-        return ''
+        return '';
     }
   }}
-`
+`;
 
 const SizeButton = styled(BaseButton)<ButtonComponentProps>`
   ${({ size, variant }) => {
@@ -176,12 +185,12 @@ const SizeButton = styled(BaseButton)<ButtonComponentProps>`
         px-2 py-1
         text-xs 
         font-medium 
-      `
+      `;
       case 'sm':
       case 'small':
         return tw`
         px-2.5 py-1.5 text-xs leading-4
-      `
+      `;
       case 'md':
       case 'medium':
         return tw`px-4 py-2 
@@ -189,36 +198,27 @@ const SizeButton = styled(BaseButton)<ButtonComponentProps>`
         leading-7 
         font-medium 
         uppercase 
-        `
+        `;
       case 'lg':
       case 'large':
         return tw`px-8 py-4 
         text-xl 
         font-light 
-        uppercase`
+        uppercase`;
       default:
         // const isIcon = props.variant === "icon" ? 'p-1' : 'px-2 py-1'
         if (variant === 'icon') {
-          return tw`p-1`
+          return tw`p-1`;
         } else {
           return tw`
           px-2 py-1
           text-sm 
           font-medium 
-          leading-7`
+          leading-7`;
         }
     }
   }};
-`
-
-interface ButtonProps {
-  children?: any
-  className?: any
-  buttonProps: any
-  onClick?: any
-  'aria-label'?: any
-  variant: any
-}
+`;
 
 export default function Button({
   children,
@@ -233,11 +233,11 @@ export default function Button({
     >
       {children}
     </SizeButton>
-  )
+  );
 }
 
 export function ButtonIndigo({ children, ...buttonProps }) {
-  return <SizeButton {...buttonProps}>{children}</SizeButton>
+  return <SizeButton {...buttonProps}>{children}</SizeButton>;
 }
 
 export function DropdownButton({ onClick, label, icon }) {
@@ -267,5 +267,5 @@ export function DropdownButton({ onClick, label, icon }) {
         </button>
       </span>
     </span>
-  )
+  );
 }

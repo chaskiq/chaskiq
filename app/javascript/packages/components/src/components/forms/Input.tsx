@@ -1,26 +1,45 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import Select from 'react-select'
-import Button from '../Button'
-import { isArray } from 'lodash'
-import DatePicker from 'react-datepicker'
-import { ColorPicker } from './ColorPicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import React from 'react';
+import { connect } from 'react-redux';
+import Select from 'react-select';
+import Button from '../Button';
+import { isArray } from 'lodash';
+import DatePicker from 'react-datepicker';
+import { ColorPicker } from './ColorPicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function mapStateToProps(state) {
-  const { theme } = state
+  const { theme } = state;
   return {
     theme,
-  }
+  };
 }
 
 function borderColor(error) {
   if (error) {
-    return 'red'
+    return 'red';
   }
   if (!error) {
-    return 'gray'
+    return 'gray';
   }
+}
+
+interface IWrapperComponentProps {
+  className: string;
+}
+interface IWrapperComponent {
+  label: any;
+  name: any;
+  type: any;
+  value: any;
+  helperText: any;
+  defaultValue: any;
+  defaultChecked: any;
+  disabled: any;
+  handler: any;
+  error: any;
+  id: any;
+  theme: any;
+  props: IWrapperComponentProps;
 }
 
 const WrappedComponent = React.forwardRef(function Input(
@@ -38,7 +57,7 @@ const WrappedComponent = React.forwardRef(function Input(
     id,
     theme,
     ...props
-  },
+  }: IWrapperComponent,
   ref
 ) {
   function inputAppearance(variant) {
@@ -46,12 +65,12 @@ const WrappedComponent = React.forwardRef(function Input(
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
         w-full py-2 px-3 text-gray-700
-        focus:outline-none focus:border-gray-600 dark:bg-black dark:text-white`
+        focus:outline-none focus:border-gray-600 dark:bg-black dark:text-white`;
       default:
         return `shadow appearance-none border border-${borderColor(
           error
         )}-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white
-        leading-tight focus:outline-none focus:shadow-outline`
+        leading-tight focus:outline-none focus:shadow-outline`;
     }
   }
 
@@ -61,26 +80,26 @@ const WrappedComponent = React.forwardRef(function Input(
       case 'string':
       case 'password':
       case 'number':
-        return renderText()
+        return renderText();
       case 'textarea':
-        return renderTextArea()
+        return renderTextArea();
       case 'checkbox':
       case 'bool':
-        return renderCheckbox()
+        return renderCheckbox();
       case 'select':
-        return renderSelect()
+        return renderSelect();
       case 'radio':
-        return renderRadioButton()
+        return renderRadioButton();
       case 'timezone':
-        return renderTimezone()
+        return renderTimezone();
       case 'upload':
-        return renderUpload()
+        return renderUpload();
       case 'datetime':
-        return renderDatetime()
+        return renderDatetime();
       case 'color':
-        return renderColor()
+        return renderColor();
       default:
-        return <p>nada {type}</p>
+        return <p>nada {type}</p>;
     }
   }
 
@@ -93,18 +112,17 @@ const WrappedComponent = React.forwardRef(function Input(
         neutral80: '#999',
         primary25: 'hotpink',
         primary: '#666',
-      }
+      };
     }
-    return {}
+    return {};
   }
 
   function renderText() {
-    const { className, labelMargin, ...options } = props
+    const { labelMargin, ...options } = props;
     return (
       <FormField
         name={name}
         label={label}
-        error={error}
         helperText={helperText}
         labelMargin={labelMargin}
       >
@@ -122,7 +140,7 @@ const WrappedComponent = React.forwardRef(function Input(
           {...options}
         />
       </FormField>
-    )
+    );
   }
 
   function renderSelect() {
@@ -131,9 +149,9 @@ const WrappedComponent = React.forwardRef(function Input(
         ? isArray(defaultValue)
           ? defaultValue.map((o) => ({ label: o, value: o }))
           : defaultValue
-        : defaultValue
+        : defaultValue;
 
-    const isMulti = props.data && props.data.multiple
+    const isMulti = props.data && props.data.multiple;
     return (
       <FormField name={name} label={label} helperText={helperText}>
         <Select
@@ -154,7 +172,7 @@ const WrappedComponent = React.forwardRef(function Input(
           })}
         />
       </FormField>
-    )
+    );
   }
 
   function renderCheckbox() {
@@ -187,13 +205,13 @@ const WrappedComponent = React.forwardRef(function Input(
           </div>
         )}
       </div>
-    )
+    );
   }
 
   function renderUpload() {
-    const ref = React.createRef()
+    const ref = React.createRef();
     return (
-      <FormField name={name} error={error} label={null} helperText={helperText}>
+      <FormField name={name} label={null} helperText={helperText}>
         <div className="flex flex-col items-center">
           {!props.hideImage && (
             <img className="pb-2" src={defaultValue} alt={label || name} />
@@ -212,10 +230,9 @@ const WrappedComponent = React.forwardRef(function Input(
           <label htmlFor={name}>
             <Button
               variant="contained"
-              component="span"
               onClick={(e) => {
-                e.preventDefault()
-                ref.current && ref.current.click()
+                e.preventDefault();
+                ref.current && ref.current.click();
               }}
             >
               {I18n.t('common.upload_field', { field: label })}
@@ -223,7 +240,7 @@ const WrappedComponent = React.forwardRef(function Input(
           </label>
         </div>
       </FormField>
-    )
+    );
   }
 
   function renderRadioButton() {
@@ -250,7 +267,7 @@ const WrappedComponent = React.forwardRef(function Input(
           )}
         </div>
       </label>
-    )
+    );
   }
 
   function renderTextArea() {
@@ -267,7 +284,7 @@ const WrappedComponent = React.forwardRef(function Input(
         <div className="">
           <textarea
             id="about"
-            rows="3"
+            rows={3}
             name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
@@ -286,13 +303,13 @@ const WrappedComponent = React.forwardRef(function Input(
           <div className="mt-2 text-sm text-gray-500">{helperText}</div>
         )}
       </div>
-    )
+    );
   }
 
   function renderTimezone() {
-    const names = props.options.map((o) => ({ label: o, value: o }))
-    const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone
-    const defaultData = defaultValue || defaultTZ
+    const names = props.options.map((o) => ({ label: o, value: o }));
+    const defaultTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const defaultData = defaultValue || defaultTZ;
     return (
       <FormField name={name} label={label} helperText={helperText}>
         <Select
@@ -322,7 +339,7 @@ const WrappedComponent = React.forwardRef(function Input(
           ></div>
         )}
       </FormField>
-    )
+    );
   }
 
   function renderColor() {
@@ -343,11 +360,11 @@ const WrappedComponent = React.forwardRef(function Input(
           error={error}
         />
       </FormField>
-    )
+    );
   }
 
   function renderDatetime() {
-    const val = value || defaultValue
+    const val = value || defaultValue;
 
     return (
       <FormField
@@ -359,26 +376,40 @@ const WrappedComponent = React.forwardRef(function Input(
         <DatePickerWrapper
           name={name}
           val={val}
-          error={error}
+          // error={error}
           onChange={props.onChange}
         />
       </FormField>
-    )
+    );
   }
 
   return (
     <div className={`mb-4 ${props.className ? props.className : ''}`}>
       {handeRenderType()}
     </div>
-  )
-})
+  );
+});
 
 export default connect(mapStateToProps, null, null, { forwardRef: true })(
   WrappedComponent
-)
+);
 
-function FormField({ name, label, helperText, children, labelMargin, _error }) {
-  const margin = labelMargin ? labelMargin : 'mb-2'
+interface FormFieldProps {
+  name: string;
+  label: string;
+  helperText: string;
+  children: React.ReactNode;
+  labelMargin?: string;
+  error?: any;
+}
+function FormField({
+  name,
+  label,
+  helperText,
+  children,
+  labelMargin,
+}: FormFieldProps) {
+  const margin = labelMargin ? labelMargin : 'mb-2';
   return (
     <React.Fragment>
       <label
@@ -395,15 +426,21 @@ function FormField({ name, label, helperText, children, labelMargin, _error }) {
         </div>
       )}
     </React.Fragment>
-  )
+  );
 }
 
-function DatePickerWrapper({ val, name, onChange, _error }) {
-  const [value, setValue] = React.useState(val || new Date())
+interface IDatePickerWrapper {
+  name: string;
+  val: string;
+  onChange: (val: any) => void;
+}
+
+function DatePickerWrapper({ val, name, onChange }: IDatePickerWrapper) {
+  const [value, setValue] = React.useState(val || new Date());
 
   function handleChange(val) {
-    setValue(val)
-    onChange && onChange(val)
+    setValue(val);
+    onChange && onChange(val);
   }
 
   return (
@@ -425,5 +462,5 @@ function DatePickerWrapper({ val, name, onChange, _error }) {
       // ]}
       dateFormat="MMMM d, yyyy h:mm aa"
     />
-  )
+  );
 }

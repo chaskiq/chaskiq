@@ -1,20 +1,30 @@
-import React from 'react'
+import React from 'react';
 // import mapboxgl from 'mapbox-gl';
-import styled from '@emotion/styled'
-import { isEmpty } from 'lodash'
+import styled from '@emotion/styled';
+import { isEmpty } from 'lodash';
 const TOKEN =
-  'pk.eyJ1IjoibWljaGVsc29uIiwiYSI6ImNpbzRpNnh3eDAxaTZ3M2tqamg1NGQ4dWsifQ.rELrEMloUCCMcu07f51Spg'
+  'pk.eyJ1IjoibWljaGVsc29uIiwiYSI6ImNpbzRpNnh3eDAxaTZ3M2tqamg1NGQ4dWsifQ.rELrEMloUCCMcu07f51Spg';
 
 const MapContainer = styled.div`
   width: 100%;
   height: 300px;
   margin-top: 10px;
-`
+`;
 
-export default class Mapa extends React.Component {
+type Props = {
+  title: string;
+  data: Array<any>;
+  interactive: boolean;
+  wrapperStyle: any;
+  forceZoom?: boolean;
+};
+
+export default class Mapa extends React.Component<Props> {
+  map: {};
+
   constructor(props) {
-    super(props)
-    this.map = {}
+    super(props);
+    this.map = {};
   }
 
   getPoints = () => {
@@ -26,25 +36,25 @@ export default class Mapa extends React.Component {
         email: o.email,
       },
       geometry: { type: 'Point', coordinates: [o.lng, o.lat] },
-    }))
-  }
+    }));
+  };
 
   componentDidMount() {
-    window.mapboxgl.accessToken = TOKEN
+    window.mapboxgl.accessToken = TOKEN;
 
     this.map = new window.mapboxgl.Map({
       container: 'react-map',
       style: 'mapbox://styles/michelson/cjcga6dyd48ww2rlq99y1tw8m',
       zoom: 10,
       interactive: this.props.interactive,
-    })
+    });
 
     this.map.on('load', () => {
       const data = {
         type: 'FeatureCollection',
         // "crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},
         features: this.getPoints(),
-      }
+      };
 
       // Add a new source from our GeoJSON data and set the
       // 'cluster' option to true. GL-JS will add the point_count property to your source data.
@@ -56,7 +66,7 @@ export default class Mapa extends React.Component {
         cluster: true,
         clusterMaxZoom: 14, // Max zoom to cluster points on
         clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-      })
+      });
 
       this.map.addLayer({
         id: 'clusters',
@@ -88,7 +98,7 @@ export default class Mapa extends React.Component {
             40,
           ],
         },
-      })
+      });
 
       this.map.addLayer({
         id: 'cluster-count',
@@ -100,7 +110,7 @@ export default class Mapa extends React.Component {
           'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
           'text-size': 12,
         },
-      })
+      });
 
       this.map.addLayer({
         id: 'unclustered-point',
@@ -113,92 +123,92 @@ export default class Mapa extends React.Component {
           'circle-strokeWidth': 1,
           'circle-stroke-color': '#fff',
         },
-      })
+      });
 
       // inspect a cluster on click
       this.map.on('click', 'clusters', (e) => {
         var features = this.map.queryRenderedFeatures(e.point, {
           layers: ['clusters'],
-        })
-        var clusterId = features[0].properties.cluster_id
+        });
+        var clusterId = features[0].properties.cluster_id;
         this.map
           .getSource('earthquakes')
           .getClusterExpansionZoom(clusterId, (err, zoom) => {
-            if (err) return
+            if (err) return;
 
             this.map.easeTo({
               center: features[0].geometry.coordinates,
               zoom: zoom,
-            })
-          })
-      })
+            });
+          });
+      });
 
       this.map.on('mouseenter', 'clusters', () => {
-        this.map.getCanvas().style.cursor = 'pointer'
-      })
+        this.map.getCanvas().style.cursor = 'pointer';
+      });
       this.map.on('mouseleave', 'clusters', () => {
-        this.map.getCanvas().style.cursor = ''
-      })
+        this.map.getCanvas().style.cursor = '';
+      });
 
       // When a click event occurs on a feature in the places layer, open a popup at the
       // location of the feature, with description HTML from its properties.
       this.map.on('click', 'unclustered-point', (e) => {
-        var coordinates = e.features[0].geometry.coordinates.slice()
-        var description = e.features[0].properties.name
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.name;
 
         // Ensure that if the map is zoomed out such that multiple
         // copies of the feature are visible, the popup appears
         // over the copy being pointed to.
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
         }
 
         new mapboxgl.Popup()
           .setLngLat(coordinates)
           .setHTML(description)
-          .addTo(this.map)
-      })
+          .addTo(this.map);
+      });
 
       // Change the cursor to a pointer when the mouse is over the places layer.
       this.map.on('mouseenter', 'unclustered-point', () => {
-        this.map.getCanvas().style.cursor = 'pointer'
-      })
+        this.map.getCanvas().style.cursor = 'pointer';
+      });
 
       // Change it back to a pointer when it leaves.
       this.map.on('mouseleave', 'unclustered-point', () => {
-        this.map.getCanvas().style.cursor = ''
-      })
+        this.map.getCanvas().style.cursor = '';
+      });
 
       this.fitBounds(() => {
-        this.props.forceZoom && this.map.setZoom(this.props.forceZoom)
-      })
-    })
+        this.props.forceZoom && this.map.setZoom(this.props.forceZoom);
+      });
+    });
   }
 
   fitBounds = (cb) => {
-    var bounds
+    var bounds;
     // hack to fit bounds based on marker coords
-    bounds = new mapboxgl.LngLatBounds()
+    bounds = new mapboxgl.LngLatBounds();
     this.props.data.forEach(function (o) {
       if (!o.lat || !o.lng) {
-        return
+        return;
       }
-      return bounds.extend([o.lng, o.lat])
-    })
+      return bounds.extend([o.lng, o.lat]);
+    });
     if (!isEmpty(bounds)) {
       this.map.fitBounds(bounds, {
         padding: 20,
         duration: 0,
-      })
+      });
     }
-    cb && cb()
-  }
+    cb && cb();
+  };
 
   render() {
     return (
       <MapContainer id="react-map" style={this.props.wrapperStyle}>
         {this.props.children}
       </MapContainer>
-    )
+    );
   }
 }

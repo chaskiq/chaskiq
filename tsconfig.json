@@ -3,11 +3,12 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "lib": ["es6", "dom"],
     "module": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5",
+    "target": "es2019",
     "jsx": "react",
     "noEmit": true
   },

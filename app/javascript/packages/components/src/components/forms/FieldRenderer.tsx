@@ -1,23 +1,37 @@
-import React from 'react'
-import { snakeCase, camelCase } from 'lodash'
-import Input from './Input'
+import React from 'react';
+import { snakeCase, camelCase } from 'lodash';
+import Input from './Input';
 
 export const errorsFor = (name, errors) => {
-  if (!errors[name]) return null
-  console.log('error for', name)
-  return errors[name].map((o) => o).join(', ')
-}
+  if (!errors[name]) return null;
+  console.log('error for', name);
+  return errors[name].map((o) => o).join(', ');
+};
 
 export function gridClasses(field) {
   return Object.keys(field.grid)
     .map((o) => {
-      if (o === 'xs') return field.grid[o]
-      return `${o}:${field.grid[o]}`
+      if (o === 'xs') return field.grid[o];
+      return `${o}:${field.grid[o]}`;
     })
-    .join(' ')
+    .join(' ');
 }
 
-class FieldRenderer extends React.Component {
+interface FieldRendererProps {
+  namespace: string;
+  type: string;
+  data?: any;
+  props: any;
+  errors: any[];
+  errorNamespace: string;
+  handler?: (n: any) => any;
+  accept?: boolean;
+  defaultChecked: boolean;
+  value: string;
+  id: string | number;
+}
+
+class FieldRenderer extends React.Component<FieldRendererProps> {
   fieldRenderer = () => {
     const {
       namespace,
@@ -31,20 +45,19 @@ class FieldRenderer extends React.Component {
       defaultChecked,
       value,
       id,
-    } = this.props
+    } = this.props;
 
-    const errorName = snakeCase(`${errorNamespace || ''}${data.name}`)
-    const errorMessage = errorsFor(errorName, errors)
-    const camelCasedName = camelCase(data.name)
+    const errorName = snakeCase(`${errorNamespace || ''}${data.name}`);
+    const errorMessage = errorsFor(errorName, errors);
+    const camelCasedName = camelCase(data.name);
 
     function formatFieldName() {
-      return namespace ? `${namespace}[${data.name}]` : data.name
+      return namespace ? `${namespace}[${data.name}]` : data.name;
     }
 
     return (
       <div
-        error={errorMessage}
-        // className={classes.formControl}
+      // className={classes.formControl}
       >
         <Input
           data={data}
@@ -76,12 +89,12 @@ class FieldRenderer extends React.Component {
           }
         />
       </div>
-    )
-  }
+    );
+  };
 
   render() {
-    return this.fieldRenderer()
+    return this.fieldRenderer();
   }
 }
 
-export default FieldRenderer
+export default FieldRenderer;

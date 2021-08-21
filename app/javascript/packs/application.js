@@ -7,17 +7,17 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import '../src/styles/tailwind.css'
-import 'rc-tooltip/assets/bootstrap.css'
-import App from '../src/App'
+import '../src/styles/tailwind.css';
+import 'rc-tooltip/assets/bootstrap.css';
+import App from '../src/App';
 
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <App />,
     document.body.appendChild(document.getElementById('main-page'))
-  )
-})
+  );
+});

@@ -1,9 +1,19 @@
-import React from 'react'
-import { getPackage } from './utils'
+import React from 'react';
+import { getPackage } from './utils';
 
-import { Progress } from './styled'
+import { Progress } from './styled';
 
-import { DefinitionRenderer } from './components'
+import { DefinitionRenderer } from './components';
+
+interface IBaseInserter {
+  onItemSelect: any;
+  pkg: any;
+  app: any;
+  location: any;
+  onInitialize: any;
+  conversation: any;
+  conversation_part: any;
+}
 
 export function BaseInserter({
   //onItemSelect,
@@ -13,8 +23,8 @@ export function BaseInserter({
   app,
   onInitialize,
   location,
-}) {
-  const [p, setPackage] = React.useState(null)
+}: IBaseInserter) {
+  const [p, setPackage] = React.useState(null);
   const params = {
     appKey: app.key,
     id: pkg.name + '',
@@ -23,7 +33,7 @@ export function BaseInserter({
       location,
       conversation_part: conversation_part?.key,
     },
-  }
+  };
 
   React.useEffect(() => {
     if (p && p.kind === 'initialize') {
@@ -34,17 +44,17 @@ export function BaseInserter({
         wait_for_input: p.wait_for_input,
         id: pkg.id,
         name: pkg.name,
-      })
+      });
     }
-  }, [p])
+  }, [p]);
 
   React.useEffect(
     () =>
       getPackage(params, location, (data) => {
-        setPackage(data.app.appPackage.callHook)
+        setPackage(data.app.appPackage.callHook);
       }),
     []
-  )
+  );
 
   function updatePackage(formData, cb) {
     const newParams = {
@@ -54,11 +64,11 @@ export function BaseInserter({
         conversation_key: conversation?.key,
         conversation_part: conversation_part?.key,
       },
-    }
+    };
     getPackage(newParams, location, (data) => {
-      setPackage(data.app.appPackage.callHook)
-      cb && cb()
-    })
+      setPackage(data.app.appPackage.callHook);
+      cb && cb();
+    });
   }
 
   return (
@@ -74,5 +84,5 @@ export function BaseInserter({
         />
       )}
     </div>
-  )
+  );
 }

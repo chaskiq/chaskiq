@@ -1,80 +1,80 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { isEmpty } from 'lodash'
-import { withRouter } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react';
+import { isEmpty } from 'lodash';
+import { withRouter } from 'react-router-dom';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import Hints from '@chaskiq/components/src/components/Hints'
-import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
-import Content from '@chaskiq/components/src/components/Content'
-import PageHeader from '@chaskiq/components/src/components/PageHeader'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import Panel from '@chaskiq/components/src/components/Panel'
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
-import EmptyView from '@chaskiq/components/src/components/EmptyView'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Button from '@chaskiq/components/src/components/Button'
-import Badge from '@chaskiq/components/src/components/Badge'
+import Hints from '@chaskiq/components/src/components/Hints';
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton';
+import Content from '@chaskiq/components/src/components/Content';
+import PageHeader from '@chaskiq/components/src/components/PageHeader';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import Panel from '@chaskiq/components/src/components/Panel';
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
+import EmptyView from '@chaskiq/components/src/components/EmptyView';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Button from '@chaskiq/components/src/components/Button';
+import Badge from '@chaskiq/components/src/components/Badge';
 import FieldRenderer, {
   gridClasses,
-} from '@chaskiq/components/src/components/forms/FieldRenderer'
+} from '@chaskiq/components/src/components/forms/FieldRenderer';
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent,
-} from '@chaskiq/components/src/components/List'
+} from '@chaskiq/components/src/components/List';
 
 import {
   EditIcon,
   AddIcon,
   DeleteIcon,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
-import I18n from '../shared/FakeI18n'
+import I18n from '../shared/FakeI18n';
 
-import serialize from 'form-serialize'
+import serialize from 'form-serialize';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { camelizeKeys } from '@chaskiq/store/src/actions/conversation'
+import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   successMessage,
   errorMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   EVENT_TYPES,
   OUTGOING_WEBHOOKS,
-} from '@chaskiq/store/src/graphql/queries'
+} from '@chaskiq/store/src/graphql/queries';
 import {
   WEBHOOK_CREATE,
   WEBHOOK_UPDATE,
   WEBHOOK_DELETE,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 function Settings({ app, dispatch }) {
-  const [open, setOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [eventTypes, setEventTypes] = useState([])
-  const [errors, setErrors] = useState([])
-  const [webhooks, setWebhooks] = useState([])
-  const [tabValue, setTabValue] = useState(0)
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const form = useRef(null)
+  const [open, setOpen] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [eventTypes, setEventTypes] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const [webhooks, setWebhooks] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(null);
+  const form = useRef(null);
 
   useEffect(() => {
-    dispatch(setCurrentSection('Settings'))
-    dispatch(setCurrentPage('webhooks'))
-    getEventTypes()
-    getWebhooks()
-  }, [])
+    dispatch(setCurrentSection('Settings'));
+    dispatch(setCurrentPage('webhooks'));
+    getEventTypes();
+    getWebhooks();
+  }, []);
 
   function getEventTypes() {
     graphql(
@@ -85,18 +85,18 @@ function Settings({ app, dispatch }) {
           const types = data.app.eventTypes.map((o) => ({
             label: o.identifier,
             value: o.name,
-          }))
-          setEventTypes(types)
+          }));
+          setEventTypes(types);
         },
         error: (_data) => {},
       }
-    )
+    );
   }
 
   function getWebhooks() {
-    setLoading(true)
+    setLoading(true);
 
-    setWebhooks([])
+    setWebhooks([]);
 
     graphql(
       OUTGOING_WEBHOOKS,
@@ -105,27 +105,27 @@ function Settings({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setWebhooks(data.app.outgoingWebhooks)
-          setLoading(false)
+          setWebhooks(data.app.outgoingWebhooks);
+          setLoading(false);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   function close() {
-    setOpen(false)
+    setOpen(false);
   }
 
   function submit() {
     const serializedData = serialize(form.current, {
       hash: true,
       empty: true,
-    })
+    });
 
-    open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
+    open.id ? updateWebhook(serializedData) : createWebhook(serializedData);
   }
 
   function definitions() {
@@ -153,7 +153,7 @@ function Settings({ app, dispatch }) {
         options: eventTypes,
         grid: { xs: 'w-full', sm: 'w-full' },
       },
-    ]
+    ];
   }
 
   function newWebhook() {
@@ -164,11 +164,11 @@ function Settings({ app, dispatch }) {
       state: 'disabled',
       enabled: false,
       definitions: definitions(),
-    })
+    });
   }
 
   function createWebhook(serializedData) {
-    const { url, tag_list, enabled } = serializedData.app
+    const { url, tag_list, enabled } = serializedData.app;
     graphql(
       WEBHOOK_CREATE,
       {
@@ -179,30 +179,30 @@ function Settings({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setTabValue(0)
-          const webhook = data.createWebhook.webhook
-          const errors = data.createWebhook.errors
+          setTabValue(0);
+          const webhook = data.createWebhook.webhook;
+          const errors = data.createWebhook.errors;
           if (!isEmpty(errors)) {
-            setErrors(errors)
-            return
+            setErrors(errors);
+            return;
           }
 
-          const newIntegrations = webhooks.concat(webhook)
+          const newIntegrations = webhooks.concat(webhook);
 
-          setWebhooks(newIntegrations)
+          setWebhooks(newIntegrations);
 
-          setOpen(null)
-          dispatch(successMessage(I18n.t('settings.webhooks.create_success')))
+          setOpen(null);
+          dispatch(successMessage(I18n.t('settings.webhooks.create_success')));
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.webhooks.create_error')))
+          dispatch(errorMessage(I18n.t('settings.webhooks.create_error')));
         },
       }
-    )
+    );
   }
 
   function updateWebhook(serializedData) {
-    const { url, tag_list, enabled } = serializedData.app
+    const { url, tag_list, enabled } = serializedData.app;
     graphql(
       WEBHOOK_UPDATE,
       {
@@ -215,26 +215,26 @@ function Settings({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setTabValue(0)
-          const webhook = data.updateWebhook.webhook
-          const errors = data.updateWebhook.errors
+          setTabValue(0);
+          const webhook = data.updateWebhook.webhook;
+          const errors = data.updateWebhook.errors;
           if (!isEmpty(errors)) {
-            setErrors(errors)
-            return
+            setErrors(errors);
+            return;
           }
           const newIntegrations = webhooks.map((o) =>
             o.id === webhook.id ? webhook : o
-          )
-          setWebhooks(newIntegrations)
+          );
+          setWebhooks(newIntegrations);
           // getAppPackageIntegration()
-          setOpen(null)
-          dispatch(successMessage(I18n.t('settings.webhooks.update_success')))
+          setOpen(null);
+          dispatch(successMessage(I18n.t('settings.webhooks.update_success')));
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.webhooks.update_error')))
+          dispatch(errorMessage(I18n.t('settings.webhooks.update_error')));
         },
       }
-    )
+    );
   }
 
   function removeWebhook() {
@@ -246,32 +246,32 @@ function Settings({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setTabValue(0)
-          const webhook = data.deleteWebhook.webhook
-          const newIntegrations = webhooks.filter((o) => o.id != webhook.id)
-          const errors = data.deleteWebhook.errors
+          setTabValue(0);
+          const webhook = data.deleteWebhook.webhook;
+          const newIntegrations = webhooks.filter((o) => o.id != webhook.id);
+          const errors = data.deleteWebhook.errors;
           if (!isEmpty(errors)) {
-            setErrors(errors)
-            return
+            setErrors(errors);
+            return;
           }
-          setWebhooks(newIntegrations)
-          setOpen(null)
-          setOpenDeleteDialog(null)
-          dispatch(successMessage(I18n.t('settings.webhooks.delete_success')))
+          setWebhooks(newIntegrations);
+          setOpen(null);
+          setOpenDeleteDialog(null);
+          dispatch(successMessage(I18n.t('settings.webhooks.delete_success')));
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.webhooks.delete_error')))
+          dispatch(errorMessage(I18n.t('settings.webhooks.delete_error')));
         },
       }
-    )
+    );
   }
 
   function activeWebhooks() {
-    return webhooks.filter((o) => o.enabled)
+    return webhooks.filter((o) => o.enabled);
   }
 
   function disabledWebhooks() {
-    return webhooks.filter((o) => !o.enabled)
+    return webhooks.filter((o) => !o.enabled);
   }
 
   return (
@@ -393,7 +393,7 @@ function Settings({ app, dispatch }) {
                       errors={errors}
                     />
                   </div>
-                )
+                );
               })}
             </form>
           }
@@ -413,14 +413,12 @@ function Settings({ app, dispatch }) {
 
       {openDeleteDialog && (
         <DeleteDialog
-          open={openDeleteDialog}
+          open={!!openDeleteDialog}
           title={I18n.t('settings.webhooks.delete.title')}
           closeHandler={() => {
-            setOpenDeleteDialog(null)
+            setOpenDeleteDialog(null);
           }}
-          deleteHandler={() => {
-            removeWebhook(openDeleteDialog)
-          }}
+          deleteHandler={removeWebhook}
         >
           <p>
             {I18n.t('settings.webhooks.delete.text', {
@@ -430,26 +428,25 @@ function Settings({ app, dispatch }) {
         </DeleteDialog>
       )}
     </Content>
-  )
+  );
 }
 
-function WebhookItem({ webhook, handleEdit, handleDelete }) {
+interface IWebhookItem {
+  webhook: any;
+  key: any;
+  handleEdit: (o: any) => void;
+  handleDelete: (o: any) => void;
+}
+
+function WebhookItem({ webhook, handleEdit, handleDelete }: IWebhookItem) {
   return (
     <ListItem>
       <ListItemText
-        primary={
-          <ItemListPrimaryContent variant="h5">
-            {webhook.url}
-          </ItemListPrimaryContent>
-        }
+        primary={<ItemListPrimaryContent>{webhook.url}</ItemListPrimaryContent>}
         secondary={
           <ItemListSecondaryContent>
             {webhook.tag_list.map((o) => (
-              <Badge
-                key={`chip-${o}`}
-                size="small"
-                style={{ margin: '0 0.2em .2em 0px' }}
-              >
+              <Badge key={`chip-${o}`} size="small">
                 {o}
               </Badge>
             ))}
@@ -484,13 +481,13 @@ function WebhookItem({ webhook, handleEdit, handleDelete }) {
         }
       />
     </ListItem>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app, segment, app_users, current_user, navigation } = state
-  const { loading, isAuthenticated } = auth
-  const { current_section } = navigation
+  const { auth, app, segment, app_users, current_user, navigation } = state;
+  const { loading, isAuthenticated } = auth;
+  const { current_section } = navigation;
   return {
     segment,
     app_users,
@@ -499,7 +496,7 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     current_section,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Settings))
+export default withRouter(connect(mapStateToProps)(Settings));
