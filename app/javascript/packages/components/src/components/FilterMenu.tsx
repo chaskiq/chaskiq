@@ -1,6 +1,15 @@
-import React from 'react'
-import Dropdown from './Dropdown'
-import { CheckmarkIcon } from './icons'
+import React from 'react';
+import Dropdown from './Dropdown';
+import { CheckmarkIcon } from './icons';
+
+type FilterMenuProps = {
+  filterHandler: (option: any, clickHandler: any) => void;
+  value: string;
+  triggerButton: any;
+  options: any;
+  position?: 'left' | 'right';
+  origin?: string;
+};
 
 export default function FilterMenu({
   filterHandler,
@@ -9,21 +18,20 @@ export default function FilterMenu({
   options,
   position,
   origin,
-}) {
-  const [open, setOpen] = React.useState(false)
+}: FilterMenuProps) {
+  const [open, setOpen] = React.useState(false);
 
   function selectOption(option) {
-    filterHandler(option, handleClose)
+    filterHandler(option, handleClose);
   }
 
-  function handleClose() {
-    setOpen(false)
+  function handleClose(): void {
+    setOpen(false);
   }
 
   return (
     <React.Fragment>
       <Dropdown
-        id="long-menu"
         labelButton={value}
         triggerButton={triggerButton}
         position={position}
@@ -54,7 +62,7 @@ export default function FilterMenu({
                 </div>
               )}
 
-              {option.icon && <icon>{option.icon}</icon>}
+              {option.icon && <i>{option.icon}</i>}
 
               <div className="flex flex-col justify-between ml-2">
                 <span className="font-bold self-start dark:text-gray-100">
@@ -72,5 +80,5 @@ export default function FilterMenu({
         ))}
       </Dropdown>
     </React.Fragment>
-  )
+  );
 }

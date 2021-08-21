@@ -3,7 +3,7 @@ import React from 'react';
 type PanelProps = {
   title: string;
   text?: React.ReactNode;
-  variant: string;
+  variant?: string;
   link?: React.ReactNode;
   classes?: string;
 };

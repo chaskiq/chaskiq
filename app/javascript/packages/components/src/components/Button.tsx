@@ -15,8 +15,19 @@ interface ButtonProps {
   className?: any;
   onClick?: any;
   'aria-label'?: any;
-  variant?: any;
+  variant?:
+    | 'success'
+    | 'flat'
+    | 'flat-dark'
+    | 'main'
+    | 'link'
+    | 'clean'
+    | 'outlined'
+    | 'outlined-transparent'
+    | 'icon'
+    | 'danger';
   size?: string;
+  border?: boolean;
 }
 
 const BaseButton = styled.button<ButtonComponentProps>`

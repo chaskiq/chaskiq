@@ -28,18 +28,21 @@ interface IWrapperComponentProps {
 }
 interface IWrapperComponent {
   label: any;
-  name: any;
+  name?: any;
   type: any;
-  value: any;
-  helperText: any;
-  defaultValue: any;
-  defaultChecked: any;
-  disabled: any;
-  handler: any;
-  error: any;
-  id: any;
-  theme: any;
-  props: IWrapperComponentProps;
+  value?: any;
+  helperText?: any;
+  defaultValue?: any;
+  defaultChecked?: any;
+  disabled?: any;
+  handler?: any;
+  error?: any;
+  id?: any;
+  theme?: any;
+  props?: IWrapperComponentProps;
+  data: any;
+  onChange?: (e: any) => void;
+  options: Array<any>;
 }
 
 const WrappedComponent = React.forwardRef(function Input(

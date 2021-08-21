@@ -1,7 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Breadcrumbs({ breadcrumbs }) {
+interface IBreadcrumb {
+  to: string;
+  title: string;
+}
+
+type BreadcrumbsProps = {
+  breadcrumbs: Array<IBreadcrumb>;
+};
+
+export default function Breadcrumbs({ breadcrumbs }: BreadcrumbsProps) {
   return (
     <nav className="hidden sm:flex items-center text-sm leading-5 font-medium">
       {breadcrumbs.map((o, i) => (
@@ -35,5 +44,5 @@ export default function Breadcrumbs({ breadcrumbs }) {
         </React.Fragment>
       ))}
     </nav>
-  )
+  );
 }

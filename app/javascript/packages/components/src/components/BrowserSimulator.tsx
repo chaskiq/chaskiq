@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from '@emotion/styled'
-import tw from 'twin.macro'
+import React from 'react';
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
 
 export const BrowserSimulatorWrap = styled.div`
   position: relative;
@@ -15,7 +15,7 @@ export const BrowserSimulatorWrap = styled.div`
     0 1px 2px 0 rgba(39, 45, 52, 0.08);
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-`
+`;
 export const BrowserSimulatorHeader = styled.div`
   background: rgb(199, 199, 199);
   background: linear-gradient(
@@ -27,7 +27,7 @@ export const BrowserSimulatorHeader = styled.div`
   border-bottom: 1px solid #b1b0b0;
   padding: 10px;
   display: flex;
-`
+`;
 export const BrowserSimulatorButtons = styled.div`
   display: flex;
   justify-content: space-between;
@@ -54,16 +54,21 @@ export const BrowserSimulatorButtons = styled.div`
     background-color: #35cd4b;
     border: 1px solid #24a732;
   }
-`
-export const EditorMessengerEmulator = styled.div`
+`;
+export const EditorMessengerEmulator = styled.div<EditorMessengerProps>`
   ${(props) =>
     props.mode === 'user_auto_messages'
       ? `
   display:flex;
   justify-content: flex-end;`
       : ''}
-`
-export const EditorMessengerEmulatorWrapper = styled.div`
+`;
+
+type EditorMessengerProps = {
+  mode?: 'user_auto_messages' | 'banners';
+};
+
+export const EditorMessengerEmulatorWrapper = styled.div<EditorMessengerProps>`
   //position: relative;
 
   ${({ mode }) =>
@@ -81,9 +86,9 @@ export const EditorMessengerEmulatorWrapper = styled.div`
     }
     `
       : ''}
-`
+`;
 
-export const EditorPad = styled.div`
+export const EditorPad = styled.div<EditorMessengerProps>`
   ${(props) =>
     props.mode === 'user_auto_messages' &&
     ` display:flex;
@@ -128,18 +133,18 @@ export const EditorPad = styled.div`
 				margin: 2em;
 			}
 			`}
-`
+`;
 
-export const EditorMessengerEmulatorHeader = styled.div`
+export const EditorMessengerEmulatorHeader = styled.div<EditorMessengerProps>`
   ${(props) =>
     props.mode === 'user_auto_messages'
       ? 'padding: 1em; border-bottom: 1px solid #ccc;'
       : ''}
-`
+`;
 
 export default function BrowserSimulator({ children, mode }) {
   return (
-    <BrowserSimulatorWrap mode={mode}>
+    <BrowserSimulatorWrap>
       <BrowserSimulatorHeader>
         <BrowserSimulatorButtons>
           <div className={'circleBtn r'}></div>
@@ -158,5 +163,5 @@ export default function BrowserSimulator({ children, mode }) {
         </EditorMessengerEmulator>
       </EditorPad>
     </BrowserSimulatorWrap>
-  )
+  );
 }

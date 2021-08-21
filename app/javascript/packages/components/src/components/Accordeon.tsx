@@ -1,32 +1,47 @@
-import React from 'react'
-import Button from './Button'
-import { DownArrow, UpArrow } from './icons'
+import React from 'react';
+import Button from './Button';
+import { DownArrow, UpArrow } from './icons';
 
-export default function CustomizedExpansionPanels(props) {
-  const [expanded, setExpanded] = React.useState(props.items[0].name)
+type IPanelItem = {
+  name: string;
+  value?: string;
+};
+
+type IPanel = {
+  name: string;
+  items: Array<IPanelItem>;
+  component?: React.ReactElement;
+};
+
+type PanelProps = {
+  items: Array<IPanel>;
+};
+
+export default function CustomizedExpansionPanels(props: PanelProps) {
+  const [expanded, setExpanded] = React.useState(props.items[0].name);
 
   const withValues = (col) => {
-    return col.filter((o) => o.value)
-  }
+    return col.filter((o) => o.value);
+  };
 
   const expandedClasses = (o) => {
     if (expanded === o.name) {
-      return 'border-r-4 bg-grey-lightest border-gray-800'
+      return 'border-r-4 bg-grey-lightest border-gray-800';
     } else {
-      return 'border-r-4 border-transparent'
+      return 'border-r-4 border-transparent';
     }
-  }
+  };
 
   const isExpanded = (o) => {
-    return expanded === o.name
-  }
+    return expanded === o.name;
+  };
 
   function toggleExpanded(name) {
     if (expanded === name) {
-      setExpanded(null)
-      return
+      setExpanded(null);
+      return;
     }
-    setExpanded(name)
+    setExpanded(name);
   }
 
   return (
@@ -46,7 +61,7 @@ export default function CustomizedExpansionPanels(props) {
           >
             <header
               onClick={() => {
-                toggleExpanded(o.name)
+                toggleExpanded(o.name);
               }}
               className="flex justify-between items-center p-5 pl-6 pr-8 cursor-pointer select-none"
             >
@@ -57,7 +72,7 @@ export default function CustomizedExpansionPanels(props) {
               {isExpanded(o) && (
                 <Button
                   onClick={() => {
-                    toggleExpanded(o.name)
+                    toggleExpanded(o.name);
                   }}
                   variant="outlined"
                 >
@@ -68,7 +83,7 @@ export default function CustomizedExpansionPanels(props) {
               {!isExpanded(o) && (
                 <Button
                   onClick={() => {
-                    toggleExpanded(o.name)
+                    toggleExpanded(o.name);
                   }}
                   variant="outlined"
                 >
@@ -103,5 +118,5 @@ export default function CustomizedExpansionPanels(props) {
         </article>
       ))}
     </section>
-  )
+  );
 }

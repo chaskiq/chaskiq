@@ -1,8 +1,14 @@
-import React from 'react'
-import Panel from './Panel'
+import React from 'react';
+import Panel from './Panel';
+
+type HintType = {
+  title: string;
+  description: string;
+  link: string;
+};
 
 const Hints = ({ type }) => {
-  const content = I18n.t('hints')[type]
+  const content: HintType = I18n.t('hints')[type];
 
   return (
     <React.Fragment>
@@ -18,7 +24,7 @@ const Hints = ({ type }) => {
         </div>
       )}
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default Hints
+export default Hints;

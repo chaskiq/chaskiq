@@ -1,14 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-export default class ErrorBoundary extends React.Component {
+type Props = {
+  variant: string;
+};
+
+type State = {
+  hasError: boolean;
+};
+
+export default class ErrorBoundary extends React.Component<Props, State> {
   constructor(props) {
-    super(props)
-    this.state = { hasError: false }
+    super(props);
+    this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(_error) {
     // Actualiza el estado para que el siguiente renderizado muestre la interfaz de repuesto
-    return { hasError: true }
+    return { hasError: true };
   }
 
   componentDidCatch(_error, _errorInfo) {
@@ -19,7 +27,7 @@ export default class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       if (this.props.variant === 'very-wrong') {
-        return this.renderVery()
+        return this.renderVery();
       }
       return (
         <div className="rounded-md bg-red-50 p-4 m-2">
@@ -46,10 +54,10 @@ export default class ErrorBoundary extends React.Component {
             </div>
           </div>
         </div>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 
   renderVery() {
@@ -77,6 +85,6 @@ export default class ErrorBoundary extends React.Component {
           </a>
         </div>
       </div>
-    )
+    );
   }
 }
