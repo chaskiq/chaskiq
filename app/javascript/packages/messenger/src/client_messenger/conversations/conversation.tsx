@@ -1,14 +1,14 @@
-import React from 'react'
-import { ThemeProvider } from 'emotion-theming'
+import React from 'react';
+import { ThemeProvider } from 'emotion-theming';
 
-import theme from '../textEditor/theme'
-import themeDark from '../textEditor/darkTheme'
-import DraftRenderer from '../textEditor/draftRenderer'
-import DanteContainer from '../textEditor/editorStyles'
-import styled from '@emotion/styled'
-import Moment from 'react-moment'
-import UnicornEditor from '../textEditor'
-import { isEmpty } from 'lodash'
+import theme from '../textEditor/theme';
+import themeDark from '../textEditor/darkTheme';
+import DraftRenderer from '../textEditor/draftRenderer';
+import DanteContainer from '../textEditor/editorStyles';
+import styled from '@emotion/styled';
+import Moment from 'react-moment';
+import UnicornEditor from '../textEditor';
+import { isEmpty } from 'lodash';
 import {
   EditorSection,
   CommentsWrapper,
@@ -20,21 +20,21 @@ import {
   ConversationEventContainer,
   InlineConversationWrapper,
   FooterAckInline,
-} from '../styles/styled'
+} from '../styles/styled';
 
-import NewConversationBlock from './newConversationBlock'
-import { MessengerContext } from '../context'
-import AppPackageBlock from './appPackageBlock'
-import MessageItemWrapper from './messageItemWrapper'
+import NewConversationBlock from './newConversationBlock';
+import { MessengerContext } from '../context';
+import AppPackageBlock from './appPackageBlock';
+import MessageItemWrapper from './messageItemWrapper';
 
 const DanteStylesExtend = styled(DanteContainer)`
   .graf--code {
     width: 242px;
     overflow: auto;
   }
-`
+`;
 export function Conversation(props) {
-  let wait_for_input = React.useRef(null)
+  let wait_for_input = React.useRef(null);
   const {
     value: {
       kind,
@@ -59,40 +59,40 @@ export function Conversation(props) {
       email,
       isUserAutoMessage,
     },
-  } = React.useContext(MessengerContext)
+  } = React.useContext(MessengerContext);
 
-  const { footerClassName } = props
+  const { footerClassName } = props;
 
   React.useEffect(() => {
     updateHeader({
       translateY: 0,
       opacity: 1,
       height: '0',
-    })
-  }, [])
+    });
+  }, []);
 
   // TODO: skip on xhr progress
   function handleConversationScroll(e) {
-    if (props.disablePagination) return
+    if (props.disablePagination) return;
 
-    const element = e.target
+    const element = e.target;
     if (element.scrollTop === 0) {
       // on top
-      const meta = conversation.messages.meta
+      const meta = conversation.messages.meta;
       if (meta && meta.next_page) {
-        setConversation(conversation.key)
+        setConversation(conversation.key);
       }
     } else {
       updateHeader({
         translateY: 0,
         opacity: 1,
         height: 0,
-      })
+      });
     }
   }
 
   function appPackageBlockDisplay(message) {
-    displayAppBlockFrame(message)
+    displayAppBlockFrame(message);
   }
 
   function appPackageClickHandler(item, message) {
@@ -110,17 +110,17 @@ export function Conversation(props) {
         },
         {
           before: () => {
-            console.log('init conversation with ', item)
+            console.log('init conversation with ', item);
           },
           sent: () => {
-            console.log('sent conversation', item)
+            console.log('sent conversation', item);
           },
         }
-      )
+      );
     }
 
     if (message.message.blocks.type === 'app_package') {
-      return appPackageBlockDisplay(message)
+      return appPackageBlockDisplay(message);
     }
 
     pushEvent('trigger_step', {
@@ -129,7 +129,7 @@ export function Conversation(props) {
       trigger: message.triggerId,
       step: item.nextStepUuid || item.next_step_uuid,
       reply: item,
-    })
+    });
   }
 
   function appPackageSubmitHandler(data, message) {
@@ -139,7 +139,7 @@ export function Conversation(props) {
       step: message.stepId,
       trigger: message.triggerId,
       ...data,
-    })
+    });
   }
 
   function renderTyping() {
@@ -157,59 +157,59 @@ export function Conversation(props) {
               color: '#afabb3',
             }}
           >
-            {i18n.t('is_typing', {
+            {i18n.t('messenger.is_typing', {
               name: agent_typing.author.name || 'agent',
             })}
           </span>
         </div>
       </MessageItem>
-    )
+    );
   }
 
   function isInboundRepliesClosed() {
-    const namespace = kind === 'AppUser' ? 'users' : 'visitors'
+    const namespace = kind === 'AppUser' ? 'users' : 'visitors';
 
-    const inboundSettings = appData.inboundSettings[namespace]
+    const inboundSettings = appData.inboundSettings[namespace];
 
     // if this option is not enabled then replies are allowed
-    if (!inboundSettings.close_conversations_enabled) return
+    if (!inboundSettings.close_conversations_enabled) return;
 
     // if this is not a number asume closed
-    if (isNaN(inboundSettings.close_conversations_after)) return true
+    if (isNaN(inboundSettings.close_conversations_after)) return true;
 
     // if zero we asume closed
-    if (inboundSettings.close_conversations_after === 0) return true
+    if (inboundSettings.close_conversations_after === 0) return true;
 
-    const now = new Date()
-    const closedAtDate = new Date(conversation.closedAt)
-    const diff = (now - new Date(closedAtDate)) / (1000 * 3600 * 24)
+    const now = new Date();
+    const closedAtDate = new Date(conversation.closedAt);
+    const diff = (now - new Date(closedAtDate)) / (1000 * 3600 * 24);
 
     // if diff is greather than setting assume closed
     if (Math.round(diff) >= inboundSettings.close_conversations_after)
-      return true
+      return true;
   }
 
   function isInputEnabled() {
     if (conversation.state === 'closed') {
       if (isInboundRepliesClosed()) {
-        return false
+        return false;
       }
     }
 
-    if (isEmpty(conversation.messages)) return true
+    if (isEmpty(conversation.messages)) return true;
 
-    const messages = conversation.messages.collection
-    if (messages.length === 0) return true
+    const messages = conversation.messages.collection;
+    if (messages.length === 0) return true;
 
-    const message = messages[0].message
-    if (isEmpty(message.blocks)) return true
-    if (message.blocks && message.blocks.type === 'wait_for_reply') return true
+    const message = messages[0].message;
+    if (isEmpty(message.blocks)) return true;
+    if (message.blocks && message.blocks.type === 'wait_for_reply') return true;
 
     // strict comparison of false
-    if (message.blocks && message.blocks.wait_for_input === false) return true
-    if (message.blocks && message.blocks.waitForInput === false) return true
+    if (message.blocks && message.blocks.wait_for_input === false) return true;
+    if (message.blocks && message.blocks.waitForInput === false) return true;
 
-    return message.state === 'replied'
+    return message.state === 'replied';
   }
 
   function renderInlineCommentWrapper() {
@@ -234,7 +234,7 @@ export function Conversation(props) {
           {renderMessages()}
         </CommentsWrapper>
       </div>
-    )
+    );
   }
 
   function renderCommentWrapper() {
@@ -242,13 +242,13 @@ export function Conversation(props) {
       <CommentsWrapper isReverse={true} isMobile={isMobile}>
         {renderMessages()}
       </CommentsWrapper>
-    )
+    );
   }
 
   function renderMessage(o, _i) {
-    const userClass = o.appUser.kind === 'agent' ? 'admin' : 'user'
-    const isAgent = o.appUser.kind === 'agent'
-    const themeforMessage = o.privateNote || isAgent ? theme : themeDark
+    const userClass = o.appUser.kind === 'agent' ? 'admin' : 'user';
+    const isAgent = o.appUser.kind === 'agent';
+    const themeforMessage = o.privateNote || isAgent ? theme : themeDark;
 
     return (
       <MessageItemWrapper
@@ -300,7 +300,7 @@ export function Conversation(props) {
           </div>
         </MessageItem>
       </MessageItemWrapper>
-    )
+    );
   }
 
   function renderItemPackage(o, i) {
@@ -320,16 +320,16 @@ export function Conversation(props) {
         getPackage={getPackage}
         // {...o}
       />
-    )
+    );
   }
 
   function renderEventBlock(o, _i) {
-    const { data, action } = o.message
+    const { data, action } = o.message;
     return (
       <ConversationEventContainer isInline={inline_conversation}>
         <span>{i18n.t(`messenger.conversations.events.${action}`, data)}</span>
       </ConversationEventContainer>
-    )
+    );
   }
 
   function renderMessages() {
@@ -350,17 +350,17 @@ export function Conversation(props) {
 
         {conversation.messages &&
           conversation.messages.collection.map((o, i) => {
-            if (o.message.blocks) return renderItemPackage(o, i)
-            if (o.message.action) return renderEventBlock(o, i)
-            return renderMessage(o, i)
+            if (o.message.blocks) return renderItemPackage(o, i);
+            if (o.message.action) return renderEventBlock(o, i);
+            return renderMessage(o, i);
           })}
       </React.Fragment>
-    )
+    );
   }
 
   function renderReplyAbove() {
-    if (inline_conversation) return null
-    return i18n.t('reply_above')
+    if (inline_conversation) return null;
+    return i18n.t('reply_above');
   }
 
   function renderNewConversationButton() {
@@ -376,27 +376,27 @@ export function Conversation(props) {
           {i18n.t('messenger.closed_conversation')}
         </p>
       </NewConversationBlock>
-    )
+    );
   }
 
   function handleBeforeSubmit() {
-    const { messages } = conversation
-    if (isEmpty(messages)) return
-    const message = messages.collection[0]
-    if (!message) return
-    if (!message.message) return
+    const { messages } = conversation;
+    if (isEmpty(messages)) return;
+    const message = messages.collection[0];
+    if (!message) return;
+    if (!message.message) return;
     if (
       message.message.blocks &&
       message.message.blocks.type === 'wait_for_reply'
     ) {
-      wait_for_input.current = message
+      wait_for_input.current = message;
     }
   }
 
   function handleSent() {
-    if (!wait_for_input.current) return
+    if (!wait_for_input.current) return;
 
-    const message = wait_for_input.current
+    const message = wait_for_input.current;
 
     pushEvent('receive_conversation_part', {
       conversation_key: conversation.key,
@@ -404,14 +404,14 @@ export function Conversation(props) {
       step: message.stepId,
       trigger: message.triggerId,
       // submit: data
-    })
+    });
 
-    wait_for_input.current = null
+    wait_for_input.current = null;
   }
 
   function footerReplyIndicator() {
-    if (conversation.state === 'closed') return renderNewConversationButton()
-    return renderReplyAbove()
+    if (conversation.state === 'closed') return renderNewConversationButton();
+    return renderReplyAbove();
   }
 
   function renderFooter() {
@@ -434,7 +434,7 @@ export function Conversation(props) {
           />
         )}
       </Footer>
-    )
+    );
   }
 
   function renderInline() {
@@ -445,7 +445,7 @@ export function Conversation(props) {
           {renderFooter()}
         </EditorSection>
       </div>
-    )
+    );
   }
 
   function renderDefault() {
@@ -460,7 +460,7 @@ export function Conversation(props) {
           {renderFooter()}
         </EditorSection>
       </div>
-    )
+    );
   }
 
   return (
@@ -475,7 +475,7 @@ export function Conversation(props) {
     >
       {inline_conversation ? renderInline() : renderDefault()}
     </div>
-  )
+  );
 }
 
 export function InlineConversation({ conversation }) {
@@ -483,5 +483,5 @@ export function InlineConversation({ conversation }) {
     <InlineConversationWrapper>
       hola {conversation.key}
     </InlineConversationWrapper>
-  )
+  );
 }

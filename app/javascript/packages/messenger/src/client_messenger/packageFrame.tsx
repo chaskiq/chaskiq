@@ -1,34 +1,42 @@
-import React, { Component } from 'react'
-import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter'
-export default class AppBlockPackageFrame extends Component {
+import React, { Component } from 'react';
+import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
+
+type AppBlockPackageFrameProps = {
+  appBlock: any;
+  conversation: any;
+  enc_data?: string;
+  app_id: string;
+  domain: string;
+};
+export default class AppBlockPackageFrame extends Component<AppBlockPackageFrameProps> {
   componentDidMount() {}
 
   render() {
-    const { data } = this.props.appBlock
-    const { message } = this.props.appBlock.message
-    const { conversation } = this.props
-    let src = null
-    let params = {}
+    const { data } = this.props.appBlock;
+    const { message } = this.props.appBlock.message;
+    const { conversation } = this.props;
+    let src = null;
+    let params = {};
     const newData = {
       ...data,
       enc_data: this.props.enc_data,
       app_id: this.props.app_id,
-    }
+    };
 
     if (conversation.key && message) {
-      params = JSON.stringify({ data: newData })
-      const blocks = toCamelCase(message.blocks)
+      params = JSON.stringify({ data: newData });
+      const blocks = toCamelCase(message.blocks);
       const url = `${
         this.props.domain
-      }/package_iframe/${blocks.appPackage.toLowerCase()}`
-      src = new URL(url)
+      }/package_iframe/${blocks.appPackage.toLowerCase()}`;
+      src = new URL(url);
     } else {
-      params = JSON.stringify({ data: newData })
-      const url = `${this.props.domain}/package_iframe/${data.id}`
-      src = new URL(url)
+      params = JSON.stringify({ data: newData });
+      const url = `${this.props.domain}/package_iframe/${data.id}`;
+      src = new URL(url);
     }
 
-    src.searchParams.set('data', params)
+    src.searchParams.set('data', params);
 
     return (
       <div>
@@ -43,6 +51,6 @@ export default class AppBlockPackageFrame extends Component {
           }}
         />
       </div>
-    )
+    );
   }
 }

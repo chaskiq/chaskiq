@@ -1,3 +1,5 @@
+import { ActionType } from "../constants/action_types"
+
 export function setImageZoom(data) {
   return (dispatch, _getState) => {
     dispatch(setImage(data))
@@ -11,10 +13,8 @@ function setImage(data) {
   }
 }
 
-const initialState = {}
-
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = {}, action: ActionType = {}) {
   switch (action.type) {
     case 'SET_ZOOM_IMAGE':
       return action.data

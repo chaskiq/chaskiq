@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/action_types'
+import ActionTypes, { ActionType } from '../constants/action_types'
 
 // Action Creators
 export function setCurrentSection(url) {
@@ -25,7 +25,7 @@ const navigationState = {
 }
 
 // Reducer
-export default function reducer(state = navigationState, action = {}) {
+export default function reducer(state = navigationState, action: ActionType = {}) {
   switch (action.type) {
     case ActionTypes.SetCurrentPage:
       return Object.assign({}, state, action.data)

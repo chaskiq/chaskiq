@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/action_types'
+import ActionTypes, { ActionType } from '../constants/action_types'
 import graphql from '../graphql/client'
 import { SEGMENT } from '../graphql/queries'
 import {
@@ -178,14 +178,6 @@ export function dispatchSegmentUpdate(data) {
   }
 }
 
-const initialState = {
-  id: null,
-  name: null,
-  predicates: [],
-  initialPredicates: [],
-  jwt: null,
-}
-
 // Reducer
 export default function reducer(
   state = {
@@ -195,7 +187,7 @@ export default function reducer(
     initialPredicates: [],
     jwt: null,
   },
-  action = {}
+  action: ActionType = {}
 ) {
   switch (action.type) {
     case ActionTypes.updateSegment: {

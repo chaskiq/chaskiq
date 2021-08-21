@@ -1,40 +1,52 @@
-import ChaskiqMessenger from './messenger'
-import { setCookie, getCookie, deleteCookie } from './cookies'
+import ChaskiqMessenger from './messenger';
+import { setCookie, getCookie, deleteCookie } from './cookies';
 
-import { AUTH } from './graphql/queries'
-import GraphqlClient from './graphql/client'
+import { AUTH } from './graphql/queries';
+import GraphqlClient from './graphql/client';
+
+type ChaskiqMessengerProps = {
+  lang: string;
+  app_id: string;
+  data: any;
+  domain: string;
+  ws: string;
+  wrapperId?: string;
+};
 export default class ChaskiqMessengerEncrypted {
+  props: ChaskiqMessengerProps;
+  cookieNamespace: () => void;
+  getSession: () => string;
+  checkCookie: (value: string) => void;
+  unload: () => void;
+  sendCommand: (action: string, data: any) => void;
+  defaultHeaders: any;
+  graphqlClient: any;
+
   constructor(props) {
-    this.props = props
+    this.props = props;
 
     const currentLang =
-      this.props.lang || navigator.language || navigator.userLanguage
-
-    const data = {
-      referrer: window.location.path,
-      email: this.props.email,
-      properties: this.props.properties,
-    }
+      this.props.lang || navigator.language || navigator.userLanguage;
 
     this.cookieNamespace = () => {
       // old app keys have hypens, we get rid of this
-      const app_id = this.props.app_id.replace('-', '')
-      return `chaskiq_session_id_${app_id}`
-    }
+      const app_id = this.props.app_id.replace('-', '');
+      return `chaskiq_session_id_${app_id}`;
+    };
 
     this.getSession = () => {
       // cookie rename, if we wet an old cookie update to new format and expire it
-      const oldCookie = getCookie('chaskiq_session_id')
+      const oldCookie = getCookie('chaskiq_session_id');
       if (getCookie('chaskiq_session_id')) {
-        this.checkCookie(oldCookie) // will append a appkey
-        deleteCookie('chaskiq_session_id')
+        this.checkCookie(oldCookie); // will append a appkey
+        deleteCookie('chaskiq_session_id');
       }
-      return getCookie(this.cookieNamespace()) || ''
-    }
+      return getCookie(this.cookieNamespace()) || '';
+    };
 
     this.checkCookie = (val) => {
-      setCookie(this.cookieNamespace(), val, 365)
-    }
+      setCookie(this.cookieNamespace(), val, 365);
+    };
 
     this.defaultHeaders = {
       app: this.props.app_id,
@@ -42,12 +54,12 @@ export default class ChaskiqMessengerEncrypted {
       'user-data': JSON.stringify(this.props.data),
       'session-id': this.getSession(),
       lang: currentLang,
-    }
+    };
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
       baseURL: `${this.props.domain}/api/graphql`,
-    })
+    });
 
     this.graphqlClient.send(
       AUTH,
@@ -56,13 +68,13 @@ export default class ChaskiqMessengerEncrypted {
       },
       {
         success: (data) => {
-          const user = data.messenger.user
+          const user = data.messenger.user;
 
           if (user.kind !== 'AppUser') {
             if (user.session_id) {
-              this.checkCookie(user.session_id)
+              this.checkCookie(user.session_id);
             } else {
-              deleteCookie(this.cookieNamespace())
+              deleteCookie(this.cookieNamespace());
             }
           }
 
@@ -76,26 +88,26 @@ export default class ChaskiqMessengerEncrypted {
               lang: user.lang,
               wrapperId: this.props.wrapperId || 'ChaskiqMessengerRoot',
             })
-          )
+          );
 
-          messenger.render()
+          messenger.render();
         },
         errors: (e) => {
-          console.log('Error', e)
+          console.log('Error', e);
         },
       }
-    )
+    );
 
     this.unload = () => {
-      this.sendCommand('unload', {})
-    }
+      this.sendCommand('unload', {});
+    };
 
     this.sendCommand = (action, data = {}) => {
       const event = new CustomEvent('chaskiq_events', {
         bubbles: true,
         detail: { action: action, data: data },
-      })
-      window.document.body.dispatchEvent(event)
-    }
+      });
+      window.document.body.dispatchEvent(event);
+    };
   }
 }

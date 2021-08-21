@@ -1,13 +1,22 @@
-import React from 'react'
-import tw from 'twin.macro'
-import styled from '@emotion/styled'
-import StyledFrame from './styledFrame'
-import DanteContainer from './textEditor/editorStyles'
-import 'draft-js/dist/Draft.css'
-import theme from './textEditor/theme'
-import { ThemeProvider } from 'emotion-theming'
+import React from 'react';
+import tw from 'twin.macro';
+import styled from '@emotion/styled';
+import StyledFrame from './styledFrame';
+import DanteContainer from './textEditor/editorStyles';
+import 'draft-js/dist/Draft.css';
+import theme from './textEditor/theme';
+import { ThemeProvider } from 'emotion-theming';
 
-const BannerWrapp = styled.div`
+type BannerWrappProps = {
+  mode?: 'inline' | 'floating';
+  bg_color: string;
+  font_options: {
+    family: string;
+  };
+  placement: 'top' | 'bottom';
+};
+
+const BannerWrapp = styled.div<BannerWrappProps>`
   ${({ font_options }) =>
     font_options && font_options.family
       ? `
@@ -77,12 +86,12 @@ const BannerWrapp = styled.div`
       }
     }
   }
-`
+`;
 
 const DanteExtendedContainer = styled(DanteContainer)`
   color: white;
   ${tw`text-xs sm:text-lg`}
-`
+`;
 
 export default function Banner({
   mode,
@@ -98,7 +107,7 @@ export default function Banner({
   onClose,
   font_options,
 }) {
-  const [height, setHeight] = React.useState('73px')
+  const [height, setHeight] = React.useState('73px');
 
   const style = {
     position: 'fixed',
@@ -107,27 +116,27 @@ export default function Banner({
     height: height,
     border: 'transparent',
     zIndex: 4000000000,
-  }
+  };
 
   function heightHandler(height) {
-    setHeight(height)
+    setHeight(height);
   }
 
   if (placement === 'top' && mode === 'floating') {
-    style.top = '8px'
-    style.height = '80px'
+    style.top = '8px';
+    style.height = '80px';
   }
 
   if (placement === 'bottom' && mode === 'floating') {
-    style.bottom = '8px'
+    style.bottom = '8px';
   }
 
   if (placement === 'top' && mode === 'inline') {
-    style.top = '-1px'
+    style.top = '-1px';
   }
 
   if (placement === 'bottom' && mode === 'inline') {
-    style.bottom = '-1px'
+    style.bottom = '-1px';
   }
 
   function textRenderer() {
@@ -135,7 +144,7 @@ export default function Banner({
       <ThemeProvider theme={theme}>
         <DanteExtendedContainer>{serialized_content}</DanteExtendedContainer>
       </ThemeProvider>
-    )
+    );
   }
 
   return (
@@ -156,7 +165,7 @@ export default function Banner({
         onClose={onClose}
       />
     </StyledFrame>
-  )
+  );
 }
 
 // Hook
@@ -166,7 +175,7 @@ function useWindowSize() {
   const [windowSize, setWindowSize] = React.useState({
     width: undefined,
     height: undefined,
-  })
+  });
   React.useEffect(() => {
     // Handler to call on window resize
     function handleResize() {
@@ -174,16 +183,16 @@ function useWindowSize() {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
-      })
+      });
     }
     // Add event listener
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize);
     // Call handler right away so state gets updated with initial window size
-    handleResize()
+    handleResize();
     // Remove event listener on cleanup
-    return () => window.removeEventListener('resize', handleResize)
-  }, []) // Empty array ensures that effect is only run on mount
-  return windowSize
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
 }
 
 export function BannerRenderer({
@@ -201,16 +210,16 @@ export function BannerRenderer({
   notifyHeight,
   font_options,
 }) {
-  let wrapper = React.useRef(null)
-  const size = useWindowSize()
+  let wrapper = React.useRef(null);
+  const size = useWindowSize();
 
   React.useEffect(() => {
-    notifyHeight(wrapper.current.clientHeight)
-  }, [])
+    notifyHeight(wrapper.current.clientHeight);
+  }, []);
 
   React.useEffect(() => {
-    notifyHeight(wrapper.current.clientHeight)
-  }, [size])
+    notifyHeight(wrapper.current.clientHeight);
+  }, [size]);
 
   return (
     <BannerWrapp
@@ -237,8 +246,8 @@ export function BannerRenderer({
                 <button
                   type="button"
                   onClick={(e) => {
-                    e.preventDefault()
-                    onAction && onAction(url)
+                    e.preventDefault();
+                    onAction && onAction(url);
                   }}
                   className="link"
                 >
@@ -273,5 +282,5 @@ export function BannerRenderer({
         </div>
       </div>
     </BannerWrapp>
-  )
+  );
 }

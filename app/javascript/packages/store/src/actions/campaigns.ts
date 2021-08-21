@@ -1,4 +1,4 @@
-const initialState = {}
+import { ActionType } from "../constants/action_types"
 
 export function updateCampaignEvents(data) {
   return (dispatch) => {
@@ -14,7 +14,7 @@ function dispatchCampaignEvent(data) {
 }
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = {}, action : ActionType= {}) {
   switch (action.type) {
     case 'CAMPAIGN_EVENT': {
       return Object.assign({}, state, action.data)

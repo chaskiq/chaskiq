@@ -1,3 +1,4 @@
+import { ActionType } from '../constants/action_types'
 import graphql from '../graphql/client'
 
 import { CURRENT_USER } from '../graphql/queries'
@@ -45,7 +46,7 @@ function successAuthentication(data) {
 }
 
 // Reducer
-export default function reducer(state, action = {}) {
+export default function reducer(state, action: ActionType = {}) {
   const initialState = {}
 
   // Actions

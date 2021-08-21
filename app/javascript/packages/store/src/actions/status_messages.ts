@@ -1,4 +1,4 @@
-import actionTypes from '../constants/action_types'
+import actionTypes, {ActionType} from '../constants/action_types'
 
 export function errorMessage(message) {
   return (dispatch, _getState) => {
@@ -48,7 +48,7 @@ export function successMessage(message) {
   }
 }
 
-export function clearStatusMessage(_message) {
+export function clearStatusMessage() {
   return (dispatch, _getState) => {
     dispatch(setMessage({}))
   }
@@ -65,10 +65,9 @@ function setMessage(data) {
   return { type: actionTypes.SetStatusMessage, data: data }
 }
 
-const initialState = {}
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = {}, action : ActionType = {}) {
   switch (action.type) {
     case actionTypes.SetStatusMessage:
       return action.data

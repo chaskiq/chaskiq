@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/action_types'
+import ActionTypes, { ActionType } from '../constants/action_types'
 import graphql from '../graphql/client'
 import { APP_USER } from '../graphql/queries'
 import { SYNC_EXTERNAL_PROFILE } from '../graphql/mutations'
@@ -53,16 +53,14 @@ function dispatchSetAppUser(data) {
   }
 }
 
-const initialState = {}
-
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = {}, action: ActionType = {}) {
   switch (action.type) {
     case ActionTypes.setAppUser: {
       return action.data
     }
     case ActionTypes.clearAppUser: {
-      return initialState
+      return {}
     }
     default:
       return state

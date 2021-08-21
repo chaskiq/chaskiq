@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/action_types'
+import ActionTypes, { ActionType } from '../constants/action_types'
 import graphql from '../graphql/client'
 
 import { PREDICATES_SEARCH } from '../graphql/mutations'
@@ -80,7 +80,11 @@ export function updateAppUserPresence(userData, _cb) {
 function dispatchLoading() {
   return {
     type: ActionTypes.initSearchAppUsers,
-    data: initialState,
+    data: {
+      collection: [],
+      meta: {},
+      searching: true,
+    },
   }
 }
 
@@ -98,14 +102,12 @@ function dispatchAppUsersUpdatePresence(data) {
   }
 }
 
-const initialState = {
+// Reducer
+export default function reducer(state = {
   collection: [],
   meta: {},
   searching: true,
-}
-
-// Reducer
-export default function reducer(state = initialState, action = {}) {
+}, action: ActionType = {}) {
   switch (action.type) {
     case ActionTypes.searchAppUsers: {
       return Object.assign({}, state, action.data)

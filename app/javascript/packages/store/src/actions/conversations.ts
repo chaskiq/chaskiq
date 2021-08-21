@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/action_types'
+import ActionTypes, { ActionType } from '../constants/action_types'
 import graphql from '../graphql/client'
 
 import {
@@ -159,7 +159,8 @@ function dispatchDataUpate(data) {
   }
 }
 
-const initialState = {
+// Reducer
+export default function reducer(state = {
   meta: {},
   sort: 'newest',
   filter: 'opened',
@@ -168,10 +169,7 @@ const initialState = {
   agentId: null,
   tag: null,
   term: null,
-}
-
-// Reducer
-export default function reducer(state = initialState, action = {}) {
+}, action: ActionType = {}) {
   switch (action.type) {
     case ActionTypes.GetConversations: {
       return Object.assign({}, state, action.data)

@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from '@emotion/styled'
+import React from 'react';
+import styled from '@emotion/styled';
 
 const theme = {
   desaturation: 0,
@@ -9,7 +9,7 @@ const theme = {
   linkColor: '#2D77B6',
   fontColor: '#1F2937',
   accentColor: '#234457',
-}
+};
 
 const IntroStyle = styled.div`
   .close {
@@ -21,14 +21,21 @@ const IntroStyle = styled.div`
     top: -3px;
     right: 0.5rem;
   }
-`
+`;
 
-const InnerStyle = styled.div`
+type ThemeProps = {
+  theme: {
+    mode?: 'dark' | 'light';
+    bg: string;
+  };
+};
+
+const InnerStyle = styled.div<ThemeProps>`
   ${(props) => {
     return props.theme.mode === 'dark'
       ? `background: rgba(0, 0, 0, 0.80);
      color: rgba(200, 200, 200, 0.80);`
-      : ''
+      : '';
   }}
   position: relative;
   overflow: hidden;
@@ -68,16 +75,16 @@ const InnerStyle = styled.div`
       color: ${theme.bg};
     }
   }
-`
+`;
 
-const Header = styled.div`
+const Header = styled.div<ThemeProps>`
   ${(props) => {
     return props.theme.mode === 'dark'
       ? ''
       : `
         background: rgba(253, 253, 253, 0.9);
         box-shadow: 0px 0px 3px 0px #eaeaea;
-      `
+      `;
   }}
 
   position: -webkit-sticky;
@@ -85,19 +92,19 @@ const Header = styled.div`
   top: 9px;
   z-index: 1;
   width: 96vw;
-`
+`;
 
 const Content = styled.div`
   /*height: 300px;*/
   padding: 1rem;
-`
+`;
 
 export default class Quest extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       isMinimized: false,
-    }
+    };
   }
 
   render() {
@@ -109,6 +116,6 @@ export default class Quest extends React.Component {
           <Content>{this.props.children}</Content>
         </InnerStyle>
       </IntroStyle>
-    )
+    );
   }
 }

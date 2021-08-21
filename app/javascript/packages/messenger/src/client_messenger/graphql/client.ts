@@ -2,6 +2,8 @@ import axios from 'axios'
 import { isObject, isEmpty } from 'lodash'
 
 class GraphqlClient {
+  config: any
+  axiosInstance: any
   constructor(props) {
     this.config = props.config
     this.axiosInstance = axios.create({

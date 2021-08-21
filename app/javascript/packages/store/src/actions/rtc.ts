@@ -1,3 +1,5 @@
+import { ActionType } from "../constants/action_types"
+
 const initialState = {}
 
 export function updateRtcEvents(data) {
@@ -17,7 +19,7 @@ function dispatchRtcEvent(data) {
 }
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = initialState, action: ActionType = {}) {
   switch (action.type) {
     case 'RTC_UPDATE': {
       return Object.assign({}, state, action.data)

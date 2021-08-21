@@ -1,4 +1,4 @@
-import actionTypes from '../constants/action_types'
+import actionTypes, {ActionType} from '../constants/action_types'
 
 export function lockPage(message) {
   return (dispatch, _getState) => {
@@ -16,10 +16,8 @@ function setLockPage(data) {
   return { type: actionTypes.SetUpgradePage, data: data }
 }
 
-const initialState = {}
-
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = {}, action: ActionType = {}) {
   switch (action.type) {
     case actionTypes.SetUpgradePage:
       return action.data

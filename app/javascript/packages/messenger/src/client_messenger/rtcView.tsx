@@ -1,13 +1,19 @@
-import React from 'react'
-import styled from '@emotion/styled'
+import React from 'react';
+import styled from '@emotion/styled';
 
-const Wrapper = styled.div`
+type WrapperProps = {
+  relativePosition: boolean;
+  style: any;
+  children: React.ReactChild;
+};
+
+const Wrapper = styled.div<WrapperProps>`
   ${(props) => {
     return props.relativePosition
       ? 'position:relative;'
       : `position: absolute;
       z-index: 2000;
-      height: calc(100vh - 132px);`
+      height: calc(100vh - 132px);`;
   }}
 
   width: 100%;
@@ -90,13 +96,18 @@ const Wrapper = styled.div`
       }
     }
   }
-`
+`;
 
-export const ModalWrapper = styled.div`
+type ModalWrapperProps = {
+  videoSession: boolean;
+  expanded: boolean;
+};
+
+export const ModalWrapper = styled.div<ModalWrapperProps>`
   position: absolute;
   ${(props) => !props.videoSession && 'visibility:hidden;'}
   ${(props) => {
-    return props.expanded ? 'width:100%;' : 'width: 322px;'
+    return props.expanded ? 'width:100%;' : 'width: 322px;';
   }}
 
   height: 100vh;
@@ -116,7 +127,7 @@ export const ModalWrapper = styled.div`
     right: 11px;
     z-index: 20;
   }
-`
+`;
 
 const CallStatus = styled.div`
   #call-status {
@@ -154,7 +165,7 @@ const CallStatus = styled.div`
       align-items: center;
     }
   }
-`
+`;
 
 const CallInitiator = styled.div`
   position: absolute;
@@ -190,17 +201,17 @@ const CallInitiator = styled.div`
       align-items: center;
     }
   }
-`
+`;
 
 const CallButtons = styled.div`
   position: absolute;
   bottom: 0;
-`
+`;
 
 const BaseIcon = styled.svg`
   height: 30px;
   width: 30px;
-`
+`;
 
 export default function RtcViewWrapper({
   videoSession,
@@ -247,7 +258,7 @@ export default function RtcViewWrapper({
         </div>
       </Wrapper>
     </React.Fragment>
-  )
+  );
 }
 
 export function FullScreenIcon(props) {
@@ -262,7 +273,7 @@ export function FullScreenIcon(props) {
     >
       <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function FullScreenExitIcon(props) {
@@ -277,5 +288,5 @@ export function FullScreenExitIcon(props) {
     >
       <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path>
     </BaseIcon>
-  )
+  );
 }

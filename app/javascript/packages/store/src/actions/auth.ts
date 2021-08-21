@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { errorMessage } from './status_messages'
 import { clearCurrentUser } from './current_user'
+import { ActionType } from '../constants/action_types'
 
 // Actions
 const REQUEST = 'auth/REQUEST'
@@ -125,7 +126,7 @@ export function doRefresh() {
 }
 
 // Reducer
-export default function reducer(state, action = {}) {
+export default function reducer(state, action: ActionType = {}) {
   const REQUEST = 'auth/REQUEST'
   const RECEIVED = 'auth/RECEIVED'
   const FAILED = 'auth/FAILED'

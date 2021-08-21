@@ -30,4 +30,11 @@ const actionTypes = {
   SetUpgradePage: 'SET_UPGRADE_PAGE',
 }
 
+
+export interface ActionType {
+  type?: string;
+  data?: any
+}
+
+
 export default actionTypes

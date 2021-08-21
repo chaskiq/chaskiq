@@ -1,7 +1,7 @@
-import React from 'react'
-import axios from 'axios'
-import styled from '@emotion/styled'
-import attribution from './icons/Poweredby_100px-White_VertText.png'
+import React from 'react';
+import axios from 'axios';
+import styled from '@emotion/styled';
+import attribution from './icons/Poweredby_100px-White_VertText.png';
 
 const GiphyBlock = styled.div`
   position: absolute;
@@ -14,12 +14,12 @@ const GiphyBlock = styled.div`
   border-radius: 3px;
   width: 56%;
   box-shadow: 1px 1px 1px #ece3e3;
-`
+`;
 
 const GridListOverflow = styled.div`
   height: 187px;
   overflow: auto;
-`
+`;
 const GridList = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,12 +30,12 @@ const GridList = styled.div`
     margin-bottom: 4px;
     background-color: lightgray;
   }
-`
+`;
 
 const Container = styled.div`
   padding: 10px;
   background: '#ccc';
-`
+`;
 
 const Attribution = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const Attribution = styled.div`
   width: 100%;
   background: white;
   padding: 4px 0px;
-`
+`;
 
 const PickerBlock = styled.div`
   display: flex;
@@ -117,60 +117,71 @@ const PickerBlock = styled.div`
       #00ff99
     );
   }
-`
+`;
 
 const Input = styled.input`
   padding: 10px;
   width: 100%;
   margin-top: 8px;
-`
+`;
 
-const trendingUrl = 'https://api.giphy.com/v1/gifs/trending'
-const searchUrl = 'https://api.giphy.com/v1/gifs/search'
+const trendingUrl = 'https://api.giphy.com/v1/gifs/trending';
+const searchUrl = 'https://api.giphy.com/v1/gifs/search';
 
-export default class App extends React.Component {
+type Props = {
+  apikey: string;
+  handleSelected: (value: any) => void;
+};
+
+type State = {
+  limit: number;
+  gifs: Array<any>;
+};
+export default class App extends React.Component<Props, State> {
+  input_ref: any;
+
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       gifs: [],
       limit: 5,
-    }
-    this.input_ref = null
+    };
+    this.input_ref = null;
   }
 
   componentDidMount() {
-    const link = `${trendingUrl}?api_key=${this.props.apikey}`
-    this.getData(link)
+    const link = `${trendingUrl}?api_key=${this.props.apikey}`;
+    this.getData(link);
   }
 
   onSearchSubmit = (e) => {
     if (e.key != 'Enter') {
-      return
+      return;
     }
-    const term = this.input_ref.value
-    const link = `${searchUrl}?q=${term}&limit=${this.state.limit}&api_key=${this.props.apikey}`
-    this.getData(link)
-  }
+    const term = this.input_ref.value;
+    const link = `${searchUrl}?q=${term}&limit=${this.state.limit}&api_key=${this.props.apikey}`;
+    this.getData(link);
+  };
 
   getData = (link) => {
     axios
       .get(link)
       .then((response) => {
         // handle success
-        this.setState({ gifs: response.data.data })
+        this.setState({ gifs: response.data.data });
         // console.log(response);
       })
       .catch((error) => {
         // handle error
-        console.log(error)
-      })
-  }
+        console.log(error);
+      });
+  };
 
   limitSubmit = (limit) => {
     this.setState({ limit: limit }, function () {
-      console.log('LIMIT:', this.state.limit)
-    })
-  }
+      console.log('LIMIT:', this.state.limit);
+    });
+  };
 
   render() {
     return (
@@ -203,6 +214,6 @@ export default class App extends React.Component {
         </Attribution>
         {/* <Arrow/> */}
       </GiphyBlock>
-    )
+    );
   }
 }

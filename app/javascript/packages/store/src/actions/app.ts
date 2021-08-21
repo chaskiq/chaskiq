@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/action_types'
+import ActionTypes, { ActionType } from '../constants/action_types'
 import graphql from '../graphql/client'
 import { APP } from '../graphql/queries'
 import { UPDATE_APP } from '../graphql/mutations'
@@ -73,7 +73,7 @@ export function updateApp(appParams, cb) {
 const initialState = null
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = initialState, action: ActionType = {}) {
   switch (action.type) {
     case ActionTypes.GetApp: {
       return action.data
