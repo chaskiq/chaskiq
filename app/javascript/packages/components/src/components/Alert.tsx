@@ -1,32 +1,32 @@
-import React from 'react'
+import React from 'react';
 
-import { Transition } from '@headlessui/react'
+import { Transition } from '@headlessui/react';
 
-import { connect } from 'react-redux'
-import { isEmpty } from 'lodash'
+import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 
-import { clearStatusMessage } from '@chaskiq/store/src/actions/status_messages'
+import { clearStatusMessage } from '@chaskiq/store/src/actions/status_messages';
 
 function CustomizedSnackbars(props) {
-  const [open, setOpen] = React.useState(!isEmpty(props.status_message))
+  const [open, setOpen] = React.useState(!isEmpty(props.status_message));
 
   function handleClose(_event, reason) {
-    if (reason === 'clickaway') return
-    props.dispatch(clearStatusMessage())
-    setOpen(false)
+    if (reason === 'clickaway') return;
+    props.dispatch(clearStatusMessage());
+    setOpen(false);
   }
 
   React.useEffect(() => {
-    setOpen(!isEmpty(props.status_message))
-  }, [props])
+    setOpen(!isEmpty(props.status_message));
+  }, [props]);
 
   React.useEffect(() => {
-    if (!open) return
+    if (!open) return;
     const timer = setTimeout(() => {
-      props.dispatch(clearStatusMessage())
-    }, 2500)
-    return () => clearTimeout(timer)
-  }, [open])
+      props.dispatch(clearStatusMessage());
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [open]);
 
   function getPlacement() {
     return (
@@ -34,42 +34,42 @@ function CustomizedSnackbars(props) {
         vertical: 'bottom',
         horizontal: 'left',
       }
-    )
+    );
   }
 
   function placementClass() {
-    let vertical = 'end'
-    let horizontal = 'end'
+    let vertical = 'end';
+    let horizontal = 'end';
 
     switch (getPlacement().vertical) {
       case 'bottom':
-        vertical = 'end'
-        break
+        vertical = 'end';
+        break;
       case 'top':
-        vertical = 'start'
-        break
+        vertical = 'start';
+        break;
       case 'center':
-        vertical = 'center'
-        break
+        vertical = 'center';
+        break;
       default:
-        break
+        break;
     }
 
     switch (getPlacement().horizontal) {
       case 'left':
-        horizontal = 'end'
-        break
+        horizontal = 'end';
+        break;
       case 'right':
-        horizontal = 'start'
-        break
+        horizontal = 'start';
+        break;
       case 'center':
-        horizontal = 'center'
-        break
+        horizontal = 'center';
+        break;
       default:
-        break
+        break;
     }
 
-    return `sm:items-${vertical} sm:justify-${horizontal}`
+    return `sm:items-${vertical} sm:justify-${horizontal}`;
   }
 
   return (
@@ -84,10 +84,18 @@ function CustomizedSnackbars(props) {
         />
       )}
     </div>
-  )
+  );
 }
 
-function Alert({ title, message, status, onClose, placementClass }) {
+type AlertType = {
+  title: string;
+  message: string;
+  status?: 'success' | 'error';
+  onClose: () => void;
+  placementClass: string;
+};
+
+function Alert({ title, message, status, onClose, placementClass }: AlertType) {
   /*const [items, set] = useState([1])
   const transitions = useTransition(items, (item) => item.key, {
     from: { transform: 'translate3d(0,-40px,0)' },
@@ -112,7 +120,7 @@ function Alert({ title, message, status, onClose, placementClass }) {
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        )
+        );
       case 'error':
         return (
           <svg
@@ -126,9 +134,9 @@ function Alert({ title, message, status, onClose, placementClass }) {
               id="Combined-Shape"
             ></path>
           </svg>
-        )
+        );
       default:
-        return <p>nu</p>
+        return <p>nu</p>;
     }
   }
 
@@ -206,14 +214,14 @@ function Alert({ title, message, status, onClose, placementClass }) {
         </div>
       </Transition>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { status_message } = state
+  const { status_message } = state;
   return {
     status_message,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(CustomizedSnackbars)
+export default connect(mapStateToProps)(CustomizedSnackbars);

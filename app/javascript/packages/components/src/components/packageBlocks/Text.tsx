@@ -3,7 +3,18 @@ import styled from '@emotion/styled';
 import ReactMarkdown from 'react-markdown';
 import tw from 'twin.macro';
 
-const Paragraph = styled.div`
+type ParagraphType = {
+  styl?:
+    | 'header'
+    | 'muted'
+    | 'error'
+    | 'notice'
+    | 'notice-error'
+    | 'notice-success';
+  align: 'center' | 'left' | 'right' | 'justify';
+};
+
+const Paragraph = styled.div<ParagraphType>`
   p {
     font-size: inherit;
     font-weight: inherit;

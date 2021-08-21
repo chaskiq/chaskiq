@@ -45,7 +45,7 @@ export const Padder = styled.div`
   }};
 `;
 
-export function FormField({ name, label, helperText, children, _error }) {
+export function FormField({ name, label, helperText, children }) {
   return (
     <React.Fragment>
       <Label htmlFor={name}>{label}</Label>

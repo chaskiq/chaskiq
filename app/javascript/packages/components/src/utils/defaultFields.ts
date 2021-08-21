@@ -1,5 +1,10 @@
 // TODO, deprecate this, use AppType#searchableFields
-const defaultData = [
+type DataProp = {
+  name: string;
+  type: string;
+}
+
+const defaultData: Array<DataProp> = [
   { name: 'name', type: 'string' },
   { name: 'first_name', type: 'string' },
   { name: 'last_name', type: 'string' },

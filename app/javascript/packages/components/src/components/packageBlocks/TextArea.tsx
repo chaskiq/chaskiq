@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { HelperText, Label } from './shared';
 import tw from 'twin.macro';
 
-function FormField({ name, label, helperText, children, _error }) {
+function FormField({ name, label, helperText, children }) {
   return (
     <React.Fragment>
       <Label htmlFor={name}>{label}</Label>
@@ -36,12 +36,7 @@ const TextArea = styled.div`
 
 export function TextAreaRenderer({ field, loading }) {
   return (
-    <FormField
-      name={field.name}
-      label={field.label}
-      helperText={field.hint}
-      error={field.errors}
-    >
+    <FormField name={field.name} label={field.label} helperText={field.hint}>
       <TextArea error={field.errors}>
         <textarea
           id={field.id}

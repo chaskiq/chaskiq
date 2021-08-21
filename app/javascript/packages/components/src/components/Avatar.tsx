@@ -1,17 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-export default function Avatar({ src, indicator, size, classes }) {
+type AvatarType = {
+  src: string;
+  indicator?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  classes?: string;
+};
+
+export default function Avatar({ src, indicator, size, classes }: AvatarType) {
   function sizeClassName(size) {
     switch (size) {
       case 'small':
-        return 'h-6 w-6'
+        return 'h-6 w-6';
       case 'medium':
-        return 'h-8 w-8'
+        return 'h-8 w-8';
       case 'large':
-        return 'h-10 w-10'
+        return 'h-10 w-10';
       default:
-        if (!isNaN(size)) return `h-${size} w-${size}`
-        return 'h-6 w-6'
+        if (!isNaN(size)) return `h-${size} w-${size}`;
+        return 'h-6 w-6';
     }
   }
 
@@ -34,5 +41,5 @@ export default function Avatar({ src, indicator, size, classes }) {
         ></span>
       )}
     </span>
-  )
+  );
 }

@@ -112,9 +112,9 @@ export default function List({ children }: IList) {
 
 interface IListItem {
   avatar?: React.ReactElement<any>;
-  action: string;
-  children: React.ReactChild;
-  onClick: any;
+  action?: string;
+  children?: React.ReactChild;
+  onClick?: any;
 }
 
 export function ListItem({ avatar, action, children, onClick }: IListItem) {
@@ -205,11 +205,7 @@ export function ListRenderer({ field, handleAction }) {
           }}
         >
           <ListItemText
-            primary={
-              <ItemListPrimaryContent variant="h5">
-                {o.title}
-              </ItemListPrimaryContent>
-            }
+            primary={<ItemListPrimaryContent>{o.title}</ItemListPrimaryContent>}
             secondary={
               <ItemListSecondaryContent>{o.subtitle}</ItemListSecondaryContent>
             }

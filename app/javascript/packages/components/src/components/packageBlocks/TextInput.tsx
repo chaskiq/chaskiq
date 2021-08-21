@@ -1,10 +1,30 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-import { Loader, Progress } from './styled';
-import { FormField } from './shared';
+import { Progress } from './styled';
+import { ErrorMessage, textColor, FormField } from './shared';
+import { lighten } from 'polished';
 
-export const TextInput = styled.input`
+type FieldType = {
+  action: boolean;
+  save_state?: 'disabled' | 'failed';
+};
+
+type ThemeType = {
+  size: 'sm';
+  palette: {
+    primary: string;
+  };
+};
+
+type TextInputProps = {
+  theme: ThemeType;
+  field: FieldType;
+  error?: any;
+  disabled?: boolean;
+};
+
+export const TextInput = styled.input<TextInputProps>`
   ${() => tw`border relative shadow-sm block w-full`}
 
   ${(props) =>
@@ -55,7 +75,12 @@ export const TextInput = styled.input`
       : ''}
 `;
 
-const TextInputWrapper = styled.div`
+type TextInputWrapperProps = {
+  shadow?: boolean;
+  field: FieldType;
+};
+
+const TextInputWrapper = styled.div<TextInputWrapperProps>`
   ${(props) => (props.shadow ? tw`shadow-sm` : '')}
 
   ${(props) =>
@@ -64,7 +89,13 @@ const TextInputWrapper = styled.div`
   ${() => tw`flex relative`}
 `;
 
-const TextInputButton = styled.div`
+type TextInputButtonProps = {
+  disabled: boolean;
+  saved: boolean;
+  theme?: ThemeType;
+};
+
+const TextInputButton = styled.div<TextInputButtonProps>`
   ${(props) => (props.theme.size === 'sm' ? tw`px-1 py-1` : tw`px-5 py-3`)};
 
   ${() => tw`-ml-px relative inline-flex items-center
@@ -183,7 +214,6 @@ export function TextInputRenderer({ field, handleAction, loading, disabled }) {
       name={field.name || field.id}
       label={field.label}
       helperText={field.hint}
-      error={field.errors}
     >
       <TextInputWrapper field={field}>
         <TextInput
