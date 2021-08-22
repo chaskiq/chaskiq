@@ -8,7 +8,7 @@ interface ITabItem {
   key: string;
   className: string;
   href: string;
-  props: any;
+  props?: any;
 }
 
 const TabItem = styled.a<ITabItem>`

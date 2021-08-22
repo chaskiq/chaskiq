@@ -1,30 +1,35 @@
-import React from 'react'
-import Button from '@chaskiq/components/src/components/Button'
-import CircularProgress from '@chaskiq/components/src/components/Progress'
-import I18n from '../shared/FakeI18n'
+import React from 'react';
+import Button from '@chaskiq/components/src/components/Button';
+import CircularProgress from '@chaskiq/components/src/components/Progress';
+import I18n from '../shared/FakeI18n';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { CAMPAIGN_SUBSCRIPTION_TOGGLE } from '@chaskiq/store/src/graphql/queries'
+import { CAMPAIGN_SUBSCRIPTION_TOGGLE } from '@chaskiq/store/src/graphql/queries';
+
+interface IUnSubscribeDataType {
+  state?: string;
+  email?: string;
+}
 
 export default function UnSubscribe({ match }) {
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState({})
+  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = React.useState<IUnSubscribeDataType>({});
 
   React.useEffect(() => {
-    toggleSubscription()
-  }, [])
+    toggleSubscription();
+  }, []);
 
   function reSubscribe() {
-    toggleSubscription(true)
+    toggleSubscription(true);
   }
 
   function subscribe() {
-    toggleSubscription(false)
+    toggleSubscription(false);
   }
 
   function toggleSubscription(op = false) {
-    setLoading(true)
+    setLoading(true);
     graphql(
       CAMPAIGN_SUBSCRIPTION_TOGGLE,
       {
@@ -33,14 +38,14 @@ export default function UnSubscribe({ match }) {
       },
       {
         success: (data) => {
-          setLoading(false)
-          setData(data.campaignSubscriptionToggle)
+          setLoading(false);
+          setData(data.campaignSubscriptionToggle);
         },
         error: () => {
-          console.log('errorroor')
+          console.log('errorroor');
         },
       }
-    )
+    );
   }
 
   return (
@@ -113,5 +118,5 @@ export default function UnSubscribe({ match }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

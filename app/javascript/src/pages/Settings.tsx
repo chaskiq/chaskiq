@@ -28,7 +28,23 @@ import { updateApp } from '@chaskiq/store/src/actions/app';
 
 import { APP } from '@chaskiq/store/src/graphql/queries';
 import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations';
-class AppSettingsContainer extends Component {
+
+type AppSettingsContainerProps = {
+  dispatch: (value: any) => void;
+  match: any;
+  currentUser: any;
+  classes: string;
+  app: any;
+};
+
+type AppSettingsContainerState = {
+  tabValue: number;
+};
+
+class AppSettingsContainer extends Component<
+  AppSettingsContainerProps,
+  AppSettingsContainerState
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -183,7 +199,7 @@ class AppSettingsContainer extends Component {
   tabsContent = () => {
     return (
       <Tabs
-        value={this.state.tabValue}
+        currentTab={this.state.tabValue}
         onChange={this.handleTabChange}
         variant="scrollable"
         scrollButtons="auto"
@@ -197,7 +213,6 @@ class AppSettingsContainer extends Component {
                 currentUser={this.props.currentUser}
                 data={this.props.app}
                 update={this.update.bind(this)}
-                fetchApp={this.fetchApp}
                 classes={this.props.classes}
                 definitions={this.definitionsForSettings}
                 {...this.props}

@@ -6,12 +6,12 @@ import { DockerIcon, PaintIcon } from '../icons';
 
 interface IColorPickerProps {
   color: string;
-  name: string;
+  name?: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   colorHandler: Function;
   // label: 'Primary color';
-  error: string;
+  error?: string;
 }
 interface IColorPickerState {
   displayColorPicker: boolean;

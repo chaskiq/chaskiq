@@ -1,6 +1,6 @@
-import React from 'react'
-import DashboardCard from '@chaskiq/components/src/components/dashboard/card'
-import DashboardItem from './ReportItem'
+import React from 'react';
+import DashboardCard from '@chaskiq/components/src/components/dashboard/card';
+import DashboardItem, { DashboardItemType } from './ReportItem';
 
 export default function ReportRenderer({
   app,
@@ -12,7 +12,7 @@ export default function ReportRenderer({
   classes,
   styles,
   pkg,
-}) {
+}: DashboardItemType) {
   function renderDashboardItem() {
     return (
       <DashboardItem
@@ -25,7 +25,7 @@ export default function ReportRenderer({
         styles={styles}
         appendLabel={appendLabel}
       />
-    )
+    );
   }
 
   function renderType() {
@@ -37,7 +37,7 @@ export default function ReportRenderer({
               {renderDashboardItem()}
             </div>
           </div>
-        )
+        );
       case 'heatMap':
         return (
           <div className={classes}>
@@ -48,7 +48,7 @@ export default function ReportRenderer({
               {renderDashboardItem()}
             </div>
           </div>
-        )
+        );
       case 'pie':
         return (
           <div className={classes}>
@@ -58,14 +58,14 @@ export default function ReportRenderer({
               </DashboardCard>
             </div>
           </div>
-        )
+        );
       case 'table':
       case 'app_package':
-        return <div className={classes}>{renderDashboardItem()}</div>
+        return <div className={classes}>{renderDashboardItem()}</div>;
       default:
-        return <p>no display for {chartType}</p>
+        return <p>no display for {chartType}</p>;
     }
   }
 
-  return renderType()
+  return renderType();
 }

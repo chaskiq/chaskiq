@@ -1,12 +1,17 @@
-import React from 'react'
-import { ResponsivePie } from '@nivo/pie'
+import React from 'react';
+import { ResponsivePie } from '@nivo/pie';
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
 
-export default function MyResponsivePie({ data, _label }) {
+type PieType = {
+  data: any;
+  from: any;
+  to: any;
+};
+export default function MyResponsivePie({ data, from, to }: PieType) {
   return (
     <ResponsivePie
       data={data}
@@ -19,7 +24,7 @@ export default function MyResponsivePie({ data, _label }) {
       borderWidth={3}
       fit={true}
       colorBy={function (e) {
-        return e.color
+        return e.color;
       }}
       borderColor="inherit:darker(0.2)"
       // borderColor={{ from: 'color', modifiers: [ [ 'darker', '0' ] ] }}
@@ -58,5 +63,5 @@ export default function MyResponsivePie({ data, _label }) {
         },
       }}
     />
-  )
+  );
 }

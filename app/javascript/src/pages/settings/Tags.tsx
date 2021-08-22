@@ -1,64 +1,64 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import serialize from 'form-serialize'
+import serialize from 'form-serialize';
 
-import Hints from '@chaskiq/components/src/components/Hints'
-import Button from '@chaskiq/components/src/components/Button'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
+import Hints from '@chaskiq/components/src/components/Hints';
+import Button from '@chaskiq/components/src/components/Button';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent,
-} from '@chaskiq/components/src/components/List'
-import Input from '@chaskiq/components/src/components/forms/Input'
+} from '@chaskiq/components/src/components/List';
+import Input from '@chaskiq/components/src/components/forms/Input';
 import {
   DeleteIcon,
   PlusIcon,
   EditIcon,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
 function CustomizationColors({ app, update, _dispatch }) {
-  const [fields, setFields] = useState(app.tagList || [])
-  const [isOpen, setOpen] = useState(false)
-  const [selected, setSelected] = useState(null)
+  const [fields, setFields] = useState(app.tagList || []);
+  const [isOpen, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
 
-  const form = React.useRef(null)
+  const form = React.useRef(null);
 
   function addField() {
-    setOpen(true)
+    setOpen(true);
   }
 
   function close() {
-    setSelected(null)
-    setOpen(false)
+    setSelected(null);
+    setOpen(false);
   }
 
   function submit() {
-    setFields(handleFields())
-    setOpen(false)
+    setFields(handleFields());
+    setOpen(false);
   }
 
   function handleFields() {
-    const s = serialize(form.current, { hash: true, empty: true })
+    const s = serialize(form.current, { hash: true, empty: true });
 
     if (selected === null) {
-      return fields.concat(s)
+      return fields.concat(s);
     }
 
     return fields.map((o, i) => {
       if (i === selected) {
-        return s
+        return s;
       }
-      return o
-    })
+      return o;
+    });
   }
 
   function renderModal() {
-    const selectedItem = fields[selected]
+    const selectedItem = fields[selected];
 
     return (
       isOpen && (
@@ -85,17 +85,17 @@ function CustomizationColors({ app, update, _dispatch }) {
           }
         ></FormDialog>
       )
-    )
+    );
   }
 
   function handleEdit(o) {
-    setSelected(o)
-    setOpen(true)
+    setSelected(o);
+    setOpen(true);
   }
 
   function removeField(index) {
-    const newFields = fields.filter((o, i) => i !== index)
-    setFields(newFields)
+    const newFields = fields.filter((o, i) => i !== index);
+    setFields(newFields);
   }
 
   function renderSubmitButton() {
@@ -113,7 +113,7 @@ function CustomizationColors({ app, update, _dispatch }) {
       >
         {I18n.t('common.save')}
       </Button>
-    )
+    );
   }
 
   return (
@@ -142,7 +142,7 @@ function CustomizationColors({ app, update, _dispatch }) {
       {renderModal()}
 
       <div className="py-4">
-        <List dense={true} divider={true}>
+        <List>
           {fields.map((o, i) => (
             <FieldsItems
               key={`fields-items-${o.name}-${i}`}
@@ -154,7 +154,6 @@ function CustomizationColors({ app, update, _dispatch }) {
                   <Button
                     variant="icon"
                     onClick={() => handleEdit(i)}
-                    edge="end"
                     aria-label="delete"
                   >
                     <EditIcon />
@@ -163,7 +162,6 @@ function CustomizationColors({ app, update, _dispatch }) {
                   <Button
                     variant="icon"
                     onClick={() => removeField(i)}
-                    edge="end"
                     aria-label="add"
                   >
                     <DeleteIcon />
@@ -177,7 +175,7 @@ function CustomizationColors({ app, update, _dispatch }) {
 
       {renderSubmitButton()}
     </div>
-  )
+  );
 }
 
 function FieldsItems({ primary, secondary, terciary }) {
@@ -185,7 +183,7 @@ function FieldsItems({ primary, secondary, terciary }) {
     <ListItem divider={true}>
       <ListItemText
         primary={
-          <ItemListPrimaryContent variant="h5">
+          <ItemListPrimaryContent>
             <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
               {primary}
             </h3>
@@ -201,26 +199,23 @@ function FieldsItems({ primary, secondary, terciary }) {
         terciary={terciary}
       />
     </ListItem>
-  )
+  );
 }
 
 function FieldsForm({ selected }) {
-  const [field, setField] = useState(selected || {})
+  const [field, setField] = useState(selected || {});
 
   function setName(e) {
-    setField(Object.assign({}, field, { name: e.target.value }))
+    setField(Object.assign({}, field, { name: e.target.value }));
   }
 
   function setColor(e) {
-    setField(Object.assign({}, field, { color: e.value }))
+    setField(Object.assign({}, field, { color: e.value }));
   }
 
   return (
     <React.Fragment>
       <Input
-        variant="outlined"
-        margin="normal"
-        required
         name="name"
         label={I18n.t('settings.tags.inputs.name')}
         type={'text'}
@@ -233,9 +228,6 @@ function FieldsForm({ selected }) {
       />
 
       <Input
-        variant="outlined"
-        margin="normal"
-        required
         name="color"
         label={I18n.t('settings.tags.inputs.color')}
         type={'color'}
@@ -247,14 +239,14 @@ function FieldsForm({ selected }) {
         onChange={setColor}
       />
     </React.Fragment>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(CustomizationColors))
+export default withRouter(connect(mapStateToProps)(CustomizationColors));

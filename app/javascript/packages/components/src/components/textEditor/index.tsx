@@ -1,57 +1,57 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { convertToHTML } from 'draft-convert'
+import { convertToHTML } from 'draft-convert';
 
-import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js'
-import MultiDecorator from 'draft-js-multidecorators'
+import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js';
+import MultiDecorator from 'draft-js-multidecorators';
 
-import DanteEditor from 'Dante2/package/esm/editor/components/core/editor'
-import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js'
-import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js'
-import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js'
-import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip.js'
+import DanteEditor from 'Dante2/package/esm/editor/components/core/editor';
+import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js';
+import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js';
+import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js';
+import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip.js';
 
-import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed'
-import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video'
-import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/placeholder.js'
-import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index'
-import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code'
-import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider'
+import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed';
+import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video';
+import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/placeholder.js';
+import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
+import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
+import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
 import {
   LinkDecorator as Link,
   PrismDraftDecorator,
-} from 'Dante2/package/esm/editor/components/decorators'
-import findEntities from 'Dante2/package/esm/editor/utils/find_entities'
-import EditorContainer from 'Dante2/package/esm/editor/styled/base'
+} from 'Dante2/package/esm/editor/components/decorators';
+import findEntities from 'Dante2/package/esm/editor/utils/find_entities';
+import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
 //import Link from "Dante2/package/es/components/decorators/link";
 //import findEntities from "Dante2/package/es/utils/find_entities";
-import { ThemeProvider } from 'emotion-theming'
+import { ThemeProvider } from 'emotion-theming';
 //import EditorStyles from "Dante2/package/es/styled/base";
 
-import { ImageBlockConfig } from './blocks/image'
-import { FileBlockConfig } from './blocks/fileBlock'
+import { ImageBlockConfig } from './blocks/image';
+import { FileBlockConfig } from './blocks/fileBlock';
 
-import Prism from 'prismjs'
+import Prism from 'prismjs';
 //import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
 
-import { GiphyBlockConfig } from './blocks/giphyBlock'
+import { GiphyBlockConfig } from './blocks/giphyBlock';
 //import { SpeechToTextBlockConfig } from '../campaigns/article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 
-import theme from './theme'
-import styled from '@emotion/styled'
+import theme from './theme';
+import styled from '@emotion/styled';
 
-import { getFileMetadata, directUpload } from '../fileUploader'
+import { getFileMetadata, directUpload } from '../fileUploader';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import CircularProgress from '../Progress'
+import CircularProgress from '../Progress';
 
 import {
   CREATE_URL_UPLOAD,
   CREATE_DIRECT_UPLOAD,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 const EditorStylesExtend = styled(EditorContainer)`
   line-height: ${(props) => props.styles.lineHeight || '2em'};
@@ -86,7 +86,7 @@ const EditorStylesExtend = styled(EditorContainer)`
       margin-left: 41px !important;
     }`
       : ''}
-`
+`;
 
 const defaultProps = {
   content: null,
@@ -148,28 +148,51 @@ const defaultProps = {
     '==': 'unstyled',
     '` ': 'code-block',
   },
-}
+};
 
-class ArticleEditor extends Component {
+type UploadeHandlerType = {
+  signedBlobId: any;
+  headers: any;
+  url: any;
+  serviceUrl: any;
+  imageBlock: any;
+};
+
+type ArticleEditorProps = {
+  serializedContent: string;
+  setDisabled: (val: any) => void;
+  uploadHandler: (props: UploadeHandlerType) => void;
+  videoless: boolean;
+  appendWidgets: Array<any>;
+  updateState: (val: any) => void;
+  data: any;
+  campaign?: boolean;
+};
+
+type ArticleEditorState = {
+  incomingSelectionPosition: any;
+};
+class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
+  initialContent: () => void;
   constructor(props) {
-    super(props)
-    this.initialContent = this.defaultContent()
+    super(props);
+    this.initialContent = this.defaultContent();
   }
 
   isEmptyDraftJs = () => {
     if (!this.props.serializedContent) {
       // filter undefined and {}
-      return true
+      return true;
     }
-    const raw = JSON.parse(this.props.serializedContent)
-    const contentState = convertFromRaw(raw)
+    const raw = JSON.parse(this.props.serializedContent);
+    const contentState = convertFromRaw(raw);
 
-    if (raw.blocks.filter((o) => o.type != 'unstyled').length > 0) return false
+    if (raw.blocks.filter((o) => o.type != 'unstyled').length > 0) return false;
 
     return !(
       contentState.hasText() && contentState.getPlainText().trim() !== ''
-    )
-  }
+    );
+  };
 
   emptyContent = () => {
     return {
@@ -185,16 +208,16 @@ class ArticleEditor extends Component {
           data: {},
         },
       ],
-    }
-  }
+    };
+  };
 
   defaultContent = () => {
     try {
-      return JSON.parse(this.props.serializedContent) || this.emptyContent()
+      return JSON.parse(this.props.serializedContent) || this.emptyContent();
     } catch (error) {
-      return this.emptyContent()
+      return this.emptyContent();
     }
-  }
+  };
 
   tooltipsConfig = () => {
     const inlineMenu = {
@@ -215,9 +238,9 @@ class ArticleEditor extends Component {
         'jumbo',
         'button',
       ],
-    }
+    };
 
-    const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu)
+    const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu);
 
     return [
       DanteImagePopoverConfig(),
@@ -225,8 +248,8 @@ class ArticleEditor extends Component {
       DanteInlineTooltipConfig(),
       menuConfig,
       //DanteMarkdownConfig()
-    ]
-  }
+    ];
+  };
 
   decorators = (context) => {
     //return (context) => {
@@ -242,9 +265,9 @@ class ArticleEditor extends Component {
         },
       ]),
       //generateDecorator("hello")
-    ])
+    ]);
     //};
-  }
+  };
 
   generateDecorator = (_highlightTerm) => {
     //const regex = new RegExp(highlightTerm, "g");
@@ -254,7 +277,7 @@ class ArticleEditor extends Component {
           console.info(
             'processing entity!',
             this.state.incomingSelectionPosition.length
-          )
+          );
           /*if (this.state.incomingSelectionPosition.length > 0) {
           findSelectedBlockFromRemote(
             this.state.incomingSelectionPosition,
@@ -268,67 +291,59 @@ class ArticleEditor extends Component {
         },
         component: this.searchHighlight,
       },
-    ])
-  }
+    ]);
+  };
 
   setDisabled = (val) => {
-    this.props.setDisabled && this.props.setDisabled(val)
-  }
+    this.props.setDisabled && this.props.setDisabled(val);
+  };
 
   uploadHandler = (file, imageBlock) => {
     if (!file) {
       if (imageBlock.file && imageBlock.file.constructor.name === 'Blob') {
-        let blob = imageBlock.file
+        let blob = imageBlock.file;
         //A Blob() is almost a File() - it's just missing the two properties below which we will add
-        blob.lastModifiedDate = new Date()
-        blob.name = 'recorded'
-        return this.uploadFromFile(blob, imageBlock)
+        blob.lastModifiedDate = new Date();
+        blob.name = 'recorded';
+        return this.uploadFromFile(blob, imageBlock);
       }
-      this.uploadFromUrl(file, imageBlock)
+      this.uploadFromUrl(file, imageBlock);
     } else {
-      this.uploadFromFile(file, imageBlock)
+      this.uploadFromFile(file, imageBlock);
     }
-  }
+  };
 
   uploadFromUrl = (file, imageBlock) => {
-    const url = imageBlock.props.blockProps.data.get('url')
-    this.setDisabled(true)
+    const url = imageBlock.props.blockProps.data.get('url');
+    this.setDisabled(true);
     graphql(
       CREATE_URL_UPLOAD,
       { url: url },
       {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createUrlUpload.directUpload
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload;
           this.props.uploadHandler({
             signedBlobId,
             headers,
             url,
             serviceUrl,
             imageBlock,
-          })
-          this.setDisabled(false)
+          });
+          this.setDisabled(false);
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   uploadFromFile = (file, imageBlock) => {
-    this.setDisabled(true)
+    this.setDisabled(true);
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createDirectUpload.directUpload
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             this.props.uploadHandler({
@@ -337,16 +352,16 @@ class ArticleEditor extends Component {
               url,
               serviceUrl,
               imageBlock,
-            })
-          })
+            });
+          });
         },
         error: (error) => {
-          this.setDisabled(false)
-          console.log('error on signing blob', error)
+          this.setDisabled(false);
+          console.log('error on signing blob', error);
         },
-      })
-    })
-  }
+      });
+    });
+  };
 
   widgetsConfig = () => {
     let widgets = [
@@ -378,7 +393,7 @@ class ArticleEditor extends Component {
       GiphyBlockConfig(),
       //SpeechToTextBlockConfig(),
       //ButtonBlockConfig()
-    ]
+    ];
 
     if (!this.props.videoless) {
       widgets = widgets.concat([
@@ -398,48 +413,48 @@ class ArticleEditor extends Component {
             //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
           },
         }),
-      ])
+      ]);
     }
 
     if (this.props.appendWidgets)
-      widgets = widgets.concat(this.props.appendWidgets)
+      widgets = widgets.concat(this.props.appendWidgets);
 
-    return widgets
-  }
+    return widgets;
+  };
 
   saveHandler = (context, content, cb) => {
     const exportedStyles = context.editor.styleExporter(
       context.editor.getEditorState()
-    )
+    );
 
     let convertOptions = {
       styleToHTML: (style) => {
         if (style === 'BOLD') {
-          return <b />
+          return <b />;
         }
         if (style === 'ITALIC') {
-          return <i />
+          return <i />;
         }
         if (style.includes('CUSTOM')) {
-          const s = exportedStyles[style].style
-          return <span style={s} />
+          const s = exportedStyles[style].style;
+          return <span style={s} />;
         }
       },
       blockToHTML: (block, _oo) => {
         if (block.type === 'unstyled') {
-          return <p className="graf graf--p" />
+          return <p className="graf graf--p" />;
         }
         if (block.type === 'header-one') {
-          return <h1 className="graf graf--h2" />
+          return <h1 className="graf graf--h2" />;
         }
         if (block.type === 'header-two') {
-          return <h2 className="graf graf--h3" />
+          return <h2 className="graf graf--h3" />;
         }
         if (block.type === 'header-three') {
-          return <h3 className="graf graf--h4" />
+          return <h3 className="graf graf--h4" />;
         }
         if (block.type === 'blockquote') {
-          return <blockquote className="graf graf--blockquote" />
+          return <blockquote className="graf graf--blockquote" />;
         }
         /*if (block.type === "button" || block.type === "unsubscribe_button") {
           const { href, buttonStyle, containerStyle, label } = block.data
@@ -487,7 +502,7 @@ class ArticleEditor extends Component {
                 <div className="dante-clearfix" />
               </div>
             </div>
-          )
+          );
         }
         if (block.type === 'jumbo') {
           return (
@@ -496,13 +511,13 @@ class ArticleEditor extends Component {
                 <h1></h1>
               </div>
             </div>
-          )
+          );
         }
         if (block.type === 'image') {
           const { ratio } = block.data.aspect_ratio.toJS
             ? block.data.aspect_ratio.toJS()
-            : block.data.aspect_ratio
-          const { url } = block.data
+            : block.data.aspect_ratio;
+          const { url } = block.data;
 
           return (
             <figure className="graf graf--figure">
@@ -527,10 +542,12 @@ class ArticleEditor extends Component {
                 </span>
               </figcaption>
             </figure>
-          )
+          );
         }
         if (block.type === 'column') {
-          return <div className={`graf graf--column ${block.data.className}`} />
+          return (
+            <div className={`graf graf--column ${block.data.className}`} />
+          );
         }
         if (block.type === 'footer') {
           return (
@@ -540,19 +557,19 @@ class ArticleEditor extends Component {
                 <p></p>
               </div>
             </div>
-          )
+          );
         }
 
         if (block.type === 'embed') {
-          if (!block.data.embed_data) return
+          if (!block.data.embed_data) return;
 
-          let data = null
+          let data = null;
 
           // due to a bug in empbed component
           if (typeof block.data.embed_data.toJS === 'function') {
-            data = block.data.embed_data.toJS()
+            data = block.data.embed_data.toJS();
           } else {
-            data = block.data.embed_data
+            data = block.data.embed_data;
           }
 
           if (data) {
@@ -586,22 +603,22 @@ class ArticleEditor extends Component {
                   {data.provider_url}
                 </span>
               </div>
-            )
+            );
           } else {
-            return <p />
+            return <p />;
           }
         }
 
         if (block.type === 'video') {
-          if (!block.data.embed_data) return
+          if (!block.data.embed_data) return;
 
-          let data = null
+          let data = null;
 
           // due to a bug in empbed component
           if (typeof block.data.embed_data.toJS === 'function') {
-            data = block.data.embed_data.toJS()
+            data = block.data.embed_data.toJS();
           } else {
-            data = block.data.embed_data
+            data = block.data.embed_data;
           }
 
           return (
@@ -618,7 +635,7 @@ class ArticleEditor extends Component {
                 </div>
               </figcaption>
             </figure>
-          )
+          );
         }
 
         if (block.type === 'recorded-video') {
@@ -641,34 +658,34 @@ class ArticleEditor extends Component {
                 </div>
               </figcaption>
             </figure>
-          )
+          );
         }
 
         if ('atomic') {
-          return <p />
+          return <p />;
         }
 
         if (block.type === 'PARAGRAPH') {
-          return <p />
+          return <p />;
         }
       },
       entityToHTML: (entity, originalText) => {
         if (entity.type === 'LINK') {
-          return <a href={entity.data.url}>{originalText}</a>
+          return <a href={entity.data.url}>{originalText}</a>;
         }
-        return originalText
+        return originalText;
       },
-    }
+    };
 
-    const currentContent = context.editorState().getCurrentContent()
-    this.props.setDisabled && this.props.setDisabled(!currentContent.hasText())
+    const currentContent = context.editorState().getCurrentContent();
+    this.props.setDisabled && this.props.setDisabled(!currentContent.hasText());
 
-    let html = convertToHTML(convertOptions)(currentContent)
+    let html = convertToHTML(convertOptions)(currentContent);
     //let html = null
-    const serialized = JSON.stringify(content)
-    const plain = context.getTextFromEditor(content)
+    const serialized = JSON.stringify(content);
+    const plain = context.getTextFromEditor(content);
 
-    if (this.props.data.serialized_content === serialized) return
+    if (this.props.data.serialized_content === serialized) return;
 
     this.props.updateState &&
       this.props.updateState({
@@ -678,19 +695,19 @@ class ArticleEditor extends Component {
           html: html,
           serialized: serialized,
         },
-      })
+      });
 
-    if (cb) cb(html, plain, serialized)
-  }
+    if (cb) cb(html, plain, serialized);
+  };
 
   decodeEditorContent = (raw_as_json) => {
-    const new_content = convertFromRaw(raw_as_json)
-    return EditorState.createWithContent(new_content)
-  }
+    const new_content = convertFromRaw(raw_as_json);
+    return EditorState.createWithContent(new_content);
+  };
 
   render() {
     //const {forwardedRef, ...rest} = this.props;
-    const { forwardedRef } = this.props
+    const { forwardedRef } = this.props;
 
     return (
       <ThemeProvider theme={theme}>
@@ -717,10 +734,10 @@ class ArticleEditor extends Component {
                 return (
                   this.props.handleReturn &&
                   this.props.handleReturn(e, this.isEmptyDraftJs(), this)
-                )
+                );
               }}
               onChange={(e) => {
-                this.dante_editor = e
+                this.dante_editor = e;
               }}
               content={this.initialContent}
               tooltips={
@@ -742,7 +759,7 @@ class ArticleEditor extends Component {
                       component: Link,
                     },
                   ]),
-                ])
+                ]);
               }}
             />
           ) : (
@@ -750,12 +767,12 @@ class ArticleEditor extends Component {
           )}
         </EditorStylesExtend>
       </ThemeProvider>
-    )
+    );
   }
 }
 
 const WrappedComponent = React.forwardRef(function myFunction(props, ref) {
-  return <ArticleEditor {...props} forwardedRef={ref} />
-})
+  return <ArticleEditor {...props} forwardedRef={ref} />;
+});
 
-export default WrappedComponent
+export default WrappedComponent;

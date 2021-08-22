@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import Dropdown from '../Dropdown';
 import Button from '../Button';
+import { PredicateType } from './types';
 
 const ContentMatch = styled.div`
   height: 200px;
@@ -19,7 +20,19 @@ const ContentMatchFooter = styled.div`
   width: 100%;
 `;
 
-export default class SegmentItemButton extends Component {
+type SegmentItemButtonType = {
+  open: boolean;
+  predicate: PredicateType;
+  predicates?: Array<PredicateType>;
+  updatePredicate: (new_predicates: any, predicateCallback: any) => void;
+  deletePredicate: (data: any, predicateCallback: any) => void;
+  predicateCallback: () => void;
+  index: number;
+  text: string;
+  appearance: string;
+};
+
+export default class SegmentItemButton extends Component<SegmentItemButtonType> {
   state = {
     dialogOpen: this.props.open,
     selectedOption: this.props.predicate.comparison,
@@ -356,8 +369,8 @@ export default class SegmentItemButton extends Component {
                           sm:text-sm sm:leading-5
                           dark:text-gray-100 dark:bg-gray-900
                           `}
-                          label={'value'}
-                          margin="normal"
+                          // label={'value'}
+                          // margin="normal"
                         />
                       </div>
                     )}
@@ -686,16 +699,10 @@ export default class SegmentItemButton extends Component {
     );
   };
 
-  toggleDialog = (e) => {
+  toggleDialog = (e?: React.SyntheticEvent) => {
     this.setState({
       dialogOpen: !this.state.dialogOpen,
       btn: e ? e.target : this.state.btn,
-    });
-  };
-
-  toggleDialog2 = () => {
-    this.setState({
-      dialogOpen: !this.state.dialogOpen,
     });
   };
 
@@ -731,8 +738,6 @@ export default class SegmentItemButton extends Component {
               labelButton={I18n.t('segment_manager.missing_value')}
               triggerButton={(cb) => (
                 <Button
-                  //ref={(ref) => this.setRef(ref)}
-                  isLoading={false}
                   size="small"
                   variant="outlined"
                   color={'secondary'}
@@ -757,13 +762,9 @@ export default class SegmentItemButton extends Component {
               isOpen={this.state.dialogOpen}
               triggerButton={(cb) => (
                 <Button
-                  // className="p-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150"
-                  //ref={(ref) => this.setRef(ref)}
-                  isLoading={false}
                   color="primary"
                   size="small"
                   variant="outlined"
-                  // appearance={this.props.appearance}
                   onClick={cb}
                 >
                   {this.props.text}

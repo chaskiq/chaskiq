@@ -1,7 +1,7 @@
 import React from 'react';
 import Panel from './Panel';
 
-type HintType = {
+export type HintType = {
   title: string;
   description: string;
   link: string;

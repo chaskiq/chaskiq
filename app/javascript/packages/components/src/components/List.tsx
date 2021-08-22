@@ -24,7 +24,7 @@ interface IListItem {
   action?: boolean;
   children: React.ReactNode;
   onClick?: any;
-  divider?: string;
+  divider?: boolean;
 }
 
 export function ListItem({

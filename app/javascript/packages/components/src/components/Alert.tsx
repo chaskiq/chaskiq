@@ -10,7 +10,7 @@ import { clearStatusMessage } from '@chaskiq/store/src/actions/status_messages';
 function CustomizedSnackbars(props) {
   const [open, setOpen] = React.useState(!isEmpty(props.status_message));
 
-  function handleClose(_event, reason) {
+  function handleClose(_event: React.SyntheticEvent, reason?: string) {
     if (reason === 'clickaway') return;
     props.dispatch(clearStatusMessage());
     setOpen(false);
@@ -91,7 +91,7 @@ type AlertType = {
   title: string;
   message: string;
   status?: 'success' | 'error';
-  onClose: () => void;
+  onClose: (event: any, reason?: any) => void;
   placementClass: string;
 };
 
@@ -170,7 +170,7 @@ function Alert({ title, message, status, onClose, placementClass }: AlertType) {
         show={true}
         enter="transform ease-out duration-300 transition"
         enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-        enterto="translate-y-0 opacity-100 sm:translate-x-0"
+        enterTo="translate-y-0 opacity-100 sm:translate-x-0"
         leave="transition ease-in duration-100"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"

@@ -1,34 +1,40 @@
-import React from 'react'
-import arrayMove from 'array-move'
-import { connect } from 'react-redux'
+import React from 'react';
+import arrayMove from 'array-move';
+import { connect } from 'react-redux';
 
 import {
-  sortableContainer,
-  sortableElement,
-  sortableHandle,
-} from 'react-sortable-hoc'
+  //sortableContainer,
+  //sortableElement,
+  //sortableHandle,
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+} from 'react-sortable-hoc';
 
-import Button from '@chaskiq/components/src/components/Button'
-import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import { QueueIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
-import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch'
+import Button from '@chaskiq/components/src/components/Button';
+import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import {
+  QueueIcon,
+  DeleteIcon,
+} from '@chaskiq/components/src/components/icons';
+import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries'
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 
-const SortableContainer = sortableContainer(({ children }) => {
-  return <ul className="border-b">{children}</ul>
-})
+const SortableList = SortableContainer(({ children }) => {
+  return <ul className="border-b">{children}</ul>;
+});
 
-const DragHandle = sortableHandle(() => (
+const DragHandle = SortableHandle(() => (
   <div>
     <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
   </div>
-))
+));
 
-const SortableItem = sortableElement(
+const SortableItem = SortableElement(
   ({ object, deleteItem, _edit, _updatePackage }) => (
     <li>
       <div>
@@ -63,7 +69,7 @@ const SortableItem = sortableElement(
       </div>
     </li>
   )
-)
+);
 
 function AppInserter({ app, update }) {
   const options = [
@@ -79,12 +85,12 @@ function AppInserter({ app, update }) {
       n: 'visitor_home_apps',
       classes: 'rounded-r-lg',
     },
-  ]
+  ];
 
-  const [option, setOption] = React.useState(options[0])
+  const [option, setOption] = React.useState(options[0]);
 
   function handleClick(o) {
-    setOption(o)
+    setOption(o);
   }
 
   return (
@@ -104,17 +110,17 @@ function AppInserter({ app, update }) {
         capability={'home'}
       />
     </div>
-  )
+  );
 }
 
 function HomeAppInserter({ app, update, option, capability }) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [items, setItems] = React.useState(app[option.namespace] || [])
-  const [packages, setPackages] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [items, setItems] = React.useState(app[option.namespace] || []);
+  const [packages, setPackages] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   function getPackages() {
-    setLoading(true)
+    setLoading(true);
     graphql(
       APP_PACKAGES_BY_CAPABILITY,
       {
@@ -123,47 +129,47 @@ function HomeAppInserter({ app, update, option, capability }) {
       },
       {
         success: (data) => {
-          setLoading(false)
-          setPackages(data.app.appPackagesCapabilities)
+          setLoading(false);
+          setPackages(data.app.appPackagesCapabilities);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   React.useEffect(() => {
-    if (isOpen) getPackages()
-  }, [isOpen])
+    if (isOpen) getPackages();
+  }, [isOpen]);
 
   React.useEffect(() => {
-    if (option) setItems(app[option.namespace] || [])
-  }, [option])
+    if (option) setItems(app[option.namespace] || []);
+  }, [option]);
 
   function closeHandler() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function handleAdd(item) {
-    setItems(items.concat(item))
-    setIsOpen(false)
+    setItems(items.concat(item));
+    setIsOpen(false);
   }
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    setItems(arrayMove(items, oldIndex, newIndex))
-  }
+    setItems(arrayMove(items, oldIndex, newIndex));
+  };
 
   function deleteItem(item, index) {
-    setItems(items.filter((o, i) => i !== index))
+    setItems(items.filter((o, i) => i !== index));
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     const data = {
       app: {
         [option.n]: items,
       },
-    }
-    update(data)
+    };
+    update(data);
   }
 
   return (
@@ -194,7 +200,7 @@ function HomeAppInserter({ app, update, option, capability }) {
       />
 
       <div className="w-2/4">
-        <SortableContainer onSortEnd={onSortEnd} useDragHandle>
+        <SortableList onSortEnd={onSortEnd} useDragHandle>
           {items &&
             items.map((o, index) => (
               <SortableItem
@@ -206,7 +212,7 @@ function HomeAppInserter({ app, update, option, capability }) {
                 deleteItem={() => deleteItem(o, index)}
               />
             ))}
-        </SortableContainer>
+        </SortableList>
 
         <Button
           onClick={handleSubmit}
@@ -218,18 +224,18 @@ function HomeAppInserter({ app, update, option, capability }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app } = state
+  const { app_user, app } = state;
   return {
     app_user,
     app,
-  }
+  };
 }
 
 // export default ShowAppContainer
-export const AppInserterInner = connect(mapStateToProps)(HomeAppInserter)
+export const AppInserterInner = connect(mapStateToProps)(HomeAppInserter);
 
-export default connect(mapStateToProps)(AppInserter)
+export default connect(mapStateToProps)(AppInserter);

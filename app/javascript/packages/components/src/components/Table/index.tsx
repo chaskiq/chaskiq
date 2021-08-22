@@ -1,15 +1,39 @@
-import React from 'react'
-import { isEmpty } from 'lodash'
-import Dropdown from '../Dropdown'
-import Button from '../Button'
-import Tooltip from 'rc-tooltip'
-import { MapIcon, ColumnsIcon, QueueIcon } from '../icons'
+import React from 'react';
+import { isEmpty } from 'lodash';
+import Dropdown from '../Dropdown';
+import Button from '../Button';
+import Tooltip from 'rc-tooltip';
+import { MapIcon, ColumnsIcon, QueueIcon } from '../icons';
 
 import {
   sortableContainer,
   sortableElement,
   sortableHandle,
-} from 'react-sortable-hoc'
+} from 'react-sortable-hoc';
+
+type MetaType = {
+  total_count?: number;
+  total_pages?: number;
+  next_page?: number;
+  prev_page?: number;
+};
+
+type ColumnsType = {
+  field: string;
+  title: string;
+  render?: (row: any) => React.ReactChild;
+};
+interface ITable {
+  data: any;
+  columns: Array<ColumnsType>;
+  search: (item: any) => void;
+  meta: MetaType;
+  enableMapView?: boolean;
+  toggleMapView?: () => void;
+  sortable?: boolean;
+  onSort?: (oldIndex: number, newIndex: number) => void;
+  disablePagination?: boolean;
+}
 
 export default function Table({
   data,
@@ -20,28 +44,29 @@ export default function Table({
   toggleMapView,
   sortable,
   onSort,
-}) {
-  const [tableColums, setTableColums] = React.useState(columns)
+  disablePagination,
+}: ITable) {
+  const [tableColums, setTableColums] = React.useState(columns);
 
-  const visibleColumns = () => tableColums.filter((o) => !o.hidden)
+  const visibleColumns = () => tableColums.filter((o) => !o.hidden);
 
   const SortableContainer = sortableContainer(({ children }) => {
-    return <tbody className="bg-white dark:bg-gray-800">{children}</tbody>
-  })
+    return <tbody className="bg-white dark:bg-gray-800">{children}</tbody>;
+  });
 
   const DragHandle = sortableHandle(() =>
     renderDefaultRow(
       <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
     )
-  )
+  );
 
   const renderDefaultRow = (value) => {
     return (
       <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-gray-50">
         {value}
       </td>
-    )
-  }
+    );
+  };
 
   const SortableItem = sortableElement(({ item, sortable }) => (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-900">
@@ -50,18 +75,18 @@ export default function Table({
       {visibleColumns().map((object) => {
         return renderDefaultRow(
           object.render ? object.render(item) : item[object.field]
-        )
+        );
       })}
     </tr>
-  ))
+  ));
 
   const changeColumns = (columns) => {
-    setTableColums(columns)
-  }
+    setTableColums(columns);
+  };
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    onSort && onSort(oldIndex, newIndex)
-  }
+    onSort && onSort(oldIndex, newIndex);
+  };
 
   return (
     <React.Fragment>
@@ -71,7 +96,7 @@ export default function Table({
         {enableMapView && (
           <Tooltip placement="bottom" overlay={'View Map'}>
             <div className="relative inline-block text-left">
-              <Button isLoading={false} variant="icon" onClick={toggleMapView}>
+              <Button variant="icon" onClick={toggleMapView}>
                 <MapIcon />
               </Button>
             </div>
@@ -118,9 +143,11 @@ export default function Table({
         </table>
       </div>
 
-      {meta && !isEmpty(meta) && <Pagination meta={meta} search={search} />}
+      {((meta && !isEmpty(meta)) || !disablePagination) && (
+        <Pagination meta={meta} search={search} />
+      )}
     </React.Fragment>
-  )
+  );
 }
 
 function Pagination({ meta, search }) {
@@ -154,18 +181,18 @@ function Pagination({ meta, search }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 function SimpleMenu(props) {
   function handleChange(o, e) {
-    const checked = e.target.checked
-    const item = Object.assign({}, o, { hidden: !checked })
+    const checked = e.target.checked;
+    const item = Object.assign({}, o, { hidden: !checked });
 
     const columns = props.options.map((o) => {
-      return o.title === item.title ? item : o
-    })
-    props.handleChange(columns)
+      return o.title === item.title ? item : o;
+    });
+    props.handleChange(columns);
   }
   return (
     <div>
@@ -173,7 +200,7 @@ function SimpleMenu(props) {
         position={'right'}
         triggerButton={(cb) => (
           <Tooltip placement="bottom" overlay={'select columns'}>
-            <Button isLoading={false} variant="icon" onClick={cb}>
+            <Button variant="icon" onClick={cb}>
               <ColumnsIcon />
             </Button>
           </Tooltip>
@@ -206,5 +233,5 @@ function SimpleMenu(props) {
         </div>
       </Dropdown>
     </div>
-  )
+  );
 }

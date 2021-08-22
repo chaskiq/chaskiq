@@ -1,21 +1,25 @@
-import React from 'react'
+import React from 'react';
 
 // import tw from 'tailwind.macro'
-import tw from 'twin.macro'
-import styled from '@emotion/styled'
+import tw from 'twin.macro';
+import styled from '@emotion/styled';
 
-const BaseIcon = styled.svg`
+type BaseIconType = {
+  variant?: 'small' | 'rounded';
+};
+
+const BaseIcon = styled.svg<BaseIconType>`
   ${(props) => {
     switch (props.variant) {
       case 'small':
-        return tw`h-4 w-4 outline-none`
+        return tw`h-4 w-4 outline-none`;
       case 'rounded':
-        return tw`m-3 h-3 w-3 outline-none`
+        return tw`m-3 h-3 w-3 outline-none`;
       default:
-        return tw`h-5 w-5 outline-none`
+        return tw`h-5 w-5 outline-none`;
     }
   }};
-`
+`;
 
 export function WidgetsIcon(props) {
   return (
@@ -30,7 +34,7 @@ export function WidgetsIcon(props) {
     >
       <path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ApiIcon(props) {
@@ -44,7 +48,7 @@ export function ApiIcon(props) {
     >
       <path d="M 4 5 C 2.895 5 2 5.895 2 7 L 2 23 C 2 24.105 2.895 25 4 25 L 26 25 C 27.105 25 28 24.105 28 23 L 28 7 C 28 5.895 27.105 5 26 5 L 4 5 z M 7.2519531 11 L 9.7421875 11 L 12.431641 19 L 10.214844 19 L 9.7148438 17.242188 L 7.1035156 17.242188 L 6.5878906 19 L 4.5683594 19 L 7.2519531 11 z M 14 11 L 17.503906 11 C 19.222906 11 20.386719 12.120844 20.386719 13.839844 C 20.386719 15.541844 19.161812 16.654297 17.382812 16.654297 L 16.033203 16.654297 L 16.033203 19 L 14 19 L 14 11 z M 23 11 L 25.033203 11 L 25.033203 19 L 23 19 L 23 11 z M 16.035156 12.5625 L 16.035156 15.119141 L 16.955078 15.119141 C 17.820078 15.119141 18.330078 14.67475 18.330078 13.84375 C 18.329078 13.00075 17.825797 12.5625 16.966797 12.5625 L 16.035156 12.5625 z M 8.3671875 12.802734 L 7.4902344 15.779297 L 9.3320312 15.779297 L 8.4726562 12.802734 L 8.3671875 12.802734 z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ChartsIcons(props) {
@@ -62,7 +66,7 @@ export function ChartsIcons(props) {
         fill="currentColor"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function MapIcon(props) {
@@ -77,7 +81,7 @@ export function MapIcon(props) {
     >
       <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ColumnsIcon(props) {
@@ -92,7 +96,7 @@ export function ColumnsIcon(props) {
     >
       <path d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function LeftArrow(props) {
@@ -107,7 +111,7 @@ export function LeftArrow(props) {
     >
       <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function UpArrow(props) {
@@ -127,7 +131,7 @@ export function UpArrow(props) {
         d="M5 15l7-7 7 7"
       />
     </BaseIcon>
-  )
+  );
 }
 
 export function DownArrow(props) {
@@ -147,7 +151,7 @@ export function DownArrow(props) {
         d="M19 9l-7 7-7-7"
       />
     </BaseIcon>
-  )
+  );
 }
 
 export function Facebook(props) {
@@ -158,7 +162,7 @@ export function Facebook(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function Twitter(props) {
@@ -169,7 +173,7 @@ export function Twitter(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function Instagram(props) {
@@ -180,7 +184,7 @@ export function Instagram(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function LinkedIn(props) {
@@ -191,7 +195,7 @@ export function LinkedIn(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function LaunchIcon(props) {
@@ -206,7 +210,7 @@ export function LaunchIcon(props) {
     >
       <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function LangGlobeIcon(props) {
@@ -222,7 +226,7 @@ export function LangGlobeIcon(props) {
     >
       <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function BookMarkIcon(props) {
@@ -233,7 +237,7 @@ export function BookMarkIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function DockerIcon(props) {
@@ -252,7 +256,7 @@ export function DockerIcon(props) {
       ></path>
       <path d="M13 12h7v1.5h-7zm0-2.5h7V11h-7zm0 5h7V16h-7zM21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15h-9V6h9v13z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function PaintIcon(props) {
@@ -268,7 +272,7 @@ export function PaintIcon(props) {
       <path d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15c-.59.59-.59 1.54 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"></path>
       <path fillOpacity=".36" d="M0 20h24v4H0z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function QueueIcon(_props) {
@@ -286,7 +290,7 @@ export function QueueIcon(_props) {
         d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
       />
     </BaseIcon>
-  )
+  );
 }
 
 export function GestureIcon(props) {
@@ -301,7 +305,7 @@ export function GestureIcon(props) {
     >
       <path d="M4.59 6.89c.7-.71 1.4-1.35 1.71-1.22.5.2 0 1.03-.3 1.52-.25.42-2.86 3.89-2.86 6.31 0 1.28.48 2.34 1.34 2.98.75.56 1.74.73 2.64.46 1.07-.31 1.95-1.4 3.06-2.77 1.21-1.49 2.83-3.44 4.08-3.44 1.63 0 1.65 1.01 1.76 1.79-3.78.64-5.38 3.67-5.38 5.37 0 1.7 1.44 3.09 3.21 3.09 1.63 0 4.29-1.33 4.69-6.1H21v-2.5h-2.47c-.15-1.65-1.09-4.2-4.03-4.2-2.25 0-4.18 1.91-4.94 2.84-.58.73-2.06 2.48-2.29 2.72-.25.3-.68.84-1.11.84-.45 0-.72-.83-.36-1.92.35-1.09 1.4-2.86 1.85-3.52.78-1.14 1.3-1.92 1.3-3.28C8.95 3.69 7.31 3 6.44 3 5.12 3 3.97 4 3.72 4.25c-.36.36-.66.66-.88.93l1.75 1.71zm9.29 11.66c-.31 0-.74-.26-.74-.72 0-.6.73-2.2 2.87-2.76-.3 2.69-1.43 3.48-2.13 3.48z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function MessageBubbleIcon(props) {
@@ -312,7 +316,7 @@ export function MessageBubbleIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ShuffleIcon(props) {
@@ -323,7 +327,7 @@ export function ShuffleIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ConversationIcon(props) {
@@ -334,7 +338,7 @@ export function ConversationIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CogIcon(props) {
@@ -345,7 +349,7 @@ export function CogIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function FolderIcon(props) {
@@ -360,7 +364,7 @@ export function FolderIcon(props) {
     >
       <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function FlagIcon(props) {
@@ -371,7 +375,7 @@ export function FlagIcon(props) {
         points="7.66666667 12 2 12 2 20 0 20 0 0 1 0 12 0 12.3333333 2 20 2 17 8 20 14 8 14 7.66666667 12"
       ></polygon>
     </BaseIcon>
-  )
+  );
 }
 
 export function FactoryIcon(props) {
@@ -382,7 +386,7 @@ export function FactoryIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function LoadBalancerIcon(props) {
@@ -390,7 +394,7 @@ export function LoadBalancerIcon(props) {
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M17 12h-6v4h1v4H8v-4h1v-4H3v4h1v4H0v-4h1v-4a2 2 0 0 1 2-2h6V6H7V0h6v6h-2v4h6a2 2 0 0 1 2 2v4h1v4h-4v-4h1v-4z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function LabelIcon(props) {
@@ -409,7 +413,7 @@ export function LabelIcon(props) {
         fill="currentColor"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 /* export function MapIcon (props) {
@@ -431,7 +435,7 @@ export function LocationIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function NotificationsIcon(props) {
@@ -443,7 +447,7 @@ export function NotificationsIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function TagIcon(props) {
@@ -454,7 +458,7 @@ export function TagIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ThumbsUpIcon(props) {
@@ -465,7 +469,7 @@ export function ThumbsUpIcon(props) {
         id="Fill-97"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ThumbsDownIcon(props) {
@@ -476,7 +480,7 @@ export function ThumbsDownIcon(props) {
         id="Fill-97"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function TileIcon(props) {
@@ -487,7 +491,7 @@ export function TileIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function TuningIcon(props) {
@@ -498,7 +502,7 @@ export function TuningIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function SwapIcon(props) {
@@ -506,7 +510,7 @@ export function SwapIcon(props) {
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M9 6a4 4 0 1 1 8 0v8h3l-4 4-4-4h3V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8a4 4 0 1 1-8 0V6H0l4-4 4 4H5v8a2 2 0 0 0 2 2 2 2 0 0 0 2-2V6z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function SendIcon(props) {
@@ -517,7 +521,7 @@ export function SendIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function SaveDiskIcon(props) {
@@ -528,7 +532,7 @@ export function SaveDiskIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function UserIcon(props) {
@@ -539,7 +543,7 @@ export function UserIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function UserWalkIcon(props) {
@@ -550,7 +554,7 @@ export function UserWalkIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function PlusIcon(props) {
@@ -565,7 +569,7 @@ export function PlusIcon(props) {
     >
       <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function DeleteForever(props) {
@@ -581,7 +585,7 @@ export function DeleteForever(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function DeleteForeverRounded(_props) {
@@ -595,7 +599,7 @@ export function DeleteForeverRounded(_props) {
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function HomeIcon(props) {
@@ -606,7 +610,7 @@ export function HomeIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function BuildingIcon(props) {
@@ -618,7 +622,7 @@ export function BuildingIcon(props) {
         clipRule="evenodd"
       />
     </BaseIcon>
-  )
+  );
 }
 
 export function CheckmarkIcon(props) {
@@ -626,7 +630,7 @@ export function CheckmarkIcon(props) {
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <polygon id="Path-126" points="0 11 2 9 7 14 18 3 20 5 7 18"></polygon>
     </BaseIcon>
-  )
+  );
 }
 
 export function PictureInPicture(props) {
@@ -635,7 +639,7 @@ export function PictureInPicture(props) {
       <path d="M0 0h24v24H0z" fill="none" />
       <path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 1.98 2 1.98h18c1.1 0 2-.88 2-1.98V5c0-1.1-.9-2-2-2zm0 16.01H3V4.98h18v14.03z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function PinIcon(props) {
@@ -646,7 +650,7 @@ export function PinIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function EnvelopeIcon(props) {
@@ -657,7 +661,7 @@ export function EnvelopeIcon(props) {
         id="Combined-Shape"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function SaveIcon(props) {
@@ -665,7 +669,7 @@ export function SaveIcon(props) {
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 22 22">
       <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function DeleteIcon(props) {
@@ -677,7 +681,7 @@ export function DeleteIcon(props) {
         clipRule="evenodd"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function EditIcon(props) {
@@ -692,7 +696,7 @@ export function EditIcon(props) {
     >
       <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CheckIcon(props) {
@@ -707,7 +711,7 @@ export function CheckIcon(props) {
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function FilterFramesIcon(props) {
@@ -722,7 +726,7 @@ export function FilterFramesIcon(props) {
     >
       <path d="M5 13h14v-2H5v2zm-2 4h14v-2H3v2zM7 7v2h14V7H7z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ClearAll(props) {
@@ -737,7 +741,7 @@ export function ClearAll(props) {
     >
       <path d="M5 13h14v-2H5v2zm-2 4h14v-2H3v2zM7 7v2h14V7H7z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function VisibilityRounded(props) {
@@ -753,7 +757,7 @@ export function VisibilityRounded(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M12 4C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function EmailIcon(props) {
@@ -768,7 +772,7 @@ export function EmailIcon(props) {
     >
       <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function Pause(props) {
@@ -783,7 +787,7 @@ export function Pause(props) {
     >
       <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function TourIcon(props) {
@@ -798,7 +802,7 @@ export function TourIcon(props) {
     >
       <path d="M20 4h-4l-4-4-4 4H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H4V6h4.52l3.52-3.5L15.52 6H20v14zM18 8H6v10h12"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function MessageIcon(props) {
@@ -813,7 +817,7 @@ export function MessageIcon(props) {
     >
       <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function DeleteOutlineRounded(props) {
@@ -829,7 +833,7 @@ export function DeleteOutlineRounded(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v10zM9 9h6c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1H9c-.55 0-1-.45-1-1v-8c0-.55.45-1 1-1zm6.5-5l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CheckCircleIcon(props) {
@@ -843,7 +847,7 @@ export function CheckCircleIcon(props) {
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function ArchiveIcon(props) {
@@ -852,14 +856,13 @@ export function ArchiveIcon(props) {
       {...props}
       fill="currentColor"
       viewBox="0 0 24 24"
-      fill="black"
       width="18px"
       height="18px"
     >
       <path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z" />
       <path d="M0 0h24v24H0z" fill="none" />
     </BaseIcon>
-  )
+  );
 }
 
 export function BlockIcon(props) {
@@ -874,7 +877,7 @@ export function BlockIcon(props) {
       <path d="M0 0h24v24H0z" fill="none" />
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function UnsubscribeIcon(props) {
@@ -888,7 +891,7 @@ export function UnsubscribeIcon(props) {
     >
       <path d="M18.5 13c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm2 4h-4v-1h4v1zm-6.95 0c-.02-.17-.05-.33-.05-.5 0-2.76 2.24-5 5-5 .92 0 1.76.26 2.5.69V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h8.55zM12 10.5L5 7V5l7 3.5L19 5v2l-7 3.5z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function SendkkkIcon(props) {
@@ -904,7 +907,7 @@ export function SendkkkIcon(props) {
       <path fill="none" d="M0 0h24v24H0V0z"></path>
       <path d="M3.4 20.4l17.45-7.48c.81-.35.81-1.49 0-1.84L3.4 3.6c-.66-.29-1.39.2-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CheckCircle(props) {
@@ -918,7 +921,7 @@ export function CheckCircle(props) {
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function DragHandle(props) {
@@ -934,7 +937,7 @@ export function DragHandle(props) {
       <path d="M0 0h24v24H0V0z" fill="none" />
       <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function CopyContentIcon(props) {
@@ -943,7 +946,7 @@ export function CopyContentIcon(props) {
       <path d="M0 0h24v24H0z" fill="none" />
       <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function AddIcon(props) {
@@ -955,7 +958,7 @@ export function AddIcon(props) {
         clipRule="evenodd"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function SeachIcon(props) {
@@ -964,7 +967,7 @@ export function SeachIcon(props) {
       <path d="M0 0h24v24H0z" fill="none" />
       <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function CloseIcon(props) {
@@ -972,7 +975,7 @@ export function CloseIcon(props) {
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 24 24">
       <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function Call(props) {
@@ -987,7 +990,7 @@ export function Call(props) {
     >
       <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CallEnd(props) {
@@ -1002,7 +1005,7 @@ export function CallEnd(props) {
     >
       <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function MicIcon(props) {
@@ -1017,7 +1020,7 @@ export function MicIcon(props) {
     >
       <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function MicOffIcon(props) {
@@ -1032,7 +1035,7 @@ export function MicOffIcon(props) {
     >
       <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CameraIcon(props) {
@@ -1047,7 +1050,7 @@ export function CameraIcon(props) {
     >
       <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CameraOffIcon(props) {
@@ -1062,7 +1065,7 @@ export function CameraOffIcon(props) {
     >
       <path d="M21 6.5l-4 4V7c0-.55-.45-1-1-1H9.82L21 17.18V6.5zM3.27 2L2 3.27 4.73 6H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.21 0 .39-.08.54-.18L19.73 21 21 19.73 3.27 2z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function FullScreenIcon(props) {
@@ -1077,7 +1080,7 @@ export function FullScreenIcon(props) {
     >
       <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function FullScreenExitIcon(props) {
@@ -1092,7 +1095,7 @@ export function FullScreenExitIcon(props) {
     >
       <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ScreenShareIcon(props) {
@@ -1107,7 +1110,7 @@ export function ScreenShareIcon(props) {
     >
       <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.11-.9-2-2-2H4c-1.11 0-2 .89-2 2v10c0 1.1.89 2 2 2H0v2h24v-2h-4zm-7-3.53v-2.19c-2.78 0-4.61.85-6 2.72.56-2.67 2.11-5.33 6-5.87V7l4 3.73-4 3.74z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function ScreenShareExitIcon(props) {
@@ -1122,7 +1125,7 @@ export function ScreenShareExitIcon(props) {
     >
       <path d="M21.22 18.02l2 2H24v-2h-2.78zm.77-2l.01-10c0-1.11-.9-2-2-2H7.22l5.23 5.23c.18-.04.36-.07.55-.1V7.02l4 3.73-1.58 1.47 5.54 5.54c.61-.33 1.03-.99 1.03-1.74zM2.39 1.73L1.11 3l1.54 1.54c-.4.36-.65.89-.65 1.48v10c0 1.1.89 2 2 2H0v2h18.13l2.71 2.71 1.27-1.27L2.39 1.73zM7 15.02c.31-1.48.92-2.95 2.07-4.06l1.59 1.59c-1.54.38-2.7 1.18-3.66 2.47z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function MoreIcon(props) {
@@ -1130,7 +1133,7 @@ export function MoreIcon(props) {
     <BaseIcon {...props} fill="currentColor" viewBox="0 0 20 20">
       <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function CardIcon(props) {
@@ -1139,7 +1142,7 @@ export function CardIcon(props) {
       <path d="M0 0h24v24H0z" fill="none" />
       <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
     </BaseIcon>
-  )
+  );
 }
 
 export function AttachmentIcon(_props) {
@@ -1152,7 +1155,7 @@ export function AttachmentIcon(_props) {
     >
       <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function WebhooksIcon(props) {
@@ -1168,7 +1171,7 @@ export function WebhooksIcon(props) {
     >
       <path d="M10.46 19C9 21.07 6.15 21.59 4.09 20.15c-2.05-1.44-2.53-4.31-1.09-6.4a4.585 4.585 0 013.58-1.98l.05 1.43c-.91.07-1.79.54-2.36 1.36-1 1.44-.69 3.38.68 4.35 1.38.96 3.31.59 4.31-.84.31-.45.49-.94.56-1.44v-1.01l5.58-.04.07-.11c.53-.92 1.68-1.24 2.58-.72a1.9 1.9 0 01.68 2.6c-.53.91-1.69 1.23-2.59.71-.41-.23-.7-.6-.83-1.02l-4.07.02a4.96 4.96 0 01-.78 1.94m7.28-7.14c2.53.31 4.33 2.58 4.02 5.07-.31 2.5-2.61 4.27-5.14 3.96a4.629 4.629 0 01-3.43-2.21l1.24-.72a3.22 3.22 0 002.32 1.45c1.75.21 3.3-.98 3.51-2.65.21-1.67-1.03-3.2-2.76-3.41-.54-.06-1.06.01-1.53.18l-.85.44-2.58-4.77h-.22a1.906 1.906 0 01-1.85-1.95c.03-1.04.93-1.85 1.98-1.81 1.05.06 1.88.91 1.85 1.95-.02.44-.19.84-.46 1.15l1.9 3.51c.62-.2 1.3-.27 2-.19M8.25 9.14c-1-2.35.06-5.04 2.37-6.02 2.32-.98 5 .13 6 2.48.59 1.37.47 2.87-.2 4.07l-1.24-.72c.42-.81.49-1.8.09-2.73-.68-1.6-2.49-2.37-4.04-1.72-1.56.66-2.26 2.5-1.58 4.1.28.66.75 1.17 1.32 1.51l.39.21-3.07 4.99c.03.05.07.11.1.19.49.91.15 2.06-.77 2.55-.91.49-2.06.13-2.56-.81-.49-.93-.15-2.08.77-2.57.39-.21.82-.26 1.23-.17l2.31-3.77c-.47-.43-.87-.97-1.12-1.59z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function IntegrationsIconDisabled(props) {
@@ -1183,7 +1186,7 @@ export function IntegrationsIconDisabled(props) {
     >
       <path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function TeamIconNO(props) {
@@ -1198,7 +1201,7 @@ export function TeamIconNO(props) {
     >
       <path d="M11.99 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm3.61 6.34c1.07 0 1.93.86 1.93 1.93 0 1.07-.86 1.93-1.93 1.93-1.07 0-1.93-.86-1.93-1.93-.01-1.07.86-1.93 1.93-1.93zm-6-1.58c1.3 0 2.36 1.06 2.36 2.36 0 1.3-1.06 2.36-2.36 2.36s-2.36-1.06-2.36-2.36c0-1.31 1.05-2.36 2.36-2.36zm0 9.13v3.75c-2.4-.75-4.3-2.6-5.14-4.96 1.05-1.12 3.67-1.69 5.14-1.69.53 0 1.2.08 1.9.22-1.64.87-1.9 2.02-1.9 2.68zM11.99 20c-.27 0-.53-.01-.79-.04v-4.07c0-1.42 2.94-2.13 4.4-2.13 1.07 0 2.92.39 3.84 1.15-1.17 2.97-4.06 5.09-7.45 5.09z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function SettingsIconNO(props) {
@@ -1217,7 +1220,7 @@ export function SettingsIconNO(props) {
         d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"
       ></path>
     </BaseIcon>
-  )
+  );
 }
 
 // teensy icons:
@@ -1237,7 +1240,7 @@ export function DashboardIcon() {
         strokeLinejoin="round"
       ></path>
     </svg>
-  )
+  );
 }
 export function PlatformIcon() {
   return (
@@ -1253,7 +1256,7 @@ export function PlatformIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function ChatIcon() {
   return (
@@ -1269,7 +1272,7 @@ export function ChatIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function ConversationChatIcon() {
   return (
@@ -1285,7 +1288,7 @@ export function ConversationChatIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function AssignmentIcon() {
   return (
@@ -1301,7 +1304,7 @@ export function AssignmentIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function CampaignsIcon() {
   return (
@@ -1317,7 +1320,7 @@ export function CampaignsIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function MailingIcon() {
   return (
@@ -1333,7 +1336,7 @@ export function MailingIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function AutoMessages() {
   return (
@@ -1349,7 +1352,7 @@ export function AutoMessages() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function BannersIcon() {
   return (
@@ -1365,7 +1368,7 @@ export function BannersIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function ToursIcon() {
   return (
@@ -1381,7 +1384,7 @@ export function ToursIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function BotIcon() {
   return (
@@ -1397,7 +1400,7 @@ export function BotIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function OutboundIcon() {
   return (
@@ -1413,7 +1416,7 @@ export function OutboundIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function NewconversationIcon() {
   return (
@@ -1429,7 +1432,7 @@ export function NewconversationIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function SettingsIcon() {
   return (
@@ -1455,7 +1458,7 @@ export function SettingsIcon() {
         strokeLinejoin="round"
       ></path>
     </svg>
-  )
+  );
 }
 export function HelpCenterIcon() {
   return (
@@ -1471,7 +1474,7 @@ export function HelpCenterIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function ArticlesIcon() {
   return (
@@ -1487,7 +1490,7 @@ export function ArticlesIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function CollectionsIcon() {
   return (
@@ -1503,7 +1506,7 @@ export function CollectionsIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function SettingsIconArticle() {
   return (
@@ -1529,7 +1532,7 @@ export function SettingsIconArticle() {
         strokeLinejoin="round"
       ></path>
     </svg>
-  )
+  );
 }
 export function BillingIcon() {
   return (
@@ -1545,7 +1548,7 @@ export function BillingIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function IntegrationsIcon() {
   return (
@@ -1561,7 +1564,7 @@ export function IntegrationsIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function TeamIcon() {
   return (
@@ -1577,7 +1580,7 @@ export function TeamIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function MessengerIcon() {
   return (
@@ -1593,7 +1596,7 @@ export function MessengerIcon() {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 export function AppSettingsIcon() {
   return (
@@ -1609,7 +1612,7 @@ export function AppSettingsIcon() {
         stroke="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 
 export function LightModeIcon() {
@@ -1627,7 +1630,7 @@ export function LightModeIcon() {
         strokeLinecap="square"
       ></path>
     </svg>
-  )
+  );
 }
 
 export function DarkModeIcon() {
@@ -1645,7 +1648,7 @@ export function DarkModeIcon() {
         strokeLinejoin="round"
       ></path>
     </svg>
-  )
+  );
 }
 
 export default {
@@ -1762,4 +1765,4 @@ export default {
   AppSettingsIcon,
   LightModeIcon,
   DarkModeIcon,
-}
+};

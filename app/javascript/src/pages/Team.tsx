@@ -1,76 +1,72 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import Moment from 'react-moment'
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Moment from 'react-moment';
 
-import PageHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import Progress from '@chaskiq/components/src/components/Progress'
-import DataTable from '@chaskiq/components/src/components/Table'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import Button from '@chaskiq/components/src/components/Button'
+import PageHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import Progress from '@chaskiq/components/src/components/Progress';
+import DataTable from '@chaskiq/components/src/components/Table';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import Button from '@chaskiq/components/src/components/Button';
 import FieldRenderer, {
   gridClasses,
-} from '@chaskiq/components/src/components/forms/FieldRenderer'
-import Badge from '@chaskiq/components/src/components/Badge'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
+} from '@chaskiq/components/src/components/forms/FieldRenderer';
+import Badge from '@chaskiq/components/src/components/Badge';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
 
-import serialize from 'form-serialize'
+import serialize from 'form-serialize';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { camelizeKeys } from '@chaskiq/store/src/actions/conversation'
+import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   successMessage,
   errorMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
-import { ROLE_AGENTS, PENDING_AGENTS } from '@chaskiq/store/src/graphql/queries'
+import {
+  ROLE_AGENTS,
+  PENDING_AGENTS,
+} from '@chaskiq/store/src/graphql/queries';
 import {
   INVITE_AGENT,
   UPDATE_AGENT_ROLE,
   DESTROY_AGENT_ROLE,
-} from '@chaskiq/store/src/graphql/mutations'
-import I18n from '../shared/FakeI18n'
-class TeamPage extends Component {
+} from '@chaskiq/store/src/graphql/mutations';
+import I18n from '../shared/FakeI18n';
+
+type TeamPageProps = {
+  dispatch: (val: any) => void;
+  app: any;
+};
+class TeamPage extends Component<TeamPageProps> {
   state = {
     meta: {},
     tabValue: 0,
-  }
+  };
 
   componentDidMount() {
-    this.props.dispatch(setCurrentSection('Settings'))
-    this.props.dispatch(setCurrentPage('team'))
+    this.props.dispatch(setCurrentSection('Settings'));
+    this.props.dispatch(setCurrentPage('team'));
   }
 
-  handleTabChange = (e, i) => {
-    this.setState({ tabValue: i })
-  }
+  handleTabChange = (e: React.SyntheticEvent, i: number) => {
+    this.setState({ tabValue: i });
+  };
 
   render() {
     return (
       <Content>
-        <PageHeader
-          title={I18n.t('settings.team.title')}
-          /* actions={
-            <Button
-              className={"transition duration-150 ease-in-out"}
-              variant={"main"}
-              color={"primary"}
-              //onClick={newWebhook}
-            >
-              New team member
-            </Button>
-          } */
-        />
+        <PageHeader title={I18n.t('settings.team.title')} />
 
         <Tabs
           currentTab={this.state.tabValue}
@@ -87,23 +83,36 @@ class TeamPage extends Component {
           ]}
         />
       </Content>
-    )
+    );
   }
 }
 
-class AppUsers extends React.Component {
+interface AppUsersProps {
+  app: any;
+  dispatch: (value: any) => void;
+}
+
+interface AppUsersState {
+  collection: Array<any>;
+  loading: boolean;
+  isEditDialogOpen: any;
+  isDestroyDialogOpen: any;
+  errors: any;
+}
+
+class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
   state = {
     collection: [],
     loading: true,
-    isEditDialogOpen: false,
-    isDestroyDialogOpen: false,
+    isEditDialogOpen: null,
+    isDestroyDialogOpen: null,
     errors: {},
-  }
+  };
 
-  form = React.createRef()
+  form = React.createRef();
 
   componentDidMount() {
-    this.search()
+    this.search();
   }
 
   getAgents = () => {
@@ -115,21 +124,21 @@ class AppUsers extends React.Component {
           this.setState({
             collection: data.app.roleAgents,
             loading: false,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
-  search = (_item) => {
+  search = () => {
     this.setState(
       {
         loading: true,
       },
       this.getAgents
-    )
-  }
+    );
+  };
 
   destroyAgent = () => {
     graphql(
@@ -139,19 +148,19 @@ class AppUsers extends React.Component {
         id: this.state.isDestroyDialogOpen.id,
       },
       {
-        success: (_data) => {
+        success: () => {
           this.props.dispatch(
             successMessage(I18n.t('settings.team.destroyed_agent'))
-          )
-          this.setState({ isDestroyDialogOpen: false })
-          this.getAgents()
+          );
+          this.setState({ isDestroyDialogOpen: false });
+          this.getAgents();
         },
-        error: (_err) => {
+        error: () => {
           // errorMessage('...')
         },
       }
-    )
-  }
+    );
+  };
 
   updateAgent = (params) => {
     graphql(
@@ -165,32 +174,32 @@ class AppUsers extends React.Component {
         success: (_data) => {
           this.props.dispatch(
             successMessage(I18n.t('settings.team.updated_agent'))
-          )
-          this.setState({ isEditDialogOpen: false })
-          this.getAgents()
+          );
+          this.setState({ isEditDialogOpen: false });
+          this.getAgents();
         },
         error: (_err) => {
           // errorMessage('...')
         },
       }
-    )
-  }
+    );
+  };
 
   submit = () => {
     const serializedData = serialize(this.form.current, {
       hash: true,
       empty: true,
-    })
-    this.updateAgent(serializedData.app)
+    });
+    this.updateAgent(serializedData.app);
     // open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
-  }
+  };
 
   close = () => {
     this.setState({
       isEditDialogOpen: false,
       isDestroyDialogOpen: false,
-    })
-  }
+    });
+  };
 
   definitions = () => {
     return [
@@ -224,8 +233,8 @@ class AppUsers extends React.Component {
         ],
         grid: { xs: 'w-full', sm: 'w-full' },
       },
-    ]
-  }
+    ];
+  };
 
   destroyButton = () => {
     return (
@@ -259,8 +268,8 @@ class AppUsers extends React.Component {
           ></FormDialog>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   editButton = () => {
     return (
@@ -279,8 +288,6 @@ class AppUsers extends React.Component {
                     <div
                       className={`${gridClasses(field)} py-2 pr-2`}
                       key={field.name}
-                      xs={field.grid.xs}
-                      sm={field.grid.sm}
                     >
                       <FieldRenderer
                         namespace={'app'}
@@ -292,7 +299,7 @@ class AppUsers extends React.Component {
                         errors={this.state.errors || {}}
                       />
                     </div>
-                  )
+                  );
                 })}
               </form>
             }
@@ -310,16 +317,16 @@ class AppUsers extends React.Component {
           />
         ) : null}
       </div>
-    )
-  }
+    );
+  };
 
   handleEdit = (row) => {
-    this.setState({ isEditDialogOpen: row })
-  }
+    this.setState({ isEditDialogOpen: row });
+  };
 
   handleDelete = (row) => {
-    this.setState({ isDestroyDialogOpen: row })
-  }
+    this.setState({ isDestroyDialogOpen: row });
+  };
 
   render() {
     return (
@@ -327,14 +334,13 @@ class AppUsers extends React.Component {
         {this.editButton()}
         {this.destroyButton()}
 
+        {/* title={I18n.t('settings.team.agents')} */}
+
         {!this.state.loading ? (
           <DataTable
-            elevation={0}
-            title={I18n.t('settings.team.agents')}
             meta={{}}
             data={this.state.collection}
             search={this.search}
-            loading={this.state.loading}
             disablePagination={true}
             columns={[
               {
@@ -460,46 +466,50 @@ class AppUsers extends React.Component {
                   ),
               },
             ]}
-            defaultHiddenColumnNames={[]}
-            tableColumnExtensions={[
-              { columnName: 'email', width: 250 },
-              { columnName: 'id', width: 10 },
-              { columnName: 'avatar', width: 55 },
-            ]}
-            // tableEdit={true}
-            // editingRowIds={["email", "name"]}
-            commitChanges={(_aa, _bb) => {}}
-            // leftColumns={this.props.leftColumns}
-            // rightColumns={this.props.rightColumns}
-            // toggleMapView={this.props.toggleMapView}
-            // map_view={this.props.map_view}
             enableMapView={false}
           />
         ) : (
           <Progress />
         )}
       </React.Fragment>
-    )
+    );
   }
 }
 
-class NonAcceptedAppUsers extends React.Component {
+interface NonAcceptedAppUsersProps {
+  app: any;
+  dispatch: (value: any) => void;
+}
+
+interface NonAcceptedAppUsersState {
+  collection: Array<any>;
+  loading: boolean;
+  isOpen: boolean;
+  sent: boolean;
+}
+
+class NonAcceptedAppUsers extends React.Component<
+  NonAcceptedAppUsersProps,
+  NonAcceptedAppUsersState
+> {
+  input_ref = React.createRef<typeof Input>();
+
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       collection: [],
       loading: true,
       isOpen: false,
       sent: false,
-    }
-    this.input_ref = React.createRef()
+    };
+    //this.input_ref = React.createRef<HTMLDivElement>();
   }
 
-  open = () => this.setState({ isOpen: true })
-  close = () => this.setState({ isOpen: false })
+  open = () => this.setState({ isOpen: true });
+  close = () => this.setState({ isOpen: false });
 
   componentDidMount() {
-    this.search()
+    this.search();
   }
 
   sendInvitation = () => {
@@ -510,26 +520,26 @@ class NonAcceptedAppUsers extends React.Component {
         email: this.input_ref.current.value,
       },
       {
-        success: (_data) => {
+        success: () => {
           this.props.dispatch(
             successMessage(I18n.t('settings.team.invitation_success'))
-          )
+          );
           this.setState(
             {
               sent: true,
               isOpen: false,
             },
             this.search
-          )
+          );
         },
         error: () => {
           this.props.dispatch(
             errorMessage(I18n.t('settings.team.invitation_error'))
-          )
+          );
         },
       }
-    )
-  }
+    );
+  };
 
   inviteButton = () => {
     return (
@@ -544,7 +554,6 @@ class NonAcceptedAppUsers extends React.Component {
             formComponent={
               <Input
                 autoFocus
-                margin="dense"
                 id="email"
                 name="email"
                 label="email"
@@ -571,8 +580,8 @@ class NonAcceptedAppUsers extends React.Component {
           {I18n.t('settings.team.add_new')}
         </Button>
       </div>
-    )
-  }
+    );
+  };
 
   getAgents = () => {
     graphql(
@@ -583,12 +592,12 @@ class NonAcceptedAppUsers extends React.Component {
           this.setState({
             collection: data.app.notConfirmedAgents,
             loading: false,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   search = () => {
     this.setState(
@@ -596,8 +605,8 @@ class NonAcceptedAppUsers extends React.Component {
         loading: true,
       },
       this.getAgents
-    )
-  }
+    );
+  };
 
   resendInvitation = (email) => {
     graphql(
@@ -610,29 +619,27 @@ class NonAcceptedAppUsers extends React.Component {
         success: (_data) => {
           this.props.dispatch(
             successMessage(I18n.t('settings.team.invitation_success'))
-          )
+          );
         },
         error: () => {
           this.props.dispatch(
             errorMessage(I18n.t('settings.team.invitation_error'))
-          )
+          );
         },
       }
-    )
-  }
+    );
+  };
 
   render() {
     return (
       <React.Fragment>
         {this.inviteButton()}
+
         {!this.state.loading ? (
           <DataTable
-            elevation={0}
-            title={I18n.t('settings.team.invitations')}
             meta={{}}
             data={this.state.collection}
             search={this.search}
-            loading={this.state.loading}
             disablePagination={true}
             columns={[
               { field: 'email', title: 'email' },
@@ -652,7 +659,7 @@ class NonAcceptedAppUsers extends React.Component {
                     >
                       {I18n.t('settings.team.resend_invitation')}
                     </Button>
-                  )
+                  );
                 },
               },
             ]}
@@ -662,19 +669,19 @@ class NonAcceptedAppUsers extends React.Component {
           <Progress />
         )}
       </React.Fragment>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { isAuthenticated } = auth
+  const { auth, app } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(TeamPage))
+export default withRouter(connect(mapStateToProps)(TeamPage));

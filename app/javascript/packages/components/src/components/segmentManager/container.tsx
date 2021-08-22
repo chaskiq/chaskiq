@@ -1,28 +1,28 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import styled from '@emotion/styled'
-import { InlineFilterDialog, SaveSegmentModal } from '.'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import styled from '@emotion/styled';
+import { InlineFilterDialog, SaveSegmentModal } from '.';
 
-import SegmentItemButton from './itemButton'
+import SegmentItemButton from './itemButton';
 
-import Table from '../Table/index'
-import Map from '../map/index'
+import Table from '../Table/index';
+import Map from '../map/index';
 
-import userFormat from '../Table/userFormat'
-import Progress from '../Progress'
+import userFormat from '../Table/userFormat';
+import Progress from '../Progress';
 
-import { dispatchSegmentUpdate } from '@chaskiq/store/src/actions/segments'
+import { dispatchSegmentUpdate } from '@chaskiq/store/src/actions/segments';
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
-import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
-import { getAppUser } from '@chaskiq/store/src/actions/app_user'
+} from '@chaskiq/store/src/actions/navigation';
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
+import { getAppUser } from '@chaskiq/store/src/actions/app_user';
 
 const Wrapper = styled.div`
   //min-width: 600px;
-`
+`;
 
 const ButtonGroup = styled.div`
   display: inline-flex;
@@ -33,36 +33,35 @@ const ButtonGroup = styled.div`
     margin-right: 5px !important;
     margin: 2px;
   }
-`
-
+`;
 class AppContent extends Component {
   constructor(props) {
-    super(props)
-    this.getSegment = this.getSegment.bind(this)
+    super(props);
+    this.getSegment = this.getSegment.bind(this);
   }
 
   componentDidMount() {
-    this.props.dispatch(setCurrentSection('Platform'))
+    this.props.dispatch(setCurrentSection('Platform'));
 
     this.props.dispatch(
       setCurrentPage(`segment-${this.props.match.params.segmentID}`)
-    )
+    );
 
     this.props.dispatch(
       dispatchSegmentUpdate({
         id: this.props.match.params.segmentID,
         jwt: this.props.match.params.Jwt,
       })
-    )
+    );
 
     this.getSegment(() => {
-      this.props.actions.search()
-    })
+      this.props.actions.search();
+    });
   }
 
   getSegment() {
-    const segmentID = this.props.match.params.segmentID
-    segmentID && this.props.actions.fetchAppSegment(segmentID)
+    const segmentID = this.props.match.params.segmentID;
+    segmentID && this.props.actions.fetchAppSegment(segmentID);
   }
 
   componentDidUpdate(prevProps, _prevState) {
@@ -75,15 +74,15 @@ class AppContent extends Component {
           id: this.props.match.params.segmentID,
           jwt: this.props.match.params.Jwt,
         })
-      )
+      );
 
       this.props.dispatch(
         setCurrentPage(`segment-${this.props.match.params.segmentID}`)
-      )
+      );
 
       this.getSegment(() => {
-        this.props.actions.search()
-      })
+        this.props.actions.search();
+      });
     }
 
     if (
@@ -91,7 +90,7 @@ class AppContent extends Component {
       prevProps.segment.jwt !== this.props.segment.jwt
     ) {
       // console.info("cambio jwt")
-      this.props.actions.search()
+      this.props.actions.search();
     }
 
     // check empty token , used when same sagment changes jwt
@@ -103,16 +102,16 @@ class AppContent extends Component {
         dispatchSegmentUpdate({
           jwt: this.props.match.params.Jwt,
         })
-      )
+      );
 
       this.getSegment(() => {
-        this.props.actions.search()
-      })
+        this.props.actions.search();
+      });
     }
   }
 
   render() {
-    const { searching, collection, meta } = this.props.app_users
+    const { searching, collection, meta } = this.props.app_users;
     return (
       <div style={{ marginTop: '20px' }}>
         {this.props.app.key && this.props.segment && this.props.segment.id ? (
@@ -129,58 +128,57 @@ class AppContent extends Component {
           />
         ) : null}
       </div>
-    )
+    );
   }
 }
-
 class AppUsers extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       map_view: false,
-    }
-    this.toggleMap = this.toggleMap.bind(this)
-    this.toggleList = this.toggleList.bind(this)
+    };
+    this.toggleMap = this.toggleMap.bind(this);
+    this.toggleList = this.toggleList.bind(this);
   }
 
   toggleMap = (_e) => {
-    this.setState({ map_view: false })
-  }
+    this.setState({ map_view: false });
+  };
 
   toggleList = (_e) => {
-    this.setState({ map_view: true })
-  }
+    this.setState({ map_view: true });
+  };
 
   toggleMapView = (_e) => {
-    this.setState({ map_view: !this.state.map_view })
-  }
+    this.setState({ map_view: !this.state.map_view });
+  };
 
   handleClickOnSelectedFilter = (jwtToken) => {
-    const url = `/apps/${this.props.app.key}/segments/${this.props.segment.id}/${jwtToken}`
-    this.props.history.push(url)
-  }
+    const url = `/apps/${this.props.app.key}/segments/${this.props.segment.id}/${jwtToken}`;
+    this.props.history.push(url);
+  };
 
   displayName = (o) => {
-    return o.attribute.split('_').join(' ')
-  }
+    return o.attribute.split('_').join(' ');
+  };
 
   getTextForPredicate = (o) => {
     if (o.type === 'match') {
-      if (o.value === 'and') return I18n.t('segment_manager.match_all')
-      return I18n.t('segment_manager.match_any')
+      if (o.value === 'and') return I18n.t('segment_manager.match_all');
+      return I18n.t('segment_manager.match_any');
       //return `Match ${o.value === 'and' ? 'all' : 'any'} criteria`
     } else {
       return `${this.displayName(o)} ${o.comparison ? o.comparison : ''} ${
         o.value ? o.value : ''
-      }`
+      }`;
     }
-  }
+  };
 
   getStatePredicate = () => {
     return this.props.actions
       .getPredicates()
-      .find((o) => o.attribute === 'subscription_state')
-  }
+      .find((o) => o.attribute === 'subscription_state');
+  };
 
   caption = () => {
     return (
@@ -211,7 +209,7 @@ class AppUsers extends Component {
                   }
                   deletePredicate={this.props.actions.deletePredicate}
                 />
-              )
+              );
             })}
 
           <InlineFilterDialog
@@ -225,27 +223,27 @@ class AppUsers extends Component {
             segment={this.props.segment}
             savePredicates={this.props.actions.savePredicates}
             predicateCallback={() => {
-              const url = `/apps/${this.props.app.key}/segments/${this.props.segment.id}`
-              this.props.history.push(url)
+              const url = `/apps/${this.props.app.key}/segments/${this.props.segment.id}`;
+              this.props.history.push(url);
             }}
             deleteSegment={this.props.actions.deleteSegment}
           />
         </ButtonGroup>
       </div>
-    )
-  }
+    );
+  };
 
   showUserDrawer = (o) => {
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
-        this.props.dispatch(getAppUser(o.id))
+        this.props.dispatch(getAppUser(o.id));
       })
-    )
-  }
+    );
+  };
 
   getUserData = (id) => {
-    this.props.actions.setAppUser(id)
-  }
+    this.props.actions.setAppUser(id);
+  };
 
   render() {
     return (
@@ -308,15 +306,15 @@ class AppUsers extends Component {
 
         {this.props.searching && <Progress />}
       </Wrapper>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app, segment, app_users, app_user } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app, segment, app_users, app_user } = state;
+  const { loading, isAuthenticated } = auth;
 
-  const { searching, meta } = app_users
+  const { searching, meta } = app_users;
 
   return {
     app_user,
@@ -327,7 +325,7 @@ function mapStateToProps(state) {
     app,
     loading,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(AppContent))
+export default withRouter(connect(mapStateToProps)(AppContent));

@@ -8,6 +8,25 @@ import HeatMap from '@chaskiq/components/src/components/charts/heatMap';
 import Pie from '@chaskiq/components/src/components/charts/pie';
 import Count from '@chaskiq/components/src/components/charts/count';
 
+type DashboardDataType = {
+  meta: any;
+  data: any;
+  columns: any;
+  collection: any;
+};
+
+export type DashboardItemType = {
+  app: any;
+  kind: any;
+  dashboard: any;
+  chartType: any;
+  label: any;
+  appendLabel: any;
+  classes?: any;
+  styles: any;
+  pkg: any;
+};
+
 export default function DashboardItem({
   app,
   kind,
@@ -18,8 +37,8 @@ export default function DashboardItem({
   classes,
   styles,
   pkg,
-}) {
-  const [data, setData] = React.useState([]);
+}: DashboardItemType) {
+  const [data, setData] = React.useState<DashboardDataType>(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -75,13 +94,13 @@ export default function DashboardItem({
       case 'table':
         return (
           <DataTable
-            title={'invitations'}
+            //title={'invitations'}
+            //loading={false}
             meta={data.meta}
             data={data.collection}
-            search={handleSearch}
-            loading={false}
-            disablePagination={true}
             columns={data.columns}
+            search={handleSearch}
+            disablePagination={true}
             enableMapView={false}
           />
         );
@@ -89,9 +108,9 @@ export default function DashboardItem({
         return (
           <DashboardAppPackage
             data={data}
-            pkg={pkg}
+            //pkg={pkg}
             dashboard={dashboard}
-            classes={classes}
+            //classes={classes}
           />
         );
       default:

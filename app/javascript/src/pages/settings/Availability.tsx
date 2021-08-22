@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import I18n from '../../shared/FakeI18n'
-import Tooltip from 'rc-tooltip'
+import React, { useState, useEffect } from 'react';
+import I18n from '../../shared/FakeI18n';
+import Tooltip from 'rc-tooltip';
 
-import Button from '@chaskiq/components/src/components/Button'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import Hints from '@chaskiq/components/src/components/Hints'
-import { PlusIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
+import Button from '@chaskiq/components/src/components/Button';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import Hints from '@chaskiq/components/src/components/Hints';
+import { PlusIcon, DeleteIcon } from '@chaskiq/components/src/components/icons';
 
 export default function LanguageForm({
   settings,
@@ -13,22 +13,24 @@ export default function LanguageForm({
   _namespace,
   _fields,
 }) {
-  const [selectedOption, setSelectedOption] = React.useState(settings.replyTime)
-  const [records, setRecords] = useState(settings.teamSchedule)
+  const [selectedOption, setSelectedOption] = React.useState(
+    settings.replyTime
+  );
+  const [records, setRecords] = useState(settings.teamSchedule);
 
   function handleChange(e) {
-    setSelectedOption(e.target.value)
+    setSelectedOption(e.target.value);
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     const data = {
       app: {
         team_schedule: records,
         reply_time: selectedOption,
       },
-    }
-    update(data)
+    };
+    update(data);
   }
 
   return (
@@ -107,36 +109,36 @@ export default function LanguageForm({
         </Button>
       </div>
     </form>
-  )
+  );
 }
 
 function AvailabilitySchedule({ records, setRecords }) {
   function addRecord(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     const newRecords = records.concat({
       day: null,
       from: null,
       to: null,
-    })
+    });
 
-    setRecords(newRecords)
+    setRecords(newRecords);
   }
 
   function update(item, index) {
     const newRecords = records.map((o, i) => {
-      return i === index ? item : o
-    })
-    setRecords(newRecords)
+      return i === index ? item : o;
+    });
+    setRecords(newRecords);
   }
 
   function removeItem(index) {
-    const newRecords = records.filter((o, i) => i != index)
-    setRecords(newRecords)
+    const newRecords = records.filter((o, i) => i != index);
+    setRecords(newRecords);
   }
 
   return (
-    <div mt={2}>
+    <div>
       {records.map((o, index) => (
         <AvailabilityRecord
           key={index}
@@ -166,14 +168,14 @@ function AvailabilitySchedule({ records, setRecords }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function AvailabilityRecord({ record, update, index, removeItem }) {
-  const [item, setRecord] = useState(record)
+  const [item, setRecord] = useState(record);
 
   function handleChange(data) {
-    setRecord(Object.assign({}, item, data))
+    setRecord(Object.assign({}, item, data));
   }
 
   function genHours(_t1, _t2) {
@@ -183,16 +185,16 @@ function AvailabilityRecord({ record, update, index, removeItem }) {
         return ('0' + ~~(i / 4) + ':0' + 60 * ((i / 4) % 1)).replace(
           /\d(\d\d)/g,
           '$1'
-        )
-      })
+        );
+      });
   }
 
   useEffect(() => {
-    update(item, index)
-  }, [item])
+    update(item, index);
+  }, [item]);
 
   function deleteItem() {
-    removeItem(index)
+    removeItem(index);
   }
 
   return (
@@ -222,7 +224,7 @@ function AvailabilityRecord({ record, update, index, removeItem }) {
           defaultValue={{ label: item.from, value: item.from }}
           data={{}}
           onChange={(e) => {
-            handleChange({ from: e.value })
+            handleChange({ from: e.value });
           }}
           options={genHours('00:00', '23:30').map((o) => ({
             label: o,
@@ -253,5 +255,5 @@ function AvailabilityRecord({ record, update, index, removeItem }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }

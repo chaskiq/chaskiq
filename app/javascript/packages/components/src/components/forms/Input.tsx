@@ -35,14 +35,22 @@ interface IWrapperComponent {
   defaultValue?: any;
   defaultChecked?: any;
   disabled?: any;
+  checked?: boolean;
   handler?: any;
   error?: any;
   id?: any;
   theme?: any;
   props?: IWrapperComponentProps;
-  data: any;
+  data?: any;
   onChange?: (e: any) => void;
-  options: Array<any>;
+  options?: Array<any>;
+  autoFocus?: boolean;
+  placeholder?: string;
+  accept?: string;
+  labelMargin?: string;
+  variant?: string;
+  className?: string;
+  hideImage?: boolean;
 }
 
 const WrappedComponent = React.forwardRef(function Input(

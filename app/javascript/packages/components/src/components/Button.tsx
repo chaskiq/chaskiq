@@ -1,19 +1,12 @@
-// src/components/button.js
-import React from 'react';
-// import tw from 'tailwind.macro'
+import React, { CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-// https://nystudio107.com/blog/using-tailwind-css-with-gatsby-react-emotion-styled-components
-
-interface ButtonComponentProps {
-  variant?: any;
-  size?: any;
-  children?: React.ReactNode;
-}
 interface ButtonProps {
+  type?: 'button' | 'submit' | 'reset';
   children?: any;
   className?: any;
   onClick?: any;
+  color?: string;
   'aria-label'?: any;
   variant?:
     | 'success'
@@ -23,14 +16,18 @@ interface ButtonProps {
     | 'link'
     | 'clean'
     | 'outlined'
+    | 'contained'
     | 'outlined-transparent'
     | 'icon'
-    | 'danger';
+    | 'danger'
+    | 'text';
   size?: string;
   border?: boolean;
+  disabled?: boolean;
+  style?: CSSProperties;
 }
 
-const BaseButton = styled.button<ButtonComponentProps>`
+const BaseButton = styled.button<ButtonProps>`
   ${({ variant }) => {
     switch (variant) {
       case 'success':
@@ -188,7 +185,7 @@ const BaseButton = styled.button<ButtonComponentProps>`
   }}
 `;
 
-const SizeButton = styled(BaseButton)<ButtonComponentProps>`
+const SizeButton = styled(BaseButton)<ButtonProps>`
   ${({ size, variant }) => {
     switch (size) {
       case 'xs':

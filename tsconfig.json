@@ -16,7 +16,8 @@
     "**/*.spec.ts",
     "node_modules",
     "vendor",
-    "public"
+    "public",
+    "config/**/*"
   ],
   "compileOnSave": false,
   "include": [

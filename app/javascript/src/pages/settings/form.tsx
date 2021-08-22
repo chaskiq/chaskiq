@@ -1,36 +1,55 @@
-import React, { Component } from 'react'
-import serialize from 'form-serialize'
+import React, { Component } from 'react';
+import serialize from 'form-serialize';
 
 import FieldRenderer, {
   gridClasses,
-} from '@chaskiq/components/src/components/forms/FieldRenderer'
-import Button from '@chaskiq/components/src/components/Button'
-import Hints from '@chaskiq/components/src/components/Hints'
-import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'
-export default class SettingsForm extends Component {
+} from '@chaskiq/components/src/components/forms/FieldRenderer';
+import Button from '@chaskiq/components/src/components/Button';
+import Hints, { HintType } from '@chaskiq/components/src/components/Hints';
+import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter';
+
+type SettingsFormType = {
+  update: (data: any) => void;
+  hint?: HintType;
+  title: string;
+  definitions: any;
+  data: {
+    errors: any;
+  };
+};
+
+type SettingsFormState = {
+  selected: number;
+  data: any;
+  errors: any;
+};
+export default class SettingsForm extends Component<
+  SettingsFormType,
+  SettingsFormState
+> {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       selected: 0,
       data: {},
       errors: {},
-    }
+    };
   }
 
   tabs = () => {
-    var b = []
-    return b
-  }
+    var b = [];
+    return b;
+  };
 
   onSubmitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const serializedData = serialize(this.formRef, {
       hash: true,
       empty: true,
-    })
-    const data = toSnakeCase(serializedData)
-    this.props.update(data)
-  }
+    });
+    const data = toSnakeCase(serializedData);
+    this.props.update(data);
+  };
 
   render() {
     return (
@@ -39,7 +58,7 @@ export default class SettingsForm extends Component {
           name="create-repo"
           onSubmit={this.onSubmitHandler.bind(this)}
           ref={(form) => {
-            this.formRef = form
+            this.formRef = form;
           }}
         >
           {this.props.hint && <Hints type={this.props.hint} />}
@@ -67,7 +86,7 @@ export default class SettingsForm extends Component {
                     errors={this.props.data.errors || {}}
                   />
                 </div>
-              )
+              );
             })}
           </div>
 
@@ -80,6 +99,6 @@ export default class SettingsForm extends Component {
           </div>
         </form>
       </div>
-    )
+    );
   }
 }

@@ -1,46 +1,46 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Hints from '@chaskiq/components/src/components/Hints'
-import TextEditor from '@chaskiq/components/src/components/textEditor'
-import Button from '@chaskiq/components/src/components/Button'
-import EmptyView from '@chaskiq/components/src/components/EmptyView'
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
-import Tabs from '@chaskiq/components/src/components/Tabs'
+import Hints from '@chaskiq/components/src/components/Hints';
+import TextEditor from '@chaskiq/components/src/components/textEditor';
+import Button from '@chaskiq/components/src/components/Button';
+import EmptyView from '@chaskiq/components/src/components/EmptyView';
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
+import Tabs from '@chaskiq/components/src/components/Tabs';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
-import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries'
+import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries';
 
 import {
   QUICK_REPLY_CREATE,
   QUICK_REPLY_UPDATE,
   QUICK_REPLY_DELETE,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 function QuickReplies({ app, _update, dispatch }) {
-  const [quickReplies, setQuickReplies] = React.useState([])
-  const [quickReply, setQuickReply] = React.useState(null)
-  const [loading, setLoading] = React.useState(false)
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
-  const [lang, setLang] = React.useState(app.availableLanguages[0] || 'en')
+  const [quickReplies, setQuickReplies] = React.useState([]);
+  const [quickReply, setQuickReply] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null);
+  const [lang, setLang] = React.useState(app.availableLanguages[0] || 'en');
 
-  const inputRef = React.useRef(null)
-
-  React.useEffect(() => {
-    getQuickReplies()
-  }, [])
+  const inputRef = React.useRef(null);
 
   React.useEffect(() => {
-    if (quickReply) getQuickReply(quickReply)
-  }, [lang])
+    getQuickReplies();
+  }, []);
+
+  React.useEffect(() => {
+    if (quickReply) getQuickReply(quickReply);
+  }, [lang]);
 
   function getQuickReplies() {
     graphql(
@@ -51,11 +51,11 @@ function QuickReplies({ app, _update, dispatch }) {
       },
       {
         success: (data) => {
-          setQuickReplies(data.app.quickReplies)
+          setQuickReplies(data.app.quickReplies);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function createQuickReply() {
@@ -69,15 +69,15 @@ function QuickReplies({ app, _update, dispatch }) {
       },
       {
         success: (data) => {
-          setQuickReply(data.createQuickReply.quickReply)
-          getQuickReplies()
-          dispatch(successMessage(I18n.t('quick_replies.create.success')))
+          setQuickReply(data.createQuickReply.quickReply);
+          getQuickReplies();
+          dispatch(successMessage(I18n.t('quick_replies.create.success')));
         },
         error: (_err) => {
-          dispatch(errorMessage(I18n.t('quick_replies.create.success')))
+          dispatch(errorMessage(I18n.t('quick_replies.create.success')));
         },
       }
-    )
+    );
   }
 
   function updateQuickReply() {
@@ -92,19 +92,19 @@ function QuickReplies({ app, _update, dispatch }) {
       },
       {
         success: (data) => {
-          setQuickReply(data.updateQuickReply.quickReply)
-          getQuickReplies()
-          dispatch(successMessage(I18n.t('quick_replies.update.success')))
+          setQuickReply(data.updateQuickReply.quickReply);
+          getQuickReplies();
+          dispatch(successMessage(I18n.t('quick_replies.update.success')));
         },
         error: (_err) => {
-          dispatch(errorMessage(I18n.t('quick_replies.update.error')))
+          dispatch(errorMessage(I18n.t('quick_replies.update.error')));
         },
       }
-    )
+    );
   }
 
   function getQuickReply(o) {
-    setLoading(true)
+    setLoading(true);
     graphql(
       QUICK_REPLY,
       {
@@ -114,19 +114,19 @@ function QuickReplies({ app, _update, dispatch }) {
       },
       {
         success: (data) => {
-          setQuickReply(data.app.quickReply)
-          setLoading(false)
+          setQuickReply(data.app.quickReply);
+          setLoading(false);
         },
         error: (_err) => {
-          setLoading(false)
-          dispatch(errorMessage(I18n.t('quick_replies.update.error')))
+          setLoading(false);
+          dispatch(errorMessage(I18n.t('quick_replies.update.error')));
         },
       }
-    )
+    );
   }
 
   function availableLanguages() {
-    return app.availableLanguages || ['en']
+    return app.availableLanguages || ['en'];
   }
 
   function deleteBotTask() {
@@ -138,28 +138,28 @@ function QuickReplies({ app, _update, dispatch }) {
       },
       {
         success: (_data) => {
-          setQuickReply(null)
-          getQuickReplies()
-          setOpenDeleteDialog(false)
-          dispatch(successMessage('quick reply deleted successfully'))
+          setQuickReply(null);
+          getQuickReplies();
+          setOpenDeleteDialog(false);
+          dispatch(successMessage('quick reply deleted successfully'));
         },
         error: (_err) => {
-          setOpenDeleteDialog(false)
-          dispatch(errorMessage('error deleting quick reply'))
+          setOpenDeleteDialog(false);
+          dispatch(errorMessage('error deleting quick reply'));
         },
       }
-    )
+    );
   }
 
   function createNewQuickReply() {
-    setQuickReply(null)
+    setQuickReply(null);
     setTimeout(() => {
       setQuickReply({
         id: null,
         title: null,
         content: null,
-      })
-    }, 400)
+      });
+    }, 400);
   }
 
   function updateState(data) {
@@ -168,33 +168,33 @@ function QuickReplies({ app, _update, dispatch }) {
       content: data.content.serialized,
       title: inputRef.current.value,
       lang: lang,
-    })
+    });
   }
 
   function updateStateFromInput() {
     setQuickReply({
       ...quickReply,
       title: inputRef.current.value,
-    })
+    });
   }
 
   function handleSave() {
-    createQuickReply()
+    createQuickReply();
   }
 
   function isSelected(o) {
-    if (!quickReply) return ''
-    return o.id === quickReply.id ? 'bg-blue-100' : ''
+    if (!quickReply) return '';
+    return o.id === quickReply.id ? 'bg-blue-100' : '';
   }
 
   function uploadHandler({ serviceUrl, _signedBlobId, imageBlock }) {
-    imageBlock.uploadCompleted(serviceUrl)
+    imageBlock.uploadCompleted(serviceUrl);
   }
 
   function renderEditor({ lang }) {
-    if (!quickReply) return
+    if (!quickReply) return;
 
-    console.log()
+    console.log();
 
     return (
       <div className="py-2">
@@ -226,14 +226,14 @@ function QuickReplies({ app, _update, dispatch }) {
           )}
         </div>
       </div>
-    )
+    );
   }
 
   function tabs() {
     return availableLanguages().map((lang) => ({
       label: lang,
       content: quickReply && renderEditor({ lang: lang }),
-    }))
+    }));
   }
 
   return (
@@ -285,8 +285,8 @@ function QuickReplies({ app, _update, dispatch }) {
                   <a
                     href="#"
                     onClick={(e) => {
-                      e.preventDefault()
-                      getQuickReply(o)
+                      e.preventDefault();
+                      getQuickReply(o);
                     }}
                     className="block focus:outline-none transition duration-150 ease-in-out"
                   >
@@ -356,7 +356,7 @@ function QuickReplies({ app, _update, dispatch }) {
               <Tabs
                 tabs={tabs()}
                 onChange={(tab, _index) => {
-                  setLang(availableLanguages()[tab])
+                  setLang(availableLanguages()[tab]);
                 }}
               />
             )}
@@ -368,39 +368,54 @@ function QuickReplies({ app, _update, dispatch }) {
                   name: openDeleteDialog.title,
                 })}
                 closeHandler={() => {
-                  setOpenDeleteDialog(null)
+                  setOpenDeleteDialog(null);
                 }}
                 deleteHandler={deleteBotTask}
               >
-                <p variant="subtitle2">{I18n.t('quick_replies.delete.hint')}</p>
+                <p>{I18n.t('quick_replies.delete.hint')}</p>
               </DeleteDialog>
             )}
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(QuickReplies))
+export default withRouter(connect(mapStateToProps)(QuickReplies));
 
-class ArticleEditor extends Component {
+type ArticleEditorProps = {
+  app: any;
+  article: any;
+  updateState: (data: any) => void;
+  loading: boolean;
+  read_only: boolean;
+  uploadHandler: (data: any) => void;
+};
+
+type ArticleEditorState = {
+  read_only?: boolean;
+  data: any;
+  status: string;
+  statusButton: string;
+};
+class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       read_only: false,
       data: {},
       status: '',
       statusButton: 'inprogress',
-    }
+    };
   }
 
   saveContent = (content) => {
@@ -411,17 +426,17 @@ class ArticleEditor extends Component {
         html: content.html,
         serialized: content.serialized,
       },
-    })
-  }
+    });
+  };
 
   isLoading = () => {
-    return this.props.loading
-  }
+    return this.props.loading;
+  };
 
   render() {
-    const content = this.props.article
+    const content = this.props.article;
 
-    const serializedContent = content ? content.serialized_content : null
+    const serializedContent = content ? content.serialized_content : null;
 
     return (
       <TextEditor
@@ -432,7 +447,7 @@ class ArticleEditor extends Component {
         toggleEditable={() => {
           this.setState({
             read_only: !this.state.read_only,
-          })
+          });
         }}
         serializedContent={serializedContent}
         data={{
@@ -443,10 +458,10 @@ class ArticleEditor extends Component {
           fontSize: '1.2em',
         }}
         updateState={({ _status, _statusButton, content }) => {
-          console.log('get content', content)
-          this.saveContent(content)
+          console.log('get content', content);
+          this.saveContent(content);
         }}
       />
-    )
+    );
   }
 }

@@ -3,7 +3,22 @@
 import React from 'react';
 import moment from 'moment';
 
-export default function Count({ data, label, appendLabel, subtitle }) {
+type CountType = {
+  data: any;
+  label: any;
+  appendLabel?: any;
+  subtitle?: any;
+  from?: any;
+  to?: any;
+};
+export default function Count({
+  data,
+  label,
+  appendLabel,
+  subtitle,
+  from,
+  to,
+}: CountType) {
   return (
     <React.Fragment>
       <div className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 truncate">

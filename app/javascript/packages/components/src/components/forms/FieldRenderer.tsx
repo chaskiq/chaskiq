@@ -22,13 +22,13 @@ interface FieldRendererProps {
   type: string;
   data?: any;
   props: any;
-  errors: any[];
-  errorNamespace: string;
+  errors: any;
+  errorNamespace?: string;
   handler?: (n: any) => any;
-  accept?: boolean;
-  defaultChecked: boolean;
-  value: string;
-  id: string | number;
+  accept?: string;
+  defaultChecked?: boolean;
+  value?: string;
+  id?: string | number;
 }
 
 class FieldRenderer extends React.Component<FieldRendererProps> {
@@ -63,7 +63,6 @@ class FieldRenderer extends React.Component<FieldRendererProps> {
           data={data}
           label={data.label || data.name}
           error={errorMessage}
-          variant="standard"
           type={type}
           placeholder={data.placeholder}
           options={data.options}

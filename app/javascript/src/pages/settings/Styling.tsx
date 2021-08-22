@@ -1,11 +1,11 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 // import {ColorPicker} from '../../shared/FormFields'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
-import Button from '@chaskiq/components/src/components/Button'
-import { ColorPicker } from '@chaskiq/components/src/components/forms/ColorPicker'
+import Button from '@chaskiq/components/src/components/Button';
+import { ColorPicker } from '@chaskiq/components/src/components/forms/ColorPicker';
 
 const PatternButton = styled.button`
   padding: 0px;
@@ -13,23 +13,26 @@ const PatternButton = styled.button`
   display: inline-block;
   width: 60px;
   height: 60px;
-`
+`;
 
-const Image = styled.div`
+type ImageType = {
+  image?: string;
+};
+const Image = styled.div<ImageType>`
   width: 60px;
   height: 60px;
 
   ${(props) => {
-    return props.image ? `background-image: url(${props.image});` : ''
+    return props.image ? `background-image: url(${props.image});` : '';
   }}
 
   background-size: 310px 310px,cover;
-`
+`;
 
 function CustomizationColors({ settings, update, _dispatch }) {
   const [state, setState] = React.useState({
     customization_colors: settings.customizationColors || {},
-  })
+  });
 
   /*const handleChange = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked })
@@ -59,31 +62,31 @@ function CustomizationColors({ settings, update, _dispatch }) {
     'intersection',
     'doodles',
     'memphis-colorful',
-  ]
+  ];
 
   const pattern_base_url =
-    'https://www.toptal.com/designers/subtlepatterns/patterns/'
+    'https://www.toptal.com/designers/subtlepatterns/patterns/';
 
   const patterns = names.map((o) => {
-    return { name: o, url: pattern_base_url + o + '.png' }
-  })
+    return { name: o, url: pattern_base_url + o + '.png' };
+  });
 
   function handleSubmit() {
-    const { customization_colors } = state
+    const { customization_colors } = state;
 
     const data = {
       app: {
         customization_colors: customization_colors,
       },
-    }
-    update(data)
+    };
+    update(data);
   }
 
   function selectPattern(pattern) {
     const color = Object.assign({}, state.customization_colors, {
       pattern: pattern ? pattern.url : null,
-    })
-    setState({ customization_colors: color })
+    });
+    setState({ customization_colors: color });
   }
 
   return (
@@ -101,8 +104,8 @@ function CustomizationColors({ settings, update, _dispatch }) {
             colorHandler={(hex) => {
               const color = Object.assign({}, state.customization_colors, {
                 primary: hex,
-              })
-              setState({ customization_colors: color })
+              });
+              setState({ customization_colors: color });
             }}
             label={'Primary color'}
           />
@@ -115,8 +118,8 @@ function CustomizationColors({ settings, update, _dispatch }) {
             colorHandler={(hex) => {
               const color = Object.assign({}, state.customization_colors, {
                 secondary: hex,
-              })
-              setState({ customization_colors: color })
+              });
+              setState({ customization_colors: color });
             }}
             label={'Secondary color'}
           />
@@ -139,7 +142,7 @@ function CustomizationColors({ settings, update, _dispatch }) {
                 >
                   <Image image={o.url} />
                 </PatternButton>
-              )
+              );
             })}
 
             <p className="text-md leading-6 font-medium text-gray-400 pb-2">
@@ -174,14 +177,14 @@ function CustomizationColors({ settings, update, _dispatch }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { drawer } = state
+  const { drawer } = state;
   return {
     drawer,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(CustomizationColors))
+export default withRouter(connect(mapStateToProps)(CustomizationColors));

@@ -1,17 +1,17 @@
-import React from 'react'
-import langsOptions from '../../shared/langsOptions'
-import serialize from 'form-serialize'
+import React from 'react';
+import langsOptions from '../../shared/langsOptions';
+import serialize from 'form-serialize';
 
-import Button from '@chaskiq/components/src/components/Button'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import DataTable from '@chaskiq/components/src/components/Table'
-import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'
+import Button from '@chaskiq/components/src/components/Button';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import DataTable from '@chaskiq/components/src/components/Table';
+import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter';
 
 export default function LanguageForm({ settings, update, namespace, fields }) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [selectedLang, _setSelectedLang] = React.useState(null)
-  const formRef = React.createRef()
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedLang, _setSelectedLang] = React.useState(null);
+  const formRef = React.createRef();
 
   function handleChange(value) {
     /*const serializedData = serialize(formRef.current, {
@@ -20,22 +20,22 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
     })*/
     //const data = toSnakeCase(serializedData)
 
-    const next = {}
+    const next = {};
 
     fields.map((field) => {
       if (field !== 'locale') {
-        next[`${field}_${value}`] = ''
+        next[`${field}_${value}`] = '';
       }
-    })
+    });
 
     // const newData = Object.assign({}, data.settings, next)
-    const newData = Object.assign({}, { key: settings.key }, next)
-    update({ app: newData })
-    toggleDialog()
+    const newData = Object.assign({}, { key: settings.key }, next);
+    update({ app: newData });
+    toggleDialog();
   }
 
   function close() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function renderLangDialog() {
@@ -80,21 +80,21 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
           // heading={this.props.title}
         ></FormDialog>
       )
-    )
+    );
   }
 
   function toggleDialog() {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
-    })
-    const data = toSnakeCase(serializedData)
-    update(data)
+    });
+    const data = toSnakeCase(serializedData);
+    update(data);
   }
 
   function columns() {
@@ -119,16 +119,15 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
                   label={false}
                   defaultValue={row[field]}
                   name={`${namespace}[${field}_${row.locale}]`}
-                  margin="normal"
                 />
               )}
             </div>
           )
-        )
+        );
       },
-    }))
+    }));
 
-    return cols
+    return cols;
     // return [{field: 'lang', title: 'lang', value: field}].concat(cols)
   }
 
@@ -180,5 +179,5 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
 
       {renderLangDialog()}
     </div>
-  )
+  );
 }

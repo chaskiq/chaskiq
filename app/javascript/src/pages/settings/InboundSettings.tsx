@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Button from '@chaskiq/components/src/components/Button'
-import SegmentManager from '@chaskiq/components/src/components/segmentManager'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import userFormat from '@chaskiq/components/src/components/Table/userFormat'
-import Hints from '@chaskiq/components/src/components/Hints'
-import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch'
+import Button from '@chaskiq/components/src/components/Button';
+import SegmentManager from '@chaskiq/components/src/components/segmentManager';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import userFormat from '@chaskiq/components/src/components/Table/userFormat';
+import Hints from '@chaskiq/components/src/components/Hints';
+import ButtonTabSwitch from '@chaskiq/components/src/components/ButtonTabSwitch';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { parseJwt, generateJWT } from '@chaskiq/store/src/jwt'
+import { parseJwt, generateJWT } from '@chaskiq/store/src/jwt';
 
-import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
 
-import { getAppUser } from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user';
 
-import { PREDICATES_SEARCH } from '@chaskiq/store/src/graphql/mutations'
-import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
+import { PREDICATES_SEARCH } from '@chaskiq/store/src/graphql/mutations';
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 
 function InboundSettings({ settings, update, dispatch }) {
   const options = [
@@ -34,15 +34,15 @@ function InboundSettings({ settings, update, dispatch }) {
       i18n: 'leads',
       classes: 'rounded-r-lg',
     },
-  ]
+  ];
 
-  const [option, setOption] = React.useState(options[0])
+  const [option, setOption] = React.useState(options[0]);
 
   const activeClass =
-    'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none'
+    'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none';
 
   function handleClick(o) {
-    setOption(o)
+    setOption(o);
   }
 
   return (
@@ -64,7 +64,7 @@ function InboundSettings({ settings, update, dispatch }) {
         />
       </ErrorBoundary>
     </div>
-  )
+  );
 }
 
 function RepliesClosedConversationsControls({
@@ -73,10 +73,10 @@ function RepliesClosedConversationsControls({
   handleChangeNumber,
   state,
 }) {
-  const afterKind = `${kind}_after`
-  const enabledKind = `${kind}_enabled`
+  const afterKind = `${kind}_after`;
+  const enabledKind = `${kind}_enabled`;
 
-  const enabledValue = state[enabledKind]
+  const enabledValue = state[enabledKind];
   return (
     <div>
       <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
@@ -89,10 +89,9 @@ function RepliesClosedConversationsControls({
           checked={enabledValue}
           defaultValue={enabledValue}
           onChange={(e) => {
-            handleChangeNumber(enabledKind, e.currentTarget.checked)
+            handleChangeNumber(enabledKind, e.currentTarget.checked);
           }}
           value={enabledValue}
-          color="primary"
           label={
             !enabledValue
               ? I18n.t('settings.inbound.closed_replies_enabled')
@@ -105,21 +104,20 @@ function RepliesClosedConversationsControls({
             <Input
               type="number"
               onChange={(e) => {
-                const num = parseInt(e.currentTarget.value)
-                if (num < 0) return
-                handleChangeNumber(afterKind, num)
+                const num = parseInt(e.currentTarget.value);
+                if (num < 0) return;
+                handleChangeNumber(afterKind, num);
               }}
               value={state[afterKind]}
               className="flex flex-row-reverse space-x-2"
               labelMargin={'mx-3 py-2'}
-              color="primary"
               label={I18n.t('common.days')}
             />
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function InboundSettingsForm({ settings, update, dispatch, option }) {
@@ -143,18 +141,18 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
       settings.inboundSettings.visitors.close_conversations_enabled,
     visitors_close_conversations_after:
       settings.inboundSettings.visitors.close_conversations_after || 0,
-  })
+  });
 
   const handleChange = (name, event) => {
-    setState({ ...state, [name]: event.target.checked })
-  }
+    setState({ ...state, [name]: event.target.checked });
+  };
 
   const handleChangeNumber = (name, val) => {
-    setState({ ...state, [name]: val })
-  }
+    setState({ ...state, [name]: val });
+  };
 
   function setPredicates(name, value) {
-    setState({ ...state, [name]: value })
+    setState({ ...state, [name]: value });
   }
 
   function handleSubmit() {
@@ -172,7 +170,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
       visitors_close_conversations_enabled,
       users_close_conversations_after,
       users_close_conversations_enabled,
-    } = state
+    } = state;
 
     const data = {
       app: {
@@ -196,8 +194,8 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
           },
         },
       },
-    }
-    update(data)
+    };
+    update(data);
   }
 
   return (
@@ -216,7 +214,6 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
           checked={state.enable_inbound}
           onChange={(e) => handleChange('enable_inbound', e)}
           value={state.enable_inbound}
-          color="primary"
           label={I18n.t('settings.inbound.checkbox')}
         />
       </div>
@@ -253,7 +250,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         <hr />
         <AppSegmentManager
           app={settings}
-          label={I18n.t(`settings.inbound.filters.${option.i18n}.label`)}
+          //label={I18n.t(`settings.inbound.filters.${option.i18n}.label`)}
           namespace={option.namespace}
           all={I18n.t(`settings.inbound.filters.${option.i18n}.all`)}
           checked={state[`${option.namespace}_enabled`]}
@@ -281,17 +278,30 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { drawer } = state
+  const { drawer } = state;
   return {
     drawer,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(InboundSettings))
+export default withRouter(connect(mapStateToProps)(InboundSettings));
+
+type AppSegmentManagerType = {
+  app: any;
+  all: any;
+  some: any;
+  checked: any;
+  updateChecked: any;
+  namespace: any;
+  predicates: any;
+  setPredicates: any;
+  radioValue: any;
+  dispatch: any;
+};
 
 function AppSegmentManager({
   app,
@@ -304,14 +314,14 @@ function AppSegmentManager({
   setPredicates,
   radioValue,
   dispatch,
-}) {
+}: AppSegmentManagerType) {
   function handleChangeRadio(e) {
-    setPredicates(`${namespace}_radio`, e.target.value)
+    setPredicates(`${namespace}_radio`, e.target.value);
   }
 
   function updatePredicates(data, cb) {
-    setPredicates(`${namespace}Predicates`, data.segments)
-    cb && cb()
+    setPredicates(`${namespace}Predicates`, data.segments);
+    cb && cb();
   }
 
   return (
@@ -324,7 +334,6 @@ function AppSegmentManager({
             defaultChecked={checked}
             onChange={(e) => updateChecked(`${namespace}_enabled`, e)}
             value={checked}
-            color="primary"
             label={namespace}
           />
         </div>
@@ -365,18 +374,32 @@ function AppSegmentManager({
         ) : null}
       </div>
     </div>
-  )
+  );
 }
 
-class AppSegment extends Component {
+type AppSegmentProps = {
+  data: any;
+  app: any;
+  updateData: (data: any, cb: any) => any;
+  dispatch: (data: any) => any;
+};
+
+type AppSegmentState = {
+  jwt: any;
+  app_users: Array<any>;
+  search: boolean;
+  meta: any;
+  searching?: boolean;
+};
+class AppSegment extends Component<AppSegmentProps, AppSegmentState> {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       jwt: null,
       app_users: [],
       search: false,
       meta: {},
-    }
+    };
   }
 
   componentDidMount() {
@@ -384,24 +407,24 @@ class AppSegment extends Component {
       this.props.app.segments[0].id
     ) */
 
-    this.search()
+    this.search();
   }
 
-  updateData = (data, cb) => {
+  updateData = (data: any, cb?: () => void) => {
     const newData = Object.assign({}, this.props.data, {
       segments: data.data,
-    })
-    this.props.updateData(newData, cb ? cb() : null)
-  }
+    });
+    this.props.updateData(newData, cb ? cb() : null);
+  };
 
   updatePredicate = (data, cb) => {
-    const jwtToken = generateJWT(data)
+    const jwtToken = generateJWT(data);
     // console.log(parseJwt(jwtToken))
-    if (cb) cb(jwtToken)
+    if (cb) cb(jwtToken);
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
-    )
-  }
+    );
+  };
 
   addPredicate = (data, cb) => {
     const pending_predicate = {
@@ -409,37 +432,37 @@ class AppSegment extends Component {
       comparison: null,
       type: data.type,
       value: data.value,
-    }
+    };
 
-    const new_predicates = this.props.data.segments.concat(pending_predicate)
-    const jwtToken = generateJWT(new_predicates)
+    const new_predicates = this.props.data.segments.concat(pending_predicate);
+    const jwtToken = generateJWT(new_predicates);
     // console.log(parseJwt(jwtToken))
-    if (cb) cb(jwtToken)
+    if (cb) cb(jwtToken);
 
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt))
-    )
-  }
+    );
+  };
 
   deletePredicate(data) {
-    const jwtToken = generateJWT(data)
+    const jwtToken = generateJWT(data);
     this.setState({ jwt: jwtToken }, () =>
       this.updateData(parseJwt(this.state.jwt), this.search)
-    )
+    );
   }
 
-  search = (page) => {
-    this.setState({ searching: true })
+  search = (page?: number) => {
+    this.setState({ searching: true });
     // jwt or predicates from segment
     // console.log(this.state.jwt)
     const data = this.state.jwt
       ? parseJwt(this.state.jwt).data
-      : this.props.data.segments
+      : this.props.data.segments;
     const predicates_data = {
       data: {
         predicates: data.filter((o) => o.comparison),
       },
-    }
+    };
 
     graphql(
       PREDICATES_SEARCH,
@@ -451,25 +474,25 @@ class AppSegment extends Component {
       },
       {
         success: (data) => {
-          const appUsers = data.predicatesSearch.appUsers
+          const appUsers = data.predicatesSearch.appUsers;
           this.setState({
             app_users: appUsers.collection,
             meta: appUsers.meta,
             searching: false,
-          })
+          });
         },
         error: (_error) => {},
       }
-    )
-  }
+    );
+  };
 
   showUserDrawer = (o) => {
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
-        this.props.dispatch(getAppUser(o.id))
+        this.props.dispatch(getAppUser(o.id));
       })
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -483,7 +506,6 @@ class AppSegment extends Component {
         addPredicate={this.addPredicate.bind(this)}
         deletePredicate={this.deletePredicate.bind(this)}
         search={this.search.bind(this)}
-        loading={this.props.searching}
         columns={userFormat(this.showUserDrawer, this.props.app)}
         defaultHiddenColumnNames={[
           'id',
@@ -526,6 +548,6 @@ class AppSegment extends Component {
           </Button> : null
       */}
       </SegmentManager>
-    )
+    );
   }
 }

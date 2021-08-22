@@ -1,22 +1,23 @@
-import React, { Component } from 'react'
-import Tooltip from 'rc-tooltip'
-import FormDialog from '../FormDialog'
-import DataTable from '../Table'
-import SegmentItemButton from './itemButton'
-import { fromJS } from 'immutable'
-import Dropdown from '../Dropdown'
-import Button, { ButtonIndigo } from '../Button'
+import React, { Component } from 'react';
+import Tooltip from 'rc-tooltip';
+import FormDialog from '../FormDialog';
+import DataTable from '../Table';
+import SegmentItemButton from './itemButton';
+import { fromJS } from 'immutable';
+import Dropdown from '../Dropdown';
+import Button, { ButtonIndigo } from '../Button';
+import { PredicateType } from './types';
 
 // import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
-import defaultFields from '../../utils/defaultFields'
+import defaultFields from '../../utils/defaultFields';
 
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import { SaveIcon, DeleteIcon, PlusIcon } from '../icons'
+import { SaveIcon, DeleteIcon, PlusIcon } from '../icons';
 
 const ButtonGroup = styled.div`
   //display: inline-flex;
@@ -31,23 +32,44 @@ const ButtonGroup = styled.div`
     margin-right: 5px !important;
     margin: 2px;
   }
-`
+`;
 
 function Spinner() {
-  return <p>run run run...</p>
+  return <p>run run run...</p>;
 }
 
-export class SaveSegmentModal extends Component {
+type SaveSegmentModalType = {
+  savePredicates: (value: any, callback: any) => void;
+  predicateCallback: any;
+  deleteSegment: any;
+  segment: {
+    id: string;
+    name: string;
+    predicates: Array<PredicateType>;
+    initialPredicates: Array<PredicateType>;
+  };
+};
+
+type SegmentManagerType = {
+  app: any;
+  store: any;
+  history: any;
+  predicates: Array<PredicateType>;
+  updatePredicate: any;
+  deletePredicate: any;
+};
+
+export class SaveSegmentModal extends Component<SaveSegmentModalType> {
   state = {
     isOpen: false,
     action: 'update',
     loading: false,
     input: null,
-  }
+  };
 
-  open = () => this.setState({ isOpen: true })
-  close = () => this.setState({ isOpen: false })
-  input_ref = null
+  open = () => this.setState({ isOpen: true });
+  close = () => this.setState({ isOpen: false });
+  input_ref = null;
 
   secondaryAction = ({ _target }) => {
     this.props.savePredicates(
@@ -56,34 +78,34 @@ export class SaveSegmentModal extends Component {
         input: this.input_ref ? this.input_ref.value : null,
       },
       () => {
-        this.close()
-        if (this.props.predicateCallback) this.props.predicateCallback()
+        this.close();
+        if (this.props.predicateCallback) this.props.predicateCallback();
       }
-    )
-  }
+    );
+  };
 
   deleteAction = ({ _target }) => {
-    this.props.deleteSegment(this.props.segment.id, this.close)
-  }
+    this.props.deleteSegment(this.props.segment.id, this.close);
+  };
 
   handleChange = ({ target }) => {
     this.setState({
       action: target.value,
-    })
-  }
+    });
+  };
 
   equalPredicates = () => {
     return fromJS(this.props.segment.predicates).equals(
       fromJS(this.props.segment.initialPredicates)
-    )
-  }
+    );
+  };
 
   incompletePredicates = () => {
-    return this.props.segment.predicates.find((o) => !o.comparison || !o.value)
-  }
+    return this.props.segment.predicates.find((o) => !o.comparison || !o.value);
+  };
 
   render() {
-    const { isOpen, loading } = this.state
+    const { isOpen, loading } = this.state;
 
     return (
       <React.Fragment>
@@ -168,10 +190,8 @@ export class SaveSegmentModal extends Component {
                     <input
                       className="mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                       autoFocus
-                      margin="dense"
                       id="name"
                       name="name"
-                      label="name"
                       type="email"
                       ref={(input) => (this.input_ref = input)}
                     />
@@ -208,27 +228,27 @@ export class SaveSegmentModal extends Component {
           ></FormDialog>
         )}
       </React.Fragment>
-    )
+    );
   }
 }
 
 export function InlineFilterDialog({ addPredicate, app, fields }) {
-  const [dialogOpen, setDialogOpen] = React.useState(false)
+  const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const handleClick = (e, o) => {
     addPredicate(o, (_token) => {
       // this.props.handleClick(token)
-      setDialogOpen(false)
-    })
-  }
+      setDialogOpen(false);
+    });
+  };
 
   const availableFields = () => {
-    if (fields) return fields
-    if (!app.customFields) return defaultFields
-    return app.customFields.concat(defaultFields)
-  }
+    if (fields) return fields;
+    if (!app.customFields) return defaultFields;
+    return app.customFields.concat(defaultFields);
+  };
 
-  const f = availableFields()
+  const f = availableFields();
 
   const content = (
     <div className="p-2--">
@@ -258,7 +278,7 @@ export function InlineFilterDialog({ addPredicate, app, fields }) {
         </ul>
       </div>
     </div>
-  )
+  );
 
   return (
     <div>
@@ -267,7 +287,6 @@ export function InlineFilterDialog({ addPredicate, app, fields }) {
         onOpen={(v) => setDialogOpen(v)}
         triggerButton={(cb) => (
           <Button
-            isLoading={false}
             variant="success"
             className="flex flex-wrap"
             color="primary"
@@ -281,18 +300,18 @@ export function InlineFilterDialog({ addPredicate, app, fields }) {
         {content}
       </Dropdown>
     </div>
-  )
+  );
 }
 
-class SegmentManager extends Component {
+class SegmentManager extends Component<SegmentManagerType> {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   handleClickOnSelectedFilter = (jwtToken) => {
-    const url = `/apps/${this.props.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`
-    this.props.history.push(url)
-  }
+    const url = `/apps/${this.props.app.key}/segments/${this.props.store.segment.id}/${jwtToken}`;
+    this.props.history.push(url);
+  };
 
   getTextForPredicate = (o) => {
     if (o.type === 'match') {
@@ -300,18 +319,18 @@ class SegmentManager extends Component {
         o.value === 'and'
           ? I18n.t('segment_manager.all')
           : I18n.t('segment_manager.any')
-      } ${I18n.t('segment_manager.criteria')}`
+      } ${I18n.t('segment_manager.criteria')}`;
     } else {
       return `Match: ${o.attribute} ${o.comparison ? o.comparison : ''} ${
         o.value ? o.value : ''
-      }`
+      }`;
     }
-  }
+  };
 
   render() {
     // this.props.actions.getPredicates()
     return (
-      <div mt={2}>
+      <div>
         <ButtonGroup>
           {this.props.predicates.map((o, i) => {
             return (
@@ -326,7 +345,7 @@ class SegmentManager extends Component {
                 updatePredicate={this.props.updatePredicate}
                 deletePredicate={this.props.deletePredicate}
               />
-            )
+            );
           })}
 
           <InlineFilterDialog
@@ -357,15 +376,15 @@ class SegmentManager extends Component {
           />
         }
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(SegmentManager))
+export default withRouter(connect(mapStateToProps)(SegmentManager));

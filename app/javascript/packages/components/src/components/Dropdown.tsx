@@ -4,11 +4,11 @@ import Button from './Button';
 
 type DropdownProps = {
   children: React.ReactChild;
-  labelButton: string;
+  labelButton?: string;
   triggerButton?: (fn: any) => React.ReactElement<any>;
-  isOpen: boolean;
-  position: string;
-  origin: string;
+  isOpen?: boolean;
+  position?: string;
+  origin?: string;
   onOpen?: (value: boolean) => void;
 };
 

@@ -15,7 +15,11 @@ function FormField({ name, label, helperText, children }) {
   );
 }
 
-const TextArea = styled.div`
+type TextAreaType = {
+  error: any;
+};
+
+const TextArea = styled.div<TextAreaType>`
   ${() => tw`flex flex-col`}
 
   label {
@@ -34,7 +38,24 @@ const TextArea = styled.div`
   }
 `;
 
-export function TextAreaRenderer({ field, loading }) {
+type TextAreaFieldType = {
+  id: string;
+  name: string;
+  disabled?: boolean;
+  loading?: boolean;
+  errors?: any;
+  label?: string;
+  hint?: string;
+  placeholder?: string;
+  value?: string;
+};
+
+type TextAreaRendererType = {
+  loading?: boolean;
+  field: TextAreaFieldType;
+};
+
+export function TextAreaRenderer({ field, loading }: TextAreaRendererType) {
   return (
     <FormField name={field.name} label={field.label} helperText={field.hint}>
       <TextArea error={field.errors}>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export type Props = {
-  title: string;
+  title: string | React.ReactNode;
   breadcrumbs?: Array<IBreadCrumbs>;
   actions?: React.ReactNode;
 };

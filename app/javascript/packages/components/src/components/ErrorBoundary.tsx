@@ -1,7 +1,7 @@
 import React from 'react';
 
 type Props = {
-  variant: string;
+  variant?: string;
 };
 
 type State = {

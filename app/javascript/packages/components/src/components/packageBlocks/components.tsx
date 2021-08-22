@@ -45,6 +45,16 @@ function ContentRenderer({
   );
 }
 
+type DefinitionRendererType = {
+  schema: any;
+  values?: any;
+  updatePackage?: any;
+  disabled?: any;
+  location?: any;
+  size?: any;
+  appPackage?: any;
+};
+
 export function DefinitionRenderer({
   schema,
   values,
@@ -53,7 +63,7 @@ export function DefinitionRenderer({
   location,
   size,
   appPackage,
-}) {
+}: DefinitionRendererType) {
   const [loading, setLoading] = React.useState(false);
 
   const form = React.createRef();
@@ -109,7 +119,10 @@ export function DefinitionRenderer({
       case 'data-table':
         return (
           <Padder>
-            <DataTableRenderer loading={loading} field={field} />
+            <DataTableRenderer
+              //loading={loading}
+              field={field}
+            />
           </Padder>
         );
       case 'single-select':
@@ -117,7 +130,7 @@ export function DefinitionRenderer({
           <Padder>
             <SingleSelectRenderer
               field={field}
-              loading={loading}
+              //loading={loading}
               disabled={disabled}
               handleAction={handleAction}
             />
@@ -139,7 +152,7 @@ export function DefinitionRenderer({
           <Padder>
             <DropdownRenderer
               field={field}
-              loading={loading}
+              //loading={loading}
               handleAction={handleAction}
             />
           </Padder>
@@ -149,7 +162,10 @@ export function DefinitionRenderer({
       case 'checkbox':
         return (
           <Padder>
-            <CheckBoxesRenderer loading={loading} field={field} />
+            <CheckBoxesRenderer
+              // loading={loading}
+              field={field}
+            />
           </Padder>
         );
       case 'button':
@@ -158,7 +174,7 @@ export function DefinitionRenderer({
             <ButtonWrapper align={field.align}>
               <Button
                 size={size === 'sm' ? 'xs' : field.size}
-                loading={loading || undefined}
+                // loading={loading || undefined}
                 disabled={disabled || loading}
                 variant={field.variant}
                 width={field.width}

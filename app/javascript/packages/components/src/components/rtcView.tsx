@@ -1,11 +1,16 @@
-import React from 'react'
-import styled from '@emotion/styled'
+import React from 'react';
+import styled from '@emotion/styled';
 
-export const ModalWrapper = styled.div`
+type videoSessionType = {
+  videoSession?: any;
+  expanded?: boolean;
+};
+
+export const ModalWrapper = styled.div<videoSessionType>`
   position: absolute;
   ${(props) => !props.videoSession && 'visibility:hidden;'}
   ${(props) => {
-    return props.expanded ? 'width:100%;' : 'width: 322px;'
+    return props.expanded ? 'width:100%;' : 'width: 322px;';
   }}
 
   height: 100vh;
@@ -25,7 +30,7 @@ export const ModalWrapper = styled.div`
     right: 11px;
     z-index: 20;
   }
-`
+`;
 
 const CallStatus = styled.div`
   .call-buttons {
@@ -47,7 +52,7 @@ const CallStatus = styled.div`
       align-items: center;
     }
   }
-`
+`;
 
 const CallInitiator = styled.div`
   .call-buttons {
@@ -69,12 +74,12 @@ const CallInitiator = styled.div`
       align-items: center;
     }
   }
-`
+`;
 
 const CallButtons = styled.div`
   //position: absolute;
   //bottom: 0;
-`
+`;
 
 const LocalVideo = styled.div`
   video {
@@ -82,16 +87,26 @@ const LocalVideo = styled.div`
     width: 169px;
     max-width: none;
   }
-`
+`;
 
-export default function RtcViewWrapper({ videoSession, expand, setExpand }) {
+type RtcViewWrapperType = {
+  videoSession?: any;
+  expand?: boolean;
+  setExpand: (value: boolean) => void;
+};
+
+export default function RtcViewWrapper({
+  videoSession,
+  expand,
+  setExpand,
+}: RtcViewWrapperType) {
   return (
     <React.Fragment>
       <CallStatus id="callStatus" />
 
       <div
         className="flex"
-        style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
+        style={{ visibility: `${!videoSession ? 'hidden' : 'visible'}` }}
       >
         {/* <div id="callButton">call</div>
         <div id="info">info</div> */}
@@ -99,7 +114,7 @@ export default function RtcViewWrapper({ videoSession, expand, setExpand }) {
         <div
           id="call-wrapper"
           className="flex"
-          style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
+          style={{ visibility: `${!videoSession ? 'hidden' : 'visible'}` }}
         >
           <div className="flex justify-between w-full items-center lg:space-x-10 space-x-2">
             <CallButtons id="callButtons" className="space-x-4" />
@@ -144,13 +159,13 @@ export default function RtcViewWrapper({ videoSession, expand, setExpand }) {
         </div>
       </div>
     </React.Fragment>
-  )
+  );
 }
 
 const BaseIcon = styled.svg`
   height: 30px;
   width: 30px;
-`
+`;
 
 export function FullScreenIcon(props) {
   return (
@@ -164,7 +179,7 @@ export function FullScreenIcon(props) {
     >
       <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
     </BaseIcon>
-  )
+  );
 }
 
 export function FullScreenExitIcon(props) {
@@ -179,5 +194,5 @@ export function FullScreenExitIcon(props) {
     >
       <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path>
     </BaseIcon>
-  )
+  );
 }

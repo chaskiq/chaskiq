@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import Button from '@chaskiq/components/src/components/Button'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import Hints from '@chaskiq/components/src/components/Hints'
+import Button from '@chaskiq/components/src/components/Button';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import Hints from '@chaskiq/components/src/components/Hints';
 
 export default function EmailRequirement({ settings, update }) {
-  const [value, setValue] = useState(settings.emailRequirement)
+  const [value, setValue] = useState(settings.emailRequirement);
 
   function handleChange(e) {
-    setValue(e.target.value)
+    setValue(e.target.value);
   }
 
   function handleSubmit() {
@@ -16,8 +16,8 @@ export default function EmailRequirement({ settings, update }) {
       app: {
         email_requirement: value,
       },
-    }
-    update(data)
+    };
+    update(data);
   }
 
   return (
@@ -32,7 +32,7 @@ export default function EmailRequirement({ settings, update }) {
         {I18n.t('settings.email_requirement.hint')}
       </p> */}
 
-      <div mt={2}>
+      <div>
         <h2 className="mt-2 max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300">
           {I18n.t('settings.email_requirement.ask')}
         </h2>
@@ -52,7 +52,7 @@ export default function EmailRequirement({ settings, update }) {
                 helperText={o.hint}
               />
             </React.Fragment>
-          )
+          );
         })}
       </div>
 
@@ -65,5 +65,5 @@ export default function EmailRequirement({ settings, update }) {
         {I18n.t('common.save')}
       </Button>
     </div>
-  )
+  );
 }

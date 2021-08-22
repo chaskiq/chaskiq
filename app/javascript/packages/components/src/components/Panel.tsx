@@ -1,10 +1,14 @@
 import React from 'react';
 
+type PanelLinktype = {
+  href: string;
+  text: string;
+};
 type PanelProps = {
   title: string;
   text?: React.ReactNode;
   variant?: string;
-  link?: React.ReactNode;
+  link?: PanelLinktype;
   classes?: string;
 };
 

@@ -3,7 +3,7 @@ import graphql from '../graphql/client'
 import { APP_USER } from '../graphql/queries'
 import { SYNC_EXTERNAL_PROFILE } from '../graphql/mutations'
 
-export function getAppUser(userId, cb) {
+export function getAppUser(userId: any, cb?: (data:any)=>void) {
   return (dispatch, getState) => {
     dispatch(dispatchSetAppUser(null))
     graphql(
