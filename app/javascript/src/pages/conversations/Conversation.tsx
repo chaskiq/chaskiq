@@ -1,22 +1,23 @@
-import React from 'react'
+import React from 'react';
 
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { ThemeProvider } from 'emotion-theming'
-import Tooltip from 'rc-tooltip'
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { ThemeProvider } from 'emotion-theming';
+import Tooltip from 'rc-tooltip';
+import I18n from '../../shared/FakeI18n';
 
-import { last } from 'lodash'
-import Moment from 'react-moment'
-import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter'
-import ConversationEditor from './Editor'
-import Rtc from '@chaskiq/components/src/components/rtc'
-import Progress from '@chaskiq/components/src/components/Progress'
-import Button from '@chaskiq/components/src/components/Button'
-import tw from 'twin.macro'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import QuickRepliesDialog from './QuickReplyDialog'
-import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
-import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
+import { last } from 'lodash';
+import Moment from 'react-moment';
+import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
+import ConversationEditor from './Editor';
+import Rtc from '@chaskiq/components/src/components/rtc';
+import Progress from '@chaskiq/components/src/components/Progress';
+import Button from '@chaskiq/components/src/components/Button';
+import tw from 'twin.macro';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import QuickRepliesDialog from './QuickReplyDialog';
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
+import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
 
 import {
   CheckmarkIcon,
@@ -26,34 +27,34 @@ import {
   Call,
   LabelIcon,
   MoreIcon,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import theme from '@chaskiq/components/src/components/textEditor/theme'
-import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme'
-import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles'
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer'
-import styled from '@emotion/styled'
-import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView' // './RtcWrapper'
-import TagDialog from '@chaskiq/components/src/components/TagDialog'
-import AppPackagePanel from './appPackagePanel'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import theme from '@chaskiq/components/src/components/textEditor/theme';
+import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme';
+import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
+import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import styled from '@emotion/styled';
+import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView'; // './RtcWrapper'
+import TagDialog from '@chaskiq/components/src/components/TagDialog';
+import AppPackagePanel from './appPackagePanel';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
 
-import { appendConversation } from '@chaskiq/store/src/actions/conversations'
+import { appendConversation } from '@chaskiq/store/src/actions/conversations';
 
-import { getAppUser } from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user';
 
-import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc'
+import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
-import { successMessage } from '@chaskiq/store/src/actions/status_messages'
+import { successMessage } from '@chaskiq/store/src/actions/status_messages';
 
 import {
   getConversation,
@@ -67,9 +68,9 @@ import {
   clearConversation,
   updateConversationState,
   updateConversationPriority,
-} from '@chaskiq/store/src/actions/conversation'
+} from '@chaskiq/store/src/actions/conversation';
 
-import { AGENTS } from '@chaskiq/store/src/graphql/queries'
+import { AGENTS } from '@chaskiq/store/src/graphql/queries';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -82,7 +83,7 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
   .aspectRatioPlaceholder.is-locked .graf-image {
     position: inherit;
   }
-`
+`;
 
 const BgContainer = styled.div`
   //background-color: #DFDBE5;
@@ -90,7 +91,7 @@ const BgContainer = styled.div`
     radial-gradient(currentColor 2px, transparent 2px);
   background-size: calc(20 * 2px) calc(20 * 2px);
   background-position: 0 0, calc(10 * 2px) calc(10 * 2px);
-`
+`;
 
 const MessageItem = styled.div`
   ${tw`break-all`}
@@ -105,7 +106,7 @@ const MessageItem = styled.div`
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
   }
-`
+`;
 
 function Conversation({
   dispatch,
@@ -118,160 +119,160 @@ function Conversation({
   toggleFixedSidebar,
   fixedSidebarOpen,
 }) {
-  const overflow = React.useRef(null)
+  const overflow = React.useRef(null);
 
-  const matchId = match ? match.params.id : null
+  const matchId = match ? match.params.id : null;
 
   const messagesLength = conversation.collection
     ? conversation.collection.length
-    : null
+    : null;
 
-  const { mainParticipant } = conversation
+  const { mainParticipant } = conversation;
 
-  const [agents, setAgents] = React.useState([])
-  const [scrolling, setScrolling] = React.useState(false)
-  const [rtcAudio, setRtcAudio] = React.useState(true)
-  const [rtcVideo, setRtcVideo] = React.useState(true)
-  const [expand, setExpand] = React.useState(false)
-  const [videoSession, setVideoSession] = React.useState(false)
-  const [openTagManager, setOpenTagManager] = React.useState(false)
-  const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false)
+  const [agents, setAgents] = React.useState([]);
+  const [scrolling, setScrolling] = React.useState(false);
+  const [rtcAudio, setRtcAudio] = React.useState(true);
+  const [rtcVideo, setRtcVideo] = React.useState(true);
+  const [expand, setExpand] = React.useState(false);
+  const [videoSession, setVideoSession] = React.useState(false);
+  const [openTagManager, setOpenTagManager] = React.useState(false);
+  const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
   const [conversationPartSelected, setConversationPartSelected] =
-    React.useState(false)
+    React.useState(false);
 
-  const appId = app.key
+  const appId = app.key;
 
   React.useEffect(() => {
     getAgents((data) => {
-      setAgents(data)
-    })
-  }, [])
+      setAgents(data);
+    });
+  }, []);
 
   React.useEffect(() => {
-    if (!matchId) return
+    if (!matchId) return;
 
     dispatch(
       clearConversation(() => {
-        getMessages(scrollToLastItem)
+        getMessages(scrollToLastItem);
       })
-    )
+    );
 
-    dispatch(setCurrentPage('Conversations'))
+    dispatch(setCurrentPage('Conversations'));
 
-    dispatch(setCurrentSection('Conversations'))
-  }, [matchId])
+    dispatch(setCurrentSection('Conversations'));
+  }, [matchId]);
 
   React.useEffect(() => {
-    if (!mainParticipant) return
-    setAppUser(mainParticipant.id)
-  }, [mainParticipant])
+    if (!mainParticipant) return;
+    setAppUser(mainParticipant.id);
+  }, [mainParticipant]);
 
   React.useEffect(() => {
     if (!scrolling) {
-      scrollToLastItem()
+      scrollToLastItem();
     }
-    setScrolling(false)
-  }, [messagesLength])
+    setScrolling(false);
+  }, [messagesLength]);
 
   const insertCommentDispatch = (comment, cb) => {
     dispatch(
       insertComment(comment, () => {
-        cb && cb()
+        cb && cb();
       })
-    )
-  }
+    );
+  };
 
   const insertNoteDispatch = (comment, cb) => {
     dispatch(
       insertNote(comment, () => {
-        cb && cb()
+        cb && cb();
       })
-    )
-  }
+    );
+  };
 
   const insertAppBlockCommentDispatch = (data, cb) => {
     dispatch(
       insertAppBlockComment(data, () => {
-        cb && cb()
+        cb && cb();
       })
-    )
-  }
+    );
+  };
 
   const setAppUser = (id) => {
-    dispatch(getAppUser(id))
-  }
+    dispatch(getAppUser(id));
+  };
 
   const handleScroll = (e) => {
-    if (conversation.loading) return
-    const element = e.target
+    if (conversation.loading) return;
+    const element = e.target;
     if (element.scrollTop === 0) {
       // on top
       if (conversation.meta.next_page && !conversation.loading) {
-        setScrolling(true)
+        setScrolling(true);
         getMessages((item) => {
-          scrollToItem(item)
-        })
+          scrollToItem(item);
+        });
       }
     }
-  }
+  };
 
   const scrollToItem = (item) => {
     if (item) {
       overflow.current.scrollTop = document.querySelector(
         `#message-id-${item}`
-      ).offsetHeight
+      ).offsetHeight;
     } else {
-      scrollToLastItem()
+      scrollToLastItem();
     }
-  }
+  };
 
   const scrollToLastItem = () => {
-    if (!overflow.current) return
-    overflow.current.scrollTop = overflow.current.scrollHeight
-  }
+    if (!overflow.current) return;
+    overflow.current.scrollTop = overflow.current.scrollHeight;
+  };
 
   const getMessages = (cb) => {
     const opts = {
       id: matchId,
-    }
+    };
 
-    const lastItem = last(conversation.collection)
+    const lastItem = last(conversation.collection);
 
-    dispatch(setLoading(true))
+    dispatch(setLoading(true));
     dispatch(
       getConversation(opts, () => {
         // this.getMainUser(this.state.conversation.mainParticipant.id)
         // TODO: this will scroll scroll to last when new items
         // are added on pagination (scroll up)!
-        cb && cb(lastItem ? lastItem.id : null)
+        cb && cb(lastItem ? lastItem.id : null);
       })
-    )
-  }
+    );
+  };
 
   const typingNotifierDispatch = (cb) => {
     dispatch(
       typingNotifier(() => {
-        cb && cb()
+        cb && cb();
       })
-    )
-  }
+    );
+  };
 
   const updateConversationStateDispatch = (state, cb) => {
     dispatch(
       updateConversationState(state, (data) => {
-        cb && cb(data.updateConversationState.conversation)
+        cb && cb(data.updateConversationState.conversation);
       })
-    )
-  }
+    );
+  };
 
   const toggleConversationPriority = (e, cb) => {
     dispatch(
       updateConversationPriority((data) => {
-        cb && cb(data.updateConversationState.conversation)
+        cb && cb(data.updateConversationState.conversation);
       })
-    )
-  }
+    );
+  };
 
   const getAgents = (cb) => {
     graphql(
@@ -279,25 +280,25 @@ function Conversation({
       { appKey: appId },
       {
         success: (data) => {
-          cb(data.app.agents)
+          cb(data.app.agents);
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   const setAgent = (id, cb) => {
-    dispatch(assignAgent(id, cb))
-  }
+    dispatch(assignAgent(id, cb));
+  };
 
   const addAsReply = (content) => {
-    setQuickReplyDialogOpen(content)
-  }
+    setQuickReplyDialogOpen(content);
+  };
 
   const renderMessage = (o, userOrAdmin) => {
-    const message = o
-    const messageContent = o.message
-    const key = `conversation-${conversation.key}-message-${o.key}`
+    const message = o;
+    const messageContent = o.message;
+    const key = `conversation-${conversation.key}-message-${o.key}`;
 
     const content = messageContent.serializedContent ? (
       <DraftRenderer
@@ -312,16 +313,16 @@ function Conversation({
           __html: messageContent.htmlContent,
         }}
       />
-    )
+    );
 
-    let textClass = userOrAdmin === 'admin' ? 'text-gray-100' : ''
-    const flow = userOrAdmin === 'admin' ? 'flex-row-reverse' : ''
-    const avatarM = userOrAdmin === 'admin' ? 'ml-3' : 'mr-3'
+    let textClass = userOrAdmin === 'admin' ? 'text-gray-100' : '';
+    const flow = userOrAdmin === 'admin' ? 'flex-row-reverse' : '';
+    const avatarM = userOrAdmin === 'admin' ? 'ml-3' : 'mr-3';
     if (message.privateNote) {
-      textClass = 'text-gray-900'
+      textClass = 'text-gray-900';
     }
 
-    const isAdmin = userOrAdmin === 'admin'
+    const isAdmin = userOrAdmin === 'admin';
 
     return (
       <div
@@ -343,7 +344,7 @@ function Conversation({
           open={conversationPartSelected}
           conversation_part={message}
           close={() => {
-            setConversationPartSelected(null)
+            setConversationPartSelected(null);
           }}
           insertComment={(data) => {}}
         />
@@ -388,7 +389,7 @@ function Conversation({
                     {
                       title: I18n.t('quick_replies.add_as_dialog.title'),
                       onClick: () => {
-                        addAsReply(messageContent.serializedContent)
+                        addAsReply(messageContent.serializedContent);
                       },
                     },
                   ]}
@@ -410,7 +411,7 @@ function Conversation({
                     {
                       title: I18n.t('common.actions'),
                       onClick: () => {
-                        setConversationPartSelected(messageContent)
+                        setConversationPartSelected(messageContent);
                       },
                     },
                   ]}
@@ -431,12 +432,12 @@ function Conversation({
           <EditorContainerMessageBubble>{content}</EditorContainerMessageBubble>
         </MessageItem>
       </div>
-    )
-  }
+    );
+  };
 
   const renderEventBlock = (o) => {
-    const message = o
-    const messageContent = o.message
+    const message = o;
+    const messageContent = o.message;
 
     return (
       <div
@@ -473,12 +474,12 @@ function Conversation({
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const handleUserSidebar = () => {
-    dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
-  }
+    dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }));
+  };
 
   const updateTags = (tags) => {
     dispatch(
@@ -489,12 +490,12 @@ function Conversation({
           appKey: app.key,
         },
         () => {
-          dispatch(successMessage('tags updated'))
-          setOpenTagManager(false)
+          dispatch(successMessage('tags updated'));
+          setOpenTagManager(false);
         }
       )
-    )
-  }
+    );
+  };
 
   return (
     <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
@@ -564,8 +565,8 @@ function Conversation({
             <button
               onClick={() => {
                 const option =
-                  conversation.state === 'closed' ? 'reopen' : 'close'
-                updateConversationStateDispatch(option)
+                  conversation.state === 'closed' ? 'reopen' : 'close';
+                updateConversationStateDispatch(option);
               }}
               aria-label={I18n.t(
                 `conversation.actions.${
@@ -712,7 +713,7 @@ function Conversation({
                     )}
                   </div>
                 </Tooltip>
-              )
+              );
             }}
           />
 
@@ -770,13 +771,13 @@ function Conversation({
             {conversation &&
               conversation.collection &&
               conversation.collection.map((message) => {
-                const isReplied = message.message.state === 'replied'
+                const isReplied = message.message.state === 'replied';
                 const userOrAdmin =
                   !isReplied &&
                   message.appUser &&
                   message.appUser.kind === 'agent'
                     ? 'admin'
-                    : 'user'
+                    : 'user';
 
                 return (
                   <MessageItemWrapper
@@ -809,12 +810,12 @@ function Conversation({
                       )}
                     </ThemeProvider>
                   </MessageItemWrapper>
-                )
+                );
               })}
 
             {conversation.loading && (
               <div className="m-2">
-                <Progress size="4" />
+                <Progress size={4} />
               </div>
             )}
           </ErrorBoundary>
@@ -846,14 +847,14 @@ function Conversation({
         open={quickReplyDialogOpen}
       ></QuickRepliesDialog>
     </BgContainer>
-  )
+  );
 }
 
 function MessageItemWrapper({ conversation, data, events, children }) {
   React.useEffect(() => {
     // mark as read on first render
-    setTimeout(sendRead, 300)
-  }, [])
+    setTimeout(sendRead, 300);
+  }, []);
 
   function sendRead() {
     if (!data.readAt) {
@@ -868,23 +869,23 @@ function MessageItemWrapper({ conversation, data, events, children }) {
             },
             { email: data.email }
           )
-        )
+        );
     }
   }
 
-  return <React.Fragment>{children}</React.Fragment>
+  return <React.Fragment>{children}</React.Fragment>;
 }
 
 function RenderBlocks({ message, app, conversation, dispatch }) {
-  const { data, blocks } = toCamelCase(message).message
+  const { data, blocks } = toCamelCase(message).message;
 
-  const schema = blocks.schema
+  const schema = blocks.schema;
   // will update package
   const updatePackage = (data, cb) => {
     // for now the only supported action for agent facing pkg will be the url link
 
     if (data.field.action.type === 'url') {
-      return window.open(data.field.action.url, '_blank')
+      return window.open(data.field.action.url, '_blank');
     }
 
     const params = {
@@ -898,20 +899,20 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
         location: 'inbox',
         values: data.values,
       },
-    }
+    };
 
     getPackage(params, 'conversation', (data) => {
-      const definitions = data.app.appPackage.callHook.definitions
-      const newMessage = message
-      newMessage.message.blocks.schema = definitions
-      dispatch(appendConversation(newMessage))
-      cb && cb()
-    })
-  }
+      const definitions = data.app.appPackage.callHook.definitions;
+      const newMessage = message;
+      newMessage.message.blocks.schema = definitions;
+      dispatch(appendConversation(newMessage));
+      cb && cb();
+    });
+  };
 
   const renderBlockRepresentation = () => {
     // TODO: display labels, schema buttons
-    let output = null
+    let output = null;
     switch (blocks.type) {
       case 'app_package':
         output = (
@@ -937,16 +938,16 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
               disabled={true}
             />
           </div>
-        )
-        break
+        );
+        break;
       case 'ask_option':
-        output = <p>ask option</p>
-        break
+        output = <p>ask option</p>;
+        break;
       case 'data_retrieval':
-        output = <p>data retrieval</p>
-        break
+        output = <p>data retrieval</p>;
+        break;
       default:
-        null
+        null;
     }
 
     return (
@@ -972,8 +973,8 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
       >
         <div className="w-full flex flex-col justify-between">{output}</div>
       </div>
-    )
-  }
+    );
+  };
 
   if (blocks.type === 'app_package') {
     // (o.message.state !== 'replied') {
@@ -986,10 +987,10 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
       >
         {renderBlockRepresentation()}
       </div>
-    )
+    );
   }
 
-  const item = message.message.data
+  const item = message.message.data;
   if (!item) {
     return (
       <p className="text-sm leading-5 font-medium text-gray-500 py-2 flex justify-center">
@@ -1008,10 +1009,10 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
           </span>
         </a>
       </p>
-    )
+    );
   }
 
-  let blockElement
+  let blockElement;
 
   switch (item.element) {
     case 'button':
@@ -1019,18 +1020,18 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
         <p>
           <strong>reply button:</strong> {item.label}
         </p>
-      )
+      );
 
-      break
+      break;
     default:
       if (blocks.type === 'app_package') {
         blockElement = (
           <div>
-            <p variant="overline">{blocks.appPackage}</p>
+            <p>{blocks.appPackage}</p>
 
             <br />
 
-            <div variant={'caption'}>
+            <div>
               {data && (
                 <span
                   dangerouslySetInnerHTML={{
@@ -1040,9 +1041,9 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
               )}
             </div>
           </div>
-        )
+        );
 
-        break
+        break;
       }
 
       if (blocks.type === 'data_retrieval') {
@@ -1051,19 +1052,19 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
             <p key={`data-message-${message.id}-${k}`}>
               {k}: {message.message.data[k]}
             </p>
-          )
-        })
+          );
+        });
 
         blockElement = (
           <React.Fragment>
             <strong>replied:</strong>
             {dataList}
           </React.Fragment>
-        )
-        break
+        );
+        break;
       } else {
-        blockElement = <p>{JSON.stringify(message.message.data)}</p>
-        break
+        blockElement = <p>{JSON.stringify(message.message.data)}</p>;
+        break;
       }
   }
 
@@ -1099,14 +1100,14 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer } = state
-  const { isAuthenticated } = auth
-  const { messages, loading } = conversation
-  const { jwt } = auth
+  const { auth, app, conversation, app_user, current_user, drawer } = state;
+  const { isAuthenticated } = auth;
+  const { messages, loading } = conversation;
+  const { jwt } = auth;
 
   return {
     jwt,
@@ -1118,7 +1119,7 @@ function mapStateToProps(state) {
     app,
     drawer,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Conversation))
+export default withRouter(connect(mapStateToProps)(Conversation));

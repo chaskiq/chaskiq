@@ -16,7 +16,7 @@ import Progress from '../Progress';
 
 interface IAppList {
   location: string;
-  loading: boolean;
+  loading?: boolean;
   handleAdd: (data: any) => void;
   packages: any;
   app: any;

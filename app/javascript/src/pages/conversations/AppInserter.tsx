@@ -1,29 +1,32 @@
-import React from 'react'
-import arrayMove from 'array-move'
-import { connect } from 'react-redux'
+import React from 'react';
+import arrayMove from 'array-move';
+import { connect } from 'react-redux';
 import {
   sortableContainer,
   sortableElement,
   sortableHandle,
-} from 'react-sortable-hoc'
+} from 'react-sortable-hoc';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import Button from '@chaskiq/components/src/components/Button'
-import { QueueIcon, DeleteIcon } from '@chaskiq/components/src/components/icons'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm'
+import graphql from '@chaskiq/store/src/graphql/client';
+import Button from '@chaskiq/components/src/components/Button';
+import {
+  QueueIcon,
+  DeleteIcon,
+} from '@chaskiq/components/src/components/icons';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import InserterForm from '@chaskiq/components/src/components/packageBlocks/InserterForm';
 
-import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries'
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 
 const SortableContainer = sortableContainer(({ children }) => {
-  return <ul className="border-b">{children}</ul>
-})
+  return <ul className="border-b">{children}</ul>;
+});
 
 const DragHandle = sortableHandle(() => (
   <div>
     <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
   </div>
-))
+));
 
 const SortableItem = sortableElement(
   ({ object, deleteItem, _edit, _updatePackage, customRenderer }) => (
@@ -77,7 +80,7 @@ const SortableItem = sortableElement(
       </div>
     </li>
   )
-)
+);
 
 function AppInserter({
   app,
@@ -100,7 +103,7 @@ function AppInserter({
         setEditable={setEditable}
       />
     </div>
-  )
+  );
 }
 
 function SidebarAppInserter({
@@ -112,10 +115,10 @@ function SidebarAppInserter({
   setEditable,
   location,
 }) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [items, setItems] = React.useState(app[option.namespace] || [])
-  const [packages, setPackages] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [items, setItems] = React.useState(app[option.namespace] || []);
+  const [packages, setPackages] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   // support for internal plugins, just in case we want to add a
   // super high customization within the code
@@ -124,10 +127,10 @@ function SidebarAppInserter({
     // { type: 'internal', name: 'TagBlocks' },
     // { type: 'internal', name: 'ConversationBlock' },
     // { type: 'internal', name: 'AssigneeBlock' }
-  ]
+  ];
 
   function getPackages() {
-    setLoading(true)
+    setLoading(true);
     graphql(
       APP_PACKAGES_BY_CAPABILITY,
       {
@@ -136,49 +139,51 @@ function SidebarAppInserter({
       },
       {
         success: (data) => {
-          setLoading(false)
-          setPackages(internalPackages.concat(data.app.appPackagesCapabilities))
+          setLoading(false);
+          setPackages(
+            internalPackages.concat(data.app.appPackagesCapabilities)
+          );
         },
         error: () => {},
       }
-    )
+    );
   }
 
   React.useEffect(() => {
-    if (isOpen) getPackages()
-  }, [isOpen])
+    if (isOpen) getPackages();
+  }, [isOpen]);
 
   React.useEffect(() => {
-    if (option) setItems(app[option.namespace] || [])
-  }, [option])
+    if (option) setItems(app[option.namespace] || []);
+  }, [option]);
 
   function closeHandler() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function handleAdd(item) {
-    setItems(items.concat(item))
-    setIsOpen(false)
+    setItems(items.concat(item));
+    setIsOpen(false);
   }
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    setItems(arrayMove(items, oldIndex, newIndex))
-  }
+    setItems(arrayMove(items, oldIndex, newIndex));
+  };
 
   function deleteItem(item, index) {
-    setItems(items.filter((o, i) => i !== index))
+    setItems(items.filter((o, i) => i !== index));
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     const data = {
       app: {
         [option.n]: items,
       },
-    }
+    };
     update(data, () => {
-      setEditable(false)
-    })
+      setEditable(false);
+    });
   }
 
   return (
@@ -247,18 +252,18 @@ function SidebarAppInserter({
         </Button> */}
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app } = state
+  const { app_user, app } = state;
   return {
     app_user,
     app,
-  }
+  };
 }
 
 // export default ShowAppContainer
-export const AppInserterInner = connect(mapStateToProps)(SidebarAppInserter)
+export const AppInserterInner = connect(mapStateToProps)(SidebarAppInserter);
 
-export default connect(mapStateToProps)(AppInserter)
+export default connect(mapStateToProps)(AppInserter);

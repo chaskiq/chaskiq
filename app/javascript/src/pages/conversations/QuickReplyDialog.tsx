@@ -1,28 +1,29 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Button from '@chaskiq/components/src/components/Button'
+import React from 'react';
+import { connect } from 'react-redux';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Button from '@chaskiq/components/src/components/Button';
+import I18n from '../../shared/FakeI18n';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
-import { QUICK_REPLY_CREATE } from '@chaskiq/store/src/graphql/mutations'
+import { QUICK_REPLY_CREATE } from '@chaskiq/store/src/graphql/mutations';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 function QuickReplyDialog({ open, app, lang, dispatch, closeHandler }) {
-  const [isOpen, setIsOpen] = React.useState(open)
-  const [title, setTitle] = React.useState('')
+  const [isOpen, setIsOpen] = React.useState(open);
+  const [title, setTitle] = React.useState('');
 
   React.useEffect(() => {
-    setIsOpen(open)
-  }, [open])
+    setIsOpen(open);
+  }, [open]);
 
   function close() {
-    setIsOpen(false)
-    closeHandler && closeHandler()
+    setIsOpen(false);
+    closeHandler && closeHandler();
   }
 
   function createQuickReply() {
@@ -36,14 +37,14 @@ function QuickReplyDialog({ open, app, lang, dispatch, closeHandler }) {
       },
       {
         success: (_data) => {
-          close()
-          dispatch(successMessage(I18n.t('quick_replies.create.success')))
+          close();
+          dispatch(successMessage(I18n.t('quick_replies.create.success')));
         },
         error: (_err) => {
-          dispatch(errorMessage(I18n.t('quick_replies.create.error')))
+          dispatch(errorMessage(I18n.t('quick_replies.create.error')));
         },
       }
-    )
+    );
   }
 
   return (
@@ -85,14 +86,14 @@ function QuickReplyDialog({ open, app, lang, dispatch, closeHandler }) {
         ></FormDialog>
       )}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(QuickReplyDialog)
+export default connect(mapStateToProps)(QuickReplyDialog);

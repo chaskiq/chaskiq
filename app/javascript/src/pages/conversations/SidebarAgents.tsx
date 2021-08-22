@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import Avatar from '@chaskiq/components/src/components/Avatar'
-import { FolderIcon, LabelIcon } from '@chaskiq/components/src/components/icons'
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Avatar from '@chaskiq/components/src/components/Avatar';
+import {
+  FolderIcon,
+  LabelIcon,
+} from '@chaskiq/components/src/components/icons';
+import I18n from '../../shared/FakeI18n';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   getConversations,
   updateConversationsData,
   clearConversations,
-} from '@chaskiq/store/src/actions/conversations'
+} from '@chaskiq/store/src/actions/conversations';
 
-import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries'
+import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries';
 
 function SidebarAgents({ app, dispatch, conversations }) {
-  const [counts, setCounts] = useState(null)
-  const [agents, setAgents] = useState(null)
-  const [tagCounts, setTagCounts] = useState(null)
+  const [counts, setCounts] = useState(null);
+  const [agents, setAgents] = useState(null);
+  const [tagCounts, setTagCounts] = useState(null);
 
   useEffect(() => {
-    getCounts()
-  }, [])
+    getCounts();
+  }, []);
 
   function getCounts() {
     graphql(
@@ -29,32 +33,32 @@ function SidebarAgents({ app, dispatch, conversations }) {
       { appKey: app.key },
       {
         success: (data) => {
-          setCounts(data.app.conversationsCounts)
-          setTagCounts(data.app.conversationsTagCounts)
-          setAgents(data.app.agents)
+          setCounts(data.app.conversationsCounts);
+          setTagCounts(data.app.conversationsTagCounts);
+          setAgents(data.app.agents);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function findAgent(o) {
-    const agent = agents.find((a) => a.id === parseInt(o))
-    if (agent) return agent
-    return null
+    const agent = agents.find((a) => a.id === parseInt(o));
+    if (agent) return agent;
+    return null;
   }
 
-  function fetchConversations(options, cb) {
+  function fetchConversations(options, cb?: () => void) {
     dispatch(
       getConversations(options, () => {
-        cb && cb()
+        cb && cb();
       })
-    )
+    );
   }
 
   function filterAgent(option) {
-    const agentID = option ? option.id : null
-    dispatch(clearConversations([]))
+    const agentID = option ? option.id : null;
+    dispatch(clearConversations([]));
     dispatch(
       updateConversationsData(
         {
@@ -68,14 +72,14 @@ function SidebarAgents({ app, dispatch, conversations }) {
             sort: 'unfiltered',
             filter: 'opened',
             tag: null,
-          })
+          });
         }
       )
-    )
+    );
   }
 
   function handleTagFilter(tag) {
-    dispatch(clearConversations([]))
+    dispatch(clearConversations([]));
     dispatch(
       updateConversationsData(
         {
@@ -88,17 +92,17 @@ function SidebarAgents({ app, dispatch, conversations }) {
             tag: tag,
             sort: 'unfiltered',
             filter: 'opened',
-          })
+          });
         }
       )
-    )
+    );
   }
 
   function tagColor(tag) {
-    if (!app.tagList) return '#ccc'
-    const findedTag = app.tagList.find((o) => o.name === tag)
-    if (!findedTag) return '#ccc'
-    return findedTag.color
+    if (!app.tagList) return '#ccc';
+    const findedTag = app.tagList.find((o) => o.name === tag);
+    if (!findedTag) return '#ccc';
+    return findedTag.color;
   }
 
   return (
@@ -155,19 +159,35 @@ function SidebarAgents({ app, dispatch, conversations }) {
           />
         ))}
     </div>
-  )
+  );
 }
 
-function ListItem({ agent, count, label, filterHandler, icon, active }) {
+type AgentLitItemType = {
+  agent?: any;
+  count: number;
+  label: string;
+  filterHandler: (option: any) => void;
+  icon?: React.ReactElement;
+  active: boolean;
+};
+
+function ListItem({
+  agent,
+  count,
+  label,
+  filterHandler,
+  icon,
+  active,
+}: AgentLitItemType) {
   function toggleFilter() {
-    let option = null
+    let option = null;
     if (agent) {
-      option = active ? null : agent
+      option = active ? null : agent;
     }
     if (label) {
-      option = active ? null : label
+      option = active ? null : label;
     }
-    filterHandler(option)
+    filterHandler(option);
   }
 
   return (
@@ -214,15 +234,15 @@ function ListItem({ agent, count, label, filterHandler, icon, active }) {
         {count}
       </span>
     </a>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app, conversations } = state
+  const { app, conversations } = state;
   return {
     conversations,
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(SidebarAgents))
+export default withRouter(connect(mapStateToProps)(SidebarAgents));

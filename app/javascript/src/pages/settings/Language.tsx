@@ -1,6 +1,7 @@
 import React from 'react';
 import langsOptions from '../../shared/langsOptions';
 import serialize from 'form-serialize';
+import I18n from '../../shared/FakeI18n';
 
 import Button from '@chaskiq/components/src/components/Button';
 import Input from '@chaskiq/components/src/components/forms/Input';

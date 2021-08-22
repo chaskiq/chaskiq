@@ -1,18 +1,19 @@
-import React from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import Moment from 'react-moment'
-import { LabelIcon, LeftArrow } from '@chaskiq/components/src/components/icons'
-import Button from '@chaskiq/components/src/components/Button'
-import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
-import AppInserter from './AppInserter'
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Moment from 'react-moment';
+import { LabelIcon, LeftArrow } from '@chaskiq/components/src/components/icons';
+import Button from '@chaskiq/components/src/components/Button';
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
+import AppInserter from './AppInserter';
+import I18n from '../../shared/FakeI18n';
 
-import { updateApp } from '@chaskiq/store/src/actions/app'
+import { updateApp } from '@chaskiq/store/src/actions/app';
 
 function localeDate(date) {
-  return new Date(date).toLocaleString()
+  return new Date(date).toLocaleString();
 }
 
 function Sidebar({
@@ -22,20 +23,20 @@ function Sidebar({
   dispatch,
   toggleFixedSidebar,
 }) {
-  const [editable, setEditable] = React.useState(false)
+  const [editable, setEditable] = React.useState(false);
 
-  const participant = conversation.mainParticipant
+  const participant = conversation.mainParticipant;
   if (!participant) {
-    return null
+    return null;
   }
 
   function update(data, cb) {
     dispatch(
       updateApp(data.app, (d) => {
-        console.log(d)
-        cb && cb(d)
+        console.log(d);
+        cb && cb(d);
       })
-    )
+    );
   }
 
   return (
@@ -149,7 +150,7 @@ function Sidebar({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function renderInternal({ object, conversation, app, app_user }) {
@@ -157,15 +158,15 @@ function renderInternal({ object, conversation, app, app_user }) {
     case 'UserBlock':
       return (
         <UserBlock conversation={conversation} app={app} app_user={app_user} />
-      )
+      );
     case 'TagBlocks':
-      return <TagBlocks conversation={conversation} app={app} />
+      return <TagBlocks conversation={conversation} app={app} />;
     case 'ConversationBlock':
-      return <ConversationBlock conversation={conversation} app={app} />
+      return <ConversationBlock conversation={conversation} app={app} />;
     case 'AssigneeBlock':
-      return <AssigneeBlock conversation={conversation} app={app} />
+      return <AssigneeBlock conversation={conversation} app={app} />;
     default:
-      break
+      break;
   }
 }
 
@@ -204,7 +205,7 @@ function UserBlock({ app_user }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function TagBlocks({ conversation }) {
@@ -222,7 +223,7 @@ function TagBlocks({ conversation }) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function ConversationBlock({ conversation }) {
@@ -279,7 +280,7 @@ function ConversationBlock({ conversation }) {
         </dd>
       </div>
     </div>
-  )
+  );
 }
 
 function AssigneeBlock({ conversation, app }) {
@@ -305,12 +306,12 @@ function AssigneeBlock({ conversation, app }) {
         </dd>
       </div>
     </div>
-  )
+  );
 }
 
 function AppItem({ app, object, conversation, app_user }) {
-  const pkg = object
-  const [definitions, setDefinitions] = React.useState(object.definitions)
+  const pkg = object;
+  const [definitions, setDefinitions] = React.useState(object.definitions);
 
   function updatePackage(packageParams, cb) {
     /* if (packageParams.field.action.type === 'frame') {
@@ -327,7 +328,7 @@ function AppItem({ app, object, conversation, app_user }) {
     } */
 
     if (packageParams.field.action.type === 'url') {
-      return window.open(packageParams.field.action.url)
+      return window.open(packageParams.field.action.url);
     }
 
     const params = {
@@ -339,12 +340,12 @@ function AppItem({ app, object, conversation, app_user }) {
         field: packageParams.field,
         values: packageParams.values,
       },
-    }
+    };
     getPackage(params, 'inbox', (data) => {
-      const defs = data.app.appPackage.callHook.definitions
-      setDefinitions(defs)
-      cb && cb()
-    })
+      const defs = data.app.appPackage.callHook.definitions;
+      setDefinitions(defs);
+      cb && cb();
+    });
   }
 
   return (
@@ -369,12 +370,12 @@ function AppItem({ app, object, conversation, app_user }) {
         )}
       </div>
     </ErrorBoundary>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app, conversation, app_user, current_user, drawer } = state
-  const { messages } = conversation
+  const { app, conversation, app_user, current_user, drawer } = state;
+  const { messages } = conversation;
 
   return {
     app_user,
@@ -383,7 +384,7 @@ function mapStateToProps(state) {
     messages,
     app,
     drawer,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Sidebar))
+export default withRouter(connect(mapStateToProps)(Sidebar));

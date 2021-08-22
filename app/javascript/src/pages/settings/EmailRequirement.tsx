@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Button from '@chaskiq/components/src/components/Button';
 import Input from '@chaskiq/components/src/components/forms/Input';
 import Hints from '@chaskiq/components/src/components/Hints';
+import I18n from '../../shared/FakeI18n';
 
 export default function EmailRequirement({ settings, update }) {
   const [value, setValue] = useState(settings.emailRequirement);

@@ -48,6 +48,8 @@ import graphql from '@chaskiq/store/src/graphql/client';
 
 import CircularProgress from '../Progress';
 
+import I18n from '../../../../../src/shared/FakeI18n';
+
 import {
   CREATE_URL_UPLOAD,
   CREATE_DIRECT_UPLOAD,

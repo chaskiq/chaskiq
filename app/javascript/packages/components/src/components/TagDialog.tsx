@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from 'react'
-import FormDialog from './FormDialog'
-import Button from './Button'
+import React, { useState, useEffect } from 'react';
+import FormDialog from './FormDialog';
+import Button from './Button';
 // import { Creatable } from 'react-select'
-import Select from 'react-select'
-import { Link } from 'react-router-dom'
+import Select from 'react-select';
+import { Link } from 'react-router-dom';
+import I18n from '../../../../src/shared/FakeI18n';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 function TagDialog({ children, title, saveHandler, closeHandler, tags, app }) {
   const tagList = tags.map((o) => ({
     label: o,
     value: o,
-  }))
+  }));
 
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedTags, setSelectedTags] = useState(tagList)
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedTags, setSelectedTags] = useState(tagList);
 
   useEffect(() => {
-    setIsOpen(true)
-  }, [])
+    setIsOpen(true);
+  }, []);
 
   function close() {
-    setIsOpen(false)
-    closeHandler && closeHandler()
+    setIsOpen(false);
+    closeHandler && closeHandler();
   }
 
   const colourOptions = app.tagList.map((o) => ({
     label: o.name,
     value: o.name,
     color: o.color,
-  }))
+  }));
 
   function handleChange(changes) {
-    setSelectedTags(changes)
+    setSelectedTags(changes);
   }
 
   return (
@@ -83,14 +84,14 @@ function TagDialog({ children, title, saveHandler, closeHandler, tags, app }) {
         ></FormDialog>
       )}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(TagDialog)
+export default connect(mapStateToProps)(TagDialog);

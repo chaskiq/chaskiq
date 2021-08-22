@@ -1,56 +1,58 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { isEmpty } from 'lodash'
+import { isEmpty } from 'lodash';
 
-import serialize from 'form-serialize'
-import I18n from '../../shared/FakeI18n'
+import serialize from 'form-serialize';
+import I18n from '../../shared/FakeI18n';
 
-import Button from '@chaskiq/components/src/components/Button'
+import Button from '@chaskiq/components/src/components/Button';
 import FieldRenderer, {
   gridClasses,
-} from '@chaskiq/components/src/components/forms/FieldRenderer'
-import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'
+} from '@chaskiq/components/src/components/forms/FieldRenderer';
+import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   UPDATE_CAMPAIGN,
   CREATE_CAMPAIGN,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 // import moment from 'moment-timezone';
 
 export default class CampaignSettings extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     // console.log(props)
     this.state = {
       eventResult:
         'Click into and out of the input above to trigger onBlur & onFocus in the Fieldbase',
       data: this.props.data,
       errors: {},
-    }
+    };
 
     // window.tz = moment.tz
   }
 
-  formRef
+  formRef;
 
   // Footer Button Handlers
   submitClickHandler = () => {
-    this.formRef.submit()
-  }
+    this.formRef.submit();
+  };
 
   onSubmitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const serializedData = serialize(this.formRef, {
       hash: true,
       empty: true,
-    })
-    const data = toSnakeCase(serializedData).campaign
+    });
+    const data = toSnakeCase(serializedData).campaign;
 
-    this.props.match.params.id === 'new' ? this.create(data) : this.update(data)
-  }
+    this.props.match.params.id === 'new'
+      ? this.create(data)
+      : this.update(data);
+  };
 
   // Form Event Handlers
   create = (data) => {
@@ -71,19 +73,19 @@ export default class CampaignSettings extends Component {
             },
             () => {
               if (!isEmpty(this.state.errors)) {
-                return
+                return;
               }
 
               this.props.history.push(
                 `/apps/${this.props.app.key}/messages/${this.props.mode}/${this.state.data.id}`
-              )
-              this.props.updateData(this.state.data)
+              );
+              this.props.updateData(this.state.data);
             }
-          )
+          );
         },
       }
-    )
-  }
+    );
+  };
 
   // Form Event Handlers
   update = (data) => {
@@ -91,19 +93,19 @@ export default class CampaignSettings extends Component {
       appKey: this.props.app.key,
       id: this.state.data.id,
       campaignParams: data,
-    }
+    };
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
-        const result = data.campaignUpdate
+        const result = data.campaignUpdate;
         this.setState({ data: result.campaign, errors: result.errors }, () => {
-          this.props.updateData(result.campaign)
-          this.props.successMessage()
-        })
+          this.props.updateData(result.campaign);
+          this.props.successMessage();
+        });
       },
       error: (_error) => {},
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -112,7 +114,7 @@ export default class CampaignSettings extends Component {
           name="create-repo"
           onSubmit={this.onSubmitHandler.bind(this)}
           ref={(form) => {
-            this.formRef = form
+            this.formRef = form;
           }}
         >
           <h3 className="text-xl font-bold my-4">
@@ -134,7 +136,7 @@ export default class CampaignSettings extends Component {
                     errors={this.state.errors}
                   />
                 </div>
-              )
+              );
             })}
 
             <div className="flex justify-end">
@@ -147,11 +149,11 @@ export default class CampaignSettings extends Component {
                 {I18n.t('common.save')}
               </Button>
 
-              <Button appearance="subtle p-4">{I18n.t('common.cancel')}</Button>
+              <Button>{I18n.t('common.cancel')}</Button>
             </div>
           </div>
         </form>
       </div>
-    )
+    );
   }
 }

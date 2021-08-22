@@ -7,6 +7,7 @@ import FieldRenderer, {
 import Button from '@chaskiq/components/src/components/Button';
 import Hints, { HintType } from '@chaskiq/components/src/components/Hints';
 import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter';
+import I18n from '../../shared/FakeI18n';
 
 type SettingsFormType = {
   update: (data: any) => void;

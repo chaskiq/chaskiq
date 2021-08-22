@@ -9,6 +9,7 @@ import Button from '@chaskiq/components/src/components/Button';
 import EmptyView from '@chaskiq/components/src/components/EmptyView';
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
 import Tabs from '@chaskiq/components/src/components/Tabs';
+import I18n from '../../shared/FakeI18n';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 

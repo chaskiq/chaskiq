@@ -1,15 +1,16 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Button from '@chaskiq/components/src/components/Button'
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Button from '@chaskiq/components/src/components/Button';
 
-import { BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
+import { BOT_TASKS } from '@chaskiq/store/src/graphql/queries';
 
-import { SEND_TRIGGER } from '@chaskiq/store/src/graphql/mutations'
+import { SEND_TRIGGER } from '@chaskiq/store/src/graphql/mutations';
+import I18n from '../../shared/FakeI18n';
 
 // TODO:
 
@@ -17,9 +18,9 @@ import { SEND_TRIGGER } from '@chaskiq/store/src/graphql/mutations'
 // tasks while visitors got lead bot tasks
 
 function TriggersPanel(props) {
-  const [open, setOpen] = React.useState(props.open)
-  const [botTask, setBotTask] = React.useState(null)
-  const [botTasks, setBotTasks] = React.useState([])
+  const [open, setOpen] = React.useState(props.open);
+  const [botTask, setBotTask] = React.useState(null);
+  const [botTasks, setBotTasks] = React.useState([]);
 
   function getBotTasks() {
     graphql(
@@ -31,11 +32,11 @@ function TriggersPanel(props) {
       },
       {
         success: (data) => {
-          setBotTasks(data.app.botTasks)
+          setBotTasks(data.app.botTasks);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function sendTrigger() {
@@ -48,24 +49,24 @@ function TriggersPanel(props) {
       },
       {
         success: () => {
-          handleClose()
+          handleClose();
         },
         errors: (_err) => {},
       }
-    )
+    );
   }
 
   React.useEffect(() => {
-    getBotTasks()
-  }, [])
+    getBotTasks();
+  }, []);
 
   React.useEffect(() => {
-    setOpen(props.open)
-  }, [props.open])
+    setOpen(props.open);
+  }, [props.open]);
 
   function handleClose() {
-    setOpen(false)
-    props.close()
+    setOpen(false);
+    props.close();
   }
 
   function renderItem(o) {
@@ -111,15 +112,15 @@ function TriggersPanel(props) {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   function handleClick(o) {
-    setBotTask(o)
+    setBotTask(o);
   }
 
   function handleSend(_o) {
-    sendTrigger()
+    sendTrigger();
   }
 
   return (
@@ -159,7 +160,7 @@ function TriggersPanel(props) {
                         </div>
                       </a>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </div>
@@ -184,16 +185,16 @@ function TriggersPanel(props) {
         </React.Fragment>
       }
     />
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app, conversation } = state
+  const { app_user, app, conversation } = state;
   return {
     app_user,
     app,
     conversation,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(TriggersPanel))
+export default withRouter(connect(mapStateToProps)(TriggersPanel));

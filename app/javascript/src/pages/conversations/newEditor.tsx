@@ -1,33 +1,34 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import I18n from '../../shared/FakeI18n';
 
-import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image'
-import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link'
-import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip'
+import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image';
+import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link';
+import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip';
 
-import Icons from 'Dante2/package/esm/editor/components/icons'
+import Icons from 'Dante2/package/esm/editor/components/icons';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor'
+import TextEditor from '@chaskiq/components/src/components/textEditor';
 
-import { DanteInlineTooltipConfig } from './EditorButtons' // 'Dante2/package/es/components/popovers/addButton.js'
+import { DanteInlineTooltipConfig } from './EditorButtons'; // 'Dante2/package/es/components/popovers/addButton.js'
 
-import html2content from 'Dante2/package/esm/editor/utils/html2content'
-import { Map } from 'immutable'
-import { EditorState, convertToRaw } from 'draft-js' // { compose
+import html2content from 'Dante2/package/esm/editor/utils/html2content';
+import { Map } from 'immutable';
+import { EditorState, convertToRaw } from 'draft-js'; // { compose
 
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
-import { ThemeProvider } from 'emotion-theming'
+import { ThemeProvider } from 'emotion-theming';
 
-import theme from '@chaskiq/components/src/components/textEditor/theme'
-import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles'
-import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage'
-import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers'
-import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/quickReplies'
-import { SendIcon } from '@chaskiq/components/src/components/icons'
+import theme from '@chaskiq/components/src/components/textEditor/theme';
+import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
+import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage';
+import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers';
+import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/quickReplies';
+import { SendIcon } from '@chaskiq/components/src/components/icons';
 
-import AppPackagePanel from './appPackagePanel'
-import TriggersPanel from './triggersPanel'
-import QuickReplyPanel from './quickRepliesPanel'
+import AppPackagePanel from './appPackagePanel';
+import TriggersPanel from './triggersPanel';
+import QuickReplyPanel from './quickRepliesPanel';
 
 export const ArticlePad = styled.div`
   @media (max-width: 640px) {
@@ -55,19 +56,19 @@ export const ArticlePad = styled.div`
   .debugControls {
     position: relative;
   }
-`
+`;
 
 export const SelectionIndicator = styled.span`
   position: relative;
   background-color: red;
   }
-`
+`;
 
 export const ChatEditorInput = styled.div`
   @media (min-width: 320px) and (max-width: 480px) {
     width: 60%;
   }
-`
+`;
 
 const Input = styled.textarea`
   margin: 0px;
@@ -80,12 +81,12 @@ const Input = styled.textarea`
   font-size: 1em;
   resize: none;
   background: transparent;
-`
+`;
 
 const FallbackNotice = styled.span`
   font-size: 0.7em;
   padding: 12px;
-`
+`;
 
 const SubmitButton = function (props) {
   return (
@@ -100,12 +101,12 @@ const SubmitButton = function (props) {
     >
       <SendIcon />
     </button>
-  )
-}
+  );
+};
 
 export default class ChatEditor extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       loading: true,
       data: {},
@@ -120,35 +121,35 @@ export default class ChatEditor extends Component {
       disabled: true,
       openGiphy: false,
       read_only: false,
-    }
+    };
 
-    this.fallbackEditor = this.isMobile()
+    this.fallbackEditor = this.isMobile();
 
-    this.editorRef = React.createRef()
+    this.editorRef = React.createRef();
   }
 
   isMobile = () => {
-    var hasTouchScreen = false
+    var hasTouchScreen = false;
     if ('maxTouchPoints' in navigator) {
-      hasTouchScreen = navigator.maxTouchPoints > 0
+      hasTouchScreen = navigator.maxTouchPoints > 0;
     } else if ('msMaxTouchPoints' in navigator) {
-      hasTouchScreen = navigator.msMaxTouchPoints > 0
+      hasTouchScreen = navigator.msMaxTouchPoints > 0;
     } else {
-      var mQ = window.matchMedia && matchMedia('(pointer:coarse)')
+      var mQ = window.matchMedia && matchMedia('(pointer:coarse)');
       if (mQ && mQ.media === '(pointer:coarse)') {
-        hasTouchScreen = !!mQ.matches
+        hasTouchScreen = !!mQ.matches;
       } else if ('orientation' in window) {
-        hasTouchScreen = true // deprecated, but good fallback
+        hasTouchScreen = true; // deprecated, but good fallback
       } else {
         // Only as a last resort, fall back to user agent sniffing
-        var UA = navigator.userAgent
+        var UA = navigator.userAgent;
         hasTouchScreen =
           /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
-          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
       }
     }
-    return hasTouchScreen
-  }
+    return hasTouchScreen;
+  };
 
   tooltipsConfig = () => {
     const inlineMenu = {
@@ -218,9 +219,9 @@ export default class ChatEditor extends Component {
           },
         ],
       },
-    }
+    };
 
-    const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu)
+    const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu);
 
     return [
       DanteImagePopoverConfig(),
@@ -228,14 +229,14 @@ export default class ChatEditor extends Component {
       DanteInlineTooltipConfig(),
       menuConfig,
       // DanteMarkdownConfig()
-    ]
-  }
+    ];
+  };
 
   uploadHandler = ({ serviceUrl, imageBlock }) => {
     imageBlock.uploadCompleted(serviceUrl, () => {
-      this.setDisabled(false)
-    })
-  }
+      this.setDisabled(false);
+    });
+  };
 
   componentDidMount() {
     // this breaks anchors render on editor
@@ -255,43 +256,43 @@ export default class ChatEditor extends Component {
       () =>
         this.props.saveContentCallback &&
         this.props.saveContentCallback(content)
-    )
-  }
+    );
+  };
 
   handleSubmit = () => {
-    const { html, serialized, _text } = this.state
-    this.props.submitData({ html, serialized })
-  }
+    const { html, serialized, _text } = this.state;
+    this.props.submitData({ html, serialized });
+  };
 
-  saveHandler = (_html3, _plain, _serialized) => {}
+  saveHandler = (_html3, _plain, _serialized) => {};
 
   setDisabled = (val) => {
-    this.setState({ disabled: val })
-  }
+    this.setState({ disabled: val });
+  };
 
   isDisabled = () => {
     return (
       this.state.html === '<p className="graf graf--p"></p>' ||
       this.state.disabled
-    )
-  }
+    );
+  };
 
   handleAppFunc = () => {
-    this.setState({ openPackagePanel: true })
-  }
+    this.setState({ openPackagePanel: true });
+  };
 
   handleBotFunc = () => {
-    this.setState({ openTriggersPanel: true })
-  }
+    this.setState({ openTriggersPanel: true });
+  };
 
   handleQuickRepliesFunc = () => {
-    this.setState({ openQuickReplyPanel: true })
-  }
+    this.setState({ openQuickReplyPanel: true });
+  };
 
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
-      : null
+      : null;
 
     return (
       <ThemeProvider theme={theme}>
@@ -301,14 +302,14 @@ export default class ChatEditor extends Component {
               kind={'conversations'}
               open={this.state.openPackagePanel}
               close={() => {
-                this.setState({ openPackagePanel: false })
+                this.setState({ openPackagePanel: false });
               }}
               insertComment={(data) => {
                 this.props.insertAppBlockComment(data, () => {
                   this.setState({
                     openPackagePanel: false,
-                  })
-                })
+                  });
+                });
               }}
             />
           )}
@@ -317,14 +318,14 @@ export default class ChatEditor extends Component {
             <QuickReplyPanel
               open={this.state.openQuickReplyPanel}
               close={() => {
-                this.setState({ openQuickReplyPanel: false })
+                this.setState({ openQuickReplyPanel: false });
               }}
               insertComment={(data) => {
                 this.props.insertComment(data, () => {
                   this.setState({
                     openQuickReplyPanel: false,
-                  })
-                })
+                  });
+                });
               }}
             />
           )}
@@ -333,14 +334,14 @@ export default class ChatEditor extends Component {
             <TriggersPanel
               open={this.state.openTriggersPanel}
               close={() => {
-                this.setState({ openTriggersPanel: false })
+                this.setState({ openTriggersPanel: false });
               }}
               insertComment={(data) => {
                 this.props.insertAppBlockComment(data, () => {
                   this.setState({
                     openTriggersPanel: false,
-                  })
-                })
+                  });
+                });
               }}
             />
           )}
@@ -366,18 +367,18 @@ export default class ChatEditor extends Component {
                 read_only={this.state.read_only}
                 //ref={this.editorRef} // this breaks the anchors on editor
                 handleReturn={(e, isEmptyDraft) => {
-                  if (isEmptyDraft || this.isDisabled()) return
+                  if (isEmptyDraft || this.isDisabled()) return;
                   if (
                     this.props.sendMode == 'enter' &&
                     !e.nativeEvent.shiftKey
                   ) {
-                    return this.handleSubmit()
+                    return this.handleSubmit();
                   }
                 }}
                 toggleEditable={() => {
                   this.setState({
                     read_only: !this.state.read_only,
-                  })
+                  });
                 }}
                 appendWidgets={[
                   AppPackageBlockConfig({
@@ -399,7 +400,7 @@ export default class ChatEditor extends Component {
                 }}
                 saveHandler={this.saveHandler}
                 updateState={({ _status, _statusButton, content }) => {
-                  this.saveContent(content)
+                  this.saveContent(content);
                 }}
               />
             )}
@@ -413,12 +414,12 @@ export default class ChatEditor extends Component {
           )}
         </EditorContainer>
       </ThemeProvider>
-    )
+    );
   }
 }
 
 function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
-  const input = React.createRef()
+  const input = React.createRef();
 
   function convertToDraft(sampleMarkup) {
     const blockRenderMap = Map({
@@ -447,32 +448,32 @@ function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
         element: 'pre',
         wrapper: null,
       },
-    })
+    });
 
-    const contentState = html2content(sampleMarkup, blockRenderMap)
-    const fstate2 = EditorState.createWithContent(contentState)
-    return JSON.stringify(convertToRaw(fstate2.getCurrentContent()))
+    const contentState = html2content(sampleMarkup, blockRenderMap);
+    const fstate2 = EditorState.createWithContent(contentState);
+    return JSON.stringify(convertToRaw(fstate2.getCurrentContent()));
   }
 
   function handleUp() {
-    setDisabled(!input.current.value)
-    if (input.current.value === '') return
+    setDisabled(!input.current.value);
+    if (input.current.value === '') return;
 
     saveContent({
       html: input.current.value,
       serialized: convertToDraft(input.current.value),
-    })
+    });
   }
 
   function handleReturn(e) {
     if (e.key === 'Enter') {
-      handleSubmit(e)
+      handleSubmit(e);
     }
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
-    if (input.current.value === '') return
+    e.preventDefault();
+    if (input.current.value === '') return;
 
     insertComment(
       {
@@ -480,9 +481,9 @@ function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
         serialized: convertToDraft(input.current.value),
       },
       () => {
-        input.current.value = ''
+        input.current.value = '';
       }
-    )
+    );
   }
 
   return (
@@ -497,5 +498,5 @@ function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
       />
       <FallbackNotice>editor fallback mobile version</FallbackNotice>
     </div>
-  )
+  );
 }

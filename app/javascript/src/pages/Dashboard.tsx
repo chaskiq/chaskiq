@@ -1,14 +1,15 @@
-import React from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import WebSetup from '@chaskiq/components/src/components/webSetup'
-import Badge from '@chaskiq/components/src/components/Badge'
-import { useHistory } from 'react-router-dom'
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import WebSetup from '@chaskiq/components/src/components/webSetup';
+import Badge from '@chaskiq/components/src/components/Badge';
+import { useHistory } from 'react-router-dom';
+import I18n from '../shared/FakeI18n';
 
-import Content from '@chaskiq/components/src/components/Content'
-import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import Content from '@chaskiq/components/src/components/Content';
+import PageHeader from '@chaskiq/components/src/components/PageHeader';
 
-import DashboardItem from './reports/ReportItem'
+import DashboardItem from './reports/ReportItem';
 
 import {
   ConversationChatIcon,
@@ -17,31 +18,31 @@ import {
   HelpCenterIcon,
   AppSettingsIcon,
   ChartsIcons,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
-import { LinkButton } from '@chaskiq/components/src/components/RouterLink'
+} from '@chaskiq/store/src/actions/navigation';
+import { LinkButton } from '@chaskiq/components/src/components/RouterLink';
 
 export function Home() {
   return (
     <div>
       <PageHeader title={'Dashboard'} />
     </div>
-  )
+  );
 }
 
 function Dashboard(props) {
-  const { app, dispatch } = props
+  const { app, dispatch } = props;
 
   React.useEffect(() => {
-    dispatch(setCurrentSection(null))
-    dispatch(setCurrentPage(null))
-  }, [])
+    dispatch(setCurrentSection(null));
+    dispatch(setCurrentPage(null));
+  }, []);
 
-  const history = useHistory()
+  const history = useHistory();
 
   const actions = [
     {
@@ -104,7 +105,7 @@ function Dashboard(props) {
       iconBackground: 'bg-sky-50',
       text: I18n.t('navigator.help_center'),
     },
-  ]
+  ];
 
   return (
     <div>
@@ -165,24 +166,24 @@ function Dashboard(props) {
         </div>
       </Content>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Dashboard))
+export default withRouter(connect(mapStateToProps)(Dashboard));
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
 function Example({ actions }) {
@@ -261,5 +262,5 @@ function Example({ actions }) {
         </div>
       ))}
     </div>
-  )
+  );
 }

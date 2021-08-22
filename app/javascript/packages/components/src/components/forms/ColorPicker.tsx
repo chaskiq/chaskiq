@@ -4,6 +4,8 @@ import { HexColorPicker, HexColorInput } from 'react-colorful';
 import Button from '../Button';
 import { DockerIcon, PaintIcon } from '../icons';
 
+import I18n from '../../../../../src/shared/FakeI18n';
+
 interface IColorPickerProps {
   color: string;
   name?: string;

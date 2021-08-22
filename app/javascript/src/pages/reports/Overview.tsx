@@ -1,5 +1,6 @@
 import React from 'react';
 import ReportRenderer from './renderer';
+import I18n from '../../shared/FakeI18n';
 
 export default function Overview({ dashboard, app }) {
   const reportSchema = [

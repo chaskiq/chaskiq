@@ -1,33 +1,33 @@
-import React from 'react'
-import { Switch, Route, withRouter } from 'react-router-dom'
+import React from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
-import { connect } from 'react-redux'
-import { isEmpty } from 'lodash'
+import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import Progress from '@chaskiq/components/src/components/Progress'
-import EmptyView from '@chaskiq/components/src/components/EmptyView'
-import Button from '@chaskiq/components/src/components/Button'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import Progress from '@chaskiq/components/src/components/Progress';
+import EmptyView from '@chaskiq/components/src/components/EmptyView';
+import Button from '@chaskiq/components/src/components/Button';
 
-import ConversationSearch from './conversations/Search'
-import ConversationItemList from './conversations/ItemList'
-import AssignmentRules from './conversations/AssignmentRules'
-import Conversation from './conversations/Conversation'
-import ConversationSidebar from './conversations/Sidebar'
+import ConversationSearch from './conversations/Search';
+import ConversationItemList from './conversations/ItemList';
+import AssignmentRules from './conversations/AssignmentRules';
+import Conversation from './conversations/Conversation';
+import ConversationSidebar from './conversations/Sidebar';
 
-import emptyImage from '../images/empty-icon8.png'
-import I18n from '../shared/FakeI18n'
+import emptyImage from '../images/empty-icon8.png';
+import I18n from '../shared/FakeI18n';
 
 import {
   getConversations,
   updateConversationsData,
   clearConversations,
-} from '@chaskiq/store/src/actions/conversations'
+} from '@chaskiq/store/src/actions/conversations';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 function Conversations({
   dispatch,
@@ -37,45 +37,45 @@ function Conversations({
   events,
   app_user,
 }) {
-  const [fetching, setFetching] = React.useState(false)
-  const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false)
+  const [fetching, setFetching] = React.useState(false);
+  const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false);
 
   React.useEffect(() => {
-    dispatch(clearConversations([]))
-    setFetching(true)
+    dispatch(clearConversations([]));
+    setFetching(true);
     fetchConversations({ page: 1 }, () => {
-      setFetching(false)
-    })
+      setFetching(false);
+    });
 
-    dispatch(setCurrentPage('Conversations'))
-    dispatch(setCurrentSection('Conversations'))
-  }, [])
+    dispatch(setCurrentPage('Conversations'));
+    dispatch(setCurrentSection('Conversations'));
+  }, []);
 
   const fetchConversations = (options, cb) => {
     dispatch(
       getConversations(options, () => {
-        cb && cb()
+        cb && cb();
       })
-    )
-  }
+    );
+  };
 
   const handleScroll = (e) => {
-    const element = e.target
-    const scrollDiff = Math.round(element.scrollHeight - element.scrollTop)
+    const element = e.target;
+    const scrollDiff = Math.round(element.scrollHeight - element.scrollTop);
     if (scrollDiff === element.clientHeight) {
       if (conversations.meta.next_page && !fetching) {
-        setFetching(true)
+        setFetching(true);
         fetchConversations(
           {
             page: conversations.meta.next_page,
           },
           () => {
-            setFetching(false)
+            setFetching(false);
           }
-        )
+        );
       }
     }
-  }
+  };
 
   const filterButton = (handleClick) => {
     return (
@@ -90,8 +90,8 @@ function Conversations({
         {/* <MoreVertIcon /> */}
         {I18n.t('conversations.states.' + conversations.filter)}
       </Button>
-    )
-  }
+    );
+  };
 
   const sortButton = (handleClick) => {
     return (
@@ -106,8 +106,8 @@ function Conversations({
         {/* <MoreVertIcon /> */}
         {I18n.t('conversations.sorts.' + conversations.sort)}
       </Button>
-    )
-  }
+    );
+  };
 
   const filterConversations = (options, cb) => {
     dispatch(
@@ -117,12 +117,12 @@ function Conversations({
           collection: [],
         },
         () => {
-          fetchConversations({ page: 1 }, cb)
+          fetchConversations({ page: 1 }, cb);
           // getConversations({page: 1}, cb)
         }
       )
-    )
-  }
+    );
+  };
 
   const sortConversations = (options, _cb) => {
     dispatch(
@@ -132,12 +132,12 @@ function Conversations({
           collection: [],
         },
         () => {
-          fetchConversations({ page: 1 })
+          fetchConversations({ page: 1 });
           // getConversations({page: 1}, cb)
         }
       )
-    )
-  }
+    );
+  };
 
   /*const clearSearchTerm = () => {
     dispatch(
@@ -163,7 +163,7 @@ function Conversations({
         count: 2,
         icon: null,
       },
-    ]
+    ];
 
     const sorts = [
       {
@@ -192,7 +192,7 @@ function Conversations({
         name: I18n.t('conversations.sorts.all'),
         count: 1,
       },
-    ]
+    ];
 
     return (
       <React.Fragment>
@@ -240,7 +240,7 @@ function Conversations({
           style={{ height: 'calc(100vh - 60px)' }}
         >
           {conversations.collection.map((o) => {
-            const user = o.mainParticipant
+            const user = o.mainParticipant;
             return (
               <ConversationItemList
                 key={o.key}
@@ -248,7 +248,7 @@ function Conversations({
                 app={app}
                 conversation={o}
               />
-            )
+            );
           })}
 
           {conversations.meta.total_pages === 0 && (
@@ -263,19 +263,17 @@ function Conversations({
 
           {(fetching || conversations.loading) && (
             <div className="m-2">
-              <Progress
-                size={conversations.collection.length === 0 ? '16' : '4'}
-              />
+              <Progress size={conversations.collection.length === 0 ? 16 : 4} />
             </div>
           )}
         </div>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const toggleFixedSidebar = () => {
-    setFixedSidebarOpen(!fixedSidebarOpen)
-  }
+    setFixedSidebarOpen(!fixedSidebarOpen);
+  };
 
   return (
     <div className="flex">
@@ -344,12 +342,12 @@ function Conversations({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversations, conversation, app_user } = state
-  const { isAuthenticated } = auth
+  const { auth, app, conversations, conversation, app_user } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
@@ -358,7 +356,7 @@ function mapStateToProps(state) {
     app_user,
     app,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Conversations))
+export default withRouter(connect(mapStateToProps)(Conversations));

@@ -1,32 +1,34 @@
-import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Button from '@chaskiq/components/src/components/Button'
-import TextField from '@chaskiq/components/src/components/forms/Input'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
-import Table from '@chaskiq/components/src/components/Table'
+import I18n from '../../../shared/FakeI18n';
+
+import Button from '@chaskiq/components/src/components/Button';
+import TextField from '@chaskiq/components/src/components/forms/Input';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs';
+import Table from '@chaskiq/components/src/components/Table';
 import {
   getFileMetadata,
   directUpload,
-} from '@chaskiq/components/src/components/fileUploader'
+} from '@chaskiq/components/src/components/fileUploader';
 
-import { arrayMove } from 'react-sortable-hoc'
-import langs from '../../../shared/langsOptions'
+import { arrayMove } from 'react-sortable-hoc';
+import langs from '../../../shared/langsOptions';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   ARTICLE_COLLECTION_CREATE,
@@ -34,9 +36,9 @@ import {
   ARTICLE_COLLECTION_DELETE,
   ARTICLE_COLLECTION_REORDER,
   CREATE_DIRECT_UPLOAD,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
-import { ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/queries'
+import { ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/queries';
 class Collections extends Component {
   state = {
     isOpen: false,
@@ -45,27 +47,27 @@ class Collections extends Component {
     openConfirm: false,
     languages: [],
     lang: 'en',
-  }
+  };
 
-  titleRef = null
-  descriptionRef = null
+  titleRef = null;
+  descriptionRef = null;
 
   componentDidMount() {
-    this.getCollections()
-    this.props.dispatch(setCurrentSection('HelpCenter'))
+    this.getCollections();
+    this.props.dispatch(setCurrentSection('HelpCenter'));
 
-    this.props.dispatch(setCurrentPage('Collections'))
+    this.props.dispatch(setCurrentPage('Collections'));
   }
 
-  submitAssignment = () => {}
+  submitAssignment = () => {};
 
   close = () => {
-    this.setState({ isOpen: false, editCollection: null })
-  }
+    this.setState({ isOpen: false, editCollection: null });
+  };
 
   displayDialog = (_e) => {
-    this.setState({ isOpen: true })
-  }
+    this.setState({ isOpen: true });
+  };
 
   submitCreate = (_e) => {
     graphql(
@@ -77,16 +79,16 @@ class Collections extends Component {
       },
       {
         success: (data) => {
-          const col = data.articleCollectionCreate.collection
+          const col = data.articleCollectionCreate.collection;
           this.setState({
             article_collections: this.state.article_collections.concat(col),
             isOpen: false,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   submitEdit = (_e) => {
     graphql(
@@ -101,31 +103,31 @@ class Collections extends Component {
       },
       {
         success: (data) => {
-          const col = data.articleCollectionEdit.collection
+          const col = data.articleCollectionEdit.collection;
           const newArticleCollection = this.state.article_collections.map(
             (o) => {
               if (o.id === col.id) {
-                return col
+                return col;
               } else {
-                return o
+                return o;
               }
             }
-          )
+          );
 
           this.setState({
             article_collections: newArticleCollection,
             isOpen: false,
             editCollection: null,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   handleRemove = (_item) => {
     // confirm
-  }
+  };
 
   getCollections = (_e) => {
     graphql(
@@ -138,25 +140,25 @@ class Collections extends Component {
         success: (data) => {
           this.setState({
             article_collections: data.app.collections,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   openEdit = (collection) => {
     this.setState({
       editCollection: collection,
       isOpen: true,
-    })
-  }
+    });
+  };
 
   requestDelete = (item) => {
     this.setState({
       itemToDelete: item,
-    })
-  }
+    });
+  };
 
   submitDelete = () => {
     graphql(
@@ -167,20 +169,20 @@ class Collections extends Component {
       },
       {
         success: (data) => {
-          const col = data.articleCollectionDelete.collection
+          const col = data.articleCollectionDelete.collection;
           const newCollection = this.state.article_collections.filter(
             (o) => o.id != col.id
-          )
+          );
 
           this.setState({
             openConfirm: false,
             itemToDelete: null,
             article_collections: newCollection,
-          })
+          });
         },
       }
-    )
-  }
+    );
+  };
 
   handleLangChange = (o) => {
     this.setState(
@@ -188,18 +190,18 @@ class Collections extends Component {
         lang: o,
       },
       this.getCollections
-    )
-  }
+    );
+  };
 
   closeItemToDelete = () => {
     this.setState({
       itemToDelete: null,
-    })
-  }
+    });
+  };
 
   onSortEnd = (oldIndex, newIndex) => {
-    const op1 = this.state.article_collections[oldIndex]
-    const op2 = this.state.article_collections[newIndex]
+    const op1 = this.state.article_collections[oldIndex];
+    const op2 = this.state.article_collections[newIndex];
 
     graphql(
       ARTICLE_COLLECTION_REORDER,
@@ -213,13 +215,13 @@ class Collections extends Component {
         success: (_res) => {
           this.props.dispatch(
             successMessage(I18n.t('articles.reordered_success'))
-          )
+          );
         },
         error: (_res) => {
-          this.props.dispatch(errorMessage(I18n.t('articles.reordered_error')))
+          this.props.dispatch(errorMessage(I18n.t('articles.reordered_error')));
         },
       }
-    )
+    );
 
     this.setState({
       article_collections: arrayMove(
@@ -227,10 +229,10 @@ class Collections extends Component {
         oldIndex,
         newIndex
       ),
-    })
+    });
 
-    setTimeout(() => {}, 2000)
-  }
+    setTimeout(() => {}, 2000);
+  };
 
   uploadHandler = (file) => {
     getFileMetadata(file).then((input) => {
@@ -241,7 +243,7 @@ class Collections extends Component {
             headers,
             url,
             //serviceUrl
-          } = data.createDirectUpload.directUpload
+          } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             this.setState(
@@ -252,17 +254,17 @@ class Collections extends Component {
                 },
               },
               this.submitEdit
-            )
-          })
+            );
+          });
         },
         error: (_error) => {},
-      })
-    })
-  }
+      });
+    });
+  };
 
   render() {
-    const { isOpen, editCollection, itemToDelete } = this.state
-    const { app } = this.props
+    const { isOpen, editCollection, itemToDelete } = this.state;
+    const { app } = this.props;
     return (
       <React.Fragment>
         <ContentHeader
@@ -331,7 +333,7 @@ class Collections extends Component {
                   placeholder={I18n.t('articles.create.placeholder')}
                   // helperText="Full width!"
                   ref={(ref) => {
-                    this.titleRef = ref
+                    this.titleRef = ref;
                   }}
                   defaultValue={editCollection ? editCollection.title : null}
                   margin="normal"
@@ -345,7 +347,7 @@ class Collections extends Component {
                   // helperText="Full width!"
                   multiline
                   ref={(ref) => {
-                    this.descriptionRef = ref
+                    this.descriptionRef = ref;
                   }}
                   defaultValue={
                     editCollection ? editCollection.description : null
@@ -483,21 +485,21 @@ class Collections extends Component {
           </div>
         </div>
       </React.Fragment>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { isAuthenticated } = auth
+  const { auth, app } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
     isAuthenticated,
-  }
+  };
 }
 
 // export default withRouter(connect(mapStateToProps)(withStyles(styles)(ArticlesNew)))
 // export default withRouter(connect(mapStateToProps)(Collections))
-export default withRouter(connect(mapStateToProps)(Collections))
+export default withRouter(connect(mapStateToProps)(Collections));

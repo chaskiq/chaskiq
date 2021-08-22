@@ -4,6 +4,7 @@ import Dropdown from '../Dropdown';
 import Button from '../Button';
 import Tooltip from 'rc-tooltip';
 import { MapIcon, ColumnsIcon, QueueIcon } from '../icons';
+import I18n from '../../../../../src/shared/FakeI18n';
 
 import {
   sortableContainer,

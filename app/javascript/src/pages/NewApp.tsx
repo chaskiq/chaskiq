@@ -1,31 +1,32 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import timezones from '../shared/timezones'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import timezones from '../shared/timezones';
+import I18n from '../shared/FakeI18n';
 
-import SettingsForm from '../pages/settings/form'
-import image from '../images/up-icon8.png'
+import SettingsForm from '../pages/settings/form';
+import image from '../images/up-icon8.png';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
-import { clearApp } from '@chaskiq/store/src/actions/app'
+import { clearApp } from '@chaskiq/store/src/actions/app';
 
-import { CREATE_APP } from '@chaskiq/store/src/graphql/mutations'
+import { CREATE_APP } from '@chaskiq/store/src/graphql/mutations';
 
 class NewApp extends Component {
   state = {
     data: {},
-  }
+  };
 
   componentDidMount() {
-    this.props.dispatch(clearApp())
+    this.props.dispatch(clearApp());
   }
 
   definitionsForSettings = () => {
@@ -57,17 +58,17 @@ class NewApp extends Component {
         multiple: false,
         grid: { xs: 'w-full', sm: 'w-full' },
       },
-    ]
-  }
+    ];
+  };
 
   handleSuccess = () => {
-    this.props.dispatch(successMessage('app created successfully'))
-    this.props.history.push(`/apps/${this.state.data.app.key}`)
-  }
+    this.props.dispatch(successMessage('app created successfully'));
+    this.props.history.push(`/apps/${this.state.data.app.key}`);
+  };
 
   handleResponse = () => {
-    this.state.data.app.key && this.handleSuccess()
-  }
+    this.state.data.app.key && this.handleSuccess();
+  };
 
   handleData = (data) => {
     graphql(
@@ -83,14 +84,14 @@ class NewApp extends Component {
               data: data.appsCreate,
             },
             () => this.handleResponse(data)
-          )
+          );
         },
         error: (_error) => {
-          this.props.dispatch(errorMessage('server error'))
+          this.props.dispatch(errorMessage('server error'));
         },
       }
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -127,22 +128,22 @@ class NewApp extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
 NewApp.contextTypes = {
   router: PropTypes.object,
-}
+};
 
 function mapStateToProps(state) {
-  const { auth } = state
-  const { isAuthenticated } = auth
+  const { auth } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(NewApp))
+export default withRouter(connect(mapStateToProps)(NewApp));

@@ -3,6 +3,7 @@ import graphql from '../graphql/client'
 import { APP } from '../graphql/queries'
 import { UPDATE_APP } from '../graphql/mutations'
 
+import I18n from '../../../../src/shared/FakeI18n'
 import { successMessage, errorMessage } from './status_messages'
 import { isEmpty } from 'lodash'
 

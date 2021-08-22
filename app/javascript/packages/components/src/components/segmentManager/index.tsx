@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import Dropdown from '../Dropdown';
 import Button, { ButtonIndigo } from '../Button';
 import { PredicateType } from './types';
+import I18n from '../../../../../src/shared/FakeI18n';
 
 // import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 

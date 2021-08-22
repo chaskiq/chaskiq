@@ -6,6 +6,7 @@ import { isArray } from 'lodash';
 import DatePicker from 'react-datepicker';
 import { ColorPicker } from './ColorPicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import I18n from '../../../../../src/shared/FakeI18n';
 
 function mapStateToProps(state) {
   const { theme } = state;

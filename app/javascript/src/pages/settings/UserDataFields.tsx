@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import serialize from 'form-serialize';
+import I18n from '../../shared/FakeI18n';
 
 import Hints from '@chaskiq/components/src/components/Hints';
 import List, {

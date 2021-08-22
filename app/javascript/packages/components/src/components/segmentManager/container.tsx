@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from '@emotion/styled';
 import { InlineFilterDialog, SaveSegmentModal } from '.';
+import I18n from '../../../../../src/shared/FakeI18n';
 
 import SegmentItemButton from './itemButton';
 

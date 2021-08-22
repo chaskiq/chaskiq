@@ -1,72 +1,73 @@
-import React, { Component, useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import styled from '@emotion/styled'
+import React, { Component, useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import styled from '@emotion/styled';
 //import JsonDebug from '../../shared/jsonDebug'
-import Segment from './segment'
-import BotTaskSetting from './taskSettings'
+import Segment from './segment';
+import BotTaskSetting from './taskSettings';
+import I18n from '../../shared/FakeI18n';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor'
-import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
-import InplaceInputEditor from '@chaskiq/components/src/components/InplaceInputEditor'
-import SwitchControl from '@chaskiq/components/src/components/Switch'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import Dropdown from '@chaskiq/components/src/components/Dropdown'
-import Button from '@chaskiq/components/src/components/Button'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import Stats from '@chaskiq/components/src/components/stats'
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
+import TextEditor from '@chaskiq/components/src/components/textEditor';
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton';
+import InplaceInputEditor from '@chaskiq/components/src/components/InplaceInputEditor';
+import SwitchControl from '@chaskiq/components/src/components/Switch';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import Dropdown from '@chaskiq/components/src/components/Dropdown';
+import Button from '@chaskiq/components/src/components/Button';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import Stats from '@chaskiq/components/src/components/stats';
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import {
   PlusIcon,
   DragHandle,
   DeleteForever,
   CopyContentIcon,
   DeleteForeverRounded,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
-import List, { ListItem } from '@chaskiq/components/src/components/List'
+import List, { ListItem } from '@chaskiq/components/src/components/List';
 
-import AppPackagePanel from '../conversations/appPackagePanel'
+import AppPackagePanel from '../conversations/appPackagePanel';
 
-import { isEmpty } from 'lodash'
+import { isEmpty } from 'lodash';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   BOT_TASK,
   AGENTS,
   BOT_TASK_METRICS,
-} from '@chaskiq/store/src/graphql/queries'
+} from '@chaskiq/store/src/graphql/queries';
 import {
   UPDATE_BOT_TASK,
   CLONE_MESSAGE,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 const ItemManagerContainer = styled.div`
   flex-grow: 4;
   margin-right: 19px;
-`
+`;
 
 const ItemsContainer = styled.div`
   box-shadow: 0 24px 0 0 #fff, 0 -24px 0 0 #fff,
     16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
-`
+`;
 
 const PathActionsContainer = styled.div`
   align-items: flex-end;
@@ -75,7 +76,7 @@ const PathActionsContainer = styled.div`
   box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.1), 0 -24px 0 0 #fff,
     16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
   padding: 20px 20px 24px;
-`
+`;
 
 const ItemButtons = styled.div`
   align-self: center;
@@ -85,29 +86,29 @@ const ItemButtons = styled.div`
   flex-grow: 1;
 
   justify-content: ${(props) => (props.first ? 'flex-start' : 'flex-end')};
-`
+`;
 
 const ControlWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-flow: column;
-`
+`;
 
 function create_UUID() {
-  var dt = new Date().getTime()
+  var dt = new Date().getTime();
   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
     /[xy]/g,
     function (c) {
-      var r = (dt + Math.random() * 16) % 16 | 0
-      dt = Math.floor(dt / 16)
-      return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+      var r = (dt + Math.random() * 16) % 16 | 0;
+      dt = Math.floor(dt / 16);
+      return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
     }
-  )
-  return uuid
+  );
+  return uuid;
 }
 
 const PathDialog = ({ _open, close, isOpen, submit }) => {
-  let titleRef = React.createRef()
+  let titleRef = React.createRef();
   // const titleRef = null
 
   const handleSubmit = () => {
@@ -115,8 +116,8 @@ const PathDialog = ({ _open, close, isOpen, submit }) => {
       id: create_UUID(),
       title: titleRef.value,
       steps: [],
-    })
-  }
+    });
+  };
 
   return (
     isOpen && (
@@ -159,16 +160,16 @@ const PathDialog = ({ _open, close, isOpen, submit }) => {
         // heading={this.props.title}
       ></FormDialog>
     )
-  )
-}
+  );
+};
 
 const BotEditor = ({ match, app, dispatch, mode, actions }) => {
-  const [botTask, setBotTask] = useState({})
-  const [errors, setErrors] = useState({})
-  const [paths, setPaths] = useState([])
-  const [tabValue, setTabValue] = useState(0)
-  const [searchFields, setSearchFields] = useState([])
-  const [selectedPath, setSelectedPath] = useState(null)
+  const [botTask, setBotTask] = useState({});
+  const [errors, setErrors] = useState({});
+  const [paths, setPaths] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
+  const [searchFields, setSearchFields] = useState([]);
+  const [selectedPath, setSelectedPath] = useState(null);
 
   useEffect(() => {
     graphql(
@@ -179,24 +180,24 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       },
       {
         success: (data) => {
-          setBotTask(data.app.botTask)
-          setPaths(data.app.botTask.paths)
-          setSelectedPath(data.app.botTask.paths[0])
+          setBotTask(data.app.botTask);
+          setPaths(data.app.botTask.paths);
+          setSelectedPath(data.app.botTask.paths[0]);
         },
         error: (_err) => {},
       }
-    )
+    );
 
-    dispatch(setCurrentSection('Bot'))
-    dispatch(setCurrentPage(`bot${mode}`))
-  }, [])
+    dispatch(setCurrentSection('Bot'));
+    dispatch(setCurrentPage(`bot${mode}`));
+  }, []);
 
   const saveData = (cb) => {
     const snake_case_paths = paths.map((o) => {
-      const b = Object.assign({}, o, { follow_actions: o.followActions })
-      delete b.followActions
-      return b
-    })
+      const b = Object.assign({}, o, { follow_actions: o.followActions });
+      delete b.followActions;
+      return b;
+    });
 
     graphql(
       UPDATE_BOT_TASK,
@@ -214,18 +215,18 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       },
       {
         success: (data) => {
-          setPaths(data.updateBotTask.botTask.paths)
-          setErrors(data.updateBotTask.botTask.errors)
+          setPaths(data.updateBotTask.botTask.paths);
+          setErrors(data.updateBotTask.botTask.errors);
           // setSelectedPath(data.updateBotTask.botTask.paths[0]);
-          dispatch(successMessage(I18n.t('status_messages.updated_success')))
-          cb && cb()
+          dispatch(successMessage(I18n.t('status_messages.updated_success')));
+          cb && cb();
         },
         error: (_err) => {
-          dispatch(errorMessage(I18n.t('status_messages.error_success')))
+          dispatch(errorMessage(I18n.t('status_messages.error_success')));
         },
       }
-    )
-  }
+    );
+  };
 
   const toggleBotState = () => {
     graphql(
@@ -239,19 +240,19 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       },
       {
         success: (data) => {
-          setBotTask(data.updateBotTask.botTask)
-          dispatch(successMessage(I18n.t('status_messages.updated_success')))
+          setBotTask(data.updateBotTask.botTask);
+          dispatch(successMessage(I18n.t('status_messages.updated_success')));
         },
         error: (_err) => {
-          dispatch(errorMessage(I18n.t('status_messages.updated_error')))
+          dispatch(errorMessage(I18n.t('status_messages.updated_error')));
         },
       }
-    )
-  }
+    );
+  };
 
   const handleTabChange = (e, i) => {
-    setTabValue(i)
-  }
+    setTabValue(i);
+  };
 
   const tabsContent = () => {
     return (
@@ -296,15 +297,15 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 app={app}
                 data={botTask}
                 updateData={(task) => {
-                  setBotTask(task)
+                  setBotTask(task);
                 }}
                 handleSave={(segments, cb) => {
                   setBotTask(
                     Object.assign({}, botTask, {
                       segments: segments,
                     })
-                  )
-                  saveData(cb)
+                  );
+                  saveData(cb);
                 }}
               />
             ),
@@ -331,19 +332,19 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
           },
         ]}
       ></Tabs>
-    )
-  }
+    );
+  };
 
   const getStats = (params, cb) => {
     graphql(BOT_TASK_METRICS, params, {
       success: (data) => {
-        setSearchFields(data.app.searcheableFields)
-        const d = data.app.botTask
-        cb(d)
+        setSearchFields(data.app.searcheableFields);
+        const d = data.app.botTask;
+        cb(d);
       },
       error: (_error) => {},
-    })
-  }
+    });
+  };
 
   function optionsForFilter() {
     return [
@@ -355,25 +356,25 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         state: 'enabled',
         onClick: cloneCampaign,
       },
-    ]
+    ];
   }
 
   function cloneCampaign(_e) {
     const params = {
       appKey: app.key,
       id: `${botTask.id}`,
-    }
+    };
 
     graphql(CLONE_MESSAGE, params, {
       success: (_data) => {
-        dispatch(successMessage(I18n.t('campaigns.cloned_success')))
+        dispatch(successMessage(I18n.t('campaigns.cloned_success')));
 
         // this.props.init()
       },
       error: () => {
-        dispatch(errorMessage(I18n.t('campaigns.cloned_error')))
+        dispatch(errorMessage(I18n.t('campaigns.cloned_error')));
       },
-    })
+    });
   }
 
   function updateTitle(title) {
@@ -388,11 +389,11 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
       },
       {
         success: (data) => {
-          setBotTask(data.updateBotTask.botTask)
+          setBotTask(data.updateBotTask.botTask);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   return (
@@ -433,7 +434,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 options={optionsForFilter()}
                 value={I18n.t('common.actions')}
                 filterHandler={(option, _closeHandler) => {
-                  return option.onClick && option.onClick(option)
+                  return option.onClick && option.onClick(option);
                 }}
                 position={'right'}
                 toggleButton={(clickHandler) => {
@@ -446,7 +447,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                     >
                       {I18n.t('common.actions')}
                     </Button>
-                  )
+                  );
                 }}
               />
             </div>
@@ -455,8 +456,8 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
         {tabsContent()}
       </Content>
     </div>
-  )
-}
+  );
+};
 
 export function BotPathEditor({
   saveData,
@@ -468,21 +469,21 @@ export function BotPathEditor({
   setSelectedPath,
   botTask,
 }) {
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(false);
   // const [changed, setChanged] = useState(null)
-  const [openPackagePanel, setOpenPackagePanel] = useState(null)
-  const [menuDisplay, setMenuDisplay] = useState(false)
+  const [openPackagePanel, setOpenPackagePanel] = useState(null);
+  const [menuDisplay, setMenuDisplay] = useState(false);
 
-  const open = () => setOpen(true)
-  const close = () => setOpen(false)
+  const open = () => setOpen(true);
+  const close = () => setOpen(false);
 
   const showPathDialog = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleSelection = (item) => {
-    setSelectedPath(item)
-  }
+    setSelectedPath(item);
+  };
 
   const addSectionMessage = (path) => {
     const dummy = {
@@ -501,25 +502,25 @@ export function BotPathEditor({
           html_content: '--***--',
         },
       ],
-    }
+    };
 
-    const newSteps = path.steps.concat(dummy)
-    let newPath = null
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps })
-        return newPath
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
       } else {
-        return o
+        return o;
       }
-    })
-    setPaths(newPaths)
-    setSelectedPath(newPath) // redundant
-  }
+    });
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
 
   const addWaitUserMessage = (path) => {
-    const id = create_UUID()
+    const id = create_UUID();
     const dummy = {
       step_uid: id,
       type: 'messages',
@@ -528,26 +529,26 @@ export function BotPathEditor({
         type: 'wait_for_reply',
         schema: [],
       },
-    }
+    };
 
-    const newSteps = path.steps.concat(dummy)
-    let newPath = null
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps })
-        return newPath
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
       } else {
-        return o
+        return o;
       }
-    })
+    });
 
-    setPaths(newPaths)
-    setSelectedPath(newPath) // redundant
-  }
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
 
   const addSectionControl = (path) => {
-    const id = create_UUID()
+    const id = create_UUID();
     const dummy = {
       step_uid: id,
       type: 'messages',
@@ -565,26 +566,26 @@ export function BotPathEditor({
           // {element: "button", label: "estoy solo mirando", next_step_uuid: 4}
         ],
       },
-    }
+    };
 
-    const newSteps = path.steps.concat(dummy)
-    let newPath = null
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps })
-        return newPath
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
       } else {
-        return o
+        return o;
       }
-    })
+    });
 
-    setPaths(newPaths)
-    setSelectedPath(newPath) // redundant
-  }
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
 
   const addDataControl = (path) => {
-    const id = create_UUID()
+    const id = create_UUID();
     const dummy = {
       step_uid: id,
       messages: [],
@@ -601,27 +602,27 @@ export function BotPathEditor({
           },
         ],
       },
-    }
+    };
 
-    const newSteps = path.steps.concat(dummy)
-    let newPath = null
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps })
-        return newPath
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
       } else {
-        return o
+        return o;
       }
-    })
+    });
 
-    setPaths(newPaths)
-    setSelectedPath(newPath) // redundant
-  }
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
 
   const insertAddPackage = (p) => {
-    const { provider } = p
-    const id = create_UUID()
+    const { provider } = p;
+    const id = create_UUID();
     const dummy = {
       step_uid: id,
       messages: [],
@@ -630,65 +631,65 @@ export function BotPathEditor({
         app_package: provider.name,
         schema: provider.schema,
       },
-    }
+    };
 
-    const path = openPackagePanel
-    const newSteps = path.steps.concat(dummy)
-    let newPath = null
+    const path = openPackagePanel;
+    const newSteps = path.steps.concat(dummy);
+    let newPath = null;
 
     const newPaths = paths.map((o) => {
       if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps })
-        return newPath
+        newPath = Object.assign({}, path, { steps: newSteps });
+        return newPath;
       } else {
-        return o
+        return o;
       }
-    })
+    });
 
-    setPaths(newPaths)
-    setSelectedPath(newPath) // redundant
-  }
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
 
   const addEmptyPath = (data) => {
-    addPath(data)
-    close()
-    setSelectedPath(data)
-  }
+    addPath(data);
+    close();
+    setSelectedPath(data);
+  };
 
   const addAppPackage = (path) => {
-    setOpenPackagePanel(path)
-  }
+    setOpenPackagePanel(path);
+  };
 
   const onDragEnd = (result) => {
     // dropped outside the list
     if (!result.destination) {
-      return
+      return;
     }
 
     // avoid sort the first item
     if (result.destination.index === 0) {
-      return
+      return;
     }
 
     const newPaths = reorder(
       paths,
       result.source.index,
       result.destination.index
-    )
+    );
 
-    setPaths(newPaths)
-  }
+    setPaths(newPaths);
+  };
 
   const addPath = (path) => {
-    const newPaths = paths.concat(path)
-    setPaths(newPaths)
-  }
+    const newPaths = paths.concat(path);
+    setPaths(newPaths);
+  };
 
   const updatePath = (path) => {
-    const newPaths = paths.map((o) => (o.id === path.id ? path : o))
-    setPaths(newPaths)
-    setSelectedPath(newPaths.find((o) => o.id === path.id)) // redundant
-  }
+    const newPaths = paths.map((o) => (o.id === path.id ? path : o));
+    setPaths(newPaths);
+    setSelectedPath(newPaths.find((o) => o.id === path.id)); // redundant
+  };
 
   return (
     <div>
@@ -839,17 +840,17 @@ export function BotPathEditor({
             open={openPackagePanel}
             kind={'bots'}
             close={() => {
-              setOpenPackagePanel(false)
+              setOpenPackagePanel(false);
             }}
             insertComment={(data) => {
-              insertAddPackage(data)
-              setOpenPackagePanel(false)
+              insertAddPackage(data);
+              setOpenPackagePanel(false);
             }}
           />
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function FollowActionsSelect({ app, path, updatePath }) {
@@ -862,29 +863,29 @@ function FollowActionsSelect({ app, path, updatePath }) {
     { key: 'assign', name: I18n.t('task_bots.assign_agent'), value: null },
     // {action_name: "tag", value: null },
     // {action_name: "app_content", value: null },
-  ]
+  ];
 
   // console.log("PATH FOLLOW ACTIONS", path.followActions, path)
 
   //const [selectMode, setSelectMode] = useState(null)
-  const [actions, setActions] = useState(path.followActions || [])
+  const [actions, setActions] = useState(path.followActions || []);
 
   useEffect(() => {
-    updateData()
-  }, [JSON.stringify(actions)])
+    updateData();
+  }, [JSON.stringify(actions)]);
 
   useEffect(() => {
-    setActions(path.followActions || [])
-  }, [path.id])
+    setActions(path.followActions || []);
+  }, [path.id]);
 
   function updateData() {
-    if (!path) return
+    if (!path) return;
 
     const newPath = Object.assign({}, path, {
       // follow_actions: actions,
       followActions: actions,
-    })
-    updatePath(newPath)
+    });
+    updatePath(newPath);
   }
 
   /*function renderAddButton () {
@@ -901,26 +902,26 @@ function FollowActionsSelect({ app, path, updatePath }) {
   }*/
 
   function handleClick(a) {
-    setActions(actions.concat(a))
+    setActions(actions.concat(a));
   }
 
   function renderActions() {
-    return actions.map((o, i) => renderActionType(o, i))
+    return actions.map((o, i) => renderActionType(o, i));
   }
 
   function availableOptions() {
-    if (actions.length === 0) return options
-    return options.filter((o) => !actions.find((a) => a.key === o.key))
+    if (actions.length === 0) return options;
+    return options.filter((o) => !actions.find((a) => a.key === o.key));
   }
 
   function updateAction(action, index) {
-    const newActions = actions.map((o, i) => (i === index ? action : o))
-    setActions(newActions)
+    const newActions = actions.map((o, i) => (i === index ? action : o));
+    setActions(newActions);
   }
 
   function removeAction(index) {
-    const newActions = actions.filter((o, i) => i != index)
-    setActions(newActions)
+    const newActions = actions.filter((o, i) => i != index);
+    setActions(newActions);
   }
 
   function renderActionType(action, i) {
@@ -937,7 +938,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
           >
             {action.name}
           </AgentSelector>
-        )
+        );
 
       default:
         return (
@@ -951,11 +952,11 @@ function FollowActionsSelect({ app, path, updatePath }) {
               <DeleteForeverRounded />
             </Button>
           </div>
-        )
+        );
     }
   }
 
-  const menuOptions = availableOptions()
+  const menuOptions = availableOptions();
 
   return (
     <div>
@@ -990,13 +991,13 @@ function FollowActionsSelect({ app, path, updatePath }) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function AgentSelector({ app, updateAction, removeAction, action, index }) {
-  const [selected, setSelected] = React.useState(action.value)
-  const [agents, setAgents] = React.useState([])
-  const [_mode, setMode] = React.useState('button')
+  const [selected, setSelected] = React.useState(action.value);
+  const [agents, setAgents] = React.useState([]);
+  const [_mode, setMode] = React.useState('button');
 
   function getAgents() {
     graphql(
@@ -1004,35 +1005,38 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
       { appKey: app.key },
       {
         success: (data) => {
-          setAgents(data.app.agents)
+          setAgents(data.app.agents);
         },
         error: (_error) => {},
       }
-    )
+    );
   }
 
   useEffect(() => {
-    if (action.value) setSelected(action.value)
-  }, [action.value])
+    if (action.value) setSelected(action.value);
+  }, [action.value]);
 
   useEffect(() => {
-    getAgents()
-  }, [])
+    getAgents();
+  }, []);
 
   useEffect(() => {
-    const agent = agents.find((o) => selected === o.id)
-    updateAction(Object.assign({}, action, { value: agent && agent.id }), index)
-  }, [selected])
+    const agent = agents.find((o) => selected === o.id);
+    updateAction(
+      Object.assign({}, action, { value: agent && agent.id }),
+      index
+    );
+  }, [selected]);
 
   function handleChange(e) {
-    setSelected(e.value)
-    setMode('button')
+    setSelected(e.value);
+    setMode('button');
   }
 
   function selectedAgent() {
-    const agent = agents.find((o) => selected === o.id)
-    if (!agent) return ''
-    return { label: agent.name || agent.email, value: selected }
+    const agent = agents.find((o) => selected === o.id);
+    if (!agent) return '';
+    return { label: agent.name || agent.email, value: selected };
   }
 
   return (
@@ -1062,7 +1066,7 @@ function AgentSelector({ app, updateAction, removeAction, action, index }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 const FirstPath = ({
@@ -1090,7 +1094,7 @@ const FirstPath = ({
                 label: e.currentTarget.value,
               },
               controlStep
-            )
+            );
           }}
         />
 
@@ -1103,8 +1107,8 @@ const FirstPath = ({
         />
       </ItemsContainer>
     </div>
-  )
-}
+  );
+};
 
 const Path = ({
   botTask,
@@ -1121,62 +1125,62 @@ const Path = ({
   searchFields,
   app,
 }) => {
-  const [showActions, setShowActions] = React.useState(false)
+  const [showActions, setShowActions] = React.useState(false);
 
   const addStepMessage = (path) => {
-    addSectionMessage(path)
-  }
+    addSectionMessage(path);
+  };
 
   const deleteItem = (path, step) => {
-    const newSteps = path.steps.filter((o) => o.step_uid != step.step_uid)
-    const newPath = Object.assign({}, path, { steps: newSteps })
-    updatePath(newPath)
-  }
+    const newSteps = path.steps.filter((o) => o.step_uid != step.step_uid);
+    const newPath = Object.assign({}, path, { steps: newSteps });
+    updatePath(newPath);
+  };
 
   const deletePath = (path) => {
-    const newPaths = paths.filter((o) => o.id != path.id)
-    console.log(newPaths)
-    setPaths(newPaths)
-    setSelectedPath(null)
-  }
+    const newPaths = paths.filter((o) => o.id != path.id);
+    console.log(newPaths);
+    setPaths(newPaths);
+    setSelectedPath(null);
+  };
 
   const onDragEnd = (path, result) => {
     // dropped outside the list
     if (!result.destination) {
-      return
+      return;
     }
 
     let newSteps = reorder(
       path.steps.filter((o) => !o.controls || o.controls.type !== 'ask_option'),
       result.source.index,
       result.destination.index
-    )
+    );
 
     const controlStep = path.steps.find(
       (o) => o.controls && o.controls.type === 'ask_option'
-    )
+    );
 
     if (controlStep) {
-      newSteps = newSteps.concat(controlStep)
+      newSteps = newSteps.concat(controlStep);
     }
 
-    const newPath = { ...path, steps: newSteps }
+    const newPath = { ...path, steps: newSteps };
 
-    updatePath(newPath)
-  }
+    updatePath(newPath);
+  };
 
   const handleTitleChange = (e) => {
-    const value = e.target.value
-    const newPath = Object.assign({}, path, { title: value })
-    updatePath(newPath)
-  }
+    const value = e.target.value;
+    const newPath = Object.assign({}, path, { title: value });
+    updatePath(newPath);
+  };
 
   const options = [
     {
       name: I18n.t('task_bots.options.add_message'),
       key: 'add-message',
       onClick: () => {
-        addStepMessage(path)
+        addStepMessage(path);
       },
     } /* {
       name: "Add path chooser",
@@ -1190,7 +1194,7 @@ const Path = ({
       name: I18n.t('task_bots.options.wait_user_input'),
       key: 'wait-user-input',
       onClick: () => {
-        addWaitUserMessage(path)
+        addWaitUserMessage(path);
       },
     },
     /*{
@@ -1204,14 +1208,14 @@ const Path = ({
       name: I18n.t('task_bots.options.add_app_package'),
       key: 'add-app-package',
       onClick: () => {
-        addAppPackage(path)
+        addAppPackage(path);
       },
     },
-  ]
+  ];
 
   const updateControlPathSelector = (controls, step) => {
-    updateControls(controls, step)
-  }
+    updateControls(controls, step);
+  };
 
   const appendItemControl = (step) => {
     const item = {
@@ -1219,37 +1223,37 @@ const Path = ({
       label: 'example',
       element: 'button',
       next_step_uuid: null,
-    }
+    };
 
     const newControls = Object.assign({}, step.controls, {
       schema: step.controls.schema.concat(item),
       wait_for_input: true,
-    })
-    updateControls(newControls, step)
-  }
+    });
+    updateControls(newControls, step);
+  };
 
   const updateControls = (newControls, step) => {
-    const newStep = Object.assign({}, step, { controls: newControls })
+    const newStep = Object.assign({}, step, { controls: newControls });
 
     const newSteps = path.steps.map((o) => {
-      return o.step_uid === newStep.step_uid ? newStep : o
-    })
+      return o.step_uid === newStep.step_uid ? newStep : o;
+    });
 
-    const newPath = Object.assign({}, path, { steps: newSteps })
-    updatePath(newPath)
-  }
+    const newPath = Object.assign({}, path, { steps: newSteps });
+    updatePath(newPath);
+  };
 
   const findControlItemStep = () =>
-    path.steps.find((o) => o.controls && o.controls.type === 'ask_option')
+    path.steps.find((o) => o.controls && o.controls.type === 'ask_option');
 
-  const controlStep = findControlItemStep()
+  const controlStep = findControlItemStep();
 
   const stepOptions = paths.map((o) => ({
     value: o.steps[0] && o.steps[0].step_uid,
     label: o.title,
-  }))
+  }));
 
-  const findPathIndex = paths.findIndex((p) => p.id === path.id)
+  const findPathIndex = paths.findIndex((p) => p.id === path.id);
 
   const renderControls = () => {
     return (
@@ -1282,12 +1286,12 @@ const Path = ({
           )}
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const needsLock = () => {
-    return findPathIndex === 0 && botTask.botType === 'new_conversations'
-  }
+    return findPathIndex === 0 && botTask.botType === 'new_conversations';
+  };
 
   if (findPathIndex === 0 && botTask.botType === 'new_conversations') {
     // and type new_conversations
@@ -1302,7 +1306,7 @@ const Path = ({
           options={stepOptions}
         ></FirstPath>
       </div>
-    )
+    );
   }
 
   return (
@@ -1430,8 +1434,8 @@ const Path = ({
                 variant="icon"
                 color="secondary"
                 onClick={() => {
-                  updatePath({ ...path, followActions: [] })
-                  setShowActions(false)
+                  updatePath({ ...path, followActions: [] });
+                  setShowActions(false);
                 }}
               >
                 <DeleteForever />
@@ -1453,8 +1457,8 @@ const Path = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const FollowActions = ({
   controlStep,
@@ -1498,34 +1502,34 @@ const FollowActions = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 const PathEditor = ({ step, message, path, updatePath }) => {
-  const [readOnly, setReadOnly] = useState(false)
+  const [readOnly, setReadOnly] = useState(false);
 
   const saveHandler = (html, serialized) => {
-    console.log('savr handler', serialized)
-  }
+    console.log('savr handler', serialized);
+  };
 
   const saveContent = ({ _html, serialized }) => {
     const newMessage = Object.assign({}, message, {
       serialized_content: serialized,
-    })
+    });
 
     const newSteps = path.steps.map((o) => {
       return o.step_uid === step.step_uid
         ? Object.assign({}, o, { messages: [newMessage] })
-        : o
-    })
+        : o;
+    });
 
-    const newPath = Object.assign({}, path, { steps: newSteps })
-    updatePath(newPath)
-  }
+    const newPath = Object.assign({}, path, { steps: newSteps });
+    updatePath(newPath);
+  };
 
   const uploadHandler = ({ serviceUrl, imageBlock }) => {
-    imageBlock.uploadCompleted(serviceUrl)
-  }
+    imageBlock.uploadCompleted(serviceUrl);
+  };
 
   return (
     <div className="shadow border border-gray-400 rounded p-6 relative dark:bg-gray-800 bg-gray-100 max-w-sm">
@@ -1534,7 +1538,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
         serializedContent={message.serialized_content}
         read_only={readOnly}
         toggleEditable={() => {
-          setReadOnly(!readOnly)
+          setReadOnly(!readOnly);
         }}
         data={{
           serialized_content: message.serialized_content,
@@ -1545,13 +1549,13 @@ const PathEditor = ({ step, message, path, updatePath }) => {
         }}
         saveHandler={saveHandler}
         updateState={({ _status, _statusButton, content }) => {
-          console.log('get content', content)
-          saveContent(content)
+          console.log('get content', content);
+          saveContent(content);
         }}
       />
     </div>
-  )
-}
+  );
+};
 
 // APP Package Preview
 const AppPackageBlocks = ({
@@ -1562,36 +1566,36 @@ const AppPackageBlocks = ({
   update,
   searchFields,
 }) => {
-  const { schema } = controls
+  const { schema } = controls;
 
   const updateOption = (value, option) => {
-    const newOption = Object.assign({}, option, { next_step_uuid: value })
+    const newOption = Object.assign({}, option, { next_step_uuid: value });
     const newOptions = controls.schema.map((o) =>
       o.id === newOption.id ? newOption : o
-    )
-    const newControls = Object.assign({}, controls, { schema: newOptions })
-    update(newControls)
-  }
+    );
+    const newControls = Object.assign({}, controls, { schema: newOptions });
+    update(newControls);
+  };
 
   const removeOption = (index) => {
-    const newOptions = controls.schema.filter((o, i) => i != index)
-    const newControls = Object.assign({}, controls, { schema: newOptions })
-    update(newControls)
-  }
+    const newOptions = controls.schema.filter((o, i) => i != index);
+    const newControls = Object.assign({}, controls, { schema: newOptions });
+    update(newControls);
+  };
 
   const handleInputChange = (value, option, index) => {
-    const newOption = Object.assign({}, option, { label: value })
+    const newOption = Object.assign({}, option, { label: value });
     const newOptions = controls.schema.map((o, i) =>
       i === index ? newOption : o
-    )
-    const newControls = Object.assign({}, controls, { schema: newOptions })
-    update(newControls)
-  }
+    );
+    const newControls = Object.assign({}, controls, { schema: newOptions });
+    update(newControls);
+  };
 
   const renderElement = (item, index) => {
     switch (item.element) {
       case 'separator':
-        return <hr key={index} />
+        return <hr key={index} />;
       case 'input':
         return (
           <div className={'form-group'} key={index}>
@@ -1607,13 +1611,13 @@ const AppPackageBlocks = ({
               }))}
             />
           </div>
-        )
+        );
       case 'submit':
         return (
           <button key={index} style={{ alignSelf: 'flex-end' }} type={'submit'}>
             {item.label}
           </button>
-        )
+        );
       case 'button':
         return (
           <div className="flex justify-between items-center relative">
@@ -1641,31 +1645,31 @@ const AppPackageBlocks = ({
               </Button>
             </div>
           </div>
-        )
+        );
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   const renderElements = () => {
-    return schema.map((o, i) => renderElement(o, i))
-  }
+    return schema.map((o, i) => renderElement(o, i));
+  };
 
-  return renderElements()
-}
+  return renderElements();
+};
 
 // SORTABLE
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-  return result
-}
+  return result;
+};
 
-const grid = 8
+const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -1679,28 +1683,28 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   paddingBottom: '1.2em',
   // styles we need to apply on draggables
   ...draggableStyle,
-})
+});
 
 const getListStyle = (_isDraggingOver) => ({
   // background: isDraggingOver ? "lightblue" : "transparent",
   padding: grid,
   // width: 250
-})
+});
 
 const getPathStyle = (isDraggingOver) => ({
   background: isDraggingOver ? 'lightblue' : 'transparent',
   padding: 2,
   // width: 250
-})
+});
 
 class SortableSteps extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   onDragEnd = (result) => {
-    this.props.onDragEnd(this.props.path, result)
-  }
+    this.props.onDragEnd(this.props.path, result);
+  };
 
   render() {
     const {
@@ -1711,16 +1715,16 @@ class SortableSteps extends Component {
       updatePath,
       updateControlPathSelector,
       searchFields,
-    } = this.props
+    } = this.props;
 
     const stepsWithoutcontrols = steps.filter(
       (o) => !o.controls || o.controls.type !== 'ask_option'
-    )
+    );
 
     const stepOptions = paths.map((o) => ({
       value: o.steps[0] && o.steps[0].step_uid,
       label: o.title,
-    }))
+    }));
 
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -1792,7 +1796,7 @@ class SortableSteps extends Component {
                                 <DefinitionRenderer
                                   schema={item.controls.schema}
                                   updatePackage={(data, cb) => {
-                                    cb && cb()
+                                    cb && cb();
                                   }}
                                 />
                               )}
@@ -1817,15 +1821,15 @@ class SortableSteps extends Component {
           )}
         </Droppable>
       </DragDropContext>
-    )
+    );
   }
 }
 
 const PathSelect = ({ option, options, update }) => {
   const handleChange = (e) => {
-    update(e.value, option)
-  }
-  const selectedOption = options.find((o) => option.next_step_uuid === o.value)
+    update(e.value, option);
+  };
+  const selectedOption = options.find((o) => option.next_step_uuid === o.value);
 
   return (
     <Input
@@ -1836,19 +1840,19 @@ const PathSelect = ({ option, options, update }) => {
       onChange={handleChange}
       options={options}
     ></Input>
-  )
-}
+  );
+};
 
 const DataInputSelect = ({ item, options, update, controls, _path, _step }) => {
   const handleChange = (e) => {
-    const newOption = Object.assign({}, item, { name: e.value })
+    const newOption = Object.assign({}, item, { name: e.value });
     // const newOptions = //controls.schema.map((o)=> o.name === newOption.name ? newOption : o)
-    const newControls = Object.assign({}, controls, { schema: [newOption] })
+    const newControls = Object.assign({}, controls, { schema: [newOption] });
 
-    update(newControls)
-  }
+    update(newControls);
+  };
 
-  const selectedItem = options.find((o) => o.value === item.name)
+  const selectedItem = options.find((o) => o.value === item.name);
 
   return (
     <div>
@@ -1862,12 +1866,12 @@ const DataInputSelect = ({ item, options, update, controls, _path, _step }) => {
         options={options}
       ></Input>
     </div>
-  )
-}
+  );
+};
 
 function mapStateToProps(state) {
-  const { auth, app, segment, app_user, current_user, drawer } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app, segment, app_user, current_user, drawer } = state;
+  const { loading, isAuthenticated } = auth;
   return {
     current_user,
     app_user,
@@ -1876,7 +1880,7 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     drawer,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(BotEditor))
+export default withRouter(connect(mapStateToProps)(BotEditor));

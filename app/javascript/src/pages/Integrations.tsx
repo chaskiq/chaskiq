@@ -1,59 +1,59 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 
-import Tooltip from 'rc-tooltip'
-import { isEmpty } from 'lodash'
-import I18n from '../shared/FakeI18n'
+import Tooltip from 'rc-tooltip';
+import { isEmpty } from 'lodash';
+import I18n from '../shared/FakeI18n';
 
-import Hints from '@chaskiq/components/src/components/Hints'
-import Progress from '@chaskiq/components/src/components/Progress'
-import Content from '@chaskiq/components/src/components/Content'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import PageHeader from '@chaskiq/components/src/components/PageHeader'
-import Button from '@chaskiq/components/src/components/Button'
-import Badge from '@chaskiq/components/src/components/Badge'
-import FieldRenderer from '@chaskiq/components/src/components/forms/FieldRenderer'
-import Avatar from '@chaskiq/components/src/components/Avatar'
+import Hints from '@chaskiq/components/src/components/Hints';
+import Progress from '@chaskiq/components/src/components/Progress';
+import Content from '@chaskiq/components/src/components/Content';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import PageHeader from '@chaskiq/components/src/components/PageHeader';
+import Button from '@chaskiq/components/src/components/Button';
+import Badge from '@chaskiq/components/src/components/Badge';
+import FieldRenderer from '@chaskiq/components/src/components/forms/FieldRenderer';
+import Avatar from '@chaskiq/components/src/components/Avatar';
 import List, {
   ListItem,
   ListItemText,
   ItemListPrimaryContent,
   ItemListSecondaryContent,
   ItemAvatar,
-} from '@chaskiq/components/src/components/List'
+} from '@chaskiq/components/src/components/List';
 import {
   EditIcon,
   AddIcon,
   DeleteIcon,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
-import logos from '../shared/logos'
+import logos from '../shared/logos';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import serialize from 'form-serialize'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import serialize from 'form-serialize';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { camelizeKeys } from '@chaskiq/store/src/actions/conversation'
+import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   APP_PACKAGES,
   APP_PACKAGE_INTEGRATIONS,
   AGENT_APP_PACKAGES,
   AGENT_APP_PACKAGE,
-} from '@chaskiq/store/src/graphql/queries'
+} from '@chaskiq/store/src/graphql/queries';
 
 import {
   CREATE_INTEGRATION,
@@ -62,27 +62,27 @@ import {
   CREATE_PACKAGE,
   UPDATE_PACKAGE,
   DELETE_PACKAGE,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 function Integrations({ app, dispatch }) {
-  const [open, setOpen] = useState(false)
-  const [services, setServices] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [integrations, setIntegrations] = useState([])
-  const [tabValue, setTabValue] = useState(0)
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(false)
-  const [baseErrors, setBaseErrors] = useState(null)
+  const [open, setOpen] = useState(false);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [integrations, setIntegrations] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(false);
+  const [baseErrors, setBaseErrors] = useState(null);
 
-  const form = useRef(null)
+  const form = useRef(null);
 
   useEffect(() => {
-    dispatch(setCurrentSection('Settings'))
-    dispatch(setCurrentPage('integrations'))
-  }, [])
+    dispatch(setCurrentSection('Settings'));
+    dispatch(setCurrentPage('integrations'));
+  }, []);
 
   function getAppPackages() {
-    setLoading(true)
+    setLoading(true);
     graphql(
       APP_PACKAGES,
       {
@@ -90,18 +90,18 @@ function Integrations({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setServices(data.app.appPackages)
-          setLoading(false)
+          setServices(data.app.appPackages);
+          setLoading(false);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   function getAppPackageIntegration() {
-    setLoading(true)
+    setLoading(true);
     graphql(
       APP_PACKAGE_INTEGRATIONS,
       {
@@ -109,37 +109,37 @@ function Integrations({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setIntegrations(data.app.appPackageIntegrations)
-          setLoading(false)
+          setIntegrations(data.app.appPackageIntegrations);
+          setLoading(false);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   function handleOpen(service) {
-    setOpen(service)
+    setOpen(service);
   }
 
   function close() {
-    setOpen(false)
+    setOpen(false);
   }
 
   function submit() {
     const serializedData = serialize(form.current, {
       hash: true,
       empty: true,
-    })
+    });
 
     open.id
       ? updateIntegration(serializedData)
-      : createIntegration(serializedData)
+      : createIntegration(serializedData);
   }
 
   function createIntegration(serializedData) {
-    setBaseErrors(null)
+    setBaseErrors(null);
 
     graphql(
       CREATE_INTEGRATION,
@@ -150,33 +150,35 @@ function Integrations({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setTabValue(0)
+          setTabValue(0);
 
           if (!isEmpty(data.integrationsCreate.errors)) {
-            dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
-            return
+            dispatch(
+              errorMessage(I18n.t('settings.integrations.create_error'))
+            );
+            return;
           }
 
-          const integration = data.integrationsCreate.integration
+          const integration = data.integrationsCreate.integration;
           const newIntegrations = integrations.map((o) =>
             o.name === integration.name ? integration : o
-          )
-          setIntegrations(newIntegrations)
+          );
+          setIntegrations(newIntegrations);
 
-          setOpen(null)
+          setOpen(null);
           dispatch(
             successMessage(I18n.t('settings.integrations.create_success'))
-          )
+          );
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.integrations.create_error')))
+          dispatch(errorMessage(I18n.t('settings.integrations.create_error')));
         },
       }
-    )
+    );
   }
 
   function updateIntegration(serializedData) {
-    setBaseErrors(null)
+    setBaseErrors(null);
 
     graphql(
       UPDATE_INTEGRATION,
@@ -188,30 +190,30 @@ function Integrations({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setTabValue(0)
-          const integration = data.integrationsUpdate.integration
+          setTabValue(0);
+          const integration = data.integrationsUpdate.integration;
           const newIntegrations = integrations.map((o) =>
             o.name === integration.name ? integration : o
-          )
+          );
 
           if (isEmpty(data.integrationsUpdate.errors)) {
-            setIntegrations(newIntegrations)
+            setIntegrations(newIntegrations);
             // getAppPackageIntegration()
-            setOpen(null)
+            setOpen(null);
             dispatch(
               successMessage(I18n.t('settings.integrations.update_success'))
-            )
-            return
+            );
+            return;
           }
 
-          setBaseErrors(data.integrationsUpdate.errors.base)
-          dispatch(errorMessage(I18n.t('settings.integrations.update_error')))
+          setBaseErrors(data.integrationsUpdate.errors.base);
+          dispatch(errorMessage(I18n.t('settings.integrations.update_error')));
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.integrations.update_error')))
+          dispatch(errorMessage(I18n.t('settings.integrations.update_error')));
         },
       }
-    )
+    );
   }
 
   function removeIntegration() {
@@ -223,23 +225,23 @@ function Integrations({ app, dispatch }) {
       },
       {
         success: (data) => {
-          setTabValue(0)
-          const integration = data.integrationsDelete.integration
+          setTabValue(0);
+          const integration = data.integrationsDelete.integration;
           const newIntegrations = integrations.filter(
             (o) => o.name !== integration.name
-          )
-          setIntegrations(newIntegrations)
-          setOpen(null)
-          setOpenDeleteDialog(null)
+          );
+          setIntegrations(newIntegrations);
+          setOpen(null);
+          setOpenDeleteDialog(null);
           dispatch(
             successMessage(I18n.t('settings.integrations.remove_success'))
-          )
+          );
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.integrations.remove_error')))
+          dispatch(errorMessage(I18n.t('settings.integrations.remove_error')));
         },
       }
-    )
+    );
   }
 
   return (
@@ -266,7 +268,7 @@ function Integrations({ app, dispatch }) {
                 {integrations.length === 0 && !loading && (
                   <EmptyCard
                     goTo={() => {
-                      setTabValue(1)
+                      setTabValue(1);
                     }}
                   />
                 )}
@@ -354,7 +356,7 @@ function Integrations({ app, dispatch }) {
                         errors={{}}
                       />
                     </div>
-                  )
+                  );
                 })}
               </div>
 
@@ -362,7 +364,7 @@ function Integrations({ app, dispatch }) {
                 <div>
                   {open.oauthAuthorize && (
                     <div className="mb-4">
-                      <p variant="overline">Authorize App</p>
+                      <p>Authorize App</p>
 
                       <a
                         href={open.oauthAuthorize}
@@ -388,11 +390,9 @@ function Integrations({ app, dispatch }) {
                     </div>
                   )}
 
-                  <p variant="overline">
-                    {I18n.t('settings.integrations.hints.hook_url')}
-                  </p>
+                  <p>{I18n.t('settings.integrations.hints.hook_url')}</p>
 
-                  <p variant={'caption ellipsis w-64'}>
+                  <p>
                     {/* `${window.location.origin}/api/v1/hooks/${
                       app.key
                     }/${open.name.toLocaleLowerCase()}/${open.id}` */}
@@ -430,13 +430,13 @@ function Integrations({ app, dispatch }) {
             name: openDeleteDialog.name,
           })}
           closeHandler={() => {
-            setOpenDeleteDialog(null)
+            setOpenDeleteDialog(null);
           }}
           deleteHandler={() => {
-            removeIntegration(openDeleteDialog)
+            removeIntegration(openDeleteDialog);
           }}
         >
-          <p variant="subtitle2">
+          <p>
             {I18n.t('settings.integrations.delete_dialog.text', {
               name: openDeleteDialog.name,
             })}
@@ -444,7 +444,7 @@ function Integrations({ app, dispatch }) {
         </DeleteDialog>
       )}
     </Content>
-  )
+  );
 }
 
 function EmptyCard({ goTo }) {
@@ -461,14 +461,14 @@ function EmptyCard({ goTo }) {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 function ServiceBlock({ service, handleOpen, kind, setOpenDeleteDialog }) {
   function available() {
-    if (kind === 'services') return service.state === 'enabled'
+    if (kind === 'services') return service.state === 'enabled';
     if (kind === 'integrations') {
-      return service.id && service.state === 'enabled'
+      return service.id && service.state === 'enabled';
     }
   }
 
@@ -482,7 +482,7 @@ function ServiceBlock({ service, handleOpen, kind, setOpenDeleteDialog }) {
     >
       <ListItemText
         primary={
-          <ItemListPrimaryContent variant="h5">
+          <ItemListPrimaryContent>
             <div className="flex">
               {service.name}{' '}
               {kind === 'services' && (
@@ -564,7 +564,7 @@ function ServiceBlock({ service, handleOpen, kind, setOpenDeleteDialog }) {
         }
       />
     </ListItem>
-  )
+  );
 }
 
 function ServiceIntegration({
@@ -575,8 +575,8 @@ function ServiceIntegration({
   setOpenDeleteDialog,
 }) {
   useEffect(() => {
-    getAppPackages()
-  }, [])
+    getAppPackages();
+  }, []);
 
   return (
     <List>
@@ -590,16 +590,16 @@ function ServiceIntegration({
         />
       ))}
     </List>
-  )
+  );
 }
 
 function APIServices({ services, handleOpen, getAppPackages, kind }) {
   useEffect(() => {
-    getAppPackages()
-  }, [])
+    getAppPackages();
+  }, []);
 
   return (
-    <List dense>
+    <List>
       {services.map((o) => (
         <ServiceBlock
           kind={kind}
@@ -609,17 +609,17 @@ function APIServices({ services, handleOpen, getAppPackages, kind }) {
         />
       ))}
     </List>
-  )
+  );
 }
 
 function MyAppPackages({ app, dispatch, handleOpen }) {
-  const [loading, setLoading] = React.useState(false)
-  const [integrations, setIntegrations] = React.useState([])
-  const [integration, setIntegration] = React.useState(null)
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null)
+  const [loading, setLoading] = React.useState(false);
+  const [integrations, setIntegrations] = React.useState([]);
+  const [integration, setIntegration] = React.useState(null);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null);
 
   function getAppPackages() {
-    setLoading(true)
+    setLoading(true);
     graphql(
       AGENT_APP_PACKAGES,
       {
@@ -627,18 +627,18 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
       },
       {
         success: (data) => {
-          setIntegrations(data.app.agentAppPackages)
-          setLoading(false)
+          setIntegrations(data.app.agentAppPackages);
+          setLoading(false);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   function getAppPackage({ id }) {
-    setLoading(true)
+    setLoading(true);
     graphql(
       AGENT_APP_PACKAGE,
       {
@@ -647,18 +647,18 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
       },
       {
         success: (data) => {
-          setIntegration(data.app.agentAppPackage)
-          setLoading(false)
+          setIntegration(data.app.agentAppPackage);
+          setLoading(false);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   function deleteAppPackage({ id }) {
-    setLoading(true)
+    setLoading(true);
     graphql(
       DELETE_PACKAGE,
       {
@@ -667,24 +667,24 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
       },
       {
         success: (_data) => {
-          setOpenDeleteDialog(null)
-          setIntegration(null)
+          setOpenDeleteDialog(null);
+          setIntegration(null);
           // setIntegration(data.app.agentAppPackage)
-          setLoading(false)
+          setLoading(false);
           dispatch(
             successMessage(I18n.t('settings.integrations.remove_success'))
-          )
-          getAppPackages()
+          );
+          getAppPackages();
         },
         error: () => {
-          setLoading(false)
-          dispatch(errorMessage(I18n.t('settings.integrations.remove_error')))
+          setLoading(false);
+          dispatch(errorMessage(I18n.t('settings.integrations.remove_error')));
         },
       }
-    )
+    );
   }
 
-  React.useEffect(getAppPackages, [])
+  React.useEffect(getAppPackages, []);
 
   return (
     <div>
@@ -702,9 +702,9 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
           open={{}}
           integration={integration}
           onCancel={(e) => {
-            e && e.preventDefault()
-            setIntegration(null)
-            getAppPackages()
+            e && e.preventDefault();
+            setIntegration(null);
+            getAppPackages();
           }}
           dispatch={dispatch}
         />
@@ -719,7 +719,7 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
             >
               <ListItemText
                 primary={
-                  <ItemListPrimaryContent variant="h5">
+                  <ItemListPrimaryContent>
                     <div className="flex">
                       {service.name}
                       <div className="ml-2">
@@ -764,13 +764,13 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
                         <React.Fragment>
                           <Button
                             onClick={(e) => {
-                              e.preventDefault()
+                              e.preventDefault();
                               // TODO: add a new mutation for link agent app package with application/appIntegration
                               // instead of using the old handleOpen
                               handleOpen({
                                 name: service.name,
                                 definitions: [],
-                              })
+                              });
                             }}
                             aria-label="add"
                             variant="icon"
@@ -814,9 +814,9 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
                           {service.id && (
                             <Button
                               onClick={(e) => {
-                                e.preventDefault()
+                                e.preventDefault();
                                 setOpenDeleteDialog &&
-                                  setOpenDeleteDialog(service)
+                                  setOpenDeleteDialog(service);
                               }}
                               border={true}
                               aria-label="remove"
@@ -843,13 +843,13 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
             name: openDeleteDialog.name,
           })}
           closeHandler={() => {
-            setOpenDeleteDialog(null)
+            setOpenDeleteDialog(null);
           }}
           deleteHandler={() => {
-            deleteAppPackage(openDeleteDialog)
+            deleteAppPackage(openDeleteDialog);
           }}
         >
-          <p variant="subtitle2">
+          <p>
             {I18n.t('settings.integrations.delete_dialog.text', {
               name: openDeleteDialog.name,
             })}
@@ -857,26 +857,26 @@ function MyAppPackages({ app, dispatch, handleOpen }) {
         </DeleteDialog>
       )}
     </div>
-  )
+  );
 }
 
 // form for my apps packages
 function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
-  const form = React.useRef()
+  const form = React.useRef();
 
-  const [errors, setErrors] = React.useState({})
-  const [appPackage, setAppPackage] = React.useState(integration)
+  const [errors, setErrors] = React.useState({});
+  const [appPackage, setAppPackage] = React.useState(integration);
 
   React.useEffect(() => {
-    setAppPackage(integration)
-  }, [integration])
+    setAppPackage(integration);
+  }, [integration]);
 
   const capabilitiesTypes = [
     { label: 'Home', value: 'home' },
     { label: 'Conversations', value: 'conversations' },
     { label: 'Bots', value: 'bots' },
     { label: 'Inbox detail', value: 'inbox' },
-  ]
+  ];
 
   function integrationDefinitions() {
     return [
@@ -914,8 +914,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         name: 'oauth_url',
         label: 'oauth url (Optional)',
         type: 'string',
-        hint:
-          "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
+        hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 
@@ -955,19 +954,19 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         placeholder: I18n.t('definitions.app_packages.sheet_url.placeholder'),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
-    ]
+    ];
   }
 
   function submit(e) {
-    e.preventDefault()
+    e.preventDefault();
     const serializedData = serialize(form.current, {
       hash: true,
       empty: true,
-    })
+    });
 
     !appPackage.id
       ? createPackage(serializedData)
-      : updatePackage(serializedData)
+      : updatePackage(serializedData);
   }
 
   function createPackage(serializedData) {
@@ -981,21 +980,23 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
       {
         success: (data) => {
           if (!isEmpty(data.appPackagesCreate.errors)) {
-            dispatch(errorMessage(I18n.t('settings.app_packages.create_error')))
-            setErrors(data.appPackagesCreate.errors)
-            return
+            dispatch(
+              errorMessage(I18n.t('settings.app_packages.create_error'))
+            );
+            setErrors(data.appPackagesCreate.errors);
+            return;
           }
-          setAppPackage(data.appPackagesCreate.appPackage)
-          onCancel()
+          setAppPackage(data.appPackagesCreate.appPackage);
+          onCancel();
           dispatch(
             successMessage(I18n.t('settings.app_packages.create_success'))
-          )
+          );
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.app_packages.create_error')))
+          dispatch(errorMessage(I18n.t('settings.app_packages.create_error')));
         },
       }
-    )
+    );
   }
 
   function updatePackage(serializedData) {
@@ -1010,20 +1011,22 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
       {
         success: (data) => {
           if (!isEmpty(data.appPackagesUpdate.errors)) {
-            dispatch(errorMessage(I18n.t('settings.app_packages.update_error')))
-            setErrors(data.appPackagesUpdate.errors)
-            return
+            dispatch(
+              errorMessage(I18n.t('settings.app_packages.update_error'))
+            );
+            setErrors(data.appPackagesUpdate.errors);
+            return;
           }
-          setAppPackage(data.appPackagesUpdate.appPackage)
+          setAppPackage(data.appPackagesUpdate.appPackage);
           dispatch(
             successMessage(I18n.t('settings.app_packages.update_success'))
-          )
+          );
         },
         error: () => {
-          dispatch(errorMessage(I18n.t('settings.app_packages.update_error')))
+          dispatch(errorMessage(I18n.t('settings.app_packages.update_error')));
         },
       }
-    )
+    );
   }
 
   return (
@@ -1039,12 +1042,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
           <div>
             {integrationDefinitions().map((field) => {
               return (
-                <div
-                  item
-                  key={field.name}
-                  xs={field.grid.xs}
-                  sm={field.grid.sm}
-                >
+                <div key={field.name}>
                   <FieldRenderer
                     namespace={'app'}
                     data={camelizeKeys(field)}
@@ -1055,7 +1053,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
                     errors={errors}
                   />
                 </div>
-              )
+              );
             })}
           </div>
 
@@ -1071,15 +1069,15 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
 
   return {
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Integrations))
+export default withRouter(connect(mapStateToProps)(Integrations));

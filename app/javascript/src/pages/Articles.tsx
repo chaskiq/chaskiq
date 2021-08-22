@@ -1,63 +1,64 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import I18n from '../shared/FakeI18n';
 
-import { withRouter, Route, Switch, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter, Route, Switch, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import langs from '../shared/langsOptions'
-import isEmpty from 'lodash/isEmpty'
+import langs from '../shared/langsOptions';
+import isEmpty from 'lodash/isEmpty';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import ArticlesNew from './articles/new'
-import Settings from './articles/settings'
+import ArticlesNew from './articles/new';
+import Settings from './articles/settings';
 
-import Collections from './articles/collections/index'
-import CollectionDetail from './articles/collections/show'
+import Collections from './articles/collections/index';
+import CollectionDetail from './articles/collections/show';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
-import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
-import Hints from '@chaskiq/components/src/components/Hints'
-import DataTable from '@chaskiq/components/src/components/Table'
-import Badge from '@chaskiq/components/src/components/Badge'
-import Content from '@chaskiq/components/src/components/Content'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import Button from '@chaskiq/components/src/components/Button'
-import CircularProgress from '@chaskiq/components/src/components/Progress'
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
-import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs'
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
+import Hints from '@chaskiq/components/src/components/Hints';
+import DataTable from '@chaskiq/components/src/components/Table';
+import Badge from '@chaskiq/components/src/components/Badge';
+import Content from '@chaskiq/components/src/components/Content';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import Button from '@chaskiq/components/src/components/Button';
+import CircularProgress from '@chaskiq/components/src/components/Progress';
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
+import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs';
 import {
   AddIcon,
   GestureIcon,
   CheckCircleIcon,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
-import { ARTICLES, ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/queries'
+import { ARTICLES, ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/queries';
 import {
   DELETE_ARTICLE,
   ARTICLE_SETTINGS_UPDATE,
   ARTICLE_SETTINGS_DELETE_LANG,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 class Articles extends Component {
   state = {
     meta: {},
     tabValue: 0,
     settings: null,
     errors: [],
-  }
+  };
 
   componentDidMount() {
-    this.props.dispatch(setCurrentSection('HelpCenter'))
-    this.getSettings()
+    this.props.dispatch(setCurrentSection('HelpCenter'));
+    this.getSettings();
   }
 
   getSettings = (cb) => {
@@ -73,15 +74,15 @@ class Articles extends Component {
               settings: data.app.articleSettings,
             },
             cb
-          )
+          );
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   updateSettings = (data) => {
-    const { settings } = data
+    const { settings } = data;
     graphql(
       ARTICLE_SETTINGS_UPDATE,
       {
@@ -99,20 +100,20 @@ class Articles extends Component {
               if (!isEmpty(data.articleSettingsUpdate.errors)) {
                 return this.props.dispatch(
                   errorMessage(I18n.t('articles.settings_updated_error'))
-                )
+                );
               }
               this.props.dispatch(
                 successMessage(I18n.t('articles.settings_updated_success'))
-              )
+              );
             }
-          )
+          );
         },
         error: () => {
-          errorMessage(I18n.t('articles.settings_updated_error'))
+          errorMessage(I18n.t('articles.settings_updated_error'));
         },
       }
-    )
-  }
+    );
+  };
 
   deleteLang = (item, cb) => {
     graphql(
@@ -129,23 +130,23 @@ class Articles extends Component {
               errors: data.articleSettingsDeleteLang.errors,
             },
             () => {
-              cb && cb()
+              cb && cb();
               this.props.dispatch(
                 successMessage(I18n.t('articles.settings_updated_success'))
-              )
+              );
             }
-          )
+          );
         },
         error: () => {
-          errorMessage(I18n.t('articles.settings_updated_error'))
+          errorMessage(I18n.t('articles.settings_updated_error'));
         },
       }
-    )
-  }
+    );
+  };
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i })
-  }
+    this.setState({ tabValue: i });
+  };
 
   tabsContent = () => {
     return (
@@ -191,8 +192,8 @@ class Articles extends Component {
           ]}
         />
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -242,7 +243,7 @@ class Articles extends Component {
                     />
                     {this.state.settings && this.tabsContent()}
                   </React.Fragment>
-                )
+                );
               }}
             />
 
@@ -260,7 +261,7 @@ class Articles extends Component {
                     update={this.updateSettings}
                     deleteLang={this.deleteLang}
                   />
-                )
+                );
               }}
             />
 
@@ -275,7 +276,7 @@ class Articles extends Component {
                     match={props.match}
                     history={props.history}
                   />
-                )
+                );
               }}
             />
 
@@ -290,7 +291,7 @@ class Articles extends Component {
                     match={props.match}
                     history={props.history}
                   />
-                )
+                );
               }}
             />
 
@@ -305,13 +306,13 @@ class Articles extends Component {
                     history={this.props.history}
                     data={{}}
                   />
-                )
+                );
               }}
             />
           </Switch>
         ) : null}
       </Content>
-    )
+    );
   }
 }
 
@@ -321,19 +322,19 @@ class AllArticles extends React.Component {
     loading: true,
     lang: 'en',
     openDeleteDialog: false,
-  }
+  };
 
   componentDidMount() {
-    this.search()
+    this.search();
 
-    this.props.dispatch(setCurrentSection('HelpCenter'))
+    this.props.dispatch(setCurrentSection('HelpCenter'));
 
-    this.props.dispatch(setCurrentPage('Articles'))
+    this.props.dispatch(setCurrentPage('Articles'));
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.mode != this.props.mode) {
-      this.search()
+      this.search();
     }
   }
 
@@ -355,12 +356,12 @@ class AllArticles extends React.Component {
             collection: data.app.articles.collection,
             meta: data.app.articles.meta,
             loading: false,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   handleLangChange = (lang) => {
     this.setState(
@@ -368,8 +369,8 @@ class AllArticles extends React.Component {
         lang: lang,
       },
       this.getArticles
-    )
-  }
+    );
+  };
 
   search = () => {
     this.setState(
@@ -377,13 +378,13 @@ class AllArticles extends React.Component {
         loading: true,
       },
       this.getArticles
-    )
-  }
+    );
+  };
 
   renderActions = () => {
     return (
-      <div container direction="row" justify="flex-end">
-        <div item>
+      <div>
+        <div>
           <AnchorLink
             variant={'contained'}
             color={'primary'}
@@ -398,12 +399,12 @@ class AllArticles extends React.Component {
           </AnchorLink>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   setOpenDeleteDialog = (val) => {
-    this.setState({ openDeleteDialog: val })
-  }
+    this.setState({ openDeleteDialog: val });
+  };
 
   removeArticle = (row) => {
     graphql(
@@ -419,20 +420,20 @@ class AllArticles extends React.Component {
               collection: this.state.collection.filter((o) => o.id != row.id),
             },
             () => {
-              this.setOpenDeleteDialog(null)
+              this.setOpenDeleteDialog(null);
               this.props.dispatch(
                 successMessage(I18n.t('articles.deleted_success'))
-              )
+              );
             }
-          )
+          );
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   render() {
-    const { openDeleteDialog } = this.state
+    const { openDeleteDialog } = this.state;
 
     return (
       <div>
@@ -534,7 +535,7 @@ class AllArticles extends React.Component {
                         <Button
                           variant={'danger'}
                           onClick={() => {
-                            this.setOpenDeleteDialog(row)
+                            this.setOpenDeleteDialog(row);
                           }}
                         >
                           {I18n.t('common.delete')}
@@ -571,29 +572,29 @@ class AllArticles extends React.Component {
               title: openDeleteDialog.title,
             })}
             closeHandler={() => {
-              this.setOpenDeleteDialog(null)
+              this.setOpenDeleteDialog(null);
             }}
             deleteHandler={() => {
-              this.removeArticle(openDeleteDialog)
+              this.removeArticle(openDeleteDialog);
             }}
           >
             <p variant="subtitle2">{I18n.t('articles.delete_article_exp')}</p>
           </DeleteDialog>
         )}
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { isAuthenticated } = auth
+  const { auth, app } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Articles))
+export default withRouter(connect(mapStateToProps)(Articles));

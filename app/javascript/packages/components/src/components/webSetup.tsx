@@ -1,29 +1,31 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-import { connect } from 'react-redux'
-import FormDialog from './FormDialog'
-import Prism from 'prismjs'
+import { connect } from 'react-redux';
+import FormDialog from './FormDialog';
+import Prism from 'prismjs';
 
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
+
+import I18n from '../../../../src/shared/FakeI18n';
 
 const Pre = styled.pre`
   background: black;
   color: white;
   font-size: 0.8em;
   overflow: auto;
-`
+`;
 
 function WebSetup({ app }) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
@@ -36,24 +38,24 @@ function WebSetup({ app }) {
 
       <SimpleDialog app={app} open={open} onClose={handleClose} />
     </React.Fragment>
-  )
+  );
 }
 
 function SimpleDialog(props) {
   // const classes = useStyles();
-  const { onClose, open, app } = props
+  const { onClose, open, app } = props;
 
   const handleClose = () => {
-    onClose()
-  }
+    onClose();
+  };
 
   function setupScript() {
-    const hostname = window.location.hostname
-    const port = window.location.port ? ':' + window.location.port : ''
-    const secure = window.location.protocol === 'https:'
-    const httpProtocol = window.location.protocol
-    const wsProtocol = secure ? 'wss' : 'ws'
-    const hostnamePort = `${hostname}${port}`
+    const hostname = window.location.hostname;
+    const port = window.location.port ? ':' + window.location.port : '';
+    const secure = window.location.protocol === 'https:';
+    const httpProtocol = window.location.protocol;
+    const wsProtocol = secure ? 'wss' : 'ws';
+    const hostnamePort = `${hostname}${port}`;
 
     const code = `
       <script>
@@ -72,8 +74,8 @@ function SimpleDialog(props) {
           }
         })(document,"script");
       </script>
-    `
-    return Prism.highlight(code, Prism.languages.javascript, 'javascript')
+    `;
+    return Prism.highlight(code, Prism.languages.javascript, 'javascript');
   }
 
   return (
@@ -93,14 +95,14 @@ function SimpleDialog(props) {
         </div>
       }
     />
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(WebSetup))
+export default withRouter(connect(mapStateToProps)(WebSetup));

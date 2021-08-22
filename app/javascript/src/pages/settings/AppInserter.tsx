@@ -1,11 +1,9 @@
 import React from 'react';
 import arrayMove from 'array-move';
 import { connect } from 'react-redux';
+import I18n from '../../shared/FakeI18n';
 
 import {
-  //sortableContainer,
-  //sortableElement,
-  //sortableHandle,
   SortableContainer,
   SortableElement,
   SortableHandle,

@@ -1,49 +1,49 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { isEmpty } from 'lodash'
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { isEmpty } from 'lodash';
+import I18n from '../shared/FakeI18n';
 
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import CircularProgress from '@chaskiq/components/src/components/Progress'
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import CircularProgress from '@chaskiq/components/src/components/Progress';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { clearSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription'
+import { clearSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   PLANS,
   SUBSCRIPTION_TRANSACTIONS,
   SUBSCRIPTION_DETAILS,
   UPDATE_SUBSCRIPTION_PLAN,
-} from '@chaskiq/store/src/graphql/queries'
+} from '@chaskiq/store/src/graphql/queries';
 
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
-  const [plans, setPlans] = React.useState([])
-  const [openCheckout, setOpenCheckout] = React.useState(null)
-  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] = React.useState(
-    null
-  )
-  const [subscriptionDetails, setSubscriptionDetails] = React.useState([])
+  const [plans, setPlans] = React.useState([]);
+  const [openCheckout, setOpenCheckout] = React.useState(null);
+  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] =
+    React.useState(null);
+  const [subscriptionDetails, setSubscriptionDetails] = React.useState([]);
 
   React.useEffect(() => {
-    dispatch(setCurrentPage('Billing'))
-    dispatch(setCurrentSection('Settings'))
-    getPlans()
-    getSubscriptionDetails()
-  }, [])
+    dispatch(setCurrentPage('Billing'));
+    dispatch(setCurrentSection('Settings'));
+    getPlans();
+    getSubscriptionDetails();
+  }, []);
 
   React.useEffect(() => {
-    setOpenCheckout(null)
-    setOpenSubscriptionUpdate(null)
-    getSubscriptionDetails()
-  }, [paddleSubscription.alert_name])
+    setOpenCheckout(null);
+    setOpenSubscriptionUpdate(null);
+    getSubscriptionDetails();
+  }, [paddleSubscription.alert_name]);
 
   function getPlans() {
     graphql(
@@ -53,16 +53,16 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
       },
       {
         success: (data) => {
-          setPlans(data.app.plans)
+          setPlans(data.app.plans);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function clearPaddleSubscription() {
     // TODO: clear
-    dispatch(clearSubscriptionState())
+    dispatch(clearSubscriptionState());
   }
 
   function renderAlert() {
@@ -73,28 +73,28 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
             options={paddleSubscription}
             handleClose={() => clearPaddleSubscription()}
           />
-        )
+        );
       case 'subscription_created':
         return (
           <SucessModal
             options={paddleSubscription}
             handleClose={() => clearPaddleSubscription()}
           />
-        )
+        );
       case 'subscription_cancelled':
         return (
           <FailureModal
             options={paddleSubscription}
             handleClose={() => clearPaddleSubscription()}
           />
-        )
+        );
       default:
-        return null
+        return null;
     }
   }
 
   function openCheckoutHandler(plan) {
-    subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan)
+    subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan);
   }
 
   function getSubscriptionDetails() {
@@ -106,11 +106,11 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
       {
         success: (data) => {
           // will not set subscription if it's deleted
-          setSubscriptionDetails(data.app.subscriptionDetails)
+          setSubscriptionDetails(data.app.subscriptionDetails);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function tabs() {
@@ -137,7 +137,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
         label: I18n.t('subscriptions.tabs')[1],
         content: <Transactions app={app} />,
       },
-    ]
+    ];
   }
 
   function updatesubscription(planId) {
@@ -149,23 +149,23 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
       },
       {
         success: (data) => {
-          data.app.updateSubscriptionPlan
+          data.app.updateSubscriptionPlan;
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function getPlanName() {
-    if (!plans) return
-    if (subscriptionDetails.length === 0) return
+    if (!plans) return;
+    if (subscriptionDetails.length === 0) return;
 
-    const plan = plans.find((o) => o.id === subscriptionDetails[0].plan_id)
-    return plan && plan.name
+    const plan = plans.find((o) => o.id === subscriptionDetails[0].plan_id);
+    return plan && plan.name;
   }
 
-  const subscription = subscriptionDetails[0]
-  const subscriptionPlanId = subscription && subscription.plan_id
+  const subscription = subscriptionDetails[0];
+  const subscriptionPlanId = subscription && subscription.plan_id;
 
   return (
     <div>
@@ -280,12 +280,12 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
         <Tabs tabs={tabs()}></Tabs>
       </Content>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app, current_user, paddleSubscription } = state
-  const { isAuthenticated } = auth
+  const { auth, app, current_user, paddleSubscription } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
@@ -293,7 +293,7 @@ function mapStateToProps(state) {
     current_user,
     isAuthenticated,
     paddleSubscription,
-  }
+  };
 }
 
 function SucessModal({ options, handleClose }) {
@@ -370,7 +370,7 @@ function SucessModal({ options, handleClose }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function FailureModal({ options, handleClose }) {
@@ -442,7 +442,7 @@ function FailureModal({ options, handleClose }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function UpdateSubscriptionModal({
@@ -451,11 +451,11 @@ function UpdateSubscriptionModal({
   handleSubmit,
   handleClose,
 }) {
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false);
 
   function submit() {
-    setLoading(true)
-    handleSubmit(plan.id)
+    setLoading(true);
+    handleSubmit(plan.id);
   }
 
   return (
@@ -570,7 +570,7 @@ function UpdateSubscriptionModal({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /*
@@ -672,7 +672,7 @@ function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
   React.useEffect(() => {
     Paddle.Setup({
       vendor: 115475, // Replace with your Vendor ID.
-    })
+    });
 
     Paddle.Checkout.open({
       method: 'inline',
@@ -685,10 +685,10 @@ function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
       frameInitialHeight: 366,
       frameStyle: 'width:100%; background-color: transparent; border: none;',
       successCallback: (_info) => {
-        handleSuccess()
+        handleSuccess();
       },
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <div>
@@ -733,11 +733,11 @@ function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function Transactions({ app }) {
-  const [transactions, setTransactions] = React.useState([])
+  const [transactions, setTransactions] = React.useState([]);
 
   function getTransactions() {
     graphql(
@@ -747,16 +747,16 @@ function Transactions({ app }) {
       },
       {
         success: (data) => {
-          setTransactions(data.app.subscriptionTransactions)
+          setTransactions(data.app.subscriptionTransactions);
         },
         errors: () => {},
       }
-    )
+    );
   }
 
   React.useEffect(() => {
-    getTransactions()
-  }, [])
+    getTransactions();
+  }, []);
 
   return (
     <div className="pt-4">
@@ -816,10 +816,10 @@ function Transactions({ app }) {
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
-export default withRouter(connect(mapStateToProps)(Billing))
+export default withRouter(connect(mapStateToProps)(Billing));
 
 function PlanBoard({ appPlan, plans, openCheckout }) {
   return (
@@ -1101,5 +1101,5 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
         </table>
       </div>
     </div>
-  )
+  );
 }

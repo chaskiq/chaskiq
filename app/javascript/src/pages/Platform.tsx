@@ -1,21 +1,21 @@
-import React from 'react'
+import React from 'react';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import AppContent from '@chaskiq/components/src/components/segmentManager/container'
-import PageHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import ContactManager from '@chaskiq/components/src/components/ContactManager'
+import AppContent from '@chaskiq/components/src/components/segmentManager/container';
+import PageHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import ContactManager from '@chaskiq/components/src/components/ContactManager';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
-import { setApp } from '@chaskiq/store/src/actions/app'
+import { setApp } from '@chaskiq/store/src/actions/app';
 
-import { searchAppUsers } from '@chaskiq/store/src/actions/app_users'
+import { searchAppUsers } from '@chaskiq/store/src/actions/app_users';
 
 import {
   dispatchSegmentUpdate,
@@ -26,69 +26,69 @@ import {
   addPredicate,
   updatePredicate,
   deletePredicate,
-} from '@chaskiq/store/src/actions/segments'
+} from '@chaskiq/store/src/actions/segments';
 
 function Platform({ dispatch, match, app, app_users, segment }) {
   React.useEffect(() => {
-    dispatch(setCurrentSection('Platform'))
+    dispatch(setCurrentSection('Platform'));
 
-    dispatch(setCurrentPage(`segment-${match.params.segmentID}`))
+    dispatch(setCurrentPage(`segment-${match.params.segmentID}`));
 
     dispatch(
       dispatchSegmentUpdate({
         id: match.params.segmentID,
         jwt: match.params.Jwt,
       })
-    )
+    );
 
     getSegment(() => {
-      search()
-    })
-  }, [match.params.segmentID, match.params.Jwt])
+      search();
+    });
+  }, [match.params.segmentID, match.params.Jwt]);
 
   const search = (page) => {
     const options = {
       page: page || 1,
-    }
+    };
 
-    dispatch(searchAppUsers(options, () => {}))
-  }
+    dispatch(searchAppUsers(options, () => {}));
+  };
 
   const fetchApp = () => {
-    console.log('TODO: fetch app')
+    console.log('TODO: fetch app');
 
-    dispatch(setApp(app.key))
-  }
+    dispatch(setApp(app.key));
+  };
 
   const getSegment = () => {
-    const segmentID = match.params.segmentID
-    return segmentID ? fetchAppSegmentDispatch(segmentID) : null
-  }
+    const segmentID = match.params.segmentID;
+    return segmentID ? fetchAppSegmentDispatch(segmentID) : null;
+  };
 
   const updateSegmentD = (data, cb) => {
-    dispatch(updateSegment(segment.id, cb))
-  }
+    dispatch(updateSegment(segment.id, cb));
+  };
 
   const createSegmentD = (data, cb) => {
     const params = {
       name: data.input,
-    }
+    };
 
     dispatch(
       createSegment(params, () => {
-        cb && cb()
+        cb && cb();
       })
-    )
-  }
+    );
+  };
 
   const deleteSegmentD = (id, cb) => {
     dispatch(
       deleteSegment(id, () => {
-        cb && cb()
-        fetchApp()
+        cb && cb();
+        fetchApp();
       })
-    )
-  }
+    );
+  };
 
   const addPredicateD = (data, cb) => {
     const pending_predicate = {
@@ -96,48 +96,48 @@ function Platform({ dispatch, match, app, app_users, segment }) {
       comparison: null,
       type: data.type,
       value: data.value,
-    }
+    };
     dispatch(
       addPredicate(pending_predicate, (token) => {
-        cb && cb(token)
+        cb && cb(token);
       })
-    )
-  }
+    );
+  };
 
   const updatePredicateD = (data, cb) => {
     dispatch(
       updatePredicate(data, (token) => {
-        cb && cb(token)
+        cb && cb(token);
         // this.setState({jwt: token})
       })
-    )
-  }
+    );
+  };
 
   const fetchAppSegmentDispatch = (id) => {
-    dispatch(fetchAppSegment(id, search))
-  }
+    dispatch(fetchAppSegment(id, search));
+  };
 
   const getPredicates = () => {
-    return segment.predicates || []
-  }
+    return segment.predicates || [];
+  };
 
   const savePredicates = (data, cb) => {
     if (data.action === 'update') {
       updateSegmentD(data, () => {
-        cb()
-        fetchApp()
-      })
+        cb();
+        fetchApp();
+      });
     } else if (data.action === 'new') {
       createSegmentD(data, () => {
-        cb()
-        fetchApp()
-      })
+        cb();
+        fetchApp();
+      });
     }
-  }
+  };
 
   const deletePredicateD = (data) => {
-    dispatch(deletePredicate(data, () => updateSegment({}, fetchApp())))
-  }
+    dispatch(deletePredicate(data, () => updateSegment({}, fetchApp())));
+  };
 
   return (
     <Content>
@@ -167,14 +167,14 @@ function Platform({ dispatch, match, app, app_users, segment }) {
         />
       </div>
     </Content>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app, segment, app_users, app_user } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app, segment, app_users, app_user } = state;
+  const { loading, isAuthenticated } = auth;
 
-  const { searching, meta } = app_users
+  const { searching, meta } = app_users;
 
   return {
     app_user,
@@ -185,7 +185,7 @@ function mapStateToProps(state) {
     app,
     loading,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Platform))
+export default withRouter(connect(mapStateToProps)(Platform));

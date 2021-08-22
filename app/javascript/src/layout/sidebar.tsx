@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import Tooltip from 'rc-tooltip'
-import icon from '../images/favicon.png'
+import React, { useState, useEffect } from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Tooltip from 'rc-tooltip';
+import icon from '../images/favicon.png';
 import {
   MoreIcon,
   WebhooksIcon,
@@ -32,26 +32,28 @@ import {
   DarkModeIcon,
   LightModeIcon,
   ChartsIcons,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
-import SidebarAgents from '../pages/conversations/SidebarAgents'
+import I18n from '../shared/FakeI18n';
 
-import SidebarReportMenu from '../pages/reports/SidebarMenu'
+import SidebarAgents from '../pages/conversations/SidebarAgents';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import SidebarReportMenu from '../pages/reports/SidebarMenu';
 
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import WebSetup from '@chaskiq/components/src/components/webSetup'
-import LangChooser from '@chaskiq/components/src/components/LangChooser'
-import Badge from '@chaskiq/components/src/components/Badge'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import WebSetup from '@chaskiq/components/src/components/webSetup';
+import LangChooser from '@chaskiq/components/src/components/LangChooser';
+import Badge from '@chaskiq/components/src/components/Badge';
 
-import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
-import { toggleTheme } from '@chaskiq/store/src/actions/theme'
-import { signout } from '@chaskiq/store/src/actions/auth'
+import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations';
 
-import SwitchControl from '@chaskiq/components/src/components/Switch'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
+import { toggleTheme } from '@chaskiq/store/src/actions/theme';
+import { signout } from '@chaskiq/store/src/actions/auth';
+
+import SwitchControl from '@chaskiq/components/src/components/Switch';
 
 function mapStateToProps(state) {
   const {
@@ -63,8 +65,8 @@ function mapStateToProps(state) {
     current_user,
     navigation,
     theme,
-  } = state
-  const { loading, isAuthenticated } = auth
+  } = state;
+  const { loading, isAuthenticated } = auth;
   return {
     segment,
     app_users,
@@ -75,7 +77,7 @@ function mapStateToProps(state) {
     navigation,
     drawer,
     theme,
-  }
+  };
 }
 
 function Sidebar({
@@ -87,27 +89,27 @@ function Sidebar({
   history,
   theme,
 }) {
-  const { current_page, current_section } = navigation
+  const { current_page, current_section } = navigation;
 
-  const [_expanded, setExpanded] = useState(current_section)
-  const [loading, setLoading] = useState(false)
+  const [_expanded, setExpanded] = useState(current_section);
+  const [loading, setLoading] = useState(false);
 
-  const [langChooser, setLangChooser] = useState(false)
+  const [langChooser, setLangChooser] = useState(false);
 
   useEffect(() => {
-    setExpanded(current_section)
-  }, [current_section])
+    setExpanded(current_section);
+  }, [current_section]);
 
   function isActivePage(page) {
     /// console.log("selected page", current_page , page)
-    return current_page === page
+    return current_page === page;
   }
 
   function handleSignout() {
-    dispatch(signout())
+    dispatch(signout());
   }
 
-  const appid = `/apps/${app.key}`
+  const appid = `/apps/${app.key}`;
 
   const categories = [
     {
@@ -426,7 +428,7 @@ function Sidebar({
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
     },
-  ]
+  ];
 
   function renderInner() {
     return categories
@@ -483,16 +485,16 @@ function Sidebar({
                 )}
             </nav>
           </div>
-        )
-      })
+        );
+      });
   }
 
   function openLangChooser() {
-    setLangChooser(true)
+    setLangChooser(true);
   }
 
   function handleAwaymode(_e) {
-    setLoading(true)
+    setLoading(true);
 
     graphql(
       UPDATE_AGENT,
@@ -505,19 +507,19 @@ function Sidebar({
       },
       {
         success: (_data) => {
-          dispatch(getCurrentUser())
-          setLoading(false)
+          dispatch(getCurrentUser());
+          setLoading(false);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   const drawerClass = !drawer.open
     ? 'hidden'
-    : 'absolute flex md:flex-shrink-0 z-50 h-screen'
+    : 'absolute flex md:flex-shrink-0 z-50 h-screen';
 
   return (
     <div className={`${drawerClass} md:flex md:flex-shrink-0`}>
@@ -691,7 +693,7 @@ function Sidebar({
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default withRouter(connect(mapStateToProps)(Sidebar))
+export default withRouter(connect(mapStateToProps)(Sidebar));

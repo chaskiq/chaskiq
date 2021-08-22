@@ -1,54 +1,56 @@
-import React, { useState, useEffect } from 'react'
-import { withRouter, Switch, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
-import arrayMove from 'array-move'
+import React, { useState, useEffect } from 'react';
+import { withRouter, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import arrayMove from 'array-move';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import BotEditor from './bots/editor'
+import BotEditor from './bots/editor';
 
-import SettingsForm from './bots/settings'
+import SettingsForm from './bots/settings';
 
-import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Badge from '@chaskiq/components/src/components/Badge'
-import EmptyView from '@chaskiq/components/src/components/EmptyView'
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import Button from '@chaskiq/components/src/components/Button'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import Table from '@chaskiq/components/src/components/Table'
+import I18n from '../shared/FakeI18n';
+
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Badge from '@chaskiq/components/src/components/Badge';
+import EmptyView from '@chaskiq/components/src/components/EmptyView';
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import Button from '@chaskiq/components/src/components/Button';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import Table from '@chaskiq/components/src/components/Table';
 
 import {
   errorMessage,
   successMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
-import { BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
+import { BOT_TASKS } from '@chaskiq/store/src/graphql/queries';
 import {
   CREATE_BOT_TASK,
   DELETE_BOT_TASK,
   REORDER_BOT_TASK,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
-  const [loading, _setLoading] = useState(false)
-  const [botTasks, setBotTasks] = useState([])
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(null)
-  const [openTaskForm, setOpenTaskForm] = useState(false)
-  const [meta, _setMeta] = useState({})
-  const [options, setOptions] = useState(optionsForFilter())
-  const [stateOptions, setStateOptions] = useState(optionsForState())
+  const [loading, _setLoading] = useState(false);
+  const [botTasks, setBotTasks] = useState([]);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(null);
+  const [openTaskForm, setOpenTaskForm] = useState(false);
+  const [meta, _setMeta] = useState({});
+  const [options, setOptions] = useState(optionsForFilter());
+  const [stateOptions, setStateOptions] = useState(optionsForState());
 
   function init() {
-    dispatch(setCurrentPage(`bot_${mode}`))
+    dispatch(setCurrentPage(`bot_${mode}`));
 
     graphql(
       BOT_TASKS,
@@ -59,23 +61,23 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       },
       {
         success: (data) => {
-          setBotTasks(data.app.botTasks)
+          setBotTasks(data.app.botTasks);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   useEffect(init, [
     match.url,
     JSON.stringify(options),
     JSON.stringify(stateOptions),
-  ])
+  ]);
 
   // useEffect(init [match])
   function onSortEnd(oldIndex, newIndex) {
-    const op1 = botTasks[oldIndex]
-    const op2 = botTasks[newIndex]
+    const op1 = botTasks[oldIndex];
+    const op2 = botTasks[newIndex];
 
     graphql(
       REORDER_BOT_TASK,
@@ -87,17 +89,17 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       },
       {
         success: (_res) => {
-          dispatch(successMessage(I18n.t('status_messages.reordered_success')))
+          dispatch(successMessage(I18n.t('status_messages.reordered_success')));
         },
         error: (_res) => {
-          dispatch(errorMessage(I18n.t('status_messages.reordered_error')))
+          dispatch(errorMessage(I18n.t('status_messages.reordered_error')));
         },
       }
-    )
+    );
 
-    setBotTasks(arrayMove(botTasks, oldIndex, newIndex))
+    setBotTasks(arrayMove(botTasks, oldIndex, newIndex));
 
-    setTimeout(() => {}, 2000)
+    setTimeout(() => {}, 2000);
   }
 
   function removeBotTask(o) {
@@ -106,25 +108,25 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       { appKey: app.key, id: o.id },
       {
         success: (_data) => {
-          const newData = botTasks.filter((item) => item.id != o.id)
-          setBotTasks(newData)
-          setOpenDeleteDialog(null)
-          dispatch(successMessage(I18n.t('task_bots.remove_success')))
+          const newData = botTasks.filter((item) => item.id != o.id);
+          setBotTasks(newData);
+          setOpenDeleteDialog(null);
+          dispatch(successMessage(I18n.t('task_bots.remove_success')));
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function getFilters() {
     return {
       state: stateOptions.filter((o) => o.state === 'checked').map((o) => o.id),
       users: options.filter((o) => o.state === 'checked').map((o) => o.id),
-    }
+    };
   }
 
   function toggleTaskForm() {
-    setOpenTaskForm(!openTaskForm)
+    setOpenTaskForm(!openTaskForm);
   }
 
   function optionsForFilter() {
@@ -147,7 +149,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         id: 'AppUser',
         state: 'checked',
       },
-    ]
+    ];
   }
 
   function optionsForState() {
@@ -164,15 +166,15 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         id: 'disabled',
         state: 'checked',
       },
-    ]
+    ];
   }
 
   function namesForToggleButton(opts) {
     const names = opts
       .filter((o) => o.state === 'checked')
       .map((o) => o.title)
-      .join(', ')
-    return names === '' ? opts.map((o) => o.title).join(', ') : names
+      .join(', ');
+    return names === '' ? opts.map((o) => o.title).join(', ') : names;
   }
 
   function toggleButton(clickHandler, opts) {
@@ -182,35 +184,35 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           {namesForToggleButton(opts)}
         </Button>
       </div>
-    )
+    );
   }
 
   function handleClickforOptions(opts, option) {
     return opts.map((o) => {
       if (o.id === option.id) {
-        const checked = option.state === 'checked' ? '' : 'checked'
-        return { ...option, state: checked }
+        const checked = option.state === 'checked' ? '' : 'checked';
+        return { ...option, state: checked };
       } else {
-        return o
+        return o;
       }
-    })
+    });
   }
 
   function handleClickforState(opts, option) {
-    const checkeds = opts.filter((o) => o.state === 'checked')
+    const checkeds = opts.filter((o) => o.state === 'checked');
 
     return opts.map((o) => {
       if (o.id === option.id) {
-        const isChecked = option.state === 'checked'
-        const checked = isChecked ? '' : 'checked'
+        const isChecked = option.state === 'checked';
+        const checked = isChecked ? '' : 'checked';
         if (checkeds.length === 1 && isChecked) {
-          return o
+          return o;
         }
-        return { ...option, state: checked }
+        return { ...option, state: checked };
       } else {
-        return o
+        return o;
       }
-    })
+    });
   }
 
   return (
@@ -238,8 +240,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               options={options}
               value={null}
               filterHandler={(option) => {
-                const newOptions = handleClickforOptions(options, option)
-                setOptions(newOptions)
+                const newOptions = handleClickforOptions(options, option);
+                setOptions(newOptions);
               }}
               triggerButton={(handler) => toggleButton(handler, options)}
               position={'left'}
@@ -251,8 +253,8 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               options={stateOptions}
               value={null}
               filterHandler={(option) => {
-                const newOptions = handleClickforState(stateOptions, option)
-                setStateOptions(newOptions)
+                const newOptions = handleClickforState(stateOptions, option);
+                setStateOptions(newOptions);
               }}
               triggerButton={(handler) => toggleButton(handler, stateOptions)}
               position={'left'}
@@ -347,10 +349,10 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               name: openDeleteDialog.title,
             })}
             closeHandler={() => {
-              setOpenDeleteDialog(null)
+              setOpenDeleteDialog(null);
             }}
             deleteHandler={() => {
-              removeBotTask(openDeleteDialog)
+              removeBotTask(openDeleteDialog);
             }}
           >
             <p variant="subtitle2">{I18n.t('task_bots.delete.hint')}</p>
@@ -368,19 +370,19 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         />
       ) : null}
     </div>
-  )
-}
+  );
+};
 
 const BotTaskCreate = ({ app, submit, history, match, mode }) => {
   // const PathDialog = ({open, close, isOpen, submit})=>{
 
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
 
   const close = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
-  let titleRef = React.createRef()
+  let titleRef = React.createRef();
   // const titleRef = null
 
   const handleSubmit = (_e) => {
@@ -389,7 +391,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
       title: titleRef.value,
       paths: [],
       bot_type: mode,
-    }
+    };
 
     graphql(
       CREATE_BOT_TASK,
@@ -399,13 +401,13 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
       },
       {
         success: (data) => {
-          history.push(match.url + '/' + data.createBotTask.botTask.id)
-          submit && submit()
+          history.push(match.url + '/' + data.createBotTask.botTask.id);
+          submit && submit();
         },
         error: (_error) => {},
       }
-    )
-  }
+    );
+  };
 
   return (
     isOpen && (
@@ -444,13 +446,13 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
         }
       ></FormDialog>
     )
-  )
-}
+  );
+};
 
 const BotContainer = ({ app, match, history, dispatch, actions }) => {
   useEffect(() => {
-    dispatch(setCurrentSection('Bot'))
-  }, [])
+    dispatch(setCurrentSection('Bot'));
+  }, []);
 
   return (
     <Switch>
@@ -510,7 +512,7 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
               actions={actions}
               {...props}
             />
-          )
+          );
         }}
       />
 
@@ -518,16 +520,18 @@ const BotContainer = ({ app, match, history, dispatch, actions }) => {
         exact
         path={`${match.path}/new_conversations/:id`}
         render={(props) => {
-          return <BotEditor app={app} mode={'users'} match={match} {...props} />
+          return (
+            <BotEditor app={app} mode={'users'} match={match} {...props} />
+          );
         }}
       />
     </Switch>
-  )
-}
+  );
+};
 
 function mapStateToProps(state) {
-  const { auth, app, segment, app_user, current_user, drawer } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app, segment, app_user, current_user, drawer } = state;
+  const { loading, isAuthenticated } = auth;
   return {
     current_user,
     app_user,
@@ -536,7 +540,7 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     drawer,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(BotContainer))
+export default withRouter(connect(mapStateToProps)(BotContainer));

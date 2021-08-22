@@ -1,21 +1,22 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import Content from '@chaskiq/components/src/components/Content'
-import EmptyView from '@chaskiq/components/src/components/EmptyView'
+import React from 'react';
+import { connect } from 'react-redux';
+import Content from '@chaskiq/components/src/components/Content';
+import EmptyView from '@chaskiq/components/src/components/EmptyView';
 
-import { withRouter } from 'react-router-dom'
-import image from '../../images/delivery-icon8.png'
+import { withRouter } from 'react-router-dom';
+import image from '../../images/delivery-icon8.png';
+import I18n from '../../shared/FakeI18n';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 function CampaignHome({ dispatch }) {
   React.useEffect(() => {
-    dispatch(setCurrentSection('Campaigns'))
-    dispatch(setCurrentPage('Campaigns'))
-  }, [])
+    dispatch(setCurrentSection('Campaigns'));
+    dispatch(setCurrentPage('Campaigns'));
+  }, []);
 
   return (
     <div>
@@ -32,18 +33,18 @@ function CampaignHome({ dispatch }) {
         />
       </Content>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(CampaignHome))
+export default withRouter(connect(mapStateToProps)(CampaignHome));

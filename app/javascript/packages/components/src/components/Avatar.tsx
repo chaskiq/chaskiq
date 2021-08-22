@@ -3,7 +3,7 @@ import React from 'react';
 type AvatarType = {
   src: string;
   indicator?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | number;
   classes?: string;
 };
 

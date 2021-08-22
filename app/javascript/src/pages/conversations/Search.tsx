@@ -1,46 +1,47 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import { SeachIcon } from '@chaskiq/components/src/components/icons'
-import Button from '@chaskiq/components/src/components/Button'
-import SearchInput from '@chaskiq/components/src/components/SearchInput'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import { SeachIcon } from '@chaskiq/components/src/components/icons';
+import Button from '@chaskiq/components/src/components/Button';
+import SearchInput from '@chaskiq/components/src/components/SearchInput';
+import I18n from '../../shared/FakeI18n';
 
 import {
   getConversations,
   updateConversationsData,
   clearConversations,
-} from '@chaskiq/store/src/actions/conversations'
+} from '@chaskiq/store/src/actions/conversations';
 
 function ConversationSearch({ _app, dispatch, conversations, asButton }) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
   function fetchConversations(options, cb) {
     dispatch(
       getConversations(options, () => {
-        cb && cb()
+        cb && cb();
       })
-    )
+    );
   }
 
   function handleSubmit(term) {
-    dispatch(clearConversations([]))
+    dispatch(clearConversations([]));
     dispatch(
       updateConversationsData(
         {
           term: term,
         },
         () => {
-          setOpen(false)
-          fetchConversations({})
+          setOpen(false);
+          fetchConversations({});
         }
       )
-    )
+    );
   }
 
   function handleEnter(e) {
     if (e.key === 'Enter') {
-      handleSubmit(e.target.value)
+      handleSubmit(e.target.value);
     }
   }
 
@@ -59,7 +60,7 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
             className="w-full ml-2 bg-transparent active:outline-none focus:outline-none text-sm py-1"
             defaultValue={conversations.term}
             onKeyDown={(e) => {
-              handleEnter(e)
+              handleEnter(e);
             }}
             placeholder={I18n.t('common.search_conversations')}
           />
@@ -76,7 +77,7 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
             <SearchInput
               defaultValue={conversations.term}
               onSubmit={(term) => {
-                handleSubmit(term)
+                handleSubmit(term);
               }}
               placeholder={I18n.t('common.search_conversations')}
             />
@@ -84,15 +85,15 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
         }
       ></FormDialog>
     </React.Fragment>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app, conversations } = state
+  const { app, conversations } = state;
   return {
     conversations,
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(ConversationSearch))
+export default withRouter(connect(mapStateToProps)(ConversationSearch));

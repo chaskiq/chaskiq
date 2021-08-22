@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import Dropdown from '../Dropdown';
 import Button from '../Button';
 import { PredicateType } from './types';
+import I18n from '../../../../../src/shared/FakeI18n';
 
 const ContentMatch = styled.div`
   height: 200px;

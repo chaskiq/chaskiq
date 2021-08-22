@@ -1,7 +1,8 @@
-import React from 'react'
-import Moment from 'react-moment'
-import Badge from '../Badge'
-import Avatar from '../Avatar'
+import React from 'react';
+import Moment from 'react-moment';
+import Badge from '../Badge';
+import Avatar from '../Avatar';
+import I18n from '../../../../../src/shared/FakeI18n';
 
 const userFormat = function (showUserDrawer, app) {
   let opts = [
@@ -33,7 +34,7 @@ const userFormat = function (showUserDrawer, app) {
               </div>
             </div>
           )
-        )
+        );
       },
     },
     {
@@ -74,7 +75,7 @@ const userFormat = function (showUserDrawer, app) {
           <Badge variant={row.state === 'subscribed' ? 'green' : 'yellow'}>
             {I18n.t(`data_tables.users.subscription_status.${row.state}`)}
           </Badge>
-        )
+        );
       },
     },
     {
@@ -132,7 +133,7 @@ const userFormat = function (showUserDrawer, app) {
       title: 'Last visited at',
       render: (row) => row && <Moment fromNow>{row.lastVisitedAt}</Moment>,
     },
-  ]
+  ];
 
   if (app.customFields && app.customFields.length > 0) {
     const other = app.customFields.map((o) => ({
@@ -140,11 +141,11 @@ const userFormat = function (showUserDrawer, app) {
       field: o.name,
       title: o.name,
       render: (row) => row && row.properties[o.name],
-    }))
-    opts = opts.concat(other)
+    }));
+    opts = opts.concat(other);
   }
 
-  return opts
-}
+  return opts;
+};
 
-export default userFormat
+export default userFormat;

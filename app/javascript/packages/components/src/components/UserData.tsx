@@ -1,26 +1,26 @@
-import React from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Moment from 'react-moment'
-import Accordeon from './Accordeon'
-import { compact } from 'lodash'
+import Moment from 'react-moment';
+import Accordeon from './Accordeon';
+import { compact } from 'lodash';
 
 function UserData({ app_user, app, disableAvatar }) {
   function getPropertiesItems() {
-    if (!app.customFields) return []
-    const fields = app.customFields.map((field) => field.name)
+    if (!app.customFields) return [];
+    const fields = app.customFields.map((field) => field.name);
 
     const items = fields.map((f) => {
-      const val = app_user.properties[f]
-      if (!val) return null
+      const val = app_user.properties[f];
+      if (!val) return null;
       return {
         label: `${f}:`,
         value: val,
-      }
-    })
+      };
+    });
 
-    return compact(items)
+    return compact(items);
   }
 
   return (
@@ -125,36 +125,36 @@ function UserData({ app_user, app, disableAvatar }) {
                 component: null,
                 items: [
                   {
-                    label: 'referrer',
+                    name: 'referrer',
                     value: app_user.referrer,
                   },
 
                   {
-                    label: 'city',
+                    name: 'city',
                     value: app_user.city,
                   },
 
                   {
-                    label: 'region',
+                    name: 'region',
                     value: app_user.region,
                   },
 
                   {
-                    label: 'country',
+                    name: 'country',
                     value: app_user.country,
                   },
 
                   {
-                    label: 'lat',
+                    name: 'lat',
                     value: app_user.lat,
                   },
 
                   {
-                    label: 'lng',
+                    name: 'lng',
                     value: app_user.lng,
                   },
                   {
-                    label: 'postal:',
+                    name: 'postal:',
                     value: app_user.postal,
                   },
                 ],
@@ -164,32 +164,32 @@ function UserData({ app_user, app, disableAvatar }) {
                 component: null,
                 items: [
                   {
-                    label: 'web sessions:',
+                    name: 'web sessions:',
                     value: app_user.webSessions,
                   },
 
                   {
-                    label: 'timezone:',
+                    name: 'timezone:',
                     value: app_user.timezone,
                   },
 
                   {
-                    label: 'browser version:',
+                    name: 'browser version:',
                     value: app_user.browserVersion,
                   },
 
                   {
-                    label: 'browser:',
+                    name: 'browser:',
                     value: app_user.browser,
                   },
 
                   {
-                    label: 'os:',
+                    name: 'os:',
                     value: app_user.os,
                   },
 
                   {
-                    label: 'os version:',
+                    name: 'os version:',
                     value: app_user.osVersion,
                   },
                 ],
@@ -203,18 +203,17 @@ function UserData({ app_user, app, disableAvatar }) {
                 name: 'External Profiles',
                 component: (
                   <div>
-                    <ul dense>
+                    <ul>
                       {app_user.externalProfiles &&
                         app_user.externalProfiles.map((o) => {
                           return (
                             <div
-                              m={2}
                               key={`app-user-profile-${app_user.id}-${o.id}`}
                             >
                               <div className="flex flex-col">
                                 <div className="flex flex-col">
                                   <p className="font-bold">{o.provider}</p>
-                                  <p variant="h6">{o.profileId}</p>
+                                  <p>{o.profileId}</p>
                                 </div>
 
                                 {/* <Button
@@ -240,21 +239,20 @@ function UserData({ app_user, app, disableAvatar }) {
                                       !o.data[a] ||
                                       typeof o.data[a] === 'object'
                                     ) {
-                                      return null
+                                      return null;
                                     }
                                     return (
                                       <p
-                                        variant={'caption'}
                                         key={`app-user-${o.provider}-${app_user.id}-${i}`}
                                       >
                                         {<b>{a}:</b>}
                                         {` ${o.data[a]}`}
                                       </p>
-                                    )
+                                    );
                                   })}
                               </div>
                             </div>
-                          )
+                          );
                         })}
                     </ul>
                   </div>
@@ -265,15 +263,15 @@ function UserData({ app_user, app, disableAvatar }) {
         </div>
       )}
     </React.Fragment>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app } = state
+  const { app_user, app } = state;
   return {
     app_user,
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(UserData))
+export default withRouter(connect(mapStateToProps)(UserData));

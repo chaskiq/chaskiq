@@ -1,18 +1,19 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
-import FormDialog from './FormDialog'
-import Input from './forms/Input'
-import CircularProgress from './Progress'
+import FormDialog from './FormDialog';
+import Input from './forms/Input';
+import CircularProgress from './Progress';
+import I18n from '../../../../src/shared/FakeI18n';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
 
-import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations'
+import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations';
 
 function LangChooser({ open, handleClose, current_user, app, dispatch }) {
-  const [setted, setSetted] = React.useState(false)
+  const [setted, setSetted] = React.useState(false);
 
   function setLang(lang) {
     graphql(
@@ -28,16 +29,16 @@ function LangChooser({ open, handleClose, current_user, app, dispatch }) {
         success: () => {
           // This dispatch will trigger an effect on AppRoutes.js
           // which will refresh the components
-          dispatch(getCurrentUser())
-          setSetted(true)
+          dispatch(getCurrentUser());
+          setSetted(true);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function handleChange(e) {
-    setLang(e.value)
+    setLang(e.value);
   }
 
   return (
@@ -78,16 +79,16 @@ function LangChooser({ open, handleClose, current_user, app, dispatch }) {
       }
       // dialogButtons={}
     ></FormDialog>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app, current_user } = state
+  const { auth, app, current_user } = state;
   return {
     auth,
     current_user,
     app,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(LangChooser)
+export default connect(mapStateToProps)(LangChooser);

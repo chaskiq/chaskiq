@@ -1,55 +1,54 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   sortableContainer,
   sortableElement,
   sortableHandle,
-} from 'react-sortable-hoc'
+} from 'react-sortable-hoc';
 
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Button from '@chaskiq/components/src/components/Button'
-import { InlineFilterDialog } from '@chaskiq/components/src/components/segmentManager'
-import SegmentItemButton from '@chaskiq/components/src/components/segmentManager/itemButton'
+import I18n from '../../shared/FakeI18n';
 
-import defaultFields from '@chaskiq/components/src/utils/defaultFields'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import arrayMove from 'array-move'
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Button from '@chaskiq/components/src/components/Button';
+import { InlineFilterDialog } from '@chaskiq/components/src/components/segmentManager';
+import SegmentItemButton from '@chaskiq/components/src/components/segmentManager/itemButton';
 
-import serialize from 'form-serialize'
-import { QueueIcon } from '@chaskiq/components/src/components/icons'
-import PageHeader from '@chaskiq/components/src/components/PageHeader'
+import defaultFields from '@chaskiq/components/src/utils/defaultFields';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import arrayMove from 'array-move';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import serialize from 'form-serialize';
+import { QueueIcon } from '@chaskiq/components/src/components/icons';
+import PageHeader from '@chaskiq/components/src/components/PageHeader';
+
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
-import { successMessage } from '@chaskiq/store/src/actions/status_messages'
+import { successMessage } from '@chaskiq/store/src/actions/status_messages';
 
-import { AGENTS, ASSIGNMENT_RULES } from '@chaskiq/store/src/graphql/queries'
+import { AGENTS, ASSIGNMENT_RULES } from '@chaskiq/store/src/graphql/queries';
 
 import {
   CREATE_ASSIGNMENT_RULE,
   EDIT_ASSIGNMENT_RULE,
   DELETE_ASSIGNMENT_RULE,
   UPDATE_RULE_PRIORITIES,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 const DragHandle = sortableHandle(() => (
   <div>
     <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
   </div>
-))
+));
 
 const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
   <li>
-    <div
-      href="#"
-      className="border-b bg-white dark:border-gray-800 dark:bg-gray-900 block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out"
-    >
+    <div className="border-b bg-white dark:border-gray-800 dark:bg-gray-900 block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div>
           <DragHandle />
@@ -84,8 +83,8 @@ const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
                 className="mr-2"
                 color={'outlined'}
                 onClick={(e) => {
-                  e.preventDefault()
-                  edit(object)
+                  e.preventDefault();
+                  edit(object);
                 }}
               >
                 {I18n.t('common.edit')}
@@ -94,8 +93,8 @@ const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
               <Button
                 variant="danger"
                 onClick={(e) => {
-                  e.preventDefault()
-                  deleteRule(object)
+                  e.preventDefault();
+                  deleteRule(object);
                 }}
               >
                 {I18n.t('common.delete')}
@@ -106,39 +105,39 @@ const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
       </div>
     </div>
   </li>
-))
+));
 
 const SortableContainer = sortableContainer(({ children }) => {
-  return <ul className="bg-white border-md shadow-sm">{children}</ul>
-})
+  return <ul className="bg-white border-md shadow-sm">{children}</ul>;
+});
 
 function AssignmentRules({ dispatch, app }) {
-  const formRef = React.useRef()
+  const formRef = React.useRef();
 
   const [state, setState] = React.useState({
     isOpen: false,
     currentRule: null,
     rules: [],
     conditions: [],
-  })
+  });
 
   React.useEffect(() => {
-    dispatch(setCurrentPage('Assignment Rules'))
-    dispatch(setCurrentSection('Conversations'))
-    getAssignmentRules()
-  }, [])
+    dispatch(setCurrentPage('Assignment Rules'));
+    dispatch(setCurrentSection('Conversations'));
+    getAssignmentRules();
+  }, []);
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setState({
       ...state,
       rules: arrayMove(state.rules, oldIndex, newIndex),
-    })
+    });
 
-    updatePriorities()
-  }
+    updatePriorities();
+  };
 
-  const open = () => setState({ ...state, isOpen: true })
-  const close = () => setState({ ...state, isOpen: false })
+  const open = () => setState({ ...state, isOpen: true });
+  const close = () => setState({ ...state, isOpen: false });
 
   const updatePriorities = () => {
     graphql(
@@ -149,19 +148,19 @@ function AssignmentRules({ dispatch, app }) {
       },
       {
         success: () => {
-          dispatch(successMessage(I18n.t('assignment_rules.success_message')))
+          dispatch(successMessage(I18n.t('assignment_rules.success_message')));
         },
       }
-    )
-  }
+    );
+  };
 
   const submitAssignment = () => {
     if (state.currentRule) {
-      editAssignmentRule()
+      editAssignmentRule();
     } else {
-      createAssignmentRule()
+      createAssignmentRule();
     }
-  }
+  };
 
   const getAssignmentRules = () => {
     graphql(
@@ -171,18 +170,18 @@ function AssignmentRules({ dispatch, app }) {
       },
       {
         success: (data) => {
-          setState({ ...state, rules: data.app.assignmentRules })
+          setState({ ...state, rules: data.app.assignmentRules });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   const createAssignmentRule = (_opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
-    })
+    });
 
     graphql(
       CREATE_ASSIGNMENT_RULE,
@@ -195,23 +194,23 @@ function AssignmentRules({ dispatch, app }) {
       },
       {
         success: (data) => {
-          const rule = data.createAssignmentRule.assignmentRule
+          const rule = data.createAssignmentRule.assignmentRule;
           setState({
             ...state,
             rules: state.rules.concat(rule),
             isOpen: false,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   const editAssignmentRule = (_opts) => {
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
-    })
+    });
 
     graphql(
       EDIT_ASSIGNMENT_RULE,
@@ -225,26 +224,26 @@ function AssignmentRules({ dispatch, app }) {
       },
       {
         success: (data) => {
-          const rule = data.editAssignmentRule.assignmentRule
+          const rule = data.editAssignmentRule.assignmentRule;
           const collection = state.rules.map((o) => {
             if (o.id === rule.id) {
-              return rule
+              return rule;
             } else {
-              return o
+              return o;
             }
-          })
+          });
 
           setState({
             ...state,
             rules: collection,
             currentRule: null,
             isOpen: false,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   const deleteAssignmentRule = (opts) => {
     graphql(
@@ -255,35 +254,35 @@ function AssignmentRules({ dispatch, app }) {
       },
       {
         success: (data) => {
-          const rule = data.deleteAssignmentRule.assignmentRule
-          const collection = state.rules.filter((o) => o.id !== rule.id)
+          const rule = data.deleteAssignmentRule.assignmentRule;
+          const collection = state.rules.filter((o) => o.id !== rule.id);
           setState({
             ...state,
             rules: collection,
             currentRule: null,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   const edit = (rule) => {
     setState({
       ...state,
       currentRule: rule,
       isOpen: true,
-    })
-  }
+    });
+  };
 
   const deleteRule = (rule) => {
     setState({
       ...state,
       currentRule: rule,
-    })
+    });
 
-    deleteAssignmentRule(rule)
-  }
+    deleteAssignmentRule(rule);
+  };
 
   const defaultConditions = [
     {
@@ -298,7 +297,7 @@ function AssignmentRules({ dispatch, app }) {
       attribute: 'type',
       comparison: 'in',
     },
-  ]
+  ];
 
   return (
     <div className="p-4">
@@ -379,31 +378,31 @@ function AssignmentRules({ dispatch, app }) {
         ))}
       </SortableContainer>
     </div>
-  )
+  );
 }
 
 function AssignmentForm(props) {
-  const { rule, setConditions, conditions } = props
+  const { rule, setConditions, conditions } = props;
 
-  const [agents, setAgents] = React.useState([])
-  const [_selected, setSelected] = React.useState(rule ? rule.agent.id : '')
-  const [title, setTitle] = React.useState(rule ? rule.title : '')
-  const [checked, setChecked] = React.useState('')
-  const [updater, setUpdater] = React.useState(null)
-  const [predicates, setPredicates] = React.useState(conditions || [])
+  const [agents, setAgents] = React.useState([]);
+  const [_selected, setSelected] = React.useState(rule ? rule.agent.id : '');
+  const [title, setTitle] = React.useState(rule ? rule.title : '');
+  const [checked, setChecked] = React.useState('');
+  const [updater, setUpdater] = React.useState(null);
+  const [predicates, setPredicates] = React.useState(conditions || []);
 
   function availableFields() {
     let fields = [{ name: 'message_content', type: 'string' }].concat(
       defaultFields
-    )
-    if (!props.app.customFields) return fields
-    return props.app.customFields.concat(fields)
+    );
+    if (!props.app.customFields) return fields;
+    return props.app.customFields.concat(fields);
   }
 
   function selectedValue() {
-    if (!rule) return
-    const { agent } = rule
-    return { label: agent.email, value: agent.id }
+    if (!rule) return;
+    const { agent } = rule;
+    return { label: agent.email, value: agent.id };
   }
 
   function getAgents() {
@@ -412,27 +411,27 @@ function AssignmentForm(props) {
       { appKey: props.app.key },
       {
         success: (data) => {
-          setAgents(data.app.agents)
+          setAgents(data.app.agents);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   React.useEffect(() => {
-    getAgents()
-  }, [])
+    getAgents();
+  }, []);
 
   React.useEffect(() => {
-    setConditions(predicates)
-  }, [predicates])
+    setConditions(predicates);
+  }, [predicates]);
 
   function handleChange(e) {
-    setSelected(e.value)
+    setSelected(e.value);
   }
 
   function displayName(o) {
-    return o.attribute.split('_').join(' ')
+    return o.attribute.split('_').join(' ');
   }
 
   function getTextForPredicate(o) {
@@ -441,11 +440,11 @@ function AssignmentForm(props) {
         o.value === 'and'
           ? I18n.t('segment_manager.all')
           : I18n.t('segment_manager.any')
-      } ${I18n.t('segment_manager.criteria')}`
+      } ${I18n.t('segment_manager.criteria')}`;
     } else {
       return `${displayName(o)} ${o.comparison ? o.comparison : ''} ${
         o.value ? o.value : ''
-      }`
+      }`;
     }
   }
 
@@ -455,21 +454,21 @@ function AssignmentForm(props) {
       comparison: null,
       type: data.type,
       value: data.value,
-    }
-    setPredicates(predicates.concat(pending_predicate))
+    };
+    setPredicates(predicates.concat(pending_predicate));
 
     // it forces a re render on itemButton for new predicates
     setTimeout(() => {
-      setUpdater(Math.random())
-    }, 2)
+      setUpdater(Math.random());
+    }, 2);
   }
 
   function updatePredicates(data) {
-    setPredicates(data)
+    setPredicates(data);
   }
 
   function deletePredicate(data) {
-    setPredicates(data)
+    setPredicates(data);
   }
 
   return (
@@ -490,10 +489,10 @@ function AssignmentForm(props) {
                 updatePredicate={updatePredicates}
                 predicateCallback={(_jwtToken) => {}}
                 deletePredicate={(items) => {
-                  deletePredicate(items)
+                  deletePredicate(items);
                 }}
               />
-            )
+            );
           })}
 
           {
@@ -501,7 +500,7 @@ function AssignmentForm(props) {
               app={props.app}
               fields={availableFields()}
               addPredicate={(predicate) => {
-                addPredicate(predicate)
+                addPredicate(predicate);
               }}
             />
           }
@@ -540,19 +539,19 @@ function AssignmentForm(props) {
         onChange={(e) => setChecked(e.target.checked)}
       />*/}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversations, app_user } = state
-  const { isAuthenticated } = auth
+  const { auth, app, conversations, app_user } = state;
+  const { isAuthenticated } = auth;
 
   return {
     conversations,
     app_user,
     app,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(AssignmentRules))
+export default withRouter(connect(mapStateToProps)(AssignmentRules));

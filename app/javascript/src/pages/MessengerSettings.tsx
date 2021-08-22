@@ -1,51 +1,52 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import I18n from '../shared/FakeI18n';
 
-import Content from '@chaskiq/components/src/components/Content'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Tabs from '@chaskiq/components/src/components/Tabs'
+import Content from '@chaskiq/components/src/components/Content';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Tabs from '@chaskiq/components/src/components/Tabs';
 import {
   getFileMetadata,
   directUpload,
-} from '@chaskiq/components/src/components/fileUploader'
+} from '@chaskiq/components/src/components/fileUploader';
 
-import SettingsForm from './settings/form'
-import AvailabilitySettings from './settings/Availability'
-import EmailRequirement from './settings/EmailRequirement'
-import LanguageSettings from './settings/Language'
-import InboundSettings from './settings/InboundSettings'
-import StylingSettings from './settings/Styling'
-import AppInserter from './settings/AppInserter'
+import SettingsForm from './settings/form';
+import AvailabilitySettings from './settings/Availability';
+import EmailRequirement from './settings/EmailRequirement';
+import LanguageSettings from './settings/Language';
+import InboundSettings from './settings/InboundSettings';
+import StylingSettings from './settings/Styling';
+import AppInserter from './settings/AppInserter';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { updateApp } from '@chaskiq/store/src/actions/app'
+import { updateApp } from '@chaskiq/store/src/actions/app';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
-import { APP } from '@chaskiq/store/src/graphql/queries'
-import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
+import { APP } from '@chaskiq/store/src/graphql/queries';
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations';
 class AppSettingsContainer extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       tabValue: 0,
-    }
+    };
   }
 
   componentDidMount() {
-    this.props.dispatch(setCurrentPage('messenger'))
-    this.props.dispatch(setCurrentSection('Settings'))
+    this.props.dispatch(setCurrentPage('messenger'));
+    this.props.dispatch(setCurrentSection('Settings'));
   }
 
   url = () => {
-    return `/apps/${this.props.match.params.appId}.json`
-  }
+    return `/apps/${this.props.match.params.appId}.json`;
+  };
 
   fetchApp = () => {
     graphql(
@@ -53,23 +54,23 @@ class AppSettingsContainer extends Component {
       { appKey: this.props.match.params.appId },
       {
         success: (data) => {
-          this.setState({ app: data.app })
+          this.setState({ app: data.app });
         },
         errors: (error) => {
-          console.log(error)
+          console.log(error);
         },
       }
-    )
-  }
+    );
+  };
 
   // Form Event Handlers
   update = (data) => {
     this.props.dispatch(
       updateApp(data.app, (d) => {
-        console.log(d)
+        console.log(d);
       })
-    )
-  }
+    );
+  };
 
   uploadHandler = (file, kind) => {
     getFileMetadata(file).then((input) => {
@@ -80,25 +81,25 @@ class AppSettingsContainer extends Component {
             headers,
             url,
             //serviceUrl
-          } = data.createDirectUpload.directUpload
+          } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            const params = {}
-            params[kind] = signedBlobId
+            const params = {};
+            params[kind] = signedBlobId;
 
-            this.update({ app: params })
-          })
+            this.update({ app: params });
+          });
         },
         error: (error) => {
-          console.log('error on signing blob', error)
+          console.log('error on signing blob', error);
         },
-      })
-    })
-  }
+      });
+    });
+  };
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i })
-  }
+    this.setState({ tabValue: i });
+  };
 
   definitionsForPrivacy = () => {
     return [
@@ -135,8 +136,8 @@ class AppSettingsContainer extends Component {
         defaultChecked: this.props.app.privacyConsentRequired === '',
         grid: { xs: 'w-full', sm: 'w-full' },
       },
-    ]
-  }
+    ];
+  };
 
   definitionsForAppearance = () => {
     return [
@@ -155,8 +156,8 @@ class AppSettingsContainer extends Component {
         type: 'bool',
         grid: { xs: 'w-full', sm: 'w-full' },
       },
-    ]
-  }
+    ];
+  };
 
   definitionsForStyling = () => {
     return [
@@ -164,7 +165,7 @@ class AppSettingsContainer extends Component {
         name: 'primary_customization_color',
         type: 'color',
         handler: (color) => {
-          this.props.updateMemSettings({ color: color })
+          this.props.updateMemSettings({ color: color });
         },
         grid: { xs: 'w-full', sm: 'w-1/3' },
       },
@@ -173,7 +174,7 @@ class AppSettingsContainer extends Component {
         name: 'secondary_customization_color',
         type: 'color',
         handler: (color) => {
-          this.props.updateMemSettings({ color: color })
+          this.props.updateMemSettings({ color: color });
         },
         grid: { xs: 'w-full', sm: 'w-1/3' },
       },
@@ -185,8 +186,8 @@ class AppSettingsContainer extends Component {
         handler: (file) => this.uploadHandler(file, 'header_image'),
         grid: { xs: 'w-full', sm: 'w-1/3' },
       },
-    ]
-  }
+    ];
+  };
 
   tabsContent = () => {
     return (
@@ -292,8 +293,8 @@ class AppSettingsContainer extends Component {
           },
         ]}
       />
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -306,14 +307,14 @@ class AppSettingsContainer extends Component {
           </React.Fragment>
         )}
       </Content>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app, segment, app_users, current_user, navigation } = state
-  const { loading, isAuthenticated } = auth
-  const { current_section } = navigation
+  const { auth, app, segment, app_users, current_user, navigation } = state;
+  const { loading, isAuthenticated } = auth;
+  const { current_section } = navigation;
   return {
     segment,
     app_users,
@@ -322,7 +323,7 @@ function mapStateToProps(state) {
     loading,
     isAuthenticated,
     current_section,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(AppSettingsContainer))
+export default withRouter(connect(mapStateToProps)(AppSettingsContainer));

@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
-import Moment from 'react-moment'
-import CampaignChart from './charts/charts'
-import styled from '@emotion/styled'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import Moment from 'react-moment';
+import CampaignChart from './charts/charts';
+import styled from '@emotion/styled';
+import { connect } from 'react-redux';
+import I18n from '../../../../src/shared/FakeI18n';
 
-import Table from './Table'
-import Badge from './Badge'
-import Button from './Button'
+import Table from './Table';
+import Badge from './Badge';
+import Button from './Button';
 
-import Count from './charts/count'
-import { isEmpty } from 'lodash'
+import Count from './charts/count';
+import { isEmpty } from 'lodash';
 
-import { getAppUser } from '@chaskiq/store/src/actions/app_user'
-import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user';
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
 
 const PieContainer = styled.div`
   padding: 0.75em;
@@ -22,73 +23,73 @@ const PieContainer = styled.div`
   width: 100vw;
   margin: 25px 0 18px 0;
   overflow: auto;
-`
+`;
 
 const PieItem = styled.div`
   height: 200px;
-`
+`;
 class Stats extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       collection: [],
       meta: {},
       counts: {},
       loading: false,
-    }
-    this.getData = this.getData.bind(this)
+    };
+    this.getData = this.getData.bind(this);
   }
 
   renderLozenge = (item) => {
-    let kind = 'default'
+    let kind = 'default';
 
     switch (item) {
       case 'click':
-        kind = 'success'
-        break
+        kind = 'success';
+        break;
       case 'viewed':
-        kind = 'inprogress'
-        break
+        kind = 'inprogress';
+        break;
       case 'close':
-        kind = 'removed'
-        break
+        kind = 'removed';
+        break;
       default:
-        break
+        break;
     }
 
-    return <div appearance={kind}>{item}</div>
-  }
+    return <div>{item}</div>;
+  };
 
   renderBadgeKind = (row) => {
-    let variant = null
+    let variant = null;
     switch (row.action) {
       case 'send':
-        variant = 'yellow'
-        break
+        variant = 'yellow';
+        break;
       case 'delivery':
-        variant = 'green'
-        break
+        variant = 'green';
+        break;
       case 'open':
-        variant = 'blue'
-        break
+        variant = 'blue';
+        break;
       case 'click':
-        variant = 'purple'
-        break
+        variant = 'purple';
+        break;
       default:
-        break
+        break;
     }
 
-    return <Badge variant={variant}>{row.action}</Badge>
-  }
+    return <Badge variant={variant}>{row.action}</Badge>;
+  };
 
   componentDidMount() {
-    this.init()
+    this.init();
   }
 
   init = () => {
-    this.getData()
+    this.getData();
     // this.getCounts()
-  }
+  };
 
   getData = () => {
     this.props.getStats(
@@ -99,19 +100,19 @@ class Stats extends Component {
         page: this.state.meta.next_page || 1,
       },
       (data) => {
-        const { counts, metrics } = data
+        const { counts, metrics } = data;
         this.setState({
           meta: metrics.meta,
           counts: counts,
           collection: metrics.collection,
-        })
+        });
       }
-    )
-  }
+    );
+  };
 
   handleNextPage = () => {
-    this.getData()
-  }
+    this.getData();
+  };
 
   getRateFor = (type) => {
     return type.keys.map((o) => {
@@ -120,17 +121,17 @@ class Stats extends Component {
         label: o.name,
         value: this.state.counts[o.name] || 0,
         color: o.color,
-      }
-    })
-  }
+      };
+    });
+  };
 
   showUserDrawer = (id) => {
     this.props.dispatch(
       toggleDrawer({ userDrawer: true }, () => {
-        this.props.dispatch(getAppUser(id))
+        this.props.dispatch(getAppUser(id));
       })
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -148,12 +149,12 @@ class Stats extends Component {
           <PieContainer>
             {!isEmpty(this.state.counts) &&
               this.props.data.statsFields.map((o, i) => {
-                const rateData = this.getRateFor(o)
+                const rateData = this.getRateFor(o);
                 return (
                   <PieItem key={`rate-for-${i}`}>
                     <CampaignChart data={rateData} />
                   </PieItem>
-                )
+                );
               })}
           </PieContainer>
         )}
@@ -174,7 +175,7 @@ class Stats extends Component {
                     />
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         )}
@@ -270,15 +271,15 @@ class Stats extends Component {
           />
         ) : null}
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(Stats)
+export default connect(mapStateToProps)(Stats);

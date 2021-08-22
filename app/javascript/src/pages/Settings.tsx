@@ -8,6 +8,7 @@ import QuickReplies from './settings/QuickReplies';
 import UserData from './settings/UserDataFields';
 import VerificationView from './settings/VerificationView';
 import timezones from '../shared/timezones';
+import I18n from '../shared/FakeI18n';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 

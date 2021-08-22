@@ -1,26 +1,26 @@
-import React from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import Moment from 'react-moment'
-import Accordeon from './Accordeon'
-import Badge from './Badge'
-import { compact } from 'lodash'
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Moment from 'react-moment';
+import Accordeon from './Accordeon';
+import Badge from './Badge';
+import { compact } from 'lodash';
 
 function UserProfileCard({ app, app_user }) {
   function getPropertiesItems() {
-    if (!app.customFields) return []
-    const fields = app.customFields.map((field) => field.name)
+    if (!app.customFields) return [];
+    const fields = app.customFields.map((field) => field.name);
 
     const items = fields.map((f) => {
-      const val = app_user.properties[f]
-      if (!val) return null
+      const val = app_user.properties[f];
+      if (!val) return null;
       return {
         label: `${f}:`,
         value: val,
-      }
-    })
+      };
+    });
 
-    return compact(items)
+    return compact(items);
   }
 
   return (
@@ -172,18 +172,15 @@ function UserProfileCard({ app, app_user }) {
             name: 'External Profiles',
             component: (
               <div>
-                <ul dense>
+                <ul>
                   {app_user.externalProfiles &&
                     app_user.externalProfiles.map((o) => {
                       return (
-                        <div
-                          m={2}
-                          key={`app-user-profile-${app_user.id}-${o.id}`}
-                        >
+                        <div key={`app-user-profile-${app_user.id}-${o.id}`}>
                           <div className="flex flex-col">
                             <div className="flex flex-col">
                               <p className="font-bold">{o.provider}</p>
-                              <p variant="h6">{o.profileId}</p>
+                              <p>{o.profileId}</p>
                             </div>
 
                             {/* <Button
@@ -209,7 +206,7 @@ function UserProfileCard({ app, app_user }) {
                                   !o.data[a] ||
                                   typeof o.data[a] === 'object'
                                 ) {
-                                  return null
+                                  return null;
                                 }
                                 return (
                                   <p
@@ -219,11 +216,11 @@ function UserProfileCard({ app, app_user }) {
                                     {<b>{a}:</b>}
                                     {` ${o.data[a]}`}
                                   </p>
-                                )
+                                );
                               })}
                           </div>
                         </div>
-                      )
+                      );
                     })}
                 </ul>
               </div>
@@ -232,15 +229,15 @@ function UserProfileCard({ app, app_user }) {
         ]}
       />
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app } = state
+  const { app_user, app } = state;
   return {
     app_user,
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(UserProfileCard))
+export default withRouter(connect(mapStateToProps)(UserProfileCard));

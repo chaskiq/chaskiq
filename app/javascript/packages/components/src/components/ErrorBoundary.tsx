@@ -1,4 +1,5 @@
 import React from 'react';
+import I18n from '../../../../src/shared/FakeI18n';
 
 type Props = {
   variant?: string;

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import I18n from '../../shared/FakeI18n';
+
 import Button from '@chaskiq/components/src/components/Button';
 import SegmentManager from '@chaskiq/components/src/components/segmentManager';
 import Input from '@chaskiq/components/src/components/forms/Input';

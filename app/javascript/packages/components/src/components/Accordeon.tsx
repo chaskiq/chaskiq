@@ -9,7 +9,7 @@ type IPanelItem = {
 
 type IPanel = {
   name: string;
-  items: Array<IPanelItem>;
+  items?: Array<IPanelItem>;
   component?: React.ReactElement;
 };
 

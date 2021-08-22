@@ -3,8 +3,6 @@ var webpack = require('webpack');
 const { environment } = require('@rails/webpacker');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-/*
-
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 environment.plugins.append(
@@ -15,7 +13,7 @@ environment.plugins.append(
     },
     async: false,
   })
-);*/
+);
 
 // Get the actual sass-loader config
 const sassLoader = environment.loaders.get('sass');

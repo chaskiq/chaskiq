@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import {ColorPicker} from '../../shared/FormFields'
 import styled from '@emotion/styled';
+import I18n from '../../shared/FakeI18n';
 
 import Button from '@chaskiq/components/src/components/Button';
 import { ColorPicker } from '@chaskiq/components/src/components/forms/ColorPicker';

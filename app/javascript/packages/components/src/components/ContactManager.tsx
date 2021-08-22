@@ -10,6 +10,8 @@ import serialize from 'form-serialize';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
+import I18n from '../../../../src/shared/FakeI18n';
+
 import { successMessage } from '@chaskiq/store/src/actions/status_messages';
 
 import {

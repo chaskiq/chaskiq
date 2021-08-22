@@ -1,36 +1,38 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import I18n from '../../../shared/FakeI18n';
 
-import Button from '@chaskiq/components/src/components/Button'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import Button from '@chaskiq/components/src/components/Button';
 import {
   ListItem,
   ItemAvatar,
   ListItemText,
-} from '@chaskiq/components/src/components/List'
-import { AnchorLink } from '@chaskiq/components/src/components/RouterLink'
+} from '@chaskiq/components/src/components/List';
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
 
 const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-  return result
-}
+  return result;
+};
 
 const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source)
-  const destClone = Array.from(destination)
-  const [removed] = sourceClone.splice(droppableSource.index, 1)
+  const sourceClone = Array.from(source);
+  const destClone = Array.from(destination);
+  const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-  destClone.splice(droppableDestination.index, 0, removed)
+  destClone.splice(droppableDestination.index, 0, removed);
 
-  const result = {}
-  result[droppableSource.droppableId] = sourceClone
-  result[droppableDestination.droppableId] = destClone
+  const result = {};
+  result[droppableSource.droppableId] = sourceClone;
+  result[droppableDestination.droppableId] = destClone;
 
-  return result
-}
+  return result;
+};
 
 const getItemStyle = (_isDragging, draggableStyle) => {
   return {
@@ -42,65 +44,65 @@ const getItemStyle = (_isDragging, draggableStyle) => {
     // background: isDragging ? 'lightgreen' : '#ff0000',
     // styles we need to apply on draggables
     ...draggableStyle,
-  }
-}
+  };
+};
 
 const getItemClass = (isDragging, _draggableStyle) => {
-  const dragClass = isDragging ? 'bg-gray-400 opacity-50' : ''
-  return dragClass
-}
+  const dragClass = isDragging ? 'bg-gray-400 opacity-50' : '';
+  return dragClass;
+};
 
 const getListStyle = (_isDraggingOver) => {
   return {
     // background: isDraggingOver ? 'lightblue' : "#ff0000",
     // padding: grid,
     // width: 250
-  }
-}
+  };
+};
 
 const getListClass = (isDraggingOver) => {
-  const dragClass = isDraggingOver ? 'bg-red-200' : 'shadow rounded border p-4'
-  return dragClass
-}
+  const dragClass = isDraggingOver ? 'bg-red-200' : 'shadow rounded border p-4';
+  return dragClass;
+};
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     /* this.props = {
       sections: this.props.sections
     } */
   }
 
-  getList = (id) => this.props.sections.find((o) => o.id === id).articles
+  getList = (id) => this.props.sections.find((o) => o.id === id).articles;
 
   onDragEnd = (result) => {
-    const { source, destination } = result
+    const { source, destination } = result;
 
     // dropped outside the list
     if (!destination) {
-      return
+      return;
     }
 
-    const el = this.getList(source.droppableId)[source.index]
+    const el = this.getList(source.droppableId)[source.index];
     const section = this.props.sections.find(
       (o) => o.id === destination.droppableId
-    )
+    );
 
     if (source.droppableId === destination.droppableId) {
       const items = reorder(
         this.getList(source.droppableId),
         source.index,
         destination.index
-      )
+      );
 
       const newCollection = this.props.sections.map((o) => {
         if (o.id === destination.droppableId) {
-          return Object.assign({}, o, { articles: items })
+          return Object.assign({}, o, { articles: items });
         }
-        return o
-      })
+        return o;
+      });
 
-      this.updateSections(newCollection)
+      this.updateSections(newCollection);
     } else {
       const result = move(
         this.getList(source.droppableId),
@@ -109,15 +111,15 @@ class App extends Component {
         // this.props.sections[destination.droppableId],
         source,
         destination
-      )
+      );
 
       const newCollection = this.props.sections.map((o) => {
-        const obj = result[o.id]
-        if (obj) return Object.assign({}, o, { articles: obj || [] })
-        return o
-      })
+        const obj = result[o.id];
+        if (obj) return Object.assign({}, o, { articles: obj || [] });
+        return o;
+      });
 
-      this.updateSections(newCollection)
+      this.updateSections(newCollection);
     }
 
     this.props.saveOperation({
@@ -125,16 +127,16 @@ class App extends Component {
       position: destination.index,
       section: String(section.id),
       collection: String(this.props.collectionId),
-    })
-  }
+    });
+  };
 
   updateSections = (data) => {
     /* this.setState({ sections: data }, ()=>{
       this.props.handleDataUpdate(this.props.sections)
     }); */
 
-    this.props.handleDataUpdate(data)
-  }
+    this.props.handleDataUpdate(data);
+  };
 
   render() {
     return (
@@ -252,8 +254,8 @@ class App extends Component {
           ))}
         </DragDropContext>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;

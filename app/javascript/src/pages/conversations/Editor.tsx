@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import styled from '@emotion/styled'
-import Tabs from './tabs'
-import NewEditor from './newEditor'
-import 'draft-js/dist/Draft.css'
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
+import Tabs from './tabs';
+import NewEditor from './newEditor';
+import 'draft-js/dist/Draft.css';
+import I18n from '../../shared/FakeI18n';
 
 const EditorContainer = styled.div`
   display: -webkit-box;
@@ -39,20 +40,20 @@ const EditorContainer = styled.div`
     height: 20px;
     display: flex;
   }
-`
+`;
 
 const EditorWrapper = styled.div`
   width: 100%;
-`
+`;
 
 export default class ConversationEditor extends Component {
   state = {
     loading: false,
     sendMode: 'enter',
-  }
+  };
 
-  fallbackEditor = false
-  delayTimer = null
+  fallbackEditor = false;
+  delayTimer = null;
 
   submitData = (formats, options) => {
     // DANTE does not provide a way to update contentState from outside ?
@@ -64,32 +65,32 @@ export default class ConversationEditor extends Component {
       () => {
         options.note
           ? this.props.insertNote(formats, this.enable)
-          : this.props.insertComment(formats, this.enable)
+          : this.props.insertComment(formats, this.enable);
       }
-    )
-  }
+    );
+  };
 
   enable = () => {
     this.setState({
       loading: false,
-    })
-  }
+    });
+  };
 
   toggleSendMode = (_e) => {
     this.setState({
       sendMode: this.state.sendMode === 'enter' ? '' : 'enter',
-    })
-  }
+    });
+  };
 
   handleTyping = (content) => {
     // means if content empty
-    if (content.html === '<p className="graf graf--p"></p>') return
+    if (content.html === '<p className="graf graf--p"></p>') return;
 
-    clearTimeout(this.delayTimer)
+    clearTimeout(this.delayTimer);
     this.delayTimer = setTimeout(() => {
-      this.props.typingNotifier()
-    }, 400)
-  }
+      this.props.typingNotifier();
+    }, 400);
+  };
 
   renderEditor = (opts) => {
     return (
@@ -109,8 +110,8 @@ export default class ConversationEditor extends Component {
           ) : null}
         </EditorContainer>
       </EditorWrapper>
-    )
-  }
+    );
+  };
 
   render() {
     const tabs = [
@@ -122,7 +123,7 @@ export default class ConversationEditor extends Component {
         label: I18n.t('conversation.messages.note'),
         content: this.renderEditor({ note: true }),
       },
-    ]
+    ];
 
     return (
       <Tabs
@@ -135,7 +136,7 @@ export default class ConversationEditor extends Component {
               type="checkbox"
               checked={this.state.sendMode === 'enter'}
               onChange={(e) => {
-                this.toggleSendMode(e)
+                this.toggleSendMode(e);
               }}
               className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
             />
@@ -148,6 +149,6 @@ export default class ConversationEditor extends Component {
           </div>
         )}
       />
-    )
+    );
   }
 }

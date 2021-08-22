@@ -1,58 +1,59 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import I18n from '../../shared/FakeI18n';
 
 // import Select from '@material-ui/core/Select'
 
-import serialize from 'form-serialize'
-import langsOptions from '../../shared/langsOptions'
+import serialize from 'form-serialize';
+import langsOptions from '../../shared/langsOptions';
 
-import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter'
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import Button from '@chaskiq/components/src/components/Button'
-import Table from '@chaskiq/components/src/components/Table'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Input from '@chaskiq/components/src/components/forms/Input'
+import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter';
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import Button from '@chaskiq/components/src/components/Button';
+import Table from '@chaskiq/components/src/components/Table';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Input from '@chaskiq/components/src/components/forms/Input';
 import FieldRenderer, {
   gridClasses,
-} from '@chaskiq/components/src/components/forms/FieldRenderer'
-import UpgradeButton from '@chaskiq/components/src/components/upgradeButton'
+} from '@chaskiq/components/src/components/forms/FieldRenderer';
+import UpgradeButton from '@chaskiq/components/src/components/upgradeButton';
 import {
   getFileMetadata,
   directUpload,
-} from '@chaskiq/components/src/components/fileUploader'
+} from '@chaskiq/components/src/components/fileUploader';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations'
+import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 class Settings extends Component {
   state = {
     loading: true,
     tabValue: 0,
-  }
+  };
 
-  titleRef = null
-  descriptionRef = null
-  switch_ref = null
+  titleRef = null;
+  descriptionRef = null;
+  switch_ref = null;
 
   componentDidMount() {
-    this.props.getSettings(() => this.setState({ loading: false }))
-    this.props.dispatch(setCurrentSection('HelpCenter'))
+    this.props.getSettings(() => this.setState({ loading: false }));
+    this.props.dispatch(setCurrentSection('HelpCenter'));
 
-    this.props.dispatch(setCurrentPage('Settings'))
+    this.props.dispatch(setCurrentPage('Settings'));
   }
 
   updateState = (data) => {
-    this.setState(data)
-  }
+    this.setState(data);
+  };
 
   uploadHandler = (file, kind) => {
     getFileMetadata(file).then((input) => {
@@ -63,20 +64,20 @@ class Settings extends Component {
             headers,
             url,
             //serviceUrl
-          } = data.createDirectUpload.directUpload
+          } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            const params = {}
-            params[kind] = signedBlobId
-            this.props.update({ settings: params })
-          })
+            const params = {};
+            params[kind] = signedBlobId;
+            this.props.update({ settings: params });
+          });
         },
         error: (error) => {
-          console.log('error on signing blob', error)
+          console.log('error on signing blob', error);
         },
-      })
-    })
-  }
+      });
+    });
+  };
 
   definitionsForSettings = () => {
     return [
@@ -109,8 +110,8 @@ class Settings extends Component {
         type: 'string',
         grid: { xs: 'w-full', sm: 'w-1/4' },
       },
-    ]
-  }
+    ];
+  };
 
   definitionsForAppearance = () => {
     return [
@@ -118,7 +119,7 @@ class Settings extends Component {
         name: 'color',
         type: 'color',
         handler: (color) => {
-          this.props.updateMemSettings({ color: color })
+          this.props.updateMemSettings({ color: color });
         },
         grid: { xs: 'w-full', sm: 'w-1/3' },
       },
@@ -170,8 +171,8 @@ class Settings extends Component {
         hint: I18n.t('definitions.articles.credits.hint'),
         grid: { xs: 'w-full', sm: 'w-3/4' },
       },
-    ]
-  }
+    ];
+  };
 
   definitionsForLang = () => {
     return [
@@ -184,12 +185,12 @@ class Settings extends Component {
         hint: 'Choose langs',
         grid: { xs: 'w-full', sm: 'w-3/4' },
       },
-    ]
-  }
+    ];
+  };
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i })
-  }
+    this.setState({ tabValue: i });
+  };
 
   tabsContent = () => {
     return (
@@ -220,17 +221,11 @@ class Settings extends Component {
             content: (
               <div className="my-2">
                 <div>
-                  <p
-                    className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4"
-                    variant="h5"
-                  >
+                  <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-4">
                     {I18n.t('articles.settings.lang_title')}
                   </p>
 
-                  <p
-                    className="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4"
-                    variant="subtitle1"
-                  >
+                  <p className="max-w-xl text-sm leading-5 text-gray-500 dark:text-gray-300 mb-4">
                     {I18n.t('articles.settings.lang_desc')}
                   </p>
                 </div>
@@ -269,8 +264,8 @@ class Settings extends Component {
           },
         ]}
       ></Tabs>
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -310,29 +305,29 @@ class Settings extends Component {
 
         {this.tabsContent()}
       </React.Fragment>
-    )
+    );
   }
 }
 
 class SettingsForm extends Component {
-  formRef
+  formRef;
 
   onSubmitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const serializedData = serialize(this.formRef, {
       hash: true,
       empty: true,
-    })
-    const data = toSnakeCase(serializedData)
-    this.props.update(data)
-  }
+    });
+    const data = toSnakeCase(serializedData);
+    this.props.update(data);
+  };
 
   render() {
     return (
       <form
         onSubmit={this.onSubmitHandler.bind(this)}
         ref={(form) => {
-          this.formRef = form
+          this.formRef = form;
         }}
       >
         <div className={'my-2'}>
@@ -358,7 +353,7 @@ class SettingsForm extends Component {
                     errors={this.props.errors}
                   />
                 </div>
-              )
+              );
             })}
           </div>
 
@@ -375,32 +370,32 @@ class SettingsForm extends Component {
           </div>
         </div>
       </form>
-    )
+    );
   }
 }
 
 function LanguageForm({ settings, update, deleteLang }) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [selectedLang, _setSelectedLang] = React.useState(null)
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null)
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedLang, _setSelectedLang] = React.useState(null);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null);
 
-  const formRef = React.createRef()
+  const formRef = React.createRef();
 
   function handleChange(e) {
-    const val = e.value
+    const val = e.value;
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
-    })
-    const data = toSnakeCase(serializedData)
+    });
+    const data = toSnakeCase(serializedData);
 
-    const next = {}
-    next[`site_title_${val}`] = ''
-    next[`site_description_${val}`] = ''
+    const next = {};
+    next[`site_title_${val}`] = '';
+    next[`site_description_${val}`] = '';
 
-    const newData = Object.assign({}, data.settings, next)
-    update({ settings: newData })
-    toggleDialog()
+    const newData = Object.assign({}, data.settings, next);
+    update({ settings: newData });
+    toggleDialog();
   }
 
   function renderLangDialog() {
@@ -445,24 +440,24 @@ function LanguageForm({ settings, update, deleteLang }) {
           // heading={this.props.title}
         ></FormDialog>
       )
-    )
+    );
   }
 
   function toggleDialog() {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
   }
 
   function handleSubmit() {
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
-    })
-    const data = toSnakeCase(serializedData)
-    update(data)
+    });
+    const data = toSnakeCase(serializedData);
+    update(data);
   }
 
   function columns() {
-    const fields = ['locale', 'site_title', 'site_description', 'action']
+    const fields = ['locale', 'site_title', 'site_description', 'action'];
 
     const cols = fields.map((field) => ({
       field: field,
@@ -498,11 +493,11 @@ function LanguageForm({ settings, update, deleteLang }) {
               )}
             </div>
           )
-        )
+        );
       },
-    }))
+    }));
 
-    return cols
+    return cols;
   }
 
   return (
@@ -559,12 +554,12 @@ function LanguageForm({ settings, update, deleteLang }) {
             name: openDeleteDialog.locale,
           })}
           closeHandler={() => {
-            setOpenDeleteDialog(null)
+            setOpenDeleteDialog(null);
           }}
           deleteHandler={() => {
             deleteLang(openDeleteDialog.locale, () =>
               setOpenDeleteDialog(false)
-            )
+            );
           }}
         >
           <p variant="subtitle2">
@@ -575,18 +570,18 @@ function LanguageForm({ settings, update, deleteLang }) {
         </DeleteDialog>
       )}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { isAuthenticated } = auth
+  const { auth, app } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Settings))
+export default withRouter(connect(mapStateToProps)(Settings));

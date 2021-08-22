@@ -1,27 +1,28 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Button from '@chaskiq/components/src/components/Button'
-import Progress from '@chaskiq/components/src/components/Progress'
-import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils'
-import { AppList } from '@chaskiq/components/src/components/packageBlocks/AppList'
+import graphql from '@chaskiq/store/src/graphql/client';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Button from '@chaskiq/components/src/components/Button';
+import Progress from '@chaskiq/components/src/components/Progress';
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
+import { AppList } from '@chaskiq/components/src/components/packageBlocks/AppList';
+import I18n from '../../shared/FakeI18n';
 
-import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries'
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 
 function AppPackagePanel(props) {
-  const [open, setOpen] = React.useState(props.open)
-  const [loading, setLoading] = React.useState(null)
-  const [provider, setProvider] = React.useState(null)
-  const [providers, setProviders] = React.useState([])
+  const [open, setOpen] = React.useState(props.open);
+  const [loading, setLoading] = React.useState(null);
+  const [provider, setProvider] = React.useState(null);
+  const [providers, setProviders] = React.useState([]);
   //const [values, setValues] = React.useState({})
-  const [contentSchema, setContentSchema] = React.useState(null)
+  const [contentSchema, setContentSchema] = React.useState(null);
 
   function getAppPackages() {
-    setLoading(true)
+    setLoading(true);
     graphql(
       APP_PACKAGES_BY_CAPABILITY,
       {
@@ -30,31 +31,31 @@ function AppPackagePanel(props) {
       },
       {
         success: (data) => {
-          setLoading(false)
-          setProviders(data.app.appPackagesCapabilities)
+          setLoading(false);
+          setProviders(data.app.appPackagesCapabilities);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
         },
       }
-    )
+    );
   }
 
   React.useEffect(() => {
-    getAppPackages()
-  }, [])
+    getAppPackages();
+  }, []);
 
   React.useEffect(() => {
-    setOpen(props.open)
-  }, [props.open])
+    setOpen(props.open);
+  }, [props.open]);
 
   function handleClose() {
-    setOpen(false)
-    props.close()
+    setOpen(false);
+    props.close();
   }
 
   function handleAdd(data) {
-    setProvider(data)
+    setProvider(data);
   }
 
   function handleSend() {
@@ -62,12 +63,12 @@ function AppPackagePanel(props) {
       name: provider.name,
       schema: provider.definitions,
       wait_for_input: provider.wait_for_input,
-    }
+    };
 
     props.insertComment({
       provider: newData,
       values: provider.values,
-    })
+    });
   }
 
   return (
@@ -117,7 +118,7 @@ function AppPackagePanel(props) {
                   updatePackage={(data, cb) => {
                     // check only if content kind!
                     if (data.field.action.type !== 'content') {
-                      return
+                      return;
                     }
 
                     const params = {
@@ -132,12 +133,12 @@ function AppPackagePanel(props) {
                         location: props.kind,
                         values: data.values,
                       },
-                    }
+                    };
 
                     getPackage(params, 'conversartion', (d) => {
-                      setContentSchema(d.app.appPackage.callHook.definitions)
-                    })
-                    cb()
+                      setContentSchema(d.app.appPackage.callHook.definitions);
+                    });
+                    cb();
                   }}
                 />
               </div>
@@ -163,16 +164,16 @@ function AppPackagePanel(props) {
         </React.Fragment>
       }
     />
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app, conversation } = state
+  const { app_user, app, conversation } = state;
   return {
     app_user,
     app,
     conversation,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(AppPackagePanel)
+export default connect(mapStateToProps)(AppPackagePanel);

@@ -1,50 +1,51 @@
-import React from 'react'
+import React from 'react';
 
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import I18n from '../../shared/FakeI18n';
 
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import Button from '@chaskiq/components/src/components/Button'
-import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles'
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer'
-import Tabs from '@chaskiq/components/src/components/Tabs'
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import Button from '@chaskiq/components/src/components/Button';
+import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
+import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import Tabs from '@chaskiq/components/src/components/Tabs';
 
-import { SeachIcon } from '@chaskiq/components/src/components/icons'
+import { SeachIcon } from '@chaskiq/components/src/components/icons';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries'
+import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries';
 
 function QuickRepliesPanel(props) {
-  const [open, setOpen] = React.useState(props.open)
-  const [quickReply, setQuickReply] = React.useState(null)
-  const [quickReplies, setQuickReplies] = React.useState([])
+  const [open, setOpen] = React.useState(props.open);
+  const [quickReply, setQuickReply] = React.useState(null);
+  const [quickReplies, setQuickReplies] = React.useState([]);
   //const [values, setValues] = React.useState({})
   const [lang, setLang] = React.useState(
     props.app.availableLanguages[0] || 'en'
-  )
-  const [_loading, setLoading] = React.useState(false)
-  const [term, setTerm] = React.useState(null)
+  );
+  const [_loading, setLoading] = React.useState(false);
+  const [term, setTerm] = React.useState(null);
 
   React.useEffect(() => {
-    getQuickReplies()
-  }, [])
+    getQuickReplies();
+  }, []);
 
   React.useEffect(() => {
-    if (quickReply) getQuickReply(quickReply)
-  }, [lang])
+    if (quickReply) getQuickReply(quickReply);
+  }, [lang]);
 
   React.useEffect(() => {
-    setOpen(props.open)
-  }, [props.open])
+    setOpen(props.open);
+  }, [props.open]);
 
   React.useEffect(() => {
-    getQuickReplies()
-  }, [term])
+    getQuickReplies();
+  }, [term]);
 
   function handleClose() {
-    setOpen(false)
-    props.close()
+    setOpen(false);
+    props.close();
   }
 
   function renderItem(o) {
@@ -81,7 +82,7 @@ function QuickRepliesPanel(props) {
               <Tabs
                 tabs={tabs()}
                 onChange={(tab, _index) => {
-                  setLang(availableLanguages()[tab])
+                  setLang(availableLanguages()[tab]);
                 }}
               />
             )}
@@ -110,11 +111,11 @@ function QuickRepliesPanel(props) {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   function handleClick(o) {
-    setQuickReply(o)
+    setQuickReply(o);
   }
 
   function getQuickReplies() {
@@ -127,15 +128,15 @@ function QuickRepliesPanel(props) {
       },
       {
         success: (data) => {
-          setQuickReplies(data.app.quickReplies)
+          setQuickReplies(data.app.quickReplies);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function getQuickReply(o) {
-    setLoading(true)
+    setLoading(true);
     graphql(
       QUICK_REPLY,
       {
@@ -145,21 +146,21 @@ function QuickRepliesPanel(props) {
       },
       {
         success: (data) => {
-          setQuickReply(data.app.quickReply)
-          setLoading(false)
+          setQuickReply(data.app.quickReply);
+          setLoading(false);
         },
         error: () => {
-          setLoading(false)
+          setLoading(false);
           // dispatch(errorMessage('error updating quick reply'))
         },
       }
-    )
+    );
   }
 
   function handleSend() {
     props.insertComment({
       serialized: quickReply.content,
-    })
+    });
   }
 
   function renderContent() {
@@ -171,22 +172,22 @@ function QuickRepliesPanel(props) {
           </EditorContainer>
         </div>
       )
-    )
+    );
   }
 
   function tabs() {
     return availableLanguages().map((lang) => ({
       label: lang,
       content: quickReply && renderContent({ lang: lang }),
-    }))
+    }));
   }
 
   function availableLanguages() {
-    return props.app.availableLanguages || ['en']
+    return props.app.availableLanguages || ['en'];
   }
 
   function handleSearch(value) {
-    setTerm(value)
+    setTerm(value);
   }
 
   return (
@@ -228,7 +229,7 @@ function QuickRepliesPanel(props) {
                         </div>
                       </a>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </div>
@@ -253,11 +254,11 @@ function QuickRepliesPanel(props) {
         </React.Fragment>
       }
     />
-  )
+  );
 }
 
 function SearchInput({ onSubmit }) {
-  const [value, setValue] = React.useState(null)
+  const [value, setValue] = React.useState(null);
 
   return (
     <div className="my-4">
@@ -271,7 +272,7 @@ function SearchInput({ onSubmit }) {
             value={value}
             autoComplete="off"
             onChange={(e) => {
-              setValue(e.target.value)
+              setValue(e.target.value);
             }}
             className="dark:bg-gray-800 py-3 border border-r-none block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
             placeholder={I18n.t('quick_replies.search')}
@@ -286,16 +287,16 @@ function SearchInput({ onSubmit }) {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app, conversation } = state
+  const { app_user, app, conversation } = state;
   return {
     app_user,
     app,
     conversation,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(QuickRepliesPanel))
+export default withRouter(connect(mapStateToProps)(QuickRepliesPanel));
