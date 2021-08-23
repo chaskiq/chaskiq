@@ -1,4 +1,4 @@
-import { appFragment } from './fragments.mjs'
+import { appFragment } from './fragments'
 
 export const UPDATE_APP = `
   mutation AppsUpdate($appKey: String!, $appParams: Json!){

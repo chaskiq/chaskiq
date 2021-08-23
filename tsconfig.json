@@ -5,10 +5,10 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "lib": ["es6", "dom"],
-    "module": "es6",
+    "target": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es2019",
     "jsx": "react",
     "noEmit": true
   },
