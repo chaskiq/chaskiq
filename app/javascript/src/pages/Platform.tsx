@@ -41,12 +41,10 @@ function Platform({ dispatch, match, app, app_users, segment }) {
       })
     );
 
-    getSegment(() => {
-      search();
-    });
+    getSegment();
   }, [match.params.segmentID, match.params.Jwt]);
 
-  const search = (page) => {
+  const search = (page = null) => {
     const options = {
       page: page || 1,
     };
@@ -143,7 +141,7 @@ function Platform({ dispatch, match, app, app_users, segment }) {
     <Content>
       <PageHeader
         title={segment && segment.name}
-        actions={<ContactManager app={app} />}
+        actions={<ContactManager />}
       />
 
       <div className="flex flex-col">

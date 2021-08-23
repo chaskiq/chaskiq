@@ -40,6 +40,7 @@ type AppSettingsContainerProps = {
 
 type AppSettingsContainerState = {
   tabValue: number;
+  app: any;
 };
 
 class AppSettingsContainer extends Component<
@@ -50,6 +51,7 @@ class AppSettingsContainer extends Component<
     super(props);
     this.state = {
       tabValue: 0,
+      app: null,
     };
   }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormDialog from './FormDialog';
 import Button from './Button';
+import I18n from '../../../../src/shared/FakeI18n';
 interface DeleteDialogProps {
   children?: React.ReactNode;
   title: string;

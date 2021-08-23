@@ -220,7 +220,7 @@ function QuickReplies({ app, _update, dispatch }) {
               }}
               // data={this.props.data}
               app={app}
-              updateState={(data) => updateState(data, lang)}
+              updateState={(data) => updateState(data)}
               loading={loading}
               uploadHandler={uploadHandler}
             />
@@ -397,7 +397,7 @@ type ArticleEditorProps = {
   article: any;
   updateState: (data: any) => void;
   loading: boolean;
-  read_only: boolean;
+  read_only?: boolean;
   uploadHandler: (data: any) => void;
 };
 

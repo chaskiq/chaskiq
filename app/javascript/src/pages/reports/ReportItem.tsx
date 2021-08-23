@@ -23,8 +23,8 @@ export type DashboardItemType = {
   label: any;
   appendLabel: any;
   classes?: any;
-  styles: any;
-  pkg: any;
+  styles?: any;
+  pkg?: any;
 };
 
 export default function DashboardItem({

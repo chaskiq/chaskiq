@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-import axios from 'axios'
-import logo from '../../images/logo.png'
-import queryString from 'query-string'
+import axios from 'axios';
+import logo from '../../images/logo.png';
+import queryString from 'query-string';
 
-import Button from '@chaskiq/components/src/components/Button'
-import TextField from '@chaskiq/components/src/components/forms/Input'
-import Snackbar from '@chaskiq/components/src/components/Alert'
+import Button from '@chaskiq/components/src/components/Button';
+import TextField from '@chaskiq/components/src/components/forms/Input';
+import Snackbar from '@chaskiq/components/src/components/Alert';
 
-import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
 
-import { successAuthentication } from '@chaskiq/store/src/actions/auth'
+import { successAuthentication } from '@chaskiq/store/src/actions/auth';
 
 function MadeWithLove() {
   return (
@@ -22,17 +22,17 @@ function MadeWithLove() {
       </a>
       {' team.'}
     </p>
-  )
+  );
 }
 
 function AcceptInvitation(props) {
-  const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [password, setPassword] = useState('')
-  const [token, _setToken] = useState(queryString.parse(props.location.search))
-  const [errors, setErrors] = useState({})
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, _setToken] = useState(queryString.parse(props.location.search));
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     axios
       .put('/agents/invitation.json', {
@@ -45,26 +45,26 @@ function AcceptInvitation(props) {
       .then(function (response) {
         props.dispatch(
           successAuthentication(response.data.token, response.data.refreshToken)
-        )
-        props.dispatch(getCurrentUser())
+        );
+        props.dispatch(getCurrentUser());
         // use router redirect + snackbar status
-        window.location = '/'
+        window.location = '/';
       })
       .catch(function (response) {
-        setErrors(response.response.data.errors)
-      })
-  }
+        setErrors(response.response.data.errors);
+      });
+  };
 
   const errorsFor = (name) => {
-    console.log(errors)
+    console.log(errors);
     if (!errors[name]) {
-      return null
+      return null;
     }
-    return errors[name].map((o) => o).join(', ')
-  }
+    return errors[name].map((o) => o).join(', ');
+  };
 
   return (
-    <div component="main" maxWidth="xs">
+    <div>
       <div>
         <Snackbar />
 
@@ -79,7 +79,6 @@ function AcceptInvitation(props) {
             <form noValidate onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
-                margin="normal"
                 required
                 name="agent[password]"
                 label="Password"
@@ -98,7 +97,6 @@ function AcceptInvitation(props) {
 
               <TextField
                 variant="outlined"
-                margin="normal"
                 required
                 name="agent[password_confirmation]"
                 label="Password confirmation"
@@ -127,18 +125,18 @@ function AcceptInvitation(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, current_user } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, current_user } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     current_user,
     loading,
     isAuthenticated,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(AcceptInvitation)
+export default connect(mapStateToProps)(AcceptInvitation);

@@ -89,7 +89,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     this.getUser(this.fetchUserConversations);
   }
 
-  getUser = (cb) => {
+  getUser = (cb = null) => {
     this.props.dispatch(
       getAppUser(parseInt(this.props.match.params.id), cb && cb())
     );
@@ -534,7 +534,20 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   }
 }
 
-class AppUserVisits extends React.Component {
+type AppUserVisitsProps = {
+  app: any;
+  app_user: any;
+};
+
+type AppUserVisitsState = {
+  collection: Array<any>;
+  meta: any;
+  loading: boolean;
+};
+class AppUserVisits extends React.Component<
+  AppUserVisitsProps,
+  AppUserVisitsState
+> {
   state = {
     collection: [],
     meta: {},
@@ -577,7 +590,6 @@ class AppUserVisits extends React.Component {
     return (
       <div>
         <DataTable
-          title={'visits'}
           data={this.state.collection}
           columns={[
             { field: 'url', title: 'url' },

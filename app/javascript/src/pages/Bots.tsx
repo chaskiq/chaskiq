@@ -221,7 +221,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         <ContentHeader
           title={I18n.t(`task_bots.${mode}`)}
           actions={
-            <div item>
+            <div>
               <Button
                 color="inherit"
                 onClick={toggleTaskForm}
@@ -355,7 +355,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               removeBotTask(openDeleteDialog);
             }}
           >
-            <p variant="subtitle2">{I18n.t('task_bots.delete.hint')}</p>
+            <p>{I18n.t('task_bots.delete.hint')}</p>
           </DeleteDialog>
         )}
       </Content>

@@ -13,7 +13,21 @@ import { QUICK_REPLY_CREATE } from '@chaskiq/store/src/graphql/mutations';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
-function QuickReplyDialog({ open, app, lang, dispatch, closeHandler }) {
+type QuickReplyDialogType = {
+  open: boolean;
+  app: any;
+  lang?: string;
+  closeHandler: () => void;
+  dispatch: (val: any) => void;
+};
+
+function QuickReplyDialog({
+  open,
+  app,
+  lang,
+  dispatch,
+  closeHandler,
+}: QuickReplyDialogType) {
   const [isOpen, setIsOpen] = React.useState(open);
   const [title, setTitle] = React.useState('');
 

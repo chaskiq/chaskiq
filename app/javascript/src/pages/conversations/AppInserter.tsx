@@ -2,9 +2,9 @@ import React from 'react';
 import arrayMove from 'array-move';
 import { connect } from 'react-redux';
 import {
-  sortableContainer,
-  sortableElement,
-  sortableHandle,
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
 } from 'react-sortable-hoc';
 
 import graphql from '@chaskiq/store/src/graphql/client';
@@ -18,17 +18,17 @@ import InserterForm from '@chaskiq/components/src/components/packageBlocks/Inser
 
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 
-const SortableContainer = sortableContainer(({ children }) => {
+const SortableList = SortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>;
 });
 
-const DragHandle = sortableHandle(() => (
+const DragHandle = SortableHandle(() => (
   <div>
     <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
   </div>
 ));
 
-const SortableItem = sortableElement(
+const SortableItem = SortableElement(
   ({ object, deleteItem, _edit, _updatePackage, customRenderer }) => (
     <li>
       <div>
@@ -230,7 +230,7 @@ function SidebarAppInserter({
       />
 
       <div className="w-full">
-        <SortableContainer onSortEnd={onSortEnd} useDragHandle>
+        <SortableList onSortEnd={onSortEnd} useDragHandle>
           {items &&
             items.map((o, index) => (
               <SortableItem
@@ -243,7 +243,7 @@ function SidebarAppInserter({
                 deleteItem={() => deleteItem(o, index)}
               />
             ))}
-        </SortableContainer>
+        </SortableList>
 
         {/* <Button
           onClick={handleSubmit}

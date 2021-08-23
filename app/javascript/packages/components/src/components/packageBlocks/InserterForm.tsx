@@ -1,9 +1,9 @@
-import React from 'react'
-import FormDialog from '../FormDialog'
-import Button from '../Button'
-import ErrorBoundary from '../ErrorBoundary'
-import { AppList } from './AppList'
-
+import React from 'react';
+import FormDialog from '../FormDialog';
+import Button from '../Button';
+import ErrorBoundary from '../ErrorBoundary';
+import { AppList } from './AppList';
+import I18n from '../../../../../src/shared/FakeI18n';
 export default function InserterForm({
   isOpen,
   closeHandler,
@@ -45,5 +45,5 @@ export default function InserterForm({
         ></FormDialog>
       )}
     </div>
-  )
+  );
 }

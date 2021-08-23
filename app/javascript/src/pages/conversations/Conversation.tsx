@@ -93,7 +93,12 @@ const BgContainer = styled.div`
   background-position: 0 0, calc(10 * 2px) calc(10 * 2px);
 `;
 
-const MessageItem = styled.div`
+type MessageItemType = {
+  userOrAdmin: 'user' | 'admin';
+  privateNote: boolean;
+};
+
+const MessageItem = styled.div<MessageItemType>`
   ${tw`break-all`}
   ${
     (props) =>
@@ -119,7 +124,7 @@ function Conversation({
   toggleFixedSidebar,
   fixedSidebarOpen,
 }) {
-  const overflow = React.useRef(null);
+  const overflow = React.useRef<HTMLDivElement>(null);
 
   const matchId = match ? match.params.id : null;
 
@@ -219,9 +224,8 @@ function Conversation({
 
   const scrollToItem = (item) => {
     if (item) {
-      overflow.current.scrollTop = document.querySelector(
-        `#message-id-${item}`
-      ).offsetHeight;
+      const q: HTMLDivElement = document.querySelector(`#message-id-${item}`);
+      overflow.current.scrollTop = q.offsetHeight;
     } else {
       scrollToLastItem();
     }
@@ -258,7 +262,7 @@ function Conversation({
     );
   };
 
-  const updateConversationStateDispatch = (state, cb) => {
+  const updateConversationStateDispatch = (state, cb = null) => {
     dispatch(
       updateConversationState(state, (data) => {
         cb && cb(data.updateConversationState.conversation);
@@ -266,7 +270,7 @@ function Conversation({
     );
   };
 
-  const toggleConversationPriority = (e, cb) => {
+  const toggleConversationPriority = (e, cb = null) => {
     dispatch(
       updateConversationPriority((data) => {
         cb && cb(data.updateConversationState.conversation);
@@ -287,7 +291,7 @@ function Conversation({
     );
   };
 
-  const setAgent = (id, cb) => {
+  const setAgent = (id, cb = null) => {
     dispatch(assignAgent(id, cb));
   };
 
@@ -746,14 +750,13 @@ function Conversation({
         >
           <RtcDisplayWrapper
             videoSession={videoSession}
-            relativePosition={true}
-            toggleVideo={() => setRtcVideo(!rtcVideo)}
-            toggleAudio={() => setRtcAudio(!rtcAudio)}
-            rtcVideo={rtcVideo}
-            rtcAudio={rtcAudio}
+            //toggleVideo={() => setRtcVideo(!rtcVideo)}
+            //toggleAudio={() => setRtcAudio(!rtcAudio)}
+            //rtcVideo={rtcVideo}
+            //rtcAudio={rtcAudio}
             expand={expand}
             setExpand={setExpand}
-            setVideoSession={() => setVideoSession(!videoSession)}
+            //setVideoSession={() => setVideoSession(!videoSession)}
           />
         </div>
       </div>
@@ -785,7 +788,6 @@ function Conversation({
                     data={message}
                     events={events}
                     conversation={conversation}
-                    email={current_user.email}
                   >
                     <ThemeProvider
                       theme={
@@ -804,7 +806,7 @@ function Conversation({
                           dispatch={dispatch}
                         />
                       ) : message.message.action ? (
-                        renderEventBlock(message, userOrAdmin)
+                        renderEventBlock(message)
                       ) : (
                         renderMessage(message, userOrAdmin)
                       )}
@@ -829,8 +831,6 @@ function Conversation({
               </span> */}
 
           <ConversationEditor
-            data={{}}
-            app={app}
             insertAppBlockComment={insertAppBlockCommentDispatch}
             insertComment={insertCommentDispatch}
             typingNotifier={typingNotifierDispatch}
@@ -842,7 +842,6 @@ function Conversation({
       </div>
 
       <QuickRepliesDialog
-        title={I18n.t('quick_reply.add_as_dialog.title')}
         closeHandler={() => setQuickReplyDialogOpen(null)}
         open={quickReplyDialogOpen}
       ></QuickRepliesDialog>

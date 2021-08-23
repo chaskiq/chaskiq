@@ -16,7 +16,7 @@ import {
 function ConversationSearch({ _app, dispatch, conversations, asButton }) {
   const [open, setOpen] = React.useState(false);
 
-  function fetchConversations(options, cb) {
+  function fetchConversations(options, cb = null) {
     dispatch(
       getConversations(options, () => {
         cb && cb();

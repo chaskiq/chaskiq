@@ -1,10 +1,10 @@
 import React from 'react';
 
-type PanelLinktype = {
+export type PanelLinktype = {
   href: string;
   text: string;
 };
-type PanelProps = {
+export type PanelProps = {
   title: string;
   text?: React.ReactNode;
   variant?: string;

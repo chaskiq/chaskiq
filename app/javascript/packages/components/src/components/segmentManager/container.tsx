@@ -35,7 +35,18 @@ const ButtonGroup = styled.div`
     margin: 2px;
   }
 `;
-class AppContent extends Component {
+
+type AppContentProps = {
+  dispatch: (val: any) => void;
+  match: any;
+  actions: any;
+  segment: any;
+  history: any;
+  app_users: any;
+  app_user: any;
+  app: any;
+};
+class AppContent extends Component<AppContentProps> {
   constructor(props) {
     super(props);
     this.getSegment = this.getSegment.bind(this);
@@ -55,9 +66,7 @@ class AppContent extends Component {
       })
     );
 
-    this.getSegment(() => {
-      this.props.actions.search();
-    });
+    this.getSegment();
   }
 
   getSegment() {
@@ -81,9 +90,7 @@ class AppContent extends Component {
         setCurrentPage(`segment-${this.props.match.params.segmentID}`)
       );
 
-      this.getSegment(() => {
-        this.props.actions.search();
-      });
+      this.getSegment();
     }
 
     if (
@@ -105,9 +112,7 @@ class AppContent extends Component {
         })
       );
 
-      this.getSegment(() => {
-        this.props.actions.search();
-      });
+      this.getSegment();
     }
   }
 
@@ -132,7 +137,23 @@ class AppContent extends Component {
     );
   }
 }
-class AppUsers extends Component {
+
+type AppUsersProps = {
+  segment: any;
+  actions: any;
+  history: any;
+  app: any;
+  app_users: any;
+  app_user: any;
+  meta: any;
+  searching: boolean;
+  dispatch: (val: any) => void;
+};
+
+type AppUsersState = {
+  map_view: boolean;
+};
+class AppUsers extends Component<AppUsersProps, AppUsersState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -150,7 +171,7 @@ class AppUsers extends Component {
     this.setState({ map_view: true });
   };
 
-  toggleMapView = (_e) => {
+  toggleMapView = () => {
     this.setState({ map_view: !this.state.map_view });
   };
 
@@ -266,41 +287,10 @@ class AppUsers extends Component {
         {!this.props.searching && (
           <Table
             data={this.props.app_users}
-            loading={this.props.searching}
             columns={userFormat(this.showUserDrawer, this.props.app)}
-            defaultHiddenColumnNames={[
-              'id',
-              'state',
-              'online',
-              'lat',
-              'lng',
-              'postal',
-              'browserLanguage',
-              'referrer',
-              'os',
-              'osVersion',
-              'lang',
-            ]}
-            // selection [],
-            tableColumnExtensions={[
-              // { columnName: 'id', width: 150 },
-              { columnName: 'email', width: 250 },
-              { columnName: 'lastVisitedAt', width: 120 },
-              { columnName: 'os', width: 100 },
-              { columnName: 'osVersion', width: 100 },
-              { columnName: 'state', width: 80 },
-              { columnName: 'online', width: 80 },
-
-              // { columnName: 'amount', align: 'right', width: 140 },
-            ]}
-            leftColumns={['email']}
-            rightColumns={['online']}
-            // rows={this.props.app_users}
             meta={this.props.meta}
             search={this.props.actions.search}
-            showUserDrawer={this.showUserDrawer}
             toggleMapView={this.toggleMapView}
-            map_view={this.state.map_view}
             enableMapView={true}
           />
         )}

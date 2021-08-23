@@ -178,7 +178,7 @@ function QuickRepliesPanel(props) {
   function tabs() {
     return availableLanguages().map((lang) => ({
       label: lang,
-      content: quickReply && renderContent({ lang: lang }),
+      content: quickReply && renderContent(),
     }));
   }
 

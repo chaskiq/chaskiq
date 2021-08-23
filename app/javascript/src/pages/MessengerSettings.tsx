@@ -31,11 +31,27 @@ import {
 
 import { APP } from '@chaskiq/store/src/graphql/queries';
 import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations';
-class AppSettingsContainer extends Component {
+
+type AppSettingsContainerProps = {
+  dispatch: (val: any) => void;
+  match: any;
+  app: any;
+  updateMemSettings: (color: any) => void;
+  classes: string;
+};
+type AppSettingsContainerState = {
+  tabValue: number;
+  app: any;
+};
+class AppSettingsContainer extends Component<
+  AppSettingsContainerProps,
+  AppSettingsContainerState
+> {
   constructor(props) {
     super(props);
     this.state = {
       tabValue: 0,
+      app: null,
     };
   }
 
@@ -192,7 +208,7 @@ class AppSettingsContainer extends Component {
   tabsContent = () => {
     return (
       <Tabs
-        value={this.state.tabValue}
+        currentTab={this.state.tabValue}
         onChange={this.handleTabChange}
         variant="scrollable"
         scrollButtons="auto"
@@ -203,10 +219,8 @@ class AppSettingsContainer extends Component {
             content: (
               <SettingsForm
                 title={I18n.t('settings.app.appearance_title')}
-                currentUser={this.props.currentUser}
                 data={this.props.app}
                 update={this.update.bind(this)}
-                fetchApp={this.fetchApp}
                 classes={this.props.classes}
                 definitions={this.definitionsForAppearance}
                 {...this.props}
@@ -230,10 +244,8 @@ class AppSettingsContainer extends Component {
             content: (
               <SettingsForm
                 title={I18n.t('settings.app.privacy_title')}
-                currentUser={this.props.currentUser}
                 data={this.props.app}
                 update={this.update.bind(this)}
-                fetchApp={this.fetchApp}
                 classes={this.props.classes}
                 definitions={this.definitionsForPrivacy}
                 {...this.props}
@@ -242,13 +254,7 @@ class AppSettingsContainer extends Component {
           },
           {
             label: 'Apps',
-            content: (
-              <AppInserter
-                settings={this.props.app}
-                update={this.update}
-                namespace={'app'}
-              />
-            ),
+            content: <AppInserter update={this.update} />,
           },
           {
             label: I18n.t('settings.app.availability'),
@@ -256,8 +262,6 @@ class AppSettingsContainer extends Component {
               <AvailabilitySettings
                 settings={this.props.app}
                 update={this.update}
-                namespace={'app'}
-                fields={['greetings', 'intro', 'tagline']}
               />
             ),
           },
@@ -267,7 +271,6 @@ class AppSettingsContainer extends Component {
               <EmailRequirement
                 settings={this.props.app}
                 update={this.update}
-                namespace={'app'}
               />
             ),
           },

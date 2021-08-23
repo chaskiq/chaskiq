@@ -40,6 +40,7 @@ function Spinner() {
 }
 
 type SaveSegmentModalType = {
+  title?: string;
   savePredicates: (value: any, callback: any) => void;
   predicateCallback: any;
   deleteSegment: any;
@@ -58,6 +59,7 @@ type SegmentManagerType = {
   predicates: Array<PredicateType>;
   updatePredicate: any;
   deletePredicate: any;
+  addPredicate: any;
 };
 
 export class SaveSegmentModal extends Component<SaveSegmentModalType> {
@@ -233,7 +235,17 @@ export class SaveSegmentModal extends Component<SaveSegmentModalType> {
   }
 }
 
-export function InlineFilterDialog({ addPredicate, app, fields }) {
+type InlineFilterDialogType = {
+  addPredicate: any;
+  app: any;
+  fields?: any;
+  handleClick: any;
+};
+export function InlineFilterDialog({
+  addPredicate,
+  app,
+  fields,
+}: InlineFilterDialogType) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const handleClick = (e, o) => {
@@ -361,7 +373,6 @@ class SegmentManager extends Component<SegmentManagerType> {
 
         {
           <DataTable
-            title={'segment'}
             meta={this.props.meta}
             data={this.props.collection}
             search={this.props.search}

@@ -70,7 +70,11 @@ export const ChatEditorInput = styled.div`
   }
 `;
 
-const Input = styled.textarea`
+type InputProps = {
+  ref: any;
+};
+
+const Input = styled.textarea<InputProps>`
   margin: 0px;
   width: 100%;
   height: 73px;
@@ -88,7 +92,11 @@ const FallbackNotice = styled.span`
   padding: 12px;
 `;
 
-const SubmitButton = function (props) {
+type SubmitButtonType = {
+  onClick: (e: React.SyntheticEvent) => void;
+  disabled?: boolean;
+};
+const SubmitButton = function (props: SubmitButtonType) {
   return (
     <button
       className={`flex w-1/6 justify-center
@@ -104,7 +112,38 @@ const SubmitButton = function (props) {
   );
 };
 
-export default class ChatEditor extends Component {
+type ChatEditorProps = {
+  submitData: (val: any) => void;
+  insertAppBlockComment: (data: any, cb: any) => void;
+  loading?: boolean;
+  sendMode: 'enter' | '';
+  insertComment: (val: any, cb: any) => void;
+  saveContentCallback: (val: any) => void;
+};
+
+type ChatEditorState = {
+  loading: boolean;
+  data: any;
+  status: string;
+  plain: string;
+  serialized: string;
+  html: string;
+  text: string;
+  statusButton: 'inprogress' | 'success' | null;
+  openPackagePanel: boolean;
+  openTriggersPanel: boolean;
+  openQuickReplyPanel: boolean;
+  disabled: boolean;
+  openGiphy: boolean;
+  read_only: boolean;
+};
+export default class ChatEditor extends Component<
+  ChatEditorProps,
+  ChatEditorState
+> {
+  fallbackEditor: boolean;
+  editorRef: React.RefObject<HTMLInputElement>;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -114,6 +153,7 @@ export default class ChatEditor extends Component {
       plain: null,
       serialized: null,
       html: null,
+      text: null,
       statusButton: 'inprogress',
       openPackagePanel: false,
       openTriggersPanel: false,
@@ -124,7 +164,6 @@ export default class ChatEditor extends Component {
     };
 
     this.fallbackEditor = this.isMobile();
-
     this.editorRef = React.createRef();
   }
 
@@ -260,7 +299,7 @@ export default class ChatEditor extends Component {
   };
 
   handleSubmit = () => {
-    const { html, serialized, _text } = this.state;
+    const { html, serialized } = this.state;
     this.props.submitData({ html, serialized });
   };
 
@@ -419,7 +458,7 @@ export default class ChatEditor extends Component {
 }
 
 function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
-  const input = React.createRef();
+  const input: React.RefObject<HTMLInputElement> = React.createRef();
 
   function convertToDraft(sampleMarkup) {
     const blockRenderMap = Map({

@@ -1,16 +1,16 @@
 import React from 'react';
-import Panel from './Panel';
+import Panel, { PanelLinktype } from './Panel';
 
 import I18n from '../../../../src/shared/FakeI18n';
 
 export type HintType = {
   title: string;
   description: string;
-  link: string;
+  link: PanelLinktype;
 };
 
 const Hints = ({ type }) => {
-  const content = I18n.t('hints')[type];
+  const content: HintType = I18n.t('hints')[type];
 
   return (
     <React.Fragment>

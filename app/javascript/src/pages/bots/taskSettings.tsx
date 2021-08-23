@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
-import Button from '@chaskiq/components/src/components/Button'
-import Input from '@chaskiq/components/src/components/forms/Input'
+import Button from '@chaskiq/components/src/components/Button';
+import Input from '@chaskiq/components/src/components/forms/Input';
 
-import I18n from '../../shared/FakeI18n'
+import I18n from '../../shared/FakeI18n';
 
 const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
-  const [state, _setState] = useState(data || {})
+  const [state, _setState] = useState(data || {});
 
   function update(data) {
-    const newState = Object.assign({}, state, data)
+    const newState = Object.assign({}, state, data);
     // setState(newState)
-    updateData(newState)
+    updateData(newState);
   }
 
   return (
@@ -41,23 +41,23 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 function Schedule({ app, data, updateData, _namespace, _submit }) {
-  const [state, setState] = React.useState(data)
+  const [state, setState] = React.useState(data);
 
   useEffect(() => {
-    updateData(state)
-  }, [state])
+    updateData(state);
+  }, [state]);
 
   function handleRadioChange(event) {
-    setValue(event.target.name, event.target.value)
+    setValue(event.target.name, event.target.value);
   }
 
   const setValue = (name, value) => {
-    setState({ ...state, [name]: value })
-  }
+    setState({ ...state, [name]: value });
+  };
 
   /*function submitData () {
     submit(state)
@@ -100,7 +100,6 @@ function Schedule({ app, data, updateData, _namespace, _submit }) {
         checked={state.scheduling === 'inside_office'}
         defaultChecked={state.scheduling === 'inside_office'}
         label={I18n.t('task_bots.settings.office_hours')}
-        labelPlacement="end"
       />
 
       <Input
@@ -111,7 +110,6 @@ function Schedule({ app, data, updateData, _namespace, _submit }) {
         defaultChecked={state.scheduling === 'outside_office'}
         checked={state.scheduling === 'outside_office'}
         label={I18n.t('task_bots.settings.outside_office')}
-        labelPlacement="end"
       />
 
       <Input
@@ -122,10 +120,9 @@ function Schedule({ app, data, updateData, _namespace, _submit }) {
         value={'custom_time'}
         checked={state.scheduling === 'custom_time'}
         label={I18n.t('task_bots.settings.custom_time')}
-        labelPlacement="end"
       />
     </div>
-  )
+  );
 }
 
 /*function UrlPaths ({ data, updateData }) {
@@ -205,4 +202,4 @@ function Schedule({ app, data, updateData, _namespace, _submit }) {
   )
 }*/
 
-export default TaskSettingsForm
+export default TaskSettingsForm;

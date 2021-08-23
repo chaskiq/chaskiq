@@ -27,7 +27,7 @@ type SegmentItemButtonType = {
   predicates?: Array<PredicateType>;
   updatePredicate: (new_predicates: any, predicateCallback: any) => void;
   deletePredicate: (data: any, predicateCallback: any) => void;
-  predicateCallback: () => void;
+  predicateCallback: (token: any) => void;
   index: number;
   text: string;
   appearance: string;

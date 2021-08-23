@@ -153,7 +153,7 @@ export function DefinitionRenderer({
             <DropdownRenderer
               field={field}
               //loading={loading}
-              handleAction={handleAction}
+              // handleAction={handleAction}
             />
           </Padder>
         );
@@ -190,17 +190,11 @@ export function DefinitionRenderer({
       case 'text':
         return (
           <Padder>
-            <TextRenderer loading={loading} field={field} />
+            <TextRenderer field={field} />
           </Padder>
         );
       case 'list':
-        return (
-          <ListRenderer
-            field={field}
-            loading={loading}
-            handleAction={handleAction}
-          />
-        );
+        return <ListRenderer field={field} handleAction={handleAction} />;
       case 'textarea':
         return (
           <Padder>

@@ -12,10 +12,12 @@ import I18n from '../../shared/FakeI18n';
 type SettingsFormType = {
   update: (data: any) => void;
   hint?: HintType;
-  title: string;
+  title?: string;
+  classes?: string;
   definitions: any;
   data: {
-    errors: any;
+    app?: any;
+    errors?: any;
   };
 };
 
@@ -64,12 +66,14 @@ export default class SettingsForm extends Component<
         >
           {this.props.hint && <Hints type={this.props.hint} />}
 
-          <p
-            className="text-lg leading-6 font-medium
-                text-gray-900 dark:text-gray-100 py-4"
-          >
-            {this.props.title}
-          </p>
+          {this.props.title && (
+            <p
+              className="text-lg leading-6 font-medium
+                  text-gray-900 dark:text-gray-100 py-4"
+            >
+              {this.props.title}
+            </p>
+          )}
 
           <div className="flex flex-wrap">
             {this.props.definitions().map((field, index) => {

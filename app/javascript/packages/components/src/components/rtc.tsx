@@ -58,6 +58,9 @@ class VideoCall {
 
 let gstream = null;
 
+type LocalStreamType = any;
+type PeerType = any;
+
 export function RtcView(props) {
   const currentUser = props.current_user.email;
   const localVideo = React.useRef(null);
@@ -76,11 +79,11 @@ export function RtcView(props) {
   );
   const callButtonsTarget = usePortal(props.callButtonsElement, documentObject);
 
-  const [localStream, setLocalStream] = React.useState({});
+  const [localStream, setLocalStream] = React.useState<LocalStreamType>({});
   //const [remoteStreamUrl, setRemoteStreamUrl] = React.useState('')
   const [_streamUrl, setStreamUrl] = React.useState('');
   const [initiator, setInitiator] = React.useState(false);
-  const [peer, setPeer] = React.useState({});
+  const [peer, setPeer] = React.useState<PeerType>({});
   //const [full, setFull] = React.useState(false)
   const [connecting, setConnecting] = React.useState(false);
   const [waiting, setWaiting] = React.useState(true);
@@ -145,7 +148,7 @@ export function RtcView(props) {
     removePeers();
   }
 
-  function getUserMedia(_cb) {
+  function getUserMedia(_cb?: any) {
     return new Promise((resolve, _reject) => {
       const op = {
         audio: true,
@@ -236,7 +239,7 @@ export function RtcView(props) {
     switch (data.event_type) {
       case JOIN_ROOM:
         // console.log('join room!', data)
-        return enter(data);
+        return enter();
       case SIGNAL:
         const signal = data.signal;
         if (signal.type === 'offer' && initiator) return;

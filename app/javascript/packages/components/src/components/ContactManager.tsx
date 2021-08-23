@@ -58,7 +58,13 @@ function toggleButton(clickHandler) {
   );
 }
 
-function ContactManager({ app, current_user, dispatch }) {
+type ContactManagerType = {
+  app: any;
+  current_user: any;
+  dispatch: (value: any) => void;
+};
+
+function ContactManager({ app, current_user, dispatch }: ContactManagerType) {
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [enableForm, setEnableForm] = React.useState(null);
 

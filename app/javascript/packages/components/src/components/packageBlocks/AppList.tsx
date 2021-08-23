@@ -14,6 +14,8 @@ import Button from '../Button';
 
 import Progress from '../Progress';
 
+import I18n from '../../../../../src/shared/FakeI18n';
+
 interface IAppList {
   location: string;
   loading?: boolean;

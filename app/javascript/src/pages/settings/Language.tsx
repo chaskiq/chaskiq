@@ -147,23 +147,7 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
         </Button>
 
         <div className="py-4">
-          {
-            <DataTable
-              title={'laguages'}
-              // meta={this.props.meta}
-              data={settings.translations}
-              // search={this.props.search}
-              // loading={this.props.loading}
-              columns={columns()}
-              // defaultHiddenColumnNames={this.props.defaultHiddenColumnNames}
-              // tableColumnExtensions={this.props.tableColumnExtensions}
-              // leftColumns={this.props.leftColumns}
-              // rightColumns={this.props.rightColumns}
-              // toggleMapView={this.props.toggleMapView}
-              // map_view={this.props.map_view}
-              // enableMapView={this.props.enableMapView}
-            />
-          }
+          {<DataTable data={settings.translations} columns={columns()} />}
         </div>
 
         <div className="flex justify-start">

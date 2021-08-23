@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import Button from '../Button';
@@ -28,7 +28,7 @@ interface IWrapperComponentProps {
   className: string;
 }
 interface IWrapperComponent {
-  label: any;
+  label?: any;
   name?: any;
   type: any;
   value?: any;
@@ -52,6 +52,7 @@ interface IWrapperComponent {
   variant?: string;
   className?: string;
   hideImage?: boolean;
+  onKeyUp?: (e: SyntheticEvent) => void;
 }
 
 const WrappedComponent = React.forwardRef(function Input(
@@ -408,7 +409,7 @@ export default connect(mapStateToProps, null, null, { forwardRef: true })(
 
 interface FormFieldProps {
   name: string;
-  label: string;
+  label?: string;
   helperText: string;
   children: React.ReactNode;
   labelMargin?: string;

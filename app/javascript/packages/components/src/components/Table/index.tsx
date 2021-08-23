@@ -27,8 +27,8 @@ type ColumnsType = {
 interface ITable {
   data: any;
   columns: Array<ColumnsType>;
-  search: (item: any) => void;
-  meta: MetaType;
+  search?: (item: any) => void;
+  meta?: MetaType;
   enableMapView?: boolean;
   toggleMapView?: () => void;
   sortable?: boolean;

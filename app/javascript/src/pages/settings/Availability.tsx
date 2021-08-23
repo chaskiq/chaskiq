@@ -7,16 +7,14 @@ import Input from '@chaskiq/components/src/components/forms/Input';
 import Hints from '@chaskiq/components/src/components/Hints';
 import { PlusIcon, DeleteIcon } from '@chaskiq/components/src/components/icons';
 
-export default function LanguageForm({
-  settings,
-  update,
-  _namespace,
-  _fields,
-}) {
+export default function LanguageForm({ settings, update }) {
   const [selectedOption, setSelectedOption] = React.useState(
     settings.replyTime
   );
   const [records, setRecords] = useState(settings.teamSchedule);
+  const replyTimeOptions: any = I18n.t(
+    'settings.availability.reply_time.options'
+  );
 
   function handleChange(e) {
     setSelectedOption(e.target.value);
@@ -77,7 +75,7 @@ export default function LanguageForm({
         </p>
 
         <div className="py-4">
-          {I18n.t('settings.availability.reply_time.options').map((o) => (
+          {replyTimeOptions.map((o) => (
             <Input
               type={'radio'}
               key={o.value}

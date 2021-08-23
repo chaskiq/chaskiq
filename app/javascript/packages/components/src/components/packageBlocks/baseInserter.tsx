@@ -78,7 +78,7 @@ export function BaseInserter({
         <DefinitionRenderer
           location={location}
           schema={p.definitions}
-          getPackage={getPackage}
+          // getPackage={getPackage}
           appPackage={p}
           updatePackage={updatePackage}
         />

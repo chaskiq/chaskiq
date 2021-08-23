@@ -1,6 +1,6 @@
 import { ActionType } from "../constants/action_types"
 
-export function toggleDrawer(data, cb) {
+export function toggleDrawer(data, cb=null) {
   return (dispatch, _getState) => {
     dispatch({
       type: 'DRAWER',

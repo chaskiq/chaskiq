@@ -446,10 +446,9 @@ class AllArticles extends React.Component {
           }
         />
 
-        <div mt={2}>
+        <div>
           {!this.state.loading ? (
             <DataTable
-              elevation={0}
               title={`${this.props.mode} articles`}
               meta={this.state.meta}
               data={this.state.collection}
@@ -578,7 +577,7 @@ class AllArticles extends React.Component {
               this.removeArticle(openDeleteDialog);
             }}
           >
-            <p variant="subtitle2">{I18n.t('articles.delete_article_exp')}</p>
+            <p>{I18n.t('articles.delete_article_exp')}</p>
           </DeleteDialog>
         )}
       </div>

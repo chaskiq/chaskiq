@@ -7,7 +7,7 @@ import I18n from '../../../../src/shared/FakeI18n'
 import { successMessage, errorMessage } from './status_messages'
 import { isEmpty } from 'lodash'
 
-export function setApp(key, cb) {
+export function setApp(key, cb=null) {
   return (dispatch, _getState) => {
     graphql(
       APP,

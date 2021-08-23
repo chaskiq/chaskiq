@@ -8,6 +8,8 @@ import I18n from '../../shared/FakeI18n';
 export default function EmailRequirement({ settings, update }) {
   const [value, setValue] = useState(settings.emailRequirement);
 
+  const emailRequirements: any = I18n.t('settings.email_requirement.options');
+
   function handleChange(e) {
     setValue(e.target.value);
   }
@@ -40,7 +42,7 @@ export default function EmailRequirement({ settings, update }) {
       </div>
 
       <div className="py-4">
-        {I18n.t('settings.email_requirement.options').map((o, i) => {
+        {emailRequirements.map((o, i) => {
           return (
             <React.Fragment key={`email_requirement_options-${i}`}>
               <Input

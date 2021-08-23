@@ -8,7 +8,23 @@ import I18n from '../../../../src/shared/FakeI18n';
 
 import { connect } from 'react-redux';
 
-function TagDialog({ children, title, saveHandler, closeHandler, tags, app }) {
+type TagDialogType = {
+  children?: React.ReactChild;
+  title?: string;
+  saveHandler?: (tags: any) => void;
+  closeHandler?: () => void;
+  tags?: any;
+  app?: any;
+};
+
+function TagDialog({
+  children,
+  title,
+  saveHandler,
+  closeHandler,
+  tags,
+  app,
+}: TagDialogType) {
   const tagList = tags.map((o) => ({
     label: o,
     value: o,

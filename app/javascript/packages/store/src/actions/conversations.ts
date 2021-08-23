@@ -61,7 +61,7 @@ export function getConversations(options, cb) {
   }
 }
 
-export function appendConversation(data, _cb) {
+export function appendConversation(data) {
   return (dispatch, getState) => {
     const conversation = getState().conversations.collection.find(
       (o) => o.key === data.conversationKey

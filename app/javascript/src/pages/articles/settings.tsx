@@ -488,7 +488,6 @@ function LanguageForm({ settings, update, deleteLang }) {
                   label={false}
                   defaultValue={row[field]}
                   name={`settings[${field}_${row.locale}]`}
-                  margin="normal"
                 />
               )}
             </div>
@@ -513,7 +512,7 @@ function LanguageForm({ settings, update, deleteLang }) {
           </Button>
         </UpgradeButton>
 
-        <div mt={2} mb={2}>
+        <div>
           {
             <Table
               title={'laguages'}
@@ -562,7 +561,7 @@ function LanguageForm({ settings, update, deleteLang }) {
             );
           }}
         >
-          <p variant="subtitle2">
+          <p>
             {I18n.t('articles.settings.delete.text', {
               name: openDeleteDialog.locale,
             })}

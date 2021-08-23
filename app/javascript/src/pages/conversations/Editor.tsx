@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import Tabs from './tabs';
 import NewEditor from './newEditor';
 import 'draft-js/dist/Draft.css';
 import I18n from '../../shared/FakeI18n';
 
-const EditorContainer = styled.div`
+type EditorContainerType = {
+  note: boolean;
+  style: CSSProperties;
+};
+const EditorContainer = styled.div<EditorContainerType>`
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -46,11 +50,28 @@ const EditorWrapper = styled.div`
   width: 100%;
 `;
 
-export default class ConversationEditor extends Component {
-  state = {
-    loading: false,
-    sendMode: 'enter',
-  };
+type ConversationEditorProps = {
+  insertNote: (formats: any, cb?: any) => void;
+  insertComment: (formats: any, cb?: any) => void;
+  typingNotifier: (cb?: any) => void;
+  insertAppBlockComment: (data: any, cb: any) => void;
+};
+
+type ConversationEditorState = {
+  loading: boolean;
+  sendMode: 'enter' | '';
+};
+export default class ConversationEditor extends Component<
+  ConversationEditorProps,
+  ConversationEditorState
+> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      sendMode: 'enter',
+    };
+  }
 
   fallbackEditor = false;
   delayTimer = null;
@@ -128,7 +149,6 @@ export default class ConversationEditor extends Component {
     return (
       <Tabs
         tabs={tabs}
-        onSelect={(tab, index) => console.log('Selected Tab', index + 1)}
         buttons={() => (
           <div className="flex flex-grow items-center justify-end pr-3">
             <input

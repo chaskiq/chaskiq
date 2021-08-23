@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { withRouter } from 'react-router-dom';
@@ -20,9 +19,21 @@ import { clearApp } from '@chaskiq/store/src/actions/app';
 
 import { CREATE_APP } from '@chaskiq/store/src/graphql/mutations';
 
-class NewApp extends Component {
+type NewAppProps = {
+  data: any;
+  dispatch: (val: any) => void;
+  history: any;
+  classes?: string;
+};
+
+type NewAppState = {
+  data: {
+    app?: any;
+  };
+};
+class NewApp extends Component<NewAppProps, NewAppState> {
   state = {
-    data: {},
+    data: null,
   };
 
   componentDidMount() {
@@ -83,7 +94,7 @@ class NewApp extends Component {
             {
               data: data.appsCreate,
             },
-            () => this.handleResponse(data)
+            () => this.handleResponse()
           );
         },
         error: (_error) => {
@@ -131,10 +142,6 @@ class NewApp extends Component {
     );
   }
 }
-
-NewApp.contextTypes = {
-  router: PropTypes.object,
-};
 
 function mapStateToProps(state) {
   const { auth } = state;

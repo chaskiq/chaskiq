@@ -65,13 +65,13 @@ import {
 } from '@chaskiq/store/src/graphql/mutations';
 
 function Integrations({ app, dispatch }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(null);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [integrations, setIntegrations] = useState([]);
   const [tabValue, setTabValue] = useState(0);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(null);
+  const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(null);
   const [baseErrors, setBaseErrors] = useState(null);
 
   const form = useRef(null);
@@ -311,7 +311,7 @@ function Integrations({ app, dispatch }) {
               <div className="py-6">
                 <MyAppPackages
                   app={app}
-                  open={openIntegrationDialog}
+                  // open={openIntegrationDialog}
                   handleOpen={handleOpen}
                   dispatch={dispatch}
                 ></MyAppPackages>
@@ -338,12 +338,7 @@ function Integrations({ app, dispatch }) {
                 )}
                 {open.definitions.map((field) => {
                   return (
-                    <div
-                      item
-                      key={field.name}
-                      xs={field.grid.xs}
-                      sm={field.grid.sm}
-                    >
+                    <div key={field.name}>
                       <FieldRenderer
                         namespace={'app'}
                         data={camelizeKeys(field)}
@@ -432,9 +427,7 @@ function Integrations({ app, dispatch }) {
           closeHandler={() => {
             setOpenDeleteDialog(null);
           }}
-          deleteHandler={() => {
-            removeIntegration(openDeleteDialog);
-          }}
+          deleteHandler={removeIntegration}
         >
           <p>
             {I18n.t('settings.integrations.delete_dialog.text', {
@@ -464,7 +457,12 @@ function EmptyCard({ goTo }) {
   );
 }
 
-function ServiceBlock({ service, handleOpen, kind, setOpenDeleteDialog }) {
+function ServiceBlock({
+  service,
+  handleOpen,
+  kind,
+  setOpenDeleteDialog = null,
+}) {
   function available() {
     if (kind === 'services') return service.state === 'enabled';
     if (kind === 'integrations') {
@@ -612,7 +610,13 @@ function APIServices({ services, handleOpen, getAppPackages, kind }) {
   );
 }
 
-function MyAppPackages({ app, dispatch, handleOpen }) {
+type MyAppPackagesType = {
+  app: any;
+  dispatch: (val: any) => void;
+  handleOpen: (service: any) => void;
+};
+
+function MyAppPackages({ app, dispatch, handleOpen }: MyAppPackagesType) {
   const [loading, setLoading] = React.useState(false);
   const [integrations, setIntegrations] = React.useState([]);
   const [integration, setIntegration] = React.useState(null);

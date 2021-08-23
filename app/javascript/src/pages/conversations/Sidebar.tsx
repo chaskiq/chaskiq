@@ -47,7 +47,6 @@ function Sidebar({
             <div className="flex flex-col w-full">
               <div className="px-2">
                 <AppInserter
-                  app={app}
                   update={update}
                   setEditable={setEditable}
                   location={'inbox'}
@@ -139,7 +138,6 @@ function Sidebar({
                         app={app}
                         object={object}
                         conversation={conversation}
-                        app={app}
                         app_user={app_user}
                       />
                     ))}
@@ -156,13 +154,11 @@ function Sidebar({
 function renderInternal({ object, conversation, app, app_user }) {
   switch (object.name) {
     case 'UserBlock':
-      return (
-        <UserBlock conversation={conversation} app={app} app_user={app_user} />
-      );
+      return <UserBlock app_user={app_user} />;
     case 'TagBlocks':
-      return <TagBlocks conversation={conversation} app={app} />;
+      return <TagBlocks conversation={conversation} />;
     case 'ConversationBlock':
-      return <ConversationBlock conversation={conversation} app={app} />;
+      return <ConversationBlock conversation={conversation} />;
     case 'AssigneeBlock':
       return <AssigneeBlock conversation={conversation} app={app} />;
     default:

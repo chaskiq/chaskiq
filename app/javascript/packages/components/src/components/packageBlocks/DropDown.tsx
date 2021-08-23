@@ -45,7 +45,7 @@ const SelectButton = styled.button`
 `;
 
 // TODO: disabled state / error state / saved state
-export function DropdownRenderer({ field, _handleAction }) {
+export function DropdownRenderer({ field }) {
   const [open, setOpen] = React.useState(false);
 
   const defaultValue =

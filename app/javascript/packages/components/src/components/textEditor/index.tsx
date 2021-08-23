@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 
 import { convertToHTML } from 'draft-convert';
 
@@ -162,13 +162,22 @@ type UploadeHandlerType = {
 
 type ArticleEditorProps = {
   serializedContent: string;
-  setDisabled: (val: any) => void;
+  setDisabled?: (val: any) => void;
   uploadHandler: (props: UploadeHandlerType) => void;
-  videoless: boolean;
-  appendWidgets: Array<any>;
+  toggleEditable: (val: any) => void;
+  videoless?: boolean;
+  appendWidgets?: Array<any>;
   updateState: (val: any) => void;
   data: any;
   campaign?: boolean;
+  loading?: boolean;
+  read_only?: boolean;
+  styles: CSSProperties;
+  theme?: any;
+  inlineMenu?: boolean;
+  tooltipsConfig?: any;
+  handleReturn?: (e: any, isEmptyDraft: boolean) => void;
+  saveHandler?: (_html3: any, _plain: any, _serialized: any) => void;
 };
 
 type ArticleEditorState = {
@@ -773,7 +782,10 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   }
 }
 
-const WrappedComponent = React.forwardRef(function myFunction(props, ref) {
+const WrappedComponent = React.forwardRef(function myFunction(
+  props: ArticleEditorProps,
+  ref
+) {
   return <ArticleEditor {...props} forwardedRef={ref} />;
 });
 

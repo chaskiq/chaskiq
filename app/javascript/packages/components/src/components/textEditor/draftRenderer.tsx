@@ -2,31 +2,31 @@
  *  You can use inline styles or classNames inside your callbacks
  */
 
-import React, { Component } from 'react'
-import redraft from 'redraft'
-import { connect } from 'react-redux'
-import { AttachmentIcon } from '../icons'
+import React, { Component } from 'react';
+import redraft from 'redraft';
+import { connect } from 'react-redux';
+import { AttachmentIcon } from '../icons';
 
-import Prism from 'prismjs'
+import Prism from 'prismjs';
 // Prism.highlightAll();
-import { setImageZoom } from '@chaskiq/store/src/actions/imageZoom'
+import { setImageZoom } from '@chaskiq/store/src/actions/imageZoom';
 
 const handlePrismRenderer = (syntax, children) => {
   const code = children
     .flat()
     .flat()
     .map((o) => (o.props ? o.props.children.join(' ') : o))
-    .join('\r')
+    .join('\r');
   const formattedCode = Prism.highlight(
     code,
     Prism.languages.javascript,
     syntax || 'javascript'
-  )
-  return { __html: formattedCode }
-}
+  );
+  return { __html: formattedCode };
+};
 
 // just a helper to add a <br /> after a block
-const addBreaklines = (children) => children.map((child) => [child, <br />])
+const addBreaklines = (children) => children.map((child) => [child, <br />]);
 
 /**
  * Define the renderers
@@ -52,7 +52,7 @@ const renderers = {
         <p key={keys[0]} className="graf graf--p">
           {addBreaklines(children)}
         </p>
-      )
+      );
       /* children.map(
         (o, i)=> ( <p key={keys[i]} className="graf graf--p">{o}</p>)
       ) */
@@ -88,7 +88,7 @@ const renderers = {
         >
           {/* addBreaklines(children) */}
         </pre>
-      )
+      );
     },
     // or depth for nested lists
     'unordered-list-item': (children, { depth, keys }) => (
@@ -109,8 +109,8 @@ const renderers = {
     ),
 
     file: (_children, { keys, data }) => {
-      const fileName = data[0].url.split('/').pop()
-      console.log('KEYSS', keys)
+      const fileName = data[0].url.split('/').pop();
+      console.log('KEYSS', keys);
       return (
         <div>
           <a
@@ -123,7 +123,7 @@ const renderers = {
             {fileName}
           </a>
         </div>
-      )
+      );
     },
 
     giphy: (children, { keys, data }) => {
@@ -131,17 +131,17 @@ const renderers = {
         <ImageRenderer blockKey={key} key={`image-${key}`} data={data[index]}>
           {children[index]}
         </ImageRenderer>
-      ))
+      ));
     },
     image: (children, { keys, data }) => {
       return keys.map((key, index) => (
         <ImageRenderer blockKey={key} key={`image-${key}`} data={data[index]}>
           {children[index]}
         </ImageRenderer>
-      ))
+      ));
     },
     embed: (_children, { keys, data }) => {
-      const { provisory_text, embed_data } = data[0]
+      const { provisory_text, embed_data } = data[0];
       const {
         images,
         title,
@@ -149,7 +149,7 @@ const renderers = {
         provider_url,
         description,
         //url
-      } = embed_data
+      } = embed_data;
 
       return (
         <div key={keys[0]} className="graf graf--mixtapeEmbed">
@@ -181,11 +181,11 @@ const renderers = {
             {provider_url}
           </span>
         </div>
-      )
+      );
     },
     video: (_children, { keys, data }) => {
-      const { provisory_text, embed_data } = data[0]
-      const { html } = embed_data
+      const { provisory_text, embed_data } = data[0];
+      const { html } = embed_data;
 
       return (
         <figure
@@ -208,10 +208,10 @@ const renderers = {
             </figcaption>
           )}
         </figure>
-      )
+      );
     },
     'recorded-video': (children, { keys, data }) => {
-      const { url, text } = data[0]
+      const { url, text } = data[0];
 
       return (
         <figure
@@ -233,7 +233,7 @@ const renderers = {
             </div>
           </figcaption>
         </figure>
-      )
+      );
     },
     // If your blocks use meta data it can also be accessed like keys
     // atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
@@ -267,25 +267,25 @@ const renderers = {
     },
     new CustomDecorator(someOptions),
   ], */
-}
+};
 
 function ImageRenderer({ children, blockKey, data }) {
-  const data2 = data
-  const { url, aspect_ratio, caption } = data2
+  const data2 = data;
+  const { url, aspect_ratio, caption } = data2;
 
-  var height, width, ratio
+  var height, width, ratio;
 
   if (!aspect_ratio) {
-    height = '100%'
-    width = '100%'
-    ratio = '100'
+    height = '100%';
+    width = '100%';
+    ratio = '100';
   } else {
-    height = aspect_ratio.height
-    width = aspect_ratio.width
-    ratio = aspect_ratio.ratio
+    height = aspect_ratio.height;
+    width = aspect_ratio.width;
+    ratio = aspect_ratio.ratio;
   }
 
-  const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
+  const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` };
 
   return (
     <figure key={blockKey} className="graf graf--figure">
@@ -308,7 +308,7 @@ function ImageRenderer({ children, blockKey, data }) {
         </figcaption>
       )}
     </figure>
-  )
+  );
 }
 
 function Image({ dispatch, url, width, height }) {
@@ -329,40 +329,44 @@ function Image({ dispatch, url, width, height }) {
         )
       }
     />
-  )
+  );
 }
 
 function mapActionsToProps() {
   return {
     actions: {},
-  }
+  };
 }
 
-const ConnectedImage = connect(mapActionsToProps)(Image)
+const ConnectedImage = connect(mapActionsToProps)(Image);
 
-export default class Renderer extends Component {
+type RendererType = {
+  raw: string;
+  html?: string;
+};
+export default class Renderer extends Component<RendererType> {
   /* static propTypes = {
     raw: PropTypes.object
   } */
 
   renderWarning() {
     if (this.props.html) {
-      return <div dangerouslySetInnerHTML={{ __html: this.props.html }} />
+      return <div dangerouslySetInnerHTML={{ __html: this.props.html }} />;
     } else {
-      return <div>---</div>
+      return <div>---</div>;
     }
   }
 
   render() {
-    const { raw } = this.props
+    const { raw } = this.props;
     if (!raw) {
-      return this.renderWarning()
+      return this.renderWarning();
     }
-    const rendered = redraft(raw, renderers)
+    const rendered = redraft(raw, renderers);
     // redraft returns a null if there's nothing to render
     if (!rendered) {
-      return this.renderWarning()
+      return this.renderWarning();
     }
-    return <div>{rendered}</div>
+    return <div>{rendered}</div>;
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-// import mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 import styled from '@emotion/styled';
 import { isEmpty } from 'lodash';
 const TOKEN =
@@ -12,11 +12,11 @@ const MapContainer = styled.div`
 `;
 
 type Props = {
-  title: string;
+  title?: string;
   data: Array<any>;
   interactive: boolean;
   wrapperStyle: any;
-  forceZoom?: boolean;
+  forceZoom?: number;
 };
 
 export default class Mapa extends React.Component<Props> {
@@ -40,9 +40,9 @@ export default class Mapa extends React.Component<Props> {
   };
 
   componentDidMount() {
-    window.mapboxgl.accessToken = TOKEN;
+    mapboxgl.accessToken = TOKEN;
 
-    this.map = new window.mapboxgl.Map({
+    this.map = new mapboxgl.Map({
       container: 'react-map',
       style: 'mapbox://styles/michelson/cjcga6dyd48ww2rlq99y1tw8m',
       zoom: 10,

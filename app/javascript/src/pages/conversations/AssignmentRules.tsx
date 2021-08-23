@@ -2,9 +2,9 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-  sortableContainer,
-  sortableElement,
-  sortableHandle,
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
 } from 'react-sortable-hoc';
 
 import I18n from '../../shared/FakeI18n';
@@ -40,13 +40,13 @@ import {
   UPDATE_RULE_PRIORITIES,
 } from '@chaskiq/store/src/graphql/mutations';
 
-const DragHandle = sortableHandle(() => (
+const DragHandle = SortableHandle(() => (
   <div>
     <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
   </div>
 ));
 
-const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
+const SortableItem = SortableElement(({ object, deleteRule, edit }) => (
   <li>
     <div className="border-b bg-white dark:border-gray-800 dark:bg-gray-900 block hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-900 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
@@ -107,7 +107,7 @@ const SortableItem = sortableElement(({ object, deleteRule, edit }) => (
   </li>
 ));
 
-const SortableContainer = sortableContainer(({ children }) => {
+const SortableList = SortableContainer(({ children }) => {
   return <ul className="bg-white border-md shadow-sm">{children}</ul>;
 });
 
@@ -177,7 +177,7 @@ function AssignmentRules({ dispatch, app }) {
     );
   };
 
-  const createAssignmentRule = (_opts) => {
+  const createAssignmentRule = () => {
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
@@ -206,7 +206,7 @@ function AssignmentRules({ dispatch, app }) {
     );
   };
 
-  const editAssignmentRule = (_opts) => {
+  const editAssignmentRule = () => {
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
@@ -303,8 +303,6 @@ function AssignmentRules({ dispatch, app }) {
     <div className="p-4">
       <PageHeader
         title={I18n.t('assignment_rules.title')}
-        actionHandler={open}
-        actionLabel={'New Rule'}
         actions={
           <Button
             variant="flat-dark"
@@ -365,7 +363,7 @@ function AssignmentRules({ dispatch, app }) {
         }
       />
 
-      <SortableContainer onSortEnd={onSortEnd} useDragHandle>
+      <SortableList onSortEnd={onSortEnd} useDragHandle>
         {state.rules.map((value, index) => (
           <SortableItem
             key={`item-${index}`}
@@ -376,7 +374,7 @@ function AssignmentRules({ dispatch, app }) {
             deleteRule={() => deleteRule(value)}
           />
         ))}
-      </SortableContainer>
+      </SortableList>
     </div>
   );
 }
@@ -483,7 +481,6 @@ function AssignmentForm(props) {
                 predicate={o}
                 predicates={predicates}
                 open={!o.comparison}
-                updater={updater}
                 appearance={o.comparison ? 'primary' : 'default'}
                 text={getTextForPredicate(o)}
                 updatePredicate={updatePredicates}

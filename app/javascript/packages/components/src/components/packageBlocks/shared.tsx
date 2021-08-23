@@ -3,6 +3,18 @@ import styled from '@emotion/styled';
 import tw from 'twin.macro';
 import { readableColor } from 'polished';
 
+type ThemeType = {
+  theme: any;
+};
+
+type SizeType = {
+  size: 'sm' | null;
+};
+
+type AlignType = {
+  align: 'left' | 'center' | 'right' | 'justify';
+};
+
 export function textColor(color) {
   const lightReturnColor = '#000';
   const darkReturnColor = '#fff';
@@ -17,7 +29,7 @@ export const ErrorMessage = styled.span`
   ${() => tw`text-red-500 mb-2 text-sm`}
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<ThemeType>`
   ${() => tw`block text-gray-700 dark:text-gray-200 font-bold mb-2`}
   ${(props) => (props.theme.size === 'sm' ? tw`text-xs` : tw`text-sm`)}
 `;
@@ -26,7 +38,7 @@ export const HelperText = styled.div`
   ${() => tw`mt-2 text-xs text-gray-500 dark:text-gray-200`}
 `;
 
-export const Padder = styled.div`
+export const Padder = styled.div<SizeType & AlignType & ThemeType>`
   ${(props) => (props.theme.size === 'sm' ? tw`mx-2 my-2` : tw`mx-4 my-2`)};
 
   ${(props) => {

@@ -2688,6 +2688,13 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
+"@types/simple-peer@^9.11.1":
+  version "9.11.1"
+  resolved "https://registry.yarnpkg.com/@types/simple-peer/-/simple-peer-9.11.1.tgz#bef6ff1e75178d83438e33aa6a4df2fd98fded1d"
+  integrity sha512-Pzqbau/WlivSXdRC0He2Wz/ANj2wbi4gzJrtysZz93jvOyI2jo/ibMjUe6AvPllFl/UO6QXT/A0Rcp44bDQB5A==
+  dependencies:
+    "@types/node" "*"
+
 "@types/sinonjs__fake-timers@^6.0.1":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-6.0.3.tgz#79df6f358ae8f79e628fe35a63608a0ea8e7cf08"

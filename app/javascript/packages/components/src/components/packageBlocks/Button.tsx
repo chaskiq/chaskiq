@@ -24,6 +24,7 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 type ButtonProps = {
+  id?: string;
   disabled?: boolean;
   align?: 'left' | 'center' | 'right';
   width?: 'full';

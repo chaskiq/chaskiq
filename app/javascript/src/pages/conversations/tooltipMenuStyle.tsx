@@ -1,7 +1,11 @@
-import styled from '@emotion/styled'
-import { opacify } from 'polished'
+import styled from '@emotion/styled';
+import { opacify } from 'polished';
 
-export const InlinetooltipWrapper = styled.div`
+type ThemeType = {
+  theme: any;
+};
+
+export const InlinetooltipWrapper = styled.div<ThemeType>`
   // BASE
   //position: absolute;
   z-index: 10;
@@ -156,4 +160,4 @@ export const InlinetooltipWrapper = styled.div`
                transform: rotate(0);
     }
 
-`
+`;

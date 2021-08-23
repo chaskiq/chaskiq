@@ -20,7 +20,24 @@ import {
 
 // import moment from 'moment-timezone';
 
-export default class CampaignSettings extends Component {
+type CampaignSettingsProps = {
+  data: any;
+  match: any;
+  mode: string;
+  history: any;
+  app: any;
+  updateData: (val: any) => void;
+  successMessage: () => void;
+};
+type CampaignSettingsState = {
+  eventResult: string;
+  data: any;
+  errors: any;
+};
+export default class CampaignSettings extends Component<
+  CampaignSettingsProps,
+  CampaignSettingsState
+> {
   constructor(props) {
     super(props);
     // console.log(props)

@@ -51,7 +51,7 @@ function Conversations({
     dispatch(setCurrentSection('Conversations'));
   }, []);
 
-  const fetchConversations = (options, cb) => {
+  const fetchConversations = (options, cb = null) => {
     dispatch(
       getConversations(options, () => {
         cb && cb();
@@ -242,12 +242,7 @@ function Conversations({
           {conversations.collection.map((o) => {
             const user = o.mainParticipant;
             return (
-              <ConversationItemList
-                key={o.key}
-                user={user}
-                app={app}
-                conversation={o}
-              />
+              <ConversationItemList key={o.key} app={app} conversation={o} />
             );
           })}
 
