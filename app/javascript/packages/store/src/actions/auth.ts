@@ -97,7 +97,7 @@ export function refreshToken(auth) {
         const accessToken = res.data.access_token
         const refreshToken = res.data.refresh_token
         dispatch(successAuthentication(accessToken, refreshToken))
-        window.location = '/'
+        window.location.href = '/'
       })
       .catch(() => {
         dispatch(expireAuthentication())

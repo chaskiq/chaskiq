@@ -1,9 +1,21 @@
-import React from 'react'
+import React from 'react';
 
-export default function Card({ title, description, imageSrc, className }) {
+type CardType = {
+  title: string | React.ReactElement;
+  description?: string;
+  imageSrc?: string;
+  className: string;
+};
+
+export default function Card({
+  title,
+  description,
+  imageSrc,
+  className,
+}: CardType) {
   const classes = className
     ? className
-    : 'rounded overflow-hidden shadow-lg bg-white h-full'
+    : 'rounded overflow-hidden shadow-lg bg-white h-full';
   return (
     <div className={classes}>
       {imageSrc && (
@@ -22,5 +34,5 @@ export default function Card({ title, description, imageSrc, className }) {
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
       </div> */}
     </div>
-  )
+  );
 }

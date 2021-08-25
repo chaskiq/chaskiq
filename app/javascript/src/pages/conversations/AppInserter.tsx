@@ -29,7 +29,7 @@ const DragHandle = SortableHandle(() => (
 ));
 
 const SortableItem = SortableElement(
-  ({ object, deleteItem, _edit, _updatePackage, customRenderer }) => (
+  ({ object, deleteItem, customRenderer }) => (
     <li>
       <div>
         <div
@@ -236,7 +236,7 @@ function SidebarAppInserter({
               <SortableItem
                 key={`item-${index}`}
                 index={index}
-                value={o.id}
+                //value={o.id}
                 object={o}
                 customRenderer={customRenderer}
                 // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }

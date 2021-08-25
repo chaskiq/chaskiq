@@ -27,7 +27,7 @@ type SegmentItemButtonType = {
   predicates?: Array<PredicateType>;
   updatePredicate: (new_predicates: any, predicateCallback: any) => void;
   deletePredicate: (data: any, predicateCallback: any) => void;
-  predicateCallback: (token: any) => void;
+  predicateCallback?: (token: any) => void;
   index: number;
   text: string;
   appearance: string;
@@ -43,7 +43,7 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
 
   relative_input = null;
   btn_ref = null;
-  blockStyleRef = React.createRef();
+  blockStyleRef = React.createRef<any>();
 
   componentDidUpdate(prevProps) {
     if (this.props.predicate !== prevProps.predicate) {
@@ -65,7 +65,7 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
     cb && cb();
   };
 
-  onRadioChange = (target, cb) => {
+  onRadioChange = (target, cb = null) => {
     const { value } = target;
     this.setState(
       {
@@ -77,9 +77,9 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
     );
   };
 
-  onRadioTypeChange = (target, o, cb) => {
-    window.blockStyleRef = this.blockStyleRef.current;
-    window.target = target;
+  onRadioTypeChange = (target, o, cb = null) => {
+    //window.blockStyleRef = this.blockStyleRef.current;
+    //window.target = target;
 
     this.setState(
       {
@@ -92,11 +92,13 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
     );
   };
 
-  onCheckBoxTypeChange = (target, o, cb) => {
-    let newArr = [];
+  onCheckBoxTypeChange = (target, o, cb = null) => {
+    let newArr: Array<any> = [];
     if (!target.checked) {
+      //@ts-ignore
       newArr = this.state.checkedValue.filter((c) => c !== o.label);
     } else {
+      //@ts-ignore
       newArr = this.state.checkedValue.concat(o.label);
     }
 
@@ -265,8 +267,8 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
 
         <ContentMatchFooter>
           {this.state.checkedValue &&
-            (this.state.checkedValue !== 'is_null' ||
-              this.state.checkedValue !== 'is_not_null') && (
+            this.state.checkedValue !== 'is_null' &&
+            this.state.checkedValue !== 'is_not_null' && (
               <Button size="small" onClick={this.handleSubmit.bind(this)}>
                 {I18n.t('segment_manager.apply')}
               </Button>
@@ -383,8 +385,8 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
 
         <ContentMatchFooter>
           {this.state.selectedOption &&
-            (this.state.selectedOption !== 'is_null' ||
-              this.state.selectedOption !== 'is_not_null') && (
+            this.state.selectedOption !== 'is_null' &&
+            this.state.selectedOption !== 'is_not_null' && (
               <Button
                 color="primary"
                 size={'small'}
@@ -479,8 +481,6 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
                           className={
                             'p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
                           }
-                          label={'value'}
-                          margin="normal"
                         />
                         <span className="mt-1 text-sm leading-5 text-gray-500">
                           {I18n.t('segment_manager.days_ago')}
@@ -587,8 +587,6 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
                         className={
                           'mb-3 p-1 border max-w-xs rounded-md shadow-sm form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5'
                         }
-                        label={'value'}
-                        margin="normal"
                       />
                     </div>
                   )}
@@ -673,8 +671,8 @@ export default class SegmentItemButton extends Component<SegmentItemButtonType> 
 
         <ContentMatchFooter>
           {this.state.selectedOption &&
-            (this.state.selectedOption !== 'is_null' ||
-              this.state.selectedOption !== 'is_not_null') && (
+            this.state.selectedOption !== 'is_null' &&
+            this.state.selectedOption !== 'is_not_null' && (
               <Button
                 color="primary"
                 size={'small'}

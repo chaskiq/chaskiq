@@ -12,7 +12,7 @@ import { toSnakeCase } from '@chaskiq/components/src/utils/caseConverter';
 export default function LanguageForm({ settings, update, namespace, fields }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedLang, _setSelectedLang] = React.useState(null);
-  const formRef = React.createRef();
+  const formRef = React.createRef<HTMLFormElement>();
 
   function handleChange(value) {
     /*const serializedData = serialize(formRef.current, {

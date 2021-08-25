@@ -1,24 +1,32 @@
-import React, { Component } from 'react'
-import styled from '@emotion/styled'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { directUpload } from './fileUploader' // '../shared/fileUploader'
-import DraftRenderer from './textEditor/draftRenderer'
-import DanteContainer from './textEditor/editorStyles'
-import theme from './textEditor/theme'
-import { ThemeProvider } from 'emotion-theming'
-import { DeleteForeverRounded, PlusIcon } from './icons'
-import Button from './Button'
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { directUpload } from './fileUploader'; // '../shared/fileUploader'
+import DraftRenderer from './textEditor/draftRenderer';
+import DanteContainer from './textEditor/editorStyles';
+import theme from './textEditor/theme';
+import { ThemeProvider } from 'emotion-theming';
+import { DeleteForeverRounded, PlusIcon } from './icons';
+import Button from './Button';
 // import tw from "tailwind.macro";
-import tw from 'twin.macro'
+import tw from 'twin.macro';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   UPDATE_CAMPAIGN,
   CREATE_URL_UPLOAD,
   CREATE_DIRECT_UPLOAD,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
+
+declare global {
+  interface Window {
+    __CHILD_WINDOW_HANDLE_2: any;
+    TourManagerMethods: any;
+    TourManagerEnabled: any;
+  }
+}
 
 // INTERNAL APP TOUR
 const StepContainer = styled.div`
@@ -29,12 +37,12 @@ const StepContainer = styled.div`
   flex: 0 0 auto;
   min-width: 0;
   min-height: 0;
-`
+`;
 const ConnectorStep = styled.div`
   width: 60px;
   heigth: 60px;
   border: 1px solid #ccc;
-`
+`;
 
 const StepBody = styled.div`
   background: #fff;
@@ -51,11 +59,11 @@ const StepBody = styled.div`
     top: -7px;
     right: -7px;
   }
-`
+`;
 
 const StepHeader = styled.div`
   padding: 16px 24px;
-`
+`;
 
 const StepMessage = styled.div`
   .contentWrap {
@@ -69,12 +77,12 @@ const StepMessage = styled.div`
       background: linear-gradient(transparent 57px, white);
     }
   }
-`
+`;
 const StepsContainer = styled.div`
   //width: 50%;
   overflow: scroll;
   display: flex;
-`
+`;
 
 const Body = styled.div`
   padding: 30px;
@@ -82,7 +90,7 @@ const Body = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const NewStepContainer = styled.div`
   min-width: 205px;
@@ -95,7 +103,7 @@ const NewStepContainer = styled.div`
       font-light 
       uppercase 
       shadow`}
-`
+`;
 
 const NewStepBody = styled.div`
   position: relative;
@@ -103,14 +111,23 @@ const NewStepBody = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-`
+`;
 
-window.__CHILD_WINDOW_HANDLE_2 = null
+window.__CHILD_WINDOW_HANDLE_2 = null;
 
-class TourManager extends Component {
+type TourManagerProps = {
+  data: any;
+  updateData: any;
+  app: any;
+};
+type TourManagerState = {
+  enabledTour: boolean;
+};
+
+class TourManager extends Component<TourManagerProps, TourManagerState> {
   state = {
     enabledTour: false,
-  }
+  };
 
   handleMessage(e) {
     if (e.data.type === 'ENABLE_MANAGER_TOUR') {
@@ -120,7 +137,7 @@ class TourManager extends Component {
           tourManagerEnabled: true,
         },
         '*'
-      )
+      );
     }
 
     if (e.data.type === 'GET_TOUR') {
@@ -130,7 +147,7 @@ class TourManager extends Component {
           data: this.props.data,
         },
         '*'
-      )
+      );
     }
 
     if (e.data.type === 'SAVE_TOUR') {
@@ -141,40 +158,40 @@ class TourManager extends Component {
             data: this.props.data,
           },
           '*'
-        )
-      })
+        );
+      });
     }
 
     if (e.data.type === 'UPLOAD_IMAGE') {
-      this.handleDirectUpload(e.data.file, e.data.input)
+      this.handleDirectUpload(e.data.file, e.data.input);
     }
 
     if (e.data.type === 'URL_IMAGE') {
-      this.handleUrlUpload(e.data.file, e.data.input)
+      this.handleUrlUpload(e.data.file);
     }
   }
 
-  tour_events = this.handleMessage.bind(this)
+  tour_events = this.handleMessage.bind(this);
 
   componentDidMount() {
     window.TourManagerEnabled = () => {
-      return this.state.enabledTour // alert("oaoaoaoa")
-    }
+      return this.state.enabledTour; // alert("oaoaoaoa")
+    };
 
     window.TourManagerMethods = {
       update: this.updateData,
       getSteps: () => this.props.data.steps,
-    }
+    };
 
     // events received from child window & pingback
-    window.addEventListener('message', this.tour_events, false)
+    window.addEventListener('message', this.tour_events, false);
   }
 
   componentWillUnmount() {
-    window.TourManagerEnabled = null
-    window.TourManagerMethods = null
-    window.removeEventListener('message', this.tour_events)
-    window.__CHILD_WINDOW_HANDLE_2 && window.__CHILD_WINDOW_HANDLE_2.close()
+    window.TourManagerEnabled = null;
+    window.TourManagerMethods = null;
+    window.removeEventListener('message', this.tour_events);
+    window.__CHILD_WINDOW_HANDLE_2 && window.__CHILD_WINDOW_HANDLE_2.close();
   }
 
   updateData = (data, cb) => {
@@ -184,17 +201,17 @@ class TourManager extends Component {
       campaignParams: {
         steps: data,
       },
-    }
+    };
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
-        this.props.updateData(data.campaignUpdate.campaign, null)
-        if (cb) cb()
+        this.props.updateData(data.campaignUpdate.campaign, null);
+        if (cb) cb();
         // this.setState({ status: "saved" })
       },
       error: () => {},
-    })
-  }
+    });
+  };
 
   handleUrlUpload = (url) => {
     graphql(
@@ -202,12 +219,8 @@ class TourManager extends Component {
       { url: url },
       {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createUrlUpload.directUpload
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload;
           // imageBlock.uploadCompleted(serviceUrl)
           // this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
           // this.setDisabled(false)
@@ -217,23 +230,19 @@ class TourManager extends Component {
               data: { signedBlobId, headers, url, serviceUrl },
             },
             '*'
-          )
+          );
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   handleDirectUpload = (file, input) => {
     graphql(CREATE_DIRECT_UPLOAD, input, {
       success: (data) => {
-        const {
-          signedBlobId,
-          headers,
-          url,
-          serviceUrl,
-        } = data.createDirectUpload.directUpload
-        console.log('DRECT', signedBlobId, headers, url, serviceUrl)
+        const { signedBlobId, headers, url, serviceUrl } =
+          data.createDirectUpload.directUpload;
+        console.log('DRECT', signedBlobId, headers, url, serviceUrl);
         directUpload(url, JSON.parse(headers), file).then(() => {
           window.__CHILD_WINDOW_HANDLE_2.postMessage(
             {
@@ -241,19 +250,19 @@ class TourManager extends Component {
               data: { signedBlobId, headers, url, serviceUrl },
             },
             '*'
-          )
+          );
 
           // this.setDisabled(false)
           // imageBlock.uploadCompleted(serviceUrl)
           // this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
-        })
+        });
       },
       error: (error) => {
-        this.setDisabled(false)
-        console.log('error on signing blob', error)
+        //this.setDisabled(false);
+        console.log('error on signing blob', error);
       },
-    })
-  }
+    });
+  };
 
   openTourManager = () => {
     this.setState(
@@ -262,12 +271,12 @@ class TourManager extends Component {
       },
       () => {
         const options =
-          'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=700,height=500,left=200,top=100'
+          'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=700,height=500,left=200,top=100';
         window.__CHILD_WINDOW_HANDLE_2 = window.open(
           `${this.props.data.url}`,
           'win',
           options
-        )
+        );
         // '_blank' )
 
         /* setTimeout(() => {
@@ -284,8 +293,8 @@ class TourManager extends Component {
         // open(`/tester/${this.props.app.key}`)
         // open(`${this.props.data.url}`)
       }
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -299,21 +308,24 @@ class TourManager extends Component {
                   //enableEditMode={this.enableEditMode}
                   >*/}
                 </TourStep>
-              )
+              );
             })}
 
           <NewTourStep openTourManager={this.openTourManager}></NewTourStep>
         </StepsContainer>
       </Body>
-    )
+    );
   }
 }
 
-class NewTourStep extends Component {
+type NewTourStepProps = {
+  openTourManager?: any;
+};
+class NewTourStep extends Component<NewTourStepProps> {
   enableSelection = (e) => {
-    e.preventDefault()
-    this.props.openTourManager()
-  }
+    e.preventDefault();
+    this.props.openTourManager();
+  };
 
   render() {
     return (
@@ -328,18 +340,21 @@ class NewTourStep extends Component {
           </Button>
         </NewStepBody>
       </NewStepContainer>
-    )
+    );
   }
 }
 
-class TourStep extends Component {
+type TourProps = {
+  step?: any;
+};
+class TourStep extends Component<TourProps> {
   removeItem = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   enableEditMode = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   render() {
     return (
@@ -365,19 +380,19 @@ class TourStep extends Component {
         </StepBody>
         <ConnectorStep />
       </StepContainer>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(TourManager))
+export default withRouter(connect(mapStateToProps)(TourManager));

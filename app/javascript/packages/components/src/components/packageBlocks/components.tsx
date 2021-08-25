@@ -66,7 +66,7 @@ export function DefinitionRenderer({
 }: DefinitionRendererType) {
   const [loading, setLoading] = React.useState(false);
 
-  const form = React.createRef();
+  const form = React.createRef<HTMLFormElement>();
 
   function handleAction(e, field) {
     e.preventDefault();

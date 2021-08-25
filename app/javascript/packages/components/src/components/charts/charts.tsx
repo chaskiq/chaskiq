@@ -1,5 +1,5 @@
-import React from 'react'
-import { ResponsivePie } from '@nivo/pie'
+import React from 'react';
+import { ResponsivePie } from '@nivo/pie';
 // import { useTheme } from '@material-ui/core/styles';
 
 // make sure parent container have a defined height when using responsive component,
@@ -18,9 +18,9 @@ export default function CampaignPie({ data }) {
       radialLabelsSkipAngle={8}
       radialLabelsTextColor="#333333"
       radialLabelsLinkColor={{ from: 'color' }}
-      sliceLabelsRadiusOffset={0.65}
-      sliceLabelsSkipAngle={11}
-      sliceLabelsTextColor="#333333"
+      // sliceLabelsRadiusOffset={0.65}
+      // sliceLabelsSkipAngle={11}
+      // sliceLabelsTextColor="#333333"
       defs={[
         {
           id: 'dots',
@@ -67,5 +67,5 @@ export default function CampaignPie({ data }) {
         },
       ]}
     />
-  )
+  );
 }

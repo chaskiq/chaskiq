@@ -36,6 +36,8 @@ interface IWrapperComponent {
   defaultValue?: any;
   defaultChecked?: any;
   disabled?: any;
+  required?: any;
+  autoComplete?: 'current-password';
   checked?: boolean;
   handler?: any;
   error?: any;
@@ -52,6 +54,8 @@ interface IWrapperComponent {
   variant?: string;
   className?: string;
   hideImage?: boolean;
+  style?: React.CSSProperties;
+  onKeyDown?: (e: SyntheticEvent) => void;
   onKeyUp?: (e: SyntheticEvent) => void;
 }
 
@@ -71,7 +75,7 @@ const WrappedComponent = React.forwardRef(function Input(
     theme,
     ...props
   }: IWrapperComponent,
-  ref
+  ref: React.ForwardedRef<any>
 ) {
   function inputAppearance(variant) {
     switch (variant) {
@@ -222,7 +226,7 @@ const WrappedComponent = React.forwardRef(function Input(
   }
 
   function renderUpload() {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLInputElement>();
     return (
       <FormField name={name} label={null} helperText={helperText}>
         <div className="flex flex-col items-center">
@@ -364,7 +368,7 @@ const WrappedComponent = React.forwardRef(function Input(
         helperText={helperText}
       >
         <ColorPicker
-          color={value}
+          color={value || defaultValue}
           name={name}
           label={label}
           placeholder={props.placeholder}

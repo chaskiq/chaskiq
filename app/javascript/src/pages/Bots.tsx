@@ -231,7 +231,6 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
               </Button>
             </div>
           }
-          tabsContent={null}
         />
 
         <div className="flex">
@@ -266,8 +265,6 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           <Table
             meta={meta}
             data={botTasks}
-            title={I18n.t('task_bots.title')}
-            defaultHiddenColumnNames={[]}
             search={init}
             sortable={true}
             onSort={onSortEnd}
@@ -382,7 +379,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
     setIsOpen(false);
   };
 
-  let titleRef = React.createRef();
+  let titleRef: any = React.createRef();
   // const titleRef = null
 
   const handleSubmit = (_e) => {

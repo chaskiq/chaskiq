@@ -30,6 +30,8 @@ export default class SettingsForm extends Component<
   SettingsFormType,
   SettingsFormState
 > {
+  formRef = React.createRef<HTMLFormElement>();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -46,7 +48,7 @@ export default class SettingsForm extends Component<
 
   onSubmitHandler = (e) => {
     e.preventDefault();
-    const serializedData = serialize(this.formRef, {
+    const serializedData = serialize(this.formRef.current, {
       hash: true,
       empty: true,
     });
@@ -60,9 +62,7 @@ export default class SettingsForm extends Component<
         <form
           name="create-repo"
           onSubmit={this.onSubmitHandler.bind(this)}
-          ref={(form) => {
-            this.formRef = form;
-          }}
+          ref={this.formRef}
         >
           {this.props.hint && <Hints type={this.props.hint} />}
 

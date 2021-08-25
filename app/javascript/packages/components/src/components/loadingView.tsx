@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
-import React from 'react'
+import React from 'react';
 
 // taken from https://codepen.io/sabin42/pen/odjvKy
 const LoadingWrapper = styled.div`
@@ -79,9 +79,12 @@ const LoadingWrapper = styled.div`
       transform: translateY(-30px);
     }
   }
-`
+`;
 
-export default function LoadingView({ onClick }) {
+type LoadingViewType = {
+  onClick?: (e: React.SyntheticEvent) => void;
+};
+export default function LoadingView({ onClick }: LoadingViewType) {
   return (
     <LoadingWrapper>
       <section className="wrapper" onClick={onClick}>
@@ -95,5 +98,5 @@ export default function LoadingView({ onClick }) {
         </div>
       </section>
     </LoadingWrapper>
-  )
+  );
 }

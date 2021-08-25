@@ -39,7 +39,24 @@ import {
 } from '@chaskiq/store/src/graphql/mutations';
 
 import { ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/queries';
-class Collections extends Component {
+
+type CollectionsProps = {
+  app: any;
+  dispatch: (val: any) => void;
+  settings: any;
+};
+type CollectionsState = {
+  isOpen: boolean;
+  article_collections: any;
+  editCollection: any;
+  openConfirm: boolean;
+  languages: any;
+  lang: string;
+  itemToDelete: any;
+};
+class Collections extends Component<CollectionsProps, CollectionsState> {
+  fileInput: any;
+
   state = {
     isOpen: false,
     article_collections: [],
@@ -47,6 +64,7 @@ class Collections extends Component {
     openConfirm: false,
     languages: [],
     lang: 'en',
+    itemToDelete: null,
   };
 
   titleRef = null;
@@ -90,7 +108,7 @@ class Collections extends Component {
     );
   };
 
-  submitEdit = (_e) => {
+  submitEdit = () => {
     graphql(
       ARTICLE_COLLECTION_EDIT,
       {
@@ -129,7 +147,7 @@ class Collections extends Component {
     // confirm
   };
 
-  getCollections = (_e) => {
+  getCollections = () => {
     graphql(
       ARTICLE_COLLECTIONS,
       {
@@ -316,8 +334,8 @@ class Collections extends Component {
                         label={I18n.t('common.image')}
                         style={{ display: 'none' }}
                         ref={(comp) => (this.fileInput = comp)}
-                        textHelper={I18n.t('articles.square_preferred_hint')}
-                        handler={(file) => this.uploadHandler(file, 'icon')}
+                        helperText={I18n.t('articles.square_preferred_hint')}
+                        handler={(file) => this.uploadHandler(file)}
                       />
                       <p className="text-sm text-gray-500 mb-3">
                         {I18n.t('articles.square_preferred')}
@@ -336,23 +354,18 @@ class Collections extends Component {
                     this.titleRef = ref;
                   }}
                   defaultValue={editCollection ? editCollection.title : null}
-                  margin="normal"
                 />
 
                 <TextField
                   id="collection-description"
-                  // label="Description"
                   type={'textarea'}
                   placeholder={I18n.t('articles.create.description')}
-                  // helperText="Full width!"
-                  multiline
                   ref={(ref) => {
                     this.descriptionRef = ref;
                   }}
                   defaultValue={
                     editCollection ? editCollection.description : null
                   }
-                  margin="normal"
                 />
               </form>
             }
@@ -416,8 +429,6 @@ class Collections extends Component {
               <Table
                 meta={{}}
                 data={this.state.article_collections}
-                title={I18n.t('task_bots.title')}
-                defaultHiddenColumnNames={[]}
                 search={this.getCollections}
                 sortable={true}
                 onSort={this.onSortEnd}

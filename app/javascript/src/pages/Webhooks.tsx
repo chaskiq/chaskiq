@@ -422,7 +422,7 @@ function Settings({ app, dispatch }) {
         >
           <p>
             {I18n.t('settings.webhooks.delete.text', {
-              name: openDeleteDialog.dialog,
+              name: '',
             })}
           </p>
         </DeleteDialog>

@@ -7,7 +7,7 @@ export default function Overview({ dashboard, app }) {
     {
       chartType: 'count',
       kind: 'first_response_time',
-      label: window.I18n.t('dashboard.response_avg'),
+      label: I18n.t('dashboard.response_avg'),
       appendLabel: 'Hrs',
     },
     {

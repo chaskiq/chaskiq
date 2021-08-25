@@ -17,7 +17,23 @@ import { getAppUser } from '@chaskiq/store/src/actions/app_user';
 import { parseJwt, generateJWT } from '@chaskiq/store/src/jwt';
 
 import { PREDICATES_SEARCH } from '@chaskiq/store/src/graphql/mutations';
-class Segment extends Component {
+
+type SegmentProps = {
+  data: any;
+  app: any;
+  handleSave: (val: any, cb?: any) => void;
+  updateData: (val: any, cb?: any) => void;
+  dispatch: (val: any) => void;
+};
+type SegmentState = {
+  jwt: any;
+  app_users: any;
+  search: any;
+  meta: any;
+  searching: boolean;
+};
+
+class Segment extends Component<SegmentProps, SegmentState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +41,7 @@ class Segment extends Component {
       app_users: [],
       search: false,
       meta: {},
+      searching: false,
     };
   }
 
@@ -41,14 +58,14 @@ class Segment extends Component {
     }
   };
 
-  updateData = (data, cb) => {
+  updateData = (data, cb = null) => {
     const newData = Object.assign({}, this.props.data, {
       segments: data.data,
     });
     this.props.updateData(newData, cb ? cb() : null);
   };
 
-  updatePredicate = (data, cb) => {
+  updatePredicate = (data, cb = null) => {
     const jwtToken = generateJWT(data);
     // console.log(parseJwt(jwtToken))
     if (cb) cb(jwtToken);
@@ -57,7 +74,7 @@ class Segment extends Component {
     });
   };
 
-  addPredicate = (data, cb) => {
+  addPredicate = (data, cb = null) => {
     const pending_predicate = {
       attribute: data.name,
       comparison: null,
@@ -82,7 +99,7 @@ class Segment extends Component {
     );
   }
 
-  search = (page) => {
+  search = (page = null) => {
     this.setState({ searching: true });
     // jwt or predicates from segment
     // console.log(this.state.jwt)
@@ -137,35 +154,10 @@ class Segment extends Component {
           addPredicate={this.addPredicate.bind(this)}
           deletePredicate={this.deletePredicate.bind(this)}
           search={this.search.bind(this)}
-          loading={this.props.searching}
           columns={userFormat(this.showUserDrawer, this.props.app)}
-          defaultHiddenColumnNames={[
-            'id',
-            'state',
-            'online',
-            'lat',
-            'lng',
-            'postal',
-            'browserLanguage',
-            'referrer',
-            'os',
-            'osVersion',
-            'lang',
-          ]}
-          tableColumnExtensions={[
-            { columnName: 'email', width: 250 },
-            { columnName: 'lastVisitedAt', width: 120 },
-            { columnName: 'os', width: 100 },
-            { columnName: 'osVersion', width: 100 },
-            { columnName: 'state', width: 80 },
-            { columnName: 'online', width: 80 },
-          ]}
-          leftColumns={['email']}
-          rightColumns={['online']}
         >
           {this.state.jwt ? (
             <Button
-              isLoading={false}
               size={'sm'}
               variant={'link'}
               onClick={this.handleSave}

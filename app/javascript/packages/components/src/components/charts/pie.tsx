@@ -23,9 +23,9 @@ export default function MyResponsivePie({ data, from, to }: PieType) {
       colors={{ scheme: 'purple_blue' }}
       borderWidth={3}
       fit={true}
-      colorBy={function (e) {
-        return e.color;
-      }}
+      //colors={function (e) {
+      //  return e.color;
+      //}}
       borderColor="inherit:darker(0.2)"
       // borderColor={{ from: 'color', modifiers: [ [ 'darker', '0' ] ] }}
       radialLabelsSkipAngle={25}

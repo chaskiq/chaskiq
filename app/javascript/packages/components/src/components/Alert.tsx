@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
 import { clearStatusMessage } from '@chaskiq/store/src/actions/status_messages';
+import I18n from '../../../../src/shared/FakeI18n';
 
 function CustomizedSnackbars(props) {
   const [open, setOpen] = React.useState(!isEmpty(props.status_message));
@@ -76,7 +77,7 @@ function CustomizedSnackbars(props) {
     <div>
       {!isEmpty(props.status_message) && (
         <Alert
-          open={open}
+          // open={open}
           onClose={handleClose}
           placementClass={placementClass()}
           message={props.status_message.message}
@@ -88,7 +89,7 @@ function CustomizedSnackbars(props) {
 }
 
 type AlertType = {
-  title: string;
+  title?: string;
   message: string;
   status?: 'success' | 'error';
   onClose: (event: any, reason?: any) => void;
@@ -184,7 +185,7 @@ function Alert({ title, message, status, onClose, placementClass }: AlertType) {
               <div className="flex-shrink-0">{statusIcon()}</div>
               <div className="ml-3 w-0 flex-1 pt-0.5">
                 <p className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
-                  {title} {/*|| I18n.t(`status_messages.${status}`)*/}
+                  {title} {I18n.t(`status_messages.${status}`)}
                 </p>
                 <p className="mt-1 text-sm leading-5 text-gray-500 dark:text-gray-300">
                   {message}

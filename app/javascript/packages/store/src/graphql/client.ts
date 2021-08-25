@@ -5,7 +5,6 @@ import { errorMessage } from '../actions/status_messages' //  '../actions/status
 import { lockPage } from '../actions/upgradePages'
 
 import { refreshToken } from '../actions/auth'
-// import history from "../history.js";
 
 const graphql = (query, variables, callbacks) => {
   const { auth, current_user } = store.getState()
@@ -34,9 +33,7 @@ const graphql = (query, variables, callbacks) => {
       const data = r.data.data
       const res = r
 
-      const errors = r.data.errors // ? r.data.errors[0].message : null
-      // get first key of data and check if has errors
-      // const errors = data[Object.keys(data)[0]].errors || r.data.errors
+      const errors = r.data.errors
 
       if (isObject(errors) && !isEmpty(errors)) {
         // const errors = data[Object.keys(data)[0]];
@@ -45,6 +42,7 @@ const graphql = (query, variables, callbacks) => {
           errors[0].extensions &&
           errors[0].extensions.code === 'unauthorized'
         ) {
+          //@ts-ignore
           return store.dispatch(errorMessage(errors[0].message))
         }
         if (callbacks.error) {
@@ -54,22 +52,26 @@ const graphql = (query, variables, callbacks) => {
 
       callbacks.success ? callbacks.success(data, res) : null
     })
-    .catch((req, error) => {
+    .catch((req) => {
       // throw r
       // const res = r.response
       // console.log("error on grapqhl client", req, error)
       switch (req.response.status) {
         case 500:
+          //@ts-ignore
           store.dispatch(errorMessage('server error ocurred'))
           break
         case 402:
           //
+          //@ts-ignore
           store.dispatch(lockPage(req.response.data.error.message))
           // store.dispatch(errorMessage('server error ocurred'))
           break
         case 401:
           // history.push("/")
+          //@ts-ignore
           store.dispatch(errorMessage('session expired'))
+          //@ts-ignore
           store.dispatch(refreshToken(auth))
           // store.dispatch(expireAuthentication())
           // refreshToken(auth)
@@ -78,7 +80,7 @@ const graphql = (query, variables, callbacks) => {
           break
       }
 
-      callbacks.fatal ? callbacks.fatal(error) : null
+      callbacks.fatal ? callbacks.fatal('error fatale') : null
     })
     .then((r) => {
       callbacks.always ? callbacks.always() : null

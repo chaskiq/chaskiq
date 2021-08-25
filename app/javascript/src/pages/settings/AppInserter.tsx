@@ -32,42 +32,40 @@ const DragHandle = SortableHandle(() => (
   </div>
 ));
 
-const SortableItem = SortableElement(
-  ({ object, deleteItem, _edit, _updatePackage }) => (
-    <li>
-      <div>
-        <div
-          key={`apps-${object.id}`}
-          className="bg-gray-100 dark:bg-gray-900 mb-2 p-4 flex justify-between items-center"
-        >
-          <div className="border-md bg-white dark:bg-black p-4 shadow w-full mx-2 ">
-            <p>{object.name}</p>
+const SortableItem = SortableElement(({ object, deleteItem }) => (
+  <li>
+    <div>
+      <div
+        key={`apps-${object.id}`}
+        className="bg-gray-100 dark:bg-gray-900 mb-2 p-4 flex justify-between items-center"
+      >
+        <div className="border-md bg-white dark:bg-black p-4 shadow w-full mx-2 ">
+          <p>{object.name}</p>
 
-            <DefinitionRenderer
-              schema={object.definitions}
-              disabled={true}
-              // updatePackage={(params, cb) => updatePackage(params, object, cb)}
-            />
-          </div>
+          <DefinitionRenderer
+            schema={object.definitions}
+            disabled={true}
+            // updatePackage={(params, cb) => updatePackage(params, object, cb)}
+          />
+        </div>
 
-          <div className="flex flex-col items-center">
-            <div className="mb-2 cursor-move">
-              <DragHandle />
-            </div>
-            <Button
-              className="h-10 w-10"
-              variant="icon"
-              size="small"
-              onClick={deleteItem}
-            >
-              <DeleteIcon />
-            </Button>
+        <div className="flex flex-col items-center">
+          <div className="mb-2 cursor-move">
+            <DragHandle />
           </div>
+          <Button
+            className="h-10 w-10"
+            variant="icon"
+            size="small"
+            onClick={deleteItem}
+          >
+            <DeleteIcon />
+          </Button>
         </div>
       </div>
-    </li>
-  )
-);
+    </div>
+  </li>
+));
 
 function AppInserter({ app, update }) {
   const options = [
@@ -204,7 +202,7 @@ function HomeAppInserter({ app, update, option, capability }) {
               <SortableItem
                 key={`item-${index}`}
                 index={index}
-                value={o.id}
+                // value={o.id}
                 object={o}
                 // updatePackage={ (params, cb) => updatePackage(params, o, index, cb) }
                 deleteItem={() => deleteItem(o, index)}

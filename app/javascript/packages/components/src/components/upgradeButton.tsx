@@ -1,25 +1,26 @@
-import React from 'react'
-import Button from './Button'
-import { Link, withRouter } from 'react-router-dom'
-import useOnClickOutside from './hooks/useClickOutside'
-import { Transition } from '@headlessui/react'
+import React from 'react';
+import Button from './Button';
+import { Link, withRouter } from 'react-router-dom';
+import useOnClickOutside from './hooks/useClickOutside';
+import { Transition } from '@headlessui/react';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import I18n from '../../../../src/shared/FakeI18n';
 
 function UpgradeButton({ classes, size, app, label, feature, children }) {
-  const [toggle, setToggle] = React.useState(false)
+  const [toggle, setToggle] = React.useState(false);
 
   function onToggle(val) {
-    setToggle(val)
+    setToggle(val);
   }
 
-  const plansEnabled = !app.plan.disabled
+  const plansEnabled = !app.plan.disabled;
 
   const activeFeature =
     plansEnabled &&
-    app.plan.features.find((f) => f.name === feature && f.active)
+    app.plan.features.find((f) => f.name === feature && f.active);
 
-  if (!app.subscriptionsEnabled) return children
+  if (!app.subscriptionsEnabled) return children;
 
   return (
     <div>
@@ -30,7 +31,6 @@ function UpgradeButton({ classes, size, app, label, feature, children }) {
           label={label}
           onToggle={onToggle}
           classes={classes}
-          toggle={toggle}
         >
           <div className="rounded-lg shadow-lg overflow-hidden border-2 border-black">
             <MenuItems app={app} feature={feature} />
@@ -40,41 +40,41 @@ function UpgradeButton({ classes, size, app, label, feature, children }) {
 
       {plansEnabled && activeFeature && children}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
 
   return {
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(UpgradeButton))
+export default withRouter(connect(mapStateToProps)(UpgradeButton));
 
 function FlyoutItem({ children, onClickOutside }) {
-  const ref = React.useRef()
-  useOnClickOutside(ref, onClickOutside)
+  const ref = React.useRef();
+  useOnClickOutside(ref, onClickOutside);
   return (
     <div ref={ref} className="md:relative">
       {children}
     </div>
-  )
+  );
 }
 
 function FeaturesMenu({ classes, size, label, name, children, onToggle }) {
-  const [flyoutMenuOpen, setFlyoutMenuOpen] = React.useState(false)
+  const [flyoutMenuOpen, setFlyoutMenuOpen] = React.useState(false);
 
-  const defaultClasses = 'absolute z-10 ml-1 mt-3 transform w-screen max-w-md'
+  const defaultClasses = 'absolute z-10 ml-1 mt-3 transform w-screen max-w-md';
 
   return (
     <FlyoutItem
       onClickOutside={() => {
-        setFlyoutMenuOpen(false)
-        onToggle(name)
+        setFlyoutMenuOpen(false);
+        onToggle(name);
       }}
-      className="md:relative"
+      // className="md:relative"
     >
       <Button
         size={size}
@@ -85,8 +85,8 @@ function FeaturesMenu({ classes, size, label, name, children, onToggle }) {
         //  onToggle(true)
         // }}
         onClick={() => {
-          setFlyoutMenuOpen(!flyoutMenuOpen)
-          onToggle(true)
+          setFlyoutMenuOpen(!flyoutMenuOpen);
+          onToggle(true);
         }}
       >
         {label}
@@ -106,7 +106,7 @@ function FeaturesMenu({ classes, size, label, name, children, onToggle }) {
         {children}
       </Transition>
     </FlyoutItem>
-  )
+  );
 }
 
 function MenuItems({ app, feature }) {
@@ -140,5 +140,5 @@ function MenuItems({ app, feature }) {
         </div>
       </Link>
     </div>
-  )
+  );
 }

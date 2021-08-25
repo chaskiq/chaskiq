@@ -8,11 +8,11 @@ type ThemeType = {
 };
 
 type SizeType = {
-  size: 'sm' | null;
+  size?: 'sm' | null;
 };
 
 type AlignType = {
-  align: 'left' | 'center' | 'right' | 'justify';
+  align?: 'left' | 'center' | 'right' | 'justify';
 };
 
 export function textColor(color) {

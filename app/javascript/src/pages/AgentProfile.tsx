@@ -1,50 +1,61 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import graphql from '@chaskiq/store/src/graphql/client'
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import Button from '@chaskiq/components/src/components/Button'
-import Avatar from '@chaskiq/components/src/components/Avatar'
-import TextField from '@chaskiq/components/src/components/forms/Input'
-import Content from '@chaskiq/components/src/components/Content'
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import { EditIcon, MoreIcon } from '@chaskiq/components/src/components/icons'
+import Button from '@chaskiq/components/src/components/Button';
+import Avatar from '@chaskiq/components/src/components/Avatar';
+import TextField from '@chaskiq/components/src/components/forms/Input';
+import Content from '@chaskiq/components/src/components/Content';
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import { EditIcon, MoreIcon } from '@chaskiq/components/src/components/icons';
 import {
   directUpload,
   getFileMetadata,
-} from '@chaskiq/components/src/components/fileUploader'
+} from '@chaskiq/components/src/components/fileUploader';
 
-import DialogEditor from './conversations/DialogEditor'
-import UserListItem from './conversations/ItemList'
-
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
-//import sanitizeHtml from 'sanitize-html'
+import DialogEditor from './conversations/DialogEditor';
+import UserListItem from './conversations/ItemList';
 
 import {
   CREATE_DIRECT_UPLOAD,
   START_CONVERSATION,
   APP_USER_UPDATE_STATE,
   UPDATE_AGENT,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 import {
   APP_USER_CONVERSATIONS,
   AGENT,
-} from '@chaskiq/store/src/graphql/queries'
+} from '@chaskiq/store/src/graphql/queries';
 
-import { getAppUser } from '@chaskiq/store/src/actions/app_user'
+import { getAppUser } from '@chaskiq/store/src/actions/app_user';
 
-class ProfilePage extends Component {
+type ProfilePageProps = {
+  match: any;
+  app: any;
+  agent: any;
+  history: any;
+  dispatch: any;
+};
+type ProfilePageState = {
+  collection: any;
+  meta: any;
+  startConversationModal: boolean;
+  agent: any;
+  editName: boolean;
+};
+class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   state = {
     collection: [],
     meta: {},
     startConversationModal: false,
-    agent: {},
+    agent: null,
     editName: false,
-  }
+  };
 
   componentDidMount() {
-    this.getAgent()
+    this.getAgent();
   }
 
   getAgent = () => {
@@ -58,12 +69,12 @@ class ProfilePage extends Component {
       },
       {
         success: (data) => {
-          this.setState({ agent: data.app.agent })
+          this.setState({ agent: data.app.agent });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   fetchUserConversations = () => {
     graphql(
@@ -76,17 +87,17 @@ class ProfilePage extends Component {
       },
       {
         success: (data) => {
-          const { collection } = data.app.appUser.conversations
-          this.setState({ collection: collection })
+          const { collection } = data.app.appUser.conversations;
+          this.setState({ collection: collection });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   openStartConversationModal = () => {
-    this.setState({ startConversationModal: true })
-  }
+    this.setState({ startConversationModal: true });
+  };
 
   handleSubmit = ({ html, serialized, text }) => {
     graphql(
@@ -98,12 +109,12 @@ class ProfilePage extends Component {
       },
       {
         success: (data) => {
-          console.log(data.startConversation)
+          console.log(data.startConversation);
         },
         errors: () => {},
       }
-    )
-  }
+    );
+  };
 
   updateState = (option) => {
     graphql(
@@ -115,17 +126,17 @@ class ProfilePage extends Component {
       },
       {
         success: () => {
-          this.props.dispatch(getAppUser(parseInt(this.state.agent.id)))
+          this.props.dispatch(getAppUser(parseInt(this.state.agent.id)));
           // data.appUserUpdateData.appUser
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   toggleNameEdit = () => {
-    this.setState({ editName: !this.state.editName })
-  }
+    this.setState({ editName: !this.state.editName });
+  };
 
   handleEnter = (e) => {
     if (e.key === 'Enter') {
@@ -140,14 +151,14 @@ class ProfilePage extends Component {
         },
         {
           success: () => {
-            this.setState({ editName: false })
-            this.getAgent()
+            this.setState({ editName: false });
+            this.getAgent();
           },
           error: () => {},
         }
-      )
+      );
     }
-  }
+  };
 
   updateAgentLogo = (signedBlobId) => {
     graphql(
@@ -161,38 +172,34 @@ class ProfilePage extends Component {
       },
       {
         success: () => {
-          this.setState({ editName: false })
-          this.getAgent()
+          this.setState({ editName: false });
+          this.getAgent();
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
-  uploadHandler = (file, kind) => {
+  uploadHandler = (file, kind = null) => {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            _serviceUrl,
-          } = data.createDirectUpload.directUpload
+          const { signedBlobId, headers, url, _serviceUrl } =
+            data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
-            const params = {}
-            params[kind] = signedBlobId
+            const params = {};
+            params[kind] = signedBlobId;
 
-            this.updateAgentLogo(signedBlobId)
-          })
+            this.updateAgentLogo(signedBlobId);
+          });
         },
         error: (error) => {
-          console.log('error on signing blob', error)
+          console.log('error on signing blob', error);
         },
-      })
-    })
-  }
+      });
+    });
+  };
 
   optionsForFilter = () => {
     const options = [
@@ -218,10 +225,10 @@ class ProfilePage extends Component {
         id: 'unsubscribe',
         state: 'unsubscribed',
       },
-    ]
+    ];
 
-    return options
-  }
+    return options;
+  };
 
   toggleButton = (clickHandler) => {
     return (
@@ -235,89 +242,97 @@ class ProfilePage extends Component {
           <MoreIcon />
         </button>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return (
       <div>
         <div className="border-b flex items-center justify-between bg-gray-900 text-white">
           <div className="flex m-6 items-center">
-            <div classes={'mr-3 flex flex-col items-center'}>
-              {this.state.agent.avatarUrl && (
-                <Avatar
-                  size={20}
-                  src={this.state.agent.avatarUrl + '&s=120px'}
-                />
-              )}
-
-              <div>
-                <input
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  // className={classes.input}
-                  id={'avatarUpload'}
-                  onChange={(e) => this.uploadHandler(e.currentTarget.files[0])}
-                  // multiple
-                  type="file"
-                />
-                <label
-                  htmlFor={'avatarUpload'}
-                  className="text-sm leading-5 text-gray-500"
-                >
-                  Upload avatar
-                </label>
-              </div>
-            </div>
-
-            <div className="flex flex-col ml-3">
-              <h5 className="flex text-2xl leading-9 font-extrabold tracking-tight text-gray-100 sm:text-2xl sm:leading-10">
-                {
-                  this.state.editName ? (
-                    <TextField
-                      type={'text'}
-                      // className={classes.input}
-                      onKeyUp={this.handleEnter}
-                      defaultValue={this.state.agent.name}
-                      placeholder="enter agent's name"
+            {this.state.agent && (
+              <>
+                <div className={'mr-3 flex flex-col items-center'}>
+                  {this.state.agent.avatarUrl && (
+                    <Avatar
+                      size={20}
+                      src={this.state.agent.avatarUrl + '&s=120px'}
                     />
-                  ) : (
-                    this.state.agent.name || 'no name'
-                  )
+                  )}
 
-                  /* <input defaultValue={this.state.agent.name || 'no name'}/> */
-                }
-                <Button
-                  variant="icon"
-                  onClick={this.toggleNameEdit}
-                  color={'inherit'}
-                >
-                  <EditIcon />
-                </Button>
-              </h5>
+                  <div>
+                    <input
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      // className={classes.input}
+                      id={'avatarUpload'}
+                      onChange={(e) =>
+                        this.uploadHandler(e.currentTarget.files[0])
+                      }
+                      // multiple
+                      type="file"
+                    />
+                    <label
+                      htmlFor={'avatarUpload'}
+                      className="text-sm leading-5 text-gray-500"
+                    >
+                      Upload avatar
+                    </label>
+                  </div>
+                </div>
 
-              <p className="leading-4 font-normal tracking-tight text-gray-100 sm:text-2xl sm:leading-4">
-                {this.state.agent.email}
-              </p>
+                <div className="flex flex-col ml-3">
+                  <h5 className="flex text-2xl leading-9 font-extrabold tracking-tight text-gray-100 sm:text-2xl sm:leading-10">
+                    {
+                      this.state.editName ? (
+                        <TextField
+                          type={'text'}
+                          // className={classes.input}
+                          onKeyUp={this.handleEnter}
+                          defaultValue={this.state.agent.name}
+                          placeholder="enter agent's name"
+                        />
+                      ) : (
+                        this.state.agent.name || 'no name'
+                      )
 
-              <p variant={'subtitle1'}>
-                {this.state.agent.city}
-                {this.state.agent.country}
-              </p>
+                      /* <input defaultValue={this.state.agent.name || 'no name'}/> */
+                    }
+                    <Button
+                      variant="icon"
+                      onClick={this.toggleNameEdit}
+                      color={'inherit'}
+                    >
+                      <EditIcon />
+                    </Button>
+                  </h5>
 
-              <p variant={'caption'}>{this.state.agent.state}</p>
+                  <p className="leading-4 font-normal tracking-tight text-gray-100 sm:text-2xl sm:leading-4">
+                    {this.state.agent.email}
+                  </p>
+
+                  <p>
+                    {this.state.agent.city}
+                    {this.state.agent.country}
+                  </p>
+
+                  <p>{this.state.agent.state}</p>
+                </div>
+              </>
+            )}
+          </div>
+
+          {this.state.agent && (
+            <div className="controls">
+              <FilterMenu
+                options={this.optionsForFilter()}
+                value={this.state.agent.state}
+                filterHandler={(e) => this.updateState(e.state)}
+                triggerButton={this.toggleButton}
+                position={'right'}
+              />
             </div>
-          </div>
-
-          <div className="controls">
-            <FilterMenu
-              options={this.optionsForFilter()}
-              value={this.props.app_user.state}
-              filterHandler={(e) => this.updateState(e.state)}
-              triggerButton={this.toggleButton}
-              position={'right'}
-            />
-          </div>
+          )}
         </div>
 
         <Content>
@@ -328,10 +343,9 @@ class ProfilePage extends Component {
               </div>
 
               <div>
-                {this.state.agent.conversations &&
+                {this.state.agent &&
+                  this.state.agent.conversations &&
                   this.state.agent.conversations.collection.map((o) => {
-                    const user = o.mainParticipant
-                    console.log('ssss', o)
                     return (
                       <div
                         key={o.id}
@@ -341,22 +355,9 @@ class ProfilePage extends Component {
                           )
                         }
                       >
-                        <UserListItem
-                          value={null}
-                          app={this.props.app}
-                          mainUser={user}
-                          object={o.id}
-                          messageUser={o.lastMessage.appUser}
-                          showUserDrawer={this.showUserDrawer}
-                          messageObject={o.lastMessage}
-                          conversation={o}
-                          // createdAt={o.lastMessage.message.created_at}
-                          message={sanitizeHtml(
-                            o.lastMessage.message.htmlContent
-                          ).substring(0, 250)}
-                        />
+                        <UserListItem app={this.props.app} conversation={o} />
                       </div>
-                    )
+                    );
                   })}
               </div>
             </div>
@@ -382,18 +383,18 @@ class ProfilePage extends Component {
           />
         ) : null}
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { app_user, app } = state
+  const { app_user, app } = state;
   return {
     app_user,
     app,
-  }
+  };
 }
 
 // export default ShowAppContainer
 
-export default withRouter(connect(mapStateToProps)(ProfilePage))
+export default withRouter(connect(mapStateToProps)(ProfilePage));

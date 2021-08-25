@@ -42,7 +42,7 @@ function getApp(app) {
   }
 }
 
-export function updateApp(appParams, cb) {
+export function updateApp(appParams, cb=null) {
   return (dispatch, getState) => {
     graphql(
       UPDATE_APP,

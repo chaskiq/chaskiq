@@ -210,7 +210,6 @@ function UserProfileCard({ app, app_user }) {
                                 }
                                 return (
                                   <p
-                                    variant={'caption'}
                                     key={`app-user-${o.provider}-${app_user.id}-${i}`}
                                   >
                                     {<b>{a}:</b>}

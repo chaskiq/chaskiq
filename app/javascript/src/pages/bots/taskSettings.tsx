@@ -5,7 +5,7 @@ import Input from '@chaskiq/components/src/components/forms/Input';
 
 import I18n from '../../shared/FakeI18n';
 
-const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
+const TaskSettingsForm = ({ app, data, updateData, saveData }) => {
   const [state, _setState] = useState(data || {});
 
   function update(data) {
@@ -16,13 +16,7 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
 
   return (
     <div>
-      <Schedule
-        app={app}
-        updateData={update}
-        data={data}
-        namespace={'scheduling'}
-        submit={() => saveData(state)}
-      />
+      <Schedule app={app} updateData={update} data={data} />
 
       {/* <UrlPaths
         app={app}
@@ -44,7 +38,7 @@ const TaskSettingsForm = ({ app, data, updateData, saveData, _errors }) => {
   );
 };
 
-function Schedule({ app, data, updateData, _namespace, _submit }) {
+function Schedule({ app, data, updateData }) {
   const [state, setState] = React.useState(data);
 
   useEffect(() => {

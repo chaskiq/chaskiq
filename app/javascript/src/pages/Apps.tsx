@@ -1,26 +1,26 @@
 // src/App.js
-import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import I18n from '../shared/FakeI18n'
+import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import I18n from '../shared/FakeI18n';
 
-import bg from '../images/bg/welcome-icon8.png'
+import bg from '../images/bg/welcome-icon8.png';
 
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import LoadingView from '@chaskiq/components/src/components/loadingView'
-import Badge from '@chaskiq/components/src/components/Badge'
-import Card from '@chaskiq/components/src/components/Card'
+import LoadingView from '@chaskiq/components/src/components/loadingView';
+import Badge from '@chaskiq/components/src/components/Badge';
+import Card from '@chaskiq/components/src/components/Card';
 
-import { connect } from 'react-redux'
-import logo from '../images/favicon.png'
+import { connect } from 'react-redux';
+import logo from '../images/favicon.png';
 
-import { APPS } from '@chaskiq/store/src/graphql/queries'
+import { APPS } from '@chaskiq/store/src/graphql/queries';
 
-import { setCurrentSection } from '@chaskiq/store/src/actions/navigation'
+import { setCurrentSection } from '@chaskiq/store/src/actions/navigation';
 
-import { clearApp } from '@chaskiq/store/src/actions/app'
+import { clearApp } from '@chaskiq/store/src/actions/app';
 
 const Container = styled.div`
   background: url(${bg});
@@ -28,27 +28,27 @@ const Container = styled.div`
   background-position-x: right;
   height: 100vh;
   marginbottom: 0px;
-`
+`;
 
 function App({ dispatch, loading }) {
-  const [apps, setApps] = React.useState([])
-  const [ready, setReady] = React.useState(false)
+  const [apps, setApps] = React.useState([]);
+  const [ready, setReady] = React.useState(false);
 
   React.useEffect(() => {
-    dispatch(setCurrentSection(null))
-    dispatch(clearApp())
+    dispatch(setCurrentSection(null));
+    dispatch(clearApp());
     graphql(
       APPS,
       {},
       {
         success: (data) => {
-          setApps(data.apps)
-          setReady(true)
+          setApps(data.apps);
+          setReady(true);
         },
         error: () => {},
       }
-    )
-  }, [])
+    );
+  }, []);
 
   return (
     <Container className="h-screen flex overflow-hidden bg-white">
@@ -73,10 +73,7 @@ function App({ dispatch, loading }) {
           </button>
         </div>
 
-        <main
-          className="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6 h-screen"
-          tabIndex="0"
-        >
+        <main className="flex-1 relative z-0 overflow-y-auto pt-2 pb-6 focus:outline-none md:py-6 h-screen">
           {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
             </div> */}
@@ -146,18 +143,18 @@ function App({ dispatch, loading }) {
         </main>
       </div>
     </Container>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, app } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     app,
     loading,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(App))
+export default withRouter(connect(mapStateToProps)(App));

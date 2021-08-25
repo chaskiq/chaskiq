@@ -5,7 +5,7 @@ import { CheckmarkIcon } from './icons';
 type FilterMenuProps = {
   filterHandler: (option: any, clickHandler: any) => void;
   value: string;
-  triggerButton: any;
+  triggerButton?: any;
   options: any;
   position?: 'left' | 'right';
   origin?: string;

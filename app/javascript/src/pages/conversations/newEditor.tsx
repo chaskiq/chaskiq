@@ -70,11 +70,7 @@ export const ChatEditorInput = styled.div`
   }
 `;
 
-type InputProps = {
-  ref: any;
-};
-
-const Input = styled.textarea<InputProps>`
+const Input = styled.textarea<any>`
   margin: 0px;
   width: 100%;
   height: 73px;
@@ -458,7 +454,7 @@ export default class ChatEditor extends Component<
 }
 
 function FallbackEditor({ insertComment, setDisabled, loading, saveContent }) {
-  const input: React.RefObject<HTMLInputElement> = React.createRef();
+  const input: React.RefObject<HTMLTextAreaElement> = React.createRef();
 
   function convertToDraft(sampleMarkup) {
     const blockRenderMap = Map({

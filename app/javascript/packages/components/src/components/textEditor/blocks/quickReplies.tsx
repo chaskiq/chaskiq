@@ -1,17 +1,23 @@
-import React from 'react'
-import { BookMarkIcon } from '../../icons'
+import React from 'react';
+import { BookMarkIcon } from '../../icons';
 
 function appPackage() {
-  return <BookMarkIcon />
+  return <BookMarkIcon />;
 }
 
 export default class quickReplyBlock extends React.Component {
   render = () => {
-    return <span></span>
-  }
+    return <span></span>;
+  };
 }
 
-export const QuickRepliesBlockConfig = (options = {}) => {
+type QuickRepliesBlockConfigType = {
+  handleFunc?: any;
+};
+
+export const QuickRepliesBlockConfig = (
+  options: QuickRepliesBlockConfigType = {}
+) => {
   const config = {
     title: 'Add quick reply',
     type: 'QuickReply',
@@ -28,7 +34,7 @@ export const QuickRepliesBlockConfig = (options = {}) => {
       funcHandler: options.handleFunc,
       insert_block: 'quickReplyBlock',
     },
-  }
+  };
 
-  return Object.assign(config, options)
-}
+  return Object.assign(config, options);
+};

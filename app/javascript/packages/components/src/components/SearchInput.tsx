@@ -1,9 +1,9 @@
-import React from 'react'
-
-import { SeachIcon } from './icons'
+import React from 'react';
+import I18n from '../../../../src/shared/FakeI18n';
+import { SeachIcon } from './icons';
 
 export default function SearchInput({ onSubmit, placeholder, defaultValue }) {
-  const [value, setValue] = React.useState(defaultValue)
+  const [value, setValue] = React.useState(defaultValue);
 
   return (
     <div className="my-4">
@@ -16,7 +16,7 @@ export default function SearchInput({ onSubmit, placeholder, defaultValue }) {
             id="email"
             value={value}
             onChange={(e) => {
-              setValue(e.target.value)
+              setValue(e.target.value);
             }}
             className="py-3 border border-r-none dark:border-white dark:bg-black 
             block w-full rounded-none rounded-l-md pl-10 transition ease-in-out 
@@ -38,5 +38,5 @@ export default function SearchInput({ onSubmit, placeholder, defaultValue }) {
         </button>
       </div>
     </div>
-  )
+  );
 }

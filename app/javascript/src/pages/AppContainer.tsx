@@ -1,49 +1,55 @@
-import React from 'react'
+import React from 'react';
 
-import { Switch, Route, withRouter } from 'react-router-dom'
-import { isEmpty } from 'lodash'
-import Dashboard from './Dashboard'
-import Platform from './Platform'
-import Conversations from './Conversations'
-import Settings from './Settings'
-import MessengerSettings from './MessengerSettings'
-import Team from './Team'
-import Webhooks from './Webhooks'
-import Integrations from './Integrations'
-import Articles from './Articles'
-import Bots from './Bots'
-import Campaigns from './Campaigns'
-import Profile from './Profile'
-import AgentProfile from './AgentProfile'
-import Billing from './Billing'
-import Api from './Api'
-import Reports from './Reports'
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { isEmpty } from 'lodash';
+import Dashboard from './Dashboard';
+import Platform from './Platform';
+import Conversations from './Conversations';
+import Settings from './Settings';
+import MessengerSettings from './MessengerSettings';
+import Team from './Team';
+import Webhooks from './Webhooks';
+import Integrations from './Integrations';
+import Articles from './Articles';
+import Bots from './Bots';
+import Campaigns from './Campaigns';
+import Profile from './Profile';
+import AgentProfile from './AgentProfile';
+import Billing from './Billing';
+import Api from './Api';
+import Reports from './Reports';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-import UpgradePage from './UpgradePage'
+import UpgradePage from './UpgradePage';
 // import Pricing from '../pages/pricingPage'
 
-import actioncable from 'actioncable'
-import CampaignHome from './campaigns/home'
-import Progress from '@chaskiq/components/src/components/Progress'
-import UserSlide from '@chaskiq/components/src/components/UserSlide'
+import actioncable from 'actioncable';
+import CampaignHome from './campaigns/home';
+import Progress from '@chaskiq/components/src/components/Progress';
+import UserSlide from '@chaskiq/components/src/components/UserSlide';
 
-import { toggleDrawer } from '@chaskiq/store/src/actions/drawer'
-import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
-import { appendConversation } from '@chaskiq/store/src/actions/conversations'
-import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns'
-import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc'
-import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users'
-import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription'
-import { setApp } from '@chaskiq/store/src/actions/app'
-import { camelizeKeys } from '@chaskiq/store/src/actions/conversation'
+import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
+import { appendConversation } from '@chaskiq/store/src/actions/conversations';
+import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns';
+import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
+import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
+import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
+import { setApp } from '@chaskiq/store/src/actions/app';
+import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
 
-import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard'
-import LoadingView from '@chaskiq/components/src/components/loadingView'
-import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
+import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
+import LoadingView from '@chaskiq/components/src/components/loadingView';
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 
-import Sidebar from '../layout/sidebar'
+import Sidebar from '../layout/sidebar';
+
+declare global {
+  interface Window {
+    chaskiq_cable_url: any;
+  }
+}
 
 function AppContainer({
   match,
@@ -62,32 +68,32 @@ function AppContainer({
     cable: actioncable.createConsumer(
       `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`
     ),
-  })
+  });
 
-  const [_subscribed, setSubscribed] = React.useState(null)
+  const [_subscribed, setSubscribed] = React.useState(null);
 
   React.useEffect(() => {
-    dispatch(getCurrentUser())
+    dispatch(getCurrentUser());
     fetchApp(() => {
-      eventsSubscriber(match.params.appId)
-    })
-  }, [match.params.appId])
+      eventsSubscriber(match.params.appId);
+    });
+  }, [match.params.appId]);
 
   const fetchApp = (cb) => {
-    const id = match.params.appId
+    const id = match.params.appId;
     dispatch(
       setApp(id, {
         success: () => {
-          cb && cb()
+          cb && cb();
         },
       })
-    )
-  }
+    );
+  };
 
   const eventsSubscriber = (id) => {
     // unsubscribe cable ust in case
     if (CableApp.current.events) {
-      CableApp.current.events.unsubscribe()
+      CableApp.current.events.unsubscribe();
     }
 
     CableApp.current.events = CableApp.current.cable.subscriptions.create(
@@ -97,55 +103,55 @@ function AppContainer({
       },
       {
         connected: () => {
-          console.log('connected to events')
-          setSubscribed(true)
+          console.log('connected to events');
+          setSubscribed(true);
         },
         disconnected: () => {
-          console.log('disconnected from events')
-          setSubscribed(false)
+          console.log('disconnected from events');
+          setSubscribed(false);
         },
         received: (data) => {
           // console.log('received', data)
           switch (data.type) {
             case 'conversation_part':
-              return dispatch(appendConversation(camelizeKeys(data.data)))
+              return dispatch(appendConversation(camelizeKeys(data.data)));
             case 'presence':
-              return updateUser(camelizeKeys(data.data))
+              return updateUser(camelizeKeys(data.data));
             case 'rtc_events':
-              return dispatch(updateRtcEvents(data))
+              return dispatch(updateRtcEvents(data));
             case 'campaigns':
-              return dispatch(updateCampaignEvents(data.data))
+              return dispatch(updateCampaignEvents(data.data));
             case 'paddle:subscription':
               fetchApp(() => {
-                dispatch(setSubscriptionState(data.data))
-              })
-              return null
+                dispatch(setSubscriptionState(data.data));
+              });
+              return null;
             default:
-              return null
+              return null;
           }
         },
         notify: () => {
-          console.log('notify!!')
+          console.log('notify!!');
         },
         handleMessage: () => {
-          console.log('handle message')
+          console.log('handle message');
         },
       }
-    )
+    );
 
     // window.cable = CableApp
-  }
+  };
 
   function updateUser(data) {
-    dispatch(updateAppUserPresence(data))
+    dispatch(updateAppUserPresence(data));
   }
 
   function handleSidebar() {
-    dispatch(toggleDrawer({ open: !drawer.open }))
+    dispatch(toggleDrawer({ open: !drawer.open }));
   }
 
   function handleUserSidebar() {
-    dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }))
+    dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }));
   }
 
   return (
@@ -294,7 +300,7 @@ function AppContainer({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
@@ -309,9 +315,9 @@ function mapStateToProps(state) {
     navigation,
     paddleSubscription,
     upgradePages,
-  } = state
-  const { loading, isAuthenticated, accessToken } = auth
-  const { current_section } = navigation
+  } = state;
+  const { loading, isAuthenticated, accessToken } = auth;
+  const { current_section } = navigation;
   return {
     segment,
     app_users,
@@ -325,7 +331,7 @@ function mapStateToProps(state) {
     paddleSubscription,
     upgradePages,
     accessToken,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(AppContainer))
+export default withRouter(connect(mapStateToProps)(AppContainer));

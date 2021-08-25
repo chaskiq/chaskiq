@@ -26,7 +26,7 @@ type CampaignSettingsProps = {
   mode: string;
   history: any;
   app: any;
-  updateData: (val: any) => void;
+  updateData: (val: any, cb?: any) => void;
   successMessage: () => void;
 };
 type CampaignSettingsState = {

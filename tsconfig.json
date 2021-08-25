@@ -5,6 +5,7 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "lib": ["es6", "dom"],
+    "resolveJsonModule": true,
     "target": "esnext",
     "module": "commonjs",
     "moduleResolution": "node",

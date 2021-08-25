@@ -8,7 +8,7 @@ export type Props = {
 export default function Content({ children, actions }: Props) {
   return (
     <main
-      className="flex-1 relative z-0 overflow-y-auto
+      className="flex-1 relative z-0 overflow-y-auto--
     pt-2 pb-6 focus:outline-none md:py-6 h-screen"
     >
       {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">

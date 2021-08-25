@@ -6,7 +6,7 @@ interface DeleteDialogProps {
   children?: React.ReactNode;
   title: string;
   deleteHandler: Function;
-  closeHandler: Function;
+  closeHandler?: Function;
   open: boolean;
 }
 

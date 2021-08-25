@@ -385,16 +385,18 @@ export function playSound() {
   pling.play()
 }
 
-const initialState = {}
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state: any = {}, action : {
+  type: string,
+  data: any
+} = null )  {
   switch (action.type) {
     case ActionTypes.GetConversation: {
       return action.data
     }
     case ActionTypes.UpdateConversation: {
-      return Object.merge({}, action.data, state)
+      return { ...action.data, ...state}
     }
     default:
       return state

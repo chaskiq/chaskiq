@@ -1,17 +1,23 @@
-import React from 'react'
-import { WidgetsIcon } from '../../icons'
+import React from 'react';
+import { WidgetsIcon } from '../../icons';
 
 function appPackage() {
-  return <WidgetsIcon />
+  return <WidgetsIcon />;
 }
 
 export default class AppPackage extends React.Component {
   render = () => {
-    return <span></span>
-  }
+    return <span></span>;
+  };
 }
 
-export const AppPackageBlockConfig = (options = {}) => {
+type AppPackageBlockConfigType = {
+  handleFunc?: any;
+};
+
+export const AppPackageBlockConfig = (
+  options: AppPackageBlockConfigType = {}
+) => {
   const config = {
     title: 'add AppPackage',
     type: 'AppPackage',
@@ -28,7 +34,7 @@ export const AppPackageBlockConfig = (options = {}) => {
       funcHandler: options.handleFunc,
       insert_block: 'AppPackage',
     },
-  }
+  };
 
-  return Object.assign(config, options)
-}
+  return Object.assign(config, options);
+};

@@ -1,32 +1,58 @@
-import React, { Component } from 'react'
-import styled from '@emotion/styled'
-import { BannerRenderer } from '../../../packages/messenger/src/client_messenger/Banner' //'../../../client_messenger/Banner'
+import React, { Component } from 'react';
+import styled from '@emotion/styled';
+import { BannerRenderer } from '../../../packages/messenger/src/client_messenger/Banner'; //'../../../client_messenger/Banner'
 
-import serialize from 'form-serialize'
-import I18n from '../../shared/FakeI18n'
+import serialize from 'form-serialize';
+import I18n from '../../shared/FakeI18n';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import TextEditor from '@chaskiq/components/src/components/textEditor'
-import Button from '@chaskiq/components/src/components/Button'
-import Badge from '@chaskiq/components/src/components/Badge'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import BrowserSimulator from '@chaskiq/components/src/components/BrowserSimulator'
-import { VisibilityRounded } from '@chaskiq/components/src/components/icons'
+import graphql from '@chaskiq/store/src/graphql/client';
+import TextEditor from '@chaskiq/components/src/components/textEditor';
+import Button from '@chaskiq/components/src/components/Button';
+import Badge from '@chaskiq/components/src/components/Badge';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import BrowserSimulator from '@chaskiq/components/src/components/BrowserSimulator';
+import { VisibilityRounded } from '@chaskiq/components/src/components/icons';
 
 import {
   UPDATE_CAMPAIGN,
   DELIVER_CAMPAIGN,
-} from '@chaskiq/store/src/graphql/mutations'
-import { AGENTS } from '@chaskiq/store/src/graphql/queries'
+} from '@chaskiq/store/src/graphql/mutations';
+import { AGENTS } from '@chaskiq/store/src/graphql/queries';
 
-const EditorContentWrapper = styled.div``
+type CampaignEditorProps = {
+  data: any;
+  updateData: (val: any, o: any) => void;
+  app: any;
+  mode: any;
+};
+type CampaignEditorState = {
+  loading: boolean;
+  currentContent: string;
+  diff: any;
+  videoSession: any;
+  selectionPosition: any;
+  incomingSelectionPosition: any;
+  data: any;
+  status: any;
+  read_only: boolean;
+  preview: boolean;
+  height: string;
+  bannerData: any;
+};
 
-export default class CampaignEditor extends Component {
+export default class CampaignEditor extends Component<
+  CampaignEditorProps,
+  CampaignEditorState
+> {
+  ChannelEvents: any;
+  conn: any;
+  menuResizeFunc: any;
+
   constructor(props) {
-    super(props)
-    this.ChannelEvents = null
-    this.conn = null
-    this.menuResizeFunc = null
+    super(props);
+    this.ChannelEvents = null;
+    this.conn = null;
+    this.menuResizeFunc = null;
     this.state = {
       loading: true,
       currentContent: null,
@@ -40,20 +66,20 @@ export default class CampaignEditor extends Component {
       preview: false,
       height: '73px',
       bannerData: this.props.data.bannerData,
-    }
+    };
   }
 
   saveContent = (content) => {
-    if (this.props.data.serializedContent === content.serialized) return
+    if (this.props.data.serializedContent === content.serialized) return;
 
     this.setState({
       status: 'saving...',
-    })
+    });
 
     const campaignParams = {
       html_content: content.html,
       serialized_content: content.serialized,
-    }
+    };
 
     // if(!isEmpty(this.state.bannerData))
     //  campaignParams = { ...campaignParams, ...this.state.bannerData }
@@ -62,18 +88,18 @@ export default class CampaignEditor extends Component {
       appKey: this.props.app.key,
       id: this.props.data.id,
       campaignParams: campaignParams,
-    }
+    };
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
-        this.props.updateData(data.campaignUpdate.campaign, null)
-        this.setState({ status: null })
+        this.props.updateData(data.campaignUpdate.campaign, null);
+        this.setState({ status: null });
       },
       error: () => {
-        this.setState({ status: 'error' })
+        this.setState({ status: 'error' });
       },
-    })
-  }
+    });
+  };
 
   updateFromBanner = (data) => {
     const params = {
@@ -83,69 +109,69 @@ export default class CampaignEditor extends Component {
         serialized_content: this.props.data.serializedContent,
         ...data,
       },
-    }
+    };
 
     graphql(UPDATE_CAMPAIGN, params, {
       success: (data) => {
-        this.props.updateData(data.campaignUpdate.campaign, null)
-        this.setState({ status: null })
+        this.props.updateData(data.campaignUpdate.campaign, null);
+        this.setState({ status: null });
       },
       error: () => {
-        this.setState({ status: 'error' })
+        this.setState({ status: 'error' });
       },
-    })
-  }
+    });
+  };
 
-  saveHandler = (_html3, _plain, _serialized) => {}
+  saveHandler = (_html3, _plain, _serialized) => {};
 
   uploadHandler = ({ serviceUrl, imageBlock }) => {
-    imageBlock.uploadCompleted(serviceUrl)
-  }
+    imageBlock.uploadCompleted(serviceUrl);
+  };
 
   handleSend = (_e) => {
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
-    }
+    };
 
     graphql(DELIVER_CAMPAIGN, params, {
       success: (data) => {
-        this.props.updateData(data.campaignDeliver.campaign, null)
-        this.setState({ status: 'saved' })
+        this.props.updateData(data.campaignDeliver.campaign, null);
+        this.setState({ status: 'saved' });
       },
       error: () => {},
-    })
-  }
+    });
+  };
 
   togglePreview = () => {
-    this.setState({ preview: !this.state.preview })
-  }
+    this.setState({ preview: !this.state.preview });
+  };
 
   placementOption = () => {
     if (
       this.props.data.bannerData.placement === 'top' &&
       this.props.data.bannerData.mode === 'floating'
     )
-      return { top: 8 }
+      return { top: 8 };
 
-    if (this.props.data.bannerData.placement === 'top') return { top: 0 }
+    if (this.props.data.bannerData.placement === 'top') return { top: 0 };
 
     if (
       this.props.data.bannerData.placement === 'bottom' &&
       this.props.data.bannerData.mode === 'floating'
     )
-      return { bottom: 8 }
+      return { bottom: 8 };
 
-    if (this.props.data.bannerData.placement === 'bottom') return { bottom: 0 }
-  }
+    if (this.props.data.bannerData.placement === 'bottom') return { bottom: 0 };
+  };
 
   heightHandler = (height) => {
-    this.setState({ height: height })
-  }
+    this.setState({ height: height });
+  };
 
   render() {
     return (
-      <EditorContentWrapper mode={this.props.mode}>
+      <div>
         <div className="h-12 flex flex-col justify-between w-full float-right m-4">
           <div className="w-full flex justify-end my-2">
             {this.state.status && (
@@ -181,7 +207,7 @@ export default class CampaignEditor extends Component {
                   toggleEditable={() => {
                     this.setState({
                       read_only: !this.state.read_only,
-                    })
+                    });
                   }}
                   data={{
                     serialized_content: this.props.data.serializedContent,
@@ -193,7 +219,7 @@ export default class CampaignEditor extends Component {
                   saveHandler={this.saveHandler}
                   updateState={({ _status, _statusButton, content }) => {
                     // console.log("get content", content);
-                    this.saveContent(content)
+                    this.saveContent(content);
                   }}
                 />
               )}
@@ -227,7 +253,7 @@ export default class CampaignEditor extends Component {
                     toggleEditable={() => {
                       this.setState({
                         read_only: !this.state.read_only,
-                      })
+                      });
                     }}
                     data={{
                       serialized_content: this.props.data.serializedContent,
@@ -239,7 +265,7 @@ export default class CampaignEditor extends Component {
                     saveHandler={this.saveHandler}
                     updateState={({ _status, _statusButton, content }) => {
                       // console.log("get content", content);
-                      this.saveContent(content)
+                      this.saveContent(content);
                     }}
                   />
                 }
@@ -257,8 +283,8 @@ export default class CampaignEditor extends Component {
             />
           </div>
         )}
-      </EditorContentWrapper>
-    )
+      </div>
+    );
   }
 }
 
@@ -297,30 +323,30 @@ function Preview({ campaign, app }) {
         src={`/apps/${app.key}/premailer/${campaign.id}?preview=true`}
       />
     </div>
-  )
+  );
 }
 
 function StyleBanner({ app, campaign, onChange }) {
-  const form = React.useRef(null)
-  const hidden = React.useRef(null)
+  const form = React.useRef(null);
+  const hidden = React.useRef(null);
 
   const [agent, setAgent] = React.useState(
     agentData(campaign.bannerData.sender_data)
-  )
+  );
 
   const [fontOptions, setFontOptions] = React.useState(
     campaign.bannerData.font_options || {}
-  )
+  );
 
-  const [agents, setAgents] = React.useState([])
-
-  React.useEffect(() => {
-    fetchAgents()
-  }, [])
+  const [agents, setAgents] = React.useState([]);
 
   React.useEffect(() => {
-    handleChange()
-  }, [agent, fontOptions])
+    fetchAgents();
+  }, []);
+
+  React.useEffect(() => {
+    handleChange();
+  }, [agent, fontOptions]);
 
   function fetchAgents() {
     graphql(
@@ -328,33 +354,33 @@ function StyleBanner({ app, campaign, onChange }) {
       { appKey: app.key },
       {
         success: (data) => {
-          const options = data.app.agents.map((o) => agentData(o))
-          setAgents(options)
+          const options = data.app.agents.map((o) => agentData(o));
+          setAgents(options);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function agentData(data) {
-    if (!data) return null
+    if (!data) return null;
     return {
       name: data.displayName || data.email,
       label: data.displayName || data.email,
       value: data.id,
-    }
+    };
   }
 
   function handleSubmit(e) {
-    e.preventDefault()
-    const data = serialize(form.current, { hash: true, empty: true })
-    console.log(data)
-    onChange(formattedData(data))
+    e.preventDefault();
+    const data = serialize(form.current, { hash: true, empty: true });
+    console.log(data);
+    onChange(formattedData(data));
   }
 
   function handleChange() {
-    const data = serialize(form.current, { hash: true, empty: true })
-    onChange(formattedData(data))
+    const data = serialize(form.current, { hash: true, empty: true });
+    onChange(formattedData(data));
   }
 
   function formattedData(data) {
@@ -368,10 +394,10 @@ function StyleBanner({ app, campaign, onChange }) {
       show_sender: data.show_sender,
       url: data.url,
       font_options: fontOptions,
-    }
+    };
   }
 
-  const bannerData = campaign.bannerData
+  const bannerData = campaign.bannerData;
 
   return (
     <form onSubmit={handleSubmit} ref={form}>
@@ -400,7 +426,7 @@ function StyleBanner({ app, campaign, onChange }) {
               type="select"
               options={agents}
               onChange={(data) => {
-                setAgent(data)
+                setAgent(data);
               }}
               defaultValue={agent}
               label="sender"
@@ -451,7 +477,7 @@ function StyleBanner({ app, campaign, onChange }) {
               { label: 'Ubuntu', value: 'Ubuntu' },
             ]}
             onChange={(data) => {
-              setFontOptions({ family: data.value })
+              setFontOptions({ family: data.value });
             }}
             defaultValue={{
               label: fontOptions.family,
@@ -467,8 +493,8 @@ function StyleBanner({ app, campaign, onChange }) {
             defaultValue={bannerData.bg_color}
             label="color"
             onChange={(color) => {
-              hidden.current.value = color
-              handleChange()
+              hidden.current.value = color;
+              handleChange();
             }}
           />
 
@@ -525,5 +551,5 @@ function StyleBanner({ app, campaign, onChange }) {
         </Button>
       </div>
     </form>
-  )
+  );
 }

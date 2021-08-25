@@ -1,6 +1,6 @@
 import { ActionType } from "../constants/action_types"
 
-export function toggleTheme(data, cb) {
+export function toggleTheme(data, cb=null) {
   return (dispatch, _getState) => {
     dispatch({
       type: 'THEME',

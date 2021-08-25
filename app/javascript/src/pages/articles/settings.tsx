@@ -34,10 +34,27 @@ import {
   setCurrentPage,
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation';
-class Settings extends Component {
+
+type SettingsProps = {
+  dispatch: any;
+  getSettings: any;
+  updateMemSettings: any;
+  settings: any;
+  update: any;
+  errors: any;
+  deleteLang: any;
+};
+
+type SettingsState = {
+  loading: boolean;
+  tabValue: number;
+  errors: any;
+};
+class Settings extends Component<SettingsProps, SettingsState> {
   state = {
     loading: true,
     tabValue: 0,
+    errors: null,
   };
 
   titleRef = null;
@@ -195,7 +212,7 @@ class Settings extends Component {
   tabsContent = () => {
     return (
       <Tabs
-        value={this.state.tabValue}
+        currentTab={this.state.tabValue}
         onChange={this.handleTabChange}
         textColor="inherit"
         tabs={[
@@ -207,7 +224,7 @@ class Settings extends Component {
                 // currentUser={this.props.currentUser}
                 data={this.props.settings}
                 update={this.props.update.bind(this)}
-                errorNamespace={'article_settings.'}
+                // errorNamespace={'article_settings.'}
                 // fetchApp={this.fetchApp}
                 // classes={this.props.classes}
                 definitions={this.definitionsForSettings}
@@ -231,15 +248,15 @@ class Settings extends Component {
                 </div>
 
                 <LanguageForm
-                  title={'Lang'}
+                  // title={'Lang'}
                   settings={this.props.settings}
                   // currentUser={this.props.currentUser}
-                  data={this.props.settings}
+                  // data={this.props.settings}
                   deleteLang={this.props.deleteLang.bind(this)}
                   update={this.props.update.bind(this)}
                   // fetchApp={this.fetchApp}
                   // classes={this.props.classes}
-                  definitions={this.definitionsForLang}
+                  // definitions={this.definitionsForLang}
                   errors={this.state.errors}
                   {...this.props}
                 />
@@ -254,6 +271,7 @@ class Settings extends Component {
                 // currentUser={this.props.currentUser}
                 data={this.props.settings}
                 update={this.props.update.bind(this)}
+                // errorNamespace={'article_settings.'}
                 // fetchApp={this.fetchApp}
                 // classes={this.props.classes}
                 definitions={this.definitionsForAppearance}
@@ -309,7 +327,14 @@ class Settings extends Component {
   }
 }
 
-class SettingsForm extends Component {
+type SettingsFormProps = {
+  update: (val: any) => void;
+  title: string;
+  definitions: () => Array<any>;
+  errors: any;
+  data: any;
+};
+class SettingsForm extends Component<SettingsFormProps> {
   formRef;
 
   onSubmitHandler = (e) => {
@@ -346,7 +371,7 @@ class SettingsForm extends Component {
                     namespace={'settings'}
                     data={field}
                     type={field.type}
-                    defaultValue={field.defaultValue}
+                    // defaultValue={field.defaultValue}
                     handler={field.handler}
                     // errorNamespace={this.props.errorNamespace}
                     props={{ data: this.props.data }}
@@ -379,7 +404,7 @@ function LanguageForm({ settings, update, deleteLang }) {
   const [selectedLang, _setSelectedLang] = React.useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null);
 
-  const formRef = React.createRef();
+  const formRef: any = React.createRef();
 
   function handleChange(e) {
     const val = e.value;
@@ -515,7 +540,6 @@ function LanguageForm({ settings, update, deleteLang }) {
         <div>
           {
             <Table
-              title={'laguages'}
               // meta={this.props.meta}
               data={settings.translations}
               // search={this.props.search}

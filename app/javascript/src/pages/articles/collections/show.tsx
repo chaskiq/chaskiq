@@ -11,7 +11,6 @@ import List, {
   ListItemText,
 } from '@chaskiq/components/src/components/List';
 import CircularProgress from '@chaskiq/components/src/components/Progress';
-import Input from '@chaskiq/components/src/components/forms/Input';
 import ContentHeader from '@chaskiq/components/src/components/PageHeader';
 import FormDialog from '@chaskiq/components/src/components/FormDialog';
 import ScrollableTabsButtonForce from '@chaskiq/components/src/components/scrollingTabs';
@@ -39,7 +38,28 @@ import {
   setCurrentPage,
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation';
-class CollectionDetail extends Component {
+
+type CollectionDetailProps = {
+  dispatch: any;
+  app: any;
+  match: any;
+  settings: any;
+};
+type CollectionDetailState = {
+  isOpen: boolean;
+  addArticlesDialog: boolean;
+  collection: any;
+  lang: string;
+  languages: any;
+  editSection: any;
+  loading: boolean;
+  submitEdit: any;
+};
+
+class CollectionDetail extends Component<
+  CollectionDetailProps,
+  CollectionDetailState
+> {
   state = {
     isOpen: false,
     addArticlesDialog: false,
@@ -47,6 +67,8 @@ class CollectionDetail extends Component {
     lang: 'en',
     languages: ['es', 'en'],
     editSection: null,
+    loading: false,
+    submitEdit: null,
   };
 
   titleRef = null;
@@ -277,29 +299,22 @@ class CollectionDetail extends Component {
           <form>
             <TextField
               id="collection-title"
-              // label="Name"
               type="text"
               placeholder={I18n.t('articles.title_placeholder')}
-              // helperText="Full width!"
               ref={(ref) => {
                 this.titleRef = ref;
               }}
               defaultValue={editSection ? editSection.title : null}
-              margin="normal"
             />
 
             <TextField
               id="collection-description"
               type="textarea"
-              // label="Description"
               placeholder={I18n.t('articles.description_placeholder')}
-              // helperText="Full width!"
-              multiline
               ref={(ref) => {
                 this.descriptionRef = ref;
               }}
               defaultValue={editSection ? editSection.description : null}
-              margin="normal"
             />
           </form>
         }
@@ -394,7 +409,7 @@ class CollectionDetail extends Component {
           ]}
         />
 
-        <div square={true} elevation={1}>
+        <div>
           <ScrollableTabsButtonForce
             // tabs={this.props.settings.availableLanguages}
             tabs={this.props.settings.availableLanguages.map((o) =>
@@ -420,7 +435,21 @@ class CollectionDetail extends Component {
   }
 }
 
-class AddArticleDialog extends Component {
+type AddArticleDialogProps = {
+  app: any;
+  isOpen: boolean;
+  handleClose?: any;
+  handleSubmit: (val: any) => void;
+};
+type AddArticleDialogState = {
+  articles: any;
+  isOpen: boolean;
+};
+
+class AddArticleDialog extends Component<
+  AddArticleDialogProps,
+  AddArticleDialogState
+> {
   state = {
     articles: [],
     isOpen: this.props.isOpen,
@@ -460,6 +489,7 @@ class AddArticleDialog extends Component {
     var chklength = chk_arr.length;
     var arr = [];
     for (let k = 0; k < chklength; k++) {
+      // @ts-ignore
       if (chk_arr[k].checked) arr.push(chk_arr[k].value);
     }
     return arr;

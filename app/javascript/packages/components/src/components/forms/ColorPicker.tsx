@@ -12,6 +12,7 @@ interface IColorPickerProps {
   label: string;
   placeholder?: string;
   colorHandler: Function;
+  defaultValue?: string;
   // label: 'Primary color';
   error?: string;
 }
@@ -46,11 +47,11 @@ export class ColorPicker extends React.Component<
   };
 
   render() {
-    const popover = {
+    const popover: React.CSSProperties = {
       position: 'absolute',
-      zIndex: '2',
+      zIndex: 2,
     };
-    const cover = {
+    const cover: React.CSSProperties = {
       position: 'fixed',
       top: '0px',
       right: '0px',
@@ -105,7 +106,6 @@ export class ColorPicker extends React.Component<
               color={this.state.value}
               onChange={this.handleColorChangeComplete}
             />
-            ;
           </div>
         )}
       </React.Fragment>

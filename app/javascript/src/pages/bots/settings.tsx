@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
-import Button from '@chaskiq/components/src/components/Button'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import Input from '@chaskiq/components/src/components/forms/Input'
+import Button from '@chaskiq/components/src/components/Button';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import Input from '@chaskiq/components/src/components/forms/Input';
 
-import I18n from '../../shared/FakeI18n'
+import I18n from '../../shared/FakeI18n';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
-import { setCurrentPage } from '@chaskiq/store/src/actions/navigation'
+import { setCurrentPage } from '@chaskiq/store/src/actions/navigation';
 
-import { updateApp } from '@chaskiq/store/src/actions/app'
+import { updateApp } from '@chaskiq/store/src/actions/app';
 
-import { AGENTS, BOT_TASKS } from '@chaskiq/store/src/graphql/queries'
+import { AGENTS, BOT_TASKS } from '@chaskiq/store/src/graphql/queries';
 
 const SettingsForm = ({ app, data, _errors, dispatch }) => {
-  const [tabValue, setTabValue] = useState(0)
-  const [_state, setState] = useState({})
-  const [agents, setAgents] = useState([])
-  const [tasks, setTasks] = useState([])
+  const [tabValue, setTabValue] = useState(0);
+  const [_state, setState] = useState({});
+  const [agents, setAgents] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    dispatch(setCurrentPage('bot_settings'))
-  }, [])
+    dispatch(setCurrentPage('bot_settings'));
+  }, []);
 
   function getAgents() {
     graphql(
@@ -32,11 +32,11 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
       { appKey: app.key },
       {
         success: (data) => {
-          setAgents(data.app.agents)
+          setAgents(data.app.agents);
         },
         error: (_error) => {},
       }
-    )
+    );
   }
 
   function getTasks(mode) {
@@ -45,23 +45,23 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
       { appKey: app.key, mode: mode },
       {
         success: (data) => {
-          setTasks(data.app.botTasks)
+          setTasks(data.app.botTasks);
         },
         error: (_error) => {},
       }
-    )
+    );
   }
 
   const getTasksFor = (name) => () => {
-    getTasks(name)
-  }
+    getTasks(name);
+  };
 
   //let formRef
 
   function tabsContent() {
     return (
       <Tabs
-        value={tabValue}
+        currentTab={tabValue}
         onChange={handleTabChange}
         textColor="inherit"
         tabs={[
@@ -73,8 +73,6 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
                 updateData={updateState}
                 agents={agents}
                 getAgents={getAgents}
-                tasks={tasks}
-                getTasks={getTasksFor('leads')}
                 submit={submit}
                 namespace={'lead_tasks_settings'}
               />
@@ -86,10 +84,6 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
               <UsersSettings
                 app={app}
                 updateData={updateState}
-                agents={agents}
-                getAgents={getAgents}
-                tasks={tasks}
-                getTasks={getTasksFor('users')}
                 submit={submit}
                 namespace={'user_tasks_settings'}
               />
@@ -97,30 +91,30 @@ const SettingsForm = ({ app, data, _errors, dispatch }) => {
           },
         ]}
       ></Tabs>
-    )
+    );
   }
 
   function submit(params) {
-    dispatch(updateApp(params))
+    dispatch(updateApp(params));
   }
 
   function handleTabChange(e, i) {
-    setTabValue(i)
+    setTabValue(i);
   }
 
   function updateState(newData) {
-    setState(Object.assign({}, data, newData))
+    setState(Object.assign({}, data, newData));
   }
 
   return (
     <div>
       <Content>
-        <ContentHeader title={I18n.t('task_bots.title')} items={[]} />
+        <ContentHeader title={I18n.t('task_bots.title')} />
         {tabsContent()}
       </Content>
     </div>
-  )
-}
+  );
+};
 
 function UsersSettings({
   app,
@@ -130,23 +124,23 @@ function UsersSettings({
   //tasks,
   //getTasks
 }) {
-  const [state, setState] = React.useState(app.userTasksSettings || {})
+  const [state, setState] = React.useState(app.userTasksSettings || {});
 
   useEffect(() => {
-    updateData({ users: state })
-  }, [state])
+    updateData({ users: state });
+  }, [state]);
 
   const handleChange = (name) => (event) => {
-    setState({ ...state, [name]: event.target.checked })
-  }
+    setState({ ...state, [name]: event.target.checked });
+  };
 
   /*const setValue = (name, value) => {
     setState({ ...state, [name]: value })
   }*/
 
   function submitData() {
-    const data = { [namespace]: state }
-    submit(data)
+    const data = { [namespace]: state };
+    submit(data);
   }
 
   return (
@@ -171,7 +165,7 @@ function UsersSettings({
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 function LeadsSettings({
@@ -184,11 +178,11 @@ function LeadsSettings({
   //tasks,
   //getTasks
 }) {
-  const [state, setState] = React.useState(app.leadTasksSettings || {})
+  const [state, setState] = React.useState(app.leadTasksSettings || {});
 
   useEffect(() => {
-    updateData({ leads: state })
-  }, [state])
+    updateData({ leads: state });
+  }, [state]);
 
   /*
   useEffect(() => {
@@ -197,21 +191,21 @@ function LeadsSettings({
   */
 
   const handleChange = (name) => (event) => {
-    setValue(name, event.target.checked)
-  }
+    setValue(name, event.target.checked);
+  };
 
   function handleRadioChange(event) {
-    const name = event.target.name
-    setState({ ...state, [name]: event.target.value })
+    const name = event.target.name;
+    setState({ ...state, [name]: event.target.value });
   }
 
   const setValue = (name, value) => {
-    setState({ ...state, [name]: value })
-  }
+    setState({ ...state, [name]: value });
+  };
 
   function submitData() {
-    const data = { [namespace]: state }
-    submit(data)
+    const data = { [namespace]: state };
+    submit(data);
   }
 
   return (
@@ -313,7 +307,6 @@ function LeadsSettings({
           defaultChecked={state.email_requirement === 'email_or_phone'}
           label={I18n.t('task_bots.settings.leads.ask_email_phone')}
           value="email_or_phone"
-          labelPlacement="end"
         />
 
         <Input
@@ -333,28 +326,28 @@ function LeadsSettings({
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
 function AgentSelector({ agents, getAgents, setValue, value }) {
-  const [selected, setSelected] = React.useState(value)
+  const [selected, setSelected] = React.useState(value);
 
   useEffect(() => {
-    getAgents()
-  }, [])
+    getAgents();
+  }, []);
 
   useEffect(() => {
-    setValue('assignee', selected)
-  }, [selected])
+    setValue('assignee', selected);
+  }, [selected]);
 
   function handleChange(e) {
-    setSelected(e.value)
+    setSelected(e.value);
   }
 
-  const selectedAgent = agents.find((o) => o.id === selected)
-  let defaultValue = null
+  const selectedAgent = agents.find((o) => o.id === selected);
+  let defaultValue = null;
   if (selectedAgent) {
-    defaultValue = { label: selectedAgent.email, value: selectedAgent.id }
+    defaultValue = { label: selectedAgent.email, value: selectedAgent.id };
   }
 
   return (
@@ -371,7 +364,7 @@ function AgentSelector({ agents, getAgents, setValue, value }) {
         options={agents.map((o) => ({ label: o.email, value: o.id }))}
       ></Input>
     </div>
-  )
+  );
 }
 
-export default SettingsForm
+export default SettingsForm;

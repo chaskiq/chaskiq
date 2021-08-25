@@ -10,7 +10,7 @@ export type HintType = {
 };
 
 const Hints = ({ type }) => {
-  const content: HintType = I18n.t('hints')[type];
+  const content: any = I18n.t('hints')[type];
 
   return (
     <React.Fragment>

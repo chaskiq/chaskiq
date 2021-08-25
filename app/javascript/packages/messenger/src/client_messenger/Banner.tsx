@@ -93,6 +93,17 @@ const DanteExtendedContainer = styled(DanteContainer)`
   ${tw`text-xs sm:text-lg`}
 `;
 
+type BannerStyleType = {
+  position: 'fixed';
+  left: string;
+  width: string;
+  height: string;
+  border: 'transparent';
+  zIndex: number;
+  top?: string;
+  bottom?: string;
+};
+
 export default function Banner({
   mode,
   placement,
@@ -109,7 +120,7 @@ export default function Banner({
 }) {
   const [height, setHeight] = React.useState('73px');
 
-  const style = {
+  const style: BannerStyleType = {
     position: 'fixed',
     left: '0px',
     width: '100%',

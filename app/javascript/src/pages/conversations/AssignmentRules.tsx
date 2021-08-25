@@ -368,7 +368,7 @@ function AssignmentRules({ dispatch, app }) {
           <SortableItem
             key={`item-${index}`}
             index={index}
-            value={value.id}
+            //value={value.id}
             object={value}
             edit={edit}
             deleteRule={() => deleteRule(value)}

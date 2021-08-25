@@ -139,9 +139,9 @@ function QuickReplies({ app, _update, dispatch }) {
       },
       {
         success: (_data) => {
-          setQuickReply(null);
           getQuickReplies();
           setOpenDeleteDialog(false);
+          setQuickReply(null);
           dispatch(successMessage('quick reply deleted successfully'));
         },
         error: (_err) => {
@@ -366,7 +366,7 @@ function QuickReplies({ app, _update, dispatch }) {
               <DeleteDialog
                 open={openDeleteDialog}
                 title={I18n.t('quick_replies.delete.title', {
-                  name: openDeleteDialog.title,
+                  name: quickReply.title,
                 })}
                 closeHandler={() => {
                   setOpenDeleteDialog(null);
@@ -459,7 +459,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
           fontSize: '1.2em',
         }}
         updateState={({ _status, _statusButton, content }) => {
-          console.log('get content', content);
+          //console.log('get content', content);
           this.saveContent(content);
         }}
       />

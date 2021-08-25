@@ -82,7 +82,7 @@ function UserData({ app_user, app, disableAvatar }) {
                           <svg
                             className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                             fill="currentColor"
-                            viewdiv="0 0 20 20"
+                            viewBox="0 0 20 20"
                           >
                             <path
                               fillRule="evenodd"
@@ -97,7 +97,7 @@ function UserData({ app_user, app, disableAvatar }) {
                         <svg
                           className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                           fill="currentColor"
-                          viewdiv="0 0 20 20"
+                          viewBox="0 0 20 20"
                         >
                           <path
                             fillRule="evenodd"

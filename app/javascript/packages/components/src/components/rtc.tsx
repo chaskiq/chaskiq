@@ -23,6 +23,7 @@ const REJECT_CALL = 'REJECT_CALL';
 // Ice Credentials
 
 function getDisplayStream() {
+  // @ts-ignore
   return navigator.mediaDevices.getDisplayMedia();
 }
 
@@ -33,6 +34,7 @@ class VideoCall {
       initiator: initiator,
       stream: stream,
       trickle: false,
+      // @ts-ignore
       reconnectTimer: 1000,
       iceTransportPolicy: 'relay',
       config: {
@@ -169,6 +171,7 @@ export function RtcView(props) {
         localVideo.current.muted = true;
         localVideo.current.setAttribute('muted', 'muted');
         localVideo.current.volume = 0;
+        // @ts-ignore
         resolve();
       }
     });

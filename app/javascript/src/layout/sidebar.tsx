@@ -55,6 +55,12 @@ import { signout } from '@chaskiq/store/src/actions/auth';
 
 import SwitchControl from '@chaskiq/components/src/components/Switch';
 
+declare global {
+  interface Window {
+    location: Location;
+  }
+}
+
 function mapStateToProps(state) {
   const {
     auth,
@@ -433,7 +439,7 @@ function Sidebar({
   function renderInner() {
     return categories
       .filter((o) => o.id === current_section)
-      .map(({ id, label, _icon, children }) => {
+      .map(({ id, label, children }) => {
         //  expanded={expanded === id}
         return (
           <div
@@ -635,7 +641,8 @@ function Sidebar({
                         {
                           id: 'edit-profile',
                           title: I18n.t('home.edit_profile'),
-                          onClick: () => (window.location = '/agents/edit'),
+                          onClick: () =>
+                            (window.location.href = '/agents/edit'),
                         },
                         {
                           id: 'toggle-dark-mode',

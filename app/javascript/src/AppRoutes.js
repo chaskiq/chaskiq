@@ -15,6 +15,7 @@ import LoadingView from '@chaskiq/components/src/components/loadingView';
 import Snackbar from '@chaskiq/components/src/components/Alert';
 
 import { clearLocks } from '@chaskiq/store/src/actions/upgradePages';
+import I18n from './shared/FakeI18n';
 
 function mapStateToProps(state) {
   const { auth, current_user, theme } = state;

@@ -161,6 +161,7 @@ type UploadeHandlerType = {
 };
 
 type ArticleEditorProps = {
+  forwardedRef?: any;
   serializedContent: string;
   setDisabled?: (val: any) => void;
   uploadHandler: (props: UploadeHandlerType) => void;
@@ -168,6 +169,7 @@ type ArticleEditorProps = {
   videoless?: boolean;
   appendWidgets?: Array<any>;
   updateState: (val: any) => void;
+  widgetsConfig?: any;
   data: any;
   campaign?: boolean;
   loading?: boolean;
@@ -176,7 +178,7 @@ type ArticleEditorProps = {
   theme?: any;
   inlineMenu?: boolean;
   tooltipsConfig?: any;
-  handleReturn?: (e: any, isEmptyDraft: boolean) => void;
+  handleReturn?: (e: any, isEmptyDraft: boolean, ctx?: any) => void;
   saveHandler?: (_html3: any, _plain: any, _serialized: any) => void;
 };
 
@@ -185,6 +187,7 @@ type ArticleEditorState = {
 };
 class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   initialContent: () => void;
+  dante_editor: any;
   constructor(props) {
     super(props);
     this.initialContent = this.defaultContent();
@@ -280,6 +283,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     //};
   };
 
+  /*
   generateDecorator = (_highlightTerm) => {
     //const regex = new RegExp(highlightTerm, "g");
     return new CompositeDecorator([
@@ -289,21 +293,21 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
             'processing entity!',
             this.state.incomingSelectionPosition.length
           );
-          /*if (this.state.incomingSelectionPosition.length > 0) {
+          if (this.state.incomingSelectionPosition.length > 0) {
           findSelectedBlockFromRemote(
             this.state.incomingSelectionPosition,
             contentBlock,
             callback
           )
-        }*/
-          /*if (highlightTerm !== '') {
+        }
+          if (highlightTerm !== '') {
           findWithRegex(regex, contentBlock, callback);
-        }*/
+        }
         },
         component: this.searchHighlight,
       },
     ]);
-  };
+  };*/
 
   setDisabled = (val) => {
     this.props.setDisabled && this.props.setDisabled(val);
@@ -633,10 +637,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
           }
 
           return (
-            <figure
-              className="graf--figure graf--iframe graf--first"
-              tabIndex="0"
-            >
+            <figure className="graf--figure graf--iframe graf--first">
               <div className="iframeContainer">{data.html}</div>
               <figcaption className="imageCaption">
                 <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
@@ -651,10 +652,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
 
         if (block.type === 'recorded-video') {
           return (
-            <figure
-              className="graf--figure graf--iframe graf--first"
-              tabIndex="0"
-            >
+            <figure className="graf--figure graf--iframe graf--first">
               <div className="iframeContainer">
                 <video
                   autoPlay={false}
@@ -718,7 +716,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
 
   render() {
     //const {forwardedRef, ...rest} = this.props;
-    const { forwardedRef } = this.props;
+    const { forwardedRef }: any = this.props;
 
     return (
       <ThemeProvider theme={theme}>

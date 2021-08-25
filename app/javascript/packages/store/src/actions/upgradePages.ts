@@ -1,13 +1,13 @@
 import actionTypes, {ActionType} from '../constants/action_types'
 
 export function lockPage(message) {
-  return (dispatch, _getState) => {
+  return (dispatch) => {
     dispatch(setLockPage(message))
   }
 }
 
 export function clearLocks() {
-  return (dispatch, _getState) => {
+  return (dispatch) => {
     dispatch(setLockPage({}))
   }
 }

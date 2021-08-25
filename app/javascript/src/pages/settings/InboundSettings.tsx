@@ -126,7 +126,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
   const [state, setState] = React.useState({
     enable_inbound: settings.inboundSettings.enabled,
 
-    user_enable_inbound: settings.inboundSettings.enabled,
+    users_enable_inbound: settings.inboundSettings.enabled,
     users_radio: settings.inboundSettings.users.segment,
     users_enabled: settings.inboundSettings.users.enabled,
     users_predicates: settings.inboundSettings.users.predicates,

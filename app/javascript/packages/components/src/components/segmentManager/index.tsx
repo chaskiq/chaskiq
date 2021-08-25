@@ -60,6 +60,14 @@ type SegmentManagerType = {
   updatePredicate: any;
   deletePredicate: any;
   addPredicate: any;
+
+  meta: any;
+  collection: any;
+  data: any;
+  search: any;
+  columns: any;
+  toggleMapView: any;
+  enableMapView: any;
 };
 
 export class SaveSegmentModal extends Component<SaveSegmentModalType> {
@@ -239,7 +247,6 @@ type InlineFilterDialogType = {
   addPredicate: any;
   app: any;
   fields?: any;
-  handleClick: any;
 };
 export function InlineFilterDialog({
   addPredicate,
@@ -365,7 +372,7 @@ class SegmentManager extends Component<SegmentManagerType> {
             {...this.props}
             app={this.props.app}
             addPredicate={this.props.addPredicate}
-            handleClick={this.handleClickOnSelectedFilter.bind(this)}
+            // handleClick={this.handleClickOnSelectedFilter.bind(this)}
           />
 
           {this.props.children}
@@ -376,14 +383,8 @@ class SegmentManager extends Component<SegmentManagerType> {
             meta={this.props.meta}
             data={this.props.collection}
             search={this.props.search}
-            loading={this.props.loading}
             columns={this.props.columns}
-            defaultHiddenColumnNames={this.props.defaultHiddenColumnNames}
-            tableColumnExtensions={this.props.tableColumnExtensions}
-            leftColumns={this.props.leftColumns}
-            rightColumns={this.props.rightColumns}
             toggleMapView={this.props.toggleMapView}
-            map_view={this.props.map_view}
             enableMapView={this.props.enableMapView}
           />
         }

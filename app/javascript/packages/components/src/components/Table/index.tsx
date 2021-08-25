@@ -7,9 +7,9 @@ import { MapIcon, ColumnsIcon, QueueIcon } from '../icons';
 import I18n from '../../../../../src/shared/FakeI18n';
 
 import {
-  sortableContainer,
-  sortableElement,
-  sortableHandle,
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
 } from 'react-sortable-hoc';
 
 type MetaType = {
@@ -23,6 +23,8 @@ type ColumnsType = {
   field: string;
   title: string;
   render?: (row: any) => React.ReactChild;
+  hidden?: boolean;
+  type?: any;
 };
 interface ITable {
   data: any;
@@ -51,11 +53,11 @@ export default function Table({
 
   const visibleColumns = () => tableColums.filter((o) => !o.hidden);
 
-  const SortableContainer = sortableContainer(({ children }) => {
+  const SortableList = SortableContainer(({ children }) => {
     return <tbody className="bg-white dark:bg-gray-800">{children}</tbody>;
   });
 
-  const DragHandle = sortableHandle(() =>
+  const DragHandle = SortableHandle(() =>
     renderDefaultRow(
       <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
     )
@@ -69,7 +71,7 @@ export default function Table({
     );
   };
 
-  const SortableItem = sortableElement(({ item, sortable }) => (
+  const SortableItem = SortableElement(({ item, sortable }) => (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-900">
       {sortable && <DragHandle></DragHandle>}
 
@@ -130,7 +132,7 @@ export default function Table({
               ))}
             </tr>
           </thead>
-          <SortableContainer onSortEnd={onSortEnd} useDragHandle>
+          <SortableList onSortEnd={onSortEnd} useDragHandle>
             {data &&
               data.map((o, index) => (
                 <SortableItem
@@ -140,7 +142,7 @@ export default function Table({
                   item={o}
                 />
               ))}
-          </SortableContainer>
+          </SortableList>
         </table>
       </div>
 
@@ -154,33 +156,35 @@ export default function Table({
 function Pagination({ meta, search }) {
   return (
     <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
-      <div className="flex-1 flex justify-between items-center">
-        <Button
-          onClick={() => search(meta.prev_page)}
-          disabled={!meta.prev_page}
-          variant="outlined"
-        >
-          {I18n.t('common.prev')}
-        </Button>
+      {meta && (
+        <div className="flex-1 flex justify-between items-center">
+          <Button
+            onClick={() => search(meta.prev_page)}
+            disabled={!meta.prev_page}
+            variant="outlined"
+          >
+            {I18n.t('common.prev')}
+          </Button>
 
-        <p className="text-sm leading-5 text-gray-700 dark:text-gray-50">
-          {I18n.t('common.showing')}
-          <span className="font-medium ml-1 mr-1">{meta.current_page}</span>
-          {I18n.t('common.to')}
-          <span className="font-medium ml-1 mr-1">{meta.total_pages}</span>
-          {I18n.t('common.of')}
-          <span className="font-medium ml-1 mr-1">{meta.total_count}</span>
-          {I18n.t('common.results')}
-        </p>
+          <p className="text-sm leading-5 text-gray-700 dark:text-gray-50">
+            {I18n.t('common.showing')}
+            <span className="font-medium ml-1 mr-1">{meta.current_page}</span>
+            {I18n.t('common.to')}
+            <span className="font-medium ml-1 mr-1">{meta.total_pages}</span>
+            {I18n.t('common.of')}
+            <span className="font-medium ml-1 mr-1">{meta.total_count}</span>
+            {I18n.t('common.results')}
+          </p>
 
-        <Button
-          disabled={!meta.next_page}
-          onClick={() => search(meta.next_page)}
-          variant="outlined"
-        >
-          {I18n.t('common.next')}
-        </Button>
-      </div>
+          <Button
+            disabled={!meta.next_page}
+            onClick={() => search(meta.next_page)}
+            variant="outlined"
+          >
+            {I18n.t('common.next')}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

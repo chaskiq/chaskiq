@@ -1,17 +1,23 @@
-import React from 'react'
-import Frame, { FrameContextConsumer } from 'react-frame-component'
-import createCache from '@emotion/cache'
-import { CacheProvider } from '@emotion/core'
-import baseStyles from './styles/reset'
+import React, { CSSProperties } from 'react';
+import Frame, { FrameContextConsumer } from 'react-frame-component';
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/core';
+import baseStyles from './styles/reset';
 
-class CssInjector extends React.Component {
+type CssInjectorType = {
+  document: any;
+  children: any;
+  window: any;
+};
+class CssInjector extends React.Component<CssInjectorType> {
+  cache: any;
   constructor(props) {
-    super(props)
+    super(props);
     // const iframe = document.getElementsByTagName('iframe')[0]
     // const iframe = document.getElementsByTagName('iframe')[0]
     // const iframeHead = iframe.contentDocument.head
-    const iframeHead = this.props.document.head
-    this.cache = createCache({ container: iframeHead })
+    const iframeHead = this.props.document.head;
+    this.cache = createCache({ container: iframeHead });
   }
 
   render() {
@@ -23,7 +29,7 @@ class CssInjector extends React.Component {
         })}
         {/* this.props.children */}
       </CacheProvider>
-    )
+    );
   }
 }
 
@@ -47,10 +53,23 @@ const initialFrameContent = `<!DOCTYPE html>
                                 <body>
                                 <div id="mountHere">
                                 </body>
-                              </html>`
-const mountTarget = '#mountHere'
+                              </html>`;
+const mountTarget = '#mountHere';
 
-const StyledFrame = ({ className, style, children, id, ...props }) => (
+type StyledFrame = {
+  className?: string;
+  style?: CSSProperties;
+  children: React.ReactChild;
+  id?: any;
+};
+
+const StyledFrame = ({
+  className,
+  style,
+  children,
+  id,
+  ...props
+}: StyledFrame) => (
   <Frame
     initialContent={initialFrameContent}
     mountTarget={mountTarget}
@@ -68,14 +87,14 @@ const StyledFrame = ({ className, style, children, id, ...props }) => (
             <CssInjector document={document} window={window}>
               {children}
             </CssInjector>
-          )
+          );
         }
       }
     </FrameContextConsumer>
   </Frame>
-)
+);
 
-export default StyledFrame
+export default StyledFrame;
 
 /*
 export default class StyledFrame extends React.Component {

@@ -1,27 +1,33 @@
-import React, { useEffect } from 'react'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import useScript from '@chaskiq/components/src/components/hooks/useScript'
-import logo from '../images/favicon.png'
+import React, { useEffect } from 'react';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import useScript from '@chaskiq/components/src/components/hooks/useScript';
+import logo from '../images/favicon.png';
 
-import './playground/cm.css'
-import './playground/dracula.css'
+import './playground/cm.css';
+import './playground/dracula.css';
 
-import { basic } from './playground/catalog'
-import { Link } from 'react-router-dom'
+import { basic } from './playground/catalog';
+import { Link } from 'react-router-dom';
+
+declare global {
+  interface Window {
+    CodeMirror: any;
+  }
+}
 
 export default function Playground() {
-  const [blocks, setBlocks] = React.useState(basic)
-  const [err, setErr] = React.useState(null)
+  const [blocks, setBlocks] = React.useState(basic);
+  const [err, setErr] = React.useState(null);
 
   const status = useScript(
     'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js'
-  )
+  );
 
   useEffect(() => {
     if (status === 'ready') {
-      initCodeMirror()
+      initCodeMirror();
     }
-  }, [status])
+  }, [status]);
 
   function initCodeMirror() {
     const editor = window.CodeMirror(
@@ -36,21 +42,21 @@ export default function Playground() {
         value: blocks,
         theme: 'dracula',
       }
-    )
+    );
 
     editor.on('change', (e) => {
-      const val = e.getDoc().getValue()
+      const val = e.getDoc().getValue();
       try {
-        JSON.parse(val)
+        JSON.parse(val);
       } catch (error) {
-        setErr(error.message)
-        console.log('ERORR SKIP', error)
-        return
+        setErr(error.message);
+        console.log('ERORR SKIP', error);
+        return;
       }
 
-      setErr(null)
-      setBlocks(val)
-    })
+      setErr(null);
+      setBlocks(val);
+    });
   }
 
   return (
@@ -86,5 +92,5 @@ export default function Playground() {
         <div id="code-mirror-wrapper" />
       </div>
     </div>
-  )
+  );
 }

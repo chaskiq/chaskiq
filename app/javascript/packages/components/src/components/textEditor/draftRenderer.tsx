@@ -188,11 +188,7 @@ const renderers = {
       const { html } = embed_data;
 
       return (
-        <figure
-          key={keys[0]}
-          className="graf--figure graf--iframe graf--first"
-          tabIndex="0"
-        >
+        <figure key={keys[0]} className="graf--figure graf--iframe graf--first">
           <div
             className="iframeContainer"
             dangerouslySetInnerHTML={{ __html: `${html}` }}
@@ -214,11 +210,7 @@ const renderers = {
       const { url, text } = data[0];
 
       return (
-        <figure
-          key={keys[0]}
-          className="graf--figure graf--iframe graf--first"
-          tabIndex="0"
-        >
+        <figure key={keys[0]} className="graf--figure graf--iframe graf--first">
           <div className="iframeContainer">
             <video
               autoPlay={false}

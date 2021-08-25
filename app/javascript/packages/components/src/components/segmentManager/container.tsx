@@ -236,7 +236,7 @@ class AppUsers extends Component<AppUsersProps, AppUsersState> {
 
           <InlineFilterDialog
             {...this.props}
-            handleClick={this.handleClickOnSelectedFilter.bind(this)}
+            //handleClick={this.handleClickOnSelectedFilter.bind(this)}
             addPredicate={this.props.actions.addPredicate}
           />
 
@@ -279,7 +279,7 @@ class AppUsers extends Component<AppUsersProps, AppUsersState> {
         this.props.segment.id ? (
           <Map
             interactive={true}
-            segment={this.props.segment}
+            //segment={this.props.segment}
             data={this.props.app_users}
           />
         ) : null}

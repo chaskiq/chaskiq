@@ -1,8 +1,12 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
-import EditorContainer from 'Dante2/package/esm/editor/styled/base'
+import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
-const NewEditorStyles = styled(EditorContainer)`
+type NewEditorStylesProps = {
+  theme: any;
+  campaign?: boolean;
+};
+const NewEditorStyles = styled(EditorContainer)<NewEditorStylesProps>`
   //display: flex;
 
   .graf--figure {
@@ -99,6 +103,6 @@ const NewEditorStyles = styled(EditorContainer)`
       height: 16px;
     }
   }
-`
+`;
 
-export default NewEditorStyles
+export default NewEditorStyles;

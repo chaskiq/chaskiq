@@ -109,7 +109,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
     errors: {},
   };
 
-  form = React.createRef();
+  form = React.createRef<HTMLFormElement>();
 
   componentDidMount() {
     this.search();
@@ -492,7 +492,7 @@ class NonAcceptedAppUsers extends React.Component<
   NonAcceptedAppUsersProps,
   NonAcceptedAppUsersState
 > {
-  input_ref = React.createRef<typeof Input>();
+  input_ref = React.createRef<HTMLInputElement>();
 
   constructor(props) {
     super(props);

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { isEmpty } from 'lodash'
-import { connect } from 'react-redux'
-import Moment from 'react-moment'
+import React, { Component } from 'react';
+import { isEmpty } from 'lodash';
+import { connect } from 'react-redux';
+import Moment from 'react-moment';
 
-import I18n from '../shared/FakeI18n'
+import I18n from '../shared/FakeI18n';
 import {
   Link,
   Route,
@@ -11,38 +11,44 @@ import {
   useParams,
   useHistory,
   withRouter,
-} from 'react-router-dom'
-import serialize from 'form-serialize'
+} from 'react-router-dom';
+import serialize from 'form-serialize';
 
 import FieldRenderer, {
   gridClasses,
-} from '@chaskiq/components/src/components/forms/FieldRenderer'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import PageHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import Tabs from '@chaskiq/components/src/components/Tabs'
-import Progress from '@chaskiq/components/src/components/Progress'
-import DataTable from '@chaskiq/components/src/components/Table'
-import Button from '@chaskiq/components/src/components/Button'
-import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog'
+} from '@chaskiq/components/src/components/forms/FieldRenderer';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import PageHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import Tabs from '@chaskiq/components/src/components/Tabs';
+import Progress from '@chaskiq/components/src/components/Progress';
+import DataTable from '@chaskiq/components/src/components/Table';
+import Button from '@chaskiq/components/src/components/Button';
+import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   OAUTH_APPS,
   OAUTH_APP,
   AUTHORIZED_OAUTH_APPS,
-} from '@chaskiq/store/src/graphql/queries'
+} from '@chaskiq/store/src/graphql/queries';
 import {
   CREATE_OAUTH_APP,
   UPDATE_OAUTH_APP,
   DELETE_OAUTH_APP,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
+
+declare global {
+  interface Window {
+    location: Location;
+  }
+}
 
 function formDefinitions() {
   return [
@@ -79,23 +85,32 @@ function formDefinitions() {
       type: 'string',
       grid: { xs: 'w-full', sm: 'w-full' },
     },
-  ]
+  ];
 }
 
-class ApiPage extends Component {
+type ApiPageProps = {
+  dispatch: any;
+  app: any;
+  match: any;
+};
+type ApiPageState = {
+  meta: any;
+  tabValue: number;
+};
+class ApiPage extends Component<ApiPageProps, ApiPageState> {
   state = {
     meta: {},
     tabValue: 0,
-  }
+  };
 
   componentDidMount() {
-    this.props.dispatch(setCurrentSection('Settings'))
-    this.props.dispatch(setCurrentPage('oauth_applications'))
+    this.props.dispatch(setCurrentSection('Settings'));
+    this.props.dispatch(setCurrentPage('oauth_applications'));
   }
 
   handleTabChange = (e, i) => {
-    this.setState({ tabValue: i })
-  }
+    this.setState({ tabValue: i });
+  };
 
   getApps = (cb) => {
     graphql(
@@ -107,12 +122,12 @@ class ApiPage extends Component {
             collection: data.app.oauthApplications,
             loading: false,
           }); */
-          cb(data.app.oauthApplications)
+          cb(data.app.oauthApplications);
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   getAuthorizedApps = (cb) => {
     graphql(
@@ -120,7 +135,7 @@ class ApiPage extends Component {
       { appKey: this.props.app.key },
       {
         success: (data) => {
-          cb(data.app.authorizedOauthApplications)
+          cb(data.app.authorizedOauthApplications);
           /* this.setState({
             collection: data.app.authorizedOauthApplications,
             loading: false,
@@ -128,8 +143,8 @@ class ApiPage extends Component {
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -175,23 +190,31 @@ class ApiPage extends Component {
           </Route>
         </Switch>
       </Content>
-    )
+    );
   }
 }
 
-function OauthApp(props) {
-  const params = useParams()
-  const formRef = React.useRef(null)
-  const history = useHistory()
+type OauthDataProps = {
+  uid: string;
+  redirectUri: string;
+  confidential: string;
+  name: string;
+  secret: string;
+};
 
-  const [data, setData] = React.useState({})
-  const [_loading, setLoading] = React.useState(false)
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
-  const [editIsOpen, setEditIsOpen] = React.useState(false)
-  const [errors, setErrors] = React.useState({})
+function OauthApp(props) {
+  const params = useParams();
+  const formRef = React.useRef(null);
+  const history = useHistory();
+
+  const [data, setData] = React.useState<OauthDataProps>(null);
+  const [_loading, setLoading] = React.useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [editIsOpen, setEditIsOpen] = React.useState(false);
+  const [errors, setErrors] = React.useState({});
 
   React.useState(() => {
-    setLoading(true)
+    setLoading(true);
     graphql(
       OAUTH_APP,
       {
@@ -200,26 +223,27 @@ function OauthApp(props) {
       },
       {
         success: (data) => {
-          setData(data.app.oauthApplication)
-          setLoading(false)
+          setData(data.app.oauthApplication);
+          setLoading(false);
         },
         error: () => {},
       }
-    )
-  }, [])
+    );
+    //@ts-ignore
+  }, []);
 
   function authorizeUrl() {
     return `/oauth/authorize?client_id=${data.uid}&redirect_uri=${encodeURI(
       data.redirectUri
-    )}&response_type=code&scope=`
+    )}&response_type=code&scope=`;
   }
 
   function updateApp(e) {
-    e.preventDefault && e.preventDefault()
+    e.preventDefault && e.preventDefault();
     const serializedData = serialize(formRef.current, {
       hash: true,
       empty: true,
-    })
+    });
 
     graphql(
       UPDATE_OAUTH_APP,
@@ -231,16 +255,16 @@ function OauthApp(props) {
       {
         success: (data) => {
           if (isEmpty(data.updateOauthApplication.errors)) {
-            setData(data.updateOauthApplication.oauthApplication)
-            setEditIsOpen(false)
+            setData(data.updateOauthApplication.oauthApplication);
+            setEditIsOpen(false);
           } else {
-            setLoading(false)
-            setErrors(data.updateOauthApplication.errors)
+            setLoading(false);
+            setErrors(data.updateOauthApplication.errors);
           }
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function deleteApp() {
@@ -252,11 +276,11 @@ function OauthApp(props) {
       },
       {
         success: () => {
-          history.push(`/apps/${props.app.key}/oauth_applications`)
+          history.push(`/apps/${props.app.key}/oauth_applications`);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   return (
@@ -279,57 +303,59 @@ function OauthApp(props) {
           </div>
         </div>
       </div>
-      <div className="px-4 py-5 sm:px-6">
-        <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-          <div className="sm:col-span-1">
-            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t('doorkeeper.applications.index.name')}
-            </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
-              {data.name}
-            </dd>
-          </div>
-          <div className="sm:col-span-1">
-            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t('doorkeeper.applications.index.confidential')}
-            </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
-              {data.confidential}
-            </dd>
-          </div>
-          <div className="sm:col-span-1">
-            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t('doorkeeper.applications.show.application_id')}
-            </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
-              {data.uid}
-            </dd>
-          </div>
-          <div className="sm:col-span-1">
-            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100">
-              {I18n.t('doorkeeper.applications.index.callback_url')}
-            </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 flex justify-between items-center">
-              {data.redirectUri}
-              <Button
-                size={'small'}
-                variant="outlined"
-                onClick={() => (window.location = authorizeUrl())}
-              >
-                {I18n.t('doorkeeper.applications.buttons.authorize')}
-              </Button>
-            </dd>
-          </div>
-          <div className="sm:col-span-1">
-            <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
-              {I18n.t('doorkeeper.applications.show.secret')}
-            </dt>
-            <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
-              {data.secret}
-            </dd>
-          </div>
-        </dl>
-      </div>
+      {data && (
+        <div className="px-4 py-5 sm:px-6">
+          <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+            <div className="sm:col-span-1">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                {I18n.t('doorkeeper.applications.index.name')}
+              </dt>
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                {data.name}
+              </dd>
+            </div>
+            <div className="sm:col-span-1">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                {I18n.t('doorkeeper.applications.index.confidential')}
+              </dt>
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                {data.confidential}
+              </dd>
+            </div>
+            <div className="sm:col-span-1">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                {I18n.t('doorkeeper.applications.show.application_id')}
+              </dt>
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                {data.uid}
+              </dd>
+            </div>
+            <div className="sm:col-span-1">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-100">
+                {I18n.t('doorkeeper.applications.index.callback_url')}
+              </dt>
+              <dd className="mt-1 text-sm leading-5 text-gray-900 flex justify-between items-center">
+                {data.redirectUri}
+                <Button
+                  size={'small'}
+                  variant="outlined"
+                  onClick={() => (window.location.href = authorizeUrl())}
+                >
+                  {I18n.t('doorkeeper.applications.buttons.authorize')}
+                </Button>
+              </dd>
+            </div>
+            <div className="sm:col-span-1">
+              <dt className="text-sm leading-5 font-medium text-gray-500 dark:text-gray-300">
+                {I18n.t('doorkeeper.applications.show.secret')}
+              </dt>
+              <dd className="mt-1 text-sm leading-5 text-gray-900 dark:text-gray-100">
+                {data.secret}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      )}
 
       <div className="py-2">
         {editIsOpen && (
@@ -346,7 +372,6 @@ function OauthApp(props) {
                     <div
                       key={`field-${field.name}`}
                       className={`${gridClasses(field)} py-2 pr-2`}
-                      {...field.gridProps}
                     >
                       <FieldRenderer
                         {...field}
@@ -359,7 +384,7 @@ function OauthApp(props) {
                         errors={errors}
                       />
                     </div>
-                  )
+                  );
                 })}
               </form>
             }
@@ -383,22 +408,37 @@ function OauthApp(props) {
           open={openDeleteDialog}
           title={I18n.t('settings.api.delete_app')}
           closeHandler={() => {
-            setOpenDeleteDialog(null)
+            setOpenDeleteDialog(null);
           }}
           deleteHandler={() => {
-            deleteApp(data)
+            deleteApp();
           }}
         >
-          <p variant="subtitle2">{I18n.t('settings.api.delete_app_hint')}</p>
+          <p>{I18n.t('settings.api.hint')}</p>
         </DeleteDialog>
       )}
     </div>
-  )
+  );
 }
 
-class OauthList extends React.Component {
+type OauthListProps = {
+  app: any;
+  getApps: any;
+  match: any;
+};
+
+type OauthListState = {
+  collection: any;
+  loading: boolean;
+  isOpen: boolean;
+  sent: boolean;
+  data: any;
+  errors: any;
+};
+class OauthList extends React.Component<OauthListProps, OauthListState> {
+  input_ref: any;
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       collection: [],
       loading: true,
@@ -406,22 +446,22 @@ class OauthList extends React.Component {
       sent: false,
       data: {},
       errors: {},
-    }
-    this.input_ref = React.createRef()
+    };
+    this.input_ref = React.createRef<HTMLInputElement>();
   }
 
-  open = () => this.setState({ isOpen: true, errors: {} })
-  close = () => this.setState({ isOpen: false })
+  open = () => this.setState({ isOpen: true, errors: {} });
+  close = () => this.setState({ isOpen: false });
 
   componentDidMount() {
-    this.search()
+    this.search();
   }
 
   createApp = () => {
     const serializedData = serialize(this.input_ref.current, {
       hash: true,
       empty: true,
-    })
+    });
 
     graphql(
       CREATE_OAUTH_APP,
@@ -431,7 +471,7 @@ class OauthList extends React.Component {
       },
       {
         success: (data) => {
-          const errs = data.createOauthApplication.errors
+          const errs = data.createOauthApplication.errors;
           this.setState(
             {
               sent: true,
@@ -440,12 +480,12 @@ class OauthList extends React.Component {
               data: data.createOauthApplication.oauthApplication,
             },
             this.search
-          )
+          );
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   inviteButton = () => {
     return (
@@ -468,7 +508,6 @@ class OauthList extends React.Component {
                     <div
                       key={`field-${field.name}`}
                       className={`${gridClasses(field)} py-2 pr-2`}
-                      {...field.gridProps}
                     >
                       <FieldRenderer
                         {...field}
@@ -481,7 +520,7 @@ class OauthList extends React.Component {
                         errors={this.state.errors}
                       />
                     </div>
-                  )
+                  );
                 })}
               </form>
             }
@@ -503,8 +542,8 @@ class OauthList extends React.Component {
           {I18n.t('settings.api.create_app')}
         </Button>
       </div>
-    )
-  }
+    );
+  };
 
   search = () => {
     this.setState(
@@ -515,10 +554,10 @@ class OauthList extends React.Component {
         this.setState({
           collection: data,
           loading: false,
-        })
+        });
       })
-    )
-  }
+    );
+  };
 
   render() {
     return (
@@ -527,12 +566,9 @@ class OauthList extends React.Component {
 
         {!this.state.loading ? (
           <DataTable
-            elevation={0}
-            title={'invitations'}
             meta={{}}
             data={this.state.collection}
             search={this.search}
-            loading={this.state.loading}
             disablePagination={true}
             columns={[
               {
@@ -546,7 +582,7 @@ class OauthList extends React.Component {
                     >
                       {row.name}
                     </Link>
-                  )
+                  );
                 },
               },
               { field: 'redirectUri', title: 'redirect uri' },
@@ -577,19 +613,19 @@ class OauthList extends React.Component {
           <Progress />
         )}
       </React.Fragment>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { isAuthenticated } = auth
+  const { auth, app } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(ApiPage))
+export default withRouter(connect(mapStateToProps)(ApiPage));

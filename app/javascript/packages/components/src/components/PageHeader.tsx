@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export type Props = {
-  title: string | React.ReactNode;
-  breadcrumbs?: Array<IBreadCrumbs>;
+  title?: string | React.ReactNode;
+  breadcrumbs?: Array<IBreadCrumbs> | Array<React.ReactElement>;
   actions?: React.ReactNode;
 };
 
@@ -76,11 +76,13 @@ export default function PageHeader({ title, breadcrumbs, actions }: Props) {
       </div>
 
       <div className="mt-2 md:flex md:items-center md:justify-between">
-        <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-gray-50 sm:text-3xl sm:leading-9 sm:truncate">
-            {title}
-          </h2>
-        </div>
+        {title && (
+          <div className="flex-1 min-w-0">
+            <h2 className="text-2xl font-bold leading-7 text-gray-900 dark:text-gray-50 sm:text-3xl sm:leading-9 sm:truncate">
+              {title}
+            </h2>
+          </div>
+        )}
 
         <div className="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
           {actions && actions}

@@ -13,6 +13,12 @@ import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
 
 import { successAuthentication } from '@chaskiq/store/src/actions/auth';
 
+declare global {
+  interface Window {
+    location: Location;
+  }
+}
+
 function MadeWithLove() {
   return (
     <p className="mt-3 text-base text-gray-500 text-center">
@@ -48,7 +54,7 @@ function AcceptInvitation(props) {
         );
         props.dispatch(getCurrentUser());
         // use router redirect + snackbar status
-        window.location = '/';
+        window.location.href = '/';
       })
       .catch(function (response) {
         setErrors(response.response.data.errors);

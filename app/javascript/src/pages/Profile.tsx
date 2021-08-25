@@ -541,7 +541,7 @@ type AppUserVisitsProps = {
 
 type AppUserVisitsState = {
   collection: Array<any>;
-  meta: any;
+  meta?: any;
   loading: boolean;
 };
 class AppUserVisits extends React.Component<
@@ -550,7 +550,7 @@ class AppUserVisits extends React.Component<
 > {
   state = {
     collection: [],
-    meta: {},
+    meta: null,
     loading: false,
   };
 
@@ -565,7 +565,7 @@ class AppUserVisits extends React.Component<
         {
           appKey: this.props.app.key,
           id: this.props.app_user.id,
-          page: page || this.state.meta.next_page || 1,
+          page: page || this.state?.meta?.next_page || 1,
           per: 20,
         },
         {

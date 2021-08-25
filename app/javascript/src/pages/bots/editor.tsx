@@ -78,7 +78,10 @@ const PathActionsContainer = styled.div`
   padding: 20px 20px 24px;
 `;
 
-const ItemButtons = styled.div`
+type ItemButtonsType = {
+  first?: boolean;
+};
+const ItemButtons = styled.div<ItemButtonsType>`
   align-self: center;
   /* width: 203px; */
   align-items: center;
@@ -107,8 +110,8 @@ function create_UUID() {
   return uuid;
 }
 
-const PathDialog = ({ _open, close, isOpen, submit }) => {
-  let titleRef = React.createRef();
+const PathDialog = ({ close, isOpen, submit }) => {
+  let titleRef: any = React.createRef();
   // const titleRef = null
 
   const handleSubmit = () => {
@@ -163,8 +166,16 @@ const PathDialog = ({ _open, close, isOpen, submit }) => {
   );
 };
 
-const BotEditor = ({ match, app, dispatch, mode, actions }) => {
-  const [botTask, setBotTask] = useState({});
+type BotTaskType = {
+  segments?: any;
+  title?: any;
+  scheduling?: any;
+  state?: any;
+  urls?: any;
+};
+
+const BotEditor = ({ match, app, dispatch, mode }) => {
+  const [botTask, setBotTask] = useState<BotTaskType>({});
   const [errors, setErrors] = useState({});
   const [paths, setPaths] = useState([]);
   const [tabValue, setTabValue] = useState(0);
@@ -192,7 +203,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
     dispatch(setCurrentPage(`bot${mode}`));
   }, []);
 
-  const saveData = (cb) => {
+  const saveData = (cb = null) => {
     const snake_case_paths = paths.map((o) => {
       const b = Object.assign({}, o, { follow_actions: o.followActions });
       delete b.followActions;
@@ -257,7 +268,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   const tabsContent = () => {
     return (
       <Tabs
-        value={tabValue}
+        currentTab={tabValue}
         onChange={handleTabChange}
         textColor="inherit"
         tabs={[
@@ -267,11 +278,8 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
               <React.Fragment>
                 {!isEmpty(botTask) && (
                   <Stats
-                    match={match}
-                    app={app}
                     data={botTask}
                     getStats={getStats}
-                    actions={actions}
                     mode={'counter_blocks'}
                   />
                 )}
@@ -286,7 +294,6 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 data={botTask}
                 updateData={setBotTask}
                 saveData={saveData}
-                errors={errors}
               />
             ),
           },
@@ -317,9 +324,9 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                 <BotPathEditor
                   app={app}
                   botTask={botTask}
-                  updateData={setBotTask}
+                  // updateData={setBotTask}
                   saveData={saveData}
-                  errors={errors}
+                  // errors={errors}
                   paths={paths}
                   setPaths={setPaths}
                   searchFields={searchFields}
@@ -362,6 +369,7 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
   function cloneCampaign(_e) {
     const params = {
       appKey: app.key,
+      //@ts-ignore
       id: `${botTask.id}`,
     };
 
@@ -408,7 +416,6 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
               />
             </div>
           }
-          items={[]}
           actions={
             <div className="flex space-x-2 items-center">
               <UpgradeButton
@@ -437,18 +444,6 @@ const BotEditor = ({ match, app, dispatch, mode, actions }) => {
                   return option.onClick && option.onClick(option);
                 }}
                 position={'right'}
-                toggleButton={(clickHandler) => {
-                  return (
-                    <Button
-                      onClick={clickHandler}
-                      variant="outlined"
-                      color="inherit"
-                      size="small"
-                    >
-                      {I18n.t('common.actions')}
-                    </Button>
-                  );
-                }}
               />
             </div>
           }
@@ -714,12 +709,7 @@ export function BotPathEditor({
 
       <div className="flex justify-between sm:my-4 border-1 border-gray-400 rounded-md shadow border dark:border-gray-600">
         {isOpen && (
-          <PathDialog
-            isOpen={isOpen}
-            open={open}
-            close={close}
-            submit={addEmptyPath}
-          />
+          <PathDialog isOpen={isOpen} close={close} submit={addEmptyPath} />
         )}
 
         <div
@@ -814,7 +804,7 @@ export function BotPathEditor({
                   addDataControl={addDataControl}
                   addAppPackage={addAppPackage}
                   updatePath={updatePath}
-                  saveData={saveData}
+                  // saveData={saveData}
                   setPaths={setPaths}
                   setSelectedPath={setSelectedPath}
                   searchFields={searchFields}
@@ -935,9 +925,7 @@ function FollowActionsSelect({ app, path, updatePath }) {
             updateAction={updateAction}
             removeAction={removeAction}
             key={action.key}
-          >
-            {action.name}
-          </AgentSelector>
+          />
         );
 
       default:
@@ -1267,7 +1255,7 @@ const Path = ({
               type="text"
               value={path.title}
               onChange={handleTitleChange}
-              hint={I18n.t('task_bots.path_title_hint')}
+              helperText={I18n.t('task_bots.path_title_hint')}
               variant={'underline'}
             />
           </div>
@@ -1460,6 +1448,15 @@ const Path = ({
   );
 };
 
+type FollowActionsProps = {
+  controlStep: any;
+  path: any;
+  update: any;
+  options: any;
+  searchFields?: any;
+  appendItemControl?: any;
+};
+
 const FollowActions = ({
   controlStep,
   path,
@@ -1467,7 +1464,7 @@ const FollowActions = ({
   options,
   searchFields,
   appendItemControl,
-}) => {
+}: FollowActionsProps) => {
   return (
     <div className="flex flex-col">
       <div className="w-full">
@@ -1549,7 +1546,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
         }}
         saveHandler={saveHandler}
         updateState={({ _status, _statusButton, content }) => {
-          console.log('get content', content);
+          //console.log('get content', content);
           saveContent(content);
         }}
       />
@@ -1601,8 +1598,6 @@ const AppPackageBlocks = ({
           <div className={'form-group'} key={index}>
             <DataInputSelect
               controls={controls}
-              path={path}
-              step={step}
               update={update}
               item={item}
               options={searchFields.map((o) => ({
@@ -1697,7 +1692,20 @@ const getPathStyle = (isDraggingOver) => ({
   // width: 250
 });
 
-class SortableSteps extends Component {
+type SortableStepsProps = {
+  steps: any;
+  path: any;
+  paths: any;
+  deleteItem: any;
+  updatePath: any;
+  updateControlPathSelector: any;
+  searchFields: any;
+  addSectionMessage?: any;
+  addSectionControl?: any;
+  onDragEnd: (path: string, result: string) => void;
+};
+
+class SortableSteps extends Component<SortableStepsProps> {
   constructor(props) {
     super(props);
   }
@@ -1843,7 +1851,19 @@ const PathSelect = ({ option, options, update }) => {
   );
 };
 
-const DataInputSelect = ({ item, options, update, controls, _path, _step }) => {
+type DataInputSelectType = {
+  controls: any;
+  update: any;
+  item: any;
+  options: any;
+};
+
+const DataInputSelect = ({
+  item,
+  options,
+  update,
+  controls,
+}: DataInputSelectType) => {
   const handleChange = (e) => {
     const newOption = Object.assign({}, item, { name: e.value });
     // const newOptions = //controls.schema.map((o)=> o.name === newOption.name ? newOption : o)

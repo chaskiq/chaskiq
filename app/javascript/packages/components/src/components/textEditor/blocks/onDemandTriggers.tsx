@@ -1,17 +1,22 @@
-import React from 'react'
-import { LoadBalancerIcon } from '../../icons'
+import React from 'react';
+import { LoadBalancerIcon } from '../../icons';
 
 function appPackage() {
-  return <LoadBalancerIcon />
+  return <LoadBalancerIcon />;
 }
 
 export default class OnDemandTriggers extends React.Component {
   render = () => {
-    return <span></span>
-  }
+    return <span></span>;
+  };
 }
 
-export const OnDemandTriggersBlockConfig = (options = {}) => {
+type OnDemandTriggersOptionsType = {
+  handleFunc?: any;
+};
+export const OnDemandTriggersBlockConfig = (
+  options: OnDemandTriggersOptionsType = {}
+) => {
   const config = {
     title: 'Add Trigger',
     type: 'OnDemandTrigger',
@@ -28,7 +33,7 @@ export const OnDemandTriggersBlockConfig = (options = {}) => {
       funcHandler: options.handleFunc,
       insert_block: 'OnDemandTriggers',
     },
-  }
+  };
 
-  return Object.assign(config, options)
-}
+  return Object.assign(config, options);
+};

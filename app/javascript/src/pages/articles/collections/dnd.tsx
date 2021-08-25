@@ -65,7 +65,17 @@ const getListClass = (isDraggingOver) => {
   return dragClass;
 };
 
-class App extends Component {
+type DndProps = {
+  sections: any;
+  saveOperation: any;
+  collectionId: any;
+  handleDataUpdate: any;
+  app: any;
+  requestUpdate: any;
+  addArticlesToSection: any;
+  deleteSection: any;
+};
+class Dnd extends Component<DndProps> {
   constructor(props) {
     super(props);
     /* this.props = {
@@ -140,7 +150,7 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ displayDisable: 'flex' }}>
+      <div>
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.props.sections.map((o, i) => (
             <React.Fragment key={`dnd-sections-${i}`}>
@@ -152,7 +162,7 @@ class App extends Component {
                     </h3>
                   </div>
 
-                  <div item>
+                  <div>
                     {o.id !== 'base' && (
                       <Button
                         variant={'outlined'}
@@ -258,4 +268,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Dnd;

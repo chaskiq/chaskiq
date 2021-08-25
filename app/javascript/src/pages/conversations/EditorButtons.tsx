@@ -220,7 +220,7 @@ export default class DanteInlineTooltip extends React.Component<
     const request_block = this.widgets().find((o) => o.type === type);
     switch (request_block.widget_options.insertion) {
       case 'upload':
-        return this.clickOnFileUpload(e, request_block);
+        return this.clickOnFileUpload();
       case 'placeholder':
         return this.handlePlaceholder(request_block);
       case 'insertion':

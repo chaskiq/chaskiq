@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Moment from 'react-moment';
 import CampaignChart from './charts/charts';
 import styled from '@emotion/styled';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import I18n from '../../../../src/shared/FakeI18n';
 
@@ -28,7 +29,23 @@ const PieContainer = styled.div`
 const PieItem = styled.div`
   height: 200px;
 `;
-class Stats extends Component {
+
+type StatsProps = {
+  mode: any;
+  match: any;
+  app: any;
+  data: any;
+  getStats: (value: any, cb?: any) => void;
+  dispatch: (value: any) => void;
+};
+type StatsState = {
+  collection: any;
+  meta: any;
+  counts: any;
+  loading: boolean;
+};
+
+class Stats extends Component<StatsProps, StatsState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -185,9 +202,7 @@ class Stats extends Component {
         {!this.state.loading ? (
           <Table
             data={this.state.collection}
-            loading={this.props.searching}
             search={this.getData}
-            defaultHiddenColumnNames={[]}
             columns={[
               { field: 'id', title: 'id', hidden: true },
               {
@@ -195,38 +210,32 @@ class Stats extends Component {
                 title: I18n.t('definitions.stats.email.label'),
                 render: (row) =>
                   row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
-                      <div
-                        onClick={() => this.showUserDrawer(row.appUserId)}
-                        className="flex items-center"
-                      >
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <img
-                            className="h-10 w-10 rounded-full"
-                            src={row.avatarUrl}
-                            alt=""
-                          />
+                    <div
+                      onClick={() => this.showUserDrawer(row.appUserId)}
+                      className="flex items-center"
+                    >
+                      <div className="flex-shrink-0 h-10 w-10">
+                        <img
+                          className="h-10 w-10 rounded-full"
+                          src={row.avatarUrl}
+                          alt=""
+                        />
+                      </div>
+                      <div className="ml-4">
+                        <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
+                          {row.displayName}
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
-                            {row.displayName}
-                          </div>
-                          <div className="text-sm leading-5 text-gray-500 dark:text-gray-300">
-                            {row.email}
-                          </div>
+                        <div className="text-sm leading-5 text-gray-500 dark:text-gray-300">
+                          {row.email}
                         </div>
                       </div>
-                    </td>
+                    </div>
                   ),
               },
               {
                 field: 'action',
                 title: I18n.t('definitions.stats.actions.label'),
-                render: (row) => (
-                  <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
-                    {this.renderBadgeKind(row)}
-                  </td>
-                ),
+                render: (row) => this.renderBadgeKind(row),
               },
               {
                 field: 'host',
@@ -236,37 +245,14 @@ class Stats extends Component {
                 field: 'createdAt',
                 title: I18n.t('definitions.stats.when.label'),
                 render: (row) =>
-                  row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
-                      <Moment fromNow>{row.updatedAt}</Moment>
-                    </td>
-                  ),
+                  row && <Moment fromNow>{row.updatedAt}</Moment>,
               },
               {
                 field: 'data',
                 title: I18n.t('definitions.stats.data.label'),
-                render: (row) =>
-                  row && (
-                    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800">
-                      <div>{JSON.stringify(row.data)}</div>
-                    </td>
-                  ),
+                render: (row) => row && <div>{JSON.stringify(row.data)}</div>,
               },
             ]}
-            // selection [],
-            tableColumnExtensions={[
-              // { columnName: 'id', width: 150 },
-              { columnName: 'email', width: 250 },
-              { columnName: 'lastVisitedAt', width: 120 },
-              { columnName: 'os', width: 100 },
-              { columnName: 'osVersion', width: 100 },
-              { columnName: 'state', width: 80 },
-              { columnName: 'online', width: 80 },
-
-              // { columnName: 'amount', align: 'right', width: 140 },
-            ]}
-            leftColumns={['email']}
-            rightColumns={['online']}
             meta={this.state.meta}
           />
         ) : null}
@@ -282,4 +268,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Stats);
+export default withRouter(connect(mapStateToProps)(Stats));

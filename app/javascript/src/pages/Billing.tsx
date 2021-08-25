@@ -128,7 +128,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
           <PlanBoard
             plans={plans}
             openCheckout={(plan) => openCheckoutHandler(plan)}
-            currentPlan={subscriptionPlanId}
+            // currentPlan={subscriptionPlanId}
             appPlan={app.plan}
           />
         ),
@@ -668,13 +668,19 @@ function Plan ({ plan, openCheckout, _currentPlan, appPlan }) {
   )
 }*/
 
+declare global {
+  interface Window {
+    Paddle: any;
+  }
+}
+
 function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
   React.useEffect(() => {
-    Paddle.Setup({
+    window.Paddle.Setup({
       vendor: 115475, // Replace with your Vendor ID.
     });
 
-    Paddle.Checkout.open({
+    window.Paddle.Checkout.open({
       method: 'inline',
       email: current_user.email,
       product: product.id, // Replace with your Product or Plan ID
@@ -852,7 +858,6 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                   <button
                     className={`
                   bg-green-400 
-                  text-white
                   hover:bg-green-500 
                   focus:outline-none 
                   focus:border-green-700 

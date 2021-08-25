@@ -1,35 +1,35 @@
-import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Avatar from '@chaskiq/components/src/components/Avatar'
-import Button from '@chaskiq/components/src/components/Button'
-import { DropdownButton } from '@chaskiq/components/src/components/Button'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import Tabs from '@chaskiq/components/src/components/Tabs'
+import Avatar from '@chaskiq/components/src/components/Avatar';
+import Button from '@chaskiq/components/src/components/Button';
+import { DropdownButton } from '@chaskiq/components/src/components/Button';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import Tabs from '@chaskiq/components/src/components/Tabs';
 import {
   GestureIcon,
   CheckCircle,
-} from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/components/src/components/icons';
 
-import ArticleEditor from './editor'
+import ArticleEditor from './editor';
 
-import langs from '../../shared/langsOptions'
-import I18n from '../../shared/FakeI18n'
+import langs from '../../shared/langsOptions';
+import I18n from '../../shared/FakeI18n';
 
-import graphql from '@chaskiq/store/src/graphql/client'
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   setCurrentPage,
   setCurrentSection,
-} from '@chaskiq/store/src/actions/navigation'
+} from '@chaskiq/store/src/actions/navigation';
 
 import {
   successMessage,
   errorMessage,
-} from '@chaskiq/store/src/actions/status_messages'
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   CREATE_ARTICLE,
@@ -38,28 +38,51 @@ import {
   TOGGLE_ARTICLE,
   ARTICLE_ASSIGN_AUTHOR,
   ARTICLE_COLLECTION_CHANGE,
-} from '@chaskiq/store/src/graphql/mutations'
+} from '@chaskiq/store/src/graphql/mutations';
 
 import {
   ARTICLE,
   AGENTS,
   ARTICLE_COLLECTIONS,
-} from '@chaskiq/store/src/graphql/queries'
-class ArticlesNew extends Component {
+} from '@chaskiq/store/src/graphql/queries';
+
+type ArticlesNewProps = {
+  match: any;
+  dispatch: any;
+  app: any;
+  history: any;
+  settings: any;
+  data: any;
+};
+
+type ArticlesNewState = {
+  currentContent: any;
+  content: any;
+  article?: any;
+  changed: any;
+  loading: boolean;
+  agents: any;
+  collections: any;
+  lang: string;
+  changesAvailable: any;
+};
+
+class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
   state = {
     currentContent: null,
     content: null,
-    article: {},
+    article: null,
     changed: false,
     loading: true,
     agents: [],
     collections: [],
     lang: 'en',
-  }
+    changesAvailable: null,
+  };
 
-  titleRef = null
-  descriptionRef = null
-  switch_ref = null
+  titleRef = null;
+  descriptionRef = null;
+  switch_ref = null;
 
   options = [
     {
@@ -76,38 +99,38 @@ class ArticlesNew extends Component {
       id: 'draft',
       state: 'draft',
     },
-  ]
+  ];
 
   componentDidMount() {
     if (this.props.match.params.id !== 'new') {
-      this.getArticle(this.props.match.params.id)
+      this.getArticle(this.props.match.params.id);
     } else {
       this.setState({
         loading: false,
-      })
+      });
     }
 
-    this.getAgents()
-    this.getCollections()
+    this.getAgents();
+    this.getCollections();
 
-    this.props.dispatch(setCurrentSection('HelpCenter'))
+    this.props.dispatch(setCurrentSection('HelpCenter'));
 
-    this.props.dispatch(setCurrentPage('Articles'))
+    this.props.dispatch(setCurrentPage('Articles'));
   }
 
   componentDidUpdate(prevProps, prevState) {
     // maybe do this ony with content and submit
     // checkbox and agent directly and independently from content
     if (prevState.content !== this.state.content) {
-      this.registerChange()
+      this.registerChange();
     }
   }
 
   registerChange = () => {
     this.setState({
       changesAvailable: true,
-    })
-  }
+    });
+  };
 
   getCollections = () => {
     graphql(
@@ -119,11 +142,11 @@ class ArticlesNew extends Component {
         success: (data) => {
           this.setState({
             collections: data.app.collections,
-          })
+          });
         },
       }
-    )
-  }
+    );
+  };
 
   getArticle = (id) => {
     graphql(
@@ -138,18 +161,18 @@ class ArticlesNew extends Component {
           this.setState({
             article: data.app.article,
             loading: false,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   updateUrlFromNew = () => {
     this.props.history.push(
       `/apps/${this.props.app.key}/articles/${this.state.article.id}`
-    )
-  }
+    );
+  };
 
   getAgents = () => {
     graphql(
@@ -161,12 +184,12 @@ class ArticlesNew extends Component {
         success: (data) => {
           this.setState({
             agents: data.app.agents,
-          })
+          });
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 
   createArticle = () => {
     graphql(
@@ -178,24 +201,24 @@ class ArticlesNew extends Component {
       },
       {
         success: (data) => {
-          const article = data.createArticle.article
+          const article = data.createArticle.article;
           this.setState(
             {
               article: article,
               changesAvailable: false,
             },
             () => {
-              this.updateUrlFromNew()
-              this.updatedMessage()
+              this.updateUrlFromNew();
+              this.updatedMessage();
             }
-          )
+          );
         },
         error: () => {
-          this.errorMessage()
+          this.errorMessage();
         },
       }
-    )
-  }
+    );
+  };
 
   editArticle = () => {
     graphql(
@@ -210,31 +233,31 @@ class ArticlesNew extends Component {
       },
       {
         success: (data) => {
-          const article = data.editArticle.article
+          const article = data.editArticle.article;
           this.setState(
             {
               article: article,
               changesAvailable: false,
             },
             () => {
-              this.updatedMessage()
+              this.updatedMessage();
             }
-          )
+          );
         },
         error: (_e) => {
-          this.errorMessage()
+          this.errorMessage();
         },
       }
-    )
-  }
+    );
+  };
 
   updatedMessage = () => {
-    this.props.dispatch(successMessage(I18n.t('articles.updated_success')))
-  }
+    this.props.dispatch(successMessage(I18n.t('articles.updated_success')));
+  };
 
   errorMessage = () => {
-    this.props.dispatch(errorMessage(I18n.t('articles.updated_error')))
-  }
+    this.props.dispatch(errorMessage(I18n.t('articles.updated_error')));
+  };
 
   submitChanges = () => {
     this.setState(
@@ -243,19 +266,17 @@ class ArticlesNew extends Component {
       },
       () => {
         if (this.state.article.id) {
-          this.editArticle()
+          this.editArticle();
         } else {
-          this.createArticle()
+          this.createArticle();
         }
       }
-    )
-  }
+    );
+  };
 
   toggleButton = (clickHandler) => {
-    const stateColor =
-      this.state.article.state === 'published' ? 'primary' : 'secondary'
     return (
-      <div variant="outlined" color={stateColor}>
+      <div>
         <DropdownButton
           onClick={clickHandler}
           label={I18n.t(`articles.state.${this.state.article.state}`)}
@@ -268,11 +289,11 @@ class ArticlesNew extends Component {
           }
         />
       </div>
-    )
-  }
+    );
+  };
 
   togglePublishState = (state) => {
-    const val = state.state
+    const val = state.state;
     graphql(
       TOGGLE_ARTICLE,
       {
@@ -283,15 +304,15 @@ class ArticlesNew extends Component {
       {
         success: (data) => {
           this.setState({ article: data.toggleArticle.article }, () => {
-            this.updatedMessage()
-          })
+            this.updatedMessage();
+          });
         },
         error: () => {
-          this.errorMessage()
+          this.errorMessage();
         },
       }
-    )
-  }
+    );
+  };
 
   handleAuthorchange = (input) => {
     graphql(
@@ -308,16 +329,16 @@ class ArticlesNew extends Component {
               article: data.assignAuthor.article,
             },
             () => {
-              this.updatedMessage()
+              this.updatedMessage();
             }
-          )
+          );
         },
         error: () => {
-          this.errorMessage()
+          this.errorMessage();
         },
       }
-    )
-  }
+    );
+  };
 
   handleCollectionChange = (input) => {
     graphql(
@@ -334,20 +355,20 @@ class ArticlesNew extends Component {
               article: data.changeCollectionArticle.article,
             },
             () => {
-              this.updatedMessage()
+              this.updatedMessage();
             }
-          )
+          );
         },
         error: () => {
-          this.errorMessage()
+          this.errorMessage();
         },
       }
-    )
-  }
+    );
+  };
 
   updateState = (data) => {
-    this.setState(data)
-  }
+    this.setState(data);
+  };
 
   uploadHandler = ({ serviceUrl, signedBlobId, imageBlock }) => {
     graphql(
@@ -359,40 +380,44 @@ class ArticlesNew extends Component {
       },
       {
         success: (_data) => {
-          imageBlock.uploadCompleted(serviceUrl)
+          imageBlock.uploadCompleted(serviceUrl);
         },
         error: (err) => {
-          console.log('error on direct upload', err)
+          console.log('error on direct upload', err);
         },
       }
-    )
-  }
+    );
+  };
 
   handleLangChange = (lang) => {
-    if (!lang) return
-    if (!this.state.article.id) return
+    if (!lang) return;
+    if (!this.state.article) return;
+    if (!this.state.article.id) return;
     this.setState(
       {
         lang: lang,
         loading: true,
       },
       () => this.getArticle(this.state.article.id)
-    )
-  }
+    );
+  };
 
   handleInputChange = (_e) => {
-    this.registerChange()
-  }
+    this.registerChange();
+  };
 
   articleCollection = () => {
-    return this.state.article.collection ? this.state.article.collection : null
-  }
+    return this.state?.article?.collection
+      ? this.state.article.collection
+      : null;
+  };
 
   renderAside = () => {
     return (
       <div className="mt-6 border-t border-b border-gray-200 py-6 space-y-8 dark:border-gray-900">
         <div>
           {!this.state.loading &&
+            this.state.article &&
             this.state.article.id &&
             this.state.article.author && (
               <React.Fragment>
@@ -417,64 +442,63 @@ class ArticlesNew extends Component {
 
           {!this.state.loading && (
             <React.Fragment>
-              {!this.state.loading && this.state.article.author && (
-                <div className="flex">
-                  {this.state.agents.length > 0 && (
+              {!this.state.loading &&
+                this.state.article &&
+                this.state.article.author && (
+                  <div className="flex">
+                    {this.state.agents.length > 0 && (
+                      <div className="flex items-center">
+                        <Input
+                          type={'select'}
+                          className="w-32"
+                          options={this.state.agents.map((o) => ({
+                            label: o.name || o.email,
+                            value: o.email,
+                          }))}
+                          data={{}}
+                          name={'author'}
+                          placeholder={'select author'}
+                          onChange={this.handleAuthorchange}
+                          defaultValue={{
+                            label: this.state.article.author.email,
+                            value: this.state.article.author.email,
+                          }}
+                        ></Input>
+                      </div>
+                    )}
+
                     <div className="flex items-center">
+                      <strong className="m-2">In</strong>
                       <Input
                         type={'select'}
-                        className="w-32"
-                        options={this.state.agents.map((o) => ({
-                          label: o.name || o.email,
-                          value: o.email,
+                        options={this.state.collections.map((o) => ({
+                          label: o.title,
+                          value: o.id,
                         }))}
                         data={{}}
-                        name={'author'}
-                        placeholder={'select author'}
-                        onChange={this.handleAuthorchange}
-                        defaultValue={{
-                          label: this.state.article.author.email,
-                          value: this.state.article.author.email,
-                        }}
+                        className={'w-32'}
+                        name={'collection'}
+                        placeholder={'select collection'}
+                        onChange={this.handleCollectionChange}
+                        defaultValue={
+                          this.articleCollection() && {
+                            label: this.articleCollection().title,
+                            value: this.articleCollection().id,
+                          }
+                        }
                       ></Input>
                     </div>
-                  )}
-
-                  <div className="flex items-center">
-                    <strong className="m-2">In</strong>
-                    <Input
-                      type={'select'}
-                      options={this.state.collections.map((o) => ({
-                        label: o.title,
-                        value: o.id,
-                      }))}
-                      data={{}}
-                      className={'w-32'}
-                      name={'collection'}
-                      placeholder={'select collection'}
-                      onChange={this.handleCollectionChange}
-                      defaultValue={
-                        this.articleCollection() && {
-                          label: this.articleCollection().title,
-                          value: this.articleCollection().id,
-                        }
-                      }
-                    ></Input>
                   </div>
-                </div>
-              )}
+                )}
 
               <Input
                 id="article-title"
                 type={'text'}
-                // label="Name"
                 placeholder={I18n.t('articles.create_article.placeholder')}
-                // helperText="Full width!"
                 ref={(ref) => {
-                  this.titleRef = ref
+                  this.titleRef = ref;
                 }}
-                defaultValue={this.state.article.title}
-                margin="normal"
+                defaultValue={this.state?.article?.title}
                 onChange={this.handleInputChange}
               />
 
@@ -486,23 +510,22 @@ class ArticlesNew extends Component {
                   'articles.create_article.description_placeholder'
                 )}
                 // helperText="Full width!"
-                multiline
+                // multiline
                 ref={(ref) => {
-                  this.descriptionRef = ref
+                  this.descriptionRef = ref;
                 }}
-                defaultValue={this.state.article.description}
-                margin="normal"
+                defaultValue={this.state?.article?.description}
                 onChange={this.handleInputChange}
               />
             </React.Fragment>
           )}
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
-    const { app } = this.props
+    const { app } = this.props;
 
     return (
       <main className="flex-1 relative overflow-y-auto focus:outline-none">
@@ -515,7 +538,7 @@ class ArticlesNew extends Component {
             },
             {
               to: '',
-              title: this.state.article.title,
+              title: this.state?.article?.title,
             },
           ]}
         />
@@ -528,10 +551,10 @@ class ArticlesNew extends Component {
                   <div className="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6 dark:border-gray-900">
                     <div>
                       <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                        {this.state.article.title}
+                        {this.state?.article?.title}
                       </h1>
                       <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
-                        {this.state.article.author && (
+                        {this.state.article && this.state.article.author && (
                           <span>
                             {I18n.t('articles.written_by')}{' '}
                             <Link
@@ -600,17 +623,15 @@ class ArticlesNew extends Component {
                             onChange={(index) => {
                               this.handleLangChange(
                                 this.props.settings.availableLanguages[index]
-                              )
+                              );
                             }}
                           />
                         </div>
 
                         <div className="relative z-0 p-6 shadow rounded border  bg-yellow-50 dark:border-pink-800 dark:bg-gray-800 border-yellow-100 mb-4 my-4">
-                          {!this.state.loading && (
+                          {!this.state.loading && this.state.article && (
                             <ArticleEditor
                               article={this.state.article}
-                              data={this.props.data}
-                              app={this.props.app}
                               updateState={this.updateState}
                               loading={false}
                               uploadHandler={this.uploadHandler}
@@ -627,7 +648,7 @@ class ArticlesNew extends Component {
               <h2 className="sr-only">Details</h2>
 
               <div className="space-y-5">
-                {this.state.article.state && (
+                {this.state.article && this.state.article.state && (
                   <div className="flex items-center space-x-2">
                     <svg
                       className="h-5 w-5 text-green-500"
@@ -645,7 +666,7 @@ class ArticlesNew extends Component {
                   </div>
                 )}
 
-                {this.state.article.createdAt && (
+                {this.state.article && this.state.article.createdAt && (
                   <div className="flex items-center space-x-2">
                     <svg
                       className="h-5 w-5 text-gray-400"
@@ -670,24 +691,24 @@ class ArticlesNew extends Component {
                   </div>
                 )}
               </div>
-              {this.renderAside()}
+              {this.state.article && this.renderAside()}
             </aside>
           </div>
         </div>
       </main>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state
-  const { isAuthenticated } = auth
+  const { auth, app } = state;
+  const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
     isAuthenticated,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(ArticlesNew))
+export default withRouter(connect(mapStateToProps)(ArticlesNew));

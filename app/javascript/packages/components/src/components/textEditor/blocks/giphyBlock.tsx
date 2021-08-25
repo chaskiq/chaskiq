@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-import FormDialog from '../../FormDialog'
+import FormDialog from '../../FormDialog';
 
-import { resetBlockWithType } from 'Dante2/package/esm/editor/model'
+import { resetBlockWithType } from 'Dante2/package/esm/editor/model';
 
-import Giphy from './giphy'
+import Giphy from './giphy';
 
-const giphyApiKey = '97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'
+const giphyApiKey = '97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ';
 
 const GiphyLogo = () => {
   return (
@@ -63,81 +63,92 @@ const GiphyLogo = () => {
         </g>
       </g>
     </svg>
-  )
-}
+  );
+};
 
-export default class GiphyBlock extends React.Component {
+type GiphyBlockProps = {
+  blockProps: any;
+  block: any;
+};
+type GiphyBlockState = {
+  embed_data: () => void;
+  open: boolean;
+};
+export default class GiphyBlock extends React.Component<
+  GiphyBlockProps,
+  GiphyBlockState
+> {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       embed_data: this.defaultData(),
       open: true,
-    }
+    };
   }
 
   componentDidMount() {
-    console.log(this.props)
-    this.props.blockProps.toggleEditable()
+    console.log(this.props);
+    this.props.blockProps.toggleEditable();
   }
 
   defaultData = () => {
-    const existing_data = this.props.block.getData().toJS()
-    return existing_data.embed_data || {}
-  }
+    const existing_data = this.props.block.getData().toJS();
+    return existing_data.embed_data || {};
+  };
 
   deleteSelf = (e) => {
-    e.preventDefault()
-    const { _block, blockProps } = this.props
-    const { getEditorState, setEditorState } = blockProps
+    e.preventDefault();
+    const { blockProps } = this.props;
+    const { getEditorState, setEditorState } = blockProps;
     //const data = block.getData()
     //const newData = data.merge(this.state)
-    return setEditorState(resetBlockWithType(getEditorState(), 'unstyled', {}))
-  }
+    return setEditorState(resetBlockWithType(getEditorState(), 'unstyled', {}));
+  };
 
   getAspectRatio = (w, h) => {
-    const maxWidth = 1000
-    const maxHeight = 1000
-    let ratio = 0
-    let width = w // Current image width
-    let height = h // Current image height
+    const maxWidth = 1000;
+    const maxHeight = 1000;
+    let ratio = 0;
+    let width = w; // Current image width
+    let height = h; // Current image height
 
     // Check if the current width is larger than the max
     if (width > maxWidth) {
-      ratio = maxWidth / width // get ratio for scaling image
-      height = height * ratio // Reset height to match scaled image
-      width = width * ratio // Reset width to match scaled image
+      ratio = maxWidth / width; // get ratio for scaling image
+      height = height * ratio; // Reset height to match scaled image
+      width = width * ratio; // Reset width to match scaled image
 
       // Check if current height is larger than max
     } else if (height > maxHeight) {
-      ratio = maxHeight / height // get ratio for scaling image
-      width = width * ratio // Reset width to match scaled image
-      height = height * ratio // Reset height to match scaled image
+      ratio = maxHeight / height; // get ratio for scaling image
+      width = width * ratio; // Reset width to match scaled image
+      height = height * ratio; // Reset height to match scaled image
     }
 
-    const fill_ratio = (height / width) * 100
-    const result = { width, height, ratio: fill_ratio }
+    const fill_ratio = (height / width) * 100;
+    const result = { width, height, ratio: fill_ratio };
     // console.log result
-    return result
-  }
+    return result;
+  };
 
   selectImage = (giphyblock) => {
-    const { _block, blockProps } = this.props
-    const { getEditorState, setEditorState } = blockProps
+    const { blockProps } = this.props;
+    const { getEditorState, setEditorState } = blockProps;
     //const data = block.getData()
 
-    const { url, height, width } = giphyblock.images.original
+    const { url, height, width } = giphyblock.images.original;
     const newData = {
       url: url,
       aspect_ratio: this.getAspectRatio(width, height),
       forceUpload: true,
-    }
+    };
 
-    this.props.blockProps.toggleEditable()
+    this.props.blockProps.toggleEditable();
     // data.merge(this.state)
     return setEditorState(
       resetBlockWithType(getEditorState(), 'image', newData)
-    )
-  }
+    );
+  };
 
   render() {
     // console.log(this.state.collection)
@@ -151,20 +162,20 @@ export default class GiphyBlock extends React.Component {
                 open: !this.state.open,
               },
               this.props.blockProps.toggleEditable
-            )
+            );
           }}
           title={'Compose a new message'}
           formComponent={
             <Giphy
               apiKey={giphyApiKey}
               handleSelected={(data) => {
-                this.selectImage(data)
+                this.selectImage(data);
               }}
             />
           }
         ></FormDialog>
       </div>
-    )
+    );
   }
 }
 
@@ -189,7 +200,7 @@ export const GiphyBlockConfig = (options = {}) => {
     options: {
       placeholder: 'Search any gif on giphy',
     },
-  }
+  };
 
-  return Object.assign(config, options)
-}
+  return Object.assign(config, options);
+};

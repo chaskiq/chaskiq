@@ -48,7 +48,19 @@ import {
   ARTICLE_SETTINGS_UPDATE,
   ARTICLE_SETTINGS_DELETE_LANG,
 } from '@chaskiq/store/src/graphql/mutations';
-class Articles extends Component {
+
+type ArticlesState = {
+  meta: any;
+  tabValue: number;
+  settings: any;
+  errors: any;
+};
+type ArticlesProps = {
+  app: any;
+  dispatch: (value: any) => void;
+  history: any;
+};
+class Articles extends Component<ArticlesProps, ArticlesState> {
   state = {
     meta: {},
     tabValue: 0,
@@ -61,7 +73,7 @@ class Articles extends Component {
     this.getSettings();
   }
 
-  getSettings = (cb) => {
+  getSettings = (cb = null) => {
     graphql(
       ARTICLE_SETTINGS,
       {
@@ -115,7 +127,7 @@ class Articles extends Component {
     );
   };
 
-  deleteLang = (item, cb) => {
+  deleteLang = (item, cb = null) => {
     graphql(
       ARTICLE_SETTINGS_DELETE_LANG,
       {
@@ -153,7 +165,7 @@ class Articles extends Component {
       <div>
         <Hints type={'articles'} />
         <Tabs
-          value={this.state.tabValue}
+          currentTab={this.state.tabValue}
           onChange={this.handleTabChange}
           textColor="inherit"
           tabs={[
@@ -213,12 +225,15 @@ class Articles extends Component {
                         <React.Fragment>
                           {this.state.settings &&
                           this.state.settings.subdomain ? (
-                            <div item>
+                            <div>
                               <Button
-                                href={`https://${this.state.settings.subdomain}.chaskiq.io`}
+                                onClick={() =>
+                                  window.open(
+                                    `https://${this.state.settings.subdomain}.chaskiq.io`
+                                  )
+                                }
                                 variant="outlined"
                                 color="inherit"
-                                target={'blank'}
                                 className="mr-2"
                               >
                                 {I18n.t('articles.visit')}
@@ -316,12 +331,27 @@ class Articles extends Component {
   }
 }
 
-class AllArticles extends React.Component {
+type AllArticlesProps = {
+  dispatch: (val: any) => void;
+  mode: any;
+  app: any;
+  history: any;
+  settings: any;
+};
+type AllArticlesState = {
+  collection: any;
+  loading: boolean;
+  lang: string;
+  openDeleteDialog: any;
+  meta: any;
+};
+class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
   state = {
     collection: [],
     loading: true,
     lang: 'en',
-    openDeleteDialog: false,
+    openDeleteDialog: null,
+    meta: null,
   };
 
   componentDidMount() {
@@ -394,8 +424,10 @@ class AllArticles extends React.Component {
               )
             }
           >
-            <AddIcon />
-            {I18n.t('articles.new_article')}
+            <>
+              <AddIcon />
+              {I18n.t('articles.new_article')}
+            </>
           </AnchorLink>
         </div>
       </div>
@@ -449,11 +481,9 @@ class AllArticles extends React.Component {
         <div>
           {!this.state.loading ? (
             <DataTable
-              title={`${this.props.mode} articles`}
               meta={this.state.meta}
               data={this.state.collection}
               search={this.search}
-              loading={this.state.loading}
               disablePagination={true}
               columns={[
                 // {field: "id", title: I18n.t("definitions.articles.id.label")},
@@ -543,18 +573,6 @@ class AllArticles extends React.Component {
                     ),
                 },
               ]}
-              defaultHiddenColumnNames={[]}
-              tableColumnExtensions={[
-                { columnName: 'title', width: 250 },
-                { columnName: 'id', width: 10 },
-              ]}
-              // tableEdit={true}
-              // editingRowIds={["email", "name"]}
-              commitChanges={(_aa, _bb) => {}}
-              // leftColumns={this.props.leftColumns}
-              // rightColumns={this.props.rightColumns}
-              // toggleMapView={this.props.toggleMapView}
-              // map_view={this.props.map_view}
               enableMapView={false}
             />
           ) : (

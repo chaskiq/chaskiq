@@ -1,10 +1,15 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
-import prismStyle from './prismStyle'
+import prismStyle from './prismStyle';
 
-import EditorContainer from 'Dante2/package/esm/editor/styled/base'
+import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
-const NewEditorStyles = styled(EditorContainer)`
+type NewEditorStylesType = {
+  theme: any;
+  campaign: any;
+};
+
+const NewEditorStyles = styled(EditorContainer)<NewEditorStylesType>`
   display: flex;
   flex-direction: column;
   line-height: 1.4;
@@ -129,6 +134,6 @@ const NewEditorStyles = styled(EditorContainer)`
   }
 
   ${prismStyle}
-`
+`;
 
-export default NewEditorStyles
+export default NewEditorStyles;

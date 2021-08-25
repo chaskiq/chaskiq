@@ -1,7 +1,7 @@
 import actionTypes, {ActionType} from '../constants/action_types'
 
 export function errorMessage(message) {
-  return (dispatch, _getState) => {
+  return (dispatch) => {
     dispatch(
       setMessage({
         message: message,
@@ -13,7 +13,7 @@ export function errorMessage(message) {
 }
 
 export function warningMessage(message) {
-  return (dispatch, _getState) => {
+  return (dispatch) => {
     dispatch(
       setMessage({
         message: message,
@@ -25,7 +25,7 @@ export function warningMessage(message) {
 }
 
 export function infoMessage(message) {
-  return (dispatch, _getState) => {
+  return (dispatch) => {
     dispatch(
       setMessage({
         message: message,
@@ -37,7 +37,7 @@ export function infoMessage(message) {
 }
 
 export function successMessage(message) {
-  return (dispatch, _getState) => {
+  return (dispatch) => {
     dispatch(
       setMessage({
         message: message,
@@ -49,7 +49,7 @@ export function successMessage(message) {
 }
 
 export function clearStatusMessage() {
-  return (dispatch, _getState) => {
+  return (dispatch) => {
     dispatch(setMessage({}))
   }
 }

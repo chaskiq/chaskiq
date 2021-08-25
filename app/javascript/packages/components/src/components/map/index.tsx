@@ -1,5 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import styled from '@emotion/styled';
 import { isEmpty } from 'lodash';
 const TOKEN =
@@ -15,12 +16,12 @@ type Props = {
   title?: string;
   data: Array<any>;
   interactive: boolean;
-  wrapperStyle: any;
+  wrapperStyle?: any;
   forceZoom?: number;
 };
 
 export default class Mapa extends React.Component<Props> {
-  map: {};
+  map: any;
 
   constructor(props) {
     super(props);
