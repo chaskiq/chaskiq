@@ -5,6 +5,7 @@ import Button from '../Button';
 import { DockerIcon, PaintIcon } from '../icons';
 
 import I18n from '../../../../../src/shared/FakeI18n';
+import ErrorBoundary from '../ErrorBoundary';
 
 interface IColorPickerProps {
   color: string;
@@ -26,7 +27,7 @@ export class ColorPicker extends React.Component<
 > {
   state = {
     displayColorPicker: false,
-    value: this.props.color,
+    value: this.props.color || '555',
   };
 
   handleClick = (e) => {
@@ -59,7 +60,7 @@ export class ColorPicker extends React.Component<
       left: '0px',
     };
     return (
-      <React.Fragment>
+      <ErrorBoundary>
         <div className="mt-1 flex rounded-md shadow-sm">
           <div className="relative flex-grow focus-within:z-10">
             <Button
@@ -108,7 +109,7 @@ export class ColorPicker extends React.Component<
             />
           </div>
         )}
-      </React.Fragment>
+      </ErrorBoundary>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import arrayMove from 'array-move';
+import { isEmpty } from 'lodash';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
@@ -357,23 +358,25 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
         )}
       </Content>
 
-      {openTaskForm ? (
+      {openTaskForm && (
         <BotTaskCreate
+          dispatch={dispatch}
           mode={mode}
           match={match}
           history={history}
           app={app}
           submit={() => console.log('os')}
         />
-      ) : null}
+      )}
     </div>
   );
 };
 
-const BotTaskCreate = ({ app, submit, history, match, mode }) => {
+const BotTaskCreate = ({ app, submit, history, match, mode, dispatch }) => {
   // const PathDialog = ({open, close, isOpen, submit})=>{
 
   const [isOpen, setIsOpen] = useState(true);
+  const [errors, setErrors] = useState(null);
 
   const close = () => {
     setIsOpen(false);
@@ -383,6 +386,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
   // const titleRef = null
 
   const handleSubmit = (_e) => {
+    setErrors(null);
     const dataParams = {
       // id: create_UUID(),
       title: titleRef.value,
@@ -398,7 +402,14 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
       },
       {
         success: (data) => {
+          if (!isEmpty(data.createBotTask.errors)) {
+            dispatch(errorMessage(I18n.t('status_messages.created_error')));
+            setErrors(data.createBotTask.errors.name.join(', '));
+            return;
+          }
+
           history.push(match.url + '/' + data.createBotTask.botTask.id);
+
           submit && submit();
         },
         error: (_error) => {},
@@ -420,6 +431,7 @@ const BotTaskCreate = ({ app, submit, history, match, mode }) => {
               type={'string'}
               ref={(ref) => (titleRef = ref)}
               placeholder={I18n.t('definitions.bot_tasks.title.placeholder')}
+              error={errors}
               // defaultValue="Default Value"
               // className={classes.textField}
               helperText={I18n.t('definitions.bot_tasks.title.hint')}

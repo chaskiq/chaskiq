@@ -81,14 +81,13 @@ export default class SettingsForm extends Component<
                 <div
                   key={`field-${field.name}-${index}`}
                   className={`${gridClasses(field)} py-2 pr-2`}
-                  {...field.gridProps}
                 >
                   <FieldRenderer
                     {...field}
                     namespace={'app'}
                     data={field}
                     props={this.props}
-                    errors={this.props.data.errors || {}}
+                    errors={this.props?.data?.errors || {}}
                   />
                 </div>
               );

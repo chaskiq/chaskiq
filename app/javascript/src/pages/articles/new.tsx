@@ -46,6 +46,12 @@ import {
   ARTICLE_COLLECTIONS,
 } from '@chaskiq/store/src/graphql/queries';
 
+type ArticleType = {
+  id?: any;
+  collection?: any;
+  state?: any;
+};
+
 type ArticlesNewProps = {
   match: any;
   dispatch: any;
@@ -58,7 +64,7 @@ type ArticlesNewProps = {
 type ArticlesNewState = {
   currentContent: any;
   content: any;
-  article?: any;
+  article?: ArticleType;
   changed: any;
   loading: boolean;
   agents: any;
@@ -71,7 +77,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
   state = {
     currentContent: null,
     content: null,
-    article: null,
+    article: {} as any,
     changed: false,
     loading: true,
     agents: [],

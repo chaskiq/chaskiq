@@ -20,20 +20,23 @@ import { clearApp } from '@chaskiq/store/src/actions/app';
 import { CREATE_APP } from '@chaskiq/store/src/graphql/mutations';
 
 type NewAppProps = {
-  data: any;
   dispatch: (val: any) => void;
   history: any;
   classes?: string;
 };
 
-type NewAppState = {
-  data: {
-    app?: any;
+type AppDataType = {
+  app?: {
+    key?: string;
   };
+};
+
+type NewAppState = {
+  data: AppDataType;
 };
 class NewApp extends Component<NewAppProps, NewAppState> {
   state = {
-    data: null,
+    data: {} as any,
   };
 
   componentDidMount() {
