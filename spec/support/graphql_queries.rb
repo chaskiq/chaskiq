@@ -3,13 +3,13 @@ require "rspec/expectations"
 
 module GraphQL
   class TestClient
-    def self.configure(entry = Rails.root + "app/javascript/packages/store/src/graphql/testEntry.mjs")
+    def self.configure(entry = Rails.root + "app/javascript/packages/store/src/graphql/testEntryts.ts")
       @entry = entry
     end
 
     def self.query(type)
       configure if @entry.blank?
-      `npx babel-node #{@entry} #{type}`
+      `npx ts-node #{@entry} #{type}`
     end
   end
 end

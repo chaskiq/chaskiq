@@ -1,30 +1,31 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import AppContainer from './pages/AppContainer'
-import Apps from './pages/Apps'
-import Login from './pages/auth/login'
-import NewApp from './pages/NewApp'
-import NotFound from './pages/NotFound'
-import UnSubscribe from './pages/UnSubscribe'
-import AcceptInvitation from './pages/auth/acceptInvitation'
-import BlocksPlayground from './pages/BlocksPlayground'
-import { Switch, Route, withRouter } from 'react-router-dom'
+import React from 'react';
+import { connect } from 'react-redux';
+import AppContainer from './pages/AppContainer';
+import Apps from './pages/Apps';
+import Login from './pages/auth/login';
+import NewApp from './pages/NewApp';
+import NotFound from './pages/NotFound';
+import UnSubscribe from './pages/UnSubscribe';
+import AcceptInvitation from './pages/auth/acceptInvitation';
+import BlocksPlayground from './pages/BlocksPlayground';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
-import ZoomImage from '@chaskiq/components/src/components/ImageZoomOverlay'
-import LoadingView from '@chaskiq/components/src/components/loadingView'
-import Snackbar from '@chaskiq/components/src/components/Alert'
+import ZoomImage from '@chaskiq/components/src/components/ImageZoomOverlay';
+import LoadingView from '@chaskiq/components/src/components/loadingView';
+import Snackbar from '@chaskiq/components/src/components/Alert';
 
-import { clearLocks } from '@chaskiq/store/src/actions/upgradePages'
+import { clearLocks } from '@chaskiq/store/src/actions/upgradePages';
+import I18n from './shared/FakeI18n';
 
 function mapStateToProps(state) {
-  const { auth, current_user, theme } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, current_user, theme } = state;
+  const { loading, isAuthenticated } = auth;
   return {
     current_user,
     loading,
     isAuthenticated,
     theme,
-  }
+  };
 }
 
 function AppRouter({
@@ -34,26 +35,26 @@ function AppRouter({
   dispatch,
   theme,
 }) {
-  const [reload, setReload] = React.useState(false)
+  const [reload, setReload] = React.useState(false);
 
   React.useEffect(() => {
-    I18n.locale = current_user.lang || I18n.defaultLocale
-  }, [])
+    I18n.locale = current_user.lang || I18n.defaultLocale;
+  }, []);
 
   React.useEffect(() => {
     if (current_user.lang) {
-      if (I18n.locale === current_user.lang) return
-      I18n.locale = current_user.lang
-      setReload(true)
+      if (I18n.locale === current_user.lang) return;
+      I18n.locale = current_user.lang;
+      setReload(true);
       setTimeout(() => {
-        setReload(false)
-      }, 400)
+        setReload(false);
+      }, 400);
     }
-  }, [current_user.lang])
+  }, [current_user.lang]);
 
   React.useEffect(() => {
-    dispatch(clearLocks())
-  }, [location.key])
+    dispatch(clearLocks());
+  }, [location.key]);
 
   return (
     <div className={`${theme}`}>
@@ -112,7 +113,7 @@ function AppRouter({
         </Switch>
       )}
     </div>
-  )
+  );
 }
 
-export default withRouter(connect(mapStateToProps)(AppRouter))
+export default withRouter(connect(mapStateToProps)(AppRouter));
