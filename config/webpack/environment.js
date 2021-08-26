@@ -3,17 +3,19 @@ var webpack = require('webpack');
 const { environment } = require('@rails/webpacker');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+if (process.env.NODE_ENV !== 'production') {
+  const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-environment.plugins.append(
-  'ForkTsCheckerWebpackPlugin',
-  new ForkTsCheckerWebpackPlugin({
-    typescript: {
-      configFile: path.resolve(__dirname, '../../tsconfig.json'),
-    },
-    async: false,
-  })
-);
+  environment.plugins.append(
+    'ForkTsCheckerWebpackPlugin',
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        configFile: path.resolve(__dirname, '../../tsconfig.json'),
+      },
+      async: false,
+    })
+  );
+}
 
 // Get the actual sass-loader config
 const sassLoader = environment.loaders.get('sass');
