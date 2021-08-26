@@ -2,28 +2,28 @@
  *  You can use inline styles or classNames inside your callbacks
  */
 
-import React, { Component } from 'react'
-import redraft from 'redraft'
-import { AttachmentIcon2 } from '../icons'
+import React, { Component } from 'react';
+import redraft from 'redraft';
+import { AttachmentIcon2 } from '../icons';
 
-import Prism from 'prismjs'
+import Prism from 'prismjs';
 
 const handlePrismRenderer = (syntax, code) => {
   const formattedCode = Prism.highlight(
     code,
     Prism.languages.javascript,
     'javascript'
-  )
-  return { __html: formattedCode }
-}
+  );
+  return { __html: formattedCode };
+};
 
 function Pre({ _className, children, data }) {
-  const el = React.useRef(null)
-  const [code, setCode] = React.useState(null)
+  const el = React.useRef(null);
+  const [code, setCode] = React.useState(null);
 
   React.useEffect(() => {
-    setCode(handlePrismRenderer(data.syntax, el.current.innerHTML))
-  }, [])
+    setCode(handlePrismRenderer(data.syntax, el.current.innerHTML));
+  }, []);
 
   return (
     <div>
@@ -35,16 +35,16 @@ function Pre({ _className, children, data }) {
         <pre className="graf graf--code" dangerouslySetInnerHTML={code} />
       )}
     </div>
-  )
+  );
 }
 
 // just a helper to add a <br /> after a block
-const addBreaklines = (children) => children.map((child) => [child, <br />])
+const addBreaklines = (children) => children.map((child) => [child, <br />]);
 
 function getImageUrl(url, props) {
-  if (!url) return
-  if (url.includes('://')) return url
-  return `${props.domain}${url}`
+  if (!url) return;
+  if (url.includes('://')) return url;
+  return `${props.domain}${url}`;
 }
 /**
  * Define the renderers
@@ -74,7 +74,7 @@ function renderers(props) {
           <p key={keys[i]} className="graf graf--p">
             {o}
           </p>
-        ))
+        ));
       },
       blockquote: (children, { keys }) => (
         <blockquote key={keys[0]} className="graf graf--blockquote">
@@ -97,7 +97,7 @@ function renderers(props) {
           <Pre className="graf graf--code" data={data}>
             {children}
           </Pre>
-        )
+        );
       },
       // or depth for nested lists
       'unordered-list-item': (children, { depth, keys }) => (
@@ -120,7 +120,7 @@ function renderers(props) {
       ),
 
       file: (children, { _keys, data }) => {
-        const fileName = data[0].url.split('/').pop()
+        const fileName = data[0].url.split('/').pop();
         return (
           <div>
             <a
@@ -133,7 +133,7 @@ function renderers(props) {
               {fileName}
             </a>
           </div>
-        )
+        );
       },
 
       image: (children, { keys, data }) => {
@@ -146,10 +146,10 @@ function renderers(props) {
           >
             {children[index]}
           </ImageRenderer>
-        ))
+        ));
       },
       embed: (children, { keys, data }) => {
-        const { provisory_text, _type, embed_data } = data[0]
+        const { provisory_text, _type, embed_data } = data[0];
         const {
           images,
           title,
@@ -157,7 +157,7 @@ function renderers(props) {
           provider_url,
           description,
           _url,
-        } = embed_data
+        } = embed_data;
 
         return (
           <div key={keys[0]} className="graf graf--mixtapeEmbed">
@@ -189,11 +189,11 @@ function renderers(props) {
               {provider_url}
             </span>
           </div>
-        )
+        );
       },
       video: (children, { keys, data }) => {
-        const { provisory_text, _type, embed_data } = data[0]
-        const { html } = embed_data
+        const { provisory_text, _type, embed_data } = data[0];
+        const { html } = embed_data;
 
         return (
           <figure
@@ -216,10 +216,10 @@ function renderers(props) {
               </figcaption>
             )}
           </figure>
-        )
+        );
       },
       'recorded-video': (children, { keys, data }) => {
-        const { url, text } = data[0]
+        const { url, text } = data[0];
 
         return (
           <figure
@@ -241,7 +241,7 @@ function renderers(props) {
               </div>
             </figcaption>
           </figure>
-        )
+        );
       },
       // If your blocks use meta data it can also be accessed like keys
       // atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
@@ -275,24 +275,24 @@ function renderers(props) {
       },
       new CustomDecorator(someOptions),
     ], */
-  }
+  };
 }
 
 function ImageRenderer({ children, blockKey, data, props }) {
-  const data2 = data
-  const { url, aspect_ratio, caption } = data2
-  let height, width, ratio
+  const data2 = data;
+  const { url, aspect_ratio, caption } = data2;
+  let height, width, ratio;
   if (!aspect_ratio) {
-    height = '100%'
-    width = '100%'
-    ratio = '0'
+    height = '100%';
+    width = '100%';
+    ratio = '0';
   } else {
-    height = aspect_ratio.height
-    width = aspect_ratio.width
-    ratio = aspect_ratio.ratio
+    height = aspect_ratio.height;
+    width = aspect_ratio.width;
+    ratio = aspect_ratio.ratio;
   }
 
-  const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` }
+  const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` };
 
   return (
     <figure key={blockKey} className="graf graf--figure">
@@ -323,7 +323,7 @@ function ImageRenderer({ children, blockKey, data, props }) {
         </figcaption>
       )}
     </figure>
-  )
+  );
 }
 
 export default class Renderer extends Component {
@@ -339,22 +339,22 @@ export default class Renderer extends Component {
             __html: this.props.message.message.htmlContent,
           }}
         />
-      )
+      );
     } else {
-      return <div>---</div>
+      return <div>---</div>;
     }
   }
 
   render() {
-    const { raw } = this.props
+    const { raw } = this.props;
     if (!raw) {
-      return this.renderWarning()
+      return this.renderWarning();
     }
-    const rendered = redraft(raw, renderers(this.props))
+    const rendered = redraft(raw, renderers(this.props));
     // redraft returns a null if there's nothing to render
     if (!rendered) {
-      return this.renderWarning()
+      return this.renderWarning();
     }
-    return <div>{rendered}</div>
+    return <div>{rendered}</div>;
   }
 }

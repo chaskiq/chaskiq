@@ -1,4 +1,4 @@
-import { appFragment } from './fragments'
+import { appFragment } from './fragments';
 
 export const UPDATE_APP = `
   mutation AppsUpdate($appKey: String!, $appParams: Json!){
@@ -9,7 +9,7 @@ export const UPDATE_APP = `
       }
     }
   }
-`
+`;
 
 export const IMPORT_CONTACTS = `
   mutation ImportContact($appKey: String!, $appParams: Json!){
@@ -17,7 +17,7 @@ export const IMPORT_CONTACTS = `
       errors
     }
   }
-`
+`;
 
 export const DESTROY_APP = `
   mutation AppsUpdate($appKey: String!){
@@ -25,7 +25,7 @@ export const DESTROY_APP = `
       errors
     }
   }
-`
+`;
 
 export const CREATE_APP = `
   mutation AppsCreate($appParams: Json!, $operation: String){
@@ -36,7 +36,7 @@ export const CREATE_APP = `
       }
     }
   }
-`
+`;
 
 export const APP_USER_UPDATE_STATE = `
   mutation AppUserUpdateData($appKey: String!, $id: Int!, $state: String!){
@@ -75,7 +75,7 @@ export const APP_USER_UPDATE_STATE = `
       }
     }
   }
-`
+`;
 
 export const APP_USER_UPDATE = `
   mutation UpdateAppUser($appKey: String!, $id: Int!, $options: Json!){
@@ -114,7 +114,7 @@ export const APP_USER_UPDATE = `
       }
     }
   }
-`
+`;
 
 export const SYNC_EXTERNAL_PROFILE = `
   mutation SyncExternalProfile($appKey: String!, $id: Int!, $provider: String!){
@@ -153,7 +153,7 @@ export const SYNC_EXTERNAL_PROFILE = `
       }
     }
   }
-`
+`;
 
 export const START_CONVERSATION = `
   mutation StartConversation($appKey: String!, $id: Int, $message: Json!){
@@ -204,7 +204,7 @@ export const START_CONVERSATION = `
       }
     }
   }
-`
+`;
 
 export const INSERT_COMMMENT = `
   mutation InsertComment($appKey: String!, $id: String!, $message: Json!){
@@ -237,7 +237,7 @@ export const INSERT_COMMMENT = `
       }
     }
   }
-`
+`;
 
 export const TYPING_NOTIFIER = `
   mutation TypingNotifier($appKey: String!, $id: String!){
@@ -245,7 +245,7 @@ export const TYPING_NOTIFIER = `
       message
     }
   }
-`
+`;
 
 export const INSERT_APP_BLOCK_COMMMENT = `
   mutation InsertAppBlockComment($appKey: String!, $id: String!, $controls: Json!){
@@ -278,7 +278,7 @@ export const INSERT_APP_BLOCK_COMMMENT = `
       }
     }
   }
-`
+`;
 
 export const SEND_TRIGGER = `
   mutation SendTrigger($appKey: String!, $conversationId: Int!, $triggerId: Int!){
@@ -292,7 +292,7 @@ export const SEND_TRIGGER = `
       }
     }
   }
-`
+`;
 
 export const INSERT_NOTE = `
   mutation InsertNote($appKey: String!, $id: Int!, $message: Json!){
@@ -325,7 +325,7 @@ export const INSERT_NOTE = `
       }
     }
   }
-`
+`;
 
 export const ASSIGN_USER = `
   mutation AssignUser($appKey: String!, $conversationId: Int!, $appUserId: Int!){
@@ -351,7 +351,7 @@ export const ASSIGN_USER = `
       }
     }
   }
-`
+`;
 
 export const CREATE_ASSIGNMENT_RULE = `
   mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $active: String!, $conditions: Json!){
@@ -371,7 +371,7 @@ export const CREATE_ASSIGNMENT_RULE = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_RULE_PRIORITIES = `
   mutation UpdateRulePriorities($appKey: String!, $rules: [Json!]!){
@@ -379,7 +379,7 @@ export const UPDATE_RULE_PRIORITIES = `
       errors
     }
   }
-`
+`;
 
 export const EDIT_ASSIGNMENT_RULE = `
   mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $active: String!, $conditions: Json!){
@@ -399,7 +399,7 @@ export const EDIT_ASSIGNMENT_RULE = `
       }
     }
   }
-`
+`;
 
 export const DELETE_ASSIGNMENT_RULE = `
   mutation DeleteAssignmentRule($appKey: String!, $ruleId: Int! ){
@@ -419,7 +419,7 @@ export const DELETE_ASSIGNMENT_RULE = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_CONVERSATION_TAG_LIST = `
   mutation UpdateConversationTags($appKey: String!, $conversationId: Int!, $tagList: [String!]!){
@@ -446,7 +446,7 @@ export const UPDATE_CONVERSATION_TAG_LIST = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_CONVERSATION_STATE = `
   mutation UpdateConversationState($appKey: String!, $conversationId: Int!, $state: String!){
@@ -472,7 +472,7 @@ export const UPDATE_CONVERSATION_STATE = `
       }
     }
   }
-`
+`;
 
 export const TOGGLE_CONVERSATION_PRIORITY = `
   mutation ToggleConversationPriority($appKey: String!, $conversationId: Int!){
@@ -498,7 +498,7 @@ export const TOGGLE_CONVERSATION_PRIORITY = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_CAMPAIGN = `
   mutation UpdateCampaign($appKey: String!, $id: Int!, $campaignParams: Json!){
@@ -527,7 +527,7 @@ export const UPDATE_CAMPAIGN = `
       }
     }
   }
-`
+`;
 
 export const DELETE_CAMPAIGN = `
   mutation DeleteCampaign($appKey: String!, $id: Int!){
@@ -538,7 +538,7 @@ export const DELETE_CAMPAIGN = `
       }
     }
   }
-`
+`;
 
 export const DELIVER_CAMPAIGN = `
   mutation DeliverCampaign($appKey: String!, $id: Int!, ){
@@ -566,7 +566,7 @@ export const DELIVER_CAMPAIGN = `
       }
     }
   }
-`
+`;
 
 export const PURGE_METRICS = `
   mutation PurgeMetrics($appKey: String!, $id: Int!, ){
@@ -592,7 +592,7 @@ export const PURGE_METRICS = `
       }
     }
   }
-`
+`;
 
 export const CREATE_CAMPAIGN = `
   mutation CreateCampaign($appKey: String!, $campaignParams: Json!, $operation: String, $mode: String!){
@@ -621,7 +621,7 @@ export const CREATE_CAMPAIGN = `
       }
     }
   }
-`
+`;
 
 export const PREDICATES_SEARCH = `
   mutation PredicatesSearch($appKey: String!, $search: Json!, $page: Int, $per: Int){
@@ -659,7 +659,7 @@ export const PREDICATES_SEARCH = `
       }
     }
   }
-`
+`;
 
 export const PREDICATES_DELETE = `
   mutation PredicatesDelete($appKey: String!, $id: Int,){
@@ -669,7 +669,7 @@ export const PREDICATES_DELETE = `
       }
     }
   }
-`
+`;
 
 export const PREDICATES_CREATE = `
   mutation PredicatesCreate($appKey: String!, $name: String!, $predicates: Json!){
@@ -686,7 +686,7 @@ export const PREDICATES_CREATE = `
       }
     }
   }
-`
+`;
 
 export const PREDICATES_UPDATE = `
   mutation PredicatesUpdate($appKey: String!, $predicates: Json!, $id: Int){
@@ -703,7 +703,7 @@ export const PREDICATES_UPDATE = `
       }
     }
   }
-`
+`;
 
 export const WEBHOOK_DELETE = `
   mutation WebhookDelete($appKey: String!, $id: Int!){
@@ -712,7 +712,7 @@ export const WEBHOOK_DELETE = `
       errors
     }
   }
-`
+`;
 
 export const WEBHOOK_CREATE = `
   mutation WebhookCreate($appKey: String!, $url: String!, $tags: Json!, $state: String!){
@@ -721,7 +721,7 @@ export const WEBHOOK_CREATE = `
       errors
     }
   }
-`
+`;
 
 export const WEBHOOK_UPDATE = `
   mutation WebhookUpdate($appKey: String!, $url: String!, $state: String!, $tags: Json!, $id: Int!){
@@ -730,7 +730,7 @@ export const WEBHOOK_UPDATE = `
       errors
     }
   }
-`
+`;
 
 export const CLONE_MESSAGE = `
   mutation CloneMessage($appKey: String!, $id: String!){
@@ -739,7 +739,7 @@ export const CLONE_MESSAGE = `
       errors
     }
   }
-`
+`;
 
 export const QUICK_REPLY_CREATE = `
   mutation QuickReplyCreate($appKey: String!, $title: String!, $content: String!, $lang: String){
@@ -752,7 +752,7 @@ export const QUICK_REPLY_CREATE = `
       errors
     }
   }
-`
+`;
 
 export const QUICK_REPLY_UPDATE = `
   mutation QuickReplyUpdate($appKey: String!, $title: String!, $content: String!, $id: Int!, $lang: String ){
@@ -765,7 +765,7 @@ export const QUICK_REPLY_UPDATE = `
       errors
     }
   }
-`
+`;
 
 export const QUICK_REPLY_DELETE = `
   mutation QuickReplyDelete($appKey: String!, $id: Int! ){
@@ -776,7 +776,7 @@ export const QUICK_REPLY_DELETE = `
       errors
     }
   }
-`
+`;
 
 export const INVITE_AGENT = `
   mutation InviteAgent($appKey: String!, $email: String!){
@@ -788,7 +788,7 @@ export const INVITE_AGENT = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_AGENT = `
   mutation UpdateAgent($appKey: String!, $email: String!, $params: Json!){
@@ -801,7 +801,7 @@ export const UPDATE_AGENT = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_AGENT_ROLE = `
   mutation UpdateAgentRole($appKey: String!, $id: String!, $params: Json!){
@@ -814,7 +814,7 @@ export const UPDATE_AGENT_ROLE = `
       }
     }
   }
-`
+`;
 
 export const DESTROY_AGENT_ROLE = `
   mutation DestroyAgentRole($appKey: String!, $id: String!){
@@ -824,7 +824,7 @@ export const DESTROY_AGENT_ROLE = `
         }
       }
   }
-`
+`;
 
 export const CREATE_ARTICLE = `
   mutation CreateArticle($appKey: String!, $content: Json!, $title: String!, $lang: String){
@@ -844,7 +844,7 @@ export const CREATE_ARTICLE = `
       }
     }
   }
-`
+`;
 
 export const EDIT_ARTICLE = `
   mutation EditArticle($appKey: String!, $content: Json, $id: String!, $title: String!, $description: String!, $lang: String){
@@ -864,7 +864,7 @@ export const EDIT_ARTICLE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_BLOB_ATTACH = `
   mutation ArticleBlobAttach($appKey: String!, $id: Int!, $blobId: String!){
@@ -884,7 +884,7 @@ export const ARTICLE_BLOB_ATTACH = `
       }
     }
   }
-`
+`;
 
 export const TOGGLE_ARTICLE = `
   mutation ToggleArticle($appKey: String!, $id: String!, $state: String!){
@@ -904,7 +904,7 @@ export const TOGGLE_ARTICLE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_ASSIGN_AUTHOR = `
   mutation AssignAuthor($appKey: String!, $id: String!, $authorId: String!){
@@ -924,7 +924,7 @@ export const ARTICLE_ASSIGN_AUTHOR = `
       }
     }
   }
-`
+`;
 
 export const DELETE_ARTICLE = `
   mutation DeleteArticle($appKey: String!, $id: String!){
@@ -938,7 +938,7 @@ export const DELETE_ARTICLE = `
       }
     }
   }
-`
+`;
 
 export const CREATE_DIRECT_UPLOAD = `
   mutation CreateDirectUpload($filename: String!, $contentType: String!, $checksum: String!, $byteSize: Int!){
@@ -957,7 +957,7 @@ export const CREATE_DIRECT_UPLOAD = `
       }
     }
   }
-`
+`;
 
 export const CREATE_URL_UPLOAD = `
   mutation CreateUrlUpload($url: String!){
@@ -973,7 +973,7 @@ export const CREATE_URL_UPLOAD = `
       }
     }
   }
-`
+`;
 
 export const REORDER_ARTICLE = `
   mutation ReorderArticle( $appKey: String!, $id: String!, $position: Int!, $section: String, $collection: String){
@@ -984,7 +984,7 @@ export const REORDER_ARTICLE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_CREATE = `
   mutation ArticleCollectionCreate($appKey: String!, $title: String!, $description: String){
@@ -1001,7 +1001,7 @@ export const ARTICLE_COLLECTION_CREATE = `
       errors
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_CHANGE = `
   mutation ChangeCollectionArticle($appKey: String!, $id: String!, $collectionId: Int!){
@@ -1024,7 +1024,7 @@ export const ARTICLE_COLLECTION_CHANGE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_EDIT = `
   mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String, $icon: String){
@@ -1045,7 +1045,7 @@ export const ARTICLE_COLLECTION_EDIT = `
       errors
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_DELETE = `
   mutation ArticleCollectionDelete($appKey: String!, $id: Int!){
@@ -1058,7 +1058,7 @@ export const ARTICLE_COLLECTION_DELETE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_REORDER = `
   mutation ArticleCollectionReorder( $appKey: String!, $id: String!, $idAfter: String! ){
@@ -1071,7 +1071,7 @@ export const ARTICLE_COLLECTION_REORDER = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_SECTION_CREATE = `
   mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!, $lang: String){
@@ -1092,7 +1092,7 @@ export const ARTICLE_SECTION_CREATE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_SECTION_EDIT = `
   mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: String!, $collectionId: Int!, $lang: String){
@@ -1110,7 +1110,7 @@ export const ARTICLE_SECTION_EDIT = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_SECTION_DELETE = `
   mutation ArticleSectionDelete($appKey: String!, $id: String!){
@@ -1123,7 +1123,7 @@ export const ARTICLE_SECTION_DELETE = `
       }
     }
   }
-`
+`;
 
 export const ADD_ARTICLES_TO_COLLECTION = `
   mutation AddArticlesToCollection($appKey: String!, $collectionId: Int!, $articlesId: [String!]!){
@@ -1137,7 +1137,7 @@ export const ADD_ARTICLES_TO_COLLECTION = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_SETTINGS_UPDATE = `
   mutation ArticleSettingsUpdate($appKey: String!, $settings: Json!){
@@ -1166,7 +1166,7 @@ export const ARTICLE_SETTINGS_UPDATE = `
       errors
     }
   }
-`
+`;
 
 export const ARTICLE_SETTINGS_DELETE_LANG = `
   mutation ArticleSettingsDeleteLan($appKey: String!, $langItem: String!){
@@ -1194,7 +1194,7 @@ export const ARTICLE_SETTINGS_DELETE_LANG = `
       errors
     }
   }
-`
+`;
 
 export const CREATE_BOT_TASK = `
   mutation CreateBotTask($appKey: String!, $params: Json!){
@@ -1219,7 +1219,7 @@ export const CREATE_BOT_TASK = `
       errors
     }
   }
-`
+`;
 
 export const UPDATE_BOT_TASK = `
   mutation UpdateBotTask($appKey: String!, $id: String!, $params: Json!){
@@ -1246,7 +1246,7 @@ export const UPDATE_BOT_TASK = `
       errors
     }
   }
-`
+`;
 
 export const DELETE_BOT_TASK = `
   mutation DeleteBotTask($appKey: String!, $id: String!){
@@ -1260,7 +1260,7 @@ export const DELETE_BOT_TASK = `
       errors
     }
   }
-`
+`;
 
 export const REORDER_BOT_TASK = `
   mutation ReorderBotTask( $appKey: String!, $id: String!, $idAfter: String!, $mode: String ){
@@ -1271,7 +1271,7 @@ export const REORDER_BOT_TASK = `
       }
     }
   }
-`
+`;
 
 export const CREATE_OAUTH_APP = `
   mutation CreateOauthApplication($appKey: String!, $params: Json!){
@@ -1288,7 +1288,7 @@ export const CREATE_OAUTH_APP = `
       errors
     }
   }
-`
+`;
 
 export const UPDATE_OAUTH_APP = `
   mutation UpdateOauthApplication($appKey: String!, $uid: String!, $params: Json!){
@@ -1307,7 +1307,7 @@ export const UPDATE_OAUTH_APP = `
       errors
     }
   }
-`
+`;
 
 export const DELETE_OAUTH_APP = `
   mutation DeleteOauthApplication($appKey: String!, $uid: String!){
@@ -1324,7 +1324,7 @@ export const DELETE_OAUTH_APP = `
       errors
     }
   }
-`
+`;
 
 export const CREATE_INTEGRATION = `
   mutation CreateIntegration($appKey: String!, $appPackage: String! , $params: Json!){
@@ -1342,7 +1342,7 @@ export const CREATE_INTEGRATION = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_INTEGRATION = `
   mutation UpdateIntegration($appKey: String!, $id: Int!, , $params: Json!){
@@ -1360,7 +1360,7 @@ export const UPDATE_INTEGRATION = `
       }
     }
   }
-`
+`;
 
 export const DELETE_INTEGRATION = `
   mutation DeleteIntegration($appKey: String!, $id: Int!){
@@ -1377,7 +1377,7 @@ export const DELETE_INTEGRATION = `
       }
     }
   }
-`
+`;
 
 export const CREATE_PACKAGE = `
   mutation CreatePackage($appKey: String!, $appPackage: String! , $params: Json!){
@@ -1400,7 +1400,7 @@ export const CREATE_PACKAGE = `
       }
     }
   }
-`
+`;
 
 export const UPDATE_PACKAGE = `
   mutation UpdatePackage($appKey: String!, $id: String!, , $params: Json!){
@@ -1423,7 +1423,7 @@ export const UPDATE_PACKAGE = `
       }
     }
   }
-`
+`;
 
 export const DELETE_PACKAGE = `
   mutation DeletePackage($appKey: String!, $id: String!){
@@ -1446,7 +1446,7 @@ export const DELETE_PACKAGE = `
       }
     }
   }
-`
+`;
 
 export default {
   UPDATE_APP,
@@ -1523,4 +1523,4 @@ export default {
   CREATE_PACKAGE,
   UPDATE_PACKAGE,
   DELETE_PACKAGE,
-}
+};

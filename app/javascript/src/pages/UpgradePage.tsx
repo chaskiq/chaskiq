@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function UpgradePage({ page }) {
   return (
@@ -34,5 +34,5 @@ export default function UpgradePage({ page }) {
         </div>
       </div>
     </main>
-  )
+  );
 }

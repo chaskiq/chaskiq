@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default function Card({ title, children }) {
   return (
@@ -10,5 +10,5 @@ export default function Card({ title, children }) {
       )}
       {children}
     </div>
-  )
+  );
 }

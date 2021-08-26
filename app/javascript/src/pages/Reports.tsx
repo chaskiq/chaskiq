@@ -1,31 +1,31 @@
-import React from 'react'
-import ContentHeader from '@chaskiq/components/src/components/PageHeader'
-import Content from '@chaskiq/components/src/components/Content'
-import Overview from './reports/Overview'
-import { connect } from 'react-redux'
-import moment from 'moment'
-import { Switch, Route, withRouter } from 'react-router-dom'
-import Package from './reports/Package'
+import React from 'react';
+import ContentHeader from '@chaskiq/components/src/components/PageHeader';
+import Content from '@chaskiq/components/src/components/Content';
+import Overview from './reports/Overview';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import Package from './reports/Package';
 
 import {
   setCurrentSection,
   setCurrentPage,
-} from '@chaskiq/store/src/actions/navigation'
-import { ChartsIcons } from '@chaskiq/components/src/components/icons'
+} from '@chaskiq/store/src/actions/navigation';
+import { ChartsIcons } from '@chaskiq/components/src/components/icons';
 
 function Reports({ match, dispatch, app }) {
   React.useEffect(() => {
-    dispatch(setCurrentPage('Reports'))
-    dispatch(setCurrentSection('Reports'))
-  }, [])
+    dispatch(setCurrentPage('Reports'));
+    dispatch(setCurrentSection('Reports'));
+  }, []);
 
   const initialData = {
     loading: true,
     from: moment().add(-1, 'week'),
     to: moment(), // .add(-1, 'day')
-  }
+  };
 
-  const [dashboard, _setDashboard] = React.useState(initialData)
+  const [dashboard, _setDashboard] = React.useState(initialData);
 
   return (
     <div>
@@ -55,7 +55,7 @@ function Reports({ match, dispatch, app }) {
                   dashboard={dashboard}
                   pkg={props.match.params.pkg}
                 />
-              )
+              );
             }}
           />
 
@@ -66,14 +66,14 @@ function Reports({ match, dispatch, app }) {
         </Switch>
       </Content>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(Reports))
+export default withRouter(connect(mapStateToProps)(Reports));

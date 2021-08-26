@@ -1,4 +1,4 @@
-const zones : Array<string> = [
+const zones: Array<string> = [
   'Etc/GMT+12',
   'Pacific/Pago_Pago',
   'Pacific/Midway',
@@ -150,6 +150,6 @@ const zones : Array<string> = [
   'Pacific/Tongatapu',
   'Pacific/Apia',
   'Pacific/Fakaofo',
-]
+];
 
-export default zones
+export default zones;

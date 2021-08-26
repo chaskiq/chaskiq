@@ -50,7 +50,7 @@ import {
   SUBSCRIPTION_TRANSACTIONS,
   SUBSCRIPTION_DETAILS,
   UPDATE_SUBSCRIPTION_PLAN,
-} from './queries'
+} from './queries';
 
 import {
   UPDATE_APP,
@@ -122,10 +122,10 @@ import {
   CREATE_PACKAGE,
   UPDATE_PACKAGE,
   DELETE_PACKAGE,
-} from './mutations'
+} from './mutations';
 
 // example
 // npx babel-node ./app/javascript/src/graphql/entry.mjs APPS
-var myArgs = process.argv.slice(2)
+var myArgs = process.argv.slice(2);
 //console.log('myArgs: ', myArgs);
-console.log(eval(myArgs[0]))
+console.log(eval(myArgs[0]));

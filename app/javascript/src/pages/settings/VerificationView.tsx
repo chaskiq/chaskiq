@@ -1,23 +1,23 @@
-import React from 'react'
-import Prism from 'prismjs'
-import { connect } from 'react-redux'
+import React from 'react';
+import Prism from 'prismjs';
+import { connect } from 'react-redux';
 
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import Button from '@chaskiq/components/src/components/Button'
-import Input from '@chaskiq/components/src/components/forms/Input'
-import I18n from '../../shared/FakeI18n'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import Button from '@chaskiq/components/src/components/Button';
+import Input from '@chaskiq/components/src/components/forms/Input';
+import I18n from '../../shared/FakeI18n';
 
 function VerificationView({ app }) {
-  const [currentLang, setCurrentLang] = React.useState('ruby')
-  const [show, setShow] = React.useState(false)
+  const [currentLang, setCurrentLang] = React.useState('ruby');
+  const [show, setShow] = React.useState(false);
 
   function setupScript() {
-    const hostname = window.location.hostname
-    const port = window.location.port ? ':' + window.location.port : ''
-    const secure = window.location.protocol === 'https:'
-    const httpProtocol = window.location.protocol
-    const wsProtocol = secure ? 'wss' : 'ws'
-    const hostnamePort = `${hostname}${port}`
+    const hostname = window.location.hostname;
+    const port = window.location.port ? ':' + window.location.port : '';
+    const secure = window.location.protocol === 'https:';
+    const httpProtocol = window.location.protocol;
+    const wsProtocol = secure ? 'wss' : 'ws';
+    const hostnamePort = `${hostname}${port}`;
 
     const code = `
       <script>
@@ -40,14 +40,14 @@ function VerificationView({ app }) {
           }
         })(document,"script");
       </script>
-    `
-    return Prism.highlight(code, Prism.languages.javascript, 'javascript')
+    `;
+    return Prism.highlight(code, Prism.languages.javascript, 'javascript');
   }
 
   function keyGeneration() {
-    const code = optionsForFilter().find((o) => o.id === currentLang).code
+    const code = optionsForFilter().find((o) => o.id === currentLang).code;
 
-    return Prism.highlight(code, Prism.languages.ruby, 'ruby')
+    return Prism.highlight(code, Prism.languages.ruby, 'ruby');
   }
 
   function optionsForFilter() {
@@ -126,7 +126,7 @@ function VerificationView({ app }) {
         
         `,
       },
-    ]
+    ];
   }
 
   function toggleButton(clickHandler) {
@@ -136,11 +136,11 @@ function VerificationView({ app }) {
           {currentLang}
         </Button>
       </div>
-    )
+    );
   }
 
   function changeLang(item) {
-    setCurrentLang(item.id)
+    setCurrentLang(item.id);
   }
 
   return (
@@ -199,7 +199,7 @@ function VerificationView({ app }) {
 
       <CodeBox content={setupScript()} />
     </div>
-  )
+  );
 }
 
 function CodeBox({ content }) {
@@ -207,14 +207,14 @@ function CodeBox({ content }) {
     <pre className="p-3 bg-black rounded-md border-black border-2 dark:border-gray-100 text-white text-sm overflow-auto shadow-sm">
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </pre>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(VerificationView)
+export default connect(mapStateToProps)(VerificationView);

@@ -22,7 +22,7 @@ mainParticipant{
   displayName
   kind
 }
-`
+`;
 export const converstionMessagesFragment = `
 messages(page: $page){
   collection{
@@ -63,7 +63,7 @@ messages(page: $page){
   }
   meta
 }
-`
+`;
 export const conversationLastMessageFragment = `
 lastMessage{
   createdAt
@@ -92,14 +92,14 @@ lastMessage{
     displayName
   }
 }
-`
+`;
 export const conversationFragment = `
 conversation(id: $id){
   ${conversationAttributesFragment}
   ${converstionMessagesFragment}
   ${conversationLastMessageFragment}
 }
-`
+`;
 
 export const appFragment = `
 encryptionKey
@@ -141,7 +141,7 @@ segments {
 state
 tagline
 plan
-`
+`;
 
 export default {
   conversationAttributesFragment,
@@ -149,4 +149,4 @@ export default {
   conversationLastMessageFragment,
   conversationFragment,
   appFragment,
-}
+};

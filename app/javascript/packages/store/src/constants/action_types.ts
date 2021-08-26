@@ -28,13 +28,11 @@ const actionTypes = {
   ClearSubscriptionState: 'CLEAR_SUBSCRIPTION_STATE',
 
   SetUpgradePage: 'SET_UPGRADE_PAGE',
-}
-
+};
 
 export interface ActionType {
   type?: string;
-  data?: any
+  data?: any;
 }
 
-
-export default actionTypes
+export default actionTypes;

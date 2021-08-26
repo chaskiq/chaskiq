@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import { SEARCH_ARTICLES } from '@chaskiq/store/src/graphql/docsQueries'
+import graphql from '@chaskiq/store/src/graphql/client';
+import { SEARCH_ARTICLES } from '@chaskiq/store/src/graphql/docsQueries';
 
 import List, {
   ListItem,
   ListItemText,
-} from '@chaskiq/components/src/components/List'
-import { Link } from 'react-router-dom'
+} from '@chaskiq/components/src/components/List';
+import { Link } from 'react-router-dom';
 
 export default function CustomizedInputBase({
   lang,
@@ -15,8 +15,8 @@ export default function CustomizedInputBase({
   subdomain,
   settings,
 }) {
-  const [results, setResults] = React.useState([])
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [results, setResults] = React.useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   function search(term) {
     graphql(
@@ -29,20 +29,20 @@ export default function CustomizedInputBase({
       },
       {
         success: (data) => {
-          setResults(data.helpCenter.search.collection)
+          setResults(data.helpCenter.search.collection);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function handleReturn(e) {
-    e.persist()
+    e.persist();
     // console.log(e.key)
     if (e.key === 'Enter') {
       // e.preventDefault()
-      search(e.target.value)
-      setAnchorEl(anchorEl ? null : e.target)
+      search(e.target.value);
+      setAnchorEl(anchorEl ? null : e.target);
     }
   }
 
@@ -104,5 +104,5 @@ export default function CustomizedInputBase({
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import React from 'react'
-import tw from 'twin.macro'
-import styled from '@emotion/styled'
+import React from 'react';
+import tw from 'twin.macro';
+import styled from '@emotion/styled';
 
 const ToggleStyle = styled.div`
   .switch {
@@ -62,17 +62,17 @@ const ToggleStyle = styled.div`
   input[type='checkbox']:active + .track {
     ${tw`shadow-outline`}
   }
-`
+`;
 
 export default function Toggle({ id, text, disabled, checked, onChange }) {
   // const [checked, setChecked] = React.useState(false)
 
   function handleChecked(e) {
     // setChecked(!checked)
-    onChange && onChange(e)
+    onChange && onChange(e);
   }
 
-  const checkedClass = checked ? 'left-0' : 'right-0'
+  const checkedClass = checked ? 'left-0' : 'right-0';
 
   return (
     <ToggleStyle>
@@ -95,5 +95,5 @@ export default function Toggle({ id, text, disabled, checked, onChange }) {
         <span className="ml-2 cursor-pointer">{text}</span>
       </label>
     </ToggleStyle>
-  )
+  );
 }

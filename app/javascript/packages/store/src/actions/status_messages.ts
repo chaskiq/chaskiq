@@ -1,4 +1,4 @@
-import actionTypes, {ActionType} from '../constants/action_types'
+import actionTypes, { ActionType } from '../constants/action_types';
 
 export function errorMessage(message) {
   return (dispatch) => {
@@ -8,8 +8,8 @@ export function errorMessage(message) {
         variant: 'error',
         placement: defaultPlacement(),
       })
-    )
-  }
+    );
+  };
 }
 
 export function warningMessage(message) {
@@ -20,8 +20,8 @@ export function warningMessage(message) {
         variant: 'warning',
         placement: defaultPlacement(),
       })
-    )
-  }
+    );
+  };
 }
 
 export function infoMessage(message) {
@@ -32,8 +32,8 @@ export function infoMessage(message) {
         variant: 'info',
         placement: defaultPlacement(),
       })
-    )
-  }
+    );
+  };
 }
 
 export function successMessage(message) {
@@ -44,34 +44,33 @@ export function successMessage(message) {
         variant: 'success',
         placement: defaultPlacement(),
       })
-    )
-  }
+    );
+  };
 }
 
 export function clearStatusMessage() {
   return (dispatch) => {
-    dispatch(setMessage({}))
-  }
+    dispatch(setMessage({}));
+  };
 }
 
 function defaultPlacement() {
   return {
     vertical: 'top',
     horizontal: 'center',
-  }
+  };
 }
 
 function setMessage(data) {
-  return { type: actionTypes.SetStatusMessage, data: data }
+  return { type: actionTypes.SetStatusMessage, data: data };
 }
 
-
 // Reducer
-export default function reducer(state = {}, action : ActionType = {}) {
+export default function reducer(state = {}, action: ActionType = {}) {
   switch (action.type) {
     case actionTypes.SetStatusMessage:
-      return action.data
+      return action.data;
     default:
-      return state
+      return state;
   }
 }

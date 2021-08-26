@@ -1,15 +1,15 @@
-import axios from 'axios'
-import { isObject, isEmpty } from 'lodash'
+import axios from 'axios';
+import { isObject, isEmpty } from 'lodash';
 
 class GraphqlClient {
-  config: any
-  axiosInstance: any
+  config: any;
+  axiosInstance: any;
   constructor(props) {
-    this.config = props.config
+    this.config = props.config;
     this.axiosInstance = axios.create({
       baseURL: props.baseURL,
-    })
-    return this
+    });
+    return this;
   }
 
   send = (query, variables, callbacks) => {
@@ -23,36 +23,36 @@ class GraphqlClient {
         { headers: this.config }
       )
       .then((res) => {
-        const data = res.data.data
-        const errors = res.data.errors
+        const data = res.data.data;
+        const errors = res.data.errors;
         if (isObject(errors) && !isEmpty(errors)) {
           if (callbacks.error) {
-            return callbacks.error(res, errors)
+            return callbacks.error(res, errors);
           }
         }
 
-        callbacks.success && callbacks.success(data, res)
+        callbacks.success && callbacks.success(data, res);
       })
       .catch((req, error) => {
-        console.log(req, error)
+        console.log(req, error);
         switch (req.response.status) {
           case 500:
             // store.dispatch(errorMessage("server error ocurred"))
-            break
+            break;
           case 401:
             // store.dispatch(errorMessage("session expired"))
             // store.dispatch(expireAuthentication())
-            break
+            break;
           default:
-            break
+            break;
         }
 
-        callbacks.fatal && callbacks.fatal(error)
+        callbacks.fatal && callbacks.fatal(error);
       })
       .then((_r) => {
-        callbacks.always && callbacks.always()
-      })
-  }
+        callbacks.always && callbacks.always();
+      });
+  };
 }
 
-export default GraphqlClient
+export default GraphqlClient;

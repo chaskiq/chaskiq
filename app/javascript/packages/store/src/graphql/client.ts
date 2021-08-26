@@ -1,21 +1,21 @@
-import axios from 'axios'
-import { isObject, isEmpty } from 'lodash'
-import store from '..'
-import { errorMessage } from '../actions/status_messages' //  '../actions/status_messages'
-import { lockPage } from '../actions/upgradePages'
+import axios from 'axios';
+import { isObject, isEmpty } from 'lodash';
+import store from '..';
+import { errorMessage } from '../actions/status_messages'; //  '../actions/status_messages'
+import { lockPage } from '../actions/upgradePages';
 
-import { refreshToken } from '../actions/auth'
+import { refreshToken } from '../actions/auth';
 
 const graphql = (query, variables, callbacks) => {
-  const { auth, current_user } = store.getState()
+  const { auth, current_user } = store.getState();
 
   const locale =
-    current_user.lang || (window.I18n && window.I18n.defaultLocale) || 'en'
+    current_user.lang || (window.I18n && window.I18n.defaultLocale) || 'en';
 
   const config = {
     authorization: `Bearer ${auth.accessToken}`,
     lang: locale,
-  }
+  };
 
   axios
     .create({
@@ -30,10 +30,10 @@ const graphql = (query, variables, callbacks) => {
       { headers: config }
     )
     .then((r) => {
-      const data = r.data.data
-      const res = r
+      const data = r.data.data;
+      const res = r;
 
-      const errors = r.data.errors
+      const errors = r.data.errors;
 
       if (isObject(errors) && !isEmpty(errors)) {
         // const errors = data[Object.keys(data)[0]];
@@ -43,14 +43,14 @@ const graphql = (query, variables, callbacks) => {
           errors[0].extensions.code === 'unauthorized'
         ) {
           //@ts-ignore
-          return store.dispatch(errorMessage(errors[0].message))
+          return store.dispatch(errorMessage(errors[0].message));
         }
         if (callbacks.error) {
-          return callbacks.error(res, errors)
+          return callbacks.error(res, errors);
         }
       }
 
-      callbacks.success ? callbacks.success(data, res) : null
+      callbacks.success ? callbacks.success(data, res) : null;
     })
     .catch((req) => {
       // throw r
@@ -59,32 +59,32 @@ const graphql = (query, variables, callbacks) => {
       switch (req.response.status) {
         case 500:
           //@ts-ignore
-          store.dispatch(errorMessage('server error ocurred'))
-          break
+          store.dispatch(errorMessage('server error ocurred'));
+          break;
         case 402:
           //
           //@ts-ignore
-          store.dispatch(lockPage(req.response.data.error.message))
+          store.dispatch(lockPage(req.response.data.error.message));
           // store.dispatch(errorMessage('server error ocurred'))
-          break
+          break;
         case 401:
           // history.push("/")
           //@ts-ignore
-          store.dispatch(errorMessage('session expired'))
+          store.dispatch(errorMessage('session expired'));
           //@ts-ignore
-          store.dispatch(refreshToken(auth))
+          store.dispatch(refreshToken(auth));
           // store.dispatch(expireAuthentication())
           // refreshToken(auth)
-          break
+          break;
         default:
-          break
+          break;
       }
 
-      callbacks.fatal ? callbacks.fatal('error fatale') : null
+      callbacks.fatal ? callbacks.fatal('error fatale') : null;
     })
     .then((r) => {
-      callbacks.always ? callbacks.always() : null
-    })
-}
+      callbacks.always ? callbacks.always() : null;
+    });
+};
 
-export default graphql
+export default graphql;

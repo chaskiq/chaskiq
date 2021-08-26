@@ -1,19 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-import Tooltip from 'rc-tooltip'
+import Tooltip from 'rc-tooltip';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import { ARTICLE_COLLECTION_WITH_SECTIONS } from '@chaskiq/store/src/graphql/docsQueries'
+import graphql from '@chaskiq/store/src/graphql/client';
+import { ARTICLE_COLLECTION_WITH_SECTIONS } from '@chaskiq/store/src/graphql/docsQueries';
 
-import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs'
-import Avatar from '@chaskiq/components/src/components/Avatar'
-import List from '@chaskiq/components/src/components/List'
-import { ListItem, ListItemText } from '@chaskiq/components/src/components/List'
+import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
+import Avatar from '@chaskiq/components/src/components/Avatar';
+import List from '@chaskiq/components/src/components/List';
+import {
+  ListItem,
+  ListItemText,
+} from '@chaskiq/components/src/components/List';
 
-import translation from './translation'
-import Moment from 'react-moment'
-import { Link } from 'react-router-dom'
-import styled from '@emotion/styled'
+import translation from './translation';
+import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
 
 // interference poc
 const OverlapAvatars = styled.div`
@@ -77,14 +80,14 @@ const OverlapAvatars = styled.div`
   span.avatars__others {
     background-color: #1e8fe1;
   }
-`
+`;
 
 export default function CollectionsWithSections({ match, lang, subdomain }) {
-  const [collections, setCollections] = React.useState(null)
+  const [collections, setCollections] = React.useState(null);
 
   React.useEffect(() => {
-    getArticles()
-  }, [lang])
+    getArticles();
+  }, [lang]);
 
   function getArticles() {
     graphql(
@@ -96,11 +99,11 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
       },
       {
         success: (data) => {
-          setCollections(data.helpCenter.collection)
+          setCollections(data.helpCenter.collection);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function renderArticles(article, section) {
@@ -149,7 +152,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
           }
         />
       </ListItem>
-    )
+    );
   }
 
   return (
@@ -188,7 +191,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
                               <Avatar alt={o.displayName} src={o.avatarUrl} />
                             </Tooltip>
                           </li>
-                        )
+                        );
                       })}
 
                     {collections.authors && collections.authors.length > 5 ? (
@@ -241,5 +244,5 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
         </div>
       )}
     </div>
-  )
+  );
 }

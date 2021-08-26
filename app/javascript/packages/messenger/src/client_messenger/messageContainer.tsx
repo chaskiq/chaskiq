@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
-import { ThemeProvider } from 'emotion-theming'
-import DanteContainer from './textEditor/editorStyles'
-import DraftRenderer from './textEditor/draftRenderer'
-import theme from './textEditor/theme'
+import React, { Component } from 'react';
+import { ThemeProvider } from 'emotion-theming';
+import DanteContainer from './textEditor/editorStyles';
+import DraftRenderer from './textEditor/draftRenderer';
+import theme from './textEditor/theme';
 
-import { MessageCloseBtn } from './styles/styled'
-import Quest from './messageWindow'
+import { MessageCloseBtn } from './styles/styled';
+import Quest from './messageWindow';
 
 export default class MessageContainer extends Component {
   componentDidMount() {
     this.props.events &&
       this.props.events.perform('track_open', {
         trackable_id: this.props.availableMessage.id,
-      })
+      });
   }
 
   render() {
-    const editorTheme = theme
+    const editorTheme = theme;
 
     return (
       <Quest {...this.props}>
@@ -36,6 +36,6 @@ export default class MessageContainer extends Component {
           </DanteContainer>
         </ThemeProvider>
       </Quest>
-    )
+    );
   }
 }

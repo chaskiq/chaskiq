@@ -173,5 +173,5 @@ export function basic() {
         }
       }
     ]
-  `
+  `;
 }

@@ -2,10 +2,10 @@
 
 // const { lighten, darken } = require('polished')
 
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
-const baseGray = '#ccc'
-const grayColors = {}
+const baseGray = '#ccc';
+const grayColors = {};
 /*
 const nums = [
   { label: 100, amount: 0 },
@@ -121,4 +121,4 @@ module.exports = {
     // require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
   ],
-}
+};

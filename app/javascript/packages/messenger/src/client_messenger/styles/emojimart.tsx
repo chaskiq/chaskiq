@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 export const EmojiBlock = styled.div`
   position: absolute;
@@ -455,4 +455,4 @@ export const EmojiBlock = styled.div`
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
-`
+`;

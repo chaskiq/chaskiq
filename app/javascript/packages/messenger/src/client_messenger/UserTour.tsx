@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import DraftRenderer from './textEditor/draftRenderer'
-import { EditorStylesExtend } from './textEditor/tourStyles'
-import theme from './textEditor/theme'
-import styled from '@emotion/styled'
-import { ThemeProvider } from 'emotion-theming'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import GlobalStyle from './tour/globalStyle'
+import React, { Component } from 'react';
+import DraftRenderer from './textEditor/draftRenderer';
+import { EditorStylesExtend } from './textEditor/tourStyles';
+import theme from './textEditor/theme';
+import styled from '@emotion/styled';
+import { ThemeProvider } from 'emotion-theming';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import GlobalStyle from './tour/globalStyle';
 
-import Tour from 'reactour-emotion'
+import Tour from 'reactour-emotion';
 
 const Button = styled.button`
   color: #2d3748 !important;
@@ -34,7 +34,7 @@ const Button = styled.button`
   &:hover {
     background-color: #f7fafc !important;
   }
-`
+`;
 
 export default class UserTours extends Component {
   render() {
@@ -45,7 +45,7 @@ export default class UserTours extends Component {
         events={this.props.events}
         domain={this.props.domain}
       />
-    ) : null
+    ) : null;
   }
 }
 
@@ -54,31 +54,31 @@ class UserTour extends Component {
     run: true,
     currentStep: 0,
     completed: false,
-  }
+  };
 
   componentDidMount() {
-    this.registerOpen()
+    this.registerOpen();
   }
 
-  disableBody = (target) => disableBodyScroll(target)
+  disableBody = (target) => disableBodyScroll(target);
 
-  enableBody = (target) => enableBodyScroll(target)
+  enableBody = (target) => enableBodyScroll(target);
 
   prepareJoyRidyContent = () => {
-    const count = this.props.tour.steps.length
+    const count = this.props.tour.steps.length;
     return this.props.tour.steps.map((o, index) => {
-      o.selector = o.target
-      o.disableBeacon = index === 0
+      o.selector = o.target;
+      o.disableBeacon = index === 0;
       o.action = (_a) => {
         // last step
         if (count === index + 1) {
-          if (this.state.completed) return
+          if (this.state.completed) return;
           this.setState({ completed: true }, () => {
-            this.registerEvent('finished')
-          })
-          console.log('yes shitit pop', o)
+            this.registerEvent('finished');
+          });
+          console.log('yes shitit pop', o);
         }
-      }
+      };
       o.content = (
         <EditorStylesExtend
           campaign={true}
@@ -95,34 +95,34 @@ class UserTour extends Component {
           />
           {/* <Fade/> */}
         </EditorStylesExtend>
-      )
+      );
 
-      return o
-    })
-  }
+      return o;
+    });
+  };
 
   registerEvent = (status) => {
-    const path = `track_tour_${status}`
+    const path = `track_tour_${status}`;
     this.props.events &&
       this.props.events.perform(path, {
         trackable_id: this.props.tour.id,
         trackable_type: 'Tour',
-      })
-  }
+      });
+  };
 
   registerOpen = () => {
     this.props.events &&
       this.props.events.perform('track_open', {
         trackable_id: this.props.tour.id,
-      })
-  }
+      });
+  };
 
   registerClose = () => {
     this.props.events &&
       this.props.events.perform('track_close', {
         trackable_id: this.props.tour.id,
-      })
-  }
+      });
+  };
 
   renderTour = () => {
     if (this.props.tour.steps && this.props.tour.steps.length > 0) {
@@ -134,10 +134,10 @@ class UserTour extends Component {
             this.setState({ run: false }, () => {
               // this.registerEvent('skipped')
               if (this.state.completed) {
-                return
+                return;
               }
-              this.registerClose()
-            })
+              this.registerClose();
+            });
           }}
           closeWithMask={false}
           showButtons={
@@ -157,18 +157,18 @@ class UserTour extends Component {
                 this.setState({ run: false }, () => {
                   // it will be triggered anyway
                   // this.registerEvent('finished')
-                })
+                });
               }}
             >
               {this.props.i18n.t('messenger.tours.done')}
             </Button>
           }
         />
-      )
+      );
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   render() {
     return (
@@ -176,6 +176,6 @@ class UserTour extends Component {
         <GlobalStyle />
         <ThemeProvider theme={theme}>{this.renderTour()}</ThemeProvider>
       </React.Fragment>
-    )
+    );
   }
 }

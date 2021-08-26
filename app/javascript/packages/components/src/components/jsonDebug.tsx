@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 let styles = {
   root: { backgroundColor: '#1f4662', color: '#fff', fontSize: '12px' },
@@ -14,22 +14,22 @@ let styles = {
     margin: '0',
     overflow: 'scroll',
   },
-}
+};
 
 export default function DebugPrint({ data }) {
-  const [show, setShow] = React.useState(false)
+  const [show, setShow] = React.useState(false);
 
   return (
     <div key={1} style={styles.root}>
       <div
         style={styles.header}
         onClick={() => {
-          setShow(!show)
+          setShow(!show);
         }}
       >
         <strong>Debug</strong>
       </div>
       {show && <pre style={styles.pre}>{JSON.stringify(data, null, 2)}</pre>}
     </div>
-  )
+  );
 }

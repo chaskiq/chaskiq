@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import EditorContainer from 'Dante2/package/esm/editor/styled/base'
+import styled from '@emotion/styled';
+import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
 export const EditorStylesExtend = styled(EditorContainer)`
   @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
@@ -22,4 +22,4 @@ export const EditorStylesExtend = styled(EditorContainer)`
   blockquote {
     margin-left: 20px;
   }
-`
+`;

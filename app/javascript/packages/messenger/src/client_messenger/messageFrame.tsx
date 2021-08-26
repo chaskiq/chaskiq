@@ -1,74 +1,74 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 import {
   UserAutoMessage,
   UserAutoMessageStyledFrame,
   UserAutoMessageFlex,
-} from './styles/styled'
+} from './styles/styled';
 
-import MessageContainer from './messageContainer'
+import MessageContainer from './messageContainer';
 export default class MessageFrame extends Component {
   constructor(props) {
-    super(props)
-    this.defaultMinized = false
+    super(props);
+    this.defaultMinized = false;
     this.state = {
       isMinimized: this.fetchMinizedCache(),
-    }
+    };
   }
 
   toggleMinimize = () => {
-    const val = !this.state.isMinimized
+    const val = !this.state.isMinimized;
     // console.log("toggle, ", val, "old ", this.state.isMinimized)
-    this.cacheMinized(val)
-    this.setState({ isMinimized: val })
-  }
+    this.cacheMinized(val);
+    this.setState({ isMinimized: val });
+  };
 
   messageCacheKey = (id) => {
-    return `hermes-message-${id}`
-  }
+    return `hermes-message-${id}`;
+  };
 
   cacheMinized = (val) => {
-    const key = this.messageCacheKey(this.props.availableMessage.id)
+    const key = this.messageCacheKey(this.props.availableMessage.id);
     // console.log("minimize", key, val)
     // if (this.localStorageEnabled)
-    localStorage.setItem(key, val)
-  }
+    localStorage.setItem(key, val);
+  };
 
   fetchMinizedCache = () => {
     if (!this.props.availableMessage) {
-      return false
+      return false;
     }
 
-    const key = this.messageCacheKey(this.props.availableMessage.id)
+    const key = this.messageCacheKey(this.props.availableMessage.id);
 
-    const val = localStorage.getItem(key)
+    const val = localStorage.getItem(key);
 
     switch (val) {
       case 'false':
-        return false
+        return false;
       case 'true':
-        return true
+        return true;
       default:
-        return this.defaultMinized
+        return this.defaultMinized;
     }
-  }
+  };
 
   handleMinus = (ev) => {
-    ev.preventDefault()
-    this.toggleMinimize(ev)
-  }
+    ev.preventDefault();
+    this.toggleMinimize(ev);
+  };
 
   handleCloseClick = (ev) => {
-    ev.preventDefault()
-    this.handleClose(ev)
-  }
+    ev.preventDefault();
+    this.handleClose(ev);
+  };
 
   handleClose = (message) => {
     this.props.events &&
       this.props.events.perform('track_close', {
         trackable_id: message.id,
-      })
-  }
+      });
+  };
 
   render() {
     return (
@@ -93,10 +93,10 @@ export default class MessageFrame extends Component {
                   i18n={this.props.i18n}
                 />
               </UserAutoMessage>
-            )
+            );
           })}
         </UserAutoMessageFlex>
       </UserAutoMessageStyledFrame>
-    )
+    );
   }
 }

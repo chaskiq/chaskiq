@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import Button from './Button'
-import { CloseIcon } from './icons'
-import { connect } from 'react-redux'
+import Button from './Button';
+import { CloseIcon } from './icons';
+import { connect } from 'react-redux';
 
-import styled from '@emotion/styled'
-import { setImageZoom } from '@chaskiq/store/src/actions/imageZoom'
+import styled from '@emotion/styled';
+import { setImageZoom } from '@chaskiq/store/src/actions/imageZoom';
 
 export const ImageZoomOverlay = styled.div`
   overflow: auto;
@@ -26,7 +26,7 @@ export const ImageZoomOverlay = styled.div`
     right: 20px;
     top: 20px;
   }
-`
+`;
 
 function ZoomImage({ dispatch, imageZoom }) {
   return (
@@ -48,14 +48,14 @@ function ZoomImage({ dispatch, imageZoom }) {
         </ImageZoomOverlay>
       )}
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { imageZoom } = state
+  const { imageZoom } = state;
   return {
     imageZoom,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(ZoomImage)
+export default connect(mapStateToProps)(ZoomImage);

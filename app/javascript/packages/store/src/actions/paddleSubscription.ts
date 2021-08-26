@@ -1,12 +1,12 @@
-import ActionTypes, { ActionType } from '../constants/action_types'
+import ActionTypes, { ActionType } from '../constants/action_types';
 
 export function setSubscriptionState(data) {
   return (dispatch, _getState) => {
     dispatch({
       type: ActionTypes.SetSubscriptionState,
       data: data,
-    })
-  }
+    });
+  };
 }
 
 export function clearSubscriptionState() {
@@ -14,20 +14,23 @@ export function clearSubscriptionState() {
     dispatch({
       type: ActionTypes.ClearSubscriptionState,
       data: {},
-    })
-  }
+    });
+  };
 }
 
-const subscriptionState = {}
+const subscriptionState = {};
 
 // Reducer
-export default function reducer(state = subscriptionState, action: ActionType = {}) {
+export default function reducer(
+  state = subscriptionState,
+  action: ActionType = {}
+) {
   switch (action.type) {
     case ActionTypes.SetSubscriptionState:
-      return Object.assign({}, state, action.data)
+      return Object.assign({}, state, action.data);
     case ActionTypes.ClearSubscriptionState:
-      return subscriptionState
+      return subscriptionState;
     default:
-      return state
+      return state;
   }
 }

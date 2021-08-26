@@ -1,7 +1,7 @@
-import ActionTypes from '../constants/action_types'
-import graphql from '../graphql/client'
+import ActionTypes from '../constants/action_types';
+import graphql from '../graphql/client';
 
-import { CONVERSATION } from '../graphql/queries'
+import { CONVERSATION } from '../graphql/queries';
 
 import {
   INSERT_COMMMENT,
@@ -12,15 +12,15 @@ import {
   TOGGLE_CONVERSATION_PRIORITY,
   TYPING_NOTIFIER,
   UPDATE_CONVERSATION_TAG_LIST,
-} from '../graphql/mutations'
+} from '../graphql/mutations';
 
-import { camelCase } from 'lodash'
+import { camelCase } from 'lodash';
 
-const pling = new Audio('/sounds/BLIB.wav')
+const pling = new Audio('/sounds/BLIB.wav');
 
 export const camelizeKeys = (obj) => {
   if (Array.isArray(obj)) {
-    return obj.map((v) => camelizeKeys(v))
+    return obj.map((v) => camelizeKeys(v));
   } else if (obj !== null && obj.constructor === Object) {
     return Object.keys(obj).reduce(
       (result, key) => ({
@@ -28,17 +28,17 @@ export const camelizeKeys = (obj) => {
         [camelCase(key)]: camelizeKeys(obj[key]),
       }),
       {}
-    )
+    );
   }
-  return obj
-}
+  return obj;
+};
 
 export function getConversation(options, cb) {
   return (dispatch, getState) => {
-    setLoading(true)
+    setLoading(true);
 
-    const conversationMeta = getState().conversation.meta
-    const nextPage = conversationMeta ? conversationMeta.next_page || 1 : 1
+    const conversationMeta = getState().conversation.meta;
+    const nextPage = conversationMeta ? conversationMeta.next_page || 1 : 1;
 
     graphql(
       CONVERSATION,
@@ -49,7 +49,7 @@ export function getConversation(options, cb) {
       },
       {
         success: (data) => {
-          const conversation = data.app.conversation
+          const conversation = data.app.conversation;
 
           const newConversation = Object.assign(
             {},
@@ -64,16 +64,16 @@ export function getConversation(options, cb) {
               loading: false,
             },
             conversation
-          )
+          );
           // console.log('newConversation', newConversation, nextPage)
-          dispatch(dispatchGetConversations(newConversation))
+          dispatch(dispatchGetConversations(newConversation));
 
-          if (cb) cb()
+          if (cb) cb();
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 }
 
 export function updateConversationTagList(options, cb) {
@@ -87,7 +87,7 @@ export function updateConversationTagList(options, cb) {
       },
       {
         success: (data) => {
-          const tags = data.updateConversationTags.conversation.tagList
+          const tags = data.updateConversationTags.conversation.tagList;
           // updateTags(tags)
 
           dispatch(
@@ -95,27 +95,27 @@ export function updateConversationTagList(options, cb) {
               ...getState().conversation,
               tagList: tags,
             })
-          )
+          );
 
           dispatch(
             dispatchUpdateListItemTagList({
               id: options.id,
               tagList: tags,
             })
-          )
-          if (cb) cb()
+          );
+          if (cb) cb();
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 }
 
 export function clearConversation(cb) {
   return (dispatch, _getState) => {
-    dispatch(dispatchGetConversations({}))
-    if (cb) cb()
-  }
+    dispatch(dispatchGetConversations({}));
+    if (cb) cb();
+  };
 }
 
 export function typingNotifier(cb) {
@@ -128,14 +128,14 @@ export function typingNotifier(cb) {
       },
       {
         success: () => {
-          cb && cb()
+          cb && cb();
         },
         error: (error) => {
-          console.log(error)
+          console.log(error);
         },
       }
-    )
-  }
+    );
+  };
 }
 
 export function insertComment(comment, cb) {
@@ -150,15 +150,15 @@ export function insertComment(comment, cb) {
       {
         success: (data) => {
           // console.log(data)
-          dispatch(appendMessage(data.insertComment.message))
-          cb()
+          dispatch(appendMessage(data.insertComment.message));
+          cb();
         },
         error: (error) => {
-          console.log(error)
+          console.log(error);
         },
       }
-    )
-  }
+    );
+  };
 }
 
 export function insertAppBlockComment(comment, cb) {
@@ -169,7 +169,7 @@ export function insertAppBlockComment(comment, cb) {
       values: comment.values,
       schema: comment.provider.schema,
       wait_for_input: comment.provider.wait_for_input,
-    }
+    };
 
     graphql(
       INSERT_APP_BLOCK_COMMMENT,
@@ -180,16 +180,16 @@ export function insertAppBlockComment(comment, cb) {
       },
       {
         success: (data) => {
-          console.log(data)
-          cb && cb()
+          console.log(data);
+          cb && cb();
         },
         error: (error) => {
-          console.log(error)
-          cb && cb()
+          console.log(error);
+          cb && cb();
         },
       }
-    )
-  }
+    );
+  };
 }
 
 export function insertNote(comment, cb) {
@@ -203,55 +203,55 @@ export function insertNote(comment, cb) {
       },
       {
         success: (data) => {
-          console.log(data)
-          cb()
+          console.log(data);
+          cb();
         },
         error: (error) => {
-          console.log(error)
+          console.log(error);
         },
       }
-    )
-  }
+    );
+  };
 }
 
-export function appendMessage(data, cb ?: any) {
+export function appendMessage(data, cb?: any) {
   return (dispatch, getState) => {
-    const newData = camelizeKeys(data)
+    const newData = camelizeKeys(data);
     // update existing message
     if (getState().conversation.collection.find((o) => o.key === newData.key)) {
       const newCollection = getState().conversation.collection.map((o) => {
         if (o.key === newData.key) {
-          return newData
+          return newData;
         } else {
-          return o
+          return o;
         }
-      })
+      });
 
       const newMessages = Object.assign({}, getState().conversation, {
         collection: newCollection,
-      })
+      });
 
-      dispatch(dispatchGetConversations(newMessages))
+      dispatch(dispatchGetConversations(newMessages));
     } else {
       // if (getState().current_user.email !== newData.appUser.email) {
       if (newData.appUser.kind !== 'agent') {
-        playSound()
+        playSound();
       }
 
       const newMessages = Object.assign({}, getState().conversation, {
         collection: [newData].concat(getState().conversation.collection),
-      })
+      });
 
       // debugger
-      dispatch(dispatchGetConversations(newMessages))
+      dispatch(dispatchGetConversations(newMessages));
 
-      if (cb) cb()
+      if (cb) cb();
     }
-  }
+  };
 }
 
 export function assignUser(_key, _cb) {
-  return (_dispatch, _getState) => {}
+  return (_dispatch, _getState) => {};
 }
 
 export function setLoading(val) {
@@ -261,8 +261,8 @@ export function setLoading(val) {
         ...getState().conversation,
         loading: val,
       })
-    )
-  }
+    );
+  };
 }
 
 export function updateTags(val) {
@@ -272,12 +272,12 @@ export function updateTags(val) {
         ...getState().conversation,
         tagList: val,
       })
-    )
-  }
+    );
+  };
 }
 
 export function toggleConversationPriority(_key, _cb) {
-  return (_dispatch, _getState) => {}
+  return (_dispatch, _getState) => {};
 }
 
 export function updateConversationState(state, cb) {
@@ -291,21 +291,21 @@ export function updateConversationState(state, cb) {
       },
       {
         success: (data) => {
-          const conversation = data.updateConversationState.conversation
+          const conversation = data.updateConversationState.conversation;
 
           const newConversation = Object.assign(
             {},
             getState().conversation,
             conversation
-          )
-          dispatch(dispatchGetConversations(newConversation))
+          );
+          dispatch(dispatchGetConversations(newConversation));
 
-          if (cb) cb(newConversation)
+          if (cb) cb(newConversation);
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 }
 
 export function updateConversationPriority(cb) {
@@ -318,19 +318,19 @@ export function updateConversationPriority(cb) {
       },
       {
         success: (data) => {
-          const conversation = data.toggleConversationPriority.conversation
+          const conversation = data.toggleConversationPriority.conversation;
           const newConversation = Object.assign(
             {},
             getState().conversation,
             conversation
-          )
-          dispatch(dispatchGetConversations(newConversation))
-          if (cb) cb(newConversation)
+          );
+          dispatch(dispatchGetConversations(newConversation));
+          if (cb) cb(newConversation);
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 }
 
 export function assignAgent(id, cb) {
@@ -344,61 +344,63 @@ export function assignAgent(id, cb) {
       },
       {
         success: (data) => {
-          const conversation = data.assignUser.conversation
+          const conversation = data.assignUser.conversation;
           const newConversation = Object.assign(
             {},
             getState().conversation,
             conversation
-          )
-          dispatch(dispatchGetConversations(newConversation))
-          if (cb) cb(data.assignUser.conversation)
+          );
+          dispatch(dispatchGetConversations(newConversation));
+          if (cb) cb(data.assignUser.conversation);
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 }
 
 function dispatchUpdateListItemTagList(data) {
   return {
     type: ActionTypes.UpdateConversationItem,
     data: data,
-  }
+  };
 }
 
 function dispatchGetConversations(data) {
   return {
     type: ActionTypes.GetConversation,
     data: data,
-  }
+  };
 }
 
 function dispatchUpdateConversations(data) {
   return {
     type: ActionTypes.GetConversation,
     data: data,
-  }
+  };
 }
 
 export function playSound() {
-  pling.volume = 0.4
-  pling.play()
+  pling.volume = 0.4;
+  pling.play();
 }
 
-
 // Reducer
-export default function reducer(state: any = {}, action : {
-  type: string,
-  data: any
-} = null )  {
+export default function reducer(
+  state: any = {},
+  action: {
+    type: string;
+    data: any;
+  } = null
+) {
   switch (action.type) {
     case ActionTypes.GetConversation: {
-      return action.data
+      return action.data;
     }
     case ActionTypes.UpdateConversation: {
-      return { ...action.data, ...state}
+      return { ...action.data, ...state };
     }
     default:
-      return state
+      return state;
   }
 }

@@ -3,13 +3,13 @@
 function getDomainName(hostName) {
   return hostName.substring(
     hostName.lastIndexOf('.', hostName.lastIndexOf('.') - 1) + 1
-  )
+  );
 }
 
 export function setCookie(cname, cvalue, exdays) {
-  var d = new Date()
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
-  var expires = 'expires=' + d.toGMTString()
+  var d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  var expires = 'expires=' + d.toGMTString();
   document.cookie =
     cname +
     '=' +
@@ -19,25 +19,25 @@ export function setCookie(cname, cvalue, exdays) {
     getDomainName(window.location.hostname) +
     ';' +
     expires +
-    ';path=/'
+    ';path=/';
 }
 
 // Set-Cookie: name=value; domain=example.com
 
 export function getCookie(cname) {
-  var name = cname + '='
-  var decodedCookie = decodeURIComponent(document.cookie)
-  var ca = decodedCookie.split(';')
+  var name = cname + '=';
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
   for (var i = 0; i < ca.length; i++) {
-    var c = ca[i]
+    var c = ca[i];
     while (c.charAt(0) == ' ') {
-      c = c.substring(1)
+      c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length)
+      return c.substring(name.length, c.length);
     }
   }
-  return ''
+  return '';
 }
 
 export function deleteCookie(name) {
@@ -45,10 +45,10 @@ export function deleteCookie(name) {
 
   const cookieString = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${getDomainName(
     window.location.hostname
-  )};`
-  console.log(getDomainName(window.location.hostname))
-  console.log(cookieString)
-  document.cookie = cookieString
+  )};`;
+  console.log(getDomainName(window.location.hostname));
+  console.log(cookieString);
+  document.cookie = cookieString;
 }
 
 /*

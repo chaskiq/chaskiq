@@ -1,8 +1,8 @@
 // npx ts-node app/javascript/packages/store/src/graphql/testEntry.ts Up
 
-import Queries from './queries'
+import Queries from './queries';
 
-import Mutations from './mutations'
+import Mutations from './mutations';
 
 const GQQueries = {
   APPS: Queries.APPS,
@@ -67,7 +67,6 @@ const GQQueries = {
   TYPING_NOTIFIER: Mutations.TYPING_NOTIFIER,
   INSERT_APP_BLOCK_COMMMENT: Mutations.INSERT_APP_BLOCK_COMMMENT,
 
-
   SEND_TRIGGER: Mutations.SEND_TRIGGER,
   INSERT_NOTE: Mutations.INSERT_NOTE,
   ASSIGN_USER: Mutations.ASSIGN_USER,
@@ -127,11 +126,10 @@ const GQQueries = {
   CREATE_PACKAGE: Mutations.CREATE_PACKAGE,
   UPDATE_PACKAGE: Mutations.UPDATE_PACKAGE,
   DELETE_PACKAGE: Mutations.DELETE_PACKAGE,
-}
-
+};
 
 // example
 // npx babel-node ./app/javascript/src/graphql/entry.mjs APPS
-var myArgs = process.argv.slice(2)
+var myArgs = process.argv.slice(2);
 console.log(GQQueries[myArgs[0]]);
 //console.log(Direction[myArgs[0]])

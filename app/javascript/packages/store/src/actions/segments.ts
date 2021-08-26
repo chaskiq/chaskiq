@@ -1,13 +1,13 @@
-import ActionTypes, { ActionType } from '../constants/action_types'
-import graphql from '../graphql/client'
-import { SEGMENT } from '../graphql/queries'
+import ActionTypes, { ActionType } from '../constants/action_types';
+import graphql from '../graphql/client';
+import { SEGMENT } from '../graphql/queries';
 import {
   PREDICATES_CREATE,
   PREDICATES_UPDATE,
   PREDICATES_DELETE,
-} from '../graphql/mutations'
+} from '../graphql/mutations';
 
-import { generateJWT } from '../jwt'
+import { generateJWT } from '../jwt';
 
 export function fetchAppSegment(id, cb) {
   return (dispatch, getState) => {
@@ -25,18 +25,18 @@ export function fetchAppSegment(id, cb) {
                 initialPredicates: data.app.segment.predicates,
               })
             )
-          )
+          );
 
-          cb && cb()
+          cb && cb();
 
           // this.search
         },
         error: (error) => {
-          console.log(error)
+          console.log(error);
         },
       }
-    )
-  }
+    );
+  };
 }
 
 export function updateSegment(id, cb) {
@@ -45,15 +45,15 @@ export function updateSegment(id, cb) {
       appKey: getState().app.key,
       id: getState().segment.id,
       predicates: getState().segment.predicates,
-    }
+    };
 
     graphql(PREDICATES_UPDATE, params, {
       success: (data) => {
         dispatchSegmentUpdate(
           Object.assign(data.predicatesUpdate.segment, { jwt: null })
-        )
+        );
 
-        cb && cb()
+        cb && cb();
 
         /* this.setState({
           segment: data.predicatesUpdate.segment,
@@ -62,8 +62,8 @@ export function updateSegment(id, cb) {
       },
 
       error: () => {},
-    })
-  }
+    });
+  };
 }
 
 export function createSegment(options, cb) {
@@ -72,7 +72,7 @@ export function createSegment(options, cb) {
       appKey: getState().app.key,
       name: options.name,
       predicates: getState().segment.predicates,
-    }
+    };
 
     graphql(PREDICATES_CREATE, params, {
       success: (data) => {
@@ -82,13 +82,13 @@ export function createSegment(options, cb) {
               jwt: null,
             })
           )
-        )
+        );
 
-        cb && cb()
+        cb && cb();
       },
       error: () => {},
-    })
-  }
+    });
+  };
 }
 
 export function deleteSegment(id, cb) {
@@ -101,52 +101,52 @@ export function deleteSegment(id, cb) {
       },
       {
         success: () => {
-          cb && cb()
+          cb && cb();
         },
         error: () => {},
       }
-    )
-  }
+    );
+  };
 }
 
 export function addPredicate(options, cb) {
   return (dispatch, getState) => {
-    const new_predicates = getState().segment.predicates.concat(options)
+    const new_predicates = getState().segment.predicates.concat(options);
 
-    const jwtToken = generateJWT(new_predicates)
+    const jwtToken = generateJWT(new_predicates);
 
     dispatch(
       dispatchSegmentUpdate({
         predicates: new_predicates,
         jwt: jwtToken,
       })
-    )
+    );
 
     if (cb) {
-      cb(jwtToken)
+      cb(jwtToken);
     }
-  }
+  };
 }
 
 export function updatePredicate(data, cb) {
   return (dispatch, _getState) => {
-    const jwtToken = generateJWT(data)
+    const jwtToken = generateJWT(data);
     // console.log(parseJwt(jwtToken))
     dispatch(
       dispatchSegmentUpdate({
         jwt: jwtToken,
       })
-    )
+    );
 
     if (cb) {
-      cb(jwtToken)
+      cb(jwtToken);
     }
-  }
+  };
 }
 
 export function deletePredicate(data, cb) {
   return (dispatch, getState) => {
-    const jwtToken = generateJWT(data)
+    const jwtToken = generateJWT(data);
 
     dispatch(
       dispatchSegmentUpdate({
@@ -154,12 +154,12 @@ export function deletePredicate(data, cb) {
         predicates: data,
         jwt: jwtToken,
       })
-    )
+    );
 
     if (cb) {
-      cb()
+      cb();
     }
-  }
+  };
 }
 
 function _dispatchLoading() {
@@ -168,14 +168,14 @@ function _dispatchLoading() {
     data: {
       searching: true,
     },
-  }
+  };
 }
 
 export function dispatchSegmentUpdate(data) {
   return {
     type: ActionTypes.updateSegment,
     data: data,
-  }
+  };
 }
 
 // Reducer
@@ -191,9 +191,9 @@ export default function reducer(
 ) {
   switch (action.type) {
     case ActionTypes.updateSegment: {
-      return Object.assign({}, state, action.data)
+      return Object.assign({}, state, action.data);
     }
     default:
-      return state
+      return state;
   }
 }

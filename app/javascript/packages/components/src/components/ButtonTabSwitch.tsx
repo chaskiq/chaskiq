@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 export default function ButtonTabSwitch({ handleClick, options, option }) {
   const activeClass =
-    'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none'
+    'bg-indigo-600 text-gray-100 border-indigo-600 pointer-events-none';
 
   return (
     <>
@@ -22,5 +22,5 @@ export default function ButtonTabSwitch({ handleClick, options, option }) {
         </button>
       ))}
     </>
-  )
+  );
 }

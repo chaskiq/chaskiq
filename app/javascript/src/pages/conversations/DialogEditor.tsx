@@ -1,24 +1,24 @@
-import React from 'react'
-import Button from '@chaskiq/components/src/components/Button'
-import FormDialog from '@chaskiq/components/src/components/FormDialog'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import NewEditor from './newEditor'
+import React from 'react';
+import Button from '@chaskiq/components/src/components/Button';
+import FormDialog from '@chaskiq/components/src/components/FormDialog';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import NewEditor from './newEditor';
 
 function DialogEditor(props) {
-  const [open, setOpen] = React.useState(props.open)
+  const [open, setOpen] = React.useState(props.open);
 
   React.useEffect(() => {
-    setOpen(props.open)
-  }, [props.open])
+    setOpen(props.open);
+  }, [props.open]);
 
   function handleClickOpen() {
-    setOpen(true)
+    setOpen(true);
   }
 
   function handleClose() {
-    setOpen(false)
-    props.close()
+    setOpen(false);
+    props.close();
   }
 
   return (
@@ -58,17 +58,17 @@ function DialogEditor(props) {
         }
       ></FormDialog>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app_user, app } = state
+  const { app_user, app } = state;
   return {
     app_user,
     app,
-  }
+  };
 }
 
 // export default ShowAppContainer
 
-export default withRouter(connect(mapStateToProps)(DialogEditor))
+export default withRouter(connect(mapStateToProps)(DialogEditor));
