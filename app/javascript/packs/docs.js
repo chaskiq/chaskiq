@@ -1,1 +1,1 @@
-import Docs from '@chaskiq/docs/src/index' //'./pages/docs'
+import Docs from '@chaskiq/docs/src/index'; //'./pages/docs'

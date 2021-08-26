@@ -1,9 +1,7 @@
-import React, { memo } from 'react'
-import { Handle } from 'react-flow-renderer'
+import React, { memo } from 'react';
+import { Handle } from 'react-flow-renderer';
 export default memo(({ data }) => {
   return (
-
-
     <>
       <Handle
         type="target"
@@ -33,5 +31,5 @@ export default memo(({ data }) => {
         style={{ bottom: 10, top: 'auto', background: '#555' }}
       />
     </>
-  )
-})
+  );
+});
