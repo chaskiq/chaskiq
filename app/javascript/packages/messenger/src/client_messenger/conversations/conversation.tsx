@@ -360,7 +360,7 @@ export function Conversation(props) {
 
   function renderReplyAbove() {
     if (inline_conversation) return null;
-    return i18n.t('reply_above');
+    return i18n.t('messenger.reply_above');
   }
 
   function renderNewConversationButton() {
