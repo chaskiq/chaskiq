@@ -29,7 +29,7 @@ module.exports = {
   mode: 'jit',
   experimental: {},
   purge: {
-    //enabled: true,
+    //enabled: false,
     enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
     content: [
       './app/**/*.html.erb',
@@ -38,6 +38,8 @@ module.exports = {
       './app/helpers/**/*.rb',
       './app/javascript/**/*.js',
       './app/javascript/**/*.jsx',
+      './app/javascript/**/*.ts',
+      './app/javascript/**/*.tsx',
       './node_modules/rc-tooltip/**/*.js',
       './node_modules/rc-tooltip/**/*.css',
     ],
@@ -60,28 +62,17 @@ module.exports = {
       display: ['Inter', 'sans-serif'],
       body: ['Inter', 'sans-serif'],
     },
-    /* borderWidth: {
-      default: '1px',
-      0: '0',
-      2: '2px',
-      4: '4px'
-    }, */
+    // borderWidth: {
+    //  default: '1px',
+    //  0: '0',
+    //  2: '2px',
+    //  4: '4px'
+    //},
 
     extend: {
       colorsDisabled: {
         cyan: '#9cdbff',
         gray: grayColors,
-        /* gray: {
-          100: '#f7f7f7',
-          200: '#e8e8e8',
-          300: '#e2e8f0',
-          400: '#cbd5e0',
-          500: '#a0aec0',
-          600: '#718096',
-          700: '#4a5568',
-          800: '#2d3748',
-          900: '#1a202c'
-        } */
       },
       colors: {
         transparent: 'transparent',

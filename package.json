@@ -6,8 +6,9 @@
     "app/javascript/packages/*"
   ],
   "dependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/node": "^7.12.1",
+    "@babel/cli": "^7.14.8",
+    "@babel/node": "^7.14.9",
+    "@babel/parser": "7.15.2",
     "@babel/plugin-transform-react-jsx": "^7.10.4",
     "@babel/plugin-transform-typescript": "^7.9.4",
     "@babel/preset-react": "^7.9.4",
@@ -28,6 +29,11 @@
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.3.1",
     "@tailwindcss/ui": "^0.6.2",
+    "@types/i18n-js": "^3.8.2",
+    "@types/mapbox-gl": "^2.4.0",
+    "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
+    "@types/simple-peer": "^9.11.1",
     "Dante2": "0.5.2",
     "actioncable": "^5.2.4-1",
     "activestorage": "^5.2.3",
@@ -89,7 +95,7 @@
     "sass": "^1.32.7",
     "simmerjs": "^0.5.6",
     "simple-peer": "^9.7.0",
-    "tailwindcss": "^2.1.4",
+    "tailwindcss": "^2.2.7",
     "twin.macro": "^2.4.2",
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
@@ -98,6 +104,7 @@
   },
   "devDependencies": {
     "@atomico/rollup-plugin-sizes": "^1.1.4",
+    "@babel/preset-typescript": "^7.15.0",
     "@lerna/batch-packages": "^3.16.0",
     "@lerna/filter-packages": "^3.18.0",
     "@lerna/project": "^3.21.0",
@@ -120,6 +127,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-tree-shaking": "^1.9.2",
     "eslint-plugin-unused-imports": "^0.1.2",
+    "fork-ts-checker-webpack-plugin": "^6.3.2",
     "husky": "^7.0.0",
     "lerna": "^4.0.0",
     "minimist": "^1.2.5",
@@ -128,7 +136,9 @@
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-import-css": "^2.0.1",
     "rollup-plugin-sourcemaps": "^0.6.3",
-    "rollup-plugin-typescript2": "^0.30.0"
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.3.5"
   },
   "resolutions": {
     "styled-components": "^4.3.2"
