@@ -1,5 +1,5 @@
-import React from 'react'
-import { RtcView } from '@chaskiq/components/src/components/rtc'
+import React from 'react';
+import { RtcView } from '@chaskiq/components/src/components/rtc';
 
 const FrameChild = ({
   // window,
@@ -31,7 +31,7 @@ const FrameChild = ({
           rtcAudio={state.rtcAudio}
           rtcVideo={state.rtcVideo}
           onCloseSession={() => {
-            updateRtc({})
+            updateRtc({});
           }}
           toggleVideoSession={() => setVideoSession(!state.videoSession)}
           video={state.videoSession}
@@ -41,7 +41,7 @@ const FrameChild = ({
         />
       }
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default FrameChild
+export default FrameChild;

@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment } from 'react';
 
 export default class MessageItemWrapper extends Component {
   componentDidMount() {
     // mark as read on first render if not read & from admin
     setTimeout(() => {
-      this.sendEvent()
-    }, 300)
+      this.sendEvent();
+    }, 300);
   }
 
   componentDidUpdate(prevProps, _prevState) {
@@ -14,7 +14,7 @@ export default class MessageItemWrapper extends Component {
       prevProps.visible != this.props.visible &&
       this.props.visible
     ) {
-      this.sendEvent()
+      this.sendEvent();
     }
   }
 
@@ -37,11 +37,11 @@ export default class MessageItemWrapper extends Component {
           },
           { email: this.props.email }
         )
-      )
+      );
     }
-  }
+  };
 
   render() {
-    return <Fragment>{this.props.children}</Fragment>
+    return <Fragment>{this.props.children}</Fragment>;
   }
 }

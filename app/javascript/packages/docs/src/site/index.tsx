@@ -1,7 +1,7 @@
-import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Docs from './docs'
+import Docs from './docs';
 
 export default function MainLayout() {
   return (
@@ -17,5 +17,5 @@ export default function MainLayout() {
         <Route render={(_props) => <p>404 not found</p>} />
       </Switch>
     </BrowserRouter>
-  )
+  );
 }

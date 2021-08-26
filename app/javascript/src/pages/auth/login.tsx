@@ -1,37 +1,37 @@
-import React, { useRef } from 'react'
-import { connect } from 'react-redux'
+import React, { useRef } from 'react';
+import { connect } from 'react-redux';
 // import { Redirect } from 'react-router-dom'
 
-import logo from '../../images/logo.png'
-import serialize from 'form-serialize'
+import logo from '../../images/logo.png';
+import serialize from 'form-serialize';
 
-import { authenticate, doSignout } from '@chaskiq/store/src/actions/auth'
+import { authenticate, doSignout } from '@chaskiq/store/src/actions/auth';
 
-import { getCurrentUser } from '@chaskiq/store/src/actions/current_user'
+import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
 
 function Login({ dispatch }) {
-  const form = useRef(null)
+  const form = useRef(null);
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-    dispatch(doSignout())
+    dispatch(doSignout());
 
     const serializedData = serialize(form.current, {
       hash: true,
       empty: true,
-    })
+    });
 
-    const { email, password } = serializedData // this.state
+    const { email, password } = serializedData; // this.state
     dispatch(
       authenticate(email, password, () => {
-        getUser()
+        getUser();
       })
-    )
+    );
   }
 
   function getUser() {
-    dispatch(getCurrentUser())
+    dispatch(getCurrentUser());
   }
 
   return (
@@ -205,19 +205,19 @@ function Login({ dispatch }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { auth, current_user, theme } = state
-  const { loading, isAuthenticated } = auth
+  const { auth, current_user, theme } = state;
+  const { loading, isAuthenticated } = auth;
 
   return {
     current_user,
     loading,
     isAuthenticated,
     theme,
-  }
+  };
 }
 
-export default connect(mapStateToProps)(Login)
+export default connect(mapStateToProps)(Login);

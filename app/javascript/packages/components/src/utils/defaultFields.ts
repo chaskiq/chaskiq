@@ -2,7 +2,7 @@
 type DataProp = {
   name: string;
   type: string;
-}
+};
 
 const defaultData: Array<DataProp> = [
   { name: 'name', type: 'string' },
@@ -30,6 +30,6 @@ const defaultData: Array<DataProp> = [
   { name: 'os', type: 'string' },
   { name: 'os_version', type: 'string' },
   { name: 'browser_language', type: 'string' },
-]
+];
 
-export default defaultData
+export default defaultData;

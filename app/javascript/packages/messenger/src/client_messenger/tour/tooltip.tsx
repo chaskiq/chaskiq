@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from '@emotion/styled'
-import DanteContainer from '../textEditor/editorStyles'
-import 'draft-js/dist/Draft.css'
-import theme from '../textEditor/theme'
-import { ThemeProvider } from 'emotion-theming'
-import { CloseIcon } from '../icons'
+import React from 'react';
+import styled from '@emotion/styled';
+import DanteContainer from '../textEditor/editorStyles';
+import 'draft-js/dist/Draft.css';
+import theme from '../textEditor/theme';
+import { ThemeProvider } from 'emotion-theming';
+import { CloseIcon } from '../icons';
 
 export const TooltipBody = styled.div`
   background-color: rgb(255, 255, 255);
@@ -16,14 +16,14 @@ export const TooltipBody = styled.div`
   padding: 15px;
   position: relative;
   width: 380px;
-`
+`;
 
 export const TooltipFooter = styled.div`
   align-items: center;
   display: flex;
   justify-content: flex-end;
   margin-top: 15px;
-`
+`;
 
 export const TooltipButton = styled.button`
   background-color: rgb(255, 0, 68);
@@ -35,7 +35,7 @@ export const TooltipButton = styled.button`
   line-height: 1;
   padding: 8px;
   -webkit-appearance: none;
-`
+`;
 
 export const TooltipCloseButton = styled.button`
   background-color: transparent;
@@ -49,7 +49,7 @@ export const TooltipCloseButton = styled.button`
   position: absolute;
   right: 0px;
   top: 0px;
-`
+`;
 
 export const TooltipBackButton = styled.button`
   background-color: transparent;
@@ -63,7 +63,7 @@ export const TooltipBackButton = styled.button`
   -webkit-appearance: none;
   margin-left: auto;
   margin-right: 5px;
-`
+`;
 
 const Tooltip = ({
   continuous,
@@ -77,20 +77,20 @@ const Tooltip = ({
   isLastStep,
   size,
 }) => {
-  const { close, last, next } = step.locale
+  const { close, last, next } = step.locale;
   const output = {
     primary: close,
-  }
+  };
 
   if (continuous) {
-    output.primary = isLastStep ? last : next
+    output.primary = isLastStep ? last : next;
 
     if (step.showProgress) {
       output.primary = (
         <span>
           {output.primary} ({index + 1}/{size})
         </span>
-      )
+      );
     }
   }
 
@@ -119,7 +119,7 @@ const Tooltip = ({
         )}
       </TooltipFooter>
     </TooltipBody>
-  )
-}
+  );
+};
 
-export default Tooltip
+export default Tooltip;

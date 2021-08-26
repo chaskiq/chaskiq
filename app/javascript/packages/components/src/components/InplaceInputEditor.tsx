@@ -1,21 +1,21 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
 
 export default function InplaceInputEditor({ defaultValue, update }) {
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState(false);
 
   function handleUpdate() {
-    update(inputRef.current.value)
-    setEditing(false)
+    update(inputRef.current.value);
+    setEditing(false);
   }
 
   function handleEnter(e) {
     if (e.key === 'Enter') {
-      update(inputRef.current.value)
-      setEditing(false)
+      update(inputRef.current.value);
+      setEditing(false);
     }
   }
 
-  let inputRef = useRef(null)
+  let inputRef = useRef(null);
   return (
     <div className="flex">
       {!editing && (
@@ -79,5 +79,5 @@ export default function InplaceInputEditor({ defaultValue, update }) {
         </div>
       )}
     </div>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 export default class Loader extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -54,6 +54,6 @@ export default class Loader extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import styled from '@emotion/styled'
-import tw from 'twin.macro'
-import { AnchorButton, FadeRightAnimation, CountBadge } from './styles/styled'
-import { CommentsItemComp } from './conversations/commentItem'
+import React, { useState, useEffect } from 'react';
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import { AnchorButton, FadeRightAnimation, CountBadge } from './styles/styled';
+import { CommentsItemComp } from './conversations/commentItem';
 
-import Loader from './loader'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
+import Loader from './loader';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
 
-import { MessengerContext } from './context'
+import { MessengerContext } from './context';
 // import graphql from './graphql/client'
 
-import { lighten } from 'polished'
+import { lighten } from 'polished';
 
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
+import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
 
 const HomePanel = () => {
-  const [loading, _setLoading] = useState(false)
+  const [loading, _setLoading] = useState(false);
 
   const {
     value: {
@@ -35,74 +35,74 @@ const HomePanel = () => {
       getPackage,
       homeHeaderRef,
     },
-  } = React.useContext(MessengerContext)
+  } = React.useContext(MessengerContext);
 
-  const [conversationLoading, setConversationLoading] = useState(false)
+  const [conversationLoading, setConversationLoading] = useState(false);
 
   useEffect(() => {
     updateHeader({
       translateY: -8,
       opacity: 1,
       height: homeHeaderRef.current.offsetHeight,
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
     // if(!appData.inboundSettings.enabled )
-    setConversationLoading(true)
+    setConversationLoading(true);
 
     getConversations({ page: 1, per: 3 }, () => {
-      setConversationLoading(false)
-    })
-  }, [])
+      setConversationLoading(false);
+    });
+  }, []);
 
   const handleScroll = (e) => {
-    window.a = e.target
-    const target = e.target
+    window.a = e.target;
+    const target = e.target;
     const opacity =
-      1 - normalize(target.scrollTop, target.offsetHeight * 0.26, 0)
-    const pge = percentage(target.scrollTop, target.offsetHeight * 0.7)
+      1 - normalize(target.scrollTop, target.offsetHeight * 0.26, 0);
+    const pge = percentage(target.scrollTop, target.offsetHeight * 0.7);
     // console.log("AAAA", val)
     updateHeader({
       translateY: -pge - 8,
       opacity: opacity,
       height: homeHeaderRef.current.offsetHeight,
-    })
-  }
+    });
+  };
 
   const normalize = (val, max, min) => {
-    return (val - min) / (max - min)
-  }
+    return (val - min) / (max - min);
+  };
 
   const percentage = (partialValue, totalValue) => {
-    return (100 * partialValue) / totalValue
-  }
+    return (100 * partialValue) / totalValue;
+  };
 
   function renderAvailability() {
     if (!appData.inBusinessHours) {
-      return <React.Fragment>{appData.businessBackIn && aa()}</React.Fragment>
+      return <React.Fragment>{appData.businessBackIn && aa()}</React.Fragment>;
     } else {
-      return <p />
+      return <p />;
     }
   }
 
   function aa() {
-    const val = Math.floor(appData.businessBackIn.days)
-    const at = new Date(appData.businessBackIn.at)
-    const nextDay = at.getDay()
-    const today = new Date(Date.now()).getDay()
+    const val = Math.floor(appData.businessBackIn.days);
+    const at = new Date(appData.businessBackIn.at);
+    const nextDay = at.getDay();
+    const today = new Date(Date.now()).getDay();
 
-    const TzDiff = Math.ceil((at - Date.now()) / (1000 * 3600 * 24))
+    const TzDiff = Math.ceil((at - Date.now()) / (1000 * 3600 * 24));
 
-    const sameDay = nextDay === today
-    const nextWeek = TzDiff >= 6 && sameDay
+    const sameDay = nextDay === today;
+    const nextWeek = TzDiff >= 6 && sameDay;
 
     if (nextWeek)
       return (
         <Availability>
           <p>{i18n.t('messenger.availability.next_week')}</p>
         </Availability>
-      )
+      );
     if (sameDay)
       return (
         <Availability>
@@ -110,24 +110,24 @@ const HomePanel = () => {
             {i18n.t('messenger.availability.aprox', { time: at.getHours() })}
           </p>
         </Availability>
-      )
+      );
 
-    const out = text(val, sameDay, at)
+    const out = text(val, sameDay, at);
 
-    return <Availability>{out}</Availability>
+    return <Availability>{out}</Availability>;
   }
 
   function text(val, sameDay, at) {
     switch (val) {
       case 1:
-        return <p>{i18n.t('messenger.availability.tomorrow')}</p>
+        return <p>{i18n.t('messenger.availability.tomorrow')}</p>;
       case 2:
       case 3:
       case 4:
       case 5:
-        return <p>{i18n.t('messenger.availability.days', { val: val })}</p>
+        return <p>{i18n.t('messenger.availability.days', { val: val })}</p>;
       case 6:
-        return <p>{i18n.t('messenger.availability.next_week')}</p>
+        return <p>{i18n.t('messenger.availability.next_week')}</p>;
       default:
         if (val === 0) {
           if (sameDay) {
@@ -137,7 +137,7 @@ const HomePanel = () => {
                   hours: at.getHours(),
                 })}
               </p>
-            )
+            );
           } else {
             return (
               <p>
@@ -145,10 +145,10 @@ const HomePanel = () => {
                   hours: at.getHours(),
                 })}
               </p>
-            )
+            );
           }
         }
-        return null
+        return null;
     }
   }
 
@@ -159,15 +159,15 @@ const HomePanel = () => {
           {i18n.t(`messenger.reply_time.${appData.replyTime.replace(' ', '')}`)}
         </ReplyTime>
       )
-    )
+    );
   }
 
   function sanitizeMessageSummary(message) {
-    if (!message) return
-    const sanitized = sanitizeHtml(message)
+    if (!message) return;
+    const sanitized = sanitizeHtml(message);
     return sanitized.length > 100
       ? `${sanitized.substring(0, 100)} ...`
-      : sanitized
+      : sanitized;
   }
 
   function renderLastConversation() {
@@ -176,7 +176,7 @@ const HomePanel = () => {
         {conversationLoading && <Loader xs={true} />}
         {!conversationLoading &&
           conversations.map((o, i) => {
-            const message = o.lastMessage
+            const message = o.lastMessage;
             return (
               <CommentsItemComp
                 key={`comments-item-comp-${o.key}`}
@@ -187,7 +187,7 @@ const HomePanel = () => {
                 displayConversation={displayConversation}
                 sanitizeMessageSummary={sanitizeMessageSummary}
               />
-            )
+            );
           })}
 
         {conversationsMeta.next_page && (
@@ -198,12 +198,12 @@ const HomePanel = () => {
           </CardFooterLinks>
         )}
       </CardContent>
-    )
+    );
   }
 
   function offsetHeight() {
-    if (!homeHeaderRef.current) return 0
-    return homeHeaderRef.current.offsetHeight - 35
+    if (!homeHeaderRef.current) return 0;
+    return homeHeaderRef.current.offsetHeight - 35;
   }
 
   return (
@@ -308,8 +308,8 @@ const HomePanel = () => {
           />
         ))}
     </Panel>
-  )
-}
+  );
+};
 
 function AppPackageRenderer({
   app,
@@ -318,7 +318,7 @@ function AppPackageRenderer({
   transition,
   displayAppBlockFrame,
 }) {
-  const [definitions, setDefinitions] = React.useState(pkg.definitions)
+  const [definitions, setDefinitions] = React.useState(pkg.definitions);
 
   function updatePackage(packageParams, cb) {
     if (packageParams.field.action.type === 'frame') {
@@ -331,11 +331,11 @@ function AppPackageRenderer({
           appKey: app.key,
           values: { ...pkg.values, ...packageParams.values },
         },
-      })
+      });
     }
 
     if (packageParams.field.action.type === 'url') {
-      return window.open(packageParams.field.action.url)
+      return window.open(packageParams.field.action.url);
     }
 
     const params = {
@@ -347,19 +347,19 @@ function AppPackageRenderer({
         location: packageParams.location,
         value: packageParams.values,
       },
-    }
+    };
     getPackage(params, (data) => {
-      const defs = data.messenger.app.appPackage.callHook.definitions
-      setDefinitions(defs)
-      cb && cb()
-    })
+      const defs = data.messenger.app.appPackage.callHook.definitions;
+      setDefinitions(defs);
+      cb && cb();
+    });
   }
 
   return (
     <Card in={transition} key={`definition-${pkg.id}`}>
       <DefinitionRenderer schema={definitions} updatePackage={updatePackage} />
     </Card>
-  )
+  );
 }
 
 const Panel = styled.div`
@@ -373,7 +373,7 @@ const Panel = styled.div`
   width: 100%;
   height: 94%;
   z-index: 1000;
-`
+`;
 
 const Availability = styled.div`
   //background: #ecf94c;
@@ -383,13 +383,13 @@ const Availability = styled.div`
   p {
     margin: 0px;
   }
-`
+`;
 
 const ReplyTime = styled.p`
   color: #969696;
   font-weight: 300;
   font-size: 0.8rem;
-`
+`;
 
 const CardButtonsGroup = styled.div`
   margin-top: 1em;
@@ -412,7 +412,7 @@ const CardButtonsGroup = styled.div`
       font-weight: bold;
     }
   }
-`
+`;
 
 const Avatar = styled.div`
   -webkit-box-flex: 0;
@@ -426,7 +426,7 @@ const Avatar = styled.div`
     border-radius: 50%;
     border: 3px solid white;
   }
-`
+`;
 
 const Card = styled.div`
   margin-bottom: 17px;
@@ -441,14 +441,14 @@ const Card = styled.div`
   box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1),
     inset 0 2px 0 0
       ${(props) => {
-        lighten(0.1, props.theme.palette.secondary)
+        lighten(0.1, props.theme.palette.secondary);
       }};
 
   margin: 1em;
   ${(props) => (props.padding ? 'padding: 2em;' : '')}
 
   ${(props) => FadeRightAnimation(props)}
-`
+`;
 
 const ConversationInitiator = styled(Card)`
   //margin-top: 10em;
@@ -458,18 +458,18 @@ const ConversationInitiator = styled(Card)`
     font-weight: 500;
     //margin: .4em 0 0.4em 0em;
   }
-`
+`;
 
 const CardPadder = styled.div`
   ${() => tw`space-y-2 p-5`}
-`
+`;
 
 const CardFooterLinks = styled.div`
   ${() => tw`px-4 py-2`}
   button {
     ${() => tw`text-xs font-medium`}
   }
-`
+`;
 
 const ConversationsBlock = styled(Card)`
   margin-top: 10em;
@@ -477,15 +477,15 @@ const ConversationsBlock = styled(Card)`
   h2 {
     margin: 0.4em 0 0.4em 0em;
   }
-`
+`;
 
-const CardContent = styled.div``
+const CardContent = styled.div``;
 
 const ConnectedPeople = styled.div`
   display: flex;
   div {
     margin-right: -10px;
   }
-`
+`;
 
-export default HomePanel
+export default HomePanel;

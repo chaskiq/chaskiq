@@ -1,5 +1,5 @@
-import React from 'react'
-import { Navigation, Dot, Controls, Arrow } from 'reactour-emotion'
+import React from 'react';
+import { Navigation, Dot, Controls, Arrow } from 'reactour-emotion';
 
 export default function MyCustomHelper({
   current,
@@ -48,5 +48,5 @@ export default function MyCustomHelper({
         </Controls>
       </div>
     </main>
-  )
+  );
 }

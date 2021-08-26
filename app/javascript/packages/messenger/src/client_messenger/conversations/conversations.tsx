@@ -1,17 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-import { MessengerContext } from '../context'
+import { MessengerContext } from '../context';
 
-import { CommentsWrapper, Hint, ConversationsFooter } from '../styles/styled'
+import { CommentsWrapper, Hint, ConversationsFooter } from '../styles/styled';
 
-import Loader from '../loader'
+import Loader from '../loader';
 
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
-import { CommentsItemComp } from './commentItem'
-import NewConversationBlock from './newConversationBlock'
+import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
+import { CommentsItemComp } from './commentItem';
+import NewConversationBlock from './newConversationBlock';
 
 export default function Conversations() {
-  const [loading, setLoading] = React.useState()
+  const [loading, setLoading] = React.useState();
   const {
     value: {
       i18n,
@@ -24,41 +24,41 @@ export default function Conversations() {
       displayConversation,
       appData,
     },
-  } = React.useContext(MessengerContext)
+  } = React.useContext(MessengerContext);
 
   React.useEffect(() => {
     clearAndGetConversations({}, () => {
-      setLoading(false)
-    })
-  }, [])
+      setLoading(false);
+    });
+  }, []);
 
   React.useEffect(() => {
     updateHeader({
       translateY: 0,
       opacity: 1,
       height: '0',
-    })
-  }, [])
+    });
+  }, []);
 
   // TODO: skip on xhr progress
   function handleConversationsScroll(e) {
-    const element = e.target
+    const element = e.target;
     if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       if (conversationsMeta.next_page) {
-        getConversations({ append: true })
+        getConversations({ append: true });
       }
     }
   }
 
   function sanitizeMessageSummary(message) {
     if (!message) {
-      return
+      return;
     }
 
-    const sanitized = sanitizeHtml(message)
+    const sanitized = sanitizeHtml(message);
     return sanitized.length > 100
       ? `${sanitized.substring(0, 100)} ...`
-      : sanitized
+      : sanitized;
   }
 
   return (
@@ -78,7 +78,7 @@ export default function Conversations() {
         <CommentsWrapper isMobile={isMobile}>
           {loading && <Loader sm />}
           {conversations.map((o, _i) => {
-            const message = o.lastMessage
+            const message = o.lastMessage;
 
             return (
               <CommentsItemComp
@@ -88,7 +88,7 @@ export default function Conversations() {
                 i18n={i18n}
                 displayConversation={displayConversation}
               />
-            )
+            );
           })}
         </CommentsWrapper>
 
@@ -98,5 +98,5 @@ export default function Conversations() {
         </ConversationsFooter>
       </div>
     </div>
-  )
+  );
 }

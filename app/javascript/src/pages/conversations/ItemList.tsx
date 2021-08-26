@@ -1,53 +1,53 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Moment from 'react-moment'
-import { readableColor } from 'polished'
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize'
-import { LabelIcon } from '@chaskiq/components/src/components/icons'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
+import { readableColor } from 'polished';
+import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
+import { LabelIcon } from '@chaskiq/components/src/components/icons';
 
 export function textColor(color) {
-  const lightReturnColor = '#121212'
-  const darkReturnColor = '#f3f3f3'
-  return readableColor(color, lightReturnColor, darkReturnColor)
+  const lightReturnColor = '#121212';
+  const darkReturnColor = '#f3f3f3';
+  return readableColor(color, lightReturnColor, darkReturnColor);
 }
 
 export default function ConversationItemList({ app, conversation }) {
   const renderConversationContent = (o) => {
-    const message = o.lastMessage.message
+    const message = o.lastMessage.message;
     if (message.htmlContent) {
-      return sanitizeHtml(message.htmlContent).substring(0, 250)
+      return sanitizeHtml(message.htmlContent).substring(0, 250);
     }
-  }
+  };
 
-  const user = conversation.mainParticipant
-  const message = conversation.lastMessage
-  const participant = conversation.mainParticipant
-  const appUser = message.appUser
-  const tags = conversation.tagList
+  const user = conversation.mainParticipant;
+  const message = conversation.lastMessage;
+  const participant = conversation.mainParticipant;
+  const appUser = message.appUser;
+  const tags = conversation.tagList;
 
   function tagColor(tag) {
     const defaultColor = {
       bgColor: '#fed7d7',
       color: textColor('#fed7d7'),
-    }
+    };
 
-    if (!app.tagList) return defaultColor
+    if (!app.tagList) return defaultColor;
 
-    const findedTag = app.tagList.find((o) => o.name === tag)
+    const findedTag = app.tagList.find((o) => o.name === tag);
 
-    if (!findedTag) return defaultColor
+    if (!findedTag) return defaultColor;
 
-    let newColor = findedTag.color || '#444'
-    newColor = `#${newColor.replace('#', '')}`
+    let newColor = findedTag.color || '#444';
+    newColor = `#${newColor.replace('#', '')}`;
 
     return {
       bgColor: newColor,
       color: textColor(newColor),
-    }
+    };
   }
 
   function renderTag(tag) {
-    const color = tagColor(tag)
+    const color = tagColor(tag);
     return (
       <span
         key={`conversation-${conversation.key}-tag-${tag}`}
@@ -62,13 +62,13 @@ export default function ConversationItemList({ app, conversation }) {
       >
         #{tag}
       </span>
-    )
+    );
   }
 
   function stateClass() {
     return conversation.state == 'opened'
       ? 'bg-red-200 dark:bg-red-600'
-      : 'bg-green-600'
+      : 'bg-green-600';
   }
 
   return (
@@ -150,5 +150,5 @@ export default function ConversationItemList({ app, conversation }) {
         </div>
       </div>
     </Link>
-  )
+  );
 }

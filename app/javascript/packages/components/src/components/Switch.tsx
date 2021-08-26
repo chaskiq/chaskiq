@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import { Switch } from '@headlessui/react'
+import { Switch } from '@headlessui/react';
 
 export default function CustomLabelExample({ label, enabled, setEnabled }) {
   //const [enabled, setEnabled] = useState(false)
@@ -28,5 +28,5 @@ export default function CustomLabelExample({ label, enabled, setEnabled }) {
         </Switch>
       </div>
     </Switch.Group>
-  )
+  );
 }

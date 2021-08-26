@@ -1,13 +1,13 @@
-const dante_font_family_sans = 'inherit' // `'jaf-bernino-sans', 'Open Sans', "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans_serif;`;
-const dante_font_family_serif = 'inherit' // `'freight-text-pro', 'Merriweather', Georgia, Cambria, "Times New Roman", Times, serif;`;
-const dante_font_family_mono = 'inherit' // `Menlo, Monaco, Consolas, "Courier New", "Courier", monospace;`;
+const dante_font_family_sans = 'inherit'; // `'jaf-bernino-sans', 'Open Sans', "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans_serif;`;
+const dante_font_family_serif = 'inherit'; // `'freight-text-pro', 'Merriweather', Georgia, Cambria, "Times New Roman", Times, serif;`;
+const dante_font_family_mono = 'inherit'; // `Menlo, Monaco, Consolas, "Courier New", "Courier", monospace;`;
 
-const tooltip_size = '32px'
-const dante_control_color = '#333333'
-const dante_inversed_color = '#FFFFFF'
-const dante_accent_color = '#5BD974'
-const dante_text_color = '#4a4a4a'
-const fontSize = '1rem'
+const tooltip_size = '32px';
+const dante_control_color = '#333333';
+const dante_inversed_color = '#FFFFFF';
+const dante_accent_color = '#5BD974';
+const dante_text_color = '#4a4a4a';
+const fontSize = '1rem';
 
 const theme = {
   dante_font_family_serif: dante_font_family_serif,
@@ -72,5 +72,5 @@ const theme = {
   dante_menu_border_width: '0px',
   dante_menu_border_color: 'none',
   dante_menu_caret_size: '8px',
-}
-export default theme
+};
+export default theme;

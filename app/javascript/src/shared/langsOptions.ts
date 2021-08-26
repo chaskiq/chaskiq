@@ -3,7 +3,7 @@ interface Lang {
   value: string;
 }
 
-const langsOptions : Array<Lang> = [
+const langsOptions: Array<Lang> = [
   { label: 'Afrikaans', value: 'af' },
   { label: 'Albanian', value: 'sq' },
   { label: 'Arabic', value: 'ar' },
@@ -49,6 +49,6 @@ const langsOptions : Array<Lang> = [
   { label: 'Swedish', value: 'sv' },
   { label: 'Turkish', value: 'tr' },
   { label: 'Ukrainian', value: 'uk' },
-]
+];
 
-export default langsOptions
+export default langsOptions;

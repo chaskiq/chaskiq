@@ -1,11 +1,11 @@
-import React from 'react'
-import { NewConvoBtn, NewConvoBtnContainer } from '../styles/styled'
-import { MessengerContext } from '../context'
+import React from 'react';
+import { NewConvoBtn, NewConvoBtnContainer } from '../styles/styled';
+import { MessengerContext } from '../context';
 
 export default function NewConversationBlock({ children, styles }) {
   const {
     value: { appData, i18n, displayNewConversation, transition },
-  } = React.useContext(MessengerContext)
+  } = React.useContext(MessengerContext);
 
   return (
     appData.inboundSettings.enabled && (
@@ -16,5 +16,5 @@ export default function NewConversationBlock({ children, styles }) {
         </NewConvoBtn>
       </NewConvoBtnContainer>
     )
-  )
+  );
 }

@@ -1,25 +1,25 @@
-import { ActionType } from "../constants/action_types"
+import { ActionType } from '../constants/action_types';
 
 export function updateCampaignEvents(data) {
   return (dispatch) => {
-    dispatch(dispatchCampaignEvent(data))
-  }
+    dispatch(dispatchCampaignEvent(data));
+  };
 }
 
 function dispatchCampaignEvent(data) {
   return {
     type: 'CAMPAIGN_EVENT',
     data: data,
-  }
+  };
 }
 
 // Reducer
-export default function reducer(state = {}, action : ActionType= {}) {
+export default function reducer(state = {}, action: ActionType = {}) {
   switch (action.type) {
     case 'CAMPAIGN_EVENT': {
-      return Object.assign({}, state, action.data)
+      return Object.assign({}, state, action.data);
     }
     default:
-      return state
+      return state;
   }
 }

@@ -1,17 +1,17 @@
-import React from 'react'
-import Moment from 'react-moment'
-import styled from '@emotion/styled'
+import React from 'react';
+import Moment from 'react-moment';
+import styled from '@emotion/styled';
 
-import translation from './translation'
-import { ThemeProvider } from 'emotion-theming'
-import EditorContainer from 'Dante2/package/esm/editor/styled/base'
+import translation from './translation';
+import { ThemeProvider } from 'emotion-theming';
+import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import { ARTICLE } from '@chaskiq/store/src/graphql/docsQueries'
+import graphql from '@chaskiq/store/src/graphql/client';
+import { ARTICLE } from '@chaskiq/store/src/graphql/docsQueries';
 
-import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs'
-import Avatar from '@chaskiq/components/src/components/Avatar'
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer'
+import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
+import Avatar from '@chaskiq/components/src/components/Avatar';
+import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
 
 const NewEditorStyles = styled(EditorContainer)`
   font-size: 1.3em;
@@ -25,17 +25,17 @@ const NewEditorStyles = styled(EditorContainer)`
   a {
     color: ${(props) => props.theme.mainColor};
   }
-`
+`;
 
 export default function Article(props) {
-  const [article, setArticle] = React.useState(null)
-  const { lang, theme } = props
+  const [article, setArticle] = React.useState(null);
+  const { lang, theme } = props;
 
-  const { subdomain } = props
+  const { subdomain } = props;
 
   React.useEffect(() => {
-    getArticle()
-  }, [])
+    getArticle();
+  }, []);
 
   function getArticle() {
     graphql(
@@ -47,11 +47,11 @@ export default function Article(props) {
       },
       {
         success: (data) => {
-          setArticle(data.helpCenter.article)
+          setArticle(data.helpCenter.article);
         },
         error: (_e) => {},
       }
-    )
+    );
   }
 
   return (
@@ -119,5 +119,5 @@ export default function Article(props) {
         ) : null}
       </div>
     </div>
-  )
+  );
 }

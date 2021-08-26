@@ -1,15 +1,15 @@
 // https://www.jayfreestone.com/writing/react-portals-with-hooks/
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react';
 
 /**
  * Creates DOM element to be used as React root.
  * @returns {HTMLElement}
  */
 function createRootElement(id) {
-  const rootContainer = document.createElement('div')
-  rootContainer.setAttribute('id', id)
-  return rootContainer
+  const rootContainer = document.createElement('div');
+  rootContainer.setAttribute('id', id);
+  return rootContainer;
 }
 
 /**
@@ -20,7 +20,7 @@ function addRootElement(rootElem) {
   document.body.insertBefore(
     rootElem,
     document.body.lastElementChild.nextElementSibling
-  )
+  );
 }
 
 /**
@@ -35,31 +35,31 @@ function addRootElement(rootElem) {
  * @returns {HTMLElement} The DOM node to use as the Portal target.
  */
 function usePortal(id, doc = null) {
-  const rootElemRef = useRef(null)
+  const rootElemRef = useRef(null);
 
-  const documentObject = doc || document
+  const documentObject = doc || document;
 
   useEffect(function setupElement() {
     // Look for existing target dom element to append to
-    const existingParent = documentObject.querySelector(`#${id}`)
+    const existingParent = documentObject.querySelector(`#${id}`);
     // Parent is either a new root or the existing dom element
-    const parentElem = existingParent || createRootElement(id)
+    const parentElem = existingParent || createRootElement(id);
 
     // If there is no existing DOM element, add a new one.
     if (!existingParent) {
-      addRootElement(parentElem)
+      addRootElement(parentElem);
     }
 
     // Add the detached element to the parent
-    parentElem.appendChild(rootElemRef.current)
+    parentElem.appendChild(rootElemRef.current);
 
     return function removeElement() {
-      rootElemRef.current.remove()
+      rootElemRef.current.remove();
       if (parentElem.childNodes.length === -1) {
-        parentElem.remove()
+        parentElem.remove();
       }
-    }
-  }, [])
+    };
+  }, []);
 
   /**
    * It's important we evaluate this lazily:
@@ -73,12 +73,12 @@ function usePortal(id, doc = null) {
    */
   function getRootElem() {
     if (!rootElemRef.current) {
-      rootElemRef.current = documentObject.createElement('div')
+      rootElemRef.current = documentObject.createElement('div');
     }
-    return rootElemRef.current
+    return rootElemRef.current;
   }
 
-  return getRootElem()
+  return getRootElem();
 }
 
-export default usePortal
+export default usePortal;

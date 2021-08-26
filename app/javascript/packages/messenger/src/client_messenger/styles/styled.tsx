@@ -1,12 +1,12 @@
-import styled from '@emotion/styled'
-import { keyframes } from '@emotion/core'
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/core';
 
-import React from 'react'
-import StyledFrame from '../styledFrame'
-import { darken } from 'polished'
-import { textColor } from './utils'
-import tw from 'twin.macro'
-export const mainColor = '#0a1a27' // "#42a5f5";
+import React from 'react';
+import StyledFrame from '../styledFrame';
+import { darken } from 'polished';
+import { textColor } from './utils';
+import tw from 'twin.macro';
+export const mainColor = '#0a1a27'; // "#42a5f5";
 
 const rotate = keyframes`
   from {
@@ -20,7 +20,7 @@ const rotate = keyframes`
     //transform: scale(1);
     transform: translateY(-8px);
   }
-`
+`;
 
 const appear = keyframes`
   from {
@@ -32,7 +32,7 @@ const appear = keyframes`
     transform: translateY(0);
     opacity: 1;
   }
-`
+`;
 
 export const Bounce = keyframes`
   0%,
@@ -45,7 +45,7 @@ export const Bounce = keyframes`
     -webkit-transform: scale(1.0);
     transform: scale(1.0);
   }
-`
+`;
 
 export const FadeInBottom = keyframes`
     0% {
@@ -58,7 +58,7 @@ export const FadeInBottom = keyframes`
               transform: translateY(0);
       opacity: 1;
     }
-`
+`;
 
 export const FadeInRight = keyframes`
   0% {
@@ -69,7 +69,7 @@ export const FadeInRight = keyframes`
     transform: translateX(0);
     opacity: 1;
   }
-`
+`;
 
 export const FadeOutBottom = keyframes`
   0% {
@@ -80,7 +80,7 @@ export const FadeOutBottom = keyframes`
     transform: translateY(50px);
     opacity: 0;
   }
-`
+`;
 
 export const FadeOutRight = keyframes`
   0% {
@@ -91,7 +91,7 @@ export const FadeOutRight = keyframes`
     transform: translateX(50px);
     opacity: 0;
   }
-`
+`;
 
 export const Container = styled.div`
   animation: ${appear} 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
@@ -124,12 +124,12 @@ export const Container = styled.div`
       height: calc(100% - 120px);
       border-radius: 8px;
       overflow: hidden;`}
-`
+`;
 
 export const AssigneeStatus = styled.span`
   font-size: 11px;
   color: ${(props) => textColor(props.theme.palette.primary)};
-`
+`;
 
 export const AssigneeStatusWrapper = styled.span`
   display: flex;
@@ -140,7 +140,7 @@ export const AssigneeStatusWrapper = styled.span`
   p {
     margin: 0px 0px 6px 0px;
   }
-`
+`;
 
 export const ShowMoreWrapper = styled.div`
   z-index: 10000;
@@ -163,12 +163,12 @@ export const ShowMoreWrapper = styled.div`
 
   button.close {
   }
-`
+`;
 
 export const DisabledElement = styled.div`
   padding: 1.2em !important;
   ${() => tw`w-full p-4 flex justify-center text-sm font-light`}
-`
+`;
 
 export const SuperDuper = styled('div')`
   /*
@@ -200,7 +200,7 @@ export const SuperDuper = styled('div')`
   width: 100%;
   height: 100%;
   position: absolute;
-`
+`;
 
 export const Overflow = styled.div`
   z-index: 9900000;
@@ -216,7 +216,7 @@ export const Overflow = styled.div`
     rgba(29, 39, 54, 0.16) 9%,
     rgba(0, 0, 0, 0) 72%
   );
-`
+`;
 
 export const UserAutoMessageStyledFrame = styled(StyledFrame)`
   display: block;
@@ -226,7 +226,7 @@ export const UserAutoMessageStyledFrame = styled(StyledFrame)`
   position: absolute;
 
   ${(props) => {
-    return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
+    return props.isMinimized ? 'height: 73px;' : 'height: 70vh;';
   }}
 
   ${(props) => {
@@ -238,9 +238,9 @@ export const UserAutoMessageStyledFrame = styled(StyledFrame)`
       : `
         bottom: 0px;
         right: 0px;
-      `
+      `;
   }}
-`
+`;
 
 export const UserAutoMessageStyledFrameDis = styled(
   ({ isMinimized, ...rest }) => <StyledFrame {...rest} />
@@ -252,7 +252,7 @@ export const UserAutoMessageStyledFrameDis = styled(
   position: absolute;
 
   ${(props) => {
-    return props.isMinimized ? 'height: 73px;' : 'height: 70vh;'
+    return props.isMinimized ? 'height: 73px;' : 'height: 70vh;';
   }}
 
   ${(props) => {
@@ -264,9 +264,9 @@ export const UserAutoMessageStyledFrameDis = styled(
       : `
         bottom: 0px;
         right: 0px;
-      `
+      `;
   }} /* box-shadow: 1px 1px 100px 2px rgba(0,0,0,0.22); */
-`
+`;
 
 export const CloseButtonWrapper = styled.div`
   position: absolute;
@@ -278,7 +278,7 @@ export const CloseButtonWrapper = styled.div`
     background: transparent;
     cursor: pointer;
   }
-`
+`;
 
 export const SuperFragment = styled.div`
     -webkit-box-pack: start;
@@ -316,19 +316,19 @@ export const SuperFragment = styled.div`
       animation: ${FadeOutRight} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     }
 }
-`
+`;
 
 export const FadeRightAnimation = (props) => {
   return props.in === 'in'
     ? `animation: ${FadeInRight.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;      `
-    : `animation: ${FadeOutRight.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
-}
+    : `animation: ${FadeOutRight.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`;
+};
 
 export const FadeBottomAnimation = (props) => {
   return props.in === 'in'
     ? `animation: ${FadeInBottom.name} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;`
-    : `animation: ${FadeOutBottom.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`
-}
+    : `animation: ${FadeOutBottom.name} 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;`;
+};
 
 export const MessageSpinner = styled.div`
   display: inline-block;
@@ -362,7 +362,7 @@ export const MessageSpinner = styled.div`
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
   }
-`
+`;
 
 export const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
   <div {...rest} />
@@ -371,11 +371,11 @@ export const UserAutoMessageFlex = styled(({ isMinimized, ...rest }) => (
   flex-direction: column;
 
   ${(props) => {
-    return props.isMinimized ? 'height: 70vh;' : 'height: 92vh;'
+    return props.isMinimized ? 'height: 70vh;' : 'height: 92vh;';
   }}
 
   justify-content: space-between;
-`
+`;
 
 export const MessageCloseBtn = styled.a`
   position: absolute;
@@ -392,7 +392,7 @@ export const MessageCloseBtn = styled.a`
   color: white;
   text-transform: uppercase;
   font-weight: 100;
-`
+`;
 
 export const ConversationEventContainer = styled.div`
   border-radius: 7px;
@@ -409,9 +409,9 @@ export const ConversationEventContainer = styled.div`
   ${(props) => {
     return props.isInline
       ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)'
-      : ''
+      : '';
   }}
-`
+`;
 
 export const AppPackageBlockContainer = styled.div`
   padding-top: 1em;
@@ -514,18 +514,18 @@ export const AppPackageBlockContainer = styled.div`
         border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
   }
-`
+`;
 
 export const AppPackageBlockButtonItem = styled.div`
   ${() => tw`flex justify-end mx-4 my-1.5 `}
-`
+`;
 
 export const AppPackageBlockTextItem = styled.div`
   ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-400 font-light`}
   a {
     ${() => tw`text-sm text-gray-600 font-normal hover:text-gray-900`}
   }
-`
+`;
 
 export const UserAutoMessage = styled.div`
   box-shadow: -1px 3px 3px 3px rgba(158, 191, 208, 0.09);
@@ -540,14 +540,14 @@ export const UserAutoMessage = styled.div`
   /* flex: 1; */
   /* align-self: end; */
   margin-bottom: 10px;
-`
+`;
 
 export const UserAutoMessageBlock = styled.div`
   height: 16px;
   width: 96vw;
   background: transparent;
   margin-bottom: 10px;
-`
+`;
 
 export const AvatarSection = styled.div`
   /* stylelint-disable value-no-vendor-prefix */
@@ -556,7 +556,7 @@ export const AvatarSection = styled.div`
   /* stylelint-enable */
   grid-area: avatar-area;
   margin-right: 8px;
-`
+`;
 
 export const EditorSection = styled.div`
   /* stylelint-disable value-no-vendor-prefix */
@@ -570,11 +570,11 @@ export const EditorSection = styled.div`
     height: 69vh;
     overflow: auto;`
       : ''}
-`
+`;
 
 export const InlineConversationWrapper = styled.div`
   border: 1px solid red;
-`
+`;
 
 export const EditorWrapper = styled.div`
   width: 376px;
@@ -611,7 +611,7 @@ export const EditorWrapper = styled.div`
     //  height: 100vw !important;
     //}
   }
-`
+`;
 
 export const EditorActions = styled.div`
   box-sizing: border-box;
@@ -621,7 +621,7 @@ export const EditorActions = styled.div`
   align-items: center;
   display: flex;
   padding: 12px 1px;
-`
+`;
 
 export const CommentsWrapper = styled.div`
   ${(props) =>
@@ -641,7 +641,7 @@ export const CommentsWrapper = styled.div`
       flex-direction: column;
     `}
   display: flex;
-`
+`;
 
 export const CommentsItem = styled.div`
   padding: 12px;
@@ -656,7 +656,7 @@ export const CommentsItem = styled.div`
   transition: all 0.4s ease-out;
 
   ${(props) => (props.displayOpacity ? 'opacity: 1;' : 'opacity: 0;')}
-`
+`;
 
 export const Prime = styled.div`
   position: relative;
@@ -678,7 +678,7 @@ export const Prime = styled.div`
   //margin: 14px 27px;
   margin: 16px 8px;
   animation: ${rotate} 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-`
+`;
 
 export const FooterAckInline = styled.div`
   width: 100%;
@@ -704,7 +704,7 @@ export const FooterAckInline = styled.div`
       margin-right: 9px;
     }
   }
-`
+`;
 
 export const FooterAck = styled(FooterAckInline)`
   position: absolute;
@@ -714,7 +714,7 @@ export const FooterAck = styled(FooterAckInline)`
   padding: 3px 0px 4px 0px;
   box-shadow: 0px -2px 18px #38383840;
   background: white;
-`
+`;
 
 export const CountBadge = styled.div`
 
@@ -735,7 +735,7 @@ export const CountBadge = styled.div`
     props.section === 'conversations' ? 'top: 13px;left: 7px;' : ''}
 }
 
-`
+`;
 
 export const Header = styled(({ isMobile, ...rest }) => <div {...rest}></div>)`
   height: 75px;
@@ -764,12 +764,12 @@ export const Header = styled(({ isMobile, ...rest }) => <div {...rest}></div>)`
         opacity: 0.38; 
         background-image: url(${props.theme.palette.pattern});
       `
-        : ''
+        : '';
     }}
     background-size: 610px 610px, cover;
     pointer-events: none;
   }
-`
+`;
 
 export const Body = styled.div`
   position: relative;
@@ -779,7 +779,7 @@ export const Body = styled.div`
   background-color: #fff;
   -webkit-box-shadow: inset 0 21px 4px -20px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 21px 4px -20px rgba(0, 0, 0, 0.2);
-`
+`;
 
 export const Footer = styled.div`
   z-index: 100000;
@@ -821,7 +821,7 @@ export const Footer = styled.div`
       display: none;
     }
   }
-`
+`;
 
 export const ConversationsFooter = styled.div`
   z-index: 100000;
@@ -836,7 +836,7 @@ export const ConversationsFooter = styled.div`
   background: -webkit-gradient(linear,left bottom,left top,from(#fff),to(rgba(255,255,255,0)));
   background: linear-gradient(0deg,#fff,rgba(255,255,255,0));
 }
-`
+`;
 
 export const UserAutoChatAvatar = styled.div`
   display: flex;
@@ -853,7 +853,7 @@ export const UserAutoChatAvatar = styled.div`
     text-align: center;
     border-radius: 50%;
   }
-`
+`;
 
 export const ReadIndicator = styled.div`
   position: absolute;
@@ -863,7 +863,7 @@ export const ReadIndicator = styled.div`
   left: 3px;
   top: 20px;
   border-radius: 50%;
-`
+`;
 
 export const MessageItem = styled.div`
   position: relative;
@@ -904,7 +904,7 @@ export const MessageItem = styled.div`
       ${(props) => {
         return props.isInline
           ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)'
-          : ''
+          : '';
       }}
     }
 
@@ -937,7 +937,7 @@ export const MessageItem = styled.div`
       ${(props) => {
         return props.isInline
           ? 'box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.36), 0 1px 2px 0 rgba(0, 0, 0, 0.61)'
-          : ''
+          : '';
       }}
 
       line-height: 1.5;
@@ -997,7 +997,7 @@ export const MessageItem = styled.div`
     font-size: 10px;
     text-align: right;
   }
-`
+`;
 
 export const HeaderOption = styled.div`
   //float: left;
@@ -1013,7 +1013,7 @@ export const HeaderOption = styled.div`
   display: flex;
   align-items: center;
   ${(props) => FadeRightAnimation(props)}
-`
+`;
 
 export const HeaderTitle = styled.span`
   ${() => tw`space-y-2`}
@@ -1029,7 +1029,7 @@ export const HeaderTitle = styled.span`
     ${() => tw`text-sm antialiased font-light mb-3`}
   }
   /*${(props) => FadeRightAnimation(props)}*/
-`
+`;
 
 export const HeaderAvatar = styled.div`
   display: flex;
@@ -1055,7 +1055,7 @@ export const HeaderAvatar = styled.div`
       margin: 0px;
     }
   }
-`
+`;
 
 export const ChatAvatar = styled.div`
   //left: -52px;
@@ -1072,7 +1072,7 @@ export const ChatAvatar = styled.div`
     text-align: center;
     border-radius: 50%;
   }
-`
+`;
 
 export const AnchorButton = styled.a`
   text-decoration: none;
@@ -1090,7 +1090,7 @@ export const AnchorButton = styled.a`
   padding: 0 24px;
   display: inline-flex;
   align-items: center;
-`
+`;
 
 export const NewConvoBtnContainer = styled.div`
   position: absolute;
@@ -1104,10 +1104,10 @@ export const NewConvoBtnContainer = styled.div`
   align-items: center;
 
   ${({ styles }) => (styles ? styles : '')}
-`
+`;
 // ${(props) => FadeBottomAnimation(props)}
 
-export const NewConvoBtn = styled(AnchorButton)``
+export const NewConvoBtn = styled(AnchorButton)``;
 
 export const ConversationSummary = styled.div`
   display: flex;
@@ -1117,7 +1117,7 @@ export const ConversationSummary = styled.div`
   align-content: stretch;
   position: relative;
   padding: 6px;
-`
+`;
 
 export const ConversationSummaryAvatar = styled.div`
   flex: 0 0 auto;
@@ -1130,18 +1130,18 @@ export const ConversationSummaryAvatar = styled.div`
     text-align: center;
     border-radius: 50%;
   }
-`
+`;
 
 export const ConversationSummaryBody = styled.div`
   flex: 1;
   padding-left: 16px;
-`
+`;
 
 export const ConversationSummaryBodyMeta = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
-`
+`;
 
 export const ConversationSummaryBodyItems = styled.div`
   display: flex;
@@ -1149,7 +1149,7 @@ export const ConversationSummaryBodyItems = styled.div`
   .you {
     margin-right: 5px;
   }
-`
+`;
 export const ConversationSummaryBodyContent = styled.div`
   color: #969696;
   -webkit-box-flex: 1;
@@ -1160,7 +1160,7 @@ export const ConversationSummaryBodyContent = styled.div`
   p {
     margin: 0px;
   }
-`
+`;
 
 export const Autor = styled.div`
   font-weight: 500;
@@ -1169,7 +1169,7 @@ export const Autor = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #8b8b8b;
-`
+`;
 
 export const Hint = styled.p`
   /*  padding: 29px;
@@ -1179,11 +1179,11 @@ export const Hint = styled.p`
     height: 100%;*/
 
   ${() => tw`text-sm leading-5 text-gray-500 h-full p-8 bg-gray-100`}
-`
+`;
 
 export const SpinnerAnim = keyframes`
   to {transform: rotate(360deg);}
-`
+`;
 
 export const Spinner = styled.div`
   &:before {
@@ -1202,4 +1202,4 @@ export const Spinner = styled.div`
     animation: ${SpinnerAnim} 0.6s linear infinite;
     display: inline-block;
   }
-`
+`;

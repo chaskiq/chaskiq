@@ -1,6 +1,6 @@
-import React from 'react'
-import Moment from 'react-moment'
-import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary'
+import React from 'react';
+import Moment from 'react-moment';
+import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 
 import {
   CommentsItem,
@@ -12,82 +12,82 @@ import {
   ConversationSummaryBodyContent,
   ConversationSummaryBodyItems,
   Autor,
-} from '../styles/styled'
+} from '../styles/styled';
 
 export function CommentsItemComp({ displayConversation, message, o, i18n }) {
-  const [display, setDisplay] = React.useState(false)
+  const [display, setDisplay] = React.useState(false);
 
   function renderEventBlock(o) {
-    const { data, action } = o.message
+    const { data, action } = o.message;
     return (
       <span>
         <i>{i18n.t(`messenger.conversations.events.${action}`, data)}</i>
       </span>
-    )
+    );
   }
 
   function renderItemPackage(message) {
     switch (message.message.blocks.type) {
       case 'app_package':
-        let namespace = 'app_package_wait_reply'
-        const pkg = message.message.blocks.app_package
+        let namespace = 'app_package_wait_reply';
+        const pkg = message.message.blocks.app_package;
         if (pkg.wait_for_input === false || pkg.waitForInput === false) {
-          namespace = 'app_package_non_wait'
+          namespace = 'app_package_non_wait';
         }
 
-        return i18n.t(`messenger.conversations.message_blocks.${namespace}`)
+        return i18n.t(`messenger.conversations.message_blocks.${namespace}`);
       // falls through
 
       // return <span>{message.message.blocks.app_package}</span>
       case 'ask_option':
-        return i18n.t('messenger.conversations.message_blocks.ask_option')
+        return i18n.t('messenger.conversations.message_blocks.ask_option');
       case 'data_retrieval':
-        return i18n.t('messenger.conversations.message_blocks.data_retrieval')
+        return i18n.t('messenger.conversations.message_blocks.data_retrieval');
       default:
-        return message.message.blocks.type
+        return message.message.blocks.type;
     }
   }
 
   function renderMessage(message) {
-    var length = 80
-    const d = JSON.parse(message.message.serializedContent)
-    let string = ''
+    var length = 80;
+    const d = JSON.parse(message.message.serializedContent);
+    let string = '';
     if (!d) {
-      string = message.message.htmlContent
+      string = message.message.htmlContent;
     } else {
-      string = d.blocks.map((block) => block.text).join('\n')
+      string = d.blocks.map((block) => block.text).join('\n');
     }
 
-    if (!string) return ''
+    if (!string) return '';
 
     var trimmedString =
-      string.length > length ? string.substring(0, length - 3) + '...' : string
-    return trimmedString
+      string.length > length ? string.substring(0, length - 3) + '...' : string;
+    return trimmedString;
   }
 
   function renderMessages(message) {
-    if (message.message.blocks) return renderItemPackage(message)
-    if (message.message.action) return renderEventBlock(message)
-    return renderMessage(message)
+    if (message.message.blocks) return renderItemPackage(message);
+    if (message.message.action) return renderEventBlock(message);
+    return renderMessage(message);
   }
 
   React.useEffect(() => {
-    const timeout = setTimeout(() => setDisplay(true), 400) // + (index * 100))
+    const timeout = setTimeout(() => setDisplay(true), 400); // + (index * 100))
 
     // this cancell effect
     return function () {
-      clearTimeout(timeout)
-    }
-  }, [])
+      clearTimeout(timeout);
+    };
+  }, []);
 
   function renderAgentAvatar() {
-    const a = agent()
-    return a.avatarUrl
+    const a = agent();
+    return a.avatarUrl;
   }
 
   function agent() {
-    if (message && message.appUser.kind === 'agent') return message.appUser
-    if (o.assignee) return o.assignee
+    if (message && message.appUser.kind === 'agent') return message.appUser;
+    if (o.assignee) return o.assignee;
   }
 
   return (
@@ -95,7 +95,7 @@ export function CommentsItemComp({ displayConversation, message, o, i18n }) {
       displayOpacity={display}
       key={`comments-item-${o.id}`}
       onClick={(e) => {
-        displayConversation(e, o)
+        displayConversation(e, o);
       }}
     >
       {message && (
@@ -147,5 +147,5 @@ export function CommentsItemComp({ displayConversation, message, o, i18n }) {
         </ConversationSummary>
       )}
     </CommentsItem>
-  )
+  );
 }

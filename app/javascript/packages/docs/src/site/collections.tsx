@@ -1,21 +1,21 @@
-import React from 'react'
+import React from 'react';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import { ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/docsQueries'
+import graphql from '@chaskiq/store/src/graphql/client';
+import { ARTICLE_COLLECTIONS } from '@chaskiq/store/src/graphql/docsQueries';
 
-import Card from '@chaskiq/components/src/components/Card'
+import Card from '@chaskiq/components/src/components/Card';
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import translation from './translation'
+import translation from './translation';
 
 export default function Collections({ lang, subdomain }) {
-  const [collections, setCollections] = React.useState([])
-  const [_error, setError] = React.useState(false)
+  const [collections, setCollections] = React.useState([]);
+  const [_error, setError] = React.useState(false);
 
   React.useEffect(() => {
-    getArticles()
-  }, [lang])
+    getArticles();
+  }, [lang]);
 
   function getArticles() {
     graphql(
@@ -26,22 +26,22 @@ export default function Collections({ lang, subdomain }) {
       },
       {
         success: (data) => {
-          setCollections(data.helpCenter.collections)
+          setCollections(data.helpCenter.collections);
           if (!data.helpCenter.collections) {
-            setError('not_found')
+            setError('not_found');
           }
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function truncateOnWord(str, num) {
-    if (!str) return ''
+    if (!str) return '';
     if (str.length > num) {
-      return str.slice(0, num) + '...'
+      return str.slice(0, num) + '...';
     } else {
-      return str
+      return str;
     }
   }
 
@@ -85,5 +85,5 @@ export default function Collections({ lang, subdomain }) {
         ))}
       </div>
     </div>
-  )
+  );
 }

@@ -95,6 +95,7 @@ class AppPackageIntegration < ApplicationRecord
 
   def unregister
     return if app_package.is_external?
+
     klass = message_api_klass
     klass.unregister(app_package, self) if klass.respond_to?(:unregister)
   end

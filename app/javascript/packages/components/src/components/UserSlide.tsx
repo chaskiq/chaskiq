@@ -1,5 +1,5 @@
-import React from 'react'
-import { Transition } from '@headlessui/react'
+import React from 'react';
+import { Transition } from '@headlessui/react';
 
 export default function UserSlide({ open, onClose, children }) {
   return (
@@ -72,5 +72,5 @@ export default function UserSlide({ open, onClose, children }) {
         }}
       />
     </>
-  )
+  );
 }

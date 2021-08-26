@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 export default function SimpleTabs({ tabs, buttons }) {
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = React.useState(0);
 
   return (
     <div className="w-full">
@@ -24,5 +24,5 @@ export default function SimpleTabs({ tabs, buttons }) {
 
       {<div>{tabs[value].content}</div>}
     </div>
-  )
+  );
 }

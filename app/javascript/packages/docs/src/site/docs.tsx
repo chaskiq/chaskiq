@@ -1,39 +1,39 @@
-import React from 'react'
+import React from 'react';
 
-import graphql from '@chaskiq/store/src/graphql/client'
-import { ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/docsQueries'
+import graphql from '@chaskiq/store/src/graphql/client';
+import { ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/docsQueries';
 
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu'
-import Button from '@chaskiq/components/src/components/Button'
+import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
+import Button from '@chaskiq/components/src/components/Button';
 import {
   LangGlobeIcon,
   LaunchIcon,
-} from '@chaskiq/components/src/components/icons'
-import danteTheme from '@chaskiq/components/src/components/textEditor/theme'
+} from '@chaskiq/components/src/components/icons';
+import danteTheme from '@chaskiq/components/src/components/textEditor/theme';
 
-import Article from './article'
-import CollectionsWithSections from './collectionSections'
-import Collections from './collections'
-import CustomizedInputBase from './searchBar'
+import Article from './article';
+import CollectionsWithSections from './collectionSections';
+import Collections from './collections';
+import CustomizedInputBase from './searchBar';
 
-import { Facebook, Twitter, LinkedIn } from './icons'
-import { Route, Switch, Link } from 'react-router-dom'
-import { Global, css } from '@emotion/core'
+import { Facebook, Twitter, LinkedIn } from './icons';
+import { Route, Switch, Link } from 'react-router-dom';
+import { Global, css } from '@emotion/core';
 
 const subdomain = window.location.host.split('.')[1]
   ? window.location.host.split('.')[0]
-  : false
+  : false;
 
 function Docs(props) {
   // const classes = useStyles();
-  const [settings, setSettings] = React.useState({})
-  const [lang, setLang] = React.useState(props.match.params.lang || 'en')
-  const [error, _setError] = React.useState(false)
-  const { history } = props
+  const [settings, setSettings] = React.useState({});
+  const [lang, setLang] = React.useState(props.match.params.lang || 'en');
+  const [error, _setError] = React.useState(false);
+  const { history } = props;
 
   React.useEffect(() => {
-    getSettings()
-  }, [lang])
+    getSettings();
+  }, [lang]);
 
   function getSettings() {
     graphql(
@@ -44,21 +44,21 @@ function Docs(props) {
       },
       {
         success: (data) => {
-          setSettings(data.helpCenter)
+          setSettings(data.helpCenter);
         },
         error: () => {},
       }
-    )
+    );
   }
 
   function handleLangChange(option) {
-    setLang(option.id)
-    history.push(`/${option.id}`)
+    setLang(option.id);
+    history.push(`/${option.id}`);
   }
 
   const newDanteTheme = Object.assign({}, danteTheme, {
     mainColor: settings.color,
-  })
+  });
 
   return (
     <div>
@@ -216,7 +216,7 @@ function Docs(props) {
         {/* End footer */}
       </React.Fragment>
     </div>
-  )
+  );
 }
 
 function MadeWithLove() {
@@ -225,7 +225,7 @@ function MadeWithLove() {
       {'powered by '}
       <a href="https://chaskiq.io/">Chaskiq</a>
     </p>
-  )
+  );
 }
 
-export default Docs
+export default Docs;

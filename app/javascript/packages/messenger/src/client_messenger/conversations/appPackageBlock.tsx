@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components'
-import Button from '@chaskiq/components/src/components/Button'
-import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter'
-import autolink from '../autolink'
-import serialize from 'form-serialize'
-import { isEmpty } from 'lodash'
+import React, { Component } from 'react';
+import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
+import Button from '@chaskiq/components/src/components/Button';
+import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
+import autolink from '../autolink';
+import serialize from 'form-serialize';
+import { isEmpty } from 'lodash';
 import {
   AppPackageBlockContainer,
   AppPackageBlockButtonItem,
   AppPackageBlockTextItem,
   DisabledElement,
-} from '../styles/styled'
+} from '../styles/styled';
 
 export default class AppPackageBlock extends Component {
-  form = null
+  form = null;
 
   state = {
     value: null,
@@ -21,34 +21,34 @@ export default class AppPackageBlock extends Component {
     loading: false,
     schema: this.props.message.message.blocks.schema,
     submiting: false,
-  }
+  };
 
   setLoading = (val) => {
-    this.setState({ loading: val })
-  }
+    this.setState({ loading: val });
+  };
 
   handleStepControlClick = (item) => {
     if (
       this.props.message.message.data &&
       this.props.message.message.data.opener
     ) {
-      return window.open(this.props.message.message.data.opener)
+      return window.open(this.props.message.message.data.opener);
     }
 
     this.setState({ submiting: true }, () => {
-      this.props.clickHandler(item, this.props.message)
-    })
-  }
+      this.props.clickHandler(item, this.props.message);
+    });
+  };
 
   sendAppPackageSubmit = (data, cb) => {
     // if(data.field.action && data.field.action.type === 'frame')
     //  this.props.clickHandler(data, this.props)
-    this.updatePackage(data, this.props.message, cb)
-  }
+    this.updatePackage(data, this.props.message, cb);
+  };
 
   updatePackage = (data, message, cb) => {
     if (data.field.action.type === 'url') {
-      return window.open(data.field.action.url, '_blank')
+      return window.open(data.field.action.url, '_blank');
     }
 
     if (data.field.action.type === 'frame') {
@@ -62,12 +62,12 @@ export default class AppPackageBlock extends Component {
           message_key: message.key,
           conversation_key: this.props.conversation.key,
         },
-      })
-      cb && cb()
-      return
+      });
+      cb && cb();
+      return;
     }
 
-    const camelCasedMessage = toCamelCase(message.message)
+    const camelCasedMessage = toCamelCase(message.message);
 
     const params = {
       id: camelCasedMessage.blocks.appPackage,
@@ -81,19 +81,19 @@ export default class AppPackageBlock extends Component {
         trigger: this.props.triggerId,
         values: data.values || message.message.blocks.values,
       },
-    }
+    };
 
     // handle steps on appPackageSubmitHandler
     this.props.getPackage(params, (data, updateMessage) => {
       if (!data) {
-        return cb && cb()
+        return cb && cb();
       }
 
       const {
         definitions,
         _kind,
         results,
-      } = data.messenger.app.appPackage.callHook
+      } = data.messenger.app.appPackage.callHook;
 
       if (!results) {
         // this.setState({schema: definitions}, cb && cb())
@@ -105,7 +105,7 @@ export default class AppPackageBlock extends Component {
             definitions: definitions,
           },
           message
-        )
+        );
         // independly on the result of appPackageSubmit
         // we will update the state definitions on the block
         // maybe this will work on updating the message from ws ??
@@ -113,59 +113,59 @@ export default class AppPackageBlock extends Component {
       }
 
       // update message from parent state
-      const newMessage = this.props.message
-      newMessage.message.blocks.schema = definitions
-      updateMessage && updateMessage(newMessage)
-      this.setState({ loading: false })
-      cb && cb()
-    })
-  }
+      const newMessage = this.props.message;
+      newMessage.message.blocks.schema = definitions;
+      updateMessage && updateMessage(newMessage);
+      this.setState({ loading: false });
+      cb && cb();
+    });
+  };
 
   // TODO: to be deprecated
   sendAppPackageSubmit2 = (e) => {
-    if (this.state.loading) return
+    if (this.state.loading) return;
 
-    this.setLoading(true)
+    this.setLoading(true);
 
-    e.preventDefault()
+    e.preventDefault();
 
-    const data = serialize(e.currentTarget, { hash: true, empty: true })
-    let errors = {}
+    const data = serialize(e.currentTarget, { hash: true, empty: true });
+    let errors = {};
 
     // check custom functions and validate
     Object.keys(data).map((o) => {
-      const item = this.props.searcheableFields.find((f) => f.name === o)
-      if (!item) return
-      if (!item.validation) return
+      const item = this.props.searcheableFields.find((f) => f.name === o);
+      if (!item) return;
+      if (!item.validation) return;
 
-      var args = ['value', item.validation]
-      var validationFunc = Function.apply(null, args)
-      const err = validationFunc(data[o])
-      if (!err) return
-      if (err.length === 0) return
-      errors = Object.assign(errors, { [o]: err })
-    })
+      var args = ['value', item.validation];
+      var validationFunc = Function.apply(null, args);
+      const err = validationFunc(data[o]);
+      if (!err) return;
+      if (err.length === 0) return;
+      errors = Object.assign(errors, { [o]: err });
+    });
 
     this.setState({ errors: errors, loading: false }, () => {
       // console.log(this.state.errors)
       // console.log(isEmpty(this.state.errors) ? 'valid' : 'errors')
-      if (!isEmpty(this.state.errors)) return
-      this.props.appPackageSubmitHandler(data, this.props.message)
-    })
-  }
+      if (!isEmpty(this.state.errors)) return;
+      this.props.appPackageSubmitHandler(data, this.props.message);
+    });
+  };
 
   renderEmptyItem = () => {
     if (this.props.message.message.blocks.type === 'app_package') {
-      return <p>{this.props.message.message.blocks.app_package} replied</p>
+      return <p>{this.props.message.message.blocks.app_package} replied</p>;
     } else {
-      return <p>mo</p>
+      return <p>mo</p>;
     }
-  }
+  };
 
   renderDisabledElement = () => {
-    const item = this.props.message.message.data
+    const item = this.props.message.message.data;
 
-    if (!item) return this.renderEmptyItem()
+    if (!item) return this.renderEmptyItem();
 
     switch (item.element) {
       case 'button':
@@ -181,12 +181,12 @@ export default class AppPackageBlock extends Component {
                 ),
               }}
             />
-          )
+          );
         }
 
       default:
-        const message = this.props.message.message
-        const { blocks, data } = message
+        const message = this.props.message.message;
+        const { blocks, data } = message;
 
         if (this.props.message.message.blocks.type === 'app_package') {
           return (
@@ -201,7 +201,7 @@ export default class AppPackageBlock extends Component {
                 />
               )}
             </p>
-          )
+          );
         }
 
         if (this.props.message.message.blocks.type === 'data_retrieval') {
@@ -210,8 +210,8 @@ export default class AppPackageBlock extends Component {
               <p key={`data-retrieval-${k}`}>
                 {k}: {this.props.message.message.data[k]}
               </p>
-            )
-          })
+            );
+          });
         }
       //else {
       //  <p>{JSON.stringify(this.props.message.message.data)}</p>
@@ -219,21 +219,21 @@ export default class AppPackageBlock extends Component {
 
       // falls through
     }
-  }
+  };
 
   // TODO: deprecate this in favor of appPackagesIntegration
   // has depency on buttons
   renderElement = (item, index) => {
-    const element = item.element
+    const element = item.element;
     const isDisabled =
-      this.props.message.message.state === 'replied' || this.state.loading
-    const key = `${item.type}-${index}`
+      this.props.message.message.state === 'replied' || this.state.loading;
+    const key = `${item.type}-${index}`;
     switch (element) {
       case 'separator':
-        return <hr key={key} />
+        return <hr key={key} />;
       case 'input':
-        const isEmailType = item.name === 'email' ? 'email' : null
-        const errorClass = this.state.errors[item.name] ? 'error' : ''
+        const isEmailType = item.name === 'email' ? 'email' : null;
+        const errorClass = this.state.errors[item.name] ? 'error' : '';
         return (
           <div
             style={{
@@ -274,7 +274,7 @@ export default class AppPackageBlock extends Component {
               {this.props.i18n.t('messenger.submit')}
             </button>
           </div>
-        )
+        );
 
       case 'submit':
         return (
@@ -286,7 +286,7 @@ export default class AppPackageBlock extends Component {
           >
             {this.props.i18n.t('messenger.submit')}
           </Button>
-        )
+        );
       case 'button':
         return (
           <AppPackageBlockButtonItem>
@@ -300,16 +300,16 @@ export default class AppPackageBlock extends Component {
               {item.label}
             </Button>
           </AppPackageBlockButtonItem>
-        )
+        );
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   renderElements = () => {
-    const isDisabled = this.props.message.message.state === 'replied'
+    const isDisabled = this.props.message.message.state === 'replied';
     if (isDisabled) {
-      return <DisabledElement>{this.renderDisabledElement()}</DisabledElement>
+      return <DisabledElement>{this.renderDisabledElement()}</DisabledElement>;
     }
     return (
       <div className="elementsContainer">
@@ -325,16 +325,16 @@ export default class AppPackageBlock extends Component {
           this.renderElement(o, i)
         )}
       </div>
-    )
-  }
+    );
+  };
 
   isHidden = () => {
     // will hide this kind of message since is only a placeholder from bot
-    return this.props.message.message.blocks.type === 'wait_for_reply'
-  }
+    return this.props.message.message.blocks.type === 'wait_for_reply';
+  };
 
   render() {
-    const blocks = this.props.message.message.blocks
+    const blocks = this.props.message.message.blocks;
     return (
       <AppPackageBlockContainer
         isInline={this.props.isInline}
@@ -360,6 +360,6 @@ export default class AppPackageBlock extends Component {
           </form>
         )}
       </AppPackageBlockContainer>
-    )
+    );
   }
 }

@@ -1,15 +1,15 @@
-import React from 'react'
-import { Transition } from '@headlessui/react'
+import React from 'react';
+import { Transition } from '@headlessui/react';
 
 function FormDialog(props) {
-  const [_open, setOpen] = React.useState(props.open)
+  const [_open, setOpen] = React.useState(props.open);
 
   function handleClose() {
-    setOpen(false)
-    props.handleClose && props.handleClose()
+    setOpen(false);
+    props.handleClose && props.handleClose();
   }
 
-  React.useEffect(() => setOpen(props.open), [props.open])
+  React.useEffect(() => setOpen(props.open), [props.open]);
 
   return props.open ? (
     <Backdrop>
@@ -71,7 +71,7 @@ function FormDialog(props) {
         </div>
       </Transition>
     </Backdrop>
-  ) : null
+  ) : null;
 }
 
 function Backdrop({ children }) {
@@ -92,7 +92,7 @@ function Backdrop({ children }) {
 
       {children}
     </div>
-  )
+  );
 }
 
 /*
@@ -203,4 +203,4 @@ export function MessageModal({}){
 }
 */
 
-export default FormDialog
+export default FormDialog;

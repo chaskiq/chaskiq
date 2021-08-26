@@ -4,7 +4,7 @@ import {
   // kebabCase,
   // upperFirst,
   // flow
-} from 'lodash'
+} from 'lodash';
 
 /**
  * deeply converts keys of an object from one case to another
@@ -13,32 +13,32 @@ import {
  * @return converted object
  */
 const convertCase = (oldObject, converterFunction) => {
-  let newObject
+  let newObject;
 
   if (
     !oldObject ||
     typeof oldObject !== 'object' ||
     !Object.keys(oldObject).length
   ) {
-    return oldObject
+    return oldObject;
   }
 
   if (Array.isArray(oldObject)) {
     newObject = oldObject.map((element) =>
       convertCase(element, converterFunction)
-    )
+    );
   } else {
-    newObject = {}
+    newObject = {};
     Object.keys(oldObject).forEach((oldKey) => {
-      const newKey = converterFunction(oldKey)
-      newObject[newKey] = convertCase(oldObject[oldKey], converterFunction)
-    })
+      const newKey = converterFunction(oldKey);
+      newObject[newKey] = convertCase(oldObject[oldKey], converterFunction);
+    });
   }
 
-  return newObject
-}
+  return newObject;
+};
 
-export const toCamelCase = (obj) => convertCase(obj, camelCase)
+export const toCamelCase = (obj) => convertCase(obj, camelCase);
 // export const toSnakeCase = obj => convertCase(obj, snakeCase);
 // export const toKebabCase = obj => convertCase(obj, kebabCase);
 // export const toPascalCase = obj => convertCase(obj, flow(camelCase, upperFirst));
@@ -46,4 +46,4 @@ export const toCamelCase = (obj) => convertCase(obj, camelCase)
 export default {
   toCamelCase,
   // toSnakeCase, toKebabCase, toPascalCase
-}
+};

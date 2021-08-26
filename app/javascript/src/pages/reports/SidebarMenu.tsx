@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { APP_PACKAGES_DASHBOARD } from '@chaskiq/store/src/graphql/queries'
-import graphql from '@chaskiq/store/src/graphql/client'
-import moment from 'moment'
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { APP_PACKAGES_DASHBOARD } from '@chaskiq/store/src/graphql/queries';
+import graphql from '@chaskiq/store/src/graphql/client';
+import moment from 'moment';
 
 function SidebarMenu({ dispatch, app }) {
   const cc = `              
@@ -15,9 +15,9 @@ function SidebarMenu({ dispatch, app }) {
   group flex items-center 
   px-2 py-2 
   text-sm leading-5 font-medium text-gray-900 
-  rounded-md transition ease-in-out duration-150`
+  rounded-md transition ease-in-out duration-150`;
 
-  const [data, setData] = React.useState([])
+  const [data, setData] = React.useState([]);
 
   function getData() {
     graphql(
@@ -27,16 +27,16 @@ function SidebarMenu({ dispatch, app }) {
       },
       {
         success: (data) => {
-          setData(data.app.appPackagesDashboard)
+          setData(data.app.appPackagesDashboard);
         },
         error: (_err) => {},
       }
-    )
+    );
   }
 
   React.useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   return (
     <>
@@ -54,13 +54,13 @@ function SidebarMenu({ dispatch, app }) {
         </Link>
       ))}
     </>
-  )
+  );
 }
 
 function mapStateToProps(state) {
-  const { app } = state
+  const { app } = state;
   return {
     app,
-  }
+  };
 }
-export default connect(mapStateToProps)(SidebarMenu)
+export default connect(mapStateToProps)(SidebarMenu);

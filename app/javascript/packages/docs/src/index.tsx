@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
-import MainLayout from './site'
+import MainLayout from './site';
 
-export default MainLayout
+export default MainLayout;
 
 /*function docs() {
     // TODO
