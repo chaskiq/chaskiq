@@ -168,6 +168,7 @@ export default class ChatEditor extends Component<
     if ('maxTouchPoints' in navigator) {
       hasTouchScreen = navigator.maxTouchPoints > 0;
     } else if ('msMaxTouchPoints' in navigator) {
+      // @ts-ignore ts 4.4 removed this
       hasTouchScreen = navigator.msMaxTouchPoints > 0;
     } else {
       var mQ = window.matchMedia && matchMedia('(pointer:coarse)');
