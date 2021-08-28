@@ -9,7 +9,7 @@ import Icons from 'Dante2/package/esm/editor/components/icons';
 
 import TextEditor from '@chaskiq/components/src/components/textEditor';
 
-import { DanteInlineTooltipConfig } from './EditorButtons'; // 'Dante2/package/es/components/popovers/addButton.js'
+import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton';
 
 import html2content from 'Dante2/package/esm/editor/utils/html2content';
 import { Map } from 'immutable';
@@ -262,7 +262,7 @@ export default class ChatEditor extends Component<
     return [
       DanteImagePopoverConfig(),
       DanteAnchorPopoverConfig(),
-      DanteInlineTooltipConfig(),
+      DanteInlineTooltipConfig({ fixed: true }),
       menuConfig,
       // DanteMarkdownConfig()
     ];
