@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const MessengerContext = React.createContext();
+export const MessengerContext = React.createContext(null);
 export const MessengerConsumer = MessengerContext.Consumer;
 
 function MessengerWrapper({ children, value }) {

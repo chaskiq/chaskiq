@@ -1,6 +1,17 @@
 import React from 'react';
 import { RtcView } from '@chaskiq/components/src/components/rtc';
 
+type FrameChildProps = {
+  document?: any;
+  state: any;
+  props: any;
+  events: any;
+  updateRtc: any;
+  setVideoSession: any;
+  toggleAudio: any;
+  toggleVideo: any;
+};
+
 const FrameChild = ({
   // window,
   document,
@@ -11,7 +22,7 @@ const FrameChild = ({
   setVideoSession,
   toggleAudio,
   toggleVideo,
-}) => {
+}: FrameChildProps) => {
   return (
     <React.Fragment>
       {

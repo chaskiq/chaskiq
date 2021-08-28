@@ -22,7 +22,7 @@
   ],
   "compileOnSave": false,
   "include": [
-    "./app/javascript/src/pages", 
+    "./app/javascript", 
     //"./app/javascript/packages", // let's bypass packages for now
     "./index.d.ts"]
 }

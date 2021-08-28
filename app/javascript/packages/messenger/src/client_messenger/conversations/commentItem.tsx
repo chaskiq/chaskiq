@@ -121,7 +121,7 @@ export function CommentsItemComp({ displayConversation, message, o, i18n }) {
                   fontSize: '.8em',
                   textTransform: 'unset',
                   textAlign: 'right',
-                  fontWeight: '100',
+                  fontWeight: 100,
                 }}
               >
                 {message.createdAt}

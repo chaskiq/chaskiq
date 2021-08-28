@@ -17,7 +17,7 @@ const handlePrismRenderer = (syntax, code) => {
   return { __html: formattedCode };
 };
 
-function Pre({ _className, children, data }) {
+function Pre({ children, data }) {
   const el = React.useRef(null);
   const [code, setCode] = React.useState(null);
 
@@ -93,11 +93,7 @@ function renderers(props) {
       ),
       // You can also access the original keys of the blocks
       'code-block': (children, { _keys, data }) => {
-        return (
-          <Pre className="graf graf--code" data={data}>
-            {children}
-          </Pre>
-        );
+        return <Pre data={data}>{children}</Pre>;
       },
       // or depth for nested lists
       'unordered-list-item': (children, { depth, keys }) => (
@@ -150,14 +146,8 @@ function renderers(props) {
       },
       embed: (children, { keys, data }) => {
         const { provisory_text, _type, embed_data } = data[0];
-        const {
-          images,
-          title,
-          _media,
-          provider_url,
-          description,
-          _url,
-        } = embed_data;
+        const { images, title, _media, provider_url, description, _url } =
+          embed_data;
 
         return (
           <div key={keys[0]} className="graf graf--mixtapeEmbed">
@@ -199,7 +189,6 @@ function renderers(props) {
           <figure
             key={keys[0]}
             className="graf--figure graf--iframe graf--first"
-            tabIndex="0"
           >
             <div
               className="iframeContainer"
@@ -225,7 +214,6 @@ function renderers(props) {
           <figure
             key={keys[0]}
             className="graf--figure graf--iframe graf--first"
-            tabIndex="0"
           >
             <div className="iframeContainer">
               <video
@@ -326,7 +314,12 @@ function ImageRenderer({ children, blockKey, data, props }) {
   );
 }
 
-export default class Renderer extends Component {
+type RendererProps = {
+  message?: any;
+  domain?: string;
+  raw: string;
+};
+export default class Renderer extends Component<RendererProps> {
   /* static propTypes = {
     raw: PropTypes.object
   } */

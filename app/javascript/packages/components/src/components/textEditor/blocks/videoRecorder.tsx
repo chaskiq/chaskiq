@@ -9,7 +9,7 @@ import { updateDataOfBlock } from 'Dante2/package/esm/editor/model';
 
 import axios from 'axios';
 
-const VideoContainer = styled.div`
+const VideoContainer = styled.div<{ theme: any }>`
   background: ${(props) => props.theme.inversed_color};
   padding: 0px;
   margin-bottom: 10px;
@@ -46,7 +46,7 @@ const EditorControls = styled.div`
   z-index: 100;
 `;
 
-const StatusBar = styled.div`
+const StatusBar = styled.div<{ loading?: boolean }>`
   z-index: 10;
   position: absolute;
   height: 100%;
@@ -72,7 +72,7 @@ const SecondsLeft = styled.div`
   color: white;
 `;
 
-const RecButton = styled.div`
+const RecButton = styled.button`
   display: inline-block;
   cursor: pointer;
   -webkit-transition: all 0.25s ease;
@@ -202,11 +202,47 @@ const Button = styled.button`
   }
 `;
 
-class VideoRecorderBlock extends React.Component {
+type VideoRecorderBlockProps = {
+  blockProps: any;
+  block: any;
+};
+
+type VideoRecorderBlockState = {
+  caption: string;
+  direction: 'center' | 'left' | 'right' | null;
+  granted: boolean;
+  rejectedReason: string;
+  recording: boolean;
+  paused: boolean;
+  fileReady: boolean;
+  secondsLeft: number;
+  loading?: boolean;
+  loading_progress: number;
+  url: string;
+  enabled: boolean;
+};
+
+class VideoRecorderBlock extends React.Component<
+  VideoRecorderBlockProps,
+  VideoRecorderBlockState
+> {
+  file: any;
+  config: any;
+  video: any;
+  stopTimeout: any;
+  secondInterval: any;
+  app: any;
+  mediaRecorder: any;
+
   constructor(props) {
     super(props);
     this.file = this.props.blockProps.data.get('file');
     this.config = this.props.blockProps.config;
+    this.video = null;
+    this.stopTimeout = null;
+    this.secondInterval = null;
+    this.app = null;
+    this.mediaRecorder = null;
     const existing_data = this.props.block.getData().toJS();
 
     this.state = {
@@ -219,13 +255,10 @@ class VideoRecorderBlock extends React.Component {
       fileReady: false,
       secondsLeft: 0,
       loading: false,
+      loading_progress: 0,
+      enabled: false,
       url: this.props.block.data.get('url'),
     };
-
-    this.video = null;
-
-    this.stopTimeout = null;
-    this.secondInterval = null;
 
     this.handleGranted = this.handleGranted.bind(this);
     this.handleDenied = this.handleDenied.bind(this);
@@ -236,8 +269,6 @@ class VideoRecorderBlock extends React.Component {
     this.setStreamToVideo = this.setStreamToVideo.bind(this);
     this.releaseStreamFromVideo = this.releaseStreamFromVideo.bind(this);
     this.downloadVideo = this.downloadVideo.bind(this);
-    this.app = null;
-    this.mediaRecorder = null;
   }
 
   componentDidMount() {
@@ -249,7 +280,7 @@ class VideoRecorderBlock extends React.Component {
   }
 
   // will update block state
-  updateData = (options) => {
+  updateData = (options?: any) => {
     const { blockProps, block } = this.props;
     const { getEditorState } = blockProps;
     const { setEditorState } = blockProps;
@@ -352,7 +383,7 @@ class VideoRecorderBlock extends React.Component {
 
   setStreamToVideo(stream) {
     const video = this.app.querySelector('video');
-    this.recordMode(video);
+    this.recordMode();
 
     // is a mediastream
     try {
@@ -477,7 +508,7 @@ class VideoRecorderBlock extends React.Component {
   }
 
   updateProgressBar(e) {
-    let complete = this.state.loading_progress;
+    let complete = this.state.loading_progress as any;
     if (e.lengthComputable) {
       complete = (e.loaded / e.total) * 100;
       complete = complete != null ? complete : { complete: 0 };
@@ -590,7 +621,7 @@ class VideoRecorderBlock extends React.Component {
 
                   <figcaption
                     className="imageCaption"
-                    onMouseDown={this.handleFocus}
+                    // onMouseDown={this.handleFocus}
                   >
                     {this.props.block.getText().length === 0 ? (
                       <span className="danteDefaultPlaceholder">
@@ -614,7 +645,7 @@ class VideoRecorderBlock extends React.Component {
   }
 }
 
-class Loader extends React.Component {
+class Loader extends React.Component<{ toggle?: boolean; progress?: number }> {
   render = () => {
     return (
       <React.Fragment>

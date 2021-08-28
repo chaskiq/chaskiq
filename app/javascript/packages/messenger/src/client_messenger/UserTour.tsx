@@ -36,7 +36,28 @@ const Button = styled.button`
   }
 `;
 
-export default class UserTours extends Component {
+type UserToursProps = {
+  tours: any;
+  events: any;
+  domain: string;
+  i18n: any;
+};
+
+type UserTourProps = {
+  tour: any;
+  events: any;
+  domain: string;
+  i18n: any;
+};
+
+type UserTourSteps = {
+  steps: any;
+  run: boolean;
+  currentStep: number;
+  completed: boolean;
+};
+
+export default class UserTours extends Component<UserToursProps> {
   render() {
     return this.props.tours.length > 0 ? (
       <UserTour
@@ -49,8 +70,9 @@ export default class UserTours extends Component {
   }
 }
 
-class UserTour extends Component {
+class UserTour extends Component<UserTourProps, UserTourSteps> {
   state = {
+    steps: [],
     run: true,
     currentStep: 0,
     completed: false,
@@ -128,7 +150,7 @@ class UserTour extends Component {
     if (this.props.tour.steps && this.props.tour.steps.length > 0) {
       return (
         <Tour
-          steps={this.prepareJoyRidyContent(this.state.steps)}
+          steps={this.prepareJoyRidyContent()}
           isOpen={this.state.run}
           onRequestClose={() => {
             this.setState({ run: false }, () => {

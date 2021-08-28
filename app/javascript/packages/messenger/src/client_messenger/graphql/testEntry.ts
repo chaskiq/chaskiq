@@ -15,7 +15,7 @@ import {
   ARTICLE_COLLECTION,
   ARTICLE_COLLECTION_WITH_SECTIONS,
   APP_PACKAGE_HOOK,
-} from './queries.mjs'
+} from './queries'
 
 // example
 // npx babel-node ./app/javascript/src/graphql/entry.mjs APPS

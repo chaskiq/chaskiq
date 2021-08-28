@@ -26,7 +26,7 @@ const subdomain = window.location.host.split('.')[1]
 
 function Docs(props) {
   // const classes = useStyles();
-  const [settings, setSettings] = React.useState({});
+  const [settings, setSettings] = React.useState<any>({}) as any;
   const [lang, setLang] = React.useState(props.match.params.lang || 'en');
   const [error, _setError] = React.useState(false);
   const { history } = props;
@@ -107,14 +107,14 @@ function Docs(props) {
 
                     {settings.availableLanguages && (
                       <FilterMenu
-                        icon={LangGlobeIcon}
+                        // icon={LangGlobeIcon}
                         options={settings.availableLanguages.map((o) => ({
                           name: o,
                           id: o,
                         }))}
                         value={lang}
                         filterHandler={handleLangChange}
-                        buttonVariant={'outlined-transparent'}
+                        // buttonVariant={'outlined-transparent'}
                         position={'right'}
                         // triggerButton={this.toggleButton}
                       />

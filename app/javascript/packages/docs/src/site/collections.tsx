@@ -11,7 +11,7 @@ import translation from './translation';
 
 export default function Collections({ lang, subdomain }) {
   const [collections, setCollections] = React.useState([]);
-  const [_error, setError] = React.useState(false);
+  const [_error, setError] = React.useState(null);
 
   React.useEffect(() => {
     getArticles();
@@ -50,7 +50,7 @@ export default function Collections({ lang, subdomain }) {
       {/* End hero unit */}
       <div className="md:grid md:grid-cols-3 md:gap-x-4 md:gap-y-10">
         {collections.map((card) => (
-          <div className="m-4" item key={card.id}>
+          <div className="m-4" key={card.id}>
             <Card
               title={
                 <Link

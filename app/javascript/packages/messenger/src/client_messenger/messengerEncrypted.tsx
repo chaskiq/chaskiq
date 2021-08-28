@@ -26,7 +26,7 @@ export default class ChaskiqMessengerEncrypted {
     this.props = props;
 
     const currentLang =
-      this.props.lang || navigator.language || navigator.userLanguage;
+      this.props.lang || navigator.language || navigator['userLanguage'];
 
     this.cookieNamespace = () => {
       // old app keys have hypens, we get rid of this

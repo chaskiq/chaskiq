@@ -12,7 +12,30 @@ import {
   DisabledElement,
 } from '../styles/styled';
 
-export default class AppPackageBlock extends Component {
+type AppPackageBlockProps = {
+  message: any;
+  clickHandler: (e: any, message: any) => void;
+  conversation: any;
+  displayAppBlockFrame: (data: any) => void;
+  getPackage: (data: any, cb: any) => void;
+  appPackageSubmitHandler: (data: any, message: any) => void;
+  stepId?: string;
+  triggerId?: string;
+  searcheableFields: Array<any>;
+  i18n: any;
+};
+
+type AppPackageBlockState = {
+  value: any;
+  errors: any;
+  loading: boolean;
+  schema: any;
+  submiting: boolean;
+};
+export default class AppPackageBlock extends Component<
+  AppPackageBlockProps,
+  AppPackageBlockState
+> {
   form = null;
 
   state = {
@@ -89,11 +112,8 @@ export default class AppPackageBlock extends Component {
         return cb && cb();
       }
 
-      const {
-        definitions,
-        _kind,
-        results,
-      } = data.messenger.app.appPackage.callHook;
+      const { definitions, _kind, results } =
+        data.messenger.app.appPackage.callHook;
 
       if (!results) {
         // this.setState({schema: definitions}, cb && cb())
@@ -336,10 +356,7 @@ export default class AppPackageBlock extends Component {
   render() {
     const blocks = this.props.message.message.blocks;
     return (
-      <AppPackageBlockContainer
-        isInline={this.props.isInline}
-        isHidden={this.isHidden()}
-      >
+      <AppPackageBlockContainer isHidden={this.isHidden()}>
         {blocks.type === 'app_package' && (
           <DefinitionRenderer
             // schema={this.state.schema}
@@ -354,7 +371,9 @@ export default class AppPackageBlock extends Component {
             className="form"
             onSubmit={this.sendAppPackageSubmit2}
           >
-            <fieldset disabled={this.state.submiting ? 'disabled' : ''}>
+            <fieldset
+            //disabled={this.state.submiting ? 'disabled' : ''}
+            >
               {this.renderElements()}
             </fieldset>
           </form>

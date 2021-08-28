@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
+//@ts-ignore
 import { Picker } from 'mr-emoji';
 import { EmojiBlock } from './styles/emojimart';
 
@@ -19,7 +20,7 @@ import Loader from './loader';
 
 import { imageUpload } from './uploader';
 
-const EditorContainer = styled.div`
+const EditorContainer = styled.div<{ footerClassName?: boolean }>`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -124,12 +125,7 @@ const EditorButtons = styled.div`
         width: 26px;
         height: 26px;
         color: #ccc;
-        //path {
-        //  fill: #555;
-        //}
-
         fill: #555;
-
         &:hover{
           fill: #c1c1c1
         }
@@ -171,7 +167,26 @@ const AttachIcon = () => (
   </svg>
 );
 
-export default class UnicornEditor extends Component {
+type EditorProps = {
+  insertComment: any;
+  beforeSubmit: any;
+  onSent: any;
+  domain: string;
+  i18n: any;
+  footerClassName?: boolean;
+};
+type EditorState = {
+  text: string;
+  emojiEnabled: boolean;
+  giphyEnabled: boolean;
+  loading: boolean;
+};
+export default class UnicornEditor extends Component<EditorProps, EditorState> {
+  input: any;
+  upload_input: any;
+  blockRenderMap: any;
+  extendedBlockRenderMap: any;
+
   constructor(props) {
     super(props);
     this.input = null;
@@ -231,8 +246,10 @@ export default class UnicornEditor extends Component {
   insertAtCursor = (myValue) => {
     const myField = this.input;
     // IE support
+    //@ts-ignore
     if (document.selection) {
       myField.focus();
+      //@ts-ignore
       var sel = document.selection.createRange();
       sel.text = myValue;
     } else if (myField.selectionStart || myField.selectionStart === '0') {
@@ -276,7 +293,7 @@ export default class UnicornEditor extends Component {
     });
   };
 
-  submitImage = (link, cb) => {
+  submitImage = (link, cb = null) => {
     const html = `<img width=100% src="${link}" data-type="image"/>`;
     const opts = {
       html_content: html,
@@ -295,7 +312,7 @@ export default class UnicornEditor extends Component {
     });
   };
 
-  submitFile = (attrs, cb) => {
+  submitFile = (attrs, cb = null) => {
     const html = `<img src="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`;
     const opts = {
       html_content: html,

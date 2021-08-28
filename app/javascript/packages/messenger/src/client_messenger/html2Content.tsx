@@ -65,9 +65,11 @@ var getUpEl = function getUpEl(el) {
   }
 };
 
+//@ts-ignore
 var elementToBlockSpecElement = compose(wrapBlockSpec, getBlockSpecForElement);
 
 var imgReplacer = function imgReplacer(imgElement) {
+  //@ts-ignore
   return replaceElement(imgElement, elementToBlockSpecElement(imgElement));
 };
 /*
@@ -98,7 +100,7 @@ var customHTML2Content = function customHTML2Content(HTML, blockRn) {
       return block;
     }
 
-    var json = '';
+    var json = '' as any;
 
     try {
       json = JSON.parse(block.getText());

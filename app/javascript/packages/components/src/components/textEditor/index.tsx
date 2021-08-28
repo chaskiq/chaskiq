@@ -178,6 +178,7 @@ type ArticleEditorProps = {
   theme?: any;
   inlineMenu?: boolean;
   tooltipsConfig?: any;
+  inlineTooltipConfig?: any;
   handleReturn?: (e: any, isEmptyDraft: boolean, ctx?: any) => void;
   saveHandler?: (_html3: any, _plain: any, _serialized: any) => void;
 };
@@ -254,7 +255,11 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
       ],
     };
 
-    const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu);
+    const menuConfig = Object.assign(
+      {},
+      DanteTooltipConfig(this.props.inlineTooltipConfig),
+      inlineMenu
+    );
 
     return [
       DanteImagePopoverConfig(),
@@ -336,12 +341,8 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
       { url: url },
       {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createUrlUpload.directUpload;
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload;
           this.props.uploadHandler({
             signedBlobId,
             headers,
@@ -361,12 +362,8 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createDirectUpload.directUpload;
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             this.props.uploadHandler({

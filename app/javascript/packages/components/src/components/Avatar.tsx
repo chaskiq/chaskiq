@@ -5,9 +5,16 @@ type AvatarType = {
   indicator?: boolean;
   size?: 'small' | 'medium' | 'large' | number;
   classes?: string;
+  alt?: string;
 };
 
-export default function Avatar({ src, indicator, size, classes }: AvatarType) {
+export default function Avatar({
+  src,
+  indicator,
+  size,
+  classes,
+  alt,
+}: AvatarType) {
   function sizeClassName(size) {
     switch (size) {
       case 'small':
@@ -29,7 +36,7 @@ export default function Avatar({ src, indicator, size, classes }: AvatarType) {
           classes || ''
         }`}
         src={src}
-        alt={src}
+        alt={alt || src}
       />
 
       {indicator && (

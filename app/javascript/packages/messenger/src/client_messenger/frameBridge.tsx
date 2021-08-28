@@ -1,7 +1,9 @@
 // frame internals grab
 import React, { Component } from 'react';
 
-export default class FrameBridge extends Component {
+export default class FrameBridge extends Component<{
+  handleAppPackageEvent: (e: any) => void;
+}> {
   constructor(props) {
     super(props);
 
@@ -21,8 +23,11 @@ export default class FrameBridge extends Component {
     const children = React.Children.map(
       this.props.children,
       (child, _index) => {
+        //@ts-ignore
         return React.cloneElement(child, {
+          //@ts-ignore
           window: props.window,
+          //@ts-ignore
           document: props.document,
         });
       }
