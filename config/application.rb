@@ -17,6 +17,8 @@ module Chaskiq
     # Initialize configuration defaults for originally generated Rails version.
     # config.load_defaults 5.2
     config.load_defaults '6.0'
+    
+    config.encoding = 'utf-8'
 
     config.i18n.fallbacks = [I18n.default_locale]
 

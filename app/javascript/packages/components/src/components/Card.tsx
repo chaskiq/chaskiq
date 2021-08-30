@@ -4,7 +4,7 @@ type CardType = {
   title: string | React.ReactElement;
   description?: string;
   imageSrc?: string;
-  className: string;
+  className?: string;
 };
 
 export default function Card({

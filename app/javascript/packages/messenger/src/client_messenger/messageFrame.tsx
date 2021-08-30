@@ -7,7 +7,23 @@ import {
 } from './styles/styled';
 
 import MessageContainer from './messageContainer';
-export default class MessageFrame extends Component {
+
+type MessageFrameProps = {
+  availableMessage?: any;
+  events: any;
+  availableMessages: any;
+  domain: string;
+  i18n: any;
+};
+
+type MessageFrameState = {
+  isMinimized: boolean;
+};
+export default class MessageFrame extends Component<
+  MessageFrameProps,
+  MessageFrameState
+> {
+  defaultMinized: boolean;
   constructor(props) {
     super(props);
     this.defaultMinized = false;
@@ -55,7 +71,7 @@ export default class MessageFrame extends Component {
 
   handleMinus = (ev) => {
     ev.preventDefault();
-    this.toggleMinimize(ev);
+    this.toggleMinimize();
   };
 
   handleCloseClick = (ev) => {
@@ -79,13 +95,10 @@ export default class MessageFrame extends Component {
         <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
           {this.props.availableMessages.map((o, i) => {
             return (
-              <UserAutoMessage
-                open={true}
-                key={`user-auto-message-${o.id}-${i}`}
-              >
+              <UserAutoMessage key={`user-auto-message-${o.id}-${i}`}>
                 <MessageContainer
-                  isMinimized={this.state.isMinimized}
-                  toggleMinimize={this.toggleMinimize}
+                  // isMinimized={this.state.isMinimized}
+                  //toggleMinimize={this.toggleMinimize}
                   handleClose={this.handleClose}
                   availableMessage={o}
                   events={this.props.events}

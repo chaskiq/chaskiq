@@ -59,7 +59,7 @@ export function Conversation(props) {
       email,
       isUserAutoMessage,
     },
-  } = React.useContext(MessengerContext);
+  } = React.useContext<any>(MessengerContext);
 
   const { footerClassName } = props;
 
@@ -182,6 +182,7 @@ export function Conversation(props) {
 
     const now = new Date();
     const closedAtDate = new Date(conversation.closedAt);
+    //@ts-ignore
     const diff = (now - new Date(closedAtDate)) / (1000 * 3600 * 24);
 
     // if diff is greather than setting assume closed
@@ -222,14 +223,13 @@ export function Conversation(props) {
           height: '86vh',
           position: 'absolute',
           width: '100%',
-          zIndex: '20',
+          zIndex: 20,
         }}
       >
         <CommentsWrapper
           isReverse={true}
           isInline={inline_conversation}
           ref={(comp) => setInlineOverflow(comp)}
-          isMobile={isMobile}
         >
           {renderMessages()}
         </CommentsWrapper>
@@ -239,9 +239,7 @@ export function Conversation(props) {
 
   function renderCommentWrapper() {
     return (
-      <CommentsWrapper isReverse={true} isMobile={isMobile}>
-        {renderMessages()}
-      </CommentsWrapper>
+      <CommentsWrapper isReverse={true}>{renderMessages()}</CommentsWrapper>
     );
   }
 
@@ -308,13 +306,10 @@ export function Conversation(props) {
       <AppPackageBlock
         key={`package-${o.key}-${i}`}
         message={o}
-        isInline={inline_conversation}
         conversation={conversation}
-        submitAppUserData={submitAppUserData}
         clickHandler={appPackageClickHandler}
         appPackageSubmitHandler={appPackageSubmitHandler}
         i18n={i18n}
-        updatePackage={updatePackage}
         searcheableFields={appData.searcheableFields}
         displayAppBlockFrame={displayAppBlockFrame}
         getPackage={getPackage}
@@ -336,7 +331,6 @@ export function Conversation(props) {
     return (
       <React.Fragment>
         {agent_typing && renderTyping()}
-
         {isInputEnabled() &&
           conversation.messages &&
           conversation.messages.collection.length >= 3 && (
@@ -366,11 +360,12 @@ export function Conversation(props) {
   function renderNewConversationButton() {
     return (
       <NewConversationBlock
-        styles={` bottom: -8px;
-                  height: 93px;
-                  background: #ffffff;
-                  box-shadow: -2px 1px 9px 0px #a0a0a0;
-                `}
+        styles={{
+          bottom: '-8px',
+          height: '93px',
+          background: '#ffffff',
+          boxShadow: '-2px 1px 9px 0px #a0a0a0',
+        }}
       >
         <p style={{ margin: '0 0 9px 0px' }}>
           {i18n.t('messenger.closed_conversation')}
@@ -417,7 +412,6 @@ export function Conversation(props) {
   function renderFooter() {
     return (
       <Footer
-        isInline={inline_conversation}
         isInputEnabled={isInputEnabled()}
         className={footerClassName || ''}
       >
@@ -426,8 +420,8 @@ export function Conversation(props) {
         ) : (
           <UnicornEditor
             i18n={i18n}
-            beforeSubmit={(data) => handleBeforeSubmit(data)}
-            onSent={(data) => handleSent(data)}
+            beforeSubmit={(data) => handleBeforeSubmit()}
+            onSent={(data) => handleSent()}
             domain={domain}
             footerClassName={footerClassName}
             insertComment={insertComment}
@@ -440,7 +434,7 @@ export function Conversation(props) {
   function renderInline() {
     return (
       <div>
-        <EditorSection inline={true}>
+        <EditorSection isInline={true}>
           {renderInlineCommentWrapper()}
           {renderFooter()}
         </EditorSection>

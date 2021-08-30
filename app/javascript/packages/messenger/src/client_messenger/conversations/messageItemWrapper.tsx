@@ -1,6 +1,15 @@
 import React, { Component, Fragment } from 'react';
 
-export default class MessageItemWrapper extends Component {
+type MessageItemWrapperProps = {
+  visible?: boolean;
+  data: any;
+  stepId?: string;
+  conversation: any;
+  triggerId?: string;
+  email?: string;
+  pushEvent: (path: string, data: any) => void;
+};
+export default class MessageItemWrapper extends Component<MessageItemWrapperProps> {
   componentDidMount() {
     // mark as read on first render if not read & from admin
     setTimeout(() => {
