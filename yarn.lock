@@ -2893,10 +2893,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-Dante2@0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.2.tgz#3f261217b971e148257ab07789ba55828f66081e"
-  integrity sha512-LKmrV9hHqrgRf2+4J5bjuT9+j+mjJJbqKwsIBJSGHRKP1t2hk/9WXtzmh7iRuDi+rRF+VWKJR2Pimm4pe1w8Dg==
+Dante2@0.5.3-alpha.3:
+  version "0.5.3-alpha.3"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.3-alpha.3.tgz#c80d9ba31088c3b46c612fd9d4db5b7466c334d3"
+  integrity sha512-ZaSn5lVnSgChggnq1kVsf4Fh44YB+qrPsnpvGXDPaVKVWUMHYg1+ym8lLtUGb4m9yUwmbj/VI8NHBopJBSmsCA==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@emotion/cache" "^10.0.14"
@@ -14577,10 +14577,10 @@ typescript@^3.6.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
 
-typescript@^4.3.5:
-  version "4.3.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
-  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
+typescript@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.2.tgz#6d618640d430e3569a1dfb44f7d7e600ced3ee86"
+  integrity sha512-gzP+t5W4hdy4c+68bfcv0t400HVJMMd2+H9B7gae1nQlBzCqvrXX+6GL/b3GAgyTH966pzrZ70/fRjwAtZksSQ==
 
 ua-parser-js@^0.7.18, ua-parser-js@^0.7.20:
   version "0.7.28"

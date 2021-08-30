@@ -13,7 +13,9 @@ import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
 
-const NewEditorStyles = styled(EditorContainer)`
+const NewEditorStyles = styled(EditorContainer)<{
+  theme: any;
+}>`
   font-size: 1.3em;
 
   white-space: pre-wrap; /* CSS3 */
@@ -27,12 +29,16 @@ const NewEditorStyles = styled(EditorContainer)`
   }
 `;
 
-export default function Article(props) {
+type ArticleProps = {
+  lang: string;
+  theme: any;
+  subdomain: string;
+  match: any;
+  article: any;
+};
+export default function Article(props: ArticleProps) {
   const [article, setArticle] = React.useState(null);
-  const { lang, theme } = props;
-
-  const { subdomain } = props;
-
+  const { lang, theme, subdomain } = props;
   React.useEffect(() => {
     getArticle();
   }, []);
@@ -75,7 +81,7 @@ export default function Article(props) {
             />
 
             <div className="py-4">
-              <hr variant="middle" />
+              <hr />
             </div>
 
             <div className="p-4">

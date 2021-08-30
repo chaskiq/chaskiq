@@ -65,6 +65,11 @@ export default class ArticleEditor extends Component<
             read_only: !this.state.read_only,
           });
         }}
+        inlineTooltipConfig={{
+          fixed: true,
+          sticky: true,
+          placement: 'up',
+        }}
         serializedContent={serializedContent}
         data={{
           serialized_content: serializedContent,

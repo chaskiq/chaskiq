@@ -7,7 +7,14 @@ import theme from './textEditor/theme';
 import { MessageCloseBtn } from './styles/styled';
 import Quest from './messageWindow';
 
-export default class MessageContainer extends Component {
+type MessageContainerProps = {
+  events: any;
+  availableMessage: any;
+  domain: string;
+  handleClose: (value: any) => void;
+  i18n: any;
+};
+export default class MessageContainer extends Component<MessageContainerProps> {
   componentDidMount() {
     this.props.events &&
       this.props.events.perform('track_open', {

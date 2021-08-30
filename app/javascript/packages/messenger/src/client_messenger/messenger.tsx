@@ -76,9 +76,75 @@ import MessageFrame from './messageFrame';
 
 import RtcViewWrapper from './rtcView';
 
-let App = {};
+let App: any = {};
 
-class Messenger extends Component {
+type MessengerProps = {
+  new_messages: any;
+  lang: string;
+  properties: any;
+  email: string;
+  app_id: any;
+  encData: any;
+  session_id: any;
+  encryptedMode: any;
+  domain: string;
+  kind: string;
+  ws: string;
+};
+
+type MessengerState = {
+  ev: any;
+  videoSession: any;
+  isMobile: boolean;
+  conversation: any;
+  rtc: any;
+  availableMessages: any;
+  availableMessage: any;
+  agent_typing?: boolean;
+  new_messages: any;
+  messages: any;
+  open: any;
+  inline_conversation: any;
+  appData: any;
+  display_mode:
+    | 'conversation'
+    | 'home'
+    | 'conversations'
+    | 'appBlockAppPackage'
+    | 'article';
+  agents: any;
+  enabled: boolean;
+  needsPrivacyConsent: boolean;
+  conversationsMeta: any;
+  transition: any;
+  conversations: any;
+  article: any;
+  tourManagerEnabled: boolean;
+  tours: any;
+  banner: any;
+  headerOpacity: any;
+  headerTranslateY: any;
+  header: any;
+  currentAppBlock: any;
+  showMoredisplay: any;
+  rtcAudio: boolean;
+  rtcVideo: boolean;
+  visible: boolean;
+  isMinimized?: boolean;
+};
+class Messenger extends Component<MessengerProps, MessengerState> {
+  i18n: any;
+  homeHeaderRef: any;
+  delayTimer: any;
+  pling: any;
+
+  overflow: any;
+  inlineOverflow: any;
+  commentWrapperRef: any;
+  graphqlClient: any;
+  defaultHeaders: any;
+  defaultCableData: any;
+
   constructor(props) {
     super(props);
 
@@ -98,6 +164,7 @@ class Messenger extends Component {
       conversation: {},
       inline_conversation: null,
       new_messages: this.props.new_messages,
+      messages: null,
       conversations: [],
       conversationsMeta: {},
       availableMessages: [],
@@ -116,6 +183,8 @@ class Messenger extends Component {
       tourManagerEnabled: false,
       currentAppBlock: {},
       ev: null,
+      headerOpacity: null,
+      headerTranslateY: null,
       header: {
         opacity: 1,
         translateY: -25,
@@ -131,7 +200,6 @@ class Messenger extends Component {
     this.delayTimer = null;
 
     const data = {
-      referrer: window.location.path,
       email: this.props.email,
       properties: this.props.properties,
     };
@@ -183,6 +251,7 @@ class Messenger extends Component {
     this.commentWrapperRef = React.createRef();
 
     document.addEventListener('chaskiq_events', (event) => {
+      // @ts-ignore
       const { data, action } = event.detail;
       switch (action) {
         case 'wakeup':
@@ -265,9 +334,11 @@ class Messenger extends Component {
       // Opera 12.10 and Firefox 18 and later support
       hidden = 'hidden';
       _visibilityChange = 'visibilitychange';
+      //@ts-ignore
     } else if (typeof document.msHidden !== 'undefined') {
       hidden = 'msHidden';
       _visibilityChange = 'msvisibilitychange';
+      //@ts-ignore
     } else if (typeof document.webkitHidden !== 'undefined') {
       hidden = 'webkitHidden';
       _visibilityChange = 'webkitvisibilitychange';
@@ -751,7 +822,7 @@ class Messenger extends Component {
     );
   };
 
-  getConversations = (options = {}, cb) => {
+  getConversations = (options: any = {}, cb) => {
     const nextPage = this.state.conversationsMeta.next_page || 1;
 
     this.graphqlClient.send(
@@ -991,7 +1062,7 @@ class Messenger extends Component {
     );
   }
 
-  toggleMessenger = (_e) => {
+  toggleMessenger = () => {
     this.setState(
       {
         open: !this.state.open,
@@ -1324,7 +1395,7 @@ class Messenger extends Component {
             {this.state.availableMessages.length > 0 &&
               this.isMessengerActive() && (
                 <MessageFrame
-                  app_id={this.props.app_id}
+                  // app_id={this.props.app_id}
                   availableMessages={this.state.availableMessages}
                   domain={this.props.domain}
                   i18n={i18n}
@@ -1335,7 +1406,6 @@ class Messenger extends Component {
             {this.state.open && this.isMessengerActive() && (
               <Container
                 data-chaskiq-container="true"
-                open={this.state.open}
                 isMobile={this.state.isMobile}
               >
                 <SuperDuper>
@@ -1468,7 +1538,7 @@ class Messenger extends Component {
                               //graphqlClient={this.graphqlClient}
                               //updateHeader={this.updateHeader}
                               //transition={this.state.transition}
-                              articleSlug={this.state.article.slug}
+                              //articleSlug={this.state.article.slug}
                               //transition={this.state.transition}
                               //appData={this.state.appData}
                               //i18n={this.props.i18n}
@@ -1492,11 +1562,11 @@ class Messenger extends Component {
 
                           {
                             <RtcViewWrapper
-                              toggleVideo={this.toggleVideo}
-                              toggleAudio={this.toggleAudio}
-                              rtcVideo={this.state.rtcVideo}
-                              rtcAudio={this.state.rtcAudio}
-                              setVideoSession={this.setVideoSession.bind(this)}
+                              //toggleVideo={this.toggleVideo}
+                              //toggleAudio={this.toggleAudio}
+                              //rtcVideo={this.state.rtcVideo}
+                              //rtcAudio={this.state.rtcAudio}
+                              //setVideoSession={this.setVideoSession.bind(this)}
                               videoSession={this.state.videoSession}
                             ></RtcViewWrapper>
                           }
@@ -1572,9 +1642,9 @@ class Messenger extends Component {
             {this.isMessengerActive() && (
               <StyledFrame
                 id="chaskiqPrime"
-                scrolling="no"
+                // scrolling="no"
                 style={{
-                  zIndex: '10000',
+                  zIndex: 10000,
                   position: 'absolute',
                   bottom: '-8px',
                   width: '70px',
@@ -1661,8 +1731,11 @@ class Messenger extends Component {
     );
   }
 }
-
+type ChaskiqMessengerProps = {
+  wrapperId?: any;
+};
 export default class ChaskiqMessenger {
+  props: ChaskiqMessengerProps & MessengerProps;
   constructor(props) {
     this.props = props;
   }

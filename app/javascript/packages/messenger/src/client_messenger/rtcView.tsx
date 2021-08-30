@@ -2,9 +2,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 type WrapperProps = {
-  relativePosition: boolean;
-  style: any;
-  children: React.ReactChild;
+  relativePosition?: boolean;
+  style?: any;
+  children?: React.ReactChild;
 };
 
 const Wrapper = styled.div<WrapperProps>`
@@ -213,31 +213,35 @@ const BaseIcon = styled.svg`
   width: 30px;
 `;
 
+type RtcViewWrapperProps = {
+  videoSession: any;
+  relativePosition?: any;
+  expand?: any;
+  setExpand?: any;
+};
+
 export default function RtcViewWrapper({
   videoSession,
   relativePosition,
   expand,
   setExpand,
-}) {
+}: RtcViewWrapperProps) {
   //const [localFullScreen, setLocalFullScreen] = React.useState(false)
   //const [remoteFullScreen, setRemoteFullScreen] = React.useState(false)
 
+  const visibilityStyle = {
+    visibility: `${!videoSession ? 'hidden' : 'visible'}`,
+  } as React.CSSProperties;
   return (
     <React.Fragment>
       <CallStatus id="callStatus" />
       <CallInitiator id="callInitiator" />
 
-      <Wrapper
-        relativePosition={relativePosition}
-        style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
-      >
+      <Wrapper relativePosition={relativePosition} style={visibilityStyle}>
         {/* <div id="callButton">call</div>
         <div id="info">info</div> */}
 
-        <div
-          id="call-wrapper"
-          style={{ visibility: `${!videoSession ? 'hidden' : ''}` }}
-        >
+        <div id="call-wrapper" style={visibilityStyle}>
           {setExpand && (
             <button
               className="expand-viewer"

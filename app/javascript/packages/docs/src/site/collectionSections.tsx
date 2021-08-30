@@ -123,7 +123,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
 
               <div className="flex items-center">
                 <Avatar
-                  variant="small"
+                  size="small"
                   alt={article.author.displayName}
                   src={article.author.avatarUrl}
                 />
