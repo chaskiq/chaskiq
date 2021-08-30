@@ -74,6 +74,10 @@ const EditorStylesExtend = styled(EditorContainer)`
     background: #333333;
   }
 
+  .dante-menu-buttons {
+    overflow-x: auto;
+  }
+
   .inlineTooltip-button {
     background: white !important;
   }

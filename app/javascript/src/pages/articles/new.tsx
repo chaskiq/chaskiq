@@ -534,7 +534,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
     const { app } = this.props;
 
     return (
-      <main className="flex-1 relative overflow-y-auto focus:outline-none">
+      <main className="flex-1 relative focus:outline-none">
         <ContentHeader
           // title={ 'Help Center Settings' }
           breadcrumbs={[
