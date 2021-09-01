@@ -117,7 +117,7 @@ const renderers = {
             href={data[0].url}
             rel="noopener noreferrer"
             target="blank"
-            className="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2"
+            className="flex items-center border rounded text-gray-100 bg-gray-800 border-gray-600 p-4 py-2"
           >
             <AttachmentIcon></AttachmentIcon>
             {fileName}

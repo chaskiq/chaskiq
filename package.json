@@ -35,7 +35,7 @@
     "@types/react": "^17.0.18",
     "@types/react-dom": "^17.0.9",
     "@types/simple-peer": "^9.11.1",
-    "Dante2": "0.5.3-alpha.3",
+    "Dante2": "0.5.3-alpha.6",
     "actioncable": "^5.2.4-1",
     "activestorage": "^5.2.3",
     "add": "^2.0.6",
