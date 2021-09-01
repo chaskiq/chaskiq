@@ -272,7 +272,7 @@ export default class FileBlock extends React.Component<
             <a
               href={this.state.url}
               target="blank"
-              className="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2"
+              className="flex items-center border rounded text-sm text-gray-100 bg-gray-500 border-gray-600 p-2 py-2"
             >
               <AttachmentIcon></AttachmentIcon>
               {fileName}
@@ -369,6 +369,7 @@ export const FileBlockConfig = (options = {}) => {
       displayOnInlineTooltip: true,
       insertion: 'upload',
       insert_block: 'file',
+      file_types: '*',
     },
     options: {
       upload_url: '',
