@@ -110,7 +110,6 @@ const renderers = {
 
     file: (_children, { keys, data }) => {
       const fileName = data[0].url.split('/').pop();
-      console.log('KEYSS', keys);
       return (
         <div>
           <a

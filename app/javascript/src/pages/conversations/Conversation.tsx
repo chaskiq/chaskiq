@@ -99,7 +99,7 @@ type MessageItemType = {
 };
 
 const MessageItem = styled.div<MessageItemType>`
-  ${tw`break-all`}
+  word-break: break-word;
   ${
     (props) =>
       props.userOrAdmin === 'user'
@@ -143,10 +143,8 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
-  const [
-    conversationPartSelected,
-    setConversationPartSelected,
-  ] = React.useState(false);
+  const [conversationPartSelected, setConversationPartSelected] =
+    React.useState(false);
 
   const appId = app.key;
 
@@ -364,7 +362,6 @@ function Conversation({
             flex-1 
             p-3 
             max-w-full
-            break-words	
           `}
         >
           <div className="flex justify-between pb-4">
