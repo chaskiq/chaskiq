@@ -13,6 +13,8 @@ import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
 
+import { withRouter } from 'react-router-dom';
+
 const NewEditorStyles = styled(EditorContainer)<{
   theme: any;
 }>`
@@ -35,13 +37,19 @@ type ArticleProps = {
   subdomain: string;
   match: any;
   article: any;
+  location: any;
 };
-export default function Article(props: ArticleProps) {
+function Article(props: ArticleProps) {
   const [article, setArticle] = React.useState(null);
-  const { lang, theme, subdomain } = props;
+  const { lang, theme, subdomain, location } = props;
   React.useEffect(() => {
     getArticle();
   }, []);
+
+  React.useEffect(() => {
+    setArticle(null);
+    getArticle();
+  }, [location.key]);
 
   function getArticle() {
     graphql(
@@ -127,3 +135,5 @@ export default function Article(props: ArticleProps) {
     </div>
   );
 }
+
+export default withRouter(Article);

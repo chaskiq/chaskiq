@@ -4,13 +4,13 @@ import graphql from '@chaskiq/store/src/graphql/client';
 import { ARTICLE_SETTINGS } from '@chaskiq/store/src/graphql/docsQueries';
 
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
-import Button from '@chaskiq/components/src/components/Button';
 import {
   LangGlobeIcon,
   LaunchIcon,
 } from '@chaskiq/components/src/components/icons';
 import danteTheme from '@chaskiq/components/src/components/textEditor/theme';
 
+import Dropdown from './Dropdown';
 import Article from './article';
 import CollectionsWithSections from './collectionSections';
 import Collections from './collections';
@@ -91,32 +91,31 @@ function Docs(props) {
 
                 <div>
                   <div className={'flex items-center space-between'}>
-                    <Button
-                      variant="outlined-transparent"
-                      className={'mr-2'}
+                    <button
+                      className={
+                        'mr-2 inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
+                      }
                       color={'primary'}
                       onClick={(_e) => (window.location = settings.website)}
                     >
                       <LaunchIcon />
                       {' Go to'} {settings.siteTitle}
-                    </Button>
+                    </button>
 
                     <div>
                       <hr className={'classes.hr'} />
                     </div>
 
                     {settings.availableLanguages && (
-                      <FilterMenu
-                        // icon={LangGlobeIcon}
+                      <Dropdown
+                        icon={
+                          <LangGlobeIcon className="h-5 w-5 outline-none" />
+                        }
+                        filterHandler={handleLangChange}
                         options={settings.availableLanguages.map((o) => ({
                           name: o,
                           id: o,
                         }))}
-                        value={lang}
-                        filterHandler={handleLangChange}
-                        // buttonVariant={'outlined-transparent'}
-                        position={'right'}
-                        // triggerButton={this.toggleButton}
                       />
                     )}
                   </div>
