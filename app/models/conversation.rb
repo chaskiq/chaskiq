@@ -9,10 +9,11 @@ class Conversation < ApplicationRecord
   belongs_to :assignee, class_name: "Agent", optional: true
   belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
   # has_one :conversation_source, dependent: :destroy
-  has_many :messages, class_name: "ConversationPart", dependent: :destroy
-  has_many :conversation_channels, dependent: :destroy
+  has_many :messages, class_name: "ConversationPart", dependent: :destroy_async
+  has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
-  has_one :latest_message, -> { order("id desc") }, class_name: "ConversationPart"
+  has_one :latest_message, -> { order("id desc") },
+          class_name: "ConversationPart"
 
   acts_as_taggable_on :tags
 
@@ -33,9 +34,19 @@ class Conversation < ApplicationRecord
       transitions from: :closed, to: :opened
     end
 
-    event :close, after: :add_closed_event do
+    event :close,
+          before: :touch_closed_at,
+          after: :add_closed_event do
       transitions from: :opened, to: :closed
     end
+  end
+
+  def broadcast_key
+    "#{app.key}-#{main_participant.session_id}"
+  end
+
+  def touch_closed_at
+    touch(:closed_at)
   end
 
   def convert_visitor_to_lead
@@ -60,10 +71,21 @@ class Conversation < ApplicationRecord
 
   def add_closed_event
     events.log(action: :conversation_closed)
+
+    dispatch_conversation_event_to_contacts
+  end
+
+  def dispatch_conversation_event_to_contacts
+    MessengerEventsChannel.broadcast_to(
+      broadcast_key,
+      type: "conversations:update_state",
+      data: as_json
+    )
   end
 
   def add_reopened_event
     events.log(action: :conversation_reopened)
+    dispatch_conversation_event_to_contacts
   end
 
   def first_user_interaction

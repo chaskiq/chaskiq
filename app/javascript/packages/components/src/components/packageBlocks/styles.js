@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 const Styles = styled.div`
   /* src/tailwind.css */
@@ -592,6 +592,6 @@ const Styles = styled.div`
     max-width: 100%;
     height: auto;
   }
-`
+`;
 
-export default Styles
+export default Styles;

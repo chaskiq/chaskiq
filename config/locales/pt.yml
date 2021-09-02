@@ -27,23 +27,45 @@ pt:
     tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
     send: Enviar
     actions: Ações
+    your_apps: Seus aplicativos
+    upload_field: enviar %{field}
+    choose_color: Escolher cor
+    image: Imagen
     langs:
       en: Português
       es: Espanhol
       pt: Português
       de: Alemão
       ca: Catalão
+      zh-CN: Chinês
     redirecting: A redireccionar
     select_language: Selecione o idioma
     send_on_enter: Publicar no website
     away_mode: Modo Ausente
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+    toggle_light_mode: Alternar modo de luz
+    toggle_dark_mode: Ativar modo noturno
+    leads: Contactos
+    visitors: Visitante
+    users: Usuários
+    type_message: escreve a tua mensagem
+    search_conversations: Pesquisar conversas
+    days: Dias
+  status_messages:
+    error: "Erro"
+    success: "Sucesso"
+    updated_success: Atualização feita com sucesso
+    updated_error: Erro ao carregar
+    created_success: Criado com sucesso
+    created_error: Erro criado
+    deleted_success: Excluído com sucesso
+    deleted_error: Erro ao remover
+    reordered_error: Erro ao reordenar
+    reordered_success: Reordenado com sucesso
   error_view:
-    title: Woops! something went wrong.
-    subtitle: Unfortunately 🤯
-    exp: try refreshing the page
-    cta: try to go home
+    title: Ocorreu algo de errado.
+    subtitle: Infelizmente 🤯
+    exp: tente atualizar a página
+    cta: tente ir para casa
   home:
     welcome: Bem-vindo à
     welcome_site: Chaskiq
@@ -139,7 +161,8 @@ pt:
     messages:
       seen: Visto
       not_seen: Não Visto
-      note: Nota
+      note: Nota Privada
+      reply: Responder
     sidebar:
       show_profile: Mostrar perfil
       location: Localização
@@ -193,7 +216,7 @@ pt:
     clone_title: Duplicar
     clone_description: clones a campanha
     activate: "Ativar Campanhas"
-    enables: Enables campaign
+    enables: Habilitar campanha
     disables: Desativa a campanha
     state:
       enabled: ativo
@@ -329,6 +352,9 @@ pt:
     hint1: Para configurar a verificação de identidade, você precisará gerar um HMAC no seu servidor para cada usuário conectado e enviá-lo para Chaskiq.
     lang: Seu código para gerar um HMAC para o seu aplicativo é
     hint2: 'Onde quer que você carregue dados de usuário e tenha um trecho de código Chaskiq, Adicione um novo atributo chamado <span className="font-bold">identifier_key</span> e passe o <span className="font-bold">e-mail</span> e dê a tag HMAC para o usuário logado:'
+    encryption_key_label: A verificação de identidade falhou
+    dont_share_code: "Não compartilhar este código"
+    hmac_hint1: Para configurar a verificação de identidade, você precisará gerar um HMAC no seu servidor para cada usuário conectado e enviá-lo para Chaskiq.
   quick_replies:
     title: Respostas rápidas
     search: Pesquisar respostas rápidas
@@ -390,6 +416,10 @@ pt:
       remove_success: Pacote removido corretamente
       remove_error: Erro ao atualizar pacote
       create_integration: Criar novo pacote
+    app_inserter:
+      title: Adicione aplicativos ao seu Messenger
+      subtitle: Ajude seus clientes antes que eles iniciem uma conversa
+      action: Adicionar aplicação
     integrations:
       title: Integração de terceiros
       create_success: Integração criada
@@ -467,6 +497,9 @@ pt:
       hint2: Controle que vê o lançador padrão de Messenger em seu site.
       note2: QUALQUER MENSAGENS QUE VOCÊ ENCONTRE DISPOSITIVO.
       note3: "Na web, mostre o launcher padrão do Messenger para:"
+      closed_replies_title: Impedir respostas a conversas fechadas de %{name}
+      closed_replies_enabled: Deixar os usuários responderem a mensagens fechadas a qualquer momento.
+      closed_replies_disabled: Impedir usuários de responder a conversas fechadas depois.
       filters:
         users:
           label: Usuários
@@ -624,7 +657,7 @@ pt:
     days_ago: dias atrás
     filter_for: selecionar filtro para %{name}
     date_filter_for: Selecione o filtro de data para  %{name}
-    integer_filter_for: Select the integer filter for %{name}
+    integer_filter_for: Selecione o filtro inteiro para %{name}
     match_criteria_for: Opções de critérios de partida para %{name}
     apply: aplicar
     is: igual a

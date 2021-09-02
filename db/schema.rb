@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_28_160317) do
+ActiveRecord::Schema.define(version: 2021_08_07_022619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -110,6 +119,7 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
     t.bigint "agent_id"
     t.boolean "published", default: false
     t.index ["agent_id"], name: "index_app_packages_on_agent_id"
+    t.index ["name"], name: "index_app_packages_on_name", unique: true
   end
 
   create_table "app_translations", force: :cascade do |t|
@@ -252,6 +262,7 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["app_id"], name: "index_article_settings_on_app_id"
+    t.index ["subdomain"], name: "index_article_settings_on_subdomain", unique: true
   end
 
   create_table "article_settings_translations", force: :cascade do |t|
@@ -342,10 +353,39 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+    t.bigint "workflow_id"
     t.index ["app_id"], name: "index_campaigns_on_app_id"
     t.index ["key"], name: "index_campaigns_on_key"
     t.index ["position"], name: "index_campaigns_on_position"
     t.index ["type"], name: "index_campaigns_on_type"
+    t.index ["workflow_id"], name: "index_campaigns_on_workflow_id"
+  end
+
+  create_table "campaigns_clone", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.string "key"
+    t.string "from_name"
+    t.string "from_email"
+    t.string "reply_email"
+    t.text "html_content"
+    t.text "premailer"
+    t.text "serialized_content"
+    t.string "description"
+    t.boolean "sent"
+    t.string "name"
+    t.datetime "scheduled_at"
+    t.string "timezone"
+    t.string "state"
+    t.string "subject"
+    t.bigint "app_id"
+    t.jsonb "segments"
+    t.string "type"
+    t.jsonb "settings"
+    t.datetime "scheduled_to"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "position"
+    t.bigint "workflow_id"
   end
 
   create_table "collection_section_translations", force: :cascade do |t|
@@ -479,6 +519,8 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "first_agent_reply"
+    t.datetime "closed_at"
+    t.string "subject"
     t.index ["app_id"], name: "index_conversations_on_app_id"
     t.index ["assignee_id"], name: "index_conversations_on_assignee_id"
     t.index ["key"], name: "index_conversations_on_key"
@@ -507,6 +549,12 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
     t.index ["app_user_id"], name: "index_external_profiles_on_app_user_id"
     t.index ["profile_id"], name: "index_external_profiles_on_profile_id"
     t.index ["provider"], name: "index_external_profiles_on_provider"
+  end
+
+  create_table "jwt_blacklist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
   create_table "metrics", force: :cascade do |t|
@@ -687,6 +735,18 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
     t.index ["app_user_id"], name: "index_visits_on_app_user_id"
   end
 
+  create_table "workflows", force: :cascade do |t|
+    t.string "title"
+    t.jsonb "settings"
+    t.jsonb "rules"
+    t.string "state"
+    t.bigint "app_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["app_id"], name: "index_workflows_on_app_id"
+    t.index ["state"], name: "index_workflows_on_state"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "app_package_integrations", "app_packages"
@@ -698,6 +758,7 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
   add_foreign_key "assignment_rules", "apps"
   add_foreign_key "bot_tasks", "apps"
   add_foreign_key "campaigns", "apps"
+  add_foreign_key "campaigns", "workflows"
   add_foreign_key "collection_sections", "article_collections"
   add_foreign_key "conversation_channels", "conversations"
   add_foreign_key "conversation_part_channel_sources", "conversation_parts"
@@ -717,4 +778,5 @@ ActiveRecord::Schema.define(version: 2021_02_28_160317) do
   add_foreign_key "roles", "agents"
   add_foreign_key "roles", "apps"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "workflows", "apps"
 end

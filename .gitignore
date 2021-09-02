@@ -52,4 +52,9 @@ app/javascript/old-src
 
 spec/cypress/videos/**/*
 
+package/esm
+
 rubocop.sarif
+
+# app/javascript/src/locales/messenger-translations.json
+# app/javascript/src/locales/translations.json

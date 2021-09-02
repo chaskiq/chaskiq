@@ -1,0 +1,189 @@
+{
+  "en": {
+    "messenger": {
+      "article_meta": "By: <strong>%{name}</strong> on <time>%{date}</time>",
+      "availability": {
+        "aprox": "we'll back in approximately %{time} hrs",
+        "back_from": "we'll back online from %{hours} hrs",
+        "days": "we'll back in %{val} days",
+        "next_week": "we'll back next week",
+        "tomorrow": "we'll back back tomorrow",
+        "tomorrow_from": "we'll back online tomorrow from %{hours} hrs"
+      },
+      "by": "By",
+      "closed_conversation": "This conversation has ended",
+      "continue_conversation": "Continue the conversation",
+      "conversation_block": {
+        "choosen": "You replied <strong>%{field}</strong>"
+      },
+      "conversations": {
+        "events": {
+          "assigned": "%{name} was assigned to this conversation"
+        },
+        "message_blocks": {
+          "app_package_non_wait": "sent you a content",
+          "app_package_wait_reply": "is waiting for your reply",
+          "ask_option": "is waiting for your reply",
+          "data_retrieval": "is waiting for your reply"
+        },
+        "title": "Conversations"
+      },
+      "create_new_conversation": "create new conversation",
+      "dismiss": "Dismiss",
+      "editor": {
+        "placeholder": "Send message..."
+      },
+      "enter_your": "Enter your %{field}",
+      "gdpr": "<p> Hi there! we at %{name} love to talk with you. Under the EU General Data Protection Regulation, we need your approval for our use of personal information (e.g your name and email address) you may provide as we communicate: </p> <p>(1) We'll store your personal information so that we can pick up the conversation if  we talk later.</p> <p>(2) We may send you email to follow up on our discussion here.</p> <p>(3) We may send you emails about %{name} upcoming service and promotions.</p>\n<p>is this okay with you?</p> ",
+      "gdpr_nok": "No, not now",
+      "gdpr_ok": "Yes, Accept",
+      "gdpr_title": "Data protection",
+      "invalid": "%{name} entered is invalid",
+      "is_typing": "%{name} is typing",
+      "latest_articles": "Our latest articles",
+      "not_seen": "not seen",
+      "reply_above": "Reply above",
+      "reply_time": {
+        "1day": "The team usually responds in one day",
+        "auto": "The team will respond as soon as possible",
+        "hours": "The team usually responds in a matter of hours",
+        "minutes": "The team usually responds in minutes"
+      },
+      "runon": "We run on Chaskiq",
+      "search_article_title": "Find answers in our article's repository",
+      "search_articles": "Search articles",
+      "see_previous": "See previous",
+      "start_conversation": "Start a conversation",
+      "submit": "Submit",
+      "tours": {
+        "done": "Done!"
+      },
+      "view_all_conversations": "view all conversations",
+      "you": "You"
+    }
+  },
+  "es": {
+    "messenger": {
+      "article_meta": "Por: <strong>%{name}</strong> en <0>%{date}</0>",
+      "availability": {
+        "aprox": "estaremos de vuelta aproximadamente a las %{time}hrs",
+        "back_from": "volveremos a estar en linea desde las %{hours}hrs",
+        "days": "volvemos en %{val} dias",
+        "next_week": "volvemos la proxima semana",
+        "tomorrow": "volvemos mañana",
+        "tomorrow_from": "volveremos a estar en linea mañana desde las %{hours}hrs"
+      },
+      "by": "Por",
+      "closed_conversation": "Tu conversación ha finalizado",
+      "continue_conversation": "Continúa la conversación",
+      "conversation_block": {
+        "choosen": "respondiste <strong>%{field}</strong>"
+      },
+      "conversations": {
+        "events": {
+          "assigned": "%{name} fue asignado a esta conversación"
+        },
+        "message_blocks": {
+          "app_package_non_wait": "envió un contenido",
+          "app_package_wait_reply": "está esperando tu respuesta",
+          "ask_option": "está esperando tu respuesta",
+          "data_retrieval": "está esperando tu respuesta"
+        },
+        "title": "Conversaciones"
+      },
+      "create_new_conversation": "Crea una nueva conversación",
+      "dismiss": "Descartar",
+      "editor": {
+        "placeholder": "Envía tu mensaje..."
+      },
+      "enter_your": "Escribe tu %{field}",
+      "gdpr": " <p> ¡Hola! en <strong>%{name}</strong> nos encantará hablar contigo. Según el Reglamento general de protección de datos de la UE, necesitamos su aprobación para nuestro uso de información personal (por ejemplo, su nombre y dirección de correo electrónico) que puede proporcionar cuando nos comunicamos: </p> <p> (1) Almacenaremos su información personal para que podamos retomar la conversación si hablamos más tarde. </p> <p> (2) Es posible que le enviemos un correo electrónico para dar seguimiento a nuestra discusión aquí. </p> <p> (3) Es posible que le enviemos correos electrónicos sobre los próximos servicios y anuncios de <strong>%{name}</strong>. </p> <p> ¿Te parece bien? </p> ",
+      "gdpr_nok": "No por ahora",
+      "gdpr_ok": "Si, Confirmar",
+      "gdpr_title": "Protección de datos",
+      "invalid": "%{name} ingresado es inválido",
+      "is_typing": "%{name} está escribiendo",
+      "latest_articles": "Artículos recientes",
+      "not_seen": "No visto",
+      "reply_above": "Responde arriba",
+      "reply_time": {
+        "1day'": "El equipo suele responder en un día.",
+        "auto": "El equipo responderá lo antes posible",
+        "hours": "El equipo suele responder en cuestión de horas.",
+        "minutes": "El equipo suele responder en cuestión de minutos."
+      },
+      "runon": "Usamos Chaskiq",
+      "search_article_title": "Encuentra respuestas en nuestro centro de ayuda",
+      "search_articles": "Busca artículos",
+      "see_previous": "Ver anteriores",
+      "start_conversation": "Inicia una conversación",
+      "submit": "Enviar",
+      "tours": {
+        "done": "Listo!"
+      },
+      "view_all_conversations": "ver todas las conversaciones",
+      "you": "Tú"
+    }
+  },
+  "fr": {
+    "messenger": {
+      "article_meta": "Par: <strong>%{name}</strong> le <0>%{date}</0>",
+      "availability": {
+        "aprox": "nous serons de retour dans quelques %{time} heures",
+        "back_from": "nous serons en ligne à partir de %{hours} heure",
+        "days": "nous serons de retour dans quelque %{val} jours",
+        "next_week": "nous serons de retour la semaine prochaine",
+        "tomorrow": "nous serons de retour dans demain",
+        "tomorrow_from": "nous serons en ligne demain à partir de %{hours} heure"
+      },
+      "by": "Par",
+      "continue_conversation": "Continuer la discussion",
+      "conversation_block": {
+        "choosen": "Vous avez répondu <strong>%{field}</strong>"
+      },
+      "conversations": {
+        "events": {
+          "assigned'": null
+        },
+        "message_blocks": {
+          "app_package_non_wait": "vous a envoyé un contenu",
+          "app_package_wait_reply": "attend votre réponse",
+          "ask_option": "attend votre réponse",
+          "data_retrieval": "attend votre réponse"
+        }
+      },
+      "create_new_conversation": "créer une nouvelle discussion",
+      "dismiss": "Rejeter",
+      "editor": {
+        "placeholder": "Envoyer un message..."
+      },
+      "enter_your": "Entrez votre %{field}",
+      "gdpr": " <p> Bonjour ! Chez %{name} nous aimons vous parler. Sous la GRPD (General Data Protection Regulation), nous avons besoins de votre approbation pour utiliser les informations personnelles (ex: votre nom et adresse email) que vous nous fournissez quand nous communiquons: </p> <p>(1) Nous allons stocker vos informations personnelles pour que nous puissions sélectionner une discuter plus tard.</p> <p>(2) Nous avons besoin d'un email pour suivre nos discussions.</p> <p>(3) Nous pourrions envoyer des email a propos des futurs services ou offres de %{name}.</p> <p>êtes vous d'accord ?</p> ",
+      "gdpr_nok": "Non, pas maintenant",
+      "gdpr_ok": "Oui, accepter",
+      "gdpr_title": "Protection des données",
+      "invalid": "%{name} entré est incorrect",
+      "is_typing": "%{name} est en train d'écrire",
+      "latest_articles": "Nos derniers articles",
+      "not_seen": "non lu",
+      "reply": {
+        "1day": "L'équipe répond habituellement en quelques jours",
+        "auto": "L'équipe va vous répondre dès que possible",
+        "hours": "L'équipe répond habituellement en quelques heures",
+        "minutes": "L'équipe répond habituellement en quelques minutes"
+      },
+      "reply_above": "Répondre en dessous",
+      "runon": "Nous utilisons Chaskiq",
+      "search_article_title": "Trouver les réponses dans notre répertoire d'article",
+      "search_articles": "Rechercher un article",
+      "see_previous": "Voir les précedentes",
+      "start_conversation": "Commencer une discussion",
+      "submit": "Soumettre",
+      "tours": {
+        "done": "Fait !"
+      },
+      "view_all_conversations": "voir toutes les discussions",
+      "you": "Vous"
+    }
+  }
+}

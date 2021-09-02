@@ -1,10 +1,12 @@
 // https://tailwindcss.com/docs/theme/
 
-const { lighten, darken } = require('polished')
+// const { lighten, darken } = require('polished')
 
-const baseGray = '#ccc'
-const grayColors = {}
+const colors = require('tailwindcss/colors');
 
+const baseGray = '#ccc';
+const grayColors = {};
+/*
 const nums = [
   { label: 100, amount: 0 },
   { label: 200, amount: 0.06 },
@@ -16,17 +18,20 @@ const nums = [
   { label: 800, amount: 0.7 },
   { label: 900, amount: 0.8 },
 ]
-/* nums.map(
+ nums.map(
   (c) => {
     grayColors[c.label] = darken(c.amount, '#f7f7f7')
-  }) */
+  }) 
+*/
 
 module.exports = {
   darkMode: 'class',
+  mode: 'jit',
   experimental: {},
   mode: 'jit',
   purge: {
-    //enabled: true,
+    //enabled: false,
+    enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
     content: [
       './app/**/*.html.erb',
       './app/**/*.erb',
@@ -35,6 +40,8 @@ module.exports = {
       './app/helpers/**/*.rb',
       './app/javascript/**/*.js',
       './app/javascript/**/*.jsx',
+      './app/javascript/**/*.ts',
+      './app/javascript/**/*.tsx',
       './node_modules/rc-tooltip/**/*.js',
       './node_modules/rc-tooltip/**/*.css',
     ],
@@ -57,27 +64,27 @@ module.exports = {
       display: ['Inter', 'sans-serif'],
       body: ['Inter', 'sans-serif'],
     },
-    /* borderWidth: {
-      default: '1px',
-      0: '0',
-      2: '2px',
-      4: '4px'
-    }, */
+    // borderWidth: {
+    //  default: '1px',
+    //  0: '0',
+    //  2: '2px',
+    //  4: '4px'
+    //},
+
     extend: {
-      colors: {
+      colorsDisabled: {
         cyan: '#9cdbff',
         gray: grayColors,
-        /* gray: {
-          100: '#f7f7f7',
-          200: '#e8e8e8',
-          300: '#e2e8f0',
-          400: '#cbd5e0',
-          500: '#a0aec0',
-          600: '#718096',
-          700: '#4a5568',
-          800: '#2d3748',
-          900: '#1a202c'
-        } */
+      },
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        black: colors.black,
+        white: colors.white,
+        gray: colors.trueGray,
+        indigo: colors.indigo,
+        red: colors.rose,
+        yellow: colors.amber,
       },
       spacing: {
         px: '1px',
@@ -116,4 +123,4 @@ module.exports = {
     // require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
   ],
-}
+};

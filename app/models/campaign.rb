@@ -193,7 +193,7 @@ class Campaign < Message
     app = App.find_by(key: app_key)
     campaign = app.campaigns.find(campaign_id)
   rescue StandardError => e
-    puts "error on decoding campaign email #{e}"
+    Rails.logger.error("error on decoding campaign email #{e}")
     nil
   end
 

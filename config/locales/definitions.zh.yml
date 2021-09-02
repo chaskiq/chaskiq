@@ -24,7 +24,7 @@ zh-CN:
         label: Google Code
         hint: Google tracking ID
       credits:
-        label: 显示 credits
+        label: Show credits
         hint: ""
     settings:
       name:
@@ -154,7 +154,43 @@ zh-CN:
         name: 'sheet_url'
         hint: '当工作表已提交时发送。 工作表是一个您已经在信使中加载并且在调用JS方法时提交的iframe。'
         placeholder: '例如：https://yourdomain.com/submit-sheet-url/'
+    webhooks:
+      url:
+        label: url for outgoing webhook
+        hint: "we'll send POST requests"
+      enabled:
+        label: enable webhook
+      tag_list:
+        label: events to send
+        hint: chaskiq will deliver this events to configured endpoint
+    agents:
+      email:
+        label: Agent's Email
+        placeholder: john@example.com
+      name:
+        label: Agent's Name
+        placeholder: John Doe
+      owner:
+        label: Owner
+      access_list:
+        label: 'Roles for agent'
+        hint: 'blank access will disable account settings access for user'
   data_tables:
+    agents:
+      email: Email
+      name: 名称
+      owner: Owner
+      access_list: Access List
+      actions: 操作
+      sign_in_count: Sign in count
+      last_sign_in_at: Last sign in at
+      invitation_accepted_at: Invitation accepted at
+    articles:
+      settings:
+        locale: 地点
+        site_title: Site Title
+        site_description: 网站说明
+        action: 行为
     users:
       name: 名称
       email: Email
@@ -171,7 +207,7 @@ zh-CN:
       browser_lang: 浏览器Lang
       referrer: 反向链接
       tag_list: 标签列表
-      os: OS
+      os: 操作模式
       os_version: 操作系统版本
       lang: 语言
       web_sessions: Web Sessions
@@ -181,3 +217,8 @@ zh-CN:
         subscribed: 订阅
         unsubscribed: 取消订阅
         passive: 被动模式
+    settings:
+      locale: 地点
+      greetings: 问候
+      intro: 介绍
+      tagline: Tagline

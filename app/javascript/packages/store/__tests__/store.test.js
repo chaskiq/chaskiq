@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
-const store = require('..')
+const store = require('..');
 
 describe('@chaskiq/store', () => {
-  it('needs tests')
-})
+  it('needs tests');
+});

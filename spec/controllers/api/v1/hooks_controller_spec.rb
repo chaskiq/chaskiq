@@ -1031,7 +1031,9 @@ RSpec.describe Api::V1::HooksController, type: :controller do
 
         response = send_data(message_notification_params)
 
-        # expect(response.status).to be == 200
+        # we are not interested in subject of replied messages
+        expect(Conversation.last.subject).to_not be_present
+
         expect(ConversationPart.last.messageable.serialized_content).to be_present
       end
 
@@ -1084,6 +1086,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
 
       response = send_data(message_notification_params)
       expect(ConversationPart.last.email_message_id).to be == "message_id-1234"
+      expect(Conversation.last.subject).to be_present
       expect(ConversationPart.last.messageable.serialized_content).to be_present
     end
   end
@@ -1138,11 +1141,11 @@ RSpec.describe Api::V1::HooksController, type: :controller do
 
       response = send_data(message_notification_params)
 
-      conversation = ConversationPart.last.conversation
+      conversation_part = ConversationPart.where(messageable_type: "ConversationPartContent").last
 
-      expect(ConversationPart.first.email_message_id).to be == "message_id-1234"
-      expect(ConversationPart.first.messageable.serialized_content).to be_present
-      expect(conversation.assignee.id).to be(conversation.app.agents.first.id)
+      expect(conversation_part.email_message_id).to be == "message_id-1234"
+      expect(conversation_part.messageable.serialized_content).to be_present
+      expect(conversation_part.conversation.assignee.id).to be(conversation_part.conversation.app.agents.first.id)
     end
   end
 

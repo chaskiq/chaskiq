@@ -64,6 +64,14 @@ class AppPackageIntegration < ApplicationRecord
     # rescue nil
   end
 
+  def report(path, options = {})
+    message_api_klass.report(
+      path,
+      self,
+      options
+    )
+  end
+
   def merged_credentials; end
 
   def trigger(event)
@@ -86,6 +94,8 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def unregister
+    return if app_package.is_external?
+
     klass = message_api_klass
     klass.unregister(app_package, self) if klass.respond_to?(:unregister)
   end

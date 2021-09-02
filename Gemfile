@@ -7,7 +7,7 @@ ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
-gem "rails", "6.1.3.1" # , github: "rails/rails",
+gem "rails", "6.1.4" # , github: "rails/rails",
 
 gem "anycable-rails"
 # Use sqlite3 as the database for Active Record
@@ -48,8 +48,6 @@ gem "graphql"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
-gem "email_reply_trimmer"
 # gem 'tunable'
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
@@ -90,10 +88,10 @@ gem "roadie"
 gem "roadie-rails"
 gem "urlcrypt"
 
+gem "aws-sdk-rails"
 gem "aws-sdk-s3", "~> 1.48"
-# gem 'aws-ses'
-# https://github.com/drewblas/aws-ses/issues/78
-gem "aws-ses", git: "https://github.com/zebitex/aws-ses.git", ref: "78-sigv4-problem"
+gem "draftjs_exporter", github: "chaskiq/draftjs_exporter"
+
 gem "mini_magick", "~> 4.8"
 
 gem "active_importer"
@@ -110,11 +108,13 @@ gem "kaminari", "~> 1.2"
 gem "timezone", "~> 1.2"
 
 gem "bugsnag" # , '~> 6.11'
-gem "email_reply_parser", "~> 0.5.9"
+# gem "email_reply_parser", "~> 0.5.9"
+gem "email_reply_trimmer"
 gem "rack-cors", "~> 1.0"
 
 gem "biz", "~> 1.8"
-gem "i18n-js"
+# gem "i18n-js"
+gem "i18n-js", "~> 4.0.0.alpha1"
 
 gem "globalize", github: "globalize/globalize"
 

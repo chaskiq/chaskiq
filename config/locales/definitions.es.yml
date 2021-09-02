@@ -24,7 +24,7 @@ es:
         label: Google Code
         hint: ID de seguimiento de Google
       credits:
-        label: mostrar créditos
+        label: Mostrar créditos
         hint: ""
     settings:
       name:
@@ -154,7 +154,43 @@ es:
         name: 'sheet_url'
         hint: 'Enviado cuando una hoja ha sido enviada. Una hoja es un iframe que ha cargado en el Messenger que se cierra y envía cuando se llama al método Enviar Hojas JS.'
         placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
+    webhooks:
+      url:
+        label: url para webhook saliente
+        hint: "enviaremos solicitudes POST"
+      enabled:
+        label: activar webhook
+      tag_list:
+        label: eventos a enviar
+        hint: chaskiq entregará estos eventos al endpoint configurado
+    agents:
+      email:
+        label: Email agente
+        placeholder: john@ejemplo.com
+      name:
+        label: Nombre del Agente
+        placeholder: Juan Pérez
+      owner:
+        label: Propietario
+      access_list:
+        label: 'Rol para el agente'
+        hint: 'el acceso en blanco desactivará el acceso a la configuración de la cuenta para el usuario'
   data_tables:
+    agents:
+      email: Email
+      name: Nombre
+      owner: Propietario
+      access_list: Lista de acceso
+      actions: Acciones
+      sign_in_count: Cantidad de ingresos
+      last_sign_in_at: Fecha del último ingreso
+      invitation_accepted_at: Invitación aceptada el
+    articles:
+      settings:
+        locale: Configuración regional
+        site_title: Título del sitio
+        site_description: Descripción del Sitio
+        action: Acción
     users:
       name: Nombre
       email: Email
@@ -181,3 +217,8 @@ es:
         subscribed: Subscrito
         unsubscribed: Desuscrito
         passive: Pasiva
+    settings:
+      locale: Configuración regional
+      greetings: Saludos
+      intro: Introducción
+      tagline: Eslogan

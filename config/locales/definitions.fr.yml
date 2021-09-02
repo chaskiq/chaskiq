@@ -24,7 +24,7 @@ fr:
         label: Google Code
         hint: ID Google Tracking
       credits:
-        label: montrer les crédits
+        label: Montrer les crédits
         hint: ""
     settings:
       name:
@@ -154,7 +154,43 @@ fr:
         name: 'sheet_url'
         hint: 'Envoyé quand une feuille a été envoyée. Une feuille est une iframe que vous avez chargée dans le Messenger qui est fermée et soumise lorsque la méthode Submit Sheets JS est appelée.'
         placeholder: 'par exemple https://votredomaine.fr/submit-sheet-url/'
+    webhooks:
+      url:
+        label: url du webhook sortant
+        hint: "nous enverrons des requêtes POST"
+      enabled:
+        label: activer le Webhook
+      tag_list:
+        label: événements à envoyer
+        hint: chaskiq fournira ces événements au endpoint configuré
+    agents:
+      email:
+        label: E-mail de l’agent
+        placeholder: john@exemple.com
+      name:
+        label: Nom de l'agent
+        placeholder: John Doe
+      owner:
+        label: Propriétaire
+      access_list:
+        label: 'Rôles de l''agent'
+        hint: 'un accès vide désactivera l''accès aux paramètres du compte de l''utilisateur'
   data_tables:
+    agents:
+      email: E-mail
+      name: Nom
+      owner: Propriétaire
+      access_list: Liste d'accès
+      actions: Actions
+      sign_in_count: Nombre de connexions
+      last_sign_in_at: Dernière connexion à
+      invitation_accepted_at: Invitation acceptée à
+    articles:
+      settings:
+        locale: Locale
+        site_title: Titre du Site
+        site_description: Description du Site
+        action: Action
     users:
       name: Nom
       email: E-mail
@@ -181,3 +217,8 @@ fr:
         subscribed: Abonné
         unsubscribed: Désabonné
         passive: Passif
+    settings:
+      locale: Locale
+      greetings: Salutations
+      intro: Intro
+      tagline: Slogan

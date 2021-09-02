@@ -6,3 +6,6 @@ config/locales
 public/packs
 config
 spec
+.esm
+translations.json
+messenger-translations.json
