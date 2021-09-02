@@ -33,7 +33,7 @@ fr:
         app_package_wait_reply: 'attend votre réponse'
         app_package_non_wait: 'vous a envoyé un contenu'
 
-    reply:
+    reply_time:
       auto: "L'équipe va vous répondre dès que possible"
       minutes: "L'équipe répond habituellement en quelques minutes"
       hours: "L'équipe répond habituellement en quelques heures"
