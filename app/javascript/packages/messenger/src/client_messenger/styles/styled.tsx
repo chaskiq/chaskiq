@@ -862,7 +862,7 @@ export const MessageItem = styled.div<
     display: flex;
     flex-direction: row;
     .message-content-wrapper {
-      word-break: break-all;
+      word-break: break-word;
 
       background: #fff;
       padding: 16px;
@@ -894,7 +894,7 @@ export const MessageItem = styled.div<
 
   &.user {
     .message-content-wrapper {
-      word-break: break-all;
+      word-break: break-word;
       background: linear-gradient(
         135deg,
         ${(props) => props.theme.palette.primary} 0%,
