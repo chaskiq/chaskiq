@@ -5,7 +5,7 @@ module Mutations
     class EditArticle < Mutations::BaseMutation
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
-      argument :content, Types::JsonType, required: true
+      argument :content, Types::JsonType, required: false
       argument :title, String, required: true
       argument :id, String, required: true
       argument :description, String, required: true
@@ -17,17 +17,22 @@ module Mutations
 
         I18n.locale = lang
 
-        article.update(
+        options = {
           author: current_user,
           title: title,
-          description: description,
-          article_content_attributes: {
-            id: article.article_content.id,
-            html_content: content['html'],
-            serialized_content: content['serialized'],
-            text_content: content['serialized']
-          }
-        )
+          description: description
+        }
+
+        if content.present?
+          options.merge!({ article_content_attributes: {
+                           id: article.article_content.id,
+                           html_content: content["html"],
+                           serialized_content: content["serialized"],
+                           text_content: content["serialized"]
+                         } })
+        end
+
+        article.update(options)
 
         { article: article }
       end

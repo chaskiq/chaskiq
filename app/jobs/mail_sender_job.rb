@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MailSenderJob < ActiveJob::Base
+class MailSenderJob < ApplicationJob
   queue_as :default
 
   # send to all list with state passive & subscribed
@@ -12,7 +12,7 @@ class MailSenderJob < ActiveJob::Base
       campaign.push_notification(app_user)
     end
 
-    campaign.state = 'sent'
+    campaign.state = "sent"
     campaign.save
     campaign.broadcast_event
   end

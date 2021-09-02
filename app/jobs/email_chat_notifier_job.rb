@@ -6,7 +6,7 @@ class EmailChatNotifierJob < ApplicationJob
   # send notification unless it's read
   def perform(conversation_part_id)
     message = ConversationPart.find_by(id: conversation_part_id)
-    return unless message.present?
+    return if message.blank?
     # TODO: representation blocks for ConversationPartEvent / ConverationPartBlocks
     return unless message.message.is_a?(ConversationPartContent)
     return if message.read?
@@ -16,7 +16,10 @@ class EmailChatNotifierJob < ApplicationJob
     # TODO: handle notification of private notes with mentions (@)
     response = ChatNotifierMailer.notify(message).deliver_now
     if response.present?
-      message.email_message_id = response.message_id
+      message_id = response.header[:ses_message_id]&.value
+      return if message_id.blank?
+
+      message.email_message_id = "#{message_id}@email.amazonses.com"
       message.save
     end
   end

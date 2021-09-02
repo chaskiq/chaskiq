@@ -6,21 +6,22 @@ class Conversation < ApplicationRecord
   include Tokenable
 
   belongs_to :app
-  belongs_to :assignee, class_name: 'Agent', optional: true
-  belongs_to :main_participant, class_name: 'AppUser', optional: true # , foreign_key: "user_id"
+  belongs_to :assignee, class_name: "Agent", optional: true
+  belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
   # has_one :conversation_source, dependent: :destroy
-  has_many :messages, class_name: 'ConversationPart', dependent: :destroy
-  has_many :conversation_channels, dependent: :destroy
+  has_many :messages, class_name: "ConversationPart", dependent: :destroy_async
+  has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
-  has_one :latest_message, -> { order('id desc') }, class_name: 'ConversationPart'
+  has_one :latest_message, -> { order("id desc") },
+          class_name: "ConversationPart"
 
   acts_as_taggable_on :tags
 
   accepts_nested_attributes_for :conversation_channels
 
+  before_create :add_default_assigne
   after_create :convert_visitor_to_lead, if: :visitor_participant?
 
-  before_create :add_default_assigne
   after_create :add_created_event
 
   attr_accessor :initiator
@@ -33,9 +34,19 @@ class Conversation < ApplicationRecord
       transitions from: :closed, to: :opened
     end
 
-    event :close, after: :add_closed_event do
+    event :close,
+          before: :touch_closed_at,
+          after: :add_closed_event do
       transitions from: :opened, to: :closed
     end
+  end
+
+  def broadcast_key
+    "#{app.key}-#{main_participant.session_id}"
+  end
+
+  def touch_closed_at
+    touch(:closed_at)
   end
 
   def convert_visitor_to_lead
@@ -60,10 +71,21 @@ class Conversation < ApplicationRecord
 
   def add_closed_event
     events.log(action: :conversation_closed)
+
+    dispatch_conversation_event_to_contacts
+  end
+
+  def dispatch_conversation_event_to_contacts
+    MessengerEventsChannel.broadcast_to(
+      broadcast_key,
+      type: "conversations:update_state",
+      data: as_json
+    )
   end
 
   def add_reopened_event
     events.log(action: :conversation_reopened)
+    dispatch_conversation_event_to_contacts
   end
 
   def first_user_interaction
@@ -104,34 +126,31 @@ class Conversation < ApplicationRecord
       data: opts[:data]
     }
 
+    add_part_channel(part, opts)
     part.notify_to_channels if part.save
     part
   end
 
   def process_message_part(opts)
     part = messages.new
-    part.authorable = opts[:from]
-    part.check_assignment_rules = opts[:check_assignment_rules]
     # part.app_user = opts[:from]
-
-    part.step_id = opts[:step_id] unless opts[:step_id].blank?
-    part.trigger_id = opts[:trigger_id] unless opts[:trigger_id].blank?
-
-    part.controls = opts[:controls] if opts[:controls].present?
-    part.message  = opts[:message] if opts[:message].present?
+    handle_part_details(part, opts)
 
     part.private_note = opts[:private_note]
     part.message_source = opts[:message_source] if opts[:message_source]
     part.email_message_id = opts[:email_message_id]
 
+    add_part_channel(part, opts)
+    part
+  end
+
+  def add_part_channel(part, opts)
     if opts[:provider].present? && opts[:message_source_id].present?
       part.conversation_part_channel_sources.new({
                                                    provider: opts[:provider],
                                                    message_source_id: opts[:message_source_id]
                                                  })
     end
-
-    part
   end
 
   def assign_user(user)
@@ -140,7 +159,7 @@ class Conversation < ApplicationRecord
     self.assignee = user
     if save
       add_message_event(
-        action: 'assigned',
+        action: "assigned",
         data: {
           name: user.name,
           id: user.id,
@@ -182,5 +201,16 @@ class Conversation < ApplicationRecord
 
   def has_user_visible_comment?
     latest_user_visible_comment_at.present?
+  end
+
+  private
+
+  def handle_part_details(part, opts)
+    part.authorable = opts[:from]
+    part.step_id = opts[:step_id]
+    part.trigger_id = opts[:trigger_id]
+    part.check_assignment_rules = opts[:check_assignment_rules]
+    part.controls = opts[:controls] if opts[:controls].present?
+    part.message  = opts[:message] if opts[:message].present?
   end
 end

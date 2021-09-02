@@ -1,4 +1,3 @@
-
 module.exports = function (api) {
   var validEnv = ['development', 'test', 'production']
   var currentEnv = api.env()
@@ -22,9 +21,9 @@ module.exports = function (api) {
         '@babel/preset-env',
         {
           targets: {
-            node: 'current'
-          }
-        }
+            node: 'current',
+          },
+        },
       ],
       (isProductionEnv || isDevelopmentEnv) && [
         '@babel/preset-env',
@@ -33,13 +32,13 @@ module.exports = function (api) {
           useBuiltIns: 'entry',
           corejs: 3,
           modules: false,
-          exclude: ['transform-typeof-symbol']
-        }
+          exclude: ['transform-typeof-symbol'],
+        },
       ],
-      ['@babel/preset-react']
+      ['@babel/preset-react'],
+      ['@babel/preset-typescript', { allExtensions: true, isTSX: true }],
     ].filter(Boolean),
     plugins: [
-      'lodash',
       'babel-plugin-macros',
       '@babel/plugin-syntax-dynamic-import',
       isTestEnv && 'babel-plugin-dynamic-import-node',
@@ -47,58 +46,40 @@ module.exports = function (api) {
       [
         '@babel/plugin-proposal-class-properties',
         {
-          loose: true
-        }
+          loose: true,
+        },
       ],
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
-          useBuiltIns: true
-        }
+          useBuiltIns: true,
+        },
       ],
       [
         '@babel/plugin-transform-runtime',
         {
           helpers: false,
           regenerator: true,
-          corejs: false
-        }
+          corejs: false,
+        },
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
-          async: false
-        }
-      ],
-
-      /*
-        [
-        "babel-plugin-import",
-        {
-          "libraryName": "@material-ui/core",
-          "libraryDirectory": "esm",
-          "camel2DashComponentName": false
+          async: false,
         },
-        "core"
       ],
+      ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
+      ['@babel/plugin-proposal-private-methods', { loose: true }],
       [
-        "babel-plugin-import",
+        'prismjs',
         {
-          "libraryName": "@material-ui/icons",
-          "libraryDirectory": "esm",
-          "camel2DashComponentName": false
+          languages: ['javascript', 'css', 'markup', 'ruby', 'typescript'],
+          plugins: ['line-numbers'],
+          theme: 'twilight',
+          css: true,
         },
-        "icons"
       ],
-      */
-
-      ['prismjs', {
-        languages: ['javascript', 'css', 'markup', 'ruby', 'typescript'],
-        plugins: ['line-numbers'],
-        theme: 'twilight',
-        css: true
-      }]
-
-    ].filter(Boolean)
+    ].filter(Boolean),
   }
 }

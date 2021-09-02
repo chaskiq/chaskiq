@@ -42,7 +42,7 @@ module Types
 
     def metrics(page: 1, per: 20)
       @metrics = object.metrics
-                       .order('id desc')
+                       .order("id desc")
                        .page(page)
                        .per(per)
       # render :index

@@ -68,7 +68,7 @@ module Types
     end
 
     def visits(page:, per:)
-      object.visits.page(page).per(per).order('id desc')
+      object.visits.page(page).per(per).order("id desc")
     end
 
     def full_name
@@ -82,14 +82,14 @@ module Types
 
     def conversations(page:, per:)
       object.conversations
-            .order('updated_at desc')
+            .order("updated_at desc")
             .page(page)
             .per(per)
     end
 
     def dashboard(range:, kind:)
       whitelist = %w[conversations visits]
-      raise 'no dashboard available at this address' unless whitelist.include?(kind)
+      raise "no dashboard available at this address" unless whitelist.include?(kind)
 
       AgentDashboard.new(
         app: object,

@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require 'dummy_name'
+require "dummy_name"
 
 class App < ApplicationRecord
   include GlobalizeAccessors
   include Tokenable
+  include UserHandler
 
   store :preferences, accessors: %i[
     active_messenger
@@ -32,7 +33,10 @@ class App < ApplicationRecord
     paddle_subscription_plan_id
     paddle_subscription_status
     privacy_consent_required
+    inbound_email_address
   ], coder: JSON
+
+  include InboundAddress
 
   translates :greetings, :intro, :tagline
   globalize_accessors attributes: %i[
@@ -50,12 +54,13 @@ class App < ApplicationRecord
   has_many :quick_replies, dependent: :destroy_async
   has_many :app_package_integrations, dependent: :destroy_async
   has_many :app_packages, through: :app_package_integrations
-  has_one :article_settings, class_name: 'ArticleSetting', dependent: :destroy_async
+  has_one :article_settings, class_name: "ArticleSetting", dependent: :destroy_async
   has_many :articles, dependent: :destroy_async
   has_many :article_collections, dependent: :destroy_async
   has_many :sections, through: :article_collections
   has_many :conversations, dependent: :destroy_async
   has_many :conversation_parts, through: :conversations, source: :messages
+  has_many :conversation_events, through: :conversations, source: :events
   has_many :segments, dependent: :destroy_async
   has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles
@@ -67,8 +72,8 @@ class App < ApplicationRecord
   has_many :bot_tasks, dependent: :destroy_async
   has_many :assignment_rules, dependent: :destroy_async
   has_many :outgoing_webhooks, dependent: :destroy_async
-  has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, dependent: :destroy_async
-  belongs_to :owner, class_name: 'Agent', optional: true # , foreign_key: "owner_id"
+  has_many :oauth_applications, class_name: "Doorkeeper::Application", as: :owner, dependent: :destroy_async
+  belongs_to :owner, class_name: "Agent", optional: true # , foreign_key: "owner_id"
 
   has_one_attached :logo
 
@@ -81,12 +86,12 @@ class App < ApplicationRecord
   validates :domain_url, presence: true
 
   def agent_bots
-    agents.where('bot =?', true)
+    agents.where("bot =?", true)
   end
 
   def attach_default_packages
-    default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections]
-    AppPackage.where(name: default_packages).each do |app_package|
+    default_packages = %w[ContentShowcase ArticleSearch Qualifier InboxSections ContactFields]
+    AppPackage.where(name: default_packages).find_each do |app_package|
       app_packages << app_package unless app_package_integrations.exists?(
         app_package_id: app_package.id
       )
@@ -98,187 +103,67 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    if preferences[:outgoing_email_domain].present?
-      preferences[:outgoing_email_domain]
-    else
-      ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
-    end
+    preferences[:outgoing_email_domain].presence || ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"]
   end
 
   def config_fields
     [
       {
-        name: 'name',
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        name: "name",
+        type: "string",
+        grid: { xs: "w-full", sm: "w-full" }
       },
 
       {
-        name: 'domainUrl',
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        name: "domainUrl",
+        type: "string",
+        grid: { xs: "w-full", sm: "w-1/2" }
       },
 
       {
-        name: 'outgoingEmailDomain',
-        type: 'string',
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        name: "outgoingEmailDomain",
+        type: "string",
+        grid: { xs: "w-full", sm: "w-1/2" }
       },
 
       {
-        name: 'state',
-        type: 'select',
-        grid: { xs: 'w-full', sm: 'w-1/2' },
+        name: "state",
+        type: "select",
+        grid: { xs: "w-full", sm: "w-1/2" },
         options: %w[enabled disabled]
       },
 
-      { name: 'activeMessenger',
-        type: 'bool',
-        grid: { xs: 'w-full', sm: 'w-1/2' } },
+      { name: "activeMessenger",
+        type: "bool",
+        grid: { xs: "w-full", sm: "w-1/2" } },
 
       {
-        name: 'theme',
-        type: 'select',
+        name: "theme",
+        type: "select",
         options: %w[dark light],
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        grid: { xs: "w-full", sm: "w-1/2" }
       },
 
       {
-        name: 'encryptionKey',
-        type: 'string',
+        name: "encryptionKey",
+        type: "string",
         maxLength: 16, minLength: 16,
-        placeholder: 'leave it blank for no encryption',
-        grid: { xs: 'w-full', sm: 'w-full' }
+        placeholder: "leave it blank for no encryption",
+        grid: { xs: "w-full", sm: "w-full" }
       },
 
-      { name: 'tagline',
-        type: 'text',
-        hint: 'messenger text on botton',
-        grid: { xs: 'w-full', sm: 'w-full' } },
+      { name: "tagline",
+        type: "text",
+        hint: "messenger text on botton",
+        grid: { xs: "w-full", sm: "w-full" } },
 
-      { name: 'timezone',
-        type: 'timezone',
+      { name: "timezone",
+        type: "timezone",
         options: ActiveSupport::TimeZone.all.map { |o| o.tzinfo.name },
         multiple: false,
-        grid: { xs: 'w-full', sm: 'w-full' } }
+        grid: { xs: "w-full", sm: "w-full" } }
 
     ]
-  end
-
-  def add_anonymous_user(attrs)
-    session_id = attrs.delete(:session_id)
-    callbacks = attrs.delete(:disable_callbacks)
-
-    next_id = attrs[:name].blank? ? "visitor #{DummyName::Name.new}" : attrs[:name]
-
-    unless attrs.dig(:properties, :name).present?
-      attrs.merge!(
-        name: next_id.to_s
-      )
-    end
-
-    ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
-    ap.disable_callbacks = true if callbacks.present?
-    ap = handle_app_user_params(ap, attrs)
-    ap.generate_token
-    ap.save
-    ap
-  end
-
-  def add_lead(attrs)
-    email = attrs.delete(:email)
-    callbacks = attrs.delete(:disable_callbacks)
-    ap = app_users.leads.find_or_initialize_by(email: email)
-    ap = handle_app_user_params(ap, attrs)
-    ap.disable_callbacks = true if callbacks.present?
-    data = attrs.deep_merge!(properties: ap.properties)
-    ap.generate_token
-    ap.save
-    ap
-  end
-
-  def add_user(attrs)
-    email = attrs.delete(:email)
-
-    callbacks = attrs.delete(:disable_callbacks)
-    # page_url = attrs.delete(:page_url)
-    ap = app_users.find_or_initialize_by(email: email)
-    ap.disable_callbacks = true if callbacks.present?
-
-    ap = handle_app_user_params(ap, attrs)
-    ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
-    ap.subscribe! unless ap.subscribed?
-    ap.type = 'AppUser'
-    ap.save
-    ap
-  end
-
-  def handle_app_user_params(ap, attrs)
-    attrs = { properties: attrs } unless attrs.key?(:properties)
-
-    keys = attrs[:properties].keys & app_user_updateable_fields
-    data_keys = attrs[:properties].slice(*keys)
-
-    property_keys = attrs[:properties].keys - keys
-    property_params = attrs[:properties].slice(*property_keys)
-
-    data = { properties: ap.properties.merge(property_params) }
-    ap.assign_attributes(data)
-    ap.assign_attributes(data_keys)
-    ap
-  end
-
-  def add_agent(attrs, bot: nil, role_attrs: {})
-    email = attrs.delete(:email)
-    user = Agent.find_or_initialize_by(email: email)
-    # user.skip_confirmation!
-    if user.new_record?
-      user.password = attrs[:password] || Devise.friendly_token[0, 20]
-      user.save
-    end
-
-    role = roles.find_or_initialize_by(agent_id: user.id, role: role)
-    data = attrs.deep_merge!(properties: user.properties)
-
-    user.assign_attributes(data)
-    user.bot = bot
-    user.save
-
-    # role.last_visited_at = Time.now
-    role.assign_attributes(role_attrs)
-    role.save
-    role
-  end
-
-  def add_bot_agent(attrs)
-    add_agent(attrs, bot: true)
-  end
-
-  def get_non_users_by_session(session_id)
-    app_users.non_users.find_by(session_id: session_id)
-  end
-
-  def get_app_user_by_email(email)
-    app_users.users.find_by(email: email)
-  end
-
-  def create_agent_bot
-    add_bot_agent(email: "bot@#{id}-chaskiq", name: 'chaskiq bot')
-  end
-
-  def add_admin(attrs)
-    add_agent(
-      {
-        email: attrs[:email],
-        password: attrs[:password]
-      },
-      bot: nil,
-      role_attrs: { access_list: ['manage'] }
-    )
-  end
-
-  def add_visit(opts = {})
-    add_user(opts.merge(last_visited_at: Time.zone.now))
   end
 
   def start_conversation(options)
@@ -290,10 +175,11 @@ class App < ApplicationRecord
     conversation = conversations.create(
       main_participant: participant,
       initiator: user,
-      assignee: options[:assignee]
+      assignee: options[:assignee],
+      subject: options[:subject]
     )
 
-    unless message.blank?
+    if message.present?
       conversation.add_message(
         from: user,
         message: message,
@@ -307,9 +193,9 @@ class App < ApplicationRecord
   end
 
   def query_segment(kind)
-    predicates = inbound_settings[kind]['predicates']
+    predicates = inbound_settings[kind]["predicates"]
     segment = segments.new
-    segment.assign_attributes(predicates: inbound_settings[kind]['predicates'])
+    segment.assign_attributes(predicates: inbound_settings[kind]["predicates"])
     app_users = segment.execute_query.availables
   end
 
@@ -349,8 +235,7 @@ class App < ApplicationRecord
   def find_app_package(name)
     app_package_integrations
       .joins(:app_package)
-      .where('app_packages.name =?', name)
-      .first
+      .find_by("app_packages.name =?", name)
   end
 
   def stats_for(name)
@@ -364,7 +249,7 @@ class App < ApplicationRecord
   end
 
   def logo_url
-    return '' unless logo_blob.present?
+    return "" if logo_blob.blank?
 
     url = begin
       logo.variant(resize_to_limit: [100, 100]).processed
@@ -392,32 +277,32 @@ class App < ApplicationRecord
   end
 
   def searcheable_fields_list
-    searcheable_fields.map { |o| o['name'] }
+    searcheable_fields.map { |o| o["name"] }
   end
 
   def default_home_apps
     pkg_id = begin
       app_package_integrations
         .joins(:app_package)
-        .where(
-          "app_packages.name": 'InboxSections'
-        ).first.id
+        .find_by(
+          "app_packages.name": "InboxSections"
+        ).id
     rescue StandardError
       nil
     end
 
     if pkg_id.present?
       [
-        { 'hooKind' => 'initialize',
-          'definitions' => [{ 'type' => 'content' }],
-          'values' => { 'block_type' => 'user-blocks' },
-          'id' => pkg_id,
-          'name' => 'InboxSections' },
-        { 'hooKind' => 'initialize',
-          'definitions' => [{ 'type' => 'content' }],
-          'values' => { 'block_type' => 'user-properties-block' },
-          'id' => pkg_id,
-          'name' => 'InboxSections' }
+        { "hooKind" => "initialize",
+          "definitions" => [{ "type" => "content" }],
+          "values" => { "block_type" => "user-blocks" },
+          "id" => pkg_id,
+          "name" => "InboxSections" },
+        { "hooKind" => "initialize",
+          "definitions" => [{ "type" => "content" }],
+          "values" => { "block_type" => "user-properties-block" },
+          "id" => pkg_id,
+          "name" => "InboxSections" }
       ]
     else
       []
@@ -425,12 +310,12 @@ class App < ApplicationRecord
   end
 
   def plan
-    if paddle_subscription_status == 'active' || paddle_subscription_status == 'trialing'
+    if paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
       @plan ||= Plan.new(
-        Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get('free')
+        Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get("free")
       )
     else
-      @plan = Plan.get('free')
+      @plan = Plan.get("free")
     end
   end
 
@@ -447,11 +332,11 @@ class App < ApplicationRecord
       enabled: true,
       users: {
         enabled: true,
-        segment: 'all'
+        segment: "all"
       },
       visitors: {
         enabled: true,
-        segment: 'all'
+        segment: "all"
       }
     }
     self.team_schedule = []
@@ -462,7 +347,7 @@ class App < ApplicationRecord
     h = {}
     arr = team_schedule || []
     arr.map do |f|
-      h[f['day'].to_sym] = (h[f['day'].to_sym] || {}).merge!(f['from'] => f['to'])
+      h[f["day"].to_sym] = (h[f["day"].to_sym] || {}).merge!(f["from"] => f["to"])
     end
     h
   end

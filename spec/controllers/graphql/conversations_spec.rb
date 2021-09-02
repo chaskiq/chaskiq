@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe GraphqlController, type: :controller do
   let!(:app) do
@@ -8,31 +8,31 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let!(:user) do
-    app.add_user(email: 'test@test.cl')
+    app.add_user(email: "test@test.cl")
   end
 
   let!(:agent_role) do
-    app.add_agent({ email: 'test2@test.cl' })
+    app.add_agent({ email: "test2@test.cl" })
   end
 
   let(:app_user) do
-    app.add_user(email: 'test@test.cl', first_name: 'dsdsa')
+    app.add_user(email: "test@test.cl", first_name: "dsdsa")
   end
 
   let(:app_user2) do
-    app.add_user(email: 'admin@test.cl', first_name: 'dsdsa')
+    app.add_user(email: "admin@test.cl", first_name: "dsdsa")
   end
 
   let!(:conversation) do
     app.start_conversation(
-      message: { html_content: 'message' },
+      message: { html_content: "message" },
       from: app_user
     )
   end
 
   let(:conversation_from_agent) do
     app.start_conversation(
-      message: { html_content: 'message' },
+      message: { html_content: "message" },
       from: agent_role.agent
     )
   end
@@ -47,8 +47,8 @@ RSpec.describe GraphqlController, type: :controller do
     stub_current_user(agent_role)
   end
 
-  it 'conversations' do
-    graphql_post(type: 'CONVERSATIONS', variables: {
+  it "conversations" do
+    graphql_post(type: "CONVERSATIONS", variables: {
                    appKey: app.key,
                    page: 1,
                    filter: nil,
@@ -59,21 +59,21 @@ RSpec.describe GraphqlController, type: :controller do
     expect(graphql_response.data.app.conversations.collection).to be_any
   end
 
-  it 'get unexisting conversation' do
-    graphql_post(type: 'CONVERSATION', variables: {
+  it "get unexisting conversation" do
+    graphql_post(type: "CONVERSATION", variables: {
                    appKey: app.key,
-                   id: '999'
+                   id: "999"
                  })
 
     expect(graphql_response.data.app.conversation).to be_blank
   end
 
-  it 'create_conversation' do
+  it "create_conversation" do
     expect(app.conversations.count).to be == 1
     expect(conversation.messages.count).to be == 1
     expect(conversation.assignee).to be_blank
 
-    graphql_post(type: 'CONVERSATION', variables: {
+    graphql_post(type: "CONVERSATION", variables: {
                    appKey: app.key,
                    id: conversation.key,
                    page: 1
@@ -84,13 +84,13 @@ RSpec.describe GraphqlController, type: :controller do
     expect(graphql_response.data.app.conversation.messages.collection).to be_any
   end
 
-  it 'agent add message' do
+  it "agent add message" do
     # allow_any_instance_of(Mutations::Conversations::InsertComment).to receive(:current_user).and_return(agent_role.agent)
 
-    graphql_post(type: 'INSERT_COMMMENT', variables: {
+    graphql_post(type: "INSERT_COMMMENT", variables: {
                    appKey: app.key,
                    id: conversation.key,
-                   message: '<p>helo</p>'
+                   message: "<p>helo</p>"
                  })
     expect(graphql_response.data.insertComment.message.message).to_not be_blank
   end

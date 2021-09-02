@@ -24,11 +24,12 @@ module Types
 
     field :new_conversation_bots, Types::JsonType, null: true
     def new_conversation_bots
-      object.bot_tasks.get_welcome_bots_for_user(current_user)
+      availability = object.in_business_hours?(Time.zone.now)
+      object.bot_tasks.get_welcome_bots_for_user(current_user, availability)
     end
 
     field :app_package, Types::AppPackageIntegrationType, null: true do
-      argument :id, String, required: true, default_value: ''
+      argument :id, String, required: true, default_value: ""
     end
 
     def app_package(id:)
@@ -81,13 +82,13 @@ module Types
     field :article_settings, Types::ArticleSettingsType, null: true
     def article_settings
       # object.plan.allow_feature!('Articles')
-      object.article_settings.blank? ? object.build_article_settings : object.article_settings
+      object.article_settings.presence || object.build_article_settings
     end
 
     field :logo, String, null: true
     def logo
-      default_logo = 'https://via.placeholder.com/100x100/000000/FFFFFF/?text=Logo'
-      return default_logo unless object.logo_blob.present?
+      default_logo = "https://via.placeholder.com/100x100/000000/FFFFFF/?text=Logo"
+      return default_logo if object.logo_blob.blank?
 
       url = begin
         object.logo.variant(resize_to_limit: [100, 100]).processed
@@ -109,14 +110,14 @@ module Types
     field :logo_large, String, null: true
     def logo_large
       options = {
-        resize: '1280x600^',
-        gravity: 'center',
-        crop: '1280x600+0+0',
+        resize: "1280x600^",
+        gravity: "center",
+        crop: "1280x600+0+0",
         strip: true,
-        quality: '86'
+        quality: "86"
       }
 
-      return '' unless object.logo_blob.present?
+      return "" if object.logo_blob.blank?
 
       Rails.application.routes.url_helpers.rails_representation_url(
         object.logo.variant(options).processed,

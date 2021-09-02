@@ -3,11 +3,11 @@
 class PreviewCard < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif'].freeze
+  IMAGE_MIME_TYPES = ["image/jpeg", "image/png", "image/gif"].freeze
 
   self.inheritance_column = false
 
-  enum type: %i[link photo video rich]
+  enum type: { link: 0, photo: 1, video: 2, rich: 3 }
 
   # mount_uploader :image, PreviewUploader
   has_one_attached :image

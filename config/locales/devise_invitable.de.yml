@@ -1,31 +1,31 @@
 de:
   devise:
     failure:
-      invited: "You have a pending invitation, accept it to finish creating your account."
+      invited: "Du hast eine ausstehende Einladung, akzeptiere sie, um die Erstellung deines Kontos abzuschließen."
     invitations:
-      send_instructions: "An invitation email has been sent to %{email}."
-      invitation_token_invalid: "The invitation token provided is not valid!"
-      updated: "Your password was set successfully. You are now signed in."
-      updated_not_active: "Your password was set successfully."
-      no_invitations_remaining: "No invitations remaining"
-      invitation_removed: "Your invitation was removed."
+      send_instructions: "Eine Einladung wurde an %{email} gesendet."
+      invitation_token_invalid: "Das angegebene Einladungstoken ist nicht gültig!"
+      updated: "Dein Passwort wurde erfolgreich gesetzt. Du bist jetzt angemeldet."
+      updated_not_active: "Dein Passwort wurde erfolgreich gesetzt."
+      no_invitations_remaining: "Keine Einladungen verbleibend"
+      invitation_removed: "Deine Einladung wurde entfernt."
       new:
-        header: "Send invitation"
-        submit_button: "Send an invitation"
+        header: "Einladung senden"
+        submit_button: "Eine Einladung senden"
       edit:
-        header: "Set your password"
-        submit_button: "Set my password"
+        header: "Passwort festlegen"
+        submit_button: "Passwort festlegen"
     mailer:
       invitation_instructions:
-        subject: "Invitation instructions"
-        hello: "Hello %{email}"
-        someone_invited_you: "Someone has invited you to %{url}, you can accept it through the link below."
-        accept: "Accept invitation"
-        accept_until: "This invitation will be due in %{due_date}."
-        ignore: "If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password."
+        subject: "Einladungsanweisungen"
+        hello: "Hallo %{email}"
+        someone_invited_you: "Jemand hat dich zu %{url} eingeladen, du kannst es über den unten stehenden Link akzeptieren."
+        accept: "Einladung annehmen"
+        accept_until: "Diese Einladung wird in %{due_date} fällig."
+        ignore: "Wenn du die Einladung nicht annehmen möchtest, ignoriere bitte diese E-Mail. Ihr Konto wird erst dann angelegt, wenn Sie auf den obigen Link zugreifen und Ihr Passwort festlegen."
   time:
     formats:
       devise:
         mailer:
           invitation_instructions:
-            accept_until_format: "%B %d, %Y %I:%M %p"
+            accept_until_format: "%d. %B %Y %k:%M"

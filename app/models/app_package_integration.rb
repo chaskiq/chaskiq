@@ -12,6 +12,7 @@ class AppPackageIntegration < ApplicationRecord
   store :settings, accessors: %i[
     api_key
     api_secret
+    endpoint_url
     project_id
     report_id
     access_token
@@ -25,6 +26,8 @@ class AppPackageIntegration < ApplicationRecord
 
   validate do
     app_package.definitions.each do |definition|
+      next unless definition[:required]
+
       key = definition[:name].to_sym
       next unless self.class.stored_attributes[:settings].include?(key)
 
@@ -32,14 +35,41 @@ class AppPackageIntegration < ApplicationRecord
     end
   end
 
+  validate :integration_validation, on: %i[create update]
+
+  def integration_validation
+    return if app_package.is_external?
+
+    error_response = message_api_validations
+
+    return if error_response.blank?
+
+    error_response.each do |err|
+      errors.add(:base, err)
+    end
+  end
+
+  def message_api_validations
+    return nil unless message_api_klass.respond_to?(:validate_integration)
+
+    message_api_klass.validate_integration
+  end
+
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{app_package.name}".constantize.new(
-      config: settings.dup.merge(
+    @message_api_klass ||= "MessageApis::#{app_package.name}::Api".constantize.new(
+      config: settings.dup.merge(package: self).merge(
         app_package.credentials || {}
       )
     )
-
     # rescue nil
+  end
+
+  def report(path, options = {})
+    message_api_klass.report(
+      path,
+      self,
+      options
+    )
   end
 
   def merged_credentials; end
@@ -64,6 +94,8 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def unregister
+    return if app_package.is_external?
+
     klass = message_api_klass
     klass.unregister(app_package, self) if klass.respond_to?(:unregister)
   end
@@ -86,9 +118,7 @@ class AppPackageIntegration < ApplicationRecord
     message_api_klass.enqueue_process_event(params, self)
   end
 
-  def send_message(conversation, options)
-    message_api_klass.send_message(conversation, options)
-  end
+  delegate :send_message, to: :message_api_klass
 
   def oauth_authorize
     return if app_package.is_external?
@@ -101,14 +131,14 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def self.decode(encoded)
-    result = URLcrypt.decode(encoded).split('+')
+    result = URLcrypt.decode(encoded).split("+")
     App.find_by(key: result.first).app_package_integrations.find(result.last)
   end
 
   def hook_url
-    host = ENV['HOST']
+    # host = 'https://chaskiq.ngrok.io'
+    host = ENV["HOST"]
     "#{host}/api/v1/hooks/receiver/#{encoded_id}"
-    # "#{ENV['HOST']}/api/v1/hooks/#{app.key}/#{app_package.name.downcase}/#{self.id}"
   end
 
   def oauth_url
@@ -120,7 +150,7 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def get_presenter_manager
-    "MessageApis::#{app_package.name}::PresenterManager"&.constantize
+    "MessageApis::#{app_package.name}::Presenter"&.constantize
   rescue StandardError
     ExternalPresenterManager
   end
@@ -138,43 +168,51 @@ class AppPackageIntegration < ApplicationRecord
     # @presenter.submit_hook(params)
     params.merge!({ package: self }) if external_package?
 
-    response = case params[:kind]
-               when 'initialize' then presenter.initialize_hook(params)
-               when 'configure' then presenter.configure_hook(params)
-               when 'submit' then presenter.submit_hook(params)
-               when 'frame' then presenter.sheet_hook(params)
-               when 'content' then presenter.content_hook(params) # not used
-               else raise 'no compatible hook kind'
-               end
+    params[:ctx][:package] = self unless external_package?
 
-    response = response.with_indifferent_access
+    response = presenter_hook_response(params, presenter)&.with_indifferent_access
 
-    package_schema = PluginSchemaValidator.new(response[:definitions])
-    raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
+    validate_schema!(response[:definitions])
 
-    if response['kind'] == 'initialize'
+    if response["kind"] == "initialize"
       params[:ctx][:field] = nil
-      params[:ctx][:values] = response['results']
+      params[:ctx][:values] = response["results"]
       response = presenter.initialize_hook(params)
-      response.merge!(kind: 'initialize')
+      response.merge!(kind: "initialize")
     end
 
     return response if response[:results].blank?
 
     if (message_key = params.dig(:ctx, :message_key)) && message_key.present?
       # TODO: maybe refactor this logic, move it to another place
-      message = params.dig(:ctx, :app).conversation_parts.find_by(
+      message = params.dig(:ctx, :package).app.conversation_parts.find_by(
         key: message_key
       )
 
       values = params[:ctx][:values]
       m = message.message
-      blocks = m.blocks.merge('schema' => response[:definitions])
+      blocks = m.blocks.merge("schema" => response[:definitions])
       m.blocks = blocks
       m.save_replied(response[:results])
     end
 
     response
+  end
+
+  def validate_schema!(definitions)
+    package_schema = PluginSchemaValidator.new(definitions)
+    raise "invalid definitions: #{package_schema.to_json}" unless package_schema.valid?
+  end
+
+  def presenter_hook_response(params, presenter)
+    case params[:kind]
+    when "initialize" then presenter.initialize_hook(params)
+    when "configure" then presenter.configure_hook(params)
+    when "submit" then presenter.submit_hook(params)
+    when "frame" then presenter.sheet_hook(params)
+    when "content" then presenter.content_hook(params) # not used
+    else raise "no compatible hook kind"
+    end
   end
 end
 
@@ -186,7 +224,7 @@ class ExternalPresenterManager
     resp = Faraday.post(
       url,
       data.to_json,
-      'Content-Type' => 'application/json'
+      "Content-Type" => "application/json"
     )
     JSON.parse(resp.body)
   end

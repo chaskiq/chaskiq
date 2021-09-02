@@ -2,7 +2,7 @@ module MessageApis
   module OauthUtils
     extend ActiveSupport::Concern
 
-    HEADERS = { 'content-type' => 'application/json' } # Suggested set? Any?
+    HEADERS = { "content-type" => "application/json" } # Suggested set? Any?
 
     def make_post_request(uri_path, request)
       get_api_access if @client.nil? # token timeout?
@@ -10,9 +10,9 @@ module MessageApis
       response = @client.post(uri_path, request, HEADERS)
 
       if response.code.to_i >= 300
-        puts "POST ERROR occurred with #{uri_path}, request: #{request} "
-        puts "Error code: #{response.code} #{response}"
-        puts "Error Message: #{response.body}"
+        Rails.logger.info "POST ERROR occurred with #{uri_path}, request: #{request} "
+        Rails.logger.info "Error code: #{response.code} #{response}"
+        Rails.logger.info "Error Message: #{response.body}"
       end
 
       if response.body.nil? # Some successful API calls have nil response bodies, but have 2## response codes.
@@ -28,8 +28,8 @@ module MessageApis
       response = @client.get(uri_path, HEADERS)
 
       if response.code.to_i >= 300
-        puts "GET ERROR occurred with #{uri_path}: "
-        puts "Error: #{response}"
+        Rails.logger.info "GET ERROR occurred with #{uri_path}: "
+        Rails.logger.info "Error: #{response}"
       end
 
       if response.body.nil? # Some successful API calls have nil response bodies, but have 2## response codes.
@@ -45,8 +45,8 @@ module MessageApis
       response = @client.delete(uri_path, HEADERS)
 
       if response.code.to_i >= 300
-        puts "DELETE ERROR occurred with #{uri_path}: "
-        puts "Error: #{response}"
+        Rails.logger.info "DELETE ERROR occurred with #{uri_path}: "
+        Rails.logger.info "Error: #{response}"
       end
 
       if response.body.nil? # Some successful API calls have nil response bodies, but have 2## response codes.
@@ -59,13 +59,13 @@ module MessageApis
     def make_put_request(uri_path)
       get_api_access if @client.nil? # token timeout?
 
-      response = @client.put(uri_path, '', { 'content-type' => 'application/json' })
+      response = @client.put(uri_path, "", { "content-type" => "application/json" })
 
-      puts "#{response.message}  - Rate limited..." if response.code.to_i == 429
+      Rails.logger.info "#{response.message}  - Rate limited..." if response.code.to_i == 429
 
       if response.code.to_i >= 300
-        puts "PUT ERROR occurred with #{uri_path}, " # request: #{request} "
-        puts "Error: #{response}"
+        Rails.logger.info "PUT ERROR occurred with #{uri_path}, " # request: #{request} "
+        Rails.logger.info "Error: #{response}"
       end
 
       if response.body.nil? # Some successful API calls have nil response bodies, but have 2## response codes.

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe GraphqlController, type: :controller do
   let!(:app) do
@@ -8,11 +8,11 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let!(:user) do
-    app.add_visit(email: 'test@test.cl')
+    app.add_visit(email: "test@test.cl")
   end
 
   let!(:agent_role) do
-    app.add_agent({ email: 'test2@test.cl' })
+    app.add_agent({ email: "test2@test.cl" })
   end
 
   let(:campaign) do
@@ -22,10 +22,10 @@ RSpec.describe GraphqlController, type: :controller do
   let(:valid_segments) do
     {
       data: {
-        predicates: [{ attribute: 'last_visited_at',
-                       comparison: 'gteq',
-                       type: 'date',
-                       value: '1 days ago' }.with_indifferent_access]
+        predicates: [{ attribute: "last_visited_at",
+                       comparison: "gteq",
+                       type: "date",
+                       value: "1 days ago" }.with_indifferent_access]
       }
 
     }
@@ -34,16 +34,16 @@ RSpec.describe GraphqlController, type: :controller do
   let(:invalid_segments) do
     {
       data: {
-        predicates: [{ attributex: 'last_visited_at',
-                       comparisonx: 'gteq',
-                       typex: 'date',
-                       valuex: '1 days ago' }.with_indifferent_access]
+        predicates: [{ attributex: "last_visited_at",
+                       comparisonx: "gteq",
+                       typex: "date",
+                       valuex: "1 days ago" }.with_indifferent_access]
       }
 
     }
   end
 
-  describe 'segments' do
+  describe "segments" do
     before :each do
       controller.stub(:current_user).and_return(agent_role.agent)
       controller.stub(:api_authorize!).and_return(agent_role.agent)
@@ -59,8 +59,8 @@ RSpec.describe GraphqlController, type: :controller do
       # controller.stub(:current_user).and_return(agent_role.agent)
     end
 
-    it 'predicates search' do
-      graphql_post(type: 'PREDICATES_SEARCH', variables: {
+    it "predicates search" do
+      graphql_post(type: "PREDICATES_SEARCH", variables: {
                      appKey: app.key,
                      page: 1,
                      search: valid_segments
@@ -70,8 +70,8 @@ RSpec.describe GraphqlController, type: :controller do
       expect(graphql_response.data.predicatesSearch.appUsers.meta).to be_present
     end
 
-    it 'predicates search invalid' do
-      graphql_post(type: 'PREDICATES_SEARCH', variables: {
+    it "predicates search invalid" do
+      graphql_post(type: "PREDICATES_SEARCH", variables: {
                      appKey: app.key,
                      page: 1,
                      search: invalid_segments
@@ -82,9 +82,9 @@ RSpec.describe GraphqlController, type: :controller do
       # expect(graphql_response.errors).to be_present
     end
 
-    it 'save segment' do
+    it "save segment" do
       segment = app.segments.create
-      graphql_post(type: 'PREDICATES_UPDATE', variables: {
+      graphql_post(type: "PREDICATES_UPDATE", variables: {
                      appKey: app.key,
                      id: segment.id,
                      predicates: invalid_segments[:data][:predicates]
@@ -93,10 +93,10 @@ RSpec.describe GraphqlController, type: :controller do
       expect(graphql_response.errors).to_not be_present
     end
 
-    it 'delete segment' do
+    it "delete segment" do
       segment = app.segments.create
 
-      graphql_post(type: 'PREDICATES_DELETE', variables: {
+      graphql_post(type: "PREDICATES_DELETE", variables: {
                      appKey: app.key,
                      id: segment.id
                    })
@@ -104,10 +104,10 @@ RSpec.describe GraphqlController, type: :controller do
       expect(graphql_response.errors).to_not be_present
     end
 
-    it 'create segment' do
-      graphql_post(type: 'PREDICATES_CREATE', variables: {
+    it "create segment" do
+      graphql_post(type: "PREDICATES_CREATE", variables: {
                      appKey: app.key,
-                     name: 'foo',
+                     name: "foo",
                      predicates: invalid_segments[:data][:predicates]
                    })
 

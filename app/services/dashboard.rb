@@ -4,8 +4,9 @@ class Dashboard
   attr_accessor :app, :range
 
   # d = Dashboard.new(app: App.find(n) )
-  def initialize(app:, range:)
+  def initialize(app:, range:, package: nil)
     @app = app
+    @package_name = package
     @range = (DateTime.parse(range[:from])..DateTime.parse(range[:to]))
   end
 
@@ -29,7 +30,7 @@ class Dashboard
 
     AppIdentity.new(app.key).visits.get_all.map do |k, v|
       {
-        day: Time.zone.at(k.to_i).to_date.strftime('%F'),
+        day: Time.zone.at(k.to_i).to_date.strftime("%F"),
         value: v.to_i
       }
     end
@@ -39,8 +40,8 @@ class Dashboard
     @app.visits.group(:browser_name).count
         .map do |k, v|
       {
-        id: k || 'unknown',
-        label: k || 'unknown',
+        id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)"
       }
@@ -51,8 +52,8 @@ class Dashboard
     @app.visits.group(:browser_name).count
         .map do |k, v|
       {
-        id: k || 'unknown',
-        label: k || 'unknown',
+        id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)"
       }
@@ -62,8 +63,8 @@ class Dashboard
   def lead_os
     @app.app_users.visitors.group(:os).count
         .map do |k, v|
-      { id: k || 'unknown',
-        label: k || 'unknown',
+      { id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)" }
     end
@@ -72,8 +73,8 @@ class Dashboard
   def user_os
     @app.app_users.group(:os).count
         .map do |k, v|
-      { id: k || 'unknown',
-        label: k || 'unknown',
+      { id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)" }
     end
@@ -82,61 +83,36 @@ class Dashboard
   def user_country
     @app.app_users.group(:country).count
         .map do |k, v|
-      { id: k || 'unknown',
-        label: k || 'unknown',
+      { id: k || "unknown",
+        label: k || "unknown",
         value: v,
         color: "hsl(#{colors}, 70%, 50%)" }
     end
   end
 
   def first_response_time
-    @app.stats_counts_for('first_response_time')
+    @app.stats_counts_for("first_response_time")
   end
 
   def incoming_messages
-    @app.stats_counts_for('incoming_messages')
+    @app.stats_counts_for("incoming_messages")
   end
 
   def outgoing_messages
-    @app.stats_counts_for('outgoing_messages')
+    @app.stats_counts_for("outgoing_messages")
   end
 
   def opened_conversations
-    @app.stats_counts_for('opened_conversations')
+    @app.stats_counts_for("opened_conversations")
   end
 
   def solved_conversations
-    @app.stats_counts_for('solved_conversations')
+    @app.stats_counts_for("solved_conversations")
   end
 
   def resolution_avg
-    @app.stats_for('resolution_avg')
+    @app.stats_for("resolution_avg")
   end
-
-  def app_packages
-    result = []
-
-    dashboard_tags = @app.app_packages.tagged_with('dashboard').pluck(:id)
-
-    integrations = @app.app_package_integrations.includes(:app_package).where(app_package: dashboard_tags)
-
-    integrations.map do |integration|
-      result << Rails.cache.fetch(
-        "#{integration.cache_key_with_version}/dashboard-packages",
-        expires_in: 1.hours
-      ) do
-        {
-          name: integration.app_package.name,
-          icon: integration.app_package.icon,
-          data: integration.message_api_klass.get_stats
-        }
-      end
-    end
-
-    result
-  end
-
-  private
 
   def colors
     array = %w[265 20 30 110 120 160 260 270 290 330 400]

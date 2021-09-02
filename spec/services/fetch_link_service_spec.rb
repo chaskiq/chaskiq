@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe FetchLinkCardService do
   subject { FetchLinkCardService.new }
@@ -23,8 +23,8 @@ RSpec.describe FetchLinkCardService do
   #     end
   #   end
 
-  context 'live' do
-    it 'request twitter user' do
+  context "live" do
+    it "request twitter user" do
       # fetch = FetchLinkCardService.new.call("https://twitter.com/michelson")
       # fetch = subject.call("https://twitter.com/Hugo_Gutierrez_/status/1010591929338343424")
       # fetch = subject.call("http://vadb.org/people/miguel-michelson-martinez")

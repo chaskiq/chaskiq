@@ -58,6 +58,7 @@
             domain: '<%=@h[:http] +request.env["HTTP_HOST"]%>',
             ws:  '<%= Rails.application.config.action_cable.url %>',
             //lang: "<%= @lang %>",
+            data: {},
             app_id: "<%= @app.key %>"
           })
         }

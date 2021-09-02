@@ -2,49 +2,49 @@ tr:
   definitions:
     articles:
       title:
-        label: Title
+        label: Başlık
       author:
-        label: Author
+        label: Oluşturan
       state:
-        label: State
+        label: Durum
       collection:
-        label: Collection
+        label: Koleksiyon
       actions:
-        label: Actions
+        label: İşlemler
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Web Sitesi
+        hint: Ana Alan Adı
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Alan adı
+        hint: Yardım Merkezi Alan Adı
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Alt alan adı
+        hint: Yardım merkezinin bulunacağı alt alan adı
       google_code:
-        label: Google Code
-        hint: Google tracking ID
+        label: Google Analytics Kodu
+        hint: Google Takip ID
       credits:
-        label: show credits
+        label: Show credits
         hint: ""
     settings:
       name:
-        label: Name
+        label: İsim
         hint:
       logo:
         label: Logo
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Chat penceresinde yazıları göster"
+        hint: "Bu seçenek ile chat sayfasında yazılar görünecektir"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Yeni gelen mesajları mesaj balonu olarak göster
+        hint: Bu seçenek chat widget'ı açmayacak
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Şifreleme anahtarı
+        placeholder: "Şifreleme istemiyorsanız boş bırakın"
+        hint: Bu anahtar JWE kullanıcı datasını şifrelemek ve şifreyi açmak için kullanılacaktır
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
+        label: GDPR izin onayı için gerekli
         hint: Will show a confirm view for EU countries before establish conversations
       privacy_consent_required_all:
         label: Worldwide privacy consent required
@@ -93,20 +93,20 @@ tr:
       scheduled_to:
         label: Scheduled to
       state:
-        label: State
+        label: Durum
       description:
         label: Description
       actions:
-        label: Actions
+        label: İşlemler
     bot_tasks:
       state:
-        label: State
+        label: Durum
       name:
-        label: Name
+        label: İsim
       actions:
-        label: Actions
+        label: İşlemler
       title:
-        label: Title
+        label: Başlık
         placeholder: write task title
         hint: "Task name ie: welcoming users bot task"
     stats:
@@ -119,7 +119,7 @@ tr:
       from:
         label: From
       actions:
-        label: Actions
+        label: İşlemler
       when:
         label: When
       data:
@@ -154,11 +154,47 @@ tr:
         name: 'sheet_url'
         hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
         placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+    webhooks:
+      url:
+        label: url for outgoing webhook
+        hint: "we'll send POST requests"
+      enabled:
+        label: enable webhook
+      tag_list:
+        label: events to send
+        hint: chaskiq will deliver this events to configured endpoint
+    agents:
+      email:
+        label: Agent's Email
+        placeholder: john@example.com
+      name:
+        label: Agent's Name
+        placeholder: John Doe
+      owner:
+        label: Owner
+      access_list:
+        label: 'Roles for agent'
+        hint: 'blank access will disable account settings access for user'
   data_tables:
-    users:
-      name: Name
+    agents:
       email: Email
-      state: State
+      name: İsim
+      owner: Owner
+      access_list: Access List
+      actions: İşlemler
+      sign_in_count: Sign in count
+      last_sign_in_at: Last sign in at
+      invitation_accepted_at: Invitation accepted at
+    articles:
+      settings:
+        locale: Locale
+        site_title: Site Title
+        site_description: Site Description
+        action: Action
+    users:
+      name: İsim
+      email: Email
+      state: Durum
       online: Online
       ip: Ip
       country: Country
@@ -181,3 +217,8 @@ tr:
         subscribed: Subscribed
         unsubscribed: Unsubscribed
         passive: Passive
+    settings:
+      locale: Locale
+      greetings: Greetings
+      intro: Intro
+      tagline: Tagline

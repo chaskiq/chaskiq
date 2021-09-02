@@ -1,52 +1,52 @@
 de:
   hints:
     platform:
-      title: Here you can manage your contact list via segments
-      description: Segments allows to filter specific contacts through multiple filter
+      title: Hier können Sie Ihre Kontaktliste über Segmente verwalten
+      description: Segmente erlauben es, bestimmte Kontakte über mehrere Filter zu filtern
     #link: {  href: '/', title: 'Learn how filters works on our knowledge base
     webhooks:
-      title: Active Webhooks
-      description: "Webhooks feature it's all about delivering notifications of chaskiq events"
+      title: Aktive Webhooks
+      description: "Bei der Webhooks-Funktion geht es darum, Benachrichtigungen über chaskiq-Ereignisse bereitzustellen"
     #link: { href: '/', text: 'Learn how webhooks works on our knowledge base'}
     integrations:
       title:
-      description: This is the third party API integrations section.
+      description: Dies ist der Abschnitt API-Integrationen von Drittanbietern.
     #link: { href: '/',text: 'Learn how API integrations works on Chaskiq from the inside out'}
     team:
     app_config:
     security:
-      title: Security
-      description: This is the encryption key to identify registered users on your service
+      title: Sicherheit
+      description: Dies ist der Verschlüsselungsschlüssel, um registrierte Benutzer auf Ihrem Dienst zu identifizieren
     #link: { href: '/', text: 'Learn how Encryption & security settings works on Chaskiq'
     appearance:
     languages:
     availability:
-      title: Team Availability Settings
-      description: Availability settings let your team set office hours & reply times.
+      title: Teamverfügbarkeitseinstellungen
+      description: Verfügbarkeitseinstellungen erlauben Ihrem Team Bürozeiten und Antwortzeiten zu setzen.
     #link: {href: '/', text: 'Learn how Availability settings works on Chaskiq'}
     email_requirement:
-      title: Require an email for new conversations
-      description: So you can always get back to your website visitors
+      title: Eine E-Mail für neue Unterhaltungen erforderlich machen
+      description: Damit Sie jederzeit zu Ihren Website-Besuchern zurückkehren können
     #link: {href: '/',text: 'Learn how Email requirement works on Chaskiq'}
     inbound_settings:
-      title: Control inbound conversations and the launcher
-      description: Control who can send you messages and where they see the launcher
+      title: Eingehende Unterhaltungen und den Launcher kontrollieren
+      description: Lege fest, wer dir Nachrichten senden kann und wo sie den Launcher sehen
     #link: { href: '/',text: 'Learn how Inbound settings works on Chaskiq'}
     user_data:
-      title: Manage user attributes
-      description: User attributes provides a way to customize data for segment filtering
+      title: Kundenattribute verwalten
+      description: Benutzerattribute bieten eine Möglichkeit, Daten für die Segmentfilterung anzupassen
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     tags:
-      title: Manage app tags
-      description: Tags attributes provides a way to customize data for segment filtering and organize conversations
+      title: App-Tags verwalten
+      description: Tag-Attribute bieten eine Möglichkeit, Daten für die Segmentfilterung und Organisation von Unterhaltungen anzupassen
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     quick_replies:
-      title: Manage quick replies
-      description: Quick replies provides a way to organize common anwsers for your bussiness
+      title: Schnellantworten verwalten
+      description: Schnelle Antworten bieten eine Möglichkeit, häufige Antworten für Ihr Bussiness zu verwalten
     #link: {href: '/', text: 'Learn how segments work on Chaskiq'}
     articles:
-      title: Chaskiq HelpCenter platform
-      description: Here you can manage the articles of Chaskiq
+      title: Chaskiq HelpCenter Plattform
+      description: Hier können Sie die Artikel von Chaskiq verwalten
     #link: { href: '/', text: 'Learn how to configure & manage the helpcenter system on Chaskiq'}
     bots:
     mailing_campaigns:

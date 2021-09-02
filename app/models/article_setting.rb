@@ -23,15 +23,14 @@ class ArticleSetting < ApplicationRecord
   has_one_attached :logo
   has_one_attached :header_image
 
-  validates :subdomain, uniqueness: true
-
   validates :subdomain,
             exclusion: { in: %w[www],
-                         message: '%{value} is reserved.' },
+                         message: "%{value} is reserved." },
             presence: true,
-            uniqueness: true
+            uniqueness: true,
+            allow_blank: true
 
-  validates :website, url: true
+  validates :website, url: true, allow_blank: true
   validates :color, hex: true, if: -> { color.present? }
 
   translates :site_description, :site_title
@@ -43,7 +42,7 @@ class ArticleSetting < ApplicationRecord
   # end
 
   def logo_url
-    return 'https://via.placeholder.com/100x100' unless logo_blob.present?
+    return "https://via.placeholder.com/100x100" if logo_blob.blank?
 
     url = begin
       logo.variant(resize_to_limit: [300, 100]).processed
@@ -58,7 +57,7 @@ class ArticleSetting < ApplicationRecord
   end
 
   def header_image_url
-    return 'https://via.placeholder.com/1024x300' unless header_image_blob.present?
+    return "https://via.placeholder.com/1024x300" if header_image_blob.blank?
 
     url = begin
       header_image.variant(resize_to_limit: [100, 100]).processed

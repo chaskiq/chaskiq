@@ -4,8 +4,8 @@ module ApplicationHelper
   def flash_messages(_opts = {})
     flash.each do |msg_type, message|
       flash.delete(msg_type)
-      concat(content_tag(:div, message, class: "alert #{bootstrap_class_for(msg_type)}") do
-        concat content_tag(:button, "<i class='fa fa-times-circle'></i>".html_safe, class: 'close', data: { dismiss: 'alert' })
+      concat(tag.div(message, class: "alert #{bootstrap_class_for(msg_type)}") do
+        concat tag.button("<i class='fa fa-times-circle'></i>".html_safe, class: "close", data: { dismiss: "alert" })
         concat message
       end)
     end
@@ -15,7 +15,7 @@ module ApplicationHelper
   end
 
   def support_app_data
-    app_key = ENV['SUPPORT_APP_KEY']
+    app_key = ENV["SUPPORT_APP_KEY"]
     return if app_key.blank?
 
     support_app = App.find_by(key: app_key)
@@ -27,6 +27,7 @@ module ApplicationHelper
     if current_agent.present?
       user_options = {
         email: current_agent.email,
+        identifier_key: OpenSSL::HMAC.hexdigest("sha256", key, current_agent.email),
         properties: {
           name: current_agent.display_name
         }
@@ -34,7 +35,8 @@ module ApplicationHelper
       json_payload.merge!(user_options)
     end
 
-    encrypted_data = JWE.encrypt(json_payload.to_json, key, alg: 'dir')
-    { enc: encrypted_data, app: support_app }
+    # encrypted_data = JWE.encrypt(json_payload.to_json, key, alg: 'dir')
+    # { enc: encrypted_data, app: support_app }
+    { enc: json_payload.to_json, app: support_app }
   end
 end

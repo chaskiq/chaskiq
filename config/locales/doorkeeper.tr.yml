@@ -2,7 +2,7 @@ tr:
   activerecord:
     attributes:
       doorkeeper/application:
-        name: 'Name'
+        name: 'İsim'
         redirect_uri: 'Redirect URI'
     errors:
       models:
@@ -10,11 +10,11 @@ tr:
           attributes:
             redirect_uri:
               fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
+              invalid_uri: 'Must be a valid URI.'
               unspecified_scheme: 'must specify a scheme.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              secured_uri: 'This URI must have HTTPS!'
+              forbidden_uri: 'Forbidden by the server!'
             scopes:
               not_match_configured: "doesn't match configured on the server."
   doorkeeper:
@@ -39,10 +39,10 @@ tr:
       index:
         title: 'Your applications'
         new: 'New Application'
-        name: 'Name'
+        name: 'İsim'
         callback_url: 'Callback URL'
         confidential: 'Confidential?'
-        actions: 'Actions'
+        actions: 'İşlemler'
         confidentiality:
           'yes': 'Yes'
           'no': 'No'
@@ -54,8 +54,8 @@ tr:
         secret: 'Secret'
         scopes: 'Scopes'
         confidential: 'Confidential'
-        callback_urls: 'Callback urls'
-        actions: 'Actions'
+        callback_urls: 'Callback URL''s'
+        actions: 'İşlemler'
     authorizations:
       buttons:
         authorize: 'Authorize'

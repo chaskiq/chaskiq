@@ -53,7 +53,7 @@ module Types
 
     def dashboard(range:, kind:)
       whitelist = %w[conversations]
-      raise 'no dashboard available at this address' unless whitelist.include?(kind)
+      raise "no dashboard available at this address" unless whitelist.include?(kind)
 
       AgentDashboard.new(
         app: object,

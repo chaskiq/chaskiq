@@ -1,24 +1,24 @@
-require 'rails_helper'
+require "rails_helper"
 include ActiveJob::TestHelper
 
 RSpec.describe OutgoingWebhook, type: :model do
   let(:app) { FactoryBot.create :app }
   let(:app_user) do
-    app.add_user(email: 'test@test.cl', first_name: 'dsdsa')
+    app.add_user(email: "test@test.cl", first_name: "dsdsa")
   end
 
   let(:app_user2) do
-    app.add_user(email: 'admin@test.cl', first_name: 'dsdsa')
+    app.add_user(email: "admin@test.cl", first_name: "dsdsa")
   end
 
   let!(:agent_role) do
-    app.add_agent({ email: 'agent1@test.cl' })
+    app.add_agent({ email: "agent1@test.cl" })
   end
 
   let(:webhook) do
     app.outgoing_webhooks.create(
-      url: 'https://hookb.in/7ZBaarpVbpTr7ZqQgjna',
-      tag_list: ['users.created', 'email_changed']
+      url: "https://hookb.in/7ZBaarpVbpTr7ZqQgjna",
+      tag_list: ["users.created", "email_changed"]
     )
   end
 
@@ -33,9 +33,9 @@ RSpec.describe OutgoingWebhook, type: :model do
   #  expect(webhook.send_notification).to be 200
   # end
 
-  it 'will send webhook' do
+  it "will send webhook" do
     perform_enqueued_jobs do
-      webhook.update(state: 'enabled')
+      webhook.update(state: "enabled")
 
       save_count = 0
       allow_any_instance_of(OutgoingWebhookService).to receive(:send_post) { |_arg|
@@ -47,9 +47,9 @@ RSpec.describe OutgoingWebhook, type: :model do
     end
   end
 
-  it 'will not webhook' do
+  it "will not webhook" do
     perform_enqueued_jobs do
-      webhook.update(state: 'disabled')
+      webhook.update(state: "disabled")
 
       save_count = 0
       allow_any_instance_of(OutgoingWebhookService).to receive(:send_post) { |_arg|

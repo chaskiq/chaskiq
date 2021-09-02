@@ -3,26 +3,26 @@
 module Mutations
   class CreateDirectUpload < GraphQL::Schema::Mutation
     class CreateDirectUploadInput < GraphQL::Schema::InputObject
-      description 'File information required to prepare a direct upload'
-      argument :filename, String, 'Original file name', required: true
-      argument :byte_size, Int, 'File size (bytes)', required: true
-      argument :checksum, String, 'MD5 file checksum as base64', required: true
-      argument :content_type, String, 'File content type', required: true
+      description "File information required to prepare a direct upload"
+      argument :filename, String, "Original file name", required: true
+      argument :byte_size, Int, "File size (bytes)", required: true
+      argument :checksum, String, "MD5 file checksum as base64", required: true
+      argument :content_type, String, "File content type", required: true
     end
 
     argument :input, CreateDirectUploadInput, required: true
 
     class DirectUpload < GraphQL::Schema::Object
-      description 'Represents direct upload credentials'
+      description "Represents direct upload credentials"
 
-      field :url, String, 'Upload URL', null: false
-      field :service_url, String, 'Service URL', null: false
+      field :url, String, "Upload URL", null: false
+      field :service_url, String, "Service URL", null: false
       field :headers, String,
-            'HTTP request headers (JSON-encoded)',
+            "HTTP request headers (JSON-encoded)",
             null: false
-      field :blob_id, ID, 'Created blob record ID', null: false
+      field :blob_id, ID, "Created blob record ID", null: false
       field :signed_blob_id, ID,
-            'Created blob record signed ID',
+            "Created blob record signed ID",
             null: false
     end
 

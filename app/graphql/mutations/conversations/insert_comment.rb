@@ -15,7 +15,7 @@ module Mutations
         conversation = app.conversations.find_by(key: id)
 
         if current_user.is_a?(Agent)
-          author = app.agents.where('agents.email =?', current_user.email).first
+          author = app.agents.where("agents.email =?", current_user.email).first
         elsif app_user = context[:get_app_user].call
           author = app_user
         end
@@ -23,9 +23,9 @@ module Mutations
         options = {
           from: author,
           message: {
-            html_content: message['html'],
-            serialized_content: message['serialized'],
-            text_content: message['text'] || ActionController::Base.helpers.strip_tags(message['html'])
+            html_content: message["html"],
+            serialized_content: message["serialized"],
+            text_content: message["text"] || ActionController::Base.helpers.strip_tags(message["html"])
           }
         }
 

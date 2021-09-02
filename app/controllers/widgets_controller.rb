@@ -15,6 +15,6 @@ class WidgetsController < ApplicationController
   private
 
   def widget_javascript_source
-    asset_pack_path('embed.js')
+    asset_pack_path("embed.js")
   end
 end

@@ -6,7 +6,7 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :app, Types::AppType, null: false, description: 'get app', authorize: true do
+    field :app, Types::AppType, null: false, description: "get app", authorize: true do
       argument :key, String, required: true
     end
 
@@ -15,14 +15,14 @@ module Types
       @app = current_user.apps.find_by(key: key)
     end
 
-    field :apps, [Types::AppType], null: false, description: 'get apps'
+    field :apps, [Types::AppType], null: false, description: "get apps"
 
     def apps
       doorkeeper_authorize!
       @app = current_user.apps
     end
 
-    field :help_center, Types::ArticleSettingsType, null: true, description: 'help center entry point' do
+    field :help_center, Types::ArticleSettingsType, null: true, description: "help center entry point" do
       argument :domain, String, required: false
       argument :lang, String, required: false, default_value: I18n.default_locale
     end
@@ -32,7 +32,7 @@ module Types
       ArticleSetting.find_by(subdomain: domain)
     end
 
-    field :campaign_subscription_toggle, Types::JsonType, null: false, description: 'toggle subscription' do
+    field :campaign_subscription_toggle, Types::JsonType, null: false, description: "toggle subscription" do
       argument :encoded, String, required: true
       argument :op, Boolean, required: false
     end
@@ -40,11 +40,8 @@ module Types
     def campaign_subscription_toggle(encoded:, op:)
       subscriber_email = URLcrypt.decode(encoded)
       app_user = AppUser.find_by(email: subscriber_email)
-      if op
-        app_user.subscribe! unless app_user.subscribed?
-      else
-        app_user.unsubscribe! unless app_user.unsubscribed?
-      end
+
+      toggle_subscription_state(app_state, op)
 
       {
         state: app_user.subscription_state,
@@ -52,13 +49,21 @@ module Types
       }
     end
 
-    field :user_session, Types::AgentType, null: false, description: 'get current user email'
+    def toggle_subscription_state(app_state, op)
+      if op
+        app_user.subscribe! unless app_user.subscribed?
+      else
+        app_user.unsubscribe! unless app_user.unsubscribed?
+      end
+    end
+
+    field :user_session, Types::AgentType, null: false, description: "get current user email"
     def user_session
       doorkeeper_authorize!
       current_user
     end
 
-    field :messenger, Types::MessengerType, null: false, description: 'client messenger entry point' do
+    field :messenger, Types::MessengerType, null: false, description: "client messenger entry point" do
       # argument :app_key, String, required: true
     end
 

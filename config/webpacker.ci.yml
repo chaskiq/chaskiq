@@ -14,6 +14,8 @@ default: &default
   cache_manifest: false
 
   extensions:
+    - .tsx
+    - .ts
     - .jsx
     - .js
     - .mjs
@@ -51,7 +53,6 @@ development:
       'Access-Control-Allow-Origin': '*'
     watch_options:
       ignored: /node_modules/
-
 
 test:
   <<: *default

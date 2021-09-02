@@ -3,11 +3,13 @@ en:
     edit: Edit
     new: New
     add: Add
+    add_new: add new
     update: Update
     remove: Remove
     delete: Delete
     create: Create
     save: Save
+    save_changes: Save changes
     preview: Preview
     cancel: Cancel
     back_to_site: Back to site
@@ -15,21 +17,55 @@ en:
     get_snippet: Get the snippet
     submit: Submit
     confirm_deletion: "Confirm deletion ?"
+    confirm_deletion_ready: are you ready to delete ?
     next: Next
     prev: Prev
-    showing: Mostrando
+    showing: Showing
     to: to
     of: of
-    results: resultados
+    results: results
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
     send: Send
+    actions: Actions
+    your_apps: Your apps
+    upload_field: upload %{field}
+    choose_color: Choose color
+    image: Imagen
     langs:
       en: English
       es: Spanish
       pt: Portuguese
-      redirecting: Redirecting
-      select_language: Select Language
+      de: Deutsch
+      ca: Catalan
+      zh-CN: Chinese
+    redirecting: Redirecting
+    select_language: Select Language
     send_on_enter: Publish on enter
+    away_mode: Away mode
+    toggle_light_mode: Toggle light mode
+    toggle_dark_mode: Toggle dark mode
+    leads: Leads
+    visitors: Visitors
+    users: Users
+    type_message: type your message
+    search_conversations: Search conversations
+    days: Days
+  status_messages:
+    error: "Error"
+    success: "Success"
+    updated_success: Updated successfully
+    updated_error: Error on upddate
+    created_success: Successfully created
+    created_error: Error creating
+    deleted_success: Successfully deleted
+    deleted_error: Error deleting
+    reordered_error: Error reordering
+    reordered_success: Successfully Reordered
+  error_view:
+    title: Woops! something went wrong.
+    subtitle: Unfortunately 🤯
+    exp: try refreshing the page
+    cta: try to go home
   home:
     welcome: Welcome to
     welcome_site: Chaskiq
@@ -51,6 +87,10 @@ en:
     mac_os: Mac OS
     user_country: User country
     snippet: Put the following script on the end of your html <body> tag
+    status: Live chat status
+    status_running: Running
+    status_paused: Paused
+    guides: Chaskiq Guides
   navigator:
     dashboard: Dashboard
     platform: Platform
@@ -80,6 +120,7 @@ en:
       integrations: Integrations
       webhooks: Webhooks
       api_access: API access
+      billing: Billing
     user_menu:
       create_app: 'Create new app'
       create_app_description: 'Create your company’s Chaskiq app'
@@ -90,7 +131,10 @@ en:
     title: Conversations
     menu:
       conversations: Conversations
+      all: All conversations
       assignment_rules: Agent routing Rules
+      tags: Tags
+      unassigned: Unassigned
     states:
       opened: Opened
       closed: Closed
@@ -117,7 +161,8 @@ en:
     messages:
       seen: Seen
       not_seen: Not seen
-      note: Note
+      note: Private Note
+      reply: Reply
     sidebar:
       show_profile: Show profile
       location: Location
@@ -155,6 +200,10 @@ en:
     create_new: Create new campaign
     empty:
       title: No campaigns found
+    mailing: Mailing campaign
+    in_app: In app messages
+    cloned_success: cloned successfully
+    cloned_error: error while cloning record
     campaign_updated: Campaign updated
     updated_error: Error updating campaign
     error_purge: Error purging metrics
@@ -162,6 +211,29 @@ en:
     purge_title: Purge Metrics
     deliver_title: Deliver
     deliver_description: Delivers the campaign
+    pause_title: Pause
+    pause_description: pauses the campaign
+    clone_title: Clone
+    clone_description: clones the campaign
+    activate: "Activate Campaigns"
+    enables: Enables campaign
+    disables: Disables campaign
+    state:
+      enabled: enabled
+      disabled: disabled
+    tabs:
+      stats: Stats
+      settings: Settings
+      audience: Audience
+      editor: Editor
+    banners:
+      settings: Settings
+      action: Action
+      style: Style
+      top: top
+      bottom: bottom
+      inline: inline
+      floating: floating
   campaign:
     edit: Edit Campaign Settings
     create: Create a new campaign
@@ -176,12 +248,44 @@ en:
       resubscribe: Resubscribe from this list
       cancel: Cancel your subscription
   task_bots:
+    type_filters:
+      title_visitors: 'Visitors'
+      description_visitors: 'visitors on the platform'
+      title_leads: 'Leads'
+      description_leads: 'Visitors who make an actions'
+      title_users: 'Users'
+      description_users: "your platform's registered users"
+    state_filters:
+      enabled_title: 'Enabled'
+      enabled_description: 'enabled bot tasks'
+      disabled_title: 'Disabled'
+      disabled_description: 'Disabled bot tasks'
     title: Bot Tasks
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email}
     outbound: "🏓 Outbound"
     new_conversations: "👋 New conversations"
+    new_conversations_notice: This is what people will see when they start a new conversation
+    options:
+      add_message: Add Message Bubble
+      wait_user_input: Wait for user input
+      add_app_package: Add App
+    path_title_hint: path title
+    delete_path: delete path
+    add_path: Add new conversation part
+    continue_bot_with: Continue bot with
+    continue_with_reply_button: Continue bot with reply button
+    end_bot_with: End bot with
+    end_with_follow: End bot with follow actions
+    reply_button: reply button
+    follow_actions: follow actions
+    add_data_option: + add data option
+    save_data: Save data
+    close_conversation: close conversation
+    assign_agent: assign_agent
+    add_follow_action: Add Follow Action
+    assignee_agent: Assignee Agent
     email_requirement:
       message: Give the team a way to reach you
       input_label: Get notified by email
@@ -239,6 +343,18 @@ en:
       hint: we will destroy any content and related data
     create:
       title: Create Bot task
+  email_forwarding:
+    title: Email Forwarding
+    subtitle: Default Inbound Address
+    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+  identified_users:
+    title: Verified users setup
+    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
+    lang: Your code to generate an HMAC for your app is
+    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
+    encryption_key_label: Identity verification secret
+    dont_share_code: "Don't share this code"
+    hmac_hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
   quick_replies:
     title: Quick Replies
     search: Search Quick replies
@@ -291,6 +407,7 @@ en:
       user_data: User data
       tags: Tags
       quick_replies: Quick Replies
+      email_forwarding: Email Forwarding
     app_packages:
       create_success: Package created
       create_error: Error creating package
@@ -299,6 +416,10 @@ en:
       remove_success: Package removed correctly
       remove_error: Error removing package
       create_integration: Create New package
+    app_inserter:
+      title: Add apps to your Messenger
+      subtitle: Help your customers before they start a conversation
+      action: Add app
     integrations:
       title: Third party integrations
       create_success: Integration created
@@ -340,13 +461,13 @@ en:
             label: "Automatic reply time. Currently El equipo responderá lo antes posible"
           - 
             value: "minutes"
-            label: "El equipo suele responder en cuestión de minutos."
+            label: "Team usually responds within minutes."
           - 
             value: "hours"
-            label: "El equipo suele responder en cuestión de horas."
+            label: "Team usually responds within hours."
           - 
             value: "1 day"
-            label: "El equipo suele responder en un día."
+            label: "The team usually responds in one day."
         hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
     email_requirement:
       title: Require an email for new conversations
@@ -376,6 +497,9 @@ en:
       hint2: Control who sees the standard Messenger launcher on your website.
       note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
       note3: "On the web, show the standard Messenger launcher to:"
+      closed_replies_title: Prevent replies to closed conversations for %{name}
+      closed_replies_enabled: Letting users reply to closed messages at any time.
+      closed_replies_disabled: Preventing users from responding to closed conversations after.
       filters:
         users:
           label: Users
@@ -401,6 +525,10 @@ en:
       add_new: Add Team Member
       update_agent_title: Update Agent information
       updated_agent: Information updated successfully
+      destroyed_agent: Agent deleted successfully
+      destroy_agent_title: Delete Agent
+      destroy_agent: Delete
+      destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
       update_agent: Update
     webhooks:
       title: Webhooks
@@ -432,7 +560,7 @@ en:
         color: Field color
     user_data:
       title: Custom Fields
-      default_fields: Atributos por defecto
+      default_fields: Default attributes
       non_editable: This fields are not editable
       modal:
         title: Create user data field
@@ -459,6 +587,7 @@ en:
     title_placeholder: Write the title of the sections
     new_section: New section
     new_collection: New collection
+    edit_collection: Edit collection
     create_article:
       placeholder: Write the title of the article
       description_placeholder: Add a summary to find the article later
@@ -466,6 +595,29 @@ en:
       title: New collection of articles
       placeholder: Enter the title of the collection
       description: Describe your collection to help you find it.
+    deleted_success: article deleted
+    new_article: new article
+    settings_updated_success: 'article settings updated'
+    settings_updated_error: 'article settings failed'
+    activate_help_center: Activate Help Center
+    delete_article: Delete article "%{title} ?
+    delete_article_exp: we will destroy any content and related data
+    square_preferred: square images preferred (min size 200x200px)
+    square_preferred_hint: squared images will be optimal resized
+    reordered_success: 'reordered correctly'
+    reordered_error: 'reordered error'
+    add_articles: Add articles
+    updated_success: article updated
+    updated_error: article error on save
+    delete_section: Delete section
+    author: Author
+    written_by: written by
+    created_on: Created on
+    state:
+      published: published
+      published_desc: 'shows article on the help center'
+      draft: draft
+      draft_desc: 'hides the article on the help center'
     settings:
       title: Help Center settings
       add_language: Add language
@@ -481,3 +633,46 @@ en:
       lang_desc: Manage supported languages and customize your Help Center header
       basic: Basic setup
       general_app: Application overview
+  contact_manager:
+    create: Create Users & Leads
+    import_csv: Import csv
+    success_message: Processing file import, you will be notified the status soon
+    import_contacts: import_contacts
+    import_exp: You can upload a csv or excel file in order to import contacts
+    import_type: Import Type
+    import_choose: Choose what kind of contacts you will import
+    select_file: Select a file
+  segment_manager:
+    add_filters: Add filters
+    select_fields: 'Select fields:'
+    create_segment: Create new segment
+    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
+    changes_notice: The changes will be saved to the app segments.
+    delete_segment: 'Delete segment'
+    save_segment: Save segment
+    match: match
+    all: all
+    any: any
+    criteria: criteria
+    days_ago: days ago
+    filter_for: select filter for %{name}
+    date_filter_for: Select the date filter for  %{name}
+    integer_filter_for: Select the integer filter for %{name}
+    match_criteria_for: Match criteria options for %{name}
+    apply: apply
+    is: is
+    is_not: is not
+    starts_with: starts with
+    ends_with: ends with
+    contains: contains
+    does_not_contain: does not contain
+    is_unknown: is unknown
+    has_any_value: has any value
+    exactly: exactly
+    less_than: less than
+    less_than_eq: less than eq
+    more_than: more than
+    more_than_eq: more than eq
+    match_any: match any
+    match_all: match all
+    missing_value: Missing value!

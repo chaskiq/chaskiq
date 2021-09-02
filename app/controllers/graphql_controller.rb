@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
+  include HashEnsurer
   skip_before_action :verify_authenticity_token
   # before_action :doorkeeper_authorize!
   before_action :set_host_for_local_storage
@@ -11,7 +12,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
 
-    scout_transaction_name = 'GraphQL/' + (operation_name || 'unknown')
+    scout_transaction_name = "GraphQL/" + (operation_name || "unknown")
     ScoutApm::Transaction.rename(scout_transaction_name)
 
     context = {
@@ -42,16 +43,16 @@ class GraphqlController < ApplicationController
   rescue OauthExeption => e
     render json: {
       error: {
-        message: 'token not valid'
+        message: "token not valid"
       }, data: {}
-    }, status: 401
+    }, status: :unauthorized
   rescue ActiveRecord::RecordNotFound => e
     render json: {
       errors: [{
-        message: 'Data not found',
+        message: "Data not found",
         data: {}
       }]
-    }, status: 200
+    }, status: :ok
   rescue ActiveRecord::RecordInvalid => e
     error_messages = e.record.errors.full_messages.join("\n")
     json_error e.record
@@ -60,7 +61,7 @@ class GraphqlController < ApplicationController
       error: {
         message: JSON.parse(e.message)
       }, data: {}
-    }, status: 402
+    }, status: :payment_required
   # GraphQL::ExecutionError.new "Validation failed: #{error_messages}."
   rescue ActionPolicy::Unauthorized => e
     raise GraphQL::ExecutionError.new(
@@ -83,7 +84,7 @@ class GraphqlController < ApplicationController
 
   def api_authorize!
     resource = current_resource_owner
-    raise OauthExeption, 'Oauth Exception!' unless resource
+    raise OauthExeption, "Oauth Exception!" unless resource
 
     # doorkeeper_authorize!
     resource
@@ -92,38 +93,10 @@ class GraphqlController < ApplicationController
   def set_host_for_local_storage
     ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
   end
-
-  # Handle form data, JSON body, or a blank value
-  def ensure_hash(ambiguous_param)
-    case ambiguous_param
-    when String
-      if ambiguous_param.present?
-        ensure_hash(JSON.parse(ambiguous_param))
-      else
-        {}
-      end
-    when Hash, ActionController::Parameters
-      ambiguous_param
-    when nil
-      {}
-    else
-      raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
-    end
-  end
-
-  def handle_error_message(e)
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
-
-    render json: { error: {
-      message: e.message,
-      backtrace: Rails.env.production? ? nil : e.backtrace
-    }, data: {} }, status: 500
-  end
 end
 
 class OauthExeption < StandardError
-  def initialize(msg = 'This is a custom exception', exception_type = 'custom')
+  def initialize(msg = "This is a custom exception", exception_type = "custom")
     @exception_type = exception_type
     super(msg)
   end

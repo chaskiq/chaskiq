@@ -23,10 +23,8 @@ module Types
     field :visitor_home_apps, [Types::JsonType], null: true
     field :plans, [Types::JsonType], null: true
     field :plan, Types::JsonType, null: true
-
-    def outgoing_email_domain
-      object.outgoing_email_domain || ENV['DEFAULT_OUTGOING_EMAIL_DOMAIN']
-    end
+    field :inbound_email_address, String, null: true
+    field :outgoing_email_domain, String, null: true
 
     def plan
       return { disabled: true } unless context[:enabled_subscriptions]
@@ -35,7 +33,7 @@ module Types
     end
 
     def inbox_apps
-      object.inbox_apps.blank? ? object.default_home_apps : object.inbox_apps
+      object.inbox_apps.presence || object.default_home_apps
     end
 
     def plans
@@ -100,13 +98,13 @@ module Types
 
     def editor_app_packages
       authorize! object, to: :show?, with: AppPolicy
-      object.app_packages.tagged_with('editor')
+      object.app_packages.tagged_with("editor")
             .joins(:app_package_integrations)
-            .where('app_package_integrations.id is not null').uniq
+            .where.not(app_package_integrations: { id: nil }).uniq
     end
 
     field :agent_app_package, Types::AppPackageType, null: true do
-      argument :id, String, required: true, default_value: ''
+      argument :id, String, required: true, default_value: ""
     end
 
     def agent_app_package(id:)
@@ -116,19 +114,19 @@ module Types
     end
 
     field :app_packages_capabilities, [Types::AppPackageIntegrationType], null: true do
-      argument :kind, String, required: true, default_value: ''
+      argument :kind, String, required: true, default_value: ""
     end
 
     def app_packages_capabilities(kind:)
-      raise 'not in type' unless %w[home conversations bots inbox].include?(kind)
+      raise "not in type" unless %w[home conversations conversation_part bots inbox].include?(kind)
 
       authorize! object, to: :show?, with: AppPolicy
 
       object.app_package_integrations
             .joins(:app_package)
             .where(
-              app_package_id: object.app_packages.tagged_with(kind, on: 'capabilities')
-            ).order('app_packages.name desc')
+              app_package_id: object.app_packages.tagged_with(kind, on: "capabilities")
+            ).order("app_packages.name desc")
     end
 
     def gather_social_data
@@ -145,7 +143,7 @@ module Types
       authorize! object, to: :manage?, with: AppPolicy
       integrations = object.app_package_integrations.map(&:app_package_id)
       if integrations.any?
-        AppPackage.where.not('id in(?)', integrations)
+        AppPackage.where.not("id in(?)", integrations)
       else
         AppPackage.all
       end
@@ -181,6 +179,14 @@ module Types
       argument :term, String, required: false
     end
 
+    field :conversations_counts, Types::JsonType, null: true
+
+    field :conversations_tag_counts, Types::JsonType, null: true
+
+    field :conversation, Types::ConversationType, null: true do
+      argument :id, String, required: false
+    end
+
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
       # object.plan.allow_feature!("Conversations")
       authorize! object, to: :show?, with: AppPolicy
@@ -192,32 +198,10 @@ module Types
 
       @collection = @collection.where(state: filter) if filter.present?
 
-      if agent_id.present?
-        agent = agent_id.zero? ? nil : agent_id
-        @collection = @collection.where(assignee_id: agent)
-      end
-
+      @collection = filter_by_agent(agent_id) unless agent_id.nil?
       @collection = @collection.page(page).per(per)
-
-      if sort.present?
-        s = case sort
-            when 'newest' then 'updated_at desc'
-            when 'oldest' then 'updated_at asc'
-            when 'priority_first' then 'priority asc, updated_at desc'
-            else
-              'id desc'
-            end
-
-        if sort != 'unfiltered' # && agent_id.blank?
-          @collection = @collection.where
-                                   .not(latest_user_visible_comment_at: nil)
-        end
-
-        @collection = @collection.order(s)
-      end
-
+      sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
-
       # TODO: add _or_main_participant_name_cont, or do this with Arel
       if term
         @collection = @collection.ransack(
@@ -228,25 +212,17 @@ module Types
       @collection
     end
 
-    field :conversations_counts, Types::JsonType, null: true
-
     def conversations_counts
-      result = object.conversations.group('assignee_id').count.dup
+      result = object.conversations.group("assignee_id").count.dup
       result.merge({
                      all: object.conversations.size
                    })
     end
 
-    field :conversations_tag_counts, Types::JsonType, null: true
-
     def conversations_tag_counts
       object.conversations.tag_counts.map do |o|
         { tag: o.name, count: o.taggings_count }
       end
-    end
-
-    field :conversation, Types::ConversationType, null: true do
-      argument :id, String, required: false
     end
 
     def conversation(id:)
@@ -321,8 +297,8 @@ module Types
       # object.plan.allow_feature!('Segments')
       authorize! object, to: :show?, with: AppPolicy
       Segment.union_scope(
-        object.segments.all, Segment.where('app_id is null')
-      ).order('id asc')
+        object.segments.all, Segment.where(app_id: nil)
+      ).order("id asc")
     end
 
     field :segment, Types::SegmentType, null: true do
@@ -331,8 +307,8 @@ module Types
 
     def segment(id:)
       authorize! object, to: :show?, with: AppPolicy
-      s = Segment.where('app_id is null ').where(id: id).first
-      s.present? ? s : object.segments.find(id)
+      s = Segment.where("app_id is null ").where(id: id).first
+      s.presence || object.segments.find(id)
     end
 
     field :assignment_rules, [Types::AssignmentRuleType], null: true
@@ -340,7 +316,7 @@ module Types
     def assignment_rules
       # object.plan.allow_feature!('AssignmentRules')
       authorize! object, to: :show?, with: AppPolicy
-      object.assignment_rules.order('priority asc')
+      object.assignment_rules.order("priority asc")
     end
 
     field :quick_replies, [Types::QuickReplyType], null: true do
@@ -373,9 +349,9 @@ module Types
 
     field :articles, Types::PaginatedArticlesType, null: true do
       argument :page, Integer, required: true
-      argument :per, Integer, required: false, default_value: 20
+      argument :per, Integer, required: false, default_value: 6
       argument :lang, String, required: false, default_value: I18n.default_locale
-      argument :mode, String, required: false, default_value: 'all'
+      argument :mode, String, required: false, default_value: "all"
       argument :search, String, required: false, default_value: nil
     end
 
@@ -383,11 +359,11 @@ module Types
       # object.plan.allow_feature!('Articles')
       authorize! object, to: :show?, with: AppPolicy
       I18n.locale = lang
-      if mode == 'all'
+      if mode == "all"
         articles = object.articles
-      elsif mode == 'published'
+      elsif mode == "published"
         articles = object.articles.published
-      elsif mode == 'draft'
+      elsif mode == "draft"
         articles = object.articles.draft
       end
 
@@ -429,7 +405,7 @@ module Types
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang.to_sym
       authorize! object, to: :show?, with: AppPolicy
-      object.article_collections
+      object.article_collections.order("position asc")
     end
 
     field :collection, Types::CollectionType, null: true do
@@ -445,7 +421,7 @@ module Types
 
     field :bot_tasks, [Types::BotTaskType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
-      argument :mode, String, required: false, default_value: 'outbound'
+      argument :mode, String, required: false, default_value: "outbound"
       argument :filters, Types::JsonType, required: false, default_value: {}
     end
 
@@ -455,25 +431,13 @@ module Types
 
       object.bot_tasks
 
-      collection = object.bot_tasks.for_new_conversations if mode == 'new_conversations'
+      collection = object.bot_tasks.for_new_conversations if mode == "new_conversations"
 
-      collection = object.bot_tasks.for_outbound if mode == 'outbound'
+      collection = object.bot_tasks.for_outbound if mode == "outbound"
 
-      collection = collection.where(state: filters['state']) if filters['state'].present?
+      collection = collection.where(state: filters["state"]) if filters["state"].present?
 
-      if filters['users'].present?
-        ors = nil
-        filters['users'].each_with_index do |filter, _index|
-          ors = if ors.nil?
-                  BotTask.infix(filter)
-                else
-                  ors.or(BotTask.infix(filter))
-                end
-        end
-        collection = collection.where(ors) if ors.present?
-      end
-
-      collection.ordered
+      handle_bot_tasks_filters(filters, collection).ordered
     end
 
     field :bot_task, Types::BotTaskType, null: true do
@@ -486,8 +450,16 @@ module Types
       object.bot_tasks.find(id)
     end
 
-    def dashboard(range:, kind:)
+    def dashboard(range:, kind:, package: nil)
       authorize! object, to: :show?, with: AppPolicy
+
+      if package.present?
+        return AppPackageDashboard.new(
+          app: object,
+          range: range,
+          package: package
+        ).report_for(kind)
+      end
 
       whitelist = %w[
         visits
@@ -502,19 +474,44 @@ module Types
         opened_conversations
         solved_conversations
         resolution_avg
+        app_package
         app_packages
+        app_packages_list
       ]
-      raise 'no dashboard available at this address' unless whitelist.include?(kind)
+      raise "no dashboard available at this address" unless whitelist.include?(kind)
 
       Dashboard.new(
         app: object,
-        range: range
+        range: range,
+        package: package
       ).send(kind)
     end
 
     field :dashboard, Types::JsonType, null: true do
       argument :range, Types::JsonType, required: true
       argument :kind,  String, required: true
+      argument :package,  String, required: false
+    end
+
+    field :app_packages_dashboard, Types::JsonType, null: true do
+      argument :package,  String, required: false
+    end
+
+    def app_packages_dashboard
+      AppPackageDashboard.app_packages_list(object)
+    end
+
+    field :app_package_dashboard, Types::JsonType, null: true do
+      argument :package, String, required: false
+    end
+
+    def app_package_dashboard(package:)
+      integration = AppPackageDashboard.app_package(object, package)
+      {
+        name: integration.app_package.name,
+        icon: integration.app_package.icon,
+        paths: integration.message_api_klass.try(:report_kinds) || []
+      }
     end
 
     # OAUTH
@@ -538,6 +535,42 @@ module Types
     def authorized_oauth_applications
       authorize! object, to: :manage?, with: AppPolicy
       object.oauth_applications.authorized_for(current_user)
+    end
+
+    private
+
+    def filter_by_agent(agent_id)
+      agent = agent_id.present? && agent_id.zero? ? nil : agent_id
+      @collection.where(assignee_id: agent)
+    end
+
+    def sort_conversations(sort)
+      if sort.present?
+        s = case sort
+            when "newest" then "updated_at desc"
+            when "oldest" then "updated_at asc"
+            when "priority_first" then "priority asc, updated_at desc"
+            else
+              "id desc"
+            end
+
+        if sort != "unfiltered" # && agent_id.blank?
+          @collection = @collection.where
+                                   .not(latest_user_visible_comment_at: nil)
+        end
+
+        @collection = @collection.order(s)
+      end
+    end
+
+    def handle_bot_tasks_filters(filters, collection)
+      return collection if filters["users"].blank?
+
+      ors = nil
+      filters["users"].each_with_index do |filter, _index|
+        ors = ors.nil? ? BotTask.infix([filter]) : ors.or(BotTask.infix([filter]))
+      end
+      collection = collection.where(ors) if ors.present?
     end
   end
 end

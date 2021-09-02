@@ -54,8 +54,8 @@ module Types
     end
 
     field :call_hook, Types::JsonType, null: true do
-      argument :kind, String, required: true, default_value: ''
-      argument :ctx, Types::JsonType, required: true, default_value: ''
+      argument :kind, String, required: true, default_value: ""
+      argument :ctx, Types::JsonType, required: true, default_value: ""
     end
 
     def call_hook(kind:, ctx:)
@@ -63,7 +63,6 @@ module Types
                          kind: kind,
                          ctx: ctx.merge!(
                            lang: I18n.locale,
-                           app: object.app,
                            current_user: current_user
                          )
                        })

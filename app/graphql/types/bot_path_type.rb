@@ -9,7 +9,7 @@ module Types
     # field :predicates, Types::JsonType, null: true
     field :steps, Types::JsonType, null: true
     def steps
-      object['steps'].present? ? object['steps'] : []
+      object["steps"].presence || []
     end
   end
 end

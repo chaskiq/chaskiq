@@ -16,7 +16,7 @@ class MessengerEventsChannel < ApplicationCable::Channel
   end
 
   def send_message(options)
-    options.delete('action')
+    options.delete("action")
 
     VisitCollector.new(user: current_user)
                   .update_browser_data(options)
@@ -46,14 +46,14 @@ class MessengerEventsChannel < ApplicationCable::Channel
   #####
 
   def rtc_events(data)
-    conversation = app.conversations.find_by(key: data['conversation_id'])
+    conversation = app.conversations.find_by(key: data["conversation_id"])
     key = "messenger_events:#{app.key}-#{current_user.session_id}"
     key2 = "events:#{app.key}"
-    if data['event_type'] == 'JOIN_ROOM'
+    if data["event_type"] == "JOIN_ROOM"
       ActionCable.server.broadcast key, {
-        type: 'rtc_events',
+        type: "rtc_events",
         app: app.key,
-        event_type: 'READY',
+        event_type: "READY",
         conversation_id: conversation.key
       }
     end
@@ -66,34 +66,34 @@ class MessengerEventsChannel < ApplicationCable::Channel
 
   # from iframes
   def app_package_submit(data)
-    @conversation = app.conversations.find_by(key: data['conversation_key'])
-    message = @conversation.messages.find_by(key: data['message_key'])
+    @conversation = app.conversations.find_by(key: data["conversation_key"])
+    message = @conversation.messages.find_by(key: data["message_key"])
 
     app_package = app.app_package_integrations
                      .joins(:app_package)
                      .find_by(
-                       "app_packages.name": data['data']['type'].capitalize
+                       "app_packages.name": data["data"]["type"].capitalize
                      )
 
     response = app_package&.call_hook(
-      kind: 'submit',
+      kind: "submit",
       ctx: {
         lang: I18n.locale,
         app: app,
-        location: 'messenger',
+        location: "messenger",
         current_user: current_user,
-        values: data['data']
+        values: data["data"]
       }
     )
 
     # UPDATE message blocks here!
     new_blocks = message.message.blocks.merge(
-      { 'schema' => response[:definitions] }
+      { "schema" => response[:definitions] }
     )
     m = message.message
 
     m.blocks = new_blocks
-    m.save_replied(data['submit'])
+    m.save_replied(data["submit"])
 
     process_next_step(message)
   end
@@ -119,43 +119,43 @@ class MessengerEventsChannel < ApplicationCable::Channel
       .perform_now(
         app_key: app.key,
         user_id: current_user.id,
-        conversation: data['conversation'],
-        trigger_id: data['trigger']
+        conversation: data["conversation"],
+        trigger_id: data["trigger"]
       )
   end
 
   def track_open(data)
     current_user.track_open(
-      trackable_id: data['trackable_id'],
-      trackable_type: 'Message'
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
     )
   end
 
   def track_close(data)
     current_user.track_close(
-      trackable_id: data['trackable_id'],
-      trackable_type: 'Message'
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
     )
   end
 
   def track_click(data)
     current_user.track_click(
-      trackable_id: data['trackable_id'],
-      trackable_type: 'Message'
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
     )
   end
 
   def track_tour_finished(data)
     current_user.track_finish(
-      trackable_id: data['trackable_id'],
-      trackable_type: 'Message'
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
     )
   end
 
   def track_tour_skipped(data)
     current_user.track_skip(
-      trackable_id: data['trackable_id'],
-      trackable_type: 'Message'
+      trackable_id: data["trackable_id"],
+      trackable_type: "Message"
     )
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'digest/md5'
+require "digest/md5"
 
 class Agent < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -15,7 +15,7 @@ class Agent < ApplicationRecord
           :validatable,
           :omniauthable, omniauth_providers: %i[doorkeeper]
 
-  has_many :app_packages
+  has_many :app_packages, dependent: :nullify
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -33,21 +33,23 @@ class Agent < ApplicationRecord
   end
 
   has_many :access_grants,
-           class_name: 'Doorkeeper::AccessGrant',
+           class_name: "Doorkeeper::AccessGrant",
            foreign_key: :resource_owner_id,
            dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :access_tokens,
-           class_name: 'Doorkeeper::AccessToken',
+           class_name: "Doorkeeper::AccessToken",
            foreign_key: :resource_owner_id,
            dependent: :delete_all # or :destroy if you need callbacks
 
   has_many :roles, dependent: :destroy
   has_many :apps, through: :roles, source: :app
-  has_many :owned_apps, class_name: 'App', foreign_key: 'owner_id'
-  has_many :assignment_rules
-  has_many :articles, foreign_key: 'author_id'
-  has_many :conversations, foreign_key: 'assignee_id'
+  has_many :owned_apps, class_name: "App",
+                        foreign_key: "owner_id",
+                        dependent: :nullify
+  has_many :assignment_rules, dependent: :nullify
+  has_many :articles, foreign_key: "author_id", dependent: :nullify
+  has_many :conversations, foreign_key: "assignee_id", dependent: :nullify
 
   scope :bots, -> { where(bot: true) }
   scope :humans, -> { where(bot: nil).or(where(bot: false)) }
@@ -75,33 +77,18 @@ class Agent < ApplicationRecord
   end
 
   def display_name
-    [name].join(' ')
-  end
-
-  def default_avatar
-    ActionController::Base.helpers.asset_url('icons8-bot-50.png')
+    [name].join(" ")
   end
 
   def avatar_url
-    unless avatar.attached?
-      return bot? ?
-          default_avatar :
-          gravatar
-    end
+    return default_avatar unless avatar.attached?
 
-    # return '' unless object.avatar_blob.present?
-
-    url = begin
-      avatar.variant(resize_to_limit: [100, 100]).processed
-    rescue StandardError
-      nil
-    end
+    url = get_remote_avatar_url
     return nil if url.blank?
 
     begin
       Rails.application.routes.url_helpers.rails_representation_url(
         url
-        # only_path: true
       )
     rescue StandardError
       nil
@@ -126,5 +113,23 @@ class Agent < ApplicationRecord
 
   def kind
     self.class.model_name.singular
+  end
+
+  private
+
+  def default_bot_avatar
+    ActionController::Base.helpers.asset_url("icons8-bot-50.png")
+  end
+
+  def default_avatar
+    bot? ? default_bot_avatar : gravatar
+  end
+
+  def get_remote_avatar_url
+    url = begin
+      avatar.variant(resize_to_limit: [100, 100]).processed
+    rescue StandardError
+      nil
+    end
   end
 end

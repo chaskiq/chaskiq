@@ -20,7 +20,7 @@ module ApplicationCable
       user = Agent.find_by(id: access_token.resource_owner_id) if access_token
       return user if user
 
-      raise 'invalid user'
+      raise "invalid user"
     end
 
     def access_token
@@ -48,7 +48,7 @@ module ApplicationCable
 
       OriginValidator.new(
         app: app.domain_url,
-        host: env['HTTP_ORIGIN']
+        host: env["HTTP_ORIGIN"]
       ).is_valid?
 
       find_user(get_user_data)
@@ -64,7 +64,7 @@ module ApplicationCable
           :context,
           {
             app: app&.key,
-            env: env['HTTP_ORIGIN'],
+            env: env["HTTP_ORIGIN"],
             params: request.query_parameters,
             current_user: current_user&.key
           }
@@ -74,10 +74,21 @@ module ApplicationCable
 
     def get_user_data
       if app.encryption_enabled?
-        authorize_by_encrypted_params
+        authorize_by_identifier_params || authorize_by_encrypted_params
       else
         get_user_from_unencrypted
       end
+    end
+
+    def authorize_by_identifier_params
+      params = request.query_parameters
+      data = begin
+        JSON.parse(Base64.decode64(params[:user_data]))
+      rescue StandardError
+        nil
+      end
+      return nil unless data.is_a?(Hash)
+      return data&.with_indifferent_access if app.compare_user_identifier(data)
     end
 
     def authorize_by_encrypted_params
@@ -87,10 +98,9 @@ module ApplicationCable
 
     def find_user(user_data)
       params = request.query_parameters
-
       if user_data.blank?
         app.get_non_users_by_session(params[:session_id])
-      else
+      elsif user_data[:email]
         app.get_app_user_by_email(user_data[:email])
       end
     end

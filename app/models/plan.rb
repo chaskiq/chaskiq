@@ -4,15 +4,15 @@ class Plan
 
   def self.all
     YAML.load(
-      File.open(Rails.root.join('config/subscriptions.yml'))
+      File.open(Rails.root.join("config/subscriptions.yml"))
     )
         .with_indifferent_access
-        .dig('subscriptions', 'plans')
+        .dig("subscriptions", "plans")
     # YAML_PLANS
   end
 
   def self.free
-    get('free')
+    get("free")
   end
 
   def self.get(name)
@@ -29,14 +29,14 @@ class Plan
 
   def enabled?(feature)
     f = get_feature(feature)
-    return true unless f.present?
+    return true if f.blank?
 
     f&.active?
   end
 
   def limit_reached?(feature, count)
     c = get_feature(feature)&.count
-    return false if c === 'unlimited'
+    return false if c === "unlimited"
 
     count >= count
   end
@@ -50,7 +50,7 @@ class Plan
   end
 
   class PlanError < StandardError
-    def initialize(msg = 'Plan not meet')
+    def initialize(msg = "Plan not meet")
       super
     end
   end
