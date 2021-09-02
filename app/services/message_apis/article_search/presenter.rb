@@ -54,49 +54,45 @@ module MessageApis::ArticleSearch
     def self.submit_hook(kind:, ctx:)
       { content: { kind: kind, ctx: ctx } }
       app = ctx[:package].app
-      term = ctx.dig(:values, :search_articles)
+      term = ctx.dig(:value, :search_articles)
       # I18n.locale = lang
-      if term.present?
-        articles = app.articles.published
-                      .includes([:author, :collection, :section, { article_content: :translations }])
-                      .search(term)
-                      .page(1)
-                      .per(10)
-      end
+      articles = app.articles.published
+                    .includes([:author, :collection, :section, { article_content: :translations }])
+                    .page(1)
+                    .per(10)
 
-      if term.blank?
-        articles = app.articles.published
-                      .includes([:author, :collection, :section, { article_content: :translations }])
-                      .page(1)
-                      .per(5)
-      end
+      articles = articles.search(term) if term.present?
+
+      article_list = if articles.any?
+                       {
+                         type: "list",
+                         disabled: false,
+                         items: articles.map do |o|
+                                  {
+                                    type: "item",
+                                    id: o.slug.to_s,
+                                    title: o.title || "---",
+                                    subtitle: o.description,
+                                    action: {
+                                      type: "frame",
+                                      url: "/package_iframe_internal/ArticleSearch"
+                                    }
+                                  }
+                                end
+                       }
+                     end
 
       results = [
         {
           type: "spacer",
           size: "m"
         },
-        {
-          type: "list",
-          disabled: false,
-          items: articles.map do |o|
-                   {
-                     type: "item",
-                     id: o.slug.to_s,
-                     title: o.title || "---",
-                     subtitle: o.description,
-                     action: {
-                       type: "frame",
-                       url: "/package_iframe_internal/ArticleSearch"
-                     }
-                   }
-                 end
-        },
+        article_list,
         {
           type: "spacer",
           size: "m"
         }
-      ]
+      ].compact
 
       definitions = search_definitions << results
 
