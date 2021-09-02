@@ -61,26 +61,26 @@ module MessageApis::ArticleSearch
                     .page(1)
                     .per(10)
 
-      if term.present?
-        articles = articles.search(term)
-      end
+      articles = articles.search(term) if term.present?
 
-      article_list = articles.any? ? {
-        type: "list",
-        disabled: false,
-        items: articles.map do |o|
-                 {
-                   type: "item",
-                   id: o.slug.to_s,
-                   title: o.title || "---",
-                   subtitle: o.description,
-                   action: {
-                     type: "frame",
-                     url: "/package_iframe_internal/ArticleSearch"
-                   }
-                 }
-               end
-      } : nil
+      article_list = if articles.any?
+                       {
+                         type: "list",
+                         disabled: false,
+                         items: articles.map do |o|
+                                  {
+                                    type: "item",
+                                    id: o.slug.to_s,
+                                    title: o.title || "---",
+                                    subtitle: o.description,
+                                    action: {
+                                      type: "frame",
+                                      url: "/package_iframe_internal/ArticleSearch"
+                                    }
+                                  }
+                                end
+                       }
+                     end
 
       results = [
         {
