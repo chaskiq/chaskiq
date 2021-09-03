@@ -11,7 +11,7 @@ import { CommentsItemComp } from './commentItem';
 import NewConversationBlock from './newConversationBlock';
 
 export default function Conversations() {
-  const [loading, setLoading] = React.useState();
+  const [loading, setLoading] = React.useState(false);
   const {
     value: {
       i18n,
@@ -24,7 +24,7 @@ export default function Conversations() {
       displayConversation,
       appData,
     },
-  } = React.useContext(MessengerContext);
+  } = React.useContext<any>(MessengerContext);
 
   React.useEffect(() => {
     clearAndGetConversations({}, () => {
@@ -75,7 +75,7 @@ export default function Conversations() {
         onScroll={handleConversationsScroll}
         style={{ overflowY: 'auto', height: '100%' }}
       >
-        <CommentsWrapper isMobile={isMobile}>
+        <CommentsWrapper>
           {loading && <Loader sm />}
           {conversations.map((o, _i) => {
             const message = o.lastMessage;

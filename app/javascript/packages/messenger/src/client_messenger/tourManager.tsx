@@ -132,14 +132,18 @@ const NewStepBody = styled.div`
   ${() => tw`w-full h-full justify-center items-center flex relative`}
 `;
 
-export default class TourManager extends Component {
+type TourManagerProps = {
+  ev: any;
+  domain: string;
+};
+export default class TourManager extends Component<TourManagerProps> {
   state = {
     cssPath: null,
     cssIs: null,
     run: false,
     selecting: false,
     selectedCoords: null,
-    selectionMode: false,
+    selectionMode: '',
     editElement: null,
     isScrolling: false,
     steps: [],
@@ -416,7 +420,7 @@ export default class TourManager extends Component {
               fontSize: '0.9em',
               marginLeft: '31px',
             }}
-            saveHandler={this.saveContent}
+            //saveHandler={this.saveContent}
             updateState={
               ({ status, statusButton, content }) => {
                 console.log(status, statusButton);
@@ -425,7 +429,7 @@ export default class TourManager extends Component {
               // console.log("update here!", uno, dos, tres)
             }
             serializedContent={editElement.serialized_content}
-            target={editElement.target}
+            // target={editElement.target}
             loading={false}
           ></TextEditor>
 
@@ -576,7 +580,7 @@ export default class TourManager extends Component {
 
         <ThemeProvider theme={theme}>
           <Tour
-            steps={this.prepareJoyRidyContent(this.state.steps)}
+            steps={this.prepareJoyRidyContent()}
             isOpen={
               this.state.selectionMode !== 'edit' && this.state.run
                 ? true
@@ -629,7 +633,7 @@ export default class TourManager extends Component {
 
         <StyledFrame
           style={{
-            zIndex: '100000000',
+            zIndex: 100000000,
             position: 'fixed',
             bottom: '0px',
             border: 'none',
@@ -642,9 +646,6 @@ export default class TourManager extends Component {
             <TourManagerContainer
               onMouseOver={this.disableSelection}
               onMouseLeave={this.handleMouseOut}
-              collapsedEditor={
-                this.state.selectionMode || this.state.run ? true : undefined
-              }
             >
               <FooterContainer>
                 {!this.state.selectionMode && !this.state.run && (
@@ -691,7 +692,7 @@ export default class TourManager extends Component {
                           {'< exit preview'}
                         </Button>
                       ) : (
-                        <div appearance="warning">
+                        <div>
                           <Button onClick={this.activatePreview}>
                             preview
                           </Button>
@@ -712,7 +713,13 @@ export default class TourManager extends Component {
   }
 }
 
-class TourStep extends Component {
+type TourStepProps = {
+  step: any;
+  domain: string;
+  removeItem: (val: any) => void;
+  enableEditMode: (val: any) => void;
+};
+class TourStep extends Component<TourStepProps> {
   removeItem = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -750,7 +757,11 @@ class TourStep extends Component {
     );
   }
 }
-class NewTourStep extends Component {
+
+type NewTourStepProps = {
+  enableSelection: () => void;
+};
+class NewTourStep extends Component<NewTourStepProps> {
   enableSelection = (e) => {
     e.preventDefault();
     this.props.enableSelection();

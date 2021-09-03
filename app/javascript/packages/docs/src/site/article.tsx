@@ -13,7 +13,11 @@ import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
 
-const NewEditorStyles = styled(EditorContainer)`
+import { withRouter } from 'react-router-dom';
+
+const NewEditorStyles = styled(EditorContainer)<{
+  theme: any;
+}>`
   font-size: 1.3em;
 
   white-space: pre-wrap; /* CSS3 */
@@ -27,15 +31,25 @@ const NewEditorStyles = styled(EditorContainer)`
   }
 `;
 
-export default function Article(props) {
+type ArticleProps = {
+  lang: string;
+  theme: any;
+  subdomain: string;
+  match: any;
+  article: any;
+  location: any;
+};
+function Article(props: ArticleProps) {
   const [article, setArticle] = React.useState(null);
-  const { lang, theme } = props;
-
-  const { subdomain } = props;
-
+  const { lang, theme, subdomain, location } = props;
   React.useEffect(() => {
     getArticle();
   }, []);
+
+  React.useEffect(() => {
+    setArticle(null);
+    getArticle();
+  }, [location.key]);
 
   function getArticle() {
     graphql(
@@ -75,7 +89,7 @@ export default function Article(props) {
             />
 
             <div className="py-4">
-              <hr variant="middle" />
+              <hr />
             </div>
 
             <div className="p-4">
@@ -121,3 +135,5 @@ export default function Article(props) {
     </div>
   );
 }
+
+export default withRouter(Article);

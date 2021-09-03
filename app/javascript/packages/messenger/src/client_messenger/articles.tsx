@@ -11,6 +11,14 @@ import DraftRenderer from './textEditor/draftRenderer';
 import DanteContainer from './textEditor/editorStyles';
 import Loader from './loader';
 
+declare global {
+  interface Window {
+    domain: any;
+    articleJson: any;
+    article_meta: any;
+  }
+}
+
 const DanteContainerExtend = styled(DanteContainer)`
   margin-top: 1.2em;
 `;
@@ -28,7 +36,6 @@ const Panel = styled.div`
 
 const ContentWrapper = styled.div`
   padding: 2em;
-  ${(props) => FadeBottomAnimation(props)}
 `;
 
 const ArticleTitle = styled.h1`
@@ -46,7 +53,7 @@ const ArticleMeta = styled.span`
 `;
 
 const Article = ({ i18n }) => {
-  const domain = window.domain;
+  const domain = window.domain as any;
   const [article, _setArticle] = useState(window.articleJson);
   const [loading, _setLoading] = useState(false);
 

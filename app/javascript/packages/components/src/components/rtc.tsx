@@ -195,6 +195,7 @@ export function RtcView(props) {
 
   function getDisplay() {
     getDisplayStream().then((stream) => {
+      //@ts-ignore
       stream.oninactive = () => {
         peer.removeStream(localStream);
         getUserMedia().then(() => {

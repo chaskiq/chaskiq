@@ -212,7 +212,7 @@ class DraftConvert
           href="#{image_url}"
           rel="noopener noreferrer"
           target="blank"
-          class="flex items-center border rounded bg-gray-800 border-gray-600 p-4 py-2"
+          class="flex items-center border rounded bg-gray-800 text-gray-100 border-gray-600 p-4 py-2"
         >
           #{block[:text]}
         </a>

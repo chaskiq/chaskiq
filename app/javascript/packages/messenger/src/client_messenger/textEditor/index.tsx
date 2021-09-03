@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 
 import { convertToHTML } from 'draft-convert';
 
@@ -117,7 +117,21 @@ const defaultProps = {
   },
 };
 
-export default class ArticleEditor extends Component {
+type ArticleEditorProps = {
+  serializedContent: any;
+  setDisabled?: (val: any) => void;
+  handleUrlUpload: (file: string, imageBlock: any, input?: any) => void;
+  handleDirectUpload: (file: string, imageBlock: any, input?: any) => void;
+  domain: string;
+  updateState: (val: any) => void;
+  data: any;
+  tooltipsConfig?: any;
+  loading: boolean;
+  widgetsConfig?: any;
+  styles: CSSProperties;
+};
+export default class ArticleEditor extends Component<ArticleEditorProps> {
+  dante_editor: any;
   emptyContent = () => {
     return {
       entityMap: {},
@@ -216,7 +230,7 @@ export default class ArticleEditor extends Component {
   uploadFromUrl = (file, imageBlock) => {
     const url = imageBlock.props.blockProps.data.get('url');
     this.setDisabled(true);
-    this.props.handleUrlUpload(url);
+    this.props.handleUrlUpload(url, imageBlock);
   };
 
   uploadFromFile = (file, imageBlock) => {
@@ -465,10 +479,7 @@ export default class ArticleEditor extends Component {
 
         if (block.type === 'recorded-video') {
           return (
-            <figure
-              className="graf--figure graf--iframe graf--first"
-              tabIndex="0"
-            >
+            <figure className="graf--figure graf--iframe graf--first">
               <div className="iframeContainer">
                 <video
                   autoPlay={false}

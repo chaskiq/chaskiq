@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-import { AnchorButton, FadeRightAnimation, CountBadge } from './styles/styled';
+import {
+  AnchorButton,
+  FadeRightAnimation,
+  CountBadge,
+  ThemeProps,
+  TransitionProps,
+} from './styles/styled';
 import { CommentsItemComp } from './conversations/commentItem';
 
 import Loader from './loader';
@@ -35,7 +41,7 @@ const HomePanel = () => {
       getPackage,
       homeHeaderRef,
     },
-  } = React.useContext(MessengerContext);
+  } = React.useContext<any>(MessengerContext);
 
   const [conversationLoading, setConversationLoading] = useState(false);
 
@@ -57,7 +63,6 @@ const HomePanel = () => {
   }, []);
 
   const handleScroll = (e) => {
-    window.a = e.target;
     const target = e.target;
     const opacity =
       1 - normalize(target.scrollTop, target.offsetHeight * 0.26, 0);
@@ -92,6 +97,7 @@ const HomePanel = () => {
     const nextDay = at.getDay();
     const today = new Date(Date.now()).getDay();
 
+    // @ts-ignore
     const TzDiff = Math.ceil((at - Date.now()) / (1000 * 3600 * 24));
 
     const sameDay = nextDay === today;
@@ -182,10 +188,9 @@ const HomePanel = () => {
                 key={`comments-item-comp-${o.key}`}
                 message={message}
                 o={o}
-                index={i}
                 i18n={i18n}
                 displayConversation={displayConversation}
-                sanitizeMessageSummary={sanitizeMessageSummary}
+                // sanitizeMessageSummary={sanitizeMessageSummary}
               />
             );
           })}
@@ -391,7 +396,7 @@ const ReplyTime = styled.p`
   font-size: 0.8rem;
 `;
 
-const CardButtonsGroup = styled.div`
+const CardButtonsGroup = styled.div<{ theme: ThemeProps }>`
   margin-top: 1em;
   align-items: center;
   justify-content: space-between;
@@ -428,7 +433,10 @@ const Avatar = styled.div`
   }
 `;
 
-const Card = styled.div`
+//@ts-ignore
+const Card = styled.div<
+  { padding?: boolean; theme: ThemeProps } & TransitionProps
+>`
   margin-bottom: 17px;
   background-color: #fff;
   border-radius: 3px;
@@ -438,7 +446,7 @@ const Card = styled.div`
   overflow: hidden;
   position: relative;
   //-webkit-box-shadow: 0 4px 15px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.1), inset 0 2px 0 0 rgba(48, 71, 236, 0.5);
-  box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1),
+  box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     inset 0 2px 0 0
       ${(props) => {
         lighten(0.1, props.theme.palette.secondary);
@@ -447,7 +455,6 @@ const Card = styled.div`
   margin: 1em;
   ${(props) => (props.padding ? 'padding: 2em;' : '')}
 
-  ${(props) => FadeRightAnimation(props)}
 `;
 
 const ConversationInitiator = styled(Card)`
