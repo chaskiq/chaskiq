@@ -11,7 +11,7 @@ export default function Sidebar() {
       </div>
 
       <div>
-        <ul className="overflow-auto" style={{ height: `calc(100vh - 185px)` }}>
+        <ul className="overflow-auto" style={{ height: `calc(100vh - 55px)` }}>
           <li className="text-md font-medium text-gray-900 pt-4--">Audience</li>
 
           <DefaultNode
@@ -72,7 +72,13 @@ export default function Sidebar() {
   );
 }
 
-function DefaultNode({ onDragStart, kind, children, color }) {
+type DefaultNodeType = {
+  onDragStart: (event: any) => void;
+  kind?: string;
+  children: React.ReactChild;
+  color?: string;
+};
+function DefaultNode({ onDragStart, kind, children, color }: DefaultNodeType) {
   function colorForIcon() {
     if (!color) return 'bg-purple-600 text-white';
     return `bg-${color}-500 text-white`;

@@ -1,11 +1,11 @@
 import React, { memo } from 'react';
-import { Handle } from 'react-flow-renderer';
-export default memo(({ data }) => {
+import { Handle, Position } from 'react-flow-renderer';
+export default memo(({ data }: { data: any; children: React.ReactChild }) => {
   return (
     <>
       <Handle
         type="target"
-        position="left"
+        position={Position.Left}
         style={{ background: '#555' }}
         onConnect={(params) => console.log('handle onConnect', params)}
       />
@@ -20,13 +20,13 @@ export default memo(({ data }) => {
       />
       <Handle
         type="source"
-        position="right"
+        position={Position.Right}
         id="a"
         style={{ top: 10, background: '#555' }}
       />
       <Handle
         type="source"
-        position="right"
+        position={Position.Right}
         id="b"
         style={{ bottom: 10, top: 'auto', background: '#555' }}
       />

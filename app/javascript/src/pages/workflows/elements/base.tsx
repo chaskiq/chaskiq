@@ -1,6 +1,13 @@
 import React from 'react';
 
-export default function BaseElement({ type, data }) {
+export default function BaseElement({
+  data,
+  type,
+}: {
+  type?: any;
+  data: any;
+  children?: React.ReactChild;
+}) {
   return (
     <li className={'col-span-1 flex shadow-sm rounded-md'}>
       <div

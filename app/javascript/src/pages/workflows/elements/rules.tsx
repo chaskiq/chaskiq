@@ -1,12 +1,22 @@
 import React, { memo } from 'react';
-import { Handle } from 'react-flow-renderer';
-export default memo(({ data }) => {
+import { Handle, Position } from 'react-flow-renderer';
+
+import styled from '@emotion/styled';
+
+const HandeItem = styled.div`
+  position: absolute;
+  width: 300px;
+  font-size: 0.4em;
+  left: 12px;
+`;
+
+export default memo(({ data }: { data: any; children: React.ReactChild }) => {
   return (
     <>
       {data.ruleType !== 'entry' && (
         <Handle
           type="target"
-          position="left"
+          position={Position.Left}
           style={{ background: '#555' }}
           onConnect={(params) => console.log('handle onConnect', params)}
         ></Handle>
@@ -47,20 +57,36 @@ export default memo(({ data }) => {
 
       <Handle
         type="source"
-        position="right"
+        position={Position.Right}
         id="a"
         style={{ top: 10, background: '#555' }}
       >
-        <div>YES</div>
+        <div>
+          <HandeItem>when match</HandeItem>
+        </div>
       </Handle>
 
       <Handle
         type="source"
-        position="right"
+        position={Position.Right}
         id="b"
         style={{ bottom: 10, top: 'auto', background: '#555' }}
       >
-        <div>NO</div>
+        <HandeItem
+          onClick={() => console.log('epa')}
+          onMouseOver={() => console.log('nono')}
+        >
+          NO
+        </HandeItem>
+      </Handle>
+
+      <Handle
+        type="source"
+        position={Position.Right}
+        id="b"
+        style={{ bottom: 30, top: 'auto', background: '#555' }}
+      >
+        <HandeItem>NO</HandeItem>
       </Handle>
     </>
   );

@@ -19,10 +19,10 @@ function BotEditor({ data, update, app, dispatch }) {
     <div>
       <BotPathEditor
         app={app}
-        data={botTask}
-        updateData={setBotTask}
+        botTask={botTask}
+        //updateData={setBotTask}
         saveData={saveData}
-        errors={errors}
+        //errors={errors}
         paths={paths}
         setPaths={setPaths}
         searchFields={searchFields}

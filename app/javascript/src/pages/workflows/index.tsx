@@ -6,6 +6,7 @@ import ReactFlow, {
   removeElements,
   addEdge,
   ArrowHeadType,
+  BackgroundVariant,
 } from 'react-flow-renderer';
 
 import Slide from '@chaskiq/components/src/components/Slide';
@@ -91,8 +92,11 @@ function Workflows() {
 
   const [elements, setElements] = useState(initialElements);
   const [open, setOpen] = useState(false);
+
   const onElementsRemove = (elementsToRemove) =>
+    //@ts-ignore
     setElements((els) => removeElements(elementsToRemove, els));
+  //@ts-ignore
   const onConnect = (params) => setElements((els) => addEdge(params, els));
 
   const [currentEntry, setCurrentEntry] = useState(null);
@@ -112,6 +116,7 @@ function Workflows() {
         y: Math.random() * window.innerHeight,
       },
     };
+    //@ts-ignore
     setElements((els) => els.concat(newNode));
   }, [setElements]);
 
@@ -209,7 +214,7 @@ function Workflows() {
             >
               <Background
                 className="bg-gray-50"
-                variant="dots"
+                variant={BackgroundVariant.Dots}
                 gap={12}
                 size={0.6}
               />

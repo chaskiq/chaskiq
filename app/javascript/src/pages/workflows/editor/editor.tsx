@@ -29,7 +29,7 @@ export default function Renderer({ data, update }) {
     }
   }
 
-  return <div className="m-4">{handleRender(data)}</div>;
+  return <div className="m-4">{handleRender()}</div>;
 }
 
 function ChatEditor({ data, update }) {

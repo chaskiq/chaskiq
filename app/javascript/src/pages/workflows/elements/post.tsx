@@ -1,22 +1,22 @@
 import React, { memo } from 'react';
-import { Handle } from 'react-flow-renderer';
+import { Handle, Position } from 'react-flow-renderer';
 import BaseElement from './base';
 
-export default memo(({ data }) => {
+export default memo(({ data }: { data: any; children: React.ReactChild }) => {
   return (
     <>
       <Handle
         type="target"
-        position="left"
+        position={Position.Left}
         style={{ background: '#555' }}
         onConnect={(params) => console.log('handle onConnect', params)}
       ></Handle>
 
-      <BaseElement data={data} type={'bot'}></BaseElement>
+      <BaseElement data={data} type={'chat'}></BaseElement>
 
       <Handle
         type="source"
-        position="right"
+        position={Position.Right}
         id="a"
         style={{ top: 10, background: '#555' }}
       >
@@ -25,7 +25,7 @@ export default memo(({ data }) => {
 
       <Handle
         type="source"
-        position="right"
+        position={Position.Right}
         id="b"
         style={{ bottom: 10, top: 'auto', background: '#555' }}
       >

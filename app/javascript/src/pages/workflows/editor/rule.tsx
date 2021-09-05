@@ -31,7 +31,6 @@ function RuleEditor({ data, update }) {
         }
         deletePredicate={() => console.log('ss')}
         search={() => console.log('search')}
-        loading={false}
         columns={[]}
         defaultHiddenColumnNames={[
           'id',
