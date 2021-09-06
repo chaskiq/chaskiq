@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
-const components = require('..')
+const components = require('..');
 
 describe('@chaskiq/components', () => {
-  it('needs tests')
-})
+  it('needs tests');
+});

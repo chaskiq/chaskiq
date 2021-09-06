@@ -169,6 +169,6 @@ const style = `
     top: auto;
     bottom: .4em;
   }
-`
+`;
 
-export default style
+export default style;

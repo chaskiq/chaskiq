@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rack/mime"
+
 module MessageApis::Dialog360
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
@@ -115,6 +117,10 @@ module MessageApis::Dialog360
     end
 
     def send_message(conversation, message)
+      # TODO: implement event format
+
+      return nil if message["serialized_content"].blank?
+
       blocks = JSON.parse(
         message["serialized_content"]
       )["blocks"]
@@ -159,8 +165,8 @@ module MessageApis::Dialog360
       elsif file_block
         message_params.merge!({
                                 type: "document",
-                                file: {
-                                  url: ENV["HOST"] + file_block["data"]["url"],
+                                document: {
+                                  link: ENV["HOST"] + file_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -242,11 +248,13 @@ module MessageApis::Dialog360
 
     def handle_direct_upload(id, content_type = nil)
       file_string = get_media(id)
-      file = StringIO.new(file_string)
+
+      mime = content_type.split(";").first
+      extension = Rack::Mime::MIME_TYPES.invert[mime].to_s
 
       direct_upload(
-        file: file,
-        filename: "ws360-file",
+        file: StringIO.new(file_string),
+        filename: "#{id}#{extension}",
         content_type: content_type || "image/jpeg"
       )
     end

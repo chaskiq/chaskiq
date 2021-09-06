@@ -3445,11 +3445,11 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "Accions",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
-        "name": "Name",
+        "name": "Nom",
         "owner": "Owner",
         "sign_in_count": "Sign in count"
       },
@@ -8133,7 +8133,7 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "Aktionen",
         "email": "E-Mail",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
@@ -12862,11 +12862,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "Está prohibida por el servidor!",
                 "fragment_present": "No puede contener un fragmento.",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "Debe ser una URI válida.",
                 "relative_uri": "debe ser una URI absoluta.",
-                "secured_uri": "This URI must have HTTPS!",
+                "secured_uri": "¡Esta URI debe tener HTTPS!",
                 "unspecified_scheme": "debe especificar un esquema."
               },
               "scopes": {
@@ -13051,7 +13051,7 @@
       "results": "resultados",
       "save": "Guardar",
       "save_changes": "Guardar cambios",
-      "search_conversations": "Search conversations",
+      "search_conversations": "Buscar conversaciones",
       "select_language": "Seleccionar Idioma",
       "send": "Enviar",
       "send_on_enter": "Publicar al entrar",
@@ -13412,7 +13412,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Mostrar créditos"
         },
         "domain": {
           "hint": "Dominio del Centro de Ayuda",
@@ -13722,7 +13722,7 @@
         "show": {
           "actions": "Acciones",
           "application_id": "UID de la aplicación",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "URLs de callback",
           "confidential": "Confidenciales",
           "scopes": "Scopes",
           "secret": "Secreto",
@@ -13860,7 +13860,7 @@
         "model_invalid": "La validación falló: %{errors}",
         "not_a_number": "no es un número",
         "not_an_integer": "debe ser un entero",
-        "not_found": "Not found",
+        "not_found": "No encontrado",
         "not_locked": "no se ha bloqueado.",
         "not_saved": {
           "one": "1 error prohíbe guardar este %{resource}:",
@@ -16327,11 +16327,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "Interdit par le serveur !",
                 "fragment_present": "ne peut pas contenir un fragment.",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "Doit être une URI valide.",
                 "relative_uri": "doit être un URI absolu.",
-                "secured_uri": "This URI must have HTTPS!",
+                "secured_uri": "Cette URI doit être en HTTPS !",
                 "unspecified_scheme": "doit spécifier un schéma."
               },
               "scopes": {
@@ -16343,9 +16343,9 @@
       }
     },
     "articles": {
-      "activate_help_center": "Activate Help Center",
+      "activate_help_center": "Activer le Centre d'Aide",
       "add": "Ajouter un élément",
-      "add_articles": "Add articles",
+      "add_articles": "Ajouter des articles",
       "all": "Tous",
       "author": "Auteur",
       "collections": "Collections",
@@ -16358,22 +16358,22 @@
         "description_placeholder": "Ajouter un résumé pour trouver l'article plus tard",
         "placeholder": "Écrivez le titre de l'article"
       },
-      "created_on": "Created on",
-      "delete_article": "Delete article \"%{title} ?",
+      "created_on": "Créé le",
+      "delete_article": "Supprimer l'article \"%{title}?",
       "delete_article_exp": "nous allons détruire tout contenu et données connexes",
-      "delete_section": "Delete section",
-      "deleted_success": "article deleted",
+      "delete_section": "Supprimer la section",
+      "deleted_success": "article supprimé",
       "description_placeholder": "Décrivez votre collection pour vous aider à la trouver.",
       "draft": "Brouillons",
       "edit_collection": "Editer la collection",
       "help_center": "Centre d'Aide",
       "new": "Nouvel article",
-      "new_article": "new article",
+      "new_article": "nouvel article",
       "new_collection": "Nouvelle collection",
       "new_section": "Nouvelle section",
       "published": "Publié",
-      "reordered_error": "reordered error",
-      "reordered_success": "reordered correctly",
+      "reordered_error": "erreur de réorganisation",
+      "reordered_success": "réordonné correctement",
       "settings": {
         "add_language": "Ajouter une langue",
         "add_language_to_help": "Ajouter une nouvelle langue au centre d'aide",
@@ -16391,22 +16391,22 @@
         "select_lang": "Sélectionnez la langue",
         "title": "Paramètres du Centre d'aide"
       },
-      "settings_updated_error": "article settings failed",
-      "settings_updated_success": "article settings updated",
-      "square_preferred": "square images preferred (min size 200x200px)",
-      "square_preferred_hint": "squared images will be optimal resized",
+      "settings_updated_error": "échec des paramètres de l'article",
+      "settings_updated_success": "paramètres de l'article mis à jour",
+      "square_preferred": "images carrées préférées (taille min 200x200px)",
+      "square_preferred_hint": "les images carrées seront redimensionnées de manière optimale",
       "state": {
-        "draft": "draft",
-        "draft_desc": "hides the article on the help center",
-        "published": "published",
-        "published_desc": "shows article on the help center"
+        "draft": "brouillon",
+        "draft_desc": "masque l'article dans le centre d'aide",
+        "published": "publié",
+        "published_desc": "affiche l'article dans le centre d'aide"
       },
       "title": "Articles",
       "title_placeholder": "Écrivez le titre des sections",
-      "updated_error": "article error on save",
-      "updated_success": "article updated",
+      "updated_error": "erreur d'article à la sauvegarde",
+      "updated_success": "article mis à jour",
       "visit": "visitez le centre d'aide",
-      "written_by": "written by"
+      "written_by": "écrit par"
     },
     "assignment_rules": {
       "create_button": "Créer une règle",
@@ -16430,50 +16430,50 @@
       }
     },
     "campaigns": {
-      "activate": "Activate Campaigns",
+      "activate": "Activer les Campagnes",
       "banners": {
         "action": "Action",
-        "bottom": "bottom",
-        "floating": "floating",
-        "inline": "inline",
+        "bottom": "bas",
+        "floating": "flottant",
+        "inline": "en ligne",
         "settings": "Paramètres",
         "style": "Style",
-        "top": "top"
+        "top": "haut"
       },
       "campaign_updated": "Mise à jour de la campagne",
-      "clone_description": "clones the campaign",
-      "clone_title": "Clone",
-      "cloned_error": "error while cloning record",
-      "cloned_success": "cloned successfully",
+      "clone_description": "dupliquer la campagne",
+      "clone_title": "Dupliquer",
+      "cloned_error": "erreur lors du clonage de l'enregistrement",
+      "cloned_success": "dupliqué avec succès",
       "create_new": "Créer nouvelle campagne",
       "delete_campaign": "Supprimer la campagne %{name}",
       "deliver_description": "Livre la campagne",
       "deliver_title": "Livrer",
-      "disables": "Disables campaign",
+      "disables": "Désactiver la campagne",
       "empty": {
         "title": "Aucune campagne n’a été trouvée"
       },
-      "enables": "Enables campaign",
+      "enables": "Activer la campagne",
       "error_purge": "Erreur lors de la purge des métriques",
       "home": {
         "text": "Ceci est la section des campagnes, vous pouvez créer des newsletters , des messages popup et des visites guidées",
         "title": "Campagnes"
       },
-      "in_app": "In app messages",
-      "mailing": "Mailing campaign",
-      "pause_description": "pauses the campaign",
+      "in_app": "Messages dans l'app",
+      "mailing": "Campagne(s) de mails",
+      "pause_description": "met en pause la campagne",
       "pause_title": "Pause",
       "purge_description": "Purge les métriques de campagnes",
       "purge_title": "Purge Metrics",
       "remove_hint": "Nous allons détruire tout contenu et données connexes",
       "remove_success": "Campagne supprimée",
       "state": {
-        "disabled": "disabled",
-        "enabled": "enabled"
+        "disabled": "désactivé",
+        "enabled": "activé"
       },
       "tabs": {
-        "audience": "Audience",
-        "editor": "Editor",
+        "audience": "Visiteurs",
+        "editor": "Éditeur",
         "settings": "Paramètres",
         "stats": "Stats"
       },
@@ -16484,14 +16484,14 @@
       "actions": "Actions",
       "add": "Ajouter",
       "add_new": "ajouter nouveau",
-      "away_mode": "Away mode",
+      "away_mode": "Mode Absent",
       "back_to_site": "Retour au site",
       "cancel": "Annuler",
-      "choose_color": "Choose color",
+      "choose_color": "Choisir une couleur",
       "confirm_deletion": "Confirmer la suppression ?",
-      "confirm_deletion_ready": "are you ready to delete ?",
+      "confirm_deletion_ready": "êtes-vous prêt(e) à supprimer ?",
       "create": "Créer",
-      "days": "Days",
+      "days": "Jours",
       "delete": "Effacer",
       "edit": "Éditer",
       "get_snippet": "Obtenir le snippet",
@@ -16502,7 +16502,7 @@
         "en": "Anglais",
         "es": "Espagnol",
         "pt": "Portugais",
-        "zh-CN": "Chinese"
+        "zh-CN": "Chinois"
       },
       "leads": "Prospects",
       "new": "Nouveau",
@@ -16515,33 +16515,33 @@
       "remove": "Supprimer",
       "results": "Résultats",
       "save": "Enregistrer",
-      "save_changes": "Save changes",
-      "search_conversations": "Search conversations",
+      "save_changes": "Enregistrer les modifications",
+      "search_conversations": "Rechercher des conversations ",
       "select_language": "Sélectionnez une langue",
       "send": "Envoyer",
       "send_on_enter": "Publier à la saisie",
       "showing": "Afficher",
       "submit": "Valider",
       "to": "vers",
-      "toggle_dark_mode": "Toggle dark mode",
-      "toggle_light_mode": "Toggle light mode",
-      "type_message": "type your message",
+      "toggle_dark_mode": "Basculer en mode sombre",
+      "toggle_light_mode": "Basculer en mode clair",
+      "type_message": "saisissez votre message",
       "tz_hint": "Le fuseau horaire de votre navigateur est <b className=\"text-bold\">%{timezone}</b>",
       "update": "Mise à jour",
-      "upload_field": "upload %{field}",
+      "upload_field": "téléverser %{field}",
       "users": "Utilisateurs",
-      "visitors": "Visitors",
-      "your_apps": "Your apps"
+      "visitors": "Visiteurs",
+      "your_apps": "Vos apps"
     },
     "contact_manager": {
-      "create": "Create Users & Leads",
-      "import_choose": "Choose what kind of contacts you will import",
-      "import_contacts": "import_contacts",
-      "import_csv": "Import csv",
-      "import_exp": "You can upload a csv or excel file in order to import contacts",
-      "import_type": "Import Type",
-      "select_file": "Select a file",
-      "success_message": "Processing file import, you will be notified the status soon"
+      "create": "Créer des Utilisateurs & Dirigeants",
+      "import_choose": "Choisissez le type de contacts que vous allez importer",
+      "import_contacts": "importer des contacts",
+      "import_csv": "Importer csv",
+      "import_exp": "Vous pouvez téléverser un fichier csv ou excel pour importer des contacts",
+      "import_type": "Type d'import",
+      "select_file": "Sélectionnez un fichier",
+      "success_message": "Traitement de l'importation du fichier, vous serez informé bientôt de l'état"
     },
     "conversation": {
       "actions": {
@@ -16573,8 +16573,8 @@
       },
       "messages": {
         "not_seen": "Non vu",
-        "note": "Private Note",
-        "reply": "Reply",
+        "note": "Note personnelle",
+        "reply": "Répondre",
         "seen": "Vu"
       },
       "sidebar": {
@@ -16594,11 +16594,11 @@
         "title": "Aucune conversation"
       },
       "menu": {
-        "all": "All conversations",
+        "all": "Toutes les conversations",
         "assignment_rules": "Règles de routage de l'agent",
         "conversations": "Conversations",
         "tags": "Tags",
-        "unassigned": "Unassigned"
+        "unassigned": "Non assigné(e)"
       },
       "sorts": {
         "all": "Tous",
@@ -16616,7 +16616,7 @@
       "title": "Conversations"
     },
     "dashboard": {
-      "guides": "Chaskiq Guides",
+      "guides": "Tutoriels Chaskiq",
       "hey": "👋 Hé !, vous regardez le tableau de bord <strong>du</strong> de%{name}! <br /> Obtenez un snippet d'installation pour la configuration du web <br />",
       "incoming_messages": "Messages reçus",
       "lead_os": "Prospects Os",
@@ -16625,9 +16625,9 @@
       "resolutions": "Résolution",
       "response_avg": "Moyenne du temps de réponse",
       "snippet": "Mettez le script suivant à la fin de votre balise html <body>",
-      "status": "Live chat status",
-      "status_paused": "Paused",
-      "status_running": "Running",
+      "status": "Statut du chat en direct",
+      "status_paused": "En pause",
+      "status_running": "En cours d'exécution",
       "user_country": "Pays de l'utilisateur",
       "user_os": "Os utilisateur",
       "users_browser": "Navigateur d'utilisateurs",
@@ -16635,25 +16635,25 @@
     },
     "data_tables": {
       "agents": {
-        "access_list": "Access List",
+        "access_list": "Liste d'accès",
         "actions": "Actions",
         "email": "E-mail",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
-        "name": "Name",
-        "owner": "Owner",
-        "sign_in_count": "Sign in count"
+        "invitation_accepted_at": "Invitation acceptée à",
+        "last_sign_in_at": "Dernière connexion à",
+        "name": "Nom",
+        "owner": "Propriétaire",
+        "sign_in_count": "Nombre de connexions"
       },
       "articles": {
         "settings": {
           "action": "Action",
           "locale": "Locale",
-          "site_description": "Site Description",
-          "site_title": "Site Title"
+          "site_description": "Description du Site",
+          "site_title": "Titre du Site"
         }
       },
       "settings": {
-        "greetings": "Greetings",
+        "greetings": "Salutations",
         "intro": "Intro",
         "locale": "Locale",
         "tagline": "Slogan"
@@ -16690,19 +16690,19 @@
     "definitions": {
       "agents": {
         "access_list": {
-          "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "hint": "un accès vide désactivera l'accès aux paramètres du compte de l'utilisateur",
+          "label": "Rôles de l'agent"
         },
         "email": {
-          "label": "Agent's Email",
-          "placeholder": "john@example.com"
+          "label": "E-mail de l’agent",
+          "placeholder": "john@exemple.com"
         },
         "name": {
-          "label": "Agent's Name",
+          "label": "Nom de l'agent",
           "placeholder": "John Doe"
         },
         "owner": {
-          "label": "Owner"
+          "label": "Propriétaire"
         }
       },
       "app_packages": {
@@ -16756,7 +16756,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Montrer les crédits"
         },
         "domain": {
           "hint": "Domaine du Centre d'Aide",
@@ -16922,15 +16922,15 @@
       },
       "webhooks": {
         "enabled": {
-          "label": "enable webhook"
+          "label": "activer le Webhook"
         },
         "tag_list": {
-          "hint": "chaskiq will deliver this events to configured endpoint",
-          "label": "events to send"
+          "hint": "chaskiq fournira ces événements au endpoint configuré",
+          "label": "événements à envoyer"
         },
         "url": {
-          "hint": "we'll send POST requests",
-          "label": "url for outgoing webhook"
+          "hint": "nous enverrons des requêtes POST",
+          "label": "url du webhook sortant"
         }
       }
     },
@@ -17069,7 +17069,7 @@
         "show": {
           "actions": "Actions",
           "application_id": "UID de l'application",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "Callback URLs",
           "confidential": "Confidentiel",
           "scopes": "Portées",
           "secret": "Secret",
@@ -17180,17 +17180,17 @@
       "title": "Transfert d'email"
     },
     "error_view": {
-      "cta": "try to go home",
-      "exp": "try refreshing the page",
-      "subtitle": "Unfortunately 🤯",
-      "title": "Woops! something went wrong."
+      "cta": "essayer d'aller à l'accueil",
+      "exp": "essayer d'actualiser la page",
+      "subtitle": "Malheureusement 🤯",
+      "title": "Oups! Quelque chose s'est mal passé."
     },
     "errors": {
       "messages": {
         "already_confirmed": "a déjà été confirmé, tentez de vous connecter",
         "confirmation_period_expired": "doit être confirmé dans %{period}, veuillez en demander un nouveau",
         "expired": "a expiré, veuillez en demander un nouveau",
-        "not_found": "Not found",
+        "not_found": "Non trouvé",
         "not_locked": "n'était pas verrouillé(e)",
         "not_saved": {
           "one": "1 erreur a empêché l'enregistrement de %{resource}:",
@@ -17262,7 +17262,7 @@
       "welcome_site": "Chaskiq"
     },
     "identified_users": {
-      "dont_share_code": "Don't share this code",
+      "dont_share_code": "Ne pas partager ce code",
       "encryption_key_label": "Identity verification secret",
       "hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
       "hint2": "Où que vous importiez des données utilisateur et que vous ayez un extrait de code Chaskiq, ajoutez un nouvel attribut appelé <span className = \"font-bold\"> identifier_key </span> et transmettez l'adresse e-mail <span className = \"font-bold\"> </span> et donnez-lui le tag HMAC pour l'utilisateur connecté:",
@@ -17338,7 +17338,7 @@
         "articles": "Articles",
         "assignment_rules": "Règles de devoir",
         "banners": "Bannières",
-        "billing": "Billing",
+        "billing": "Facturation",
         "bot_settings": "Tâches du bot",
         "collections": "Collections",
         "conversations": "Conversations",
@@ -17397,39 +17397,39 @@
       "will_send": "La version \"%{lang}\" sera envoyée à la conversation."
     },
     "segment_manager": {
-      "add_filters": "Add filters",
-      "all": "all",
-      "any": "any",
-      "apply": "apply",
-      "changes_notice": "The changes will be saved to the app segments.",
-      "contains": "contains",
-      "create_segment": "Create new segment",
-      "criteria": "criteria",
-      "date_filter_for": "Select the date filter for  %{name}",
-      "days_ago": "days ago",
-      "delete_segment": "Delete segment",
-      "does_not_contain": "does not contain",
-      "ends_with": "ends with",
-      "exactly": "exactly",
-      "filter_for": "select filter for %{name}",
-      "has_any_value": "has any value",
-      "integer_filter_for": "Select the integer filter for %{name}",
-      "is": "is",
-      "is_not": "is not",
-      "is_unknown": "is unknown",
-      "less_than": "less than",
+      "add_filters": "Ajouter des filtres",
+      "all": "tous",
+      "any": "tout",
+      "apply": "appliquer",
+      "changes_notice": "Les modifications seront enregistrées dans les segments de l'application.",
+      "contains": "contient",
+      "create_segment": "Créer un nouveau segment",
+      "criteria": "critères",
+      "date_filter_for": "Sélectionner le filtre de date pour  %{name}",
+      "days_ago": "jours plus tôt",
+      "delete_segment": "Supprimer le segment",
+      "does_not_contain": "ne contient pas",
+      "ends_with": "finit par",
+      "exactly": "exactement",
+      "filter_for": "sélectionner un filtre pour %{name}",
+      "has_any_value": "a n'importe quelle valeur",
+      "integer_filter_for": "Sélectionner le filtre entier pour %{name}",
+      "is": "est",
+      "is_not": "n'est pas",
+      "is_unknown": "est inconnu",
+      "less_than": "inférieur(e) à",
       "less_than_eq": "less than eq",
-      "match": "match",
-      "match_all": "match all",
-      "match_any": "match any",
-      "match_criteria_for": "Match criteria options for %{name}",
-      "missing_value": "Missing value!",
-      "more_than": "more than",
+      "match": "correspondance",
+      "match_all": "correspond à tous",
+      "match_any": "correspond à n'importe quel",
+      "match_criteria_for": "Options de critères de correspondance pour %{name}",
+      "missing_value": "Valeur manquante !",
+      "more_than": "plus que",
       "more_than_eq": "more than eq",
-      "save_changes_to": "Save changes to the <b>%{name}</b>{' '} segment.",
-      "save_segment": "Save segment",
-      "select_fields": "Select fields:",
-      "starts_with": "starts with"
+      "save_changes_to": "Sauvegarder les modifications sur le segment <b>%{name}</b>{' '}.",
+      "save_segment": "Sauvegarder le segment",
+      "select_fields": "Sélectionner des champs :",
+      "starts_with": "commence par"
     },
     "settings": {
       "api": {
@@ -17467,9 +17467,9 @@
         "user_data": "Données d'utilisateur"
       },
       "app_inserter": {
-        "action": "Add app",
-        "subtitle": "Help your customers before they start a conversation",
-        "title": "Add apps to your Messenger"
+        "action": "Ajouter une app",
+        "subtitle": "Aider vos clients avant qu'ils ne commencent une conversation",
+        "title": "Ajouter des applications à votre messagerie"
       },
       "app_packages": {
         "create_error": "Erreur lors de la création du paquet",
@@ -17534,9 +17534,9 @@
       },
       "inbound": {
         "checkbox": "Laisser les gens commencer de nouvelles conversations entrantes avec vous",
-        "closed_replies_disabled": "Preventing users from responding to closed conversations after.",
-        "closed_replies_enabled": "Letting users reply to closed messages at any time.",
-        "closed_replies_title": "Prevent replies to closed conversations for %{name}",
+        "closed_replies_disabled": "Empêcher les utilisateurs de répondre aux conversations fermées après.",
+        "closed_replies_enabled": "Laisser les utilisateurs répondre à des messages fermés à tout moment.",
+        "closed_replies_title": "Empêche les réponses aux conversations fermées pour %{name}",
         "filters": {
           "hint": "Cela n'affecte pas les messages sortants que vous envoyez.",
           "leads": {
@@ -17613,7 +17613,7 @@
         "content_text": "envoyer une invitation activable",
         "destroy_agent": "Effacer",
         "destroy_agent_title": "Supprimer l'agent",
-        "destroy_agent_warning": "Are you sure you want to delete %{agent} ?",
+        "destroy_agent_warning": "Êtes-vous sûr de vouloir supprimer %{agent}?",
         "destroyed_agent": "Agent supprimé avec succès",
         "hint": "le nouveau membre de l'équipe sera notifié par son e-mail",
         "invitatin_error": "invitation non envoyée !",
@@ -17670,16 +17670,16 @@
       }
     },
     "status_messages": {
-      "created_error": "Error creating",
-      "created_success": "Successfully created",
-      "deleted_error": "Error deleting",
-      "deleted_success": "Successfully deleted",
-      "error": "Error",
-      "reordered_error": "Error reordering",
-      "reordered_success": "Successfully Reordered",
-      "success": "Success",
-      "updated_error": "Error on upddate",
-      "updated_success": "Updated successfully"
+      "created_error": "Erreur lors de la création",
+      "created_success": "Créé avec succès",
+      "deleted_error": "Erreur lors de la suppression",
+      "deleted_success": "Supprimé avec succès",
+      "error": "Erreur",
+      "reordered_error": "Erreur lors de la réorganisation",
+      "reordered_success": "Réordonné avec succès",
+      "success": "Effectué",
+      "updated_error": "Erreur lors de la mise à jour",
+      "updated_success": "Mis à jour avec succès"
     },
     "subscriptions": {
       "alerts": {
@@ -17813,11 +17813,11 @@
     },
     "task_bots": {
       "add_data_option": "+ add data option",
-      "add_follow_action": "Add Follow Action",
-      "add_path": "Add new conversation part",
-      "assign_agent": "assign_agent",
+      "add_follow_action": "Ajouter une action de suivi",
+      "add_path": "Ajouter une nouvelle partie de conversation",
+      "assign_agent": "assigner un agent",
       "assignee_agent": "Assignee Agent",
-      "close_conversation": "close conversation",
+      "close_conversation": "fermer la conversation",
       "continue_bot_with": "Continue bot with",
       "continue_with_reply_button": "Continue bot with reply button",
       "create": {
@@ -17827,7 +17827,7 @@
         "hint": "nous allons détruire tout contenu et données connexes",
         "title": "Supprimer le bot \"%{name}\""
       },
-      "delete_path": "delete path",
+      "delete_path": "supprimer le chemin",
       "email_requirement": {
         "ack": "Merci",
         "input_label": "Recevez une notification par e-mail",
@@ -17839,24 +17839,24 @@
         "create_new": "Créer un nouveau",
         "title": "Aucune tâche de bot trouvée"
       },
-      "end_bot_with": "End bot with",
+      "end_bot_with": "Fin du bot avec",
       "end_with_follow": "End bot with follow actions",
-      "follow_actions": "follow actions",
+      "follow_actions": "suivre les actions",
       "new": "Créer une nouvelle tâche",
       "new_conversations": "👋 Nouvelle conversation",
-      "new_conversations_notice": "This is what people will see when they start a new conversation",
+      "new_conversations_notice": "C'est ce que les gens verront lorsqu'ils commenceront une nouvelle conversation",
       "options": {
-        "add_app_package": "Add App",
-        "add_message": "Add Message Bubble",
-        "wait_user_input": "Wait for user input"
+        "add_app_package": "Ajouter une app",
+        "add_message": "Ajouter une Bulle de Message",
+        "wait_user_input": "Attendre la saisie de l’utilisateur"
       },
       "outbound": "🏓 Sortant",
-      "path_title_hint": "path title",
+      "path_title_hint": "titre du chemin",
       "remove_success": "bot supprimé",
       "reply_agent": "vous recevrez une réponse de l'un de nos agents",
-      "reply_button": "reply button",
+      "reply_button": "bouton répondre",
       "reply_soon": "Bonjour, %{name} répondra dès que possible.",
-      "save_data": "Save data",
+      "save_data": "Sauvegarder les données",
       "settings": {
         "custom_time": "Heure personnalisée",
         "enable_hint": "lorsque cette option est activée, la tâche du bot commencera à fonctionner",
@@ -17897,10 +17897,10 @@
         }
       },
       "state_filters": {
-        "disabled_description": "Disabled bot tasks",
-        "disabled_title": "Disabled",
-        "enabled_description": "enabled bot tasks",
-        "enabled_title": "Enabled"
+        "disabled_description": "Tâches de bot désactivées",
+        "disabled_title": "Désactivé",
+        "enabled_description": "tâches de bot activées",
+        "enabled_title": "Activé"
       },
       "support": {
         "ask": "Êtes-vous un client existant de %{name}?",
@@ -17915,12 +17915,12 @@
       },
       "title": "Tâches du bot",
       "type_filters": {
-        "description_leads": "Visitors who make an actions",
-        "description_users": "your platform's registered users",
-        "description_visitors": "visitors on the platform",
+        "description_leads": "Visiteurs qui font des actions",
+        "description_users": "les utilisateurs enregistrés de votre plateforme",
+        "description_visitors": "visiteurs sur la plateforme",
         "title_leads": "Prospects",
         "title_users": "Utilisateurs",
-        "title_visitors": "Visitors"
+        "title_visitors": "Visiteurs"
       }
     },
     "time": {
@@ -19526,9 +19526,9 @@
       "activate_help_center": "Activate Help Center",
       "add": "Add item",
       "add_articles": "Add articles",
-      "all": "All",
+      "all": "Tutti",
       "author": "Author",
-      "collections": "Collections",
+      "collections": "Collezioni",
       "create": {
         "description": "Describe your collection to help you find it.",
         "placeholder": "Enter the title of the collection",
@@ -19546,7 +19546,7 @@
       "description_placeholder": "Describe your collection to help you find it.",
       "draft": "Drafts",
       "edit_collection": "Edit collection",
-      "help_center": "Help Center",
+      "help_center": "Centro assistenza",
       "new": "New article",
       "new_article": "new article",
       "new_collection": "New collection",
@@ -19581,7 +19581,7 @@
         "published": "published",
         "published_desc": "shows article on the help center"
       },
-      "title": "Articles",
+      "title": "Articoli",
       "title_placeholder": "Write the title of the sections",
       "updated_error": "article error on save",
       "updated_success": "article updated",
@@ -19591,7 +19591,7 @@
     "assignment_rules": {
       "create_button": "Create Rule",
       "success_message": "Assignment rule created sucessfully",
-      "title": "Assignment Rules"
+      "title": "Regole di assegnazione"
     },
     "campaign": {
       "create": "Crea nuova campagna",
@@ -19637,7 +19637,7 @@
       "error_purge": "Error purging metrics",
       "home": {
         "text": "This is the campaigns section, you can create newsletters , popup messages and guided tours",
-        "title": "Campaigns"
+        "title": "Campagne"
       },
       "in_app": "In app messages",
       "mailing": "Mailing campaign",
@@ -19743,7 +19743,7 @@
             "title": "Avvia un'attività Bot"
           },
           "quick_reply": {
-            "choose_another": "Choose another",
+            "choose_another": "Scegli un altro",
             "confirm": "Confermi l'invio di %{title}?",
             "confirm_msg": "This quick reply will be delivered on user's current conversation.",
             "empty": "no quick replies available",
@@ -19816,7 +19816,7 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "Azioni",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
@@ -19926,7 +19926,7 @@
       },
       "articles": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "author": {
           "label": "Author"
@@ -19963,7 +19963,7 @@
       },
       "bot_tasks": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "name": {
           "label": "Name"
@@ -19979,7 +19979,7 @@
       },
       "campaigns": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "campaign_name": {
           "hint": "This will not be shown in the email",
@@ -20079,7 +20079,7 @@
       },
       "stats": {
         "actions": {
-          "label": "Actions"
+          "label": "Azioni"
         },
         "createdAt": {
           "label": "CreatedAt"
@@ -20208,10 +20208,10 @@
       "applications": {
         "buttons": {
           "authorize": "Authorize",
-          "cancel": "Cancel",
+          "cancel": "Annulla",
           "destroy": "Destroy",
-          "edit": "Edit",
-          "submit": "Submit"
+          "edit": "Modifica",
+          "submit": "Invia"
         },
         "confirmations": {
           "destroy": "Are you sure?"
@@ -20229,7 +20229,7 @@
           "scopes": "Separate scopes with spaces. Leave blank to use the default scopes."
         },
         "index": {
-          "actions": "Actions",
+          "actions": "Azioni",
           "callback_url": "Callback URL",
           "confidential": "Confidential?",
           "confidentiality": {
@@ -20244,7 +20244,7 @@
           "title": "New Application"
         },
         "show": {
-          "actions": "Actions",
+          "actions": "Azioni",
           "application_id": "Application UID",
           "callback_urls": "Callback URL's",
           "confidential": "Confidential",
@@ -20486,9 +20486,9 @@
       }
     },
     "new_app": {
-      "hint": "Create your company’s Chaskiq app",
+      "hint": "Crea l'app Chaskiq della tua azienda",
       "text": "Provide basic information to setup Chaskiq for your team and customers.",
-      "title": "Create your company’s Chaskiq app"
+      "title": "Crea l'app Chaskiq della tua azienda"
     },
     "quick_replies": {
       "add_as_dialog": {
@@ -20567,7 +20567,7 @@
         "title": "Oauth Applications"
       },
       "app": {
-        "app_settings": "App Settings",
+        "app_settings": "Impostazioni App",
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
@@ -20580,7 +20580,7 @@
         "privacy_title": "Privacy settings",
         "quick_replies": "Quick Replies",
         "security": "Security",
-        "tags": "Tags",
+        "tags": "Etichette",
         "translations": "Translations",
         "user_data": "User data"
       },
@@ -20659,12 +20659,12 @@
           "hint": "This doesn’t affect the outbound messages you send.",
           "leads": {
             "all": "All Visitors",
-            "label": "Leads",
+            "label": "Potenziali Clienti",
             "some": "Visitors who match certain data"
           },
           "users": {
             "all": "All Users",
-            "label": "Users",
+            "label": "Utenti",
             "some": "Users who match certain data"
           }
         },
@@ -20722,14 +20722,14 @@
           "link": "account settings",
           "title": "Create app's tag"
         },
-        "title": "Tags"
+        "title": "Etichette"
       },
       "team": {
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
         "content_text": "send an activable invitation",
-        "destroy_agent": "Delete",
+        "destroy_agent": "Elimina",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent} ?",
         "destroyed_agent": "Agent deleted successfully",
@@ -20739,9 +20739,9 @@
         "invitations": "invitations",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
-        "title": "Team",
+        "title": "Squadra",
         "title_content": "Add a new agent",
-        "update_agent": "Update",
+        "update_agent": "Aggiorna",
         "update_agent_title": "Update Agent information",
         "updated_agent": "Information updated successfully"
       },
@@ -20782,7 +20782,7 @@
         },
         "new_webhook": "New webhook",
         "outgoing_webhooks": "Outgoing webhooks",
-        "title": "Webhooks",
+        "title": "Webhook",
         "update_error": "Error updating webhook",
         "update_success": "Webhook updated"
       }
@@ -20831,7 +20831,7 @@
         },
         "Articles": {
           "active": false,
-          "title": "Articles",
+          "title": "Articoli",
           "upgrade_message": "Enable Documentation & Help Center"
         },
         "BotTasks": {
@@ -20841,12 +20841,12 @@
         },
         "Campaigns": {
           "active": false,
-          "title": "Campaigns",
+          "title": "Campagne",
           "upgrade_message": "Get outbound messages, newsletter and Tours!"
         },
         "Conversations": {
           "description": true,
-          "title": "Conversations",
+          "title": "Conversazioni",
           "upgrade_message": "Enable conversations"
         },
         "CustomAttributes": {
@@ -20855,12 +20855,12 @@
         },
         "Integrations": {
           "description": true,
-          "title": "Integrations",
+          "title": "Integrazioni",
           "upgrade_message": "Get external apps, many many apps"
         },
         "Leads": {
           "description": true,
-          "title": "Leads",
+          "title": "Potenziali Clienti",
           "upgrade_message": "Get external apps, many many apps"
         },
         "OauthApplications": {
@@ -20997,7 +20997,7 @@
           "route_desc": "Route leads to the right people by asking if they are an existing customer when they start a new conversation.",
           "share_time": "Share your typical reply time",
           "start_conversation": "When leads start a conversation",
-          "tab": "For Leads"
+          "tab": "Per potenziali clienti"
         },
         "office_hours": "During office hours",
         "outside_office": "Outside office hours",
@@ -21011,7 +21011,7 @@
             "label": "Override default behavior with your own task"
           },
           "start_conversation": "When users start a conversation",
-          "tab": "For Users"
+          "tab": "Per utenti"
         }
       },
       "state_filters": {
@@ -28861,11 +28861,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "Acesso proibido pelo servidor!",
                 "fragment_present": "não pode conter um fragmento.",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "Deve ser uma URI válida.",
                 "relative_uri": "deve ser uma URI absoluta.",
-                "secured_uri": "This URI must have HTTPS!",
+                "secured_uri": "Este URI deve ter HTTPS!",
                 "unspecified_scheme": "deve especificar um esquema."
               },
               "scopes": {
@@ -29050,7 +29050,7 @@
       "results": "resultados",
       "save": "Salvar",
       "save_changes": "Salvar as alterações",
-      "search_conversations": "Search conversations",
+      "search_conversations": "Pesquisar conversas",
       "select_language": "Selecione o idioma",
       "send": "Enviar",
       "send_on_enter": "Publicar no website",
@@ -29169,27 +29169,27 @@
     },
     "data_tables": {
       "agents": {
-        "access_list": "Access List",
-        "actions": "Actions",
+        "access_list": "Lista de acesso",
+        "actions": "Ações",
         "email": "Email",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
-        "name": "Name",
-        "owner": "Owner",
-        "sign_in_count": "Sign in count"
+        "invitation_accepted_at": "Convite aceite em",
+        "last_sign_in_at": "Data do último início de sessão",
+        "name": "Nome",
+        "owner": "Proprietário",
+        "sign_in_count": "Contagem de ínicio de sessão"
       },
       "articles": {
         "settings": {
           "action": "Acão",
-          "locale": "Locale",
-          "site_description": "Site Description",
-          "site_title": "Site Title"
+          "locale": "Localidade",
+          "site_description": "Descrição",
+          "site_title": "Título da Área"
         }
       },
       "settings": {
-        "greetings": "Greetings",
-        "intro": "Intro",
-        "locale": "Locale",
+        "greetings": "Saudações",
+        "intro": "Introdução",
+        "locale": "Localidade",
         "tagline": "Mote / Slogan"
       },
       "users": {
@@ -29224,19 +29224,19 @@
     "definitions": {
       "agents": {
         "access_list": {
-          "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "hint": "o acesso em branco desabilitará o acesso às configurações de conta para o usuário",
+          "label": "Papéis para o agente"
         },
         "email": {
-          "label": "Agent's Email",
-          "placeholder": "john@example.com"
+          "label": "E-mail do Representante",
+          "placeholder": "joao@exemplo.com"
         },
         "name": {
-          "label": "Agent's Name",
+          "label": "Nome do Agente",
           "placeholder": "John Doe"
         },
         "owner": {
-          "label": "Owner"
+          "label": "Proprietário"
         }
       },
       "app_packages": {
@@ -29290,7 +29290,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Mostrar créditos"
         },
         "domain": {
           "hint": "Domínio do Centro de Ajuda",
@@ -29456,15 +29456,15 @@
       },
       "webhooks": {
         "enabled": {
-          "label": "enable webhook"
+          "label": "webhooks Desativados"
         },
         "tag_list": {
-          "hint": "chaskiq will deliver this events to configured endpoint",
-          "label": "events to send"
+          "hint": "chaskiq entregará este evento para um endpoint configurado",
+          "label": "eventos para enviar"
         },
         "url": {
-          "hint": "we'll send POST requests",
-          "label": "url for outgoing webhook"
+          "hint": "enviaremos solicitações POST",
+          "label": "url para webhook de saída"
         }
       }
     },
@@ -29600,7 +29600,7 @@
         "show": {
           "actions": "Ações",
           "application_id": "UID do aplicativo",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "URL de Callback",
           "confidential": "Confidential",
           "scopes": "Scopes",
           "secret": "Secreto",
@@ -29721,7 +29721,7 @@
         "already_confirmed": "já foi confirmado(a), tente iniciar sessão",
         "confirmation_period_expired": "tem de ser confirmado(a) no prazo de %{period}, solicite um novo",
         "expired": "expirou, solicite um(a) novo(a)",
-        "not_found": "Not found",
+        "not_found": "Não foi encontrado",
         "not_locked": "não foi bloqueado",
         "not_saved": {
           "one": "1 erro proibiu que esta %{resource} fosse guardada:",
@@ -35091,7 +35091,7 @@
     "activerecord": {
       "attributes": {
         "doorkeeper/application": {
-          "name": "Name",
+          "name": "İsim",
           "redirect_uri": "Redirect URI"
         }
       },
@@ -35409,11 +35409,11 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "İşlemler",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
-        "name": "Name",
+        "name": "İsim",
         "owner": "Owner",
         "sign_in_count": "Sign in count"
       },
@@ -35444,13 +35444,13 @@
         "last_seen": "First Seen",
         "lat": "Lat",
         "lng": "Lng",
-        "name": "Name",
+        "name": "İsim",
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
         "postal": "Postal",
         "referrer": "Referrer",
-        "state": "State",
+        "state": "Durum",
         "subscription_status": {
           "passive": "Passive",
           "subscribed": "Subscribed",
@@ -35556,23 +35556,23 @@
       },
       "bot_tasks": {
         "actions": {
-          "label": "Actions"
+          "label": "İşlemler"
         },
         "name": {
-          "label": "Name"
+          "label": "İsim"
         },
         "state": {
-          "label": "State"
+          "label": "Durum"
         },
         "title": {
           "hint": "Task name ie: welcoming users bot task",
-          "label": "Title",
+          "label": "Başlık",
           "placeholder": "write task title"
         }
       },
       "campaigns": {
         "actions": {
-          "label": "Actions"
+          "label": "İşlemler"
         },
         "campaign_name": {
           "hint": "This will not be shown in the email",
@@ -35601,7 +35601,7 @@
           "label": "Scheduled to"
         },
         "state": {
-          "label": "State"
+          "label": "Durum"
         }
       },
       "settings": {
@@ -35672,7 +35672,7 @@
       },
       "stats": {
         "actions": {
-          "label": "Actions"
+          "label": "İşlemler"
         },
         "createdAt": {
           "label": "CreatedAt"
@@ -35822,14 +35822,14 @@
           "scopes": "Separate scopes with spaces. Leave blank to use the default scopes."
         },
         "index": {
-          "actions": "Actions",
+          "actions": "İşlemler",
           "callback_url": "Callback URL",
           "confidential": "Confidential?",
           "confidentiality": {
             "no": "No",
             "yes": "Yes"
           },
-          "name": "Name",
+          "name": "İsim",
           "new": "New Application",
           "title": "Your applications"
         },
@@ -35837,7 +35837,7 @@
           "title": "New Application"
         },
         "show": {
-          "actions": "Actions",
+          "actions": "İşlemler",
           "application_id": "Application UID",
           "callback_urls": "Callback URL's",
           "confidential": "Confidential",
@@ -38220,11 +38220,11 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "被服务器禁止。",
                 "fragment_present": "不能包含片段",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "必须是一个有效的 URI",
                 "relative_uri": "必须是绝对的URI。",
-                "secured_uri": "This URI must have HTTPS!",
+                "secured_uri": "此 URI 必须有 HTTPS!",
                 "unspecified_scheme": "必须指定 scheme 计划。"
               },
               "scopes": {
@@ -38529,26 +38529,26 @@
     "data_tables": {
       "agents": {
         "access_list": "Access List",
-        "actions": "Actions",
+        "actions": "操作",
         "email": "Email",
         "invitation_accepted_at": "Invitation accepted at",
         "last_sign_in_at": "Last sign in at",
-        "name": "Name",
+        "name": "名称",
         "owner": "Owner",
         "sign_in_count": "Sign in count"
       },
       "articles": {
         "settings": {
           "action": "行为",
-          "locale": "Locale",
-          "site_description": "Site Description",
+          "locale": "地点",
+          "site_description": "网站说明",
           "site_title": "Site Title"
         }
       },
       "settings": {
-        "greetings": "Greetings",
-        "intro": "Intro",
-        "locale": "Locale",
+        "greetings": "问候",
+        "intro": "介绍",
+        "locale": "地点",
         "tagline": "Tagline"
       },
       "users": {
@@ -38566,7 +38566,7 @@
         "lng": "经度(Lng)",
         "name": "名称",
         "online": "Online（在线）",
-        "os": "OS",
+        "os": "操作模式",
         "os_version": "操作系统版本",
         "postal": "邮局",
         "referrer": "反向链接",
@@ -38959,7 +38959,7 @@
         "show": {
           "actions": "操作",
           "application_id": "应用程序的 UID",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "回调 URL",
           "confidential": "保密",
           "scopes": "作用域",
           "secret": "机密",
@@ -39080,7 +39080,7 @@
         "already_confirmed": "已经证实，请尝试登录",
         "confirmation_period_expired": "需要在%{period} 内确认，请重新申请",
         "expired": "已过期，请申请一个新的",
-        "not_found": "Not found",
+        "not_found": "未找到",
         "not_locked": "未锁定",
         "not_saved": {
           "other": "因%{count} 个错误，使此%{resource} 无法保存："
@@ -39682,7 +39682,7 @@
       },
       "outbound": "🏓 出站",
       "path_title_hint": "路径名称",
-      "remove_success": "Bot 已移除",
+      "remove_success": "机器人已删除",
       "reply_agent": "您将从我们的代理人中获得回复",
       "reply_button": "回复按钮",
       "reply_soon": "您好， %{name} 会尽快回复。",
@@ -39758,7 +39758,7 @@
         "devise": {
           "mailer": {
             "invitation_instructions": {
-              "accept_until_format": "%Y年%m月%d日"
+              "accept_until_format": "%B %d, %Y %I:%M %p"
             }
           }
         }

@@ -27,6 +27,8 @@ module MessageApis
 
       response = send_message(conversation, message)
 
+      return if response.nil?
+
       response_data = JSON.parse(
         response.respond_to?(:body) ? response.body : response
       )

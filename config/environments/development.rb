@@ -96,13 +96,18 @@ Rails.application.configure do
     }
   else
     zone = ENV['AWS_S3_REGION']
-    ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
-                                           access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-                                           secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-                                           signature_version: 4,
-                                           region: zone,
-                                           server: "email.#{zone}.amazonaws.com"
-                                           # message_id_domain: "#{zone}.amazonses.com"
+
+    creds = Aws::Credentials.new(
+      ENV['AWS_ACCESS_KEY_ID'], 
+      ENV['AWS_SECRET_ACCESS_KEY']
+    )
+
+    Aws::Rails.add_action_mailer_delivery_method(
+      :ses,
+      credentials: creds,
+      region: zone
+    )
+
     config.action_mailer.delivery_method = :ses
   end
 
@@ -122,4 +127,13 @@ Rails.application.configure do
   #  :authentication => :login,
   #  :enable_starttls_auto => true
   # }
+
+
+  config.after_initialize do
+    require "i18n-js/listen"
+    I18nJS.listen(
+      config_file: Rails.root.join("config/i18n.yml"), 
+      locales_dir: Rails.root.join("config/locales")
+    )
+  end
 end
