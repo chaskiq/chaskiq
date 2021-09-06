@@ -158,7 +158,7 @@
     "build:allpackages": "yarn clean:packages && for dir in app/javascript/packages/*; do package=${dir#'packages/'}; rollup -c --scope @chaskiq/$package || exit 1; done",
     "build": "bundle exec rake assets:precompile",
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
-    "dev": "yarn i18n:export && ./bin/webpack-dev-server",
+    "dev": "./bin/webpack-dev-server",
     "prepare": "husky install"
   }
 }
