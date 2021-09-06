@@ -16,7 +16,7 @@ ca:
     not_found: No hem trobat la pàgina que cerques.
     get_snippet: Consegueix el fragment
     submit: Envia
-    confirm_deletion: "Confirmes esborrar?"
+    confirm_deletion: 'Confirmes esborrar?'
     confirm_deletion_ready: are you ready to delete ?
     next: Següent
     prev: Anterior
@@ -51,8 +51,8 @@ ca:
     search_conversations: Search conversations
     days: Days
   status_messages:
-    error: "Error"
-    success: "Success"
+    error: 'Error'
+    success: 'Success'
     updated_success: Updated successfully
     updated_error: Error on upddate
     created_success: Successfully created
@@ -215,7 +215,7 @@ ca:
     pause_description: pauses the campaign
     clone_title: Clone
     clone_description: clones the campaign
-    activate: "Activate Campaigns"
+    activate: 'Activate Campaigns'
     enables: Enables campaign
     disables: Disables campaign
     state:
@@ -264,8 +264,8 @@ ca:
     reply_soon: Hola, %{name} contestarà el més aviat possible.
     reply_agent: rebràs una resposta d'un dels nostres agents
     email_support: per obtenir assistència, podeu enviar un correu electrònic a %{email}
-    outbound: "🏓 Sortint"
-    new_conversations: "👋 Nova conversa"
+    outbound: '🏓 Sortint'
+    new_conversations: '👋 Nova conversa'
     new_conversations_notice: This is what people will see when they start a new conversation
     options:
       add_message: Add Message Bubble
@@ -317,7 +317,7 @@ ca:
         email_only: Només preguntar pel mail
         override:
           label: Substitueix el comportament predeterminat amb el teu propi bot de tasques
-          hint: "Quan feu això, el comportament predeterminat següent, no tindrà lloc i la tasca s'activarà en cada nova conversa"
+          hint: 'Quan feu això, el comportament predeterminat següent, no tindrà lloc i la tasca s''activarà en cada nova conversa'
       users:
         tab: Pels usuaris
         start_conversation: Quan els usuaris inicien una conversa
@@ -374,7 +374,7 @@ ca:
     add_as_dialog:
       title: Afegiu aquest missatge com a resposta ràpida
   new_app:
-    title: "Crea l'aplicació Chaskiq de la teva empresa"
+    title: 'Crea l''aplicació Chaskiq de la teva empresa'
     text: Proporcioneu informació bàsica per configurar Chaskiq per al vostre equip i clients.
     hint: Crea l'aplicació Chaskiq de la teva empresa
   settings:
@@ -436,7 +436,7 @@ ca:
         title: "APIs disponibles"
         text: Serveis API disponibles
       yours:
-        title: "Les vostres aplicacions d’integració"
+        title: 'Les vostres aplicacions d’integració'
         text: Aplicacions d'integració creades
       hints:
         hook_url: Aquesta integració rebrà un webhook a
@@ -457,22 +457,22 @@ ca:
         hint: Durant l’horari d’oficina, feu saber als vostres clients quan poden esperar una resposta.
         options:
           - 
-            value: "automàtic"
-            label: "Temps de resposta automàtica. Actualment l'equip respondrà el més aviat possible"
+            value: 'automàtic'
+            label: 'Temps de resposta automàtica. Actualment l''equip respondrà el més aviat possible'
           - 
-            value: "minuts"
-            label: "L’equip sol respondre en qüestió de minuts."
+            value: 'minuts'
+            label: 'L’equip sol respondre en qüestió de minuts.'
           - 
-            value: "hores"
-            label: "L’equip sol respondre en qüestió d'hores."
+            value: 'hores'
+            label: 'L’equip sol respondre en qüestió d''hores.'
           - 
-            value: "1 dia"
-            label: "L’equip sol respondre en un dia."
-        hint2: "Nota: el visitant rebrà una resposta automàtica amb la disponibilitat del vostre equip durant els horaris fora de l’oficina o els temps de resposta llargs."
+            value: '1 dia'
+            label: 'L’equip sol respondre en un dia.'
+        hint2: 'Nota: el visitant rebrà una resposta automàtica amb la disponibilitat del vostre equip durant els horaris fora de l’oficina o els temps de resposta llargs.'
     email_requirement:
       title: Sol·liciteu un correu electrònic per a converses noves
       hint: Així sempre pots tornar als visitants del teu lloc web
-      ask: "Demaneu als visitants del lloc web que deixin el seu mail abans d’iniciar un xat en directe:"
+      ask: 'Demaneu als visitants del lloc web que deixin el seu mail abans d’iniciar un xat en directe:'
       options:
         - 
           label: Només fora d'horari laboral
@@ -496,7 +496,7 @@ ca:
       title2: visibilitat
       hint2: Controleu qui veu el llançador estàndard de Messenger al vostre lloc web.
       note2: TOTS ELS MISSATGES QUE ENVIïS SERAN ENTREGATS.
-      note3: "Al web, mostreu el llançador estàndard de Messenger a:"
+      note3: 'Al web, mostreu el llançador estàndard de Messenger a:'
       closed_replies_title: Prevent replies to closed conversations for %{name}
       closed_replies_enabled: Letting users reply to closed messages at any time.
       closed_replies_disabled: Preventing users from responding to closed conversations after.
