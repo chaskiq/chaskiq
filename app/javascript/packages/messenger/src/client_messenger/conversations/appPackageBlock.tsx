@@ -112,8 +112,11 @@ export default class AppPackageBlock extends Component<
         return cb && cb();
       }
 
-      const { definitions, _kind, results } =
-        data.messenger.app.appPackage.callHook;
+      const {
+        definitions,
+        _kind,
+        results,
+      } = data.messenger.app.appPackage.callHook;
 
       if (!results) {
         // this.setState({schema: definitions}, cb && cb())
