@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
 import Simmer from 'simmerjs';
-import TextEditor from './textEditor/index';
+//import TextEditor from './textEditor/index';
 import StyledFrame from './styledFrame';
 import DraftRenderer from './textEditor/draftRenderer';
 import DanteContainer from './textEditor/editorStyles';
@@ -9,6 +9,7 @@ import theme from './textEditor/theme';
 import { ThemeProvider } from 'emotion-theming';
 import Tour from 'reactour-emotion';
 import tw from 'twin.macro';
+import useScript from '@chaskiq/components/src/components/hooks/useScript';
 
 import {
   disableBodyScroll,
@@ -28,11 +29,9 @@ const EditorStylesForTour = styled(DanteContainer)`
     max-height: 200px;
   }
 `;
-
 const simmer = new Simmer(window, {
   depth: 20,
 });
-
 const TourManagerContainer = styled.div`
   ${() => tw`shadow-lg`}
 `;
@@ -72,7 +71,6 @@ const StepBody = styled.div`
    border rounded-md overflow-hidden p-1 hover:bg-gray-100
    cursor-pointer`}
 `;
-
 const StepHeader = styled.div`
   padding: 16px 24px;
 `;
@@ -81,7 +79,6 @@ const StepMessage = styled.div``;
 const CssPathIndicator = styled.div`
   color: white;
 `;
-
 const StepsContainer = styled.div`
   width: 100%;
   overflow: scroll;
@@ -99,7 +96,6 @@ rounded-full shadow-sm text-white bg-gray-600 hover:bg-gray-700
 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500
 `}
 `;
-
 const Button = styled.button`
   ${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
 border border-transparent text-xs font-medium 
@@ -107,7 +103,6 @@ rounded shadow-sm text-white bg-gray-600
 hover:bg-gray-700 focus:outline-none 
 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}
 `;
-
 const ButtonSuccess = styled.button`
   ${() => tw`cursor-pointer inline-flex items-center px-2.5 py-1.5 
 border border-transparent text-xs font-medium 
@@ -115,19 +110,16 @@ rounded shadow-sm text-white bg-green-600
 hover:bg-green-700 focus:outline-none 
 focus:ring-2 focus:ring-offset-2 focus:ring-green-500`}
 `;
-
 const TourFooter = styled.div`
   display: flex;
   justify-content: space-between;
   border-top: 1px solid #ccc;
   padding: 12px 0px 1px 0px;
 `;
-
 const NewStepContainer = styled.div`
   ${() =>
     tw`bg-gray-200 w-32 h-32 min-h-full shadow-md border rounded-md flex items-center `}
 `;
-
 const NewStepBody = styled.div`
   ${() => tw`w-full h-full justify-center items-center flex relative`}
 `;
@@ -410,7 +402,7 @@ export default class TourManager extends Component<TourManagerProps> {
       disableBeacon: true,
       content: (
         <EditorStylesForTour campaign={true}>
-          <TextEditor
+          <EditorWrapper
             data={{}}
             domain={this.props.domain}
             handleUrlUpload={this.handleUrlUpload}
@@ -431,7 +423,7 @@ export default class TourManager extends Component<TourManagerProps> {
             serializedContent={editElement.serialized_content}
             // target={editElement.target}
             loading={false}
-          ></TextEditor>
+          />
 
           <TourFooter>
             <Button onClick={this.handleCancel}>Cancel</Button>
@@ -778,4 +770,28 @@ class NewTourStep extends Component<NewTourStepProps> {
       </NewStepContainer>
     );
   }
+}
+
+function EditorWrapper(props) {
+  const status = useScript('/widgets/editor.js');
+
+  React.useEffect(() => {
+    if (status === 'ready') {
+      initEditor();
+    }
+  }, [status]);
+
+  function initEditor() {
+    //@ts-ignore
+    const TextEditor = window.TextEditor;
+  }
+
+  return (
+    <>
+      {status === 'ready' && (
+        //@ts-ignore
+        <TextEditor {...props} />
+      )}
+    </>
+  );
 }

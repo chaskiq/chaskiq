@@ -132,6 +132,7 @@ type ArticleEditorProps = {
 };
 export default class ArticleEditor extends Component<ArticleEditorProps> {
   dante_editor: any;
+
   emptyContent = () => {
     return {
       entityMap: {},

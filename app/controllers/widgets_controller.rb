@@ -8,13 +8,19 @@ class WidgetsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.js { redirect_to widget_javascript_source }
+      format.js {
+        redirect_to asset_pack_path("#{widget_javascript_source}.js") 
+      }
     end
   end
 
   private
 
   def widget_javascript_source
-    asset_pack_path("embed.js")
+    case params[:id]
+    when 'embed', "editor" then params[:id]
+    else
+      'embed'
+    end
   end
 end

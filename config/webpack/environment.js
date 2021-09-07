@@ -49,6 +49,10 @@ environment.config.merge({
       react: path.resolve('./node_modules/react'),
     },
   },
+  /*externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  },*/
 });
 
 environment.loaders.get('file').test =
