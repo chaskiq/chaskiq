@@ -16,7 +16,7 @@ de:
     not_found: Die gesuchte Seite existiert nicht.
     get_snippet: Hol dir das Snippet
     submit: Senden
-    confirm_deletion: "Wirklich löschen?"
+    confirm_deletion: 'Wirklich löschen?'
     confirm_deletion_ready: are you ready to delete ?
     next: Weiter
     prev: Zurück
@@ -51,8 +51,8 @@ de:
     search_conversations: Search conversations
     days: Days
   status_messages:
-    error: "Error"
-    success: "Success"
+    error: 'Error'
+    success: 'Success'
     updated_success: Updated successfully
     updated_error: Error on upddate
     created_success: Successfully created
@@ -215,7 +215,7 @@ de:
     pause_description: pauses the campaign
     clone_title: Clone
     clone_description: clones the campaign
-    activate: "Activate Campaigns"
+    activate: 'Activate Campaigns'
     enables: Enables campaign
     disables: Disables campaign
     state:
@@ -264,8 +264,8 @@ de:
     reply_soon: Hi, %{name} wird so schnell wie möglich antworten.
     reply_agent: Sie erhalten eine Antwort von einem unserer Agenten
     email_support: um Support zu erhalten, können Sie eine E-Mail an %{email} senden
-    outbound: "🏓 Ausgehend"
-    new_conversations: "👋 Neue Unterhaltungen"
+    outbound: '🏓 Ausgehend'
+    new_conversations: '👋 Neue Unterhaltungen'
     new_conversations_notice: This is what people will see when they start a new conversation
     options:
       add_message: Add Message Bubble
@@ -317,7 +317,7 @@ de:
         email_only: Nur nach der E-Mail Adresse fragen
         override:
           label: Standardverhalten mit dem eigenen Task-Bot überschreiben
-          hint: "Wenn Sie dies tun, wird das Standardverhalten unten nicht stattfinden und die Aufgabe wird bei jeder neuen Unterhaltung ausgelöst"
+          hint: 'Wenn Sie dies tun, wird das Standardverhalten unten nicht stattfinden und die Aufgabe wird bei jeder neuen Unterhaltung ausgelöst'
       users:
         tab: Für Nutzer
         start_conversation: Wenn Benutzer eine Unterhaltung starten
@@ -374,7 +374,7 @@ de:
     add_as_dialog:
       title: Diese Nachricht als Schnellantwort hinzufügen
   new_app:
-    title: "Chaskiq App Ihres Unternehmens erstellen"
+    title: 'Chaskiq App Ihres Unternehmens erstellen'
     text: Geben Sie grundlegende Informationen an, um Chaskiq für Ihr Team und Ihre Kunden einzurichten.
     hint: Chaskiq App Ihres Unternehmens erstellen
   settings:
@@ -436,7 +436,7 @@ de:
         title: "Verfügbare APIs"
         text: Verfügbare API Services
       yours:
-        title: "Ihre Integrations-Apps"
+        title: 'Ihre Integrations-Apps'
         text: Von Ihnen erstellte Integrations-Apps
       hints:
         hook_url: Diese Integration wird Webhook erhalten unter
@@ -457,22 +457,22 @@ de:
         hint: Lassen Sie Ihre Kunden während der Bürozeiten wissen, wann sie mit einer Antwort rechnen können.
         options:
           - 
-            value: "auto"
-            label: "Automatische Antwortzeit. Aktuell Das Team antwortet so schnell es kann"
+            value: 'auto'
+            label: 'Automatische Antwortzeit. Aktuell Das Team antwortet so schnell es kann'
           - 
-            value: "Minuten"
-            label: "Team usually responds within minutes."
+            value: 'Minuten'
+            label: 'Team usually responds within minutes.'
           - 
-            value: "Stunden"
-            label: "Team usually responds within hours."
+            value: 'Stunden'
+            label: 'Team usually responds within hours.'
           - 
-            value: "1 Tag"
-            label: "The team usually responds in one day."
-        hint2: "Hinweis: Der Besucher erhält eine automatische Antwort mit der Verfügbarkeit deines Teams innerhalb der Bürozeiten oder nach langer Antwortzeit."
+            value: '1 Tag'
+            label: 'The team usually responds in one day.'
+        hint2: 'Hinweis: Der Besucher erhält eine automatische Antwort mit der Verfügbarkeit deines Teams innerhalb der Bürozeiten oder nach langer Antwortzeit.'
     email_requirement:
       title: Eine E-Mail für neue Gespräche erforderlich machen
       hint: Damit Sie jederzeit zu Ihren Website-Besuchern zurückkehren können
-      ask: "Bitten Sie Ihre Website-Besucher, ihre E-Mail zu hinterlassen, bevor Sie einen Live-Chat starten:"
+      ask: 'Bitten Sie Ihre Website-Besucher, ihre E-Mail zu hinterlassen, bevor Sie einen Live-Chat starten:'
       options:
         - 
           label: Nur außerhalb der Bürozeiten
@@ -496,7 +496,7 @@ de:
       title2: Sichtbarkeit
       hint2: Legen Sie fest, wer den Standard Messenger Launcher auf Ihrer Website sieht.
       note2: JEGLICHE NACHRICHTEN DIE SIE SENDEN, WERDEN WEITERHIN GELIEFERT.
-      note3: "Zeigen Sie im Web den Standard Messenger Launcher an für:"
+      note3: 'Zeigen Sie im Web den Standard Messenger Launcher an für:'
       closed_replies_title: Prevent replies to closed conversations for %{name}
       closed_replies_enabled: Letting users reply to closed messages at any time.
       closed_replies_disabled: Preventing users from responding to closed conversations after.

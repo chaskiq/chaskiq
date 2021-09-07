@@ -16,7 +16,7 @@ zh-CN:
     not_found: 您要查找的页面不存在。
     get_snippet: 获取代码片段
     submit: 提交
-    confirm_deletion: "删除确认"
+    confirm_deletion: '删除确认'
     confirm_deletion_ready: 确定要删除吗？
     next: 下一个
     prev: 上一个
@@ -51,8 +51,8 @@ zh-CN:
     search_conversations: Search conversations
     days: Days
   status_messages:
-    error: "Error"
-    success: "Success"
+    error: 'Error'
+    success: 'Success'
     updated_success: Updated successfully
     updated_error: Error on upddate
     created_success: Successfully created
@@ -215,7 +215,7 @@ zh-CN:
     pause_description: 暂停此活动
     clone_title: 复制
     clone_description: 克隆此活动
-    activate: "激活活动"
+    activate: '激活活动'
     enables: 启用活动
     disables: 禁用活动
     state:
@@ -264,8 +264,8 @@ zh-CN:
     reply_soon: 您好， %{name} 会尽快回复。
     reply_agent: 您将从我们的代理人中获得回复
     email_support: 您可以发送电子邮件到 %{email} 以获得支持
-    outbound: "🏓 出站"
-    new_conversations: "👋 新对话"
+    outbound: '🏓 出站'
+    new_conversations: '👋 新对话'
     new_conversations_notice: 这是用户在开始新对话时会看到的
     options:
       add_message: 添加消息泡
@@ -317,7 +317,7 @@ zh-CN:
         email_only: 仅电子邮件
         override:
           label: 用您自己的 Bot 任务覆盖默认行为
-          hint: "当您这样做时，下面的默认行为将不会发生，任务将在每个新的对话中被触发"
+          hint: '当您这样做时，下面的默认行为将不会发生，任务将在每个新的对话中被触发'
       users:
         tab: 为用户
         start_conversation: 当用户开始对话
@@ -374,7 +374,7 @@ zh-CN:
     add_as_dialog:
       title: 将此消息添加为快速回复
   new_app:
-    title: "创建您公司的 Chaskiq 应用"
+    title: '创建您公司的 Chaskiq 应用'
     text: 为您的团队和客户设置Chaskiq基本信息。
     hint: 创建您公司的 Chaskiq 应用
   settings:
@@ -436,7 +436,7 @@ zh-CN:
         title: "可用的API"
         text: 可用的API服务
       yours:
-        title: "集成应用"
+        title: '集成应用'
         text: 您创建的集成应用
       hints:
         hook_url: 这个集成将在 webhook
@@ -457,22 +457,22 @@ zh-CN:
         hint: 在办公时间内，让您的顾客知道他们何时可以得到答复。
         options:
           - 
-            value: "自动"
-            label: "自动回复时间。"
+            value: '自动'
+            label: '自动回复时间。'
           - 
-            value: "分钟"
-            label: "团队通常在几分钟内回复。"
+            value: '分钟'
+            label: '团队通常在几分钟内回复。'
           - 
-            value: "小时"
-            label: "团队通常在小时内回复。"
+            value: '小时'
+            label: '团队通常在小时内回复。'
           - 
-            value: "1 天"
-            label: "团队通常在一天内回复。"
-        hint2: "注意：访客将收到您团队可用的自动回复。在您的超时或长时间回复。"
+            value: '1 天'
+            label: '团队通常在一天内回复。'
+        hint2: '注意：访客将收到您团队可用的自动回复。在您的超时或长时间回复。'
     email_requirement:
       title: 新对话需要请求访客电子邮件地址
       hint: 所以您总是可以回到您的网站访问者上
-      ask: "要求访客留下一个电子邮件地址，在开启新会话之前。"
+      ask: '要求访客留下一个电子邮件地址，在开启新会话之前。'
       options:
         - 
           label: 工作时间以外
@@ -496,7 +496,7 @@ zh-CN:
       title2: 公开范围
       hint2: 控制谁可以在你的网站上看到标准的Messenger 启动器。
       note2: 你发送的任何信息仍将被送达。
-      note3: "在网页上显示标准的Messenger 启动器："
+      note3: '在网页上显示标准的Messenger 启动器：'
       closed_replies_title: Prevent replies to closed conversations for %{name}
       closed_replies_enabled: Letting users reply to closed messages at any time.
       closed_replies_disabled: Preventing users from responding to closed conversations after.
