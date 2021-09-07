@@ -16,7 +16,7 @@ fr:
     not_found: La page que vous cherchez n'existe pas.
     get_snippet: Obtenir le snippet
     submit: Valider
-    confirm_deletion: "Confirmer la suppression ?"
+    confirm_deletion: 'Confirmer la suppression ?'
     confirm_deletion_ready: êtes-vous prêt(e) à supprimer ?
     next: Suivant
     prev: Précédent
@@ -51,8 +51,8 @@ fr:
     search_conversations: Rechercher des conversations 
     days: Jours
   status_messages:
-    error: "Erreur"
-    success: "Effectué"
+    error: 'Erreur'
+    success: 'Effectué'
     updated_success: Mis à jour avec succès
     updated_error: Erreur lors de la mise à jour
     created_success: Créé avec succès
@@ -215,7 +215,7 @@ fr:
     pause_description: met en pause la campagne
     clone_title: Dupliquer
     clone_description: dupliquer la campagne
-    activate: "Activer les Campagnes"
+    activate: 'Activer les Campagnes'
     enables: Activer la campagne
     disables: Désactiver la campagne
     state:
@@ -264,8 +264,8 @@ fr:
     reply_soon: Bonjour, %{name} répondra dès que possible.
     reply_agent: vous recevrez une réponse de l'un de nos agents
     email_support: pour obtenir de l'aide vous pouvez envoyer un e-mail à %{email}
-    outbound: "🏓 Sortant"
-    new_conversations: "👋 Nouvelle conversation"
+    outbound: '🏓 Sortant'
+    new_conversations: '👋 Nouvelle conversation'
     new_conversations_notice: C'est ce que les gens verront lorsqu'ils commenceront une nouvelle conversation
     options:
       add_message: Ajouter une Bulle de Message
@@ -317,7 +317,7 @@ fr:
         email_only: Demander un e-mail uniquement
         override:
           label: Remplacer le comportement par défaut avec votre propre bot de tâches
-          hint: "Lorsque vous faites cela, le comportement par défaut ci-dessous n'aura pas lieu et la tâche sera déclenchée à chaque nouvelle conversation"
+          hint: 'Lorsque vous faites cela, le comportement par défaut ci-dessous n''aura pas lieu et la tâche sera déclenchée à chaque nouvelle conversation'
       users:
         tab: Pour les utilisateurs
         start_conversation: Lorsque les utilisateurs commencent une conversation
@@ -374,7 +374,7 @@ fr:
     add_as_dialog:
       title: Ajouter ce message comme réponse rapide
   new_app:
-    title: "Créez l'application Chaskiq de votre entreprise"
+    title: 'Créez l''application Chaskiq de votre entreprise'
     text: Fournissez des informations de base pour configurer Chaskiq pour votre équipe et vos clients.
     hint: Créez l'application Chaskiq de votre entreprise
   settings:
@@ -436,7 +436,7 @@ fr:
         title: "API disponibles"
         text: Services API disponibles
       yours:
-        title: "Vos applications d'intégration"
+        title: 'Vos applications d''intégration'
         text: Applications d'intégration créées par vous
       hints:
         hook_url: Cette intégration recevra le webhook à
@@ -457,22 +457,22 @@ fr:
         hint: Pendant les heures de bureau, faites savoir à vos clients quand ils peuvent s'attendre à une réponse.
         options:
           - 
-            value: "auto"
-            label: "Temps de réponse automatique. Actuellement. L'équipe répondra dans les plus brefs délais "
+            value: 'auto'
+            label: 'Temps de réponse automatique. Actuellement. L''équipe répondra dans les plus brefs délais '
           - 
-            value: "minutes"
-            label: "L'équipe répond généralement en quelques minutes."
+            value: 'minutes'
+            label: 'L''équipe répond généralement en quelques minutes.'
           - 
-            value: "heures"
-            label: "L'équipe répond généralement en quelques heures."
+            value: 'heures'
+            label: 'L''équipe répond généralement en quelques heures.'
           - 
-            value: "1 jour"
-            label: "L’équipe répond généralement dans une journée."
-        hint2: "Remarque : le visiteur recevra une réponse automatique avec la disponibilité de votre équipe pendant les heures hors bureau ou pendant de longs délais de réponse."
+            value: '1 jour'
+            label: 'L’équipe répond généralement dans une journée.'
+        hint2: 'Remarque : le visiteur recevra une réponse automatique avec la disponibilité de votre équipe pendant les heures hors bureau ou pendant de longs délais de réponse.'
     email_requirement:
       title: Exiger un e-mail pour les nouvelles conversations
       hint: Ainsi, vous pouvez toujours revenir aux visiteurs de votre site web
-      ask: "Demandez aux visiteurs de votre site Web de laisser leur email avant de commencer un chat en direct:"
+      ask: 'Demandez aux visiteurs de votre site Web de laisser leur email avant de commencer un chat en direct:'
       options:
         - 
           label: Uniquement en dehors des heures de bureau
@@ -496,7 +496,7 @@ fr:
       title2: visibilité
       hint2: Contrôlez qui voit le lanceur standard Messenger sur votre site Web.
       note2: TOUS LES MESSAGES QUE VOUS ENVOYEZ SERONT DÉLIVÉS.
-      note3: "Sur le web, montrez le lanceur standard Messenger à:"
+      note3: 'Sur le web, montrez le lanceur standard Messenger à:'
       closed_replies_title: Empêche les réponses aux conversations fermées pour %{name}
       closed_replies_enabled: Laisser les utilisateurs répondre à des messages fermés à tout moment.
       closed_replies_disabled: Empêcher les utilisateurs de répondre aux conversations fermées après.

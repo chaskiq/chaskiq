@@ -16,7 +16,7 @@ af:
     not_found: The page you are looking for does not exist.
     get_snippet: Get the snippet
     submit: Submit
-    confirm_deletion: "Confirm deletion ?"
+    confirm_deletion: 'Confirm deletion ?'
     confirm_deletion_ready: are you ready to delete ?
     next: Next
     prev: Prev
@@ -51,8 +51,8 @@ af:
     search_conversations: Search conversations
     days: Days
   status_messages:
-    error: "Error"
-    success: "Success"
+    error: 'Error'
+    success: 'Success'
     updated_success: Updated successfully
     updated_error: Error on upddate
     created_success: Successfully created
@@ -215,7 +215,7 @@ af:
     pause_description: pauses the campaign
     clone_title: Clone
     clone_description: clones the campaign
-    activate: "Activate Campaigns"
+    activate: 'Activate Campaigns'
     enables: Enables campaign
     disables: Disables campaign
     state:
@@ -264,8 +264,8 @@ af:
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email}
-    outbound: "🏓 Outbound"
-    new_conversations: "👋 New conversations"
+    outbound: '🏓 Outbound'
+    new_conversations: '👋 New conversations'
     new_conversations_notice: This is what people will see when they start a new conversation
     options:
       add_message: Add Message Bubble
@@ -317,7 +317,7 @@ af:
         email_only: Ask for email only
         override:
           label: Override default behavior with your own task bot
-          hint: "When you do this the default behavior below will not take place and the task will be triggered on each new conversation"
+          hint: 'When you do this the default behavior below will not take place and the task will be triggered on each new conversation'
       users:
         tab: For Users
         start_conversation: When users start a conversation
@@ -374,7 +374,7 @@ af:
     add_as_dialog:
       title: Add this message as a Quick Reply
   new_app:
-    title: "Create your company’s Chaskiq app"
+    title: 'Create your company’s Chaskiq app'
     text: Provide basic information to setup Chaskiq for your team and customers.
     hint: Create your company’s Chaskiq app
   settings:
@@ -436,7 +436,7 @@ af:
         title: "Available API's"
         text: Available API Services
       yours:
-        title: "Your Integration Apps"
+        title: 'Your Integration Apps'
         text: Integration apps created by you
       hints:
         hook_url: This integration will receive webhook at
@@ -457,22 +457,22 @@ af:
         hint: During office hours, let your customers know when they can expect a reply.
         options:
           - 
-            value: "auto"
-            label: "Automatic reply time. Currently El equipo responderá lo antes posible"
+            value: 'auto'
+            label: 'Automatic reply time. Currently El equipo responderá lo antes posible'
           - 
-            value: "minutes"
-            label: "Team usually responds within minutes."
+            value: 'minutes'
+            label: 'Team usually responds within minutes.'
           - 
-            value: "hours"
-            label: "Team usually responds within hours."
+            value: 'hours'
+            label: 'Team usually responds within hours.'
           - 
-            value: "1 day"
-            label: "The team usually responds in one day."
-        hint2: "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times."
+            value: '1 day'
+            label: 'The team usually responds in one day.'
+        hint2: 'Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times.'
     email_requirement:
       title: Require an email for new conversations
       hint: So you can always get back to your website visitors
-      ask: "Ask your website visitors to leave their email before starting a live chat:"
+      ask: 'Ask your website visitors to leave their email before starting a live chat:'
       options:
         - 
           label: Only outside of office hours
@@ -496,7 +496,7 @@ af:
       title2: visibility
       hint2: Control who sees the standard Messenger launcher on your website.
       note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
-      note3: "On the web, show the standard Messenger launcher to:"
+      note3: 'On the web, show the standard Messenger launcher to:'
       closed_replies_title: Prevent replies to closed conversations for %{name}
       closed_replies_enabled: Letting users reply to closed messages at any time.
       closed_replies_disabled: Preventing users from responding to closed conversations after.
