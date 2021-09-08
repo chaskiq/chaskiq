@@ -31,6 +31,7 @@ export function BaseInserter({
     hooKind: 'configure',
     ctx: {
       location,
+      conversation_key: conversation?.key,
       conversation_part: conversation_part?.key,
     },
   };
