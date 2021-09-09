@@ -1,5 +1,6 @@
 import React from 'react';
-import mapboxgl from 'mapbox-gl';
+//@ts-ignore
+import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import styled from '@emotion/styled';
 import { isEmpty } from 'lodash';
@@ -121,7 +122,7 @@ export default class Mapa extends React.Component<Props> {
         paint: {
           'circle-color': '#11b4da',
           'circle-radius': 4,
-          'circle-strokeWidth': 1,
+          //'circle-strokeWidth': 1,
           'circle-stroke-color': '#fff',
         },
       });
