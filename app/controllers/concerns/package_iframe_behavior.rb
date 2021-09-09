@@ -68,7 +68,7 @@ module PackageIframeBehavior
     app_user = if user_data.present? && user_data[:email].present?
                  @app.app_users.users.find_by(email: user_data[:email])
                elsif data.dig("data", "enc_data", "identifier_key") && @app.compare_user_identifier(data["data"]["enc_data"])
-                 @app.app_users.users.find_by(email: data.dig("data", "enc_data", "email") )
+                 @app.app_users.users.find_by(email: data.dig("data", "enc_data", "email"))
                else
                  @app.app_users.find_by(
                    session_id: cookies[cookie_namespace]

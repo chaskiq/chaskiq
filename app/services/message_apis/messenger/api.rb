@@ -49,6 +49,7 @@ module MessageApis::Messenger
 
     def enqueue_process_event(params, package)
       return process_event(params, package) if params["hub.verify_token"].present?
+
       HookMessageReceiverJob.perform_later(
         id: package.id,
         params: params.permit!.to_h
