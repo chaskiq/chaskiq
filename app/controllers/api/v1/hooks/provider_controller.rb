@@ -22,6 +22,7 @@ class Api::V1::Hooks::ProviderController < ApplicationController
 
   def process_event
     response = @integration_pkg.process_event(params)
+    render plain: response and return if response.is_a?(String)
     head :ok
   end
 
