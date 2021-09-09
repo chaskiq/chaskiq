@@ -1657,9 +1657,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                 style={{
                   zIndex: 10000,
                   position: 'absolute',
-                  bottom: '-8px',
+                  bottom: '-17px',
                   width: '70px',
-                  height: '79px',
+                  height: '87px',
                   right: '0px',
                   border: 'none',
                 }}
