@@ -1329,6 +1329,17 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       });
   };
 
+  handleBack = (e) => {
+    switch (this.state.display_mode) {
+      case 'appBlockAppPackage':
+        this.displayConversation(e, this.state.conversation);
+        break;
+      default:
+        this.displayHome(e);
+        break;
+    }
+  };
+
   render() {
     const palette = this.themePalette();
     return (
@@ -1465,7 +1476,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                             {this.state.display_mode != 'home' ? (
                               <LeftIcon
                                 className="fade-in-right"
-                                onClick={this.displayHome.bind(this)}
+                                onClick={this.handleBack.bind(this)}
                                 palette={palette}
                                 /// onClick={this.displayConversationList.bind(this)}
                                 style={{
