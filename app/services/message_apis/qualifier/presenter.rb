@@ -38,9 +38,9 @@ module MessageApis::Qualifier
 
       params = ctx[:values].permit(fields)
 
-      QualifierRecord.configure_validations(
-        params.keys.map(&:to_sym)
-      )
+     # QualifierRecord.configure_validations(
+     #   params.keys.map(&:to_sym)
+     # )
 
       record = QualifierRecord.new(
         params
@@ -70,6 +70,9 @@ module MessageApis::Qualifier
         # kind: 'initialize',
         definitions: definitions
       }
+
+      
+      puts "RERERE: #{record.valid?} #{record.errors.full_messages}"
 
       if record.valid?
         result.merge!(
@@ -326,6 +329,8 @@ module MessageApis::Qualifier
           validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP if o == :email
         end
       end
+
+      
 
       def items
         @items ||= []
