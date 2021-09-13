@@ -308,6 +308,8 @@ module MessageApis::Qualifier
     end
 
     class QualifierRecord
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_writer :items
@@ -321,9 +323,17 @@ module MessageApis::Qualifier
 
       validate do
         validatable_fields.each do |f|
-          errors.add(f.to_sym, 
-            I18n.t("errors.messages.blank")
-          ) unless self.send(f).present?
+          field = f.to_sym
+          case field
+          when :email
+            errors.add(field, 
+              I18n.t("errors.messages.invalid")
+            ) unless self.send(field).match? VALID_EMAIL_REGEX        
+          else
+            errors.add(field, 
+              I18n.t("errors.messages.blank")
+            ) unless self.send(field).present?            
+          end
         end
       end
 
