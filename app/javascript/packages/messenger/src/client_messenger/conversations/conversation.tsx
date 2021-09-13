@@ -313,6 +313,8 @@ export function Conversation(props) {
         searcheableFields={appData.searcheableFields}
         displayAppBlockFrame={displayAppBlockFrame}
         getPackage={getPackage}
+        triggerId={o.triggerId}
+        stepId={o.stepId}
         // {...o}
       />
     );
