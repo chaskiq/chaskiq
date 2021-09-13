@@ -38,13 +38,11 @@ module MessageApis::Qualifier
 
       params = ctx[:values].permit(fields)
 
-     # QualifierRecord.configure_validations(
-     #   params.keys.map(&:to_sym)
-     # )
-
       record = QualifierRecord.new(
         params
       )
+
+      record.validatable_fields = params.keys.map(&:to_sym)
 
       record.valid?
 
@@ -70,9 +68,6 @@ module MessageApis::Qualifier
         # kind: 'initialize',
         definitions: definitions
       }
-
-      
-      puts "RERERE: #{record.valid?} #{record.errors.full_messages}"
 
       if record.valid?
         result.merge!(
@@ -316,6 +311,7 @@ module MessageApis::Qualifier
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_writer :items
+      attr_accessor :validatable_fields
 
       def self.configure(opts)
         opts.each do |o|
@@ -323,14 +319,13 @@ module MessageApis::Qualifier
         end
       end
 
-      def self.configure_validations(opts)
-        opts.each do |o|
-          validates o, presence: true
-          validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP if o == :email
+      validate do
+        validatable_fields.each do |f|
+          errors.add(f.to_sym, 
+            I18n.t("errors.messages.blank")
+          ) unless self.send(f).present?
         end
       end
-
-      
 
       def items
         @items ||= []
