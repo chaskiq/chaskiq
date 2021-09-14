@@ -15,6 +15,9 @@ class Conversation < ApplicationRecord
   has_one :latest_message, -> { order("id desc") },
           class_name: "ConversationPart"
 
+  has_one :public_latest_message, -> { visibles.order("id desc") },
+    class_name: "ConversationPart"
+
   acts_as_taggable_on :tags
 
   accepts_nested_attributes_for :conversation_channels
