@@ -73,6 +73,7 @@ function Integrations({ app, dispatch }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(null);
   const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(null);
   const [baseErrors, setBaseErrors] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   const form = useRef(null);
 
@@ -121,6 +122,7 @@ function Integrations({ app, dispatch }) {
 
   function handleOpen(service) {
     setOpen(service);
+    setErrors(null);
   }
 
   function close() {
@@ -140,6 +142,7 @@ function Integrations({ app, dispatch }) {
 
   function createIntegration(serializedData) {
     setBaseErrors(null);
+    setErrors(null);
 
     graphql(
       CREATE_INTEGRATION,
@@ -156,6 +159,7 @@ function Integrations({ app, dispatch }) {
             dispatch(
               errorMessage(I18n.t('settings.integrations.create_error'))
             );
+            setErrors(data.integrationsCreate.errors);
             return;
           }
 
@@ -330,7 +334,7 @@ function Integrations({ app, dispatch }) {
           } integration`}
           formComponent={
             <form ref={form}>
-              <div>
+              <div className="overflow-auto h-96">
                 {baseErrors && (
                   <p className="p-2 border-red-600 bg-red-500 text-red-100 rounded-md my-2">
                     {baseErrors.join(', ')}
@@ -348,7 +352,7 @@ function Integrations({ app, dispatch }) {
                             ? camelizeKeys(open.settings)
                             : {},
                         }}
-                        errors={{}}
+                        errors={errors || {}}
                       />
                     </div>
                   );
@@ -918,8 +922,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         name: 'oauth_url',
         label: 'oauth url (Optional)',
         type: 'string',
-        hint:
-          "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
+        hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 
