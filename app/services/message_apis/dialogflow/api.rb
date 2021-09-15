@@ -53,6 +53,7 @@ module MessageApis::Dialogflow
 
     def notify_message(conversation:, part:, channel:)
       # return if conversation.assignee.present? ||
+      return if conversation.assignee.blank? || !conversation.assignee.bot?
       return if part.authorable_type != "AppUser"
 
       part.read!
