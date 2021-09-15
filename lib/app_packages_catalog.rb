@@ -556,6 +556,24 @@ class AppPackagesCatalog
       },
 
       {
+        name: "Telegram",
+        tag_list: ["conversations.added"],
+        description: "Interfaces Telegram Messaging",
+        icon: "https://logo.clearbit.com/Telegram",
+        state: "enabled",
+        capability_list: %w[conversations bots],
+        definitions: [
+          {
+            name: "access_token",
+            label: "Your Telegram Bot token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      },
+
+      {
         name: "Messenger",
         tag_list: ["conversations.added"],
         description: "Interfaces Facebook Messenger",
