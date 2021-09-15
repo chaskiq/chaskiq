@@ -1,7 +1,8 @@
 require "rails_helper"
-include ActiveJob::TestHelper
 
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
+  include ActiveJob::TestHelper
+
   let(:owner_phone) do
     "1111"
   end
@@ -12,26 +13,26 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for(id:, sender:, message_id: nil, message_data: {})
     {
-      "update_id": 779649024,
-      "message": {
-          "message_id": message_id,
-          "from": {
-              "id": sender,
-              "is_bot": false,
-              "first_name": "Miguel",
-              "last_name": "Michelson",
-              "language_code": "en"
-          },
-          "chat": {
-              "id": sender,
-              "first_name": "Miguel",
-              "last_name": "Michelson",
-              "type": "private"
-          },
-          "date": 1631603019,
-          "text": message_data["text"] || "hey!"
+      update_id: 779_649_024,
+      message: {
+        message_id: message_id,
+        from: {
+          id: sender,
+          is_bot: false,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          language_code: "en"
+        },
+        chat: {
+          id: sender,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          type: "private"
+        },
+        date: 1_631_603_019,
+        text: message_data["text"] || "hey!"
       },
-  
+
       "controller" => "api/v1/hooks/provider",
       "action" => "process_event",
       "provider" => "telegram",
@@ -43,54 +44,54 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   def data_for_media(id:, sender:, message_id: nil, message_data: {})
     {
 
-      "update_id": 779649030,
-      "message": {
-          "message_id": message_id,
-          "from": {
-              "id": sender,
-              "is_bot": false,
-              "first_name": "Miguel",
-              "last_name": "Michelson",
-              "language_code": "en"
+      update_id: 779_649_030,
+      message: {
+        message_id: message_id,
+        from: {
+          id: sender,
+          is_bot: false,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          language_code: "en"
+        },
+        chat: {
+          id: sender,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          type: "private"
+        },
+        date: 1_631_633_532,
+        animation: {
+          file_name: "@KoksalGif - 3460.gif.mp4",
+          mime_type: "video/mp4",
+          duration: 6,
+          width: 316,
+          height: 320,
+          thumb: {
+            file_id: "AAMCAgADGQEAAxZhQMB8gOAAAVyuph7F3adGf9CKF2MAAtkGAALIYwhKcxVSFXYKQHUBAAdtAAMgBA",
+            file_unique_id: "AQAD2QYAAshjCEpy",
+            file_size: 14_509,
+            width: 315,
+            height: 320
           },
-          "chat": {
-              "id": sender,
-              "first_name": "Miguel",
-              "last_name": "Michelson",
-              "type": "private"
+          file_id: "CgACAgIAAxkBAAMWYUDAfIDgAAFcrqYexd2nRn_QihdjAALZBgACyGMISnMVUhV2CkB1IAQ",
+          file_unique_id: "AgAD2QYAAshjCEo",
+          file_size: 90_400
+        },
+        document: {
+          file_name: "@KoksalGif - 3460.gif.mp4",
+          mime_type: "video/mp4",
+          thumb: {
+            file_id: "AAMCAgADGQEAAxZhQMB8gOAAAVyuph7F3adGf9CKF2MAAtkGAALIYwhKcxVSFXYKQHUBAAdtAAMgBA",
+            file_unique_id: "AQAD2QYAAshjCEpy",
+            file_size: 14_509,
+            width: 315,
+            height: 320
           },
-          "date": 1631633532,
-          "animation": {
-              "file_name": "@KoksalGif - 3460.gif.mp4",
-              "mime_type": "video/mp4",
-              "duration": 6,
-              "width": 316,
-              "height": 320,
-              "thumb": {
-                  "file_id": "AAMCAgADGQEAAxZhQMB8gOAAAVyuph7F3adGf9CKF2MAAtkGAALIYwhKcxVSFXYKQHUBAAdtAAMgBA",
-                  "file_unique_id": "AQAD2QYAAshjCEpy",
-                  "file_size": 14509,
-                  "width": 315,
-                  "height": 320
-              },
-              "file_id": "CgACAgIAAxkBAAMWYUDAfIDgAAFcrqYexd2nRn_QihdjAALZBgACyGMISnMVUhV2CkB1IAQ",
-              "file_unique_id": "AgAD2QYAAshjCEo",
-              "file_size": 90400
-          },
-          "document": {
-              "file_name": "@KoksalGif - 3460.gif.mp4",
-              "mime_type": "video/mp4",
-              "thumb": {
-                  "file_id": "AAMCAgADGQEAAxZhQMB8gOAAAVyuph7F3adGf9CKF2MAAtkGAALIYwhKcxVSFXYKQHUBAAdtAAMgBA",
-                  "file_unique_id": "AQAD2QYAAshjCEpy",
-                  "file_size": 14509,
-                  "width": 315,
-                  "height": 320
-              },
-              "file_id": "CgACAgIAAxkBAAMWYUDAfIDgAAFcrqYexd2nRn_QihdjAALZBgACyGMISnMVUhV2CkB1IAQ",
-              "file_unique_id": "AgAD2QYAAshjCEo",
-              "file_size": 90400
-          }
+          file_id: "CgACAgIAAxkBAAMWYUDAfIDgAAFcrqYexd2nRn_QihdjAALZBgACyGMISnMVUhV2CkB1IAQ",
+          file_unique_id: "AgAD2QYAAshjCEo",
+          file_size: 90_400
+        }
       },
 
       "controller" => "api/v1/hooks/provider",
@@ -103,30 +104,30 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_audio(id:, sender:, message_id: nil, message_data: {})
     {
-      "update_id": 779649032,
-      "message": {
-          "message_id": message_id,
-          "from": {
-              "id": sender,
-              "is_bot": false,
-              "first_name": "Miguel",
-              "last_name": "Michelson",
-              "language_code": "en"
-          },
-          "chat": {
-              "id": sender,
-              "first_name": "Miguel",
-              "last_name": "Michelson",
-              "type": "private"
-          },
-          "date": 1631674175,
-          "voice": {
-              "duration": 4,
-              "mime_type": "audio/ogg",
-              "file_id": "AwACAgEAAxkBAAMeYUFfPxq6g7RI__x1JODaKa0YDhwAAmABAAJTPBBGfwxFZti0lQkgBA",
-              "file_unique_id": "AgADYAEAAlM8EEY",
-              "file_size": 26087
-          }
+      update_id: 779_649_032,
+      message: {
+        message_id: message_id,
+        from: {
+          id: sender,
+          is_bot: false,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          language_code: "en"
+        },
+        chat: {
+          id: sender,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          type: "private"
+        },
+        date: 1_631_674_175,
+        voice: {
+          duration: 4,
+          mime_type: "audio/ogg",
+          file_id: "AwACAgEAAxkBAAMeYUFfPxq6g7RI__x1JODaKa0YDhwAAmABAAJTPBBGfwxFZti0lQkgBA",
+          file_unique_id: "AgADYAEAAlM8EEY",
+          file_size: 26_087
+        }
       },
       "controller" => "api/v1/hooks/provider",
       "action" => "process_event",
@@ -138,55 +139,55 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_video(id:, sender:, message_id: nil, message_data: {})
     {
-      "update_id": 779649035,
-      "message": {
-        "message_id": 33,
-        "from": {
-          "id": sender,
-          "is_bot": false,
-          "first_name": "Miguel",
-          "last_name": "Michelson",
-          "language_code": "en"
+      update_id: 779_649_035,
+      message: {
+        message_id: 33,
+        from: {
+          id: sender,
+          is_bot: false,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          language_code: "en"
         },
-        "chat": {
-          "id": sender,
-          "first_name": "Miguel",
-          "last_name": "Michelson",
-          "type": "private"
+        chat: {
+          id: sender,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          type: "private"
         },
-        "date": 1631676328,
-        "animation": {
-          "file_name": "E5eTEjNXMAUYXfJ.mp4",
-          "mime_type": "video/mp4",
-          "duration": 6,
-          "width": 336,
-          "height": 320,
-          "thumb": {
-              "file_id": "AAMCAQADGQEAAyFhQWeoUPChcGb14kZe2k-_GOCM0wACYgEAAlM8EEYyYeCv-Up6CQEAB20AAyAE",
-              "file_unique_id": "AQADYgEAAlM8EEZy",
-              "file_size": 12675,
-              "width": 320,
-              "height": 305
+        date: 1_631_676_328,
+        animation: {
+          file_name: "E5eTEjNXMAUYXfJ.mp4",
+          mime_type: "video/mp4",
+          duration: 6,
+          width: 336,
+          height: 320,
+          thumb: {
+            file_id: "AAMCAQADGQEAAyFhQWeoUPChcGb14kZe2k-_GOCM0wACYgEAAlM8EEYyYeCv-Up6CQEAB20AAyAE",
+            file_unique_id: "AQADYgEAAlM8EEZy",
+            file_size: 12_675,
+            width: 320,
+            height: 305
           },
-          "file_id": "CgACAgEAAxkBAAMhYUFnqFDwoXBm9eJGXtpPvxjgjNMAAmIBAAJTPBBGMmHgr_lKegkgBA",
-          "file_unique_id": "AgADYgEAAlM8EEY",
-          "file_size": 86980
+          file_id: "CgACAgEAAxkBAAMhYUFnqFDwoXBm9eJGXtpPvxjgjNMAAmIBAAJTPBBGMmHgr_lKegkgBA",
+          file_unique_id: "AgADYgEAAlM8EEY",
+          file_size: 86_980
         },
-        "document": {
-          "file_name": "E5eTEjNXMAUYXfJ.mp4",
-          "mime_type": "video/mp4",
-          "thumb": {
-            "file_id": "AAMCAQADGQEAAyFhQWeoUPChcGb14kZe2k-_GOCM0wACYgEAAlM8EEYyYeCv-Up6CQEAB20AAyAE",
-            "file_unique_id": "AQADYgEAAlM8EEZy",
-            "file_size": 12675,
-            "width": 320,
-            "height": 305
+        document: {
+          file_name: "E5eTEjNXMAUYXfJ.mp4",
+          mime_type: "video/mp4",
+          thumb: {
+            file_id: "AAMCAQADGQEAAyFhQWeoUPChcGb14kZe2k-_GOCM0wACYgEAAlM8EEYyYeCv-Up6CQEAB20AAyAE",
+            file_unique_id: "AQADYgEAAlM8EEZy",
+            file_size: 12_675,
+            width: 320,
+            height: 305
           },
-          "file_id": "CgACAgEAAxkBAAMhYUFnqFDwoXBm9eJGXtpPvxjgjNMAAmIBAAJTPBBGMmHgr_lKegkgBA",
-          "file_unique_id": "AgADYgEAAlM8EEY",
-          "file_size": 86980
+          file_id: "CgACAgEAAxkBAAMhYUFnqFDwoXBm9eJGXtpPvxjgjNMAAmIBAAJTPBBGMmHgr_lKegkgBA",
+          file_unique_id: "AgADYgEAAlM8EEY",
+          file_size: 86_980
         },
-        "caption": "hello"
+        caption: "hello"
       },
       "controller" => "api/v1/hooks/provider",
       "action" => "process_event",
@@ -198,53 +199,53 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_image(id:, sender:, message_id: nil, message_data: {})
     {
-      "message": {
-        "message_id": 32,
-        "from": {
-            "id": sender,
-            "is_bot": false,
-            "first_name": "Miguel",
-            "last_name": "Michelson",
-            "language_code": "en"
+      message: {
+        message_id: 32,
+        from: {
+          id: sender,
+          is_bot: false,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          language_code: "en"
         },
-        "chat": {
-            "id": sender,
-            "first_name": "Miguel",
-            "last_name": "Michelson",
-            "type": "private"
+        chat: {
+          id: sender,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          type: "private"
         },
-        "date": 1631675712,
-        "photo": [
-            {
-                "file_id": "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAANzAAMgBA",
-                "file_unique_id": "AQADXqoxG1M8EEZ4",
-                "file_size": 1329,
-                "width": 67,
-                "height": 90
-            },
-            {
-                "file_id": "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAANtAAMgBA",
-                "file_unique_id": "AQADXqoxG1M8EEZy",
-                "file_size": 20068,
-                "width": 240,
-                "height": 320
-            },
-            {
-                "file_id": "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAAN4AAMgBA",
-                "file_unique_id": "AQADXqoxG1M8EEZ9",
-                "file_size": 78945,
-                "width": 600,
-                "height": 800
-            },
-            {
-                "file_id": "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAAN5AAMgBA",
-                "file_unique_id": "AQADXqoxG1M8EEZ-",
-                "file_size": 88510,
-                "width": 867,
-                "height": 1156
-            }
+        date: 1_631_675_712,
+        photo: [
+          {
+            file_id: "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAANzAAMgBA",
+            file_unique_id: "AQADXqoxG1M8EEZ4",
+            file_size: 1329,
+            width: 67,
+            height: 90
+          },
+          {
+            file_id: "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAANtAAMgBA",
+            file_unique_id: "AQADXqoxG1M8EEZy",
+            file_size: 20_068,
+            width: 240,
+            height: 320
+          },
+          {
+            file_id: "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAAN4AAMgBA",
+            file_unique_id: "AQADXqoxG1M8EEZ9",
+            file_size: 78_945,
+            width: 600,
+            height: 800
+          },
+          {
+            file_id: "AgACAgEAAxkBAAMgYUFlQDPVTLa3N0MMVSiYOlDDlwEAAl6qMRtTPBBGkP7Xqc4QJHsBAAMCAAN5AAMgBA",
+            file_unique_id: "AQADXqoxG1M8EEZ-",
+            file_size: 88_510,
+            width: 867,
+            height: 1156
+          }
         ],
-        "caption": "oliii"
+        caption: "oliii"
       },
       "controller" => "api/v1/hooks/provider",
       "action" => "process_event",
@@ -299,39 +300,39 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_sticker(id:, sender:, message_id: nil, message_data: {})
     {
-      "update_id": 779649031,
-      "message": {
-        "message_id": message_id,
-        "from": {
-            "id": sender,
-            "is_bot": false,
-            "first_name": "Miguel",
-            "last_name": "Michelson",
-            "language_code": "en"
+      update_id: 779_649_031,
+      message: {
+        message_id: message_id,
+        from: {
+          id: sender,
+          is_bot: false,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          language_code: "en"
         },
-        "chat": {
-            "id": sender,
-            "first_name": "Miguel",
-            "last_name": "Michelson",
-            "type": "private"
+        chat: {
+          id: sender,
+          first_name: "Miguel",
+          last_name: "Michelson",
+          type: "private"
         },
-        "date": 1631673514,
-        "sticker": {
-            "width": 512,
-            "height": 512,
-            "emoji": "😂",
-            "set_name": "HotCherry",
-            "is_animated": true,
-            "thumb": {
-                "file_id": "AAMCAgADGQEAAx1hQVyqbuun9bpvoJvkyacBz9BogQACAQADwDZPExguczCrPy1RAQAHbQADIAQ",
-                "file_unique_id": "AQADAQADwDZPE3I",
-                "file_size": 2750,
-                "width": 128,
-                "height": 128
-            },
-            "file_id": "CAACAgIAAxkBAAMdYUFcqm7rp_W6b6Cb5MmnAc_QaIEAAgEAA8A2TxMYLnMwqz8tUSAE",
-            "file_unique_id": "AgADAQADwDZPEw",
-            "file_size": 8244
+        date: 1_631_673_514,
+        sticker: {
+          width: 512,
+          height: 512,
+          emoji: "😂",
+          set_name: "HotCherry",
+          is_animated: true,
+          thumb: {
+            file_id: "AAMCAgADGQEAAx1hQVyqbuun9bpvoJvkyacBz9BogQACAQADwDZPExguczCrPy1RAQAHbQADIAQ",
+            file_unique_id: "AQADAQADwDZPE3I",
+            file_size: 2750,
+            width: 128,
+            height: 128
+          },
+          file_id: "CAACAgIAAxkBAAMdYUFcqm7rp_W6b6Cb5MmnAc_QaIEAAgEAA8A2TxMYLnMwqz8tUSAE",
+          file_unique_id: "AgADAQADwDZPEw",
+          file_size: 8244
         }
       },
       "controller" => "api/v1/hooks/provider",
@@ -464,11 +465,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive conversation image" do
       get(:process_event,
-        params: data_for_image(
-          id: @pkg.id,
-          sender: owner_phone,
-          message_id: "1234"
-        ))
+          params: data_for_image(
+            id: @pkg.id,
+            sender: owner_phone,
+            message_id: "1234"
+          ))
       perform_enqueued_jobs
       expect(response.status).to be == 200
       expect(app.conversations.count).to be == 1

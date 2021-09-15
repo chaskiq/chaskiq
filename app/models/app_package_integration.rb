@@ -22,7 +22,7 @@ class AppPackageIntegration < ApplicationRecord
     credentials
     verify_token
     sandbox
-  ]
+  ].freeze
 
   DB_ATTRIBUTES = %i[
     app_package_id
@@ -32,7 +32,7 @@ class AppPackageIntegration < ApplicationRecord
     created_at
     updated_at
     external_id
-  ]
+  ].freeze
 
   store :settings, accessors: DEFAULT_ACCESSORS, coder: JSON
 

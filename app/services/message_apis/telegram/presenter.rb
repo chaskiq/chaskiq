@@ -24,8 +24,7 @@ module MessageApis::Telegram
 
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
-    def self.configure_hook(kind:, ctx:)
-    end
+    def self.configure_hook(kind:, ctx:); end
 
     # Submit Sheet flow webhook URL (optional)
     # Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.

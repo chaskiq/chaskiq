@@ -16,7 +16,7 @@ module MessageApis::Telegram
       @phone = config["user_id"]
       @url = "https://api.telegram.org/bot#{@api_token}"
       @file_url = "https://api.telegram.org/file/bot#{@api_token}"
-            
+
       @package = config[:package]
       @conn = Faraday.new(
         request: {
@@ -35,14 +35,11 @@ module MessageApis::Telegram
         url: integration.hook_url
       }
       response = @conn.post("#{@url}/setWebhook", data.to_json)
-      puts response.body
       response.status
     end
 
     def get_webhook_info
-      response = @conn.get("#{@url}/getWebhookInfo")
-      puts response.body
-      response
+      @conn.get("#{@url}/getWebhookInfo")
     end
 
     def unregister(app_package, integration)
@@ -59,7 +56,7 @@ module MessageApis::Telegram
       @package = package
       current = params["current"]
 
-      #process_statuses(params["statuses"]) if params["statuses"].present?
+      # process_statuses(params["statuses"]) if params["statuses"].present?
       process_message(params, @package) if params.dig("message", "chat").present?
     end
 
@@ -108,7 +105,7 @@ module MessageApis::Telegram
     end
 
     def get_message_id(response_data)
-      response_data.dig("result", "message_id") 
+      response_data.dig("result", "message_id")
     end
 
     def send_message(conversation, message)
@@ -129,9 +126,9 @@ module MessageApis::Telegram
       end.join("\r\n")
 
       channel_id = conversation
-                  .conversation_channels
-                  .find_by(provider:"telegram")
-                  .provider_channel_id
+                   .conversation_channels
+                   .find_by(provider: "telegram")
+                   .provider_channel_id
 
       # TODO: maybe handle an error here ?
       return if channel_id.blank?
@@ -140,27 +137,27 @@ module MessageApis::Telegram
         chat_id: channel_id
       }
 
-      # TODO: support audio / video / gif      
+      # TODO: support audio / video / gif
       if image_block
-        file_url = "#{ENV["HOST"]}#{image_block["data"]["url"]}"
+        file_url = "#{ENV['HOST']}#{image_block['data']['url']}"
         upload_telegram(
-          channel_id, 
-          {photo: file_url}, 
-          method: 'sendPhoto'
+          channel_id,
+          { photo: file_url },
+          method: "sendPhoto"
         )
       elsif video_block
-        file_url = "#{ENV["HOST"]}#{video_block["data"]["url"]}"
+        file_url = "#{ENV['HOST']}#{video_block['data']['url']}"
         upload_telegram(
-          channel_id, 
-          {video: file_url}, 
-          method: 'sendVideo'
+          channel_id,
+          { video: file_url },
+          method: "sendVideo"
         )
       elsif file_block
-        file_url = "#{ENV["HOST"]}#{file_block["data"]["url"]}"
+        file_url = "#{ENV['HOST']}#{file_block['data']['url']}"
         upload_telegram(
-          channel_id, 
-          {document: file_url}, 
-          method: 'sendDocument'
+          channel_id,
+          { document: file_url },
+          method: "sendDocument"
         )
       elsif is_plain
         message_params.merge!({
@@ -185,7 +182,7 @@ module MessageApis::Telegram
         "#{@url}/getFile?file_id=#{id}"
       )
 
-      #return nil unless response.success?
+      # return nil unless response.success?
       params = JSON.parse(response.body)
       file_path = params["result"]["file_path"]
       response = @conn.get(
@@ -226,11 +223,11 @@ module MessageApis::Telegram
       dialog_user = sender_id
 
       conversation = find_conversation_by_channel(channel_id.to_s)
-      
-      return if conversation && conversation.conversation_part_channel_sources
-                                          .find_by(message_source_id: message_id.to_s).present?
 
-      text = message.dig("text")
+      return if conversation && conversation.conversation_part_channel_sources
+                                            .find_by(message_source_id: message_id.to_s).present?
+
+      text = message["text"]
 
       serialized_content = serialize_content(message)
 
@@ -272,7 +269,7 @@ module MessageApis::Telegram
     end
 
     def serialize_content(data)
-      if (text = data.dig("text")) && text
+      if (text = data["text"]) && text
         text_block(text) if text.present?
       else
         attachment_block(data)
@@ -287,38 +284,38 @@ module MessageApis::Telegram
     end
 
     def media_block(data)
-      if k = data.keys & ["sticker", "animation", "video"] and k.any?
+      if (k = data.keys & %w[sticker animation video]) && k.any?
         f = data[k.first]
         file = handle_direct_upload(f["file_id"], f["mime_type"])
         return gif_block(url: file[:url], text: f["file_name"])
       end
 
-      if k = data.keys & ["animation"] and k.any?
+      if (k = data.keys & ["animation"]) && k.any?
         f = data[k.first]
         file = handle_direct_upload(f["file_id"], f["mime_type"])
         return gif_block(url: file[:url], text: f["file_name"])
       end
 
-      if k = data.keys & ["voice", "document"] and k.any?
+      if (k = data.keys & %w[voice document]) && k.any?
         f = data[k.first]
         file = handle_direct_upload(f["file_id"], f["mime_type"])
         return file_block(url: file[:url], text: f["file_name"])
       end
 
-      if k = data.keys & ["photo"] and k.any?
+      if (k = data.keys & ["photo"]) && k.any?
         f = data[k.first].first
         file = handle_direct_upload(f["file_id"], f["mime_type"])
-        return photo_block(url: file[:url], text: f["file_name"])
+        photo_block(url: file[:url], text: f["file_name"])
       end
     end
 
     def add_participant(dialog_user, message)
       app = @package.app
-    
+
       if dialog_user
 
         profile_data = {
-          name: "#{dialog_user["first_name"]} #{dialog_user["last_name"]}"
+          name: "#{dialog_user['first_name']} #{dialog_user['last_name']}"
         }
 
         data = {
@@ -345,8 +342,8 @@ module MessageApis::Telegram
       end
     end
 
-    def upload_telegram(channel_id, data, method: 'sendPhoto')
-      params = data.merge({chat_id: channel_id}).to_json 
+    def upload_telegram(channel_id, data, method: "sendPhoto")
+      params = data.merge({ chat_id: channel_id }).to_json
       @conn.post("#{@url}/#{method}", params)
     end
   end
