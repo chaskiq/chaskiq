@@ -194,21 +194,21 @@ it:
     home:
       title: Campagne
       text: Questa è la sezione campagne, è possibile creare newsletter, messaggi popup e visite guidate
-    remove_success: Campaign removed
-    remove_hint: We will destroy any content and related data
-    delete_campaign: Delete campaign %{name}
-    create_new: Create new campaign
+    remove_success: Campagna rimossa
+    remove_hint: Distruggeremo qualsiasi contenuto e i dati correlati
+    delete_campaign: Elimina campagna %{name}
+    create_new: Crea nuova campagna
     empty:
-      title: No campaigns found
-    mailing: Mailing campaign
-    in_app: In app messages
-    cloned_success: cloned successfully
-    cloned_error: error while cloning record
-    campaign_updated: Campaign updated
-    updated_error: Error updating campaign
-    error_purge: Error purging metrics
-    purge_description: Purges campaigns metrics
-    purge_title: Purge Metrics
+      title: Nessuna campagna trovata
+    mailing: Campagne mail
+    in_app: Messaggi In App
+    cloned_success: duplicato con successo
+    cloned_error: errore durante la duplicazione del record
+    campaign_updated: Campagna aggiornata
+    updated_error: Errore nell'aggiornamento della campagna
+    error_purge: Errore nel cancellare le metriche
+    purge_description: Eliminare metriche campagna
+    purge_title: Elimina metriche
     deliver_title: Consegna
     deliver_description: Consegna la campagna
     pause_title: Pausa
@@ -268,11 +268,11 @@ it:
     new_conversations: '👋 Nuove conversazioni'
     new_conversations_notice: Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione
     options:
-      add_message: Add Message Bubble
-      wait_user_input: Wait for user input
-      add_app_package: Add App
-    path_title_hint: path title
-    delete_path: delete path
+      add_message: Aggiungi Bolla Dei Messaggi
+      wait_user_input: Attendere l'input dell'utente
+      add_app_package: Aggiungi App
+    path_title_hint: titolo percorso
+    delete_path: elimina percorso
     add_path: Add new conversation part
     continue_bot_with: Continue bot with
     continue_with_reply_button: Continue bot with reply button
