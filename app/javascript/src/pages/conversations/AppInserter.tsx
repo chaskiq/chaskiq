@@ -223,6 +223,7 @@ function SidebarAppInserter({
       <InserterForm
         isOpen={isOpen}
         app={app}
+        location={location}
         closeHandler={closeHandler}
         handleAdd={handleAdd}
         packages={packages}

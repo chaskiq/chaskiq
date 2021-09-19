@@ -173,6 +173,12 @@
         "minutes": "L'équipe répond habituellement en quelques minutes"
       },
       "reply_above": "Répondre en dessous",
+      "reply_time": {
+        "1day": "L'équipe répond habituellement en quelques jours",
+        "auto": "L'équipe va vous répondre dès que possible",
+        "hours": "L'équipe répond habituellement en quelques heures",
+        "minutes": "L'équipe répond habituellement en quelques minutes"
+      },
       "runon": "Nous utilisons Chaskiq",
       "search_article_title": "Trouver les réponses dans notre répertoire d'article",
       "search_articles": "Rechercher un article",

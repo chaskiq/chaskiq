@@ -37,7 +37,7 @@ module Types
       EuCountries.include?(context[:request]&.location&.country_code) if privacy_consent_required == "eu"
     end
 
-    field :conversations, Types::PaginatedConversationsType, null: true do
+    field :conversations, Types::PaginatedPublicConversationsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
     end
@@ -58,7 +58,7 @@ module Types
       object.agents.where(available: true).with_attached_avatar.where(bot: nil).limit(5)
     end
 
-    field :conversation, Types::ConversationType, null: true do
+    field :conversation, Types::PublicConversationType, null: true do
       argument :id, String, required: true # , default_value: 1
       argument :page, Integer, required: false, default_value: 1
       # argument :per, Integer, required: false, default_value: 20

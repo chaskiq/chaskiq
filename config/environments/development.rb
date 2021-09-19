@@ -127,4 +127,13 @@ Rails.application.configure do
   #  :authentication => :login,
   #  :enable_starttls_auto => true
   # }
+
+
+  config.after_initialize do
+    require "i18n-js/listen"
+    I18nJS.listen(
+      config_file: Rails.root.join("config/i18n.yml"), 
+      locales_dir: Rails.root.join("config/locales")
+    )
+  end
 end
