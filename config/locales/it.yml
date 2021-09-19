@@ -27,9 +27,9 @@ it:
     tz_hint: Il fuso orario del browser è di <b className="text-bold">%{timezone}</b>
     send: Invia
     actions: Azioni
-    your_apps: Your apps
-    upload_field: upload %{field}
-    choose_color: Choose color
+    your_apps: Le tue app
+    upload_field: carica %{field}
+    choose_color: Selezionare un colore
     image: Imagen
     langs:
       en: Inglese
@@ -37,7 +37,7 @@ it:
       pt: Portoghese
       de: Tedesco
       ca: Catalano
-      zh-CN: Chinese
+      zh-CN: Cinese
     redirecting: Reindirizzamento
     select_language: Seleziona la Lingua
     send_on_enter: Pubblica al momento dell'invio
@@ -47,20 +47,20 @@ it:
     leads: Potenziali Clienti
     visitors: Visitatori
     users: Utenti
-    type_message: type your message
-    search_conversations: Search conversations
-    days: Days
+    type_message: scrivi il tuo messaggio
+    search_conversations: Ricerca conversazione
+    days: Giorni
   status_messages:
-    error: 'Error'
-    success: 'Success'
-    updated_success: Updated successfully
-    updated_error: Error on upddate
-    created_success: Successfully created
-    created_error: Error creating
-    deleted_success: Successfully deleted
-    deleted_error: Error deleting
-    reordered_error: Error reordering
-    reordered_success: Successfully Reordered
+    error: 'Errore'
+    success: 'Successo'
+    updated_success: Aggiornamento completato
+    updated_error: Errore durante l'aggiornamento
+    created_success: Creato con successo
+    created_error: Errore nella creazione
+    deleted_success: Eliminato con successo
+    deleted_error: Errore nell'eliminazione
+    reordered_error: Errore nel riordinamento
+    reordered_success: Riordinato Con Successo
   error_view:
     title: Woops! qualcosa è andato storto.
     subtitle: Sfortunatamente 🤯
@@ -161,8 +161,8 @@ it:
     messages:
       seen: Letti
       not_seen: Non visto
-      note: Private Note
-      reply: Reply
+      note: Nota Privata
+      reply: Rispondi
     sidebar:
       show_profile: Mostra profilo
       location: Posizione
@@ -182,33 +182,33 @@ it:
         quick_reply:
           title: Invia una risposta rapida
           confirm: Confermi l'invio di %{title}?
-          confirm_msg: This quick reply will be delivered on user's current conversation.
-          empty: no quick replies available
+          confirm_msg: Questa risposta rapida sarà inviata alla conversazione attuale dell'utente.
+          empty: nessuna risposta rapida disponibile
           choose_another: Scegli un altro
   assignment_rules:
     title: Regole di assegnazione
-    create_button: Create Rule
-    success_message: Assignment rule created sucessfully
+    create_button: Crea Regola
+    success_message: Regola di assegnazione creata con successo
   campaigns:
-    title: Campaign
+    title: Campagna
     home:
       title: Campagne
-      text: This is the campaigns section, you can create newsletters , popup messages and guided tours
-    remove_success: Campaign removed
-    remove_hint: We will destroy any content and related data
-    delete_campaign: Delete campaign %{name}
-    create_new: Create new campaign
+      text: Questa è la sezione campagne, è possibile creare newsletter, messaggi popup e visite guidate
+    remove_success: Campagna rimossa
+    remove_hint: Distruggeremo qualsiasi contenuto e i dati correlati
+    delete_campaign: Elimina campagna %{name}
+    create_new: Crea nuova campagna
     empty:
-      title: No campaigns found
-    mailing: Mailing campaign
-    in_app: In app messages
-    cloned_success: cloned successfully
-    cloned_error: error while cloning record
-    campaign_updated: Campaign updated
-    updated_error: Error updating campaign
-    error_purge: Error purging metrics
-    purge_description: Purges campaigns metrics
-    purge_title: Purge Metrics
+      title: Nessuna campagna trovata
+    mailing: Campagne mail
+    in_app: Messaggi In App
+    cloned_success: duplicato con successo
+    cloned_error: errore durante la duplicazione del record
+    campaign_updated: Campagna aggiornata
+    updated_error: Errore nell'aggiornamento della campagna
+    error_purge: Errore nel cancellare le metriche
+    purge_description: Eliminare metriche campagna
+    purge_title: Elimina metriche
     deliver_title: Consegna
     deliver_description: Consegna la campagna
     pause_title: Pausa
@@ -268,11 +268,11 @@ it:
     new_conversations: '👋 Nuove conversazioni'
     new_conversations_notice: Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione
     options:
-      add_message: Add Message Bubble
-      wait_user_input: Wait for user input
-      add_app_package: Add App
-    path_title_hint: path title
-    delete_path: delete path
+      add_message: Aggiungi Bolla Dei Messaggi
+      wait_user_input: Attendere l'input dell'utente
+      add_app_package: Aggiungi App
+    path_title_hint: titolo percorso
+    delete_path: elimina percorso
     add_path: Add new conversation part
     continue_bot_with: Continue bot with
     continue_with_reply_button: Continue bot with reply button
