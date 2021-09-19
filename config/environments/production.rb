@@ -42,7 +42,7 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   # config.active_storage.service = :local
 
-  config.active_storage.service = :amazon
+  config.active_storage.service = ENV['STORAGE_SERVICE'].try(:to_sym) || :amazon
 
   Rails.application.routes.default_url_options = { host: ENV['HOST'] }
   config.action_controller.default_url_options = { host: ENV['HOST'] }
