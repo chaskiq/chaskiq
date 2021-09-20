@@ -40,6 +40,7 @@ RUN adduser --disabled-password --gecos "" docker && adduser docker staff
 
 # Create and change app directory permissions
 RUN mkdir /usr/src/app
+RUN mkdir /usr/src/app/storage
 RUN chown -R docker:docker /usr/src/app
 
 # Bundler install gems
