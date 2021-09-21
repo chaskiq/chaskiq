@@ -55,53 +55,7 @@ module MessageApis::Telegram
     def process_event(params, package)
       @package = package
       current = params["current"]
-
-      # process_statuses(params["statuses"]) if params["statuses"].present?
       process_message(params, @package) if params.dig("message", "chat").present?
-    end
-
-    def process_statuses(statuses)
-      statuses.each do |status|
-        case status["status"]
-        when "read" then process_read(status)
-        when "failed" then process_error(status)
-        else
-          Rails.logger.info "no processing for #{status['status']} event"
-        end
-      end
-    end
-
-    def find_channel(id)
-      ConversationPartChannelSource.find_by(
-        provider: PROVIDER,
-        message_source_id: id
-      )
-    end
-
-    def process_error(params)
-      conversation_part_channel = find_channel(params["id"])
-      return if conversation_part_channel.blank?
-
-      conversation = conversation_part_channel.conversation_part.conversation
-
-      # crea el mensaje con el channel de una, asi cuando se cree
-      # el notify_message va a bypasear el canal
-      # conversation.add_message()
-      conversation.add_message_event(
-        action: "errored",
-        provider: PROVIDER,
-        message_source_id: "bypass-internal-#{params['id']}",
-        data: {
-          status: params
-        }
-      )
-    end
-
-    def process_read(params)
-      conversation_part_channel = find_channel(params["id"])
-      return if conversation_part_channel.blank?
-
-      conversation_part_channel.conversation_part.read!
     end
 
     def get_message_id(response_data)
