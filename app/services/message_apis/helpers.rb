@@ -150,6 +150,5 @@ module MessageApis
 
       conversation_part_channel.conversation_part.read!
     end
-
   end
 end
