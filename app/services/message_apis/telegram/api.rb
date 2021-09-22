@@ -241,16 +241,16 @@ module MessageApis::Telegram
       if (k = data.keys & %w[sticker animation video voice document photo]) && k.any?
         f = data[k.first]
         case k.first
-        when "sticker" , "animation", "video"
+        when "sticker", "animation", "video"
           file = handle_direct_upload(f["file_id"], f["mime_type"])
-          return gif_block(url: file[:url], text: f["file_name"])
+          gif_block(url: file[:url], text: f["file_name"])
         when "voice", "document"
           file = handle_direct_upload(f["file_id"], f["mime_type"])
-          return file_block(url: file[:url], text: f["file_name"])
+          file_block(url: file[:url], text: f["file_name"])
         else "photo"
-          f = data[k.first].first
-          file = handle_direct_upload(f["file_id"], f["mime_type"])
-          return photo_block(url: file[:url], text: f["file_name"])
+             f = data[k.first].first
+             file = handle_direct_upload(f["file_id"], f["mime_type"])
+             photo_block(url: file[:url], text: f["file_name"])
         end
       end
     end
