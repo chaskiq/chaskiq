@@ -13,7 +13,8 @@ module Mutations
         app = find_app(app_key)
         # TODO: check for agent packages or public packages
         app_package = AppPackage.find_by(name: app_package)
-        integration = app.app_package_integrations.new(params.permit!)
+        integration = app.app_package_integrations.new
+        integration.settings = params.permit!.to_h
 
         authorize! app, to: :manage?, with: AppPolicy
 

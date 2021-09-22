@@ -38,22 +38,12 @@ module MessageApis::Twilio
       current = params["current"]
 
       case params["SmsStatus"]
-      when "read" then process_read(params)
+      when "read" then process_read(params["MessageSid"])
       # when "DELIVERED" then puts("DELIVERED!")
       when "received" then process_message(params, @package)
         # when "updated" then update_app_user_profile(current)
         # when "deleted" then delete_app_user_profile(params)
       end
-    end
-
-    def process_read(params)
-      message_id = params["MessageSid"]
-      conversation_part_channel = ConversationPartChannelSource.find_by(
-        message_source_id: message_id
-      )
-      return if conversation_part_channel.blank?
-
-      conversation_part_channel.conversation_part.read!
     end
 
     def get_message_id(response_data)

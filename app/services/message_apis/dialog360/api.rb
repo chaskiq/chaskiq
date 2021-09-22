@@ -71,7 +71,7 @@ module MessageApis::Dialog360
     def process_statuses(statuses)
       statuses.each do |status|
         case status["status"]
-        when "read" then process_read(status)
+        when "read" then process_read(status["id"])
         when "failed" then process_error(status)
         else
           Rails.logger.info "no processing for #{status['status']} event"
@@ -103,13 +103,6 @@ module MessageApis::Dialog360
           status: params
         }
       )
-    end
-
-    def process_read(params)
-      conversation_part_channel = find_channel(params["id"])
-      return if conversation_part_channel.blank?
-
-      conversation_part_channel.conversation_part.read!
     end
 
     def get_message_id(response_data)
