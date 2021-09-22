@@ -19589,8 +19589,8 @@
       "written_by": "written by"
     },
     "assignment_rules": {
-      "create_button": "Create Rule",
-      "success_message": "Assignment rule created sucessfully",
+      "create_button": "Crea Regola",
+      "success_message": "Regola di assegnazione creata con successo",
       "title": "Regole di assegnazione"
     },
     "campaign": {
@@ -19620,33 +19620,33 @@
         "style": "Stile",
         "top": "superiore"
       },
-      "campaign_updated": "Campaign updated",
+      "campaign_updated": "Campagna aggiornata",
       "clone_description": "clona la campagna",
       "clone_title": "Duplica",
-      "cloned_error": "error while cloning record",
-      "cloned_success": "cloned successfully",
-      "create_new": "Create new campaign",
-      "delete_campaign": "Delete campaign %{name}",
+      "cloned_error": "errore durante la duplicazione del record",
+      "cloned_success": "duplicato con successo",
+      "create_new": "Crea nuova campagna",
+      "delete_campaign": "Elimina campagna %{name}",
       "deliver_description": "Consegna la campagna",
       "deliver_title": "Consegna",
       "disables": "Disabilita la campagna",
       "empty": {
-        "title": "No campaigns found"
+        "title": "Nessuna campagna trovata"
       },
       "enables": "Abilita la campagna",
-      "error_purge": "Error purging metrics",
+      "error_purge": "Errore nel cancellare le metriche",
       "home": {
-        "text": "This is the campaigns section, you can create newsletters , popup messages and guided tours",
+        "text": "Questa è la sezione campagne, è possibile creare newsletter, messaggi popup e visite guidate",
         "title": "Campagne"
       },
-      "in_app": "In app messages",
-      "mailing": "Mailing campaign",
+      "in_app": "Messaggi In App",
+      "mailing": "Campagne mail",
       "pause_description": "ferma la campagna",
       "pause_title": "Pausa",
-      "purge_description": "Purges campaigns metrics",
-      "purge_title": "Purge Metrics",
-      "remove_hint": "We will destroy any content and related data",
-      "remove_success": "Campaign removed",
+      "purge_description": "Eliminare metriche campagna",
+      "purge_title": "Elimina metriche",
+      "remove_hint": "Distruggeremo qualsiasi contenuto e i dati correlati",
+      "remove_success": "Campagna rimossa",
       "state": {
         "disabled": "disabilitato",
         "enabled": "abilitato"
@@ -19657,8 +19657,8 @@
         "settings": "Impostazioni",
         "stats": "Statistiche"
       },
-      "title": "Campaign",
-      "updated_error": "Error updating campaign"
+      "title": "Campagna",
+      "updated_error": "Errore nell'aggiornamento della campagna"
     },
     "common": {
       "actions": "Azioni",
@@ -19667,11 +19667,11 @@
       "away_mode": "Modo assente",
       "back_to_site": "Ritorna al sito",
       "cancel": "Annulla",
-      "choose_color": "Choose color",
+      "choose_color": "Selezionare un colore",
       "confirm_deletion": "Confermi la cancellazione ?",
       "confirm_deletion_ready": "sei pronto a cancellare?",
       "create": "Crea",
-      "days": "Days",
+      "days": "Giorni",
       "delete": "Elimina",
       "edit": "Modifica",
       "get_snippet": "Ottieni la snippet",
@@ -19682,7 +19682,7 @@
         "en": "Inglese",
         "es": "Spagnolo",
         "pt": "Portoghese",
-        "zh-CN": "Chinese"
+        "zh-CN": "Cinese"
       },
       "leads": "Potenziali Clienti",
       "new": "Nuovo",
@@ -19696,7 +19696,7 @@
       "results": "risultati",
       "save": "Salva",
       "save_changes": "Salva modifiche",
-      "search_conversations": "Search conversations",
+      "search_conversations": "Ricerca conversazione",
       "select_language": "Seleziona la Lingua",
       "send": "Invia",
       "send_on_enter": "Pubblica al momento dell'invio",
@@ -19705,13 +19705,13 @@
       "to": "a",
       "toggle_dark_mode": "Attiva tema scuro",
       "toggle_light_mode": "Attiva tema chiaro",
-      "type_message": "type your message",
+      "type_message": "scrivi il tuo messaggio",
       "tz_hint": "Il fuso orario del browser è di <b className=\"text-bold\">%{timezone}</b>",
       "update": "Aggiorna",
-      "upload_field": "upload %{field}",
+      "upload_field": "carica %{field}",
       "users": "Utenti",
       "visitors": "Visitatori",
-      "your_apps": "Your apps"
+      "your_apps": "Le tue app"
     },
     "contact_manager": {
       "create": "Create Users & Leads",
@@ -19745,16 +19745,16 @@
           "quick_reply": {
             "choose_another": "Scegli un altro",
             "confirm": "Confermi l'invio di %{title}?",
-            "confirm_msg": "This quick reply will be delivered on user's current conversation.",
-            "empty": "no quick replies available",
+            "confirm_msg": "Questa risposta rapida sarà inviata alla conversazione attuale dell'utente.",
+            "empty": "nessuna risposta rapida disponibile",
             "title": "Invia una risposta rapida"
           }
         }
       },
       "messages": {
         "not_seen": "Non visto",
-        "note": "Private Note",
-        "reply": "Reply",
+        "note": "Nota Privata",
+        "reply": "Rispondi",
         "seen": "Letti"
       },
       "sidebar": {
@@ -20788,16 +20788,16 @@
       }
     },
     "status_messages": {
-      "created_error": "Error creating",
-      "created_success": "Successfully created",
-      "deleted_error": "Error deleting",
-      "deleted_success": "Successfully deleted",
-      "error": "Error",
-      "reordered_error": "Error reordering",
-      "reordered_success": "Successfully Reordered",
-      "success": "Success",
-      "updated_error": "Error on upddate",
-      "updated_success": "Updated successfully"
+      "created_error": "Errore nella creazione",
+      "created_success": "Creato con successo",
+      "deleted_error": "Errore nell'eliminazione",
+      "deleted_success": "Eliminato con successo",
+      "error": "Errore",
+      "reordered_error": "Errore nel riordinamento",
+      "reordered_success": "Riordinato Con Successo",
+      "success": "Successo",
+      "updated_error": "Errore durante l'aggiornamento",
+      "updated_success": "Aggiornamento completato"
     },
     "subscriptions": {
       "alerts": {
@@ -20945,7 +20945,7 @@
         "hint": "we will destroy any content and related data",
         "title": "Delete bot \"%{name}\""
       },
-      "delete_path": "delete path",
+      "delete_path": "elimina percorso",
       "email_requirement": {
         "ack": "Thank you",
         "input_label": "Get notified by email",
@@ -20964,12 +20964,12 @@
       "new_conversations": "👋 Nuove conversazioni",
       "new_conversations_notice": "Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione",
       "options": {
-        "add_app_package": "Add App",
-        "add_message": "Add Message Bubble",
-        "wait_user_input": "Wait for user input"
+        "add_app_package": "Aggiungi App",
+        "add_message": "Aggiungi Bolla Dei Messaggi",
+        "wait_user_input": "Attendere l'input dell'utente"
       },
       "outbound": "🏓 In uscita",
-      "path_title_hint": "path title",
+      "path_title_hint": "titolo percorso",
       "remove_success": "bot removed",
       "reply_agent": "riceverai una risposta da uno dei nostri agenti",
       "reply_button": "reply button",
