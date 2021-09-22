@@ -334,7 +334,7 @@ function Integrations({ app, dispatch }) {
           } integration`}
           formComponent={
             <form ref={form}>
-              <div className="overflow-auto h-96">
+              <div className="overflow-auto max-h-96">
                 {baseErrors && (
                   <p className="p-2 border-red-600 bg-red-500 text-red-100 rounded-md my-2">
                     {baseErrors.join(', ')}
@@ -922,8 +922,7 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         name: 'oauth_url',
         label: 'oauth url (Optional)',
         type: 'string',
-        hint:
-          "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
+        hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 

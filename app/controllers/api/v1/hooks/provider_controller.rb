@@ -5,7 +5,9 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     response = @integration_pkg.create_hook_from_params(params)
     api = @integration_pkg.message_api_klass
 
-    if api.respond_to?(:response_with_text?) && api.response_with_text?
+    binding.pry
+
+    if api&.response_with_text?
       render(status: :ok, plain: response)
     else
       render(status: :ok, xml: response.to_xml)
@@ -23,7 +25,7 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   def process_event
     response = @integration_pkg.process_event(params)
     render plain: response and return if response.is_a?(String)
-
+    render json: response and return if response.is_a?(Hash)
     head :ok
   end
 
