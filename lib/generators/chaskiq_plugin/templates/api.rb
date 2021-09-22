@@ -2,11 +2,9 @@
 
 require "rack/mime"
 
-module MessageApis::Telegram
+module MessageApis::<%= file_name.classify %>
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
-
-    PROVIDER = "<%= file_name %>"
 
     attr_accessor :url, :api_key, :conn
 
