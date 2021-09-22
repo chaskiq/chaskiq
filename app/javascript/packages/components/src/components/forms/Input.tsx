@@ -136,6 +136,7 @@ const WrappedComponent = React.forwardRef(function Input(
 
   function renderText() {
     const { labelMargin, ...options } = props;
+    const { className, ...inputOptions } = options;
     return (
       <FormField
         name={name}
@@ -154,7 +155,7 @@ const WrappedComponent = React.forwardRef(function Input(
           placeholder={props.placeholder}
           ref={ref}
           id={id}
-          {...options}
+          {...inputOptions}
         />
       </FormField>
     );
