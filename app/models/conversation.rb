@@ -16,7 +16,7 @@ class Conversation < ApplicationRecord
           class_name: "ConversationPart"
 
   has_one :public_latest_message, -> { visibles.order("id desc") },
-    class_name: "ConversationPart"
+          class_name: "ConversationPart"
 
   acts_as_taggable_on :tags
 
