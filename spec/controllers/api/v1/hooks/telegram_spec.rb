@@ -280,24 +280,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
-  def data_for_read(id:, sender:, message_id: nil, message_data: {})
-    {
-      statuses: [
-        {
-          id: message_id,
-          recipient_id: "56992302305",
-          status: "delivered",
-          timestamp: "1612646286"
-        }
-      ],
-      "controller" => "api/v1/hooks/provider",
-      "action" => "process_event",
-      "provider" => "telegram",
-      "app_key" => app.key,
-      "id" => @pkg.encoded_id
-    }
-  end
-
   def data_for_sticker(id:, sender:, message_id: nil, message_data: {})
     {
       update_id: 779_649_031,

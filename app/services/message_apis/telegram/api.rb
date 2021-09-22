@@ -238,28 +238,20 @@ module MessageApis::Telegram
     end
 
     def media_block(data)
-      if (k = data.keys & %w[sticker animation video]) && k.any?
+      if (k = data.keys & %w[sticker animation video voice document photo]) && k.any?
         f = data[k.first]
-        file = handle_direct_upload(f["file_id"], f["mime_type"])
-        return gif_block(url: file[:url], text: f["file_name"])
-      end
-
-      if (k = data.keys & ["animation"]) && k.any?
-        f = data[k.first]
-        file = handle_direct_upload(f["file_id"], f["mime_type"])
-        return gif_block(url: file[:url], text: f["file_name"])
-      end
-
-      if (k = data.keys & %w[voice document]) && k.any?
-        f = data[k.first]
-        file = handle_direct_upload(f["file_id"], f["mime_type"])
-        return file_block(url: file[:url], text: f["file_name"])
-      end
-
-      if (k = data.keys & ["photo"]) && k.any?
-        f = data[k.first].first
-        file = handle_direct_upload(f["file_id"], f["mime_type"])
-        photo_block(url: file[:url], text: f["file_name"])
+        case k.first
+        when "sticker" , "animation", "video"
+          file = handle_direct_upload(f["file_id"], f["mime_type"])
+          return gif_block(url: file[:url], text: f["file_name"])
+        when "voice", "document"
+          file = handle_direct_upload(f["file_id"], f["mime_type"])
+          return file_block(url: file[:url], text: f["file_name"])
+        else "photo"
+          f = data[k.first].first
+          file = handle_direct_upload(f["file_id"], f["mime_type"])
+          return photo_block(url: file[:url], text: f["file_name"])
+        end
       end
     end
 
