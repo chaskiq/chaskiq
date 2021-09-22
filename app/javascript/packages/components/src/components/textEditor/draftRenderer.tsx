@@ -278,8 +278,24 @@ function ImageRenderer({ children, blockKey, data }) {
 
   const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` };
 
+  function directionClass(direction) {
+    switch (direction) {
+      case 'left':
+        return 'graf--layoutOutsetLeft';
+      case 'center':
+        return '';
+      case 'wide':
+        return 'sectionLayout--fullWidth';
+      case 'fill':
+        return 'graf--layoutFillWidth';
+      default:
+        return '';
+    }
+  }
+
+  let defaultAlignment = directionClass(data.direction);
   return (
-    <figure key={blockKey} className="graf graf--figure">
+    <figure key={blockKey} className={`graf graf--figure ${defaultAlignment}`}>
       <div>
         <div className="aspectRatioPlaceholder is-locked" style={defaultStyle}>
           <div
