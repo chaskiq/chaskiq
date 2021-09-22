@@ -5,8 +5,6 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     response = @integration_pkg.create_hook_from_params(params)
     api = @integration_pkg.message_api_klass
 
-    binding.pry
-
     if api&.response_with_text?
       render(status: :ok, plain: response)
     else
