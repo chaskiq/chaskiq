@@ -480,6 +480,40 @@ export function BotPathEditor({
     setSelectedPath(item);
   };
 
+  const reorderPathSteps = (path) => {
+    let newSteps = path.steps.filter(
+      (o) => !o.controls || o.controls.type !== 'ask_option'
+    );
+
+    const controlStep = path.steps.find(
+      (o) => o.controls && o.controls.type === 'ask_option'
+    );
+
+    if (controlStep) {
+      newSteps = newSteps.concat(controlStep);
+    }
+
+    return { ...path, steps: newSteps };
+  };
+
+  const addUpdatedPath = (path, data) => {
+    const newSteps = path.steps.concat(data);
+    const newPath = reorderPathSteps(
+      Object.assign({}, path, { steps: newSteps })
+    );
+
+    const newPaths = paths.map((o) => {
+      if (o.id === path.id) {
+        return newPath;
+      } else {
+        return o;
+      }
+    });
+
+    setPaths(newPaths);
+    setSelectedPath(newPath); // redundant
+  };
+
   const addSectionMessage = (path) => {
     const dummy = {
       step_uid: create_UUID(),
@@ -499,19 +533,7 @@ export function BotPathEditor({
       ],
     };
 
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
-
-    const newPaths = paths.map((o) => {
-      if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
-      } else {
-        return o;
-      }
-    });
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
+    addUpdatedPath(path, dummy);
   };
 
   const addWaitUserMessage = (path) => {
@@ -526,20 +548,7 @@ export function BotPathEditor({
       },
     };
 
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
-
-    const newPaths = paths.map((o) => {
-      if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
-      } else {
-        return o;
-      }
-    });
-
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
+    addUpdatedPath(path, dummy);
   };
 
   const addSectionControl = (path) => {
@@ -562,21 +571,7 @@ export function BotPathEditor({
         ],
       },
     };
-
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
-
-    const newPaths = paths.map((o) => {
-      if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
-      } else {
-        return o;
-      }
-    });
-
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
+    addUpdatedPath(path, dummy);
   };
 
   const addDataControl = (path) => {
@@ -598,21 +593,7 @@ export function BotPathEditor({
         ],
       },
     };
-
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
-
-    const newPaths = paths.map((o) => {
-      if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
-      } else {
-        return o;
-      }
-    });
-
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
+    addUpdatedPath(path, dummy);
   };
 
   const insertAddPackage = (p) => {
@@ -627,22 +608,8 @@ export function BotPathEditor({
         schema: provider.schema,
       },
     };
-
     const path = openPackagePanel;
-    const newSteps = path.steps.concat(dummy);
-    let newPath = null;
-
-    const newPaths = paths.map((o) => {
-      if (o.id === path.id) {
-        newPath = Object.assign({}, path, { steps: newSteps });
-        return newPath;
-      } else {
-        return o;
-      }
-    });
-
-    setPaths(newPaths);
-    setSelectedPath(newPath); // redundant
+    addUpdatedPath(path, dummy);
   };
 
   const addEmptyPath = (data) => {
