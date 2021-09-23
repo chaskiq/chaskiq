@@ -24,6 +24,7 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     response = @integration_pkg.process_event(params)
     render plain: response and return if response.is_a?(String)
     render json: response and return if response.is_a?(Hash)
+
     head :ok
   end
 

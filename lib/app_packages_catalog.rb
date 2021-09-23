@@ -585,7 +585,7 @@ class AppPackagesCatalog
             type: "string",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
-          },
+          }
 
         ]
       },
@@ -632,7 +632,7 @@ class AppPackagesCatalog
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
       # binding.pry if package.errors.any?
-      puts "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
+      Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
     end
   end
 end
