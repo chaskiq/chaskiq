@@ -56,9 +56,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   describe "hooks" do
     before :each do
-      AppPackagesCatalog.update_all
-      # ActiveJob::Base.queue_adapter = :test
-      # ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+      AppPackagesCatalog.update("Zapier")
 
       AppPackageIntegration.any_instance
                            .stub(:handle_registration)
@@ -86,7 +84,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         :process_event,
         params: data_for_subscribe(id: @pkg.encoded_id, app: app)
       )
-      expect(JSON.parse(response.body)).to eql({"status"=>"ok"})
+      expect(JSON.parse(response.body)).to eql({ "status" => "ok" })
       expect(@pkg.reload.settings["new_contact"]).to be_present
       response
     end
@@ -99,7 +97,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         :process_event,
         params: data_for_unsubscribe(id: @pkg.encoded_id, app: app)
       )
-      expect(JSON.parse(response.body)).to eql({"status"=>"ok"})
+      expect(JSON.parse(response.body)).to eql({ "status" => "ok" })
       expect(@pkg.reload.settings["new_contact"]).to be_nil
       response
     end
