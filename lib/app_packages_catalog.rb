@@ -575,7 +575,12 @@ class AppPackagesCatalog
 
       {
         name: "Zapier",
-        tag_list: ["conversations.added"],
+        tag_list: [
+          "conversations.assigned",
+          "conversations.added",
+          "conversations.closed",
+          "users.created"
+        ],
         description: "Interfaces Zapier template",
         icon: "https://logo.clearbit.com/zapier.com",
         state: "enabled",

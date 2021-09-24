@@ -47,10 +47,23 @@ module MessageApis::Zapier
         r.as_json(methods: %i[email phone company_name last_name first_name avatar_url display_name])
       when "perform_list"
         [].to_s
-      # when "event_action"
+      when "subscribe"
+        handle_subscription_hook(params, package)
+      when "unsubscribe"
+        handle_unsubscription_hook(params, package)
       else
         {}
       end
+    end
+
+    def handle_subscription_hook(params, package)
+      package.settings[params[:event_type].to_sym] = params["hookUrl"]
+      { status: :ok } if package.save
+    end
+
+    def handle_unsubscription_hook(params, package)
+      package.settings.delete(params[:event_type].to_sym)
+      { status: :ok } if package.save
     end
 
     def enqueue_process_event(params, package)
@@ -63,9 +76,13 @@ module MessageApis::Zapier
     end
 
     def trigger(event)
-      # case event.action
-      # when 'email_changed' then register_contact(event.eventable)
-      # end
+      subject = event.eventable
+      action = event.action
+      case action
+      when "users.created" then notify_user_created_trigger_hook(event: event)
+      when "conversations.assigned", "conversations.added", "conversations.closed"
+        notify_conversation_trigger(event: event)
+      end
     end
 
     def process_event(params, package)
@@ -88,6 +105,56 @@ module MessageApis::Zapier
       )
       user.save
       user
+    end
+
+    def event_identifier_available?(event)
+      event_identifier = Event::EVENT_CONSTANTS.find do |o|
+        o[:name] == event.action
+      end
+      return [nil, nil] if event_identifier.blank?
+
+      url = @package.settings[event_identifier[:identifier].to_s]
+
+      [event_identifier, url]
+    end
+
+    ### triggers notification
+    def notify_user_created_trigger_hook(event:)
+      event_identifier, url = event_identifier_available?(event)
+
+      return if event_identifier.blank?
+
+      data = event.eventable.as_json(
+        methods: %i[first_name last_name email phone company_name]
+      )
+
+      return if url.blank?
+
+      post(url, data)
+    end
+
+    def notify_conversation_trigger(event:)
+      event_identifier, url = event_identifier_available?(event)
+      return if event_identifier.blank?
+      return if url.blank?
+
+      data = event.eventable.as_json(
+        methods: %i[
+          key
+          assignee
+          main_participant
+          state
+        ]
+      )
+      post(url, data)
+    end
+
+    def post(url, data)
+      @conn.post(
+        url,
+        data.to_json,
+        "Content-Type" => "application/json"
+      )
     end
   end
 end
