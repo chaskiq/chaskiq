@@ -45,6 +45,9 @@ module MessageApis::Zapier
       when "create_contact"
         r = create_contact(app, params)
         r.as_json(methods: %i[email phone company_name last_name first_name avatar_url display_name])
+      when "new_conversation"
+        r = create_conversation(app, params)
+        r.as_json
       when "perform_list"
         [].to_s
       when "subscribe"
@@ -52,7 +55,7 @@ module MessageApis::Zapier
       when "unsubscribe"
         handle_unsubscription_hook(params, package)
       else
-        {}
+        {status: :unhandled}
       end
     end
 
@@ -105,6 +108,28 @@ module MessageApis::Zapier
       )
       user.save
       user
+    end
+
+    def create_conversation(app, params)
+      email = params[:contact_email]
+      text = params[:text]
+      first_name = params[:first_name]
+      last_name = params[:last_name]
+
+      app_user = app.add_user(
+        email: email, 
+        first_name: first_name,
+        last_name: last_name
+      )
+      app_user.save
+
+      conversation = app.start_conversation(
+        message: { 
+          html_content: text, 
+          text_content: text 
+        },
+        from: app_user
+      )
     end
 
     def event_identifier_available?(event)

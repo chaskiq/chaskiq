@@ -16,6 +16,15 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
+  def data_for_new_conversation(id:, app:)
+    {
+      contact_email: "aa@aa.cl",
+      message_text: "hello fakers",
+      event: "new_conversation",
+      "id" => id.to_s
+    }
+  end
+
   def data_for_subscribe(id:, app:)
     {
       hookUrl: "https://hooks.zapier.com/hooks/standard/xxx/",
@@ -70,13 +79,24 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       )
     end
 
-    it "receive hook" do
-      response = post(
-        :process_event,
-        params: data_for_new_contact(id: @pkg.encoded_id, app: app)
-      )
-      expect(JSON.parse(response.body).keys).to include("email")
-      response
+    describe "actions" do
+      it "receive new_contact" do
+        response = post(
+          :process_event,
+          params: data_for_new_contact(id: @pkg.encoded_id, app: app)
+        )
+        expect(JSON.parse(response.body).keys).to include("email")
+        response
+      end
+
+      it "receive new_conversation" do
+        response = post(
+          :process_event,
+          params: data_for_new_conversation(id: @pkg.encoded_id, app: app)
+        )
+        expect(JSON.parse(response.body).keys).to include("key")
+        response
+      end
     end
 
     it "subscribe hook" do

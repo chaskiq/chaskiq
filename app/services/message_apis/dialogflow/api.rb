@@ -45,7 +45,7 @@ module MessageApis::Dialogflow
 
       # should identify something from dialogflow here ?
 
-      conversation.conversation_channels.create({
+      conversation.conversation_channels.find_or_create_by({
                                                   provider: "dialogflow",
                                                   provider_channel_id: conversation.id
                                                 })
