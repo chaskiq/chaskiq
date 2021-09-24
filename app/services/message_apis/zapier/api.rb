@@ -55,7 +55,7 @@ module MessageApis::Zapier
       when "unsubscribe"
         handle_unsubscription_hook(params, package)
       else
-        {status: :unhandled}
+        { status: :unhandled }
       end
     end
 
@@ -117,16 +117,16 @@ module MessageApis::Zapier
       last_name = params[:last_name]
 
       app_user = app.add_user(
-        email: email, 
+        email: email,
         first_name: first_name,
         last_name: last_name
       )
       app_user.save
 
       conversation = app.start_conversation(
-        message: { 
-          html_content: text, 
-          text_content: text 
+        message: {
+          html_content: text,
+          text_content: text
         },
         from: app_user
       )
