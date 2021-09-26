@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 import Accordeon from './Accordeon';
 import Badge from './Badge';
 import { compact } from 'lodash';
+import Avatar from './Avatar';
 
 function UserProfileCard({ app, app_user }) {
   function getPropertiesItems() {
@@ -30,11 +31,14 @@ function UserProfileCard({ app, app_user }) {
         <div className="-mt-12 flow-root px-4 space-y-6 sm:-mt-8 sm:flex sm:items-end sm:px-6 sm:space-x-6 lg:-mt-15">
           <div>
             <div className="-m-1 flex">
-              <div className="inline-flex rounded-lg overflow-hidden border-4 border-white">
-                <img
-                  className="flex-shrink-0 h-24 w-24 sm:h-40 sm:w-40 lg:w-48 lg:h-48"
-                  src={app_user.avatarUrl}
-                />
+              <div className="inline-flex rounded-lg overflow-hidden border-4--- border-white">
+                <div className="flex-shrink-0 h-24 w-24 sm:h-40 sm:w-40 lg:w-48 lg:h-48">
+                  <Avatar
+                    size={'full'}
+                    src={app_user.avatarUrl}
+                    alt={app_user.displayName}
+                  />
+                </div>
               </div>
             </div>
           </div>
