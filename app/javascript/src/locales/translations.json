@@ -12338,6 +12338,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -12394,6 +12395,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
