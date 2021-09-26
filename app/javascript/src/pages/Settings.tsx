@@ -7,6 +7,7 @@ import Tags from './settings/Tags';
 import QuickReplies from './settings/QuickReplies';
 import UserData from './settings/UserDataFields';
 import VerificationView from './settings/VerificationView';
+import ContactAvatars from './settings/ContactAvatars';
 import timezones from '../shared/timezones';
 import I18n from '../shared/FakeI18n';
 
@@ -226,17 +227,6 @@ class AppSettingsContainer extends Component<
             label: I18n.t('settings.app.security'),
             content: (
               <div>
-                {/*<SettingsForm
-                  title={'Security Settings'}
-                  hint={'Security'}
-                  currentUser={this.props.currentUser}
-                  data={this.props.app}
-                  update={this.update.bind(this)}
-                  fetchApp={this.fetchApp}
-                  classes={this.props.classes}
-                  definitions={this.definitionsForSecurity}
-                  {...this.props}
-                />*/}
                 <VerificationView />
               </div>
             ),
@@ -271,6 +261,18 @@ class AppSettingsContainer extends Component<
               />
             ),
           },
+
+          {
+            label: I18n.t('settings.app.contact_avatars'),
+            content: (
+              <ContactAvatars
+                settings={this.props.app}
+                update={this.update}
+                namespace={'app'}
+              />
+            ),
+          },
+
           {
             label: I18n.t('settings.app.email_forwarding'),
             content: (
