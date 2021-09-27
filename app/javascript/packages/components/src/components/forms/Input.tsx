@@ -57,6 +57,7 @@ interface IWrapperComponent {
   style?: React.CSSProperties;
   onKeyDown?: (e: SyntheticEvent) => void;
   onKeyUp?: (e: SyntheticEvent) => void;
+  dispatch?: any;
 }
 
 const WrappedComponent = React.forwardRef(function Input(
@@ -73,6 +74,7 @@ const WrappedComponent = React.forwardRef(function Input(
     error,
     id,
     theme,
+    dispatch,
     ...props
   }: IWrapperComponent,
   ref: React.ForwardedRef<any>
@@ -372,6 +374,7 @@ const WrappedComponent = React.forwardRef(function Input(
           color={value || defaultValue}
           name={name}
           label={label}
+          variant={props.variant}
           placeholder={props.placeholder}
           colorHandler={props.onChange}
           // label={'Primary color'}

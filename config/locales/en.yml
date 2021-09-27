@@ -396,6 +396,7 @@ en:
       security: Security
       messenger_settings: Messenger Settings
       appearance: Appearance
+      contact_avatars: Contact avatars
       appearance_title: Appearance settings
       privacy: Privacy
       privacy_title: Privacy settings
@@ -456,13 +457,17 @@ en:
         title: Set reply time
         hint: During office hours, let your customers know when they can expect a reply.
         options:
-          - value: 'auto'
+          - 
+            value: 'auto'
             label: 'Automatic reply time. Currently El equipo responderá lo antes posible'
-          - value: 'minutes'
+          - 
+            value: 'minutes'
             label: 'Team usually responds within minutes.'
-          - value: 'hours'
+          - 
+            value: 'hours'
             label: 'Team usually responds within hours.'
-          - value: '1 day'
+          - 
+            value: '1 day'
             label: 'The team usually responds in one day.'
         hint2: 'Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times.'
     email_requirement:
@@ -470,13 +475,16 @@ en:
       hint: So you can always get back to your website visitors
       ask: 'Ask your website visitors to leave their email before starting a live chat:'
       options:
-        - label: Only outside of office hours
+        - 
+          label: Only outside of office hours
           hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
           value: office
-        - label: Always
+        - 
+          label: Always
           hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
           value: Always
-        - label: Never
+        - 
+          label: Never
           value: Never
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
     languages:
@@ -551,6 +559,10 @@ en:
       inputs:
         name: Field name
         color: Field color
+    contact_avatars:
+      title: Contact avatars style
+      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
+      choose_color: Choose color
     user_data:
       title: Custom Fields
       default_fields: Default attributes

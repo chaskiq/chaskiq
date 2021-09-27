@@ -34,6 +34,7 @@ class App < ApplicationRecord
     paddle_subscription_status
     privacy_consent_required
     inbound_email_address
+    avatar_settings
   ], coder: JSON
 
   include InboundAddress
