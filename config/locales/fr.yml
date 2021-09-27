@@ -285,7 +285,7 @@ fr:
     close_conversation: fermer la conversation
     assign_agent: assigner un agent
     add_follow_action: Ajouter une action de suivi
-    assignee_agent: Assignee Agent
+    assignee_agent: Agent assigné
     email_requirement:
       message: Donnez à l'équipe un moyen de vous joindre
       input_label: Recevez une notification par e-mail
@@ -352,7 +352,7 @@ fr:
     hint1: Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.
     lang: Votre code pour générer un HMAC pour votre application est
     hint2: 'Où que vous importiez des données utilisateur et que vous ayez un extrait de code Chaskiq, ajoutez un nouvel attribut appelé <span className = "font-bold"> identifier_key </span> et transmettez l''adresse e-mail <span className = "font-bold"> </span> et donnez-lui le tag HMAC pour l''utilisateur connecté:'
-    encryption_key_label: Identity verification secret
+    encryption_key_label: Vérification de l'identité Secret
     dont_share_code: "Ne pas partager ce code"
     hmac_hint1: Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.
   quick_replies:
@@ -396,7 +396,7 @@ fr:
       security: Sécurité
       messenger_settings: Paramètres de Messenger
       appearance: Apparence
-      contact_avatars: Contact avatars
+      contact_avatars: Avatars de contact
       appearance_title: Paramètres d'apparence
       privacy: Confidentialité
       privacy_title: Paramètres de confidentialité
