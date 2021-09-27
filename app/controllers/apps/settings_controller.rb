@@ -11,11 +11,11 @@ class Apps::SettingsController < ApplicationController
       :gather_social_data,
       :register_visits,
       user_tasks_settings: [:delay],
-      lead_tasks_settings: [:delay, :routing, :share_typical_time, :share_typical_time, :assignee, :email_requirement ]
+      lead_tasks_settings: %i[delay routing share_typical_time share_typical_time assignee email_requirement]
     )
 
     @app.update(request_params)
 
-    redirect_to params[:redirect] ? params[:redirect] : app_settings_path(@app.key)
+    redirect_to params[:redirect] || app_settings_path(@app.key)
   end
 end

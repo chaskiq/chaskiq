@@ -1,19 +1,19 @@
-import { Controller } from 'stimulus'
-import Sortable from 'sortablejs'
-import { post } from '@rails/request.js'
+import { Controller } from 'stimulus';
+import Sortable from 'sortablejs';
+import { post } from '@rails/request.js';
 
 //import axios from 'axios'
 
 export default class extends Controller {
   connect() {
-    console.log('sortable!')
+    console.log('sortable!');
 
-    let group = null
+    let group = null;
     if (this.element.dataset.group) {
       group = {
         name: 'shared',
         //pull: 'clone' // To clone: set pull to 'clone'
-      }
+      };
     }
 
     this.sortable = Sortable.create(this.element, {
@@ -23,25 +23,25 @@ export default class extends Controller {
       handle: this.element.dataset.handle,
       connectWith: ['.item-list'],
       animation: 150,
-    })
+    });
   }
 
   async sendData(data, cb) {
     const response = await post(this.element.dataset.url, {
       body: JSON.stringify(data),
       responseKind: 'turbo-stream',
-    })
+    });
     if (response.ok) {
-      cb && cb()
+      cb && cb();
     }
   }
 
   end(e) {
-    console.log('DRAGABBLE END', e)
+    console.log('DRAGABBLE END', e);
 
-    const item = e.item.dataset.id
-    const itemUrl = e.item.dataset.url
-    let parentSectionId = null
+    const item = e.item.dataset.id;
+    const itemUrl = e.item.dataset.url;
+    let parentSectionId = null;
 
     //if(e.item.dataset.lookFor){
     //	parentSectionId = e.item.parents(e.item.dataset.lookFor).dataset.id
@@ -58,9 +58,9 @@ export default class extends Controller {
         },
       },
       () => {
-        console.log('YEYE!')
+        console.log('YEYE!');
       }
-    )
+    );
 
     /*
 		axios({
@@ -87,6 +87,6 @@ export default class extends Controller {
 			//console.log(`ERROR: got error uploading file ${ error }`)
 		})
 		*/
-    console.log('end!')
+    console.log('end!');
   }
 }

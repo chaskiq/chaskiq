@@ -396,6 +396,7 @@ zh-CN:
       security: 安全
       messenger_settings: Messenger 设置
       appearance: 外观
+      contact_avatars: Contact avatars
       appearance_title: 外观设置
       privacy: 隐私
       privacy_title: 隐私设置
@@ -558,6 +559,10 @@ zh-CN:
       inputs:
         name: 字段名称
         color: 字段颜色
+    contact_avatars:
+      title: Contact avatars style
+      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
+      choose_color: Choose color
     user_data:
       title: 自定义字段
       default_fields: 默认属性

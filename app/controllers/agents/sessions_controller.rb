@@ -7,22 +7,21 @@ class Agents::SessionsController < Devise::SessionsController
   skip_before_action :require_no_authentication, only: [:create]
   before_action :clear_session, only: [:create]
 
-  layout 'devise'
+  layout "devise"
 
-  #def new
-    #redirect_to new_agent_session_path and return
-  #end
+  # def new
+  # redirect_to new_agent_session_path and return
+  # end
 
   def create
     require_no_authentication
 
     respond_to do |format|
-      format.html { 
-        super 
+      format.html do
+        super
         return
-      }
-      format.json { 
-
+      end
+      format.json do
         self.resource = warden.authenticate!(auth_options)
 
         # need this session for /oauth/applications & authorization
@@ -30,14 +29,14 @@ class Agents::SessionsController < Devise::SessionsController
         # TODO: figure out how can avoid this
         # like customize /oauth/applications
         # sign_in(resource_name, resource, {store: true})
-    
+
         if session[:return_to].blank?
           a = Doorkeeper::Application.first
-    
+
           access_token = Doorkeeper::AccessToken.find_or_create_for(
             a, resource, "", 1.hour, true
           )
-    
+
           respond_with_navigational(resource, status: :success) do
             render json: {
               access_token: access_token.token,
@@ -49,10 +48,8 @@ class Agents::SessionsController < Devise::SessionsController
           redirect_to session[:return_to]
           session[:return_to] = nil
         end
-
-      }
+      end
     end
-
   end
 
   # DELETE /resource/sign_out
@@ -64,13 +61,12 @@ class Agents::SessionsController < Devise::SessionsController
 
     respond_to do |format|
       format.html { super }
-      format.json {
+      format.json do
         respond_with_navigational(resource, status: :success) do
           render json: { a: "ok" }
         end
-      }
+      end
     end
-    
   end
 
   private

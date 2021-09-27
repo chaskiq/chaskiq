@@ -1,21 +1,20 @@
-import { Controller } from "stimulus"
+import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = [ "output", "input" ]
+  static targets = ['output', 'input'];
 
   readURL() {
-    var input = this.inputTarget
-    var output = this.outputTarget
+    var input = this.inputTarget;
+    var output = this.outputTarget;
 
     if (input.files && input.files[0]) {
       var reader = new FileReader();
 
       reader.onload = function () {
-       output.src = reader.result
-     }
+        output.src = reader.result;
+      };
 
-     reader.readAsDataURL(input.files[0]);
-   }
- }
-
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 }

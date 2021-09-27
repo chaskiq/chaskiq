@@ -34,6 +34,7 @@ class App < ApplicationRecord
     paddle_subscription_status
     privacy_consent_required
     inbound_email_address
+    avatar_settings
   ], coder: JSON
 
   include InboundAddress
@@ -336,16 +337,19 @@ class App < ApplicationRecord
   ### JSON DATA OBJECTS ###
   def lead_tasks_settings_objects
     return LeadTasksSettings.new if lead_tasks_settings.blank?
+
     @lead_tasks_settings_objects ||= LeadTasksSettings.new(lead_tasks_settings)
   end
 
   def user_tasks_settings_objects
     return UserTasksSettings.new if user_tasks_settings.blank?
+
     @user_tasks_settings_objects ||= UserTasksSettings.new(user_tasks_settings)
   end
 
   def team_schedule_objects
     return [] if team_schedule.blank?
+
     @team_schedule_objects ||= team_schedule.map { |o| ScheduleRecord.new(o) }
   end
 
@@ -532,7 +536,7 @@ class CustomizationRecord
     pattern_names.map do |o|
       {
         name: o,
-        url: pattern_base_url + o + ".png"
+        url: "#{pattern_base_url}#{o}.png"
       }
     end
   end

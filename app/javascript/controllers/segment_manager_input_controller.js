@@ -1,7 +1,7 @@
-import { Controller } from 'stimulus'
+import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = ['valueInput']
+  static targets = ['valueInput'];
 
   connect() {
     //this.element.textContent = "Hello World!"
@@ -11,14 +11,16 @@ export default class extends Controller {
     Array.from(document.getElementsByClassName('checkbox-input')).forEach(
       (el) => {
         // Do stuff here
-        el.classList.add("hidden")
+        el.classList.add('hidden');
       }
-    )
+    );
 
-    e.currentTarget.parentElement.querySelector(".checkbox-input").classList.remove("hidden")
+    e.currentTarget.parentElement
+      .querySelector('.checkbox-input')
+      .classList.remove('hidden');
   }
 
   copyText(e) {
-    this.valueInputTarget.value = e.target.value
+    this.valueInputTarget.value = e.target.value;
   }
 }

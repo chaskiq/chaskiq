@@ -1,14 +1,11 @@
-import { Controller } from 'stimulus'
+import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  connect() {
-		
+  connect() {}
+
+  handleChange(e) {
+    console.log('CHANGE CHANCNEWNE', e);
+
+    this.element.requestSubmit();
   }
-
-	handleChange(e){
-		console.log("CHANGE CHANCNEWNE", e)
-
-		this.element.requestSubmit()
-	}
-
 }

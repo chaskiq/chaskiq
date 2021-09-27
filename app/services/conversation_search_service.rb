@@ -47,7 +47,7 @@ class ConversationSearchService
   end
 
   private def sort_conversations(sort, conversations)
-    return conversations unless sort.present?
+    return conversations if sort.blank?
 
     s = case sort
         when "newest" then "updated_at desc"

@@ -1,21 +1,19 @@
-import { Controller } from 'stimulus'
+import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = ['spinner']
+  static targets = ['spinner'];
 
-  connect() {
+  connect() {}
+
+  handleShow() {
+    console.log('before fetch loader');
+    this.spinnerTarget.classList.remove('hidden');
   }
 
-  handleShow(){
-    console.log("before fetch loader")
-    this.spinnerTarget.classList.remove("hidden")
+  handleHide() {
+    console.log('after fetch');
+    this.spinnerTarget.classList.add('hidden');
   }
 
-  handleHide(){
-    console.log("after fetch")
-    this.spinnerTarget.classList.add("hidden")
-  }
-
-  disconnect(){
-  }
+  disconnect() {}
 }

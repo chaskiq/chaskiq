@@ -1330,8 +1330,13 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   handleBack = (e) => {
+    console.log(this.state.display_mode);
     switch (this.state.display_mode) {
       case 'appBlockAppPackage':
+        if (!this.state?.conversation?.key) {
+          this.displayHome(e);
+          break;
+        }
         this.displayConversation(e, this.state.conversation);
         break;
       default:

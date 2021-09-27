@@ -396,6 +396,7 @@ af:
       security: Security
       messenger_settings: Messenger Settings
       appearance: Appearance
+      contact_avatars: Contact avatars
       appearance_title: Appearance settings
       privacy: Privacy
       privacy_title: Privacy settings
@@ -558,6 +559,10 @@ af:
       inputs:
         name: Field name
         color: Field color
+    contact_avatars:
+      title: Contact avatars style
+      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
+      choose_color: Choose color
     user_data:
       title: Custom Fields
       default_fields: Default attributes

@@ -227,6 +227,7 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    dry-initializer (3.0.4)
     email_reply_trimmer (0.1.13)
     erb_lint (0.0.37)
       activesupport
@@ -645,6 +646,7 @@ DEPENDENCIES
   doorkeeper (~> 5.4)
   dotenv-rails
   draftjs_exporter!
+  dry-initializer (~> 3.0)
   email_reply_trimmer
   emoji_data!
   erb_lint

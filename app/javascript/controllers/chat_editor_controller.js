@@ -1,20 +1,20 @@
-import { Controller } from 'stimulus'
-import React from 'react'
-import { render } from 'react-dom'
-import ConversationEditor from '../src/pages/conversations/Editor'
-import { post, FetchRequest } from '@rails/request.js'
+import { Controller } from 'stimulus';
+import React from 'react';
+import { render } from 'react-dom';
+import ConversationEditor from '../src/pages/conversations/Editor';
+import { post, FetchRequest } from '@rails/request.js';
 
-import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage'
-import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers'
-import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/quickReplies'
+import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage';
+import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers';
+import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/quickReplies';
 
 export default class extends Controller {
   //static targets = ['contentframe'];
 
   connect() {
-    this.actionPath = this.element.dataset.editorActionPath
+    this.actionPath = this.element.dataset.editorActionPath;
 
-    console.log('INIT EDITOR FOR', this.actionPath)
+    console.log('INIT EDITOR FOR', this.actionPath);
 
     const extensions = [
       AppPackageBlockConfig({
@@ -26,7 +26,7 @@ export default class extends Controller {
       QuickRepliesBlockConfig({
         handleFunc: this.handleQuickRepliesFunc.bind(this),
       }),
-    ]
+    ];
 
     render(
       <ConversationEditor
@@ -36,70 +36,68 @@ export default class extends Controller {
         appendExtensions={extensions}
       />,
       this.element
-    )
+    );
 
     setTimeout(() => {
-      this.scrollToBottom()
+      this.scrollToBottom();
     }, 400);
   }
 
-  handleAppFunc(){
-    console.log("open app moadl")
-    const url = "http://app.chaskiq.test:3000/apps/XCs_Ph0l-iy5sHpBFULY_g/packages/capabilities?kind=inbox"
-    this.sendPost(url, {}, 'get')
+  handleAppFunc() {
+    console.log('open app moadl');
+    const url =
+      'http://app.chaskiq.test:3000/apps/XCs_Ph0l-iy5sHpBFULY_g/packages/capabilities?kind=inbox';
+    this.sendPost(url, {}, 'get');
   }
 
-  handleBotFunc(){
-    console.log("open bot moadl")
+  handleBotFunc() {
+    console.log('open bot moadl');
   }
 
-  handleQuickRepliesFunc(){
-    console.log("open replies moadl")
+  handleQuickRepliesFunc() {
+    console.log('open replies moadl');
   }
 
   insertNote(formats, cb) {
-    cb && cb()
+    cb && cb();
   }
 
   async insertComment(formats, cb) {
     const response = await post(this.actionPath, {
       body: JSON.stringify(formats),
-    })
+    });
     if (response.ok) {
-      cb && cb()
+      cb && cb();
       setTimeout(() => {
-        this.scrollToBottom()
-      }, 200)
+        this.scrollToBottom();
+      }, 200);
     }
   }
 
   get modalController() {
     return this.application.getControllerForElementAndIdentifier(
-      document.querySelector("#main-page"), "modal"
-    )
+      document.querySelector('#main-page'),
+      'modal'
+    );
   }
 
-  async sendPost(url, data={}, method){
-    const req = new FetchRequest(
-      method, 
-      url, 
-      {
-        //body: JSON.stringify(data),
-        responseKind: 'turbo-stream',
-      }
-    )
-    const response = await req.perform()
+  async sendPost(url, data = {}, method) {
+    const req = new FetchRequest(method, url, {
+      //body: JSON.stringify(data),
+      responseKind: 'turbo-stream',
+    });
+    const response = await req.perform();
     if (response.ok) {
-      console.log("HEY HET HEY")
+      console.log('HEY HET HEY');
     }
   }
 
   scrollToBottom() {
-    const overflow = document.getElementById('conversation-overflow')
-    overflow.scrollTop = overflow.scrollHeight
+    const overflow = document.getElementById('conversation-overflow');
+    overflow.scrollTop = overflow.scrollHeight;
   }
 
   typingNotifier() {
-    console.log('NOTIFY TYPING')
+    console.log('NOTIFY TYPING');
   }
 }

@@ -1,25 +1,24 @@
-
-import { Controller } from 'stimulus'
-import { FetchRequest } from '@rails/request.js'
+import { Controller } from 'stimulus';
+import { FetchRequest } from '@rails/request.js';
 export default class extends Controller {
-  static targets = ['container', 'form']
+  static targets = ['container', 'form'];
 
   connect() {
-    document.addEventListener("modal-close", this.close.bind(this))
+    document.addEventListener('modal-close', this.close.bind(this));
   }
 
   disconnect() {
-    this.close()
+    this.close();
   }
 
   open(e) {
-    this.containerTarget.classList.remove("hidden")
+    this.containerTarget.classList.remove('hidden');
   }
 
   close(e) {
-    this.containerTarget.classList.add("hidden")
-    document.getElementById('modal').innerHTML = null
-    document.getElementById("modal").src = null
+    this.containerTarget.classList.add('hidden');
+    document.getElementById('modal').innerHTML = null;
+    document.getElementById('modal').src = null;
   }
 
   closeWithKeyboard(e) {
@@ -31,27 +30,21 @@ export default class extends Controller {
     }*/
   }
 
-
   // not used
 
-  submit(e){
-    console.log("THIS DOES NOTHINF!")
+  submit(e) {
+    console.log('THIS DOES NOTHINF!');
   }
 
-  async sendPost(data){
-    const method = data._method ? data._method : this.formTarget.method
-    const req = new FetchRequest(
-      method, 
-      this.formTarget.action, 
-      {
-        body: JSON.stringify(data),
-        responseKind: 'turbo-stream',
-      }
-    )
-    const response = await req.perform()
+  async sendPost(data) {
+    const method = data._method ? data._method : this.formTarget.method;
+    const req = new FetchRequest(method, this.formTarget.action, {
+      body: JSON.stringify(data),
+      responseKind: 'turbo-stream',
+    });
+    const response = await req.perform();
     if (response.ok) {
-      console.log("HEY HET HEY")
+      console.log('HEY HET HEY');
     }
   }
-
 }

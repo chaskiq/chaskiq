@@ -17,7 +17,7 @@ li {
 %focus-style {
   @apply shadow outline-none border-gray-500;
 
-  box-shadow: 0 0 0 0.2rem theme("colors.gray.200");
+  box-shadow: 0 0 0 0.2rem theme('colors.gray.200');
   background-clip: padding-box;
 }
 
@@ -27,7 +27,7 @@ li {
 }
 
 .field_with_errors .input {
-  @apply  text-red-700 border border-red-400;
+  @apply text-red-700 border border-red-400;
 }
 
 .input:focus,
@@ -35,15 +35,13 @@ li {
   @extend %focus-style;
 }
 
-
 .conversation-bg {
-  background-image: radial-gradient(currentcolor 2px, transparent 2px), radial-gradient(currentcolor 2px, transparent 2px);
+  background-image: radial-gradient(currentcolor 2px, transparent 2px),
+    radial-gradient(currentcolor 2px, transparent 2px);
   background-size: calc(40px) calc(40px);
   background-position: 0px 0px, calc(20px) calc(20px);
 }
 
-
-
-.view-components  h3{
+.view-components h3 {
   @apply text-lg font-semibold;
 }

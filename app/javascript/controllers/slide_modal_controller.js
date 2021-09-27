@@ -1,23 +1,22 @@
-
-import { Controller } from 'stimulus'
+import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = ['container', 'form']
+  static targets = ['container', 'form'];
 
   connect() {}
 
   disconnect() {
-    this.close()
+    this.close();
   }
 
   open(e) {
-    this.containerTarget.classList.remove("hidden")
+    this.containerTarget.classList.remove('hidden');
   }
 
   close(e) {
-    this.containerTarget.classList.add("hidden")
-    document.getElementById('slide-modal').innerHTML = null
-    document.getElementById("slide-modal").src = null
+    this.containerTarget.classList.add('hidden');
+    document.getElementById('slide-modal').innerHTML = null;
+    document.getElementById('slide-modal').src = null;
   }
 
   closeWithKeyboard(e) {
@@ -28,5 +27,4 @@ export default class extends Controller {
       this.close(e)
     }*/
   }
-
 }

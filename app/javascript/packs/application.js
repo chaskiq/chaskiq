@@ -13,8 +13,8 @@ import ReactDOM from 'react-dom';
 import { Turbo } from '@hotwired/turbo-rails';
 window.Turbo = Turbo;
 
-import '../src/styles/tailwind.css'
-import 'rc-tooltip/assets/bootstrap.css'
+import '../src/styles/tailwind.css';
+import 'rc-tooltip/assets/bootstrap.css';
 // import App from '../src/App'
 
 // eslint-disable-next-line no-undef
@@ -25,5 +25,5 @@ import 'rc-tooltip/assets/bootstrap.css'
   )
 })*/
 
-import "controllers"
-import "../../frontend/components/index"
+import 'controllers';
+import '../../frontend/components/index';

@@ -63,17 +63,16 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def radio_button(method, value, options = {})
-
     options.merge!(class: "form-radio mr-2 h-4 w-4 text-indigo-600 transition duration-150 ease-in-out")
-    @template.tag.div( class: 'inline-flex items-center') do
+    @template.tag.div(class: "inline-flex items-center") do
       super +
-      @template.label_tag( 
-        tr(options[:label] || method), nil,
-        class: "block font-bold text-md leading-5 text-gray-900 dark:text-white"
-      ) +
-      @template.tag.div(class: "text-sm font-bold leading-5 text-gray-900 dark:text-gray-100") do
-        field_details(method, object, options)
-      end
+        @template.label_tag(
+          tr(options[:label] || method), nil,
+          class: "block font-bold text-md leading-5 text-gray-900 dark:text-white"
+        ) +
+        @template.tag.div(class: "text-sm font-bold leading-5 text-gray-900 dark:text-gray-100") do
+          field_details(method, object, options)
+        end
     end
   end
 
@@ -82,7 +81,7 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
       tr(options[:label] || method), nil,
       class: "block font-bold text-md leading-5 text-gray-900 dark:text-white"
     ) +
-    field_details(method, object, options)
+           field_details(method, object, options)
 
     options.merge!(class: "self-start mt-1 mr-1 form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out")
     @template.tag.div(class: "flex items-center") do

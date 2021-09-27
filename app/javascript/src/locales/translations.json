@@ -1076,6 +1076,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -1132,6 +1133,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -2639,6 +2645,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -2695,6 +2702,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -4200,6 +4212,7 @@
         "appearance": "Aparença",
         "appearance_title": "Configuració de l'aspecte",
         "availability": "Disponibilitat",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Reenviament de mail",
         "email_requirement": "El correu electrònic fa falta",
         "inbound_settings": "Paràmetres d'entrada",
@@ -4256,6 +4269,11 @@
         "timezone": "LA ZONA HORÀRIA DE LA TEVA APLICACIÓ ES %{tz}",
         "title": "Establiu la vostra disponibilitat",
         "title2": "Defineix horari laboral"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Demaneu als visitants del lloc web que deixin el seu mail abans d’iniciar un xat en directe:",
@@ -5761,6 +5779,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -5817,6 +5836,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -7329,6 +7353,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -7385,6 +7410,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -8888,6 +8918,7 @@
         "appearance": "Darstellung",
         "appearance_title": "Darstellungseinstellungen",
         "availability": "Verfügbarkeit",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "E-Mail-Weiterleitung",
         "email_requirement": "E-Mail-Anforderung",
         "inbound_settings": "Eingangseinstellungen",
@@ -8944,6 +8975,11 @@
         "timezone": "IHRE APP ZEITZONE IST %{tz}",
         "title": "Gib deine Verfügbarkeit an",
         "title2": "Bürozeiten festlegen"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Bitten Sie Ihre Website-Besucher, ihre E-Mail zu hinterlassen, bevor Sie einen Live-Chat starten:",
@@ -10447,6 +10483,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -10503,6 +10540,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -12603,6 +12645,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -12659,6 +12702,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -14496,6 +14544,7 @@
         "appearance": "Apariencia",
         "appearance_title": "Apariencia",
         "availability": "Disponibilidad",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Reenvío de Correo",
         "email_requirement": "Se requiere Email.",
         "inbound_settings": "Ajustes de entrada",
@@ -14552,6 +14601,11 @@
         "timezone": "TU TIMEZONA DE LA APLICACIÓN ES %{tz}",
         "title": "Establecer la disponibilidad",
         "title2": "Horario de oficina abierto"
+      },
+      "contact_avatars": {
+        "choose_color": "Escoger color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Pide a los visitantes de tu sitio web que dejen su correo electrónico antes de iniciar un chat en vivo:",
@@ -16098,6 +16152,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -16154,6 +16209,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -17576,12 +17636,6 @@
       "is_typing": "%{name} est en train d'écrire",
       "latest_articles": "Nos derniers articles",
       "not_seen": "non lu",
-      "reply": {
-        "1day": "L'équipe répond habituellement en quelques jours",
-        "auto": "L'équipe va vous répondre dès que possible",
-        "hours": "L'équipe répond habituellement en quelques heures",
-        "minutes": "L'équipe répond habituellement en quelques minutes"
-      },
       "reply_above": "Répondre en dessous",
       "reply_time": {
         "1day": "L'équipe répond habituellement en quelques jours",
@@ -17725,6 +17779,7 @@
         "appearance": "Apparence",
         "appearance_title": "Paramètres d'apparence",
         "availability": "Disponibilité",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Transfert d'email",
         "email_requirement": "Exigences d'email",
         "inbound_settings": "Paramètres entrants",
@@ -17781,6 +17836,11 @@
         "timezone": "LE TIMEZONE DE VOTRE APP EST %{tz}",
         "title": "Définissez votre disponibilité",
         "title2": "Définir les heures de bureau"
+      },
+      "contact_avatars": {
+        "choose_color": "Choisir une couleur",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Demandez aux visiteurs de votre site Web de laisser leur email avant de commencer un chat en direct:",
@@ -19284,6 +19344,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -19340,6 +19401,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -19861,8 +19927,8 @@
       "written_by": "written by"
     },
     "assignment_rules": {
-      "create_button": "Create Rule",
-      "success_message": "Assignment rule created sucessfully",
+      "create_button": "Crea Regola",
+      "success_message": "Regola di assegnazione creata con successo",
       "title": "Regole di assegnazione"
     },
     "campaign": {
@@ -19892,33 +19958,33 @@
         "style": "Stile",
         "top": "superiore"
       },
-      "campaign_updated": "Campaign updated",
+      "campaign_updated": "Campagna aggiornata",
       "clone_description": "clona la campagna",
       "clone_title": "Duplica",
-      "cloned_error": "error while cloning record",
-      "cloned_success": "cloned successfully",
-      "create_new": "Create new campaign",
-      "delete_campaign": "Delete campaign %{name}",
+      "cloned_error": "errore durante la duplicazione del record",
+      "cloned_success": "duplicato con successo",
+      "create_new": "Crea nuova campagna",
+      "delete_campaign": "Elimina campagna %{name}",
       "deliver_description": "Consegna la campagna",
       "deliver_title": "Consegna",
       "disables": "Disabilita la campagna",
       "empty": {
-        "title": "No campaigns found"
+        "title": "Nessuna campagna trovata"
       },
       "enables": "Abilita la campagna",
-      "error_purge": "Error purging metrics",
+      "error_purge": "Errore nel cancellare le metriche",
       "home": {
-        "text": "This is the campaigns section, you can create newsletters , popup messages and guided tours",
+        "text": "Questa è la sezione campagne, è possibile creare newsletter, messaggi popup e visite guidate",
         "title": "Campagne"
       },
-      "in_app": "In app messages",
-      "mailing": "Mailing campaign",
+      "in_app": "Messaggi In App",
+      "mailing": "Campagne mail",
       "pause_description": "ferma la campagna",
       "pause_title": "Pausa",
-      "purge_description": "Purges campaigns metrics",
-      "purge_title": "Purge Metrics",
-      "remove_hint": "We will destroy any content and related data",
-      "remove_success": "Campaign removed",
+      "purge_description": "Eliminare metriche campagna",
+      "purge_title": "Elimina metriche",
+      "remove_hint": "Distruggeremo qualsiasi contenuto e i dati correlati",
+      "remove_success": "Campagna rimossa",
       "state": {
         "disabled": "disabilitato",
         "enabled": "abilitato"
@@ -19929,8 +19995,8 @@
         "settings": "Impostazioni",
         "stats": "Statistiche"
       },
-      "title": "Campaign",
-      "updated_error": "Error updating campaign"
+      "title": "Campagna",
+      "updated_error": "Errore nell'aggiornamento della campagna"
     },
     "common": {
       "actions": "Azioni",
@@ -19939,11 +20005,11 @@
       "away_mode": "Modo assente",
       "back_to_site": "Ritorna al sito",
       "cancel": "Annulla",
-      "choose_color": "Choose color",
+      "choose_color": "Selezionare un colore",
       "confirm_deletion": "Confermi la cancellazione ?",
       "confirm_deletion_ready": "sei pronto a cancellare?",
       "create": "Crea",
-      "days": "Days",
+      "days": "Giorni",
       "delete": "Elimina",
       "edit": "Modifica",
       "get_snippet": "Ottieni la snippet",
@@ -19954,7 +20020,7 @@
         "en": "Inglese",
         "es": "Spagnolo",
         "pt": "Portoghese",
-        "zh-CN": "Chinese"
+        "zh-CN": "Cinese"
       },
       "leads": "Potenziali Clienti",
       "new": "Nuovo",
@@ -19968,7 +20034,7 @@
       "results": "risultati",
       "save": "Salva",
       "save_changes": "Salva modifiche",
-      "search_conversations": "Search conversations",
+      "search_conversations": "Ricerca conversazione",
       "select_language": "Seleziona la Lingua",
       "send": "Invia",
       "send_on_enter": "Pubblica al momento dell'invio",
@@ -19977,13 +20043,13 @@
       "to": "a",
       "toggle_dark_mode": "Attiva tema scuro",
       "toggle_light_mode": "Attiva tema chiaro",
-      "type_message": "type your message",
+      "type_message": "scrivi il tuo messaggio",
       "tz_hint": "Il fuso orario del browser è di <b className=\"text-bold\">%{timezone}</b>",
       "update": "Aggiorna",
-      "upload_field": "upload %{field}",
+      "upload_field": "carica %{field}",
       "users": "Utenti",
       "visitors": "Visitatori",
-      "your_apps": "Your apps"
+      "your_apps": "Le tue app"
     },
     "contact_manager": {
       "create": "Create Users & Leads",
@@ -20017,16 +20083,16 @@
           "quick_reply": {
             "choose_another": "Scegli un altro",
             "confirm": "Confermi l'invio di %{title}?",
-            "confirm_msg": "This quick reply will be delivered on user's current conversation.",
-            "empty": "no quick replies available",
+            "confirm_msg": "Questa risposta rapida sarà inviata alla conversazione attuale dell'utente.",
+            "empty": "nessuna risposta rapida disponibile",
             "title": "Invia una risposta rapida"
           }
         }
       },
       "messages": {
         "not_seen": "Non visto",
-        "note": "Private Note",
-        "reply": "Reply",
+        "note": "Nota Privata",
+        "reply": "Rispondi",
         "seen": "Letti"
       },
       "sidebar": {
@@ -20843,6 +20909,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -20899,6 +20966,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Selezionare un colore",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -21060,16 +21132,16 @@
       }
     },
     "status_messages": {
-      "created_error": "Error creating",
-      "created_success": "Successfully created",
-      "deleted_error": "Error deleting",
-      "deleted_success": "Successfully deleted",
-      "error": "Error",
-      "reordered_error": "Error reordering",
-      "reordered_success": "Successfully Reordered",
-      "success": "Success",
-      "updated_error": "Error on upddate",
-      "updated_success": "Updated successfully"
+      "created_error": "Errore nella creazione",
+      "created_success": "Creato con successo",
+      "deleted_error": "Errore nell'eliminazione",
+      "deleted_success": "Eliminato con successo",
+      "error": "Errore",
+      "reordered_error": "Errore nel riordinamento",
+      "reordered_success": "Riordinato Con Successo",
+      "success": "Successo",
+      "updated_error": "Errore durante l'aggiornamento",
+      "updated_success": "Aggiornamento completato"
     },
     "subscriptions": {
       "alerts": {
@@ -21217,7 +21289,7 @@
         "hint": "we will destroy any content and related data",
         "title": "Delete bot \"%{name}\""
       },
-      "delete_path": "delete path",
+      "delete_path": "elimina percorso",
       "email_requirement": {
         "ack": "Thank you",
         "input_label": "Get notified by email",
@@ -21236,12 +21308,12 @@
       "new_conversations": "👋 Nuove conversazioni",
       "new_conversations_notice": "Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione",
       "options": {
-        "add_app_package": "Add App",
-        "add_message": "Add Message Bubble",
-        "wait_user_input": "Wait for user input"
+        "add_app_package": "Aggiungi App",
+        "add_message": "Aggiungi Bolla Dei Messaggi",
+        "wait_user_input": "Attendere l'input dell'utente"
       },
       "outbound": "🏓 In uscita",
-      "path_title_hint": "path title",
+      "path_title_hint": "titolo percorso",
       "remove_success": "bot removed",
       "reply_agent": "riceverai una risposta da uno dei nostri agenti",
       "reply_button": "reply button",
@@ -22401,6 +22473,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -22457,6 +22530,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -23959,6 +24037,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -24015,6 +24094,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -25518,6 +25602,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -25574,6 +25659,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -27077,6 +27167,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -27133,6 +27224,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -28638,6 +28734,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -28694,6 +28791,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -30197,6 +30299,7 @@
         "appearance": "Aparência",
         "appearance_title": "Definições de Aparência",
         "availability": "Disponibilidade",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Encaminhamento de e-mail",
         "email_requirement": "Email requerido",
         "inbound_settings": "Configurações de entrada",
@@ -30253,6 +30356,11 @@
         "timezone": "O TEMPO DE SEU APP é %{tz}",
         "title": "Definir disponibilidade",
         "title2": "Definir horas do escritório"
+      },
+      "contact_avatars": {
+        "choose_color": "Escolher cor",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Peça aos visitantes do site para deixarem o e-mail deles antes de iniciar um chat ao vivo:",
@@ -31757,6 +31865,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -31813,6 +31922,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -33318,6 +33432,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -33374,6 +33489,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -34877,6 +34997,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -34933,6 +35054,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -36436,6 +36562,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -36492,6 +36619,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -37997,6 +38129,7 @@
         "appearance": "Appearance",
         "appearance_title": "Appearance settings",
         "availability": "Availability",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
         "inbound_settings": "Inbound settings",
@@ -38053,6 +38186,11 @@
         "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
         "title": "Set your availability",
         "title2": "Set office hours"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "Ask your website visitors to leave their email before starting a live chat:",
@@ -39555,6 +39693,7 @@
         "appearance": "外观",
         "appearance_title": "外观设置",
         "availability": "可用性",
+        "contact_avatars": "Contact avatars",
         "email_forwarding": "邮件转发中",
         "email_requirement": "请填写邮箱地址。",
         "inbound_settings": "Inbound 入站设置",
@@ -39611,6 +39750,11 @@
         "timezone": "您的应用程序时区为 %{tz}",
         "title": "设定状态",
         "title2": "设置工作时间"
+      },
+      "contact_avatars": {
+        "choose_color": "Choose color",
+        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
+        "title": "Contact avatars style"
       },
       "email_requirement": {
         "ask": "要求访客留下一个电子邮件地址，在开启新会话之前。",

@@ -222,31 +222,30 @@ module ApplicationHelper
        label: t("task_bots.settings.users.tab"),
        href: users_app_bots_path(@app.key),
        active: controller.action_name == "users"
-     }
-    ]
+     }]
   end
 
   def bot_menu_data
     [
       {
-        label: t('campaigns.tabs.stats'),
-        href: edit_app_bot_path(@app.key, @bot, tab: 'stats'),
-        active: false 
+        label: t("campaigns.tabs.stats"),
+        href: edit_app_bot_path(@app.key, @bot, tab: "stats"),
+        active: false
       },
       {
-        label: t('campaigns.tabs.settings'),
-        href: edit_app_bot_path(@app.key, @bot, tab: 'settings'),
-        active: false 
+        label: t("campaigns.tabs.settings"),
+        href: edit_app_bot_path(@app.key, @bot, tab: "settings"),
+        active: false
       },
       {
-        label: t('campaigns.tabs.audience'),
-        href: edit_app_bot_path(@app.key, @bot, tab: 'audience'),
-        active: false 
+        label: t("campaigns.tabs.audience"),
+        href: edit_app_bot_path(@app.key, @bot, tab: "audience"),
+        active: false
       },
       {
-        label: t('campaigns.tabs.editor'),
-        href: edit_app_bot_path(@app.key, @bot, tab: 'editor'),
-        active: false 
+        label: t("campaigns.tabs.editor"),
+        href: edit_app_bot_path(@app.key, @bot, tab: "editor"),
+        active: false
       }
     ]
   end

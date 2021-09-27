@@ -3,7 +3,8 @@ class Apps::IntegrationsController < ApplicationController
   before_action :set_settings_navigator
 
   def index
-    if params[:kind] == "available"
+    case params[:kind]
+    when "available"
       # authorize! object, to: :manage?, with: AppPolicy
       integrations = @app.app_package_integrations.map(&:app_package_id)
       @app_packages = if integrations.any?
@@ -11,7 +12,7 @@ class Apps::IntegrationsController < ApplicationController
                       else
                         AppPackage.all
                       end
-    elsif params[:kind] == "yours"
+    when "yours"
       @agent_app_packages = current_agent.app_packages
     else
       @integrations = @app.app_package_integrations
