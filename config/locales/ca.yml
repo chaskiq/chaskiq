@@ -396,6 +396,7 @@ ca:
       security: Seguretat
       messenger_settings: Configuració de Messenger
       appearance: Aparença
+      contact_avatars: Contact avatars
       appearance_title: Configuració de l'aspecte
       privacy: Privacitat
       privacy_title: Configuració de privacitat
@@ -558,6 +559,10 @@ ca:
       inputs:
         name: Nom del camp
         color: Color del camp
+    contact_avatars:
+      title: Contact avatars style
+      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
+      choose_color: Choose color
     user_data:
       title: Camps personalitzats
       default_fields: Atributs predeterminats
