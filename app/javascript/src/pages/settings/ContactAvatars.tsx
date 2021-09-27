@@ -77,7 +77,7 @@ function ContactAvatar({ app, settings, update, namespace }) {
 
           <div className="flex">
             {palette.map((o, index) => (
-              <div className="mr-2" key={`contact-avatar-${o}`}>
+              <div className="mr-2" key={`contact-avatar-${index}`}>
                 <Input
                   type="color"
                   variant="circle"
