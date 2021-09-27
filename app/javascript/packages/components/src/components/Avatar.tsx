@@ -42,11 +42,11 @@ function Avatar({
 
   const resolvedPalette =
     palette ||
-    app.preferences?.avatar_settings?.palette ||
+    app?.preferences?.avatar_settings?.palette ||
     '264653,2a9d8f,e9c46a,f4a261,e76f51';
   let avatarKind =
-    avatar_kind || app.preferences?.avatar_settings?.style || 'marble';
-  if (app.preferences.avatarKind) avatarKind = app.preferences.avatarKind;
+    avatar_kind || app?.preferences?.avatar_settings?.style || 'marble';
+  if (app?.preferences?.avatarKind) avatarKind = app.preferences.avatarKind;
 
   return (
     <span className={`inline-block relative ${size == 'full' ? 'w-full' : ''}`}>
