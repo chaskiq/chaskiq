@@ -32,13 +32,10 @@ export function ColorPicker(props: IColorPickerProps) {
 
   function handleClose() {
     setDisplayColorPicker(false);
-    //this.setState({ displayColorPicker: false });
   }
 
   function handleColorChangeComplete(color) {
     setValue(color);
-    //,
-    //  ()=> this.props.onChangeComplete(color.hex))
   }
 
   React.useEffect(() => {
