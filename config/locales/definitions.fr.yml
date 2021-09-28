@@ -187,7 +187,7 @@ fr:
       invitation_accepted_at: Invitation acceptée à
     articles:
       settings:
-        locale: Locale
+        locale: Local
         site_title: Titre du Site
         site_description: Description du Site
         action: Action
@@ -218,7 +218,7 @@ fr:
         unsubscribed: Désabonné
         passive: Passif
     settings:
-      locale: Locale
+      locale: Local
       greetings: Salutations
       intro: Intro
       tagline: Slogan
