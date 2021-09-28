@@ -363,7 +363,7 @@ GEM
     multipart-post (2.1.1)
     mustache (1.1.1)
     nio4r (2.5.8)
-    nokogiri (1.12.2)
+    nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     oauth (0.5.5)
