@@ -55,6 +55,13 @@ module MessageApis::Zapier
       when "unsubscribe"
         handle_unsubscription_hook(params, package)
       else
+        if params[:auth].present?
+          if package.access_token === params[:auth]
+            return { status: :ok }
+          else
+            return { status: :error, message: "auth key invalid" }
+          end
+        end
         { status: :unhandled }
       end
     end

@@ -23,7 +23,7 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   def process_event
     response = @integration_pkg.process_event(params)
     render plain: response and return if response.is_a?(String)
-    render json: response and return if response.is_a?(Hash)
+    render(json: response, status: resolve_status(response)) and return if response.is_a?(Hash)
 
     head :ok
   end
@@ -37,6 +37,12 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     response = @integration_pkg.receive_oauth_code(params)
     pkg = AppPackageIntegration.decode(params[:id])
     redirect_to "/apps/#{pkg.app.key}/integrations"
+  end
+
+  def resolve_status(response)
+    return 422 if response[:status] == :error
+
+    200
   end
 
   def auth; end

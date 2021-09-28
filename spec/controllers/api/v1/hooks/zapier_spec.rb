@@ -4,6 +4,14 @@ require "app_packages_catalog"
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   include ActiveJob::TestHelper
 
+  def data_for_auth(id:, app:, token: "aaa", url: nil)
+    {
+      auth: token,
+      url: url,
+      "id" => id.to_s
+    }
+  end
+
   def data_for_new_contact(id:, app:)
     {
       first_name: "",
@@ -77,6 +85,37 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_key: "aaa",
         access_token: "aaa"
       )
+    end
+
+    describe "auth" do
+      it "validates ok" do
+        response = post(
+          :process_event,
+          params: data_for_auth(
+            id: @pkg.encoded_id,
+            app: app,
+            token: "aaa",
+            url: nil
+          )
+        )
+        expect(JSON.parse(response.body)).to eql({ "status" => "ok" })
+        response
+      end
+
+      it "validates nok" do
+        response = post(
+          :process_event,
+          params: data_for_auth(
+            id: @pkg.encoded_id,
+            app: app, token: "bbb",
+            url: nil
+          )
+        )
+        expect(JSON.parse(response.body)).to include({ "status" => "error" })
+        expect(response).to_not be_ok
+        expect(response.status).to be == 422
+        response
+      end
     end
 
     describe "actions" do
