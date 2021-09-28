@@ -167,7 +167,7 @@
     },
     "common": {
       "actions": "Actions",
-      "add": "Add",
+      "add": "Ajouter",
       "add_new": "add new",
       "away_mode": "Away mode",
       "back_to_site": "Back to site",
@@ -178,7 +178,7 @@
       "create": "Create",
       "days": "Days",
       "delete": "Delete",
-      "edit": "Edit",
+      "edit": "Pas aan",
       "get_snippet": "Get the snippet",
       "image": "Imagen",
       "langs": {
@@ -190,7 +190,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
-      "new": "New",
+      "new": "Nuus",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
       "of": "of",
@@ -434,7 +434,7 @@
           "label": "Actions"
         },
         "author": {
-          "label": "Author"
+          "label": "Skrywer nùmero uno"
         },
         "collection": {
           "label": "Collection"
@@ -452,14 +452,14 @@
           "label": "Google Code"
         },
         "state": {
-          "label": "State"
+          "label": "Estado"
         },
         "subdomain": {
           "hint": "Subdomain in which the Help Center will be available",
           "label": "Subdomain"
         },
         "title": {
-          "label": "Title"
+          "label": "Titel"
         },
         "website": {
           "hint": "Website of your main domain",
@@ -16555,7 +16555,7 @@
       "delete": "Effacer",
       "edit": "Éditer",
       "get_snippet": "Obtenir le snippet",
-      "image": "Imagen",
+      "image": "Image",
       "langs": {
         "ca": "Catalan",
         "de": "Allemand",
@@ -16707,7 +16707,7 @@
       "articles": {
         "settings": {
           "action": "Action",
-          "locale": "Locale",
+          "locale": "Local",
           "site_description": "Description du Site",
           "site_title": "Titre du Site"
         }
@@ -16715,7 +16715,7 @@
       "settings": {
         "greetings": "Salutations",
         "intro": "Intro",
-        "locale": "Locale",
+        "locale": "Local",
         "tagline": "Slogan"
       },
       "users": {
@@ -17323,7 +17323,7 @@
     },
     "identified_users": {
       "dont_share_code": "Ne pas partager ce code",
-      "encryption_key_label": "Identity verification secret",
+      "encryption_key_label": "Vérification de l'identité Secret",
       "hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
       "hint2": "Où que vous importiez des données utilisateur et que vous ayez un extrait de code Chaskiq, ajoutez un nouvel attribut appelé <span className = \"font-bold\"> identifier_key </span> et transmettez l'adresse e-mail <span className = \"font-bold\"> </span> et donnez-lui le tag HMAC pour l'utilisateur connecté:",
       "hmac_hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
@@ -17513,7 +17513,7 @@
         "appearance": "Apparence",
         "appearance_title": "Paramètres d'apparence",
         "availability": "Disponibilité",
-        "contact_avatars": "Contact avatars",
+        "contact_avatars": "Avatars de contact",
         "email_forwarding": "Transfert d'email",
         "email_requirement": "Exigences d'email",
         "inbound_settings": "Paramètres entrants",
@@ -17573,8 +17573,8 @@
       },
       "contact_avatars": {
         "choose_color": "Choisir une couleur",
-        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
-        "title": "Contact avatars style"
+        "hint": "Choisissez l'un des 6 styles d'avatar fournis par https://boringavatars.com/",
+        "title": "Style des avatars de contact"
       },
       "email_requirement": {
         "ask": "Demandez aux visiteurs de votre site Web de laisser leur email avant de commencer un chat en direct:",
@@ -17878,11 +17878,11 @@
       "upgrade": "Faire évoluer"
     },
     "task_bots": {
-      "add_data_option": "+ add data option",
+      "add_data_option": "+ Ajout d'option de données",
       "add_follow_action": "Ajouter une action de suivi",
       "add_path": "Ajouter une nouvelle partie de conversation",
       "assign_agent": "assigner un agent",
-      "assignee_agent": "Assignee Agent",
+      "assignee_agent": "Agent assigné",
       "close_conversation": "fermer la conversation",
       "continue_bot_with": "Continue bot with",
       "continue_with_reply_button": "Continue bot with reply button",
@@ -17906,7 +17906,7 @@
         "title": "Aucune tâche de bot trouvée"
       },
       "end_bot_with": "Fin du bot avec",
-      "end_with_follow": "End bot with follow actions",
+      "end_with_follow": "Terminer le bot avec des actions de suivi",
       "follow_actions": "suivre les actions",
       "new": "Créer une nouvelle tâche",
       "new_conversations": "👋 Nouvelle conversation",
