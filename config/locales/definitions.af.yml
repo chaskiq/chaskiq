@@ -2,11 +2,11 @@ af:
   definitions:
     articles:
       title:
-        label: Title
+        label: Titel
       author:
-        label: Author
+        label: Skrywer nùmero uno
       state:
-        label: State
+        label: Estado
       collection:
         label: Collection
       actions:
