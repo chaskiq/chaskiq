@@ -574,6 +574,28 @@ class AppPackagesCatalog
       },
 
       {
+        name: "Zapier",
+        tag_list: [
+          "conversations.assigned",
+          "conversations.added",
+          "conversations.closed",
+          "users.created"
+        ],
+        description: "Interfaces Zapier template",
+        icon: "https://logo.clearbit.com/zapier.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "access_token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+
+        ]
+      },
+
+      {
         name: "Messenger",
         tag_list: ["conversations.added"],
         description: "Interfaces Facebook Messenger",
@@ -614,6 +636,7 @@ class AppPackagesCatalog
     packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
+      # binding.pry if package.errors.any?
       Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
     end
   end
