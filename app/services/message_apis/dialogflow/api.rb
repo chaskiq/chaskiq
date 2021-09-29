@@ -45,10 +45,10 @@ module MessageApis::Dialogflow
 
       # should identify something from dialogflow here ?
 
-      conversation.conversation_channels.create({
-                                                  provider: "dialogflow",
-                                                  provider_channel_id: conversation.id
-                                                })
+      conversation.conversation_channels.find_or_create_by({
+                                                             provider: "dialogflow",
+                                                             provider_channel_id: conversation.id
+                                                           })
     end
 
     def notify_message(conversation:, part:, channel:)

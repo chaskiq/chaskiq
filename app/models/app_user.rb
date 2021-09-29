@@ -203,7 +203,7 @@ class AppUser < ApplicationRecord
   end
 
   def display_name
-    [name].join(" ")
+    [name || "#{first_name} #{last_name}"].join(" ")
   end
 
   def session_key
