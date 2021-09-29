@@ -151,6 +151,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     console.log(this.context);
     // set language from user auth lang props
     //i18n.changeLanguage(this.props.lang)
+    i18n.enableFallback = true;
     i18n.locale = this.props.lang;
 
     this.homeHeaderRef = React.createRef();
