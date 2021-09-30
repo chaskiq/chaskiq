@@ -189,7 +189,7 @@ function AssignmentRules({ dispatch, app }) {
         appKey: app.key,
         title: serializedData.title,
         agentId: serializedData.agent,
-        active: serializedData.active,
+        //active: serializedData.active,
         conditions: state.conditions,
       },
       {
@@ -219,7 +219,7 @@ function AssignmentRules({ dispatch, app }) {
         ruleId: state.currentRule.id,
         title: serializedData.title,
         agentId: serializedData.agent,
-        active: serializedData.active,
+        //active: serializedData.active,
         conditions: state.conditions,
       },
       {
