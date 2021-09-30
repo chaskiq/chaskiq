@@ -354,8 +354,8 @@ export const ASSIGN_USER = `
 `;
 
 export const CREATE_ASSIGNMENT_RULE = `
-  mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $active: String!, $conditions: Json!){
-    createAssignmentRule(appKey: $appKey, agentId: $agentId, title: $title, active: $active, conditions: $conditions){
+  mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $conditions: Json!){
+    createAssignmentRule(appKey: $appKey, agentId: $agentId, title: $title, conditions: $conditions){
       errors
       assignmentRule{
         id
@@ -382,8 +382,8 @@ export const UPDATE_RULE_PRIORITIES = `
 `;
 
 export const EDIT_ASSIGNMENT_RULE = `
-  mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $active: String!, $conditions: Json!){
-    editAssignmentRule(appKey: $appKey, ruleId: $ruleId, agentId: $agentId, title: $title, active: $active, conditions: $conditions){
+  mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $conditions: Json!){
+    editAssignmentRule(appKey: $appKey, ruleId: $ruleId, agentId: $agentId, title: $title, conditions: $conditions){
       errors
       assignmentRule{
         id
