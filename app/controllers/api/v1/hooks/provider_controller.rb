@@ -22,10 +22,16 @@ class Api::V1::Hooks::ProviderController < ApplicationController
 
   def process_event
     response = @integration_pkg.process_event(params)
-    render plain: response and return if response.is_a?(String)
-    render(json: response, status: resolve_status(response)) and return if response.is_a?(Hash)
-
-    head :ok
+    case response.class.to_s
+    when "String"
+      render plain: response
+    when "Hash"
+      render(json: response, status: resolve_status(response))
+    when "Array"
+      render(json: response)
+    else
+      head :ok
+    end
   end
 
   def find_application_package

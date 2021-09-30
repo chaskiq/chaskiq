@@ -33,6 +33,14 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
+  def data_for_polling(id:, event_type:)
+    {
+      event_type: event_type,
+      event: "perform_list",
+      "id" => id.to_s
+    }
+  end
+
   def data_for_subscribe(id:, app:)
     {
       hookUrl: "https://hooks.zapier.com/hooks/standard/xxx/",
@@ -98,7 +106,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
             url: nil
           )
         )
-        expect(JSON.parse(response.body)).to eql({ "status" => "ok" })
+        expect(JSON.parse(response.body)).to eql({ "app_name" => "my app", "status" => "ok" })
         response
       end
 
@@ -125,7 +133,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           params: data_for_new_contact(id: @pkg.encoded_id, app: app)
         )
         expect(JSON.parse(response.body).keys).to include("email")
-        response
       end
 
       it "receive new_conversation" do
@@ -221,6 +228,54 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
           conversation.assign_user(agent_role.agent)
         end
+      end
+
+      it "notifies conversations.closed" do
+        perform_enqueued_jobs do
+          @pkg.settings[:conversation_closed] = "https://hooks.zapier.com/hooks/xxx"
+          @pkg.save
+          @pkg.reload
+          app_user = user
+
+          conversation = @pkg.app.start_conversation(
+            message: { text_content: "aa" },
+            from: app_user
+          )
+
+          expect_any_instance_of(
+            MessageApis::Zapier::Api
+          ).to receive(:post).once
+
+          conversation.close
+        end
+      end
+    end
+
+    describe "perform_list" do
+      it "conversation poll list" do
+        response = post(
+          :process_event,
+          params: data_for_polling(
+            id: @pkg.encoded_id,
+            event_type: "conversation_assigned"
+          )
+        )
+
+        expect(JSON.parse(response.body)).to be_a(Array)
+        response
+      end
+
+      it "contact poll list" do
+        response = post(
+          :process_event,
+          params: data_for_polling(
+            id: @pkg.encoded_id,
+            event_type: "contact_created"
+          )
+        )
+
+        expect(JSON.parse(response.body)).to be_a(Array)
+        response
       end
     end
   end
