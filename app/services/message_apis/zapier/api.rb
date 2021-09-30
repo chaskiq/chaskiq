@@ -44,12 +44,12 @@ module MessageApis::Zapier
       case params[:event]
       when "create_contact"
         r = create_contact(app, params)
-        r.as_json(methods: %i[email phone company_name last_name first_name avatar_url display_name])
+        serialized_contact(r)
       when "new_conversation"
         r = create_conversation(app, params)
-        r.as_json
+        serialized_conversation(r)
       when "perform_list"
-        [].to_s
+        polling_sample(params).as_json
       when "subscribe"
         handle_subscription_hook(params, package)
       when "unsubscribe"
@@ -57,7 +57,7 @@ module MessageApis::Zapier
       else
         if params[:auth].present?
           if package.access_token === params[:auth]
-            return { status: :ok }
+            return { status: :ok, app_name: app.name }
           else
             return { status: :error, message: "auth key invalid" }
           end
@@ -88,9 +88,10 @@ module MessageApis::Zapier
     def trigger(event)
       subject = event.eventable
       action = event.action
+
       case action
       when "users.created" then notify_user_created_trigger_hook(event: event)
-      when "conversations.assigned", "conversations.added", "conversations.closed"
+      when "conversations.started", "conversations.assigned", "conversations.added", "conversations.closed"
         notify_conversation_trigger(event: event)
       end
     end
@@ -150,15 +151,29 @@ module MessageApis::Zapier
       [event_identifier, url]
     end
 
+    def polling_sample(params)
+      case params[:event_type]
+      when "new_contact", "user_created", "contact_created" then user_polling
+      when "new_conversation", "conversation_started", "conversation_closed", "conversation_assigned"
+        conversation_polling
+      end
+    end
+
+    def user_polling
+      serialized_contact(@package.app.app_users.limit(2))
+    end
+
+    def conversation_polling
+      serialized_conversation(@package.app.conversations.limit(2))
+    end
+
     ### triggers notification
     def notify_user_created_trigger_hook(event:)
       event_identifier, url = event_identifier_available?(event)
 
       return if event_identifier.blank?
 
-      data = event.eventable.as_json(
-        methods: %i[first_name last_name email phone company_name]
-      )
+      data = serialized_contact(event.eventable)
 
       return if url.blank?
 
@@ -170,15 +185,45 @@ module MessageApis::Zapier
       return if event_identifier.blank?
       return if url.blank?
 
-      data = event.eventable.as_json(
-        methods: %i[
+      data = serialized_conversation(event.eventable)
+
+      post(url, data)
+    end
+
+    def serialized_contact(object)
+      object.as_json(
+        only: %i[
+          id
           key
+          state
+        ],
+        methods: %i[
+          email
+          phone
+          company_name
+          last_name
+          first_name
+          avatar_url
+          display_name
+        ]
+      )
+    end
+
+    def serialized_conversation(object)
+      object.as_json(
+        only: %i[
+          key
+          state
+        ],
+        methods: %i[
+          subject
+          priority
+          closed_at
           assignee
           main_participant
           state
         ]
       )
-      post(url, data)
     end
 
     def post(url, data)
