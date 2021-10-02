@@ -106,8 +106,9 @@ export type ThemeProps = {
 };
 
 export type UserAutoMessageStyledFrameProps = {
-  isMinimized: any;
+  isMinimized?: boolean;
   theme: ThemeProps;
+  children: React.ReactChild;
 };
 
 export type InlineProps = {
