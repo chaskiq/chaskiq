@@ -14,6 +14,7 @@ type MessageFrameProps = {
   availableMessages: any;
   domain: string;
   i18n: any;
+  handleClose: (id: Number) => void;
 };
 
 type MessageFrameState = {
@@ -27,52 +28,7 @@ export default class MessageFrame extends Component<
   constructor(props) {
     super(props);
     this.defaultMinized = false;
-    this.state = {
-      isMinimized: this.fetchMinizedCache(),
-    };
   }
-
-  toggleMinimize = () => {
-    const val = !this.state.isMinimized;
-    // console.log("toggle, ", val, "old ", this.state.isMinimized)
-    this.cacheMinized(val);
-    this.setState({ isMinimized: val });
-  };
-
-  messageCacheKey = (id) => {
-    return `hermes-message-${id}`;
-  };
-
-  cacheMinized = (val) => {
-    const key = this.messageCacheKey(this.props.availableMessage.id);
-    // console.log("minimize", key, val)
-    // if (this.localStorageEnabled)
-    localStorage.setItem(key, val);
-  };
-
-  fetchMinizedCache = () => {
-    if (!this.props.availableMessage) {
-      return false;
-    }
-
-    const key = this.messageCacheKey(this.props.availableMessage.id);
-
-    const val = localStorage.getItem(key);
-
-    switch (val) {
-      case 'false':
-        return false;
-      case 'true':
-        return true;
-      default:
-        return this.defaultMinized;
-    }
-  };
-
-  handleMinus = (ev) => {
-    ev.preventDefault();
-    this.toggleMinimize();
-  };
 
   handleCloseClick = (ev) => {
     ev.preventDefault();
@@ -80,25 +36,21 @@ export default class MessageFrame extends Component<
   };
 
   handleClose = (message) => {
-    this.props.events &&
+    this.props.handleClose(message.id);
+    /*this.props.events &&
       this.props.events.perform('track_close', {
         trackable_id: message.id,
-      });
+      });*/
   };
 
   render() {
     return (
-      <UserAutoMessageStyledFrame
-        id="messageFrame"
-        isMinimized={this.fetchMinizedCache()}
-      >
-        <UserAutoMessageFlex isMinimized={this.fetchMinizedCache()}>
+      <UserAutoMessageStyledFrame id="messageFrame">
+        <UserAutoMessageFlex>
           {this.props.availableMessages.map((o, i) => {
             return (
               <UserAutoMessage key={`user-auto-message-${o.id}-${i}`}>
                 <MessageContainer
-                  // isMinimized={this.state.isMinimized}
-                  //toggleMinimize={this.toggleMinimize}
                   handleClose={this.handleClose}
                   availableMessage={o}
                   events={this.props.events}
