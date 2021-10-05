@@ -34,7 +34,7 @@ import {
 } from './graphql/queries';
 import GraphqlClient from './graphql/client';
 
-import GDPRView from './gdprView';
+import ConsentView from './consentView';
 import AppBlockPackageFrame from './packageFrame';
 
 import {
@@ -151,6 +151,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     console.log(this.context);
     // set language from user auth lang props
     //i18n.changeLanguage(this.props.lang)
+    i18n.enableFallback = true;
     i18n.locale = this.props.lang;
 
     this.homeHeaderRef = React.createRef();
@@ -1329,6 +1330,34 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       });
   };
 
+  handleBack = (e) => {
+    console.log(this.state.display_mode);
+    switch (this.state.display_mode) {
+      case 'appBlockAppPackage':
+        if (!this.state?.conversation?.key) {
+          this.displayHome(e);
+          break;
+        }
+        this.displayConversation(e, this.state.conversation);
+        break;
+      default:
+        this.displayHome(e);
+        break;
+    }
+  };
+
+  closeUserAutoMessage = (id: Number) => {
+    App.events &&
+      App.events.perform('track_close', {
+        trackable_id: id,
+      });
+
+    const newAvailableMessages = this.state.availableMessages.filter(
+      (o) => o.id != id
+    );
+    this.setState({ availableMessages: newAvailableMessages });
+  };
+
   render() {
     const palette = this.themePalette();
     return (
@@ -1395,7 +1424,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             {this.state.availableMessages.length > 0 &&
               this.isMessengerActive() && (
                 <MessageFrame
-                  // app_id={this.props.app_id}
+                  handleClose={this.closeUserAutoMessage}
                   availableMessages={this.state.availableMessages}
                   domain={this.props.domain}
                   i18n={i18n}
@@ -1465,7 +1494,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                             {this.state.display_mode != 'home' ? (
                               <LeftIcon
                                 className="fade-in-right"
-                                onClick={this.displayHome.bind(this)}
+                                onClick={this.handleBack.bind(this)}
                                 palette={palette}
                                 /// onClick={this.displayConversationList.bind(this)}
                                 style={{
@@ -1548,7 +1577,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           )}
 
                           {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
-                            <GDPRView
+                            <ConsentView
                               app={this.state.appData}
                               i18n={i18n}
                               confirm={(_e) => this.updateGdprConsent(true)}
@@ -1646,9 +1675,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                 style={{
                   zIndex: 10000,
                   position: 'absolute',
-                  bottom: '-8px',
+                  bottom: '-17px',
                   width: '70px',
-                  height: '79px',
+                  height: '87px',
                   right: '0px',
                   border: 'none',
                 }}

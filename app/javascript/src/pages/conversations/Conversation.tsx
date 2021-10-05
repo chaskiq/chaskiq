@@ -71,6 +71,7 @@ import {
 } from '@chaskiq/store/src/actions/conversation';
 
 import { AGENTS } from '@chaskiq/store/src/graphql/queries';
+import Avatar from '@chaskiq/components/src/components/Avatar';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -143,8 +144,10 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
-  const [conversationPartSelected, setConversationPartSelected] =
-    React.useState(false);
+  const [
+    conversationPartSelected,
+    setConversationPartSelected,
+  ] = React.useState(false);
 
   const appId = app.key;
 
@@ -335,12 +338,16 @@ function Conversation({
         key={`conversations-messages/${message.key}`}
       >
         {userOrAdmin === 'user' && (
-          <img
-            alt={message.appUser.displayName}
-            src={message.appUser.avatarUrl}
+          <div
+            className={`cursor-pointer w-10 h-10 ${avatarM}`}
             onClick={handleUserSidebar}
-            className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
-          />
+          >
+            <Avatar
+              size={10}
+              alt={message.appUser.displayName}
+              src={message.appUser.avatarUrl}
+            />
+          </div>
         )}
 
         <AppPackagePanel
@@ -515,13 +522,16 @@ function Conversation({
           </Link>
 
           {conversation.mainParticipant && !fixedSidebarOpen && (
-            <img
-              // onClick={handleUserSidebar}
+            <div
               onClick={toggleFixedSidebar}
               className="h-9 w-9 rounded-full mr-2 cursor-pointer"
-              src={conversation.mainParticipant.avatarUrl}
-              alt=""
-            />
+            >
+              <Avatar
+                size={9}
+                alt={conversation.mainParticipant.displayName}
+                src={conversation.mainParticipant.avatarUrl}
+              />
+            </div>
           )}
           <h3
             className="mb-1 text-grey-darkest hidden md:flex 

@@ -7,6 +7,11 @@ module Events
       return if conversation.assignee.bot?
 
       AssigneeMailer.notify(conversation).deliver_later
+
+      EventTriggerProcessorJob.perform_later(
+        id: conversation.app_id,
+        event_id: event.id
+      )
     end
   end
 end

@@ -9,7 +9,7 @@ class AppPackageIntegration < ApplicationRecord
 
   # possible names for api requirements,
   # it also holds a credentials accessor in which can hold a hash
-  store :settings, accessors: %i[
+  DEFAULT_ACCESSORS = %i[
     api_key
     api_secret
     endpoint_url
@@ -22,16 +22,28 @@ class AppPackageIntegration < ApplicationRecord
     credentials
     verify_token
     sandbox
-  ], coder: JSON
+  ].freeze
+
+  DB_ATTRIBUTES = %i[
+    app_package_id
+    app_id
+    settings
+    state
+    created_at
+    updated_at
+    external_id
+  ].freeze
+
+  store :settings, accessors: DEFAULT_ACCESSORS, coder: JSON
 
   validate do
     app_package.definitions.each do |definition|
       next unless definition[:required]
 
       key = definition[:name].to_sym
-      next unless self.class.stored_attributes[:settings].include?(key)
+      # next unless self.class.stored_attributes[:settings].include?(key)
 
-      errors.add(key, "#{key} is required") if send(key).blank?
+      errors.add(key, "#{key} is required") if self[:settings][key].blank?
     end
   end
 

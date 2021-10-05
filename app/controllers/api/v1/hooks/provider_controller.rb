@@ -5,7 +5,7 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     response = @integration_pkg.create_hook_from_params(params)
     api = @integration_pkg.message_api_klass
 
-    if api.respond_to?(:response_with_text?) && api.response_with_text?
+    if api&.response_with_text?
       render(status: :ok, plain: response)
     else
       render(status: :ok, xml: response.to_xml)
@@ -22,7 +22,16 @@ class Api::V1::Hooks::ProviderController < ApplicationController
 
   def process_event
     response = @integration_pkg.process_event(params)
-    head :ok
+    case response.class.to_s
+    when "String"
+      render plain: response
+    when "Hash"
+      render(json: response, status: resolve_status(response))
+    when "Array"
+      render(json: response)
+    else
+      head :ok
+    end
   end
 
   def find_application_package
@@ -34,6 +43,12 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     response = @integration_pkg.receive_oauth_code(params)
     pkg = AppPackageIntegration.decode(params[:id])
     redirect_to "/apps/#{pkg.app.key}/integrations"
+  end
+
+  def resolve_status(response)
+    return 422 if response[:status] == :error
+
+    200
   end
 
   def auth; end

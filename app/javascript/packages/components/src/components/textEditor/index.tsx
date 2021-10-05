@@ -345,8 +345,12 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
       { url: url },
       {
         success: (data) => {
-          const { signedBlobId, headers, url, serviceUrl } =
-            data.createUrlUpload.directUpload;
+          const {
+            signedBlobId,
+            headers,
+            url,
+            serviceUrl,
+          } = data.createUrlUpload.directUpload;
           this.props.uploadHandler({
             signedBlobId,
             headers,
@@ -366,8 +370,12 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const { signedBlobId, headers, url, serviceUrl } =
-            data.createDirectUpload.directUpload;
+          const {
+            signedBlobId,
+            headers,
+            url,
+            serviceUrl,
+          } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             this.props.uploadHandler({
