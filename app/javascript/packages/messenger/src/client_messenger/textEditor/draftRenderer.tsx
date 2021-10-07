@@ -120,7 +120,7 @@ function renderers(props) {
         return (
           <div>
             <a
-              href={data[0].url}
+              href={getImageUrl(data[0].url, props)}
               target="blank"
               rel="noopener noreferrer"
               className="graf graf--attachment"
