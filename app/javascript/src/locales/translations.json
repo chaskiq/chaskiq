@@ -12132,12 +12132,12 @@
     "messenger": {
       "article_meta": "By: <strong>%{name}</strong> on <time>%{date}</time>",
       "availability": {
-        "aprox": "we'll back in approximately %{time} hrs",
-        "back_from": "we'll back online from %{hours} hrs",
-        "days": "we'll back in %{val} days",
-        "next_week": "we'll back next week",
-        "tomorrow": "we'll back back tomorrow",
-        "tomorrow_from": "we'll back online tomorrow from %{hours} hrs"
+        "aprox": "we'll be back in approximately %{time} hrs",
+        "back_from": "we'll be back online from %{hours} hrs",
+        "days": "we'll be back in %{val} days",
+        "next_week": "we'll be back next week",
+        "tomorrow": "we'll be back back tomorrow",
+        "tomorrow_from": "we'll be back online tomorrow from %{hours} hrs"
       },
       "by": "By",
       "closed_conversation": "This conversation has ended",
