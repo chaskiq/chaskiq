@@ -576,6 +576,7 @@ class AppPackagesCatalog
       {
         name: "Zapier",
         tag_list: [
+          "conversations.started",
           "conversations.assigned",
           "conversations.added",
           "conversations.closed",
@@ -588,6 +589,8 @@ class AppPackagesCatalog
           {
             name: "access_token",
             type: "string",
+            label: "Password",
+            hint: "Put a password to be used in the Zapier auth",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
           }
