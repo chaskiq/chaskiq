@@ -22,6 +22,15 @@ module MessageApis::<%= file_name.classify %>
       }
     end
 
+    # Content_hook flow webhook URL (optional)
+    # Sent when a definition is type: "content", and is a good idea to use this when the content has to be load dynamically 
+    def self.content_hook(kind:, ctx:)
+      {
+        kind: "initialize",
+        definitions: [],
+      }
+    end
+
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
     def self.configure_hook(kind:, ctx:); end
