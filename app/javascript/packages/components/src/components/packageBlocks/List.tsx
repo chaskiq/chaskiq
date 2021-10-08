@@ -67,7 +67,7 @@ const ListItemTextWrapper = styled.div<ListItemTextWrapperProps>`
   ${() => tw`min-w-0 flex-1 md:grid md:grid-cols-1`}
 
   .tertiary {
-    ${() => tw`hidden md:block`}
+    ${() => tw`md:block`}
   }
 `;
 

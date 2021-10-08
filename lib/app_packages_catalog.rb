@@ -102,6 +102,18 @@ class AppPackagesCatalog
             type: "string",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "client_id",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "client_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
           }
         ]
       },

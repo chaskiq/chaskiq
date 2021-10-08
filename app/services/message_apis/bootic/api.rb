@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rack/mime"
+require 'oauth2'
 
 module MessageApis::Bootic
   class Api < MessageApis::BasePackage
@@ -37,16 +38,37 @@ module MessageApis::Bootic
     end
 
     # https://api.bootic.net/rels/products/
-    def get_products
-      @conn.get(url("products.json"), { shop_ids: "4138" })
+    def get_token
+      client = OAuth2::Client.new(
+        @package.settings[:client_id],
+        @package.settings[:client_secret],
+        site: "https://auth.bootic.net"
+      )
+
+      access_token = client.client_credentials
+                           .get_token({"scope"=> "public,admin"}, 'auth_scheme' => 'basic', "scope"=> "public,admin")
+
+      token = access_token.token
+      if token.present?
+        @package.update(access_token: token )
+      end
+      token
+    end
+
+    def get_products(q:)
+      @conn.get(url("products.json"), { shop_ids: "4138", q: q })
     end
 
     def get_product(id)
-      @conn.get(url("products/#{id}.json"))
+      @conn.get(url("products/#{id}.json"), { shop_ids: "4138" })
     end
 
     def get_contacts
       @conn.get(url("contacts.json"))
+    end
+
+    def get_hub(id)
+      @conn.get(url("hub/#{id}"))
     end
 
     def create_webhook(attrs = {
