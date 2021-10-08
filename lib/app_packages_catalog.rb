@@ -98,12 +98,6 @@ class AppPackagesCatalog
         state: "enabled",
         definitions: [
           {
-            name: "access_token",
-            type: "string",
-            required: true,
-            grid: { xs: "w-full", sm: "w-full" }
-          },
-          {
             name: "client_id",
             type: "string",
             required: true,

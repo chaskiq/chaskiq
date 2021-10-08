@@ -107,6 +107,20 @@ module MessageApis::Bootic
 
       definitions = menu
 
+      # a pre configure logic  in case shop does not exist
+      if ctx[:package].settings["shop"].blank?
+        if ctx.dig(:field, :id).present? && ctx.dig(:field, :id).include?("selected-shop")
+          id = ctx.dig(:field, :id).split("--").last
+          ctx[:package].settings["shop"] = id
+          ctx[:package].save
+          # return menu definitions
+          return {
+            definitions: definitions
+          }
+        end
+        return product_list_site_chooser(kind: kind, ctx: ctx)
+      end
+
       if ctx.dig(:field, :id).present? # == "confirm" &&
         # ctx.dig(:field, :action, :type) === "submit"
         case ctx.dig(:field, :id)
@@ -507,6 +521,50 @@ module MessageApis::Bootic
             value: render.is_a?(Proc) ? render.call(object[item]) : object[item]
           }
         end }
+    end
+
+    def self.product_list_site_chooser(kind:, ctx:)
+      api = ctx[:package].message_api_klass
+
+      response = JSON.parse(api.test.body)
+
+      apps = response["_embedded"]["shops"]
+
+      definitions = [
+        {
+          type: "text",
+          text: "Select a shop",
+          style: "header"
+        },
+        {
+          type: "text",
+          text: "in order to configure action on this plugin you must choose a shop first"
+        },
+        {
+          type: "list",
+          disabled: false,
+          items: apps.map do |o|
+                   {
+                     type: "item",
+                     id: "selected-shop--#{o['id']}",
+                     title: o["name"],
+                     subtitle: o["subdomain"],
+                     action: {
+                       type: "submit"
+                     }
+                   }
+                 end
+        }
+      ]
+
+      {
+        # kind: "initialize",
+        definitions: definitions,
+        results: {
+          type: "products-list",
+          block_type: "dynamic"
+        }
+      }
     end
 
     def self.date_format(date)
