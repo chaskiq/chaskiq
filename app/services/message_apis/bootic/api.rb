@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "rack/mime"
-require 'oauth2'
+require "oauth2"
 
 module MessageApis::Bootic
   class Api < MessageApis::BasePackage
@@ -35,40 +35,6 @@ module MessageApis::Bootic
 
     def test
       @conn.get(URL)
-    end
-
-    # https://api.bootic.net/rels/products/
-    def get_token
-      client = OAuth2::Client.new(
-        @package.settings[:client_id],
-        @package.settings[:client_secret],
-        site: "https://auth.bootic.net"
-      )
-
-      access_token = client.client_credentials
-                           .get_token({"scope"=> "public,admin"}, 'auth_scheme' => 'basic', "scope"=> "public,admin")
-
-      token = access_token.token
-      if token.present?
-        @package.update(access_token: token )
-      end
-      token
-    end
-
-    def get_products(q:)
-      @conn.get(url("products.json"), { shop_ids: "4138", q: q })
-    end
-
-    def get_product(id)
-      @conn.get(url("products/#{id}.json"), { shop_ids: "4138" })
-    end
-
-    def get_contacts
-      @conn.get(url("contacts.json"))
-    end
-
-    def get_hub(id)
-      @conn.get(url("hub/#{id}"))
     end
 
     def create_webhook(attrs = {
@@ -105,6 +71,65 @@ module MessageApis::Bootic
 
     def send_message(conversation, message)
       # TODO: implement event format
+    end
+
+    # https://api.bootic.net/rels/products/
+    def get_token
+      client = OAuth2::Client.new(
+        @package.settings[:client_id],
+        @package.settings[:client_secret],
+        site: "https://auth.bootic.net"
+      )
+
+      access_token = client.client_credentials
+                           .get_token({ "scope" => "public,admin" }, "auth_scheme" => "basic", "scope" => "public,admin")
+
+      token = access_token.token
+      @package.update(access_token: token) if token.present?
+      token
+    end
+
+    def handle_req(meth, uri, params)
+      response = @conn.send(meth, uri, params)
+      if response.status == 401
+        get_token
+        return @conn.send(meth.to_sym, uri, params)
+      end
+      response
+    end
+
+    def connection_get(uri:, params: nil)
+      handle_req(:get, uri, params)
+    end
+
+    def connection_post(uri:, params: nil)
+      handle_req(:post, uri, params)
+    end
+
+    # rubocop:disable Naming/MethodParameterName
+    def get_products(q:)
+      connection_get(uri: url("products.json"), params: { shop_ids: "4138", q: q })
+    end
+    # rubocop:enable Naming/MethodParameterName
+
+    def get_product(id)
+      connection_get(uri: url("products/#{id}.json"), params: { shop_ids: "4138" })
+    end
+
+    def get_orders
+      connection_get(uri: url("shops/4138/orders.json"))
+    end
+
+    def get_order(id)
+      connection_get(uri: url("shops/4138/orders/#{id}"))
+    end
+
+    def get_contacts
+      connection_get(uri: url("contacts.json"))
+    end
+
+    def get_hub(id)
+      connection_get(uri: url("hub/#{id}"))
     end
   end
 end
