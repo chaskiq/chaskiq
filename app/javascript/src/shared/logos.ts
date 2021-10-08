@@ -52,5 +52,5 @@ export default {
   paddle,
   openai,
   reveniu,
-  bootic
+  bootic,
 };
