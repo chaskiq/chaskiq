@@ -7,7 +7,7 @@ module MessageApis::Bootic
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
 
-    attr_accessor :access_token, :conn
+    attr_accessor :conn
 
     URL = "https://api.bootic.net/v1"
 
@@ -23,18 +23,18 @@ module MessageApis::Bootic
       @conn.headers = {
         "Content-Type" => "application/json",
         "Accept" => "application/json",
-        "Authorization" => "Bearer #{@package.access_token}"
+        "Authorization" => "Bearer #{@package.settings[:access_token]}"
       }
 
       self
     end
 
-    def url(path)
-      "#{URL}/#{path}"
+    def access_token
+      @package.settings[:access_token]
     end
 
-    def test
-      @conn.get(URL)
+    def url(path)
+      "#{URL}/#{path}"
     end
 
     def create_webhook(attrs = {
@@ -63,6 +63,20 @@ module MessageApis::Bootic
       # end
     end
 
+    def validate_integration
+      get_token if @package.settings[:access_token].blank?
+      # refresh headers
+      @conn.headers = {
+        "Content-Type" => "application/json",
+        "Accept" => "application/json",
+        "Authorization" => "Bearer #{access_token}"
+      }
+      response = test
+      raise "not valid credentials" if response.status != 200
+    rescue StandardError => e
+      [e.class.to_s]
+    end
+
     def process_event(params, package)
       @package = package
       current = params["current"]
@@ -81,11 +95,14 @@ module MessageApis::Bootic
         site: "https://auth.bootic.net"
       )
 
-      access_token = client.client_credentials
-                           .get_token({ "scope" => "public,admin" }, "auth_scheme" => "basic", "scope" => "public,admin")
+      at = client.client_credentials
+                 .get_token({ "scope" => "public,admin" }, "auth_scheme" => "basic", "scope" => "public,admin")
 
-      token = access_token.token
-      @package.update(access_token: token) if token.present?
+      token = at.token
+      if token.present?
+        @package.settings[:access_token] = token
+        @package.save
+      end
       token
     end
 
@@ -106,22 +123,30 @@ module MessageApis::Bootic
       handle_req(:post, uri, params)
     end
 
+    def shop_id
+      @package.settings["shop"]
+    end
+
+    def test
+      connection_get(uri: URL)
+    end
+
     # rubocop:disable Naming/MethodParameterName
     def get_products(q:)
-      connection_get(uri: url("products.json"), params: { shop_ids: "4138", q: q })
+      connection_get(uri: url("products.json"), params: { shop_ids: shop_id, q: q })
     end
     # rubocop:enable Naming/MethodParameterName
 
     def get_product(id)
-      connection_get(uri: url("products/#{id}.json"), params: { shop_ids: "4138" })
+      connection_get(uri: url("products/#{id}.json"), params: { shop_ids: shop_id })
     end
 
     def get_orders
-      connection_get(uri: url("shops/4138/orders.json"))
+      connection_get(uri: url("shops/#{shop_id}/orders.json"))
     end
 
     def get_order(id)
-      connection_get(uri: url("shops/4138/orders/#{id}"))
+      connection_get(uri: url("shops/#{shop_id}/orders/#{id}"))
     end
 
     def get_contacts
