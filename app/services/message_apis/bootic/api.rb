@@ -132,8 +132,16 @@ module MessageApis::Bootic
     end
 
     # rubocop:disable Naming/MethodParameterName
-    def get_products(q:)
-      connection_get(uri: url("products.json"), params: { shop_ids: shop_id, q: q })
+    def get_products(q:, per_page: 10, page: 1)
+      connection_get(
+        uri: url("products.json"),
+        params: {
+          shop_ids: shop_id,
+          q: q,
+          page: page,
+          per_page: per_page
+        }
+      )
     end
     # rubocop:enable Naming/MethodParameterName
 

@@ -43,7 +43,11 @@ module MessageApis::Bootic
       when "bootic-q", "back-to-list"
         definitions = search_products(kind: kind, ctx: ctx)
       else
-        definitions = display_product_details(kind: kind, ctx: ctx)
+        definitions = if ctx[:field]["id"].include?("paginate")
+                        search_products(kind: kind, ctx: ctx)
+                      else
+                        display_product_details(kind: kind, ctx: ctx)
+                      end
       end
 
       {
@@ -314,10 +318,36 @@ module MessageApis::Bootic
     ### def self.search_products
     def self.search_products(kind:, ctx:)
       api = ctx[:package].message_api_klass
-      ## all products
 
-      response = api.get_products(q: ctx.dig(:value, :search_product))
-      products = JSON.parse(response.body).dig("_embedded", "items")
+      page = 1
+      per_page = 5
+
+      ## pagination option support
+
+      if ctx[:field][:id].present? && ctx[:field][:id].include?("paginate")
+        t = ctx[:field][:id].split("--").last
+        if t
+          data = JSON.parse(Base64.decode64(t))
+          page = data["page"]
+          per_page = data["per_page"]
+        end
+      end
+
+      options = {
+        q: ctx.dig(:value, :search_product),
+        page: page,
+        per_page: per_page
+      }
+
+      response = JSON.parse(api.get_products(options).body)
+
+      products = response.dig("_embedded", "items")
+
+      next_url = response.dig("_links", "next", "href")
+      if next_url.present?
+        url_options = CGI.parse(URI.parse(next_url).query)
+        options.merge!(url_options.symbolize_keys)
+      end
 
       definitions = []
       definitions += product_search_definitions
@@ -331,14 +361,18 @@ module MessageApis::Bootic
 
       definitions << products_lists(products)
 
-      definitions << {
-        id: "fullcontact-enrich-btn",
-        label: "Edit fields",
-        type: "button",
-        action: {
-          type: "submit"
+      if next_url
+        definitions << {
+          id: "paginate--#{Base64.encode64(options.to_json)}",
+          label: "Load more products",
+          align: "center",
+          type: "button",
+          action: {
+            type: "submit"
+          }
         }
-      }
+      end
+      definitions
     end
 
     def self.search_order(kind:, ctx:)
