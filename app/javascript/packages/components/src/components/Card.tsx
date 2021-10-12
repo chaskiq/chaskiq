@@ -1,8 +1,10 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 
 type CardType = {
   title: string | React.ReactElement;
   description?: string;
+  url?: string;
   imageSrc?: string;
   className?: string;
 };
@@ -10,14 +12,18 @@ type CardType = {
 export default function Card({
   title,
   description,
+  url,
   imageSrc,
   className,
 }: CardType) {
-  const classes = className
+  const classes = (className
     ? className
-    : 'rounded overflow-hidden shadow-lg bg-white h-full';
+    : 'rounded overflow-hidden hover:bg-gray-50 shadow-lg bg-white h-full') + (url ? ' hover:cursor-pointer' : '');
+    const history = useHistory();
+    const navigateTo: () => any|undefined = url ? () => history.push(url) : undefined;
+
   return (
-    <div className={classes}>
+    <div className={classes} onClick={navigateTo}>
       {imageSrc && (
         <img className="w-full" src={imageSrc} alt="Sunset in the mountains" />
       )}

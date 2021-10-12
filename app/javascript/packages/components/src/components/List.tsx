@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 
 export default function List({
   children,
@@ -81,6 +82,7 @@ interface IListItemText {
   secondary?: React.ReactNode;
   terciary?: React.ReactNode;
   cols?: number;
+  url?:string;
 }
 
 export function ListItemText({
@@ -88,12 +90,16 @@ export function ListItemText({
   secondary,
   terciary,
   cols,
+  url,
 }: IListItemText) {
   const colsMd = cols ? cols : 2;
+  const history = useHistory();
+  const navigateTo: () => any|undefined = url ? () => history.push(url) : undefined;
+
+  const classes = `min-w-0 flex-1 px-4 md:grid md:grid-cols-${colsMd} md:gap-4 ${url ? 'hover:cursor-pointer' : ''}`;
+
   return (
-    <div
-      className={`min-w-0 flex-1 px-4 md:grid md:grid-cols-${colsMd} md:gap-4`}
-    >
+    <div className={classes} onClick={navigateTo}>
       <div>
         {primary && primary}
 
