@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 type CardType = {
   title: string | React.ReactElement;
@@ -16,11 +16,15 @@ export default function Card({
   imageSrc,
   className,
 }: CardType) {
-  const classes = (className
-    ? className
-    : 'rounded overflow-hidden hover:bg-gray-50 shadow-lg bg-white h-full') + (url ? ' hover:cursor-pointer' : '');
-    const history = useHistory();
-    const navigateTo: () => any|undefined = url ? () => history.push(url) : undefined;
+  const classes =
+    (className
+      ? className
+      : 'rounded overflow-hidden hover:bg-gray-50 shadow-lg bg-white h-full') +
+    (url ? ' hover:cursor-pointer' : '');
+  const history = useHistory();
+  const navigateTo: () => any | undefined = url
+    ? () => history.push(url)
+    : undefined;
 
   return (
     <div className={classes} onClick={navigateTo}>
