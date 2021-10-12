@@ -393,7 +393,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
-    puma (5.3.1)
+    puma (5.5.1)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.5.2)
@@ -649,7 +649,7 @@ DEPENDENCIES
   pg_search
   php_serialize (~> 1.2)
   pry
-  puma (~> 5.3)
+  puma (~> 5.5)
   rack-cors (~> 1.0)
   rack-mini-profiler (~> 2.0)
   rails (= 6.1.4)
