@@ -100,7 +100,9 @@ function Docs(props) {
                       onClick={(_e) => (window.location = settings.website)}
                     >
                       <LaunchIcon />
-                      <span style={{ marginLeft: '4px' }}>{' Go to'} {settings.siteTitle}</span>
+                      <span style={{ marginLeft: '4px' }}>
+                        {' Go to'} {settings.siteTitle}
+                      </span>
                     </button>
 
                     <div>

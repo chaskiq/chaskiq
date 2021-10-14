@@ -2,7 +2,12 @@ import React from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
-export default function Example({ options, label="Options", icon, filterHandler }) {
+export default function Example({
+  options,
+  label = 'Options',
+  icon,
+  filterHandler,
+}) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -20,7 +25,10 @@ export default function Example({ options, label="Options", icon, filterHandler 
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
-          <div className="px-1 py-1" style= {{ display: 'flex', flexDirection: 'column', rowGap: '4px' }}>
+          <div
+            className="px-1 py-1"
+            style={{ display: 'flex', flexDirection: 'column', rowGap: '4px' }}
+          >
             {options.map((item) => (
               <Menu.Item>
                 {({ active }) => (
@@ -28,7 +36,8 @@ export default function Example({ options, label="Options", icon, filterHandler 
                     onClick={() => filterHandler(item)}
                     className={`${
                       active ? 'bg-violet-500 text-gray-600' : 'text-gray-900'
-                    } group flex items-center w-full px-2 text-sm hover:bg-gray-200`}>
+                    } group flex items-center w-full px-2 py-2 text-sm hover:bg-gray-200`}
+                  >
                     <h3>{item.name}</h3>
                   </button>
                 )}
