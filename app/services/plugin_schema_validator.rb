@@ -109,6 +109,27 @@ class ImageSchema
   end
 end
 
+class SpacerSchema
+  include ActiveModel::Validations
+  attr_accessor :type, :size
+
+  validates :size, presence: :true, inclusion: { in: %w[xs s sm m l xl] }
+
+  def initialize(params)
+    self.size = params[:size] || "m"
+    self.type = params[:type]
+  end
+end
+
+class DividerSchema
+  include ActiveModel::Validations
+  attr_accessor :type
+
+  def initialize(params)
+    self.type = params[:type]
+  end
+end
+
 class DataTableSchema
   include ActiveModel::Validations
   attr_accessor :type, :items
@@ -135,27 +156,6 @@ class DataTableItemSchema
     self.type = params[:type]
     self.field = params[:field]
     self.value = params[:value]
-  end
-end
-
-class SpacerSchema
-  include ActiveModel::Validations
-  attr_accessor :type, :size
-
-  validates :size, presence: :true, inclusion: { in: %w[xs s sm m l xl] }
-
-  def initialize(params)
-    self.size = params[:size] || "m"
-    self.type = params[:type]
-  end
-end
-
-class DividerSchema
-  include ActiveModel::Validations
-  attr_accessor :type
-
-  def initialize(params)
-    self.type = params[:type]
   end
 end
 
