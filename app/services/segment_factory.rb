@@ -9,15 +9,15 @@ class SegmentFactory
 
     user_predicate = {
       attribute: "type",
-      comparison: "eq",
+      comparison: "in",
       type: "string",
-      value: "AppUser"
+      value: ["AppUser"]
     }.with_indifferent_access
 
     lead_predicate = { attribute: "type",
-                       comparison: "eq",
+                       comparison: "in",
                        type: "string",
-                       value: "Lead" }.with_indifferent_access
+                       value: ["Lead"] }.with_indifferent_access
 
     app.segments.create([
                           { name: "all users", predicates: [default_predicate, user_predicate] },
