@@ -78,6 +78,8 @@ module Mutations
           )
         end
 
+        track_event(conversation, author)
+
         {
           conversation: conversation
         }
@@ -85,6 +87,12 @@ module Mutations
 
       def current_user
         context[:current_user]
+      end
+
+      def track_event(conversation, author)
+        return unless author.is_a?(Agent)
+
+        conversation.log_async(action: "start_conversation", user: author)
       end
     end
   end
