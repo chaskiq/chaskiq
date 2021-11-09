@@ -8,7 +8,6 @@ module Mutations
       argument :id, Int, required: true
       argument :state, String, required: true
 
-      # TODO: define resolve method
       def resolve(app_key:, id:, state:)
         app = current_user.apps.find_by(key: app_key)
         app_user = app.app_users.find(id)
@@ -16,6 +15,7 @@ module Mutations
         if AppUser.aasm.events.map(&:name).include?(state.to_sym)
           begin
             app_user.send(state.to_s.to_sym)
+            app_user.save
           rescue AASM::InvalidTransition => e
             return { app_user: app_user, errors: [e.message] }
           end
