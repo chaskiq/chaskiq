@@ -134,6 +134,11 @@ function UsersSettings({
     setState({ ...state, [name]: event.target.checked });
   };
 
+  function handleRadioChange(event) {
+    const name = event.target.name;
+    setState({ ...state, [name]: event.target.value });
+  }
+
   /*const setValue = (name, value) => {
     setState({ ...state, [name]: value })
   }*/
@@ -155,7 +160,7 @@ function UsersSettings({
           label={I18n.t('task_bots.settings.users.delay')}
           checked={state.delay}
           onChange={handleChange('delay')}
-          value="delay"
+          value={state.delay}
         />
       </div>
 

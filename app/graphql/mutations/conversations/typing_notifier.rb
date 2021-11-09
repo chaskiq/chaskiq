@@ -7,7 +7,6 @@ module Mutations
       argument :app_key, String, required: true
       argument :id, String, required: true
 
-      # TODO: define resolve method
       def resolve(app_key:, id:)
         app = App.find_by(key: app_key)
 
