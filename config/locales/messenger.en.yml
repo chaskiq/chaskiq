@@ -2,6 +2,7 @@
 en:
   messenger:
     runon: 'We run on Chaskiq'
+    show_more: Show more
     conversation_block:
       choosen: 'You replied <strong>%{field}</strong>'
     continue_conversation: 'Continue the conversation'

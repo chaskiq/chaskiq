@@ -1645,7 +1645,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                             this.showMore();
                           }}
                         >
-                          mostrar mas
+                          {i18n.t(`messenger.show_more`)}
                         </button>
                         <button
                           onClick={() => this.clearInlineConversation()}
