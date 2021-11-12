@@ -2,6 +2,7 @@
 fr:
   messenger:
     runon: Nous utilisons Chaskiq
+    show_more: Montre plus
     conversations:
       title: Discussions
     conversation_block:

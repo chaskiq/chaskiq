@@ -8,7 +8,6 @@ module Mutations
       argument :id, String, required: true
       argument :controls, Types::JsonType, required: true
 
-      # TODO: define resolve method
       def resolve(app_key:, id:, controls:)
         app = App.find_by(key: app_key)
 
