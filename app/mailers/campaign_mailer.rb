@@ -9,7 +9,7 @@ class CampaignMailer < ApplicationMailer
 
     content_type = "text/html"
 
-    headers "X-SES-CONFIGURATION-SET" => Config.get("SNS_CONFIGURATION_SET")
+    headers "X-SES-CONFIGURATION-SET" => Chaskiq::Config.get("SNS_CONFIGURATION_SET")
     headers "X-CHASKIQ-CAMPAIGN-ID" => campaign.id
     headers "X-CHASKIQ-CAMPAIGN-TO" => subscriber.id
 
