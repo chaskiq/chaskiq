@@ -82,7 +82,7 @@ module PackageIframeBehavior
 
   def handle_url_data(url_base)
     if url_base.match(%r{^/package_iframe_internal/})
-      "#{ENV['HOST']}#{url_base}"
+      "#{Chaskiq::Config.get('HOST')}#{url_base}"
     else
       url_base
     end

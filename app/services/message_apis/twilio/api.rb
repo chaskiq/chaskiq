@@ -87,7 +87,7 @@ module MessageApis::Twilio
 
       if image_block
         message_params.merge!({
-                                MediaUrl: ENV["HOST"] + image_block["data"]["url"]
+                                MediaUrl: Chaskiq::Config.get("HOST") + image_block["data"]["url"]
                               })
       end
 
