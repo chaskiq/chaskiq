@@ -16,6 +16,12 @@ module Types
     field :lang, String, null: true
     field :available, Boolean, null: true
 
+    field :area_of_expertise, :string, null: true
+    field :specialization, :string, null: true
+    field :phone_number, :string, null: true
+    field :address, :string, null: true
+    field :availability, :string, null: true
+
     field :display_name, String, null: true
 
     def display_name
