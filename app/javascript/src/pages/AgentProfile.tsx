@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import graphql from '@chaskiq/store/src/graphql/client';
 import I18n from '../shared/FakeI18n';
@@ -34,8 +34,6 @@ import {
   APP_USER_CONVERSATIONS,
   AGENT,
 } from '@chaskiq/store/src/graphql/queries';
-
-import { getAppUser } from '@chaskiq/store/src/actions/app_user';
 
 type ProfilePageProps = {
   match: any;
@@ -338,8 +336,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
             className="flex items-start px-4 py-3 sm:px-6 lg:px-8 xl:hidden"
             aria-label="Breadcrumb"
           >
-            <a
-              href="#"
+            <Link
+              to={`/apps/${this.props.app.key}`}
               className="inline-flex items-center space-x-3 text-sm font-medium text-gray-900"
             >
               <svg
@@ -356,30 +354,24 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span>Directory</span>
-            </a>
+              <span>back</span>
+            </Link>
           </nav>
 
           <article>
             <div>
-              <div>
-                <img
+              <div className="h-24 w-full object-cover lg:h-24">
+                {/*<img
                   className="h-32 w-full object-cover lg:h-48"
                   src="https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"
                   alt=""
-                />
+                />*/}
               </div>
 
               {this.state.agent && (
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
                     <div className="flex flex-col">
-                      {/*<img
-                      className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                      src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=8&amp;w=1024&amp;h=1024&amp;q=80"
-                      alt=""
-                    />*/}
-
                       {this.state.agent.avatarUrl && (
                         <>
                           <Avatar
