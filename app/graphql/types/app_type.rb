@@ -229,7 +229,7 @@ module Types
       authorize! object, to: :show?, with: AppPolicy
       conversation = object.conversations.find_by(key: id)
 
-      conversation.log_async(action: "conversation_viewed", user: current_user)
+      conversation.log_async(action: "conversation_viewed", user: current_user) if conversation.present?
 
       conversation
     end
