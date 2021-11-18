@@ -285,7 +285,7 @@ function ContactForm({ app, dispatch }) {
     return [
       {
         name: 'contact_kind',
-        label: 'Verified User',
+        label: I18n.t('contact_manager.definitions.app_user'),
         value: 'AppUser',
         type: 'radio',
         defaultChecked: appUser.kind === 'AppUser',
@@ -294,7 +294,7 @@ function ContactForm({ app, dispatch }) {
 
       {
         name: 'contact_kind',
-        label: 'Lead',
+        label: I18n.t('contact_manager.definitions.lead'),
         type: 'radio',
         value: 'Lead',
         defaultChecked: appUser.kind === 'Lead',
@@ -317,13 +317,13 @@ function ContactForm({ app, dispatch }) {
       },
       {
         name: 'phone',
-        label: 'phone',
+        label: I18n.t('contact_manager.definitions.phone'),
         type: 'text',
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'company_name',
-        label: 'company',
+        label: I18n.t('contact_manager.definitions.company_name'),
         type: 'text',
         grid: { xs: 'w-full', sm: 'w-full' },
       },

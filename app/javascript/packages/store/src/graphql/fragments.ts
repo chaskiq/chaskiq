@@ -178,7 +178,7 @@ appUser {
   }
 }
 
-`
+`;
 
 export default {
   conversationAttributesFragment,
