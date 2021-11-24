@@ -647,6 +647,11 @@ fa:
     import_type: Import Type
     import_choose: Choose what kind of contacts you will import
     select_file: Select a file
+    definitions:
+      app_user: Verified User
+      lead: Lead
+      phone: Phone
+      company_name: Company Name
   segment_manager:
     add_filters: Add filters
     select_fields: 'Select fields:'
