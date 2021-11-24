@@ -167,7 +167,7 @@ module MessageApis::Slack
 
       participant = conversation.main_participant
 
-      base = "#{ENV['HOST']}/apps/#{conversation.app.key}"
+      base = "#{Chaskiq::Config.get('HOST')}/apps/#{conversation.app.key}"
       conversation_url = "#{base}/conversations/#{conversation.key}"
       user_url = "#{base}/users/#{conversation.key}"
       links = "*<#{user_url}|#{format_user_name(conversation.main_participant)}>* <#{conversation_url}|view in chaskiq>"
@@ -628,7 +628,7 @@ module MessageApis::Slack
               }
             when "image"
               image_url = block["data"]["url"]
-              image_url = "#{ENV['HOST']}#{block['data']['url']}" unless block["data"]["url"].include?("://")
+              image_url = "#{Chaskiq::Config.get('HOST')}#{block['data']['url']}" unless block["data"]["url"].include?("://")
               {
                 type: "image",
                 title: {
@@ -644,7 +644,7 @@ module MessageApis::Slack
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: "*File sent*: <#{ENV['HOST']}#{block['data']['url']}|go to file>"
+                  text: "*File sent*: <#{Chaskiq::Config.get('HOST')}#{block['data']['url']}|go to file>"
                 }
                 # block_id: block['key']
               }

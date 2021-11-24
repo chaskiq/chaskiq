@@ -126,7 +126,7 @@ module MessageApis::Vonage
           content: {
             type: block_type,
             "#{block_type}": {
-              url: ENV["HOST"] + block["data"]["url"],
+              url: Chaskiq::Config.get("HOST") + block["data"]["url"],
               caption: plain_message
             }
           }

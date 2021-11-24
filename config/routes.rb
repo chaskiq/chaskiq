@@ -31,8 +31,8 @@ Rails.application.routes.draw do
     # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
     # - Use & (do not use &&) so that it doesn't short circuit.
     # - Use digests to stop length information leaking
-    ActiveSupport::SecurityUtils.secure_compare(user, ENV['ADMIN_EMAIL']) &
-      ActiveSupport::SecurityUtils.secure_compare(password, ENV['ADMIN_PASSWORD'])
+    ActiveSupport::SecurityUtils.secure_compare(user, Chaskiq::Config.get('ADMIN_EMAIL')) &
+      ActiveSupport::SecurityUtils.secure_compare(password, Chaskiq::Config.get('ADMIN_PASSWORD'))
   end
 
   mount Sidekiq::Web, at: '/sidekiq'
