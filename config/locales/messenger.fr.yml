@@ -23,6 +23,7 @@ fr:
     submit: Soumettre
     article_meta: 'Par: <strong>%{name}</strong> le <0>%{date}</0>'
     enter_your: 'Entrez votre %{field}'
+    closed_conversation: 'Cette conversation est terminée'
 
     editor:
       placeholder: 'Envoyer un message...'
