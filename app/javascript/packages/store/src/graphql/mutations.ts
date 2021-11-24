@@ -722,10 +722,13 @@ export const UPDATE_AGENT_ROLE = `
   mutation UpdateAgentRole($appKey: String!, $id: String!, $params: Json!){
     updateAgentRole(appKey: $appKey, id: $id, params: $params){
       agent {
+        id
         email
         avatarUrl
         name
         lang
+        agentId
+        
       }
     }
   }

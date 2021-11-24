@@ -52,6 +52,11 @@ class Agent < ApplicationRecord
     enable_deliveries
     lang
     permissions
+    area_of_expertise
+    specialization
+    phone_number
+    address
+    availability
   ]
 
   has_one_attached :avatar
