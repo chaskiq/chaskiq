@@ -149,12 +149,12 @@ class AppPackageIntegration < ApplicationRecord
 
   def hook_url
     # host = 'https://chaskiq.ngrok.io'
-    host = ENV["HOST"]
+    host = Chaskiq::Config.get("HOST")
     "#{host}/api/v1/hooks/receiver/#{encoded_id}"
   end
 
   def oauth_url
-    "#{ENV['HOST']}/api/v1/oauth/callback/#{encoded_id}"
+    "#{Chaskiq::Config.get('HOST')}/api/v1/oauth/callback/#{encoded_id}"
   end
 
   def receive_oauth_code(params)

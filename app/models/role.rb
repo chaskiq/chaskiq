@@ -25,6 +25,15 @@ class Role < ApplicationRecord
   delegate :last_sign_in_at, to: :agent
   delegate :invitation_accepted_at, to: :agent
   delegate :invitation_sent_at, to: :agent
+  delegate :enable_deliveries, to: :agent
+
+  delegate :permissions, to: :agent
+  delegate :conversations, to: :agent
+  delegate :area_of_expertise, to: :agent
+  delegate :specialization, to: :agent
+  delegate :phone_number, to: :agent
+  delegate :address, to: :agent
+  delegate :availability, to: :agent
 
   scope :admin, -> { where("role =?", "admin") }
 

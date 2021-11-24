@@ -5,6 +5,8 @@ class Conversation < ApplicationRecord
   include AASM
   include Tokenable
 
+  include AuditableBehavior
+
   belongs_to :app
   belongs_to :assignee, class_name: "Agent", optional: true
   belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
