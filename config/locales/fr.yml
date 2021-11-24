@@ -647,6 +647,11 @@ fr:
     import_type: Type d'import
     import_choose: Choisissez le type de contacts que vous allez importer
     select_file: Sélectionnez un fichier
+    definitions:
+      app_user: Verified User
+      lead: Lead
+      phone: Phone
+      company_name: Company Name
   segment_manager:
     add_filters: Ajouter des filtres
     select_fields: 'Sélectionner des champs :'
