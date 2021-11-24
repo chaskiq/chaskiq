@@ -18,6 +18,7 @@ module Mutations
         if %w[reopen close].include?(state)
           @conversation.send(state.to_sym)
           @conversation.save
+          track_event(state)
         end
 
         { conversation: @conversation, errors: @conversation.errors }
@@ -29,6 +30,10 @@ module Mutations
 
       def find_app(app_id)
         @app = current_user.apps.find_by(key: app_id)
+      end
+
+      def track_event(action)
+        @conversation.log_async(action: action, user: current_user)
       end
     end
   end
