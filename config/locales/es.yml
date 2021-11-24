@@ -642,7 +642,7 @@ es:
     select_file: Seleccionar archivo
     definitions:
       app_user: Verified User
-      lead: Lead
+      lead: Prospectos
       phone: Phone
       company_name: Company Name
   segment_manager:

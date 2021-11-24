@@ -647,6 +647,11 @@ zh-CN:
     import_type: 导入类型
     import_choose: 选择您要导入哪种联系人
     select_file: 选择文件
+    definitions:
+      app_user: Verified User
+      lead: Lead
+      phone: Phone
+      company_name: Company Name
   segment_manager:
     add_filters: 添加过滤器
     select_fields: '选择字段'
