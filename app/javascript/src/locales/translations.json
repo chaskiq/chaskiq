@@ -11199,6 +11199,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -13119,6 +13125,12 @@
     },
     "contact_manager": {
       "create": "Crear Usuarios y Prospectos",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Elija qué tipo de contactos importará",
       "import_contacts": "importar_contactos",
       "import_csv": "Importar csv",
