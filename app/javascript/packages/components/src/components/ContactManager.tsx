@@ -4,6 +4,8 @@ import Button from './Button';
 import FormDialog from './FormDialog';
 import Progress from './Progress';
 
+import { Link } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 import { getFileMetadata, directUpload } from './fileUploader';
 import serialize from 'form-serialize';
@@ -11,31 +13,25 @@ import serialize from 'form-serialize';
 import graphql from '@chaskiq/store/src/graphql/client';
 
 import I18n from '../../../../src/shared/FakeI18n';
+import SettingsForm from '../../../../src/pages/settings/form';
 
 import { successMessage } from '@chaskiq/store/src/actions/status_messages';
 
 import {
+  APP_USER_CREATE,
   CREATE_DIRECT_UPLOAD,
   IMPORT_CONTACTS,
 } from '@chaskiq/store/src/graphql/mutations';
 
 function optionsForFilter() {
   const options = [
-    /* {
-      title: 'Create User',
-      description: 'Created user',
-      // icon: <ArchiveIcon/>,
-      id: 'create-user',
-      state: 'create-user'
-    },
     {
-      title: 'Create Lead',
-      description: 'Adds a lead',
+      title: 'Create Contact',
+      description: 'Adds a lead or verified user',
       // icon: <BlockIcon/>,
-      id: 'create-lead',
-      state: 'create-lead'
-    }, */
-
+      id: 'create-contact',
+      state: 'create-contact',
+    },
     {
       title: 'Import CSV',
       description: 'Imports CSV',
@@ -88,13 +84,14 @@ function ContactManager({ app, current_user, dispatch }: ContactManagerType) {
   }
 
   function handleCreateForm(e) {
-    switch (e.state) {
+    setSelectedItem(e.state);
+    /*switch (e.state) {
       case 'import-csv':
         setSelectedItem(e.state);
         break;
       default:
         break;
-    }
+    }*/
   }
 
   function closeHandler() {
@@ -109,6 +106,9 @@ function ContactManager({ app, current_user, dispatch }: ContactManagerType) {
     switch (selectedItem) {
       case 'import-csv':
         return <CsvUploader enableSubmit={enableSubmit} />;
+      case 'create-contact':
+        return <ContactForm app={app} dispatch={dispatch} />;
+
       default:
         break;
     }
@@ -128,7 +128,7 @@ function ContactManager({ app, current_user, dispatch }: ContactManagerType) {
         <FormDialog
           open={selectedItem}
           handleClose={closeHandler}
-          titleContent={I18n.t('contact_manager.import_contacts')}
+          titleContent={''}
           formComponent={renderForm()}
           dialogButtons={
             <React.Fragment>
@@ -193,6 +193,9 @@ function CsvUploader({ enableSubmit }) {
 
   return (
     <div className="border-t border-gray-200 pt-2">
+      <h2 className="text-xl mb-2">
+        {I18n.t('contact_manager.import_contacts')}
+      </h2>
       <form
         name="create-repo"
         onSubmit={
@@ -244,6 +247,144 @@ function ContactTypeInput({ kind }) {
           {I18n.t(`common.${kind}`)}
         </span>
       </label>
+    </div>
+  );
+}
+
+type AppUserType = {
+  id?: number;
+  email?: string;
+  name?: string;
+  avatarUrl?: string;
+  kind?: string;
+};
+
+function ContactForm({ app, dispatch }) {
+  const [appUser, setAppUser] = React.useState<AppUserType>({
+    kind: 'AppUser',
+  });
+
+  function createNewContact(data) {
+    graphql(
+      APP_USER_CREATE,
+      {
+        appKey: app.key,
+        options: data,
+      },
+      {
+        success: (data) => {
+          dispatch(successMessage(I18n.t('status_messages.created_success')));
+          setAppUser(data.createAppUser.appUser);
+        },
+        error: (err) => {},
+      }
+    );
+  }
+
+  function definitionsForSettings() {
+    return [
+      {
+        name: 'contact_kind',
+        label: I18n.t('contact_manager.definitions.app_user'),
+        value: 'AppUser',
+        type: 'radio',
+        defaultChecked: appUser.kind === 'AppUser',
+        grid: { xs: 'w-full', sm: 'w-1/2' },
+      },
+
+      {
+        name: 'contact_kind',
+        label: I18n.t('contact_manager.definitions.lead'),
+        type: 'radio',
+        value: 'Lead',
+        defaultChecked: appUser.kind === 'Lead',
+        grid: { xs: 'w-full', sm: 'w-1/2' },
+      },
+
+      {
+        name: 'name',
+        label: I18n.t('definitions.settings.name.label'),
+        type: 'string',
+        grid: { xs: 'w-full', sm: 'w-full' },
+        gridProps: { style: { alignSelf: 'flex-end' } },
+      },
+
+      {
+        name: 'email',
+        type: 'string',
+        label: 'email',
+        grid: { xs: 'w-full', sm: 'w-1/2' },
+      },
+      {
+        name: 'phone',
+        label: I18n.t('contact_manager.definitions.phone'),
+        type: 'text',
+        grid: { xs: 'w-full', sm: 'w-1/2' },
+      },
+      {
+        name: 'company_name',
+        label: I18n.t('contact_manager.definitions.company_name'),
+        type: 'text',
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+    ];
+  }
+
+  return (
+    <div>
+      {!appUser.id && (
+        <div>
+          <h2 className="text-xl mb-2">{I18n.t('contact_manager.create')}</h2>
+
+          <SettingsForm
+            title={''}
+            data={{}}
+            update={createNewContact}
+            classes={''}
+            definitions={definitionsForSettings}
+          />
+        </div>
+      )}
+      {appUser && appUser.id && (
+        <Link
+          to={`/apps/${app.key}/users/${appUser.id}`}
+          className="group p-2 w-full flex items-center justify-between rounded-full border border-gray-300 shadow-sm space-x-3 text-left hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          <span className="min-w-0 flex-1 flex items-center space-x-3">
+            <span className="block flex-shrink-0">
+              <img
+                className="h-10 w-10 rounded-full"
+                src={appUser.avatarUrl}
+                alt=""
+              />
+            </span>
+            <span className="block min-w-0 flex-1">
+              <span className="block text-sm font-medium text-gray-900 truncate">
+                {appUser.name}
+              </span>
+              <span className="block text-sm font-medium text-gray-500 truncate">
+                {appUser.email}
+              </span>
+            </span>
+          </span>
+          <span className="flex-shrink-0 h-10 w-10 inline-flex items-center justify-center">
+            <svg
+              className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
+              x-description="Heroicon name: solid/plus"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </span>
+        </Link>
+      )}
     </div>
   );
 }

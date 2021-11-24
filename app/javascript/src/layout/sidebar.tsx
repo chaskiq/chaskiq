@@ -607,7 +607,9 @@ function Sidebar({
                 </div>
                 <div className="ml-3 w-2/5 flex flex-wrap">
                   <p className="my-1 text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
-                    {current_user.email}
+                    <Link to={`/apps/${app.key}/agents/${current_user.id}`}>
+                      {current_user.email}
+                    </Link>
                   </p>
 
                   <div className="flex items-center space-x-2">

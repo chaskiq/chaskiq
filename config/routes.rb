@@ -6,6 +6,9 @@ require 'subdomain_routes'
 Rails.application.routes.draw do
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
+
+    controllers tokens: 'agents/tokens'
+
     # controllers applications: 'agents/authorizations',
     # tokens: 'agents/custom_authorizations'
     # authorizations: 'custom_authorizations',
@@ -28,8 +31,8 @@ Rails.application.routes.draw do
     # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
     # - Use & (do not use &&) so that it doesn't short circuit.
     # - Use digests to stop length information leaking
-    ActiveSupport::SecurityUtils.secure_compare(user, ENV['ADMIN_EMAIL']) &
-      ActiveSupport::SecurityUtils.secure_compare(password, ENV['ADMIN_PASSWORD'])
+    ActiveSupport::SecurityUtils.secure_compare(user, Chaskiq::Config.get('ADMIN_EMAIL')) &
+      ActiveSupport::SecurityUtils.secure_compare(password, Chaskiq::Config.get('ADMIN_PASSWORD'))
   end
 
   mount Sidekiq::Web, at: '/sidekiq'

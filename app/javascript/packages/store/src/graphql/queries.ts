@@ -104,6 +104,16 @@ export const ROLE_AGENTS = `
         lastSignInAt
         invitationAcceptedAt
         invitationSentAt
+        agentId
+        enableDeliveries
+        lang
+        permissions
+        areaOfExpertise
+        specialization
+        phoneNumber
+        address
+        availability
+
       }
     }
   }
@@ -134,6 +144,14 @@ export const AGENT = `
         email
         avatarUrl
         name
+
+        permissions
+        areaOfExpertise
+        specialization
+        phoneNumber
+        address
+        availability
+        
         conversations(page: $page , per: $per ){
           collection{
             id
@@ -303,6 +321,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE = `
 export const CURRENT_USER = `
   query CurrentUser {
     userSession {
+      id
       email
       avatarUrl
       lang
