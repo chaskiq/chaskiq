@@ -104,7 +104,7 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    preferences[:outgoing_email_domain].presence || ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"]
+    preferences[:outgoing_email_domain].presence || Chaskiq::Config.get("DEFAULT_OUTGOING_EMAIL_DOMAIN")
   end
 
   def config_fields

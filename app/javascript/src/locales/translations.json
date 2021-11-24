@@ -11199,6 +11199,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -12182,6 +12188,7 @@
       "search_article_title": "Find answers in our article's repository",
       "search_articles": "Search articles",
       "see_previous": "See previous",
+      "show_more": "Show more",
       "start_conversation": "Start a conversation",
       "submit": "Submit",
       "tours": {
@@ -13118,6 +13125,12 @@
     },
     "contact_manager": {
       "create": "Crear Usuarios y Prospectos",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Elija qué tipo de contactos importará",
       "import_contacts": "importar_contactos",
       "import_csv": "Importar csv",
@@ -14075,6 +14088,7 @@
       "search_article_title": "Encuentra respuestas en nuestro centro de ayuda",
       "search_articles": "Busca artículos",
       "see_previous": "Ver anteriores",
+      "show_more": "Mostrar más",
       "start_conversation": "Inicia una conversación",
       "submit": "Enviar",
       "tours": {
@@ -17381,6 +17395,7 @@
       "search_article_title": "Trouver les réponses dans notre répertoire d'article",
       "search_articles": "Rechercher un article",
       "see_previous": "Voir les précedentes",
+      "show_more": "Montre plus",
       "start_conversation": "Commencer une discussion",
       "submit": "Soumettre",
       "tours": {

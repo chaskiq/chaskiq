@@ -10,6 +10,7 @@ class AppUser < ApplicationRecord
   include Connectivity
   include EmailValidable
   include Avatar
+  include AuditableBehavior
 
   ENABLED_SEARCH_FIELDS = [
     { "name" => "email", "type" => "string" },

@@ -30,7 +30,7 @@
     -->
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css' rel='stylesheet' />
     
-    <script> window.chaskiq_cable_url = "<%= ENV['WS'] %>"</script>
+    <script> window.chaskiq_cable_url = "<%= Chaskiq::Config.get('WS') %>"</script>
 
     <%= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <% #= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -62,12 +62,12 @@
       <script>
         (function(d,t) {
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-          g.src="<%=ENV['HOST']%>/embed.js"
+          g.src="<%= Chaskiq::Config.get('HOST') %>/embed.js"
           s.parentNode.insertBefore(g,s);
           g.onload=function(){
             new window.ChaskiqMessengerEncrypted({
-              domain: "<%= ENV['HOST'] %>",
-              ws:  "<%= ENV['WS'] %>",
+              domain: "<%=  Chaskiq::Config.get('HOST')  %>",
+              ws:  "<%=  Chaskiq::Config.get('WS') ) >",
               app_id: "<%= support_app_data[:app].key %>",
               data: <%= raw support_app_data[:enc] %>
             })

@@ -10,12 +10,28 @@ Bundler.require(*Rails.groups)
 
 require 'URLcrypt'
 
+
 Dotenv::Railtie.load if defined?(Dotenv::Railtie)
 
 module Chaskiq
+
+  module Config
+
+    def self.get(name)
+      # config[name] || ENV[name.upcase]
+      Rails.application.credentials.config.fetch(name.downcase.to_sym, ENV[name.to_s.upcase])
+    end
+  
+    def self.fetch(name, fallback)
+      Rails.application.credentials.config.fetch(name.downcase.to_sym, ENV[name.to_s.upcase])
+      # config[name] || ENV.fetch(name.upcase, fallback)
+    end
+  end
+
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     # config.load_defaults 5.2
+
     config.load_defaults '6.0'
     
     config.encoding = 'utf-8'
@@ -44,7 +60,7 @@ module Chaskiq
       end
     end
 
-    URLcrypt.key = [ENV['SECRET_KEY_BASE']].pack('H*')
+    URLcrypt.key = [Chaskiq::Config.get('SECRET_KEY_BASE')].pack('H*')
 
     locales = %w[af sq ar eu bg be ca hr cs da nl en eo et fo fi fr gl de el iw hu is ga it ja ko lv lt mk mt no pl pt ro ru gd sr sr sk sl es sv tr uk zh-CN]
     config.available_locales = locales

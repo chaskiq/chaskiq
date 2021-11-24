@@ -61,7 +61,7 @@ class Api::V1::SubscriptionHooksController < ApplicationController
   end
 
   def verify_key
-    public_key = ENV["PADDLE_PUBLIC_KEY"]
+    public_key = Chaskiq::Config.get("PADDLE_PUBLIC_KEY")
 
     data = params.permit!.to_h.dup
 
