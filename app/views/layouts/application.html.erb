@@ -66,8 +66,8 @@
           s.parentNode.insertBefore(g,s);
           g.onload=function(){
             new window.ChaskiqMessengerEncrypted({
-              domain: "<%=  Chaskiq::Config.get('HOST')  %>",
-              ws:  "<%=  Chaskiq::Config.get('WS') ) >",
+              domain: "<%= Chaskiq::Config.get('HOST') %>",
+              ws:  "<%= Chaskiq::Config.get('WS') %>",
               app_id: "<%= support_app_data[:app].key %>",
               data: <%= raw support_app_data[:enc] %>
             })
