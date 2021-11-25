@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_18_032503) do
+ActiveRecord::Schema.define(version: 2021_11_25_032212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -323,7 +323,9 @@ ActiveRecord::Schema.define(version: 2021_11_18_032503) do
     t.string "ip"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "app_id"
     t.index ["agent_id"], name: "index_audits_on_agent_id"
+    t.index ["app_id"], name: "index_audits_on_app_id"
     t.index ["auditable_type", "auditable_id"], name: "index_audits_on_auditable"
   end
 
@@ -770,6 +772,7 @@ ActiveRecord::Schema.define(version: 2021_11_18_032503) do
   add_foreign_key "article_settings", "apps"
   add_foreign_key "assignment_rules", "apps"
   add_foreign_key "audits", "agents"
+  add_foreign_key "audits", "apps"
   add_foreign_key "bot_tasks", "apps"
   add_foreign_key "campaigns", "apps"
   add_foreign_key "campaigns", "workflows"

@@ -139,6 +139,7 @@
         "tomorrow_from": "nous serons en ligne demain à partir de %{hours} heure"
       },
       "by": "Par",
+      "closed_conversation": "Cette conversation est terminée",
       "continue_conversation": "Continuer la discussion",
       "conversation_block": {
         "choosen": "Vous avez répondu <strong>%{field}</strong>"
