@@ -641,6 +641,7 @@ class AppPackagesCatalog
   def self.update(kind)
     data = packages.find { |o| o[:name].downcase === kind.downcase }
     pkg = AppPackage.find_or_create_by(name: data[:name])
+    pkg.update(data) if pkg.present?
   end
 
   def self.update_all(dev_packages: false)
