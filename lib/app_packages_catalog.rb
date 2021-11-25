@@ -122,6 +122,15 @@ class AppPackagesCatalog
       },
 
       {
+        name: "AuditsReports",
+        # capability_list: %w[],
+        tag_list: ["dashboard"],
+        description: "App Audits log reports",
+        state: "enabled",
+        definitions: []
+      },
+
+      {
         name: "Clearbit",
         tag_list: ["enrichment"],
         description: "Clearbit data enrichment",
@@ -632,14 +641,12 @@ class AppPackagesCatalog
   def self.update(kind)
     data = packages.find { |o| o[:name].downcase === kind.downcase }
     pkg = AppPackage.find_or_create_by(name: data[:name])
-    pkg.update(data) if pkg.present?
   end
 
   def self.update_all(dev_packages: false)
     packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-      # binding.pry if package.errors.any?
       Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
     end
   end
