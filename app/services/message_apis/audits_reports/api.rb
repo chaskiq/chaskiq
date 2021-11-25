@@ -4,11 +4,7 @@ module MessageApis::AuditsReports
   class Api
     attr_accessor :secret
 
-    def initialize(config:)
-      @secret = secret
-      @api_key = config["api_key"]
-      @url = config["endpoint_url"]
-    end
+    def initialize(config:); end
 
     # reports
     def report_kinds
