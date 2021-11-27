@@ -95,7 +95,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
+  if Chaskiq::Config.get('RAILS_LOG_TO_STDOUT').present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
@@ -116,9 +116,9 @@ Rails.application.configure do
     }
   else
     zone = ENV['AWS_S3_REGION']
-    
+
     creds = Aws::Credentials.new(
-      ENV['AWS_ACCESS_KEY_ID'], 
+      ENV['AWS_ACCESS_KEY_ID'],
       ENV['AWS_SECRET_ACCESS_KEY']
     )
 
