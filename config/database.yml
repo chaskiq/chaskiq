@@ -45,6 +45,9 @@ test:
     ###   - rebake all to posts using: `RAILS_ENV=production bundle exec rake posts:rebake`
     - "localhost"
 
+staging:
+  adapter: postgresql
+  url: <%= Chaskiq::Config.get('DATABASE_URL') %>
 
 production:
   <<: *default
