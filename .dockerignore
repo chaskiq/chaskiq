@@ -41,3 +41,6 @@ yarn-debug.log*
 .env.*
 .envrc
 
+config/credentials/*.key
+config/credentials/*.yml.enc
+
