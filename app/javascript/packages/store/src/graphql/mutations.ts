@@ -50,6 +50,7 @@ export const APP_USER_UPDATE = `
   mutation UpdateAppUser($appKey: String!, $id: Int!, $options: Json!){
     updateAppUser(appKey: $appKey, id: $id, options: $options){
       ${appUserFragment}
+      errors
     }
   }
 `;
@@ -58,6 +59,7 @@ export const APP_USER_CREATE = `
   mutation CreateAppUser($appKey: String!, $options: Json!){
     createAppUser(appKey: $appKey, options: $options){
       ${appUserFragment}
+      errors
     }
   }
 `;
