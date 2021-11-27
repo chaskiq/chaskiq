@@ -5,7 +5,7 @@ import FormDialog from './FormDialog';
 import Progress from './Progress';
 
 import { Link } from 'react-router-dom';
-
+import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 import { getFileMetadata, directUpload } from './fileUploader';
 import serialize from 'form-serialize';
@@ -264,6 +264,8 @@ function ContactForm({ app, dispatch }) {
     kind: 'AppUser',
   });
 
+  const [errors, setErrors] = React.useState(null);
+
   function createNewContact(data) {
     graphql(
       APP_USER_CREATE,
@@ -273,8 +275,12 @@ function ContactForm({ app, dispatch }) {
       },
       {
         success: (data) => {
-          dispatch(successMessage(I18n.t('status_messages.created_success')));
-          setAppUser(data.createAppUser.appUser);
+          if (!isEmpty(data.createAppUser.errors)) {
+            setErrors(data.createAppUser.errors);
+          } else {
+            dispatch(successMessage(I18n.t('status_messages.created_success')));
+            setAppUser(data.createAppUser.appUser);
+          }
         },
         error: (err) => {},
       }
@@ -338,7 +344,9 @@ function ContactForm({ app, dispatch }) {
 
           <SettingsForm
             title={''}
-            data={{}}
+            data={{
+              errors: errors,
+            }}
             update={createNewContact}
             classes={''}
             definitions={definitionsForSettings}
