@@ -116,6 +116,9 @@ gem "i18n-js", "~> 4.0.0.alpha1"
 
 gem "globalize", github: "globalize/globalize"
 
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", ">= 1.1.0", require: false
+
 gem "dotenv-rails", groups: %i[development test]
 
 group :development, :test do
