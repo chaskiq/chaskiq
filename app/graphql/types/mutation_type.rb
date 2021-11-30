@@ -55,6 +55,7 @@ module Types
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
     field :convertUser, mutation: Mutations::AppUsers::ConvertUser
     field :privacyConsent, mutation: Mutations::AppUsers::PrivacyConsent
+    field :createAppUser, mutation: Mutations::AppUsers::CreateAppUser
     field :updateAppUser, mutation: Mutations::AppUsers::UpdateAppUser
     field :syncExternalProfile, mutation: Mutations::AppUsers::SyncExternalProfile
 

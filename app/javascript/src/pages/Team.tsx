@@ -167,7 +167,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
       UPDATE_AGENT_ROLE,
       {
         appKey: this.props.app.key,
-        id: this.state.isEditDialogOpen.id,
+        id: this.state.isEditDialogOpen.agentId,
         params: params,
       },
       {
@@ -380,7 +380,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                     </div>
                   ),
               },
-              { field: 'name', title: I18n.t('data_tables.agents.email') },
+              { field: 'name', title: I18n.t('data_tables.agents.name') },
               {
                 field: 'owner',
                 title: I18n.t('data_tables.agents.owner'),

@@ -122,6 +122,15 @@ class AppPackagesCatalog
       },
 
       {
+        name: "AuditsReports",
+        # capability_list: %w[],
+        tag_list: ["dashboard"],
+        description: "App Audits log reports",
+        state: "enabled",
+        definitions: []
+      },
+
+      {
         name: "Clearbit",
         tag_list: ["enrichment"],
         description: "Clearbit data enrichment",
@@ -639,7 +648,6 @@ class AppPackagesCatalog
     packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-      # binding.pry if package.errors.any?
       Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
     end
   end

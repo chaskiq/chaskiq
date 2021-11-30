@@ -6,6 +6,9 @@ require 'subdomain_routes'
 Rails.application.routes.draw do
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
+
+    controllers tokens: 'agents/tokens'
+
     # controllers applications: 'agents/authorizations',
     # tokens: 'agents/custom_authorizations'
     # authorizations: 'custom_authorizations',
