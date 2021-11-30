@@ -647,6 +647,11 @@ pt:
     import_type: Tipo de importação
     import_choose: Escolha o tipo de contatos que você vai importar
     select_file: Seleccione um ficheiro
+    definitions:
+      app_user: Verified User
+      lead: Lead
+      phone: Phone
+      company_name: Company Name
   segment_manager:
     add_filters: Adicionar filtros
     select_fields: 'Selecione os campos:'

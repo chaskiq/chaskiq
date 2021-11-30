@@ -22,6 +22,8 @@ class Agents::SessionsController < Devise::SessionsController
     # like customize /oauth/applications
     # sign_in(resource_name, resource, {store: true})
 
+    track_event(resource, "login")
+
     if session[:return_to].blank?
       a = Doorkeeper::Application.first
 
@@ -44,6 +46,7 @@ class Agents::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
+    track_event(current_agent, "logout")
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
     set_flash_message! :notice, :signed_out if signed_out
     yield if block_given?
@@ -54,6 +57,10 @@ class Agents::SessionsController < Devise::SessionsController
   end
 
   private
+
+  def track_event(resource, action)
+    resource.log_async(action: action, user: resource)
+  end
 
   def clear_session
     request.env["warden"].logout

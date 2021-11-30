@@ -24,7 +24,9 @@ module UserHandler
   def add_lead(attrs)
     email = attrs.delete(:email)
     callbacks = attrs.delete(:disable_callbacks)
+    additional_validations = attrs.delete(:additional_validations)
     ap = app_users.leads.find_or_initialize_by(email: email)
+    ap.additional_validations = true if additional_validations
     ap = handle_app_user_params(ap, attrs)
     ap.disable_callbacks = true if callbacks.present?
     data = attrs.deep_merge!(properties: ap.properties)
@@ -35,10 +37,11 @@ module UserHandler
 
   def add_user(attrs)
     email = attrs.delete(:email)
-
+    additional_validations = attrs.delete(:additional_validations)
     callbacks = attrs.delete(:disable_callbacks)
     # page_url = attrs.delete(:page_url)
     ap = app_users.find_or_initialize_by(email: email)
+    ap.additional_validations = true if additional_validations
     ap.disable_callbacks = true if callbacks.present?
 
     ap = handle_app_user_params(ap, attrs)
