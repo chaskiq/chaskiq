@@ -33,7 +33,7 @@ Rails.application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
-  config.action_controller.asset_host = ENV['ASSET_HOST']
+  config.action_controller.asset_host = Chaskiq::Config.fetch('ASSET_HOST', Chaskiq::Config.get("HOST") )
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
@@ -47,6 +47,10 @@ Rails.application.configure do
   Rails.application.routes.default_url_options = { host: ENV['HOST'] }
   config.action_controller.default_url_options = { host: ENV['HOST'] }
   config.action_mailer.default_url_options = { host: ENV['HOST'] }
+
+  Rails.application.routes.default_url_options = { host: Chaskiq::Config.get('HOST') }
+  config.action_controller.default_url_options = { host: Chaskiq::Config.get('HOST') }
+  config.action_mailer.default_url_options = { host: Chaskiq::Config.get('HOST') }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil

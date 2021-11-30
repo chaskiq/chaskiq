@@ -20,7 +20,7 @@ environment ENV.fetch('RAILS_ENV') { 'development' }
 
 # Redirect all stdout/stderr
 #
-stdout_redirect(stdout = '/dev/stdout', stderr = '/dev/stderr', append = true)
+# stdout_redirect(stdout = '/dev/stdout', stderr = '/dev/stderr', append = true)
 
 # Puma 5 new options
 # https://github.com/puma/puma/blob/master/5.0-Upgrade.md
