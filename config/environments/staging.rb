@@ -22,7 +22,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = Chaskiq::Config.get('RAILS_SERVE_STATIC_FILES')
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -44,17 +44,17 @@ Rails.application.configure do
 
   config.active_storage.service = :amazon
 
-  Rails.application.routes.default_url_options = { host: ENV['HOST'] }
-  config.action_controller.default_url_options = { host: ENV['HOST'] }
-  config.action_mailer.default_url_options = { host: ENV['HOST'] }
+  Rails.application.routes.default_url_options = { host: Chaskiq::Config.get('HOST') }
+  config.action_controller.default_url_options = { host: Chaskiq::Config.get('HOST') }
+  config.action_mailer.default_url_options = { host: Chaskiq::Config.get('HOST') }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  config.action_cable.url = ENV['WS'] # Rails.application.credentials.ws
+  config.action_cable.url = Chaskiq::Config.get('WS') # Rails.application.credentials.ws
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -63,7 +63,7 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+  config.cache_store = :redis_cache_store, { url: Chaskiq::Config.get('REDIS_URL') }
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -115,11 +115,11 @@ Rails.application.configure do
       enable_starttls_auto: true
     }
   else
-    zone = ENV['AWS_S3_REGION']
+    zone = Chaskiq::Config.get('AWS_S3_REGION')
 
     creds = Aws::Credentials.new(
-      ENV['AWS_ACCESS_KEY_ID'],
-      ENV['AWS_SECRET_ACCESS_KEY']
+      Chaskiq::Config.get('AWS_ACCESS_KEY_ID'),
+      Chaskiq::Config.get('AWS_SECRET_ACCESS_KEY')
     )
 
     Aws::Rails.add_action_mailer_delivery_method(
