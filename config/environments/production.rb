@@ -63,7 +63,7 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+  config.cache_store = :redis_cache_store, { url: Chaskiq::Config.get('REDIS_URL') }
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
