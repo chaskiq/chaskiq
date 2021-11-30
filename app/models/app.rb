@@ -68,6 +68,7 @@ class App < ApplicationRecord
   has_many :campaigns, dependent: :destroy_async
   has_many :user_auto_messages, dependent: :destroy_async
   has_many :tours, dependent: :destroy_async
+  has_many :audits, dependent: :destroy_async
   has_many :banners, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
   has_many :bot_tasks, dependent: :destroy_async

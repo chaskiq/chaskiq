@@ -15,6 +15,9 @@ module Mutations
         @conversation = conversation(conversation_id)
         @app_user = @app.agents.find(app_user_id)
         @conversation.assign_user(@app_user)
+
+        track_event(app_user_id) unless @conversation.errors.any?
+
         { conversation: @conversation, errors: @conversation.errors }
       end
 
@@ -24,6 +27,10 @@ module Mutations
 
       def find_app(app_id)
         @app = context[:current_user].apps.find_by(key: app_id)
+      end
+
+      def track_event(app_user_id)
+        @conversation.log_async(action: "assign_user", user: current_user, data: { assignee: app_user_id })
       end
     end
   end

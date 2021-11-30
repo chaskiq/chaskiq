@@ -3,7 +3,7 @@
 module Mutations
   module Agents
     class UpdateAgentRole < Mutations::BaseMutation
-      field :agent, Types::AgentType, null: false
+      field :agent, Types::RoleType, null: false
       argument :app_key, String, required: true
       argument :params, Types::JsonType, required: true
       argument :id, String, required: true
@@ -11,7 +11,7 @@ module Mutations
       def resolve(app_key:, id:, params:)
         app = current_user.apps.find_by(key: app_key)
 
-        role = app.roles.find_by(id: id)
+        role = app.roles.find_by(agent_id: id)
 
         agent = role&.agent # , name: 'John Doe')
 
@@ -20,9 +20,9 @@ module Mutations
         }
 
         data = params.permit(
-          :name,
           :avatar,
           :lang,
+          :name,
           :first_name,
           :last_name,
           :country,
@@ -31,14 +31,22 @@ module Mutations
           :region_code,
           :enable_deliveries,
           :available,
-          :access_list
+          :access_list,
+          :address,
+          :area_of_expertise,
+          :availability,
+          :phone_number,
+          :specialization,
+          :enable_deliveries,
+          :available
         )
 
+        # role.update(data)
         agent.update(data)
+        role.update(access_list: params[:access_list]) if params[:access_list].present?
 
-        role.update(access_list: params[:access_list])
-
-        { agent: agent }
+        # agent.update(name: params[:name]) if params[:name].present?
+        { agent: role }
       end
 
       def current_user

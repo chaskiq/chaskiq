@@ -22,6 +22,7 @@ require "app_packages_catalog"
 # require 'shoulda'
 # require 'shoulda-matchers'
 
+ENV["ENABLED_AUDITS"] = "true"
 ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"] = "mail.chaskiq.test"
 
 def inline_job(&block)
