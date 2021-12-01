@@ -30,7 +30,12 @@ module Mutations
       end
 
       def track_event(app_user_id)
-        @conversation.log_async(action: "assign_user", user: current_user, data: { assignee: app_user_id })
+        @conversation.log_async(
+          action: "assign_user",
+          user: current_user,
+          data: { assignee: app_user_id },
+          ip: context[:request].remote_ip
+        )
       end
     end
   end

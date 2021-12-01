@@ -33,7 +33,11 @@ module Mutations
       end
 
       def track_event(action)
-        @conversation.log_async(action: action, user: current_user)
+        @conversation.log_async(
+          action: action,
+          user: current_user,
+          ip: context[:request].remote_ip
+        )
       end
     end
   end
