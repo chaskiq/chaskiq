@@ -92,7 +92,11 @@ module Mutations
       def track_event(conversation, author)
         return unless author.is_a?(Agent)
 
-        conversation.log_async(action: "start_conversation", user: author)
+        conversation.log_async(
+          action: "start_conversation",
+          user: author,
+          ip: context[:request].remote_ip
+        )
       end
     end
   end
