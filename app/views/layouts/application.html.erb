@@ -9,7 +9,7 @@
 
     <meta content='True' name='HandheldFriendly'>
     <meta content='320' name='MobileOptimized'>
-    <meta name="chaskiq-host" content="<%= ENV['HOST'] %>"/>
+    <meta name="chaskiq-host" content="<%= Chaskiq::Config.get('HOST') %>"/>
 
     <!--
     <meta content='width=device-width, initial-scale=1' name='viewport'>
@@ -29,14 +29,12 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js'></script>
     -->
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css' rel='stylesheet' />
-    
+
     <script> window.chaskiq_cable_url = "<%= Chaskiq::Config.get('WS') %>"</script>
 
     <%= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% #= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-
-    <%= stylesheet_pack_tag "application" %> 
+    <%= stylesheet_pack_tag "application" %>
     <% #= javascript_pack_tag 'locales' %>
     <%= javascript_pack_tag 'application' %>
     <!--<link href="https://fonts.googleapis.com/css?family=PT+Sans|Roboto+Mono&display=swap" rel="stylesheet">-->
@@ -57,7 +55,7 @@
 
     <% if current_agent.present? and
       support_data = support_app_data and
-      support_data.present? %> 
+      support_data.present? %>
 
       <script>
         (function(d,t) {

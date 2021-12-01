@@ -50,6 +50,9 @@ RUN bundle install -j ${BUNDLE_JOBS} --retry ${BUNDLE_RETRY}
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     truncate -s 0 /var/log/*log
 
+# Ensure setuid and setgid permissions are removed
+RUN find / -perm /6000 -type f -exec chmod a-s {} \; || true
+
 # Change user and set workdir
 USER docker
 WORKDIR /usr/src/app
@@ -59,10 +62,9 @@ COPY --chown=docker:docker . /usr/src/app/
 
 # Precompile assets - production only
 # Clean up temp files and Yarn cache folder
-
-RUN NODE_ENV=${APP_ENV} NODE_OPTIONS="--max-old-space-size=2048" \
-    SECRET_KEY_BASE=`bin/rake secret` RAILS_ENV=${APP_ENV} \
-    bundle exec rails assets:precompile \
+RUN NODE_OPTIONS="--max-old-space-size=2048" \
+    RAILS_ENV=${APP_ENV} \
+    SECRET_KEY_BASE=`bin/rake secret` \
+    bundle exec rails assets:precompile --trace \
     && rm -rf /usr/src/app/node_modules /usr/src/app/tmp/cache/* /tmp/* \
     && yarn cache clean
-

@@ -19,11 +19,15 @@ module Chaskiq
 
     def self.get(name)
       # config[name] || ENV[name.upcase]
-      Rails.application.credentials.config.fetch(name.downcase.to_sym, ENV[name.to_s.upcase])
+      Rails.application.credentials.config.fetch(
+        name.downcase.to_sym, ENV[name.to_s.upcase]
+      )
     end
   
     def self.fetch(name, fallback)
-      Rails.application.credentials.config.fetch(name.downcase.to_sym, ENV[name.to_s.upcase])
+      Rails.application.credentials.config.fetch(
+        name.downcase.to_sym, ENV.fetch(name.to_s.upcase, fallback)
+      )
       # config[name] || ENV.fetch(name.upcase, fallback)
     end
   end
