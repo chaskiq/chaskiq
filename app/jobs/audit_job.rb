@@ -3,11 +3,12 @@
 class AuditJob < ApplicationJob
   queue_as :default
 
-  def perform(model:, user:, action:, data: nil)
+  def perform(model:, user:, action:, data: nil, ip: nil)
     model.audits.log(
       action: action,
       user: user,
-      data: data
+      data: data,
+      ip: ip
     )
   end
 end
