@@ -8,12 +8,13 @@ local:
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 amazon:
-   service: S3
-   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-   region: <%= ENV['AWS_S3_REGION'] || 'us-east-1' %>
-   bucket: <%= ENV['AWS_S3_BUCKET'] %>
-
+  service: S3
+  access_key_id: <%= Chaskiq::Config.get('AWS_ACCESS_KEY_ID') %>
+  secret_access_key: <%= Chaskiq::Config.get('AWS_SECRET_ACCESS_KEY') %>
+  region: <%= Chaskiq::Config.get('AWS_S3_REGION') || 'us-east-1' %>
+  bucket: <%= Chaskiq::Config.get('AWS_S3_BUCKET') %>
+  # endpoint: <%= Chaskiq::Config.get('AWS_S3_ENDPOINT') %>
+  # force_path_style: true
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS
