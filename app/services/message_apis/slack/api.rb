@@ -85,8 +85,8 @@ module MessageApis::Slack
     end
 
     def post_message(message, blocks, options = {})
-      path = url("/api/chat.postMessage")
-      api_post(path, message, blocks, options = {})
+      path = "/api/chat.postMessage"
+      api_post(path, message, blocks, options)
     end
 
     def update_message(message, blocks, options = {})
@@ -375,38 +375,19 @@ module MessageApis::Slack
 
         {
           type: "section",
+          block_id: "section678",
           text: {
             type: "mrkdwn",
-            text: "*<fakelink.com|WEB-1098 Adjust borders on homepage graphic>*"
+            text: "Pick an item from the dropdown list"
           },
           accessory: {
-            type: "overflow",
-            options: [
-              {
-                text: {
-                  type: "plain_text",
-                  text: ":white_check_mark: Mark as done",
-                  emoji: true
-                },
-                value: "done"
-              },
-              {
-                text: {
-                  type: "plain_text",
-                  text: ":pencil: Edit",
-                  emoji: true
-                },
-                value: "edit"
-              },
-              {
-                text: {
-                  type: "plain_text",
-                  text: ":x: Delete",
-                  emoji: true
-                },
-                value: "delete"
-              }
-            ]
+            action_id: "pick-agent",
+            type: "external_select",
+            placeholder: {
+              type: "plain_text",
+              text: "Select an item"
+            },
+            min_query_length: 3
           }
         },
 
@@ -498,7 +479,23 @@ module MessageApis::Slack
 
     # this call process event in async job
     def enqueue_process_event(params, package)
+      @package = package
+
       return handle_challenge(params) if challenge?(params)
+
+      if params["payload"]
+        data = JSON.parse(params[:payload])
+        case data["type"]
+        when "block_suggestion"
+          case data["action_id"]
+          when "pick-agent"
+            return users_options(data["value"])
+          end
+
+          # when "block_actions"
+          #  handle_external_select_action(data)
+        end
+      end
 
       # process_event(params, package)
       HookMessageReceiverJob.perform_later(
@@ -509,16 +506,30 @@ module MessageApis::Slack
 
     def process_event(params, package)
       @package = package
-
       handle_incoming_action(params) if params["payload"]
       handle_incoming_event(params) if params["event"]
     end
 
-    # handles actions from slack buttons
-    def handle_incoming_action(params)
-      data = JSON.parse(params["payload"])
-      if data["type"] == "block_actions"
+    def users_options(value)
+      agents = @package.app.agents.ransack(email_cont: value).result.limit(5)
+      {
+        options: agents.map do |u|
+          {
+            text: {
+              type: "plain_text",
+              text: "#{u.name} #{u.email}"
+            },
+            value: u.id.to_s
+          }
+        end
+      }
+    end
 
+    # handles actions from slack buttons
+    def handle_incoming_action(data)
+      data = JSON.parse(data["payload"])
+
+      if data["type"] == "block_actions"
         action = data["actions"]&.first
         return if action.blank?
 
@@ -532,9 +543,22 @@ module MessageApis::Slack
           conversation.close unless conversation.closed?
         when "prioritize", "unprioritize"
           conversation.toggle_priority
+        else
+          case action["type"]
+          when "external_select"
+            handle_external_select_action(action, conversation)
+          end
         end
-
         update_thread_head(conversation, slack_ts)
+      end
+    end
+
+    def handle_external_select_action(action, conversation)
+      case action["action_id"]
+      when "pick-agent"
+        value = action["selected_option"]["value"]
+        agent = @package.app.agents.find(value)
+        conversation.assign_user(agent)
       end
     end
 
