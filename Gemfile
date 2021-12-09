@@ -7,7 +7,7 @@ ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
-gem "rails", "6.1.4.1" # , github: "rails/rails",
+gem "rails", "7.0.0.rc1" # , github: "rails/rails",
 
 gem "anycable-rails"
 # Use sqlite3 as the database for Active Record
@@ -23,7 +23,7 @@ gem "uglifier", ">= 1.3.0"
 # gem 'mini_racer', platforms: :ruby
 gem "haml"
 
-gem "devise", "4.7.1" # github: "plataformatec/devise"
+gem "devise", github: "heartcombo/devise", branch: "main"
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'
@@ -43,7 +43,7 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 # gem 'tabs', github: 'michelson/tabs', branch: "upgrade"
 
 gem "action_policy-graphql", "~> 0.4"
-gem "goldiloader"
+# gem "goldiloader"
 gem "graphiql-rails", group: :development
 gem "graphql"
 
@@ -53,11 +53,13 @@ gem "graphql"
 gem "aasm"
 gem "acts_as_list", "~> 0.9.19"
 gem "acts-as-taggable-on", github: "mbleigh/acts-as-taggable-on"
+# gem 'acts-as-taggable-on', '~> 9.0'
+
 gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
 gem "pg_search"
-gem "ransack"
+gem "ransack", github: "activerecord-hackery/ransack"
 
 gem "browser", "~> 2.5"
 gem "geocoder", "~> 1.6"
@@ -83,7 +85,8 @@ gem "webpacker", "~> 5.4.0"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
 gem "roadie"
-gem "roadie-rails"
+gem "roadie-rails", github: "Mange/roadie-rails"
+
 gem "urlcrypt"
 
 gem "aws-sdk-rails"
