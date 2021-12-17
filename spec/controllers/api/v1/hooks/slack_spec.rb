@@ -335,6 +335,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       MessageApis::Slack::Api.any_instance.stub(:post_message).and_return({ foo: "stubbed" })
 
+      MessageApis::Slack::Api.any_instance.stub(:update_thread_head).and_return({ foo: "stubbed" })
       MessageApis::Slack::Api.any_instance.stub(:json_body).and_return({ "ok" => true, "ts" => "123" })
 
       expect_any_instance_of(MessageApis::Slack::Api).to receive(:notify_added)
