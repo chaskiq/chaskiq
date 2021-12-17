@@ -281,8 +281,28 @@ module MessageApis::Slack
           ]
         },
 
+        conversation_status_blocks(conversation),
+
         {
           type: "divider"
+        },
+
+        {
+          type: "section",
+          block_id: "section678",
+          text: {
+            type: "mrkdwn",
+            text: "Pick an agent and assign them to the conversation"
+          },
+          accessory: {
+            action_id: "pick-agent",
+            type: "external_select",
+            placeholder: {
+              type: "plain_text",
+              text: "Select an item"
+            },
+            min_query_length: 3
+          }
         },
 
         {
@@ -314,83 +334,26 @@ module MessageApis::Slack
         }
       ]
 
-      data << conversation_status_blocks(conversation)
       data.flatten!
     end
 
     def conversation_status_blocks(conversation)
+      state_action = conversation.opened? ? action_button(value: "close", text: "Close", style: nil) : action_button(value: "open", text: "Open", style: nil)
+
+      priority_action = if conversation.priority
+                          action_button(value: "unprioritize", text: "UnPrioritize", style: "danger")
+                        else
+                          action_button(value: "prioritize", text: "Prioritize", style: "primary")
+                        end
+
       [
-
         {
           type: "actions",
           elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "Open"
-              },
-              style: "primary",
-              value: "open"
-            },
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "Close"
-              },
-              style: "danger",
-              value: "close"
-            }
+            state_action,
+            priority_action
           ]
         },
-
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "Prioritize"
-              },
-              style: "primary",
-              value: "prioritize"
-            },
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                emoji: true,
-                text: "UnPrioritize"
-              },
-              style: "danger",
-              value: "unprioritize"
-            }
-          ]
-        },
-
-        {
-          type: "section",
-          block_id: "section678",
-          text: {
-            type: "mrkdwn",
-            text: "Pick an item from the dropdown list"
-          },
-          accessory: {
-            action_id: "pick-agent",
-            type: "external_select",
-            placeholder: {
-              type: "plain_text",
-              text: "Select an item"
-            },
-            min_query_length: 3
-          }
-        },
-
         {
           type: "context",
           elements: [
@@ -403,6 +366,7 @@ module MessageApis::Slack
               type: "mrkdwn",
               text: "State: #{conversation.state}"
             },
+
             {
               type: "image",
               image_url: "https://api.slack.com/img/blocks/bkb_template_images/task-icon.png",
@@ -424,6 +388,43 @@ module MessageApis::Slack
           ]
         }
       ]
+    end
+
+    def action_button(value:, text:, style: nil)
+      {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: text
+        },
+        value: value
+      }.merge(confirm_block).tap do |hash|
+        hash[:style] = style if style
+      end
+    end
+
+    def confirm_block
+      {
+        confirm: {
+          title: {
+            type: "plain_text",
+            text: "Are you sure?"
+          },
+          text: {
+            type: "mrkdwn",
+            text: "This action will change the state of the conversation"
+          },
+          confirm: {
+            type: "plain_text",
+            text: "Do it"
+          },
+          deny: {
+            type: "plain_text",
+            text: "Stop, I've changed my mind!"
+          }
+        }
+      }
     end
 
     def assignee_display(assignee)
