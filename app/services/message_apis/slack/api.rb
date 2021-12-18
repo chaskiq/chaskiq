@@ -209,7 +209,9 @@ module MessageApis::Slack
 
       ts_id = slack_id || conversation.conversation_channels.where(
         provider: "slack"
-      ).last.provider_channel_id
+      ).last&.provider_channel_id
+
+      return if ts_id.blank?
 
       response_data = json_body(
         update_message(
@@ -346,6 +348,16 @@ module MessageApis::Slack
                           action_button(value: "prioritize", text: "Prioritize", style: "primary")
                         end
 
+      avatar_action = conversation&.assignee&.avatar_url
+
+      avatar_action_block = if avatar_action
+                              {
+                                type: "image",
+                                image_url: avatar_action,
+                                alt_text: assignee_display(conversation.assignee)
+                              }
+                            end
+
       [
         {
           type: "actions",
@@ -376,16 +388,12 @@ module MessageApis::Slack
               type: "mrkdwn",
               text: "Task"
             },
-            {
-              type: "image",
-              image_url: conversation&.assignee&.avatar_url,
-              alt_text: assignee_display(conversation.assignee)
-            },
+            avatar_action_block,
             {
               type: "mrkdwn",
               text: (assignee_display(conversation.assignee) || "Unassigned").to_s #  "<fakelink.toUser.com|Michael Scott>"
             }
-          ]
+          ].compact
         }
       ]
     end
