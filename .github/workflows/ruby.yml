@@ -1,29 +1,44 @@
 # .github/workflows/ci.yml
 
 name: CI
-on: [ pull_request ]
+on: [pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
     services:
-      db:
-        image: postgres:11
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports: ['5432:5432']
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+      # db:
+      #   image: postgres:11
+      #   env:
+      #     POSTGRES_USER: postgres
+      #     POSTGRES_PASSWORD: postgres
+      #     POSTGRES_DB: postgres
+      #   ports: ['5432:5432']
+      #   options: >-
+      #     --health-cmd pg_isready
+      #     --health-interval 10s
+      #     --health-timeout 5s
+      #     --health-retries 5
       redis:
         image: redis
         ports: ['6379:6379']
         options: --entrypoint redis-server
 
     steps:
+      - run: which psql
+      - run: whoami
+      - run: sudo service postgresql start
+      - run: sudo ps aux | grep postgres
+      - run: sudo -u postgres psql --command 'select version();'
+      - run: sudo sh -c "echo 'deb [signed-by=/usr/share/keyrings/timescale.keyring] https://packagecloud.io/timescale/timescaledb/ubuntu/ $(lsb_release -c -s) main' > /etc/apt/sources.list.d/timescaledb.list"
+      - run: wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/timescale.keyring
+      - run: sudo apt-get update
+      - run: sudo apt install timescaledb-2-postgresql-14 -y
+      - run: sudo timescaledb-tune --quiet --yes
+      - run: sudo service postgresql restart
+      - run: sudo -u postgres psql --command 'create extension timescaledb;'
+      - run: sudo -u postgres psql --command '\dx'
+      - run: sudo -u postgres psql --command "ALTER USER postgres PASSWORD 'postgres';"
+
       - uses: actions/checkout@v1
       - uses: ruby/setup-ruby@v1
         with:
@@ -38,6 +53,10 @@ jobs:
           REDIS_URL: redis://localhost:6379/0
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         run: |
           sudo apt-get -yqq install libpq-dev
           gem install bundler
@@ -51,6 +70,10 @@ jobs:
           REDIS_URL: redis://localhost:6379/0
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         run: |
           sudo apt-get -yqq install libpq-dev curl libgconf-2-4
           gem install bundler
