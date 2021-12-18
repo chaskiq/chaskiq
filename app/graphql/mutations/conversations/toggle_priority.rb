@@ -27,7 +27,7 @@ module Mutations
 
       def track_event
         @conversation.log_async(
-          action: "priorize",
+          action: "prioritize",
           user: current_user,
           data: { value: @conversation.priority },
           ip: context[:request].remote_ip

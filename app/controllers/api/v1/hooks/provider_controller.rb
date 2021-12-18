@@ -17,21 +17,13 @@ class Api::V1::Hooks::ProviderController < ApplicationController
       name: params["provider"].capitalize
     ).process_global_hook(params)
 
-    render plain: response
+    response_handler(response)
+    # render plain: response
   end
 
   def process_event
     response = @integration_pkg.process_event(params)
-    case response.class.to_s
-    when "String"
-      render plain: response
-    when "Hash"
-      render(json: response, status: resolve_status(response))
-    when "Array"
-      render(json: response)
-    else
-      head :ok
-    end
+    response_handler(response)
   end
 
   def find_application_package
@@ -52,4 +44,17 @@ class Api::V1::Hooks::ProviderController < ApplicationController
   end
 
   def auth; end
+
+  def response_handler(response)
+    case response.class.to_s
+    when "String"
+      render plain: response
+    when "Hash"
+      render(json: response, status: resolve_status(response))
+    when "Array"
+      render(json: response)
+    else
+      head :ok
+    end
+  end
 end

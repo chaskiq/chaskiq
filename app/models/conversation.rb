@@ -97,9 +97,13 @@ class Conversation < ApplicationRecord
     events.log(action: :first_comment_from_user)
   end
 
+  def log_prioritized
+    events.log(action: :conversation_prioritized)
+  end
+
   def toggle_priority
     self.priority = !priority
-    save
+    log_prioritized if save
   end
 
   def add_message(opts = {})
