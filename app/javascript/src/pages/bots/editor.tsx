@@ -246,7 +246,7 @@ const BotEditor = ({ match, app, dispatch, mode }) => {
         appKey: app.key,
         id: match.params.id,
         params: {
-          state: botTask.state === 'enabled' ? null : 'enabled',
+          state: botTask.state === 'enabled' ? 'disabled' : 'enabled',
         },
       },
       {

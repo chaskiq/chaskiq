@@ -13,6 +13,7 @@ module Mutations
         find_app(app_key)
         @conversation = conversation(conversation_id)
         @conversation.toggle_priority
+        track_event
         { conversation: @conversation, errors: @conversation.errors }
       end
 
@@ -22,6 +23,15 @@ module Mutations
 
       def find_app(app_id)
         @app = current_user.apps.find_by(key: app_id)
+      end
+
+      def track_event
+        @conversation.log_async(
+          action: "prioritize",
+          user: current_user,
+          data: { value: @conversation.priority },
+          ip: context[:request].remote_ip
+        )
       end
     end
   end

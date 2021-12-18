@@ -167,7 +167,7 @@
     },
     "common": {
       "actions": "Actions",
-      "add": "Add",
+      "add": "Ajouter",
       "add_new": "add new",
       "away_mode": "Away mode",
       "back_to_site": "Back to site",
@@ -178,7 +178,7 @@
       "create": "Create",
       "days": "Days",
       "delete": "Delete",
-      "edit": "Edit",
+      "edit": "Pas aan",
       "get_snippet": "Get the snippet",
       "image": "Imagen",
       "langs": {
@@ -190,7 +190,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
-      "new": "New",
+      "new": "Nuus",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
       "of": "of",
@@ -220,6 +220,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -434,7 +440,7 @@
           "label": "Actions"
         },
         "author": {
-          "label": "Author"
+          "label": "Skrywer nùmero uno"
         },
         "collection": {
           "label": "Collection"
@@ -452,14 +458,14 @@
           "label": "Google Code"
         },
         "state": {
-          "label": "State"
+          "label": "Estado"
         },
         "subdomain": {
           "hint": "Subdomain in which the Help Center will be available",
           "label": "Subdomain"
         },
         "title": {
-          "label": "Title"
+          "label": "Titel"
         },
         "website": {
           "hint": "Website of your main domain",
@@ -1785,6 +1791,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -3356,6 +3368,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -4921,6 +4939,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -6497,6 +6521,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -8062,6 +8092,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -9627,6 +9663,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -11463,6 +11505,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -12397,12 +12445,12 @@
     "messenger": {
       "article_meta": "By: <strong>%{name}</strong> on <time>%{date}</time>",
       "availability": {
-        "aprox": "we'll back in approximately %{time} hrs",
-        "back_from": "we'll back online from %{hours} hrs",
-        "days": "we'll back in %{val} days",
-        "next_week": "we'll back next week",
-        "tomorrow": "we'll back back tomorrow",
-        "tomorrow_from": "we'll back online tomorrow from %{hours} hrs"
+        "aprox": "we'll be back in approximately %{time} hrs",
+        "back_from": "we'll be back online from %{hours} hrs",
+        "days": "we'll be back in %{val} days",
+        "next_week": "we'll be back next week",
+        "tomorrow": "we'll be back back tomorrow",
+        "tomorrow_from": "we'll be back online tomorrow from %{hours} hrs"
       },
       "by": "By",
       "closed_conversation": "This conversation has ended",
@@ -12447,6 +12495,7 @@
       "search_article_title": "Find answers in our article's repository",
       "search_articles": "Search articles",
       "see_previous": "See previous",
+      "show_more": "Show more",
       "start_conversation": "Start a conversation",
       "submit": "Submit",
       "tours": {
@@ -13383,6 +13432,12 @@
     },
     "contact_manager": {
       "create": "Crear Usuarios y Prospectos",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Prospectos",
+        "phone": "Phone"
+      },
       "import_choose": "Elija qué tipo de contactos importará",
       "import_contacts": "importar_contactos",
       "import_csv": "Importar csv",
@@ -14341,6 +14396,7 @@
       "search_article_title": "Encuentra respuestas en nuestro centro de ayuda",
       "search_articles": "Busca artículos",
       "see_previous": "Ver anteriores",
+      "show_more": "Mostrar más",
       "start_conversation": "Inicia una conversación",
       "submit": "Enviar",
       "tours": {
@@ -15296,6 +15352,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -16821,7 +16883,7 @@
       "delete": "Effacer",
       "edit": "Éditer",
       "get_snippet": "Obtenir le snippet",
-      "image": "Imagen",
+      "image": "Image",
       "langs": {
         "ca": "Catalan",
         "de": "Allemand",
@@ -16861,6 +16923,12 @@
     },
     "contact_manager": {
       "create": "Créer des Utilisateurs & Dirigeants",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choisissez le type de contacts que vous allez importer",
       "import_contacts": "importer des contacts",
       "import_csv": "Importer csv",
@@ -16973,7 +17041,7 @@
       "articles": {
         "settings": {
           "action": "Action",
-          "locale": "Locale",
+          "locale": "Local",
           "site_description": "Description du Site",
           "site_title": "Titre du Site"
         }
@@ -16981,7 +17049,7 @@
       "settings": {
         "greetings": "Salutations",
         "intro": "Intro",
-        "locale": "Locale",
+        "locale": "Local",
         "tagline": "Slogan"
       },
       "users": {
@@ -17589,7 +17657,7 @@
     },
     "identified_users": {
       "dont_share_code": "Ne pas partager ce code",
-      "encryption_key_label": "Identity verification secret",
+      "encryption_key_label": "Vérification de l'identité Secret",
       "hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
       "hint2": "Où que vous importiez des données utilisateur et que vous ayez un extrait de code Chaskiq, ajoutez un nouvel attribut appelé <span className = \"font-bold\"> identifier_key </span> et transmettez l'adresse e-mail <span className = \"font-bold\"> </span> et donnez-lui le tag HMAC pour l'utilisateur connecté:",
       "hmac_hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
@@ -17607,6 +17675,7 @@
         "tomorrow_from": "nous serons en ligne demain à partir de %{hours} heure"
       },
       "by": "Par",
+      "closed_conversation": "Cette conversation est terminée",
       "continue_conversation": "Continuer la discussion",
       "conversation_block": {
         "choosen": "Vous avez répondu <strong>%{field}</strong>"
@@ -17647,6 +17716,7 @@
       "search_article_title": "Trouver les réponses dans notre répertoire d'article",
       "search_articles": "Rechercher un article",
       "see_previous": "Voir les précedentes",
+      "show_more": "Montre plus",
       "start_conversation": "Commencer une discussion",
       "submit": "Soumettre",
       "tours": {
@@ -17779,7 +17849,7 @@
         "appearance": "Apparence",
         "appearance_title": "Paramètres d'apparence",
         "availability": "Disponibilité",
-        "contact_avatars": "Contact avatars",
+        "contact_avatars": "Avatars de contact",
         "email_forwarding": "Transfert d'email",
         "email_requirement": "Exigences d'email",
         "inbound_settings": "Paramètres entrants",
@@ -17839,8 +17909,8 @@
       },
       "contact_avatars": {
         "choose_color": "Choisir une couleur",
-        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
-        "title": "Contact avatars style"
+        "hint": "Choisissez l'un des 6 styles d'avatar fournis par https://boringavatars.com/",
+        "title": "Style des avatars de contact"
       },
       "email_requirement": {
         "ask": "Demandez aux visiteurs de votre site Web de laisser leur email avant de commencer un chat en direct:",
@@ -18144,11 +18214,11 @@
       "upgrade": "Faire évoluer"
     },
     "task_bots": {
-      "add_data_option": "+ add data option",
+      "add_data_option": "+ Ajout d'option de données",
       "add_follow_action": "Ajouter une action de suivi",
       "add_path": "Ajouter une nouvelle partie de conversation",
       "assign_agent": "assigner un agent",
-      "assignee_agent": "Assignee Agent",
+      "assignee_agent": "Agent assigné",
       "close_conversation": "fermer la conversation",
       "continue_bot_with": "Continue bot with",
       "continue_with_reply_button": "Continue bot with reply button",
@@ -18172,7 +18242,7 @@
         "title": "Aucune tâche de bot trouvée"
       },
       "end_bot_with": "Fin du bot avec",
-      "end_with_follow": "End bot with follow actions",
+      "end_with_follow": "Terminer le bot avec des actions de suivi",
       "follow_actions": "suivre les actions",
       "new": "Créer une nouvelle tâche",
       "new_conversations": "👋 Nouvelle conversation",
@@ -18488,6 +18558,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -20053,6 +20129,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -21618,6 +21700,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -23182,6 +23270,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -24746,6 +24840,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -26311,6 +26411,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -27876,6 +27982,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -29443,6 +29555,12 @@
     },
     "contact_manager": {
       "create": "Criar Usuários e Potenciais",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Escolha o tipo de contatos que você vai importar",
       "import_contacts": "importar_contatos",
       "import_csv": "Importar csv",
@@ -31008,6 +31126,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -32574,6 +32698,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -34141,6 +34271,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -35706,6 +35842,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -37271,6 +37413,12 @@
     },
     "contact_manager": {
       "create": "Create Users & Leads",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
       "import_csv": "Import csv",
@@ -38838,6 +38986,12 @@
     },
     "contact_manager": {
       "create": "创建用户&线索",
+      "definitions": {
+        "app_user": "Verified User",
+        "company_name": "Company Name",
+        "lead": "Lead",
+        "phone": "Phone"
+      },
       "import_choose": "选择您要导入哪种联系人",
       "import_contacts": "导入联系人",
       "import_csv": "导入CSV",

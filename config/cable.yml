@@ -1,14 +1,19 @@
 development:
   #adapter: async
   #adapter: redis
-  adapter: <%= ENV.fetch("CABLE_ADAPTER") { 'redis' } %>
+  adapter: <%= Chaskiq::Config.fetch('CABLE_ADAPTER','redis') %>
 
 test:
   adapter: async
 
+staging:
+  adapter: <%= Chaskiq::Config.fetch('CABLE_ADAPTER','redis') %>
+  url: <%= Chaskiq::Config.get('REDIS_URL') %>
+  channel_prefix: hermes_staging
+
 production:
   #adapter: any_cable
   #adapter: redis
-  adapter: <%= ENV.fetch("CABLE_ADAPTER") { 'redis' } %>
-  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  adapter: <%= Chaskiq::Config.fetch('CABLE_ADAPTER','redis') %>
+  url: <%= Chaskiq::Config.fetch('REDIS_URL', "redis://localhost:6379/1") %>
   channel_prefix: hermes_production

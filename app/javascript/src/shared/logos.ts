@@ -19,8 +19,18 @@ import dialogflow from '../images/logos/dialogflow.png';
 import messenger from '../images/logos/messenger.png';
 import twitter from '../images/logos/twitter.png';
 import openAi from '../images/logos/open_ai.png';
+import telegram from '../images/logos/telegram.png';
+import zapier from '../images/logos/zapier.png';
+import dialog360 from '../images/logos/dialog360.png';
+import vonage from '../images/logos/vonage.png';
+import messagebird from '../images/logos/messagebird.png';
 
 export default {
+  messagebird,
+  vonage,
+  dialog360,
+  telegram,
+  zapier,
   calendly,
   facebook,
   pipedrive,

@@ -227,7 +227,17 @@ module Types
 
     def conversation(id:)
       authorize! object, to: :show?, with: AppPolicy
-      object.conversations.find_by(key: id)
+      conversation = object.conversations.find_by(key: id)
+
+      if conversation.present?
+        conversation.log_async(
+          action: "conversation_viewed",
+          user: current_user,
+          ip: context[:request].remote_ip
+        )
+      end
+
+      conversation
     end
 
     field :app_user, Types::AppUserType, null: true do
@@ -236,7 +246,13 @@ module Types
 
     def app_user(id:)
       authorize! object, to: :show?, with: AppPolicy
-      object.app_users.find(id)
+      app_user = object.app_users.find(id)
+      app_user.log_async(
+        action: "profile_viewed",
+        user: current_user,
+        ip: context[:request].remote_ip
+      )
+      app_user
     end
 
     field :campaigns, Types::PaginatedCampaignType, null: true do

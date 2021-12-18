@@ -51,7 +51,7 @@ const Input = styled.textarea`
     font-family: "Helvetica Neue","Apple Color Emoji",Helvetica,Arial,sans-serif;
     font-size: 14px;
     font-weight: 400;
-    line-height: 1.33;
+    line-height: '1.345rem';
     background-color: #fff;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -419,6 +419,7 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
 
           {this.state.giphyEnabled ? (
             <GiphyPicker
+              domain={this.props.domain}
               apikey={'97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'}
               handleSelected={this.saveGif}
             />

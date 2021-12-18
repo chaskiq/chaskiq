@@ -122,6 +122,15 @@ class AppPackagesCatalog
       },
 
       {
+        name: "AuditsReports",
+        # capability_list: %w[],
+        tag_list: ["dashboard"],
+        description: "App Audits log reports",
+        state: "enabled",
+        definitions: []
+      },
+
+      {
         name: "Clearbit",
         tag_list: ["enrichment"],
         description: "Clearbit data enrichment",
@@ -245,7 +254,16 @@ class AppPackagesCatalog
       },
       {
         name: "Slack",
-        tag_list: ["email_changed", "conversation.user.first.comment"],
+        tag_list: [
+          "email_changed",
+          "conversation.user.first.comment",
+          "conversations.assigned",
+          "conversations.prioritized",
+          "conversations.started",
+          "conversations.added",
+          "conversations.closed",
+          "conversations.reopened"
+        ],
         state: "enabled",
         description: "Slack channel integration",
         icon: "https://logo.clearbit.com/slack.com",
@@ -570,6 +588,31 @@ class AppPackagesCatalog
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
           }
+        ]
+      },
+
+      {
+        name: "Zapier",
+        tag_list: [
+          "conversations.started",
+          "conversations.assigned",
+          "conversations.added",
+          "conversations.closed",
+          "users.created"
+        ],
+        description: "Interfaces Zapier template",
+        icon: "https://logo.clearbit.com/zapier.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "access_token",
+            type: "string",
+            label: "Password",
+            hint: "Put a password to be used in the Zapier auth",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+
         ]
       },
 

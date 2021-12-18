@@ -10,6 +10,7 @@ class AppUser < ApplicationRecord
   include Connectivity
   include EmailValidable
   include Avatar
+  include AuditableBehavior
 
   ENABLED_SEARCH_FIELDS = [
     { "name" => "email", "type" => "string" },
@@ -44,7 +45,7 @@ class AppUser < ApplicationRecord
     { "name" => "browser_language", "type" => "string" }
   ].freeze
 
-  attr_accessor :disable_callbacks
+  attr_accessor :disable_callbacks, :additional_validations
 
   # belongs_to :user
   belongs_to :app
@@ -112,7 +113,11 @@ class AppUser < ApplicationRecord
     :privacy_consent
   ].freeze
 
-  # validates :email, email: true, allow_blank: true
+  validates :name, presence: true, if: proc { |c| c.additional_validations? }
+
+  validates :email, email: true, allow_blank: true, if: -> { type == "Lead" }, unless: proc { |c| !c.additional_validations? }
+
+  validates :email, email: true, if: -> { type == "AppUser" }, unless: proc { |c| !c.additional_validations? }
 
   store_accessor :properties, ACCESSOR_PROPERTIES
 
@@ -171,6 +176,10 @@ class AppUser < ApplicationRecord
     end
   end
 
+  def additional_validations?
+    additional_validations.present?
+  end
+
   def delay_for_trigger
     settings = is_a?(AppUser) ? app.user_tasks_settings : app.lead_tasks_settings
     delay = settings["delay"] ? 2.minutes.from_now : 0.minutes.from_now
@@ -203,7 +212,7 @@ class AppUser < ApplicationRecord
   end
 
   def display_name
-    [name].join(" ")
+    [name || "#{first_name} #{last_name}"].join(" ")
   end
 
   def session_key

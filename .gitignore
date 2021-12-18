@@ -58,3 +58,7 @@ rubocop.sarif
 
 # app/javascript/src/locales/messenger-translations.json
 # app/javascript/src/locales/translations.json
+
+config/credentials/*.key
+config/credentials/*.yml.enc
+

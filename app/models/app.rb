@@ -68,6 +68,7 @@ class App < ApplicationRecord
   has_many :campaigns, dependent: :destroy_async
   has_many :user_auto_messages, dependent: :destroy_async
   has_many :tours, dependent: :destroy_async
+  has_many :audits, dependent: :destroy_async
   has_many :banners, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
   has_many :bot_tasks, dependent: :destroy_async
@@ -104,7 +105,7 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    preferences[:outgoing_email_domain].presence || ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"]
+    preferences[:outgoing_email_domain].presence || Chaskiq::Config.get("DEFAULT_OUTGOING_EMAIL_DOMAIN")
   end
 
   def config_fields

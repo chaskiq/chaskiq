@@ -33,7 +33,7 @@ Rails.application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
-  config.action_controller.asset_host = ENV['ASSET_HOST']
+  config.action_controller.asset_host = Chaskiq::Config.fetch('ASSET_HOST', Chaskiq::Config.get("HOST") )
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
@@ -47,6 +47,10 @@ Rails.application.configure do
   Rails.application.routes.default_url_options = { host: ENV['HOST'] }
   config.action_controller.default_url_options = { host: ENV['HOST'] }
   config.action_mailer.default_url_options = { host: ENV['HOST'] }
+
+  Rails.application.routes.default_url_options = { host: Chaskiq::Config.get('HOST') }
+  config.action_controller.default_url_options = { host: Chaskiq::Config.get('HOST') }
+  config.action_mailer.default_url_options = { host: Chaskiq::Config.get('HOST') }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -63,7 +67,7 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+  config.cache_store = :redis_cache_store, { url: Chaskiq::Config.get('REDIS_URL') }
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -95,7 +99,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
+  if Chaskiq::Config.get('RAILS_LOG_TO_STDOUT').present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
@@ -116,9 +120,9 @@ Rails.application.configure do
     }
   else
     zone = ENV['AWS_S3_REGION']
-    
+
     creds = Aws::Credentials.new(
-      ENV['AWS_ACCESS_KEY_ID'], 
+      ENV['AWS_ACCESS_KEY_ID'],
       ENV['AWS_SECRET_ACCESS_KEY']
     )
 
