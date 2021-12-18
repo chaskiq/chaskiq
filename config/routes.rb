@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     resources :agents , controller: "apps/agents"
 
     resource :settings , controller: "apps/settings"
+    resources :reports , controller: "apps/reports"
     resources :invitations , controller: "apps/invitations"
 
     resources :conversations , controller: "apps/conversations" do

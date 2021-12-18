@@ -55,7 +55,7 @@
     "form-serialize": "^0.7.2",
     "gravatar": "^1.6.0",
     "hotkeys-js": "^3.8.7",
-    "i18n-js": "^3.5.1",
+    "i18n-js": "^4.0.0-alpha.4",
     "i18next": "^17.0.15",
     "i18next-browser-languagedetector": "^3.0.3",
     "isomorphic-fetch": "^2.2.1",

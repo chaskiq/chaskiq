@@ -1,0 +1,35 @@
+<%= render Content::Component.new do %>
+
+  <div class="space-y-2">
+    <p
+      class="text-4xl leading-2 text-gray-900 dark:text-gray-100 font-bold">
+      <%= raw I18n.t('dashboard.hey', {name: @app.name}) %>
+    </p>
+
+    <div class="py-3 flex space-x-3 justify-end">
+      <WebSetup />
+
+      <LinkButton
+        variant="outlined"
+        onClick={() =>
+          window.open(`/tester/${app.key}`, '_blank').focus()
+        }
+        target="blank"
+      >
+        Chat tester
+      </LinkButton>
+
+      <LinkButton
+        variant="outlined"
+        onClick={() => history.push('/playground')}
+      >
+        Playground
+      </LinkButton>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <Example actions={actions} />
+  </div>
+
+<% end %>
