@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -33,7 +33,8 @@ Rails.application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
-  config.action_controller.asset_host = Chaskiq::Config.fetch('ASSET_HOST', Chaskiq::Config.get("HOST") )
+  config.action_controller.asset_host =
+    Chaskiq::Config.fetch('ASSET_HOST', Chaskiq::Config.get('HOST'))
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
@@ -48,13 +49,20 @@ Rails.application.configure do
   config.action_controller.default_url_options = { host: ENV['HOST'] }
   config.action_mailer.default_url_options = { host: ENV['HOST'] }
 
-  Rails.application.routes.default_url_options = { host: Chaskiq::Config.get('HOST') }
-  config.action_controller.default_url_options = { host: Chaskiq::Config.get('HOST') }
-  config.action_mailer.default_url_options = { host: Chaskiq::Config.get('HOST') }
+  Rails.application.routes.default_url_options = {
+    host: Chaskiq::Config.get('HOST')
+  }
+  config.action_controller.default_url_options = {
+    host: Chaskiq::Config.get('HOST')
+  }
+  config.action_mailer.default_url_options = {
+    host: Chaskiq::Config.get('HOST')
+  }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   config.action_cable.url = ENV['WS'] # Rails.application.credentials.ws
+
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
@@ -67,7 +75,8 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  config.cache_store = :redis_cache_store, { url: Chaskiq::Config.get('REDIS_URL') }
+  config.cache_store =
+    :redis_cache_store, { url: Chaskiq::Config.get('REDIS_URL') }
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -76,7 +85,9 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "hermes_production"
 
-  config.active_job.queue_adapter = :sidekiq
+  #config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :good_job
+
   # config.active_job.queue_name_prefix = "hermes_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
@@ -100,9 +111,9 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if Chaskiq::Config.get('RAILS_LOG_TO_STDOUT').present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
@@ -121,10 +132,11 @@ Rails.application.configure do
   else
     zone = ENV['AWS_S3_REGION']
 
-    creds = Aws::Credentials.new(
-      ENV['AWS_ACCESS_KEY_ID'],
-      ENV['AWS_SECRET_ACCESS_KEY']
-    )
+    creds =
+      Aws::Credentials.new(
+        ENV['AWS_ACCESS_KEY_ID'],
+        ENV['AWS_SECRET_ACCESS_KEY']
+      )
 
     Aws::Rails.add_action_mailer_delivery_method(
       :ses,

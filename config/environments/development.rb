@@ -22,7 +22,7 @@ Rails.application.configure do
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 
   host = ENV.fetch('HOST') { 'http://localhost:3000' }
-  ws   = ENV.fetch('WS') { 'ws://locahost:3000/cable' }
+  ws = ENV.fetch('WS') { 'ws://locahost:3000/cable' }
 
   Rails.application.routes.default_url_options = { host: host }
   config.action_controller.default_url_options = { host: host }
@@ -97,10 +97,11 @@ Rails.application.configure do
   else
     zone = ENV['AWS_S3_REGION']
 
-    creds = Aws::Credentials.new(
-      ENV['AWS_ACCESS_KEY_ID'],
-      ENV['AWS_SECRET_ACCESS_KEY']
-    )
+    creds =
+      Aws::Credentials.new(
+        ENV['AWS_ACCESS_KEY_ID'],
+        ENV['AWS_SECRET_ACCESS_KEY']
+      )
 
     Aws::Rails.add_action_mailer_delivery_method(
       :ses,
@@ -114,9 +115,10 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = false
   config.action_mailer.raise_delivery_errors = true
 
-
   # ACTIVE JOB
-  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :good_job
+
+  # config.active_job.queue_adapter = :sidekiq
   # config.active_job.queue_adapter = :async
 
   # config.action_mailer.delivery_method = :smtp
@@ -128,18 +130,17 @@ Rails.application.configure do
   #  :enable_starttls_auto => true
   # }
 
-
   config.after_initialize do
-    require "i18n-js/listen"
+    require 'i18n-js/listen'
     I18nJS.listen(
-      config_file: Rails.root.join("config/i18n.yml"),
-      locales_dir: Rails.root.join("config/locales")
+      config_file: Rails.root.join('config/i18n.yml'),
+      locales_dir: Rails.root.join('config/locales')
     )
   end
 
   if Chaskiq::Config.get('RAILS_LOG_TO_STDOUT').present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 end
