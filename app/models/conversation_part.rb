@@ -6,10 +6,12 @@ class ConversationPart < ApplicationRecord
 
   has_many :conversation_part_channel_sources, dependent: :destroy
   belongs_to :conversation, touch: true
+
   # belongs_to :app_user, optional: true # todo: to be removed
-  belongs_to :message_source, optional: true,
-                              class_name: "Message",
-                              foreign_key: :message_id
+  belongs_to :message_source,
+             optional: true,
+             class_name: 'Message',
+             foreign_key: :message_id
 
   belongs_to :messageable, polymorphic: true, optional: true
   belongs_to :authorable, polymorphic: true, optional: true
@@ -46,10 +48,8 @@ class ConversationPart < ApplicationRecord
   end
 
   def event=(params = {})
-    self.messageable = ConversationPartEvent.create(
-      data: params[:data],
-      action: params[:action]
-    )
+    self.messageable =
+      ConversationPartEvent.create(data: params[:data], action: params[:action])
   end
 
   def controls=(blocks)
@@ -81,6 +81,7 @@ class ConversationPart < ApplicationRecord
     if save
       val = conversation.main_participant.new_messages.value
       conversation.main_participant.new_messages.decrement unless val < 1
+
       # TODO: decrement agent
       notify_to_channels({ disable_api_notification: true })
     end
@@ -103,13 +104,13 @@ class ConversationPart < ApplicationRecord
   def notify_app_users
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:conversation_part",
+      type: 'conversations:conversation_part',
       data: as_json
     )
 
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:unreads",
+      type: 'conversations:unreads',
       data: conversation.main_participant.new_messages.value
     )
   end
@@ -128,7 +129,9 @@ class ConversationPart < ApplicationRecord
   end
 
   def controls_ping_apis
-    messageable.create_fase(conversation.app) if messageable.is_a?(ConversationPartBlock)
+    if messageable.is_a?(ConversationPartBlock)
+      messageable.create_fase(conversation.app)
+    end
   end
 
   def assign_and_notify
@@ -166,8 +169,8 @@ class ConversationPart < ApplicationRecord
 
   def as_json(*)
     super.tap do |hash|
-      hash["app_user"] = authorable.as_json
-      hash["conversation_key"] = conversation.key
+      hash['app_user'] = authorable.as_json
+      hash['conversation_key'] = conversation.key
     end
   end
 
@@ -182,9 +185,8 @@ class ConversationPart < ApplicationRecord
   end
 
   def check_rules(serialized_content)
-    text = JSON.parse(serialized_content)["blocks"].map do |o|
-      o["text"]
-    end.join(" ")
+    text =
+      JSON.parse(serialized_content)['blocks'].map { |o| o['text'] }.join(' ')
 
     app = conversation.app
 
@@ -212,12 +214,15 @@ class ConversationPart < ApplicationRecord
   end
 
   def increment_incoming_messages_stat
-    AppIdentity.new(conversation.app.key)
-               .incoming_messages.incr(1, created_at)
+    app.app_metrics.create(kind: 'incoming_messages')
+    # AppIdentity.new(conversation.app.key)
+    #           .incoming_messages.incr(1, created_at)
   end
 
   def increment_outgoing_messages_stat
-    AppIdentity.new(conversation.app.key)
-               .outgoing_messages.decr(1, created_at)
+    app.app_metrics.create(kind: 'outgoing_messages')
+
+    # AppIdentity.new(conversation.app.key)
+    #           .outgoing_messages.decr(1, created_at)
   end
 end

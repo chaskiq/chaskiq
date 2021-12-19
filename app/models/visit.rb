@@ -8,12 +8,13 @@ class Visit < ApplicationRecord
 
   def self.register(options, cond)
     v = new(options)
-    return v.save if cond == "true"
+    return v.save if cond == 'true'
 
     v.insert_count
   end
 
   def insert_count
-    AppIdentity.new(app.key).visits.incr(1, Time.zone.now)
+    app.app_metrics.create(kind: 'visits')
+    # AppIdentity.new(app.key).visits.incr(1, Time.zone.now)
   end
 end

@@ -8,17 +8,20 @@ class Conversation < ApplicationRecord
   include AuditableBehavior
 
   belongs_to :app
-  belongs_to :assignee, class_name: "Agent", optional: true
-  belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
+  belongs_to :assignee, class_name: 'Agent', optional: true
+  belongs_to :main_participant, class_name: 'AppUser', optional: true # , foreign_key: "user_id"
+
   # has_one :conversation_source, dependent: :destroy
-  has_many :messages, class_name: "ConversationPart", dependent: :destroy_async
+  has_many :messages, class_name: 'ConversationPart', dependent: :destroy_async
   has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
-  has_one :latest_message, -> { order("id desc") },
-          class_name: "ConversationPart"
+  has_one :latest_message,
+          -> { order('id desc') },
+          class_name: 'ConversationPart'
 
-  has_one :public_latest_message, -> { visibles.order("id desc") },
-          class_name: "ConversationPart"
+  has_one :public_latest_message,
+          -> { visibles.order('id desc') },
+          class_name: 'ConversationPart'
 
   acts_as_taggable_on :tags
 
@@ -39,9 +42,7 @@ class Conversation < ApplicationRecord
       transitions from: :closed, to: :opened
     end
 
-    event :close,
-          before: :touch_closed_at,
-          after: :add_closed_event do
+    event :close, before: :touch_closed_at, after: :add_closed_event do
       transitions from: :opened, to: :closed
     end
   end
@@ -83,7 +84,7 @@ class Conversation < ApplicationRecord
   def dispatch_conversation_event_to_contacts
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:update_state",
+      type: 'conversations:update_state',
       data: as_json
     )
   end
@@ -109,9 +110,7 @@ class Conversation < ApplicationRecord
   def add_message(opts = {})
     part = process_message_part(opts)
 
-    ActiveRecord::Base.transaction do
-      part.save
-    end
+    ActiveRecord::Base.transaction { part.save }
 
     part.notify_to_channels if part.errors.blank?
     part
@@ -120,9 +119,7 @@ class Conversation < ApplicationRecord
   def add_private_note(opts = {})
     part = process_message_part(opts.merge!(private_note: true))
 
-    ActiveRecord::Base.transaction do
-      part.save
-    end
+    ActiveRecord::Base.transaction { part.save }
 
     part.notify_to_channels if part.errors.blank?
     part
@@ -130,10 +127,7 @@ class Conversation < ApplicationRecord
 
   def add_message_event(opts = {})
     part = messages.new(authorable: app.agent_bots.first)
-    part.event = {
-      action: opts[:action],
-      data: opts[:data]
-    }
+    part.event = { action: opts[:action], data: opts[:data] }
 
     add_part_channel(part, opts)
     part.notify_to_channels if part.save
@@ -142,6 +136,7 @@ class Conversation < ApplicationRecord
 
   def process_message_part(opts)
     part = messages.new
+
     # part.app_user = opts[:from]
     handle_part_details(part, opts)
 
@@ -155,10 +150,12 @@ class Conversation < ApplicationRecord
 
   def add_part_channel(part, opts)
     if opts[:provider].present? && opts[:message_source_id].present?
-      part.conversation_part_channel_sources.new({
-                                                   provider: opts[:provider],
-                                                   message_source_id: opts[:message_source_id]
-                                                 })
+      part.conversation_part_channel_sources.new(
+        {
+          provider: opts[:provider],
+          message_source_id: opts[:message_source_id]
+        }
+      )
     end
   end
 
@@ -168,7 +165,7 @@ class Conversation < ApplicationRecord
     self.assignee = user
     if save
       add_message_event(
-        action: "assigned",
+        action: 'assigned',
         data: {
           name: user.name,
           id: user.id,
@@ -198,7 +195,8 @@ class Conversation < ApplicationRecord
     now = Time.zone.now
     update(first_agent_reply: now)
     diff = (now.to_date - created_at.to_date).to_f * 24
-    AppIdentity.new(app.key).first_response_time.set(diff)
+    app.app_metrics.create(kind: 'first_response_time', value: diff)
+    # AppIdentity.new(app.key).first_response_time.set(diff)
   end
 
   def update_latest_user_visible_comment_at
@@ -220,6 +218,6 @@ class Conversation < ApplicationRecord
     part.trigger_id = opts[:trigger_id]
     part.check_assignment_rules = opts[:check_assignment_rules]
     part.controls = opts[:controls] if opts[:controls].present?
-    part.message  = opts[:message] if opts[:message].present?
+    part.message = opts[:message] if opts[:message].present?
   end
 end

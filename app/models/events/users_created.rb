@@ -5,12 +5,11 @@ module Events
     def self.perform(event)
       app_user = event.eventable
       app = app_user.app
-      AppIdentity.new(app.key).new_users.incr(1, Time.zone.now)
+      app.app_metrics.create(kind: "new_users", value: diff)
 
-      EventTriggerProcessorJob.perform_later(
-        id: app.id,
-        event_id: event.id
-      )
+      # AppIdentity.new(app.key).new_users.incr(1, Time.zone.now)
+
+      EventTriggerProcessorJob.perform_later(id: app.id, event_id: event.id)
     end
   end
 end

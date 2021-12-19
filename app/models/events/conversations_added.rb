@@ -6,9 +6,11 @@ module Events
       conversation = event.eventable
       app = conversation.app
 
-      AppIdentity.new(app.key)
-                 .opened_conversations
-                 .incr(1, Time.zone.now)
+      app.app_metrics.create(kind: 'opened_conversations')
+
+      # AppIdentity.new(app.key)
+      #           .opened_conversations
+      #           .incr(1, Time.zone.now)
 
       EventTriggerProcessorJob.perform_later(
         id: conversation.app_id,
