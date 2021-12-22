@@ -7,50 +7,49 @@ class AppPolicy < ActionPolicy::Base
     true
   end
 
-  [ "all",
-    "apps_create_new_app",
-    "dashboard",
-    "campaigns",
-    "routing_bots",
-    "help_center",
-    "reports",
-    "settings",
-    "users_archive",
-    "conversations_customize",
-    "conversations",
-    "platform",
-    "apps_create_new_app",
-    "settings_app_settings",
-    "dashboard",
-    "campaigns",
-    "routing_bots",
-    "help_center",
-    "conversations",
-    "platform",
-    "reports",
-    "settings",
-    "conversations",
-    "platform_segments",
-    "users",
-    "dashboard",
-    "campaigns",
-    "routing_bots",
-    "reports",
-    "settings",
-    "settings_messenger_settings",
-    "settings_webhooks",
-    "settings_api_access"
-  ].each do |namespace|
-    ["manage", "read", "write"].each do |verb|
-      define_method "can_#{verb}_#{namespace}?" do |*my_arg|
-        PermissionsService.allowed_access_to?(@role.role, namespace, verb)  
+  %w[all
+     apps_create_new_app
+     dashboard
+     campaigns
+     routing_bots
+     help_center
+     reports
+     settings
+     users_archive
+     conversations_customize
+     conversations
+     platform
+     apps_create_new_app
+     settings_app_settings
+     dashboard
+     campaigns
+     routing_bots
+     help_center
+     conversations
+     platform
+     reports
+     settings
+     conversations
+     platform_segments
+     users
+     dashboard
+     campaigns
+     routing_bots
+     reports
+     settings
+     settings_messenger_settings
+     settings_webhooks
+     settings_api_access].each do |namespace|
+    %w[manage read write].each do |verb|
+      define_method "can_#{verb}_#{namespace}?" do |*_my_arg|
+        PermissionsService.allowed_access_to?(@role.role, namespace, verb)
       end
     end
   end
 
   # def can?
   #   debugger
-  #   PermissionsService.allowed_access_to?(@role.role.to_sym, :conversations) 
+  #   PermissionsService.allowed_access_to?(@role.role.to_sym, :conversations)
   #   PermissionsService.allowed_access_to?(:admin_only, :conversations)
   # end
 

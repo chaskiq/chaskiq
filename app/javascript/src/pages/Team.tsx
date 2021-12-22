@@ -11,7 +11,9 @@ import Progress from '@chaskiq/components/src/components/Progress';
 import DataTable from '@chaskiq/components/src/components/Table';
 import Input from '@chaskiq/components/src/components/forms/Input';
 import Button from '@chaskiq/components/src/components/Button';
-import FieldRenderer, { gridClasses } from '@chaskiq/components/src/components/forms/FieldRenderer';
+import FieldRenderer, {
+  gridClasses,
+} from '@chaskiq/components/src/components/forms/FieldRenderer';
 import Badge from '@chaskiq/components/src/components/Badge';
 import FormDialog from '@chaskiq/components/src/components/FormDialog';
 
@@ -21,12 +23,25 @@ import graphql from '@chaskiq/store/src/graphql/client';
 
 import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
 
-import { setCurrentPage, setCurrentSection } from '@chaskiq/store/src/actions/navigation';
+import {
+  setCurrentPage,
+  setCurrentSection,
+} from '@chaskiq/store/src/actions/navigation';
 
-import { successMessage, errorMessage } from '@chaskiq/store/src/actions/status_messages';
+import {
+  successMessage,
+  errorMessage,
+} from '@chaskiq/store/src/actions/status_messages';
 
-import { ROLE_AGENTS, PENDING_AGENTS } from '@chaskiq/store/src/graphql/queries';
-import { INVITE_AGENT, UPDATE_AGENT_ROLE, DESTROY_AGENT_ROLE } from '@chaskiq/store/src/graphql/mutations';
+import {
+  ROLE_AGENTS,
+  PENDING_AGENTS,
+} from '@chaskiq/store/src/graphql/queries';
+import {
+  INVITE_AGENT,
+  UPDATE_AGENT_ROLE,
+  DESTROY_AGENT_ROLE,
+} from '@chaskiq/store/src/graphql/mutations';
 import I18n from '../shared/FakeI18n';
 
 type TeamPageProps = {
@@ -36,7 +51,7 @@ type TeamPageProps = {
 class TeamPage extends Component<TeamPageProps> {
   state = {
     meta: {},
-    tabValue: 0
+    tabValue: 0,
   };
 
   componentDidMount() {
@@ -59,12 +74,12 @@ class TeamPage extends Component<TeamPageProps> {
             {
               label: I18n.t('settings.team.title'),
               // icon: <HomeIcon />,
-              content: <AppUsers {...this.props} />
+              content: <AppUsers {...this.props} />,
             },
             {
               label: I18n.t('settings.team.invitations'),
-              content: <NonAcceptedAppUsers {...this.props} />
-            }
+              content: <NonAcceptedAppUsers {...this.props} />,
+            },
           ]}
         />
       </Content>
@@ -91,7 +106,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
     loading: true,
     isEditDialogOpen: null,
     isDestroyDialogOpen: null,
-    errors: {}
+    errors: {},
   };
 
   form = React.createRef<HTMLFormElement>();
@@ -108,10 +123,10 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         success: (data) => {
           this.setState({
             collection: data.app.roleAgents,
-            loading: false
+            loading: false,
           });
         },
-        error: () => {}
+        error: () => {},
       }
     );
   };
@@ -119,7 +134,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
   search = () => {
     this.setState(
       {
-        loading: true
+        loading: true,
       },
       this.getAgents
     );
@@ -130,17 +145,19 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
       DESTROY_AGENT_ROLE,
       {
         appKey: this.props.app.key,
-        id: this.state.isDestroyDialogOpen.id
+        id: this.state.isDestroyDialogOpen.id,
       },
       {
         success: () => {
-          this.props.dispatch(successMessage(I18n.t('settings.team.destroyed_agent')));
+          this.props.dispatch(
+            successMessage(I18n.t('settings.team.destroyed_agent'))
+          );
           this.setState({ isDestroyDialogOpen: false });
           this.getAgents();
         },
         error: () => {
           // errorMessage('...')
-        }
+        },
       }
     );
   };
@@ -151,17 +168,19 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
       {
         appKey: this.props.app.key,
         id: this.state.isEditDialogOpen.agentId,
-        params: params
+        params: params,
       },
       {
         success: (_data) => {
-          this.props.dispatch(successMessage(I18n.t('settings.team.updated_agent')));
+          this.props.dispatch(
+            successMessage(I18n.t('settings.team.updated_agent'))
+          );
           this.setState({ isEditDialogOpen: false });
           this.getAgents();
         },
         error: (_err) => {
           // errorMessage('...')
-        }
+        },
       }
     );
   };
@@ -169,7 +188,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
   submit = () => {
     const serializedData = serialize(this.form.current, {
       hash: true,
-      empty: true
+      empty: true,
     });
     this.updateAgent(serializedData.app);
     // open.id ? updateWebhook(serializedData) : createWebhook(serializedData)
@@ -178,7 +197,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
   close = () => {
     this.setState({
       isEditDialogOpen: false,
-      isDestroyDialogOpen: false
+      isDestroyDialogOpen: false,
     });
   };
 
@@ -190,7 +209,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         label: I18n.t('definitions.agents.name.label'),
         // hint: "we'll send POST requests",
         placeholder: I18n.t('definitions.agents.name.placeholder'),
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
 
       {
@@ -199,7 +218,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         label: I18n.t('definitions.agents.email.label'),
         // hint: "we'll send POST requests",
         placeholder: I18n.t('definitions.agents.email.placeholder'),
-        grid: { xs: 'w-full', sm: 'w-full' }
+        grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
         name: 'role',
@@ -207,16 +226,19 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         label: I18n.t('definitions.agents.access_list.label'),
         hint: I18n.t('definitions.agents.access_list.hint'),
         multiple: false,
-        options: Object.keys(this.props.app.availableRoles).map((o) => ({ label: o, value: o })),
+        options: Object.keys(this.props.app.availableRoles).map((o) => ({
+          label: o,
+          value: o,
+        })),
         /*[
           { label: 'none', value: null },
           { label: 'mananger', value: 'manage' },
           { label: 'admin', value: 'admin' },
         ]*/ grid: {
           xs: 'w-full',
-          sm: 'w-full'
-        }
-      }
+          sm: 'w-full',
+        },
+      },
     ];
   };
 
@@ -231,14 +253,20 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
             formComponent={
               <form ref={this.form}>
                 {I18n.t('settings.team.destroy_agent_warning', {
-                  agent: this.state.isDestroyDialogOpen.email
+                  agent: this.state.isDestroyDialogOpen.email,
                 })}
               </form>
             }
             dialogButtons={
               <React.Fragment>
-                <Button onClick={this.destroyAgent}>{I18n.t('settings.team.destroy_agent')}</Button>
-                <Button onClick={this.close} className="mr-1" variant="outlined">
+                <Button onClick={this.destroyAgent}>
+                  {I18n.t('settings.team.destroy_agent')}
+                </Button>
+                <Button
+                  onClick={this.close}
+                  className="mr-1"
+                  variant="outlined"
+                >
                   {I18n.t('common.cancel')}
                 </Button>
               </React.Fragment>
@@ -263,13 +291,16 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
               <form ref={this.form}>
                 {this.definitions().map((field) => {
                   return (
-                    <div className={`${gridClasses(field)} py-2 pr-2`} key={field.name}>
+                    <div
+                      className={`${gridClasses(field)} py-2 pr-2`}
+                      key={field.name}
+                    >
                       <FieldRenderer
                         namespace={'app'}
                         type={field.type}
                         data={camelizeKeys(field)}
                         props={{
-                          data: camelizeKeys(this.state.isEditDialogOpen)
+                          data: camelizeKeys(this.state.isEditDialogOpen),
                         }}
                         errors={this.state.errors || {}}
                       />
@@ -325,27 +356,42 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                   row && (
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
-                        <Link to={`/apps/${this.props.app.key}/agents/${row.agentId}`}>
-                          <img className="h-10 w-10 rounded-full" src={row.avatarUrl} alt="" />
+                        <Link
+                          to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
+                        >
+                          <img
+                            className="h-10 w-10 rounded-full"
+                            src={row.avatarUrl}
+                            alt=""
+                          />
                         </Link>
                       </div>
 
                       <div className="ml-4">
                         <div className="text-sm leading-5 font-medium text-gray-900">
-                          <Link to={`/apps/${this.props.app.key}/agents/${row.agentId}`}>{row.displayName}</Link>
+                          <Link
+                            to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
+                          >
+                            {row.displayName}
+                          </Link>
                         </div>
                         <div className="text-sm leading-5 text-gray-500">
-                          <Link to={`/apps/${this.props.app.key}/agents/${row.agentId}`}>{row.email}</Link>
+                          <Link
+                            to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
+                          >
+                            {row.email}
+                          </Link>
                         </div>
                       </div>
                     </div>
-                  )
+                  ),
               },
               { field: 'name', title: I18n.t('data_tables.agents.name') },
               {
                 field: 'owner',
                 title: I18n.t('data_tables.agents.owner'),
-                render: (row) => row && row.owner && <Badge variant="green">OWNER</Badge>
+                render: (row) =>
+                  row && row.owner && <Badge variant="green">OWNER</Badge>,
               },
               /*{
                 field: 'accessList',
@@ -361,7 +407,8 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
               {
                 field: 'role',
                 title: I18n.t('data_tables.agents.access_list'),
-                render: (row) => row && row.role && <Badge className="mr-2">{row.role}</Badge>
+                render: (row) =>
+                  row && row.role && <Badge className="mr-2">{row.role}</Badge>,
               },
               {
                 field: 'Actions',
@@ -369,18 +416,28 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                 render: (row) =>
                   row && (
                     <React.Fragment>
-                      <Button onClick={() => this.handleEdit(row)} variant="outlined" className="mr-1" size="small">
+                      <Button
+                        onClick={() => this.handleEdit(row)}
+                        variant="outlined"
+                        className="mr-1"
+                        size="small"
+                      >
                         {I18n.t('common.edit')}
                       </Button>
-                      <Button onClick={() => this.handleDelete(row)} className="danger" variant="outlined" size="small">
+                      <Button
+                        onClick={() => this.handleDelete(row)}
+                        className="danger"
+                        variant="outlined"
+                        size="small"
+                      >
                         {I18n.t('common.delete')}
                       </Button>
                     </React.Fragment>
-                  )
+                  ),
               },
               {
                 field: 'Sign In Count',
-                title: I18n.t('data_tables.agents.sign_in_count')
+                title: I18n.t('data_tables.agents.sign_in_count'),
               },
               {
                 field: 'Last Sign in at',
@@ -389,11 +446,17 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                   row && (
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${row.state === 'subscribed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                    ${
+                      row.state === 'subscribed'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}
                     >
-                      {row.lastSignInAt && <Moment fromNow>{row.lastSignInAt}</Moment>}
+                      {row.lastSignInAt && (
+                        <Moment fromNow>{row.lastSignInAt}</Moment>
+                      )}
                     </span>
-                  )
+                  ),
               },
               {
                 field: 'invitationAcceptedAt',
@@ -402,12 +465,18 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                   row && (
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${row.state === 'subscribed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                    ${
+                      row.state === 'subscribed'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }`}
                     >
-                      {row.invitationAcceptedAt && <Moment fromNow>{row.invitationAcceptedAt}</Moment>}
+                      {row.invitationAcceptedAt && (
+                        <Moment fromNow>{row.invitationAcceptedAt}</Moment>
+                      )}
                     </span>
-                  )
-              }
+                  ),
+              },
             ]}
             enableMapView={false}
           />
@@ -431,7 +500,10 @@ interface NonAcceptedAppUsersState {
   sent: boolean;
 }
 
-class NonAcceptedAppUsers extends React.Component<NonAcceptedAppUsersProps, NonAcceptedAppUsersState> {
+class NonAcceptedAppUsers extends React.Component<
+  NonAcceptedAppUsersProps,
+  NonAcceptedAppUsersState
+> {
   input_ref = React.createRef<HTMLInputElement>();
 
   constructor(props) {
@@ -440,7 +512,7 @@ class NonAcceptedAppUsers extends React.Component<NonAcceptedAppUsersProps, NonA
       collection: [],
       loading: true,
       isOpen: false,
-      sent: false
+      sent: false,
     };
     //this.input_ref = React.createRef<HTMLDivElement>();
   }
@@ -457,22 +529,26 @@ class NonAcceptedAppUsers extends React.Component<NonAcceptedAppUsersProps, NonA
       INVITE_AGENT,
       {
         appKey: this.props.app.key,
-        email: this.input_ref.current.value
+        email: this.input_ref.current.value,
       },
       {
         success: () => {
-          this.props.dispatch(successMessage(I18n.t('settings.team.invitation_success')));
+          this.props.dispatch(
+            successMessage(I18n.t('settings.team.invitation_success'))
+          );
           this.setState(
             {
               sent: true,
-              isOpen: false
+              isOpen: false,
             },
             this.search
           );
         },
         error: () => {
-          this.props.dispatch(errorMessage(I18n.t('settings.team.invitation_error')));
-        }
+          this.props.dispatch(
+            errorMessage(I18n.t('settings.team.invitation_error'))
+          );
+        },
       }
     );
   };
@@ -527,10 +603,10 @@ class NonAcceptedAppUsers extends React.Component<NonAcceptedAppUsersProps, NonA
         success: (data) => {
           this.setState({
             collection: data.app.notConfirmedAgents,
-            loading: false
+            loading: false,
           });
         },
-        error: () => {}
+        error: () => {},
       }
     );
   };
@@ -538,7 +614,7 @@ class NonAcceptedAppUsers extends React.Component<NonAcceptedAppUsersProps, NonA
   search = () => {
     this.setState(
       {
-        loading: true
+        loading: true,
       },
       this.getAgents
     );
@@ -549,15 +625,19 @@ class NonAcceptedAppUsers extends React.Component<NonAcceptedAppUsersProps, NonA
       INVITE_AGENT,
       {
         appKey: this.props.app.key,
-        email: email
+        email: email,
       },
       {
         success: (_data) => {
-          this.props.dispatch(successMessage(I18n.t('settings.team.invitation_success')));
+          this.props.dispatch(
+            successMessage(I18n.t('settings.team.invitation_success'))
+          );
         },
         error: () => {
-          this.props.dispatch(errorMessage(I18n.t('settings.team.invitation_error')));
-        }
+          this.props.dispatch(
+            errorMessage(I18n.t('settings.team.invitation_error'))
+          );
+        },
       }
     );
   };
@@ -577,19 +657,23 @@ class NonAcceptedAppUsers extends React.Component<NonAcceptedAppUsersProps, NonA
               { field: 'email', title: 'email' },
               {
                 field: 'name',
-                title: I18n.t('data_tables.agents.email')
+                title: I18n.t('data_tables.agents.email'),
               },
               {
                 field: 'actions',
                 title: I18n.t('data_tables.agents.actions'),
                 render: (row) => {
                   return (
-                    <Button onClick={() => this.resendInvitation(row.email)} variant="outlined" size="md">
+                    <Button
+                      onClick={() => this.resendInvitation(row.email)}
+                      variant="outlined"
+                      size="md"
+                    >
                       {I18n.t('settings.team.resend_invitation')}
                     </Button>
                   );
-                }
-              }
+                },
+              },
             ]}
             enableMapView={false}
           />
@@ -608,7 +692,7 @@ function mapStateToProps(state) {
 
   return {
     app,
-    isAuthenticated
+    isAuthenticated,
   };
 }
 
