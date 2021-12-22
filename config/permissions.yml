@@ -1,0 +1,45 @@
+agent:
+  login_to: conversations
+  blocks_access:
+    - apps_create_new_app
+    - dashboard
+    - campaigns
+    - routing_bots
+    - help_center
+    - reports
+    - settings
+    - users_archive
+    - conversations_customize
+  write_access:
+    - conversations
+    - platform
+
+program_manager:
+  login_to: :conversations
+  block_access:
+    - apps_create_new_app
+    - settings_app_settings
+    - settings_messenger_settings
+    - settings_webhooks
+    - settings_api_access
+    - dashboard
+    - campaigns
+    - routing_bots
+    - help_center
+  write_access:
+    - conversations
+    - platform
+    - reports
+    - settings
+admin_only:
+  block_access:
+    - conversations
+    - platform_segments
+    - users
+  write_access:
+    - dashboard
+    - campaigns
+    - routing_bots
+    - help_center
+    - reports
+    - settings
