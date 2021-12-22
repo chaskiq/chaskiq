@@ -93,9 +93,7 @@ module Types
 
     def outgoing_webhooks
       # object.plan.allow_feature!('OutgoingWebhooks')
-      authorize! object, to: :can_read_settings_webhooks?, with: AppPolicy, context: {
-        role: object.roles.find_by(agent_id: current_user.id)
-      }
+      authorize! object, to: :can_read_settings_webhooks?, with: AppPolicy
       object.outgoing_webhooks
     end
 

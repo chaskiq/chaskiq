@@ -42,6 +42,7 @@ class AppPolicy < ActionPolicy::Base
      settings_api_access].each do |namespace|
     %w[manage read write].each do |verb|
       define_method "can_#{verb}_#{namespace}?" do |*_my_arg|
+        @role ||= @record.roles.find_by(agent_id: @user.id) #allowed_access_to?
         PermissionsService.allowed_access_to?(@role.role, namespace, verb)
       end
     end

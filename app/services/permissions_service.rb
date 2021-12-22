@@ -1,9 +1,9 @@
 module PermissionsService
   def self.get(name)
-    # PERMISSION_MANIFEST[name]
-    YAML.safe_load(
-      File.open(Rails.root.join("config/permissions.yml"))
-    ).with_indifferent_access.freeze[name]
+    PERMISSION_MANIFEST[name]
+    #YAML.safe_load(
+    #  File.open(Rails.root.join("config/permissions.yml"))
+    #).with_indifferent_access.freeze[name]
   end
 
   def self.allowed_access_to?(role_name, section, verb = :read)
