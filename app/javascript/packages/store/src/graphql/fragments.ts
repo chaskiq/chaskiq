@@ -133,6 +133,7 @@ userHomeApps
 visitorHomeApps
 inboxApps
 privacyConsentRequired
+availableRoles
 segments {
   name
   id

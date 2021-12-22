@@ -1,45 +1,46 @@
+admin:
+  manage:
+    - all
+manager:
+  manage:
+    - all
 agent:
   login_to: conversations
   blocks_access:
-    - apps_create_new_app
-    - dashboard
-    - campaigns
-    - routing_bots
-    - help_center
-    - reports
-    - settings
-    - users_archive
-    - conversations_customize
-  write_access:
+  manage:
     - conversations
     - platform
+  read:
+  write:
 
 program_manager:
   login_to: :conversations
-  block_access:
-    - apps_create_new_app
-    - settings_app_settings
-    - settings_messenger_settings
-    - settings_webhooks
-    - settings_api_access
+  manage:
+    - app
+    - app_settings
+    - messenger_settings
+    - webhooks
+    - api_access
     - dashboard
     - campaigns
     - routing_bots
     - help_center
-  write_access:
+  read:
     - conversations
     - platform
     - reports
     - settings
+  write:
 admin_only:
-  block_access:
+  manage:
     - conversations
     - platform_segments
     - users
-  write_access:
+  read:
     - dashboard
     - campaigns
     - routing_bots
     - help_center
     - reports
     - settings
+  write:

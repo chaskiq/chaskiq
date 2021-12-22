@@ -78,6 +78,11 @@ module Types
       context[:enabled_subscriptions]
     end
 
+    field :available_roles, Types::JsonType, null: true
+    def available_roles
+      PermissionsService.list
+    end
+
     def tag_list
       authorize! object, to: :show?, with: AppPolicy
       object.tag_list || []
@@ -88,7 +93,9 @@ module Types
 
     def outgoing_webhooks
       # object.plan.allow_feature!('OutgoingWebhooks')
-      authorize! object, to: :manage?, with: AppPolicy
+      authorize! object, to: :can_read_settings_webhooks?, with: AppPolicy, context: {
+        role: object.roles.find_by(agent_id: current_user.id)
+      }
       object.outgoing_webhooks
     end
 
