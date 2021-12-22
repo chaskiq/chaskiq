@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_18_212927) do
+ActiveRecord::Schema.define(version: 2021_12_18_212036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -95,15 +95,6 @@ ActiveRecord::Schema.define(version: 2021_12_18_212927) do
     t.index ["key"], name: "index_agents_on_key"
     t.index ["reset_password_token"], name: "index_agents_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_agents_on_unlock_token", unique: true
-  end
-
-  create_table "app_metrics", id: false, force: :cascade do |t|
-    t.string "kind"
-    t.bigint "app_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["app_id"], name: "index_app_metrics_on_app_id"
-    t.index ["created_at"], name: "app_metrics_created_at_idx", order: :desc
   end
 
   create_table "app_package_integrations", force: :cascade do |t|
@@ -798,7 +789,6 @@ ActiveRecord::Schema.define(version: 2021_12_18_212927) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "app_metrics", "apps"
   add_foreign_key "app_package_integrations", "app_packages"
   add_foreign_key "app_package_integrations", "apps"
   add_foreign_key "app_packages", "agents"
