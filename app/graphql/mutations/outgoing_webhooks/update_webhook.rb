@@ -19,7 +19,6 @@ module Mutations
         app: @app
       }
 
-
       state_value = if ActiveModel::Type::Boolean.new.cast(state)
                       "enabled"
                     else
