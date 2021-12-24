@@ -202,7 +202,6 @@ module Types
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_conversations?, with: AppPolicy
 
-
       @collection = object.conversations
                           .left_joins(:messages)
                           .where.not(conversation_parts: { id: nil })
@@ -238,7 +237,7 @@ module Types
     end
 
     def conversation(id:)
-      #authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_conversations?, with: AppPolicy
 
       conversation = object.conversations.find_by(key: id)
@@ -307,7 +306,7 @@ module Types
     field :role_agents, [Types::RoleType], null: false
 
     def role_agents
-      #authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_team?, with: AppPolicy
       object.roles
     end
@@ -402,7 +401,7 @@ module Types
 
     def articles(page:, per:, lang:, mode:, search:)
       # object.plan.allow_feature!('Articles')
-      #authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_help_center?, with: AppPolicy
 
       I18n.locale = lang
@@ -433,7 +432,7 @@ module Types
     end
 
     field :article_settings, Types::ArticleSettingsType, null: true
-    def article_settings      
+    def article_settings
       authorize! object, to: :can_read_help_center?, with: AppPolicy
       # object.plan.allow_feature!('Articles')
       object.article_settings.presence || object.build_article_settings
@@ -448,7 +447,7 @@ module Types
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang
       authorize! object, to: :can_read_help_center?, with: AppPolicy
-      #authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
       object.articles.friendly.find(id)
     end
 
@@ -459,7 +458,7 @@ module Types
     def collections(lang:)
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang.to_sym
-      #authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_help_center?, with: AppPolicy
       object.article_collections.order("position asc")
     end
@@ -504,7 +503,7 @@ module Types
     end
 
     def bot_task(id:, lang:)
-      #authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_routing_bots?, with: AppPolicy
       object.bot_tasks.find(id)
     end
@@ -590,7 +589,7 @@ module Types
     end
 
     def oauth_application(uid:)
-      #authorize! object, to: :manage?, with: AppPolicy
+      # authorize! object, to: :manage?, with: AppPolicy
       authorize! object, to: :can_read_oauth_applications?, with: AppPolicy
       object.oauth_applications.find_by(uid: uid)
     end

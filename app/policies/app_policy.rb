@@ -8,40 +8,39 @@ class AppPolicy < ActionPolicy::Base
   end
 
   %w[
-     all
-     users_archive
-     platform
-     apps_create_new_app
-     settings_app_settings
-     app_packages
-     help_center
-     platform
-     segments
-     reports
-     settings
-     conversations_customize
-     conversations
-     platform_segments
-     users
-     dashboard
-     campaigns
-     routing_bots
-     reports
-     settings
-     messenger_settings
-     outgoing_webhooks
-     api_access
+    all
+    users_archive
+    platform
+    apps_create_new_app
+    settings_app_settings
+    app_packages
+    help_center
+    platform
+    segments
+    reports
+    settings
+    conversations_customize
+    conversations
+    platform_segments
+    users
+    dashboard
+    campaigns
+    routing_bots
+    reports
+    settings
+    messenger_settings
+    outgoing_webhooks
+    api_access
   ].each do |namespace|
     %w[manage read write].each do |verb|
       define_method "can_#{verb}_#{namespace}?" do |*_my_arg|
-        
-        @role ||= find_role_by_resource()
+        @role ||= find_role_by_resource
         PermissionsService.allowed_access_to?(@role.role, namespace, verb)
       end
     end
   end
 
-  def find_role_by_resource()
+  def find_role_by_resource
     if @role.is_a?(App)
       @record.roles.find_by(agent_id: @user.id)
     elsif @app.present?

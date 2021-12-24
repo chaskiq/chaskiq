@@ -18,7 +18,7 @@ module Mutations
       authorize! object, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
         app: @app
       }
-      
+
       state_value = if ActiveModel::Type::Boolean.new.cast(state)
                       "enabled"
                     else
