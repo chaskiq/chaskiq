@@ -18,7 +18,7 @@ module Mutations
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
 
-      authorize! object, to: :can_manage_segments?, with: AppPolicy, context: {
+      authorize! @app, to: :can_manage_segments?, with: AppPolicy, context: {
         app: app
       }
 

@@ -7,6 +7,7 @@ module PermissionsService
   end
 
   def self.allowed_access_to?(role_name, section, verb = :read)
+    return nil if role_name.blank?
     get(role_name)[:manage]&.include?("all") ||
       get(role_name)[:manage]&.include?(section) ||
       get(role_name)[verb]&.include?(section)

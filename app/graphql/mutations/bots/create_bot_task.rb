@@ -11,7 +11,7 @@ module Mutations
       def resolve(app_key:, params:)
         find_app(app_key)
 
-        authorize! object, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+        authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy, context: {
           app: @app
         }
 

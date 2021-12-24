@@ -12,7 +12,7 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
         agent = app.agents.find_by(email: email) # , name: 'John Doe')
 
-        authorize! object, to: :can_manage_team?, with: AppPolicy, context: {
+        authorize! agent, to: :can_manage_team?, with: AppPolicy, context: {
           app: app
         }
 

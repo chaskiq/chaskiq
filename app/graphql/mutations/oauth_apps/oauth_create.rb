@@ -9,7 +9,7 @@ module Mutations
 
       def resolve(app_key:, params:)
         find_app(app_key)
-        authorize! object, to: :can_manage_oauth_apps?, with: AppPolicy, context: {
+        authorize! @app, to: :can_manage_oauth_apps?, with: AppPolicy, context: {
           app: @app
         }
 

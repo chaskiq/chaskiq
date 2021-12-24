@@ -15,10 +15,11 @@ module Mutations
         I18n.locale = lang
 
         app = current_user.apps.find_by(key: app_key)
-        authorize! object, to: :can_manage_quick_replies?, with: AppPolicy, context: {
+        quick_reply = app.quick_replies.find(id)
+
+        authorize! quick_reply, to: :can_manage_quick_replies?, with: AppPolicy, context: {
           app: app
         }
-        quick_reply = app.quick_replies.find(id)
         quick_reply.update(
           title: title,
           content: content

@@ -12,7 +12,7 @@ module Mutations
 
         agent = role&.agent
 
-        authorize! object, to: :can_manage_team?, with: AppPolicy, context: {
+        authorize! agent, to: :can_manage_team?, with: AppPolicy, context: {
           app: app
         }
 

@@ -11,12 +11,12 @@ module Mutations
       # , lang:)
       def resolve(app_key:, id:)
         app = current_user.apps.find_by(key: app_key)
+        quick_reply = app.quick_replies.find(id)
 
-        authorize! object, to: :can_manage_quick_replies?, with: AppPolicy, context: {
+        authorize! quick_reply, to: :can_manage_quick_replies?, with: AppPolicy, context: {
           app: app
         }
 
-        quick_reply = app.quick_replies.find(id)
         quick_reply.destroy
 
         {

@@ -13,12 +13,12 @@ module Mutations
     def resolve(app_key:, url:, tags:, id:, state:)
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
+      @webhook = @app.outgoing_webhooks.find(id)
 
-      authorize! object, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
+      authorize! @webhook, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
         app: @app
       }
 
-      @webhook = @app.outgoing_webhooks.find(id)
 
       state_value = if ActiveModel::Type::Boolean.new.cast(state)
                       "enabled"

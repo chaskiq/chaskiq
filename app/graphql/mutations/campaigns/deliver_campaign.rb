@@ -11,7 +11,7 @@ module Mutations
 
       def resolve(id:, app_key:)
         find_app(app_key)
-        authorize! object, to: :can_manage_campaigns?, with: AppPolicy, context: {
+        authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
           app: @app
         }
         set_campaign(id)

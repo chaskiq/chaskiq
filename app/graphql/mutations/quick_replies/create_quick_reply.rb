@@ -15,7 +15,7 @@ module Mutations
 
         app = current_user.apps.find_by(key: app_key)
 
-        authorize! object, to: :can_manage_quick_replies?, with: AppPolicy, context: {
+        authorize! app, to: :can_manage_quick_replies?, with: AppPolicy, context: {
           app: app
         }
 

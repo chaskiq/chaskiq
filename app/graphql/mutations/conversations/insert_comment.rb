@@ -16,7 +16,7 @@ module Mutations
 
         if current_user.is_a?(Agent)
           author = app.agents.where("agents.email =?", current_user.email).first
-          authorize! object, to: :can_manage_conversations?, with: AppPolicy, context: {
+          authorize! conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
             app: app
           }
         elsif app_user = context[:get_app_user].call

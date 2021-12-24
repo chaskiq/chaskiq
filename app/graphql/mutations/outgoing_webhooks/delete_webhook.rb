@@ -9,10 +9,11 @@ module Mutations
     def resolve(app_key:, id:)
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
-      authorize! object, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
+      @webhook = @app.outgoing_webhooks.find(id)
+
+      authorize! @webhook, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
         app: @app
       }
-      @webhook = @app.outgoing_webhooks.find(id)
       @webhook.delete
       { webhook: @webhook, errors: @webhook.errors }
     end

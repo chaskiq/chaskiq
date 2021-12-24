@@ -11,7 +11,7 @@ module Mutations
       def resolve(app_key:, rules:)
         find_app(app_key)
 
-        authorize! object, to: :can_manage_assign_rules?, with: AppPolicy, context: {
+        authorize! @app, to: :can_manage_assign_rules?, with: AppPolicy, context: {
           app: @app
         }
 

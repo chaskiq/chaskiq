@@ -15,10 +15,11 @@ module Mutations
       current_user = context[:current_user]
 
       @app = current_user.apps.find_by(key: app_key)
-      authorize! object, to: :can_manage_segments?, with: AppPolicy, context: {
+      @segment = @app.segments.find(id)
+
+      authorize! @segment, to: :can_manage_segments?, with: AppPolicy, context: {
         app: @app
       }
-      @segment = @app.segments.find(id)
 
       data = predicates.map { |o| o.permit(:type, :attribute, :comparison, :value, value: []) }
 

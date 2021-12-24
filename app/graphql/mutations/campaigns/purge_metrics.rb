@@ -11,10 +11,11 @@ module Mutations
 
       def resolve(id:, app_key:)
         find_app(app_key)
-        authorize! object, to: :can_manage_campaigns?, with: AppPolicy, context: {
+
+        set_campaign(id)
+        authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
           app: @app
         }
-        set_campaign(id)
         # TODO: strict permit here!
         @campaign.metrics.destroy_all
         { campaign: @campaign, errors: @campaign.errors }

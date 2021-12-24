@@ -10,7 +10,7 @@ module Mutations
       def resolve(app_key:, email:)
         app = current_user.apps.find_by(key: app_key)
 
-        authorize! object, to: :can_manage_team?, with: AppPolicy, context: {
+        authorize! app, to: :can_manage_team?, with: AppPolicy, context: {
           app: app
         }
 

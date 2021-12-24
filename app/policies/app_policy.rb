@@ -1,6 +1,7 @@
 class AppPolicy < ActionPolicy::Base
   authorize :user
   authorize :role, optional: true
+  authorize :app, optional: true
 
   def index?
     # allow everyone to perform "index" activity on posts
@@ -41,8 +42,10 @@ class AppPolicy < ActionPolicy::Base
   end
 
   def find_role_by_resource
-    if @role.is_a?(App)
+    if @record.is_a?(App)
       @record.roles.find_by(agent_id: @user.id)
+    elsif @record.respond_to?(:app)
+      @record.app.roles.find_by(agent_id: @user.id)
     elsif @app.present?
       @app.roles.find_by(agent_id: @user.id)
     end

@@ -16,7 +16,7 @@ module Mutations
         find_app(app_key)
         @agent = @app.agents.find(agent_id)
 
-        authorize! object, to: :can_manage_assign_rules?, with: AppPolicy, context: {
+        authorize! @app, to: :can_manage_assign_rules?, with: AppPolicy, context: {
           app: @app
         }
         assignment_rule = @app.assignment_rules.find(rule_id)
