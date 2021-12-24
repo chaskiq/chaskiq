@@ -93,7 +93,7 @@ module Types
 
     def outgoing_webhooks
       # object.plan.allow_feature!('OutgoingWebhooks')
-      authorize! object, to: :can_read_settings_webhooks?, with: AppPolicy
+      authorize! object, to: :can_read_outgoing_webhooks?, with: AppPolicy
       object.outgoing_webhooks
     end
 
@@ -145,7 +145,9 @@ module Types
     end
 
     def app_packages
-      authorize! object, to: :manage?, with: AppPolicy
+      # authorize! object, to: :manage?, with: AppPolicy
+      authorize! object, to: :manage_app_packages?, with: AppPolicy
+
       integrations = object.app_package_integrations.map(&:app_package_id)
       if integrations.any?
         AppPackage.where.not("id in(?)", integrations)
@@ -155,7 +157,8 @@ module Types
     end
 
     def agent_app_packages
-      authorize! object, to: :manage?, with: AppPolicy
+      # authorize! object, to: :manage?, with: AppPolicy
+      authorize! object, to: :manage_app_packages?, with: AppPolicy
       current_user.app_packages
     end
 
@@ -163,7 +166,9 @@ module Types
 
     def app_package_integrations
       # object.plan.allow_feature!('Integrations')
-      authorize! object, to: :manage?, with: AppPolicy
+      # authorize! object, to: :manage?, with: AppPolicy
+      authorize! object, to: :manage_app_packages?, with: AppPolicy
+
       object.app_package_integrations
     end
 
@@ -194,7 +199,9 @@ module Types
 
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
       # object.plan.allow_feature!("Conversations")
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_conversations?, with: AppPolicy
+
 
       @collection = object.conversations
                           .left_joins(:messages)
@@ -231,7 +238,9 @@ module Types
     end
 
     def conversation(id:)
-      authorize! object, to: :show?, with: AppPolicy
+      #authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_conversations?, with: AppPolicy
+
       conversation = object.conversations.find_by(key: id)
 
       if conversation.present?
@@ -250,7 +259,9 @@ module Types
     end
 
     def app_user(id:)
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_users?, with: AppPolicy
+
       app_user = object.app_users.find(id)
       app_user.log_async(
         action: "profile_viewed",
@@ -266,7 +277,9 @@ module Types
 
     def campaigns(mode:)
       # object.plan.allow_feature!(mode.classify.pluralize)
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_campaigns?, with: AppPolicy
+
       collection = object.send(mode) if Message.allowed_types.include?(mode)
       collection.page(1).per(20)
     end
@@ -277,7 +290,9 @@ module Types
     end
 
     def campaign(mode:, id:)
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_campaigns?, with: AppPolicy
+
       collection = object.send(mode) if Message.allowed_types.include?(mode)
       collection.find(id)
     end
@@ -292,14 +307,17 @@ module Types
     field :role_agents, [Types::RoleType], null: false
 
     def role_agents
-      authorize! object, to: :show?, with: AppPolicy
+      #authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_team?, with: AppPolicy
       object.roles
     end
 
     field :not_confirmed_agents, [Types::AgentType], null: false
 
     def not_confirmed_agents
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_not_confirmed_agents?, with: AppPolicy
+
       object.agents.invitation_not_accepted
     end
 
@@ -316,7 +334,9 @@ module Types
 
     def segments
       # object.plan.allow_feature!('Segments')
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_segments?, with: AppPolicy
+
       Segment.union_scope(
         object.segments.all, Segment.where(app_id: nil)
       ).order("id asc")
@@ -327,7 +347,9 @@ module Types
     end
 
     def segment(id:)
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_segments?, with: AppPolicy
+
       s = Segment.where("app_id is null ").where(id: id).first
       s.presence || object.segments.find(id)
     end
@@ -336,7 +358,9 @@ module Types
 
     def assignment_rules
       # object.plan.allow_feature!('AssignmentRules')
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_assignment_rules?, with: AppPolicy
+
       object.assignment_rules.order("priority asc")
     end
 
@@ -378,7 +402,9 @@ module Types
 
     def articles(page:, per:, lang:, mode:, search:)
       # object.plan.allow_feature!('Articles')
-      authorize! object, to: :show?, with: AppPolicy
+      #authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_help_center?, with: AppPolicy
+
       I18n.locale = lang
       if mode == "all"
         articles = object.articles
@@ -406,6 +432,13 @@ module Types
       object.articles.without_collection.page(page).per(per)
     end
 
+    field :article_settings, Types::ArticleSettingsType, null: true
+    def article_settings      
+      authorize! object, to: :can_read_help_center?, with: AppPolicy
+      # object.plan.allow_feature!('Articles')
+      object.article_settings.presence || object.build_article_settings
+    end
+
     field :article, Types::ArticleType, null: true do
       argument :id, String, required: true
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
@@ -414,7 +447,8 @@ module Types
     def article(id:, lang:)
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang
-      authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_help_center?, with: AppPolicy
+      #authorize! object, to: :show?, with: AppPolicy
       object.articles.friendly.find(id)
     end
 
@@ -425,7 +459,8 @@ module Types
     def collections(lang:)
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang.to_sym
-      authorize! object, to: :show?, with: AppPolicy
+      #authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_help_center?, with: AppPolicy
       object.article_collections.order("position asc")
     end
 
@@ -435,7 +470,8 @@ module Types
     end
 
     def collection(id:, lang:)
-      authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_help_center?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
       I18n.locale = lang.to_sym
       object.article_collections.friendly.find(id)
     end
@@ -448,7 +484,8 @@ module Types
 
     def bot_tasks(lang:, mode:, filters:)
       # object.plan.allow_feature!('BotTasks')
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_routing_bots?, with: AppPolicy
 
       object.bot_tasks
 
@@ -467,12 +504,14 @@ module Types
     end
 
     def bot_task(id:, lang:)
-      authorize! object, to: :show?, with: AppPolicy
+      #authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_routing_bots?, with: AppPolicy
       object.bot_tasks.find(id)
     end
 
     def dashboard(range:, kind:, package: nil)
-      authorize! object, to: :show?, with: AppPolicy
+      # authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_reports?, with: AppPolicy
 
       if package.present?
         return AppPackageDashboard.new(
@@ -527,6 +566,8 @@ module Types
     end
 
     def app_package_dashboard(package:)
+      authorize! object, to: :can_read_reports?, with: AppPolicy
+
       integration = AppPackageDashboard.app_package(object, package)
       {
         name: integration.app_package.name,
@@ -539,7 +580,8 @@ module Types
     field :oauth_applications, [OauthApplicationType], null: true
     def oauth_applications
       # object.plan.allow_feature!('OauthApplications')
-      authorize! object, to: :manage?, with: AppPolicy
+      # authorize! object, to: :manage?, with: AppPolicy
+      authorize! object, to: :can_read_oauth_applications?, with: AppPolicy
       object.oauth_applications.ordered_by(:created_at)
     end
 
@@ -548,13 +590,15 @@ module Types
     end
 
     def oauth_application(uid:)
-      authorize! object, to: :manage?, with: AppPolicy
+      #authorize! object, to: :manage?, with: AppPolicy
+      authorize! object, to: :can_read_oauth_applications?, with: AppPolicy
       object.oauth_applications.find_by(uid: uid)
     end
 
     field :authorized_oauth_applications, [OauthApplicationType], null: true
     def authorized_oauth_applications
-      authorize! object, to: :manage?, with: AppPolicy
+      # authorize! object, to: :manage?, with: AppPolicy
+      authorize! object, to: :can_read_oauth_applications?, with: AppPolicy
       object.oauth_applications.authorized_for(current_user)
     end
 

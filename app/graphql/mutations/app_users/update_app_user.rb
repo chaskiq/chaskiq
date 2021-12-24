@@ -15,6 +15,10 @@ module Mutations
           %w[name email first_name last_name company]
         )
 
+        authorize! object, to: :can_manage_users?, with: AppPolicy, context: {
+          app: app
+        }
+
         app_user = app.app_users.find(id)
         app_user.update(permitted_options)
         { app_user: app_user }

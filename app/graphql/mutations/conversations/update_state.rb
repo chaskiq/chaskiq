@@ -12,7 +12,9 @@ module Mutations
 
       def resolve(app_key:, conversation_id:, state:)
         find_app(app_key)
-
+        authorize! object, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
         @conversation = conversation(conversation_id)
 
         if %w[reopen close].include?(state)

@@ -13,6 +13,9 @@ module Mutations
         # using a signed_id and associates the blob with the attachment (avatar)
         # current_user.avatar.attach(blob_id)
         app = App.find_by(key: app_key)
+        authorize! object, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
         article = app.articles.find(id)
         article.images.attach(blob_id)
         { article: article }

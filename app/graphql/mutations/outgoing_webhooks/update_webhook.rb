@@ -14,7 +14,9 @@ module Mutations
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
 
-      authorize! @app, to: :manage?, with: AppPolicy
+      authorize! object, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
+        app: @app
+      }
 
       @webhook = @app.outgoing_webhooks.find(id)
 

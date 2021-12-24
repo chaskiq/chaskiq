@@ -10,6 +10,9 @@ module Mutations
 
       def resolve(app_key:, id:, author_id:)
         app = App.find_by(key: app_key)
+        authorize! object, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
         agent = app.agents.find_by(email: author_id)
         article = app.articles.find(id)
         article.update(author: agent)

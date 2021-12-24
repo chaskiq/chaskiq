@@ -12,6 +12,9 @@ module Mutations
 
       def resolve(app_key:, conversation_id:, tag_list:)
         find_app(app_key)
+        authorize! object, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
 
         @conversation = conversation(conversation_id)
         @conversation.tag_list = tag_list

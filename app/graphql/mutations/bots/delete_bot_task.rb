@@ -10,6 +10,9 @@ module Mutations
 
       def resolve(app_key:, id:)
         find_app(app_key)
+        authorize! object, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+          app: @app
+        }
         @bot_task = @app.bot_tasks.find(id)
         @bot_task.destroy
         { bot_task: @bot_task, errors: @bot_task.errors }

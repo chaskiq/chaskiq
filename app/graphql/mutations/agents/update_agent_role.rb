@@ -15,8 +15,8 @@ module Mutations
 
         agent = role&.agent # , name: 'John Doe')
 
-        authorize! agent, to: :update_agent_role?, with: AppPolicy, context: {
-          role: app.roles.find_by(agent_id: current_user.id)
+        authorize! object, to: :can_manage_team?, with: AppPolicy, context: {
+          app: app
         }
 
         data = params.permit(

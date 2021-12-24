@@ -11,7 +11,9 @@ module Mutations
 
       def resolve(app_key:, app_package:, params:)
         app = find_app(app_key)
-        authorize! app, to: :manage?, with: AppPolicy
+        authorize! object, to: :can_manage_app_packages?, with: AppPolicy, context: {
+          app: app
+        }
         app_package = current_user.app_packages.new(params.permit!)
         app_package.state = "enabled"
         app_package.save

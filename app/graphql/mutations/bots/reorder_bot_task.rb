@@ -11,7 +11,9 @@ module Mutations
 
       def resolve(app_key:, id:, id_after:, mode:)
         app = current_user.apps.find_by(key: app_key)
-
+        authorize! object, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+          app: @app
+        }
         collection = app.bot_tasks.for_new_conversations if mode == "new_conversations"
         collection = app.bot_tasks.for_outbound if mode == "outbound"
 

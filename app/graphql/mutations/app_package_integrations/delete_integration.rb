@@ -11,8 +11,9 @@ module Mutations
 
       def resolve(id:, app_key:)
         find_app(app_key)
-        authorize! @app, to: :manage?, with: AppPolicy
-
+        authorize! object, to: :can_manage_app_packages?, with: AppPolicy, context: {
+          app: app
+        }
         delete_integration(id)
         { integration: @integration, errors: @integration.errors }
       end

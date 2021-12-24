@@ -10,7 +10,9 @@ module Mutations
 
       def resolve(app_key:, id:, message:)
         app = App.find_by(key: app_key)
-
+        authorize! object, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
         conversation = app.conversations.find(id)
 
         author = if current_user.is_a?(Agent)

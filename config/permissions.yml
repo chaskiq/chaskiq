@@ -6,11 +6,11 @@ manager:
     - all
 agent:
   login_to: conversations
-  blocks_access:
   manage:
     - conversations
     - platform
   read:
+    - segments
   write:
 
 program_manager:
@@ -18,9 +18,10 @@ program_manager:
   manage:
     - app
     - app_settings
+    - app_packages
     - messenger_settings
-    - webhooks
-    - api_access
+    - outgoing_webhooks
+    - oauth_applications
     - dashboard
     - campaigns
     - routing_bots
@@ -30,11 +31,12 @@ program_manager:
     - platform
     - reports
     - settings
+    - segments
   write:
 admin_only:
   manage:
     - conversations
-    - platform_segments
+    - segments
     - users
   read:
     - dashboard
@@ -43,4 +45,26 @@ admin_only:
     - help_center
     - reports
     - settings
+    - app_packages
   write:
+
+
+
+#    - app
+#    - app_settings
+#    - app_packages
+#    - messenger_settings
+#    - outgoing_webhooks
+#    - oauth_applications
+#    - dashboard
+#    - campaigns
+#    - routing_bots
+#    - help_center
+#    - dashboard
+#    - campaigns
+#    - routing_bots
+#    - help_center
+#    - reports
+#    - settings
+#    - assign_rules
+#    - quick_replies
