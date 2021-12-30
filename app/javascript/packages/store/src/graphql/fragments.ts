@@ -142,6 +142,7 @@ segments {
 state
 tagline
 plan
+currentAppRole
 `;
 
 export const appUserFragment = `

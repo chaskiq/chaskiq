@@ -85,6 +85,16 @@ module Types
       PermissionsService.list
     end
 
+    field :current_app_role, Types::JsonType, null: true
+    def current_app_role
+      current_user
+      role = object.roles.find_by(agent_id: current_user.id)
+      {
+        name: role.role,
+        definition: PermissionsService.list[role.role]
+      }
+    end
+
     def tag_list
       authorize! object, to: :show?, with: AppPolicy
       object.tag_list || []
