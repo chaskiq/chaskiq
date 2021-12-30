@@ -52,6 +52,8 @@ module Types
       PaymentServices::Paddle.new.get_subscription_transactions(
         object.paddle_subscription_id
       )
+    rescue StandardError
+      []
     end
 
     field :subscription_details, Types::JsonType, null: true

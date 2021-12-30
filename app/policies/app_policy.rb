@@ -32,6 +32,7 @@ class AppPolicy < ActionPolicy::Base
     messenger_settings
     outgoing_webhooks
     api_access
+    team
   ].each do |namespace|
     %w[manage read write].each do |verb|
       define_method "can_#{verb}_#{namespace}?" do |*_my_arg|
