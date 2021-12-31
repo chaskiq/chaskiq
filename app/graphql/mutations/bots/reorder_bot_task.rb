@@ -11,11 +11,14 @@ module Mutations
 
       def resolve(app_key:, id:, id_after:, mode:)
         app = current_user.apps.find_by(key: app_key)
+        bot_task = collection.find(id)
 
+        authorize! bot_task, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+          app: @app
+        }
         collection = app.bot_tasks.for_new_conversations if mode == "new_conversations"
         collection = app.bot_tasks.for_outbound if mode == "outbound"
 
-        bot_task = collection.find(id)
         position = collection.find(id_after).position
 
         bot_task.insert_at(position)

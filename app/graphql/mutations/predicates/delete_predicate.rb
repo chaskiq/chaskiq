@@ -13,9 +13,14 @@ module Mutations
     def resolve(app_key:, id:)
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
+      @segment = @app.segments.find(id)
+
+      authorize! @segment, to: :can_manage_segments?, with: AppPolicy, context: {
+        app: @app
+      }
+
       raise "server does not allow empty segments, we kept one" if @app.segments.size == 1
 
-      @segment = @app.segments.find(id)
       @segment.delete
       { segment: @segment, errors: @segment.errors }
     end

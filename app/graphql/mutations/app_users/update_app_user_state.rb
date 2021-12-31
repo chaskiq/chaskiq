@@ -12,6 +12,8 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
         app_user = app.app_users.find(id)
 
+        authorize! app_user, to: :can_manage_user_state?, with: AppPolicy, context: { app: app }
+
         if AppUser.aasm.events.map(&:name).include?(state.to_sym)
           begin
             app_user.send(state.to_s.to_sym)

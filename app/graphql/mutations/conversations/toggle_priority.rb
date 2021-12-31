@@ -12,6 +12,9 @@ module Mutations
       def resolve(app_key:, conversation_id:)
         find_app(app_key)
         @conversation = conversation(conversation_id)
+        authorize! @conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
         @conversation.toggle_priority
         track_event
         { conversation: @conversation, errors: @conversation.errors }

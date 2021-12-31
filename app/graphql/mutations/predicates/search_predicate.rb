@@ -22,6 +22,10 @@ module Mutations
     def resolve(app_key:, search:, page:, per:)
       @app = App.find_by(key: app_key)
 
+      authorize! @app, to: :can_read_segments?, with: AppPolicy, context: {
+        app: @app
+      }
+
       @segment = @app.segments.new
       resource_params = search.require(:data).permit(
         predicates: [:attribute, :comparison, :type, :value, { value: [] }]
