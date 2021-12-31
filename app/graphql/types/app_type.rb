@@ -91,6 +91,7 @@ module Types
       role = object.roles.find_by(agent_id: current_user.id)
       {
         name: role.role,
+        owner: object.owner_id == current_user.id,
         definition: PermissionsService.list[role.role]
       }
     end
@@ -346,7 +347,7 @@ module Types
     def segments
       # object.plan.allow_feature!('Segments')
       # authorize! object, to: :show?, with: AppPolicy
-      authorize! object, to: :can_read_segments?, with: AppPolicy
+      # authorize! object, to: :can_read_segments?, with: AppPolicy
 
       Segment.union_scope(
         object.segments.all, Segment.where(app_id: nil)
@@ -382,7 +383,7 @@ module Types
 
     def quick_replies(lang:, q:)
       I18n.locale = lang
-      authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_quick_replies?, with: AppPolicy
       if q.present?
         return object.quick_replies
                      .ransack(title_cont: q)
@@ -399,7 +400,7 @@ module Types
 
     def quick_reply(id:, lang:)
       I18n.locale = lang
-      authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_quick_replies?, with: AppPolicy
       object.quick_replies.find(id)
     end
 
@@ -439,7 +440,7 @@ module Types
     def articles_uncategorized(page:, per:, lang:)
       # object.plan.allow_feature!('Articles')
       I18n.locale = lang
-      authorize! object, to: :show?, with: AppPolicy
+      authorize! object, to: :can_read_help_center?, with: AppPolicy
       object.articles.without_collection.page(page).per(per)
     end
 

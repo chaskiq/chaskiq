@@ -10,7 +10,7 @@ class AppPolicy < ActionPolicy::Base
 
   %w[
     all
-    users_archive
+    user_state
     platform
     apps_create_new_app
     settings_app_settings
@@ -22,6 +22,8 @@ class AppPolicy < ActionPolicy::Base
     settings
     conversations_customize
     conversations
+    customize_inbox
+    customize_home_apps
     platform_segments
     users
     dashboard

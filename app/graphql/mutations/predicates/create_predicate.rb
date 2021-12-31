@@ -18,12 +18,12 @@ module Mutations
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
 
-      authorize! @app, to: :can_manage_segments?, with: AppPolicy, context: {
-        app: app
-      }
-
       @segment = @app.segments.new
       @segment.name = name
+
+      authorize! @segment, to: :can_manage_segments?, with: AppPolicy, context: {
+        app: @app
+      }
 
       @segment.predicates = predicates.map(&:permit!).as_json
       @segment.save

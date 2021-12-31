@@ -22,7 +22,7 @@ module Mutations
     def resolve(app_key:, search:, page:, per:)
       @app = App.find_by(key: app_key)
 
-      authorize! @app, to: :can_manage_segments?, with: AppPolicy, context: {
+      authorize! @app, to: :can_read_segments?, with: AppPolicy, context: {
         app: @app
       }
 

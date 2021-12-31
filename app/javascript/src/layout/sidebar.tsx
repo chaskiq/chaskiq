@@ -55,7 +55,7 @@ import { signout } from '@chaskiq/store/src/actions/auth';
 
 import SwitchControl from '@chaskiq/components/src/components/Switch';
 
-import { allowedAccessTo } from '../shared/permissionCheck';
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
 
 declare global {
   interface Window {

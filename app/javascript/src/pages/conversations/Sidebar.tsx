@@ -9,6 +9,9 @@ import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBl
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
 import AppInserter from './AppInserter';
 import I18n from '../../shared/FakeI18n';
+import RestrictedArea, {
+  allowedAccessTo,
+} from '@chaskiq/components/src/components/AccessDenied';
 
 import { updateApp } from '@chaskiq/store/src/actions/app';
 
@@ -44,32 +47,34 @@ function Sidebar({
       <div className="py-2 pt-2">
         <div className="flex items-center justify-between">
           {editable && (
-            <div className="flex flex-col w-full">
-              <div className="px-2">
-                <AppInserter
-                  update={update}
-                  setEditable={setEditable}
-                  location={'inbox'}
-                  option={{
-                    name: 'inbox apps',
-                    namespace: 'inboxApps',
-                    n: 'inbox_apps',
-                    classes: 'rounded-l-lg',
-                  }}
-                  customRenderer={(data) => (
-                    <div>
-                      {renderInternal({
-                        object: data,
-                        app_user,
-                        conversation,
-                        app,
-                      })}
-                    </div>
-                  )}
-                  capability={'inbox'}
-                />
+            <RestrictedArea section="app_packages" verb="manage">
+              <div className="flex flex-col w-full">
+                <div className="px-2">
+                  <AppInserter
+                    update={update}
+                    setEditable={setEditable}
+                    location={'inbox'}
+                    option={{
+                      name: 'inbox apps',
+                      namespace: 'inboxApps',
+                      n: 'inbox_apps',
+                      classes: 'rounded-l-lg',
+                    }}
+                    customRenderer={(data) => (
+                      <div>
+                        {renderInternal({
+                          object: data,
+                          app_user,
+                          conversation,
+                          app,
+                        })}
+                      </div>
+                    )}
+                    capability={'inbox'}
+                  />
+                </div>
               </div>
-            </div>
+            </RestrictedArea>
           )}
 
           {!editable && (
@@ -86,12 +91,15 @@ function Sidebar({
                         <LeftArrow />
                       </Button>
                     </div>
-                    <button
-                      className="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100 hover:text-indigo-500"
-                      onClick={() => setEditable(true)}
-                    >
-                      customize
-                    </button>
+
+                    {allowedAccessTo(app, 'app_packages', 'manage') && (
+                      <button
+                        className="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100 hover:text-indigo-500"
+                        onClick={() => setEditable(true)}
+                      >
+                        customize
+                      </button>
+                    )}
                   </div>
 
                   <div className="hidden flex-- items-center space-y-2 rounded-md border border-gray-200 bg-white w-full p-2">

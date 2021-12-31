@@ -8,7 +8,6 @@ agent:
   login_to: conversations
   manage:
     - conversations
-    - platform
   read:
     - team
     - users
@@ -18,30 +17,14 @@ agent:
 program_manager:
   login_to: :conversations
   manage:
-    - app
-    - app_settings
-    - app_packages
-    - messenger_settings
-    - outgoing_webhooks
-    - oauth_applications
-    - dashboard
-    - campaigns
-    - routing_bots
-    - help_center
-  read:
     - conversations
-    - platform
     - reports
-    - settings
     - segments
+  read:
+    - users
   write:
 admin_only:
   manage:
-    - conversations
-    - segments
-    - users
-  read:
-    - dashboard
     - campaigns
     - routing_bots
     - help_center
@@ -70,3 +53,5 @@ admin_only:
 #    - settings
 #    - assign_rules
 #    - quick_replies
+#    - team
+#    - users

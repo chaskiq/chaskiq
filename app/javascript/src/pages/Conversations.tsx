@@ -14,6 +14,7 @@ import ConversationItemList from './conversations/ItemList';
 import AssignmentRules from './conversations/AssignmentRules';
 import Conversation from './conversations/Conversation';
 import ConversationSidebar from './conversations/Sidebar';
+import AccessDenied from '@chaskiq/components/src/components/AccessDenied';
 
 import emptyImage from '../images/empty-icon8.png';
 import I18n from '../shared/FakeI18n';
@@ -308,7 +309,9 @@ function Conversations({
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
           <div className="flex-grow bg-gray-50 dark:bg-gray-800 h-screen border-r w-1/12 dark:border-black">
-            <AssignmentRules />
+            <AccessDenied section="assign_rules">
+              <AssignmentRules />
+            </AccessDenied>
           </div>
         </Route>
 

@@ -42,9 +42,8 @@ import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
 import LoadingView from '@chaskiq/components/src/components/loadingView';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
-import AccessDenied from '@chaskiq/components/src/components/AccessDenied';
+import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 import Sidebar from '../layout/sidebar';
-import { allowedAccessTo } from '../shared/permissionCheck';
 
 declare global {
   interface Window {
@@ -155,10 +154,6 @@ function AppContainer({
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }));
   }
 
-  function allowedPageViewFor(section, component) {
-    return allowedAccessTo(app, section) ? component : <AccessDenied />;
-  }
-
   return (
     <div className="h-screen flex overflow-hidden bg-white dark:bg-gray-900 dark:text-white">
       {app && <Sidebar />}
@@ -233,22 +228,27 @@ function AppContainer({
                 </Route>
 
                 <Route exact path={`${match.path}/segments/:segmentID/:Jwt?`}>
-                  {allowedPageViewFor('segments', <Platform />)}
+                  <RestrictedArea section="segments">
+                    <Platform />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/settings`}>
-                  {allowedPageViewFor('app_settings', <Settings />)}
+                  <RestrictedArea section="app_settings">
+                    <Settings />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/messenger`}>
-                  {allowedPageViewFor(
-                    'messenger_settings',
+                  <RestrictedArea section="messenger_settings">
                     <MessengerSettings />
-                  )}
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/team`}>
-                  {allowedPageViewFor('messenger_settings', <Team />)}
+                  <RestrictedArea section="team">
+                    <Team />
+                  </RestrictedArea>
                 </Route>
 
                 <Route
@@ -264,41 +264,54 @@ function AppContainer({
                 />
 
                 <Route path={`${match.url}/webhooks`}>
-                  {allowedPageViewFor('outgoing_webhooks', <Webhooks />)}
+                  <RestrictedArea section="outgoing_webhooks">
+                    <Webhooks />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/integrations`}>
-                  {allowedPageViewFor('app_packages', <Integrations />)}
+                  <RestrictedArea section="app_packages">
+                    <Integrations />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/reports`}>
-                  <Reports />
+                  <RestrictedArea section="reports">
+                    <Reports />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/articles`}>
-                  {allowedPageViewFor('help_center', <Articles />)}
+                  <RestrictedArea section="help_center">
+                    <Articles />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/conversations`}>
-                  {allowedPageViewFor(
-                    'conversations',
+                  <RestrictedArea section="conversations">
                     <Conversations
                       subscribed
                       events={CableApp.current.events}
                     />
-                  )}
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/oauth_applications`}>
-                  {allowedPageViewFor('oauth_applications', <Api />)}
+                  <RestrictedArea section="oauth_applications">
+                    <Api />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/billing`}>
-                  {allowedPageViewFor('billing', <Billing />)}
+                  <RestrictedArea section="billing">
+                    <Billing />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/bots`}>
-                  {allowedPageViewFor('bots', <Bots />)}
+                  <RestrictedArea section="routing_bots">
+                    <Bots />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/campaigns`}>
@@ -306,7 +319,9 @@ function AppContainer({
                 </Route>
 
                 <Route path={`${match.path}/messages/:message_type`}>
-                  {allowedPageViewFor('campaigns', <Campaigns />)}
+                  <RestrictedArea section="campaigns">
+                    <Campaigns />
+                  </RestrictedArea>
                 </Route>
               </Switch>
             </ErrorBoundary>
