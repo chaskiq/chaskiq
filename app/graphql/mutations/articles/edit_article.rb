@@ -15,6 +15,10 @@ module Mutations
         app = App.find_by(key: app_key)
         article = app.articles.find(id)
 
+        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
+
         I18n.locale = lang
 
         options = {

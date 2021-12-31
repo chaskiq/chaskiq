@@ -9,8 +9,9 @@ module Mutations
 
       def resolve(app_key:, params:)
         find_app(app_key)
-
-        authorize! @app, to: :manage?, with: AppPolicy
+        authorize! @app, to: :can_manage_oauth_apps?, with: AppPolicy, context: {
+          app: @app
+        }
 
         @application = @app.oauth_applications.new(
           params.permit(:name, :redirect_uri, :scopes, :confidential)

@@ -11,6 +11,9 @@ module Mutations
       def resolve(app_key:, id:, message:)
         if current_user.is_a?(Agent)
           app = current_user.apps.find_by(key: app_key)
+          authorize! app, to: :can_manage_conversations?, with: AppPolicy, context: {
+            app: app
+          }
           author = app.agents.where("agents.email =?", current_user.email).first
           participant = app.app_users.find(id)
         elsif app_user = context[:get_app_user].call

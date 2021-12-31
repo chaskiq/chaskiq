@@ -16,6 +16,11 @@ module Mutations
         )
 
         app_user = app.app_users.find(id)
+
+        authorize! app_user, to: :can_manage_users?, with: AppPolicy, context: {
+          app: app
+        }
+
         app_user.update(permitted_options)
         { app_user: app_user }
       end

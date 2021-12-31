@@ -12,9 +12,7 @@ module Mutations
       def resolve(app_key:, content:, title:, lang:)
         app = App.find_by(key: app_key)
 
-        I18n.locale = lang
-
-        @article = app.articles.create(
+        article = app.articles.create(
           author: current_user,
           title: title,
           article_content_attributes: {
@@ -23,7 +21,13 @@ module Mutations
             text_content: content["serialized"]
           }
         )
-        { article: @article }
+
+        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
+        I18n.locale = lang
+
+        { article: article }
       end
 
       def current_user

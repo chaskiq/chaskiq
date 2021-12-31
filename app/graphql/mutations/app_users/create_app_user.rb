@@ -16,6 +16,8 @@ module Mutations
           %w[name email first_name last_name phone company_name]
         ).to_hash.with_indifferent_access
 
+        authorize! app, to: :can_manage_users?, with: AppPolicy, context: { app: app }
+
         permitted_options.merge!({ additional_validations: true })
         case options[:app][:contact_kind]
         when "AppUser"

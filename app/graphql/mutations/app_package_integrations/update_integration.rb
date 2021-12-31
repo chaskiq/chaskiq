@@ -13,7 +13,8 @@ module Mutations
         app = find_app(app_key)
         integration = app.app_package_integrations.find(id)
         app_package = integration.app_package
-        authorize! app, to: :manage?, with: AppPolicy
+
+        authorize! integration, to: :can_manage_app_packages?, with: AppPolicy, context: { app: app }
 
         integration.settings = params.permit!.to_h
         integration.app_package = app_package

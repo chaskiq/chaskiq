@@ -10,14 +10,18 @@ module Mutations
 
       def resolve(id:, app_key:)
         find_app(app_key)
-        authorize! @app, to: :manage?, with: AppPolicy
+
+        @app_package = current_user.app_packages.find(id)
+
+        authorize! @app_package, to: :can_manage_app_packages?, with: AppPolicy, context: {
+          app: app
+        }
 
         delete_app_package(id)
         { app_package: @app_package, errors: @app_package.errors }
       end
 
       def delete_app_package(id)
-        @app_package = current_user.app_packages.find(id)
         @app_package.destroy
       end
 
