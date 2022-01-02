@@ -170,7 +170,7 @@ const WrappedComponent = React.forwardRef(function Input(
       ? isArray(defaultValue)
         ? defaultValue.map((o) => ({ label: o, value: o }))
         : defaultValue
-      : props.options.find((o) => o.value == defaultValue);
+      : props.options.find((o) => o.value == defaultValue.value);
 
     return (
       <FormField name={name} label={label} helperText={helperText}>
