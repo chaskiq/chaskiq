@@ -16,4 +16,12 @@ RSpec.describe AppPackage, type: :model do
     expect(package.definitions.size).to be == 1
     expect(package).to be_is_external
   end
+
+  describe "external" do
+    it "is external" do
+      settings = JSON.parse("{\"oauth_url\":\"\",\"initialize_url\":\"https://domain.com/initialize\",\"configure_url\":\"https://domain.com/configure\",\"submit_url\":\"https://domain.com/submit\",\"sheet_url\":\"https://domain.com/frame\",\"definitions\":[{\"name\":\"access_token\",\"type\":\"string\",\"grid\":{\"xs\":\"w-full\",\"sm\":\"w-full\"}}]}")
+      package = AppPackage.create(name: "any", settings: settings)
+      expect(package).to be_is_external
+    end
+  end
 end

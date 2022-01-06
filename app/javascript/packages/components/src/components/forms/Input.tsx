@@ -165,12 +165,11 @@ const WrappedComponent = React.forwardRef(function Input(
 
   function renderSelect() {
     const isMulti = props.data && props.data.multiple;
-
     let initialValue = isMulti
       ? isArray(defaultValue)
         ? defaultValue.map((o) => ({ label: o, value: o }))
         : defaultValue
-      : props.options.find((o) => o.value == defaultValue?.value);
+      : props.options.find((o) => o.value == defaultValue.value);
 
     return (
       <FormField name={name} label={label} helperText={helperText}>
