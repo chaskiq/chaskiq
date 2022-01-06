@@ -7,9 +7,9 @@ module Mutations
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
       argument :params, Types::JsonType, required: true
-      argument :app_package, String, required: true
+      # argument :app_package, String, required: true
 
-      def resolve(app_key:, app_package:, params:)
+      def resolve(app_key:, params:)
         app = find_app(app_key)
 
         app_package = current_user.app_packages.new(params.permit!)
