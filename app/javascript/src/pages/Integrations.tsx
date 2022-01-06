@@ -886,6 +886,24 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
     { label: 'Inbox detail', value: 'inbox' },
   ];
 
+  const eventsTypes = [
+    { label: 'Dashboard', value: 'dashboard' },
+    { label: 'Closed conversations', value: '"conversations.closed"' },
+    { label: 'editor', value: 'editor' },
+    { label: 'email_changed', value: 'email_changed' },
+    { label: 'leads.convert', value: 'leads.convert' },
+    {
+      label: 'conversation.user.first.comment',
+      value: 'conversation.user.first.comment',
+    },
+    { label: 'conversations.assigned', value: 'conversations.assigned' },
+    { label: 'conversations.prioritized', value: 'conversations.prioritized' },
+    { label: 'conversations.started', value: 'conversations.started' },
+    { label: 'conversations.added', value: 'conversations.added' },
+    { label: 'conversations.closed', value: 'conversations.closed' },
+    { label: 'conversations.reopened', value: 'conversations.reopened' },
+  ];
+
   function integrationDefinitions() {
     return [
       {
@@ -910,11 +928,30 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         options: capabilitiesTypes,
         grid: { xs: 'w-full', sm: 'w-full' },
       },
+
+      {
+        name: 'tag_list',
+        type: 'select',
+        label: 'Events',
+        hint: I18n.t('definitions.app_packages.capability_list.hint'),
+        multiple: true,
+        options: eventsTypes,
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+
       {
         name: 'description',
         label: I18n.t('definitions.app_packages.description.label'),
         type: 'textarea',
         hint: I18n.t('definitions.app_packages.description.hint'),
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+
+      {
+        name: 'api_url',
+        label: 'api webhook url (required)',
+        type: 'string',
+        hint: '(required) The main input where your app will receive webhooks',
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 

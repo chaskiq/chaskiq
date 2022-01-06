@@ -7,6 +7,10 @@ RSpec.describe AppPackageIntegration, type: :model do
     FactoryBot.create :app
   end
 
+  let!(:agent_role) do
+    app.add_agent({ email: "agent1@test.cl" })
+  end
+
   before :each do
     AppPackagesCatalog.update_all
   end
@@ -50,5 +54,48 @@ RSpec.describe AppPackageIntegration, type: :model do
 
     expect(record).to_not be_valid
     expect(record.errors).to be_any
+  end
+
+  describe "external packages" do
+    let(:app_package) do
+      settings = JSON.parse("{\"oauth_url\":\"\",\"api_url\":\"https://www.domain.com:4040/api\", \"initialize_url\":\"https://domain.com/initialize\",\"configure_url\":\"https://domain.com/configure\",\"submit_url\":\"https://domain.com/submit\",\"sheet_url\":\"https://domain.com/frame\",\"definitions\":[{\"name\":\"access_token\",\"type\":\"string\",\"grid\":{\"xs\":\"w-full\",\"sm\":\"w-full\"}}]}")
+      AppPackage.create(name: "any", settings: settings, author: agent_role.agent)
+    end
+
+    before :each do
+      allow_any_instance_of(AppPackage).to receive(:api_url_challenge).and_return(true)
+    end
+
+    it "external app package" do
+      expect(app_package).to be_is_external
+    end
+
+    it "add package" do
+      integration = app.app_package_integrations.new
+      integration.app_package = app_package
+      integration.save
+      expect(integration).to be_persisted
+    end
+
+    describe "persisted external" do
+      let(:integration) do
+        integration = app.app_package_integrations.new
+        integration.app_package = app_package
+        integration.save
+        integration
+      end
+
+      it "trigger" do
+        event = Event.new
+        expect_any_instance_of(ExternalApiClient).to receive(:post).and_return(true)
+        integration.trigger(event)
+      end
+
+      it "process_event" do
+        params = { a: 1 }
+        expect_any_instance_of(ExternalApiClient).to receive(:post).and_return(true)
+        integration.process_event(params)
+      end
+    end
   end
 end
