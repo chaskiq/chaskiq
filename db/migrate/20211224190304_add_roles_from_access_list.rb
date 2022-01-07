@@ -8,7 +8,7 @@ class AddRolesFromAccessList < ActiveRecord::Migration[6.1]
         role = "agent"
       elsif list.include?("manage")
         puts "manage role detected"
-        role = "manage"
+        role = "manager"
       elsif list.include?("admin")
         puts "admin role detected"
         role = "admin"
