@@ -18,6 +18,8 @@ module Mutations
           begin
             app_user.send(state.to_s.to_sym)
             app_user.save
+
+            track_resource_event(app_user, :app_user_updated_state, app_user.saved_changes) if app_user.errors.blank?
           rescue AASM::InvalidTransition => e
             return { app_user: app_user, errors: [e.message] }
           end

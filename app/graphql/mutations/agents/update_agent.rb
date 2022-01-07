@@ -34,6 +34,8 @@ module Mutations
 
         agent.update(data)
 
+        track_resource_event(agent, :agent_update, agent.saved_changes, app.id) if agent.errors.blank?
+
         { agent: agent }
       end
 

@@ -13,6 +13,8 @@ module Mutations
         if app_user.email.blank?
           app_user.update(email: email)
           app_user.become_lead! if app_user.is_a?(Visitor)
+
+          track_resource_event(app_user, :app_user_converted, app_user.saved_changes) if app_user.errors.blank?
         end
         { status: "ok" }
       end
