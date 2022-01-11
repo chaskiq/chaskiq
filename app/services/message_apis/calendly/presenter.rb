@@ -1,5 +1,11 @@
 module MessageApis::Calendly
   class Presenter
+    def self.valid_url?(uri)
+      uri = URI.parse(uri).try(:host)
+    rescue URI::InvalidURIError
+      false
+    end
+
     # Initialize flow webhook URL
     # Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.
     def self.initialize_hook(params)
