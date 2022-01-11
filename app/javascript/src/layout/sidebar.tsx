@@ -617,10 +617,7 @@ function Sidebar({
           {renderInner()}
 
           <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
-            <a
-              href="#"
-              className="flex-shrink-0 group block focus:outline-none"
-            >
+            <div className="flex-shrink-0 group block focus:outline-none">
               <div className="flex items-center">
                 <div>
                   <img
@@ -723,7 +720,7 @@ function Sidebar({
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
         </div>
       )}

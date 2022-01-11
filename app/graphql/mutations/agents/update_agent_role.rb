@@ -46,6 +46,12 @@ module Mutations
 
         role.update(role: params[:role]) if params[:role].present?
 
+        if agent.errors.blank?
+          changes = agent.saved_changes
+          changes.merge!(role.saved_changes) if params[:role].present?
+          track_resource_event(agent, :agent_update, changes, app.id)
+        end
+
         # agent.update(name: params[:name]) if params[:name].present?
         { agent: role }
       end

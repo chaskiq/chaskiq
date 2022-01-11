@@ -18,6 +18,8 @@ module Mutations
 
         agent.destroy
 
+        track_resource_event(agent, :agent_destroy, {}, app.id)
+
         { agent: agent }
       end
 
