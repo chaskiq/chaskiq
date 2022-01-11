@@ -26,6 +26,8 @@ module Mutations
           app_user = app.add_lead(permitted_options)
         end
 
+        track_resource_event(app_user, :app_user_created, app_user.saved_changes) if app_user.errors.blank?
+
         { app_user: app_user, errors: app_user.errors }
       end
 

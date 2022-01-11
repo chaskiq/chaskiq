@@ -22,7 +22,11 @@ module MessageApis::AuditsReports
     def report(path, integration, options)
       case path
       when "events_table"
-        collection = integration.app.audits.page(options[:page]).per(10)
+        collection = integration.app
+                                .audits
+                                .order("id desc")
+                                .page(options[:page])
+                                .per(10)
 
         {
           collection: collection.map(&:serialize_properties),
@@ -33,7 +37,8 @@ module MessageApis::AuditsReports
             { field: "action", title: "Action" },
             { field: "agent_name", title: "Agent" },
             { field: "agent_email", title: "Agent Email" },
-            { field: "created_at", title: "Date" }
+            { field: "created_at", title: "Date" },
+            { field: "sdata", title: "Data" }
           ],
           meta: {
             current_page: collection.current_page,
