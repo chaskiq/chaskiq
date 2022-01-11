@@ -24,7 +24,7 @@ ca:
         label: Codi Google
         hint: ID de seguiment de Google
       credits:
-        label: Show credits
+        label: Mostrar crèdits
         hint: ""
     settings:
       name:
@@ -166,31 +166,31 @@ ca:
     agents:
       email:
         label: Agent's Email
-        placeholder: john@example.com
+        placeholder: marc@exemple.cat
       name:
-        label: Agent's Name
-        placeholder: John Doe
+        label: Nom del agent
+        placeholder: Marc Gaja
       owner:
-        label: Owner
+        label: Propietari
       access_list:
-        label: 'Roles for agent'
+        label: 'Rol del agent'
         hint: 'blank access will disable account settings access for user'
   data_tables:
     agents:
       email: Email
       name: Nom
-      owner: Owner
+      owner: Propietari
       access_list: Access List
       actions: Accions
       sign_in_count: Sign in count
-      last_sign_in_at: Last sign in at
-      invitation_accepted_at: Invitation accepted at
+      last_sign_in_at: Darrera data d'identificació
+      invitation_accepted_at: Invitació acceptada el
     articles:
       settings:
         locale: Locale
-        site_title: Site Title
-        site_description: Site Description
-        action: Action
+        site_title: Títol del lloc
+        site_description: Descripció del Lloc
+        action: Acció
     users:
       name: Nom
       email: Correu electrònic
@@ -220,5 +220,5 @@ ca:
     settings:
       locale: Locale
       greetings: Greetings
-      intro: Intro
+      intro: Introducció
       tagline: Eslògan
