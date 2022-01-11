@@ -1,7 +1,5 @@
 module MessageApis::Calendly
   class Presenter
-
-
     def self.valid_url?(uri)
       uri = URI.parse(uri).try(:host)
     rescue URI::InvalidURIError
