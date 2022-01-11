@@ -11,6 +11,7 @@ export function allowedAccessTo(app, section, verb = 'read') {
   const roleName = userRole.name;
 
   const role_definition = app.availableRoles[roleName];
+  if (!role_definition) return null;
   const res =
     role_definition['manage']?.includes('all') ||
     role_definition['manage']?.includes(section) ||
