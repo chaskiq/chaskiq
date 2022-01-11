@@ -9,7 +9,7 @@ ca:
     delete: Borrar
     create: Crea
     save: Desa
-    save_changes: Save changes
+    save_changes: Desa els canvis
     preview: Vista prèvia
     cancel: Cancel·lar
     back_to_site: Torna al site
@@ -27,42 +27,42 @@ ca:
     tz_hint: La zona horària del teu navegador és <b className="text-bold">%{timezone}</b>
     send: Envia
     actions: Accions
-    your_apps: Your apps
+    your_apps: Les teves Apps
     upload_field: upload %{field}
-    choose_color: Choose color
+    choose_color: Triar color
     image: Imagen
     langs:
       en: Anglès
       es: Espanyol
       pt: Portuguès
       de: Alemany
-      ca: Catalan
-      zh-CN: Chinese
+      ca: Català
+      zh-CN: Xinès
     redirecting: Redireccionant
     select_language: Selecciona un Idioma
     send_on_enter: Publicar al entrar
     away_mode: Away mode
     toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+    toggle_dark_mode: Canviar a tema fosc
     leads: Client potencial
-    visitors: Visitors
+    visitors: Visitants
     users: Usuaris
-    type_message: type your message
-    search_conversations: Search conversations
-    days: Days
+    type_message: escriu el teu missatge
+    search_conversations: Cerca la conversa
+    days: Dies
   status_messages:
     error: 'Error'
-    success: 'Success'
-    updated_success: Updated successfully
+    success: 'Correcte'
+    updated_success: S'ha actualitzat amb èxit
     updated_error: Error on upddate
     created_success: Successfully created
     created_error: Error creating
-    deleted_success: Successfully deleted
-    deleted_error: Error deleting
+    deleted_success: Eliminat satisfactòriament
+    deleted_error: Error d'eliminació
     reordered_error: Error reordering
     reordered_success: Successfully Reordered
   error_view:
-    title: Woops! something went wrong.
+    title: Ui! Alguna cosa ha anat malament.
     subtitle: Unfortunately 🤯
     exp: try refreshing the page
     cta: try to go home
@@ -88,8 +88,8 @@ ca:
     user_country: País del usuari
     snippet: Posa el següent script a la fin de la teva etiqueta html <body>
     status: Live chat status
-    status_running: Running
-    status_paused: Paused
+    status_running: En execució
+    status_paused: Pausat
     guides: Chaskiq Guides
   navigator:
     dashboard: Tauler de control
@@ -120,7 +120,7 @@ ca:
       integrations: Integracions
       webhooks: Webhook
       api_access: Accés API
-      billing: Billing
+      billing: Facturació
     user_menu:
       create_app: 'Crea una nova aplicació'
       create_app_description: 'Crea l''aplicació Chaskiq de la teva empresa'
@@ -131,10 +131,10 @@ ca:
     title: Converses
     menu:
       conversations: Converses
-      all: All conversations
+      all: Totes les converses
       assignment_rules: Regles d'enrutament d'agents
       tags: Etiquetes
-      unassigned: Unassigned
+      unassigned: Sense assignar
     states:
       opened: Obert
       closed: Tancat
@@ -161,8 +161,8 @@ ca:
     messages:
       seen: Vist
       not_seen: No vist
-      note: Private Note
-      reply: Reply
+      note: Nota privada
+      reply: Respondre
     sidebar:
       show_profile: Mostra el perfil
       location: Ubicación
@@ -200,8 +200,8 @@ ca:
     create_new: Crea una nova campanya
     empty:
       title: No hi ha campanyes
-    mailing: Mailing campaign
-    in_app: In app messages
+    mailing: Campanyes de correo
+    in_app: Missatge d'aplicació
     cloned_success: cloned successfully
     cloned_error: error while cloning record
     campaign_updated: Campanya actualitzada
@@ -211,16 +211,16 @@ ca:
     purge_title: Purgar les mètriques
     deliver_title: Entregar
     deliver_description: Eliminar la campanya
-    pause_title: Pause
+    pause_title: Pausa
     pause_description: pauses the campaign
-    clone_title: Clone
+    clone_title: Duplicar
     clone_description: clones the campaign
     activate: 'Activate Campaigns'
     enables: Enables campaign
     disables: Disables campaign
     state:
-      enabled: enabled
-      disabled: disabled
+      enabled: activat
+      disabled: inhabilitat
     tabs:
       stats: Stats
       settings: Configuració
@@ -420,7 +420,7 @@ ca:
     app_inserter:
       title: Add apps to your Messenger
       subtitle: Help your customers before they start a conversation
-      action: Add app
+      action: Afegir aplicació
     integrations:
       title: Integracions de tercers
       create_success: Integració creada
