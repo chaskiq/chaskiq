@@ -3160,9 +3160,9 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "Prohibit pel servidor!",
                 "fragment_present": "no pot contenir un fragment.",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "Ha de ser una adreça URL vàlida.",
                 "relative_uri": "ha de ser un URI absolut.",
                 "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "ha d’especificar un esquema."
@@ -3191,17 +3191,17 @@
         "description_placeholder": "Afegiu un resum per trobar l'article més endavant",
         "placeholder": "Escriu el títol de l'article"
       },
-      "created_on": "Created on",
+      "created_on": "Creat el",
       "delete_article": "Delete article \"%{title} ?",
       "delete_article_exp": "destruirem qualsevol contingut i dades relacionades",
-      "delete_section": "Delete section",
+      "delete_section": "Suprimeix una secció",
       "deleted_success": "article deleted",
       "description_placeholder": "Descriu la teva col·lecció per ajudar-vos a trobar-la.",
       "draft": "Esborranys",
       "edit_collection": "Edita col·lecció",
       "help_center": "Centre d'ajuda",
       "new": "Article nou",
-      "new_article": "new article",
+      "new_article": "article nou",
       "new_collection": "Nova col·lecció",
       "new_section": "Nova secció",
       "published": "Publicat",
@@ -3229,9 +3229,9 @@
       "square_preferred": "square images preferred (min size 200x200px)",
       "square_preferred_hint": "squared images will be optimal resized",
       "state": {
-        "draft": "draft",
+        "draft": "esborrany",
         "draft_desc": "hides the article on the help center",
-        "published": "published",
+        "published": "publicat",
         "published_desc": "shows article on the help center"
       },
       "title": "Articles",
@@ -3263,52 +3263,52 @@
       }
     },
     "campaigns": {
-      "activate": "Activate Campaigns",
+      "activate": "Activar campanyes",
       "banners": {
-        "action": "Action",
-        "bottom": "bottom",
-        "floating": "floating",
-        "inline": "inline",
+        "action": "Acció",
+        "bottom": "a sota",
+        "floating": "flotant",
+        "inline": "en línia",
         "settings": "Configuració",
-        "style": "Style",
+        "style": "Estil",
         "top": "top"
       },
       "campaign_updated": "Campanya actualitzada",
-      "clone_description": "clones the campaign",
-      "clone_title": "Clone",
-      "cloned_error": "error while cloning record",
-      "cloned_success": "cloned successfully",
+      "clone_description": "clona la campanya",
+      "clone_title": "Duplicar",
+      "cloned_error": "error en clonar el registre",
+      "cloned_success": "clonat amb èxit",
       "create_new": "Crea una nova campanya",
       "delete_campaign": "Suprimir campanya %{name}",
       "deliver_description": "Eliminar la campanya",
       "deliver_title": "Entregar",
-      "disables": "Disables campaign",
+      "disables": "Campanya desactivada",
       "empty": {
         "title": "No hi ha campanyes"
       },
-      "enables": "Enables campaign",
+      "enables": "Activa la campanya",
       "error_purge": "S'ha produït un error en esporgar les mètriques",
       "home": {
         "text": "Aquesta és la secció de campanyes, pots crear butlletins informatius, missatges emergents i visites guiades",
         "title": "Campanyes"
       },
-      "in_app": "In app messages",
-      "mailing": "Mailing campaign",
-      "pause_description": "pauses the campaign",
-      "pause_title": "Pause",
+      "in_app": "Missatge d'aplicació",
+      "mailing": "Campanyes de correo",
+      "pause_description": "posa en pausa la campanya",
+      "pause_title": "Pausa",
       "purge_description": "Purgar les mètriques de les campanyes",
       "purge_title": "Purgar les mètriques",
       "remove_hint": "Destruirem qualsevol contingut i dades relacionades",
       "remove_success": "Campanya eliminada",
       "state": {
-        "disabled": "disabled",
-        "enabled": "enabled"
+        "disabled": "inhabilitat",
+        "enabled": "activat"
       },
       "tabs": {
-        "audience": "Audience",
+        "audience": "Audiència",
         "editor": "Editor",
         "settings": "Configuració",
-        "stats": "Stats"
+        "stats": "Estadístiques"
       },
       "title": "Campanya",
       "updated_error": "Error al actualitzar la campanya"
@@ -3317,25 +3317,25 @@
       "actions": "Accions",
       "add": "Afegir",
       "add_new": "afegir nou",
-      "away_mode": "Away mode",
+      "away_mode": "Mode absent",
       "back_to_site": "Torna al site",
       "cancel": "Cancel·lar",
-      "choose_color": "Choose color",
+      "choose_color": "Triar color",
       "confirm_deletion": "Confirmes esborrar?",
-      "confirm_deletion_ready": "are you ready to delete ?",
+      "confirm_deletion_ready": "esteu preparats per esborrar?",
       "create": "Crea",
-      "days": "Days",
+      "days": "Dies",
       "delete": "Borrar",
       "edit": "Edita",
       "get_snippet": "Consegueix el fragment",
-      "image": "Imagen",
+      "image": "Imatge",
       "langs": {
-        "ca": "Catalan",
+        "ca": "Català",
         "de": "Alemany",
         "en": "Anglès",
         "es": "Espanyol",
         "pt": "Portuguès",
-        "zh-CN": "Chinese"
+        "zh-CN": "Xinès"
       },
       "leads": "Client potencial",
       "new": "Nou",
@@ -3348,38 +3348,38 @@
       "remove": "Eliminar",
       "results": "resultats",
       "save": "Desa",
-      "save_changes": "Save changes",
-      "search_conversations": "Search conversations",
+      "save_changes": "Desa els canvis",
+      "search_conversations": "Cerca la conversa",
       "select_language": "Selecciona un Idioma",
       "send": "Envia",
       "send_on_enter": "Publicar al entrar",
       "showing": "Mostrant",
       "submit": "Envia",
       "to": "per",
-      "toggle_dark_mode": "Toggle dark mode",
+      "toggle_dark_mode": "Canviar a tema fosc",
       "toggle_light_mode": "Toggle light mode",
-      "type_message": "type your message",
+      "type_message": "escriu el teu missatge",
       "tz_hint": "La zona horària del teu navegador és <b className=\"text-bold\">%{timezone}</b>",
       "update": "Actualitza",
-      "upload_field": "upload %{field}",
+      "upload_field": "carregar %{field}",
       "users": "Usuaris",
-      "visitors": "Visitors",
-      "your_apps": "Your apps"
+      "visitors": "Visitants",
+      "your_apps": "Les teves Apps"
     },
     "contact_manager": {
       "create": "Create Users & Leads",
       "definitions": {
-        "app_user": "Verified User",
-        "company_name": "Company Name",
+        "app_user": "Usuari Verificat",
+        "company_name": "Nom de l'empresa",
         "lead": "Lead",
-        "phone": "Phone"
+        "phone": "Telèfon"
       },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
-      "import_csv": "Import csv",
+      "import_csv": "Importar csv",
       "import_exp": "You can upload a csv or excel file in order to import contacts",
-      "import_type": "Import Type",
-      "select_file": "Select a file",
+      "import_type": "Tipus d'importació",
+      "select_file": "Seleccioneu un fitxer",
       "success_message": "Processing file import, you will be notified the status soon"
     },
     "conversation": {
@@ -3412,8 +3412,8 @@
       },
       "messages": {
         "not_seen": "No vist",
-        "note": "Private Note",
-        "reply": "Reply",
+        "note": "Nota privada",
+        "reply": "Respondre",
         "seen": "Vist"
       },
       "sidebar": {
@@ -3433,11 +3433,11 @@
         "title": "No hi ha converses"
       },
       "menu": {
-        "all": "All conversations",
+        "all": "Totes les converses",
         "assignment_rules": "Regles d'enrutament d'agents",
         "conversations": "Converses",
         "tags": "Etiquetes",
-        "unassigned": "Unassigned"
+        "unassigned": "Sense assignar"
       },
       "sorts": {
         "all": "Tots",
@@ -3455,7 +3455,7 @@
       "title": "Converses"
     },
     "dashboard": {
-      "guides": "Chaskiq Guides",
+      "guides": "Guies de Chaskiq",
       "hey": "👋 Ei, esteu veient el tauler de <strong>%{name} </strong>! <br /> Obteniu el fragment d'instal·lació per a la configuració web <br />",
       "incoming_messages": "Missatges entrants",
       "lead_os": "So Client potencial",
@@ -3464,9 +3464,9 @@
       "resolutions": "Resolució",
       "response_avg": "Temps de resposta mitjà",
       "snippet": "Posa el següent script a la fin de la teva etiqueta html <body>",
-      "status": "Live chat status",
-      "status_paused": "Paused",
-      "status_running": "Running",
+      "status": "Estat del xat en directe",
+      "status_paused": "Pausat",
+      "status_running": "En execució",
       "user_country": "País del usuari",
       "user_os": "So del usuari",
       "users_browser": "Navegador dels usuaris",
@@ -3477,23 +3477,23 @@
         "access_list": "Access List",
         "actions": "Accions",
         "email": "Email",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
+        "invitation_accepted_at": "Invitació acceptada el",
+        "last_sign_in_at": "Darrera data d'identificació",
         "name": "Nom",
-        "owner": "Owner",
+        "owner": "Propietari",
         "sign_in_count": "Sign in count"
       },
       "articles": {
         "settings": {
-          "action": "Action",
+          "action": "Acció",
           "locale": "Locale",
-          "site_description": "Site Description",
-          "site_title": "Site Title"
+          "site_description": "Descripció del Lloc",
+          "site_title": "Títol del lloc"
         }
       },
       "settings": {
         "greetings": "Greetings",
-        "intro": "Intro",
+        "intro": "Introducció",
         "locale": "Locale",
         "tagline": "Eslògan"
       },
@@ -3530,18 +3530,18 @@
       "agents": {
         "access_list": {
           "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "label": "Rol del agent"
         },
         "email": {
           "label": "Agent's Email",
-          "placeholder": "john@example.com"
+          "placeholder": "marc@exemple.cat"
         },
         "name": {
-          "label": "Agent's Name",
-          "placeholder": "John Doe"
+          "label": "Nom del agent",
+          "placeholder": "Marc Gaja"
         },
         "owner": {
-          "label": "Owner"
+          "label": "Propietari"
         }
       },
       "app_packages": {
@@ -3595,7 +3595,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Mostrar crèdits"
         },
         "domain": {
           "hint": "Domini del vostre domini centre d'ajuda",
@@ -3905,7 +3905,7 @@
         "show": {
           "actions": "Accions",
           "application_id": "UID de l'aplicació",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "URL de retorn",
           "confidential": "Confidencial",
           "scopes": "Àmbits",
           "secret": "Clau secreta",
@@ -4016,17 +4016,17 @@
       "title": "Reenviament de mail"
     },
     "error_view": {
-      "cta": "try to go home",
-      "exp": "try refreshing the page",
+      "cta": "prova d'anar al inici",
+      "exp": "prova d'actualitzar la pàgina",
       "subtitle": "Unfortunately 🤯",
-      "title": "Woops! something went wrong."
+      "title": "Ui! Alguna cosa ha anat malament."
     },
     "errors": {
       "messages": {
         "already_confirmed": "ja s'ha confirmat, si us plau intenta iniciar la sessió",
         "confirmation_period_expired": "s'ha de confirmar dins de %{period}, si us plau sol·licita'n un de nou",
         "expired": "ha caducat, si us plau, sol·licita'n un de nou",
-        "not_found": "Not found",
+        "not_found": "No s'ha trobat",
         "not_locked": "no està bloquejada",
         "not_saved": {
           "one": "Un error ha impedit que es guardés aquest %{resource}:",
@@ -4115,7 +4115,7 @@
         "articles": "Articles",
         "assignment_rules": "Regles d'asignació",
         "banners": "Anuncis",
-        "billing": "Billing",
+        "billing": "Facturació",
         "bot_settings": "Tasques del bot",
         "collections": "Col·leccions",
         "conversations": "Converses",
@@ -4174,39 +4174,39 @@
       "will_send": "La versió \"%{lang}\" s'enviarà a la conversa."
     },
     "segment_manager": {
-      "add_filters": "Add filters",
-      "all": "all",
-      "any": "any",
-      "apply": "apply",
+      "add_filters": "Afegir filtres",
+      "all": "tots",
+      "any": "qualsevol",
+      "apply": "aplicar",
       "changes_notice": "The changes will be saved to the app segments.",
-      "contains": "contains",
+      "contains": "conté",
       "create_segment": "Create new segment",
-      "criteria": "criteria",
+      "criteria": "criteri",
       "date_filter_for": "Select the date filter for  %{name}",
-      "days_ago": "days ago",
-      "delete_segment": "Delete segment",
-      "does_not_contain": "does not contain",
-      "ends_with": "ends with",
-      "exactly": "exactly",
+      "days_ago": "dies abans",
+      "delete_segment": "Esborrar segment",
+      "does_not_contain": "no conté",
+      "ends_with": "acaba amb",
+      "exactly": "exactament",
       "filter_for": "select filter for %{name}",
       "has_any_value": "has any value",
       "integer_filter_for": "Select the integer filter for %{name}",
-      "is": "is",
-      "is_not": "is not",
-      "is_unknown": "is unknown",
-      "less_than": "less than",
+      "is": "és",
+      "is_not": "no és",
+      "is_unknown": "és desconegut",
+      "less_than": "més petit que",
       "less_than_eq": "less than eq",
-      "match": "match",
+      "match": "coincideix",
       "match_all": "match all",
       "match_any": "match any",
       "match_criteria_for": "Match criteria options for %{name}",
-      "missing_value": "Missing value!",
-      "more_than": "more than",
+      "missing_value": "Falta el valor!",
+      "more_than": "més que",
       "more_than_eq": "more than eq",
       "save_changes_to": "Save changes to the <b>%{name}</b>{' '} segment.",
-      "save_segment": "Save segment",
-      "select_fields": "Select fields:",
-      "starts_with": "starts with"
+      "save_segment": "Guardar segment",
+      "select_fields": "Seleccioneu camps:",
+      "starts_with": "comença amb"
     },
     "settings": {
       "api": {
@@ -4245,7 +4245,7 @@
         "user_data": "Dades d'usuari"
       },
       "app_inserter": {
-        "action": "Add app",
+        "action": "Afegir aplicació",
         "subtitle": "Help your customers before they start a conversation",
         "title": "Add apps to your Messenger"
       },
@@ -4289,7 +4289,7 @@
         "title2": "Defineix horari laboral"
       },
       "contact_avatars": {
-        "choose_color": "Choose color",
+        "choose_color": "Triar color",
         "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
         "title": "Contact avatars style"
       },
@@ -4396,7 +4396,7 @@
         "content_text": "envia una invitació per correu",
         "destroy_agent": "Suprimir",
         "destroy_agent_title": "Suprimeix agent",
-        "destroy_agent_warning": "Are you sure you want to delete %{agent} ?",
+        "destroy_agent_warning": "Estàs segur que voleu suprimir %{agent}?",
         "destroyed_agent": "L'agent s'ha eliminat correctament",
         "hint": "el nou membre de l’equip rebrà una notificació per mail",
         "invitatin_error": "invitació no enviada!",
@@ -4453,16 +4453,16 @@
       }
     },
     "status_messages": {
-      "created_error": "Error creating",
-      "created_success": "Successfully created",
-      "deleted_error": "Error deleting",
-      "deleted_success": "Successfully deleted",
+      "created_error": "S'ha produït un error al crear",
+      "created_success": "Creat correctament",
+      "deleted_error": "Error d'eliminació",
+      "deleted_success": "Eliminat satisfactòriament",
       "error": "Error",
-      "reordered_error": "Error reordering",
-      "reordered_success": "Successfully Reordered",
-      "success": "Success",
-      "updated_error": "Error on upddate",
-      "updated_success": "Updated successfully"
+      "reordered_error": "S'ha produït un error al reordenar",
+      "reordered_success": "Reordenat correctament",
+      "success": "Correcte",
+      "updated_error": "Error en l'actualització",
+      "updated_success": "S'ha actualitzat amb èxit"
     },
     "subscriptions": {
       "alerts": {
@@ -4629,7 +4629,7 @@
       "new_conversations": "👋 Nova conversa",
       "new_conversations_notice": "This is what people will see when they start a new conversation",
       "options": {
-        "add_app_package": "Add App",
+        "add_app_package": "Afegir Aplicació",
         "add_message": "Add Message Bubble",
         "wait_user_input": "Wait for user input"
       },
@@ -4681,9 +4681,9 @@
       },
       "state_filters": {
         "disabled_description": "Disabled bot tasks",
-        "disabled_title": "Disabled",
+        "disabled_title": "Inhabilitat",
         "enabled_description": "enabled bot tasks",
-        "enabled_title": "Enabled"
+        "enabled_title": "Activat"
       },
       "support": {
         "ask": "Ja sou client de %{name}?",
@@ -4703,7 +4703,7 @@
         "description_visitors": "visitors on the platform",
         "title_leads": "Client potencial",
         "title_users": "Usuaris",
-        "title_visitors": "Visitors"
+        "title_visitors": "Visitants"
       }
     },
     "time": {
@@ -27526,9 +27526,9 @@
     "articles": {
       "activate_help_center": "Activate Help Center",
       "add": "Add item",
-      "add_articles": "Add articles",
+      "add_articles": "Dodaj artykuł",
       "all": "All",
-      "author": "Author",
+      "author": "Autor",
       "collections": "Collections",
       "create": {
         "description": "Describe your collection to help you find it.",
@@ -27540,7 +27540,7 @@
         "placeholder": "Write the title of the article"
       },
       "created_on": "Created on",
-      "delete_article": "Delete article \"%{title} ?",
+      "delete_article": "Usunąć artykuł \"%{title}?",
       "delete_article_exp": "we will destroy any content and related data",
       "delete_section": "Delete section",
       "deleted_success": "article deleted",
@@ -27582,7 +27582,7 @@
         "published": "published",
         "published_desc": "shows article on the help center"
       },
-      "title": "Articles",
+      "title": "Artykuły",
       "title_placeholder": "Write the title of the sections",
       "updated_error": "article error on save",
       "updated_success": "article updated",
@@ -27663,18 +27663,18 @@
     },
     "common": {
       "actions": "Actions",
-      "add": "Add",
-      "add_new": "add new",
+      "add": "Dodaj",
+      "add_new": "dodaj nowy",
       "away_mode": "Away mode",
-      "back_to_site": "Back to site",
-      "cancel": "Cancel",
+      "back_to_site": "Wróć do strony",
+      "cancel": "Anuluj",
       "choose_color": "Choose color",
       "confirm_deletion": "Confirm deletion ?",
       "confirm_deletion_ready": "are you ready to delete ?",
-      "create": "Create",
+      "create": "Utwórz",
       "days": "Days",
-      "delete": "Delete",
-      "edit": "Edit",
+      "delete": "Usuń",
+      "edit": "Edytuj",
       "get_snippet": "Get the snippet",
       "image": "Imagen",
       "langs": {
@@ -27686,19 +27686,19 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
-      "new": "New",
+      "new": "Nowy",
       "next": "Next",
-      "not_found": "The page you are looking for does not exist.",
+      "not_found": "Strona, której szukasz nie istnieje.",
       "of": "of",
       "prev": "Prev",
-      "preview": "Preview",
+      "preview": "Podgląd",
       "redirecting": "Redirecting",
-      "remove": "Remove",
+      "remove": "Usuń",
       "results": "results",
-      "save": "Save",
-      "save_changes": "Save changes",
+      "save": "Zapisz",
+      "save_changes": "Zapisz zmiany",
       "search_conversations": "Search conversations",
-      "select_language": "Select Language",
+      "select_language": "Wybierz Język",
       "send": "Send",
       "send_on_enter": "Publish on enter",
       "showing": "Showing",
@@ -27708,7 +27708,7 @@
       "toggle_light_mode": "Toggle light mode",
       "type_message": "type your message",
       "tz_hint": "Your browser timezone is <b className=\"text-bold\">%{timezone}</b>",
-      "update": "Update",
+      "update": "Aktualizuj",
       "upload_field": "upload %{field}",
       "users": "Users",
       "visitors": "Visitors",
@@ -28763,7 +28763,7 @@
       "user_data": {
         "attr_types": {
           "date": "Date",
-          "integer": "Integer",
+          "integer": "Liczba całkowita",
           "string": "String"
         },
         "default_fields": "Default attributes",
@@ -28771,7 +28771,7 @@
           "name": "Field name",
           "type": "Field type",
           "validation": "Validation",
-          "validation_hint": "Validation is optional"
+          "validation_hint": "Walidacja jest opcjonalna"
         },
         "modal": {
           "title": "Create user data field"
@@ -28816,7 +28816,7 @@
     },
     "subscriptions": {
       "alerts": {
-        "close": "Close this dialog",
+        "close": "Zamknij to okno",
         "subscription_cancelled": {
           "desc": "The subscription was cancelled",
           "title": "Subscription Cancelled"
@@ -28831,12 +28831,12 @@
         }
       },
       "billing_information": {
-        "cancel_plan": "cancel plan",
+        "cancel_plan": "anuluj plan",
         "description": "You are currently using \"%{plan_name}\" plan.",
         "next_billing": "Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}",
         "subscription_state": "Estado de subscripción %{state}",
         "title": "Billing plan information",
-        "update_payment_method": "Update payment method"
+        "update_payment_method": "Zaktualizuj metodę płatności"
       },
       "features": {
         "AppUsers": {
@@ -28846,8 +28846,8 @@
         },
         "Articles": {
           "active": false,
-          "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "title": "Artykuły",
+          "upgrade_message": "Włącz dokumentację i Centrum Pomocy"
         },
         "BotTasks": {
           "description": true,
@@ -28865,8 +28865,8 @@
           "upgrade_message": "Enable conversations"
         },
         "CustomAttributes": {
-          "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "title": "Własne Atrybuty",
+          "upgrade_message": "Włącz niestandardowe atrybuty"
         },
         "Integrations": {
           "description": true,
@@ -28881,7 +28881,7 @@
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Włącz obsługę dostępu API poprzez OAUTH"
         },
         "OutgoingWebhooks": {
           "active": false,
@@ -28890,8 +28890,8 @@
         },
         "QuickReplies": {
           "description": true,
-          "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "title": "Szybkie Odpowiedzi",
+          "upgrade_message": "dodaj szybkie odpowiedzi do rozmów"
         },
         "Segments": {
           "description": true,
@@ -28929,7 +28929,7 @@
         {
           "name": "super",
           "id": 596123,
-          "description": "This is the super plan"
+          "description": "To jest super plan"
         }
       ],
       "tabs": [
@@ -28937,10 +28937,10 @@
         "Transaction history"
       ],
       "update_subscription": {
-        "amount": "With the amount of <span class=\"font-bold\">$ %{recurring_price} USD</span>",
-        "billed_on": "You will be billed on each <span class=\"font-bold\"> %{billing_period} %{billing_type} </span>",
-        "cta": "Update subscription",
-        "next_payment": "Next payment will be on <span class=\"font-bold\">%{next_payment_date}</span>"
+        "amount": "Kwota <span class=\"font-bold\">$ %{recurring_price} USD</span>",
+        "billed_on": "Zostaniesz rozliczony za każde <span class=\"font-bold\"> %{billing_period} %{billing_type} </span>",
+        "cta": "Zaktualizuj subskrypcję",
+        "next_payment": "Następna płatność będzie w dniu <span class=\"font-bold\">%{next_payment_date}</span>"
       },
       "upgrade": "Upgrade"
     },
