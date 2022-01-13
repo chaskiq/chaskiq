@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     # - Use & (do not use &&) so that it doesn't short circuit.
     # - Use digests to stop length information leaking
     ActiveSupport::SecurityUtils.secure_compare(user, Chaskiq::Config.get('ADMIN_EMAIL')) &
-      ActiveSupport::SecurityUtils.secure_compare(password, Chaskiq::Config.get('ADMIN_PASSWORD'))
+      ActiveSupport::SecurityUtils.secure_compare(password.to_s, Chaskiq::Config.get('ADMIN_PASSWORD').to_s)
   end
 
   mount Sidekiq::Web, at: '/sidekiq'

@@ -6,6 +6,8 @@ class Role < ApplicationRecord
 
   acts_as_taggable_on :access
 
+  store_accessor :properties, %i[write_access read_access all_access]
+
   delegate :id, to: :agent, prefix: "agent"
   delegate :avatar_url, to: :agent
   delegate :email, to: :agent

@@ -26,6 +26,8 @@ import {
 } from '@chaskiq/store/src/actions/navigation';
 import { LinkButton } from '@chaskiq/components/src/components/RouterLink';
 
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
+
 export function Home() {
   return (
     <div>
@@ -51,6 +53,7 @@ function Dashboard(props) {
       icon: ConversationChatIcon,
       iconForeground: 'text-sky-700',
       iconBackground: 'bg-sky-50',
+      allowed: allowedAccessTo(app, 'conversations'),
       render: () => (
         <div className="mt-2 text-sm text-gray-500">
           <span className="truncate--">
@@ -75,6 +78,7 @@ function Dashboard(props) {
       icon: ChartsIcons,
       iconForeground: 'text-purple-700',
       iconBackground: 'bg-purple-50',
+      alowed: allowedAccessTo(app, 'reports'),
     },
     {
       title: I18n.t('navigator.childs.messenger_settings'),
@@ -82,6 +86,7 @@ function Dashboard(props) {
       icon: AppSettingsIcon,
       iconForeground: 'text-teal-700',
       iconBackground: 'bg-teal-50',
+      allowed: allowedAccessTo(app, 'messenger_settings'),
     },
     {
       title: I18n.t('navigator.childs.app_settings'),
@@ -89,6 +94,7 @@ function Dashboard(props) {
       icon: SettingsIcon,
       iconForeground: 'text-teal-700',
       iconBackground: 'bg-teal-50',
+      allowed: allowedAccessTo(app, 'app_settings'),
     },
     {
       title: I18n.t('navigator.campaigns'),
@@ -96,6 +102,7 @@ function Dashboard(props) {
       icon: CampaignsIcon,
       iconForeground: 'text-sky-700',
       iconBackground: 'bg-sky-50',
+      allowed: allowedAccessTo(app, 'campaigns'),
     },
     {
       title: I18n.t('dashboard.guides'),
@@ -104,6 +111,7 @@ function Dashboard(props) {
       iconForeground: 'text-sky-700',
       iconBackground: 'bg-sky-50',
       text: I18n.t('navigator.help_center'),
+      allowed: true,
     },
   ];
 
@@ -162,7 +170,7 @@ function Dashboard(props) {
             )}
             </div>*/}
 
-          <Example actions={actions} />
+          <Example actions={actions.filter((o) => o.allowed)} />
         </div>
       </Content>
     </div>

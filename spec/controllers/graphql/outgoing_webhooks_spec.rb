@@ -11,7 +11,7 @@ RSpec.describe GraphqlController, type: :controller do
     app.add_agent(
       { email: "test2@test.cl" },
       bot: nil,
-      role_attrs: { access_list: ["manage"] }
+      role_attrs: { access_list: ["manage"], role: "admin" }
     )
   end
 

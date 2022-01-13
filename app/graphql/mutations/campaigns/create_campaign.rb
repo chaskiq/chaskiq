@@ -12,7 +12,9 @@ module Mutations
 
       def resolve(operation:, app_key:, campaign_params:, mode:)
         find_app(app_key)
-
+        authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
+          app: @app
+        }
         @campaign = collection(mode).new(campaign_params.permit!)
         @campaign.save if operation.present? && operation == "create"
         { campaign: @campaign, errors: @campaign.errors }

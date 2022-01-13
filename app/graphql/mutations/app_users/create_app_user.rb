@@ -16,6 +16,8 @@ module Mutations
           %w[name email first_name last_name phone company_name]
         ).to_hash.with_indifferent_access
 
+        authorize! app, to: :can_manage_users?, with: AppPolicy, context: { app: app }
+
         permitted_options.merge!({ additional_validations: true })
         case options[:app][:contact_kind]
         when "AppUser"
@@ -23,6 +25,8 @@ module Mutations
         when "Lead"
           app_user = app.add_lead(permitted_options)
         end
+
+        track_resource_event(app_user, :app_user_created, app_user.saved_changes) if app_user.errors.blank?
 
         { app_user: app_user, errors: app_user.errors }
       end

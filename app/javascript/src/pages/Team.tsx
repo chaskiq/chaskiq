@@ -221,17 +221,23 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
-        name: 'access_list',
+        name: 'role',
         type: 'select',
         label: I18n.t('definitions.agents.access_list.label'),
         hint: I18n.t('definitions.agents.access_list.hint'),
-        multiple: true,
-        options: [
+        multiple: false,
+        options: Object.keys(this.props.app.availableRoles).map((o) => ({
+          label: o,
+          value: o,
+        })),
+        /*[
           { label: 'none', value: null },
           { label: 'mananger', value: 'manage' },
           { label: 'admin', value: 'admin' },
-        ],
-        grid: { xs: 'w-full', sm: 'w-full' },
+        ]*/ grid: {
+          xs: 'w-full',
+          sm: 'w-full',
+        },
       },
     ];
   };
@@ -265,7 +271,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                 </Button>
               </React.Fragment>
             }
-          ></FormDialog>
+          />
         )}
       </div>
     );
@@ -387,7 +393,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                 render: (row) =>
                   row && row.owner && <Badge variant="green">OWNER</Badge>,
               },
-              {
+              /*{
                 field: 'accessList',
                 title: I18n.t('data_tables.agents.access_list'),
                 render: (row) =>
@@ -396,7 +402,13 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                     <Badge className="mr-2" key={`access-list-${o}-${row.id}`}>
                       {o}
                     </Badge>
-                  )),
+                  ))
+              },*/
+              {
+                field: 'role',
+                title: I18n.t('data_tables.agents.access_list'),
+                render: (row) =>
+                  row && row.role && <Badge className="mr-2">{row.role}</Badge>,
               },
               {
                 field: 'Actions',

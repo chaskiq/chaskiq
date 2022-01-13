@@ -16,6 +16,10 @@ module Mutations
         collection = app.article_collections.find(collection)
         section = collection.sections.where(id: section).first
 
+        authorize! object, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
+
         article.update(collection: collection, section: section)
 
         article.insert_at(position + 1)

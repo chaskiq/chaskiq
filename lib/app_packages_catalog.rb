@@ -254,7 +254,16 @@ class AppPackagesCatalog
       },
       {
         name: "Slack",
-        tag_list: ["email_changed", "conversation.user.first.comment"],
+        tag_list: [
+          "email_changed",
+          "conversation.user.first.comment",
+          "conversations.assigned",
+          "conversations.prioritized",
+          "conversations.started",
+          "conversations.added",
+          "conversations.closed",
+          "conversations.reopened"
+        ],
         state: "enabled",
         description: "Slack channel integration",
         icon: "https://logo.clearbit.com/slack.com",

@@ -12,6 +12,9 @@ module Mutations
       def resolve(app_key:, conversation_id:)
         find_app(app_key)
         @conversation = conversation(conversation_id)
+        authorize! @conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
         @conversation.toggle_priority
         track_event
         { conversation: @conversation, errors: @conversation.errors }
@@ -27,7 +30,7 @@ module Mutations
 
       def track_event
         @conversation.log_async(
-          action: "priorize",
+          action: "prioritize",
           user: current_user,
           data: { value: @conversation.priority },
           ip: context[:request].remote_ip

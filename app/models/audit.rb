@@ -31,6 +31,10 @@ class Audit < ApplicationRecord
   end
 
   def serialize_properties
-    as_json(methods: %i[id agent_name auditable_name action agent_email created_at])
+    as_json(methods: %i[id agent_name auditable_name action agent_email created_at sdata])
+  end
+
+  def sdata
+    data&.except(:updated_at)&.to_json
   end
 end
