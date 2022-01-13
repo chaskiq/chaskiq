@@ -12,7 +12,7 @@ jobs:
       - name: Build the Container image
         run: |
           docker build --build-arg APP_ENV=production \
-               --build-arg RUBY_VERSION=2.7.2 \
+               --build-arg RUBY_VERSION=2.7.5 \
                --build-arg PG_MAJOR=11 \
                --build-arg NODE_MAJOR=12 \
                --build-arg YARN_VERSION=1.13.0 \
