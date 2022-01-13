@@ -1,16 +1,18 @@
 version: '2.4'
 
-x-app: &app
+x-app:
+  &app
   build:
     context: .
     dockerfile: ./Dockerfile.development
     args:
-      RUBY_VERSION: '2.7.2'
+      RUBY_VERSION: '2.7.5'
       PG_MAJOR: '11'
       NODE_MAJOR: '12'
       YARN_VERSION: '1.13.0'
       BUNDLER_VERSION: '2.0.2'
-  environment: &env
+  environment:
+    &env
     NODE_ENV: development
     RAILS_ENV: ${RAILS_ENV:-development}
     ANYCABLE_DEBUG: ${DEBUG:-0}
@@ -19,7 +21,8 @@ x-app: &app
   tmpfs:
     - /tmp
 
-x-backend: &backend
+x-backend:
+  &backend
   <<: *app
   stdin_open: true
   tty: true
@@ -126,9 +129,9 @@ services:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
 
 volumes:
-  postgres:
-  redis:
-  bundle:
-  node_modules:
-  rails_cache:
-  packs:
+  postgres: null
+  redis: null
+  bundle: null
+  node_modules: null
+  rails_cache: null
+  packs: null
