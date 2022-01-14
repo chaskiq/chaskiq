@@ -53,18 +53,29 @@ module UserHandler
   end
 
   def handle_app_user_params(app_user, attrs)
+    attrs = attrs.to_h.with_indifferent_access
     attrs = { properties: attrs } unless attrs.key?(:properties)
 
-    keys = attrs[:properties].keys & app_user_updateable_fields
+    # data keys
+    keys = attrs[:properties].keys.map(&:to_sym) & built_in_updateable_fields
     data_keys = attrs[:properties].slice(*keys)
 
-    property_keys = attrs[:properties].keys - keys
+    # custom fields support
+    property_keys = attrs[:properties].keys.map(&:to_sym) & custom_field_keys
     property_params = attrs[:properties].slice(*property_keys)
 
-    data = { properties: app_user.properties.merge(property_params) }
-    app_user.assign_attributes(data)
+    if property_params.any?
+      data = { properties: app_user.properties.merge(property_params) }
+      app_user.assign_attributes(data)
+    end
+
     app_user.assign_attributes(data_keys)
     app_user
+  end
+
+  def update_properties(app_user, attrs)
+    u = handle_app_user_params(app_user, attrs)
+    u.save
   end
 
   def add_agent(attrs, bot: nil, role_attrs: {})

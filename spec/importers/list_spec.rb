@@ -32,7 +32,7 @@ describe "ListImporter" do
   let(:importer) { ListImporter.new("/dummy/file") }
 
   let(:app) do
-    App.create(name: "foo", domain_url: "http://ggg.cc")
+    App.create(name: "foo", domain_url: "http://ggg.cc", custom_fields: [{ name: "department", type: "string" }])
   end
 
   let(:agent) do
