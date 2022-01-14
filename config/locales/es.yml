@@ -75,7 +75,7 @@ es:
     edit_profile: Editar perfil
     go_to_doc: Ir a la documentación
   dashboard:
-    hey: '👋 ¡Hola! ¡Estás viendo el panel de control de <strong>%{name}de</strong> ! <br /> Obtén un fragmento de instalación para la configuración web <br />'
+    hey: "👋 ¡Hola! ¡Estás viendo el panel de control de <strong>%{name}de</strong> ! <br /> Obtén un fragmento de instalación para la configuración web <br />"
     response_avg: Tiempo de Respuesta
     new_conversations: Nuevas conversaciones
     resolutions: Resolución
@@ -254,7 +254,7 @@ es:
       title_leads: 'Prospectos'
       description_leads: 'Visitantes que realizan una acción'
       title_users: 'Usuarios'
-      description_users: 'los usuarios registrados de tu plataforma'
+      description_users: "los usuarios registrados de tu plataforma"
     state_filters:
       enabled_title: 'Habilitado'
       enabled_description: 'activar tarea de bot'
@@ -353,7 +353,7 @@ es:
     lang: Tu código para generar un HMAC para tu aplicación es
     hint2: 'Dondequiera que suba datos de usuario y tenga un fragmento de código de Chaskiq, Añade un nuevo atributo llamado <span className="font-bold">identifier_key</span> y pasa el <span className="font-bold">email</span> y dale la etiqueta HMAC para el usuario conectado:'
     encryption_key_label: Verificación de identidad obligatoria
-    dont_share_code: 'No compartir este código'
+    dont_share_code: "No compartir este código"
     hmac_hint1: Para configurar la verificación de identidad, necesitará generar un HMAC en su servidor para cada usuario conectado y enviarlo a Chaskiq.
   quick_replies:
     title: Respuestas rápidas
@@ -434,7 +434,7 @@ es:
         title: Integraciones activas
         text: Integración API
       available:
-        title: 'APIs disponibles'
+        title: "APIs disponibles"
         text: Servicios disponibles
       yours:
         title: 'Aplicaciones de integración'
@@ -457,13 +457,17 @@ es:
         title: Establecer hora de respuesta
         hint: Durante el horario de oficina, haga saber a sus clientes cuándo pueden esperar una respuesta.
         options:
-          - value: 'auto'
+          - 
+            value: 'auto'
             label: 'Hora de respuesta automática. Actualmente el equipo responderá lo antes posible'
-          - value: 'minutos'
+          - 
+            value: 'minutos'
             label: 'Normalmente respondemos en cuestión de horas.'
-          - value: 'horas'
+          - 
+            value: 'horas'
             label: 'Normalmente respondemos en cuestión de horas.'
-          - value: '1 día'
+          - 
+            value: '1 día'
             label: 'El equipo suele responder en un día.'
         hint2: 'Nota: el visitante recibirá una respuesta automática con la disponibilidad de su equipo durante horas fuera de la oficina o horas de respuesta largas.'
     email_requirement:
@@ -471,13 +475,16 @@ es:
       hint: Así siempre puedes volver a los visitantes de tu sitio web
       ask: 'Pide a los visitantes de tu sitio web que dejen su correo electrónico antes de iniciar un chat en vivo:'
       options:
-        - label: Sólo fuera del horario de oficina
+        - 
+          label: Sólo fuera del horario de oficina
           hint: REDUCIONES CONVERSATION VOLUME POR EL 5% ARUADO EN LA VERAÑA
           value: oficina
-        - label: Siempre
+        - 
+          label: Siempre
           hint: REDUCE EL VOLUMEN DE CONVERSACIONES EN UN 30% EN PROMEDIO
           value: Siempre
-        - label: Nunca
+        - 
+          label: Nunca
           value: Nunca
           hint: PERMITIRÁ A LOS VISITANTES DEL SITIO WEB INICIAR UNA CONVERSACIÓN EN CUALQUIER MOMENTO
     languages:
