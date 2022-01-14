@@ -4,6 +4,7 @@ module Mutations
   module AppUsers
     class UpdateAppUser < Mutations::BaseMutation
       field :app_user, Types::AppUserType, null: false
+      field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
       argument :options, Types::JsonType, required: true
       argument :id, Integer, required: true

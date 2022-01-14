@@ -311,7 +311,7 @@ function Preview({ campaign, app }) {
               {I18n.t('campaign.preview')}
             </h3>
             <div className="mt-2 text-sm leading-5 text-yellow-700">
-              <p>{I18n.t('campaign.preview_hint')}</p>
+              <p>{I18n.t('campaign.preview_hint', { name: '{{name}}' })}</p>
             </div>
           </div>
         </div>
