@@ -11544,6 +11544,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
