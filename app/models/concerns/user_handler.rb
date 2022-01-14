@@ -57,16 +57,18 @@ module UserHandler
     attrs = { properties: attrs } unless attrs.key?(:properties)
 
     # data keys
-    keys = attrs[:properties].keys & built_in_updateable_fields
+    keys = attrs[:properties].keys.map(&:to_sym) & built_in_updateable_fields
     data_keys = attrs[:properties].slice(*keys)
+
     # custom fields support
-    property_keys = attrs[:properties].keys & custom_field_keys
+    property_keys = attrs[:properties].keys.map(&:to_sym) & custom_field_keys
     property_params = attrs[:properties].slice(*property_keys)
 
     if property_params.any?
       data = { properties: app_user.properties.merge(property_params) }
       app_user.assign_attributes(data)
     end
+
     app_user.assign_attributes(data_keys)
     app_user
   end

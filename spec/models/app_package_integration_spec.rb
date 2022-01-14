@@ -58,7 +58,16 @@ RSpec.describe AppPackageIntegration, type: :model do
 
   describe "external packages" do
     let(:app_package) do
-      settings = JSON.parse("{\"oauth_url\":\"\",\"api_url\":\"https://www.domain.com:4040/api\", \"initialize_url\":\"https://domain.com/initialize\",\"configure_url\":\"https://domain.com/configure\",\"submit_url\":\"https://domain.com/submit\",\"sheet_url\":\"https://domain.com/frame\",\"definitions\":[{\"name\":\"access_token\",\"type\":\"string\",\"grid\":{\"xs\":\"w-full\",\"sm\":\"w-full\"}}]}")
+      settings = JSON.parse("{
+        \"oauth_url\":\"\",
+        \"api_url\":\"https://www.domain.com:4040/api\",
+        \"initialize_url\":\"https://domain.com/initialize\",
+        \"configure_url\":\"https://domain.com/configure\",
+        \"submit_url\":\"https://domain.com/submit\",
+        \"content_url\":\"https://domain.com/content\",
+        \"sheet_url\":\"https://domain.com/frame\",
+        \"definitions\":[{\"name\":\"access_token\",\"type\":\"string\",\"grid\":{\"xs\":\"w-full\",\"sm\":\"w-full\"}}]
+      }")
       AppPackage.create(name: "any", settings: settings, author: agent_role.agent)
     end
 
