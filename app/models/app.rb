@@ -274,8 +274,16 @@ class App < ApplicationRecord
     (custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
   end
 
+  def built_in_updateable_fields
+    AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
+  end
+
+  def custom_field_keys
+    custom_fields&.map { |o| o[:name].to_sym } || []
+  end
+
   def app_user_updateable_fields
-    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
+    (custom_fields || []) + built_in_updateable_fields
   end
 
   def searcheable_fields_list

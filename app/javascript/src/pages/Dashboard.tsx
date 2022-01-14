@@ -11,6 +11,8 @@ import PageHeader from '@chaskiq/components/src/components/PageHeader';
 
 import DashboardItem from './reports/ReportItem';
 
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
+
 import {
   ConversationChatIcon,
   CampaignsIcon,
@@ -123,7 +125,7 @@ function Dashboard(props) {
             className="text-4xl leading-2 text-gray-900 dark:text-gray-100 font-bold"
             dangerouslySetInnerHTML={{
               __html: I18n.t('dashboard.hey', {
-                name: app.name,
+                name: escapeHTML(app.name),
               }),
             }}
           />

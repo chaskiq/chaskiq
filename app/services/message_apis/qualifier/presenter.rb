@@ -47,9 +47,8 @@ module MessageApis::Qualifier
       record.valid?
 
       if record.valid? && ctx[:current_user].is_a?(AppUser)
-        ctx[:current_user].update(
-          params
-        )
+        app = ctx[:current_user].app
+        app.update_properties(ctx[:current_user], params)
       end
 
       params.each_key do |o|
