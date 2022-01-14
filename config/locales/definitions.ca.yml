@@ -154,6 +154,10 @@ ca:
         name: 'sheet_url'
         hint: 'S''envia quan s''ha enviat un full. Un full és un iframe que heu carregat al Messenger que es tanca i s’envia quan es crida el mètode Submit Sheets JS.'
         placeholder: 'p.ex. https://elteudomini.com/submit-sheet-url/'
+      content_url:
+        label: 'Dynamic content flow webhook URL'
+        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
+        placeholder: 'e.g. https://yourdomain.com/content-url/'
     webhooks:
       url:
         label: url for outgoing webhook
