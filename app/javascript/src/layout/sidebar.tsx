@@ -34,6 +34,8 @@ import {
   ChartsIcons,
 } from '@chaskiq/components/src/components/icons';
 
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
+
 import I18n from '../shared/FakeI18n';
 
 import SidebarAgents from '../pages/conversations/SidebarAgents';
@@ -140,7 +142,7 @@ function Sidebar({
                 className="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light"
                 dangerouslySetInnerHTML={{
                   __html: I18n.t('dashboard.hey', {
-                    name: app.name,
+                    name: escapeHTML(app.name),
                   }),
                 }}
               />

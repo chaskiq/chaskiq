@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 import tw from 'twin.macro';
 
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
+
 export const Wrapper = styled.div`
   top: 0px;
   z-index: 999999;
@@ -37,7 +39,7 @@ export default function GDPRView({ confirm, cancel, i18n, app }) {
         <Title>{i18n.t('messenger.gdpr_title')}</Title>
         <TextContent
           dangerouslySetInnerHTML={{
-            __html: i18n.t('messenger.gdpr', { name: app.name }),
+            __html: i18n.t('messenger.gdpr', { name: escapeHTML(app.name) }),
           }}
         ></TextContent>
 
