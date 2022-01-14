@@ -992,6 +992,14 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
+        name: 'content_url',
+        label: I18n.t('definitions.app_packages.content_url.label'),
+        type: 'string',
+        hint: I18n.t('definitions.app_packages.content_url.hint'),
+        placeholder: I18n.t('definitions.app_packages.content_url.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+      {
         label: I18n.t('definitions.app_packages.sheet_url.label'),
         type: 'string',
         name: 'sheet_url',

@@ -18,12 +18,14 @@ class AppPackage < ApplicationRecord
     submit_url
     sheet_url
     oauth_url
+    content_url
   ], coder: JSON
 
   validates :name, presence: true, uniqueness: true
   validates :api_url, url: true, if: -> { is_external? }
   validates :initialize_url, url: true, if: -> { is_external? }
   validates :configure_url, url: true, if: -> { is_external? }
+  validates :content_url, url: true, if: -> { is_external? }
   validates :submit_url, url: true, if: -> { submit_url.present? }
   validates :sheet_url, url: true, if: -> { sheet_url.present? }
   validates :oauth_url, url: true, if: -> { oauth_url.present? }
