@@ -63,12 +63,6 @@ class AppPolicy < ActionPolicy::Base
     end
   end
 
-  # def can?
-  #   debugger
-  #   PermissionsService.allowed_access_to?(@role.role.to_sym, :conversations)
-  #   PermissionsService.allowed_access_to?(:admin_only, :conversations)
-  # end
-
   def show?
     record.owner_id == user.id || record.roles.where(
       agent_id: user.id
