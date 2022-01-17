@@ -406,6 +406,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -1976,6 +1981,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -3554,6 +3564,11 @@
           "label": "Configuració de l'URL del webhook de flux (opcional)",
           "placeholder": "p.ex. https://elteudomini.com/configuracio"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "digueu què fa el vostre connector",
           "label": "Descripció del paquet"
@@ -5124,6 +5139,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -6707,6 +6727,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -8278,6 +8303,11 @@
           "label": "Flow Webhook-URL konfigurieren (optional)",
           "placeholder": "z.B. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "sag was dein Plugin macht",
           "label": "App-Paketbeschreibung"
@@ -9848,6 +9878,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -13479,6 +13514,11 @@
           "label": "Configurar URL del webhook de flujo (opcional)",
           "placeholder": "ej. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "decir lo que hace tu plugin",
           "label": "Paquete"
@@ -15277,6 +15317,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -16847,6 +16892,11 @@
           "hint": "Envoyé lorsqu'un coéquipier souhaite utiliser votre application, afin que vous puissiez leur montrer les options de configuration avant qu'elles ne soient insérées. Laisser cette option vide sautera la configuration.",
           "label": "Configurer l'URL du flux webhook (optionnel)",
           "placeholder": "par exemple https://votredomaine.fr/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "dire ce que fait votre plugin",
@@ -18483,6 +18533,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -20053,6 +20108,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -21625,6 +21685,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -23195,6 +23260,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -24764,6 +24834,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -26336,6 +26411,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -27906,6 +27986,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -29480,6 +29565,11 @@
           "label": "Configurar fluxo webhook URL (opcional)",
           "placeholder": "ex: https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "diga o que o seu plugin faz",
           "label": "Descrição do pacote de aplicativos"
@@ -31050,6 +31140,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -32622,6 +32717,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -34196,6 +34296,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -35767,6 +35872,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -37337,6 +37447,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -38910,6 +39025,11 @@
           "hint": "当队友想要使用您的应用程序时发送，所以您可以在插入之前显示它们的配置选项。 留空此选项将跳过配置。",
           "label": "配置流 webhook URL (可选)",
           "placeholder": "例如：https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "告诉您的插件可以做什么",

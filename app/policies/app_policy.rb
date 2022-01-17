@@ -33,6 +33,7 @@ class AppPolicy < ActionPolicy::Base
     settings
     messenger_settings
     outgoing_webhooks
+    oauth_applications
     api_access
     team
   ].each do |namespace|
