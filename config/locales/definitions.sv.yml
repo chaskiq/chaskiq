@@ -2,45 +2,45 @@ sv:
   definitions:
     articles:
       title:
-        label: Title
+        label: Titel
       author:
-        label: Author
+        label: Författare
       state:
-        label: State
+        label: Tillstånd
       collection:
-        label: Collection
+        label: Samling
       actions:
-        label: Actions
+        label: Åtgärder
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Webbplats
+        hint: Webbplats för din huvuddomän
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Domän
+        hint: Domän för hjälpcentret
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Subdomän
+        hint: Subdomän där hjälpcentret kommer att vara tillgängligt
       google_code:
         label: Google Code
-        hint: Google tracking ID
+        hint: Google spårnings-ID
       credits:
-        label: Show credits
+        label: Visa krediter
         hint: ""
     settings:
       name:
-        label: Name
+        label: Namn
         hint:
       logo:
-        label: Logo
+        label: Logotyp
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Visa artikel i chattfönstret"
+        hint: "Det här alternativet kommer att visa artiklarna i hemavsnittet för chatten"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Visa nya meddelanden i en flytande ruta
+        hint: Det här alternativet kommer inte att öppna widgeten för chatten
       encryption_key:
-        label: Encryption Key
+        label: Krypteringsnyckel
         placeholder: "Leave it blank for no encryption"
         hint: This key will be used to encrypt and decrypt JWE user data
       privacy_consent_required_ue:
