@@ -29,8 +29,12 @@ admin_only:
     - routing_bots
     - help_center
     - reports
-    - settings
+    - app_settings
+    - messenger_settings
     - app_packages
+    - team
+    - outgoing_webhooks
+    - oauth_applications
   write:
 
 
