@@ -33,6 +33,7 @@ class AppPolicy < ActionPolicy::Base
     settings
     messenger_settings
     outgoing_webhooks
+    oauth_applications
     api_access
     team
   ].each do |namespace|
@@ -61,12 +62,6 @@ class AppPolicy < ActionPolicy::Base
       @app.roles.find_by(agent_id: @user.id)
     end
   end
-
-  # def can?
-  #   debugger
-  #   PermissionsService.allowed_access_to?(@role.role.to_sym, :conversations)
-  #   PermissionsService.allowed_access_to?(:admin_only, :conversations)
-  # end
 
   def show?
     record.owner_id == user.id || record.roles.where(
