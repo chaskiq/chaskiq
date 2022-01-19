@@ -1780,7 +1780,7 @@ export default class ChaskiqMessenger {
 
     ReactDOM.render(
       <Messenger {...this.props} />,
-      document.getElementById('ChaskiqMessengerRoot')
+      document.getElementById(this.props.wrapperId)
     );
   }
 }
