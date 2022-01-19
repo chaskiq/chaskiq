@@ -159,7 +159,7 @@ module Types
 
     def app_packages
       # authorize! object, to: :manage?, with: AppPolicy
-      authorize! object, to: :manage_app_packages?, with: AppPolicy
+      authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
       integrations = object.app_package_integrations.map(&:app_package_id)
       if integrations.any?
@@ -171,7 +171,7 @@ module Types
 
     def agent_app_packages
       # authorize! object, to: :manage?, with: AppPolicy
-      authorize! object, to: :manage_app_packages?, with: AppPolicy
+      authorize! object, to: :can_manage_app_packages?, with: AppPolicy
       current_user.app_packages
     end
 
@@ -180,7 +180,7 @@ module Types
     def app_package_integrations
       # object.plan.allow_feature!('Integrations')
       # authorize! object, to: :manage?, with: AppPolicy
-      authorize! object, to: :manage_app_packages?, with: AppPolicy
+      authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
       object.app_package_integrations
     end
