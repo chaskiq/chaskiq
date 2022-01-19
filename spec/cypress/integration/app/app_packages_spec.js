@@ -14,8 +14,29 @@ describe('AppPackages', function () {
 
   it('Manage AppPackages', function () {
     login()
-    cy.visit('/apps')
 
+    cy.appEval(`
+      app = Agent.find_by(email: 'test@test.cl')
+      app.roles.map{|o| o.update(role: "agent")}
+    `)
+
+    cy.visit('/apps')
+    cy.contains('my app').click()
+    cy.get("a[aria-label='Settings']")
+      .click({ force: true }).then(() => {
+        cy.contains('Access denied')
+      })
+  })
+
+  it('Manage AppPackages', function () {
+    login()
+
+    cy.appEval(`
+      app = Agent.find_by(email: 'test@test.cl')
+      app.roles.map{|o| o.update(role: "admin_only")}
+    `)
+
+    cy.visit('/apps')
     cy.contains('my app').click()
 
     cy.get("a[aria-label='Settings']")
@@ -25,7 +46,7 @@ describe('AppPackages', function () {
         cy.get('body').should('contain', 'Integrations')
 
         cy.contains('Integrations').click()
-        cy.contains('You are not authorized to perform this action')
+        cy.contains('Third party integrations')
       })
   })
 
