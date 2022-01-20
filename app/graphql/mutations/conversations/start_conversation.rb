@@ -11,6 +11,9 @@ module Mutations
       def resolve(app_key:, id:, message:)
         if current_user.is_a?(Agent)
           app = current_user.apps.find_by(key: app_key)
+          authorize! app, to: :can_manage_conversations?, with: AppPolicy, context: {
+            app: app
+          }
           author = app.agents.where("agents.email =?", current_user.email).first
           participant = app.app_users.find(id)
         elsif app_user = context[:get_app_user].call
@@ -78,6 +81,8 @@ module Mutations
           )
         end
 
+        track_event(conversation, author)
+
         {
           conversation: conversation
         }
@@ -85,6 +90,16 @@ module Mutations
 
       def current_user
         context[:current_user]
+      end
+
+      def track_event(conversation, author)
+        return unless author.is_a?(Agent)
+
+        conversation.log_async(
+          action: "start_conversation",
+          user: author,
+          ip: context[:request].remote_ip
+        )
       end
     end
   end

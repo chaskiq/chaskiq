@@ -15,9 +15,15 @@ module Types
     field :sheet_url, String, null: true
     field :oauth_url, String, null: true
     field :capabilities, [String], null: true
+    field :capability_list, [String], null: true
+    field :tag_list, [String], null: true
 
     def capabilities
       object.capability_list
     end
+
+    delegate :capability_list, to: :object
+
+    delegate :tag_list, to: :object
   end
 end

@@ -6,5 +6,15 @@ module Mutations
     def current_user
       context[:current_user]
     end
+
+    def track_resource_event(resource, action, data = {}, app_id = nil)
+      resource.log_async(
+        action: action,
+        user: current_user,
+        data: data,
+        ip: context[:request].remote_ip,
+        app_id: app_id
+      )
+    end
   end
 end

@@ -10,9 +10,12 @@ module Mutations
 
       def resolve(app_key:, settings:)
         app = App.find_by(key: app_key)
-
-        # TODO: set specific permitted fields!
         settings.permit!
+
+        authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
+        # TODO: set specific permitted fields!
 
         settings.merge!(id: app.article_settings.id) if app.article_settings.present?
 

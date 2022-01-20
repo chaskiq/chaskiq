@@ -34,6 +34,8 @@ import {
   ChartsIcons,
 } from '@chaskiq/components/src/components/icons';
 
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
+
 import I18n from '../shared/FakeI18n';
 
 import SidebarAgents from '../pages/conversations/SidebarAgents';
@@ -54,6 +56,8 @@ import { toggleTheme } from '@chaskiq/store/src/actions/theme';
 import { signout } from '@chaskiq/store/src/actions/auth';
 
 import SwitchControl from '@chaskiq/components/src/components/Switch';
+
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
 
 declare global {
   interface Window {
@@ -138,7 +142,7 @@ function Sidebar({
                 className="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light"
                 dangerouslySetInnerHTML={{
                   __html: I18n.t('dashboard.hey', {
-                    name: app.name,
+                    name: escapeHTML(app.name),
                   }),
                 }}
               />
@@ -212,6 +216,7 @@ function Sidebar({
         icon: null,
         url: `/apps/${app.key}/segments/${o.id}`,
         active: isActivePage(`segment-${o.id}`),
+        allowed: allowedAccessTo(app, 'segments'),
       })),
     },
     {
@@ -226,6 +231,7 @@ function Sidebar({
           icon: <ConversationChatIcon />,
           url: `/apps/${app.key}/conversations`,
           active: isActivePage('Conversations'),
+          allowed: allowedAccessTo(app, 'conversations'),
         },
         {
           id: 'AssignmentRules',
@@ -233,6 +239,7 @@ function Sidebar({
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules'),
+          allowed: allowedAccessTo(app, 'conversations'),
         },
         {
           id: 'SidebarAgents',
@@ -254,6 +261,7 @@ function Sidebar({
           icon: <MailingIcon />,
           url: `${appid}/messages/campaigns`,
           active: isActivePage('campaigns'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
         {
           id: 'user_auto_messages',
@@ -261,6 +269,7 @@ function Sidebar({
           icon: <AutoMessages />,
           url: `${appid}/messages/user_auto_messages`,
           active: isActivePage('user_auto_messages'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
         {
           id: 'banners',
@@ -268,6 +277,7 @@ function Sidebar({
           icon: <BannersIcon />,
           url: `${appid}/messages/banners`,
           active: isActivePage('banners'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
         {
           id: 'tours',
@@ -275,6 +285,7 @@ function Sidebar({
           icon: <ToursIcon />,
           url: `${appid}/messages/tours`,
           active: isActivePage('tours'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
       ],
     },
@@ -291,6 +302,7 @@ function Sidebar({
           icon: <OutboundIcon />,
           url: `${appid}/bots/outbound`,
           active: isActivePage('bot_outbound'),
+          allowed: allowedAccessTo(app, 'bots'),
         },
         {
           id: 'user_conversations',
@@ -298,6 +310,7 @@ function Sidebar({
           icon: <NewconversationIcon />,
           url: `${appid}/bots/new_conversations`,
           active: isActivePage('bot_new_conversations'),
+          allowed: allowedAccessTo(app, 'bots'),
         },
         {
           id: 'Settings',
@@ -305,6 +318,7 @@ function Sidebar({
           icon: <SettingsIcon />,
           url: `${appid}/bots/settings`,
           active: isActivePage('bot_settings'),
+          allowed: allowedAccessTo(app, 'bots'),
         },
       ],
     },
@@ -321,6 +335,7 @@ function Sidebar({
           icon: <ArticlesIcon />,
           url: `/apps/${app.key}/articles`,
           active: isActivePage('Articles'),
+          allowed: allowedAccessTo(app, 'help_center'),
         },
         {
           id: 'Collections',
@@ -328,6 +343,7 @@ function Sidebar({
           icon: <CollectionsIcon />,
           url: `/apps/${app.key}/articles/collections`,
           active: isActivePage('Collections'),
+          allowed: allowedAccessTo(app, 'help_center'),
         },
         {
           id: 'Settings',
@@ -335,6 +351,7 @@ function Sidebar({
           icon: <SettingsIcon />,
           url: `/apps/${app.key}/articles/settings`,
           active: isActivePage('Settings'),
+          allowed: allowedAccessTo(app, 'help_center'),
         },
       ],
     },
@@ -346,6 +363,7 @@ function Sidebar({
       children: [
         {
           id: 'ReportsMenu',
+          allowed: allowedAccessTo(app, 'reports'),
           render: () => [<SidebarReportMenu key={'reports-sidebar-menu'} />],
         },
       ],
@@ -385,6 +403,7 @@ function Sidebar({
           icon: <AppSettingsIcon />,
           url: `/apps/${app.key}/settings`,
           active: isActivePage('app_settings'),
+          allowed: allowedAccessTo(app, 'app_settings'),
         },
 
         {
@@ -393,6 +412,7 @@ function Sidebar({
           icon: <MessengerIcon />,
           url: `/apps/${app.key}/messenger`,
           active: isActivePage('messenger'),
+          allowed: allowedAccessTo(app, 'app_settings'),
         },
 
         {
@@ -401,6 +421,7 @@ function Sidebar({
           icon: <TeamIcon />,
           url: `/apps/${app.key}/team`,
           active: isActivePage('team'),
+          allowed: allowedAccessTo(app, 'team'),
         },
         {
           id: 'Integrations',
@@ -408,6 +429,7 @@ function Sidebar({
           icon: <IntegrationsIcon />,
           url: `/apps/${app.key}/integrations`,
           active: isActivePage('integrations'),
+          allowed: allowedAccessTo(app, 'app_packages'),
         },
         {
           id: 'Webhooks',
@@ -415,6 +437,7 @@ function Sidebar({
           icon: <WebhooksIcon />,
           url: `/apps/${app.key}/webhooks`,
           active: isActivePage('webhooks'),
+          allowed: allowedAccessTo(app, 'outgoing_webhooks'),
         },
         {
           id: 'Api access',
@@ -422,6 +445,7 @@ function Sidebar({
           icon: <ApiIcon />,
           url: `/apps/${app.key}/oauth_applications`,
           active: isActivePage('oauth_applications'),
+          allowed: allowedAccessTo(app, 'oauth_applications'),
         },
         {
           id: 'Billing',
@@ -430,6 +454,7 @@ function Sidebar({
           label: I18n.t('navigator.childs.billing'),
           url: `/apps/${app.key}/billing`,
           active: isActivePage('billing'),
+          allowed: allowedAccessTo(app, 'billing'),
         },
         // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
       ],
@@ -464,13 +489,16 @@ function Sidebar({
                     url,
                     _onClick,
                     render,
+                    allowed,
                   }) =>
                     !render ? (
                       <Link
                         key={`sidebar-section-child-${id}-${childId}`}
                         to={url}
+                        disabled={!allowed}
                         className={`
                         ${active ? 'bg-gray-200 dark:bg-black' : ''} 
+                        ${!allowed ? 'bg-gray-100 dark:bg-gray-100' : ''} 
                         bg-white hover:text-gray-600 hover:bg-gray-100 
                         dark:hover:text-gray-300 dark:hover:bg-black
                         dark:bg-black dark:text-gray-100 dark:focus:bg-black
@@ -591,10 +619,7 @@ function Sidebar({
           {renderInner()}
 
           <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
-            <a
-              href="#"
-              className="flex-shrink-0 group block focus:outline-none"
-            >
+            <div className="flex-shrink-0 group block focus:outline-none">
               <div className="flex items-center">
                 <div>
                   <img
@@ -607,7 +632,9 @@ function Sidebar({
                 </div>
                 <div className="ml-3 w-2/5 flex flex-wrap">
                   <p className="my-1 text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
-                    {current_user.email}
+                    <Link to={`/apps/${app.key}/agents/${current_user.id}`}>
+                      {current_user.email}
+                    </Link>
                   </p>
 
                   <div className="flex items-center space-x-2">
@@ -695,7 +722,7 @@ function Sidebar({
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
         </div>
       )}

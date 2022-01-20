@@ -154,6 +154,10 @@ fr:
         name: 'sheet_url'
         hint: 'Envoyé quand une feuille a été envoyée. Une feuille est une iframe que vous avez chargée dans le Messenger qui est fermée et soumise lorsque la méthode Submit Sheets JS est appelée.'
         placeholder: 'par exemple https://votredomaine.fr/submit-sheet-url/'
+      content_url:
+        label: 'Dynamic content flow webhook URL'
+        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
+        placeholder: 'e.g. https://yourdomain.com/content-url/'
     webhooks:
       url:
         label: url du webhook sortant

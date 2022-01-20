@@ -15,7 +15,7 @@ module ApplicationHelper
   end
 
   def support_app_data
-    app_key = ENV["SUPPORT_APP_KEY"]
+    app_key = Chaskiq::Config.get("SUPPORT_APP_KEY")
     return if app_key.blank?
 
     support_app = App.find_by(key: app_key)

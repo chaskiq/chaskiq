@@ -66,7 +66,7 @@ function CustomizationColors({ settings, update, _dispatch }) {
   ];
 
   const pattern_base_url =
-    'https://www.toptal.com/designers/subtlepatterns/patterns/';
+    'https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/uploads/';
 
   const patterns = names.map((o) => {
     return { name: o, url: pattern_base_url + o + '.png' };
@@ -150,7 +150,9 @@ function CustomizationColors({ settings, update, _dispatch }) {
               Choose a pattern From
               <a
                 target={'blank'}
-                href={'https://www.toptal.com/designers/subtlepatterns/'}
+                href={
+                  'https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/'
+                }
               >
                 Subtle patterns
               </a>

@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { readableColor } from 'polished';
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
+import sanitizeHtml, {
+  escapeHTML,
+} from '@chaskiq/components/src/utils/htmlSanitize';
 import { LabelIcon } from '@chaskiq/components/src/components/icons';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 
@@ -16,7 +18,7 @@ export default function ConversationItemList({ app, conversation }) {
   const renderConversationContent = (o) => {
     const message = o.lastMessage.message;
     if (message.htmlContent) {
-      return sanitizeHtml(message.htmlContent).substring(0, 250);
+      return sanitizeHtml(escapeHTML(message.htmlContent)).substring(0, 250);
     }
   };
 

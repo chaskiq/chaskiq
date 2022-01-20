@@ -142,7 +142,7 @@ class Campaign < Message
     doc = Nokogiri::HTML(new_html)
     # rename active sotrage url to absolute for email readers
     doc.xpath("//img").each do |img|
-      image_url = "#{ENV['HOST']}#{img['src']}"
+      image_url = "#{Chaskiq::Config.get('HOST')}#{img['src']}"
       url = image_url.include?("rails/active_storage") ? image_url : img["src"]
       img["src"] = url
     end
