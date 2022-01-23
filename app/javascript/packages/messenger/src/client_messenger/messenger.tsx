@@ -1767,7 +1767,7 @@ export default class ChaskiqMessenger {
   props: ChaskiqMessengerProps & MessengerProps;
   constructor(props) {
     this.props = props;
-  };
+  }
 
   render() {
     var g;
@@ -1776,7 +1776,7 @@ export default class ChaskiqMessenger {
       g = document.createElement('div');
       g.setAttribute('id', this.props.wrapperId);
       document.body.appendChild(g);
-    };
+    }
 
     ReactDOM.render(
       <Messenger {...this.props} />,
