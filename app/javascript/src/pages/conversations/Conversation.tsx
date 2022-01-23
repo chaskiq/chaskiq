@@ -148,8 +148,10 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
-  const [conversationPartSelected, setConversationPartSelected] =
-    React.useState(false);
+  const [
+    conversationPartSelected,
+    setConversationPartSelected,
+  ] = React.useState(false);
 
   const appId = app.key;
 
