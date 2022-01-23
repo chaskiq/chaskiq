@@ -32,14 +32,14 @@
 
     <script> window.chaskiq_cable_url = "<%= Chaskiq::Config.get('WS') %>"</script>
 
-    <%= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-
-    <%= stylesheet_pack_tag "application" %>
-    <% #= javascript_pack_tag 'locales' %>
-    <%= javascript_pack_tag 'application' %>
+    <% #= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% #= stylesheet_pack_tag "application" %>
+    <% #= javascript_pack_tag 'application' %>
     <!--<link href="https://fonts.googleapis.com/css?family=PT+Sans|Roboto+Mono&display=swap" rel="stylesheet">-->
     <!--<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext" rel="stylesheet">-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>

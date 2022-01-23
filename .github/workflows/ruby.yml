@@ -57,7 +57,6 @@ jobs:
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
 
-          cp ./config/webpacker.ci.yml ./config/webpacker.yml
           bundle exec rake assets:precompile
 
           curl ifconfig.me

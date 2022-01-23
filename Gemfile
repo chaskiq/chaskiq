@@ -79,7 +79,6 @@ gem "omniauth-oauth2"
 gem "image_processing", "~> 1.2"
 gem "sidekiq"
 gem "sidekiq-cron"
-gem "webpacker", "~> 5.4.0"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
 gem "roadie"
@@ -162,3 +161,7 @@ end
 gem "php_serialize", "~> 1.2"
 gem "scout_apm", "~> 2.6"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+
+gem "jsbundling-rails", "~> 1.0"
+
+gem "tailwindcss-rails", "~> 2.0"
