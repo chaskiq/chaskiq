@@ -34,9 +34,11 @@ module MessageApis::AuditsReports
             # { field: 'action', title: 'action' },
             { field: "id", title: "id" },
             { field: "auditable_type", title: "Type" },
+            { field: "auditable_id", title: "Type Id" },
+            { field: "auditable_link", title: "link", renderer_type: "markdown" },
             { field: "action", title: "Action" },
             { field: "agent_name", title: "Agent" },
-            { field: "agent_email", title: "Agent Email" },
+            { field: "agent_email", title: "Agent Email", renderer_type: "markdown" },
             { field: "created_at", title: "Date" },
             { field: "sdata", title: "Data" }
           ],
