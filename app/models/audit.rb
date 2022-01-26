@@ -22,16 +22,29 @@ class Audit < ApplicationRecord
     agent.try(:display_name).to_s || "--"
   end
 
-  def agent_email
-    agent.try(:email).to_s
-  end
-
   def auditable_name
     auditable.try(:id)
   end
 
+  def auditable_link
+    u = case auditable_type
+        when "AppUser"
+          "/users/#{auditable.id}"
+        when "Conversation"
+          "/conversations/#{auditable.key}"
+        when "Agent"
+          "/agents/#{auditable.id}"
+        end
+    "[#{auditable_name}](/apps/#{auditable.app.key}#{u})"
+  end
+
+  def agent_email
+    u = "/agents/#{agent.id}"
+    "[#{agent.try(:email)}](/apps/#{auditable.app.key}#{u})"
+  end
+
   def serialize_properties
-    as_json(methods: %i[id agent_name auditable_name action agent_email created_at sdata])
+    as_json(methods: %i[id agent_name auditable_link auditable_name action agent_email created_at sdata])
   end
 
   def sdata
