@@ -2,6 +2,7 @@ class Audit < ApplicationRecord
   belongs_to :agent
   belongs_to :app, optional: true
   belongs_to :auditable, polymorphic: true
+  include UnionScope
 
   AUDITABLE_ACTIONS = %i[
     agent_log_in
@@ -35,16 +36,21 @@ class Audit < ApplicationRecord
         when "Agent"
           "/agents/#{auditable.id}"
         end
-    "[#{auditable_name}](/apps/#{auditable.app.key}#{u})"
+    "[#{auditable_name}](/apps/#{@app.key}#{u})"
   end
 
   def agent_email
     u = "/agents/#{agent.id}"
-    "[#{agent.try(:email)}](/apps/#{auditable.app.key}#{u})"
+    "[#{agent.try(:email)}](/apps/#{@app.key}#{u})"
   end
 
-  def serialize_properties
-    as_json(methods: %i[id agent_name auditable_link auditable_name action agent_email created_at sdata])
+  def serialize_properties(app = nil)
+    @app = app ||= auditable.app.key
+    as_json(methods: %i[id agent_name auditable_name action created_at sdata])
+      .merge(
+        auditable_link: auditable_link,
+        agent_email: agent_email
+      )
   end
 
   def sdata

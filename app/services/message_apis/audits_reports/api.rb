@@ -12,9 +12,10 @@ module MessageApis::AuditsReports
         {
           chartType: "table",
           kind: "events_table",
-          label: "events table",
+          label: "events table1",
           appendLabel: "Hrs",
-          classes: "col-span-4"
+          classes: "col-span-4",
+          styles: {}
         }
       ]
     end
@@ -22,14 +23,19 @@ module MessageApis::AuditsReports
     def report(path, integration, options)
       case path
       when "events_table"
-        collection = integration.app
-                                .audits
-                                .order("id desc")
-                                .page(options[:page])
-                                .per(10)
+        ids = integration.app.agents.ids
 
+        app = integration.app
+
+        collection = Audit.union_scope(
+          integration.app.audits,
+          Audit.where(auditable_type: "Agent", auditable_id: ids)
+        )
+                          .order("id desc")
+                          .page(options[:page])
+                          .per(10)
         {
-          collection: collection.map(&:serialize_properties),
+          collection: collection.map { |o| o.serialize_properties(app) },
           columns: [
             # { field: 'action', title: 'action' },
             { field: "id", title: "id" },
