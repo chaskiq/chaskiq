@@ -28,15 +28,15 @@ class Audit < ApplicationRecord
   end
 
   def auditable_link
-    u = case auditable_type
-        when "AppUser"
-          "/users/#{auditable.id}"
-        when "Conversation"
-          "/conversations/#{auditable.key}"
-        when "Agent"
-          "/agents/#{auditable.id}"
-        end
-    "[#{auditable_name}](/apps/#{@app.key}#{u})"
+    name, path = case auditable_type
+                 when "AppUser"
+                   [auditable.display_name, "/users/#{auditable.id}"]
+                 when "Conversation"
+                   [auditable.key, "/conversations/#{auditable.key}"]
+                 when "Agent"
+                   [auditable.display_name, "/agents/#{auditable.id}"]
+                 end
+    "[#{name}](/apps/#{@app.key}#{path})"
   end
 
   def agent_email
