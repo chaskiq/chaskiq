@@ -39,7 +39,7 @@ function Login({ dispatch }) {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <img className="mx-auto h-20 w-auto" src={logo} alt="Chaskiq" />
         <h2 className="mt-6 text-center text-1xl leading-3 font-light text-gray-400">
-          Sign in to your account
+          {I18n.t('login.title')}
         </h2>
         {/* <p className="mt-2 text-center text-sm leading-5 text-gray-600 max-w">
           Or {' '}
@@ -60,7 +60,7 @@ function Login({ dispatch }) {
                 htmlFor="email"
                 className="block text-sm font-medium leading-5 text-gray-700"
               >
-                Email address
+                {I18n.t('login.email')}
               </label>
               <div className="mt-1 rounded-md shadow-sm">
                 <input
@@ -78,7 +78,7 @@ function Login({ dispatch }) {
                 htmlFor="password"
                 className="block text-sm font-medium leading-5 text-gray-700"
               >
-                Password
+                {I18n.t('login.password')}
               </label>
               <div className="mt-1 rounded-md shadow-sm">
                 <input
@@ -102,7 +102,7 @@ function Login({ dispatch }) {
                   htmlFor="remember_me"
                   className="ml-2 block text-sm leading-5 text-gray-900"
                 >
-                  Remember me
+                  {I18n.t('login.remember_me')}
                 </label>
               </div>
 
@@ -111,7 +111,7 @@ function Login({ dispatch }) {
                   href="/agents/password/new"
                   className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
                 >
-                  Forgot your password?
+                  {I18n.t('login.forgot_password')}
                 </a>
               </div>
             </div>
@@ -123,7 +123,7 @@ function Login({ dispatch }) {
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
                 >
-                  Sign in
+                  {I18n.t('login.sign_in')}
                 </button>
               </span>
             </div>
@@ -136,7 +136,7 @@ function Login({ dispatch }) {
               </div>
               <div className="relative flex justify-center text-sm leading-5">
                 <span className="px-2 bg-white text-gray-500">
-                  Or continue with
+                  {I18n.t('login.continue_with')}
                 </span>
               </div>
             </div>
