@@ -300,7 +300,7 @@ class ExternalPresenterManager
   def self.post(url, data)
     # This it's just to restrict fields on app, refactor this!
     data[:ctx][:app] = data.dig(:ctx, :app).as_json(only: %i[key name])
-
+    data[:ctx][:current_user] = data.dig(:ctx, :current_user).as_json(methods: %i[email kind display_name avatar_url])
     resp = Faraday.post(
       url,
       data.to_json,
