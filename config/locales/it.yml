@@ -125,7 +125,21 @@ it:
       create_app: 'Crea una nuova app'
       create_app_description: 'Crea l''app Chaskiq della tua azienda'
       signout: Esci
-      title: Menu utente
+      title: Menu utente    
+  login:
+    title: Accedi al tuo account
+    email: La tua email
+    password: La tua password
+    remember_me: Ricordati di me
+    forgot_password: Hai dimenticato la password
+    sign_in: Accedi
+    continue_with: Continua con
+  invitation:  
+    title: Creazione del tuo account
+    password: Inserisci la tua password
+    password_confirmation: Conferma la tua password
+    button: Registrazione
+    built_with_love: Amorevolmente realizzato dal team   
   conversations:
     start_conversation: Inizia conversazione
     title: Conversazioni
