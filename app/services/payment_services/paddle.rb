@@ -17,8 +17,8 @@ module PaymentServices
         params_encoder: Faraday::FlatParamsEncoder
       }
       @auth = {
-        vendor_id: ENV["PADDLE_VENDOR_ID"],
-        vendor_auth_code: ENV["PADDLE_SECRET_TOKEN"]
+        vendor_id: Chaskiq::Config.get("PADDLE_VENDOR_ID"),
+        vendor_auth_code: Chaskiq::Config.get("PADDLE_SECRET_TOKEN")
       }
       self
     end

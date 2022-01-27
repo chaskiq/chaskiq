@@ -7,6 +7,8 @@ class Agent < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   include Redis::Objects
 
+  include AuditableBehavior
+
   devise  :invitable,
           :database_authenticatable,
           :registerable, # disabled registrations
@@ -52,6 +54,11 @@ class Agent < ApplicationRecord
     enable_deliveries
     lang
     permissions
+    area_of_expertise
+    specialization
+    phone_number
+    address
+    availability
   ]
 
   has_one_attached :avatar

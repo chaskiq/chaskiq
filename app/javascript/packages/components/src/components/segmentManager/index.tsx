@@ -8,7 +8,7 @@ import Dropdown from '../Dropdown';
 import Button, { ButtonIndigo } from '../Button';
 import { PredicateType } from './types';
 import I18n from '../../../../../src/shared/FakeI18n';
-
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
 // import ClickAwayListener  from '@material-ui/core/ClickAwayListener'
 
 import defaultFields from '../../utils/defaultFields';
@@ -178,7 +178,7 @@ export class SaveSegmentModal extends Component<SaveSegmentModalType> {
                       className="ml-2"
                       dangerouslySetInnerHTML={{
                         __html: I18n.t('segment_manager.save_changes_to', {
-                          name: this.props.segment.name,
+                          name: escapeHTML(this.props.segment.name),
                         }),
                       }}
                     ></span>

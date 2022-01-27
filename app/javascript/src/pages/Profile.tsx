@@ -25,7 +25,9 @@ import {
 import graphql from '@chaskiq/store/src/graphql/client';
 
 import DialogEditor from './conversations/DialogEditor';
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
+import sanitizeHtml, {
+  escapeHTML,
+} from '@chaskiq/components/src/utils/htmlSanitize';
 //require('sanitize-html')
 
 import { setCurrentSection } from '@chaskiq/store/src/actions/navigation';
@@ -515,8 +517,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                             <div
                               className="text-sm text-gray-500 truncate"
                               dangerouslySetInnerHTML={{
-                                __html: sanitizeHtml(
-                                  o.lastMessage.message.htmlContent
+                                __html: escapeHTML(
+                                  sanitizeHtml(
+                                    o.lastMessage.message.htmlContent
+                                  )
                                 ).substring(0, 250),
                               }}
                             />

@@ -12,11 +12,13 @@ module Mutations
 
         agent = role&.agent
 
-        authorize! agent, to: :destroy_agent_role?, with: AppPolicy, context: {
-          role: app.roles.find_by(agent_id: current_user.id)
+        authorize! agent, to: :can_manage_team?, with: AppPolicy, context: {
+          app: app
         }
 
         agent.destroy
+
+        track_resource_event(agent, :agent_destroy, {}, app.id)
 
         { agent: agent }
       end

@@ -154,6 +154,10 @@ zh-CN:
         name: 'sheet_url'
         hint: '当工作表已提交时发送。 工作表是一个您已经在信使中加载并且在调用JS方法时提交的iframe。'
         placeholder: '例如：https://yourdomain.com/submit-sheet-url/'
+      content_url:
+        label: 'Dynamic content flow webhook URL'
+        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
+        placeholder: 'e.g. https://yourdomain.com/content-url/'
     webhooks:
       url:
         label: url for outgoing webhook

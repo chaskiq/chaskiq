@@ -9,7 +9,7 @@ class CampaignMailer < ApplicationMailer
 
     content_type = "text/html"
 
-    headers "X-SES-CONFIGURATION-SET" => ENV["SNS_CONFIGURATION_SET"]
+    headers "X-SES-CONFIGURATION-SET" => Chaskiq::Config.get("SNS_CONFIGURATION_SET")
     headers "X-CHASKIQ-CAMPAIGN-ID" => campaign.id
     headers "X-CHASKIQ-CAMPAIGN-TO" => subscriber.id
 
@@ -49,7 +49,7 @@ class CampaignMailer < ApplicationMailer
     content_type = "text/html"
 
     mail(from: "#{campaign.from_name}<#{campaign.from_email}>",
-         to: ENV["ADMIN_EMAIL"],
+         to: Chaskiq::Config.get("ADMIN_EMAIL"),
          subject: campaign.subject,
          body: campaign.reply_email,
          content_type: content_type) do |format|

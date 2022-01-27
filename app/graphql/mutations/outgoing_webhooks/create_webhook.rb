@@ -15,6 +15,10 @@ module Mutations
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
 
+      authorize! @app, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
+        app: @app
+      }
+
       state_value = if ActiveModel::Type::Boolean.new.cast(state)
                       "enabled"
                     else

@@ -73,6 +73,8 @@ import {
 import { AGENTS } from '@chaskiq/store/src/graphql/queries';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 
+import bg from '../../images/bg/patterns/memphis-mini.png';
+
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
   //justify-content: center;
@@ -87,11 +89,13 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
 `;
 
 const BgContainer = styled.div`
-  //background-color: #DFDBE5;
-  background-image: radial-gradient(currentColor 2px, transparent 2px),
+  /*background-image: radial-gradient(currentColor 2px, transparent 2px),
     radial-gradient(currentColor 2px, transparent 2px);
   background-size: calc(20 * 2px) calc(20 * 2px);
-  background-position: 0 0, calc(10 * 2px) calc(10 * 2px);
+  background-position: 0 0, calc(10 * 2px) calc(10 * 2px);*/
+  background-image: url(${bg});
+  /* background-size: calc(40px) calc(40px); */
+  background-position: 0px 0px, calc(20px) calc(20px);
 `;
 
 type MessageItemType = {

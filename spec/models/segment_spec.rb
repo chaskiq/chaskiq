@@ -5,7 +5,9 @@ require "rails_helper"
 RSpec.describe Segment, type: :model do
   # it{should belong_to :app}
   let!(:app) do
-    FactoryBot.create :app
+    FactoryBot.create :app, custom_fields: [
+      { name: "custom_country", type: "string" }
+    ]
   end
 
   describe "creation" do
