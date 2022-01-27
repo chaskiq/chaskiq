@@ -126,6 +126,20 @@ zh-CN:
       create_app_description: '创建您公司的 Chaskiq 应用'
       signout: 退出
       title: 用户菜单
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: 保存
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: 开始会话
     title: 会话
