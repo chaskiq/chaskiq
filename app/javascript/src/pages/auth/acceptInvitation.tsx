@@ -22,11 +22,10 @@ declare global {
 function MadeWithLove() {
   return (
     <p className="mt-3 text-base text-gray-500 text-center">
-      {'Built with love by the '}
+      {I18n.t(`invitation.built_with_love`)}
       <a color="inherit" href="https://chaskiq.io/">
         Chaskiq
       </a>
-      {' team.'}
     </p>
   );
 }
@@ -77,7 +76,7 @@ function AcceptInvitation(props) {
         <img src={logo} className="mx-auto h-12 w-auto" alt="chaskiq logo" />
 
         <p className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
-          Set password
+          {I18n.t(`invitation.title`)}
         </p>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -87,7 +86,7 @@ function AcceptInvitation(props) {
                 variant="outlined"
                 required
                 name="agent[password]"
-                label="Password"
+                label={I18n.t(`invitation.password`)}
                 type="password"
                 id="password"
                 autoFocus
@@ -105,7 +104,7 @@ function AcceptInvitation(props) {
                 variant="outlined"
                 required
                 name="agent[password_confirmation]"
-                label="Password confirmation"
+                label={I18n.t(`invitation.password_confirmation`)}
                 type="password"
                 id="password_confirmation"
                 autoComplete="current-password"
@@ -122,7 +121,7 @@ function AcceptInvitation(props) {
               />
 
               <Button type="submit" variant="contained" color="primary">
-                Set my password
+                {I18n.t(`invitation.button`)}
               </Button>
             </form>
           </div>
