@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import Platform from './Platform';
 import Conversations from './Conversations';
 import Settings from './Settings';
+import AppSettings from './AppSettings';
 import MessengerSettings from './MessengerSettings';
 import Team from './Team';
 import Webhooks from './Webhooks';
@@ -234,8 +235,12 @@ function AppContainer({
                 </Route>
 
                 <Route path={`${match.url}/settings`}>
+                  <Settings />
+                </Route>
+
+                <Route path={`${match.url}/app_settings`}>
                   <RestrictedArea section="app_settings">
-                    <Settings />
+                    <AppSettings />
                   </RestrictedArea>
                 </Route>
 
