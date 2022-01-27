@@ -32,6 +32,7 @@ import {
   DarkModeIcon,
   LightModeIcon,
   ChartsIcons,
+  KeyIcon,
 } from '@chaskiq/components/src/components/icons';
 
 import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
@@ -58,7 +59,12 @@ import { signout } from '@chaskiq/store/src/actions/auth';
 import SwitchControl from '@chaskiq/components/src/components/Switch';
 
 import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
+import { LangGlobeIcon } from '@chaskiq/components/src/components/icons';
+import { PlusIcon } from '@chaskiq/components/src/components/icons';
+import { EditIcon } from '@chaskiq/components/src/components/icons';
+import { LogoutIcon } from '@chaskiq/components/src/components/icons';
 
+// Icons from https://teenyicons.com/
 declare global {
   interface Window {
     location: Location;
@@ -655,38 +661,51 @@ function Sidebar({
                           description: I18n.t(
                             'navigator.user_menu.create_app_description'
                           ),
-                          // icon: <SendIcon />,
                           id: 'new-app',
                           onClick: () => history.push('/apps/new'),
+                          icon: <PlusIcon />,
                         },
 
                         {
                           id: 'choose-lang',
                           title: I18n.t('home.choose_lang'),
                           onClick: openLangChooser,
+                          icon: <LangGlobeIcon />,
                         },
                         {
                           id: 'edit-profile',
                           title: I18n.t('home.edit_profile'),
+                          icon: <EditIcon />,
+                          onClick: () =>
+                            history.push(
+                              `/apps/${app.key}/agents/${current_user.id}`
+                            ),
+                          //onClick: () =>
+                          //  (window.location.href = '/agents/edit'),
+                        },
+                        {
+                          id: 'edit-credentials',
+                          title: I18n.t('home.edit_credentials'),
+                          icon: (
+                            <span className="flex space-x-2 items-center">
+                              <KeyIcon />
+                            </span>
+                          ),
                           onClick: () =>
                             (window.location.href = '/agents/edit'),
                         },
                         {
                           id: 'toggle-dark-mode',
-                          title: (
-                            <span className="flex space-x-2 items-center">
-                              {theme === 'light' ? (
-                                <DarkModeIcon />
-                              ) : (
-                                <LightModeIcon />
-                              )}
-                              <span>
-                                {theme === 'light'
-                                  ? I18n.t('common.toggle_dark_mode')
-                                  : I18n.t('common.toggle_light_mode')}
-                              </span>
-                            </span>
-                          ),
+                          title:
+                            theme === 'light'
+                              ? I18n.t('common.toggle_dark_mode')
+                              : I18n.t('common.toggle_light_mode'),
+                          icon:
+                            theme === 'light' ? (
+                              <DarkModeIcon />
+                            ) : (
+                              <LightModeIcon />
+                            ),
                           onClick: () =>
                             dispatch(
                               toggleTheme(theme === 'light' ? 'dark' : 'light')
@@ -694,8 +713,7 @@ function Sidebar({
                         },
                         {
                           title: I18n.t('navigator.user_menu.signout'),
-                          // description: "delivers the campaign",
-                          // icon: <SendIcon />,
+                          icon: <LogoutIcon />,
                           id: 'sign-out',
                           onClick: handleSignout,
                         },
