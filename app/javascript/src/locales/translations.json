@@ -963,6 +963,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -2543,6 +2559,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -4121,6 +4153,22 @@
       "lang": "El vostre codi per generar un HMAC per a la vostra aplicació és",
       "title": "Configuració d'usuaris verificats"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Desa",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campanyes",
       "childs": {
@@ -5698,6 +5746,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -7284,6 +7348,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -8860,6 +8940,22 @@
       "lang": "Ihr Code, um ein HMAC für Ihre App zu generieren ist",
       "title": "Verifizierte Benutzereinstellungen"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Speichern",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Kampagnen",
       "childs": {
@@ -10435,6 +10531,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -14138,6 +14250,22 @@
       "lang": "Tu código para generar un HMAC para tu aplicación es",
       "title": "Configuración de usuarios verificados"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Guardar",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "messenger": {
       "article_meta": "Por: <strong>%{name}</strong> en <0>%{date}</0>",
       "availability": {
@@ -15890,6 +16018,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -17468,6 +17612,22 @@
       "hmac_hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
       "lang": "Votre code pour générer un HMAC pour votre application est",
       "title": "Configuration des utilisateurs vérifiée"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Enregistrer",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "messenger": {
       "article_meta": "Par: <strong>%{name}</strong> le <0>%{date}</0>",
@@ -19106,6 +19266,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -20682,6 +20858,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Salva",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campagne",
       "childs": {
@@ -22257,6 +22449,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -23831,6 +24039,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -25408,6 +25632,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -26983,6 +27223,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -28562,6 +28818,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Zapisz",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -30137,6 +30409,22 @@
       "hmac_hint1": "Para configurar a verificação de identidade, você precisará gerar um HMAC no seu servidor para cada usuário conectado e enviá-lo para Chaskiq.",
       "lang": "Seu código para gerar um HMAC para o seu aplicativo é",
       "title": "Configuração de usuários verificada"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Salvar",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campanhas",
@@ -31714,6 +32002,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -33293,6 +33597,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -34869,6 +35189,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Spara",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -36444,6 +36780,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -38023,6 +38375,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -39597,6 +39965,22 @@
       "hmac_hint1": "要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。",
       "lang": "您为您的应用生成HMAC的代码是",
       "title": "已验证用户设置"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "保存",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "营销活动 Campaigns",

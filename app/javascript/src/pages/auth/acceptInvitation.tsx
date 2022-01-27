@@ -12,6 +12,7 @@ import Snackbar from '@chaskiq/components/src/components/Alert';
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
 
 import { successAuthentication } from '@chaskiq/store/src/actions/auth';
+import I18n from '../../shared/FakeI18n';
 
 declare global {
   interface Window {

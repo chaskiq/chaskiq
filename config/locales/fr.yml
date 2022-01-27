@@ -126,6 +126,20 @@ fr:
       create_app_description: 'Créez l''application Chaskiq de votre entreprise'
       signout: Se déconnecter
       title: Menu Utilisateur
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Enregistrer
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: Démarrer une conversation
     title: Conversations

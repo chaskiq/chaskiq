@@ -125,7 +125,7 @@ en:
       create_app: 'Create new app'
       create_app_description: 'Create your company’s Chaskiq app'
       signout: Sign out
-      title: User menu     
+      title: User menu
   login:
     title: Connect to your account
     email: Your Email
@@ -134,12 +134,12 @@ en:
     forgot_password: Forgot your password ?
     sign_in: Connect
     continue_with: Continue with
-  invitation:  
+  invitation:
     title: Create your account
     password: Type your password
     password_confirmation: Confirm your password
     button: Save
-    built_with_love: Built with love by the team   
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: Start conversation
     title: Conversations

@@ -126,6 +126,20 @@ hu:
       create_app_description: 'Create your company’s Chaskiq app'
       signout: Sign out
       title: User menu
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Save
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: Start conversation
     title: Conversations
