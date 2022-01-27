@@ -39,8 +39,7 @@ export function authenticate(email, password, cb) {
         if (cb) cb();
       })
       .catch((data) => {
-        const err =
-          data && data.response.data ? data.response.data.message : 'error!';
+        const err = data?.response?.data?.error_description || 'error!';
         dispatch(errorMessage(err));
         dispatch(failAuthentication());
       });
