@@ -15,9 +15,12 @@ module Mutations
 
         agent = role&.agent # , name: 'John Doe')
 
-        authorize! role, to: :can_manage_team?, with: AppPolicy, context: {
-          app: app
-        }
+        authorize! role,
+                   to: :can_manage_own_profile?,
+                   with: AppPolicy,
+                   context: {
+                     app: app
+                   }
 
         data = params.permit(
           :avatar,
