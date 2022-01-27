@@ -9,6 +9,8 @@ import { authenticate, doSignout } from '@chaskiq/store/src/actions/auth';
 
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
 
+import I18n from '../../shared/FakeI18n';
+
 function Login({ dispatch }) {
   const form = useRef(null);
 
