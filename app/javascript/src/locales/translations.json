@@ -963,6 +963,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -2543,6 +2559,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -4121,6 +4153,22 @@
       "lang": "El vostre codi per generar un HMAC per a la vostra aplicació és",
       "title": "Configuració d'usuaris verificats"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Desa",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campanyes",
       "childs": {
@@ -5698,6 +5746,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -7284,6 +7348,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -8860,6 +8940,22 @@
       "lang": "Ihr Code, um ein HMAC für Ihre App zu generieren ist",
       "title": "Verifizierte Benutzereinstellungen"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Speichern",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Kampagnen",
       "childs": {
@@ -10435,6 +10531,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -12216,6 +12328,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "messenger": {
       "article_meta": "By: <strong>%{name}</strong> on <time>%{date}</time>",
@@ -14122,6 +14250,22 @@
       "lang": "Tu código para generar un HMAC para tu aplicación es",
       "title": "Configuración de usuarios verificados"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Guardar",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "messenger": {
       "article_meta": "Por: <strong>%{name}</strong> en <0>%{date}</0>",
       "availability": {
@@ -15874,6 +16018,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -17452,6 +17612,22 @@
       "hmac_hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
       "lang": "Votre code pour générer un HMAC pour votre application est",
       "title": "Configuration des utilisateurs vérifiée"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Enregistrer",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "messenger": {
       "article_meta": "Par: <strong>%{name}</strong> le <0>%{date}</0>",
@@ -19090,6 +19266,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -20666,6 +20858,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Salva",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campagne",
       "childs": {
@@ -22241,6 +22449,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -23815,6 +24039,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -25392,6 +25632,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -26967,6 +27223,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -28546,6 +28818,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Zapisz",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -30121,6 +30409,22 @@
       "hmac_hint1": "Para configurar a verificação de identidade, você precisará gerar um HMAC no seu servidor para cada usuário conectado e enviá-lo para Chaskiq.",
       "lang": "Seu código para gerar um HMAC para o seu aplicativo é",
       "title": "Configuração de usuários verificada"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Salvar",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campanhas",
@@ -31698,6 +32002,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -33277,6 +33597,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -33989,31 +34325,31 @@
       "title": "Assignment Rules"
     },
     "campaign": {
-      "create": "Create a new campaign",
-      "edit": "Edit Campaign Settings",
-      "preview": "This is a preview",
-      "preview_hint": "This is how your email should display. If you are using variables like {{name}} it should be displayed here.",
+      "create": "Skapa ny kampanj",
+      "edit": "Redigera kampanjinställningar",
+      "preview": "Det här är en förhandsvisning",
+      "preview_hint": "Detta är hur ditt e-postmeddelande visas. Om du använder variabler som {{name}} ska de visas här.",
       "stats": {
-        "refresh_data": "Refresh data",
-        "title": "Campaign Stats"
+        "refresh_data": "Uppdatera data",
+        "title": "Kampanjstatistik"
       },
       "unsubscribe": {
-        "cancel": "Cancel your subscription",
-        "resubscribe": "Resubscribe from this list",
-        "status": "You've been %{state}",
-        "success": "Success, %{ email } will no longer receive emails from this sender. Was this a mistake?"
+        "cancel": "Avsluta din prenumeration",
+        "resubscribe": "Prenumerera igen",
+        "status": "Du har blivit %{state}",
+        "success": "%{ email } kommer inte längre att få några meddelanden från oss. Var det ett misstag?"
       }
     },
     "campaigns": {
       "activate": "Activate Campaigns",
       "banners": {
-        "action": "Action",
-        "bottom": "bottom",
-        "floating": "floating",
-        "inline": "inline",
+        "action": "Åtgärder",
+        "bottom": "nederkant",
+        "floating": "flytande",
+        "inline": "i texten",
         "settings": "Settings",
-        "style": "Style",
-        "top": "top"
+        "style": "Stil",
+        "top": "överst"
       },
       "campaign_updated": "Campaign updated",
       "clone_description": "clones the campaign",
@@ -34056,57 +34392,57 @@
       "updated_error": "Error updating campaign"
     },
     "common": {
-      "actions": "Actions",
-      "add": "Add",
-      "add_new": "add new",
-      "away_mode": "Away mode",
-      "back_to_site": "Back to site",
-      "cancel": "Cancel",
-      "choose_color": "Choose color",
-      "confirm_deletion": "Confirm deletion ?",
-      "confirm_deletion_ready": "are you ready to delete ?",
-      "create": "Create",
-      "days": "Days",
-      "delete": "Delete",
-      "edit": "Edit",
-      "get_snippet": "Get the snippet",
-      "image": "Imagen",
+      "actions": "Åtgärder",
+      "add": "Lägg till",
+      "add_new": "lägg till ny",
+      "away_mode": "Borta-läge",
+      "back_to_site": "Tillbaka till webbplatsen",
+      "cancel": "Avbryt",
+      "choose_color": "Välj färg",
+      "confirm_deletion": "Bekräfta borttagning",
+      "confirm_deletion_ready": "är du säker på att du vill ta bort?",
+      "create": "Skapa",
+      "days": "Dagar",
+      "delete": "Radera",
+      "edit": "Redigera",
+      "get_snippet": "Hämta snippet",
+      "image": "Bild",
       "langs": {
-        "ca": "Catalan",
-        "de": "Deutsch",
-        "en": "English",
-        "es": "Spanish",
-        "pt": "Portuguese",
-        "zh-CN": "Chinese"
+        "ca": "Katalanska",
+        "de": "Tyska",
+        "en": "Engelska",
+        "es": "Spanska",
+        "pt": "Portugisiska",
+        "zh-CN": "Kinesiska"
       },
       "leads": "Leads",
-      "new": "New",
-      "next": "Next",
-      "not_found": "The page you are looking for does not exist.",
-      "of": "of",
-      "prev": "Prev",
-      "preview": "Preview",
-      "redirecting": "Redirecting",
-      "remove": "Remove",
-      "results": "results",
-      "save": "Save",
-      "save_changes": "Save changes",
-      "search_conversations": "Search conversations",
-      "select_language": "Select Language",
-      "send": "Send",
-      "send_on_enter": "Publish on enter",
-      "showing": "Showing",
-      "submit": "Submit",
-      "to": "to",
-      "toggle_dark_mode": "Toggle dark mode",
-      "toggle_light_mode": "Toggle light mode",
-      "type_message": "type your message",
-      "tz_hint": "Your browser timezone is <b className=\"text-bold\">%{timezone}</b>",
-      "update": "Update",
-      "upload_field": "upload %{field}",
-      "users": "Users",
-      "visitors": "Visitors",
-      "your_apps": "Your apps"
+      "new": "Ny",
+      "next": "Nästa",
+      "not_found": "Sidan du letar efter finns inte.",
+      "of": "av",
+      "prev": "Föreg.",
+      "preview": "Förhandsgranska",
+      "redirecting": "Omdirigerar",
+      "remove": "Ta bort",
+      "results": "resultat",
+      "save": "Spara",
+      "save_changes": "Spara ändringar",
+      "search_conversations": "Sök konversationer",
+      "select_language": "Välj språk",
+      "send": "Skicka",
+      "send_on_enter": "Tryck enter för att publicera",
+      "showing": "Visar",
+      "submit": "Skicka",
+      "to": "till",
+      "toggle_dark_mode": "Mörkt läge på/av",
+      "toggle_light_mode": "Ljust läge på/av",
+      "type_message": "skriv ditt meddelande",
+      "tz_hint": "Din webbläsares tidszon är <b className=\"text-bold\">%{timezone}</b>",
+      "update": "Uppdatera",
+      "upload_field": "ladda upp %{field}",
+      "users": "Användare",
+      "visitors": "Besökare",
+      "your_apps": "Dina appar"
     },
     "contact_manager": {
       "create": "Create Users & Leads",
@@ -34126,13 +34462,13 @@
     },
     "conversation": {
       "actions": {
-        "assign_agent": "Assign Agent",
-        "close": "Close",
-        "end_call": "End Call",
-        "priorize": "Priorize conversation",
-        "remove_priority": "Remove priority",
-        "reopen": "Reopen",
-        "start_call": "Start videocall"
+        "assign_agent": "Tilldela en agent",
+        "close": "Stäng",
+        "end_call": "Avsluta samtal",
+        "priorize": "Prioritera konversation",
+        "remove_priority": "Ta bort prioritet",
+        "reopen": "Återuppta",
+        "start_call": "Starta ett videosamtal"
       },
       "editor": {
         "panels": {
@@ -34153,48 +34489,48 @@
         }
       },
       "messages": {
-        "not_seen": "Not seen",
-        "note": "Private Note",
-        "reply": "Reply",
-        "seen": "Seen"
+        "not_seen": "Inte sett",
+        "note": "Privat anteckning",
+        "reply": "Svara",
+        "seen": "Läst"
       },
       "sidebar": {
         "assignee": "Assignee",
-        "browser": "User Browser",
+        "browser": "Användarens webbläsare",
         "created_at": "Created at",
         "first_agent_reply": "First agent reply",
         "latest_user_visible_comment_at": "Last comment",
-        "location": "Location",
-        "show_profile": "Show profile"
+        "location": "Plats",
+        "show_profile": "Visa profil"
       },
-      "with": "Conversation with"
+      "with": "Konversation med"
     },
     "conversations": {
       "empty": {
-        "text": "Choose conversations on the side",
-        "title": "No conversations"
+        "text": "Välj konversationer från sidan",
+        "title": "Inga konversationer"
       },
       "menu": {
-        "all": "All conversations",
-        "assignment_rules": "Agent routing Rules",
-        "conversations": "Conversations",
-        "tags": "Tags",
-        "unassigned": "Unassigned"
+        "all": "Alla konversationer",
+        "assignment_rules": "Tilldelningsregler för agenter",
+        "conversations": "Konversationer",
+        "tags": "Taggar",
+        "unassigned": "Otilldelad"
       },
       "sorts": {
-        "all": "All",
-        "newest": "Newest",
-        "oldest": "Oldest",
-        "priority_first": "Priorized",
-        "unfiltered": "All",
-        "waiting": "Waiting"
+        "all": "Alla",
+        "newest": "Nyast",
+        "oldest": "Äldst",
+        "priority_first": "Prioriterad",
+        "unfiltered": "Alla",
+        "waiting": "Väntar"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Starta konversation",
       "states": {
-        "closed": "Closed",
-        "opened": "Opened"
+        "closed": "Stängd",
+        "opened": "Öppnad"
       },
-      "title": "Conversations"
+      "title": "Konversationer"
     },
     "dashboard": {
       "guides": "Chaskiq Guides",
@@ -34216,307 +34552,307 @@
     },
     "data_tables": {
       "agents": {
-        "access_list": "Access List",
-        "actions": "Actions",
-        "email": "Email",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
-        "name": "Name",
-        "owner": "Owner",
-        "sign_in_count": "Sign in count"
+        "access_list": "Rättigheter",
+        "actions": "Åtgärder",
+        "email": "E-post",
+        "invitation_accepted_at": "Inbjudan accepterades den",
+        "last_sign_in_at": "Senaste inloggningsdatum",
+        "name": "Namn",
+        "owner": "Ägare",
+        "sign_in_count": "Antal inloggningar"
       },
       "articles": {
         "settings": {
-          "action": "Action",
-          "locale": "Locale",
-          "site_description": "Site Description",
-          "site_title": "Site Title"
+          "action": "Åtgärder",
+          "locale": "Språk",
+          "site_description": "Webbplatsbeskrivning",
+          "site_title": "Webbplatstitel"
         }
       },
       "settings": {
-        "greetings": "Greetings",
+        "greetings": "Hälsningsfras",
         "intro": "Intro",
-        "locale": "Locale",
+        "locale": "Språk",
         "tagline": "Tagline"
       },
       "users": {
-        "browser": "Browser",
-        "browser_lang": "Browser Lang",
-        "browser_version": "Browser version",
-        "city": "City",
-        "country": "Country",
-        "email": "Email",
-        "first_seen": "Last Seen",
+        "browser": "Webbläsare",
+        "browser_lang": "Språk för webbläsare",
+        "browser_version": "Webbläsarversion",
+        "city": "Stad",
+        "country": "Land",
+        "email": "E-postadress",
+        "first_seen": "Sågs senast",
         "ip": "Ip",
-        "lang": "Lang",
-        "last_seen": "First Seen",
+        "lang": "Språk",
+        "last_seen": "Sågs första gången",
         "lat": "Lat",
         "lng": "Lng",
-        "name": "Name",
-        "online": "Online",
+        "name": "Namn",
+        "online": "Aktiv",
         "os": "Os",
-        "os_version": "Os Version",
-        "postal": "Postal",
-        "referrer": "Referrer",
-        "state": "State",
+        "os_version": "OS-version",
+        "postal": "Postnummer",
+        "referrer": "Hänvisad från",
+        "state": "Tillstånd",
         "subscription_status": {
-          "passive": "Passive",
-          "subscribed": "Subscribed",
-          "unsubscribed": "Unsubscribed"
+          "passive": "Inaktiv",
+          "subscribed": "Prenumererar",
+          "unsubscribed": "Prenumeration avslutad"
         },
-        "tag_list": "Tag List",
-        "web_sessions": "Web Sessions"
+        "tag_list": "Taggar",
+        "web_sessions": "Webbsessioner"
       }
     },
     "definitions": {
       "agents": {
         "access_list": {
-          "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "hint": "inga behörigheter kommer att inaktivera kontoinställningar för användaren",
+          "label": "Roller för agent"
         },
         "email": {
-          "label": "Agent's Email",
-          "placeholder": "john@example.com"
+          "label": "Agentens e-postadress",
+          "placeholder": "du@exempel.se"
         },
         "name": {
-          "label": "Agent's Name",
+          "label": "Agentens namn",
           "placeholder": "John Doe"
         },
         "owner": {
-          "label": "Owner"
+          "label": "Ägare"
         }
       },
       "app_packages": {
         "capability_list": {
-          "hint": "Choose the package capabilities, ie: where the integration will work",
-          "label": "Integration capabilities"
+          "hint": "Välj paketfunktioner, t.ex: var integrationen kommer fungera",
+          "label": "Integrationsfunktioner"
         },
         "configure_url": {
-          "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
-          "label": "Configure flow webhook URL (optional)",
-          "placeholder": "e.g. https://yourdomain.com/configure-url/"
+          "hint": "Skickas när en medarbetare vill använda din app, så att du kan visa de konfigurationsalternativen innan den läggs till. Lämnas detta fält tomt, inaktiveras konfigurationssteget.",
+          "label": "Konfigurera webhook-URL för flöde (valfritt)",
+          "placeholder": "t.ex: https://dindoman.se/configure-url/"
         },
         "content_url": {
-          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
-          "label": "Dynamic content flow webhook URL",
-          "placeholder": "e.g. https://yourdomain.com/content-url/"
+          "hint": "Skickas när content_url är konfigurerad, tillåter dynamiskt innehåll att renderas vid behov",
+          "label": "Webhook-URL för dynamiskt innehållsflöde",
+          "placeholder": "t.ex: https://dindoman.se/content-url/"
         },
         "description": {
-          "hint": "tell what your plugin does",
-          "label": "App Package description"
+          "hint": "ange vad ditt plugin gör",
+          "label": "App-paketbeskrivning"
         },
         "initialize_url": {
-          "hint": "Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.",
-          "label": "Initialize flow webhook URL",
-          "placeholder": "e.g. https://yourdomain.com/initialize-url/"
+          "hint": "Skickas när en app aktiveras i en konversation, meddelande eller hemskärmen, så att du kan rendera appen.",
+          "label": "Webhook URL för flödesinitiering",
+          "placeholder": "t.ex: https://dindoman.se/initialize-url/"
         },
         "name": {
-          "label": "Integration Name"
+          "label": "Integrationsnamn"
         },
         "published": {
-          "hint": "If disabled you will use the application on the worspaces you have access to",
-          "label": "Publish on platform",
-          "type": "checkbox"
+          "hint": "Om inaktiverad kommer du att använda programmet i de arbetsytor du har tillgång till",
+          "label": "Publicera på plattformen",
+          "type": "kryssruta"
         },
         "sheet_url": {
-          "hint": "Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.",
-          "label": "Submit Sheet flow webhook URL (optional)",
+          "hint": "Skickas när en iframe har blivit sparad. En iframe laddas in i meddelanderutan och är stängd och sparad när iframeflödesfunktionen är anropad.",
+          "label": "Spara webhook-URL för iframeflöde (valfritt)",
           "name": "sheet_url",
-          "placeholder": "e.g. https://yourdomain.com/submit-sheet-url/"
+          "placeholder": "t.ex: https://dindoman.se/submit-sheet-url/"
         },
         "submit_url": {
-          "hint": "Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.",
-          "label": "Submit flow webhook URL",
-          "placeholder": "e.g. https://yourdomain.com/submit-url/"
+          "hint": "Skicka när en slutanvändare interagerar med din app, via en knapp, länk eller textfält. Detta flöde kan ske flera gånger under tiden en användare interagerar med din app.",
+          "label": "Spara webhook-URL för flöde",
+          "placeholder": "t.ex: https://dindoman.se/submit-url/"
         }
       },
       "articles": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "author": {
-          "label": "Author"
+          "label": "Författare"
         },
         "collection": {
-          "label": "Collection"
+          "label": "Samling"
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Visa krediter"
         },
         "domain": {
-          "hint": "Domain of the Help Center",
-          "label": "Domain"
+          "hint": "Domän för hjälpcentret",
+          "label": "Domän"
         },
         "google_code": {
-          "hint": "Google tracking ID",
+          "hint": "Google spårnings-ID",
           "label": "Google Code"
         },
         "state": {
-          "label": "State"
+          "label": "Tillstånd"
         },
         "subdomain": {
-          "hint": "Subdomain in which the Help Center will be available",
-          "label": "Subdomain"
+          "hint": "Subdomän där hjälpcentret kommer att vara tillgängligt",
+          "label": "Subdomän"
         },
         "title": {
-          "label": "Title"
+          "label": "Titel"
         },
         "website": {
-          "hint": "Website of your main domain",
-          "label": "Website"
+          "hint": "Webbplats för din huvuddomän",
+          "label": "Webbplats"
         }
       },
       "bot_tasks": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "name": {
-          "label": "Name"
+          "label": "Namn"
         },
         "state": {
-          "label": "State"
+          "label": "Tillstånd"
         },
         "title": {
-          "hint": "Task name ie: welcoming users bot task",
-          "label": "Title",
-          "placeholder": "write task title"
+          "hint": "Uppgiftens namn, t.ex: välkomna användare botuppgift",
+          "label": "Titel",
+          "placeholder": "ange en titel"
         }
       },
       "campaigns": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "campaign_name": {
-          "hint": "This will not be shown in the email",
-          "label": "Campaign Name"
+          "hint": "Detta kommer inte att visas i e-postmeddelandet",
+          "label": "Kampanjnamn"
         },
         "description": {
-          "label": "Description"
+          "label": "Beskrivning"
         },
         "email_subject": {
-          "hint": "This is the email subject itself",
-          "label": "Email Subject"
+          "hint": "Detta är ämnesraden för e-postmeddelandet",
+          "label": "E-postämne"
         },
         "from_email": {
-          "label": "From Email"
+          "label": "Från e-post"
         },
         "from_name": {
-          "label": "From Name"
+          "label": "Från namn"
         },
         "reply_email": {
-          "label": "Reply Email"
+          "label": "Svara till"
         },
         "scheduled_at": {
-          "label": "Scheduled at"
+          "label": "Schemalagd den"
         },
         "scheduled_to": {
-          "label": "Scheduled to"
+          "label": "Schemalagd till"
         },
         "state": {
-          "label": "State"
+          "label": "Tillstånd"
         }
       },
       "settings": {
         "active_messenger": {
-          "hint": "When this is activate the messenger web widget will be activated",
-          "label": "Activate messenger"
+          "hint": "När detta är aktiverat kommer widgeten för messenger att aktiveras",
+          "label": "Aktivera messenger"
         },
         "domain": {
-          "hint": "This will be the host site were chaskiq will be used",
-          "label": "Domain URL"
+          "hint": "Detta kommer att vara värdplatsen där Chaskiq kommer att användas",
+          "label": "Domän-URL"
         },
         "enable_articles": {
-          "hint": "This option will display the articles in the home section of the messenger",
-          "label": "Display article on chat window"
+          "hint": "Det här alternativet kommer att visa artiklarna i hemavsnittet för chatten",
+          "label": "Visa artikel i chattfönstret"
         },
         "encryption_key": {
-          "hint": "This key will be used to encrypt and decrypt JWE user data",
-          "label": "Encryption Key",
-          "placeholder": "Leave it blank for no encryption"
+          "hint": "Denna nyckel kommer att användas för att kryptera och dekryptera JWE användardata",
+          "label": "Krypteringsnyckel",
+          "placeholder": "Lämna tomt för okrypterat"
         },
         "gather_social_data": {
-          "hint": "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
-          "label": "Gather Social Data"
+          "hint": "Samla in profiler från sociala medier (t.ex. LinkedIn, Twitter, m.m.) för mina användare via en tredje part",
+          "label": "Samla in sociala data"
         },
         "inline_conversation": {
-          "hint": "This option will not open chat box widget",
-          "label": "Display new messages in floating box"
+          "hint": "Det här alternativet kommer inte att öppna widgeten för chatten",
+          "label": "Visa nya meddelanden i en flytande ruta"
         },
         "languages": {
-          "select_lang": "select lang"
+          "select_lang": "välj språk"
         },
         "logo": {
           "hint": null,
-          "label": "Logo"
+          "label": "Logotyp"
         },
         "name": {
           "hint": null,
-          "label": "Name"
+          "label": "Namn"
         },
         "outgoing_email_domain": {
-          "hint": "The email domain to send conversations, for @yourapp use 'your app'",
-          "label": "Outgoing Email Domain"
+          "hint": "E-postdomän för att skicka konversationer, för @yourapp använd 'your app'",
+          "label": "Utgående e-postdomän"
         },
         "privacy_consent_required_all": {
-          "hint": "Will show a confirm view for All visitors before establish conversations",
-          "label": "Worldwide privacy consent required"
+          "hint": "Kommer att visa en bekräftande vy för alla besökare innan konversationer etableras",
+          "label": "Världsomspännande samtycke till sekretess krävs"
         },
         "privacy_consent_required_none": {
-          "hint": "Will not show a confirm view to anyone (not recommended)",
-          "label": "No privacy consent required"
+          "hint": "Visa inte en bekräftelsevy för någon (rekommenderas inte)",
+          "label": "Inget integritetssamtycke krävs"
         },
         "privacy_consent_required_ue": {
-          "hint": "Will show a confirm view for EU countries before establish conversations",
-          "label": "Required privacy consent for GDPR"
+          "hint": "Kommer att visa en bekräftande vy för EU-länderna innan konversationer etableras",
+          "label": "Nödvändigt samtycke till GDPR"
         },
         "register_visits": {
-          "hint": "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile",
-          "label": "Register Visits"
+          "hint": "Även om detta är inaktiverat kommer vi att samla in totala besöksantal av besök och lagra den senaste besöksinformationen på besökarens profil",
+          "label": "Registrera besök"
         },
         "tagline": {
-          "hint": "This will be rendered in the bottom of the Chat box",
+          "hint": "Detta kommer att renderas i botten av chattboxen",
           "label": "Tagline"
         },
         "timezone": {
           "hint": null,
-          "label": "Timezone"
+          "label": "Tidszon"
         }
       },
       "stats": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "createdAt": {
-          "label": "CreatedAt"
+          "label": "Skapad den"
         },
         "data": {
           "label": "Data"
         },
         "email": {
-          "label": "Email"
+          "label": "E-postadress"
         },
         "from": {
-          "label": "From"
+          "label": "Från"
         },
         "host": {
-          "label": "Host"
+          "label": "Värd"
         },
         "when": {
-          "label": "When"
+          "label": "Den"
         }
       },
       "webhooks": {
         "enabled": {
-          "label": "enable webhook"
+          "label": "aktivera webhook"
         },
         "tag_list": {
-          "hint": "chaskiq will deliver this events to configured endpoint",
-          "label": "events to send"
+          "hint": "chaskiq kommer att leverera dessa händelser till konfigurerad slutpunkt",
+          "label": "händelser att skicka"
         },
         "url": {
-          "hint": "we'll send POST requests",
-          "label": "url for outgoing webhook"
+          "hint": "vi skickar POST-förfrågningar",
+          "label": "url för utgående webhook"
         }
       }
     },
@@ -34853,28 +35189,44 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Spara",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
-        "api_access": "API access",
-        "app_settings": "App Settings",
-        "article_settings": "Settings",
-        "articles": "Articles",
+        "api_access": "API-åtkomst",
+        "app_settings": "Appinställningar",
+        "article_settings": "Inställningar",
+        "articles": "Artiklar",
         "assignment_rules": "Assignment Rules",
         "banners": "Banners",
-        "billing": "Billing",
-        "bot_settings": "Bot Tasks",
-        "collections": "Collections",
+        "billing": "Fakturering",
+        "bot_settings": "Botuppgifter",
+        "collections": "Samlingar",
         "conversations": "Conversations",
         "for_leads": "For Leads",
-        "for_users": "For Users",
+        "for_users": "För användare",
         "guided_tours": "Guided Tours",
         "in_app_messages": "In App Messages",
-        "integrations": "Integrations",
+        "integrations": "Integrationer",
         "mailing_campaigns": "Mailing Campaigns",
-        "messenger_settings": "Messenger settings",
-        "new_conversations": "New conversations",
-        "outbound": "Outbound",
+        "messenger_settings": "Chattinställningar",
+        "new_conversations": "Nya konversationer",
+        "outbound": "Utgående",
         "team": "Team",
         "webhooks": "Webhooks"
       },
@@ -34885,10 +35237,10 @@
       "routing_bots": "Routing Bots",
       "settings": "Settings",
       "user_menu": {
-        "create_app": "Create new app",
-        "create_app_description": "Create your company’s Chaskiq app",
-        "signout": "Sign out",
-        "title": "User menu"
+        "create_app": "Skapa ny app",
+        "create_app_description": "Skapa ditt företags Chaskiq-app",
+        "signout": "Logga ut",
+        "title": "Användarmeny"
       }
     },
     "new_app": {
@@ -35204,7 +35556,7 @@
       "created_success": "Successfully created",
       "deleted_error": "Error deleting",
       "deleted_success": "Successfully deleted",
-      "error": "Error",
+      "error": "Fel",
       "reordered_error": "Error reordering",
       "reordered_success": "Successfully Reordered",
       "success": "Success",
@@ -35344,7 +35696,7 @@
     "task_bots": {
       "add_data_option": "+ add data option",
       "add_follow_action": "Add Follow Action",
-      "add_path": "Add new conversation part",
+      "add_path": "Lägg till ny konversationsdel",
       "assign_agent": "assign_agent",
       "assignee_agent": "Assignee Agent",
       "close_conversation": "close conversation",
@@ -35357,14 +35709,14 @@
         "hint": "we will destroy any content and related data",
         "title": "Delete bot \"%{name}\""
       },
-      "delete_path": "delete path",
+      "delete_path": "ta bort sökväg",
       "email_requirement": {
         "ack": "Thank you",
         "input_label": "Get notified by email",
         "message": "Give the team a way to reach you",
         "placeholder": "Enter your email"
       },
-      "email_support": "to get support you can email at %{email}",
+      "email_support": "för att få hjälp kan du maila på %{email}",
       "empty": {
         "create_new": "Create a new one",
         "title": "No bot tasks found"
@@ -35373,19 +35725,19 @@
       "end_with_follow": "End bot with follow actions",
       "follow_actions": "follow actions",
       "new": "Create new task",
-      "new_conversations": "👋 New conversations",
-      "new_conversations_notice": "This is what people will see when they start a new conversation",
+      "new_conversations": "👋 Nya konversationer",
+      "new_conversations_notice": "Detta är vad som kommer visas när en ny konversation startar",
       "options": {
-        "add_app_package": "Add App",
-        "add_message": "Add Message Bubble",
-        "wait_user_input": "Wait for user input"
+        "add_app_package": "Lägg till app",
+        "add_message": "Lägg till en meddelandebubbla",
+        "wait_user_input": "Vänta på användarinmatning"
       },
-      "outbound": "🏓 Outbound",
-      "path_title_hint": "path title",
+      "outbound": "🏓 Utgående",
+      "path_title_hint": "sökvägens titel",
       "remove_success": "bot removed",
-      "reply_agent": "you will get a reply from one of our agents",
+      "reply_agent": "du kommer få ett svar från en av våra agenter",
       "reply_button": "reply button",
-      "reply_soon": "Hi, %{name} will reply as soon as they can.",
+      "reply_soon": "Hej, %{name} svarar så fort de kan.",
       "save_data": "Save data",
       "settings": {
         "custom_time": "Custom time",
@@ -35427,10 +35779,10 @@
         }
       },
       "state_filters": {
-        "disabled_description": "Disabled bot tasks",
-        "disabled_title": "Disabled",
-        "enabled_description": "enabled bot tasks",
-        "enabled_title": "Enabled"
+        "disabled_description": "Inaktiverade botuppgifter",
+        "disabled_title": "Inaktiverad",
+        "enabled_description": "aktiverade botuppgifter",
+        "enabled_title": "Aktiverad"
       },
       "support": {
         "ask": "Are you an existing %{name} customer ?",
@@ -35443,14 +35795,14 @@
           "op2": "ok, let us know if you need something and an agent will reply as soon as possible"
         }
       },
-      "title": "Bot Tasks",
+      "title": "Botuppgifter",
       "type_filters": {
-        "description_leads": "Visitors who make an actions",
-        "description_users": "your platform's registered users",
-        "description_visitors": "visitors on the platform",
+        "description_leads": "Besökare som gör en handling",
+        "description_users": "plattformens registrerade användare",
+        "description_visitors": "besökare på plattformen",
         "title_leads": "Leads",
-        "title_users": "Users",
-        "title_visitors": "Visitors"
+        "title_users": "Användare",
+        "title_visitors": "Besökare"
       }
     },
     "time": {
@@ -36428,6 +36780,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -38007,6 +38375,22 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
@@ -39581,6 +39965,22 @@
       "hmac_hint1": "要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。",
       "lang": "您为您的应用生成HMAC的代码是",
       "title": "已验证用户设置"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "保存",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "营销活动 Campaigns",

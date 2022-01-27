@@ -42,7 +42,7 @@ export function openMessenger (cb, options, sessionless) {
 export function login () {
   cy.appScenario('basic')
   cy.visit('/')
-  cy.contains('Sign in')
+  cy.contains('Connect')
 
   cy.wait(1000)
 
