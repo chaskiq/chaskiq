@@ -427,6 +427,7 @@ function Sidebar({
                       <Link
                         key={`sidebar-section-child-${id}-${childId}`}
                         to={url}
+                        aria-label={label}
                         disabled={!allowed}
                         className={`
                         ${active ? 'bg-gray-200 dark:bg-black' : ''} 

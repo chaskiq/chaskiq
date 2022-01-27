@@ -211,11 +211,6 @@ class AppSettingsContainer extends Component<
         tabs={[
           {
             label: I18n.t('settings.app.app_settings'),
-            content: <p>oliii</p>,
-          },
-
-          {
-            label: I18n.t('settings.app.app_settings'),
             content: (
               <SettingsForm
                 title={I18n.t('settings.app.app_settings')}

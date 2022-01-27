@@ -22,10 +22,11 @@ describe('AppPackages', function () {
 
     cy.visit('/apps')
     cy.contains('my app').click()
-    cy.get("a[aria-label='Settings']")
-      .click({ force: true }).then(() => {
-        cy.contains('Access denied')
-      })
+    cy.get("a[aria-label='Settings']").click({ force: true })
+    cy.get("a[aria-label='App Settings']").click({ force: true })
+    
+    cy.contains('Access denied')
+
   })
 
   it('Manage AppPackages', function () {
