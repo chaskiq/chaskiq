@@ -11,7 +11,7 @@ class Agents::TokensController < Doorkeeper::TokensController
 
     render json: authorize_response.body,
            status: authorize_response.status
-  rescue Errors::DoorkeeperError => e
+  rescue Doorkeeper::Errors::DoorkeeperError => e
     handle_token_exception(e)
   end
 
