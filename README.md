@@ -49,6 +49,9 @@
 - API support - consumable via GrapqhQL with Oauth authorization
 - Quick replies (as canned responses)
 - Configurable Data protection (GDPR) consent
+- Audits on Access and records changes
+- Composable Roles access/permissions system
+- Pluggable Reports
 
 And many features to come
 

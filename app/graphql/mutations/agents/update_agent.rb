@@ -12,9 +12,12 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
         agent = app.agents.find_by(email: email) # , name: 'John Doe')
 
-        authorize! agent, to: :can_manage_team?, with: AppPolicy, context: {
-          app: app
-        }
+        authorize! agent,
+                   to: :can_manage_own_profile?,
+                   with: AppPolicy,
+                   context: {
+                     app: app
+                   }
 
         data = params.permit(
           :name,
@@ -33,14 +36,9 @@ module Mutations
         # data.merge!({avatar: avatar}) if avatar.present?
 
         agent.update(data)
-
         track_resource_event(agent, :agent_update, agent.saved_changes, app.id) if agent.errors.blank?
 
         { agent: agent }
-      end
-
-      def current_user
-        context[:current_user]
       end
     end
   end

@@ -20,8 +20,8 @@ program_manager:
     - conversations
     - reports
     - segments
-    - team
   read:
+    - team
     - users
   write:
 admin_only:
