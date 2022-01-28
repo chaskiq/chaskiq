@@ -73,6 +73,7 @@
     create_new: Create new app
     choose_lang: Choose language
     edit_profile: Edit profile
+    edit_credentials: Edit user credentials
     go_to_doc: Go to documentation
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
