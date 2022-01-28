@@ -73,6 +73,7 @@ ca:
     create_new: Crea una nova aplicació
     choose_lang: Trieu l'idioma
     edit_profile: Edita el perfil
+    edit_credentials: Edit user credentials
     go_to_doc: Aneu a la documentació
   dashboard:
     hey: "👋 Ei, esteu veient el tauler de <strong>%{name} </strong>! <br /> Obteniu el fragment d'instal·lació per a la configuració web <br />"
