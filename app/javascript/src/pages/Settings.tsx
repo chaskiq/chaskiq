@@ -1,25 +1,9 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-
+import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SettingsForm from './settings/form';
-import Tags from './settings/Tags';
-import QuickReplies from './settings/QuickReplies';
-import UserData from './settings/UserDataFields';
-import VerificationView from './settings/VerificationView';
-import ContactAvatars from './settings/ContactAvatars';
-import timezones from '../shared/timezones';
 import I18n from '../shared/FakeI18n';
 
-import graphql from '@chaskiq/store/src/graphql/client';
-
 import Content from '@chaskiq/components/src/components/Content';
-import Tabs from '@chaskiq/components/src/components/Tabs';
-import ContentHeader from '@chaskiq/components/src/components/PageHeader';
-import {
-  getFileMetadata,
-  directUpload,
-} from '@chaskiq/components/src/components/fileUploader';
 
 import {
   setCurrentPage,
@@ -63,19 +47,19 @@ function AppSettingsContainer({ app, dispatch }) {
               {items.map((item) => (
                 <li className="flow-root">
                   <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                    <div className="text-white flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-pink-500">
+                    <div className="text-white flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-black">
                       {item.icon}
                     </div>
                     <div>
                       <h3 className="text-sm font-medium text-gray-900">
-                        <a href="#" className="focus:outline-none">
+                        <Link to={item.url} className="focus:outline-none">
                           <span
                             className="absolute inset-0"
                             aria-hidden="true"
                           ></span>
                           {item.label}
                           <span aria-hidden="true"> &rarr;</span>
-                        </a>
+                        </Link>
                       </h3>
                       <p className="mt-1 text-sm text-gray-500"></p>
                     </div>
@@ -83,15 +67,6 @@ function AppSettingsContainer({ app, dispatch }) {
                 </li>
               ))}
             </ul>
-            <div className="mt-4 flex">
-              <a
-                href="#"
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Or start from an empty project
-                <span aria-hidden="true"> &rarr;</span>
-              </a>
-            </div>
           </div>
         </React.Fragment>
       )}

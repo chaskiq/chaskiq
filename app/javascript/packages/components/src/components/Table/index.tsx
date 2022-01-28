@@ -5,12 +5,19 @@ import Button from '../Button';
 import Tooltip from 'rc-tooltip';
 import { MapIcon, ColumnsIcon, QueueIcon } from '../icons';
 import I18n from '../../../../../src/shared/FakeI18n';
+import ReactMarkdown from 'react-markdown';
 
 import {
   SortableContainer,
   SortableElement,
   SortableHandle,
 } from 'react-sortable-hoc';
+import tw from 'twin.macro';
+import styled from '@emotion/styled';
+
+const MarkdownStyle = styled.div`
+  ${tw`cursor-pointer font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500`}
+`;
 
 type MetaType = {
   total_count?: number;
@@ -57,27 +64,35 @@ export default function Table({
     return <tbody className="bg-white dark:bg-gray-800">{children}</tbody>;
   });
 
-  const DragHandle = SortableHandle(() =>
-    renderDefaultRow(
+  const DragHandle = SortableHandle(() => (
+    <DefaultRow>
       <QueueIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-    )
-  );
+    </DefaultRow>
+  ));
 
-  const renderDefaultRow = (value) => {
-    return (
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-gray-50">
-        {value}
-      </td>
-    );
+  const renderHandler = (item, object) => {
+    switch (object.renderer_type) {
+      case 'markdown':
+        return (
+          <MarkdownStyle>
+            <ReactMarkdown source={item[object.field]} />
+          </MarkdownStyle>
+        );
+
+      default:
+        return item[object.field];
+    }
   };
 
   const SortableItem = SortableElement(({ item, sortable }) => (
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-900">
-      {sortable && <DragHandle></DragHandle>}
+      {sortable && <DragHandle key="drag-handle" />}
 
-      {visibleColumns().map((object) => {
-        return renderDefaultRow(
-          object.render ? object.render(item) : item[object.field]
+      {visibleColumns().map((object, index) => {
+        return (
+          <DefaultRow key={`visible-col-${index}`}>
+            {object.render ? object.render(item) : renderHandler(item, object)}
+          </DefaultRow>
         );
       })}
     </tr>
@@ -121,9 +136,9 @@ export default function Table({
                   reorder
                 </th>
               )}
-              {visibleColumns().map((o) => (
+              {visibleColumns().map((o, i) => (
                 <th
-                  key={`visible-col-${o.title}`}
+                  key={`visible-col-${i}-${o.title}`}
                   className="px-6 py-3 text-left text-xs leading-4
                   font-medium text-gray-500 uppercase tracking-wider"
                 >
@@ -137,7 +152,7 @@ export default function Table({
               data.map((o, index) => (
                 <SortableItem
                   sortable={sortable}
-                  key={`item-${index}`}
+                  key={`sortable-item-${index}`}
                   index={index}
                   item={o}
                 />
@@ -150,6 +165,14 @@ export default function Table({
         <Pagination meta={meta} search={search} />
       )}
     </React.Fragment>
+  );
+}
+
+function DefaultRow({ children }) {
+  return (
+    <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-gray-50">
+      {children}
+    </td>
   );
 }
 

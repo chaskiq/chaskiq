@@ -47,6 +47,10 @@ class AppPolicy < ActionPolicy::Base
     end
   end
 
+  def can_manage_own_profile?
+    can_manage_team? || @record.agent == @user
+  end
+
   def find_role_by_resource
     if @record.is_a?(App)
       return true if @record.owner_id == @user.id

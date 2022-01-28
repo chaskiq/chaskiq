@@ -132,7 +132,7 @@ module UserHandler
         password: attrs[:password]
       },
       bot: nil,
-      role_attrs: { access_list: ["manage"] }
+      role_attrs: { access_list: ["manage"], role: "admin" }
     )
   end
 
