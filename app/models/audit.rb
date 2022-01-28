@@ -1,7 +1,7 @@
 class Audit < ApplicationRecord
   belongs_to :agent
   belongs_to :app, optional: true
-  belongs_to :auditable, polymorphic: true
+  belongs_to :auditable, polymorphic: true, optional: true
 
   AUDITABLE_ACTIONS = %i[
     agent_log_in

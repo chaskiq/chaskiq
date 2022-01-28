@@ -16,9 +16,18 @@ module Mutations
           app: app
         }
 
-        agent.destroy
-
-        track_resource_event(agent, :agent_destroy, {}, app.id)
+        ActiveRecord::Base.transaction do
+          role.destroy
+          Audit.create(
+            auditable_id: role.id,
+            auditable_type: role.class,
+            action: :agent_destroy,
+            agent: current_user,
+            data: role.as_json,
+            ip: context[:request].remote_ip,
+            app_id: app.id
+          )
+        end
 
         { agent: agent }
       end
