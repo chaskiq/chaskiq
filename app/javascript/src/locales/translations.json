@@ -12314,6 +12314,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",

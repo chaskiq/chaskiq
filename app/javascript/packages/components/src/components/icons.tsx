@@ -21,6 +21,23 @@ const BaseIcon = styled.svg<BaseIconType>`
   }};
 `;
 
+export function KeyIcon(props) {
+  return (
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path
+        d="M.5 14.5l8-8m-6 6l2 2m0-4l2 2m4.5-5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"
+        stroke="currentColor"
+      ></path>
+    </BaseIcon>
+  );
+}
+
 export function WidgetsIcon(props) {
   return (
     <BaseIcon
@@ -384,6 +401,17 @@ export function FactoryIcon(props) {
       <path
         d="M10.5,20 L5.5,20 L0,20 L0,7 L5,10.3333333 L5,7 L10,10.3333333 L10,7 L15,10.3333333 L15,0 L20,0 L20,20 L15.5,20 L10.5,20 Z"
         id="Combined-Shape"
+      ></path>
+    </BaseIcon>
+  );
+}
+
+export function LogoutIcon(props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 15 15">
+      <path
+        d="M13.5 7.5l-3 3.25m3-3.25l-3-3m3 3H4m4 6H1.5v-12H8"
+        stroke="currentColor"
       ></path>
     </BaseIcon>
   );
