@@ -73,6 +73,7 @@ fr:
     create_new: Créer une nouvelle app
     choose_lang: Choisissez la langue
     edit_profile: Éditer profil
+    edit_credentials: Edit user credentials
     go_to_doc: Accéder à la documentation
   dashboard:
     hey: "👋 Hé !, vous regardez le tableau de bord <strong>du</strong> de%{name}! <br /> Obtenez un snippet d'installation pour la configuration du web <br />"
