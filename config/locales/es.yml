@@ -73,6 +73,7 @@ es:
     create_new: Crear una nueva aplicación
     choose_lang: Seleccionar idioma
     edit_profile: Editar perfil
+    edit_credentials: Edit user credentials
     go_to_doc: Ir a la documentación
   dashboard:
     hey: "👋 ¡Hola! ¡Estás viendo el panel de control de <strong>%{name}de</strong> ! <br /> Obtén un fragmento de instalación para la configuración web <br />"
