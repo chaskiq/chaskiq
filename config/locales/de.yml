@@ -73,6 +73,7 @@ de:
     create_new: Neue Anwendung erstellen
     choose_lang: Sprache auswählen
     edit_profile: Profil bearbeiten
+    edit_credentials: Edit user credentials
     go_to_doc: Zur Dokumentation
   dashboard:
     hey: "👋 Hey!, Du siehst dir gerade das <strong>%{name}</strong> Dashboard an! <br /> Hole Dir das Installations-Snippet für das Web-Setup <br />"

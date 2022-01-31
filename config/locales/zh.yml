@@ -73,6 +73,7 @@ zh-CN:
     create_new: 创建应用
     choose_lang: 选择语言：
     edit_profile: 编辑个人资料
+    edit_credentials: Edit user credentials
     go_to_doc: 转到文档
   dashboard:
     hey: "👋 Hey!, 你正在查看 <strong>%{name} 的</strong> 仪表板！ <br /> 为网页设置获取安装代码 <br />"
