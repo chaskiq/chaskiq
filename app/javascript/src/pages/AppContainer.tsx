@@ -38,7 +38,10 @@ import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
 import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { setApp } from '@chaskiq/store/src/actions/app';
-import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
+import {
+  camelizeKeys,
+  dispatchUpdateConversationData,
+} from '@chaskiq/store/src/actions/conversation';
 
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
 import LoadingView from '@chaskiq/components/src/components/loadingView';
@@ -116,6 +119,10 @@ function AppContainer({
           switch (data.type) {
             case 'conversation_part':
               return dispatch(appendConversation(camelizeKeys(data.data)));
+            case 'conversations:update_state':
+              return dispatch(
+                dispatchUpdateConversationData(camelizeKeys(data.data))
+              );
             case 'presence':
               return updateUser(camelizeKeys(data.data));
             case 'rtc_events':

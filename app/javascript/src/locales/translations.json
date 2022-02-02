@@ -948,6 +948,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -2544,6 +2545,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -4138,6 +4140,7 @@
     "home": {
       "choose_lang": "Trieu l'idioma",
       "create_new": "Crea una nova aplicació",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edita el perfil",
       "go_to_doc": "Aneu a la documentació",
       "tagline": "Troba la teva localització actual",
@@ -5732,6 +5735,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -7333,6 +7337,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -8925,6 +8930,7 @@
     "home": {
       "choose_lang": "Sprache auswählen",
       "create_new": "Neue Anwendung erstellen",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Profil bearbeiten",
       "go_to_doc": "Zur Dokumentation",
       "tagline": "Hier finden Sie Ihre aktuellen Anwendungen",
@@ -10517,6 +10523,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -14236,6 +14243,7 @@
     "home": {
       "choose_lang": "Seleccionar idioma",
       "create_new": "Crear una nueva aplicación",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Editar perfil",
       "go_to_doc": "Ir a la documentación",
       "tagline": "Encuentra tu ubicación actual",
@@ -16004,6 +16012,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -17599,6 +17608,7 @@
     "home": {
       "choose_lang": "Choisissez la langue",
       "create_new": "Créer une nouvelle app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Éditer profil",
       "go_to_doc": "Accéder à la documentation",
       "tagline": "Trouvez vos applications actuelles ici",
@@ -19252,6 +19262,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -20844,6 +20855,7 @@
     "home": {
       "choose_lang": "Scegli la lingua",
       "create_new": "Crea una nuova app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Modifica profilo",
       "go_to_doc": "Vai alla documentazione",
       "tagline": "Trova qui le applicazioni correnti",
@@ -22435,6 +22447,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -24026,6 +24039,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -25618,6 +25632,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -27210,6 +27225,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -28804,6 +28820,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -30396,6 +30413,7 @@
     "home": {
       "choose_lang": "Escolher idioma",
       "create_new": "Criar nova app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Editar perfil",
       "go_to_doc": "Ir para a documentação",
       "tagline": "Encontrar a sua localização atual",
@@ -31989,6 +32007,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -33583,6 +33602,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -35175,6 +35195,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -36767,6 +36788,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -38361,6 +38383,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -39952,6 +39975,7 @@
     "home": {
       "choose_lang": "选择语言：",
       "create_new": "创建应用",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "编辑个人资料",
       "go_to_doc": "转到文档",
       "tagline": "找到您当前的应用程序",
