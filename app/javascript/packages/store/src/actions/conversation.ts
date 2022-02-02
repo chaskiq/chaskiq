@@ -380,6 +380,13 @@ function dispatchUpdateConversations(data) {
   };
 }
 
+export function dispatchUpdateConversationData(data) {
+  return {
+    type: ActionTypes.UpdateConversation,
+    data: data,
+  };
+}
+
 export function playSound() {
   pling.volume = 0.4;
   pling.play();
@@ -398,7 +405,7 @@ export default function reducer(
       return action.data;
     }
     case ActionTypes.UpdateConversation: {
-      return { ...action.data, ...state };
+      return { ...state, ...action.data };
     }
     default:
       return state;
