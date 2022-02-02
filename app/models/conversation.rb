@@ -107,6 +107,7 @@ class Conversation < ApplicationRecord
 
   def log_prioritized
     events.log(action: :conversation_prioritized)
+    notify_conversation_state_update
   end
 
   def toggle_priority
