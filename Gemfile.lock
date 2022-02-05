@@ -301,7 +301,7 @@ GEM
     grpc (1.38.0)
       google-protobuf (~> 3.15)
       googleapis-common-protos-types (~> 1.0)
-    haml (5.2.1)
+    haml (5.2.2)
       temple (>= 0.8.0)
       tilt
     hashdiff (1.0.1)
@@ -508,6 +508,16 @@ GEM
     ruby2_keywords (0.0.4)
     ruby_dep (1.5.0)
     rubyzip (2.3.0)
+    sass-rails (6.0.0)
+      sassc-rails (~> 2.1, >= 2.1.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     scout_apm (2.6.10)
       parser
     shoulda (4.0.0)
@@ -656,6 +666,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   ruby-oembed
+  sass-rails
   scout_apm (~> 2.6)
   shoulda
   shoulda-matchers
