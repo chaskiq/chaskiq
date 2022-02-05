@@ -5,8 +5,6 @@ import Tooltip from 'rc-tooltip';
 import icon from '../images/favicon.png';
 import {
   MoreIcon,
-  WebhooksIcon,
-  ApiIcon,
   DashboardIcon,
   PlatformIcon,
   ConversationChatIcon,
@@ -24,14 +22,10 @@ import {
   ArticlesIcon,
   CollectionsIcon,
   ChatIcon,
-  BillingIcon,
-  IntegrationsIcon,
-  TeamIcon,
-  MessengerIcon,
-  AppSettingsIcon,
   DarkModeIcon,
   LightModeIcon,
   ChartsIcons,
+  KeyIcon,
 } from '@chaskiq/components/src/components/icons';
 
 import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
@@ -58,7 +52,13 @@ import { signout } from '@chaskiq/store/src/actions/auth';
 import SwitchControl from '@chaskiq/components/src/components/Switch';
 
 import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
+import { LangGlobeIcon } from '@chaskiq/components/src/components/icons';
+import { PlusIcon } from '@chaskiq/components/src/components/icons';
+import { EditIcon } from '@chaskiq/components/src/components/icons';
+import { LogoutIcon } from '@chaskiq/components/src/components/icons';
 
+// Icons from https://teenyicons.com/
+import app_settings_items from './settingsItems';
 declare global {
   interface Window {
     location: Location;
@@ -396,68 +396,7 @@ function Sidebar({
         </svg>
       ),
       url: `/apps/${app.key}/settings`,
-      children: [
-        {
-          id: 'App Settings',
-          label: I18n.t('navigator.childs.app_settings'),
-          icon: <AppSettingsIcon />,
-          url: `/apps/${app.key}/settings`,
-          active: isActivePage('app_settings'),
-          allowed: allowedAccessTo(app, 'app_settings'),
-        },
-
-        {
-          id: 'Messenger',
-          label: I18n.t('navigator.childs.messenger_settings'),
-          icon: <MessengerIcon />,
-          url: `/apps/${app.key}/messenger`,
-          active: isActivePage('messenger'),
-          allowed: allowedAccessTo(app, 'app_settings'),
-        },
-
-        {
-          id: 'Team',
-          label: I18n.t('navigator.childs.team'),
-          icon: <TeamIcon />,
-          url: `/apps/${app.key}/team`,
-          active: isActivePage('team'),
-          allowed: allowedAccessTo(app, 'team'),
-        },
-        {
-          id: 'Integrations',
-          label: I18n.t('navigator.childs.integrations'),
-          icon: <IntegrationsIcon />,
-          url: `/apps/${app.key}/integrations`,
-          active: isActivePage('integrations'),
-          allowed: allowedAccessTo(app, 'app_packages'),
-        },
-        {
-          id: 'Webhooks',
-          label: I18n.t('navigator.childs.webhooks'),
-          icon: <WebhooksIcon />,
-          url: `/apps/${app.key}/webhooks`,
-          active: isActivePage('webhooks'),
-          allowed: allowedAccessTo(app, 'outgoing_webhooks'),
-        },
-        {
-          id: 'Api access',
-          label: I18n.t('navigator.childs.api_access'),
-          icon: <ApiIcon />,
-          url: `/apps/${app.key}/oauth_applications`,
-          active: isActivePage('oauth_applications'),
-          allowed: allowedAccessTo(app, 'oauth_applications'),
-        },
-        {
-          id: 'Billing',
-          icon: <BillingIcon />,
-          hidden: !app.subscriptionsEnabled,
-          label: I18n.t('navigator.childs.billing'),
-          url: `/apps/${app.key}/billing`,
-          active: isActivePage('billing'),
-          allowed: allowedAccessTo(app, 'billing'),
-        },
-        // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
-      ],
+      children: app_settings_items(app, isActivePage),
     },
   ];
 
@@ -495,6 +434,7 @@ function Sidebar({
                       <Link
                         key={`sidebar-section-child-${id}-${childId}`}
                         to={url}
+                        aria-label={label}
                         disabled={!allowed}
                         className={`
                         ${active ? 'bg-gray-200 dark:bg-black' : ''} 
@@ -655,38 +595,51 @@ function Sidebar({
                           description: I18n.t(
                             'navigator.user_menu.create_app_description'
                           ),
-                          // icon: <SendIcon />,
                           id: 'new-app',
                           onClick: () => history.push('/apps/new'),
+                          icon: <PlusIcon />,
                         },
 
                         {
                           id: 'choose-lang',
                           title: I18n.t('home.choose_lang'),
                           onClick: openLangChooser,
+                          icon: <LangGlobeIcon />,
                         },
                         {
                           id: 'edit-profile',
                           title: I18n.t('home.edit_profile'),
+                          icon: <EditIcon />,
+                          onClick: () =>
+                            history.push(
+                              `/apps/${app.key}/agents/${current_user.id}`
+                            ),
+                          //onClick: () =>
+                          //  (window.location.href = '/agents/edit'),
+                        },
+                        {
+                          id: 'edit-credentials',
+                          title: I18n.t('home.edit_credentials'),
+                          icon: (
+                            <span className="flex space-x-2 items-center">
+                              <KeyIcon />
+                            </span>
+                          ),
                           onClick: () =>
                             (window.location.href = '/agents/edit'),
                         },
                         {
                           id: 'toggle-dark-mode',
-                          title: (
-                            <span className="flex space-x-2 items-center">
-                              {theme === 'light' ? (
-                                <DarkModeIcon />
-                              ) : (
-                                <LightModeIcon />
-                              )}
-                              <span>
-                                {theme === 'light'
-                                  ? I18n.t('common.toggle_dark_mode')
-                                  : I18n.t('common.toggle_light_mode')}
-                              </span>
-                            </span>
-                          ),
+                          title:
+                            theme === 'light'
+                              ? I18n.t('common.toggle_dark_mode')
+                              : I18n.t('common.toggle_light_mode'),
+                          icon:
+                            theme === 'light' ? (
+                              <DarkModeIcon />
+                            ) : (
+                              <LightModeIcon />
+                            ),
                           onClick: () =>
                             dispatch(
                               toggleTheme(theme === 'light' ? 'dark' : 'light')
@@ -694,8 +647,7 @@ function Sidebar({
                         },
                         {
                           title: I18n.t('navigator.user_menu.signout'),
-                          // description: "delivers the campaign",
-                          // icon: <SendIcon />,
+                          icon: <LogoutIcon />,
                           id: 'sign-out',
                           onClick: handleSignout,
                         },

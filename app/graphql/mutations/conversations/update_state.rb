@@ -19,8 +19,7 @@ module Mutations
         }
 
         if %w[reopen close].include?(state)
-          @conversation.send(state.to_sym)
-          @conversation.save
+          @conversation.send("#{state}!".to_sym)
           track_event(state)
         end
 

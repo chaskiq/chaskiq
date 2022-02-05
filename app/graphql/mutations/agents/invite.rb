@@ -24,11 +24,9 @@ module Mutations
           agent.deliver_invitation
         end
 
-        { agent: agent }
-      end
+        track_resource_event(agent, :agent_invite, nil, app.id)
 
-      def current_user
-        context[:current_user]
+        { agent: agent }
       end
     end
   end

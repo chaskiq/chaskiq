@@ -167,12 +167,11 @@ module MessageApis::Slack
     def trigger(event)
       subject = event.eventable
       action = event.action
-
       case action
       when "visitors.convert" then notify_new_lead(subject)
       when "conversation.user.first.comment" then notify_added(subject)
       when "conversations.assigned", "conversations.prioritized", "conversations.started",
-        "conversations.added", "conversations.closed"
+        "conversations.added", "conversations.closed", "conversations.reopened"
         update_thread_head(subject)
         # when "conversations.added" then notify_added(subject)
       end
@@ -340,7 +339,11 @@ module MessageApis::Slack
     end
 
     def conversation_status_blocks(conversation)
-      state_action = conversation.opened? ? action_button(value: "close", text: "Close", style: nil) : action_button(value: "open", text: "Open", style: nil)
+      state_action = if conversation.opened?
+                       action_button(value: "close", text: "Close", style: nil)
+                     else
+                       action_button(value: "open", text: "Open", style: nil)
+                     end
 
       priority_action = if conversation.priority
                           action_button(value: "unprioritize", text: "UnPrioritize", style: "danger")
@@ -547,9 +550,9 @@ module MessageApis::Slack
 
         case action["value"]
         when "open"
-          conversation.reopen unless conversation.opened?
+          conversation.reopen! unless conversation.opened?
         when "close"
-          conversation.close unless conversation.closed?
+          conversation.close! unless conversation.closed?
         when "prioritize", "unprioritize"
           conversation.toggle_priority
         else
@@ -558,7 +561,8 @@ module MessageApis::Slack
             handle_external_select_action(action, conversation)
           end
         end
-        update_thread_head(conversation, slack_ts)
+        # this is not neccessary since the events will end executing a trigger ending delivering to slack
+        # update_thread_head(conversation.reload, slack_ts)
       end
     end
 

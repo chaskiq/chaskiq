@@ -73,6 +73,7 @@ ca:
     create_new: Crea una nova aplicació
     choose_lang: Trieu l'idioma
     edit_profile: Edita el perfil
+    edit_credentials: Edit user credentials
     go_to_doc: Aneu a la documentació
   dashboard:
     hey: "👋 Ei, esteu veient el tauler de <strong>%{name} </strong>! <br /> Obteniu el fragment d'instal·lació per a la configuració web <br />"
@@ -126,6 +127,20 @@ ca:
       create_app_description: 'Crea l''aplicació Chaskiq de la teva empresa'
       signout: Tanca sessió
       title: Menú d'usuari
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Desa
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: Iniciar conversa
     title: Converses

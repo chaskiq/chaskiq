@@ -7,7 +7,7 @@ ruby "2.7.5"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
-gem "rails", "6.1.4.1" # , github: "rails/rails",
+gem "rails", "6.1.4.4" # , github: "rails/rails",
 
 gem "anycable-rails"
 # Use sqlite3 as the database for Active Record
@@ -23,7 +23,7 @@ gem "uglifier", ">= 1.3.0"
 # gem 'mini_racer', platforms: :ruby
 gem "haml"
 
-gem "devise", "4.7.1" # github: "plataformatec/devise"
+gem "devise" #"4.7.1" # github: "plataformatec/devise"
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'

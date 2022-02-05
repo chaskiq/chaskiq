@@ -21,6 +21,7 @@ program_manager:
     - reports
     - segments
   read:
+    - team
     - users
   write:
 admin_only:

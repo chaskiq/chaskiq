@@ -2,227 +2,227 @@ sv:
   definitions:
     articles:
       title:
-        label: Title
+        label: Titel
       author:
-        label: Author
+        label: Författare
       state:
-        label: State
+        label: Tillstånd
       collection:
-        label: Collection
+        label: Samling
       actions:
-        label: Actions
+        label: Åtgärder
       website:
-        label: Website
-        hint: Website of your main domain
+        label: Webbplats
+        hint: Webbplats för din huvuddomän
       domain:
-        label: Domain
-        hint: Domain of the Help Center
+        label: Domän
+        hint: Domän för hjälpcentret
       subdomain:
-        label: Subdomain
-        hint: Subdomain in which the Help Center will be available
+        label: Subdomän
+        hint: Subdomän där hjälpcentret kommer att vara tillgängligt
       google_code:
         label: Google Code
-        hint: Google tracking ID
+        hint: Google spårnings-ID
       credits:
-        label: Show credits
+        label: Visa krediter
         hint: ""
     settings:
       name:
-        label: Name
+        label: Namn
         hint:
       logo:
-        label: Logo
+        label: Logotyp
         hint:
       enable_articles:
-        label: "Display article on chat window"
-        hint: "This option will display the articles in the home section of the messenger"
+        label: "Visa artikel i chattfönstret"
+        hint: "Det här alternativet kommer att visa artiklarna i hemavsnittet för chatten"
       inline_conversation:
-        label: Display new messages in floating box
-        hint: This option will not open chat box widget
+        label: Visa nya meddelanden i en flytande ruta
+        hint: Det här alternativet kommer inte att öppna widgeten för chatten
       encryption_key:
-        label: Encryption Key
-        placeholder: "Leave it blank for no encryption"
-        hint: This key will be used to encrypt and decrypt JWE user data
+        label: Krypteringsnyckel
+        placeholder: "Lämna tomt för okrypterat"
+        hint: Denna nyckel kommer att användas för att kryptera och dekryptera JWE användardata
       privacy_consent_required_ue:
-        label: Required privacy consent for GDPR
-        hint: Will show a confirm view for EU countries before establish conversations
+        label: Nödvändigt samtycke till GDPR
+        hint: Kommer att visa en bekräftande vy för EU-länderna innan konversationer etableras
       privacy_consent_required_all:
-        label: Worldwide privacy consent required
-        hint: Will show a confirm view for All visitors before establish conversations
+        label: Världsomspännande samtycke till sekretess krävs
+        hint: Kommer att visa en bekräftande vy för alla besökare innan konversationer etableras
       privacy_consent_required_none:
-        label: No privacy consent required
-        hint: Will not show a confirm view to anyone (not recommended)
+        label: Inget integritetssamtycke krävs
+        hint: Visa inte en bekräftelsevy för någon (rekommenderas inte)
       active_messenger:
-        label: Activate messenger
-        hint: When this is activate the messenger web widget will be activated
+        label: Aktivera messenger
+        hint: När detta är aktiverat kommer widgeten för messenger att aktiveras
       domain:
-        label: Domain URL
-        hint: This will be the host site were chaskiq will be used
+        label: Domän-URL
+        hint: Detta kommer att vara värdplatsen där Chaskiq kommer att användas
       outgoing_email_domain:
-        label: Outgoing Email Domain
-        hint: The email domain to send conversations, for @yourapp use 'your app'
+        label: Utgående e-postdomän
+        hint: E-postdomän för att skicka konversationer, för @yourapp använd 'your app'
       tagline:
         label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        hint: Detta kommer att renderas i botten av chattboxen
       timezone:
-        label: Timezone
+        label: Tidszon
         hint:
       gather_social_data:
-        label: Gather Social Data
-        hint: "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party"
+        label: Samla in sociala data
+        hint: "Samla in profiler från sociala medier (t.ex. LinkedIn, Twitter, m.m.) för mina användare via en tredje part"
       register_visits:
-        label: Register Visits
-        hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
+        label: Registrera besök
+        hint: "Även om detta är inaktiverat kommer vi att samla in totala besöksantal av besök och lagra den senaste besöksinformationen på besökarens profil"
       languages:
-        select_lang: "select lang"
+        select_lang: "välj språk"
     campaigns:
       campaign_name:
-        label: Campaign Name
-        hint: This will not be shown in the email
+        label: Kampanjnamn
+        hint: Detta kommer inte att visas i e-postmeddelandet
       email_subject:
-        label: Email Subject
-        hint: This is the email subject itself
+        label: E-postämne
+        hint: Detta är ämnesraden för e-postmeddelandet
       from_name:
-        label: From Name
+        label: Från namn
       from_email:
-        label: From Email
+        label: Från e-post
       reply_email:
-        label: Reply Email
+        label: Svara till
       scheduled_at:
-        label: Scheduled at
+        label: Schemalagd den
       scheduled_to:
-        label: Scheduled to
+        label: Schemalagd till
       state:
-        label: State
+        label: Tillstånd
       description:
-        label: Description
+        label: Beskrivning
       actions:
-        label: Actions
+        label: Åtgärder
     bot_tasks:
       state:
-        label: State
+        label: Tillstånd
       name:
-        label: Name
+        label: Namn
       actions:
-        label: Actions
+        label: Åtgärder
       title:
-        label: Title
-        placeholder: write task title
-        hint: "Task name ie: welcoming users bot task"
+        label: Titel
+        placeholder: ange en titel
+        hint: "Uppgiftens namn, t.ex: välkomna användare botuppgift"
     stats:
       email:
-        label: Email
+        label: E-postadress
       host:
-        label: Host
+        label: Värd
       createdAt:
-        label: CreatedAt
+        label: Skapad den
       from:
-        label: From
+        label: Från
       actions:
-        label: Actions
+        label: Åtgärder
       when:
-        label: When
+        label: Den
       data:
         label: Data
     app_packages:
       name:
-        label: 'Integration Name'
+        label: 'Integrationsnamn'
       published:
-        label: 'Publish on platform'
-        type: 'checkbox'
-        hint: 'If disabled you will use the application on the worspaces you have access to'
+        label: 'Publicera på plattformen'
+        type: 'kryssruta'
+        hint: 'Om inaktiverad kommer du att använda programmet i de arbetsytor du har tillgång till'
       capability_list:
-        label: 'Integration capabilities'
-        hint: 'Choose the package capabilities, ie: where the integration will work'
+        label: 'Integrationsfunktioner'
+        hint: 'Välj paketfunktioner, t.ex: var integrationen kommer fungera'
       description:
-        label: 'App Package description'
-        hint: 'tell what your plugin does'
+        label: 'App-paketbeskrivning'
+        hint: 'ange vad ditt plugin gör'
       initialize_url:
-        label: 'Initialize flow webhook URL'
-        hint: 'Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.'
-        placeholder: 'e.g. https://yourdomain.com/initialize-url/'
+        label: 'Webhook URL för flödesinitiering'
+        hint: 'Skickas när en app aktiveras i en konversation, meddelande eller hemskärmen, så att du kan rendera appen.'
+        placeholder: 't.ex: https://dindoman.se/initialize-url/'
       submit_url:
-        label: 'Submit flow webhook URL'
-        hint: 'Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.'
-        placeholder: 'e.g. https://yourdomain.com/submit-url/'
+        label: 'Spara webhook-URL för flöde'
+        hint: 'Skicka när en slutanvändare interagerar med din app, via en knapp, länk eller textfält. Detta flöde kan ske flera gånger under tiden en användare interagerar med din app.'
+        placeholder: 't.ex: https://dindoman.se/submit-url/'
       configure_url:
-        label: 'Configure flow webhook URL (optional)'
-        hint: 'Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.'
-        placeholder: 'e.g. https://yourdomain.com/configure-url/'
+        label: 'Konfigurera webhook-URL för flöde (valfritt)'
+        hint: 'Skickas när en medarbetare vill använda din app, så att du kan visa de konfigurationsalternativen innan den läggs till. Lämnas detta fält tomt, inaktiveras konfigurationssteget.'
+        placeholder: 't.ex: https://dindoman.se/configure-url/'
       sheet_url:
-        label: 'Submit Sheet flow webhook URL (optional)'
+        label: 'Spara webhook-URL för iframeflöde (valfritt)'
         name: 'sheet_url'
-        hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
-        placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+        hint: 'Skickas när en iframe har blivit sparad. En iframe laddas in i meddelanderutan och är stängd och sparad när iframeflödesfunktionen är anropad.'
+        placeholder: 't.ex: https://dindoman.se/submit-sheet-url/'
       content_url:
-        label: 'Dynamic content flow webhook URL'
-        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
-        placeholder: 'e.g. https://yourdomain.com/content-url/'
+        label: 'Webhook-URL för dynamiskt innehållsflöde'
+        hint: 'Skickas när content_url är konfigurerad, tillåter dynamiskt innehåll att renderas vid behov'
+        placeholder: 't.ex: https://dindoman.se/content-url/'
     webhooks:
       url:
-        label: url for outgoing webhook
-        hint: "we'll send POST requests"
+        label: url för utgående webhook
+        hint: "vi skickar POST-förfrågningar"
       enabled:
-        label: enable webhook
+        label: aktivera webhook
       tag_list:
-        label: events to send
-        hint: chaskiq will deliver this events to configured endpoint
+        label: händelser att skicka
+        hint: chaskiq kommer att leverera dessa händelser till konfigurerad slutpunkt
     agents:
       email:
-        label: Agent's Email
-        placeholder: john@example.com
+        label: Agentens e-postadress
+        placeholder: du@exempel.se
       name:
-        label: Agent's Name
+        label: Agentens namn
         placeholder: John Doe
       owner:
-        label: Owner
+        label: Ägare
       access_list:
-        label: 'Roles for agent'
-        hint: 'blank access will disable account settings access for user'
+        label: 'Roller för agent'
+        hint: 'inga behörigheter kommer att inaktivera kontoinställningar för användaren'
   data_tables:
     agents:
-      email: Email
-      name: Name
-      owner: Owner
-      access_list: Access List
-      actions: Actions
-      sign_in_count: Sign in count
-      last_sign_in_at: Last sign in at
-      invitation_accepted_at: Invitation accepted at
+      email: E-post
+      name: Namn
+      owner: Ägare
+      access_list: Rättigheter
+      actions: Åtgärder
+      sign_in_count: Antal inloggningar
+      last_sign_in_at: Senaste inloggningsdatum
+      invitation_accepted_at: Inbjudan accepterades den
     articles:
       settings:
-        locale: Locale
-        site_title: Site Title
-        site_description: Site Description
-        action: Action
+        locale: Språk
+        site_title: Webbplatstitel
+        site_description: Webbplatsbeskrivning
+        action: Åtgärder
     users:
-      name: Name
-      email: Email
-      state: State
-      online: Online
+      name: Namn
+      email: E-postadress
+      state: Tillstånd
+      online: Aktiv
       ip: Ip
-      country: Country
-      city: City
+      country: Land
+      city: Stad
       lat: Lat
       lng: Lng
-      postal: Postal
-      browser: Browser
-      browser_version: Browser version
-      browser_lang: Browser Lang
-      referrer: Referrer
-      tag_list: Tag List
+      postal: Postnummer
+      browser: Webbläsare
+      browser_version: Webbläsarversion
+      browser_lang: Språk för webbläsare
+      referrer: Hänvisad från
+      tag_list: Taggar
       os: Os
-      os_version: Os Version
-      lang: Lang
-      web_sessions: Web Sessions
-      last_seen: First Seen
-      first_seen: Last Seen
+      os_version: OS-version
+      lang: Språk
+      web_sessions: Webbsessioner
+      last_seen: Sågs första gången
+      first_seen: Sågs senast
       subscription_status:
-        subscribed: Subscribed
-        unsubscribed: Unsubscribed
-        passive: Passive
+        subscribed: Prenumererar
+        unsubscribed: Prenumeration avslutad
+        passive: Inaktiv
     settings:
-      locale: Locale
-      greetings: Greetings
+      locale: Språk
+      greetings: Hälsningsfras
       intro: Intro
       tagline: Tagline
