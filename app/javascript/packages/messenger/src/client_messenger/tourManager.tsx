@@ -229,8 +229,6 @@ export default class TourManager extends Component<TourManagerProps> {
   }
 
   componentDidMount() {
-    console.log("hello from TOUR MANAGER!")
-
     document.addEventListener(
       'mouseover',
       this.handleMouseOver.bind(this),

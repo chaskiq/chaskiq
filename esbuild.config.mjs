@@ -19,7 +19,7 @@ const watchOptions = {
 esbuild
     .build({
         logLevel: 'info',
-        sourcemap: process.env.NODE_ENV !== "production",
+        sourcemap: true, //process.env.NODE_ENV !== "production",
         define: { 
             'process.env.NODE_ENV': process.env.NODE_ENV,
             'global': 'window',
@@ -39,7 +39,7 @@ esbuild
            '.js': 'jsx',
         },
         metafile: !!metafile,
-        minify: !!minify,
+        minify: false,
         publicPath: "/assets",
         sourcemap: true,
         //watch: !process.env.BUILD,
