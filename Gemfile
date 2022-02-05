@@ -23,7 +23,7 @@ gem "uglifier", ">= 1.3.0"
 # gem 'mini_racer', platforms: :ruby
 gem "haml"
 
-gem "devise", "4.7.1" # github: "plataformatec/devise"
+gem "devise" #"4.7.1" # github: "plataformatec/devise"
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'
