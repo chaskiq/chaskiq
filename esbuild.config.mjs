@@ -39,12 +39,15 @@ esbuild
            '.js': 'jsx',
         },
         metafile: !!metafile,
-        minify: false, //!!minify,
+        minify: !!minify,
         publicPath: "/assets",
         sourcemap: true,
         //watch: !process.env.BUILD,
         banner: {
-            js: ' (() => new EventSource("http://localhost:3001").onmessage = () => location.reload())();',
+            js: `
+              
+                (() => new EventSource("http://localhost:3001").onmessage = () => location.reload())();
+            `,
         },
         watch: watch && watchOptions,
         outdir: 'app/assets/builds',

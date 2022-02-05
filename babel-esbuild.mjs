@@ -40,7 +40,7 @@ const pluginBabel = (options = {}) => ({
 
 		build.onLoad({ filter, namespace }, async args => {
 
-			if (args.path.includes('node_modules')) return null;
+			if (args.path.includes('node_modules') && !args.path.includes('reactour') ) return null;
 
 			if(args.path.includes(".json") || args.path.includes(".png") || args.path.includes(".css")  ) return null;
 
