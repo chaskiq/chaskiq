@@ -12,6 +12,7 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w( tailwind.css )
 Rails.application.config.assets.precompile += %w[campaign.css]
 Rails.application.config.assets.precompile += %w( embed.js )
+Rails.application.config.assets.precompile += %w( article.js )
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 
 # Precompile additional assets.
