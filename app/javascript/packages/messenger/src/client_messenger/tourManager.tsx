@@ -7,6 +7,9 @@ import DraftRenderer from './textEditor/draftRenderer';
 import DanteContainer from './textEditor/editorStyles';
 import theme from './textEditor/theme';
 import { ThemeProvider } from 'emotion-theming';
+import regeneratorRuntime from "regenerator-runtime";
+
+
 import Tour from 'reactour-emotion';
 import tw from 'twin.macro';
 
@@ -228,6 +231,8 @@ export default class TourManager extends Component<TourManagerProps> {
   }
 
   componentDidMount() {
+    console.log("hello from TOUR MANAGER!")
+
     document.addEventListener(
       'mouseover',
       this.handleMouseOver.bind(this),

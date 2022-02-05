@@ -40,6 +40,20 @@ module.exports = function (api) {
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
+      [
+        '@babel/plugin-transform-runtime',
+        {
+          helpers: false,
+          regenerator: true,
+          corejs: false,
+        },
+      ],
+      [
+        '@babel/plugin-transform-regenerator',
+        {
+          async: false,
+        },
+      ],
       /*'@babel/plugin-syntax-dynamic-import',
       isTestEnv && 'babel-plugin-dynamic-import-node',
       '@babel/plugin-transform-destructuring',
