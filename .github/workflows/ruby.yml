@@ -59,7 +59,7 @@ jobs:
 
           bundle exec rails assets:precompile
 
-           head -c 500  app/assets/builds/application.css
+           head -c 5000  app/assets/builds/application.css
 
           # curl ifconfig.me
 
