@@ -11,7 +11,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-//import './src/styles/tailwind.css';
+// import './src/styles/tailwind.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import App from './src/App';
 

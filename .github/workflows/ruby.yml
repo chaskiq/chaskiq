@@ -57,7 +57,9 @@ jobs:
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
 
-          bundle exec rake assets:precompile
+          bundle exec rails assets:precompile
+
+           head -c 500  app/assets/builds/application.css
 
           # curl ifconfig.me
 
