@@ -41,12 +41,15 @@ esbuild
         metafile: metafile,
         minify: minify,
         publicPath: "/assets",
-        sourcemap: true,
+        sourcemap: process.env.NODE_ENV !== "production",
         //watch: !process.env.BUILD,
         banner: {
             js: `
-              
-                (() => new EventSource("http://localhost:3001").onmessage = () => location.reload())();
+              ${
+                process.env.NODE_ENV !== "production" ?
+                  `(() => new EventSource("http://localhost:3001").onmessage = () => location.reload())();`
+                : ''
+              }
             `,
         },
         watch: watch && watchOptions,

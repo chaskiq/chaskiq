@@ -74,6 +74,7 @@
     "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^4.0.3",
     "prop-types": "^15.6.1",
+    "query-string": "^7.1.1",
     "rc-tooltip": "^4.0.3",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^11.0.4",
