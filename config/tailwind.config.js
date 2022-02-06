@@ -52,9 +52,9 @@ module.exports = {
   darkMode: 'class',
   mode: 'jit',
   experimental: {},
-  purge: {
+  //purge: {
     //enabled: false,
-    enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
+    //enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
     content: [
       './app/**/*.html.erb',
       './app/**/*.erb',
@@ -67,7 +67,7 @@ module.exports = {
       './node_modules/rc-tooltip/**/*.js',
       './node_modules/rc-tooltip/**/*.css',
     ],
-  },
+  //},
   theme: {
     minWidth: {
       0: '0',
@@ -103,7 +103,7 @@ module.exports = {
         current: 'currentColor',
         black: colors.black,
         white: colors.white,
-        gray: colors.trueGray,
+        gray: colors.neutral,
         indigo: colors.indigo,
         red: colors.rose,
         yellow: colors.amber,

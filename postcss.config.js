@@ -2,7 +2,7 @@
 
 let environment = {
   plugins: [
-    require('tailwindcss')('./app/javascript/src/styles/tailwind.js'),
+    require('tailwindcss')('./config/tailwind.config.js'),
     require('autoprefixer'),
     require('postcss-import'),
     require('postcss-flexbugs-fixes'),

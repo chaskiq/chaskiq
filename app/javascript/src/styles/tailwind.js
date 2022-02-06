@@ -28,22 +28,21 @@ module.exports = {
   darkMode: 'class',
   mode: 'jit',
   experimental: {},
-  purge: {
+  //purge: {
     //enabled: false,
-    enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
-    content: [
-      './app/**/*.html.erb',
-      './app/**/*.erb',
-      './app/javascript/**/*.scss',
-      './app/helpers/**/*.rb',
-      './app/javascript/**/*.js',
-      './app/javascript/**/*.jsx',
-      './app/javascript/**/*.ts',
-      './app/javascript/**/*.tsx',
-      './node_modules/rc-tooltip/**/*.js',
-      './node_modules/rc-tooltip/**/*.css',
-    ],
-  },
+  //  enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
+  //},
+  content: [
+    './app/**/*.html.erb',
+    './app/**/*.erb',
+    './app/javascript/**/*.scss',
+    './app/helpers/**/*.rb',
+    './app/javascript/**/*.js',
+    './app/javascript/**/*.jsx',
+    './app/javascript/**/*.ts',
+    './app/javascript/**/*.tsx',
+    './node_modules/rc-tooltip/**/*.js'
+  ],
   theme: {
     minWidth: {
       0: '0',
@@ -79,7 +78,7 @@ module.exports = {
         current: 'currentColor',
         black: colors.black,
         white: colors.white,
-        gray: colors.trueGray,
+        gray: colors.neutral,
         indigo: colors.indigo,
         red: colors.rose,
         yellow: colors.amber,
