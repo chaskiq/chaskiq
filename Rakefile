@@ -14,6 +14,13 @@ namespace :locales do
   end
 end
 
+namespace :assets do
+  desc "remove assets before compile"
+  task :clear_all do
+    system("rm -rf public/assets")
+  end
+end
+
 # Run yarn i18n:export prior to assets precompilation, so i18n json are available for use.
 # Rake::Task['assets:precompile'].enhance [ 'locales:build' ]
-Rake::Task["assets:precompile"].enhance ["assets:clobber"]
+Rake::Task["assets:precompile"].enhance ["assets:clear_all"]
