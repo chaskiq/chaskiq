@@ -63,6 +63,14 @@ class Agent < ApplicationRecord
 
   has_one_attached :avatar
 
+  validate :password_complexity
+
+  def password_complexity
+    # https://github.com/heartcombo/devise/wiki/How-To:-Set-up-simple-password-complexity-requirements
+    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+    errors.add :password, 'Complexity requirement not met. Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
+  end
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

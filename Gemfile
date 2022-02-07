@@ -162,3 +162,5 @@ end
 gem "php_serialize", "~> 1.2"
 gem "scout_apm", "~> 2.6"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+
+gem "rack-attack", "~> 6.6"

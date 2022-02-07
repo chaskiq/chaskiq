@@ -2,6 +2,9 @@
 
 # This file is used by Rack-based servers to start the application.
 
+require "rack/attack"
+use Rack::Attack
+
 require_relative "config/environment"
 
 require_relative "lib/rack/health_check"

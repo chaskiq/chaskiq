@@ -398,6 +398,8 @@ GEM
     raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.3)
+    rack-attack (6.6.0)
+      rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-mini-profiler (2.3.1)
@@ -650,6 +652,7 @@ DEPENDENCIES
   php_serialize (~> 1.2)
   pry
   puma (~> 5.5)
+  rack-attack (~> 6.6)
   rack-cors (~> 1.0)
   rack-mini-profiler (~> 2.0)
   rails (= 6.1.4.1)
