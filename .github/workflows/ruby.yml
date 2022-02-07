@@ -47,9 +47,9 @@ jobs:
           bundle exec rails db:prepare
           bundle exec rails assets:precompile
 
-      - name: Build and run tests
-        run: |
-          bundle exec rspec ./spec
+      #- name: Build and run tests
+      #  run: |
+      #    bundle exec rspec ./spec
 
       - name: Build and run E2E tests
         run: |
