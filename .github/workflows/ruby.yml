@@ -53,6 +53,7 @@ jobs:
       - name: Build and run E2E tests
         run: |
           # curl ifconfig.me
+          bundle exec rails assets:precompile
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
           yarn cypress:ga-ci
