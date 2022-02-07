@@ -85,10 +85,8 @@ export function refreshToken(auth) {
     dispatch(errorMessage('refresh token, hang tight'));
 
     axios
-      .create({
-        baseURL: '/oauth/token',
-      })
-      .post('', {
+      .create()
+      .post('/oauth/token', {
         refresh_token: auth.refreshToken,
         grant_type: 'refresh_token',
       })
