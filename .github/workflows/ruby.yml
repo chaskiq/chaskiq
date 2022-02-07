@@ -52,7 +52,6 @@ jobs:
 
       - name: Build and run E2E tests
         run: |
-          head -c 5000  app/assets/builds/application.css
           # curl ifconfig.me
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
