@@ -16,3 +16,4 @@ end
 
 # Run yarn i18n:export prior to assets precompilation, so i18n json are available for use.
 # Rake::Task['assets:precompile'].enhance [ 'locales:build' ]
+Rake::Task["assets:precompile"].enhance ["assets:clobber"]

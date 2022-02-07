@@ -29,7 +29,7 @@ module.exports = {
   mode: 'jit',
   experimental: {},
   //purge: {
-    //enabled: false,
+  //enabled: false,
   //  enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
   //},
   content: [
@@ -41,7 +41,7 @@ module.exports = {
     './app/javascript/**/*.jsx',
     './app/javascript/**/*.ts',
     './app/javascript/**/*.tsx',
-    './node_modules/rc-tooltip/**/*.js'
+    './node_modules/rc-tooltip/**/*.js',
   ],
   theme: {
     minWidth: {
