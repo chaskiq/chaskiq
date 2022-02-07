@@ -41,11 +41,12 @@ jobs:
 
       - name: Build and precompile
         run: |
-          sudo apt-get -yqq install libpq-dev
+          sudo apt-get -yqq install libpq-dev curl libgconf-2-4
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
-          bundle exec rails assets:precompile
+          cp ./config/webpacker.ci.yml ./config/webpacker.yml
+          bundle exec rake assets:precompile
       - name: Build and run tests
         run: |
           bundle exec rspec ./spec
@@ -53,7 +54,6 @@ jobs:
       - name: Build and run E2E tests
         run: |
           # curl ifconfig.me
-          bundle exec rails assets:precompile
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
           yarn cypress:ga-ci
