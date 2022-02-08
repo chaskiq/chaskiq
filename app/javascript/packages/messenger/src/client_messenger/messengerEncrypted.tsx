@@ -58,7 +58,7 @@ export default class ChaskiqMessengerEncrypted {
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
-      baseURL: `${this.props.domain}/api/graphql`,
+      url: `${this.props.domain}/api/graphql`,
     });
 
     this.graphqlClient.send(

@@ -236,7 +236,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
-      baseURL: `${this.props.domain}/api/graphql`,
+      url: `${this.props.domain}/api/graphql`,
     });
 
     App = {

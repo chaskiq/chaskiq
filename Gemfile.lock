@@ -415,7 +415,7 @@ GEM
       rack (>= 1.2.0)
     rack-protection (2.1.0)
       rack
-    rack-proxy (0.7.0)
+    rack-proxy (0.7.2)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -592,7 +592,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webpacker (5.4.0)
+    webpacker (5.4.3)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
@@ -698,7 +698,7 @@ DEPENDENCIES
   urlcrypt
   web-console (>= 3.3.0)
   webmock
-  webpacker (~> 5.4.0)
+  webpacker
 
 RUBY VERSION
    ruby 2.7.5p203
