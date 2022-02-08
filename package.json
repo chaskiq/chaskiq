@@ -25,7 +25,7 @@
     "@nivo/calendar": "^0.63.1",
     "@nivo/pie": "^0.63.1",
     "@rails/activestorage": "^6.0.0",
-    "@rails/webpacker": "5.4.0",
+    "@rails/webpacker": "5.4.3",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.3.1",
@@ -40,7 +40,7 @@
     "activestorage": "^5.2.3",
     "add": "^2.0.6",
     "array-move": "^2.1.0",
-    "axios": "^0.21.1",
+    "axios": "^0.25.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-prismjs": "^1.1.1",
@@ -101,7 +101,7 @@
     "ua-parser-js": "^0.7.20",
     "url-pattern": "^1.0.3",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.11.3"
   },
   "devDependencies": {
     "@atomico/rollup-plugin-sizes": "^1.1.4",

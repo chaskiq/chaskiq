@@ -23,6 +23,12 @@ jobs:
         ports: ['6379:6379']
         options: --entrypoint redis-server
 
+    
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+      REDIS_URL: redis://localhost:6379/0
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
     steps:
       - uses: actions/checkout@v1
       - uses: ruby/setup-ruby@v1
@@ -32,41 +38,25 @@ jobs:
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
-      - name: Build and run tests
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          REDIS_URL: redis://localhost:6379/0
-          RAILS_ENV: test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: |
-          sudo apt-get -yqq install libpq-dev
-          gem install bundler
-          bundle install --jobs 4 --retry 3
-          bundle exec rails db:prepare
-          bundle exec rspec ./spec
 
-      - name: Build and run E2E tests
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          REDIS_URL: redis://localhost:6379/0
-          RAILS_ENV: test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      - name: Build and precompile
         run: |
           sudo apt-get -yqq install libpq-dev curl libgconf-2-4
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
-
           cp ./config/webpacker.ci.yml ./config/webpacker.yml
           bundle exec rake assets:precompile
+      - name: Build and run tests
+        run: |
+          bundle exec rspec ./spec
 
-          curl ifconfig.me
+      - name: Build and run E2E tests
+        run: |
+          # curl ifconfig.me
           bundle exec rails server -e test -p 5002 -d
-
           ./node_modules/.bin/cypress install
-
           yarn cypress:ga-ci
-
       #- name: Deploy to Heroku
       #  env:
       #    HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
