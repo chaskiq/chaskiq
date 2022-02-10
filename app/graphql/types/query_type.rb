@@ -22,6 +22,11 @@ module Types
       @app = current_user.apps
     end
 
+    field :can_create_apps, Boolean, null: false, description: "can create apps permission"
+    def can_create_apps
+      current_user.can_create_apps?
+    end
+
     field :help_center, Types::ArticleSettingsType, null: true, description: "help center entry point" do
       argument :domain, String, required: false
       argument :lang, String, required: false, default_value: I18n.default_locale
