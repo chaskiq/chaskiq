@@ -243,6 +243,12 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     this.setState({ tab: val });
   };
 
+  tabClass(index) {
+    return this.state.tab == index
+      ? 'border-pink-500 text-gray-900 dark:text-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
+      : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm';
+  }
+
   render() {
     if (!this.props.app_user) {
       return (
@@ -428,7 +434,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                   <a
                     href="#"
                     onClick={(_e) => this.setTab(0)}
-                    className="border-pink-500 text-gray-900 dark:text-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    className={this.tabClass(0)}
                     aria-current="page"
                   >
                     Profile
@@ -436,14 +442,14 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                   <a
                     href="#"
                     onClick={(_e) => this.setTab(1)}
-                    className="border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    className={this.tabClass(1)}
                   >
                     Conversations
                   </a>
                   <a
                     href="#"
                     onClick={(_e) => this.setTab(2)}
-                    className="border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    className={this.tabClass(3)}
                   >
                     Visits
                   </a>

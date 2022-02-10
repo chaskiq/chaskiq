@@ -98,14 +98,17 @@ export default function CustomizedExpansionPanels(props: PanelProps) {
                   {o.items ? (
                     <ul className="pl-4">
                       {withValues(o.items).map((item, index) => (
-                        <React.Fragment key={`expanded-${index}`}>
-                          <p className="pb-2 text-sm leading-5 text-gray-500 dark:text-gray-400">
-                            {item.label}
+                        <li
+                          key={`expanded-${index}`}
+                          className="flex justify-start"
+                        >
+                          <p className="mr-2 pb-2 text-sm leading-5 text-gray-500 dark:text-gray-400">
+                            {item.label || item.name}
                           </p>
                           <p className="text-sm leading-5 text-gray-900 dark:text-gray-50">
                             {item.value}
                           </p>
-                        </React.Fragment>
+                        </li>
                       ))}
                     </ul>
                   ) : null}
