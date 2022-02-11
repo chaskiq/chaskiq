@@ -74,6 +74,7 @@ import { AGENTS } from '@chaskiq/store/src/graphql/queries';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 
 import bg from '../../images/bg/patterns/memphis-mini.png';
+import bgDark from '../../images/bg/patterns/papyrus-dark.png';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -88,12 +89,21 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
   }
 `;
 
-const BgContainer = styled.div`
+type BgContainerProps = {
+  isDark?: string;
+};
+
+const BgContainer = styled.div<BgContainerProps>`
   /*background-image: radial-gradient(currentColor 2px, transparent 2px),
     radial-gradient(currentColor 2px, transparent 2px);
   background-size: calc(20 * 2px) calc(20 * 2px);
   background-position: 0 0, calc(10 * 2px) calc(10 * 2px);*/
-  background-image: url(${bg});
+
+  background-image: url(${(props) => {
+    //@ts-ignore
+    return props.isDark ? bgDark : bg;
+  }});
+
   /* background-size: calc(40px) calc(40px); */
   background-position: 0px 0px, calc(20px) calc(20px);
 `;
@@ -128,6 +138,7 @@ function Conversation({
   events,
   toggleFixedSidebar,
   fixedSidebarOpen,
+  isDark,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
 
@@ -512,7 +523,10 @@ function Conversation({
   };
 
   return (
-    <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
+    <BgContainer
+      isDark={isDark}
+      className="flex-1 flex flex-col overflow-hidden-- h-screen"
+    >
       <div
         className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
         style={{ height: '63px' }}
@@ -1116,10 +1130,19 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer } = state;
+  const {
+    auth,
+    app,
+    conversation,
+    app_user,
+    current_user,
+    drawer,
+    theme,
+  } = state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;
+  const isDark = theme === 'dark';
 
   return {
     jwt,
@@ -1131,6 +1154,7 @@ function mapStateToProps(state) {
     app,
     drawer,
     isAuthenticated,
+    isDark,
   };
 }
 

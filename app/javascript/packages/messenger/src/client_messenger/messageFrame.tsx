@@ -45,7 +45,10 @@ export default class MessageFrame extends Component<
 
   render() {
     return (
-      <UserAutoMessageStyledFrame id="messageFrame">
+      <UserAutoMessageStyledFrame
+        id="messageFrame"
+        title={'chaskiq message frame'}
+      >
         <UserAutoMessageFlex>
           {this.props.availableMessages.map((o, i) => {
             return (

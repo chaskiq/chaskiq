@@ -21,9 +21,9 @@ module Mutations
           Audit.create(
             auditable_id: role.id,
             auditable_type: role.class,
-            action: :agent_destroy,
+            action: :agent_role_removed,
             agent: current_user,
-            data: role.as_json,
+            data: { role: role.as_json, agent: role.agent.as_json },
             ip: context[:request].remote_ip,
             app_id: app.id
           )
