@@ -16,7 +16,7 @@ end
 
 namespace :assets do
   desc "remove assets before compile"
-  task :clear_all do
+  task clear_all: :environment do
     puts ">>>>>>>>> clear all assets "
     system("rm -rf public/assets")
   end

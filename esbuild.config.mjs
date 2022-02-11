@@ -40,7 +40,11 @@ esbuild
         },
         metafile: metafile,
         minify: minify,
+        //splitting: true,
         publicPath: "/assets",
+        assetNames: '[name]-[hash].digested',
+        //chunkNames: '[name]-[hash].digested',
+        //format: 'esm',
         sourcemap: process.env.NODE_ENV !== "production",
         //watch: !process.env.BUILD,
         banner: {
