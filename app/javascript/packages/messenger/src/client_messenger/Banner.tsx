@@ -159,7 +159,11 @@ export default function Banner({
   }
 
   return (
-    <StyledFrame data-cy="banner-wrapper" style={style}>
+    <StyledFrame
+      data-cy="banner-wrapper"
+      title={'chaskiq banner frame'}
+      style={style}
+    >
       <BannerRenderer
         mode={mode}
         font_options={font_options}

@@ -13,7 +13,8 @@ export const APPS = `
       name
       state
       tagline
-    }  
+    }
+    canCreateApps 
   }
 `;
 
