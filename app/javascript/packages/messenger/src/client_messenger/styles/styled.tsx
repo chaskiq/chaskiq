@@ -659,11 +659,11 @@ export const FooterAckInline = styled.div`
     display: flex;
     align-items: center;
     font-size: 0.8em;
-    color: #727272;
+    color: #716f6f;
     text-decoration: none;
     padding: 5px 11px 5px 11px;
     &:hover {
-      color: #727272;
+      color: #343333;
       background-color: #f7f7f7;
       border-radius: 20px;
     }
@@ -713,7 +713,9 @@ export const CountBadge = styled.div<{
 
 `;
 
-export const Header = styled(({ isMobile, ...rest }) => <div {...rest}></div>)<{
+export const Header = styled(({ isMobile, ...rest }) => (
+  <header {...rest}></header>
+))<{
   theme: ThemeProps;
 }>`
   height: 75px;
@@ -759,7 +761,10 @@ export const Body = styled.div`
   box-shadow: inset 0 21px 4px -20px rgba(0, 0, 0, 0.2);
 `;
 
-export const Footer = styled.div<{ isInputEnabled: boolean }>`
+export const Footer = styled.div<{
+  isInputEnabled: boolean;
+  conversationState: string;
+}>`
   z-index: 100000;
   text-align: center;
   position: absolute;
@@ -767,7 +772,6 @@ export const Footer = styled.div<{ isInputEnabled: boolean }>`
   left: 0;
   right: 0;
   border-radius: 0 0 6px 6px;
-  height: 90px;
   /*pointer-events: none;*/
   background: -webkit-gradient(
     linear,
@@ -777,12 +781,18 @@ export const Footer = styled.div<{ isInputEnabled: boolean }>`
     to(rgba(255, 255, 255, 0))
   );
   background: linear-gradient(0deg, #fff, rgba(255, 255, 255, 0));
-
-  height: 38px;
   margin: 25px 0 0px 0px;
   font-size: 0.8em;
   color: gray;
   padding: 11px 0px 0px 0px;
+
+  ${({ conversationState }) =>
+    conversationState == 'closed'
+      ? `pointer-events: none; 
+       height: 100%; 
+       color: black; 
+       font-weight: 700;`
+      : 'height: 38px;'}
 
   &.inline {
     ${(props) => (!props.isInputEnabled ? 'height: 0px;' : '')}
@@ -1109,7 +1119,7 @@ export const ConversationSummaryBodyItems = styled.div`
   }
 `;
 export const ConversationSummaryBodyContent = styled.div`
-  color: #969696;
+  color: #656464;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -1125,7 +1135,7 @@ export const Autor = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: #8b8b8b;
+  color: #575656;
 `;
 
 export const Hint = styled.p`
@@ -1135,7 +1145,7 @@ export const Hint = styled.p`
     margin: 0px;
     height: 100%;*/
 
-  ${() => tw`text-sm leading-5 text-gray-500 h-full p-8 bg-gray-100`}
+  ${() => tw`text-sm leading-5 text-gray-600 h-full p-8 bg-gray-100`}
 `;
 
 export const SpinnerAnim = keyframes`

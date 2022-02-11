@@ -245,7 +245,11 @@ const HomePanel = () => {
               <ConnectedPeople>
                 {agents.map((agent, i) => (
                   <Avatar key={`home-agent-${i}-${agent.id}`}>
-                    <img src={agent.avatarUrl} title={agent.name} />
+                    <img
+                      alt={agent.name}
+                      src={agent.avatarUrl}
+                      title={agent.name}
+                    />
                   </Avatar>
                 ))}
               </ConnectedPeople>
