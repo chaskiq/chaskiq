@@ -11914,7 +11914,7 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwindcss@^2.1.0, tailwindcss@^2.2.7:
+tailwindcss@^2.2.7:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-2.2.7.tgz#795d07a14ef46c2dc4a1610f7f906f697daaf731"
   integrity sha512-jv35rugP5j8PpzbXnsria7ZAry7Evh0KtQ4MZqNd+PhF+oIKPwJTVwe/rmfRx9cZw3W7iPZyzBmeoAoNwfJ1yg==
@@ -12178,10 +12178,10 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
-twin.macro@^2.4.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/twin.macro/-/twin.macro-2.6.2.tgz#e230ca54cffd9f0de04ce0b74031d611d72d2bc3"
-  integrity sha512-4SL+Wrydqh7RRfYjuLh2ftNLv4rmRHXq1xpj1gaLuQkCwsgdwSbwMJrXKDh+WdX2yboXJ6T1QWv7/VIXX/+6mg==
+twin.macro@^2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/twin.macro/-/twin.macro-2.8.2.tgz#7f1344b4b1c3811da93a62fa204fe08999df7a75"
+  integrity sha512-2Vg09mp+nA70AWUedJ8WRgB2me3buq7JGbOnjHnFnNaBzomVu5k7lJ9YGpByIlre+UYr7QRhtlj7+IUKxvCrUA==
   dependencies:
     "@babel/parser" "^7.12.5"
     "@babel/template" "^7.14.5"
@@ -12196,7 +12196,7 @@ twin.macro@^2.4.2:
     lodash.merge "^4.6.2"
     postcss "^8.1.8"
     string-similarity "^4.0.3"
-    tailwindcss "^2.1.0"
+    tailwindcss "^2.2.7"
     timsort "^0.3.0"
 
 type-check@~0.3.2:

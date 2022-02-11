@@ -1,52 +1,6 @@
-//const defaultTheme = require('tailwindcss/defaultTheme')
-//
-//module.exports = {
-//  content: [
-//    './app/helpers/**/*.rb',
-//    './app/javascript/**/*.js',
-//    './app/views/**/*'
-//  ],
-//  theme: {
-//    extend: {
-//      fontFamily: {
-//        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-//      },
-//    },
-//  },
-//  plugins: [
-//    require('@tailwindcss/forms'),
-//    require('@tailwindcss/aspect-ratio'),
-//    require('@tailwindcss/typography'),
-//  ]
-//}
-
-
-
 // https://tailwindcss.com/docs/theme/
-
-// const { lighten, darken } = require('polished')
-
 const colors = require('tailwindcss/colors');
-
-const baseGray = '#ccc';
 const grayColors = {};
-/*
-const nums = [
-  { label: 100, amount: 0 },
-  { label: 200, amount: 0.06 },
-  { label: 300, amount: 0.2 },
-  { label: 400, amount: 0.3 },
-  { label: 500, amount: 0.4 },
-  { label: 600, amount: 0.5 },
-  { label: 700, amount: 0.6 },
-  { label: 800, amount: 0.7 },
-  { label: 900, amount: 0.8 },
-]
- nums.map(
-  (c) => {
-    grayColors[c.label] = darken(c.amount, '#f7f7f7')
-  }) 
-*/
 
 module.exports = {
   darkMode: 'class',
@@ -92,6 +46,8 @@ module.exports = {
     //  2: '2px',
     //  4: '4px'
     //},
+
+    colors: colors,
 
     extend: {
       colorsDisabled: {

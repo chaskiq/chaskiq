@@ -19,7 +19,7 @@ const watchOptions = {
 esbuild
     .build({
         logLevel: 'info',
-        sourcemap: process.env.NODE_ENV !== "production",
+        sourcemap: watch,
         define: { 
             'process.env.NODE_ENV': process.env.NODE_ENV,
             'global': 'window',
@@ -40,17 +40,15 @@ esbuild
         },
         metafile: metafile,
         minify: minify,
-        //splitting: true,
         publicPath: "/assets",
         assetNames: '[name]-[hash].digested',
+        //splitting: true,
         //chunkNames: '[name]-[hash].digested',
         //format: 'esm',
-        sourcemap: process.env.NODE_ENV !== "production",
-        //watch: !process.env.BUILD,
         banner: {
             js: `
               ${
-                process.env.NODE_ENV !== "production" ?
+                watch ?
                   `(() => new EventSource("http://localhost:3001").onmessage = () => location.reload())();`
                 : ''
               }
