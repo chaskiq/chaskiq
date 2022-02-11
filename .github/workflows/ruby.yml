@@ -41,24 +41,22 @@ jobs:
 
       - name: Build and precompile
         run: |
-          sudo apt-get -yqq install libpq-dev
+          sudo apt-get -yqq install libpq-dev curl libgconf-2-4
           gem install bundler
           bundle install --jobs 4 --retry 3
           bundle exec rails db:prepare
-          bundle exec rails assets:precompile
-
-      #- name: Build and run tests
-      #  run: |
-      #    bundle exec rspec ./spec
+          cp ./config/webpacker.ci.yml ./config/webpacker.yml
+          bundle exec rake assets:precompile
+      - name: Build and run tests
+        run: |
+          bundle exec rspec ./spec
 
       - name: Build and run E2E tests
         run: |
-          head -c 5000  app/assets/builds/application.css
           # curl ifconfig.me
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
           yarn cypress:ga-ci
-
       #- name: Deploy to Heroku
       #  env:
       #    HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}

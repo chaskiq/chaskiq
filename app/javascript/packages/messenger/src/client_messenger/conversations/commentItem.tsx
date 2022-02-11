@@ -115,13 +115,13 @@ export function CommentsItemComp({ displayConversation, message, o, i18n }) {
                 fromNow
                 style={{
                   float: 'right',
-                  color: '#ccc',
+                  color: '#595959',
                   width: '115px',
                   margin: '0px 10px',
                   fontSize: '.8em',
                   textTransform: 'unset',
                   textAlign: 'right',
-                  fontWeight: 100,
+                  fontWeight: 500,
                 }}
               >
                 {message.createdAt}
