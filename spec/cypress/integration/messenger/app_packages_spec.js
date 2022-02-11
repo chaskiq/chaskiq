@@ -269,7 +269,7 @@ describe('Visitor home apps', function () {
       getIframeBody('iframe:first').find('#chaskiq-prime').click()
 
       getIframeBody('iframe:first').xpath(
-        '//*[@id="mountHere"]/div/div[2]/div[2]/div[1]/div[2]/div/form/div[2]/div/ul/div'
+        '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
       ).click()
 
       cy.wait(1000)
