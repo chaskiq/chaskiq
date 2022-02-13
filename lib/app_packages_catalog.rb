@@ -92,6 +92,27 @@ class AppPackagesCatalog
       },
 
       {
+        name: "Bootic",
+        description: "Bootic store plugin",
+        capability_list: %w[home conversations bots inbox],
+        state: "enabled",
+        definitions: [
+          {
+            name: "client_id",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "client_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      },
+
+      {
         name: "Counto",
         capability_list: %w[conversation_part],
         description: "Send conversation part data from Admin panel",

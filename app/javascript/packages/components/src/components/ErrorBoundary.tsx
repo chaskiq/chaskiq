@@ -1,5 +1,7 @@
 import React from 'react';
 import I18n from '../../../../src/shared/FakeI18n';
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
 
 type Props = {
   variant?: string;
@@ -8,6 +10,26 @@ type Props = {
 type State = {
   hasError: boolean;
 };
+
+const Svg = styled.svg`
+  ${tw`h-5 w-5 text-red-400`}
+`;
+
+const ErrorBoundaryContainer = styled.div`
+  ${tw`rounded-md bg-red-50 p-4 m-2`}
+  .flex {
+    ${tw`flex`}
+  }
+  .flex-shrink-0 {
+    ${tw`flex-shrink-0`}
+  }
+  .text {
+    ${tw`text-sm font-medium text-red-800`}
+  }
+  .ml-3 {
+    ${tw`ml-3`}
+  }
+`;
 
 export default class ErrorBoundary extends React.Component<Props, State> {
   constructor(props) {
@@ -31,12 +53,11 @@ export default class ErrorBoundary extends React.Component<Props, State> {
         return this.renderVery();
       }
       return (
-        <div className="rounded-md bg-red-50 p-4 m-2">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-red-400"
-                xmlns="http://www.w3.org/2000/svg"
+        <ErrorBoundaryContainer>
+          <div className={`flex`}>
+            <div className={`flex-shrink-0`}>
+              <Svg
+                xmlns="http://www.w3.org/2000/Svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 aria-hidden="true"
@@ -46,15 +67,13 @@ export default class ErrorBoundary extends React.Component<Props, State> {
                   d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                   clipRule="evenodd"
                 />
-              </svg>
+              </Svg>
             </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">
-                Something went wrong.
-              </h3>
+            <div className={`ml-3`}>
+              <h3 className={`text`}>Something went wrong.</h3>
             </div>
           </div>
-        </div>
+        </ErrorBoundaryContainer>
       );
     }
 
