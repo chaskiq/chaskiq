@@ -363,7 +363,9 @@ function Integrations({ app, dispatch }) {
                 <div>
                   {open.oauthAuthorize && (
                     <div className="mb-4">
-                      <p>Authorize App</p>
+                      <p className="text-sm font-semibold leading-7">
+                        Authorize App
+                      </p>
 
                       <a
                         href={open.oauthAuthorize}
@@ -389,16 +391,18 @@ function Integrations({ app, dispatch }) {
                     </div>
                   )}
 
-                  <p>{I18n.t('settings.integrations.hints.hook_url')}</p>
+                  <p className="text-sm font-semibold leading-7">
+                    {I18n.t('settings.integrations.hints.hook_url')}
+                  </p>
 
                   <p>
                     {/* `${window.location.origin}/api/v1/hooks/${
                       app.key
                     }/${open.name.toLocaleLowerCase()}/${open.id}` */}
                     <input
-                      className={`shadow appearance-none border border-gray-500 
-                          rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100
-                          leading-tight focus:outline-none focus:shadow-outline`}
+                      className={`text-xs shadow appearance-none border border-black 
+                      rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100
+                      leading-tight focus:outline-none focus:shadow-outline bg-yellow-100 dark:bg-gray-900`}
                       type={'text'}
                       defaultValue={open.hookUrl}
                       disabled={true}

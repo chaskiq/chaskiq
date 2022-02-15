@@ -49,7 +49,9 @@ RSpec.describe GraphqlController, type: :controller do
                          appPackage: app_package.name,
                          params: {
                            api_secret: "123455",
-                           api_key: "asd"
+                           api_key: "asd",
+                           slack_channel_name: "chan1",
+                           slack_channel_name_leads: "chan1"
                          }
                        })
         end.to change { app.app_package_integrations.count }.by(1)
@@ -100,7 +102,9 @@ RSpec.describe GraphqlController, type: :controller do
                        appPackage: app_package.name,
                        params: {
                          api_secret: "123455",
-                         api_key: "asd"
+                         api_key: "asd",
+                         slack_channel_name: "chan1",
+                         slack_channel_name_leads: "chan1"
                        }
                      })
       end
@@ -111,7 +115,9 @@ RSpec.describe GraphqlController, type: :controller do
                        id: app.app_package_integrations.first.id,
                        params: {
                          api_secret: "123455",
-                         api_key: "asd"
+                         api_key: "asd",
+                         slack_channel_name: "chan1",
+                         slack_channel_name_leads: "chan1"
                        }
                      })
         expect(graphql_response.data.integrationsUpdate.integration.name).to be_present
@@ -156,7 +162,9 @@ RSpec.describe GraphqlController, type: :controller do
                          appPackage: app_package.name,
                          params: {
                            api_secret: "123455",
-                           api_key: "asd"
+                           api_key: "asd",
+                           slack_channel_name: "chan1",
+                           slack_channel_name_leads: "chan1"
                          }
                        })
         end.to_not change { app.app_package_integrations.count }
@@ -179,7 +187,9 @@ RSpec.describe GraphqlController, type: :controller do
                        id: app.app_package_integrations.first.id,
                        params: {
                          api_key: "123455",
-                         api_secret: "123455"
+                         api_secret: "123455",
+                         slack_channel_name: "chan1",
+                         slack_channel_name_leads: "chan1"
                        }
                      })
         puts graphql_response
