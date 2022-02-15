@@ -31,6 +31,8 @@ module MessageApis::Slack
       @keys["access_token_secret"] = config["access_token_secret"]
       @keys["user_token"] = config["user_token"]
       @keys["channel_id"] = config["channel_id"]
+      @keys["slack_channel_id"] = config["slack_channel_id"] || config["channel_id"]
+      @keys["slack_channel_id_leads"] = config["slack_channel_id_leads"] || @keys["slack_channel_id"]
     end
 
     def self.process_global_hook(params)
@@ -47,6 +49,25 @@ module MessageApis::Slack
 
     def after_install
       # TODO: here create the configured channel and join it
+    end
+
+    def after_authorize
+      chan1 = @package.settings["slack_channel_name"]
+      chan2 = @package.settings["slack_channel_name_leads"]
+
+      # will create 2 channels here for dual mode
+      {
+        slack_channel_id: chan1,
+        slack_channel_id_leads: chan2
+      }.each do |k, v|
+        next if v.empty?
+
+        channel_id = handle_channel_creation(v)
+        if channel_id
+          new_settings = @package.settings.merge({ k => channel_id })
+          @package.update(settings: new_settings)
+        end
+      end
     end
 
     def get_api_access
@@ -115,6 +136,21 @@ module MessageApis::Slack
       # Rails.logger.info response.status
     end
 
+    def handle_channel_creation(name = nil, user_ids = "")
+      response = create_channel(name, user_ids)
+      if !response["error"] && (chann_id = response.dig("channel", "id"))
+        authorize_user!
+        join_channel(chann_id)
+        chann_id
+      elsif response["error"].present? && response["error"] == "name_taken"
+        response = find_channel(name)
+        if response.present?
+          join_channel(response["id"])
+          response["id"]
+        end
+      end
+    end
+
     def create_channel(name = nil, user_ids = "")
       authorize_bot!
 
@@ -159,6 +195,14 @@ module MessageApis::Slack
       JSON.parse(response.body)
     end
 
+    def resolve_channel_id(user)
+      if user.type == "AppUser"
+        @keys["slack_channel_id"]
+      else
+        @keys["slack_channel_id_leads"]
+      end
+    end
+
     def join_user_to_package_channel(id)
       authorize_user!
       join_channel(id)
@@ -187,7 +231,7 @@ module MessageApis::Slack
           "New conversation from Chaskiq",
           data.flatten.compact.as_json,
           {
-            channel: @keys["channel"],
+            channel: resolve_channel_id(conversation.main_participant), # @keys["channel"],
             text: "New conversation from Chaskiq"
           }
         )
@@ -217,7 +261,7 @@ module MessageApis::Slack
           "New conversation from Chaskiq",
           data.flatten.compact.as_json,
           {
-            channel: @keys["channel_id"],
+            channel: resolve_channel_id(conversation.main_participant), # @keys["channel_id"],
             text: "New conversation from Chaskiq",
             ts: ts_id
           }
@@ -687,31 +731,19 @@ module MessageApis::Slack
       )
 
       # this will create the channel or return existing id
-      channel_id = package.message_api_klass.after_authorize
+      # channel_id =
+      # package.message_api_klass.after_authorize
+      @package = package
+      after_authorize
 
-      if channel_id
-        new_settings = package.settings.merge({ "channel_id" => channel_id })
-        package.update(settings: new_settings)
-        # else
-        # TODO: raise error here?
-      end
+      # if channel_id
+      #  new_settings = package.settings.merge({ "channel_id" => channel_id })
+      #  package.update(settings: new_settings)
+      #  # else
+      #  # TODO: raise error here?
+      # end
 
       true
-    end
-
-    def after_authorize
-      response = create_channel
-      if !response["error"] && (chann_id = response.dig("channel", "id"))
-        authorize_user!
-        join_channel(chann_id)
-        chann_id
-      elsif response["error"].present? && response["error"] == "name_taken"
-        response = find_channel(@keys["channel"])
-        if response.present?
-          join_channel(response["id"])
-          response["id"]
-        end
-      end
     end
 
     # triggered when a new chaskiq message is created
@@ -815,7 +847,7 @@ module MessageApis::Slack
         "new message",
         blocks.as_json,
         user_options.merge!({
-                              channel: @keys["channel"],
+                              channel: resolve_channel_id(conversation.main_participant), # @keys["channel"],
                               thread_ts: provider_channel_id
                             })
       )

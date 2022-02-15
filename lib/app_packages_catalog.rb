@@ -290,10 +290,43 @@ class AppPackagesCatalog
                            type: "string",
                            required: true,
                            grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name",
+                           label: "Slack channel for Identified Contacts.",
+                           hint: "This will be your primary channel.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name_leads",
+                           label: "Slack channel for Leads and Visitors.",
+                           hint: "If you leave this blank you will be using the primary channel for Leads.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
                          }
                        ]
                      else
-                       []
+                       [
+                         {
+                           name: "slack_channel_name",
+                           label: "Slack channel for Identified Contacts.",
+                           hint: "This will be your primary channel.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name_leads",
+                           label: "Slack channel for Leads and Visitors.",
+                           hint: "If you leave this blank you will be using the primary channel for Leads.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         }
+                       ]
                      end
       },
 

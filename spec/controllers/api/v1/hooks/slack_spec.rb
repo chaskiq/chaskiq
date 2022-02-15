@@ -306,24 +306,20 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "aaa",
-        api_key: "aaa",
-        access_token: "aaa",
-        access_token_secret: "aaa",
         app_package: app_package,
-        external_id: "TQUC0ASKT"
+        external_id: "TQUC0ASKT",
+        settings: {
+          api_secret: "aaa",
+          api_key: "aaa",
+          access_token: "aaa",
+          access_token_secret: "aaa",
+          slack_channel_name: "chan1",
+          slack_channel_name_leads: "chan1"
+        }
       )
     end
 
     it "triggers on conversation first user message" do
-      AppUser.any_instance
-             .stub(:last_visited_at)
-             .and_return(Time.zone.now)
-
-      AppUser.any_instance
-             .stub(:last_visited_at)
-             .and_return(Time.zone.now)
-
       AppUser.any_instance
              .stub(:last_visited_at)
              .and_return(Time.zone.now)
@@ -381,12 +377,16 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                              .and_return(OpenStruct.new(body: ":)"))
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "aaa",
-        api_key: "aaa",
-        access_token: "aaa",
-        access_token_secret: "aaa",
         app_package: app_package,
-        external_id: "TQUC0ASKT"
+        external_id: "TQUC0ASKT",
+        settings: {
+          api_secret: "aaa",
+          api_key: "aaa",
+          access_token: "aaa",
+          access_token_secret: "aaa",
+          slack_channel_name: "chan1",
+          slack_channel_name_leads: "chan1"
+        }
       )
     end
 

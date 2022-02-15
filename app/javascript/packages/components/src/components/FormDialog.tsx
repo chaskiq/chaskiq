@@ -57,7 +57,7 @@ function FormDialog(props) {
 
           <div className="mt-3 sm:mt-0 text-left">
             {props.titleContent && (
-              <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+              <h3 className="text-xl leading-6 font-semibold text-gray-900 dark:text-gray-100">
                 {props.titleContent}
               </h3>
             )}
