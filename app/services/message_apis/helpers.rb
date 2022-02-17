@@ -150,5 +150,50 @@ module MessageApis
 
       conversation_part_channel.conversation_part.read!
     end
+
+    def find_conversation_by_channel(provider, channel)
+      conversation = @package
+                     .app
+                     .conversations
+                     .joins(:conversation_channels)
+                     .where(
+                       "conversation_channels.provider =? AND
+        conversation_channels.provider_channel_id =?",
+                       provider, channel
+                     ).first
+    end
+
+    def add_participant(user_data, provider)
+      app = @package.app
+
+      if user_data
+
+        profile_data = {
+          name: "#{user_data['first_name']} #{user_data['last_name']}"
+        }
+
+        data = {
+          properties: profile_data
+        }
+
+        external_profile = app.external_profiles.find_by(
+          provider: provider,
+          profile_id: user_data["id"]
+        )
+
+        participant = external_profile&.app_user
+
+        ## todo: check user for this & previous conversation
+        if participant.blank?
+          participant = app.add_anonymous_user(data)
+          participant.external_profiles.create(
+            provider: provider,
+            profile_id: user_data["id"]
+          )
+        end
+
+        participant
+      end
+    end
   end
 end
