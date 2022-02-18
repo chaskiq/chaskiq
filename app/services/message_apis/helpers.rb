@@ -139,7 +139,7 @@ module MessageApis
 
     def find_channel(id)
       ConversationPartChannelSource.find_by(
-        provider: PROVIDER,
+        provider: self.class::PROVIDER,
         message_source_id: id
       )
     end

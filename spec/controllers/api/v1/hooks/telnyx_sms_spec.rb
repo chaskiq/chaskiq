@@ -96,7 +96,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         app_package: app_package,
         settings: {
           api_key: "aaa",
-          profile_id: owner_phone
+          profile_id: owner_phone,
+          phones: "+56-2-2914-1453,+1-513-203-1070,+1-573-103-7079"
         }
       )
     end
@@ -158,6 +159,12 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       blocks = JSON.parse(message.serialized_content)["blocks"]
 
       expect(blocks.size).to be == 4
+    end
+
+    it "outbound phone resolve" do
+      klass = AppPackageIntegration.last.message_api_klass
+      expect(klass.resolve_outbound_phone("+56xxxxx")).to start_with("+56")
+      expect(klass.resolve_outbound_phone("+16xxxxx")).to start_with("+1")
     end
   end
 end

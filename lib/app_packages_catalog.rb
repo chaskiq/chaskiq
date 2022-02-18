@@ -689,7 +689,16 @@ class AppPackagesCatalog
             type: "string",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "phones",
+            label: "Numbers pool",
+            hint: "comma separated values for your phones",
+            type: "textarea",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
           }
+
         ]
       }
     ]
