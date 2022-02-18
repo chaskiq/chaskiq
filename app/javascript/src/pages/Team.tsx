@@ -368,14 +368,14 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                       </div>
 
                       <div className="ml-4">
-                        <div className="text-sm leading-5 font-medium text-gray-900">
+                        <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-50">
                           <Link
                             to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                           >
                             {row.displayName}
                           </Link>
                         </div>
-                        <div className="text-sm leading-5 text-gray-500">
+                        <div className="text-sm leading-5 text-gray-500 dark:text-gray-50">
                           <Link
                             to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                           >

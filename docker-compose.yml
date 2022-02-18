@@ -77,7 +77,7 @@ services:
 
   rails:
     <<: *backend
-    command: bundle exec rails server -b 0.0.0.0
+    command: ./bin/dev
     ports:
       - '3000:3000'
 
@@ -113,20 +113,6 @@ services:
       interval: 1s
       timeout: 3s
       retries: 30
-
-  webpacker:
-    <<: *app
-    command: ./bin/webpack-dev-server
-    ports:
-      - '3036:3036'
-    volumes:
-      - .:/app:cached
-      - bundle:/usr/local/bundle
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-    environment:
-      <<: *env
-      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
 
 volumes:
   postgres: null

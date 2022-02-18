@@ -10,18 +10,8 @@ import {
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation';
 
-import { updateApp } from '@chaskiq/store/src/actions/app';
-
-import { APP } from '@chaskiq/store/src/graphql/queries';
-import { CREATE_DIRECT_UPLOAD } from '@chaskiq/store/src/graphql/mutations';
 import settingsItems from '../layout/settingsItems';
-type AppSettingsContainerProps = {
-  dispatch: (value: any) => void;
-  match: any;
-  currentUser: any;
-  classes: string;
-  app: any;
-};
+
 function AppSettingsContainer({ app, dispatch }) {
   const items = settingsItems(app, () => false);
   React.useEffect(() => {
@@ -34,7 +24,7 @@ function AppSettingsContainer({ app, dispatch }) {
       {app && (
         <React.Fragment>
           <div>
-            <h2 className="text-lg font-medium text-gray-900">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-white">
               {I18n.t('settings.app.app_settings')}
             </h2>
             <p className="mt-1 text-sm text-gray-500">
@@ -42,16 +32,16 @@ function AppSettingsContainer({ app, dispatch }) {
             </p>
             <ul
               role="list"
-              className="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-1 gap-6 sm:grid-cols-2"
+              className="mt-6 border-t border-b border-gray-200 dark:border-black py-6 grid grid-cols-1 gap-6 sm:grid-cols-2"
             >
               {items.map((item) => (
                 <li className="flow-root">
-                  <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                    <div className="text-white flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-black">
+                  <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 dark:hover:bg-black focus-within:ring-2 focus-within:ring-indigo-500">
+                    <div className="text-white dark:text-black flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-black dark:bg-white">
                       {item.icon}
                     </div>
                     <div>
-                      <h3 className="text-sm font-medium text-gray-900">
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
                         <Link to={item.url} className="focus:outline-none">
                           <span
                             className="absolute inset-0"
@@ -61,7 +51,7 @@ function AppSettingsContainer({ app, dispatch }) {
                           <span aria-hidden="true"> &rarr;</span>
                         </Link>
                       </h3>
-                      <p className="mt-1 text-sm text-gray-500"></p>
+                      <p className="mt-1 text-sm text-gray-500 dark:bg-gray-100"></p>
                     </div>
                   </div>
                 </li>

@@ -16,7 +16,7 @@ gem "anycable-rails"
 # Use Puma as the app server
 gem "puma", "~> 5.6"
 # Use SCSS for stylesheets
-gem "sass-rails", "~> 5.0"
+gem "sass-rails"
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier", ">= 1.3.0"
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -79,7 +79,6 @@ gem "omniauth-oauth2"
 gem "image_processing", "~> 1.2"
 gem "sidekiq"
 gem "sidekiq-cron"
-gem "webpacker" # , "~> 5.4.0"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
 gem "roadie"
@@ -120,6 +119,8 @@ gem "globalize", github: "globalize/globalize"
 gem "bootsnap", ">= 1.1.0", require: false
 
 gem "dotenv-rails", groups: %i[development test]
+
+gem "sprockets", github: "rails/sprockets"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -162,3 +163,7 @@ end
 gem "php_serialize", "~> 1.2"
 gem "scout_apm", "~> 2.6"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+
+gem "jsbundling-rails", "~> 1.0"
+
+gem "tailwindcss-rails", "~> 2.0"
