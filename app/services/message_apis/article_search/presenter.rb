@@ -1,7 +1,6 @@
 module MessageApis::ArticleSearch
   class Presenter
     include ActionView::Helpers::AssetUrlHelper
-    include Webpacker::Helper
 
     def self.search_definitions
       [
@@ -188,11 +187,11 @@ module MessageApis::ArticleSearch
         			}
         		</style>
         		<script>
-                        window.article_meta = "<%= I18n.t('messenger.article_meta', name: @article.author.name, date: I18n.l(@article.updated_at,:format => :short) ) %>"
+              window.article_meta = "<%= I18n.t('messenger.article_meta', name: @article.author.name, date: I18n.l(@article.updated_at,:format => :short) ) %>"
         			window.articleJson=<%= @json_article.to_json %>
         			window.domain="<%= Rails.application.config.action_controller.asset_host %>";
         		</script>
-        		<script src="<%= "#{ActionController::Base.helpers.asset_pack_url('article.js')}" %>"></script>
+        		<script src="<%= "#{ActionController::Base.helpers.compute_asset_path('article.js')}" %>"></script>
         	</head>
         	<body>
         		<div class="container">

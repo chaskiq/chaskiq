@@ -118,10 +118,10 @@ const MessageItem = styled.div<MessageItemType>`
   ${
     (props) =>
       props.userOrAdmin === 'user'
-        ? tw`bg-white text-green-500`
+        ? tw`bg-gray-600 text-white dark:bg-gray-800 dark:border dark:border-black`
         : props.privateNote
         ? tw`bg-yellow-300 text-black`
-        : tw`bg-gray-700 text-white`
+        : tw`bg-gray-800 text-white dark:bg-black dark:border dark:border-gray-700 dark:text-white`
 
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -817,13 +817,14 @@ function Conversation({
                     conversation={conversation}
                   >
                     <ThemeProvider
-                      theme={
+                      theme={message.privateNote ? theme : themeDark}
+                      /*theme={
                         userOrAdmin === 'admin'
                           ? message.privateNote
                             ? theme
                             : themeDark
                           : theme
-                      }
+                      }*/
                     >
                       {message.message.blocks ? (
                         <RenderBlocks

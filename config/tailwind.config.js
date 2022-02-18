@@ -1,36 +1,14 @@
 // https://tailwindcss.com/docs/theme/
-
-// const { lighten, darken } = require('polished')
-
 const colors = require('tailwindcss/colors');
-
-const baseGray = '#ccc';
 const grayColors = {};
-/*
-const nums = [
-  { label: 100, amount: 0 },
-  { label: 200, amount: 0.06 },
-  { label: 300, amount: 0.2 },
-  { label: 400, amount: 0.3 },
-  { label: 500, amount: 0.4 },
-  { label: 600, amount: 0.5 },
-  { label: 700, amount: 0.6 },
-  { label: 800, amount: 0.7 },
-  { label: 900, amount: 0.8 },
-]
- nums.map(
-  (c) => {
-    grayColors[c.label] = darken(c.amount, '#f7f7f7')
-  }) 
-*/
 
 module.exports = {
   darkMode: 'class',
   mode: 'jit',
   experimental: {},
-  purge: {
+  //purge: {
     //enabled: false,
-    enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
+    //enabled: ['production', 'staging'].includes(process.env.NODE_ENV),
     content: [
       './app/**/*.html.erb',
       './app/**/*.erb',
@@ -43,7 +21,7 @@ module.exports = {
       './node_modules/rc-tooltip/**/*.js',
       './node_modules/rc-tooltip/**/*.css',
     ],
-  },
+  //},
   theme: {
     minWidth: {
       0: '0',
@@ -69,6 +47,8 @@ module.exports = {
     //  4: '4px'
     //},
 
+    colors: colors,
+
     extend: {
       colorsDisabled: {
         cyan: '#9cdbff',
@@ -79,9 +59,10 @@ module.exports = {
         current: 'currentColor',
         black: colors.black,
         white: colors.white,
-        gray: colors.trueGray,
+        gray: colors.zinc,
         indigo: colors.indigo,
         red: colors.rose,
+        green: colors.emerald,
         yellow: colors.amber,
       },
       spacing: {
