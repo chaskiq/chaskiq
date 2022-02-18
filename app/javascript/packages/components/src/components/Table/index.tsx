@@ -75,7 +75,7 @@ export default function Table({
       case 'markdown':
         return (
           <MarkdownStyle>
-            <ReactMarkdown source={item[object.field]} />
+            <ReactMarkdown>{item[object.field]}</ReactMarkdown>
           </MarkdownStyle>
         );
 

@@ -40,6 +40,8 @@ module Chaskiq
     
     config.encoding = 'utf-8'
 
+    config.assets.css_compressor = nil
+
     config.i18n.fallbacks = [I18n.default_locale]
 
     config.action_cable.disable_request_forgery_protection = true
