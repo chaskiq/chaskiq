@@ -21,7 +21,7 @@ esbuild
         logLevel: 'info',
         sourcemap: watch,
         define: { 
-            'process.env.NODE_ENV': process.env.NODE_ENV,
+            'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
             'global': 'window',
             'process.env.NODE_DEBUG': '""',
         },
