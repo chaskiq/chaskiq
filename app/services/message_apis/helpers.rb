@@ -134,7 +134,7 @@ module MessageApis
       )
       {
         url: Rails.application.routes.url_helpers.rails_blob_path(blob)
-      }.merge!(ActiveStorage::Analyzer::ImageAnalyzer.new(blob).metadata)
+      }.merge!(ActiveStorage::Analyzer::ImageAnalyzer::ImageMagick.new(blob).metadata)
     end
 
     def find_channel(id)
