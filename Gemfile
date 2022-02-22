@@ -7,7 +7,7 @@ ruby "2.7.5"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
-gem "rails", "6.1.4.4" # , github: "rails/rails",
+gem "rails", "7.0.2.2" # , github: "rails/rails",
 
 gem "anycable-rails"
 # Use sqlite3 as the database for Active Record
@@ -24,11 +24,10 @@ gem "uglifier", ">= 1.3.0"
 gem "haml"
 
 gem "devise" # , "4.7.1" # github: "plataformatec/devise"
-
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks", "~> 5"
+# gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder"
 # gem 'haml'
