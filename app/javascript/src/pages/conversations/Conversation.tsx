@@ -71,6 +71,10 @@ import {
 } from '@chaskiq/store/src/actions/conversation';
 
 import { AGENTS } from '@chaskiq/store/src/graphql/queries';
+import Avatar from '@chaskiq/components/src/components/Avatar';
+
+import bg from '../../images/bg/patterns/memphis-mini.png';
+import bgDark from '../../images/bg/patterns/papyrus-dark.png';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -85,12 +89,23 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
   }
 `;
 
-const BgContainer = styled.div`
-  //background-color: #DFDBE5;
-  background-image: radial-gradient(currentColor 2px, transparent 2px),
+type BgContainerProps = {
+  isDark?: string;
+};
+
+const BgContainer = styled.div<BgContainerProps>`
+  /*background-image: radial-gradient(currentColor 2px, transparent 2px),
     radial-gradient(currentColor 2px, transparent 2px);
   background-size: calc(20 * 2px) calc(20 * 2px);
-  background-position: 0 0, calc(10 * 2px) calc(10 * 2px);
+  background-position: 0 0, calc(10 * 2px) calc(10 * 2px);*/
+
+  background-image: url(${(props) => {
+    //@ts-ignore
+    return props.isDark ? bgDark : bg;
+  }});
+
+  /* background-size: calc(40px) calc(40px); */
+  background-position: 0px 0px, calc(20px) calc(20px);
 `;
 
 type MessageItemType = {
@@ -103,10 +118,10 @@ const MessageItem = styled.div<MessageItemType>`
   ${
     (props) =>
       props.userOrAdmin === 'user'
-        ? tw`bg-white text-green-500`
+        ? tw`bg-gray-600 text-white dark:bg-gray-800 dark:border dark:border-black`
         : props.privateNote
         ? tw`bg-yellow-300 text-black`
-        : tw`bg-gray-700 text-white`
+        : tw`bg-gray-800 text-white dark:bg-black dark:border dark:border-gray-700 dark:text-white`
 
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -123,6 +138,7 @@ function Conversation({
   events,
   toggleFixedSidebar,
   fixedSidebarOpen,
+  isDark,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
 
@@ -143,8 +159,10 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
-  const [conversationPartSelected, setConversationPartSelected] =
-    React.useState(false);
+  const [
+    conversationPartSelected,
+    setConversationPartSelected,
+  ] = React.useState(false);
 
   const appId = app.key;
 
@@ -335,12 +353,16 @@ function Conversation({
         key={`conversations-messages/${message.key}`}
       >
         {userOrAdmin === 'user' && (
-          <img
-            alt={message.appUser.displayName}
-            src={message.appUser.avatarUrl}
+          <div
+            className={`cursor-pointer w-10 h-10 ${avatarM}`}
             onClick={handleUserSidebar}
-            className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
-          />
+          >
+            <Avatar
+              size={10}
+              alt={message.appUser.displayName}
+              src={message.appUser.avatarUrl}
+            />
+          </div>
         )}
 
         <AppPackagePanel
@@ -501,7 +523,10 @@ function Conversation({
   };
 
   return (
-    <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
+    <BgContainer
+      isDark={isDark}
+      className="flex-1 flex flex-col overflow-hidden-- h-screen"
+    >
       <div
         className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
         style={{ height: '63px' }}
@@ -515,13 +540,16 @@ function Conversation({
           </Link>
 
           {conversation.mainParticipant && !fixedSidebarOpen && (
-            <img
-              // onClick={handleUserSidebar}
+            <div
               onClick={toggleFixedSidebar}
               className="h-9 w-9 rounded-full mr-2 cursor-pointer"
-              src={conversation.mainParticipant.avatarUrl}
-              alt=""
-            />
+            >
+              <Avatar
+                size={9}
+                alt={conversation.mainParticipant.displayName}
+                src={conversation.mainParticipant.avatarUrl}
+              />
+            </div>
           )}
           <h3
             className="mb-1 text-grey-darkest hidden md:flex 
@@ -789,13 +817,14 @@ function Conversation({
                     conversation={conversation}
                   >
                     <ThemeProvider
-                      theme={
+                      theme={message.privateNote ? theme : themeDark}
+                      /*theme={
                         userOrAdmin === 'admin'
                           ? message.privateNote
                             ? theme
                             : themeDark
                           : theme
-                      }
+                      }*/
                     >
                       {message.message.blocks ? (
                         <RenderBlocks
@@ -1102,10 +1131,19 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer } = state;
+  const {
+    auth,
+    app,
+    conversation,
+    app_user,
+    current_user,
+    drawer,
+    theme,
+  } = state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;
+  const isDark = theme === 'dark';
 
   return {
     jwt,
@@ -1117,6 +1155,7 @@ function mapStateToProps(state) {
     app,
     drawer,
     isAuthenticated,
+    isDark,
   };
 }
 

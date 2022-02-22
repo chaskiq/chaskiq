@@ -5,8 +5,6 @@ import Tooltip from 'rc-tooltip';
 import icon from '../images/favicon.png';
 import {
   MoreIcon,
-  WebhooksIcon,
-  ApiIcon,
   DashboardIcon,
   PlatformIcon,
   ConversationChatIcon,
@@ -24,15 +22,13 @@ import {
   ArticlesIcon,
   CollectionsIcon,
   ChatIcon,
-  BillingIcon,
-  IntegrationsIcon,
-  TeamIcon,
-  MessengerIcon,
-  AppSettingsIcon,
   DarkModeIcon,
   LightModeIcon,
   ChartsIcons,
+  KeyIcon,
 } from '@chaskiq/components/src/components/icons';
+
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
 
 import I18n from '../shared/FakeI18n';
 
@@ -55,6 +51,14 @@ import { signout } from '@chaskiq/store/src/actions/auth';
 
 import SwitchControl from '@chaskiq/components/src/components/Switch';
 
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
+import { LangGlobeIcon } from '@chaskiq/components/src/components/icons';
+import { PlusIcon } from '@chaskiq/components/src/components/icons';
+import { EditIcon } from '@chaskiq/components/src/components/icons';
+import { LogoutIcon } from '@chaskiq/components/src/components/icons';
+
+// Icons from https://teenyicons.com/
+import app_settings_items from './settingsItems';
 declare global {
   interface Window {
     location: Location;
@@ -138,7 +142,7 @@ function Sidebar({
                 className="text-sm leading-5 text-gray-500 dark:text-gray-100 font-light"
                 dangerouslySetInnerHTML={{
                   __html: I18n.t('dashboard.hey', {
-                    name: app.name,
+                    name: escapeHTML(app.name),
                   }),
                 }}
               />
@@ -212,6 +216,7 @@ function Sidebar({
         icon: null,
         url: `/apps/${app.key}/segments/${o.id}`,
         active: isActivePage(`segment-${o.id}`),
+        allowed: allowedAccessTo(app, 'segments'),
       })),
     },
     {
@@ -226,6 +231,7 @@ function Sidebar({
           icon: <ConversationChatIcon />,
           url: `/apps/${app.key}/conversations`,
           active: isActivePage('Conversations'),
+          allowed: allowedAccessTo(app, 'conversations'),
         },
         {
           id: 'AssignmentRules',
@@ -233,6 +239,7 @@ function Sidebar({
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules'),
+          allowed: allowedAccessTo(app, 'conversations'),
         },
         {
           id: 'SidebarAgents',
@@ -254,6 +261,7 @@ function Sidebar({
           icon: <MailingIcon />,
           url: `${appid}/messages/campaigns`,
           active: isActivePage('campaigns'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
         {
           id: 'user_auto_messages',
@@ -261,6 +269,7 @@ function Sidebar({
           icon: <AutoMessages />,
           url: `${appid}/messages/user_auto_messages`,
           active: isActivePage('user_auto_messages'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
         {
           id: 'banners',
@@ -268,6 +277,7 @@ function Sidebar({
           icon: <BannersIcon />,
           url: `${appid}/messages/banners`,
           active: isActivePage('banners'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
         {
           id: 'tours',
@@ -275,6 +285,7 @@ function Sidebar({
           icon: <ToursIcon />,
           url: `${appid}/messages/tours`,
           active: isActivePage('tours'),
+          allowed: allowedAccessTo(app, 'campaigns'),
         },
       ],
     },
@@ -291,6 +302,7 @@ function Sidebar({
           icon: <OutboundIcon />,
           url: `${appid}/bots/outbound`,
           active: isActivePage('bot_outbound'),
+          allowed: allowedAccessTo(app, 'bots'),
         },
         {
           id: 'user_conversations',
@@ -298,6 +310,7 @@ function Sidebar({
           icon: <NewconversationIcon />,
           url: `${appid}/bots/new_conversations`,
           active: isActivePage('bot_new_conversations'),
+          allowed: allowedAccessTo(app, 'bots'),
         },
         {
           id: 'Settings',
@@ -305,6 +318,7 @@ function Sidebar({
           icon: <SettingsIcon />,
           url: `${appid}/bots/settings`,
           active: isActivePage('bot_settings'),
+          allowed: allowedAccessTo(app, 'bots'),
         },
       ],
     },
@@ -321,6 +335,7 @@ function Sidebar({
           icon: <ArticlesIcon />,
           url: `/apps/${app.key}/articles`,
           active: isActivePage('Articles'),
+          allowed: allowedAccessTo(app, 'help_center'),
         },
         {
           id: 'Collections',
@@ -328,6 +343,7 @@ function Sidebar({
           icon: <CollectionsIcon />,
           url: `/apps/${app.key}/articles/collections`,
           active: isActivePage('Collections'),
+          allowed: allowedAccessTo(app, 'help_center'),
         },
         {
           id: 'Settings',
@@ -335,6 +351,7 @@ function Sidebar({
           icon: <SettingsIcon />,
           url: `/apps/${app.key}/articles/settings`,
           active: isActivePage('Settings'),
+          allowed: allowedAccessTo(app, 'help_center'),
         },
       ],
     },
@@ -346,6 +363,7 @@ function Sidebar({
       children: [
         {
           id: 'ReportsMenu',
+          allowed: allowedAccessTo(app, 'reports'),
           render: () => [<SidebarReportMenu key={'reports-sidebar-menu'} />],
         },
       ],
@@ -378,61 +396,7 @@ function Sidebar({
         </svg>
       ),
       url: `/apps/${app.key}/settings`,
-      children: [
-        {
-          id: 'App Settings',
-          label: I18n.t('navigator.childs.app_settings'),
-          icon: <AppSettingsIcon />,
-          url: `/apps/${app.key}/settings`,
-          active: isActivePage('app_settings'),
-        },
-
-        {
-          id: 'Messenger',
-          label: I18n.t('navigator.childs.messenger_settings'),
-          icon: <MessengerIcon />,
-          url: `/apps/${app.key}/messenger`,
-          active: isActivePage('messenger'),
-        },
-
-        {
-          id: 'Team',
-          label: I18n.t('navigator.childs.team'),
-          icon: <TeamIcon />,
-          url: `/apps/${app.key}/team`,
-          active: isActivePage('team'),
-        },
-        {
-          id: 'Integrations',
-          label: I18n.t('navigator.childs.integrations'),
-          icon: <IntegrationsIcon />,
-          url: `/apps/${app.key}/integrations`,
-          active: isActivePage('integrations'),
-        },
-        {
-          id: 'Webhooks',
-          label: I18n.t('navigator.childs.webhooks'),
-          icon: <WebhooksIcon />,
-          url: `/apps/${app.key}/webhooks`,
-          active: isActivePage('webhooks'),
-        },
-        {
-          id: 'Api access',
-          label: I18n.t('navigator.childs.api_access'),
-          icon: <ApiIcon />,
-          url: `/apps/${app.key}/oauth_applications`,
-          active: isActivePage('oauth_applications'),
-        },
-        {
-          id: 'Billing',
-          icon: <BillingIcon />,
-          hidden: !app.subscriptionsEnabled,
-          label: I18n.t('navigator.childs.billing'),
-          url: `/apps/${app.key}/billing`,
-          active: isActivePage('billing'),
-        },
-        // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
-      ],
+      children: app_settings_items(app, isActivePage),
     },
   ];
 
@@ -464,13 +428,17 @@ function Sidebar({
                     url,
                     _onClick,
                     render,
+                    allowed,
                   }) =>
                     !render ? (
                       <Link
                         key={`sidebar-section-child-${id}-${childId}`}
                         to={url}
+                        aria-label={label}
+                        disabled={!allowed}
                         className={`
                         ${active ? 'bg-gray-200 dark:bg-black' : ''} 
+                        ${!allowed ? 'bg-gray-100 dark:bg-gray-100' : ''} 
                         bg-white hover:text-gray-600 hover:bg-gray-100 
                         dark:hover:text-gray-300 dark:hover:bg-black
                         dark:bg-black dark:text-gray-100 dark:focus:bg-black
@@ -591,10 +559,7 @@ function Sidebar({
           {renderInner()}
 
           <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
-            <a
-              href="#"
-              className="flex-shrink-0 group block focus:outline-none"
-            >
+            <div className="flex-shrink-0 group block focus:outline-none">
               <div className="flex items-center">
                 <div>
                   <img
@@ -607,7 +572,9 @@ function Sidebar({
                 </div>
                 <div className="ml-3 w-2/5 flex flex-wrap">
                   <p className="my-1 text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
-                    {current_user.email}
+                    <Link to={`/apps/${app.key}/agents/${current_user.id}`}>
+                      {current_user.email}
+                    </Link>
                   </p>
 
                   <div className="flex items-center space-x-2">
@@ -628,38 +595,51 @@ function Sidebar({
                           description: I18n.t(
                             'navigator.user_menu.create_app_description'
                           ),
-                          // icon: <SendIcon />,
                           id: 'new-app',
                           onClick: () => history.push('/apps/new'),
+                          icon: <PlusIcon />,
                         },
 
                         {
                           id: 'choose-lang',
                           title: I18n.t('home.choose_lang'),
                           onClick: openLangChooser,
+                          icon: <LangGlobeIcon />,
                         },
                         {
                           id: 'edit-profile',
                           title: I18n.t('home.edit_profile'),
+                          icon: <EditIcon />,
+                          onClick: () =>
+                            history.push(
+                              `/apps/${app.key}/agents/${current_user.id}`
+                            ),
+                          //onClick: () =>
+                          //  (window.location.href = '/agents/edit'),
+                        },
+                        {
+                          id: 'edit-credentials',
+                          title: I18n.t('home.edit_credentials'),
+                          icon: (
+                            <span className="flex space-x-2 items-center">
+                              <KeyIcon />
+                            </span>
+                          ),
                           onClick: () =>
                             (window.location.href = '/agents/edit'),
                         },
                         {
                           id: 'toggle-dark-mode',
-                          title: (
-                            <span className="flex space-x-2 items-center">
-                              {theme === 'light' ? (
-                                <DarkModeIcon />
-                              ) : (
-                                <LightModeIcon />
-                              )}
-                              <span>
-                                {theme === 'light'
-                                  ? I18n.t('common.toggle_dark_mode')
-                                  : I18n.t('common.toggle_light_mode')}
-                              </span>
-                            </span>
-                          ),
+                          title:
+                            theme === 'light'
+                              ? I18n.t('common.toggle_dark_mode')
+                              : I18n.t('common.toggle_light_mode'),
+                          icon:
+                            theme === 'light' ? (
+                              <DarkModeIcon />
+                            ) : (
+                              <LightModeIcon />
+                            ),
                           onClick: () =>
                             dispatch(
                               toggleTheme(theme === 'light' ? 'dark' : 'light')
@@ -667,8 +647,7 @@ function Sidebar({
                         },
                         {
                           title: I18n.t('navigator.user_menu.signout'),
-                          // description: "delivers the campaign",
-                          // icon: <SendIcon />,
+                          icon: <LogoutIcon />,
                           id: 'sign-out',
                           onClick: handleSignout,
                         },
@@ -695,7 +674,7 @@ function Sidebar({
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
         </div>
       )}

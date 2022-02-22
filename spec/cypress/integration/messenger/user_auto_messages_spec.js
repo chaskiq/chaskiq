@@ -35,7 +35,7 @@ describe('Conversation Spec', function () {
             cy.get('#messageFrame').then(function ($iframe) {
               const $body = $iframe.contents().find('body')
               cy.wrap($body)
-                .xpath('/html/body/div/div/div/div/div/div/div[2]/a')
+                .xpath('/html/body/main/div/div/div/div/div/div[2]/a')
                 .click()
 
               cy.visit(`/tester/${appKey}`).then(() => {

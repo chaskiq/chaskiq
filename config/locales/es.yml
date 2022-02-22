@@ -16,7 +16,7 @@ es:
     not_found: La página que buscas no existe.
     get_snippet: Consigue el fragmento de código
     submit: Submit
-    confirm_deletion: "¿Confirmar eliminar?"
+    confirm_deletion: '¿Confirmar eliminar?'
     confirm_deletion_ready: '¿Estás seguro de eliminar?'
     next: Siguente
     prev: Anterior
@@ -51,8 +51,8 @@ es:
     search_conversations: Buscar conversaciones
     days: Días
   status_messages:
-    error: "Error"
-    success: "Éxito"
+    error: 'Error'
+    success: 'Éxito'
     updated_success: Actualizado correctamente
     updated_error: Error actualizando
     created_success: Creado con éxito
@@ -73,6 +73,7 @@ es:
     create_new: Crear una nueva aplicación
     choose_lang: Seleccionar idioma
     edit_profile: Editar perfil
+    edit_credentials: Edit user credentials
     go_to_doc: Ir a la documentación
   dashboard:
     hey: "👋 ¡Hola! ¡Estás viendo el panel de control de <strong>%{name}de</strong> ! <br /> Obtén un fragmento de instalación para la configuración web <br />"
@@ -126,6 +127,20 @@ es:
       create_app_description: 'Crea la aplicación Chaskiq de tu empresa'
       signout: Desconectar
       title: Menú del usuario
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Guardar
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: Iniciar conversación
     title: Conversaciones
@@ -215,7 +230,7 @@ es:
     pause_description: interrumpe la campaña
     clone_title: Clonar
     clone_description: clona la campaña
-    activate: "Activar campaña"
+    activate: 'Activar campaña'
     enables: Habilita campaña
     disables: Desactiva la campaña
     state:
@@ -264,8 +279,8 @@ es:
     reply_soon: Hola, %{name} responderá lo antes posible.
     reply_agent: recibirás una respuesta de uno de nuestros agentes
     email_support: para obtener soporte que puede enviar por correo electrónico a %{email}
-    outbound: "🏓 Saliente"
-    new_conversations: "👋 Nuevas conversaciones"
+    outbound: '🏓 Saliente'
+    new_conversations: '👋 Nuevas conversaciones'
     new_conversations_notice: Esto es lo que la gente verá cuando inicie una nueva conversación
     options:
       add_message: Añadir mensaje
@@ -317,7 +332,7 @@ es:
         email_only: Preguntar solo por email
         override:
           label: Anular el comportamiento predeterminado con tu propio bot de tareas
-          hint: "Cuando hagas esto, el comportamiento por defecto a continuación no tendrá lugar y la tarea se activará en cada nueva conversación"
+          hint: 'Cuando hagas esto, el comportamiento por defecto a continuación no tendrá lugar y la tarea se activará en cada nueva conversación'
       users:
         tab: Para usuarios
         start_conversation: Seleccione una conversación o inicie una
@@ -374,7 +389,7 @@ es:
     add_as_dialog:
       title: Añadir este mensaje como respuesta rápida
   new_app:
-    title: "Crea la aplicación Chaskiq de tu empresa"
+    title: 'Crea la aplicación Chaskiq de tu empresa'
     text: Proporcione información básica para configurar Chaskiq para su equipo y sus clientes.
     hint: Crea la aplicación Chaskiq de tu empresa
   settings:
@@ -396,6 +411,7 @@ es:
       security: Seguridad
       messenger_settings: Configuración de Messenger
       appearance: Apariencia
+      contact_avatars: Contact avatars
       appearance_title: Apariencia
       privacy: Privacidad
       privacy_title: Configuración de privacidad
@@ -436,7 +452,7 @@ es:
         title: "APIs disponibles"
         text: Servicios disponibles
       yours:
-        title: "Aplicaciones de integración"
+        title: 'Aplicaciones de integración'
         text: Aplicaciones de integración creadas por ti
       hints:
         hook_url: Esta integración recibirá webhook en
@@ -457,22 +473,22 @@ es:
         hint: Durante el horario de oficina, haga saber a sus clientes cuándo pueden esperar una respuesta.
         options:
           - 
-            value: "auto"
-            label: "Hora de respuesta automática. Actualmente el equipo responderá lo antes posible"
+            value: 'auto'
+            label: 'Hora de respuesta automática. Actualmente el equipo responderá lo antes posible'
           - 
-            value: "minutos"
-            label: "Normalmente respondemos en cuestión de horas."
+            value: 'minutos'
+            label: 'Normalmente respondemos en cuestión de horas.'
           - 
-            value: "horas"
-            label: "Normalmente respondemos en cuestión de horas."
+            value: 'horas'
+            label: 'Normalmente respondemos en cuestión de horas.'
           - 
-            value: "1 día"
-            label: "El equipo suele responder en un día."
-        hint2: "Nota: el visitante recibirá una respuesta automática con la disponibilidad de su equipo durante horas fuera de la oficina o horas de respuesta largas."
+            value: '1 día'
+            label: 'El equipo suele responder en un día.'
+        hint2: 'Nota: el visitante recibirá una respuesta automática con la disponibilidad de su equipo durante horas fuera de la oficina o horas de respuesta largas.'
     email_requirement:
       title: Requiere un correo electrónico para nuevas conversaciones
       hint: Así siempre puedes volver a los visitantes de tu sitio web
-      ask: "Pide a los visitantes de tu sitio web que dejen su correo electrónico antes de iniciar un chat en vivo:"
+      ask: 'Pide a los visitantes de tu sitio web que dejen su correo electrónico antes de iniciar un chat en vivo:'
       options:
         - 
           label: Sólo fuera del horario de oficina
@@ -496,7 +512,7 @@ es:
       title2: visibilidad
       hint2: Controla quién ve el lanzador estándar de Messenger en tu sitio web.
       note2: CUALQUIER MESAJE QUE ENVÍE SERÁ ENTREGADO.
-      note3: "En la web, mostrar el lanzador estándar de Messenger para:"
+      note3: 'En la web, mostrar el lanzador estándar de Messenger para:'
       closed_replies_title: Evitar respuestas a conversaciones cerradas para %{name}
       closed_replies_enabled: Dejar que los usuarios respondan a mensajes cerrados en cualquier momento.
       closed_replies_disabled: Impedir que los usuarios respondan a conversaciones cerradas después.
@@ -558,6 +574,10 @@ es:
       inputs:
         name: Nombre del campo
         color: Color de campo
+    contact_avatars:
+      title: Contact avatars style
+      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
+      choose_color: Escoger color
     user_data:
       title: Campos personalizados
       default_fields: Atributos por defecto
@@ -642,6 +662,11 @@ es:
     import_type: Tipo de importación
     import_choose: Elija qué tipo de contactos importará
     select_file: Seleccionar archivo
+    definitions:
+      app_user: Verified User
+      lead: Prospectos
+      phone: Phone
+      company_name: Company Name
   segment_manager:
     add_filters: Agregar filtros
     select_fields: 'Seleccionar campos:'

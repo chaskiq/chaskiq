@@ -189,6 +189,7 @@ function HomeAppInserter({ app, update, option, capability }) {
       <InserterForm
         isOpen={isOpen}
         app={app}
+        location={'home'}
         closeHandler={closeHandler}
         handleAdd={handleAdd}
         packages={packages}

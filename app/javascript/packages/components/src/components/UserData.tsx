@@ -121,6 +121,20 @@ function UserData({ app_user, app, disableAvatar }) {
           <Accordeon
             items={[
               {
+                name: 'Contact Info',
+                component: null,
+                items: [
+                  {
+                    name: 'phone',
+                    value: app_user.properties?.phone,
+                  },
+                  {
+                    name: 'company name',
+                    value: app_user.properties?.company_name,
+                  },
+                ],
+              },
+              {
                 name: 'Location',
                 component: null,
                 items: [

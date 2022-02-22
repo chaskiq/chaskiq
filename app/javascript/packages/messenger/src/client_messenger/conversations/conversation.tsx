@@ -264,14 +264,14 @@ export function Conversation(props) {
         >
           {!isUserAutoMessage(o) && isAgent && (
             <ConversationSummaryAvatar>
-              <img src={o.appUser.avatarUrl} />
+              <img alt={o.appUser.displayName} src={o.appUser.avatarUrl} />
             </ConversationSummaryAvatar>
           )}
 
           <div className="message-content-wrapper">
             {isUserAutoMessage(o) && (
               <UserAutoChatAvatar>
-                <img src={o.appUser.avatarUrl} />
+                <img alt={o.appUser.displayName} src={o.appUser.avatarUrl} />
                 <span>{o.appUser.name || '^'}</span>
               </UserAutoChatAvatar>
             )}
@@ -313,6 +313,8 @@ export function Conversation(props) {
         searcheableFields={appData.searcheableFields}
         displayAppBlockFrame={displayAppBlockFrame}
         getPackage={getPackage}
+        triggerId={o.triggerId}
+        stepId={o.stepId}
         // {...o}
       />
     );
@@ -336,7 +338,7 @@ export function Conversation(props) {
           conversation.messages.collection.length >= 3 && (
             <FooterAckInline>
               <a href="https://chaskiq.io" target="blank">
-                <img src={`${domain}/logo-gray.png`} />{' '}
+                <img alt="Chaskiq.io" src={`${domain}/logo-gray.png`} />{' '}
                 {i18n.t('messenger.runon')}
               </a>
             </FooterAckInline>
@@ -412,6 +414,7 @@ export function Conversation(props) {
   function renderFooter() {
     return (
       <Footer
+        conversationState={conversation.state}
         isInputEnabled={isInputEnabled()}
         className={footerClassName || ''}
       >
@@ -458,7 +461,8 @@ export function Conversation(props) {
   }
 
   return (
-    <div
+    <main
+      aria-labelledby="conversation"
       style={{
         position: 'absolute',
         top: '0',
@@ -468,7 +472,7 @@ export function Conversation(props) {
       }}
     >
       {inline_conversation ? renderInline() : renderDefault()}
-    </div>
+    </main>
   );
 }
 

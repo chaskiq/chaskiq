@@ -1,4 +1,4 @@
-import { appFragment } from './fragments';
+import { appFragment, appUserFragment } from './fragments';
 
 export const UPDATE_APP = `
   mutation AppsUpdate($appKey: String!, $appParams: Json!){
@@ -41,38 +41,7 @@ export const CREATE_APP = `
 export const APP_USER_UPDATE_STATE = `
   mutation AppUserUpdateData($appKey: String!, $id: Int!, $state: String!){
     appUserUpdateData(appKey: $appKey, id: $id, state: $state){
-      appUser {
-        id
-        email
-        avatarUrl
-        lastVisitedAt
-        referrer
-        state
-        ip
-        city
-        region
-        country
-        lat
-        lng
-        postal
-        webSessions
-        timezone
-        browser
-        browserVersion
-        os
-        osVersion
-        browserLanguage
-        online
-        lang
-        displayName
-        name
-        externalProfiles {
-          id
-          provider
-          profileId
-          data
-        }
-      }
+      ${appUserFragment}
     }
   }
 `;
@@ -80,38 +49,17 @@ export const APP_USER_UPDATE_STATE = `
 export const APP_USER_UPDATE = `
   mutation UpdateAppUser($appKey: String!, $id: Int!, $options: Json!){
     updateAppUser(appKey: $appKey, id: $id, options: $options){
-      appUser {
-        id
-        email
-        avatarUrl
-        lastVisitedAt
-        referrer
-        state
-        ip
-        city
-        region
-        country
-        lat
-        lng
-        postal
-        webSessions
-        timezone
-        browser
-        browserVersion
-        os
-        osVersion
-        browserLanguage
-        online
-        lang
-        displayName
-        name
-        externalProfiles {
-          id
-          provider
-          profileId
-          data
-        }
-      }
+      ${appUserFragment}
+      errors
+    }
+  }
+`;
+
+export const APP_USER_CREATE = `
+  mutation CreateAppUser($appKey: String!, $options: Json!){
+    createAppUser(appKey: $appKey, options: $options){
+      ${appUserFragment}
+      errors
     }
   }
 `;
@@ -119,38 +67,7 @@ export const APP_USER_UPDATE = `
 export const SYNC_EXTERNAL_PROFILE = `
   mutation SyncExternalProfile($appKey: String!, $id: Int!, $provider: String!){
     syncExternalProfile(appKey: $appKey, id: $id, provider: $provider){
-      appUser {
-        id
-        email
-        avatarUrl
-        lastVisitedAt
-        referrer
-        state
-        ip
-        city
-        region
-        country
-        lat
-        lng
-        postal
-        webSessions
-        timezone
-        browser
-        browserVersion
-        os
-        osVersion
-        browserLanguage
-        online
-        lang
-        displayName
-        name
-        externalProfiles {
-          id
-          provider
-          profileId
-          data
-        }
-      }
+      ${appUserFragment}
     }
   }
 `;
@@ -354,8 +271,8 @@ export const ASSIGN_USER = `
 `;
 
 export const CREATE_ASSIGNMENT_RULE = `
-  mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $active: String!, $conditions: Json!){
-    createAssignmentRule(appKey: $appKey, agentId: $agentId, title: $title, active: $active, conditions: $conditions){
+  mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $conditions: Json!){
+    createAssignmentRule(appKey: $appKey, agentId: $agentId, title: $title, conditions: $conditions){
       errors
       assignmentRule{
         id
@@ -382,8 +299,8 @@ export const UPDATE_RULE_PRIORITIES = `
 `;
 
 export const EDIT_ASSIGNMENT_RULE = `
-  mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $active: String!, $conditions: Json!){
-    editAssignmentRule(appKey: $appKey, ruleId: $ruleId, agentId: $agentId, title: $title, active: $active, conditions: $conditions){
+  mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $conditions: Json!){
+    editAssignmentRule(appKey: $appKey, ruleId: $ruleId, agentId: $agentId, title: $title, conditions: $conditions){
       errors
       assignmentRule{
         id
@@ -807,10 +724,13 @@ export const UPDATE_AGENT_ROLE = `
   mutation UpdateAgentRole($appKey: String!, $id: String!, $params: Json!){
     updateAgentRole(appKey: $appKey, id: $id, params: $params){
       agent {
+        id
         email
         avatarUrl
         name
         lang
+        agentId
+        
       }
     }
   }
@@ -1380,8 +1300,8 @@ export const DELETE_INTEGRATION = `
 `;
 
 export const CREATE_PACKAGE = `
-  mutation CreatePackage($appKey: String!, $appPackage: String! , $params: Json!){
-    appPackagesCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
+  mutation CreatePackage($appKey: String!, $params: Json!){
+    appPackagesCreate(appKey: $appKey, params: $params){
       errors
       appPackage {
         id
@@ -1396,6 +1316,8 @@ export const CREATE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
         oauthUrl
       }
     }
@@ -1403,7 +1325,7 @@ export const CREATE_PACKAGE = `
 `;
 
 export const UPDATE_PACKAGE = `
-  mutation UpdatePackage($appKey: String!, $id: String!, , $params: Json!){
+  mutation UpdatePackage($appKey: String!, $id: String!, $params: Json!){
     appPackagesUpdate(appKey: $appKey, id: $id, params: $params){
       errors
       appPackage {
@@ -1419,6 +1341,8 @@ export const UPDATE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
         oauthUrl
       }
     }
@@ -1442,6 +1366,8 @@ export const DELETE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
         oauthUrl
       }
     }
@@ -1455,6 +1381,7 @@ export default {
   CREATE_APP,
   APP_USER_UPDATE_STATE,
   APP_USER_UPDATE,
+  APP_USER_CREATE,
   SYNC_EXTERNAL_PROFILE,
   START_CONVERSATION,
   INSERT_COMMMENT,

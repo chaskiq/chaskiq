@@ -64,8 +64,11 @@ module PackageIframeBehavior
 
   def handle_user_data(data)
     user_data = @app.decrypt(data["data"]["enc_data"])
+
     app_user = if user_data.present? && user_data[:email].present?
                  @app.app_users.users.find_by(email: user_data[:email])
+               elsif data.dig("data", "enc_data", "identifier_key") && @app.compare_user_identifier(data["data"]["enc_data"])
+                 @app.app_users.users.find_by(email: data.dig("data", "enc_data", "email"))
                else
                  @app.app_users.find_by(
                    session_id: cookies[cookie_namespace]
@@ -79,7 +82,7 @@ module PackageIframeBehavior
 
   def handle_url_data(url_base)
     if url_base.match(%r{^/package_iframe_internal/})
-      "#{ENV['HOST']}#{url_base}"
+      "#{Chaskiq::Config.get('HOST')}#{url_base}"
     else
       url_base
     end

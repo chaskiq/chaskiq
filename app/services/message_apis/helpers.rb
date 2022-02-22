@@ -136,5 +136,19 @@ module MessageApis
         url: Rails.application.routes.url_helpers.rails_blob_path(blob)
       }.merge!(ActiveStorage::Analyzer::ImageAnalyzer.new(blob).metadata)
     end
+
+    def find_channel(id)
+      ConversationPartChannelSource.find_by(
+        provider: PROVIDER,
+        message_source_id: id
+      )
+    end
+
+    def process_read(id)
+      conversation_part_channel = find_channel(id)
+      return if conversation_part_channel.blank?
+
+      conversation_part_channel.conversation_part.read!
+    end
   end
 end

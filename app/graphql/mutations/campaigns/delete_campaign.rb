@@ -11,13 +11,17 @@ module Mutations
 
       def resolve(id:, app_key:)
         find_app(app_key)
+        @campaign = @app.messages.find(id)
+        authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+          app: @app
+        }
         delete_campaign(id)
         { campaign: @campaign, errors: @campaign.errors }
       end
 
       def delete_campaign(id)
         # TODO: async relation data destroy
-        @campaign = @app.messages.find(id).destroy
+        @campaign.destroy
       end
 
       def find_app(app_id)

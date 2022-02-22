@@ -9,7 +9,7 @@ class AppPackageIntegration < ApplicationRecord
 
   # possible names for api requirements,
   # it also holds a credentials accessor in which can hold a hash
-  store :settings, accessors: %i[
+  DEFAULT_ACCESSORS = %i[
     api_key
     api_secret
     endpoint_url
@@ -22,16 +22,28 @@ class AppPackageIntegration < ApplicationRecord
     credentials
     verify_token
     sandbox
-  ], coder: JSON
+  ].freeze
+
+  DB_ATTRIBUTES = %i[
+    app_package_id
+    app_id
+    settings
+    state
+    created_at
+    updated_at
+    external_id
+  ].freeze
+
+  store :settings, accessors: DEFAULT_ACCESSORS, coder: JSON
 
   validate do
     app_package.definitions.each do |definition|
       next unless definition[:required]
 
       key = definition[:name].to_sym
-      next unless self.class.stored_attributes[:settings].include?(key)
+      # next unless self.class.stored_attributes[:settings].include?(key)
 
-      errors.add(key, "#{key} is required") if send(key).blank?
+      errors.add(key, "#{key} is required") if self[:settings][key].blank?
     end
   end
 
@@ -56,11 +68,17 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{app_package.name}::Api".constantize.new(
-      config: settings.dup.merge(package: self).merge(
-        app_package.credentials || {}
-      )
+    config = settings.dup.merge(package: self).merge(
+      app_package.credentials || {}
     )
+
+    @message_api_klass ||= if app_package.is_external?
+                             ExternalApiClient.new(config: config)
+                           else
+                             "MessageApis::#{app_package.name}::Api".constantize.new(
+                               config: config
+                             )
+                           end
     # rescue nil
   end
 
@@ -137,12 +155,12 @@ class AppPackageIntegration < ApplicationRecord
 
   def hook_url
     # host = 'https://chaskiq.ngrok.io'
-    host = ENV["HOST"]
+    host = Chaskiq::Config.get("HOST")
     "#{host}/api/v1/hooks/receiver/#{encoded_id}"
   end
 
   def oauth_url
-    "#{ENV['HOST']}/api/v1/oauth/callback/#{encoded_id}"
+    "#{Chaskiq::Config.get('HOST')}/api/v1/oauth/callback/#{encoded_id}"
   end
 
   def receive_oauth_code(params)
@@ -216,11 +234,73 @@ class AppPackageIntegration < ApplicationRecord
   end
 end
 
+class ExternalApiClient
+  attr_accessor :config
+  attr_reader :api_url
+
+  def initialize(config:)
+    @config  = config
+    @api_url = config["package"].app_package.api_url
+  end
+
+  def trigger(event)
+    data = event.as_json
+
+    payload = {
+      action: event.action,
+      created_at: event.created_at,
+      data: {
+        subject: subject_data(event.eventable),
+        properties: event.properties
+      }
+    }
+
+    post(@api_url, payload)
+  end
+
+  def report(path, options = {})
+    # post(@api_url)
+  end
+
+  def enqueue_process_event(params, integration)
+    params.merge!({ package: integration.as_json })
+    post(@api_url, params)
+  end
+
+  def conn
+    # site = Addressable::URI.parse(@api_url).site
+    # @conn ||= Faraday.new(:url => site , request: { timeout: 2 } ) do |faraday|
+    @conn ||= Faraday.new(request: { timeout: 2 }) do |faraday|
+      faraday.request  :url_encoded
+      faraday.response :logger
+      faraday.adapter  Faraday.default_adapter
+    end
+  end
+
+  def post(url, data)
+    resp = conn.post(
+      url,
+      data.to_json,
+      "Content-Type" => "application/json"
+    )
+    JSON.parse(resp.body)
+  end
+
+  def subject_data(eventable)
+    case eventable.class
+    when Conversation
+      eventable.as_json(methods: %i[main_participant assignee latest_message]).to_json
+    else
+      eventable.to_json
+    end
+  end
+end
+
 class ExternalPresenterManager
   def self.post(url, data)
-    # it's just for restrict fields on app, refactor this!
+    # This it's just to restrict fields on app, refactor this!
     data[:ctx][:app] = data.dig(:ctx, :app).as_json(only: %i[key name])
-
+    data[:ctx][:current_user] = data.dig(:ctx, :current_user).as_json(methods: %i[email kind display_name avatar_url])
     resp = Faraday.post(
       url,
       data.to_json,

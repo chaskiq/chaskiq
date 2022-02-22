@@ -43,7 +43,7 @@ export function ListItem({
         className={`${clicableClasses} block
         hover:bg-gray-100
         dark:bg-black
-        dark:hover:bg-gray-900
+        dark:hover:bg-gray-800
         dark:focus:bg-gray-800
         focus:outline-none focus:bg-gray-200 transition duration-150
         ease-in-out`}

@@ -3,12 +3,6 @@
 require "uri"
 require "erb"
 
-def valid_url?(uri)
-  uri = URI.parse(uri).try(:host)
-rescue URI::InvalidURIError
-  false
-end
-
 module MessageApis::Calendly
   class Api < MessageApis::BasePackage
     # https://developer.calendly.com/docs

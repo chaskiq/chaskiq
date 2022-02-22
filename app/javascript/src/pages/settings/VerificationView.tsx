@@ -170,7 +170,7 @@ function VerificationView({ app }) {
 
       <p className="">
         {I18n.t('identified_users.hint1')}
-        {I18n.t('identified_users.hmac_hint1')}
+        {/*I18n.t('identified_users.hmac_hint1')*/}
       </p>
 
       <p className="font-bold">{I18n.t('identified_users.lang')}</p>

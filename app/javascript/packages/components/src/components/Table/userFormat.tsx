@@ -20,6 +20,7 @@ const userFormat = function (showUserDrawer, app) {
               <div className="flex-shrink-0 h-10 w-10">
                 <Avatar
                   size={'medium'}
+                  alt={row.id}
                   src={row.avatarUrl}
                   indicator={row.online}
                 />

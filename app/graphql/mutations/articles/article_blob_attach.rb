@@ -14,6 +14,10 @@ module Mutations
         # current_user.avatar.attach(blob_id)
         app = App.find_by(key: app_key)
         article = app.articles.find(id)
+
+        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
         article.images.attach(blob_id)
         { article: article }
       end

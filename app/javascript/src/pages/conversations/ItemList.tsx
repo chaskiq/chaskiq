@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { readableColor } from 'polished';
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
+import sanitizeHtml, {
+  escapeHTML,
+} from '@chaskiq/components/src/utils/htmlSanitize';
 import { LabelIcon } from '@chaskiq/components/src/components/icons';
+import Avatar from '@chaskiq/components/src/components/Avatar';
 
 export function textColor(color) {
   const lightReturnColor = '#121212';
@@ -15,7 +18,7 @@ export default function ConversationItemList({ app, conversation }) {
   const renderConversationContent = (o) => {
     const message = o.lastMessage.message;
     if (message.htmlContent) {
-      return sanitizeHtml(message.htmlContent).substring(0, 250);
+      return sanitizeHtml(escapeHTML(message.htmlContent)).substring(0, 250);
     }
   };
 
@@ -81,11 +84,7 @@ export default function ConversationItemList({ app, conversation }) {
       <div className="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800 dark:hover:bg-gray-800">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
-            <img
-              className="h-10 w-10 rounded-full"
-              src={user.avatarUrl}
-              alt={user.displayName}
-            />
+            <Avatar src={user.avatarUrl} alt={user.displayName} size="full" />
           </div>
 
           <div className="ml-4 truncate w-full">

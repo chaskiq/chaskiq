@@ -11,6 +11,10 @@ module Mutations
       def resolve(app_key:, rules:)
         find_app(app_key)
 
+        authorize! @app, to: :can_manage_assign_rules?, with: AppPolicy, context: {
+          app: @app
+        }
+
         rules.each_with_index do |object, index|
           @app.assignment_rules.find(object["id"]).update(priority: index + 1)
         end

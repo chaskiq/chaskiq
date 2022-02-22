@@ -98,7 +98,7 @@ Rails.application.configure do
     zone = ENV['AWS_S3_REGION']
 
     creds = Aws::Credentials.new(
-      ENV['AWS_ACCESS_KEY_ID'], 
+      ENV['AWS_ACCESS_KEY_ID'],
       ENV['AWS_SECRET_ACCESS_KEY']
     )
 
@@ -127,4 +127,19 @@ Rails.application.configure do
   #  :authentication => :login,
   #  :enable_starttls_auto => true
   # }
+
+
+  config.after_initialize do
+    require "i18n-js/listen"
+    I18nJS.listen(
+      config_file: Rails.root.join("config/i18n.yml"),
+      locales_dir: Rails.root.join("config/locales")
+    )
+  end
+
+  if Chaskiq::Config.get('RAILS_LOG_TO_STDOUT').present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  end
 end

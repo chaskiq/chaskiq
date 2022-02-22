@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import Platform from './Platform';
 import Conversations from './Conversations';
 import Settings from './Settings';
+import AppSettings from './AppSettings';
 import MessengerSettings from './MessengerSettings';
 import Team from './Team';
 import Webhooks from './Webhooks';
@@ -37,12 +38,15 @@ import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
 import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { setApp } from '@chaskiq/store/src/actions/app';
-import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
+import {
+  camelizeKeys,
+  dispatchUpdateConversationData,
+} from '@chaskiq/store/src/actions/conversation';
 
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
 import LoadingView from '@chaskiq/components/src/components/loadingView';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
-
+import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 import Sidebar from '../layout/sidebar';
 
 declare global {
@@ -115,6 +119,10 @@ function AppContainer({
           switch (data.type) {
             case 'conversation_part':
               return dispatch(appendConversation(camelizeKeys(data.data)));
+            case 'conversations:update_state':
+              return dispatch(
+                dispatchUpdateConversationData(camelizeKeys(data.data))
+              );
             case 'presence':
               return updateUser(camelizeKeys(data.data));
             case 'rtc_events':
@@ -169,7 +177,7 @@ function AppContainer({
             width: '100vw',
             height: '100vh',
           }}
-        ></div>
+        />
       )}
 
       {/* drawer.userDrawer && (
@@ -228,19 +236,31 @@ function AppContainer({
                 </Route>
 
                 <Route exact path={`${match.path}/segments/:segmentID/:Jwt?`}>
-                  <Platform />
+                  <RestrictedArea section="segments">
+                    <Platform />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/settings`}>
                   <Settings />
                 </Route>
 
+                <Route path={`${match.url}/app_settings`}>
+                  <RestrictedArea section="app_settings">
+                    <AppSettings />
+                  </RestrictedArea>
+                </Route>
+
                 <Route path={`${match.url}/messenger`}>
-                  <MessengerSettings />
+                  <RestrictedArea section="messenger_settings">
+                    <MessengerSettings />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/team`}>
-                  <Team />
+                  <RestrictedArea section="team">
+                    <Team />
+                  </RestrictedArea>
                 </Route>
 
                 <Route
@@ -256,35 +276,54 @@ function AppContainer({
                 />
 
                 <Route path={`${match.url}/webhooks`}>
-                  <Webhooks />
+                  <RestrictedArea section="outgoing_webhooks">
+                    <Webhooks />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/integrations`}>
-                  <Integrations />
+                  <RestrictedArea section="app_packages">
+                    <Integrations />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/reports`}>
-                  <Reports />
+                  <RestrictedArea section="reports">
+                    <Reports />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/articles`}>
-                  <Articles />
+                  <RestrictedArea section="help_center">
+                    <Articles />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/conversations`}>
-                  <Conversations subscribed events={CableApp.current.events} />
+                  <RestrictedArea section="conversations">
+                    <Conversations
+                      subscribed
+                      events={CableApp.current.events}
+                    />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/oauth_applications`}>
-                  <Api />
+                  <RestrictedArea section="oauth_applications">
+                    <Api />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/billing`}>
-                  <Billing />
+                  <RestrictedArea section="billing">
+                    <Billing />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/bots`}>
-                  <Bots />
+                  <RestrictedArea section="routing_bots">
+                    <Bots />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/campaigns`}>
@@ -292,7 +331,9 @@ function AppContainer({
                 </Route>
 
                 <Route path={`${match.path}/messages/:message_type`}>
-                  <Campaigns />
+                  <RestrictedArea section="campaigns">
+                    <Campaigns />
+                  </RestrictedArea>
                 </Route>
               </Switch>
             </ErrorBoundary>

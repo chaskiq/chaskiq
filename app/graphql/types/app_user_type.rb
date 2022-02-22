@@ -2,7 +2,7 @@
 
 module Types
   class AppUserType < Types::BaseObject
-    field :id, Int, null: false
+    field :id, Int, null: true
     field :email, String, null: true
     # field :user, [Types::UserType], null: true
     field  :last_visited_at, String, null: true

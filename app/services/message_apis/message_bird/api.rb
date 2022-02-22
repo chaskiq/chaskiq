@@ -68,21 +68,11 @@ module MessageApis::MessageBird
     def process_statuses(statuses)
       statuses.each do |status|
         case status["status"]
-        when "read" then process_read(status)
+        when "read" then process_read(status["id"])
         else
           Rails.logger.info "no processing for #{status['status']} event"
         end
       end
-    end
-
-    def process_read(params)
-      conversation_part_channel = ConversationPartChannelSource.find_by(
-        provider: PROVIDER,
-        message_source_id: params["id"]
-      )
-      return if conversation_part_channel.blank?
-
-      conversation_part_channel.conversation_part.read!
     end
 
     def get_message_id(response_data)
@@ -127,7 +117,7 @@ module MessageApis::MessageBird
         message_params.merge!({
                                 type: "image",
                                 image: {
-                                  link: ENV["HOST"] + image_block["data"]["url"],
+                                  link: Chaskiq::Config.get("HOST") + image_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -137,7 +127,7 @@ module MessageApis::MessageBird
         message_params.merge!({
                                 type: "video",
                                 video: {
-                                  url: ENV["HOST"] + video_block["data"]["url"],
+                                  url: Chaskiq::Config.get("HOST") + video_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -147,7 +137,7 @@ module MessageApis::MessageBird
         message_params.merge!({
                                 type: "document",
                                 file: {
-                                  url: ENV["HOST"] + file_block["data"]["url"],
+                                  url: Chaskiq::Config.get("HOST") + file_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })

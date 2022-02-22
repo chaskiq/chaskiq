@@ -11,6 +11,7 @@ module MessageApis
         id: package.id,
         params: params.permit!.to_h
       )
+      { status: :ok }
     end
 
     # triggered when a new chaskiq message is created

@@ -73,6 +73,7 @@ function Integrations({ app, dispatch }) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(null);
   const [openIntegrationDialog, _setOpenIntegrationDialog] = useState(null);
   const [baseErrors, setBaseErrors] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   const form = useRef(null);
 
@@ -121,6 +122,7 @@ function Integrations({ app, dispatch }) {
 
   function handleOpen(service) {
     setOpen(service);
+    setErrors(null);
   }
 
   function close() {
@@ -140,6 +142,7 @@ function Integrations({ app, dispatch }) {
 
   function createIntegration(serializedData) {
     setBaseErrors(null);
+    setErrors(null);
 
     graphql(
       CREATE_INTEGRATION,
@@ -156,6 +159,7 @@ function Integrations({ app, dispatch }) {
             dispatch(
               errorMessage(I18n.t('settings.integrations.create_error'))
             );
+            setErrors(data.integrationsCreate.errors);
             return;
           }
 
@@ -330,7 +334,7 @@ function Integrations({ app, dispatch }) {
           } integration`}
           formComponent={
             <form ref={form}>
-              <div>
+              <div className="overflow-auto max-h-96">
                 {baseErrors && (
                   <p className="p-2 border-red-600 bg-red-500 text-red-100 rounded-md my-2">
                     {baseErrors.join(', ')}
@@ -348,7 +352,7 @@ function Integrations({ app, dispatch }) {
                             ? camelizeKeys(open.settings)
                             : {},
                         }}
-                        errors={{}}
+                        errors={errors || {}}
                       />
                     </div>
                   );
@@ -359,7 +363,9 @@ function Integrations({ app, dispatch }) {
                 <div>
                   {open.oauthAuthorize && (
                     <div className="mb-4">
-                      <p>Authorize App</p>
+                      <p className="text-sm font-semibold leading-7">
+                        Authorize App
+                      </p>
 
                       <a
                         href={open.oauthAuthorize}
@@ -385,16 +391,18 @@ function Integrations({ app, dispatch }) {
                     </div>
                   )}
 
-                  <p>{I18n.t('settings.integrations.hints.hook_url')}</p>
+                  <p className="text-sm font-semibold leading-7">
+                    {I18n.t('settings.integrations.hints.hook_url')}
+                  </p>
 
                   <p>
                     {/* `${window.location.origin}/api/v1/hooks/${
                       app.key
                     }/${open.name.toLocaleLowerCase()}/${open.id}` */}
                     <input
-                      className={`shadow appearance-none border border-gray-500 
-                          rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100
-                          leading-tight focus:outline-none focus:shadow-outline`}
+                      className={`text-xs shadow appearance-none border border-black 
+                      rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100
+                      leading-tight focus:outline-none focus:shadow-outline bg-yellow-100 dark:bg-gray-900`}
                       type={'text'}
                       defaultValue={open.hookUrl}
                       disabled={true}
@@ -882,6 +890,24 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
     { label: 'Inbox detail', value: 'inbox' },
   ];
 
+  const eventsTypes = [
+    { label: 'Dashboard', value: 'dashboard' },
+    { label: 'Closed conversations', value: '"conversations.closed"' },
+    { label: 'editor', value: 'editor' },
+    { label: 'email_changed', value: 'email_changed' },
+    { label: 'leads.convert', value: 'leads.convert' },
+    {
+      label: 'conversation.user.first.comment',
+      value: 'conversation.user.first.comment',
+    },
+    { label: 'conversations.assigned', value: 'conversations.assigned' },
+    { label: 'conversations.prioritized', value: 'conversations.prioritized' },
+    { label: 'conversations.started', value: 'conversations.started' },
+    { label: 'conversations.added', value: 'conversations.added' },
+    { label: 'conversations.closed', value: 'conversations.closed' },
+    { label: 'conversations.reopened', value: 'conversations.reopened' },
+  ];
+
   function integrationDefinitions() {
     return [
       {
@@ -906,11 +932,30 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         options: capabilitiesTypes,
         grid: { xs: 'w-full', sm: 'w-full' },
       },
+
+      {
+        name: 'tag_list',
+        type: 'select',
+        label: 'Events',
+        hint: I18n.t('definitions.app_packages.capability_list.hint'),
+        multiple: true,
+        options: eventsTypes,
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+
       {
         name: 'description',
         label: I18n.t('definitions.app_packages.description.label'),
         type: 'textarea',
         hint: I18n.t('definitions.app_packages.description.hint'),
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+
+      {
+        name: 'api_url',
+        label: 'api webhook url (required)',
+        type: 'string',
+        hint: '(required) The main input where your app will receive webhooks',
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 
@@ -949,6 +994,14 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         type: 'string',
         hint: I18n.t('definitions.app_packages.submit_url.hint'),
         placeholder: I18n.t('definitions.app_packages.submit_url.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+      {
+        name: 'content_url',
+        label: I18n.t('definitions.app_packages.content_url.label'),
+        type: 'string',
+        hint: I18n.t('definitions.app_packages.content_url.hint'),
+        placeholder: I18n.t('definitions.app_packages.content_url.placeholder'),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {

@@ -44,23 +44,12 @@ module MessageApis::Vonage
       if params["status"].present?
         case params["status"]
         when "read"
-          process_read(params)
+          process_read(params["message_uuid"])
           return
         end
       end
 
       process_message(params, @package)
-    end
-
-    def process_read(params)
-      message_id = params["message_uuid"]
-      conversation_part_channel = ConversationPartChannelSource.find_by(
-        provider: PROVIDER,
-        message_source_id: message_id
-      )
-      return if conversation_part_channel.blank?
-
-      conversation_part_channel.conversation_part.read!
     end
 
     def get_message_id(response_data)
@@ -137,7 +126,7 @@ module MessageApis::Vonage
           content: {
             type: block_type,
             "#{block_type}": {
-              url: ENV["HOST"] + block["data"]["url"],
+              url: Chaskiq::Config.get("HOST") + block["data"]["url"],
               caption: plain_message
             }
           }

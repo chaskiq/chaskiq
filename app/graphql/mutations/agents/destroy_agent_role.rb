@@ -12,11 +12,22 @@ module Mutations
 
         agent = role&.agent
 
-        authorize! agent, to: :destroy_agent_role?, with: AppPolicy, context: {
-          role: app.roles.find_by(agent_id: current_user.id)
+        authorize! agent, to: :can_manage_team?, with: AppPolicy, context: {
+          app: app
         }
 
-        agent.destroy
+        ActiveRecord::Base.transaction do
+          role.destroy
+          Audit.create(
+            auditable_id: role.id,
+            auditable_type: role.class,
+            action: :agent_role_removed,
+            agent: current_user,
+            data: { role: role.as_json, agent: role.agent.as_json },
+            ip: context[:request].remote_ip,
+            app_id: app.id
+          )
+        end
 
         { agent: agent }
       end

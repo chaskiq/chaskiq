@@ -2,6 +2,7 @@
 fr:
   messenger:
     runon: Nous utilisons Chaskiq
+    show_more: Montre plus
     conversations:
       title: Discussions
     conversation_block:
@@ -22,6 +23,7 @@ fr:
     submit: Soumettre
     article_meta: 'Par: <strong>%{name}</strong> le <0>%{date}</0>'
     enter_your: 'Entrez votre %{field}'
+    closed_conversation: 'Cette conversation est terminée'
 
     editor:
       placeholder: 'Envoyer un message...'
@@ -33,7 +35,7 @@ fr:
         app_package_wait_reply: 'attend votre réponse'
         app_package_non_wait: 'vous a envoyé un contenu'
 
-    reply:
+    reply_time:
       auto: "L'équipe va vous répondre dès que possible"
       minutes: "L'équipe répond habituellement en quelques minutes"
       hours: "L'équipe répond habituellement en quelques heures"

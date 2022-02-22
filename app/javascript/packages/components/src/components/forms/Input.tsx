@@ -57,6 +57,7 @@ interface IWrapperComponent {
   style?: React.CSSProperties;
   onKeyDown?: (e: SyntheticEvent) => void;
   onKeyUp?: (e: SyntheticEvent) => void;
+  dispatch?: any;
 }
 
 const WrappedComponent = React.forwardRef(function Input(
@@ -73,6 +74,7 @@ const WrappedComponent = React.forwardRef(function Input(
     error,
     id,
     theme,
+    dispatch,
     ...props
   }: IWrapperComponent,
   ref: React.ForwardedRef<any>
@@ -136,6 +138,7 @@ const WrappedComponent = React.forwardRef(function Input(
 
   function renderText() {
     const { labelMargin, ...options } = props;
+    const { className, ...inputOptions } = options;
     return (
       <FormField
         name={name}
@@ -154,21 +157,22 @@ const WrappedComponent = React.forwardRef(function Input(
           placeholder={props.placeholder}
           ref={ref}
           id={id}
-          {...options}
+          {...inputOptions}
         />
       </FormField>
     );
   }
 
   function renderSelect() {
-    const initialValue =
-      props.data && props.data.multiple
-        ? isArray(defaultValue)
-          ? defaultValue.map((o) => ({ label: o, value: o }))
-          : defaultValue
-        : defaultValue;
-
     const isMulti = props.data && props.data.multiple;
+    let initialValue = isMulti
+      ? isArray(defaultValue)
+        ? defaultValue.map((o) => ({ label: o, value: o }))
+        : defaultValue
+      : props.options.find(
+          (o) => o.value == (defaultValue?.value || defaultValue)
+        );
+
     return (
       <FormField name={name} label={label} helperText={helperText}>
         <Select
@@ -314,7 +318,7 @@ const WrappedComponent = React.forwardRef(function Input(
             onChange={props.onChange}
             placeholder={props.placeholder}
             ref={ref}
-          ></textarea>
+          />
         </div>
         {helperText && (
           <div className="mt-2 text-sm text-gray-500">{helperText}</div>
@@ -353,7 +357,7 @@ const WrappedComponent = React.forwardRef(function Input(
                 timezone: defaultTZ,
               }),
             }}
-          ></div>
+          />
         )}
       </FormField>
     );
@@ -371,6 +375,7 @@ const WrappedComponent = React.forwardRef(function Input(
           color={value || defaultValue}
           name={name}
           label={label}
+          variant={props.variant}
           placeholder={props.placeholder}
           colorHandler={props.onChange}
           // label={'Primary color'}

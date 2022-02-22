@@ -129,4 +129,23 @@ RSpec.describe AppUser, type: :model do
       end
     end
   end
+
+  describe "update properties" do
+    it "updates properties on built in field" do
+      app_user.update(phone: "555 111 222 333")
+      expect(app_user.phone).to include("555")
+    end
+
+    it "does not update properties on non existing custom field" do
+      app.handle_app_user_params(app_user, aaa: "555 111 222 333")
+      app_user.save
+      expect(app_user.properties["aaa"]).to be_nil
+    end
+
+    it "updates properties on custom field" do
+      app.update(custom_fields: [{ name: "aaa", type: "string" }])
+      app.handle_app_user_params(app_user, aaa: "555 111 222 333")
+      expect(app_user.properties["aaa"]).to include("555")
+    end
+  end
 end

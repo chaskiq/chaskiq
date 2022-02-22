@@ -1,5 +1,11 @@
 module MessageApis::Calendly
   class Presenter
+    def self.valid_url?(uri)
+      uri = URI.parse(uri).try(:host)
+    rescue URI::InvalidURIError
+      false
+    end
+
     # Initialize flow webhook URL
     # Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.
     def self.initialize_hook(params)
@@ -174,7 +180,7 @@ module MessageApis::Calendly
                                 <style>
                   #{'              '}
                                 body {
-                                  background: url('https://www.toptal.com/designers/subtlepatterns/patterns/restaurant_icons.png');
+                                  background: url('https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/patterns/restaurant_icons.png');
                                   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;#{'  '}
                                   margin: 0px;
                                 }

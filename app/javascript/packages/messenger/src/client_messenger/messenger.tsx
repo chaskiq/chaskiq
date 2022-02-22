@@ -34,7 +34,7 @@ import {
 } from './graphql/queries';
 import GraphqlClient from './graphql/client';
 
-import GDPRView from './gdprView';
+import ConsentView from './consentView';
 import AppBlockPackageFrame from './packageFrame';
 
 import {
@@ -151,6 +151,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     console.log(this.context);
     // set language from user auth lang props
     //i18n.changeLanguage(this.props.lang)
+    i18n.enableFallback = true;
     i18n.locale = this.props.lang;
 
     this.homeHeaderRef = React.createRef();
@@ -235,7 +236,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
-      baseURL: `${this.props.domain}/api/graphql`,
+      url: `${this.props.domain}/api/graphql`,
     });
 
     App = {
@@ -926,7 +927,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     this.getNewConversationBot(() => {
       let result = [];
       const welcomeBot = this.state.appData.newConversationBots;
-      console.log('welcomeBot', welcomeBot);
+      // console.log('welcomeBot', welcomeBot);
       if (welcomeBot) {
         const step = welcomeBot.settings.paths[0].steps[0];
         const message = {
@@ -1197,7 +1198,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       <HeaderAvatar>
         {assignee && (
           <React.Fragment>
-            <img src={assignee.avatarUrl} />
+            <img alt={assignee.name} src={assignee.avatarUrl} />
             <AssigneeStatusWrapper>
               <p>{assignee.name}</p>
               {this.state.appData && this.state.appData.replyTime && (
@@ -1329,6 +1330,34 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       });
   };
 
+  handleBack = (e) => {
+    //console.log(this.state.display_mode);
+    switch (this.state.display_mode) {
+      case 'appBlockAppPackage':
+        if (!this.state?.conversation?.key) {
+          this.displayHome(e);
+          break;
+        }
+        this.displayConversation(e, this.state.conversation);
+        break;
+      default:
+        this.displayHome(e);
+        break;
+    }
+  };
+
+  closeUserAutoMessage = (id: Number) => {
+    App.events &&
+      App.events.perform('track_close', {
+        trackable_id: id,
+      });
+
+    const newAvailableMessages = this.state.availableMessages.filter(
+      (o) => o.id != id
+    );
+    this.setState({ availableMessages: newAvailableMessages });
+  };
+
   render() {
     const palette = this.themePalette();
     return (
@@ -1395,7 +1424,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             {this.state.availableMessages.length > 0 &&
               this.isMessengerActive() && (
                 <MessageFrame
-                  // app_id={this.props.app_id}
+                  handleClose={this.closeUserAutoMessage}
                   availableMessages={this.state.availableMessages}
                   domain={this.props.domain}
                   i18n={i18n}
@@ -1410,6 +1439,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
               >
                 <SuperDuper>
                   <StyledFrame
+                    title={'chaskiq messenger'}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -1465,7 +1495,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                             {this.state.display_mode != 'home' ? (
                               <LeftIcon
                                 className="fade-in-right"
-                                onClick={this.displayHome.bind(this)}
+                                onClick={this.handleBack.bind(this)}
                                 palette={palette}
                                 /// onClick={this.displayConversationList.bind(this)}
                                 style={{
@@ -1475,11 +1505,12 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               />
                             ) : null}
 
-                            {this.state.display_mode === 'conversation' && (
-                              <HeaderTitle in={this.state.transition}>
-                                {this.renderAsignee()}
-                              </HeaderTitle>
-                            )}
+                            {this.state.display_mode === 'conversation' &&
+                              this.assignee() && (
+                                <HeaderTitle in={this.state.transition}>
+                                  {this.renderAsignee()}
+                                </HeaderTitle>
+                              )}
 
                             {this.state.display_mode === 'home' && (
                               <HeaderTitle
@@ -1492,6 +1523,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               >
                                 {this.state.appData.logo && (
                                   <img
+                                    alt={this.state.appData.name}
                                     style={{
                                       height: 50,
                                       width: 50,
@@ -1524,6 +1556,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               <FooterAck>
                                 <a href="https://chaskiq.io" target="blank">
                                   <img
+                                    alt={'https://chaskiq.io'}
                                     src={`${this.props.domain}/logo-gray.png`}
                                   />
                                   {i18n.t('messenger.runon')}
@@ -1548,7 +1581,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           )}
 
                           {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
-                            <GDPRView
+                            <ConsentView
                               app={this.state.appData}
                               i18n={i18n}
                               confirm={(_e) => this.updateGdprConsent(true)}
@@ -1594,6 +1627,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
             {!this.state.open && this.state.inline_conversation && (
               <StyledFrame
+                title={'chaskiq inline conversation'}
                 className="inline-frame"
                 style={{
                   height: this.inlineOverflow
@@ -1616,7 +1650,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                             this.showMore();
                           }}
                         >
-                          mostrar mas
+                          {i18n.t(`messenger.show_more`)}
                         </button>
                         <button
                           onClick={() => this.clearInlineConversation()}
@@ -1642,13 +1676,14 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             {this.isMessengerActive() && (
               <StyledFrame
                 id="chaskiqPrime"
+                title={'chaskiq prime'}
                 // scrolling="no"
                 style={{
                   zIndex: 10000,
                   position: 'absolute',
-                  bottom: '-8px',
+                  bottom: '-17px',
                   width: '70px',
-                  height: '79px',
+                  height: '87px',
                   right: '0px',
                   border: 'none',
                 }}
@@ -1751,7 +1786,7 @@ export default class ChaskiqMessenger {
 
     ReactDOM.render(
       <Messenger {...this.props} />,
-      document.getElementById('ChaskiqMessengerRoot')
+      document.getElementById(this.props.wrapperId)
     );
   }
 }
