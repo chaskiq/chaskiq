@@ -164,7 +164,7 @@
     "build2:packages": "yarn clean:packages && lerna changed | while read package; do rollup -c --scope $package || exit 1; done",
     "build2:allpackages": "yarn clean:packages && for dir in app/javascript/packages/*; do package=${dir#'packages/'}; rollup -c --scope @chaskiq/$package || exit 1; done",
     "build2": "bundle exec rails assets:precompile",
-    "build": "node esbuild.config.mjs --minify",
+    "build": "NODE_ENV=production node esbuild.config.mjs --minify",
     "buildold": "esbuild app/javascript/*.* --bundle '--define:process.env.NODE_ENV=\"development\"'  --platform=node --loader:.js=jsx --loader:.png=file --sourcemap --outdir=app/assets/builds",
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
     "husky-install": "husky install",
