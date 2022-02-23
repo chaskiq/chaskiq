@@ -645,14 +645,14 @@ module MessageApis::Slack
 
       conversation = find_conversation_by_slack_ts(event["thread_ts"])
 
-      serialized_blocks = serialize_content(event)
-
-      text = replace_emojis(event["text"])
-
       return if conversation.blank?
 
       return if conversation.conversation_part_channel_sources
                             .find_by(message_source_id: event["ts"]).present?
+
+      serialized_blocks = serialize_content(event)
+
+      text = replace_emojis(event["text"])
 
       # TODO: serialize message
       conversation.add_message(
@@ -1002,9 +1002,10 @@ module MessageApis::Slack
     end
 
     def process_blocks(data)
-      images = data["blocks"].select do |o|
+      images = data["blocks"]&.select do |o|
         o["type"] === "image"
-      end
+      end || []
+
       images = images.map do |block|
         media_block(
           {
