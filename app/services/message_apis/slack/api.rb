@@ -1002,9 +1002,11 @@ module MessageApis::Slack
     end
 
     def process_blocks(data)
-      images = data["blocks"].select do |o|
+      
+      images = data["blocks"]&.select do |o|
         o["type"] === "image"
-      end
+      end || []
+
       images = images.map do |block|
         media_block(
           {
