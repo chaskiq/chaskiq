@@ -303,6 +303,7 @@ GEM
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.2.0)
     google-protobuf (3.19.4-x86_64-darwin)
+    google-protobuf (3.19.4-x86_64-linux)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
@@ -323,6 +324,9 @@ GEM
     groupdate (6.0.1)
       activesupport (>= 5.2)
     grpc (1.43.1-universal-darwin)
+      google-protobuf (~> 3.18)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.43.1-x86_64-linux)
       google-protobuf (~> 3.18)
       googleapis-common-protos-types (~> 1.0)
     haml (5.2.2)
@@ -409,6 +413,8 @@ GEM
       timeout
     nio4r (2.5.8)
     nokogiri (1.13.3-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.3-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.8)
     oauth2 (1.4.9)
@@ -587,6 +593,8 @@ GEM
     strscan (3.0.1)
     tailwindcss-rails (2.0.7-x86_64-darwin)
       railties (>= 6.0.0)
+    tailwindcss-rails (2.0.7-x86_64-linux)
+      railties (>= 6.0.0)
     temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.10)
@@ -622,6 +630,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   aasm
