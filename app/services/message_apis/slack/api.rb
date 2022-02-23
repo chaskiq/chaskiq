@@ -81,12 +81,12 @@ module MessageApis::Slack
 
     def authorize_bot!
       get_api_access
-      @conn.authorization :Bearer, @keys["access_token"]
+      @conn.request :authorization, :Bearer, @keys["access_token"]
     end
 
     def authorize_user!
       get_api_access
-      @conn.authorization :Bearer, @keys["access_token_secret"]
+      @conn.request :authorization, :Bearer, @keys["access_token_secret"]
     end
 
     def oauth_client
@@ -185,7 +185,7 @@ module MessageApis::Slack
       }
 
       url = url("/api/conversations.join")
-      # @conn.authorization :Bearer, key
+      # @conn.request :authorization, :Bearer, key
       response = @conn.post do |req|
         req.url url
         req.headers["Content-Type"] = "application/json; charset=utf-8"

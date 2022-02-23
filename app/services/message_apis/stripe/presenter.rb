@@ -6,7 +6,7 @@ module MessageApis::Stripe
     def self.initialize_hook(kind:, ctx:)
       type_value = ctx.dig(:values, :type)
       block_type = ctx.dig(:values, :block_type)
-      Rails.logger.debug "context #{ctx}"
+      Rails.logger.debug { "context #{ctx}" }
 
       if type_value === "content"
         return {

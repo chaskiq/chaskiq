@@ -20,7 +20,7 @@ class ConversationPart < ApplicationRecord
 
   scope :visibles, -> { where(private_note: nil) }
 
-  value :trigger_locked, expireat: -> { Time.zone.now + 3.seconds }
+  value :trigger_locked, expireat: -> { 3.seconds.from_now }
 
   attr_accessor :check_assignment_rules
 

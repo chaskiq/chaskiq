@@ -91,9 +91,9 @@ gem "draftjs_exporter", github: "chaskiq/draftjs_exporter"
 gem "mini_magick", "~> 4.8"
 
 gem "active_importer"
-gem "net-http"
 gem "faraday"
 gem "http"
+gem "net-http"
 gem "roo"
 gem "ruby-oembed"
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
-
-# require 'database_cleaner/active_record'
-# require 'database_cleaner/redis'
+require 'database_cleaner/active_record'
 
 DatabaseCleaner.strategy = :truncation
 
