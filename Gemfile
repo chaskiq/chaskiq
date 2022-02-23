@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.5"
+ruby "3.0.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
@@ -44,7 +44,7 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
-gem "graphql"
+gem "graphql", "~> 1.11.6"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -71,7 +71,7 @@ gem "jwt"
 # AUTH
 # gem 'devise-jwt', '~> 0.5.9'
 gem "devise_invitable", "~> 2.0"
-gem "doorkeeper", "~> 5.4"
+gem "doorkeeper", "~> 5.4.0"
 gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 

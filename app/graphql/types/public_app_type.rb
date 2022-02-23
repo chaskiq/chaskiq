@@ -14,7 +14,6 @@ module Types
     field :email_requirement, String, null: true
     field :greetings, String, null: true
     field :intro, String, null: true
-    field :tagline, String, null: true
     field :user_tasks_settings, Types::JsonType, null: true
     field :lead_tasks_settings, Types::JsonType, null: true
     field :inline_new_conversations, Boolean, null: true
