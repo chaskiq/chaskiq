@@ -79,12 +79,12 @@ class UserAutoMessage < Message
 
     if messages.any?
       MessengerEventsChannel.broadcast_to(key,
-                                          type: "messages:receive",
+                                          {type: "messages:receive",
                                           data: messages.as_json(only: %i[id
                                                                           created_at
                                                                           updated_at
                                                                           serialized_content
-                                                                          theme]))
+                                                                          theme])})
     end
 
     messages.any?
