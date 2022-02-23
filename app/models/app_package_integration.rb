@@ -195,7 +195,7 @@ class AppPackageIntegration < ApplicationRecord
     if response["kind"] == "initialize"
       params[:ctx][:field] = nil
       params[:ctx][:values] = response["results"]
-      response = presenter.initialize_hook(params)
+      response = presenter.initialize_hook(**params)
       response.merge!(kind: "initialize")
     end
 
