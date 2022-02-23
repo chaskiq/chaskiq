@@ -645,14 +645,14 @@ module MessageApis::Slack
 
       conversation = find_conversation_by_slack_ts(event["thread_ts"])
 
-      serialized_blocks = serialize_content(event)
-
-      text = replace_emojis(event["text"])
-
       return if conversation.blank?
 
       return if conversation.conversation_part_channel_sources
                             .find_by(message_source_id: event["ts"]).present?
+
+      serialized_blocks = serialize_content(event)
+
+      text = replace_emojis(event["text"])
 
       # TODO: serialize message
       conversation.add_message(
