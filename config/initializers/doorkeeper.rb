@@ -5,7 +5,7 @@ Doorkeeper.configure do
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
   orm :active_record
 
-  force_ssl_in_redirect_uri Rails.env.production?
+  force_ssl_in_redirect_uri false
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
