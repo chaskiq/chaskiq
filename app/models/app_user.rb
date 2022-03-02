@@ -97,9 +97,9 @@ class AppUser < ApplicationRecord
     :name,
     :first_name,
     :last_name,
-    #:country,
+    # :country,
     :country_code,
-    #:region,
+    # :region,
     :region_code,
     :facebook,
     :twitter,
@@ -150,7 +150,7 @@ class AppUser < ApplicationRecord
 
   # from redis-objects
   counter :new_messages
-  value :trigger_locked, expireat: -> { Time.zone.now + 5.seconds }
+  value :trigger_locked, expireat: -> { 5.seconds.from_now }
 
   aasm column: :subscription_state do # default column: aasm_state
     state :passive, initial: true

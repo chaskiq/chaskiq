@@ -18,10 +18,10 @@ RSpec.describe Api::GraphqlController, type: :controller do
   end
 
   let!(:agent_role) do
-    app.add_agent(
-      email: "test2@test.cl",
-      available: true
-    )
+    app.add_agent({
+                    email: "test2@test.cl",
+                    available: true
+                  })
   end
 
   let(:app_user) do

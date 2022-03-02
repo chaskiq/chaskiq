@@ -20,7 +20,7 @@ class ConversationPart < ApplicationRecord
 
   scope :visibles, -> { where(private_note: nil) }
 
-  value :trigger_locked, expireat: -> { Time.zone.now + 3.seconds }
+  value :trigger_locked, expireat: -> { 3.seconds.from_now }
 
   attr_accessor :check_assignment_rules
 
@@ -95,22 +95,22 @@ class ConversationPart < ApplicationRecord
   def notify_agents
     EventsChannel.broadcast_to(
       conversation.app.key.to_s,
-      type: :conversation_part,
-      data: as_json
+      { type: :conversation_part,
+        data: as_json }
     )
   end
 
   def notify_app_users
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:conversation_part",
-      data: as_json
+      { type: "conversations:conversation_part",
+        data: as_json }
     )
 
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:unreads",
-      data: conversation.main_participant.new_messages.value
+      { type: "conversations:unreads",
+        data: conversation.main_participant.new_messages.value }
     )
   end
 

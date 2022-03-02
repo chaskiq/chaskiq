@@ -195,7 +195,7 @@ class AppPackageIntegration < ApplicationRecord
     if response["kind"] == "initialize"
       params[:ctx][:field] = nil
       params[:ctx][:values] = response["results"]
-      response = presenter.initialize_hook(params)
+      response = presenter.initialize_hook(**params)
       response.merge!(kind: "initialize")
     end
 
@@ -224,11 +224,11 @@ class AppPackageIntegration < ApplicationRecord
 
   def presenter_hook_response(params, presenter)
     case params[:kind]
-    when "initialize" then presenter.initialize_hook(params)
-    when "configure" then presenter.configure_hook(params)
-    when "submit" then presenter.submit_hook(params)
-    when "frame" then presenter.sheet_hook(params)
-    when "content" then presenter.content_hook(params) # not used
+    when "initialize" then presenter.initialize_hook(**params)
+    when "configure" then presenter.configure_hook(**params)
+    when "submit" then presenter.submit_hook(**params)
+    when "frame" then presenter.sheet_hook(**params)
+    when "content" then presenter.content_hook(**params)
     else raise "no compatible hook kind"
     end
   end

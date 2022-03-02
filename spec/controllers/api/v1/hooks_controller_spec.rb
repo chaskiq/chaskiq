@@ -1024,7 +1024,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         allow_any_instance_of(Api::V1::HooksController).to receive(
           :read_mail_file
         ).and_return(
-          File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml").read
+          File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml")
         )
 
         expect(ConversationPart.last).to_not be_read
@@ -1041,7 +1041,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         allow_any_instance_of(Api::V1::HooksController).to receive(
           :read_mail_file
         ).and_return(
-          File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample_multi_inline_attachment.eml").read
+          File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample_multi_inline_attachment.eml")
         )
 
         expect(ConversationPart.last).to_not be_read
@@ -1055,7 +1055,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         allow_any_instance_of(Api::V1::HooksController).to receive(
           :read_mail_file
         ).and_return(
-          File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample_as_attachment.eml").read
+          File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample_as_attachment.eml")
         )
 
         expect(ConversationPart.last).to_not be_read
@@ -1073,7 +1073,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       allow_any_instance_of(Api::V1::HooksController).to receive(
         :read_mail_file
       ).and_return(
-        File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml").read
+        File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml")
       )
 
       allow_any_instance_of(Mail::Message).to receive(
@@ -1096,7 +1096,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       allow_any_instance_of(Api::V1::HooksController).to receive(
         :read_mail_file
       ).and_return(
-        File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml").read
+        File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml")
       )
 
       allow_any_instance_of(Mail::Message).to receive(
@@ -1128,7 +1128,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       allow_any_instance_of(Api::V1::HooksController).to receive(
         :read_mail_file
       ).and_return(
-        File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml").read
+        File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml")
       )
 
       allow_any_instance_of(Mail::Message).to receive(
@@ -1154,7 +1154,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       allow_any_instance_of(Api::V1::HooksController).to receive(
         :read_mail_file
       ).and_return(
-        File.open(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml").read
+        File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml")
       )
 
       allow_any_instance_of(Mail::Message).to receive(
