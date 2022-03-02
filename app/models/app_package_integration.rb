@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 class AppPackageIntegration < ApplicationRecord
   belongs_to :app_package
@@ -301,6 +303,8 @@ class ExternalPresenterManager
     # This it's just to restrict fields on app, refactor this!
     data[:ctx][:app] = data.dig(:ctx, :app).as_json(only: %i[key name])
     data[:ctx][:current_user] = data.dig(:ctx, :current_user).as_json(methods: %i[email kind display_name avatar_url])
+    puts url
+    puts data
     resp = Faraday.post(
       url,
       data.to_json,
