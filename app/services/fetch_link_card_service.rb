@@ -6,7 +6,7 @@ require "oembed"
 require "open-uri"
 
 class FetchLinkCardService < BaseService
-  URL_PATTERN = %r{https?://\S+}.freeze
+  URL_PATTERN = %r{https?://\S+}
 
   def call(url)
     # Get first http/https URL that isn't local
@@ -60,7 +60,7 @@ class FetchLinkCardService < BaseService
 
   def skip_link?(a)
     # Avoid links for hashtags and mentions (microformats)
-    a["rel"].present? && a["rel"].include?("tag") || a["class"].present? && a["class"].include?("u-url")
+    (a["rel"].present? && a["rel"].include?("tag")) || (a["class"].present? && a["class"].include?("u-url"))
   end
 
   def attempt_oembed(card, url)

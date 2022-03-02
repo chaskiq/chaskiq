@@ -34,11 +34,11 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-require "database_cleaner"
+require "database_cleaner/active_record"
 
 # require 'webmock/rspec'
 
-DatabaseCleaner.strategy = :truncation
+# DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
   # https://github.com/rspec/rspec-rails/issues/2410
@@ -103,7 +103,7 @@ RSpec.configure do |config|
   config.before(:all, type: :system) do
     # driven_by :rack_test
     # then, whenever you need to clean the DB
-    DatabaseCleaner.clean
+    # DatabaseCleaner.clean
   end
 
   # Ensures that all javascript tests use :headless_chrome

@@ -52,7 +52,11 @@ Geocoder.configure(
   # api_key: nil,               # API key for geocoding service
   # cache: nil,
   cache: Redis.new, # cache object (must respond to #[], #[]=, and #del)
-  cache_prefix: 'geocoder:' # prefix (string) to use for all cache keys
+
+  cache_options: {
+    expiration: 2.days, # Redis ttl
+    prefix: 'geocoder:' # prefix (string) to use for all cache keys
+  }
   # Exceptions that should not be rescued by default
   # (if you want to implement custom error handling);
   # supports SocketError and Timeout::Error

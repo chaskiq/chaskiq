@@ -4,7 +4,7 @@ class ConversationPartBlock < ApplicationRecord
   include Redis::Objects
 
   has_one :conversation_part, as: :messageable, dependent: :destroy_async
-  value :trigger_locked, expireat: -> { Time.zone.now + 5.seconds }
+  value :trigger_locked, expireat: -> { 5.seconds.from_now }
 
   def create_fase(app)
     return if blocks["app_package"].blank?

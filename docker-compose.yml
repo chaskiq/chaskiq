@@ -6,7 +6,7 @@ x-app:
     context: .
     dockerfile: ./Dockerfile.development
     args:
-      RUBY_VERSION: '2.7.5'
+      RUBY_VERSION: '3.0.3'
       PG_MAJOR: '14'
       NODE_MAJOR: '16'
       YARN_VERSION: '1.13.0'

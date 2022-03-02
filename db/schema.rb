@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_24_190304) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_02_22_200854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,8 +18,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.integer "status", default: 0, null: false
     t.string "message_id", null: false
     t.string "message_checksum", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
   end
 
@@ -29,7 +28,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -40,8 +39,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -57,27 +56,27 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
-    t.datetime "locked_at"
+    t.datetime "locked_at", precision: nil
     t.jsonb "properties", default: {}, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "invitation_token"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
+    t.datetime "invitation_created_at", precision: nil
+    t.datetime "invitation_sent_at", precision: nil
+    t.datetime "invitation_accepted_at", precision: nil
     t.integer "invitation_limit"
     t.string "invited_by_type"
     t.bigint "invited_by_id"
@@ -100,8 +99,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "app_id", null: false
     t.jsonb "settings"
     t.string "state"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "external_id"
     t.index ["app_id"], name: "index_app_package_integrations_on_app_id"
     t.index ["app_package_id"], name: "index_app_package_integrations_on_app_package_id"
@@ -114,8 +113,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.jsonb "settings"
     t.string "state"
     t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "agent_id"
     t.boolean "published", default: false
     t.index ["agent_id"], name: "index_app_packages_on_agent_id"
@@ -125,8 +124,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "app_translations", force: :cascade do |t|
     t.bigint "app_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "greetings"
     t.text "intro"
     t.text "tagline"
@@ -138,7 +137,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "key"
     t.bigint "app_id"
     t.jsonb "properties", default: {}
-    t.datetime "last_visited_at"
+    t.datetime "last_visited_at", precision: nil
     t.string "referrer"
     t.string "state"
     t.string "ip"
@@ -159,14 +158,14 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "os_version"
     t.string "browser_language"
     t.string "lang"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "type"
-    t.datetime "last_seen"
-    t.datetime "first_seen"
-    t.datetime "signed_up"
-    t.datetime "last_contacted"
-    t.datetime "last_heard_from"
+    t.datetime "last_seen", precision: nil
+    t.datetime "first_seen", precision: nil
+    t.datetime "signed_up", precision: nil
+    t.datetime "last_contacted", precision: nil
+    t.datetime "last_heard_from", precision: nil
     t.index ["app_id"], name: "index_app_users_on_app_id"
     t.index ["email"], name: "index_app_users_on_email"
     t.index ["key"], name: "index_app_users_on_key"
@@ -183,8 +182,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "test_key"
     t.string "encryption_key", limit: 16
     t.jsonb "preferences", default: "{}", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "owner_id"
     t.index ["key"], name: "index_apps_on_key"
     t.index ["preferences"], name: "index_apps_on_preferences", using: :gin
@@ -196,8 +195,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "article_collection_translations", force: :cascade do |t|
     t.bigint "article_collection_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "title"
     t.text "description"
     t.index ["article_collection_id"], name: "index_article_collection_translations_on_article_collection_id"
@@ -212,8 +211,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.text "description"
     t.integer "position"
     t.bigint "app_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_article_collections_on_app_id"
   end
 
@@ -223,8 +222,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "article_content_translations", force: :cascade do |t|
     t.bigint "article_content_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "serialized_content"
     t.index ["article_content_id"], name: "index_article_content_translations_on_article_content_id"
     t.index ["locale"], name: "index_article_content_translations_on_locale"
@@ -235,8 +234,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.text "serialized_content"
     t.text "text_content"
     t.bigint "article_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_article_contents_on_article_id"
   end
 
@@ -246,8 +245,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "article_setting_translations", force: :cascade do |t|
     t.bigint "article_setting_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "site_title"
     t.text "site_description"
     t.index ["article_setting_id"], name: "index_article_setting_translations_on_article_setting_id"
@@ -259,8 +258,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "subdomain"
     t.jsonb "properties", default: {}
     t.bigint "app_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_article_settings_on_app_id"
     t.index ["subdomain"], name: "index_article_settings_on_subdomain", unique: true
   end
@@ -271,8 +270,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "article_translations", force: :cascade do |t|
     t.bigint "article_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "title"
     t.text "description"
     t.index ["article_id"], name: "index_article_translations_on_article_id"
@@ -289,8 +288,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "author_id", null: false
     t.bigint "article_collection_id"
     t.bigint "article_section_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_articles_on_app_id"
     t.index ["article_collection_id"], name: "index_articles_on_article_collection_id"
     t.index ["article_section_id"], name: "index_articles_on_article_section_id"
@@ -308,8 +307,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.integer "priority"
     t.string "state"
     t.string "title"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["agent_id"], name: "index_assignment_rules_on_agent_id"
     t.index ["app_id"], name: "index_assignment_rules_on_app_id"
   end
@@ -321,8 +320,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "auditable_id", null: false
     t.jsonb "data"
     t.string "ip"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "app_id"
     t.index ["agent_id"], name: "index_audits_on_agent_id"
     t.index ["app_id"], name: "index_audits_on_app_id"
@@ -336,8 +335,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "app_id", null: false
     t.jsonb "settings"
     t.json "paths"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "type"
     t.integer "position"
     t.index ["app_id"], name: "index_bot_tasks_on_app_id"
@@ -356,7 +355,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "description"
     t.boolean "sent"
     t.string "name"
-    t.datetime "scheduled_at"
+    t.datetime "scheduled_at", precision: nil
     t.string "timezone"
     t.string "state"
     t.string "subject"
@@ -364,9 +363,9 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.jsonb "segments"
     t.string "type", default: "Campaign"
     t.jsonb "settings", default: {}
-    t.datetime "scheduled_to"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "scheduled_to", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "position"
     t.bigint "workflow_id"
     t.index ["app_id"], name: "index_campaigns_on_app_id"
@@ -388,7 +387,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "description"
     t.boolean "sent"
     t.string "name"
-    t.datetime "scheduled_at"
+    t.datetime "scheduled_at", precision: nil
     t.string "timezone"
     t.string "state"
     t.string "subject"
@@ -396,9 +395,9 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.jsonb "segments"
     t.string "type"
     t.jsonb "settings"
-    t.datetime "scheduled_to"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "scheduled_to", precision: nil
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "position"
     t.bigint "workflow_id"
   end
@@ -406,8 +405,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "collection_section_translations", force: :cascade do |t|
     t.bigint "collection_section_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "title"
     t.text "description"
     t.index ["collection_section_id"], name: "index_collection_section_translations_on_collection_section_id"
@@ -421,8 +420,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.integer "position"
     t.bigint "article_collection_id", null: false
     t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["article_collection_id"], name: "index_collection_sections_on_article_collection_id"
   end
 
@@ -433,8 +432,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "provider"
     t.string "provider_channel_id"
     t.bigint "conversation_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["conversation_id"], name: "index_conversation_channels_on_conversation_id"
     t.index ["provider"], name: "index_conversation_channels_on_provider"
     t.index ["provider_channel_id"], name: "index_conversation_channels_on_provider_channel_id"
@@ -444,16 +443,16 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.jsonb "blocks"
     t.string "state"
     t.jsonb "data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "conversation_part_channel_sources", force: :cascade do |t|
     t.bigint "conversation_part_id", null: false
     t.string "provider"
     t.string "message_source_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["conversation_part_id"], name: "index_conversation_part_channel_sources_on_conversation_part_id"
     t.index ["message_source_id"], name: "index_conversation_part_channel_sources_on_message_source_id"
     t.index ["provider"], name: "index_conversation_part_channel_sources_on_provider"
@@ -464,22 +463,22 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.text "html_content"
     t.text "serialized_content"
     t.text "text_content"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["conversation_part_id"], name: "index_conversation_part_contents_on_conversation_part_id"
   end
 
   create_table "conversation_part_events", force: :cascade do |t|
     t.string "action"
     t.jsonb "data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "conversation_parts", force: :cascade do |t|
     t.string "key"
     t.text "message"
-    t.datetime "read_at"
+    t.datetime "read_at", precision: nil
     t.bigint "app_user_id"
     t.bigint "conversation_id"
     t.boolean "private_note"
@@ -492,8 +491,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "string"
     t.string "message_id"
     t.string "email_message_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "step_id"
     t.string "trigger_id"
     t.index ["app_user_id"], name: "index_conversation_parts_on_app_user_id"
@@ -511,8 +510,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "conversation_sources", force: :cascade do |t|
     t.bigint "conversation_id", null: false
     t.bigint "app_package_integration_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_package_integration_id"], name: "index_conversation_sources_on_app_package_integration_id"
     t.index ["conversation_id"], name: "index_conversation_sources_on_conversation_id"
   end
@@ -524,17 +523,17 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.jsonb "admins"
     t.integer "reply_count"
     t.integer "parts_count"
-    t.datetime "latest_admin_visible_comment_at"
-    t.datetime "latest_update_at"
-    t.datetime "latest_user_visible_comment_at"
-    t.datetime "read_at"
+    t.datetime "latest_admin_visible_comment_at", precision: nil
+    t.datetime "latest_update_at", precision: nil
+    t.datetime "latest_user_visible_comment_at", precision: nil
+    t.datetime "read_at", precision: nil
     t.bigint "main_participant_id"
     t.boolean "priority"
     t.string "state"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "first_agent_reply"
-    t.datetime "closed_at"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "first_agent_reply", precision: nil
+    t.datetime "closed_at", precision: nil
     t.string "subject"
     t.index ["app_id"], name: "index_conversations_on_app_id"
     t.index ["assignee_id"], name: "index_conversations_on_assignee_id"
@@ -548,8 +547,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "eventable_id", null: false
     t.string "action"
     t.jsonb "properties"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["action"], name: "index_events_on_action"
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
   end
@@ -559,8 +558,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "app_user_id", null: false
     t.jsonb "data"
     t.string "profile_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_user_id"], name: "index_external_profiles_on_app_user_id"
     t.index ["profile_id"], name: "index_external_profiles_on_profile_id"
     t.index ["provider"], name: "index_external_profiles_on_provider"
@@ -568,7 +567,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
 
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
-    t.datetime "exp", null: false
+    t.datetime "exp", precision: nil, null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
@@ -580,8 +579,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "host"
     t.jsonb "data", default: {}
     t.string "message_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "app_user_id", null: false
     t.index ["app_user_id"], name: "index_metrics_on_app_user_id"
     t.index ["campaign_id"], name: "index_metrics_on_campaign_id"
@@ -595,8 +594,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "token", null: false
     t.integer "expires_in", null: false
     t.text "redirect_uri", null: false
-    t.datetime "created_at", null: false
-    t.datetime "revoked_at"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "revoked_at", precision: nil
     t.string "scopes", default: "", null: false
     t.index ["application_id"], name: "index_oauth_access_grants_on_application_id"
     t.index ["resource_owner_id"], name: "index_oauth_access_grants_on_resource_owner_id"
@@ -609,8 +608,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "token", null: false
     t.string "refresh_token"
     t.integer "expires_in"
-    t.datetime "revoked_at"
-    t.datetime "created_at", null: false
+    t.datetime "revoked_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
     t.string "scopes"
     t.string "previous_refresh_token", default: "", null: false
     t.index ["application_id"], name: "index_oauth_access_tokens_on_application_id"
@@ -626,8 +625,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "redirect_uri"
     t.string "scopes", default: "", null: false
     t.boolean "confidential", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "owner_id"
     t.string "owner_type"
     t.index ["owner_id", "owner_type"], name: "index_oauth_applications_on_owner_id_and_owner_type"
@@ -638,8 +637,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "state"
     t.bigint "app_id", null: false
     t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_outgoing_webhooks_on_app_id"
     t.index ["state"], name: "index_outgoing_webhooks_on_state"
   end
@@ -653,7 +652,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.integer "image_file_size"
     t.string "image_file_name"
     t.string "image_file_type"
-    t.datetime "image_updated_at"
+    t.datetime "image_updated_at", precision: nil
     t.string "type"
     t.text "html"
     t.string "author_name"
@@ -662,8 +661,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "provider_url"
     t.integer "width"
     t.integer "height"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["status_id"], name: "index_preview_cards_on_status_id", unique: true
   end
 
@@ -671,8 +670,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "title"
     t.text "content"
     t.bigint "app_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_quick_replies_on_app_id"
   end
 
@@ -682,8 +681,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
   create_table "quick_reply_translations", force: :cascade do |t|
     t.bigint "quick_reply_id", null: false
     t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "content"
     t.index ["locale"], name: "index_quick_reply_translations_on_locale"
     t.index ["quick_reply_id"], name: "index_quick_reply_translations_on_quick_reply_id"
@@ -693,8 +692,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "app_id"
     t.bigint "agent_id"
     t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["agent_id"], name: "index_roles_on_agent_id"
     t.index ["app_id"], name: "index_roles_on_app_id"
   end
@@ -704,8 +703,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.bigint "app_id"
     t.string "name"
     t.jsonb "properties", default: "{}"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["app_id"], name: "index_segments_on_app_id"
     t.index ["key"], name: "index_segments_on_key"
   end
@@ -717,7 +716,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "tagger_type"
     t.integer "tagger_id"
     t.string "context", limit: 128
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
     t.index ["tag_id"], name: "index_taggings_on_tag_id"
@@ -731,8 +730,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
 
   create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
@@ -745,8 +744,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.string "browser_name"
     t.string "os"
     t.string "os_version"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_user_id"], name: "index_visits_on_app_user_id"
   end
 
@@ -756,8 +755,8 @@ ActiveRecord::Schema.define(version: 2021_12_24_190304) do
     t.jsonb "rules"
     t.string "state"
     t.bigint "app_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_workflows_on_app_id"
     t.index ["state"], name: "index_workflows_on_state"
   end

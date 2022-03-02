@@ -27,7 +27,7 @@ module MessageApis::Dialog360
       )
 
       @conn.headers = {
-        'D360-Api-Key': @api_key,
+        "D360-Api-Key": @api_key,
         "Content-Type" => "application/json",
         "Accept" => "application/json"
       }
@@ -184,7 +184,7 @@ module MessageApis::Dialog360
     end
 
     def send_template_message(template:, conversation_key:, parameters:)
-      parameters = parameters.is_a?(Array) ? parameters : [parameters]
+      parameters = [parameters] unless parameters.is_a?(Array)
 
       conversation = @package.app.conversations.find_by(key: conversation_key)
 

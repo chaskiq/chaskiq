@@ -3,11 +3,11 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.5"
+ruby "3.0.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
-gem "rails", "6.1.4.4" # , github: "rails/rails",
+gem "rails", "7.0.2.2" # , github: "rails/rails",
 
 gem "anycable-rails"
 # Use sqlite3 as the database for Active Record
@@ -24,11 +24,10 @@ gem "uglifier", ">= 1.3.0"
 gem "haml"
 
 gem "devise" # , "4.7.1" # github: "plataformatec/devise"
-
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks", "~> 5"
+# gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder"
 # gem 'haml'
@@ -45,7 +44,7 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
-gem "graphql"
+gem "graphql", "~> 1.11.6"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -72,13 +71,13 @@ gem "jwt"
 # AUTH
 # gem 'devise-jwt', '~> 0.5.9'
 gem "devise_invitable", "~> 2.0"
-gem "doorkeeper", "~> 5.4"
+gem "doorkeeper", "~> 5.4.0"
 gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 
 gem "image_processing", "~> 1.2"
 gem "sidekiq"
-gem "sidekiq-cron"
+# gem "sidekiq-cron"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
 gem "roadie"
@@ -94,6 +93,7 @@ gem "mini_magick", "~> 4.8"
 gem "active_importer"
 gem "faraday"
 gem "http"
+gem "net-http"
 gem "roo"
 gem "ruby-oembed"
 
