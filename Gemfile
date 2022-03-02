@@ -161,7 +161,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "php_serialize", "~> 1.2"
-gem "scout_apm", "~> 2.6"
+gem "scout_apm"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 gem "jsbundling-rails", "~> 1.0"
