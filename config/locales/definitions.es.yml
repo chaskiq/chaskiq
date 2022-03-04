@@ -203,6 +203,7 @@ es:
       ip: Ip
       country: País
       city: Ciudad
+      phone: Phone
       lat: Latitud
       lng: Longitud
       postal: Postal
