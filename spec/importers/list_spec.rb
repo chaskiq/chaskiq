@@ -7,11 +7,12 @@ require "roo"
 describe "ListImporter" do
   let(:spreadsheet_data) do
     arr = []
-    arr << ["email", " name ", "last name", "Department", "Manager"]
+    arr << ["email", " name ", "last name", "phone", "Department", "Manager"]
     (1..2).each do |_o|
       arr << [Faker::Internet.email,
               Faker::Name.name,
               Faker::Name.name,
+              Faker::PhoneNumber.phone_number,
               Faker::Company.bs,
               Faker::Nation.nationality]
     end
@@ -56,6 +57,8 @@ describe "ListImporter" do
 
     expect(AppUser.last.name).to be_present
     expect(AppUser.last.name).to be_present
+
+    expect(AppUser.last.phone).to be_present
 
     expect(AppUser.last[:properties]["department"]).to be_present
     expect(AppUser.last[:properties]["department"]).to be_present

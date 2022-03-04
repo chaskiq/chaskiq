@@ -46,6 +46,14 @@ GIT
       rack (> 1, < 3)
 
 GIT
+  remote: https://github.com/roo-rb/roo.git
+  revision: 709464c77623be2bc09b2103405d90ded7604a75
+  specs:
+    roo (2.8.3)
+      nokogiri (~> 1)
+      rubyzip (>= 1.3.0, < 3.0.0)
+
+GIT
   remote: https://github.com/stympy/faker.git
   revision: cb606b81c9c8048a3b9b044a4619252d16b576ab
   specs:
@@ -509,9 +517,6 @@ GEM
     roadie-rails (3.0.0)
       railties (>= 5.1, < 7.1)
       roadie (~> 5.0)
-    roo (2.8.3)
-      nokogiri (~> 1)
-      rubyzip (>= 1.3.0, < 3.0.0)
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.0)
@@ -701,7 +706,7 @@ DEPENDENCIES
   redis-objects (~> 1.5)
   roadie
   roadie-rails
-  roo
+  roo (~> 2.8, >= 2.8.3)!
   rspec-core
   rspec-expectations
   rspec-mocks

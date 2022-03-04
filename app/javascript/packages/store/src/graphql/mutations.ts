@@ -549,6 +549,7 @@ export const PREDICATES_SEARCH = `
           email
           avatarUrl
           os
+          phone
           osVersion
           lastVisitedAt
           browser
