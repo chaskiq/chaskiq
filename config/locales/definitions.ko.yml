@@ -203,6 +203,7 @@ ko:
       ip: Ip
       country: Country
       city: City
+      phone: Phone
       lat: Lat
       lng: Lng
       postal: Postal
