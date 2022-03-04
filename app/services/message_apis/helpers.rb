@@ -150,5 +150,11 @@ module MessageApis
 
       conversation_part_channel.conversation_part.read!
     end
+
+    def build_conn
+      Faraday.new request: {
+        params_encoder: Faraday::FlatParamsEncoder
+      }
+    end
   end
 end

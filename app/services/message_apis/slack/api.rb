@@ -14,10 +14,7 @@ module MessageApis::Slack
 
     def initialize(config: {})
       @access_token = access_token
-      @conn = Faraday.new request: {
-        params_encoder: Faraday::FlatParamsEncoder
-      }
-
+      @conn = build_conn
       @package = nil
       set_keys(config)
     end
@@ -81,11 +78,13 @@ module MessageApis::Slack
 
     def authorize_bot!
       get_api_access
+      @conn = build_conn
       @conn.request :authorization, :Bearer, @keys["access_token"]
     end
 
     def authorize_user!
       get_api_access
+      @conn = build_conn
       @conn.request :authorization, :Bearer, @keys["access_token_secret"]
     end
 
