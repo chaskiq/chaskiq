@@ -43,6 +43,11 @@ const userFormat = function (showUserDrawer, app) {
       title: I18n.t('data_tables.users.email'),
       hidden: true,
     },
+    {
+      field: 'phone',
+      title: I18n.t('data_tables.users.phone'),
+      hidden: true,
+    },
     { field: 'ip', title: I18n.t('data_tables.users.ip'), hidden: true },
     {
       field: 'country',
