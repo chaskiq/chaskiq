@@ -168,6 +168,6 @@
     "buildold": "esbuild app/javascript/*.* --bundle '--define:process.env.NODE_ENV=\"development\"'  --platform=node --loader:.js=jsx --loader:.png=file --sourcemap --outdir=app/assets/builds",
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
     "husky-install": "husky install",
-    "dev": "node esbuild.config.mjs --watch"
+    "dev": "NODE_ENV=development node esbuild.config.mjs --watch"
   }
 }

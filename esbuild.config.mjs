@@ -8,6 +8,10 @@ const watch = process.argv.includes('--watch')
 const minify = process.argv.includes('--minify')
 const metafile = process.argv.includes('--metafile')
 
+console.log("WATCH: ", watch)
+console.log("MINIFY: ", minify)
+console.log("METAFILE: ", metafile)
+
 const watchOptions = {
     onRebuild(error) {
       clients.forEach((res) => res.write("data: update\n\n"));
@@ -38,8 +42,8 @@ esbuild
           '.png': 'file',
            '.js': 'jsx',
         },
-        metafile: metafile,
-        minify: minify,
+        metafile,
+        minify,
         publicPath: "/assets",
         assetNames: '[name]-[hash].digested',
         //splitting: true,
