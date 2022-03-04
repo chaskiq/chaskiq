@@ -94,7 +94,7 @@ gem "active_importer"
 gem "faraday"
 gem "http"
 gem "net-http"
-gem "roo"
+gem "roo", "~> 2.8", ">= 2.8.3", git: "https://github.com/roo-rb/roo.git"
 gem "ruby-oembed"
 
 gem "mustache"
