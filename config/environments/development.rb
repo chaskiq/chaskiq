@@ -11,6 +11,18 @@ Rails.application.configure do
   # config.hosts << "dea224b3.ngrok.io"
   config.hosts = nil # << "/[a-z0-9]+\.chaskiq.test:3000/"
 
+  #main_host = Addressable::URI.parse( ENV["HOST"])
+
+  #raise "no valid host in HOST env var" if main_host.host.blank?
+
+  #config.hosts = [
+  #  IPAddr.new("0.0.0.0/0"),        # All IPv4 addresses.
+  #  IPAddr.new("::/0"),             # All IPv6 addresses.
+  #  "localhost",                    # The localhost reserved domain.
+  #  main_host.host,  # Additional comma-separated hosts for development.
+  #  ".#{main_host.host}"
+  #]
+
   # Do not eager load code on boot.
   config.eager_load = false
 
