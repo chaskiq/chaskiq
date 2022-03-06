@@ -42,6 +42,13 @@ RSpec.describe OriginValidator do
            )).to be_is_valid
   end
 
+  it "validates multiple, whitespaces" do
+    expect(OriginValidator.new(
+             app: "   http://loc.cl, http://loc.io",
+             host: "http://loc.cl"
+           )).to be_is_valid
+  end
+
   it "validates multiple with port" do
     expect(OriginValidator.new(
              app: "http://loc.cl:3001,http://loc.io",
