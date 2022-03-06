@@ -2,9 +2,9 @@ ro:
   definitions:
     articles:
       title:
-        label: Title
+        label: Заголовок
       author:
-        label: Author
+        label: Автор
       state:
         label: State
       collection:
@@ -63,7 +63,7 @@ ro:
         hint: The email domain to send conversations, for @yourapp use 'your app'
       tagline:
         label: Tagline
-        hint: This will be rendered in the bottom of the Chat box
+        hint: Это будет отображено в нижней части окна чата
       timezone:
         label: Timezone
         hint:
@@ -203,6 +203,7 @@ ro:
       ip: Ip
       country: Country
       city: City
+      phone: Phone
       lat: Lat
       lng: Lng
       postal: Postal

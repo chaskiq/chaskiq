@@ -203,6 +203,7 @@ zh-CN:
       ip: Ip
       country: 国家
       city: 城市
+      phone: Phone
       lat: 纬度(Lat)
       lng: 经度(Lng)
       postal: 邮局
