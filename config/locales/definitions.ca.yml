@@ -203,6 +203,7 @@ ca:
       ip: Ip
       country: País
       city: Ciutat
+      phone: Telèfon
       lat: Latitut
       lng: Longitut
       postal: Codi postal

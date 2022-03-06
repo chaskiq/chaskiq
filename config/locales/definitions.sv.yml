@@ -203,6 +203,7 @@ sv:
       ip: Ip
       country: Land
       city: Stad
+      phone: Phone
       lat: Lat
       lng: Lng
       postal: Postnummer
