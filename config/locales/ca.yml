@@ -142,7 +142,7 @@ ca:
     button: Desa
     built_with_love: Built with love by the team
   conversations:
-    start_conversation: Iniciar conversa
+    start_conversation: Start a conversation
     title: Converses
     menu:
       conversations: Converses
