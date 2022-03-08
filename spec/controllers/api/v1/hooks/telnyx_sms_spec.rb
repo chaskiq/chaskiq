@@ -163,8 +163,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "outbound phone resolve" do
       klass = AppPackageIntegration.last.message_api_klass
-      expect(klass.resolve_outbound_phone("+56xxxxx")).to start_with("+56")
-      expect(klass.resolve_outbound_phone("+16xxxxx")).to start_with("+1")
+      expect(klass.resolve_outbound_phone("+56xxxxx")[:from]).to start_with("+56")
+      expect(klass.resolve_outbound_phone("+16xxxxx")[:from]).to start_with("+1")
     end
   end
 end
