@@ -366,6 +366,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -405,6 +406,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -943,6 +949,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -957,6 +964,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -1937,6 +1960,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -1976,6 +2000,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -2518,6 +2547,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -2532,6 +2562,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -3160,9 +3206,9 @@
           "doorkeeper/application": {
             "attributes": {
               "redirect_uri": {
-                "forbidden_uri": "Forbidden by the server!",
+                "forbidden_uri": "Prohibit pel servidor!",
                 "fragment_present": "no pot contenir un fragment.",
-                "invalid_uri": "Must be a valid URI.",
+                "invalid_uri": "Ha de ser una adreça URL vàlida.",
                 "relative_uri": "ha de ser un URI absolut.",
                 "secured_uri": "This URI must have HTTPS!",
                 "unspecified_scheme": "ha d’especificar un esquema."
@@ -3191,17 +3237,17 @@
         "description_placeholder": "Afegiu un resum per trobar l'article més endavant",
         "placeholder": "Escriu el títol de l'article"
       },
-      "created_on": "Created on",
+      "created_on": "Creat el",
       "delete_article": "Delete article \"%{title} ?",
       "delete_article_exp": "destruirem qualsevol contingut i dades relacionades",
-      "delete_section": "Delete section",
+      "delete_section": "Suprimeix una secció",
       "deleted_success": "article deleted",
       "description_placeholder": "Descriu la teva col·lecció per ajudar-vos a trobar-la.",
       "draft": "Esborranys",
       "edit_collection": "Edita col·lecció",
       "help_center": "Centre d'ajuda",
       "new": "Article nou",
-      "new_article": "new article",
+      "new_article": "article nou",
       "new_collection": "Nova col·lecció",
       "new_section": "Nova secció",
       "published": "Publicat",
@@ -3229,9 +3275,9 @@
       "square_preferred": "square images preferred (min size 200x200px)",
       "square_preferred_hint": "squared images will be optimal resized",
       "state": {
-        "draft": "draft",
+        "draft": "esborrany",
         "draft_desc": "hides the article on the help center",
-        "published": "published",
+        "published": "publicat",
         "published_desc": "shows article on the help center"
       },
       "title": "Articles",
@@ -3263,52 +3309,52 @@
       }
     },
     "campaigns": {
-      "activate": "Activate Campaigns",
+      "activate": "Activar campanyes",
       "banners": {
-        "action": "Action",
-        "bottom": "bottom",
-        "floating": "floating",
-        "inline": "inline",
+        "action": "Acció",
+        "bottom": "a sota",
+        "floating": "flotant",
+        "inline": "en línia",
         "settings": "Configuració",
-        "style": "Style",
+        "style": "Estil",
         "top": "top"
       },
       "campaign_updated": "Campanya actualitzada",
-      "clone_description": "clones the campaign",
-      "clone_title": "Clone",
-      "cloned_error": "error while cloning record",
-      "cloned_success": "cloned successfully",
+      "clone_description": "clona la campanya",
+      "clone_title": "Duplicar",
+      "cloned_error": "error en clonar el registre",
+      "cloned_success": "clonat amb èxit",
       "create_new": "Crea una nova campanya",
       "delete_campaign": "Suprimir campanya %{name}",
       "deliver_description": "Eliminar la campanya",
       "deliver_title": "Entregar",
-      "disables": "Disables campaign",
+      "disables": "Campanya desactivada",
       "empty": {
         "title": "No hi ha campanyes"
       },
-      "enables": "Enables campaign",
+      "enables": "Activa la campanya",
       "error_purge": "S'ha produït un error en esporgar les mètriques",
       "home": {
         "text": "Aquesta és la secció de campanyes, pots crear butlletins informatius, missatges emergents i visites guiades",
         "title": "Campanyes"
       },
-      "in_app": "In app messages",
-      "mailing": "Mailing campaign",
-      "pause_description": "pauses the campaign",
-      "pause_title": "Pause",
+      "in_app": "Missatge d'aplicació",
+      "mailing": "Campanyes de correo",
+      "pause_description": "posa en pausa la campanya",
+      "pause_title": "Pausa",
       "purge_description": "Purgar les mètriques de les campanyes",
       "purge_title": "Purgar les mètriques",
       "remove_hint": "Destruirem qualsevol contingut i dades relacionades",
       "remove_success": "Campanya eliminada",
       "state": {
-        "disabled": "disabled",
-        "enabled": "enabled"
+        "disabled": "inhabilitat",
+        "enabled": "activat"
       },
       "tabs": {
-        "audience": "Audience",
+        "audience": "Audiència",
         "editor": "Editor",
         "settings": "Configuració",
-        "stats": "Stats"
+        "stats": "Estadístiques"
       },
       "title": "Campanya",
       "updated_error": "Error al actualitzar la campanya"
@@ -3317,25 +3363,25 @@
       "actions": "Accions",
       "add": "Afegir",
       "add_new": "afegir nou",
-      "away_mode": "Away mode",
+      "away_mode": "Mode absent",
       "back_to_site": "Torna al site",
       "cancel": "Cancel·lar",
-      "choose_color": "Choose color",
+      "choose_color": "Triar color",
       "confirm_deletion": "Confirmes esborrar?",
-      "confirm_deletion_ready": "are you ready to delete ?",
+      "confirm_deletion_ready": "esteu preparats per esborrar?",
       "create": "Crea",
-      "days": "Days",
+      "days": "Dies",
       "delete": "Borrar",
       "edit": "Edita",
       "get_snippet": "Consegueix el fragment",
-      "image": "Imagen",
+      "image": "Imatge",
       "langs": {
-        "ca": "Catalan",
+        "ca": "Català",
         "de": "Alemany",
         "en": "Anglès",
         "es": "Espanyol",
         "pt": "Portuguès",
-        "zh-CN": "Chinese"
+        "zh-CN": "Xinès"
       },
       "leads": "Client potencial",
       "new": "Nou",
@@ -3348,38 +3394,38 @@
       "remove": "Eliminar",
       "results": "resultats",
       "save": "Desa",
-      "save_changes": "Save changes",
-      "search_conversations": "Search conversations",
+      "save_changes": "Desa els canvis",
+      "search_conversations": "Cerca la conversa",
       "select_language": "Selecciona un Idioma",
       "send": "Envia",
       "send_on_enter": "Publicar al entrar",
       "showing": "Mostrant",
       "submit": "Envia",
       "to": "per",
-      "toggle_dark_mode": "Toggle dark mode",
+      "toggle_dark_mode": "Canviar a tema fosc",
       "toggle_light_mode": "Toggle light mode",
-      "type_message": "type your message",
+      "type_message": "escriu el teu missatge",
       "tz_hint": "La zona horària del teu navegador és <b className=\"text-bold\">%{timezone}</b>",
       "update": "Actualitza",
-      "upload_field": "upload %{field}",
+      "upload_field": "carregar %{field}",
       "users": "Usuaris",
-      "visitors": "Visitors",
-      "your_apps": "Your apps"
+      "visitors": "Visitants",
+      "your_apps": "Les teves Apps"
     },
     "contact_manager": {
       "create": "Create Users & Leads",
       "definitions": {
-        "app_user": "Verified User",
-        "company_name": "Company Name",
+        "app_user": "Usuari Verificat",
+        "company_name": "Nom de l'empresa",
         "lead": "Lead",
-        "phone": "Phone"
+        "phone": "Telèfon"
       },
       "import_choose": "Choose what kind of contacts you will import",
       "import_contacts": "import_contacts",
-      "import_csv": "Import csv",
+      "import_csv": "Importar csv",
       "import_exp": "You can upload a csv or excel file in order to import contacts",
-      "import_type": "Import Type",
-      "select_file": "Select a file",
+      "import_type": "Tipus d'importació",
+      "select_file": "Seleccioneu un fitxer",
       "success_message": "Processing file import, you will be notified the status soon"
     },
     "conversation": {
@@ -3412,8 +3458,8 @@
       },
       "messages": {
         "not_seen": "No vist",
-        "note": "Private Note",
-        "reply": "Reply",
+        "note": "Nota privada",
+        "reply": "Respondre",
         "seen": "Vist"
       },
       "sidebar": {
@@ -3433,11 +3479,11 @@
         "title": "No hi ha converses"
       },
       "menu": {
-        "all": "All conversations",
+        "all": "Totes les converses",
         "assignment_rules": "Regles d'enrutament d'agents",
         "conversations": "Converses",
         "tags": "Etiquetes",
-        "unassigned": "Unassigned"
+        "unassigned": "Sense assignar"
       },
       "sorts": {
         "all": "Tots",
@@ -3455,7 +3501,7 @@
       "title": "Converses"
     },
     "dashboard": {
-      "guides": "Chaskiq Guides",
+      "guides": "Guies de Chaskiq",
       "hey": "👋 Ei, esteu veient el tauler de <strong>%{name} </strong>! <br /> Obteniu el fragment d'instal·lació per a la configuració web <br />",
       "incoming_messages": "Missatges entrants",
       "lead_os": "So Client potencial",
@@ -3464,9 +3510,9 @@
       "resolutions": "Resolució",
       "response_avg": "Temps de resposta mitjà",
       "snippet": "Posa el següent script a la fin de la teva etiqueta html <body>",
-      "status": "Live chat status",
-      "status_paused": "Paused",
-      "status_running": "Running",
+      "status": "Estat del xat en directe",
+      "status_paused": "Pausat",
+      "status_running": "En execució",
       "user_country": "País del usuari",
       "user_os": "So del usuari",
       "users_browser": "Navegador dels usuaris",
@@ -3477,23 +3523,23 @@
         "access_list": "Access List",
         "actions": "Accions",
         "email": "Email",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
+        "invitation_accepted_at": "Invitació acceptada el",
+        "last_sign_in_at": "Darrera data d'identificació",
         "name": "Nom",
-        "owner": "Owner",
+        "owner": "Propietari",
         "sign_in_count": "Sign in count"
       },
       "articles": {
         "settings": {
-          "action": "Action",
+          "action": "Acció",
           "locale": "Locale",
-          "site_description": "Site Description",
-          "site_title": "Site Title"
+          "site_description": "Descripció del Lloc",
+          "site_title": "Títol del lloc"
         }
       },
       "settings": {
         "greetings": "Greetings",
-        "intro": "Intro",
+        "intro": "Introducció",
         "locale": "Locale",
         "tagline": "Eslògan"
       },
@@ -3514,6 +3560,7 @@
         "online": "Connectat",
         "os": "So",
         "os_version": "Versió del SO",
+        "phone": "Telèfon",
         "postal": "Codi postal",
         "referrer": "Procedència",
         "state": "Estat",
@@ -3530,18 +3577,18 @@
       "agents": {
         "access_list": {
           "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "label": "Rol del agent"
         },
         "email": {
           "label": "Agent's Email",
-          "placeholder": "john@example.com"
+          "placeholder": "marc@exemple.cat"
         },
         "name": {
-          "label": "Agent's Name",
-          "placeholder": "John Doe"
+          "label": "Nom del agent",
+          "placeholder": "Marc Gaja"
         },
         "owner": {
-          "label": "Owner"
+          "label": "Propietari"
         }
       },
       "app_packages": {
@@ -3553,6 +3600,11 @@
           "hint": "S’envia quan un company vol utilitzar la teva aplicació perquè pugueu mostrar-los les opcions de configuració abans d’inserir-la. Si deixeu aquesta opció en blanc, s'ometrà la configuració.",
           "label": "Configuració de l'URL del webhook de flux (opcional)",
           "placeholder": "p.ex. https://elteudomini.com/configuracio"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "digueu què fa el vostre connector",
@@ -3595,7 +3647,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Mostrar crèdits"
         },
         "domain": {
           "hint": "Domini del vostre domini centre d'ajuda",
@@ -3905,7 +3957,7 @@
         "show": {
           "actions": "Accions",
           "application_id": "UID de l'aplicació",
-          "callback_urls": "Callback URL's",
+          "callback_urls": "URL de retorn",
           "confidential": "Confidencial",
           "scopes": "Àmbits",
           "secret": "Clau secreta",
@@ -4016,17 +4068,17 @@
       "title": "Reenviament de mail"
     },
     "error_view": {
-      "cta": "try to go home",
-      "exp": "try refreshing the page",
+      "cta": "prova d'anar al inici",
+      "exp": "prova d'actualitzar la pàgina",
       "subtitle": "Unfortunately 🤯",
-      "title": "Woops! something went wrong."
+      "title": "Ui! Alguna cosa ha anat malament."
     },
     "errors": {
       "messages": {
         "already_confirmed": "ja s'ha confirmat, si us plau intenta iniciar la sessió",
         "confirmation_period_expired": "s'ha de confirmar dins de %{period}, si us plau sol·licita'n un de nou",
         "expired": "ha caducat, si us plau, sol·licita'n un de nou",
-        "not_found": "Not found",
+        "not_found": "No s'ha trobat",
         "not_locked": "no està bloquejada",
         "not_saved": {
           "one": "Un error ha impedit que es guardés aquest %{resource}:",
@@ -4091,6 +4143,7 @@
     "home": {
       "choose_lang": "Trieu l'idioma",
       "create_new": "Crea una nova aplicació",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edita el perfil",
       "go_to_doc": "Aneu a la documentació",
       "tagline": "Troba la teva localització actual",
@@ -4106,6 +4159,22 @@
       "lang": "El vostre codi per generar un HMAC per a la vostra aplicació és",
       "title": "Configuració d'usuaris verificats"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Desa",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campanyes",
       "childs": {
@@ -4115,7 +4184,7 @@
         "articles": "Articles",
         "assignment_rules": "Regles d'asignació",
         "banners": "Anuncis",
-        "billing": "Billing",
+        "billing": "Facturació",
         "bot_settings": "Tasques del bot",
         "collections": "Col·leccions",
         "conversations": "Converses",
@@ -4174,39 +4243,39 @@
       "will_send": "La versió \"%{lang}\" s'enviarà a la conversa."
     },
     "segment_manager": {
-      "add_filters": "Add filters",
-      "all": "all",
-      "any": "any",
-      "apply": "apply",
+      "add_filters": "Afegir filtres",
+      "all": "tots",
+      "any": "qualsevol",
+      "apply": "aplicar",
       "changes_notice": "The changes will be saved to the app segments.",
-      "contains": "contains",
+      "contains": "conté",
       "create_segment": "Create new segment",
-      "criteria": "criteria",
+      "criteria": "criteri",
       "date_filter_for": "Select the date filter for  %{name}",
-      "days_ago": "days ago",
-      "delete_segment": "Delete segment",
-      "does_not_contain": "does not contain",
-      "ends_with": "ends with",
-      "exactly": "exactly",
+      "days_ago": "dies abans",
+      "delete_segment": "Esborrar segment",
+      "does_not_contain": "no conté",
+      "ends_with": "acaba amb",
+      "exactly": "exactament",
       "filter_for": "select filter for %{name}",
       "has_any_value": "has any value",
       "integer_filter_for": "Select the integer filter for %{name}",
-      "is": "is",
-      "is_not": "is not",
-      "is_unknown": "is unknown",
-      "less_than": "less than",
+      "is": "és",
+      "is_not": "no és",
+      "is_unknown": "és desconegut",
+      "less_than": "més petit que",
       "less_than_eq": "less than eq",
-      "match": "match",
+      "match": "coincideix",
       "match_all": "match all",
       "match_any": "match any",
       "match_criteria_for": "Match criteria options for %{name}",
-      "missing_value": "Missing value!",
-      "more_than": "more than",
+      "missing_value": "Falta el valor!",
+      "more_than": "més que",
       "more_than_eq": "more than eq",
       "save_changes_to": "Save changes to the <b>%{name}</b>{' '} segment.",
-      "save_segment": "Save segment",
-      "select_fields": "Select fields:",
-      "starts_with": "starts with"
+      "save_segment": "Guardar segment",
+      "select_fields": "Seleccioneu camps:",
+      "starts_with": "comença amb"
     },
     "settings": {
       "api": {
@@ -4245,7 +4314,7 @@
         "user_data": "Dades d'usuari"
       },
       "app_inserter": {
-        "action": "Add app",
+        "action": "Afegir aplicació",
         "subtitle": "Help your customers before they start a conversation",
         "title": "Add apps to your Messenger"
       },
@@ -4289,7 +4358,7 @@
         "title2": "Defineix horari laboral"
       },
       "contact_avatars": {
-        "choose_color": "Choose color",
+        "choose_color": "Triar color",
         "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
         "title": "Contact avatars style"
       },
@@ -4396,7 +4465,7 @@
         "content_text": "envia una invitació per correu",
         "destroy_agent": "Suprimir",
         "destroy_agent_title": "Suprimeix agent",
-        "destroy_agent_warning": "Are you sure you want to delete %{agent} ?",
+        "destroy_agent_warning": "Estàs segur que voleu suprimir %{agent}?",
         "destroyed_agent": "L'agent s'ha eliminat correctament",
         "hint": "el nou membre de l’equip rebrà una notificació per mail",
         "invitatin_error": "invitació no enviada!",
@@ -4453,16 +4522,16 @@
       }
     },
     "status_messages": {
-      "created_error": "Error creating",
-      "created_success": "Successfully created",
-      "deleted_error": "Error deleting",
-      "deleted_success": "Successfully deleted",
+      "created_error": "S'ha produït un error al crear",
+      "created_success": "Creat correctament",
+      "deleted_error": "Error d'eliminació",
+      "deleted_success": "Eliminat satisfactòriament",
       "error": "Error",
-      "reordered_error": "Error reordering",
-      "reordered_success": "Successfully Reordered",
-      "success": "Success",
-      "updated_error": "Error on upddate",
-      "updated_success": "Updated successfully"
+      "reordered_error": "S'ha produït un error al reordenar",
+      "reordered_success": "Reordenat correctament",
+      "success": "Correcte",
+      "updated_error": "Error en l'actualització",
+      "updated_success": "S'ha actualitzat amb èxit"
     },
     "subscriptions": {
       "alerts": {
@@ -4629,7 +4698,7 @@
       "new_conversations": "👋 Nova conversa",
       "new_conversations_notice": "This is what people will see when they start a new conversation",
       "options": {
-        "add_app_package": "Add App",
+        "add_app_package": "Afegir Aplicació",
         "add_message": "Add Message Bubble",
         "wait_user_input": "Wait for user input"
       },
@@ -4681,9 +4750,9 @@
       },
       "state_filters": {
         "disabled_description": "Disabled bot tasks",
-        "disabled_title": "Disabled",
+        "disabled_title": "Inhabilitat",
         "enabled_description": "enabled bot tasks",
-        "enabled_title": "Enabled"
+        "enabled_title": "Activat"
       },
       "support": {
         "ask": "Ja sou client de %{name}?",
@@ -4703,7 +4772,7 @@
         "description_visitors": "visitors on the platform",
         "title_leads": "Client potencial",
         "title_users": "Usuaris",
-        "title_visitors": "Visitors"
+        "title_visitors": "Visitants"
       }
     },
     "time": {
@@ -5085,6 +5154,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -5124,6 +5194,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -5664,6 +5739,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -5678,6 +5754,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -6667,6 +6759,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -6706,6 +6799,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -7244,6 +7342,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -7258,6 +7357,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -8238,6 +8353,7 @@
         "online": "Online",
         "os": "Betriebssystem",
         "os_version": "Betriebssystem-Version",
+        "phone": "Phone",
         "postal": "Postleitzahl",
         "referrer": "Referrer",
         "state": "Status",
@@ -8277,6 +8393,11 @@
           "hint": "Wird gesendet, wenn ein Teammitglied Ihre App verwenden möchte, so dass Sie Konfigurationsmöglichkeiten anzeigen können. Wenn Sie diese Option leer lassen, wird die Konfiguration übersprungen.",
           "label": "Flow Webhook-URL konfigurieren (optional)",
           "placeholder": "z.B. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "sag was dein Plugin macht",
@@ -8815,6 +8936,7 @@
     "home": {
       "choose_lang": "Sprache auswählen",
       "create_new": "Neue Anwendung erstellen",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Profil bearbeiten",
       "go_to_doc": "Zur Dokumentation",
       "tagline": "Hier finden Sie Ihre aktuellen Anwendungen",
@@ -8829,6 +8951,22 @@
       "hmac_hint1": "Um die Identitätsüberprüfung zu konfigurieren, müssen Sie für jeden angemeldeten Benutzer ein HMAC auf Ihrem Server generieren und es an Chaskiq senden.",
       "lang": "Ihr Code, um ein HMAC für Ihre App zu generieren ist",
       "title": "Verifizierte Benutzereinstellungen"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Speichern",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Kampagnen",
@@ -9809,6 +9947,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -9848,6 +9987,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -10386,6 +10530,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -10400,6 +10545,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -11585,7 +11746,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -11652,6 +11813,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -11808,6 +11970,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -12106,7 +12273,7 @@
         "signed_up_but_unconfirmed": "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.",
         "update_needs_confirmation": "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address.",
         "updated": "Your account has been updated successfully.",
-        "updated_but_not_signed_in": "Your account has been updated successfully, but since your password was changed, you need to sign in again"
+        "updated_but_not_signed_in": "Your account has been updated successfully, but since your password was changed, you need to sign in again."
       },
       "sessions": {
         "already_signed_out": "Signed out successfully.",
@@ -12295,6 +12462,7 @@
         "expired": "has expired, please request a new one",
         "greater_than": "must be greater than %{count}",
         "greater_than_or_equal_to": "must be greater than or equal to %{count}",
+        "in": "must be in %{count}",
         "inclusion": "is not included in the list",
         "invalid": "is invalid",
         "less_than": "must be less than %{count}",
@@ -12427,6 +12595,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -12441,6 +12610,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "messenger": {
       "article_meta": "By: <strong>%{name}</strong> on <time>%{date}</time>",
@@ -13579,6 +13764,7 @@
         "online": "En línea",
         "os": "Os",
         "os_version": "Versión del sistema operativo",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Origen",
         "state": "Estado",
@@ -13739,6 +13925,11 @@
           "hint": "Enviado cuando un compañero de equipo quiere usar tu aplicación, para que puedas mostrarles las opciones de configuración antes de que se inserte. Al dejar esta opción en blanco se omitirá la configuración.",
           "label": "Configurar URL del webhook de flujo (opcional)",
           "placeholder": "ej. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "decir lo que hace tu plugin",
@@ -14328,6 +14519,7 @@
     "home": {
       "choose_lang": "Seleccionar idioma",
       "create_new": "Crear una nueva aplicación",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Editar perfil",
       "go_to_doc": "Ir a la documentación",
       "tagline": "Encuentra tu ubicación actual",
@@ -14342,6 +14534,22 @@
       "hmac_hint1": "Para configurar la verificación de identidad, necesitará generar un HMAC en su servidor para cada usuario conectado y enviarlo a Chaskiq.",
       "lang": "Tu código para generar un HMAC para tu aplicación es",
       "title": "Configuración de usuarios verificados"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Guardar",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "messenger": {
       "article_meta": "Por: <strong>%{name}</strong> en <0>%{date}</0>",
@@ -15498,6 +15706,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -15537,6 +15746,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -16075,6 +16289,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -16089,6 +16304,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -17069,6 +17300,7 @@
         "online": "En ligne",
         "os": "Os",
         "os_version": "Version Os",
+        "phone": "Phone",
         "postal": "Code postal",
         "referrer": "Référant",
         "state": "État",
@@ -17108,6 +17340,11 @@
           "hint": "Envoyé lorsqu'un coéquipier souhaite utiliser votre application, afin que vous puissiez leur montrer les options de configuration avant qu'elles ne soient insérées. Laisser cette option vide sautera la configuration.",
           "label": "Configurer l'URL du flux webhook (optionnel)",
           "placeholder": "par exemple https://votredomaine.fr/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "dire ce que fait votre plugin",
@@ -17649,6 +17886,7 @@
     "home": {
       "choose_lang": "Choisissez la langue",
       "create_new": "Créer une nouvelle app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Éditer profil",
       "go_to_doc": "Accéder à la documentation",
       "tagline": "Trouvez vos applications actuelles ici",
@@ -17663,6 +17901,22 @@
       "hmac_hint1": "Pour configurer la vérification d'identité, vous devez générer un HMAC sur votre serveur pour chaque utilisateur connecté et le soumettre à Chaskiq.",
       "lang": "Votre code pour générer un HMAC pour votre application est",
       "title": "Configuration des utilisateurs vérifiée"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Enregistrer",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "messenger": {
       "article_meta": "Par: <strong>%{name}</strong> le <0>%{date}</0>",
@@ -18704,6 +18958,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -18743,6 +18998,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -19281,6 +19541,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -19295,6 +19556,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -20275,6 +20552,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -20314,6 +20592,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -20852,6 +21135,7 @@
     "home": {
       "choose_lang": "Scegli la lingua",
       "create_new": "Crea una nuova app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Modifica profilo",
       "go_to_doc": "Vai alla documentazione",
       "tagline": "Trova qui le applicazioni correnti",
@@ -20866,6 +21150,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Salva",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campagne",
@@ -21846,6 +22146,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -21885,6 +22186,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -22422,6 +22728,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -22436,6 +22743,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -23416,6 +23739,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -23455,6 +23779,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -23992,6 +24321,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -24006,6 +24336,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -24986,6 +25332,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -25025,6 +25372,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -25563,6 +25915,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -25577,6 +25930,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -26557,6 +26926,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -26596,6 +26966,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -27134,6 +27509,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -27148,6 +27524,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -27792,9 +28184,9 @@
     "articles": {
       "activate_help_center": "Activate Help Center",
       "add": "Add item",
-      "add_articles": "Add articles",
+      "add_articles": "Dodaj artykuł",
       "all": "All",
-      "author": "Author",
+      "author": "Autor",
       "collections": "Collections",
       "create": {
         "description": "Describe your collection to help you find it.",
@@ -27806,7 +28198,7 @@
         "placeholder": "Write the title of the article"
       },
       "created_on": "Created on",
-      "delete_article": "Delete article \"%{title} ?",
+      "delete_article": "Usunąć artykuł \"%{title}?",
       "delete_article_exp": "we will destroy any content and related data",
       "delete_section": "Delete section",
       "deleted_success": "article deleted",
@@ -27848,7 +28240,7 @@
         "published": "published",
         "published_desc": "shows article on the help center"
       },
-      "title": "Articles",
+      "title": "Artykuły",
       "title_placeholder": "Write the title of the sections",
       "updated_error": "article error on save",
       "updated_success": "article updated",
@@ -27929,18 +28321,18 @@
     },
     "common": {
       "actions": "Actions",
-      "add": "Add",
-      "add_new": "add new",
+      "add": "Dodaj",
+      "add_new": "dodaj nowy",
       "away_mode": "Away mode",
-      "back_to_site": "Back to site",
-      "cancel": "Cancel",
+      "back_to_site": "Wróć do strony",
+      "cancel": "Anuluj",
       "choose_color": "Choose color",
       "confirm_deletion": "Confirm deletion ?",
       "confirm_deletion_ready": "are you ready to delete ?",
-      "create": "Create",
+      "create": "Utwórz",
       "days": "Days",
-      "delete": "Delete",
-      "edit": "Edit",
+      "delete": "Usuń",
+      "edit": "Edytuj",
       "get_snippet": "Get the snippet",
       "image": "Imagen",
       "langs": {
@@ -27952,19 +28344,19 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
-      "new": "New",
+      "new": "Nowy",
       "next": "Next",
-      "not_found": "The page you are looking for does not exist.",
+      "not_found": "Strona, której szukasz nie istnieje.",
       "of": "of",
       "prev": "Prev",
-      "preview": "Preview",
+      "preview": "Podgląd",
       "redirecting": "Redirecting",
-      "remove": "Remove",
+      "remove": "Usuń",
       "results": "results",
-      "save": "Save",
-      "save_changes": "Save changes",
+      "save": "Zapisz",
+      "save_changes": "Zapisz zmiany",
       "search_conversations": "Search conversations",
-      "select_language": "Select Language",
+      "select_language": "Wybierz Język",
       "send": "Send",
       "send_on_enter": "Publish on enter",
       "showing": "Showing",
@@ -27974,7 +28366,7 @@
       "toggle_light_mode": "Toggle light mode",
       "type_message": "type your message",
       "tz_hint": "Your browser timezone is <b className=\"text-bold\">%{timezone}</b>",
-      "update": "Update",
+      "update": "Aktualizuj",
       "upload_field": "upload %{field}",
       "users": "Users",
       "visitors": "Visitors",
@@ -28128,6 +28520,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -28167,6 +28560,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -28707,6 +29105,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -28721,6 +29120,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Zapisz",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -29029,7 +29444,7 @@
       "user_data": {
         "attr_types": {
           "date": "Date",
-          "integer": "Integer",
+          "integer": "Liczba całkowita",
           "string": "String"
         },
         "default_fields": "Default attributes",
@@ -29037,7 +29452,7 @@
           "name": "Field name",
           "type": "Field type",
           "validation": "Validation",
-          "validation_hint": "Validation is optional"
+          "validation_hint": "Walidacja jest opcjonalna"
         },
         "modal": {
           "title": "Create user data field"
@@ -29082,7 +29497,7 @@
     },
     "subscriptions": {
       "alerts": {
-        "close": "Close this dialog",
+        "close": "Zamknij to okno",
         "subscription_cancelled": {
           "desc": "The subscription was cancelled",
           "title": "Subscription Cancelled"
@@ -29097,12 +29512,12 @@
         }
       },
       "billing_information": {
-        "cancel_plan": "cancel plan",
+        "cancel_plan": "anuluj plan",
         "description": "You are currently using \"%{plan_name}\" plan.",
         "next_billing": "Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}",
         "subscription_state": "Estado de subscripción %{state}",
         "title": "Billing plan information",
-        "update_payment_method": "Update payment method"
+        "update_payment_method": "Zaktualizuj metodę płatności"
       },
       "features": {
         "AppUsers": {
@@ -29112,8 +29527,8 @@
         },
         "Articles": {
           "active": false,
-          "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "title": "Artykuły",
+          "upgrade_message": "Włącz dokumentację i Centrum Pomocy"
         },
         "BotTasks": {
           "description": true,
@@ -29131,8 +29546,8 @@
           "upgrade_message": "Enable conversations"
         },
         "CustomAttributes": {
-          "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "title": "Własne Atrybuty",
+          "upgrade_message": "Włącz niestandardowe atrybuty"
         },
         "Integrations": {
           "description": true,
@@ -29147,7 +29562,7 @@
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Włącz obsługę dostępu API poprzez OAUTH"
         },
         "OutgoingWebhooks": {
           "active": false,
@@ -29156,8 +29571,8 @@
         },
         "QuickReplies": {
           "description": true,
-          "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "title": "Szybkie Odpowiedzi",
+          "upgrade_message": "dodaj szybkie odpowiedzi do rozmów"
         },
         "Segments": {
           "description": true,
@@ -29195,7 +29610,7 @@
         {
           "name": "super",
           "id": 596123,
-          "description": "This is the super plan"
+          "description": "To jest super plan"
         }
       ],
       "tabs": [
@@ -29203,10 +29618,10 @@
         "Transaction history"
       ],
       "update_subscription": {
-        "amount": "With the amount of <span class=\"font-bold\">$ %{recurring_price} USD</span>",
-        "billed_on": "You will be billed on each <span class=\"font-bold\"> %{billing_period} %{billing_type} </span>",
-        "cta": "Update subscription",
-        "next_payment": "Next payment will be on <span class=\"font-bold\">%{next_payment_date}</span>"
+        "amount": "Kwota <span class=\"font-bold\">$ %{recurring_price} USD</span>",
+        "billed_on": "Zostaniesz rozliczony za każde <span class=\"font-bold\"> %{billing_period} %{billing_type} </span>",
+        "cta": "Zaktualizuj subskrypcję",
+        "next_payment": "Następna płatność będzie w dniu <span class=\"font-bold\">%{next_payment_date}</span>"
       },
       "upgrade": "Upgrade"
     },
@@ -29701,6 +30116,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Versão do sistema operacional",
+        "phone": "Phone",
         "postal": "Código postal",
         "referrer": "Página de referência",
         "state": "Estado",
@@ -29740,6 +30156,11 @@
           "hint": "Enviado quando um colega de equipe quer usar seu aplicativo, para que você possa mostrar as opções de configuração antes de ser inserido. Deixar esta opção em branco pulará a configuração.",
           "label": "Configurar fluxo webhook URL (opcional)",
           "placeholder": "ex: https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "diga o que o seu plugin faz",
@@ -30278,6 +30699,7 @@
     "home": {
       "choose_lang": "Escolher idioma",
       "create_new": "Criar nova app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Editar perfil",
       "go_to_doc": "Ir para a documentação",
       "tagline": "Encontrar a sua localização atual",
@@ -30292,6 +30714,22 @@
       "hmac_hint1": "Para configurar a verificação de identidade, você precisará gerar um HMAC no seu servidor para cada usuário conectado e enviá-lo para Chaskiq.",
       "lang": "Seu código para gerar um HMAC para o seu aplicativo é",
       "title": "Configuração de usuários verificada"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Salvar",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campanhas",
@@ -31272,6 +31710,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -31312,6 +31751,11 @@
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
         },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
+        },
         "description": {
           "hint": "tell what your plugin does",
           "label": "App Package description"
@@ -31346,7 +31790,7 @@
           "label": "Actions"
         },
         "author": {
-          "label": "Author"
+          "label": "Автор"
         },
         "collection": {
           "label": "Collection"
@@ -31371,7 +31815,7 @@
           "label": "Subdomain"
         },
         "title": {
-          "label": "Title"
+          "label": "Заголовок"
         },
         "website": {
           "hint": "Website of your main domain",
@@ -31486,7 +31930,7 @@
           "label": "Register Visits"
         },
         "tagline": {
-          "hint": "This will be rendered in the bottom of the Chat box",
+          "hint": "Это будет отображено в нижней части окна чата",
           "label": "Tagline"
         },
         "timezone": {
@@ -31850,6 +32294,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -31864,6 +32309,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -32844,6 +33305,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -32883,6 +33345,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -33423,6 +33890,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -33437,6 +33905,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -34150,31 +34634,31 @@
       "title": "Assignment Rules"
     },
     "campaign": {
-      "create": "Create a new campaign",
-      "edit": "Edit Campaign Settings",
-      "preview": "This is a preview",
-      "preview_hint": "This is how your email should display. If you are using variables like {{name}} it should be displayed here.",
+      "create": "Skapa ny kampanj",
+      "edit": "Redigera kampanjinställningar",
+      "preview": "Det här är en förhandsvisning",
+      "preview_hint": "Detta är hur ditt e-postmeddelande visas. Om du använder variabler som {{name}} ska de visas här.",
       "stats": {
-        "refresh_data": "Refresh data",
-        "title": "Campaign Stats"
+        "refresh_data": "Uppdatera data",
+        "title": "Kampanjstatistik"
       },
       "unsubscribe": {
-        "cancel": "Cancel your subscription",
-        "resubscribe": "Resubscribe from this list",
-        "status": "You've been %{state}",
-        "success": "Success, %{ email } will no longer receive emails from this sender. Was this a mistake?"
+        "cancel": "Avsluta din prenumeration",
+        "resubscribe": "Prenumerera igen",
+        "status": "Du har blivit %{state}",
+        "success": "%{ email } kommer inte längre att få några meddelanden från oss. Var det ett misstag?"
       }
     },
     "campaigns": {
       "activate": "Activate Campaigns",
       "banners": {
-        "action": "Action",
-        "bottom": "bottom",
-        "floating": "floating",
-        "inline": "inline",
+        "action": "Åtgärder",
+        "bottom": "nederkant",
+        "floating": "flytande",
+        "inline": "i texten",
         "settings": "Settings",
-        "style": "Style",
-        "top": "top"
+        "style": "Stil",
+        "top": "överst"
       },
       "campaign_updated": "Campaign updated",
       "clone_description": "clones the campaign",
@@ -34217,57 +34701,57 @@
       "updated_error": "Error updating campaign"
     },
     "common": {
-      "actions": "Actions",
-      "add": "Add",
-      "add_new": "add new",
-      "away_mode": "Away mode",
-      "back_to_site": "Back to site",
-      "cancel": "Cancel",
-      "choose_color": "Choose color",
-      "confirm_deletion": "Confirm deletion ?",
-      "confirm_deletion_ready": "are you ready to delete ?",
-      "create": "Create",
-      "days": "Days",
-      "delete": "Delete",
-      "edit": "Edit",
-      "get_snippet": "Get the snippet",
-      "image": "Imagen",
+      "actions": "Åtgärder",
+      "add": "Lägg till",
+      "add_new": "lägg till ny",
+      "away_mode": "Borta-läge",
+      "back_to_site": "Tillbaka till webbplatsen",
+      "cancel": "Avbryt",
+      "choose_color": "Välj färg",
+      "confirm_deletion": "Bekräfta borttagning",
+      "confirm_deletion_ready": "är du säker på att du vill ta bort?",
+      "create": "Skapa",
+      "days": "Dagar",
+      "delete": "Radera",
+      "edit": "Redigera",
+      "get_snippet": "Hämta snippet",
+      "image": "Bild",
       "langs": {
-        "ca": "Catalan",
-        "de": "Deutsch",
-        "en": "English",
-        "es": "Spanish",
-        "pt": "Portuguese",
-        "zh-CN": "Chinese"
+        "ca": "Katalanska",
+        "de": "Tyska",
+        "en": "Engelska",
+        "es": "Spanska",
+        "pt": "Portugisiska",
+        "zh-CN": "Kinesiska"
       },
       "leads": "Leads",
-      "new": "New",
-      "next": "Next",
-      "not_found": "The page you are looking for does not exist.",
-      "of": "of",
-      "prev": "Prev",
-      "preview": "Preview",
-      "redirecting": "Redirecting",
-      "remove": "Remove",
-      "results": "results",
-      "save": "Save",
-      "save_changes": "Save changes",
-      "search_conversations": "Search conversations",
-      "select_language": "Select Language",
-      "send": "Send",
-      "send_on_enter": "Publish on enter",
-      "showing": "Showing",
-      "submit": "Submit",
-      "to": "to",
-      "toggle_dark_mode": "Toggle dark mode",
-      "toggle_light_mode": "Toggle light mode",
-      "type_message": "type your message",
-      "tz_hint": "Your browser timezone is <b className=\"text-bold\">%{timezone}</b>",
-      "update": "Update",
-      "upload_field": "upload %{field}",
-      "users": "Users",
-      "visitors": "Visitors",
-      "your_apps": "Your apps"
+      "new": "Ny",
+      "next": "Nästa",
+      "not_found": "Sidan du letar efter finns inte.",
+      "of": "av",
+      "prev": "Föreg.",
+      "preview": "Förhandsgranska",
+      "redirecting": "Omdirigerar",
+      "remove": "Ta bort",
+      "results": "resultat",
+      "save": "Spara",
+      "save_changes": "Spara ändringar",
+      "search_conversations": "Sök konversationer",
+      "select_language": "Välj språk",
+      "send": "Skicka",
+      "send_on_enter": "Tryck enter för att publicera",
+      "showing": "Visar",
+      "submit": "Skicka",
+      "to": "till",
+      "toggle_dark_mode": "Mörkt läge på/av",
+      "toggle_light_mode": "Ljust läge på/av",
+      "type_message": "skriv ditt meddelande",
+      "tz_hint": "Din webbläsares tidszon är <b className=\"text-bold\">%{timezone}</b>",
+      "update": "Uppdatera",
+      "upload_field": "ladda upp %{field}",
+      "users": "Användare",
+      "visitors": "Besökare",
+      "your_apps": "Dina appar"
     },
     "contact_manager": {
       "create": "Create Users & Leads",
@@ -34287,13 +34771,13 @@
     },
     "conversation": {
       "actions": {
-        "assign_agent": "Assign Agent",
-        "close": "Close",
-        "end_call": "End Call",
-        "priorize": "Priorize conversation",
-        "remove_priority": "Remove priority",
-        "reopen": "Reopen",
-        "start_call": "Start videocall"
+        "assign_agent": "Tilldela en agent",
+        "close": "Stäng",
+        "end_call": "Avsluta samtal",
+        "priorize": "Prioritera konversation",
+        "remove_priority": "Ta bort prioritet",
+        "reopen": "Återuppta",
+        "start_call": "Starta ett videosamtal"
       },
       "editor": {
         "panels": {
@@ -34314,48 +34798,48 @@
         }
       },
       "messages": {
-        "not_seen": "Not seen",
-        "note": "Private Note",
-        "reply": "Reply",
-        "seen": "Seen"
+        "not_seen": "Inte sett",
+        "note": "Privat anteckning",
+        "reply": "Svara",
+        "seen": "Läst"
       },
       "sidebar": {
         "assignee": "Assignee",
-        "browser": "User Browser",
+        "browser": "Användarens webbläsare",
         "created_at": "Created at",
         "first_agent_reply": "First agent reply",
         "latest_user_visible_comment_at": "Last comment",
-        "location": "Location",
-        "show_profile": "Show profile"
+        "location": "Plats",
+        "show_profile": "Visa profil"
       },
-      "with": "Conversation with"
+      "with": "Konversation med"
     },
     "conversations": {
       "empty": {
-        "text": "Choose conversations on the side",
-        "title": "No conversations"
+        "text": "Välj konversationer från sidan",
+        "title": "Inga konversationer"
       },
       "menu": {
-        "all": "All conversations",
-        "assignment_rules": "Agent routing Rules",
-        "conversations": "Conversations",
-        "tags": "Tags",
-        "unassigned": "Unassigned"
+        "all": "Alla konversationer",
+        "assignment_rules": "Tilldelningsregler för agenter",
+        "conversations": "Konversationer",
+        "tags": "Taggar",
+        "unassigned": "Otilldelad"
       },
       "sorts": {
-        "all": "All",
-        "newest": "Newest",
-        "oldest": "Oldest",
-        "priority_first": "Priorized",
-        "unfiltered": "All",
-        "waiting": "Waiting"
+        "all": "Alla",
+        "newest": "Nyast",
+        "oldest": "Äldst",
+        "priority_first": "Prioriterad",
+        "unfiltered": "Alla",
+        "waiting": "Väntar"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Starta konversation",
       "states": {
-        "closed": "Closed",
-        "opened": "Opened"
+        "closed": "Stängd",
+        "opened": "Öppnad"
       },
-      "title": "Conversations"
+      "title": "Konversationer"
     },
     "dashboard": {
       "guides": "Chaskiq Guides",
@@ -34377,302 +34861,308 @@
     },
     "data_tables": {
       "agents": {
-        "access_list": "Access List",
-        "actions": "Actions",
-        "email": "Email",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
-        "name": "Name",
-        "owner": "Owner",
-        "sign_in_count": "Sign in count"
+        "access_list": "Rättigheter",
+        "actions": "Åtgärder",
+        "email": "E-post",
+        "invitation_accepted_at": "Inbjudan accepterades den",
+        "last_sign_in_at": "Senaste inloggningsdatum",
+        "name": "Namn",
+        "owner": "Ägare",
+        "sign_in_count": "Antal inloggningar"
       },
       "articles": {
         "settings": {
-          "action": "Action",
-          "locale": "Locale",
-          "site_description": "Site Description",
-          "site_title": "Site Title"
+          "action": "Åtgärder",
+          "locale": "Språk",
+          "site_description": "Webbplatsbeskrivning",
+          "site_title": "Webbplatstitel"
         }
       },
       "settings": {
-        "greetings": "Greetings",
+        "greetings": "Hälsningsfras",
         "intro": "Intro",
-        "locale": "Locale",
+        "locale": "Språk",
         "tagline": "Tagline"
       },
       "users": {
-        "browser": "Browser",
-        "browser_lang": "Browser Lang",
-        "browser_version": "Browser version",
-        "city": "City",
-        "country": "Country",
-        "email": "Email",
-        "first_seen": "Last Seen",
+        "browser": "Webbläsare",
+        "browser_lang": "Språk för webbläsare",
+        "browser_version": "Webbläsarversion",
+        "city": "Stad",
+        "country": "Land",
+        "email": "E-postadress",
+        "first_seen": "Sågs senast",
         "ip": "Ip",
-        "lang": "Lang",
-        "last_seen": "First Seen",
+        "lang": "Språk",
+        "last_seen": "Sågs första gången",
         "lat": "Lat",
         "lng": "Lng",
-        "name": "Name",
-        "online": "Online",
+        "name": "Namn",
+        "online": "Aktiv",
         "os": "Os",
-        "os_version": "Os Version",
-        "postal": "Postal",
-        "referrer": "Referrer",
-        "state": "State",
+        "os_version": "OS-version",
+        "phone": "Phone",
+        "postal": "Postnummer",
+        "referrer": "Hänvisad från",
+        "state": "Tillstånd",
         "subscription_status": {
-          "passive": "Passive",
-          "subscribed": "Subscribed",
-          "unsubscribed": "Unsubscribed"
+          "passive": "Inaktiv",
+          "subscribed": "Prenumererar",
+          "unsubscribed": "Prenumeration avslutad"
         },
-        "tag_list": "Tag List",
-        "web_sessions": "Web Sessions"
+        "tag_list": "Taggar",
+        "web_sessions": "Webbsessioner"
       }
     },
     "definitions": {
       "agents": {
         "access_list": {
-          "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "hint": "inga behörigheter kommer att inaktivera kontoinställningar för användaren",
+          "label": "Roller för agent"
         },
         "email": {
-          "label": "Agent's Email",
-          "placeholder": "john@example.com"
+          "label": "Agentens e-postadress",
+          "placeholder": "du@exempel.se"
         },
         "name": {
-          "label": "Agent's Name",
+          "label": "Agentens namn",
           "placeholder": "John Doe"
         },
         "owner": {
-          "label": "Owner"
+          "label": "Ägare"
         }
       },
       "app_packages": {
         "capability_list": {
-          "hint": "Choose the package capabilities, ie: where the integration will work",
-          "label": "Integration capabilities"
+          "hint": "Välj paketfunktioner, t.ex: var integrationen kommer fungera",
+          "label": "Integrationsfunktioner"
         },
         "configure_url": {
-          "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
-          "label": "Configure flow webhook URL (optional)",
-          "placeholder": "e.g. https://yourdomain.com/configure-url/"
+          "hint": "Skickas när en medarbetare vill använda din app, så att du kan visa de konfigurationsalternativen innan den läggs till. Lämnas detta fält tomt, inaktiveras konfigurationssteget.",
+          "label": "Konfigurera webhook-URL för flöde (valfritt)",
+          "placeholder": "t.ex: https://dindoman.se/configure-url/"
+        },
+        "content_url": {
+          "hint": "Skickas när content_url är konfigurerad, tillåter dynamiskt innehåll att renderas vid behov",
+          "label": "Webhook-URL för dynamiskt innehållsflöde",
+          "placeholder": "t.ex: https://dindoman.se/content-url/"
         },
         "description": {
-          "hint": "tell what your plugin does",
-          "label": "App Package description"
+          "hint": "ange vad ditt plugin gör",
+          "label": "App-paketbeskrivning"
         },
         "initialize_url": {
-          "hint": "Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.",
-          "label": "Initialize flow webhook URL",
-          "placeholder": "e.g. https://yourdomain.com/initialize-url/"
+          "hint": "Skickas när en app aktiveras i en konversation, meddelande eller hemskärmen, så att du kan rendera appen.",
+          "label": "Webhook URL för flödesinitiering",
+          "placeholder": "t.ex: https://dindoman.se/initialize-url/"
         },
         "name": {
-          "label": "Integration Name"
+          "label": "Integrationsnamn"
         },
         "published": {
-          "hint": "If disabled you will use the application on the worspaces you have access to",
-          "label": "Publish on platform",
-          "type": "checkbox"
+          "hint": "Om inaktiverad kommer du att använda programmet i de arbetsytor du har tillgång till",
+          "label": "Publicera på plattformen",
+          "type": "kryssruta"
         },
         "sheet_url": {
-          "hint": "Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.",
-          "label": "Submit Sheet flow webhook URL (optional)",
+          "hint": "Skickas när en iframe har blivit sparad. En iframe laddas in i meddelanderutan och är stängd och sparad när iframeflödesfunktionen är anropad.",
+          "label": "Spara webhook-URL för iframeflöde (valfritt)",
           "name": "sheet_url",
-          "placeholder": "e.g. https://yourdomain.com/submit-sheet-url/"
+          "placeholder": "t.ex: https://dindoman.se/submit-sheet-url/"
         },
         "submit_url": {
-          "hint": "Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.",
-          "label": "Submit flow webhook URL",
-          "placeholder": "e.g. https://yourdomain.com/submit-url/"
+          "hint": "Skicka när en slutanvändare interagerar med din app, via en knapp, länk eller textfält. Detta flöde kan ske flera gånger under tiden en användare interagerar med din app.",
+          "label": "Spara webhook-URL för flöde",
+          "placeholder": "t.ex: https://dindoman.se/submit-url/"
         }
       },
       "articles": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "author": {
-          "label": "Author"
+          "label": "Författare"
         },
         "collection": {
-          "label": "Collection"
+          "label": "Samling"
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Visa krediter"
         },
         "domain": {
-          "hint": "Domain of the Help Center",
-          "label": "Domain"
+          "hint": "Domän för hjälpcentret",
+          "label": "Domän"
         },
         "google_code": {
-          "hint": "Google tracking ID",
+          "hint": "Google spårnings-ID",
           "label": "Google Code"
         },
         "state": {
-          "label": "State"
+          "label": "Tillstånd"
         },
         "subdomain": {
-          "hint": "Subdomain in which the Help Center will be available",
-          "label": "Subdomain"
+          "hint": "Subdomän där hjälpcentret kommer att vara tillgängligt",
+          "label": "Subdomän"
         },
         "title": {
-          "label": "Title"
+          "label": "Titel"
         },
         "website": {
-          "hint": "Website of your main domain",
-          "label": "Website"
+          "hint": "Webbplats för din huvuddomän",
+          "label": "Webbplats"
         }
       },
       "bot_tasks": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "name": {
-          "label": "Name"
+          "label": "Namn"
         },
         "state": {
-          "label": "State"
+          "label": "Tillstånd"
         },
         "title": {
-          "hint": "Task name ie: welcoming users bot task",
-          "label": "Title",
-          "placeholder": "write task title"
+          "hint": "Uppgiftens namn, t.ex: välkomna användare botuppgift",
+          "label": "Titel",
+          "placeholder": "ange en titel"
         }
       },
       "campaigns": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "campaign_name": {
-          "hint": "This will not be shown in the email",
-          "label": "Campaign Name"
+          "hint": "Detta kommer inte att visas i e-postmeddelandet",
+          "label": "Kampanjnamn"
         },
         "description": {
-          "label": "Description"
+          "label": "Beskrivning"
         },
         "email_subject": {
-          "hint": "This is the email subject itself",
-          "label": "Email Subject"
+          "hint": "Detta är ämnesraden för e-postmeddelandet",
+          "label": "E-postämne"
         },
         "from_email": {
-          "label": "From Email"
+          "label": "Från e-post"
         },
         "from_name": {
-          "label": "From Name"
+          "label": "Från namn"
         },
         "reply_email": {
-          "label": "Reply Email"
+          "label": "Svara till"
         },
         "scheduled_at": {
-          "label": "Scheduled at"
+          "label": "Schemalagd den"
         },
         "scheduled_to": {
-          "label": "Scheduled to"
+          "label": "Schemalagd till"
         },
         "state": {
-          "label": "State"
+          "label": "Tillstånd"
         }
       },
       "settings": {
         "active_messenger": {
-          "hint": "When this is activate the messenger web widget will be activated",
-          "label": "Activate messenger"
+          "hint": "När detta är aktiverat kommer widgeten för messenger att aktiveras",
+          "label": "Aktivera messenger"
         },
         "domain": {
-          "hint": "This will be the host site were chaskiq will be used",
-          "label": "Domain URL"
+          "hint": "Detta kommer att vara värdplatsen där Chaskiq kommer att användas",
+          "label": "Domän-URL"
         },
         "enable_articles": {
-          "hint": "This option will display the articles in the home section of the messenger",
-          "label": "Display article on chat window"
+          "hint": "Det här alternativet kommer att visa artiklarna i hemavsnittet för chatten",
+          "label": "Visa artikel i chattfönstret"
         },
         "encryption_key": {
-          "hint": "This key will be used to encrypt and decrypt JWE user data",
-          "label": "Encryption Key",
-          "placeholder": "Leave it blank for no encryption"
+          "hint": "Denna nyckel kommer att användas för att kryptera och dekryptera JWE användardata",
+          "label": "Krypteringsnyckel",
+          "placeholder": "Lämna tomt för okrypterat"
         },
         "gather_social_data": {
-          "hint": "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
-          "label": "Gather Social Data"
+          "hint": "Samla in profiler från sociala medier (t.ex. LinkedIn, Twitter, m.m.) för mina användare via en tredje part",
+          "label": "Samla in sociala data"
         },
         "inline_conversation": {
-          "hint": "This option will not open chat box widget",
-          "label": "Display new messages in floating box"
+          "hint": "Det här alternativet kommer inte att öppna widgeten för chatten",
+          "label": "Visa nya meddelanden i en flytande ruta"
         },
         "languages": {
-          "select_lang": "select lang"
+          "select_lang": "välj språk"
         },
         "logo": {
           "hint": null,
-          "label": "Logo"
+          "label": "Logotyp"
         },
         "name": {
           "hint": null,
-          "label": "Name"
+          "label": "Namn"
         },
         "outgoing_email_domain": {
-          "hint": "The email domain to send conversations, for @yourapp use 'your app'",
-          "label": "Outgoing Email Domain"
+          "hint": "E-postdomän för att skicka konversationer, för @yourapp använd 'your app'",
+          "label": "Utgående e-postdomän"
         },
         "privacy_consent_required_all": {
-          "hint": "Will show a confirm view for All visitors before establish conversations",
-          "label": "Worldwide privacy consent required"
+          "hint": "Kommer att visa en bekräftande vy för alla besökare innan konversationer etableras",
+          "label": "Världsomspännande samtycke till sekretess krävs"
         },
         "privacy_consent_required_none": {
-          "hint": "Will not show a confirm view to anyone (not recommended)",
-          "label": "No privacy consent required"
+          "hint": "Visa inte en bekräftelsevy för någon (rekommenderas inte)",
+          "label": "Inget integritetssamtycke krävs"
         },
         "privacy_consent_required_ue": {
-          "hint": "Will show a confirm view for EU countries before establish conversations",
-          "label": "Required privacy consent for GDPR"
+          "hint": "Kommer att visa en bekräftande vy för EU-länderna innan konversationer etableras",
+          "label": "Nödvändigt samtycke till GDPR"
         },
         "register_visits": {
-          "hint": "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile",
-          "label": "Register Visits"
+          "hint": "Även om detta är inaktiverat kommer vi att samla in totala besöksantal av besök och lagra den senaste besöksinformationen på besökarens profil",
+          "label": "Registrera besök"
         },
         "tagline": {
-          "hint": "This will be rendered in the bottom of the Chat box",
+          "hint": "Detta kommer att renderas i botten av chattboxen",
           "label": "Tagline"
         },
         "timezone": {
           "hint": null,
-          "label": "Timezone"
+          "label": "Tidszon"
         }
       },
       "stats": {
         "actions": {
-          "label": "Actions"
+          "label": "Åtgärder"
         },
         "createdAt": {
-          "label": "CreatedAt"
+          "label": "Skapad den"
         },
         "data": {
           "label": "Data"
         },
         "email": {
-          "label": "Email"
+          "label": "E-postadress"
         },
         "from": {
-          "label": "From"
+          "label": "Från"
         },
         "host": {
-          "label": "Host"
+          "label": "Värd"
         },
         "when": {
-          "label": "When"
+          "label": "Den"
         }
       },
       "webhooks": {
         "enabled": {
-          "label": "enable webhook"
+          "label": "aktivera webhook"
         },
         "tag_list": {
-          "hint": "chaskiq will deliver this events to configured endpoint",
-          "label": "events to send"
+          "hint": "chaskiq kommer att leverera dessa händelser till konfigurerad slutpunkt",
+          "label": "händelser att skicka"
         },
         "url": {
-          "hint": "we'll send POST requests",
-          "label": "url for outgoing webhook"
+          "hint": "vi skickar POST-förfrågningar",
+          "label": "url för utgående webhook"
         }
       }
     },
@@ -34994,6 +35484,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -35009,28 +35500,44 @@
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
     },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Spara",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
+    },
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
-        "api_access": "API access",
-        "app_settings": "App Settings",
-        "article_settings": "Settings",
-        "articles": "Articles",
+        "api_access": "API-åtkomst",
+        "app_settings": "Appinställningar",
+        "article_settings": "Inställningar",
+        "articles": "Artiklar",
         "assignment_rules": "Assignment Rules",
         "banners": "Banners",
-        "billing": "Billing",
-        "bot_settings": "Bot Tasks",
-        "collections": "Collections",
+        "billing": "Fakturering",
+        "bot_settings": "Botuppgifter",
+        "collections": "Samlingar",
         "conversations": "Conversations",
         "for_leads": "For Leads",
-        "for_users": "For Users",
+        "for_users": "För användare",
         "guided_tours": "Guided Tours",
         "in_app_messages": "In App Messages",
-        "integrations": "Integrations",
+        "integrations": "Integrationer",
         "mailing_campaigns": "Mailing Campaigns",
-        "messenger_settings": "Messenger settings",
-        "new_conversations": "New conversations",
-        "outbound": "Outbound",
+        "messenger_settings": "Chattinställningar",
+        "new_conversations": "Nya konversationer",
+        "outbound": "Utgående",
         "team": "Team",
         "webhooks": "Webhooks"
       },
@@ -35041,10 +35548,10 @@
       "routing_bots": "Routing Bots",
       "settings": "Settings",
       "user_menu": {
-        "create_app": "Create new app",
-        "create_app_description": "Create your company’s Chaskiq app",
-        "signout": "Sign out",
-        "title": "User menu"
+        "create_app": "Skapa ny app",
+        "create_app_description": "Skapa ditt företags Chaskiq-app",
+        "signout": "Logga ut",
+        "title": "Användarmeny"
       }
     },
     "new_app": {
@@ -35360,7 +35867,7 @@
       "created_success": "Successfully created",
       "deleted_error": "Error deleting",
       "deleted_success": "Successfully deleted",
-      "error": "Error",
+      "error": "Fel",
       "reordered_error": "Error reordering",
       "reordered_success": "Successfully Reordered",
       "success": "Success",
@@ -35500,7 +36007,7 @@
     "task_bots": {
       "add_data_option": "+ add data option",
       "add_follow_action": "Add Follow Action",
-      "add_path": "Add new conversation part",
+      "add_path": "Lägg till ny konversationsdel",
       "assign_agent": "assign_agent",
       "assignee_agent": "Assignee Agent",
       "close_conversation": "close conversation",
@@ -35513,14 +36020,14 @@
         "hint": "we will destroy any content and related data",
         "title": "Delete bot \"%{name}\""
       },
-      "delete_path": "delete path",
+      "delete_path": "ta bort sökväg",
       "email_requirement": {
         "ack": "Thank you",
         "input_label": "Get notified by email",
         "message": "Give the team a way to reach you",
         "placeholder": "Enter your email"
       },
-      "email_support": "to get support you can email at %{email}",
+      "email_support": "för att få hjälp kan du maila på %{email}",
       "empty": {
         "create_new": "Create a new one",
         "title": "No bot tasks found"
@@ -35529,19 +36036,19 @@
       "end_with_follow": "End bot with follow actions",
       "follow_actions": "follow actions",
       "new": "Create new task",
-      "new_conversations": "👋 New conversations",
-      "new_conversations_notice": "This is what people will see when they start a new conversation",
+      "new_conversations": "👋 Nya konversationer",
+      "new_conversations_notice": "Detta är vad som kommer visas när en ny konversation startar",
       "options": {
-        "add_app_package": "Add App",
-        "add_message": "Add Message Bubble",
-        "wait_user_input": "Wait for user input"
+        "add_app_package": "Lägg till app",
+        "add_message": "Lägg till en meddelandebubbla",
+        "wait_user_input": "Vänta på användarinmatning"
       },
-      "outbound": "🏓 Outbound",
-      "path_title_hint": "path title",
+      "outbound": "🏓 Utgående",
+      "path_title_hint": "sökvägens titel",
       "remove_success": "bot removed",
-      "reply_agent": "you will get a reply from one of our agents",
+      "reply_agent": "du kommer få ett svar från en av våra agenter",
       "reply_button": "reply button",
-      "reply_soon": "Hi, %{name} will reply as soon as they can.",
+      "reply_soon": "Hej, %{name} svarar så fort de kan.",
       "save_data": "Save data",
       "settings": {
         "custom_time": "Custom time",
@@ -35583,10 +36090,10 @@
         }
       },
       "state_filters": {
-        "disabled_description": "Disabled bot tasks",
-        "disabled_title": "Disabled",
-        "enabled_description": "enabled bot tasks",
-        "enabled_title": "Enabled"
+        "disabled_description": "Inaktiverade botuppgifter",
+        "disabled_title": "Inaktiverad",
+        "enabled_description": "aktiverade botuppgifter",
+        "enabled_title": "Aktiverad"
       },
       "support": {
         "ask": "Are you an existing %{name} customer ?",
@@ -35599,14 +36106,14 @@
           "op2": "ok, let us know if you need something and an agent will reply as soon as possible"
         }
       },
-      "title": "Bot Tasks",
+      "title": "Botuppgifter",
       "type_filters": {
-        "description_leads": "Visitors who make an actions",
-        "description_users": "your platform's registered users",
-        "description_visitors": "visitors on the platform",
+        "description_leads": "Besökare som gör en handling",
+        "description_users": "plattformens registrerade användare",
+        "description_visitors": "besökare på plattformen",
         "title_leads": "Leads",
-        "title_users": "Users",
-        "title_visitors": "Visitors"
+        "title_users": "Användare",
+        "title_visitors": "Besökare"
       }
     },
     "time": {
@@ -35988,6 +36495,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "Durum",
@@ -36027,6 +36535,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -36565,6 +37078,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -36579,6 +37093,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -37559,6 +38089,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -37598,6 +38129,11 @@
           "hint": "Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.",
           "label": "Configure flow webhook URL (optional)",
           "placeholder": "e.g. https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "tell what your plugin does",
@@ -38138,6 +38674,7 @@
     "home": {
       "choose_lang": "Choose language",
       "create_new": "Create new app",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "Edit profile",
       "go_to_doc": "Go to documentation",
       "tagline": "Find your current applications here",
@@ -38152,6 +38689,22 @@
       "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
       "lang": "Your code to generate an HMAC for your app is",
       "title": "Verified users setup"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "Save",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "Campaigns",
@@ -39132,6 +39685,7 @@
         "online": "Online（在线）",
         "os": "操作模式",
         "os_version": "操作系统版本",
+        "phone": "Phone",
         "postal": "邮局",
         "referrer": "反向链接",
         "state": "省",
@@ -39171,6 +39725,11 @@
           "hint": "当队友想要使用您的应用程序时发送，所以您可以在插入之前显示它们的配置选项。 留空此选项将跳过配置。",
           "label": "配置流 webhook URL (可选)",
           "placeholder": "例如：https://yourdomain.com/configure-url/"
+        },
+        "content_url": {
+          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
+          "label": "Dynamic content flow webhook URL",
+          "placeholder": "e.g. https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "告诉您的插件可以做什么",
@@ -39708,6 +40267,7 @@
     "home": {
       "choose_lang": "选择语言：",
       "create_new": "创建应用",
+      "edit_credentials": "Edit user credentials",
       "edit_profile": "编辑个人资料",
       "go_to_doc": "转到文档",
       "tagline": "找到您当前的应用程序",
@@ -39722,6 +40282,22 @@
       "hmac_hint1": "要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。",
       "lang": "您为您的应用生成HMAC的代码是",
       "title": "已验证用户设置"
+    },
+    "invitation": {
+      "built_with_love": "Built with love by the team",
+      "button": "保存",
+      "password": "Type your password",
+      "password_confirmation": "Confirm your password",
+      "title": "Create your account"
+    },
+    "login": {
+      "continue_with": "Continue with",
+      "email": "Your Email",
+      "forgot_password": "Forgot your password ?",
+      "password": "Your password",
+      "remember_me": "Remember me",
+      "sign_in": "Connect",
+      "title": "Connect to your account"
     },
     "navigator": {
       "campaigns": "营销活动 Campaigns",

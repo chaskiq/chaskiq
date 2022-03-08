@@ -80,11 +80,10 @@ class Apps::QuickRepliesController < ApplicationController
     @quick_reply = @app.quick_replies.find(params[:id])
     if @quick_reply.destroy
       flash[:success] = "Object was successfully deleted."
-      redirect_to app_quick_replies_url(@app.key)
     else
       flash[:error] = "Something went wrong"
-      redirect_to app_quick_replies_url(@app.key)
     end
+    redirect_to app_quick_replies_url(@app.key)
   end
 
   private

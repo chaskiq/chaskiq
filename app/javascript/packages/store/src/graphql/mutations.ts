@@ -549,6 +549,7 @@ export const PREDICATES_SEARCH = `
           email
           avatarUrl
           os
+          phone
           osVersion
           lastVisitedAt
           browser
@@ -1300,8 +1301,8 @@ export const DELETE_INTEGRATION = `
 `;
 
 export const CREATE_PACKAGE = `
-  mutation CreatePackage($appKey: String!, $appPackage: String! , $params: Json!){
-    appPackagesCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
+  mutation CreatePackage($appKey: String!, $params: Json!){
+    appPackagesCreate(appKey: $appKey, params: $params){
       errors
       appPackage {
         id
@@ -1316,6 +1317,8 @@ export const CREATE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
         oauthUrl
       }
     }
@@ -1323,7 +1326,7 @@ export const CREATE_PACKAGE = `
 `;
 
 export const UPDATE_PACKAGE = `
-  mutation UpdatePackage($appKey: String!, $id: String!, , $params: Json!){
+  mutation UpdatePackage($appKey: String!, $id: String!, $params: Json!){
     appPackagesUpdate(appKey: $appKey, id: $id, params: $params){
       errors
       appPackage {
@@ -1339,6 +1342,8 @@ export const UPDATE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
         oauthUrl
       }
     }
@@ -1362,6 +1367,8 @@ export const DELETE_PACKAGE = `
         submitUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
         oauthUrl
       }
     }

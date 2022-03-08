@@ -73,6 +73,7 @@ fr:
     create_new: Créer une nouvelle app
     choose_lang: Choisissez la langue
     edit_profile: Éditer profil
+    edit_credentials: Edit user credentials
     go_to_doc: Accéder à la documentation
   dashboard:
     hey: "👋 Hé !, vous regardez le tableau de bord <strong>du</strong> de%{name}! <br /> Obtenez un snippet d'installation pour la configuration du web <br />"
@@ -126,6 +127,20 @@ fr:
       create_app_description: 'Créez l''application Chaskiq de votre entreprise'
       signout: Se déconnecter
       title: Menu Utilisateur
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Enregistrer
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: Démarrer une conversation
     title: Conversations

@@ -2,9 +2,9 @@
 // See https://github.com/palkan/view_component-contrib#using-with-stimulusjs
 //import { application } from "../init/stimulus";
 
-import { Application } from 'stimulus'
+import { Application } from '@hotwired/stimulus'
 export const application = Application.start()
-
+/*
 const context = require.context('.', true, /index.js$/)
 context.keys().forEach((path) => {
   const mod = context(path)
@@ -21,4 +21,12 @@ context.keys().forEach((path) => {
     .replace(/\//, '--')
 
   application.register(identifier, mod.Controller)
+})
+*/
+
+
+
+import controllers from "./**/*index.js"
+controllers.forEach((controller) => {
+  application.register(controller.name, controller.module.default)
 })

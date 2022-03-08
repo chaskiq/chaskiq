@@ -81,7 +81,7 @@ class Agent < ApplicationRecord
   end
 
   def can_create_apps?
-    true
+    Chaskiq::Config.fetch("DISABLE_APP_CREATION", "false") != "true"
   end
 
   def display_name

@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 import Select from 'react-select';
 import React from 'react';
 import { render } from 'react-dom';

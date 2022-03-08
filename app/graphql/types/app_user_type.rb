@@ -11,6 +11,7 @@ module Types
     field  :ip, String, null: true
     field  :city, String, null: true
     field  :region, String, null: true
+    field  :phone, String, null: true
     field  :country, String, null: true
     field  :lat, Float, null: true
     field  :lng, Float, null: true

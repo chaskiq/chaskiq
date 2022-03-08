@@ -12,12 +12,14 @@ module Mutations
 
       def resolve(app_key:, conversation_id:, state:)
         find_app(app_key)
-
         @conversation = conversation(conversation_id)
 
+        authorize! @conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
+
         if %w[reopen close].include?(state)
-          @conversation.send(state.to_sym)
-          @conversation.save
+          @conversation.send("#{state}!".to_sym)
           track_event(state)
         end
 

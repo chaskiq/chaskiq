@@ -13,11 +13,18 @@ module Mutations
 
         role = app.roles.find_by(agent_id: id)
 
+        authorize! role, to: :can_manage_team?, with: AppPolicy, context: {
+          app: app
+        }
+
         agent = role&.agent # , name: 'John Doe')
 
-        authorize! agent, to: :update_agent_role?, with: AppPolicy, context: {
-          role: app.roles.find_by(agent_id: current_user.id)
-        }
+        authorize! role,
+                   to: :can_manage_own_profile?,
+                   with: AppPolicy,
+                   context: {
+                     app: app
+                   }
 
         data = params.permit(
           :avatar,
@@ -31,7 +38,7 @@ module Mutations
           :region_code,
           :enable_deliveries,
           :available,
-          :access_list,
+          # :access_list,
           :address,
           :area_of_expertise,
           :availability,
@@ -43,14 +50,18 @@ module Mutations
 
         # role.update(data)
         agent.update(data)
-        role.update(access_list: params[:access_list]) if params[:access_list].present?
+
+        role.update(role: params[:role]) if params[:role].present?
+        track_resource_event(role, :agent_role_update, role.saved_changes, app.id) if role.errors.blank?
+
+        if agent.errors.blank?
+          changes = agent.saved_changes
+          changes.merge!(role.saved_changes) if params[:role].present?
+          track_resource_event(agent, :agent_update, changes, app.id)
+        end
 
         # agent.update(name: params[:name]) if params[:name].present?
         { agent: role }
-      end
-
-      def current_user
-        context[:current_user]
       end
     end
   end

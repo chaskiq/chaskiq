@@ -5,7 +5,7 @@ import Prism from 'prismjs'
 // It will automatically registered and its name will be available
 // via #component_name in the component class.
 //
- import { Controller as BaseController } from "stimulus";
+ import { Controller as BaseController } from "@hotwired/stimulus";
 //
  export class Controller extends BaseController {
    connect() {

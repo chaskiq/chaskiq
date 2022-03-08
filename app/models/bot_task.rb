@@ -12,18 +12,18 @@ class BotTask < Message
   store_accessor :settings,
                  %i[scheduling urls outgoing_webhook paths user_type bot_type]
 
-  scope :enabled, -> { where(state: 'enabled') }
-  scope :disabled, -> { where(state: 'disabled') }
+  scope :enabled, -> { where(state: "enabled") }
+  scope :disabled, -> { where(state: "disabled") }
 
   scope :for_new_conversations,
-        lambda { where("settings->>'bot_type' = ?", 'new_conversations') }
-  scope :for_outbound, lambda { where("settings->>'bot_type' = ?", 'outbound') }
-  scope :for_leads, lambda { where("settings->>'user_type' = ?", 'leads') }
-  scope :for_users, lambda { where("settings->>'user_type' = ?", 'users') }
+        -> { where("settings->>'bot_type' = ?", "new_conversations") }
+  scope :for_outbound, -> { where("settings->>'bot_type' = ?", "outbound") }
+  scope :for_leads, -> { where("settings->>'user_type' = ?", "leads") }
+  scope :for_users, -> { where("settings->>'user_type' = ?", "users") }
   scope :inside_office,
-        lambda { where("settings->>'scheduling' = ?", 'inside_office') }
+        -> { where("settings->>'scheduling' = ?", "inside_office") }
   scope :outside_office,
-        lambda { where("settings->>'scheduling' = ?", 'outside_office') }
+        -> { where("settings->>'scheduling' = ?", "outside_office") }
 
   alias_attribute :title, :name
 
@@ -42,47 +42,47 @@ class BotTask < Message
   def initialize_default_controls
     # self.segments = default_type_segments unless segments.present?
 
-    return self unless bot_type == 'new_conversations'
+    return self unless bot_type == "new_conversations"
 
     self.paths = default_new_conversation_path if paths.blank?
   end
 
   def default_new_conversation_path
     [
-      'title' => 'default step',
-      'id' => '3418f148-6c67-4789-b7ae-8fb3758a4cf9',
-      'steps' => [
+      "title" => "default step",
+      "id" => "3418f148-6c67-4789-b7ae-8fb3758a4cf9",
+      "steps" => [
         {
-          'type' => 'messages',
-          'controls' => {
-            'type' => 'ask_option',
-            'schema' => [
+          "type" => "messages",
+          "controls" => {
+            "type" => "ask_option",
+            "schema" => [
               {
-                'id' => '0dc3559e-4eab-43d9-ab60-7325219a3f6f',
-                'label' => 'see more?',
-                'element' => 'button',
-                'next_step_uuid' => '2bff4dec-f8c1-4a8b-9601-68c66356ba06'
+                "id" => "0dc3559e-4eab-43d9-ab60-7325219a3f6f",
+                "label" => "see more?",
+                "element" => "button",
+                "next_step_uuid" => "2bff4dec-f8c1-4a8b-9601-68c66356ba06"
               },
               {
-                'type' => 'messages',
-                'controls' => {
-                  'type' => 'ask_option',
-                  'schema' => [
+                "type" => "messages",
+                "controls" => {
+                  "type" => "ask_option",
+                  "schema" => [
                     {
-                      'id' => '0dc3559e-4eab-43d9-ab60-7325219a3f6f',
-                      'label' => 'write here',
-                      'element' => 'button'
+                      "id" => "0dc3559e-4eab-43d9-ab60-7325219a3f6f",
+                      "label" => "write here",
+                      "element" => "button"
                     }
                   ]
                 },
-                'messages' => [],
-                'step_uid' => '30e48aed-19c0-4b62-8afa-9a0392deb0b8'
+                "messages" => [],
+                "step_uid" => "30e48aed-19c0-4b62-8afa-9a0392deb0b8"
               }
             ],
-            'wait_for_input' => true
+            "wait_for_input" => true
           },
-          'messages' => [],
-          'step_uid' => '30e48aed-19c0-4b62-8afa-9a0392deb0b8'
+          "messages" => [],
+          "step_uid" => "30e48aed-19c0-4b62-8afa-9a0392deb0b8"
         }
       ]
     ]
@@ -157,15 +157,15 @@ class BotTask < Message
         MessengerEventsChannel.broadcast_to(
           key,
           {
-            type: 'triggers:receive',
+            type: "triggers:receive",
             data: {
               trigger: bot_task,
-              step: bot_task.paths.first['steps'].first
+              step: bot_task.paths.first["steps"].first
             }
           }.as_json
         )
 
-        user.metrics.create(trackable: bot_task, action: 'bot_tasks.delivered')
+        user.metrics.create(trackable: bot_task, action: "bot_tasks.delivered")
 
         ret = true
 
@@ -176,7 +176,7 @@ class BotTask < Message
   end
 
   def register_metric(user, data:, options:)
-    label = data['label']
+    label = data["label"]
 
     user.metrics.create(
       trackable: self,
@@ -195,11 +195,11 @@ class BotTask < Message
   def stats_fields
     [
       add_stat_field(
-        name: 'DeliverRateCount',
-        label: 'DeliverRateCount',
+        name: "DeliverRateCount",
+        label: "DeliverRateCount",
         keys: [
-          { name: 'open', color: '#F4F5F7' },
-          { name: 'close', color: '#0747A6' }
+          { name: "open", color: "#F4F5F7" },
+          { name: "close", color: "#0747A6" }
         ]
       )
     ]

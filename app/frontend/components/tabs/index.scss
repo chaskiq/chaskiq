@@ -2,7 +2,7 @@
 
 .tabs {
   .tab-item {
-    @apply border-transparent text-gray-800 dark:text-gray-200 hover:dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm;
+    @apply border-transparent text-gray-800 dark:text-gray-200 dark:hover:text-gray-300 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm;
     &.active {
       @apply border-pink-500 text-gray-900 
 			dark:text-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm #{!important};

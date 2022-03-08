@@ -13,7 +13,6 @@ class Apps::ArticlesController < ApplicationController
   def new
     @article = @app.articles.new
     @article.build_article_content
-
     render "new"
   end
 
@@ -48,11 +47,10 @@ class Apps::ArticlesController < ApplicationController
   def destroy
     if @article.destroy
       flash[:success] = "Object was successfully deleted."
-      redirect_to objects_url
     else
       flash[:error] = "Something went wrong"
-      redirect_to objects_url
     end
+    redirect_to objects_url
   end
 
   def add_uncategorized

@@ -4,7 +4,7 @@ import './index.css'
 // It will automatically registered and its name will be available
 // via #component_name in the component class.
 //
-import { Controller as BaseController } from 'stimulus'
+import { Controller as BaseController } from '@hotwired/stimulus'
 import { post } from '@rails/request.js'
 
 export class Controller extends BaseController {

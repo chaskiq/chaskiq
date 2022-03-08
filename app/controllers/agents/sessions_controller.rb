@@ -18,8 +18,8 @@ class Agents::SessionsController < Devise::SessionsController
 
     respond_to do |format|
       format.html do
-        # super
-        # return
+        super
+        return
       end
       format.json do
         self.resource = warden.authenticate!(auth_options)

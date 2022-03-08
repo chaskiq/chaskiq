@@ -39,8 +39,7 @@ export function authenticate(email, password, cb) {
         if (cb) cb();
       })
       .catch((data) => {
-        const err =
-          data && data.response.data ? data.response.data.message : 'error!';
+        const err = data?.response?.data?.error_description || 'error!';
         dispatch(errorMessage(err));
         dispatch(failAuthentication());
       });
@@ -86,10 +85,8 @@ export function refreshToken(auth) {
     dispatch(errorMessage('refresh token, hang tight'));
 
     axios
-      .create({
-        baseURL: '/oauth/token',
-      })
-      .post('', {
+      .create()
+      .post('/oauth/token', {
         refresh_token: auth.refreshToken,
         grant_type: 'refresh_token',
       })

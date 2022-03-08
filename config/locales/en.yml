@@ -78,6 +78,7 @@ en:
     create_new: Create new app
     choose_lang: Choose language
     edit_profile: Edit profile
+    edit_credentials: Edit user credentials
     go_to_doc: Go to documentation
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
@@ -131,8 +132,22 @@ en:
       create_app_description: 'Create your company’s Chaskiq app'
       signout: Sign out
       title: User menu
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Save
+    built_with_love: Built with love by the team
   conversations:
-    start_conversation: Start conversation
+    start_conversation: Start a conversation
     title: Conversations
     menu:
       conversations: Conversations
@@ -463,13 +478,17 @@ en:
         title: Set reply time
         hint: During office hours, let your customers know when they can expect a reply.
         options:
-          - value: 'auto'
+          - 
+            value: 'auto'
             label: 'Automatic reply time. Currently El equipo responderá lo antes posible'
-          - value: 'minutes'
+          - 
+            value: 'minutes'
             label: 'Team usually responds within minutes.'
-          - value: 'hours'
+          - 
+            value: 'hours'
             label: 'Team usually responds within hours.'
-          - value: '1 day'
+          - 
+            value: '1 day'
             label: 'The team usually responds in one day.'
         hint2: 'Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times.'
     email_requirement:
@@ -477,13 +496,16 @@ en:
       hint: So you can always get back to your website visitors
       ask: 'Ask your website visitors to leave their email before starting a live chat:'
       options:
-        - label: Only outside of office hours
+        - 
+          label: Only outside of office hours
           hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
           value: office
-        - label: Always
+        - 
+          label: Always
           hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
           value: Always
-        - label: Never
+        - 
+          label: Never
           value: Never
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
     languages:

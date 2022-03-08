@@ -4,9 +4,9 @@ class Apps::ReportsController < ApplicationController
   before_action :set_dashboard
 
   def show
-    if params[:id] == 'overview'
+    if params[:id] == "overview"
       @integration = {
-        name: 'overview',
+        name: "overview",
         icon: nil,
         paths: chart_data.map { |k, v| v.merge({ kind: k }) }
       }
@@ -22,11 +22,11 @@ class Apps::ReportsController < ApplicationController
       }
     end
 
-    render 'report_overview' and return
+    render "report_overview" and return
   end
 
   def index
-    #@dashboard = AppPackageDashboard.app_packages_list(@app)
+    # @dashboard = AppPackageDashboard.app_packages_list(@app)
   end
 
   private
@@ -34,40 +34,40 @@ class Apps::ReportsController < ApplicationController
   def set_dashboard
     @dashboard =
       AppPackageDashboard.app_packages_list(@app) << {
-        name: 'overview',
+        name: "overview",
         icon: nil,
-        paths: 'overview'
+        paths: "overview"
       }
   end
 
   def set_navigation
-    @navigator = 'apps/reports/navigator'
+    @navigator = "apps/reports/navigator"
   end
 
   def report_overview
     @dashboard =
       Dashboard
-        .new(
-          app: @app,
-          range: {
-            from: 10.days.ago.to_s,
-            to: Time.zone.now.to_s
-          }
-        )
-        .send(params[:id])
+      .new(
+        app: @app,
+        range: {
+          from: 10.days.ago.to_s,
+          to: Time.zone.now.to_s
+        }
+      )
+      .send(params[:id])
 
     resolve_partial
 
     render turbo_stream: [
-             turbo_stream.replace(
-               "dashboard_#{params[:id]}",
-               partial: resolve_partial[:type],
-               locals: {
-                 app: @app,
-                 props: @partial_data
-               }
-             )
-           ]
+      turbo_stream.replace(
+        "dashboard_#{params[:id]}",
+        partial: resolve_partial[:type],
+        locals: {
+          app: @app,
+          props: @partial_data
+        }
+      )
+    ]
   end
 
   def resolve_partial
@@ -77,45 +77,45 @@ class Apps::ReportsController < ApplicationController
   def chart_data
     {
       app_packages: {
-        label: I18n.t('dashboard.user_country'),
-        type: 'app_packages'
+        label: I18n.t("dashboard.user_country"),
+        type: "app_packages"
       },
       first_response_time: {
-        type: 'count',
-        label: I18n.t('dashboard.response_avg'),
-        append_label: 'Hrs'
+        type: "count",
+        label: I18n.t("dashboard.response_avg"),
+        append_label: "Hrs"
       },
       opened_conversations: {
-        type: 'count',
-        label: I18n.t('dashboard.new_conversations')
+        type: "count",
+        label: I18n.t("dashboard.new_conversations")
       },
       solved_conversations: {
-        type: 'count',
-        label: I18n.t('dashboard.resolutions'),
-        append_label: ''
+        type: "count",
+        label: I18n.t("dashboard.resolutions"),
+        append_label: ""
       },
       incoming_messages: {
-        type: 'count',
-        label: I18n.t('dashboard.incoming_messages')
+        type: "count",
+        label: I18n.t("dashboard.incoming_messages")
       },
       visits: {
-        type: 'heatMap'
+        type: "heatMap"
       },
       browser: {
-        type: 'pie',
-        label: I18n.t('dashboard.browser')
+        type: "pie",
+        label: I18n.t("dashboard.browser")
       },
       lead_os: {
-        type: 'pie',
-        label: I18n.t('dashboard.lead_os')
+        type: "pie",
+        label: I18n.t("dashboard.lead_os")
       },
       user_os: {
-        type: 'pie',
-        label: I18n.t('dashboard.user_os')
+        type: "pie",
+        label: I18n.t("dashboard.user_os")
       },
       user_country: {
-        type: 'pie',
-        label: I18n.t('dashboard.user_country')
+        type: "pie",
+        label: I18n.t("dashboard.user_country")
       }
     }
   end

@@ -146,14 +146,8 @@ function renderers(props) {
       },
       embed: (children, { keys, data }) => {
         const { provisory_text, _type, embed_data } = data[0];
-        const {
-          images,
-          title,
-          _media,
-          provider_url,
-          description,
-          _url,
-        } = embed_data;
+        const { images, title, _media, provider_url, description, _url } =
+          embed_data;
 
         return (
           <div key={keys[0]} className="graf graf--mixtapeEmbed">

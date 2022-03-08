@@ -62,7 +62,7 @@ export function TextRenderer({ field }) {
     <Paragraph align={field.align} styl={field.style}>
       {field.style === 'header' && <h3>{field.text}</h3>}
 
-      {field.style !== 'header' && <ReactMarkdown source={field.text} />}
+      {field.style !== 'header' && <ReactMarkdown>{field.text}</ReactMarkdown>}
     </Paragraph>
   );
 }

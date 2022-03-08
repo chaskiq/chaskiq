@@ -17,6 +17,10 @@ module Mutations
       @app = current_user.apps.find_by(key: app_key)
       @segment = @app.segments.find(id)
 
+      authorize! @segment, to: :can_manage_segments?, with: AppPolicy, context: {
+        app: @app
+      }
+
       data = predicates.map { |o| o.permit(:type, :attribute, :comparison, :value, value: []) }
 
       @segment.update(predicates: data.as_json)

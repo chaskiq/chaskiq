@@ -11,14 +11,14 @@ describe('Conversation Spec', function () {
 
         cy.wrap($body).contains('a few seconds ago');
         cy.wrap($body)
-          .xpath('/html/body/div/div/div/div[2]/div/div[1]/div[2]/div')
+          .xpath('/html/body/main/div/div[2]/div/div[1]/div[1]/div[2]')
           .click()
           .then(() => {
             cy.wrap($body).contains('foobar');
 
             cy.wrap($body)
               .xpath(
-                '/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea'
+                '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
               )
               .type('oeoe \n')
               .then(() => {
@@ -59,7 +59,7 @@ describe('Conversation Spec', function () {
       openMessenger(($body) => {
         cy.wrap($body).contains('a few seconds ago');
         cy.wrap($body)
-          .xpath('/html/body/div/div/div/div[2]/div/div[1]/div[2]/div')
+          .xpath('/html/body/main/div/div[2]/div/div[1]/div[1]/div[2]/div')
           .click()
           .then(() => {
             cy.wrap($body).contains('foobar');
@@ -99,7 +99,7 @@ describe('Conversation Spec', function () {
       openMessenger(($body) => {
         cy.wrap($body).contains('a few seconds ago');
         cy.wrap($body)
-          .xpath('/html/body/div/div/div/div[2]/div/div[1]/div[2]/div')
+          .xpath('/html/body/main/div/div[2]/div/div[1]/div[1]/div[2]/div')
           .click()
           .then(() => {
             cy.wrap($body).contains('foobar');
@@ -144,12 +144,12 @@ describe('Conversation Spec', function () {
       openMessenger(($body) => {
         cy.wrap($body).contains('a few seconds ago');
         cy.wrap($body)
-          .xpath('/html/body/div/div/div/div[2]/div/div[1]/div[2]/div')
-          .click()
+        .xpath('/html/body/main/div/div[2]/div/div[1]/div[1]/div[2]/div')
+        .click()
           .then(() => {
             cy.wrap($body)
               .xpath(
-                '/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea'
+                '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
               )
               .should('be.enabled');
           });
@@ -164,18 +164,18 @@ describe('Conversation Spec', function () {
         expect($body.html()).to.contain('Start a conversation');
 
         cy.wrap($body)
-          .xpath('/html/body/div/div/div/div[2]/div/div[1]/div/div/div[2]/a[1]')
+          .xpath('/html/body/main/div/div[2]/div/div[1]/div/div/div/div[2]/a[1]')
           .click()
           .then(() => {
             cy.wrap($body)
               .xpath(
-                '/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea'
+                '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
               )
               .should('be.enabled')
               .then(() => {
                 cy.wrap($body)
                   .xpath(
-                    '/html/body/div/div/div/div[2]/div/div/div/div[2]/div/div/textarea'
+                    '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
                   )
                   .type('oeoe \n')
                   .then(() => {

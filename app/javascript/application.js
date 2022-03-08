@@ -1,3 +1,4 @@
+// Entry point for the build script in your package.json
 /* eslint no-console:0 */
 // This file is automatically compiled by Webpack, along with any other files
 // present in this directory. You're encouraged to place your actual application logic in
@@ -10,20 +11,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Turbo } from '@hotwired/turbo-rails';
-window.Turbo = Turbo;
-
-import '../src/styles/tailwind.css';
+// import './src/styles/tailwind.css';
 import 'rc-tooltip/assets/bootstrap.css';
-// import App from '../src/App'
+import App from './src/App';
 
 // eslint-disable-next-line no-undef
-/*document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <App />,
     document.body.appendChild(document.getElementById('main-page'))
-  )
-})*/
-
-import 'controllers';
-import '../../frontend/components/index';
+  );
+});

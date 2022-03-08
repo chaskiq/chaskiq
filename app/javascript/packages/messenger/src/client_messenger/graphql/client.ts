@@ -4,10 +4,12 @@ import { isObject, isEmpty } from 'lodash';
 class GraphqlClient {
   config: any;
   axiosInstance: any;
+  url: string;
   constructor(props) {
+    this.url = props.url;
     this.config = props.config;
     this.axiosInstance = axios.create({
-      baseURL: props.baseURL,
+      url: props.url,
     });
     return this;
   }
@@ -15,7 +17,7 @@ class GraphqlClient {
   send = (query, variables, callbacks) => {
     this.axiosInstance
       .post(
-        '',
+        this.url,
         {
           query: query,
           variables: variables,

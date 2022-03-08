@@ -64,7 +64,7 @@ class SegmentPredicate
     @type = type
     @attribute = attribute
     @comparison = comparison
-    @value = value.is_a?(Array) ? value.reject(&:blank?) : value
+    @value = value.is_a?(Array) ? value.compact_blank : value
   end
 
   def type=(val)
@@ -83,7 +83,7 @@ class SegmentPredicate
   end
 
   def value=(val)
-    val = val.reject!(&:blank?) if val.is_a?(Array)
+    val = val.compact_blank! if val.is_a?(Array)
     value_will_change! unless @value == val
     @value = val
   end

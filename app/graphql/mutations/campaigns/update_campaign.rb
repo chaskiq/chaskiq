@@ -13,6 +13,9 @@ module Mutations
       def resolve(id:, app_key:, campaign_params:)
         find_app(app_key)
         set_campaign(id)
+        authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+          app: @app
+        }
         # TODO: strict permit here!
         @campaign.update(campaign_params.permit!)
         { campaign: @campaign, errors: @campaign.errors }

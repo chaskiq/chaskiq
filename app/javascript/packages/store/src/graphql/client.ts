@@ -18,11 +18,9 @@ const graphql = (query, variables, callbacks) => {
   };
 
   axios
-    .create({
-      baseURL: '/graphql',
-    })
+    .create()
     .post(
-      '',
+      '/graphql',
       {
         query: query,
         variables: variables,

@@ -1,5 +1,5 @@
 import './index.css'
-import { Controller as BaseController } from 'stimulus'
+import { Controller as BaseController } from '@hotwired/stimulus'
 import { post } from '@rails/request.js'
 import serialize from 'form-serialize'
 

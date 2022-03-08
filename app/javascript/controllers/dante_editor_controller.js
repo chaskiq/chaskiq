@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import TextEditor from '@chaskiq/components/src/components/textEditor';
 
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
   static targets = ['serializedInput', 'htmlInput', 'container'];

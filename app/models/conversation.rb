@@ -15,10 +15,10 @@ class Conversation < ApplicationRecord
   has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message, -> { order("id desc") },
-          class_name: "ConversationPart"
+          class_name: "ConversationPart", dependent: nil
 
   has_one :public_latest_message, -> { visibles.order("id desc") },
-          class_name: "ConversationPart"
+          class_name: "ConversationPart", dependent: nil
 
   acts_as_taggable_on :tags
 
@@ -64,6 +64,7 @@ class Conversation < ApplicationRecord
 
   def add_conversation_assigned
     events.log(action: :conversation_assigned)
+    notify_conversation_state_update
   end
 
   def add_started_event
@@ -76,21 +77,28 @@ class Conversation < ApplicationRecord
 
   def add_closed_event
     events.log(action: :conversation_closed)
-
-    dispatch_conversation_event_to_contacts
+    notify_conversation_state_update
   end
 
-  def dispatch_conversation_event_to_contacts
+  def notify_conversation_state_update
+    data = as_json(methods: [:assignee])
+
+    EventsChannel.broadcast_to(
+      app.key,
+      { type: "conversations:update_state",
+        data: data }
+    )
+
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:update_state",
-      data: as_json
+      { type: "conversations:update_state",
+        data: data }
     )
   end
 
   def add_reopened_event
     events.log(action: :conversation_reopened)
-    dispatch_conversation_event_to_contacts
+    notify_conversation_state_update
   end
 
   def first_user_interaction
@@ -99,6 +107,7 @@ class Conversation < ApplicationRecord
 
   def log_prioritized
     events.log(action: :conversation_prioritized)
+    notify_conversation_state_update
   end
 
   def toggle_priority

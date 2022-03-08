@@ -27,15 +27,15 @@ COORDS = [
 # desc "Explaining what the task does"
 task user_gen: :environment do
   # coords = [-33.447487, -70.673676] #chili
-  100.times do
+  10.times do
     coords = COORDS.sample
     # coords = [Random.rand*180-90, Random.rand*90-45] # anywhere
 
     App.last.add_user(
       email: Faker::Internet.unique.email,
       name: Faker::Name.name_with_middle,
-      lat: Random.rand * 180 - 90,
-      lng: Random.rand * 90 - 45
+      lat: (Random.rand * 180) - 90,
+      lng: (Random.rand * 90) - 45
     )
   end
 end

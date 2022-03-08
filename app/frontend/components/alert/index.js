@@ -1,6 +1,6 @@
 import './index.css'
 
-import { Controller as BaseController } from 'stimulus'
+import { Controller as BaseController } from '@hotwired/stimulus'
 
 export class Controller extends BaseController {
   connect() {

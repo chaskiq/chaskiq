@@ -13,6 +13,9 @@ module Mutations
       def resolve(app_key:, conversation_id:, app_user_id:)
         find_app(app_key)
         @conversation = conversation(conversation_id)
+        authorize! @conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
         @app_user = @app.agents.find(app_user_id)
         @conversation.assign_user(@app_user)
 

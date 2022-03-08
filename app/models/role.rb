@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 class Role < ApplicationRecord
+  include AuditableBehavior
+
   belongs_to :agent
   belongs_to :app
-
   acts_as_taggable_on :access
+
+  store_accessor :properties, %i[write_access read_access all_access]
 
   delegate :id, to: :agent, prefix: "agent"
   delegate :avatar_url, to: :agent

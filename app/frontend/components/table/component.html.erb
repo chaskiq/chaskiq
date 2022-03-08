@@ -2,18 +2,16 @@
 	
 		<div class="table min-w-full">
 			<div class="table-header-group <%= 'hidden' if @headless %> border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
-				<!-- <tr class="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600"> -->
-					<% if @sortable %>
-						<div class="table-cell border-b px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-								sortable
-						</div>
-					<% end %>
-					<% @config[:columns].each do |c|%>
-						<div class="table-cell border-b px-6 py-3 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-							<%= c[:name] %>
-						</div>
-					<% end %>
-				<!-- </tr> -->
+				<% if @sortable %>
+					<div class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+							sortable
+					</div>
+				<% end %>
+				<% @config[:columns].each do |c|%>
+					<div class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						<%= c[:name] %>
+					</div>
+				<% end %>
 			</div>
 
 			<div class="table-row-group bg-white dark:bg-black"

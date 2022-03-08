@@ -124,7 +124,7 @@ module ApplicationHelper
     [{
       label: I18n.t("settings.webhooks.active_webhooks"),
       href: app_webhooks_path(@app.key),
-      active: controller.controller_name == "webhooks" && params[:kind].blank? || params[:kind] != "disabled"
+      active: (controller.controller_name == "webhooks" && params[:kind].blank?) || params[:kind] != "disabled"
     },
      {
        label: I18n.t("settings.webhooks.disabled_webhooks"),

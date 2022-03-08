@@ -1,19 +1,19 @@
 pl:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: add new
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    save_changes: Save changes
-    preview: Preview
-    cancel: Cancel
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
+    edit: Edytuj
+    new: Nowy
+    add: Dodaj
+    add_new: dodaj nowy
+    update: Aktualizuj
+    remove: Usuń
+    delete: Usuń
+    create: Utwórz
+    save: Zapisz
+    save_changes: Zapisz zmiany
+    preview: Podgląd
+    cancel: Anuluj
+    back_to_site: Wróć do strony
+    not_found: Strona, której szukasz nie istnieje.
     get_snippet: Get the snippet
     submit: Submit
     confirm_deletion: 'Confirm deletion ?'
@@ -39,7 +39,7 @@ pl:
       ca: Catalan
       zh-CN: Chinese
     redirecting: Redirecting
-    select_language: Select Language
+    select_language: Wybierz Język
     send_on_enter: Publish on enter
     away_mode: Away mode
     toggle_light_mode: Toggle light mode
@@ -73,6 +73,7 @@ pl:
     create_new: Create new app
     choose_lang: Choose language
     edit_profile: Edit profile
+    edit_credentials: Edit user credentials
     go_to_doc: Go to documentation
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
@@ -126,6 +127,20 @@ pl:
       create_app_description: 'Create your company’s Chaskiq app'
       signout: Sign out
       title: User menu
+  login:
+    title: Connect to your account
+    email: Your Email
+    password: Your password
+    remember_me: Remember me
+    forgot_password: Forgot your password ?
+    sign_in: Connect
+    continue_with: Continue with
+  invitation:
+    title: Create your account
+    password: Type your password
+    password_confirmation: Confirm your password
+    button: Zapisz
+    built_with_love: Built with love by the team
   conversations:
     start_conversation: Start conversation
     title: Conversations
@@ -573,13 +588,13 @@ pl:
         name: Field name
         type: Field type
         validation: Validation
-        validation_hint: Validation is optional
+        validation_hint: Walidacja jest opcjonalna
       attr_types:
         date: Date
-        integer: Integer
+        integer: Liczba całkowita
         string: String
   articles:
-    title: Articles
+    title: Artykuły
     all: All
     published: Published
     draft: Drafts
@@ -605,17 +620,17 @@ pl:
     settings_updated_success: 'article settings updated'
     settings_updated_error: 'article settings failed'
     activate_help_center: Activate Help Center
-    delete_article: Delete article "%{title} ?
+    delete_article: Usunąć artykuł "%{title}?
     delete_article_exp: we will destroy any content and related data
     square_preferred: square images preferred (min size 200x200px)
     square_preferred_hint: squared images will be optimal resized
     reordered_success: 'reordered correctly'
     reordered_error: 'reordered error'
-    add_articles: Add articles
+    add_articles: Dodaj artykuł
     updated_success: article updated
     updated_error: article error on save
     delete_section: Delete section
-    author: Author
+    author: Autor
     written_by: written by
     created_on: Created on
     state:

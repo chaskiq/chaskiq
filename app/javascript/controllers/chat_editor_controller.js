@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 import React from 'react';
 import { render } from 'react-dom';
 import ConversationEditor from '../src/pages/conversations/Editor';

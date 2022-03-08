@@ -187,12 +187,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            _serviceUrl,
-          } = data.createDirectUpload.directUpload;
+          const { signedBlobId, headers, url, _serviceUrl } =
+            data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             const params = {};
@@ -373,33 +369,30 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                   <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
                     <div className="flex flex-col">
                       {this.state.agent.avatarUrl && (
-                        <>
-                          <Avatar
-                            size={24}
-                            src={this.state.agent.avatarUrl + '&s=120px'}
-                          />
-
-                          <div>
-                            <input
-                              accept="image/*"
-                              style={{ display: 'none' }}
-                              // className={classes.input}
-                              id={'avatarUpload'}
-                              onChange={(e) =>
-                                this.uploadHandler(e.currentTarget.files[0])
-                              }
-                              // multiple
-                              type="file"
-                            />
-                            <label
-                              htmlFor={'avatarUpload'}
-                              className="hover:cursor-pointer text-sm leading-5 text-gray-500"
-                            >
-                              Upload avatar
-                            </label>
-                          </div>
-                        </>
+                        <Avatar
+                          size={24}
+                          src={this.state.agent.avatarUrl + '&s=120px'}
+                        />
                       )}
+                      <div>
+                        <input
+                          accept="image/*"
+                          style={{ display: 'none' }}
+                          // className={classes.input}
+                          id={'avatarUpload'}
+                          onChange={(e) =>
+                            this.uploadHandler(e.currentTarget.files[0])
+                          }
+                          // multiple
+                          type="file"
+                        />
+                        <label
+                          htmlFor={'avatarUpload'}
+                          className="hover:cursor-pointer text-sm leading-5 text-gray-500"
+                        >
+                          Upload avatar
+                        </label>
+                      </div>
                     </div>
                     <div className="mt-6 sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                       <div className="sm:hidden 2xl:block mt-6 min-w-0 flex-1">

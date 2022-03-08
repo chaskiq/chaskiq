@@ -6,7 +6,7 @@ class Apps::DashboardsController < ApplicationController
 
     @dashboard =
       if params[:integration_id].present?
-        #package = @app.app_package_integrations.find(params[:integration_id])
+        # package = @app.app_package_integrations.find(params[:integration_id])
         AppPackageDashboard
           .new(app: @app, range: range, package: params[:package])
           .report_for(params[:id])
@@ -18,26 +18,26 @@ class Apps::DashboardsController < ApplicationController
 
     if params[:package].present?
       render turbo_stream: [
-               turbo_stream.replace(
-                 "dashboard_#{params[:id]}",
-                 partial: resolve_partial[:type],
-                 locals: {
-                   app: @app,
-                   props: @dashboard
-                 }
-               )
-             ]
+        turbo_stream.replace(
+          "dashboard_#{params[:id]}",
+          partial: resolve_partial[:type],
+          locals: {
+            app: @app,
+            props: @dashboard
+          }
+        )
+      ]
     else
       render turbo_stream: [
-               turbo_stream.replace(
-                 "dashboard_#{params[:id]}",
-                 partial: resolve_partial[:type],
-                 locals: {
-                   app: @app,
-                   props: @partial_data
-                 }
-               )
-             ]
+        turbo_stream.replace(
+          "dashboard_#{params[:id]}",
+          partial: resolve_partial[:type],
+          locals: {
+            app: @app,
+            props: @partial_data
+          }
+        )
+      ]
     end
   end
 
@@ -50,45 +50,45 @@ class Apps::DashboardsController < ApplicationController
   def chart_data
     {
       app_packages: {
-        label: I18n.t('dashboard.user_country'),
-        type: 'app_packages'
+        label: I18n.t("dashboard.user_country"),
+        type: "app_packages"
       },
       first_response_time: {
-        type: 'count',
-        label: I18n.t('dashboard.response_avg'),
-        append_label: 'Hrs'
+        type: "count",
+        label: I18n.t("dashboard.response_avg"),
+        append_label: "Hrs"
       },
       opened_conversations: {
-        type: 'count',
-        label: I18n.t('dashboard.new_conversations')
+        type: "count",
+        label: I18n.t("dashboard.new_conversations")
       },
       solved_conversations: {
-        type: 'count',
-        label: I18n.t('dashboard.resolutions'),
-        append_label: ''
+        type: "count",
+        label: I18n.t("dashboard.resolutions"),
+        append_label: ""
       },
       incoming_messages: {
-        type: 'count',
-        label: I18n.t('dashboard.incoming_messages')
+        type: "count",
+        label: I18n.t("dashboard.incoming_messages")
       },
       visits: {
-        type: 'heatMap'
+        type: "heatMap"
       },
       browser: {
-        type: 'pie',
-        label: I18n.t('dashboard.browser')
+        type: "pie",
+        label: I18n.t("dashboard.browser")
       },
       lead_os: {
-        type: 'pie',
-        label: I18n.t('dashboard.lead_os')
+        type: "pie",
+        label: I18n.t("dashboard.lead_os")
       },
       user_os: {
-        type: 'pie',
-        label: I18n.t('dashboard.user_os')
+        type: "pie",
+        label: I18n.t("dashboard.user_os")
       },
       user_country: {
-        type: 'pie',
-        label: I18n.t('dashboard.user_country')
+        type: "pie",
+        label: I18n.t("dashboard.user_country")
       }
     }
   end

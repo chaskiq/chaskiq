@@ -13,7 +13,8 @@ export const APPS = `
       name
       state
       tagline
-    }  
+    }
+    canCreateApps 
   }
 `;
 
@@ -838,6 +839,7 @@ export const APP_PACKAGES = `
         icon
         description
         capabilities
+        capabilityList
       }
     }
   }
@@ -859,6 +861,8 @@ export const AGENT_APP_PACKAGES = `
         sheetUrl
         oauthUrl
         capabilities
+        capabilityList
+        tagList
       }
     }
   }
@@ -874,6 +878,8 @@ export const APP_PACKAGE = `
         icon
         description
         capabilities
+        capabilityList
+        tagList
       }
     }
   }
@@ -895,6 +901,8 @@ export const AGENT_APP_PACKAGE = `
         oauthUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
       }
     }
   }

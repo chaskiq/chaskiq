@@ -8,7 +8,7 @@ class Apps::ConversationMessagesController < ApplicationController
                              .page(params[:page])
                              .per(2)
 
-    puts "PAGES #{params[:page]} #{@messages.map(&:id)}"
+    Rails.logger.debug { "PAGES #{params[:page]} #{@messages.map(&:id)}" }
 
     # [48302, 48301, 48300, 48299, 48298, 48297]
     # [48296, 48295, 48294, 48293, 48292, 48291]

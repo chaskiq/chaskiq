@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 import { useMutation } from 'stimulus-use';
 /*
 import { navigator } from '@hotwired/turbo'

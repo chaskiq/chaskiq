@@ -60,8 +60,7 @@
 		bg-gray-900 
 		hover:bg-gray-800 
 		focus:outline-none 
-		focus:border-gray-700 
-		active:bg-gray-800;
+		focus:border-gray-700
   }
   &.btn-main {
     @apply outline-none 
@@ -75,7 +74,8 @@
 			focus:outline-none 
 			focus:shadow-outline 
 			focus:border-indigo-700 
-			active:bg-indigo-700;
+
+		/*active:bg-indigo-700;*/
   }
 
   &.btn-link {
@@ -159,8 +159,8 @@
 			hover:bg-indigo-200
 			focus:outline-none 
 			focus:border-indigo-300 
-			active:bg-indigo-200;
   }
+	/*			active:bg-indigo-200;*/
 
 	&.btn-rounded {
 		@apply focus:outline-none outline-none mr-1 rounded-full 

@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 export default class extends Controller {
   static targets = ['container', 'form'];
