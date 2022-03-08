@@ -673,7 +673,6 @@ class AppPackagesCatalog
 
       {
         name: "TelnyxSms",
-        # tag_list: ["conversations.added"],
         description: "Interfaces Telnyx SMS",
         icon: "https://logo.clearbit.com/telnyx.com",
         state: "enabled",

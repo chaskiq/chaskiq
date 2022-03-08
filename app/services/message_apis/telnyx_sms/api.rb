@@ -76,7 +76,6 @@ module MessageApis::TelnyxSms
     end
 
     def get_message_id(response_data)
-      # puts "••••••• #{response_data}"
       response_data.dig("data", "id")
     end
 
@@ -85,7 +84,6 @@ module MessageApis::TelnyxSms
 
       case data[:event_type]
       when "message.received"
-        # pp data.dig(:payload, :direction)
         process_incoming_message(data)
       when "message.finalized"
         process_read(data[:payload][:id])
@@ -143,7 +141,6 @@ module MessageApis::TelnyxSms
 
       phone = resolve_outbound_phone(channel_id)
 
-      # puts "outgoing #{phone}, #{channel_id}"
 
       data = {
         to: "+#{channel_id}",
