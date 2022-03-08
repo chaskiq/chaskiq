@@ -52,6 +52,8 @@ jobs:
 
       - name: Build and run E2E tests
         run: |
+          echo "node version:"
+          echo `node -v`
           # curl ifconfig.me
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install

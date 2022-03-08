@@ -34,8 +34,8 @@ task user_gen: :environment do
     App.last.add_user(
       email: Faker::Internet.unique.email,
       name: Faker::Name.name_with_middle,
-      lat: Random.rand * 180 - 90,
-      lng: Random.rand * 90 - 45
+      lat: (Random.rand * 180) - 90,
+      lng: (Random.rand * 90) - 45
     )
   end
 end

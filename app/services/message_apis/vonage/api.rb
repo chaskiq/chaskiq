@@ -30,7 +30,7 @@ module MessageApis::Vonage
         "Accept" => "application/json"
       }
 
-      @conn.basic_auth(@api_key, @api_token)
+      @conn.request(:basic_auth, @api_key, @api_token)
 
       self
     end

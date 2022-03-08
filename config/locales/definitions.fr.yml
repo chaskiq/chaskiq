@@ -203,6 +203,7 @@ fr:
       ip: Ip
       country: Pays
       city: Ville
+      phone: Phone
       lat: Lat
       lng: Lng
       postal: Code postal

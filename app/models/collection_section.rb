@@ -8,7 +8,7 @@ class CollectionSection < ApplicationRecord
                           foreign_key: "article_collection_id"
 
   has_many :articles, -> { order(position: :asc) },
-           foreign_key: "article_section_id"
+           foreign_key: "article_section_id", dependent: nil
 
   acts_as_list scope: [:article_collection_id]
   extend FriendlyId

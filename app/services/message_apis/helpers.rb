@@ -134,7 +134,7 @@ module MessageApis
       )
       {
         url: Rails.application.routes.url_helpers.rails_blob_path(blob)
-      }.merge!(ActiveStorage::Analyzer::ImageAnalyzer.new(blob).metadata)
+      }.merge!(ActiveStorage::Analyzer::ImageAnalyzer::ImageMagick.new(blob).metadata)
     end
 
     def find_channel(id)
@@ -149,6 +149,12 @@ module MessageApis
       return if conversation_part_channel.blank?
 
       conversation_part_channel.conversation_part.read!
+    end
+
+    def build_conn
+      Faraday.new request: {
+        params_encoder: Faraday::FlatParamsEncoder
+      }
     end
 
     def find_conversation_by_channel(provider, channel)

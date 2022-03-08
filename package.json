@@ -121,7 +121,7 @@
     "@rollup/plugin-node-resolve": "^13.0.0",
     "autoprefixer": "^10.2.6",
     "babel-eslint": "^10.1.0",
-    "cypress": "6.1.0",
+    "cypress": "9.5.0",
     "cypress-xpath": "^1.4.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
@@ -155,7 +155,7 @@
     "format:ruby": "rubocop -A",
     "format:prettier": "prettier --write './app/javascript/**/*.{js,ts,tsx,css,scss,json,yml}'",
     "format:all": "yarn format:prettier ; yarn format:ruby",
-    "rails-cy": "bundle exec rails server -e test -p 5002",
+    "rails-cy": "./bin/test",
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run --headless --browser chrome",
     "cypress:ci": "./node_modules/.bin/cypress run --headless --browser chrome --record --key 0998a03f-f6fe-4acf-8444-b81533c950cd --parallel --ci-build-id $TRAVIS_BUILD_ID",
@@ -164,10 +164,10 @@
     "build2:packages": "yarn clean:packages && lerna changed | while read package; do rollup -c --scope $package || exit 1; done",
     "build2:allpackages": "yarn clean:packages && for dir in app/javascript/packages/*; do package=${dir#'packages/'}; rollup -c --scope @chaskiq/$package || exit 1; done",
     "build2": "bundle exec rails assets:precompile",
-    "build": "node esbuild.config.mjs --minify",
+    "build": "NODE_ENV=production node esbuild.config.mjs --minify",
     "buildold": "esbuild app/javascript/*.* --bundle '--define:process.env.NODE_ENV=\"development\"'  --platform=node --loader:.js=jsx --loader:.png=file --sourcemap --outdir=app/assets/builds",
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
     "husky-install": "husky install",
-    "dev": "node esbuild.config.mjs --watch"
+    "dev": "NODE_ENV=development node esbuild.config.mjs --watch"
   }
 }

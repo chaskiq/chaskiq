@@ -15,10 +15,10 @@ class Conversation < ApplicationRecord
   has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message, -> { order("id desc") },
-          class_name: "ConversationPart"
+          class_name: "ConversationPart", dependent: nil
 
   has_one :public_latest_message, -> { visibles.order("id desc") },
-          class_name: "ConversationPart"
+          class_name: "ConversationPart", dependent: nil
 
   acts_as_taggable_on :tags
 
@@ -85,14 +85,14 @@ class Conversation < ApplicationRecord
 
     EventsChannel.broadcast_to(
       app.key,
-      type: "conversations:update_state",
-      data: data
+      { type: "conversations:update_state",
+        data: data }
     )
 
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:update_state",
-      data: data
+      { type: "conversations:update_state",
+        data: data }
     )
   end
 

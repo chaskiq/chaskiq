@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "openssl"
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 class AppPackageIntegration < ApplicationRecord
   belongs_to :app_package
   belongs_to :app
@@ -195,7 +198,7 @@ class AppPackageIntegration < ApplicationRecord
     if response["kind"] == "initialize"
       params[:ctx][:field] = nil
       params[:ctx][:values] = response["results"]
-      response = presenter.initialize_hook(params)
+      response = presenter.initialize_hook(**params)
       response.merge!(kind: "initialize")
     end
 
@@ -224,11 +227,11 @@ class AppPackageIntegration < ApplicationRecord
 
   def presenter_hook_response(params, presenter)
     case params[:kind]
-    when "initialize" then presenter.initialize_hook(params)
-    when "configure" then presenter.configure_hook(params)
-    when "submit" then presenter.submit_hook(params)
-    when "frame" then presenter.sheet_hook(params)
-    when "content" then presenter.content_hook(params) # not used
+    when "initialize" then presenter.initialize_hook(**params)
+    when "configure" then presenter.configure_hook(**params)
+    when "submit" then presenter.submit_hook(**params)
+    when "frame" then presenter.sheet_hook(**params)
+    when "content" then presenter.content_hook(**params)
     else raise "no compatible hook kind"
     end
   end
@@ -301,6 +304,8 @@ class ExternalPresenterManager
     # This it's just to restrict fields on app, refactor this!
     data[:ctx][:app] = data.dig(:ctx, :app).as_json(only: %i[key name])
     data[:ctx][:current_user] = data.dig(:ctx, :current_user).as_json(methods: %i[email kind display_name avatar_url])
+    Rails.logger.debug url
+    Rails.logger.debug data
     resp = Faraday.post(
       url,
       data.to_json,

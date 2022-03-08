@@ -43,7 +43,7 @@ jobs:
           build-args: |
             "APP_ENV=production"
             "NODE_ENV=production"
-            "RUBY_VERSION=2.7.5"
+            "RUBY_VERSION=3.0.3"
             "PG_MAJOR=11"
             "NODE_MAJOR=16"
             "YARN_VERSION=1.13.0"

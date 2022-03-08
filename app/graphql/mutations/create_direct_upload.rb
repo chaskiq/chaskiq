@@ -29,7 +29,8 @@ module Mutations
     field :direct_upload, DirectUpload, null: false
 
     def resolve(input:)
-      blob = ActiveStorage::Blob.create_before_direct_upload!(input.to_h)
+      ActiveStorage::Current.url_options = { host: ENV["HOST"] }
+      blob = ActiveStorage::Blob.create_before_direct_upload!(**input)
       {
         direct_upload: {
           url: blob.service_url_for_direct_upload,

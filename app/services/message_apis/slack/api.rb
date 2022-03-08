@@ -14,10 +14,7 @@ module MessageApis::Slack
 
     def initialize(config: {})
       @access_token = access_token
-      @conn = Faraday.new request: {
-        params_encoder: Faraday::FlatParamsEncoder
-      }
-
+      @conn = build_conn
       @package = nil
       set_keys(config)
     end
@@ -81,12 +78,14 @@ module MessageApis::Slack
 
     def authorize_bot!
       get_api_access
-      @conn.authorization :Bearer, @keys["access_token"]
+      @conn = build_conn
+      @conn.request :authorization, :Bearer, @keys["access_token"]
     end
 
     def authorize_user!
       get_api_access
-      @conn.authorization :Bearer, @keys["access_token_secret"]
+      @conn = build_conn
+      @conn.request :authorization, :Bearer, @keys["access_token_secret"]
     end
 
     def oauth_client
@@ -185,7 +184,7 @@ module MessageApis::Slack
       }
 
       url = url("/api/conversations.join")
-      # @conn.authorization :Bearer, key
+      # @conn.request :authorization, :Bearer, key
       response = @conn.post do |req|
         req.url url
         req.headers["Content-Type"] = "application/json; charset=utf-8"
@@ -645,14 +644,14 @@ module MessageApis::Slack
 
       conversation = find_conversation_by_slack_ts(event["thread_ts"])
 
-      serialized_blocks = serialize_content(event)
-
-      text = replace_emojis(event["text"])
-
       return if conversation.blank?
 
       return if conversation.conversation_part_channel_sources
                             .find_by(message_source_id: event["ts"]).present?
+
+      serialized_blocks = serialize_content(event)
+
+      text = replace_emojis(event["text"])
 
       # TODO: serialize message
       conversation.add_message(
@@ -1002,9 +1001,10 @@ module MessageApis::Slack
     end
 
     def process_blocks(data)
-      images = data["blocks"].select do |o|
+      images = data["blocks"]&.select do |o|
         o["type"] === "image"
-      end
+      end || []
+
       images = images.map do |block|
         media_block(
           {
