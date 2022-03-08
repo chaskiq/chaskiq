@@ -366,6 +366,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -1959,6 +1960,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -3558,6 +3560,7 @@
         "online": "Connectat",
         "os": "So",
         "os_version": "Versió del SO",
+        "phone": "Telèfon",
         "postal": "Codi postal",
         "referrer": "Procedència",
         "state": "Estat",
@@ -5151,6 +5154,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -6755,6 +6759,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -8348,6 +8353,7 @@
         "online": "Online",
         "os": "Betriebssystem",
         "os_version": "Betriebssystem-Version",
+        "phone": "Phone",
         "postal": "Postleitzahl",
         "referrer": "Referrer",
         "state": "Status",
@@ -9941,6 +9947,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -11474,7 +11481,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -13491,6 +13498,7 @@
         "online": "En línea",
         "os": "Os",
         "os_version": "Versión del sistema operativo",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Origen",
         "state": "Estado",
@@ -15432,6 +15440,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -17025,6 +17034,7 @@
         "online": "En ligne",
         "os": "Os",
         "os_version": "Version Os",
+        "phone": "Phone",
         "postal": "Code postal",
         "referrer": "Référant",
         "state": "État",
@@ -18682,6 +18692,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -20275,6 +20286,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -21868,6 +21880,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -23460,6 +23473,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -25052,6 +25066,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -26645,6 +26660,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -28238,6 +28254,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -29833,6 +29850,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Versão do sistema operacional",
+        "phone": "Phone",
         "postal": "Código postal",
         "referrer": "Página de referência",
         "state": "Estado",
@@ -31426,6 +31444,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -31505,7 +31524,7 @@
           "label": "Actions"
         },
         "author": {
-          "label": "Author"
+          "label": "Автор"
         },
         "collection": {
           "label": "Collection"
@@ -31530,7 +31549,7 @@
           "label": "Subdomain"
         },
         "title": {
-          "label": "Title"
+          "label": "Заголовок"
         },
         "website": {
           "hint": "Website of your main domain",
@@ -31645,7 +31664,7 @@
           "label": "Register Visits"
         },
         "tagline": {
-          "hint": "This will be rendered in the bottom of the Chat box",
+          "hint": "Это будет отображено в нижней части окна чата",
           "label": "Tagline"
         },
         "timezone": {
@@ -33020,6 +33039,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -34615,6 +34635,7 @@
         "online": "Aktiv",
         "os": "Os",
         "os_version": "OS-version",
+        "phone": "Phone",
         "postal": "Postnummer",
         "referrer": "Hänvisad från",
         "state": "Tillstånd",
@@ -36208,6 +36229,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "Durum",
@@ -37801,6 +37823,7 @@
         "online": "Online",
         "os": "Os",
         "os_version": "Os Version",
+        "phone": "Phone",
         "postal": "Postal",
         "referrer": "Referrer",
         "state": "State",
@@ -39396,6 +39419,7 @@
         "online": "Online（在线）",
         "os": "操作模式",
         "os_version": "操作系统版本",
+        "phone": "Phone",
         "postal": "邮局",
         "referrer": "反向链接",
         "state": "省",
