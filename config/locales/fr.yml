@@ -142,7 +142,7 @@ fr:
     button: Enregistrer
     built_with_love: Built with love by the team
   conversations:
-    start_conversation: Démarrer une conversation
+    start_conversation: Start a conversation
     title: Conversations
     menu:
       conversations: Conversations
