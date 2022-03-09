@@ -141,7 +141,6 @@ module MessageApis::TelnyxSms
 
       phone = resolve_outbound_phone(channel_id)
 
-
       data = {
         to: "+#{channel_id}",
         text: message

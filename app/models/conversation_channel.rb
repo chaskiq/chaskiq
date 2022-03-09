@@ -21,6 +21,7 @@ class ConversationChannel < ApplicationRecord
   end
 
   private
+
   def provider_name(provider)
     # a classify version without the singularize
     provider.to_s.sub(/.*\./, "").camelize
