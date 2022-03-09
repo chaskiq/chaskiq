@@ -651,19 +651,24 @@ module MessageApis::Slack
 
       serialized_blocks = serialize_content(event)
 
+      # search for <@mention> and add to private message here!
+      mentions = mentions?(event)
+
+      namespace = mentions.present? ? :add_private_note : :add_message
+
       text = replace_emojis(event["text"])
 
-      # TODO: serialize message
-      conversation.add_message(
-        from: get_agent_from_event(event),
-        message: {
-          html_content: text,
-          serialized_content: serialized_blocks
-        },
-        provider: "slack",
-        message_source_id: event["ts"],
-        check_assignment_rules: true
-      )
+      conversation.send(namespace,
+                        **{
+                          from: get_agent_from_event(event),
+                          message: {
+                            html_content: text,
+                            serialized_content: serialized_blocks
+                          },
+                          provider: "slack",
+                          message_source_id: event["ts"],
+                          check_assignment_rules: true
+                        })
     end
 
     def get_agent_from_event(event)
@@ -998,6 +1003,10 @@ module MessageApis::Slack
       else
         o = process_blocks(data)
       end
+    end
+
+    def mentions?(data)
+      data["text"].match(/(<@\S+>) /)
     end
 
     def process_blocks(data)

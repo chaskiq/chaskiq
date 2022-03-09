@@ -142,7 +142,7 @@ it:
     button: Salva
     built_with_love: Built with love by the team
   conversations:
-    start_conversation: Inizia conversazione
+    start_conversation: Start a conversation
     title: Conversazioni
     menu:
       conversations: Conversazioni
