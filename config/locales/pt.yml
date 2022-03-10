@@ -142,7 +142,7 @@ pt:
     button: Salvar
     built_with_love: Built with love by the team
   conversations:
-    start_conversation: Iniciar conversa
+    start_conversation: Start a conversation
     title: Conversas
     menu:
       conversations: Conversas
