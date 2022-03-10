@@ -299,7 +299,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -1893,7 +1893,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -3493,7 +3493,7 @@
         "unfiltered": "Tots",
         "waiting": "Esperant"
       },
-      "start_conversation": "Iniciar conversa",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Tancat",
         "opened": "Obert"
@@ -5087,7 +5087,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -6692,7 +6692,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -8286,7 +8286,7 @@
         "unfiltered": "Alle",
         "waiting": "Wartend"
       },
-      "start_conversation": "Gespräch beginnen",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Geschlossen",
         "opened": "Geöffnet"
@@ -9880,7 +9880,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -13697,7 +13697,7 @@
         "unfiltered": "Todo",
         "waiting": "Esperando"
       },
-      "start_conversation": "Iniciar conversación",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Cerrado",
         "opened": "Abierto"
@@ -15639,7 +15639,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -17233,7 +17233,7 @@
         "unfiltered": "Tous",
         "waiting": "En attente"
       },
-      "start_conversation": "Démarrer une conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Fermé",
         "opened": "Ouvert"
@@ -18891,7 +18891,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -20485,7 +20485,7 @@
         "unfiltered": "Tutti",
         "waiting": "In Attesa"
       },
-      "start_conversation": "Inizia conversazione",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Chiuso",
         "opened": "Aperto"
@@ -22079,7 +22079,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -23672,7 +23672,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -25265,7 +25265,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -26859,7 +26859,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -28453,7 +28453,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -30049,7 +30049,7 @@
         "unfiltered": "Todos",
         "waiting": "Esperando"
       },
-      "start_conversation": "Iniciar conversa",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Fechado",
         "opened": "Aberto"
@@ -31643,7 +31643,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -33238,7 +33238,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -34834,7 +34834,7 @@
         "unfiltered": "Alla",
         "waiting": "Väntar"
       },
-      "start_conversation": "Starta konversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Stängd",
         "opened": "Öppnad"
@@ -36428,7 +36428,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -38022,7 +38022,7 @@
         "unfiltered": "All",
         "waiting": "Waiting"
       },
-      "start_conversation": "Start conversation",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "Closed",
         "opened": "Opened"
@@ -39618,7 +39618,7 @@
         "unfiltered": "全部",
         "waiting": "等待"
       },
-      "start_conversation": "开始会话",
+      "start_conversation": "Start a conversation",
       "states": {
         "closed": "已关闭",
         "opened": "已打开"

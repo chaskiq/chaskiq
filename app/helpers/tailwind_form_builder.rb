@@ -96,7 +96,7 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
       @template.tag.div("data-controller": "upload-preview") do
         @template.image_tag("logo.png", width: "100px", hight: "100px", "data-upload-preview-target": "output") +
           @template.tag.div(class: "") do
-            @template.label_tag(method) +
+            @template.label_tag(method, nil, class: "block text-gray-700 dark:text-white text-sm font-bold mb-2") +
               @template.file_field_tag(method,
                                        "data-action": "upload-preview#readURL",
                                        "data-upload-preview-target": "input",

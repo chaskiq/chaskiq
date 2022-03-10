@@ -12,6 +12,7 @@ module.exports = {
     content: [
       './app/**/*.html.erb',
       './app/**/*.erb',
+      './app/helpers/tailwind_form_builder.rb',
       './app/frontend/**/*.erb',
       './app/frontend/components/**/*.erb',
       './app/frontend/**/*.scss',

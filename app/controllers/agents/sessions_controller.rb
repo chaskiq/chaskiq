@@ -18,8 +18,11 @@ class Agents::SessionsController < Devise::SessionsController
 
     respond_to do |format|
       format.html do
-        super
-        return
+        resource = warden.authenticate!(:scope => resource_name)
+        sign_in(resource_name, resource)
+
+        #return
+        redirect_to root_path
       end
       format.json do
         self.resource = warden.authenticate!(auth_options)
