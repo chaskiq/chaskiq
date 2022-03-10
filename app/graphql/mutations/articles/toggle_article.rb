@@ -15,7 +15,7 @@ module Mutations
         authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
           app: app
         }
-        
+
         article.state = state
         article.save
 
