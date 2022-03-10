@@ -16,7 +16,7 @@ module Mutations
         collection = app.article_collections.find(collection)
         section = collection.sections.where(id: section).first
 
-        authorize! object, to: :can_manage_help_center?, with: AppPolicy, context: {
+        authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
           app: app
         }
 
