@@ -161,6 +161,28 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(blocks.size).to be == 4
     end
 
+    it "receive text with STOP" do
+      get(:process_event, params: data_for(
+        id: @pkg.id,
+        sender: user_phone,
+        message_data: {
+          "text" => "STOP"
+        }
+      ))
+      perform_enqueued_jobs
+
+      message = app.conversations.first.messages.first.messageable
+
+      expect(message.html_content).to be == "STOP"
+      expect(message.serialized_content).to be_present
+
+      blocks = JSON.parse(message.serialized_content)["blocks"]
+
+      expect(blocks.size).to be == 1
+
+      expect(Conversation.last).to be_closed
+    end
+
     it "outbound phone resolve" do
       klass = AppPackageIntegration.last.message_api_klass
       expect(klass.resolve_outbound_phone("+56xxxxx")[:from]).to start_with("+56")

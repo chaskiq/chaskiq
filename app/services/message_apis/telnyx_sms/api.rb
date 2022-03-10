@@ -133,6 +133,8 @@ module MessageApis::TelnyxSms
         message_source_id: message_id,
         check_assignment_rules: true
       )
+
+      conversation.close! if should_stop_conversation?(text)
     end
 
     def send_sms_message(channel_id, message)
@@ -146,11 +148,13 @@ module MessageApis::TelnyxSms
         text: message
       }
 
-      data.merge!(resolve_outbound_phone(phone))
+      data.merge!(phone)
 
-      data.to_json
+      @conn.post(URL, data.to_json)
+    end
 
-      @conn.post(URL, data)
+    def should_stop_conversation?(text)
+      text == "STOP"
     end
 
     def resolve_outbound_phone(phone)
