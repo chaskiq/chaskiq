@@ -11,7 +11,7 @@ module Mutations
       app = current_user.apps.find_by(key: app_key)
       message = app.messages.find(id)
 
-      authorize! object, to: :can_manage_campaigns?, with: AppPolicy, context: {
+      authorize! message, to: :can_manage_campaigns?, with: AppPolicy, context: {
         app: app
       }
 
