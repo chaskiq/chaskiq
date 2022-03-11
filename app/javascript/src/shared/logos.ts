@@ -8,7 +8,7 @@ import paddle from '../images/logos/paddle.png';
 import openai from '../images/logos/openai.png';
 import reveniu from '../images/logos/reveniu.png';
 import stripe from '../images/logos/stripe.png';
-import telnyxsms from '../images/logos/telnyx.png';
+import telnyxsms from '../images/logos/telnyx_sms.png';
 
 import fullcontact from '../images/logos/fullcontact.png';
 import slack from '../images/logos/slack.png';

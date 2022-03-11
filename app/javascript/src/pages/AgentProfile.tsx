@@ -187,8 +187,12 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const { signedBlobId, headers, url, _serviceUrl } =
-            data.createDirectUpload.directUpload;
+          const {
+            signedBlobId,
+            headers,
+            url,
+            _serviceUrl,
+          } = data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             const params = {};

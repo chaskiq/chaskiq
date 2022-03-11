@@ -159,8 +159,10 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
-  const [conversationPartSelected, setConversationPartSelected] =
-    React.useState(false);
+  const [
+    conversationPartSelected,
+    setConversationPartSelected,
+  ] = React.useState(false);
 
   const appId = app.key;
 
@@ -1129,8 +1131,15 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer, theme } =
-    state;
+  const {
+    auth,
+    app,
+    conversation,
+    app_user,
+    current_user,
+    drawer,
+    theme,
+  } = state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;

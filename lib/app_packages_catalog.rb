@@ -692,7 +692,7 @@ class AppPackagesCatalog
           {
             name: "phones",
             label: "Numbers pool",
-            hint: "comma separated values for your phones",
+            hint: "Desired format ie: +17777777777, add comma separated values for your phones, ie:. phone1,phone2,phone3",
             type: "textarea",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
