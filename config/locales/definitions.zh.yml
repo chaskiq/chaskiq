@@ -24,7 +24,7 @@ zh-CN:
         label: Google Code
         hint: Google tracking ID
       credits:
-        label: Show credits
+        label: 显示 credits
         hint: ""
     settings:
       name:
@@ -155,44 +155,44 @@ zh-CN:
         hint: '当工作表已提交时发送。 工作表是一个您已经在信使中加载并且在调用JS方法时提交的iframe。'
         placeholder: '例如：https://yourdomain.com/submit-sheet-url/'
       content_url:
-        label: 'Dynamic content flow webhook URL'
-        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
-        placeholder: 'e.g. https://yourdomain.com/content-url/'
+        label: '动态内容流Webhook URL'
+        hint: '当content_url设置为方块时发送，允许动态内容按要求渲染。'
+        placeholder: '例如：https://yourdomain.com/content-url/'
     webhooks:
       url:
-        label: url for outgoing webhook
-        hint: "we'll send POST requests"
+        label: 传出webhook 的 url
+        hint: "我们将发送 POST 请求"
       enabled:
-        label: enable webhook
+        label: 启用 webhook
       tag_list:
-        label: events to send
-        hint: chaskiq will deliver this events to configured endpoint
+        label: 要发送的事件
+        hint: chaskiq 将把此事件传送到配置的端点
     agents:
       email:
-        label: Agent's Email
+        label: 代理的邮箱
         placeholder: john@example.com
       name:
-        label: Agent's Name
+        label: 代理名称
         placeholder: John Doe
       owner:
-        label: Owner
+        label: 拥有者
       access_list:
-        label: 'Roles for agent'
-        hint: 'blank access will disable account settings access for user'
+        label: '代理人的角色'
+        hint: '空白访问将禁用用户的账户设置权限'
   data_tables:
     agents:
       email: Email
       name: 名称
-      owner: Owner
-      access_list: Access List
+      owner: 所有者
+      access_list: 访问列表
       actions: 操作
-      sign_in_count: Sign in count
-      last_sign_in_at: Last sign in at
-      invitation_accepted_at: Invitation accepted at
+      sign_in_count: 登录次数
+      last_sign_in_at: 最后登录时间
+      invitation_accepted_at: 接受邀请于
     articles:
       settings:
         locale: 地点
-        site_title: Site Title
+        site_title: 站点标题
         site_description: 网站说明
         action: 行为
     users:
@@ -203,7 +203,7 @@ zh-CN:
       ip: Ip
       country: 国家
       city: 城市
-      phone: Phone
+      phone: 电话
       lat: 纬度(Lat)
       lng: 经度(Lng)
       postal: 邮局

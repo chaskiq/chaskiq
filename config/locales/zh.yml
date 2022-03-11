@@ -27,17 +27,17 @@ zh-CN:
     tz_hint: 您的浏览器时区是 <b className="text-bold">%{timezone}</b>
     send: 发送
     actions: 操作
-    your_apps: Your apps
-    upload_field: upload %{field}
-    choose_color: Choose color
-    image: Imagen
+    your_apps: 您的应用程序
+    upload_field: 上传 %{field}
+    choose_color: 选择颜色
+    image: 图片
     langs:
       en: 英文
       es: 西班牙语
       pt: 葡萄牙语
       de: 德语
       ca: 加泰罗尼亚语
-      zh-CN: Chinese
+      zh-CN: 中文
     redirecting: 重定向中
     select_language: 选择语言
     send_on_enter: 回车发布
@@ -47,20 +47,20 @@ zh-CN:
     leads: 线索
     visitors: 访客
     users: 用户
-    type_message: type your message
-    search_conversations: Search conversations
-    days: Days
+    type_message: 输入您的信息……
+    search_conversations: 在对话中搜索
+    days: 天后
   status_messages:
-    error: 'Error'
-    success: 'Success'
-    updated_success: Updated successfully
-    updated_error: Error on upddate
-    created_success: Successfully created
-    created_error: Error creating
-    deleted_success: Successfully deleted
-    deleted_error: Error deleting
-    reordered_error: Error reordering
-    reordered_success: Successfully Reordered
+    error: '错误'
+    success: '成功'
+    updated_success: 更新成功。
+    updated_error: 更新时出错
+    created_success: 创建成功
+    created_error: 创建时出错 ！
+    deleted_success: 成功删除
+    deleted_error: 删除时出错
+    reordered_error: 重新排序时出错
+    reordered_success: 成功重排顺序
   error_view:
     title: 出错了。
     subtitle: 很不幸
@@ -73,7 +73,7 @@ zh-CN:
     create_new: 创建应用
     choose_lang: 选择语言：
     edit_profile: 编辑个人资料
-    edit_credentials: Edit user credentials
+    edit_credentials: 编辑用户认证信息
     go_to_doc: 转到文档
   dashboard:
     hey: "👋 Hey!, 你正在查看 <strong>%{name} 的</strong> 仪表板！ <br /> 为网页设置获取安装代码 <br />"
@@ -128,21 +128,21 @@ zh-CN:
       signout: 退出
       title: 用户菜单
   login:
-    title: Connect to your account
-    email: Your Email
-    password: Your password
-    remember_me: Remember me
-    forgot_password: Forgot your password ?
-    sign_in: Connect
-    continue_with: Continue with
+    title: 连接到您的账户
+    email: 您的电子邮箱
+    password: 您的密码
+    remember_me: 记住我
+    forgot_password: 忘记密码？
+    sign_in: 连接
+    continue_with: 继续用
   invitation:
-    title: Create your account
-    password: Type your password
-    password_confirmation: Confirm your password
+    title: 创建您的账户
+    password: 请输入密码
+    password_confirmation: 请确认密码
     button: 保存
-    built_with_love: Built with love by the team
+    built_with_love: 由团队爱心建设
   conversations:
-    start_conversation: Start a conversation
+    start_conversation: 开始会话
     title: 会话
     menu:
       conversations: 会话
@@ -176,8 +176,8 @@ zh-CN:
     messages:
       seen: 已查看
       not_seen: 未查看
-      note: Private Note
-      reply: Reply
+      note: 私有备注
+      reply: 回复
     sidebar:
       show_profile: 显示个人资料
       location: 定位
@@ -367,8 +367,8 @@ zh-CN:
     hint1: 要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。
     lang: 您为您的应用生成HMAC的代码是
     hint2: '在哪里你上传用户数据并有一个Chaskiq代码片段 添加一个名为 <span className="font-bold">identifier_key</span> 的新属性并通过 <span className="font-bold">email</span> 并给予它登录用户的 HMAC标签：'
-    encryption_key_label: Identity verification secret
-    dont_share_code: "Don't share this code"
+    encryption_key_label: 身份验证
+    dont_share_code: "不分享此代码"
     hmac_hint1: 要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。
   quick_replies:
     title: 快捷回复
@@ -411,7 +411,7 @@ zh-CN:
       security: 安全
       messenger_settings: Messenger 设置
       appearance: 外观
-      contact_avatars: Contact avatars
+      contact_avatars: 联系人头像
       appearance_title: 外观设置
       privacy: 隐私
       privacy_title: 隐私设置
@@ -433,9 +433,9 @@ zh-CN:
       remove_error: 移除软件包出错
       create_integration: 创建新的软件包
     app_inserter:
-      title: Add apps to your Messenger
-      subtitle: Help your customers before they start a conversation
-      action: Add app
+      title: 将应用添加到您的Messenger信使中
+      subtitle: 在您的客户开始对话之前帮助他们。
+      action: 添加应用
     integrations:
       title: 第三方集成
       create_success: 集成创建成功
@@ -513,9 +513,9 @@ zh-CN:
       hint2: 控制谁可以在你的网站上看到标准的Messenger 启动器。
       note2: 你发送的任何信息仍将被送达。
       note3: '在网页上显示标准的Messenger 启动器：'
-      closed_replies_title: Prevent replies to closed conversations for %{name}
-      closed_replies_enabled: Letting users reply to closed messages at any time.
-      closed_replies_disabled: Preventing users from responding to closed conversations after.
+      closed_replies_title: 禁止回复已关闭的对话 %{name}
+      closed_replies_enabled: 允许用户随时回复已关闭的消息。
+      closed_replies_disabled: 防止用户在之后回复已关闭的会话。
       filters:
         users:
           label: 用户
@@ -575,9 +575,9 @@ zh-CN:
         name: 字段名称
         color: 字段颜色
     contact_avatars:
-      title: Contact avatars style
-      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
-      choose_color: Choose color
+      title: 联系人头像风格
+      hint: 选择由 https://boringavatars.com/提供的 6 个头像样式。
+      choose_color: 选择颜色
     user_data:
       title: 自定义字段
       default_fields: 默认属性
@@ -663,10 +663,10 @@ zh-CN:
     import_choose: 选择您要导入哪种联系人
     select_file: 选择文件
     definitions:
-      app_user: Verified User
-      lead: Lead
-      phone: Phone
-      company_name: Company Name
+      app_user: 已验证用户
+      lead: 线索
+      phone: 电话
+      company_name: 企业名称
   segment_manager:
     add_filters: 添加过滤器
     select_fields: '选择字段'
