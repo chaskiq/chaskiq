@@ -50,7 +50,15 @@ class AppPackageIntegration < ApplicationRecord
     end
   end
 
+  validate :integration_data_prepare, on: %i[create update]
   validate :integration_validation, on: %i[create update]
+
+  def integration_data_prepare
+    return if app_package.is_external?
+    return nil unless message_api_klass.respond_to?(:integration_data_prepare)
+
+    message_api_klass.integration_data_prepare(self)
+  end
 
   def integration_validation
     return if app_package.is_external?

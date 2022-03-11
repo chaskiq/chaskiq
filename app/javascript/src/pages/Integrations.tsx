@@ -963,7 +963,8 @@ function AppPackageForm({ app, open, dispatch, onCancel, integration }) {
         name: 'oauth_url',
         label: 'oauth url (Optional)',
         type: 'string',
-        hint: "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
+        hint:
+          "(Optional) OAuth is used for publicly-available apps that access other people's Chaskiq data",
         grid: { xs: 'w-full', sm: 'w-full' },
       },
 

@@ -39225,22 +39225,22 @@
       "away_mode": "离开模式",
       "back_to_site": "返回站点",
       "cancel": "取消",
-      "choose_color": "Choose color",
+      "choose_color": "选择颜色",
       "confirm_deletion": "删除确认",
       "confirm_deletion_ready": "确定要删除吗？",
       "create": "新建",
-      "days": "Days",
+      "days": "天后",
       "delete": "删除",
       "edit": "编辑",
       "get_snippet": "获取代码片段",
-      "image": "Imagen",
+      "image": "图片",
       "langs": {
         "ca": "加泰罗尼亚语",
         "de": "德语",
         "en": "英文",
         "es": "西班牙语",
         "pt": "葡萄牙语",
-        "zh-CN": "Chinese"
+        "zh-CN": "中文"
       },
       "leads": "线索",
       "new": "新增",
@@ -39254,7 +39254,7 @@
       "results": "搜索结果",
       "save": "保存",
       "save_changes": "保存更改",
-      "search_conversations": "Search conversations",
+      "search_conversations": "在对话中搜索",
       "select_language": "选择语言",
       "send": "发送",
       "send_on_enter": "回车发布",
@@ -39263,21 +39263,21 @@
       "to": "至",
       "toggle_dark_mode": "切换到夜间模式",
       "toggle_light_mode": "切换到白天模式",
-      "type_message": "type your message",
+      "type_message": "输入您的信息……",
       "tz_hint": "您的浏览器时区是 <b className=\"text-bold\">%{timezone}</b>",
       "update": "更新",
-      "upload_field": "upload %{field}",
+      "upload_field": "上传 %{field}",
       "users": "用户",
       "visitors": "访客",
-      "your_apps": "Your apps"
+      "your_apps": "您的应用程序"
     },
     "contact_manager": {
       "create": "创建用户&线索",
       "definitions": {
-        "app_user": "Verified User",
-        "company_name": "Company Name",
-        "lead": "Lead",
-        "phone": "Phone"
+        "app_user": "已验证用户",
+        "company_name": "企业名称",
+        "lead": "线索",
+        "phone": "电话"
       },
       "import_choose": "选择您要导入哪种联系人",
       "import_contacts": "导入联系人",
@@ -39317,8 +39317,8 @@
       },
       "messages": {
         "not_seen": "未查看",
-        "note": "Private Note",
-        "reply": "Reply",
+        "note": "私有备注",
+        "reply": "回复",
         "seen": "已查看"
       },
       "sidebar": {
@@ -39352,7 +39352,7 @@
         "unfiltered": "全部",
         "waiting": "等待"
       },
-      "start_conversation": "Start a conversation",
+      "start_conversation": "开始会话",
       "states": {
         "closed": "已关闭",
         "opened": "已打开"
@@ -39379,21 +39379,21 @@
     },
     "data_tables": {
       "agents": {
-        "access_list": "Access List",
+        "access_list": "访问列表",
         "actions": "操作",
         "email": "Email",
-        "invitation_accepted_at": "Invitation accepted at",
-        "last_sign_in_at": "Last sign in at",
+        "invitation_accepted_at": "接受邀请于",
+        "last_sign_in_at": "最后登录时间",
         "name": "名称",
-        "owner": "Owner",
-        "sign_in_count": "Sign in count"
+        "owner": "所有者",
+        "sign_in_count": "登录次数"
       },
       "articles": {
         "settings": {
           "action": "行为",
           "locale": "地点",
           "site_description": "网站说明",
-          "site_title": "Site Title"
+          "site_title": "站点标题"
         }
       },
       "settings": {
@@ -39419,7 +39419,7 @@
         "online": "Online（在线）",
         "os": "操作模式",
         "os_version": "操作系统版本",
-        "phone": "Phone",
+        "phone": "电话",
         "postal": "邮局",
         "referrer": "反向链接",
         "state": "省",
@@ -39435,19 +39435,19 @@
     "definitions": {
       "agents": {
         "access_list": {
-          "hint": "blank access will disable account settings access for user",
-          "label": "Roles for agent"
+          "hint": "空白访问将禁用用户的账户设置权限",
+          "label": "代理人的角色"
         },
         "email": {
-          "label": "Agent's Email",
+          "label": "代理的邮箱",
           "placeholder": "john@example.com"
         },
         "name": {
-          "label": "Agent's Name",
+          "label": "代理名称",
           "placeholder": "John Doe"
         },
         "owner": {
-          "label": "Owner"
+          "label": "拥有者"
         }
       },
       "app_packages": {
@@ -39461,9 +39461,9 @@
           "placeholder": "例如：https://yourdomain.com/configure-url/"
         },
         "content_url": {
-          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
-          "label": "Dynamic content flow webhook URL",
-          "placeholder": "e.g. https://yourdomain.com/content-url/"
+          "hint": "当content_url设置为方块时发送，允许动态内容按要求渲染。",
+          "label": "动态内容流Webhook URL",
+          "placeholder": "例如：https://yourdomain.com/content-url/"
         },
         "description": {
           "hint": "告诉您的插件可以做什么",
@@ -39506,7 +39506,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "显示 credits"
         },
         "domain": {
           "hint": "帮助中心域名",
@@ -39672,15 +39672,15 @@
       },
       "webhooks": {
         "enabled": {
-          "label": "enable webhook"
+          "label": "启用 webhook"
         },
         "tag_list": {
-          "hint": "chaskiq will deliver this events to configured endpoint",
-          "label": "events to send"
+          "hint": "chaskiq 将把此事件传送到配置的端点",
+          "label": "要发送的事件"
         },
         "url": {
-          "hint": "we'll send POST requests",
-          "label": "url for outgoing webhook"
+          "hint": "我们将发送 POST 请求",
+          "label": "传出webhook 的 url"
         }
       }
     },
@@ -40001,7 +40001,7 @@
     "home": {
       "choose_lang": "选择语言：",
       "create_new": "创建应用",
-      "edit_credentials": "Edit user credentials",
+      "edit_credentials": "编辑用户认证信息",
       "edit_profile": "编辑个人资料",
       "go_to_doc": "转到文档",
       "tagline": "找到您当前的应用程序",
@@ -40009,8 +40009,8 @@
       "welcome_site": "Chaskiq"
     },
     "identified_users": {
-      "dont_share_code": "Don't share this code",
-      "encryption_key_label": "Identity verification secret",
+      "dont_share_code": "不分享此代码",
+      "encryption_key_label": "身份验证",
       "hint1": "要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。",
       "hint2": "在哪里你上传用户数据并有一个Chaskiq代码片段 添加一个名为 <span className=\"font-bold\">identifier_key</span> 的新属性并通过 <span className=\"font-bold\">email</span> 并给予它登录用户的 HMAC标签：",
       "hmac_hint1": "要配置身份验证，您需要在您的服务器上为每个登录用户生成一个 HMAC，并将其提交给Chaskiq。",
@@ -40018,20 +40018,20 @@
       "title": "已验证用户设置"
     },
     "invitation": {
-      "built_with_love": "Built with love by the team",
+      "built_with_love": "由团队爱心建设",
       "button": "保存",
-      "password": "Type your password",
-      "password_confirmation": "Confirm your password",
-      "title": "Create your account"
+      "password": "请输入密码",
+      "password_confirmation": "请确认密码",
+      "title": "创建您的账户"
     },
     "login": {
-      "continue_with": "Continue with",
-      "email": "Your Email",
-      "forgot_password": "Forgot your password ?",
-      "password": "Your password",
-      "remember_me": "Remember me",
-      "sign_in": "Connect",
-      "title": "Connect to your account"
+      "continue_with": "继续用",
+      "email": "您的电子邮箱",
+      "forgot_password": "忘记密码？",
+      "password": "您的密码",
+      "remember_me": "记住我",
+      "sign_in": "连接",
+      "title": "连接到您的账户"
     },
     "navigator": {
       "campaigns": "营销活动 Campaigns",
@@ -40157,7 +40157,7 @@
         "appearance": "外观",
         "appearance_title": "外观设置",
         "availability": "可用性",
-        "contact_avatars": "Contact avatars",
+        "contact_avatars": "联系人头像",
         "email_forwarding": "邮件转发中",
         "email_requirement": "请填写邮箱地址。",
         "inbound_settings": "Inbound 入站设置",
@@ -40172,9 +40172,9 @@
         "user_data": "用户数据"
       },
       "app_inserter": {
-        "action": "Add app",
-        "subtitle": "Help your customers before they start a conversation",
-        "title": "Add apps to your Messenger"
+        "action": "添加应用",
+        "subtitle": "在您的客户开始对话之前帮助他们。",
+        "title": "将应用添加到您的Messenger信使中"
       },
       "app_packages": {
         "create_error": "创建软件包出错",
@@ -40216,9 +40216,9 @@
         "title2": "设置工作时间"
       },
       "contact_avatars": {
-        "choose_color": "Choose color",
-        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
-        "title": "Contact avatars style"
+        "choose_color": "选择颜色",
+        "hint": "选择由 https://boringavatars.com/提供的 6 个头像样式。",
+        "title": "联系人头像风格"
       },
       "email_requirement": {
         "ask": "要求访客留下一个电子邮件地址，在开启新会话之前。",
@@ -40244,9 +40244,9 @@
       },
       "inbound": {
         "checkbox": "让访客开始新的入站对话",
-        "closed_replies_disabled": "Preventing users from responding to closed conversations after.",
-        "closed_replies_enabled": "Letting users reply to closed messages at any time.",
-        "closed_replies_title": "Prevent replies to closed conversations for %{name}",
+        "closed_replies_disabled": "防止用户在之后回复已关闭的会话。",
+        "closed_replies_enabled": "允许用户随时回复已关闭的消息。",
+        "closed_replies_title": "禁止回复已关闭的对话 %{name}",
         "filters": {
           "hint": "这并不影响您发送的出站消息。",
           "leads": {
@@ -40380,16 +40380,16 @@
       }
     },
     "status_messages": {
-      "created_error": "Error creating",
-      "created_success": "Successfully created",
-      "deleted_error": "Error deleting",
-      "deleted_success": "Successfully deleted",
-      "error": "Error",
-      "reordered_error": "Error reordering",
-      "reordered_success": "Successfully Reordered",
-      "success": "Success",
-      "updated_error": "Error on upddate",
-      "updated_success": "Updated successfully"
+      "created_error": "创建时出错 ！",
+      "created_success": "创建成功",
+      "deleted_error": "删除时出错",
+      "deleted_success": "成功删除",
+      "error": "错误",
+      "reordered_error": "重新排序时出错",
+      "reordered_success": "成功重排顺序",
+      "success": "成功",
+      "updated_error": "更新时出错",
+      "updated_success": "更新成功。"
     },
     "subscriptions": {
       "alerts": {
