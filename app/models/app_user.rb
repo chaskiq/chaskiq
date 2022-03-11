@@ -212,7 +212,14 @@ class AppUser < ApplicationRecord
   end
 
   def display_name
-    [name || "#{first_name} #{last_name}"].join(" ")
+    composed_name || name
+  end
+
+  def composed_name
+    names = [first_name, last_name].compact
+    return if names.blank?
+
+    names.join(" ")
   end
 
   def session_key
