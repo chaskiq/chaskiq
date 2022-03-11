@@ -31,6 +31,18 @@ module MessageApis::TelnyxSms
       self
     end
 
+    def validate_integration
+      # @package.settings[:phones].split(",").each do ||
+    end
+
+    def integration_data_prepare(object)
+      formatted_phones = object.settings[:phones].delete(" ").split(",").map do |d|
+        "+#{d.gsub(/\D/, '')}"
+      end.join(",")
+
+      object.settings[:phones] = formatted_phones
+    end
+
     def authorize!
       @conn.authorization :Bearer, @api_key
     end
@@ -60,10 +72,6 @@ module MessageApis::TelnyxSms
         message["serialized_content"]
       )["blocks"]
 
-      image_block = blocks.find { |o| o["type"] == "image" }
-      video_block = blocks.find { |o| o["type"] == "recorded-video" }
-      file_block = blocks.find { |o| o["type"] == "file" }
-      is_plain = !image_block || !video_block || !file_block
       plain_message = blocks.map do |o|
         o["text"]
       end.join("\r\n")
@@ -72,7 +80,11 @@ module MessageApis::TelnyxSms
 
       return if channel.blank?
 
-      send_sms_message(channel.provider_channel_id, plain_message)
+      response = send_sms_message(channel.provider_channel_id, plain_message)
+      data = JSON.parse(response.body)
+      if data["errors"].any?
+        # handle error here:
+      end
     end
 
     def get_message_id(response_data)
@@ -105,9 +117,10 @@ module MessageApis::TelnyxSms
       text = payload["text"]
 
       serialized_content = text_block(text)
-
+      phone_number = payload[:from][:phone_number]
       user_data = {
-        id: payload[:from][:phone_number]
+        "id" => phone_number,
+        "first_name" => "telnyx:#{phone_number}"
       }
 
       participant = add_participant(user_data, PROVIDER)
@@ -159,12 +172,12 @@ module MessageApis::TelnyxSms
 
     def resolve_outbound_phone(phone)
       phone.gsub!("+", "")
-      key = get_phones_data.keys.find { |o| phone.starts_with?(o) }
+      key = phones_data.keys.find { |o| phone.starts_with?(o) }
       case key
       when nil
         { messaging_profile_id: @profile_id }
       else
-        { from: phones_data[key]&.sample&.gsub("-", "") }
+        { from: phones_data[key]&.sample }
       end
     end
 
@@ -176,7 +189,8 @@ module MessageApis::TelnyxSms
       data = {}
       phones = @package.settings["phones"] || ""
       phones.split(",").each do |o|
-        code = o.split("-").first.gsub("+", "")
+        pn = Phoner::Phone.parse o
+        code = pn.country_code
         data[code].present? ? data[code] << o : data[code] = [o]
       end
       @phones_data = data

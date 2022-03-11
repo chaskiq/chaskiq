@@ -56,6 +56,7 @@ gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
 gem "pg_search"
+gem "phone"
 gem "ransack"
 
 gem "browser", "~> 2.5"
