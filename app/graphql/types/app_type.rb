@@ -158,19 +158,19 @@ module Types
     end
 
     def app_packages
-      # authorize! object, to: :manage?, with: AppPolicy
       authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
       integrations = object.app_package_integrations.map(&:app_package_id)
-      if integrations.any?
-        AppPackage.where.not("id in(?)", integrations)
-      else
-        AppPackage.union_scope(
-          AppPackage.enabled.where(agent_id: nil),
-          AppPackage.published.enabled,
-          AppPackage.enabled.where(agent_id: current_user.id)
-        ).order("id asc").distinct
-      end
+
+      app_packages = AppPackage.union_scope(
+        AppPackage.enabled.where(agent_id: nil),
+        AppPackage.published.enabled,
+        AppPackage.enabled.where(agent_id: current_user.id)
+      )
+
+      app_packages = app_packages.where.not("id in(?)", integrations) if integrations.any?
+
+      app_packages = app_packages.order("id asc").distinct
     end
 
     def agent_app_packages
