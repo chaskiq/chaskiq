@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AppPackage < ApplicationRecord
+  include UnionScope
   has_many :app_package_integrations, dependent: :destroy
   has_many :apps, through: :app_package_integrations
   belongs_to :author, class_name: "Agent", optional: true, foreign_key: :agent_id
@@ -31,6 +32,11 @@ class AppPackage < ApplicationRecord
   validates :oauth_url, url: true, if: -> { oauth_url.present? }
 
   # validate :api_url_challenge, if: :is_external?
+
+  scope :published, -> { where(published: true) }
+  scope :enabled, -> { where(state: "enabled") }
+  scope :by_agent, ->(agent_id) { where(agent_id: agent_id) }
+  # Ex:- scope :active, -> {where(:active => true)}
 
   before_save :set_default_definitions
 
