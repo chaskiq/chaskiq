@@ -165,7 +165,11 @@ module Types
       if integrations.any?
         AppPackage.where.not("id in(?)", integrations)
       else
-        AppPackage.all
+        AppPackage.union_scope(
+          AppPackage.enabled.where(author_id: nil),
+          AppPackage.published.enabled,
+          AppPackage.enabled.where(author_id: current_user.id)
+        ).order("id asc").distinct
       end
     end
 
