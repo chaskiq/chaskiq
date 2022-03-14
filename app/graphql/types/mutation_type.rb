@@ -58,6 +58,9 @@ module Types
     field :createAppUser, mutation: Mutations::AppUsers::CreateAppUser
     field :updateAppUser, mutation: Mutations::AppUsers::UpdateAppUser
     field :syncExternalProfile, mutation: Mutations::AppUsers::SyncExternalProfile
+    field :createExternalProfile, mutation: Mutations::AppUsers::CreateExternalProfile
+    field :updateExternalProfile, mutation: Mutations::AppUsers::UpdateExternalProfile
+    field :deleteExternalProfile, mutation: Mutations::AppUsers::DeleteExternalProfile
 
     field :createArticle, mutation: Mutations::Articles::CreateArticle
     field :editArticle, mutation: Mutations::Articles::EditArticle

@@ -64,6 +64,48 @@ export const APP_USER_CREATE = `
   }
 `;
 
+export const APP_USER_PROFILE_CREATE = `
+  mutation CreateExternalProfile($appKey: String!, $userId: String!, $provider: String!, $profileId: String!){
+    createExternalProfile(appKey: $appKey, userId: $userId, provider: $provider, profileId: $profileId ){
+      profile {
+        id,
+        data,
+        profileId
+        provider
+      }
+      errors
+    }
+  }
+`;
+
+export const APP_USER_PROFILE_UPDATE = `
+  mutation UpdateExternalProfile($appKey: String!, $id: String!, $profileId: String!){
+    updateExternalProfile(appKey: $appKey, id: $id, profileId: $profileId ){
+      profile {
+        id,
+        data,
+        profileId
+        provider
+      }
+      errors
+    }
+  }
+`;
+
+export const APP_USER_PROFILE_DELETE = `
+  mutation DeleteExternalProfile($appKey: String!, $id: String!){
+    deleteExternalProfile(appKey: $appKey, id: $id){
+      profile {
+        id,
+        data,
+        profileId
+        provider
+      }
+      errors
+    }
+  }
+`;
+
 export const SYNC_EXTERNAL_PROFILE = `
   mutation SyncExternalProfile($appKey: String!, $id: Int!, $provider: String!){
     syncExternalProfile(appKey: $appKey, id: $id, provider: $provider){
@@ -1451,4 +1493,7 @@ export default {
   CREATE_PACKAGE,
   UPDATE_PACKAGE,
   DELETE_PACKAGE,
+  APP_USER_PROFILE_CREATE,
+  APP_USER_PROFILE_UPDATE,
+  APP_USER_PROFILE_DELETE,
 };
