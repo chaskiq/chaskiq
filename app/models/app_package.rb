@@ -34,8 +34,8 @@ class AppPackage < ApplicationRecord
   # validate :api_url_challenge, if: :is_external?
 
   scope :published, -> { where(published: true) }
-  scope :enabled, -> { where(enabled: true) }
-  scope :by_agent, ->(agent_id) { where(author_id: agent_id) }
+  scope :enabled, -> { where(state: "enabled") }
+  scope :by_agent, ->(agent_id) { where(agent_id: agent_id) }
   # Ex:- scope :active, -> {where(:active => true)}
 
   before_save :set_default_definitions
