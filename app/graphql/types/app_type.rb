@@ -226,7 +226,7 @@ module Types
 
       @collection = @collection.where(state: filter) if filter.present?
 
-      @collection = filter_by_agent(agent_id) unless agent_id.nil?
+      @collection = filter_by_agent(agent_id)
       @collection = @collection.page(page).per(per)
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
@@ -241,9 +241,14 @@ module Types
     end
 
     def conversations_counts
-      result = object.conversations.group("assignee_id").count.dup
+      conversations = object.conversations
+                            .left_joins(:messages)
+                            .where.not(conversation_parts: { id: nil })
+                            .distinct
+
+      result = conversations.group("assignee_id").count.dup
       result.merge({
-                     all: object.conversations.size
+                     all: conversations.size
                    })
     end
 
