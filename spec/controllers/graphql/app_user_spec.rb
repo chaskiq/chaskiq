@@ -29,5 +29,106 @@ RSpec.describe GraphqlController, type: :controller do
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app.appUser.email).to be_present
     end
+
+    it "external profile" do
+      provider = "SOME_API"
+      profile_id = "1234"
+
+      graphql_post(
+        type: "APP_USER_PROFILE_CREATE",
+        variables: {
+          appKey: app.key,
+          userId: user.id.to_s,
+          provider: provider,
+          profileId: profile_id
+        }
+      )
+
+      expect(graphql_response.errors).to be_nil
+      expect(graphql_response.data.createExternalProfile.profile.provider).to be == provider
+      expect(graphql_response.data.createExternalProfile.profile.profileId).to be == profile_id
+
+      graphql_post(
+        type: "APP_USER_PROFILE_CREATE",
+        variables: {
+          appKey: app.key,
+          userId: user.id.to_s,
+          provider: provider,
+          profileId: profile_id
+        }
+      )
+
+      expect(graphql_response.errors).to be_nil
+      expect(graphql_response.data.createExternalProfile.profile.provider).to be == provider
+      expect(graphql_response.data.createExternalProfile.profile.profileId).to be == profile_id
+
+      expect(ExternalProfile.count).to be == 1
+
+      graphql_post(
+        type: "APP_USER_PROFILE_CREATE",
+        variables: {
+          appKey: app.key,
+          userId: user.id.to_s,
+          provider: provider,
+          profileId: "#{profile_id}xxx"
+        }
+      )
+
+      expect(graphql_response.data.createExternalProfile.profile.profileId).to be == "#{profile_id}xxx"
+      expect(ExternalProfile.count).to be == 2
+    end
+
+    describe "delete & update" do
+      let(:provider) { "SOME_API" }
+      let(:profile_id) { "1234" }
+
+      before :each do
+        graphql_post(
+          type: "APP_USER_PROFILE_CREATE",
+          variables: {
+            appKey: app.key,
+            userId: user.id.to_s,
+            provider: provider,
+            profileId: profile_id
+          }
+        )
+        @id = graphql_response.data.createExternalProfile.profile.id
+      end
+
+      it "external profile update" do
+        graphql_post(
+          type: "APP_USER_PROFILE_UPDATE",
+          variables: {
+            appKey: app.key,
+            id: @id.to_s,
+            profileId: "#{profile_id}aaaa"
+          }
+        )
+        expect(graphql_response.data.updateExternalProfile.profile.profileId).to be == "#{profile_id}aaaa"
+      end
+
+      it "external profile update" do
+        graphql_post(
+          type: "APP_USER_PROFILE_UPDATE",
+          variables: {
+            appKey: app.key,
+            id: @id.to_s,
+            profileId: "#{profile_id}aaaa"
+          }
+        )
+        expect(graphql_response.data.updateExternalProfile.profile.profileId).to be == "#{profile_id}aaaa"
+      end
+
+      it "external profile delete" do
+        graphql_post(
+          type: "APP_USER_PROFILE_DELETE",
+          variables: {
+            appKey: app.key,
+            id: @id.to_s
+          }
+        )
+        expect(graphql_response.data.deleteExternalProfile.profile.profileId).to be == profile_id
+      end
+    end
   end
 end
