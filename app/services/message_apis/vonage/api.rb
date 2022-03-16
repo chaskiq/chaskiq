@@ -56,7 +56,10 @@ module MessageApis::Vonage
       response_data["message_uuid"]
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       blocks = JSON.parse(
         message["serialized_content"]
       )["blocks"]

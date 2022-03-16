@@ -178,7 +178,10 @@ module MessageApis::Twitter
       response_data.dig("event", "id")
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       event = {}
       event["event"] = message_create_header(
         conversation.main_participant.properties["twitter_id"]
