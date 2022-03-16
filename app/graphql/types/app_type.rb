@@ -158,15 +158,19 @@ module Types
     end
 
     def app_packages
-      # authorize! object, to: :manage?, with: AppPolicy
       authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
       integrations = object.app_package_integrations.map(&:app_package_id)
-      if integrations.any?
-        AppPackage.where.not("id in(?)", integrations)
-      else
-        AppPackage.all
-      end
+
+      app_packages = AppPackage.union_scope(
+        AppPackage.enabled.where(agent_id: nil),
+        AppPackage.published.enabled,
+        AppPackage.enabled.where(agent_id: current_user.id)
+      )
+
+      app_packages = app_packages.where.not("id in(?)", integrations) if integrations.any?
+
+      app_packages = app_packages.order("id asc").distinct
     end
 
     def agent_app_packages
@@ -222,7 +226,7 @@ module Types
 
       @collection = @collection.where(state: filter) if filter.present?
 
-      @collection = filter_by_agent(agent_id) unless agent_id.nil?
+      @collection = filter_by_agent(agent_id)
       @collection = @collection.page(page).per(per)
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
@@ -237,9 +241,14 @@ module Types
     end
 
     def conversations_counts
-      result = object.conversations.group("assignee_id").count.dup
+      conversations = object.conversations
+                            .left_joins(:messages)
+                            .where.not(conversation_parts: { id: nil })
+                            .distinct
+
+      result = conversations.group("assignee_id").count.dup
       result.merge({
-                     all: object.conversations.size
+                     all: conversations.size
                    })
     end
 

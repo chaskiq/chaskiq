@@ -54,7 +54,7 @@ Rails.application.configure do
 
   config.action_cable.url = 'ws://localhost:5002/cable'
 
-  ActiveRecord::Base.verbose_query_logs = true
+  ActiveRecord.verbose_query_logs = true
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the

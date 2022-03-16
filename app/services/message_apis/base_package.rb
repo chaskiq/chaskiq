@@ -24,9 +24,8 @@ module MessageApis
                 .conversation_part_channel_sources
                 .find_by(provider: provider).present?
 
-      message = part.message.as_json
-
-      response = send_message(conversation, message)
+      # message = part.message.as_json
+      response = send_message(conversation, part)
 
       return if response.nil?
 

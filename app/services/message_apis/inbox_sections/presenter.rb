@@ -187,7 +187,7 @@ module MessageApis::InboxSections
         definitions = [
           {
             type: "text",
-            text: user.display_name.empty? ? "---" : user.display_name,
+            text: user.display_name.presence || "---",
             style: "header",
             align: "center"
           },

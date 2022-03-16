@@ -141,7 +141,6 @@ function Conversation({
   isDark,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
-
   const matchId = match ? match.params.id : null;
 
   const messagesLength = conversation.collection
