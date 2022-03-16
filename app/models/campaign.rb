@@ -135,7 +135,7 @@ class Campaign < Message
 
   # will remove content blocks text
   def clean_inline_css(url)
-    html = open(url).readlines.join
+    html = URI.open(url).readlines.join
     document = Roadie::Document.new html
     new_html = document.transform
 
