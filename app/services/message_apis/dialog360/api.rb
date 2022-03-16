@@ -109,8 +109,10 @@ module MessageApis::Dialog360
       response_data["messages"].first["id"]
     end
 
-    def send_message(conversation, message)
-      # TODO: implement event format
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
 
       return nil if message["serialized_content"].blank?
 

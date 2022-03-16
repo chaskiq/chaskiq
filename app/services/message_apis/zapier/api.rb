@@ -102,7 +102,8 @@ module MessageApis::Zapier
       process_message(params, @package)
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
       # TODO: implement event format
     end
 

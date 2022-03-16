@@ -62,7 +62,10 @@ module MessageApis::Telegram
       response_data.dig("result", "message_id")
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       # TODO: implement event format
 
       return nil if message["serialized_content"].blank?

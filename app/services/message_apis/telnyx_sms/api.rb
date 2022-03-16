@@ -65,7 +65,10 @@ module MessageApis::TelnyxSms
       process_message(params, @package)
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       return nil if message["serialized_content"].blank?
 
       blocks = JSON.parse(

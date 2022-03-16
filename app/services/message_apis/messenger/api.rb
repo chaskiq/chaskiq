@@ -70,7 +70,10 @@ module MessageApis::Messenger
       response_data["message_id"]
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       provider_channel_id = conversation.conversation_channels
                                         .find_by(provider: PROVIDER)
                                         .provider_channel_id
