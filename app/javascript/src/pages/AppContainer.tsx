@@ -81,6 +81,10 @@ function AppContainer({
     fetchApp(() => {
       eventsSubscriber(match.params.appId);
     });
+    return () => {
+      console.log('unmounting cable from app container');
+      if (CableApp.current) CableApp.current.events.unsubscribe();
+    };
   }, [match.params.appId]);
 
   const fetchApp = (cb) => {
