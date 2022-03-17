@@ -3,7 +3,7 @@ import { Controller as BaseController } from '@hotwired/stimulus'
 import { post } from '@rails/request.js'
 import serialize from 'form-serialize'
 
-export class Controller extends BaseController {
+export default class Controller extends BaseController {
   static targets = ['form']
 
   connect() {

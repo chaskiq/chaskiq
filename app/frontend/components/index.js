@@ -1,9 +1,10 @@
 // IMPORTANT: Update this import to reflect the location of your Stimulus application
 // See https://github.com/palkan/view_component-contrib#using-with-stimulusjs
-//import { application } from "../init/stimulus";
+import application from "../../javascript/controllers/init";
 
-import { Application } from '@hotwired/stimulus'
-export const application = Application.start()
+window.application = application
+//import { Application } from '@hotwired/stimulus'
+//export const application = Application.start()
 /*
 const context = require.context('.', true, /index.js$/)
 context.keys().forEach((path) => {
@@ -24,9 +25,22 @@ context.keys().forEach((path) => {
 })
 */
 
-
-
 import controllers from "./**/*index.js"
+/*window.cc = controllers 
+console.log("CCCC")
+console.log(cc)
 controllers.forEach((controller) => {
-  application.register(controller.name, controller.module.default)
-})
+  application.register(
+    controller.name, 
+    controller.module.default
+  )
+})*/
+
+controllers.forEach((controller) => {
+  if(controller.module.default){
+    console.log("ADDINDG CONTROLLER", controller)
+    application.register(controller.name.replace("--index.js", ""), controller.module.default);
+  }
+});
+
+console.log(application)

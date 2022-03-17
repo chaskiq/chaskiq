@@ -56,7 +56,8 @@ class SegmentPredicate
   include ActiveModel::Model
   include ActiveModel::Dirty
 
-  attr_accessor :type, :attribute, :comparison, :value
+  attr_accessor :attribute
+  attr_reader :type, :comparison, :value
 
   define_attribute_methods :value, :comparison, :type, :attribute
 
@@ -91,11 +92,6 @@ class SegmentPredicate
   def type=(val)
     type_will_change! unless @type == val
     @type = val
-  end
-
-  def comparison=(val)
-    comparison_will_change! unless	@comparison == val
-    @comparison = val
   end
 
   def relative_options

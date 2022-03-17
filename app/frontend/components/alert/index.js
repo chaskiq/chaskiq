@@ -2,7 +2,7 @@ import './index.css'
 
 import { Controller as BaseController } from '@hotwired/stimulus'
 
-export class Controller extends BaseController {
+export default class Controller extends BaseController {
   connect() {
     setTimeout(() => this.element.remove(), 5000)
   }

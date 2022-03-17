@@ -230,7 +230,8 @@ end
 class BotPath
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
-  attr_accessor :id, :steps, :title, :follow_actions
+  attr_accessor :id, :title, :follow_actions
+  attr_reader :steps
 
   def steps=(attrs)
     @steps = attrs ? attrs.map { |o| BotPathStep.new(o) } : []
@@ -244,7 +245,7 @@ end
 class BotPathStep
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
-  attr_accessor :type, :controls, :messages, :step_uid
+  attr_accessor :type, :step_uid
 
   def messages=(attrs)
     @messages = attrs ? attrs.map { |o| BotPathStepMessage.new(o) } : []
@@ -266,7 +267,7 @@ end
 class BotPathStepControl
   include ActiveModel::AttributeAssignment
   include ActiveModel::Model
-  attr_accessor :type, :schema, :messages, :wait_for_input, :label
+  attr_accessor :type, :wait_for_input, :label
 
   def schema
     @schema || []

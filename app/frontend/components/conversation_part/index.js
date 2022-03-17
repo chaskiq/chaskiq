@@ -28,7 +28,7 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
   }
 `
 
-export class Controller extends BaseController {
+export default class Controller extends BaseController {
   connect() {
 		var message = JSON.parse(this.element.dataset.serialized)
 		var messageForTheme = this.element.dataset.fromAdmin ? 
@@ -36,6 +36,8 @@ export class Controller extends BaseController {
                             ? theme
                             : themeDark
                           : theme
+
+    console.log("MADAFAKASS")                     
 		render(
 			<ThemeProvider theme={messageForTheme}>
 				<EditorContainerMessageBubble>

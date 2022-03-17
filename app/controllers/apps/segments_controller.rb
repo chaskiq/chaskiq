@@ -4,7 +4,10 @@ class Apps::SegmentsController < ApplicationController
 
   layout "application"
 
-  def index; end
+  def index
+    @segment = @segments.first
+    redirect_to app_segment_path(@app.key, @segment)
+  end
 
   def show
     @segment = @segments.find(params[:id])

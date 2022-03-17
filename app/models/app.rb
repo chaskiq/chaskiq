@@ -333,7 +333,7 @@ class App < ApplicationRecord
     end
   end
 
-  attr_accessor :new_language
+  attr_reader :new_language
 
   def new_language=(attribute)
     assign_attributes(

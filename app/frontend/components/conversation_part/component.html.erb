@@ -31,7 +31,7 @@
 			</div>
 			<div class="css-1qhlrzf">
 				<div
-					data-controller="<%= identifier %>"
+					data-controller="conversation-part"
 					<%= @message.private_note? ? 'data-is-private-note=true' : '' %>
 					<%= @message.authorable.is_a?(Agent) ? 'data-from-admin=true' : '' %>
 					data-serialized="<%= @message.message.serialized_content %>"
