@@ -48,7 +48,8 @@ import LoadingView from '@chaskiq/components/src/components/loadingView';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 import Sidebar from '../layout/sidebar';
-
+import PackageSlider from '../pages/conversations/packageSlider';
+import CommandPalette from '../commandPalette';
 declare global {
   interface Window {
     chaskiq_cable_url: any;
@@ -204,6 +205,10 @@ function AppContainer({
           {app_user ? <UserProfileCard width={'300px'} /> : <Progress />}
         </UserSlide>
       )}
+
+      {true && <PackageSlider />}
+
+      {/*<CommandPalette />*/}
 
       {loading || (!app && <LoadingView />)}
 

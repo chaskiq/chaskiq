@@ -911,7 +911,15 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
     // for now the only supported action for agent facing pkg will be the url link
 
     if (data.field.action.type === 'url') {
-      return window.open(data.field.action.url, '_blank');
+      //return window.open(data.field.action.url, '_blank');
+
+      //const options =
+      //'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=700,height=500,left=200,top=100';
+      return window.open(
+        data.field.action.url,
+        'win',
+        data.field.action.options
+      );
     }
 
     const params = {
@@ -929,7 +937,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 
     getPackage(params, 'conversation', (data) => {
       const definitions = data.app.appPackage.callHook.definitions;
-      const newMessage = message;
+      const newMessage = { ...message, conversationKey: conversation.key };
       newMessage.message.blocks.schema = definitions;
       dispatch(appendConversation(newMessage));
       cb && cb();
@@ -961,7 +969,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
               schema={schema}
               values={blocks.values}
               updatePackage={updatePackage}
-              disabled={true}
+              //disabled={true}
             />
           </div>
         );

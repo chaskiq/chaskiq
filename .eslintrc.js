@@ -3,11 +3,16 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  parser: 'babel-eslint',
-  'import/parsers': {
-    'typescript-eslint-parser': ['.ts', '.tsx'],
-  },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  parser: "@typescript-eslint/parser",
+  //'import/parsers': {
+  //  'typescript-eslint-parser': ['.ts', '.tsx'],
+  //},
+  extends: [
+    'eslint:recommended', 
+    'plugin:react/recommended',
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -19,7 +24,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'unused-imports'],
+  plugins: ["@typescript-eslint", 'react', 'unused-imports', "jsx-a11y"],
   globals: {
     I18n: 'readonly',
     Paddle: 'readonly',
