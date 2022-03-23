@@ -65,6 +65,7 @@ gem "geoip"
 gem "truemail"
 
 gem "google-cloud-dialogflow"
+gem "twilio-ruby", "~> 5.58.1"
 
 gem "jwe"
 gem "jwt"
