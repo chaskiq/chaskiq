@@ -171,92 +171,92 @@ module MessageApis::Calendly
       @email = @user[:email]
 
       template = ERB.new <<~SHEET_VIEW
-                            <html lang="en">
-                              <head>
-                                <meta charset="UTF-8">
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                                <title>[Calendly] Widget embed API example</title>
-                                <style>
-                  #{'              '}
-                                body {
-                                  background: url('https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/patterns/restaurant_icons.png');
-                                  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;#{'  '}
-                                  margin: 0px;
-                                }
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <title>[Calendly] Widget embed API example</title>
+            <style>
         #{'          '}
-                                h1 {
-                                  font-size: 50px;
-                                  text-align: center;
-                                }
+            body {
+              background: url('https://storage.googleapis.com/subtlepatterns-production/designers/subtlepatterns/patterns/restaurant_icons.png');
+              font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;#{'  '}
+              margin: 0px;
+            }
+
+            h1 {
+              font-size: 50px;
+              text-align: center;
+            }
+
+            .container {
+              margin: 0 auto;
+              width: 100%;
+            }
+
+            .container p, .container h2 {
+              text-align: center;
+            }
         #{'          '}
-                                .container {
-                                  margin: 0 auto;
-                                  width: 100%;
-                                }
+            </style>
+          </head>
+
+          <body>
+            <div class="container">
+              <!-- This Calendly is the DOM element that will contain your embedded typeform -->
+              <div class="calendly-inline-widget"
+                style="min-width:320px;height:580px;"
+                data-auto-load="false">
+                <!-- Calendly inline widget begin -->
+                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
+                <script>
+                  Calendly.initInlineWidget({
+                    url: '<%= @url %>',
+                    prefill: {
+                      name: '<%= @name %>',
+                      email: '<%= @email %>',
+                      customAnswers: {
+                          //a1: "Yes",
+                          //a2: "At the Starbucks on 3rd and 16th"
+                      }
+                    },
+                    utm: {
+                        utmCampaign: "Conversation",
+                        utmSource: "<%= @conversation_key %>",
+                        utmMedium: "ConversationMessage",
+                        utmContent: "<%= @message_id %>",
+                        utmTerm: "Chaskiq"
+                    }
+                  });
+
+                  function isCalendlyEvent(e) {
+                    return e.data.event &&
+                          e.data.event.indexOf('calendly') === 0;
+                  };
         #{'          '}
-                                .container p, .container h2 {
-                                  text-align: center;
-                                }
-                  #{'              '}
-                                </style>
-                              </head>
+                  window.addEventListener(
+                    'message',
+                    function(e) {
+                      //console.log("ENENE", e)
+                      if (isCalendlyEvent(e) && e.data.event === "calendly.event_scheduled") {
+                        window.parent.postMessage({
+                          chaskiqMessage: true,
+                          type: "Calendly",
+                          status: "submit",
+                          data: e.data
+                        }, "*")
+                      }
+                    }
+                  );
+
+                </script>
+              </div>
         #{'          '}
-                              <body>
-                                <div class="container">
-                                  <!-- This Calendly is the DOM element that will contain your embedded typeform -->
-                                  <div class="calendly-inline-widget"#{' '}
-                                    style="min-width:320px;height:580px;"#{' '}
-                                    data-auto-load="false">
-                                    <!-- Calendly inline widget begin -->
-                                    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
-                                    <script>
-                                      Calendly.initInlineWidget({
-                                        url: '<%= @url %>',
-                                        prefill: {
-                                          name: '<%= @name %>',
-                                          email: '<%= @email %>',
-                                          customAnswers: {
-                                              //a1: "Yes",
-                                              //a2: "At the Starbucks on 3rd and 16th"
-                                          }
-                                        },
-                                        utm: {
-                                            utmCampaign: "Conversation",
-                                            utmSource: "<%= @conversation_key %>",
-                                            utmMedium: "ConversationMessage",
-                                            utmContent: "<%= @message_id %>",
-                                            utmTerm: "Chaskiq"
-                                        }
-                                      });
-        #{'          '}
-                                      function isCalendlyEvent(e) {
-                                        return e.data.event &&
-                                              e.data.event.indexOf('calendly') === 0;
-                                      };
-                  #{'                    '}
-                                      window.addEventListener(
-                                        'message',
-                                        function(e) {
-                                          //console.log("ENENE", e)
-                                          if (isCalendlyEvent(e) && e.data.event === "calendly.event_scheduled") {
-                                            window.parent.postMessage({
-                                              chaskiqMessage: true,#{' '}
-                                              type: "Calendly",#{' '}
-                                              status: "submit",
-                                              data: e.data
-                                            }, "*")
-                                          }
-                                        }
-                                      );
-        #{'          '}
-                                    </script>
-                                  </div>
-                  #{'              '}
-                                </div>
-        #{'          '}
-                              </body>
-                            </html>
+            </div>
+
+          </body>
+        </html>
       SHEET_VIEW
 
       template.result(binding)
