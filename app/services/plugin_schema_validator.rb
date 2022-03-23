@@ -75,7 +75,7 @@ end
 
 class ActionSchema
   include ActiveModel::Validations
-  attr_accessor :type, :content_url, :url
+  attr_accessor :type, :content_url, :url, :options
 
   validates :type, presence: :true, inclusion: { in: %w[frame content submit link url] }
   validates :content_url, presence: :true, if: -> { type == "content" }
@@ -85,6 +85,7 @@ class ActionSchema
     self.url = params[:url] if params[:url].present?
     self.type = params[:type] if params[:type].present?
     self.content_url = params[:content_url] if params[:content_url].present?
+    self.options = params[:options] if params[:options].present?
   end
 end
 
