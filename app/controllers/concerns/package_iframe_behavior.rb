@@ -4,26 +4,33 @@ module PackageIframeBehavior
   extend ActiveSupport::Concern
 
   def package_iframe
-    data = JSON.parse(params[:data])
-    @app = App.find_by(key: data["data"]["app_id"])
+    if params[:token]
+      verifier = ActiveSupport::MessageVerifier.new("s3Krit", digest: "SHA256")
+      data = verifier.verify(params[:token])
+      @app = App.find_by(key: data[:app_id])
 
-    url_base = data["data"]["field"]["action"]["url"]
-    url = handle_url_data(url_base)
-    # TODO: unify this with the API auth
-    app_user, app_data = handle_user_data(data)
+      pkg = AppPackageIntegration.find(data[:package_id])
+      html = pkg.presenter.sheet_view(data)
+      render html: html.html_safe, layout: false
+    elsif params[:data].present?
+      data = JSON.parse(params[:data])
+      @app = App.find_by(key: data["data"]["app_id"])
+      url_base = data["data"]["field"]["action"]["url"]
+      url = handle_url_data(url_base)
+      # TODO: unify this with the API auth
+      app_user, app_data = handle_user_data(data)
 
-    app_user.as_json(methods: %i[
-                       email
-                       name
-                       display_name
-                       avatar_url
-                       first_name
-                       last_name
-                     ])
-
-    resp = iframe_package_request(url, data, app_user)
-    render html: resp, layout: false
-    # render "app_packages/#{params[:package]}/show", layout: false
+      app_user.as_json(methods: %i[
+                         email
+                         name
+                         display_name
+                         avatar_url
+                         first_name
+                         last_name
+                       ])
+      resp = iframe_package_request(url, data, app_user)
+      render html: resp, layout: false
+    end
   end
 
   def package_iframe_internal
