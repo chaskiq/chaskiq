@@ -41,7 +41,7 @@ function ContentRenderer({
   }, []);
 
   return (
-    <p>{disabled ? 'dynamic content will be rendered here' : <Loader />}</p>
+    <div>{disabled ? 'dynamic content will be rendered here' : <Loader />}</div>
   );
 }
 
@@ -175,7 +175,7 @@ export function DefinitionRenderer({
               <Button
                 size={size === 'sm' ? 'xs' : field.size}
                 // loading={loading || undefined}
-                disabled={disabled || loading}
+                disabled={disabled} // || loading}
                 variant={field.variant}
                 width={field.width}
                 // size={field.size}
