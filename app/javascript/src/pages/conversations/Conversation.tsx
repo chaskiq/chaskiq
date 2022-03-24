@@ -912,9 +912,6 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 
     if (data.field.action.type === 'url') {
       //return window.open(data.field.action.url, '_blank');
-
-      //const options =
-      //'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=700,height=500,left=200,top=100';
       return window.open(
         data.field.action.url,
         'win',

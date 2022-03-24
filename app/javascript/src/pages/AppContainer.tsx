@@ -49,7 +49,7 @@ import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 import Sidebar from '../layout/sidebar';
 import PackageSlider from '../pages/conversations/packageSlider';
-import CommandPalette from '../commandPalette';
+//import CommandPalette from '../commandPalette';
 declare global {
   interface Window {
     chaskiq_cable_url: any;
@@ -206,7 +206,6 @@ function AppContainer({
         </UserSlide>
       )}
 
-      {true && <PackageSlider />}
 
       {/*<CommandPalette />*/}
 
@@ -349,6 +348,10 @@ function AppContainer({
           )}
         </div>
       )}
+
+
+      {app && <PackageSlider />}
+
     </div>
   );
 }
