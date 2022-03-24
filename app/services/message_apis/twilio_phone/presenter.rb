@@ -62,8 +62,6 @@ module MessageApis::TwilioPhone
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>[Twilio phone] Widget embed API example</title>
-        #{'    '}
-        #{'    '}
             <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
 
             <script> window.token = "<%= self.token(@package) %>" </script>
@@ -76,13 +74,11 @@ module MessageApis::TwilioPhone
           </head>
 
           <body>
-          <% if @user.is_a?(Agent) %>
-        #{'  '}
+
+          <% if @user["kind"] == "agent" %>
             <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8 flex">
               <div class="max-w-3xl mx-auto justify-center items-center">
-        #{'        '}
                 <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-        #{'          '}
                   <div class="text-lg leading-6 font-medium text-gray-900">
                     <h3 class="panel-title">Make a call</h3>
                   </div>
@@ -106,7 +102,6 @@ module MessageApis::TwilioPhone
                     disabled onclick="hangUp()">
                       Hang up
                     </button>
-        #{'          '}
                     <button class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 btn-notice"#{' '}
                     onclick="joinConferenceCustomer()">
                       join conference
@@ -134,10 +129,10 @@ module MessageApis::TwilioPhone
         */
 
         // Store some selectors for elements we'll reuse
-        var callStatus,#{' '}
-            answerButton,#{' '}
-            callSupportButton,#{' '}
-            hangUpButton,#{' '}
+        var callStatus,
+            answerButton,
+            callSupportButton,
+            hangUpButton,
             callCustomerButtons = null;
 
         var device;
@@ -295,29 +290,68 @@ module MessageApis::TwilioPhone
     end
 
     def self.content_definitions(kind:, ctx:)
-      [
-        { type: "text", text: "aqui rendereas la lista de llamadas oeoe" }
+      conferences = ctx[:package].message_api_klass.conferences_list
+  
+      definitions = [
+        {
+          type: "text",
+          text: "Pick a template",
+          style: "header"
+        }
       ]
+
+      definitions << {
+        type: "list",
+        disabled: false,
+        items: conferences.map do |conf|
+
+
+          data = {
+            app_id: ctx[:package].app.id,
+            package_id: ctx[:package].id,
+            conversation_key: conf.friendly_name,
+            lang: ctx[:lang],
+            current_user: ctx[:current_user].as_json
+          }
+
+          token = CHASKIQ_FRAME_VERIFIER.generate(data)
+
+          {
+            type: "item",
+            id: conf.sid,
+            title: "#{conf.friendly_name} #{conf.status}",
+            subtitle: "open conference",
+            tertiary_text: "eieiei",
+            action: {
+              type: "url",
+              url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}",
+              options: "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=270,left=200,top=100"
+              # url: "/package_iframe_internal/TwilioPhone"
+            }
+          }
+        end
+      } if conferences.any?
+
+      definitions
+      
+
     end
 
     def self.definitions_for_content(kind:, ctx:)
       conversation = Conversation.find_by(key: ctx[:conversation_key])
       user = conversation.main_participant
 
-      @verifier = ActiveSupport::MessageVerifier.new("s3Krit", digest: "SHA256")
-
       data = {
         app_id: ctx[:package].app.id,
         package_id: ctx[:package].id,
         conversation_key: ctx[:conversation_key],
         lang: ctx[:lang],
-        field: ctx[:field].as_json,
-        current_user: ctx[:current_user]
+        # field: ctx[:field].as_json,
+        current_user: ctx[:current_user].as_json
         # values: ctx[:values].as_json
       }
 
-      token = @verifier.generate(data)
-
+      token = CHASKIQ_FRAME_VERIFIER.generate(data)
       definitions = [
         {
           text: "New phonecall",

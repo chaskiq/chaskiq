@@ -171,7 +171,7 @@ module MessageApis::Gumroad
 
         		<style>
         			body {
-        				font-family: 'Inter', sans-serif;#{' '}
+        				font-family: 'Inter', sans-serif;
         				margin: 0px; padding: 0px;
         			}
         		</style>
@@ -211,7 +211,7 @@ module MessageApis::Gumroad
         				);
 
         			</script>
-        			<div class="gumroad-product-embed"#{' '}
+        			<div class="gumroad-product-embed"
         				data-gumroad-product-id="chaskiq-premium-support">
         				<a href="<%= @url %>">
         				Loading...
