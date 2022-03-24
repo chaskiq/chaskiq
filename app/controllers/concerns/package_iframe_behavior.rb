@@ -5,13 +5,11 @@ module PackageIframeBehavior
 
   def package_iframe
     if params[:token]
-      verifier = ActiveSupport::MessageVerifier.new("s3Krit", digest: "SHA256")
-      data = verifier.verify(params[:token])
+      data = CHASKIQ_FRAME_VERIFIER.verify(params[:token])
       @app = App.find_by(key: data[:app_id])
 
       pkg = AppPackageIntegration.find(data[:package_id])
       html = pkg.presenter.sheet_view(data)
-      render html: html.html_safe, layout: false
     elsif params[:data].present?
       data = JSON.parse(params[:data])
       @app = App.find_by(key: data["data"]["app_id"])
@@ -28,9 +26,12 @@ module PackageIframeBehavior
                          first_name
                          last_name
                        ])
-      resp = iframe_package_request(url, data, app_user)
-      render html: resp, layout: false
+      html = iframe_package_request(url, data, app_user)
     end
+
+    # rubocop:disable Rails/OutputSafety
+    render html: html.html_safe, layout: false
+    # rubocop:enable Rails/OutputSafety
   end
 
   def package_iframe_internal
@@ -99,8 +100,6 @@ module PackageIframeBehavior
     resp = Faraday.post(url, data.merge!(user: app_user).to_json,
                         "Content-Type" => "application/json")
     response.headers.delete "X-Frame-Options"
-    # rubocop:disable Rails/OutputSafety
-    resp.body.html_safe
-    # rubocop:enable Rails/OutputSafety
+    resp.body
   end
 end
