@@ -29,13 +29,31 @@ module MessageApis::TwilioPhone
     def self.content_hook(kind:, ctx:)
       definitions = case ctx[:location]
                     when "fixed_sidebar"
-                      content_definitions(kind: kind, ctx: ctx)
+                      content_frame_definitions(kind: kind, ctx: ctx)
+                      # content_definitions(kind: kind, ctx: ctx)
                     else
                       definitions_for_content(kind: kind, ctx: ctx)
                     end
       {
         definitions: definitions
       }
+    end
+
+    def self.content_frame_definitions(kind:, ctx: )
+      data = {
+        app_id: ctx[:package].app.id,
+        package_id: ctx[:package].id,
+        lang: ctx[:lang],
+        current_user: ctx[:current_user].as_json,
+        namespace: "sidebar_frame"
+      }
+
+      token = CHASKIQ_FRAME_VERIFIER.generate(data)
+
+      [{
+        type: "frame",
+        url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}"
+      }]
     end
 
     # Submit Sheet flow webhook URL (optional)
@@ -52,9 +70,18 @@ module MessageApis::TwilioPhone
       @user = params[:user] || params[:current_user]
       @name = @user[:name]
       @email = @user[:email]
-
       @package = AppPackageIntegration.find(params[:package_id])
+      @app = @package.app
 
+      template = case params[:namespace]
+      when "sidebar_frame" then sidebar_sheet_handler(params)
+      else
+        call_frame
+      end
+      template.result(binding)
+    end
+
+    def self.call_frame
       template = ERB.new <<~SHEET_VIEW
         <html lang="en">
           <head>
@@ -93,18 +120,14 @@ module MessageApis::TwilioPhone
                       </div>
                     </div>
 
-                    <button class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 answer-button"
-                    disabled>
-                      Answer call
-                    </button>
-
-                    <button class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 hangup-button"
+                    <button class="inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 disabled:bg-red-300 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 hangup-button"
                     disabled onclick="hangUp()">
                       Hang up
                     </button>
-                    <button class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 btn-notice"#{' '}
+
+                    <button class="inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 disabled:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 btn-notice"
                     onclick="joinConferenceCustomer()">
-                      join conference
+                      Join call
                     </button>
                   </div>
                 </div>
@@ -115,8 +138,153 @@ module MessageApis::TwilioPhone
           </body>
         </html>
       SHEET_VIEW
+    end
 
-      template.result(binding)
+    def self.sidebar_sheet_handler(params)
+      case params[:action]
+      when :update
+        update_record
+      else 
+        sidebar_sheet
+      end
+    end
+
+    def update_record
+      "console.log('aollaaaaa')"
+    end
+
+    def self.sidebar_sheet
+
+      @conferences = conferences_list_object
+
+      template = ERB.new <<~SHEET_VIEW
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <title>[Twilio phone] Widget embed API example</title>
+            <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
+
+            <script>
+            window.addEventListener("message", (event) => {
+
+              console.log("AAA", event)
+
+              if(event.data.event_type != "INIT") return
+
+                switch (event.data.payload.StatusCallbackEvent) {
+                  case 'conference-end':
+                    console.log("END: REMOVE!", event)
+                    document.location.href = document.location.href;
+
+                    return null
+                  case 'participant-join':
+                    console.log("JOINED: APPEND?!!", event)
+                    document.location.href = document.location.href;
+
+                    return null
+                  default:
+                    console.log("undandled operation", event)
+                    return null;
+                }
+            
+            }, false);
+            </script>
+          </head>
+
+          <body>
+
+            <ul role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto">
+              <% @conferences.each do |conf| %>
+                <li>
+                  <div class="group relative flex items-center py-6 px-5">
+                    <div class="-m-1 block flex-1 p-1">
+                      <div class="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true"></div>
+                      <div class="relative flex min-w-0 flex-1 items-center">
+                        <a class="relative inline-block flex-shrink-0" 
+                        href="/app"
+                        onClick="window.open('<%= conf[:url] %>','pagename','resizable,height=260,width=370'); return false;"
+                        class="-m-1 block flex-1 p-1"
+                        targettt="_parent"
+                        target="_blank">
+                          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                        </a>
+                        
+                        <div class="ml-4 truncate">
+                          <p class="truncate text-sm font-medium text-gray-900">
+                            <%= conf[:conference].status %>
+                          </p>
+                          <p class="truncate text-sm text-gray-500">
+                            <%= conf[:profile].profile_id %>
+                          </p>
+
+                          <button onClick="parent.postMessage({type: 'url-push-from-frame', url: '<%= conversation_url(conf) %>'}, '*'); return false;" class="truncate text-sm text-gray-500">
+                            Go to conversation
+                          </button>
+                          
+                        </div>
+
+                      </div>
+                    </div>
+                    
+                  </div>
+                </li>
+
+              <% end %>
+            </ul>
+
+            <% if @conferences.empty? %>
+
+              <div class="p-4 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                <span class="mt-2 block text-sm font-medium text-gray-900"> No active conversations </span>
+              </div>
+
+            <% end %>
+
+          </body>
+        </html>
+      SHEET_VIEW
+    end
+
+    def self.conversation_url(conf)
+      "/apps/#{@app.key}/conversations/#{conf[:conference].friendly_name}"
+    end
+
+    def self.conferences_list_object
+      @conferences = @package.message_api_klass.conferences_list
+
+      @conferences.map do |conf|
+        self.conference_json_item(conf)
+      end
+    end
+
+    def self.conference_json_item(conf)
+      conversation = Conversation.find_by(key: conf.friendly_name)
+      {
+        url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf)}",
+        update_url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf, :update)}",
+        conference: conf,
+        conversation: conversation,
+        participant: conversation.main_participant,
+        profile: conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
+      }
+    end
+
+    def self.frame_token(conf, action = nil)
+      data = {
+        app_id: @package.app.id,
+        package_id: @package.id,
+        conversation_key: conf.friendly_name,
+        lang: @lang,
+        current_user: @user,
+        action: action
+      }
+
+      CHASKIQ_FRAME_VERIFIER.generate(data)
     end
 
     def self.script(conversation_key)

@@ -138,7 +138,7 @@ module MessageApis::TwilioPhone
       )
 
       conference_call(payload, conversation, {
-                        message: "Thanks for calling to Chaskiq!"
+                        message: "Thanks for calling to #{app.name}!"
                       })
     end
 
@@ -158,7 +158,14 @@ module MessageApis::TwilioPhone
         }
       )
 
-      conversation.conversation_parts_events
+      ActionCable.server.broadcast "events:#{@package.app.key}", {
+        type: "/package/TwilioPhone",
+        app: @package.app.key,
+        payload: payload,
+        event_type: "INIT"
+      }
+
+      # conversation.conversation_parts_events
 
       # conversation.events.create(
       #  action: "plugins.twilio_phone",
@@ -186,6 +193,26 @@ module MessageApis::TwilioPhone
       end
 
       { format: :xml, response: response }
+    end
+
+    ## client
+
+    def conferences_list
+      account_sid = @package.settings['account_sid']
+      auth_token = @package.settings['auth_token']
+      @client = Twilio::REST::Client.new(account_sid, auth_token)
+
+      # conferences = @client.conferences.list(limit: 20)
+
+      conferences = @client.conferences.list(
+        date_created_after: 3.hours.ago,
+        status: 'in-progress',
+        limit: 60
+      )
+
+      conferences.each do |record|
+        puts record.sid
+      end
     end
   end
 end

@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 
-import React, { Fragment, useState } from 'react';
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import React, { useState } from 'react';
 import { XIcon } from '@heroicons/react/outline';
-import { DotsVerticalIcon } from '@heroicons/react/solid';
 import { useHotkeys } from 'react-hotkeys-hook';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
@@ -13,58 +11,13 @@ import Tooltip from 'rc-tooltip';
 import { IntegrationsIcon } from "@chaskiq/components/src/components/icons";
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 import graphql from '@chaskiq/store/src/graphql/client';
-
-const tabs = [
-  { name: 'All', href: '#', current: true },
-  { name: 'Online', href: '#', current: false },
-  { name: 'Offline', href: '#', current: false },
-];
-const team = [
-  {
-    name: 'Leslie Alexander',
-    handle: 'lesliealexander',
-    href: '#',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    status: 'online',
-  },
-  {
-    name: 'Leslie Alexander',
-    handle: 'lesliealexander',
-    href: '#',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    status: 'online',
-  },
-  // More people...
-];
-
-const categories = [
-  {
-    url: "/",
-    label: "oeoe",
-    icon: "https://logo.clearbit.com/spotify.com"
-  }
-]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+import { errorMessage } from "@chaskiq/store/src/actions/status_messages";
 
 function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
   const [open, setOpen] = useState(fixedSlider.open);
   const [providers, setProviders] = React.useState([]);
 
   useHotkeys('cmd+k', () => setOpen(!open));
-
-  const object = {
-    name: 'TwilioPhone',
-    definitions: [
-      {
-        type: 'content',
-      },
-    ],
-  };
 
   React.useEffect(() => {
     getAppPackages();
@@ -79,14 +32,14 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
       },
       {
         success: (data) => {
-          
           setProviders(data.app.appPackagesCapabilities);
         },
-        error: () => {},
+        error: () => {
+          dispatch(errorMessage("server error ocurred"))
+        },
       }
     );
   }
-
 
   return (
 
@@ -121,7 +74,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                 overlay={o.name}
               >
                 <button
-                  onClick={()=> setOpen(true)}
+                  onClick={()=> setOpen(o)}
                   aria-label={o.name}
                   className="text-gray-700 dark:text-white
                   rounded-md flex 
@@ -146,8 +99,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
             <div className="p-6">
               <div className="flex items-start justify-between">
                 <h3 className="text-lg font-medium text-gray-900">
-                  {' '}
-                  Team{' '}
+                  Integration packages
                 </h3>
                 <div className="ml-3 flex h-7 items-center">
                   <button
@@ -161,31 +113,14 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                 </div>
               </div>
             </div>
-            <div className="border-b border-gray-200">
-              <div className="px-6">
-                <nav
-                  className="-mb-px flex space-x-6"
-                  x-descriptions="Tab component"
-                >
-                  {tabs.map((tab, i) => (
-                    <a
-                      key={`${tab.name} ${i}`}
-                      href={tab.href}
-                      className={classNames(
-                        tab.current
-                          ? 'border-indigo-500 text-indigo-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                        'whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm'
-                      )}
-                    >
-                      {tab.name}
-                    </a>
-                  ))}
-                </nav>
-              </div>
-            </div>
 
-            {app && <AppItem app={app} object={object} app_user={current_user} />}
+            {app && 
+              <AppItem 
+                app={app} 
+                packageInfo={open} 
+                app_user={current_user} 
+              />
+            }
 
           </div>
         </div>}
@@ -194,26 +129,28 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
   );
 }
 
-function AppItem({ app, object, app_user }) {
-  const pkg = object;
-  const [definitions, setDefinitions] = React.useState(object.definitions);
+function AppItem({ app, packageInfo, app_user }) {
+
+  const pkg = {
+    name: packageInfo.name,
+    definitions: [
+      {
+        type: 'content',
+      },
+    ],
+  };
+
+  const schema = [
+    {
+      type: 'content',
+    },
+  ]
+
+  const [definitions, setDefinitions] = React.useState(schema);
 
   function updatePackage(packageParams, cb) {
-    /* if (packageParams.field.action.type === 'frame') {
-      return displayAppBlockFrame({
-        message: {},
-        data: {
-          field: packageParams.field,
-          location: packageParams.location,
-          id: pkg.name,
-          appKey: app.key,
-          values: { ...pkg.values, ...packageParams.values }
-        }
-      })
-    } */
 
     if (packageParams.field.action.type === 'url') {
-      // return window.open(packageParams.field.action.url);
       return window.open(
         packageParams.field.action.url,
         'win',
@@ -239,15 +176,15 @@ function AppItem({ app, object, app_user }) {
 
   return (
     <ErrorBoundary>
-      <div className="rounded-md border border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-800 w-full p-2--">
+      <div className="rounded-md- border- border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-800 w-full p-2--">
         <p className="hidden text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
-          {object.name}
+          {packageInfo.name}
         </p>
 
         <DefinitionRenderer
           schema={definitions}
           size="sm"
-          appPackage={object}
+          appPackage={pkg}
           location={'fixed_sidebar'}
           // disabled={true}
           updatePackage={updatePackage}

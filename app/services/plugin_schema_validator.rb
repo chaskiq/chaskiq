@@ -27,7 +27,7 @@ class BaseSchema
                  when "single-select" then SingleSelectSchema.new(params)
                  when "checkbox" then CheckboxSchema.new(params)
                  when "dropdown" then DropdownSchema.new(params)
-
+                 when "frame" then FrameSchema.new(params)
                  end
   end
 
@@ -353,5 +353,16 @@ class DropdownItemSchema
     self.type = params[:type]
     self.id = params[:id]
     self.text = params[:text]
+  end
+end
+
+class FrameSchema
+  include ActiveModel::Validations
+  attr_accessor :type, :url
+  validates :type, :url, presence: :true
+
+  def initialize(params)
+    self.type = params[:type]
+    self.url = params[:url]
   end
 end

@@ -540,6 +540,12 @@ class AppPackagesCatalog
             hint: "Your REST API Secret, https://www.twilio.com/console/project/api-keys",
             type: "string",
             required: true
+          },
+          {
+            name: "auth_token",
+            hint: "Find your Auth Token at twilio.com/console",
+            type: "string",
+            required: true
           }
         ]
       },

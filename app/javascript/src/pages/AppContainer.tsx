@@ -67,6 +67,7 @@ function AppContainer({
   loading,
   upgradePages,
   accessToken,
+  history
 }) {
   const CableApp = React.useRef({
     events: null,
@@ -87,6 +88,17 @@ function AppContainer({
       if (CableApp.current) CableApp.current.events.unsubscribe();
     };
   }, [match.params.appId]);
+
+  React.useEffect(()=>{
+    function frameCallbackHandler(event) {
+      if(event.data.type !== 'url-push-from-frame') return
+      console.log("HANDLED EVENT FROM FRAME", event.data)
+      history.push(event.data.url);
+    }
+
+    window.addEventListener("message", frameCallbackHandler)
+    return () => window.removeEventListener("message", frameCallbackHandler);
+  }, [])
 
   const fetchApp = (cb) => {
     const id = match.params.appId;
@@ -139,7 +151,11 @@ function AppContainer({
                 dispatch(setSubscriptionState(data.data));
               });
               return null;
+            case data.type.match(/\/package\/\S+/)?.input:
+              const popup = document.getElementById("package-frame")?.contentWindow
+              popup && popup.postMessage(data,"*");
             default:
+              console.log("unhandled", data)
               return null;
           }
         },
