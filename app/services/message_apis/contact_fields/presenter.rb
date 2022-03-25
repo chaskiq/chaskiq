@@ -19,11 +19,11 @@ module MessageApis::ContactFields
 
     def self.user_attrs
       items_attrs = [
-        { id: "first_name", label: "First name", call: ->(user) { user.first_name } },
-        { id: "last_name", label: "Last name", call: ->(user) { user.last_name } },
-        { id: "email", label: "Email", call: ->(user) { user.email } },
-        { id: "company_name", label: "Company", call: ->(user) { user.company_name } },
-        { id: "phone", label: "phone", call: ->(user) { user.phone } }
+        { id: "first_name", label: I18n.t("contact_fields.inbox.first_name"), call: ->(user) { user.first_name } },
+        { id: "last_name", label: I18n.t("contact_fields.inbox.last_name"), call: ->(user) { user.last_name } },
+        { id: "email", label: I18n.t("contact_fields.inbox.email"), call: ->(user) { user.email } },
+        { id: "company_name", label: I18n.t("contact_fields.inbox.company"), call: ->(user) { user.company_name } },
+        { id: "phone", label: I18n.t("contact_fields.inbox.phone"), call: ->(user) { user.phone } }
       ]
     end
 

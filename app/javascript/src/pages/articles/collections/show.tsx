@@ -122,7 +122,7 @@ class CollectionDetail extends Component<
     const { collection } = this.state;
     const baseSection = {
       id: 'base',
-      title: 'base section',
+      title: I18n.t('articles.base_section'),
       articles: collection.baseArticles,
     };
 

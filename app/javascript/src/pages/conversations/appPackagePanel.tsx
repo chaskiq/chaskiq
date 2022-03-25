@@ -75,7 +75,7 @@ function AppPackagePanel(props) {
     <FormDialog
       open={open}
       handleClose={handleClose}
-      titleContent={'Send App Package'}
+      titleContent={I18n.t('conversations.app_package_panel.title')}
       formComponent={
         <div className="overflow-auto h-64">
           <ErrorBoundary>
@@ -108,7 +108,7 @@ function AppPackagePanel(props) {
                         clipRule="evenodd"
                       ></path>
                     </svg>
-                    <span>Preview</span>
+                    <span>{I18n.t('conversations.app_package_panel.preview')}</span>
                   </div>
                 </div>
 
@@ -158,7 +158,7 @@ function AppPackagePanel(props) {
               variant={'success'}
               onClick={handleSend}
             >
-              Send App
+              {I18n.t('conversations.app_package_panel.send_app')}
             </Button>
           )}
         </React.Fragment>

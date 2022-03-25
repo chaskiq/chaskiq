@@ -49,7 +49,7 @@ function LangChooser({ open, handleClose, current_user, app, dispatch }) {
       fullWidth={true}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      titleContent={'select language'}
+      titleContent={I18n.t('common.choose_language')}
       formComponent={
         <div>
           {setted && (

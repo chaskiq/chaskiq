@@ -66,7 +66,7 @@ describe('Conversation Spec', function () {
 
             cy.wrap($body).contains('This conversation has ended');
 
-            cy.wrap($body).contains('create new conversation').click();
+            cy.wrap($body).contains('Create new conversation').click();
           });
       });
     });
@@ -110,7 +110,7 @@ describe('Conversation Spec', function () {
 
             cy.wrap($body).contains('This conversation has ended');
 
-            cy.wrap($body).contains('create new conversation');
+            cy.wrap($body).contains('Create new conversation');
           });
       });
     });

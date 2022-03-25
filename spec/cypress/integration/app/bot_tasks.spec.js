@@ -20,7 +20,7 @@ describe('Bot Tasks', function () {
     cy.get("a[aria-label='Routing Bots']")
       .click({ force: true }).then(() => {
         cy.get('body').should('contain', 'Outbound')
-        cy.get('body').should('contain', 'New conversations')
+        cy.get('body').should('contain', 'New Conversations')
         cy.get('body').should('contain', 'Bot Tasks')
 
         cy.contains('Outbound').click()
