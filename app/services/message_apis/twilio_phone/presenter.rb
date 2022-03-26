@@ -292,8 +292,7 @@ module MessageApis::TwilioPhone
       template = ERB.new <<~SHEET_VIEW
 
         /**
-        * Twilio Client configuration for the browser-calls-rails
-        * example application.
+        * Twilio Client configuration for the browser calls
         */
 
         // Store some selectors for elements we'll reuse
@@ -305,7 +304,7 @@ module MessageApis::TwilioPhone
 
         var device;
 
-        document.addEventListener("DOMContentLoaded", function(event) {#{' '}
+        document.addEventListener("DOMContentLoaded", function(event) {
 
           console.log("Requesting Access Token...");
 
