@@ -49,7 +49,6 @@ import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 import Sidebar from '../layout/sidebar';
 import PackageSlider from '../pages/conversations/packageSlider';
-//import CommandPalette from '../commandPalette';
 declare global {
   interface Window {
     chaskiq_cable_url: any;
@@ -67,7 +66,7 @@ function AppContainer({
   loading,
   upgradePages,
   accessToken,
-  history
+  history,
 }) {
   const CableApp = React.useRef({
     events: null,
@@ -89,16 +88,16 @@ function AppContainer({
     };
   }, [match.params.appId]);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     function frameCallbackHandler(event) {
-      if(event.data.type !== 'url-push-from-frame') return
-      console.log("HANDLED EVENT FROM FRAME", event.data)
+      if (event.data.type !== 'url-push-from-frame') return;
+      console.log('HANDLED EVENT FROM FRAME', event.data);
       history.push(event.data.url);
     }
 
-    window.addEventListener("message", frameCallbackHandler)
-    return () => window.removeEventListener("message", frameCallbackHandler);
-  }, [])
+    window.addEventListener('message', frameCallbackHandler);
+    return () => window.removeEventListener('message', frameCallbackHandler);
+  }, []);
 
   const fetchApp = (cb) => {
     const id = match.params.appId;
@@ -152,10 +151,11 @@ function AppContainer({
               });
               return null;
             case data.type.match(/\/package\/\S+/)?.input:
-              const popup = document.getElementById("package-frame")?.contentWindow
-              popup && popup.postMessage(data,"*");
+              const popup = document.getElementById('package-frame')
+                ?.contentWindow;
+              popup && popup.postMessage(data, '*');
             default:
-              console.log("unhandled", data)
+              console.log('unhandled', data);
               return null;
           }
         },
@@ -221,7 +221,6 @@ function AppContainer({
           {app_user ? <UserProfileCard width={'300px'} /> : <Progress />}
         </UserSlide>
       )}
-
 
       {/*<CommandPalette />*/}
 
@@ -365,9 +364,7 @@ function AppContainer({
         </div>
       )}
 
-
       {app && <PackageSlider />}
-
     </div>
   );
 }

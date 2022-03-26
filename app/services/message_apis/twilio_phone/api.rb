@@ -198,20 +198,20 @@ module MessageApis::TwilioPhone
     ## client
 
     def conferences_list
-      account_sid = @package.settings['account_sid']
-      auth_token = @package.settings['auth_token']
+      account_sid = @package.settings["account_sid"]
+      auth_token = @package.settings["auth_token"]
       @client = Twilio::REST::Client.new(account_sid, auth_token)
 
       # conferences = @client.conferences.list(limit: 20)
 
       conferences = @client.conferences.list(
         date_created_after: 3.hours.ago,
-        status: 'in-progress',
+        status: "in-progress",
         limit: 60
       )
 
       conferences.each do |record|
-        puts record.sid
+        Rails.logger.debug record.sid
       end
     end
   end

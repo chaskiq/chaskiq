@@ -175,7 +175,7 @@ export function DefinitionRenderer({
               <Button
                 size={size === 'sm' ? 'xs' : field.size}
                 // loading={loading || undefined}
-                disabled={disabled} // || loading}
+                disabled={disabled || loading}
                 variant={field.variant}
                 width={field.width}
                 // size={field.size}
@@ -215,7 +215,7 @@ export function DefinitionRenderer({
               }}
             />
           </Padder>
-        )
+        );
       default:
         return (
           <p>

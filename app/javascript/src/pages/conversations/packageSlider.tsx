@@ -8,10 +8,10 @@ import { getPackage } from '@chaskiq/components/src/components/packageBlocks/uti
 import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
 import { Link } from 'react-router-dom';
 import Tooltip from 'rc-tooltip';
-import { IntegrationsIcon } from "@chaskiq/components/src/components/icons";
+import { IntegrationsIcon } from '@chaskiq/components/src/components/icons';
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 import graphql from '@chaskiq/store/src/graphql/client';
-import { errorMessage } from "@chaskiq/store/src/actions/status_messages";
+import { errorMessage } from '@chaskiq/store/src/actions/status_messages';
 
 function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
   const [open, setOpen] = useState(fixedSlider.open);
@@ -28,24 +28,23 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
       APP_PACKAGES_BY_CAPABILITY,
       {
         appKey: app.key,
-        kind: "fixed_sidebar",
+        kind: 'fixed_sidebar',
       },
       {
         success: (data) => {
           setProviders(data.app.appPackagesCapabilities);
         },
         error: () => {
-          dispatch(errorMessage("server error ocurred"))
+          dispatch(errorMessage('server error ocurred'));
         },
       }
     );
   }
 
   return (
-
     <React.Fragment>
-
-        {!open && <div
+      {!open && (
+        <div
           className={`md:block 
           bg-gray-100 dark:bg-black
           text-purple-lighter 
@@ -55,12 +54,9 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
         >
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-              <Tooltip
-                  placement="right"
-                  overlay={"go to app packages"}
-                >
+              <Tooltip placement="right" overlay={'go to app packages'}>
                 <Link to={`/apps/${app.key}/integrations`}>
-                  {<IntegrationsIcon/>}
+                  {<IntegrationsIcon />}
                 </Link>
               </Tooltip>
             </div>
@@ -74,7 +70,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                 overlay={o.name}
               >
                 <button
-                  onClick={()=> setOpen(o)}
+                  onClick={() => setOpen(o)}
                   aria-label={o.name}
                   className="text-gray-700 dark:text-white
                   rounded-md flex 
@@ -86,15 +82,16 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                   text-2xl font-semibold 
                   my-5 overflow-hidden"
                 >
-                  <img src={o.icon} height={20} width={20}/>
+                  <img src={o.icon} height={20} width={20} />
                 </button>
               </Tooltip>
             ))}
           </div>
-        </div>}
+        </div>
+      )}
 
-     
-        {open && <div className="pointer-events-auto w-screen max-w-md">
+      {open && (
+        <div className="pointer-events-auto w-screen max-w-md">
           <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
             <div className="p-6">
               <div className="flex items-start justify-between">
@@ -114,23 +111,17 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
               </div>
             </div>
 
-            {app && 
-              <AppItem 
-                app={app} 
-                packageInfo={open} 
-                app_user={current_user} 
-              />
-            }
-
+            {app && (
+              <AppItem app={app} packageInfo={open} app_user={current_user} />
+            )}
           </div>
-        </div>}
+        </div>
+      )}
     </React.Fragment>
-    
   );
 }
 
 function AppItem({ app, packageInfo, app_user }) {
-
   const pkg = {
     name: packageInfo.name,
     definitions: [
@@ -144,12 +135,11 @@ function AppItem({ app, packageInfo, app_user }) {
     {
       type: 'content',
     },
-  ]
+  ];
 
   const [definitions, setDefinitions] = React.useState(schema);
 
   function updatePackage(packageParams, cb) {
-
     if (packageParams.field.action.type === 'url') {
       return window.open(
         packageParams.field.action.url,

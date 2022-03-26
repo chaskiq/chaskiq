@@ -359,6 +359,7 @@ end
 class FrameSchema
   include ActiveModel::Validations
   attr_accessor :type, :url
+
   validates :type, :url, presence: :true
 
   def initialize(params)

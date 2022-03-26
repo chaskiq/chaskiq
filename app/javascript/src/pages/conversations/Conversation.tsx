@@ -904,7 +904,6 @@ function MessageItemWrapper({ conversation, data, events, children }) {
 
 function RenderBlocks({ message, app, conversation, dispatch }) {
   const { data, blocks } = toCamelCase(message).message;
-
   const schema = blocks.schema;
   // will update package
   const updatePackage = (data, cb) => {
@@ -933,9 +932,11 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
     };
 
     getPackage(params, 'conversation', (data) => {
-      const definitions = data.app.appPackage.callHook.definitions;
+      const { definitions, enabled_for_agents } = data.app.appPackage.callHook;
       const newMessage = { ...message, conversationKey: conversation.key };
+
       newMessage.message.blocks.schema = definitions;
+      newMessage.message.blocks['enabledForAgents'] = enabled_for_agents;
       dispatch(appendConversation(newMessage));
       cb && cb();
     });
@@ -944,17 +945,16 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
   const renderBlockRepresentation = () => {
     // TODO: display labels, schema buttons
     let output = null;
+
     switch (blocks.type) {
       case 'app_package':
         output = (
           <div>
-            <div
-              className="text-gray-800 text-xs
-            font-bold uppercase tracking-wide"
-            >
+            <div className="text-gray-800 text-xs font-bold uppercase tracking-wide">
               <div
-                className="inline-flex items-baseline px-2.5 py-0.5 rounded-full
-            text-xs font-light bg-green-100 text-green-800 md:mt-2 lg:mt-0"
+                className="inline-flex items-baseline 
+                px-2.5 py-0.5 rounded-full text-xs font-light bg-green-100 
+                text-green-800 md:mt-2 lg:mt-0"
               >
                 <span>{blocks.appPackage}</span>
               </div>
@@ -966,7 +966,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
               schema={schema}
               values={blocks.values}
               updatePackage={updatePackage}
-              //disabled={true}
+              disabled={!blocks.enabledForAgents}
             />
           </div>
         );

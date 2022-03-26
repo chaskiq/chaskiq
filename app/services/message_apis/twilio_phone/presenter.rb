@@ -35,11 +35,12 @@ module MessageApis::TwilioPhone
                       definitions_for_content(kind: kind, ctx: ctx)
                     end
       {
+        enabled_for_agents: true,
         definitions: definitions
       }
     end
 
-    def self.content_frame_definitions(kind:, ctx: )
+    def self.content_frame_definitions(kind:, ctx:)
       data = {
         app_id: ctx[:package].app.id,
         package_id: ctx[:package].id,
@@ -74,10 +75,10 @@ module MessageApis::TwilioPhone
       @app = @package.app
 
       template = case params[:namespace]
-      when "sidebar_frame" then sidebar_sheet_handler(params)
-      else
-        call_frame
-      end
+                 when "sidebar_frame" then sidebar_sheet_handler(params)
+                 else
+                   call_frame
+                 end
       template.result(binding)
     end
 
@@ -144,7 +145,7 @@ module MessageApis::TwilioPhone
       case params[:action]
       when :update
         update_record
-      else 
+      else
         sidebar_sheet
       end
     end
@@ -154,7 +155,6 @@ module MessageApis::TwilioPhone
     end
 
     def self.sidebar_sheet
-
       @conferences = conferences_list_object
 
       template = ERB.new <<~SHEET_VIEW
@@ -188,7 +188,7 @@ module MessageApis::TwilioPhone
                     console.log("undandled operation", event)
                     return null;
                 }
-            
+        #{'    '}
             }, false);
             </script>
           </head>
@@ -202,7 +202,7 @@ module MessageApis::TwilioPhone
                     <div class="-m-1 block flex-1 p-1">
                       <div class="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true"></div>
                       <div class="relative flex min-w-0 flex-1 items-center">
-                        <a class="relative inline-block flex-shrink-0" 
+                        <a class="relative inline-block flex-shrink-0"#{' '}
                         href="/app"
                         onClick="window.open('<%= conf[:url] %>','pagename','resizable,height=260,width=370'); return false;"
                         class="-m-1 block flex-1 p-1"
@@ -210,7 +210,7 @@ module MessageApis::TwilioPhone
                         target="_blank">
                           <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                         </a>
-                        
+        #{'                '}
                         <div class="ml-4 truncate">
                           <p class="truncate text-sm font-medium text-gray-900">
                             <%= conf[:conference].status %>
@@ -222,12 +222,12 @@ module MessageApis::TwilioPhone
                           <button onClick="parent.postMessage({type: 'url-push-from-frame', url: '<%= conversation_url(conf) %>'}, '*'); return false;" class="truncate text-sm text-gray-500">
                             Go to conversation
                           </button>
-                          
+        #{'                  '}
                         </div>
 
                       </div>
                     </div>
-                    
+        #{'            '}
                   </div>
                 </li>
 
@@ -258,7 +258,7 @@ module MessageApis::TwilioPhone
       @conferences = @package.message_api_klass.conferences_list
 
       @conferences.map do |conf|
-        self.conference_json_item(conf)
+        conference_json_item(conf)
       end
     end
 
@@ -458,7 +458,7 @@ module MessageApis::TwilioPhone
 
     def self.content_definitions(kind:, ctx:)
       conferences = ctx[:package].message_api_klass.conferences_list
-  
+
       definitions = [
         {
           type: "text",
@@ -467,41 +467,39 @@ module MessageApis::TwilioPhone
         }
       ]
 
-      definitions << {
-        type: "list",
-        disabled: false,
-        items: conferences.map do |conf|
-
-
-          data = {
-            app_id: ctx[:package].app.id,
-            package_id: ctx[:package].id,
-            conversation_key: conf.friendly_name,
-            lang: ctx[:lang],
-            current_user: ctx[:current_user].as_json
-          }
-
-          token = CHASKIQ_FRAME_VERIFIER.generate(data)
-
-          {
-            type: "item",
-            id: conf.sid,
-            title: "#{conf.friendly_name} #{conf.status}",
-            subtitle: "open conference",
-            tertiary_text: "eieiei",
-            action: {
-              type: "url",
-              url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}",
-              options: "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=270,left=200,top=100"
-              # url: "/package_iframe_internal/TwilioPhone"
+      if conferences.any?
+        definitions << {
+          type: "list",
+          disabled: false,
+          items: conferences.map do |conf|
+            data = {
+              app_id: ctx[:package].app.id,
+              package_id: ctx[:package].id,
+              conversation_key: conf.friendly_name,
+              lang: ctx[:lang],
+              current_user: ctx[:current_user].as_json
             }
-          }
-        end
-      } if conferences.any?
+
+            token = CHASKIQ_FRAME_VERIFIER.generate(data)
+
+            {
+              type: "item",
+              id: conf.sid,
+              title: "#{conf.friendly_name} #{conf.status}",
+              subtitle: "open conference",
+              tertiary_text: "eieiei",
+              action: {
+                type: "url",
+                url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}",
+                options: "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=270,left=200,top=100"
+                # url: "/package_iframe_internal/TwilioPhone"
+              }
+            }
+          end
+        }
+      end
 
       definitions
-      
-
     end
 
     def self.definitions_for_content(kind:, ctx:)
