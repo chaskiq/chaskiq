@@ -70,6 +70,16 @@ module MessageApis::TwilioPhone
       # for agent
       if params[:Caller] == "client:support_agent"
         conversation = Conversation.find_by(key: params[:name])
+
+        MessageApis::TwilioPhone::Store.set(
+          conversation.key,
+          params[:CallSid],
+          params[:chaskiq_agent]
+        )
+
+        unique_list = MessageApis::TwilioPhone::Store.locked_agents
+        unique_list.append(params[:chaskiq_agent])
+
         return conference_call(params, conversation, {
                                  message: "Hi, we are connecting you to the conversation now"
                                })
@@ -164,6 +174,19 @@ module MessageApis::TwilioPhone
         payload: payload,
         event_type: "INIT"
       }
+
+      case payload["StatusCallbackEvent"]
+      when "conference-end"
+        values = MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).values
+
+        unique_list = MessageApis::TwilioPhone::Store.locked_agents
+        unique_list.remove(values)
+
+        MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).remove
+
+      else
+        Rails.logger.debug { "NO STORE HANDLED FOR #{payload['StatusCallbackEvent']}" }
+      end
 
       # conversation.conversation_parts_events
 

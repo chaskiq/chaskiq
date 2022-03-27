@@ -156,6 +156,7 @@ module MessageApis::TwilioPhone
 
     def self.sidebar_sheet
       @conferences = conferences_list_object
+      @agent_in_call = MessageApis::TwilioPhone::Store.locked_agents.elements.include?(@user["id"].to_s)
 
       template = ERB.new <<~SHEET_VIEW
         <html lang="en">
@@ -168,8 +169,6 @@ module MessageApis::TwilioPhone
 
             <script>
             window.addEventListener("message", (event) => {
-
-              console.log("AAA", event)
 
               if(event.data.event_type != "INIT") return
 
@@ -188,49 +187,62 @@ module MessageApis::TwilioPhone
                     console.log("undandled operation", event)
                     return null;
                 }
-        #{'    '}
             }, false);
             </script>
           </head>
 
           <body>
+            <div class="mt-4 hidden">
+              <%= MessageApis::TwilioPhone::Store.locked_agents.elements %>
+            </div>
 
             <ul role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto">
               <% @conferences.each do |conf| %>
-                <li>
-                  <div class="group relative flex items-center py-6 px-5">
-                    <div class="-m-1 block flex-1 p-1">
-                      <div class="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true"></div>
-                      <div class="relative flex min-w-0 flex-1 items-center">
-                        <a class="relative inline-block flex-shrink-0"#{' '}
-                        href="/app"
-                        onClick="window.open('<%= conf[:url] %>','pagename','resizable,height=260,width=370'); return false;"
-                        class="-m-1 block flex-1 p-1"
-                        targettt="_parent"
-                        target="_blank">
-                          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                        </a>
-        #{'                '}
-                        <div class="ml-4 truncate">
-                          <p class="truncate text-sm font-medium text-gray-900">
-                            <%= conf[:conference].status %>
-                          </p>
-                          <p class="truncate text-sm text-gray-500">
-                            <%= conf[:profile].profile_id %>
-                          </p>
+                  <li>
+                    <div class="group relative flex items-center py-6 px-5">
+                      <div class="-m-1 block flex-1 p-1">
+                        <div class="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true"></div>
+                        <div class="relative flex min-w-0 flex-1 items-center">
+                          <a
+                            class="relative inline-block flex-shrink-0"
+                            href="/app"
+                            <% if @agent_in_call %>
+                              onClick="return false;"
+                              class="-m-1 block flex-1 p-1 bg-gray-200 opacity-50"
+                            <% else %>
+                              onClick="window.open('<%= conf[:url] %>','pagename','resizable,height=260,width=370'); return false;"
+                              class="-m-1 block flex-1 p-1"
+                          <% end %>
+                          targettt="_parent"
+                          target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                          </a>
+                          <div class="ml-4 truncate">
+                            <p class="truncate text-sm font-medium text-gray-900">
+                              <%= conf[:conference].status %>
+                            </p>
 
-                          <button onClick="parent.postMessage({type: 'url-push-from-frame', url: '<%= conversation_url(conf) %>'}, '*'); return false;" class="truncate text-sm text-gray-500">
-                            Go to conversation
-                          </button>
-        #{'                  '}
+                            <p class="truncate text-sm text-gray-500">
+                              <%= conf[:profile].profile_id %>
+                            </p>
+
+                            <% if conf[:agent_names].any? %>
+                              <p class="truncate text-sm text-gray-500">
+                                agents in call: <%= conf[:agent_names].join(",") %>
+                              </p>
+                            <% end %>
+
+                            <button onClick="parent.postMessage({type: 'url-push-from-frame', url: '<%= conversation_url(conf) %>'}, '*'); return false;" class="truncate text-sm text-gray-500">
+                              Go to conversation
+                            </button>
+
+                          </div>
                         </div>
-
                       </div>
                     </div>
-        #{'            '}
-                  </div>
-                </li>
-
+                  </li>
               <% end %>
             </ul>
 
@@ -259,15 +271,21 @@ module MessageApis::TwilioPhone
 
       @conferences.map do |conf|
         conference_json_item(conf)
-      end
+      end.compact
     end
 
     def self.conference_json_item(conf)
       conversation = Conversation.find_by(key: conf.friendly_name)
+      return nil if conversation.blank?
+
+      agent_ids = MessageApis::TwilioPhone::Store.hash(conf.friendly_name).values
+      agents = Agent.find(agent_ids)
       {
         url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf)}",
         update_url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf, :update)}",
         conference: conf,
+        agent_ids: agent_ids,
+        agent_names: agents.map(&:display_name),
         conversation: conversation,
         participant: conversation.main_participant,
         profile: conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
@@ -402,7 +420,10 @@ module MessageApis::TwilioPhone
           updateCallStatus("Calling " + phoneNumber + "...");
 
           console.log("joining", "<%= @conversation_key %>")
-          var params = {"name": '<%= @conversation_key %>'};
+          var params = {
+            "name": '<%= @conversation_key %>',#{' '}
+            "chaskiq_agent": <%= @user["id"] %>,
+          };
           device.connect(params);
         }
 
@@ -458,7 +479,6 @@ module MessageApis::TwilioPhone
 
     def self.content_definitions(kind:, ctx:)
       conferences = ctx[:package].message_api_klass.conferences_list
-
       definitions = [
         {
           type: "text",
@@ -472,11 +492,16 @@ module MessageApis::TwilioPhone
           type: "list",
           disabled: false,
           items: conferences.map do |conf|
+            agent_ids = MessageApis::TwilioPhone::Store.hash(conf.friendly_name).values
+            agents = Agent.find(agent_ids).map(&:display_name)
+
             data = {
               app_id: ctx[:package].app.id,
               package_id: ctx[:package].id,
               conversation_key: conf.friendly_name,
               lang: ctx[:lang],
+              agents_ids: agents_ids,
+              agents_names: agents.map(&:display_name),
               current_user: ctx[:current_user].as_json
             }
 

@@ -54,7 +54,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
         >
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-              <Tooltip placement="right" overlay={'go to app packages'}>
+              <Tooltip placement="right" overlay={'Go to app packages'}>
                 <Link to={`/apps/${app.key}/integrations`}>
                   {<IntegrationsIcon />}
                 </Link>
@@ -91,7 +91,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
       )}
 
       {open && (
-        <div className="pointer-events-auto w-screen max-w-md">
+        <div className="pointer-events-auto w-screen max-w-xs">
           <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
             <div className="p-6">
               <div className="flex items-start justify-between">

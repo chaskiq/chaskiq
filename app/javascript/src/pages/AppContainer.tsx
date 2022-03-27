@@ -150,6 +150,8 @@ function AppContainer({
                 dispatch(setSubscriptionState(data.data));
               });
               return null;
+            case 'notification':
+              console.log('notification!');
             case data.type.match(/\/package\/\S+/)?.input:
               const popup = document.getElementById('package-frame')
                 ?.contentWindow;
