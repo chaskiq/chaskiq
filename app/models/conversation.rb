@@ -117,7 +117,6 @@ class Conversation < ApplicationRecord
 
   def add_message(opts = {})
     part = process_message_part(opts)
-
     ActiveRecord::Base.transaction do
       part.save
     end

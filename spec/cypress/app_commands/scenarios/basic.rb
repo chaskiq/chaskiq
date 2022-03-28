@@ -38,7 +38,8 @@ agent.agent
 
 Doorkeeper::Application.create(
   name: "authapp",
-  redirect_uri: "http://localhost:5002"
+  redirect_uri: "http://localhost:5002",
+  confidential: false
 )
 
 true

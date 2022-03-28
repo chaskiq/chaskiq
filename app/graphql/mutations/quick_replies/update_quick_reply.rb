@@ -7,7 +7,7 @@ module Mutations
       field :errors, Types::JsonType, null: false
       argument :app_key, String, required: true
       argument :content, String, required: true
-      argument :id, Integer, required: true
+      argument :id, String, required: true
       argument :title, String, required: true
       argument :lang, String, required: false, default_value: I18n.default_locale
 

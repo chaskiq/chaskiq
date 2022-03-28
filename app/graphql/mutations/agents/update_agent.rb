@@ -5,7 +5,7 @@ module Mutations
     class UpdateAgent < Mutations::BaseMutation
       field :agent, Types::AgentType, null: false
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
       argument :email, String, required: true
 
       def resolve(app_key:, email:, params:)

@@ -7,7 +7,7 @@ module Mutations
       field :errors, Types::JsonType, null: false
 
       argument :app_key, String, required: true
-      argument :options, Types::JsonType, required: true
+      argument :options, Types::AnyType, required: true
 
       def resolve(app_key:, options:)
         app = current_user.apps.find_by(key: app_key)

@@ -6,7 +6,7 @@ module Mutations
       field :integration, Types::AppPackageIntegrationType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
       argument :app_package, String, required: true
 
       def resolve(app_key:, app_package:, params:)

@@ -2,7 +2,7 @@
 
 module Types
   class ArticleSettingsType < Types::BaseObject
-    field :id, Int, null: true
+    field :id, String, null: true
     field :subdomain, String, null: true
     field :site_title, String, null: true
     field :site_description, String, null: true

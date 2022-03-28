@@ -7,8 +7,8 @@ module Mutations
       field :errors, Types::JsonType, null: true
 
       argument :app_key, String, required: true
-      argument :conversation_id, Integer, required: true
-      argument :trigger_id, Integer, required: true
+      argument :conversation_id, String, required: true
+      argument :trigger_id, String, required: true
 
       def resolve(app_key:, conversation_id:, trigger_id:)
         find_app(app_key)

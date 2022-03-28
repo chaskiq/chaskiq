@@ -383,6 +383,7 @@ function mapStateToProps(state) {
     navigation,
     paddleSubscription,
     upgradePages,
+    fixedSlider,
   } = state;
   const { loading, isAuthenticated, accessToken } = auth;
   const { current_section } = navigation;
@@ -399,6 +400,7 @@ function mapStateToProps(state) {
     paddleSubscription,
     upgradePages,
     accessToken,
+    fixedSlider,
   };
 }
 

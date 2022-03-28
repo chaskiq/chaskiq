@@ -6,7 +6,7 @@ module Mutations
       field :settings, Types::ArticleSettingsType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :settings, Types::JsonType, required: true
+      argument :settings, Types::AnyType, required: true
 
       def resolve(app_key:, settings:)
         app = App.find_by(key: app_key)

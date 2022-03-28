@@ -9,7 +9,7 @@ module Mutations
       argument :app_key, String, required: true
       argument :agent_id, String, required: true
       argument :title, String, required: true
-      argument :conditions, Types::JsonType, required: true
+      argument :conditions, [Types::AnyType], required: true
 
       def resolve(app_key:, agent_id:, title:, conditions:)
         find_app(app_key)

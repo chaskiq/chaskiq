@@ -201,7 +201,7 @@ module Types
       argument :per, Integer, required: false, default_value: 20
       argument :sort, String, required: false
       argument :filter, String, required: false
-      argument :agent_id, Integer, required: false
+      argument :agent_id, String, required: false
       argument :tag, String, required: false
       argument :term, String, required: false
       argument :channel_id, String, required: false
@@ -292,7 +292,7 @@ module Types
     end
 
     field :app_user, Types::AppUserType, null: true do
-      argument :id, Integer, required: false
+      argument :id, String, required: false
     end
 
     def app_user(id:)
@@ -359,7 +359,7 @@ module Types
     end
 
     field :agent, Types::AgentType, null: false do
-      argument :id, Integer, required: true
+      argument :id, String, required: true
     end
 
     def agent(id:)
@@ -380,7 +380,7 @@ module Types
     end
 
     field :segment, Types::SegmentType, null: true do
-      argument :id, Integer, required: true
+      argument :id, String, required: true
     end
 
     def segment(id:)
@@ -419,7 +419,7 @@ module Types
     end
 
     field :quick_reply, Types::QuickReplyType, null: true do
-      argument :id, Integer, required: true
+      argument :id, String, required: true
       argument :lang, String, required: false, default_value: I18n.default_locale
     end
 
@@ -516,7 +516,7 @@ module Types
     field :bot_tasks, [Types::BotTaskType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
       argument :mode, String, required: false, default_value: "outbound"
-      argument :filters, Types::JsonType, required: false, default_value: {}
+      argument :filters, Types::BotTaskFilterType, required: false, default_value: {}
     end
 
     def bot_tasks(lang:, mode:, filters:)
@@ -585,7 +585,7 @@ module Types
     end
 
     field :dashboard, Types::JsonType, null: true do
-      argument :range, Types::JsonType, required: true
+      argument :range, Types::AnyType, required: true
       argument :kind,  String, required: true
       argument :package,  String, required: false
     end

@@ -11,6 +11,9 @@
     <meta content='320' name='MobileOptimized'>
     <meta name="chaskiq-host" content="<%= Chaskiq::Config.get('HOST') %>"/>
 
+    <% if oauth_app = Doorkeeper::Application.first %>
+      <meta name="chaskiq-client-id" content="<%= oauth_app.uid %>"/>
+    <% end %>
     <!--
     <meta content='width=device-width, initial-scale=1' name='viewport'>
     <meta content='width=device-width, initial-scale=1' media='(device-height: 568px)' name='viewport'>

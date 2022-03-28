@@ -5,7 +5,7 @@ module Mutations
     class CreateArticle < Mutations::BaseMutation
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
-      argument :content, Types::JsonType, required: true
+      argument :content, Types::AnyType, required: true
       argument :title, String, required: true
       argument :lang, String, required: false, default_value: I18n.default_locale
 

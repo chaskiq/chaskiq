@@ -6,7 +6,7 @@ module Mutations
       class DeleteCollection < Mutations::BaseMutation
         field :collection, Types::CollectionType, null: false
         argument :app_key, String, required: true
-        argument :id, Integer, required: true
+        argument :id, String, required: true
 
         def resolve(app_key:, id:)
           app = current_user.apps.find_by(key: app_key)

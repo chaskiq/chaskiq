@@ -14,7 +14,7 @@ module Mutations
     end
 
     argument :app_key, String, required: true
-    argument :search, Types::JsonType, required: true
+    argument :search, Types::AnyType, required: true
     argument :page, Integer, required: false, default_value: 1
     argument :per, Integer, required: false, default_value: 20
     # argument :mode, String, required: true
