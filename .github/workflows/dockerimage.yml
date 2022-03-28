@@ -5,6 +5,8 @@ on:
     branches:
       - master
       - stage
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -49,3 +51,10 @@ jobs:
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:latest
           docker push $GITHUB_REPOSITORY:latest
           echo "LATEST deployed!"
+
+      - name: Tag RELEASE and Push Docker image
+        # if: github.ref == 'refs/heads/master'
+        run: |
+          docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:$GITHUB_REF
+          docker push $GITHUB_REPOSITORY:$GITHUB_REF
+          echo "${GITHUB_REF} deployed!"
