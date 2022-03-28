@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Login into Registry
-        uses: azure/docker-login@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Login into Registry
+      #   uses: azure/docker-login@v1
+      #   with:
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKER_PASSWORD }}
 
       - uses: actions/checkout@v2
 
@@ -40,7 +40,7 @@ jobs:
       - name: Tag and Push Docker image
         run: |
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:$SHORT_SHA
-          docker push $GITHUB_REPOSITORY:$SHORT_SHA
+          # docker push $GITHUB_REPOSITORY:$SHORT_SHA
           echo "SHORT_SHA: ${SHORT_SHA}"
         env:
           SHORT_SHA: ${{ steps.vars.outputs.short_sha }}
@@ -49,12 +49,12 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:latest
-          docker push $GITHUB_REPOSITORY:latest
+          # docker push $GITHUB_REPOSITORY:latest
           echo "LATEST deployed!"
 
       - name: Tag RELEASE and Push Docker image
         # if: github.ref == 'refs/heads/master'
         run: |
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:$GITHUB_REF
-          docker push $GITHUB_REPOSITORY:$GITHUB_REF
+          # docker push $GITHUB_REPOSITORY:$GITHUB_REF
           echo "${GITHUB_REF} deployed!"
