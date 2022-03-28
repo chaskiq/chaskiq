@@ -1,5 +1,5 @@
 module Types
   class ConversationMessageInputType < Types::BaseInputObject
-    argument :message, TYpes::MessageInputType, required: false
+    argument :message, Types::MessageInputType, required: false
   end
 end
