@@ -208,10 +208,12 @@ module MessageApis::TwilioPhone
       response.dial do |dial|
         name = conversation.key
 
+        hook_url = @package.hook_url #.gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
+
         dial.conference(name,
                         beep: false,
                         end_conference_on_exit: true,
-                        statusCallback: @package.hook_url.gsub("http://localhost:3000", "https://chaskiq.ngrok.io"),
+                        statusCallback: hook_url,
                         statusCallbackEvent: "start end join leave mute hold")
       end
 
