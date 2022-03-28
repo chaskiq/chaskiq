@@ -9,7 +9,7 @@ module Types
     field :identifier_key, String, null: true
     field :kind, String, null: true
     field :new_messages, Int, null: true
-    field :properties, Types::JsonType, null: false
+    field :properties, Types::JsonType, null: true
     field :session_id, String, null: false
   end
 end
