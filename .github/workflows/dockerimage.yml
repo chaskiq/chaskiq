@@ -55,6 +55,6 @@ jobs:
       - name: Tag RELEASE and Push Docker image
         # if: github.ref == 'refs/heads/master'
         run: |
-          docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:$GITHUB_REF
+          docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:${{ github.ref_name }}
           # docker push $GITHUB_REPOSITORY:$GITHUB_REF
-          echo "${GITHUB_REF} deployed!"
+          echo "${{ github.ref_name }} deployed!"
