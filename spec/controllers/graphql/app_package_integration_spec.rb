@@ -112,7 +112,7 @@ RSpec.describe GraphqlController, type: :controller do
       it "created in app" do
         graphql_post(type: "UPDATE_INTEGRATION", variables: {
                        appKey: app.key,
-                       id: app.app_package_integrations.first.id,
+                       id: app.app_package_integrations.first.id.to_s,
                        params: {
                          api_secret: "123455",
                          api_key: "asd",
@@ -129,7 +129,7 @@ RSpec.describe GraphqlController, type: :controller do
         expect do
           graphql_post(type: "DELETE_INTEGRATION", variables: {
                          appKey: app.key,
-                         id: app.app_package_integrations.first.id
+                         id: app.app_package_integrations.first.id.to_s
                        })
         end.to change { app.app_package_integrations }.by([])
 

@@ -37,10 +37,6 @@ export default class MessageFrame extends Component<
 
   handleClose = (message) => {
     this.props.handleClose(message.id);
-    /*this.props.events &&
-      this.props.events.perform('track_close', {
-        trackable_id: message.id,
-      });*/
   };
 
   render() {

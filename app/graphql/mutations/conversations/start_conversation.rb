@@ -9,7 +9,7 @@ module Mutations
       argument :message, Types::MessageInputType, required: true
 
       def resolve(app_key:, id:, message:)
-        message = message.to_h
+        message = message.to_h.with_indifferent_access
 
         if current_user.is_a?(Agent)
           app = current_user.apps.find_by(key: app_key)
@@ -29,9 +29,9 @@ module Mutations
           from: author,
           participant: participant,
           message: {
-            html_content: message["html"],
-            serialized_content: message["serialized"],
-            text_content: message["text"] || ActionController::Base.helpers.strip_tags(message["html"])
+            html_content: message[:html],
+            serialized_content: message[:serialized],
+            text_content: message[:text] || ActionController::Base.helpers.strip_tags(message["html"])
           }
         }
 

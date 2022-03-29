@@ -25,23 +25,14 @@ import { connect } from 'react-redux';
 import UpgradePage from './UpgradePage';
 // import Pricing from '../pages/pricingPage'
 
-import actioncable from 'actioncable';
 import CampaignHome from './campaigns/home';
 import Progress from '@chaskiq/components/src/components/Progress';
 import UserSlide from '@chaskiq/components/src/components/UserSlide';
 
 import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
-import { appendConversation } from '@chaskiq/store/src/actions/conversations';
-import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns';
-import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
-import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { setApp } from '@chaskiq/store/src/actions/app';
-import {
-  camelizeKeys,
-  dispatchUpdateConversationData,
-} from '@chaskiq/store/src/actions/conversation';
 
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
 import LoadingView from '@chaskiq/components/src/components/loadingView';
@@ -49,6 +40,14 @@ import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 import Sidebar from '../layout/sidebar';
 import PackageSlider from '../pages/conversations/packageSlider';
+
+import {
+  createSubscription,
+  destroySubscription,
+  eventsSubscriber,
+} from '../shared/actionCableSubscription';
+//import {createSubscription, destroySubscription, eventsSubscriber } from '../shared/absintheCableSubscription';
+
 declare global {
   interface Window {
     chaskiq_cable_url: any;
@@ -68,36 +67,25 @@ function AppContainer({
   accessToken,
   history,
 }) {
-  const CableApp = React.useRef({
-    events: null,
-    cable: actioncable.createConsumer(
-      `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`
-    ),
-  });
+  const CableApp = React.useRef(createSubscription(match, accessToken));
 
   const [_subscribed, setSubscribed] = React.useState(null);
 
   React.useEffect(() => {
     dispatch(getCurrentUser());
     fetchApp(() => {
-      eventsSubscriber(match.params.appId);
+      eventsSubscriber(
+        match.params.appId,
+        CableApp.current,
+        dispatch,
+        fetchApp
+      );
     });
     return () => {
       console.log('unmounting cable from app container');
-      if (CableApp.current) CableApp.current.events.unsubscribe();
+      if (CableApp.current) destroySubscription(CableApp.current);
     };
   }, [match.params.appId]);
-
-  React.useEffect(() => {
-    function frameCallbackHandler(event) {
-      if (event.data.type !== 'url-push-from-frame') return;
-      console.log('HANDLED EVENT FROM FRAME', event.data);
-      history.push(event.data.url);
-    }
-
-    window.addEventListener('message', frameCallbackHandler);
-    return () => window.removeEventListener('message', frameCallbackHandler);
-  }, []);
 
   const fetchApp = (cb) => {
     const id = match.params.appId;
@@ -110,68 +98,16 @@ function AppContainer({
     );
   };
 
-  const eventsSubscriber = (id) => {
-    // unsubscribe cable ust in case
-    if (CableApp.current.events) {
-      CableApp.current.events.unsubscribe();
+  React.useEffect(() => {
+    function frameCallbackHandler(event) {
+      if (event.data.type !== 'url-push-from-frame') return;
+      console.log('HANDLED EVENT FROM FRAME', event.data);
+      history.push(event.data.url);
     }
 
-    CableApp.current.events = CableApp.current.cable.subscriptions.create(
-      {
-        channel: 'EventsChannel',
-        app: id,
-      },
-      {
-        connected: () => {
-          console.log('connected to events');
-          setSubscribed(true);
-        },
-        disconnected: () => {
-          console.log('disconnected from events');
-          setSubscribed(false);
-        },
-        received: (data) => {
-          // console.log('received', data)
-          switch (data.type) {
-            case 'conversation_part':
-              return dispatch(appendConversation(camelizeKeys(data.data)));
-            case 'conversations:update_state':
-              return dispatch(
-                dispatchUpdateConversationData(camelizeKeys(data.data))
-              );
-            case 'presence':
-              return updateUser(camelizeKeys(data.data));
-            case 'rtc_events':
-              return dispatch(updateRtcEvents(data));
-            case 'campaigns':
-              return dispatch(updateCampaignEvents(data.data));
-            case 'paddle:subscription':
-              fetchApp(() => {
-                dispatch(setSubscriptionState(data.data));
-              });
-              return null;
-            case 'notification':
-              console.log('notification!');
-            case data.type.match(/\/package\/\S+/)?.input:
-              const popup = document.getElementById('package-frame')
-                ?.contentWindow;
-              popup && popup.postMessage(data, '*');
-            default:
-              console.log('unhandled', data);
-              return null;
-          }
-        },
-        notify: () => {
-          console.log('notify!!');
-        },
-        handleMessage: () => {
-          console.log('handle message');
-        },
-      }
-    );
-
-    // window.cable = CableApp
-  };
+    window.addEventListener('message', frameCallbackHandler);
+    return () => window.removeEventListener('message', frameCallbackHandler);
+  }, []);
 
   function updateUser(data) {
     dispatch(updateAppUserPresence(data));
@@ -223,8 +159,6 @@ function AppContainer({
           {app_user ? <UserProfileCard width={'300px'} /> : <Progress />}
         </UserSlide>
       )}
-
-      {/*<CommandPalette />*/}
 
       {loading || (!app && <LoadingView />)}
 
@@ -365,7 +299,6 @@ function AppContainer({
           )}
         </div>
       )}
-
       {app && <PackageSlider />}
     </div>
   );
