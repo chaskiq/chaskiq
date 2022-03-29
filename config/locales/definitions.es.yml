@@ -74,7 +74,7 @@ es:
         label: Visitas Registradas
         hint: "Incluso si esto está desactivado, recogeremos la información global de las visitas y almacenaremos la última información de las visitas en el perfil del visitante"
       languages:
-        select_lang: "seleccionar idioma"
+        select_lang: Seleccionar Idioma
     campaigns:
       campaign_name:
         label: Nombre de Campaña
@@ -200,7 +200,7 @@ es:
       email: Email
       state: Estado
       online: En línea
-      ip: Ip
+      ip: IP
       country: País
       city: Ciudad
       phone: Phone
