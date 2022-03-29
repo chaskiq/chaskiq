@@ -3,7 +3,7 @@ it:
     edit: Modifica
     new: Nuovo
     add: Aggiungi
-    add_new: aggiungi nuovo
+    add_new: Add New
     update: Aggiorna
     remove: Rimuovi
     delete: Elimina
@@ -16,8 +16,8 @@ it:
     not_found: La pagina che stai cercando non esiste.
     get_snippet: Ottieni la snippet
     submit: Invia
-    confirm_deletion: 'Confermi la cancellazione ?'
-    confirm_deletion_ready: sei pronto a cancellare?
+    confirm_deletion: Confirm deletion?
+    confirm_deletion_ready: Are you ready to delete?
     next: Successivo
     prev: Precedente
     showing: Visualizzati
@@ -27,10 +27,10 @@ it:
     tz_hint: Il fuso orario del browser è di <b className="text-bold">%{timezone}</b>
     send: Invia
     actions: Azioni
-    your_apps: Le tue app
-    upload_field: carica %{field}
+    your_apps: Your Apps
+    upload_field: Upload %{field}
     choose_color: Selezionare un colore
-    image: Imagen
+    image: Image
     langs:
       en: Inglese
       es: Spagnolo
@@ -39,17 +39,20 @@ it:
       ca: Catalano
       zh-CN: Cinese
     redirecting: Reindirizzamento
+    choose_language: Choose Language
     select_language: Seleziona la Lingua
     send_on_enter: Pubblica al momento dell'invio
-    away_mode: Modo assente
-    toggle_light_mode: Attiva tema chiaro
-    toggle_dark_mode: Attiva tema scuro
+    away_mode: Away Mode
+    toggle_light_mode: Toggle Light Mode
+    toggle_dark_mode: Toggle Dark Mode
     leads: Potenziali Clienti
     visitors: Visitatori
     users: Utenti
-    type_message: scrivi il tuo messaggio
+    type_message: Type your message
     search_conversations: Ricerca conversazione
     days: Giorni
+    visit: Visit
+    done: Done
   status_messages:
     error: 'Errore'
     success: 'Successo'
@@ -62,31 +65,31 @@ it:
     reordered_error: Errore nel riordinamento
     reordered_success: Riordinato Con Successo
   error_view:
-    title: Woops! qualcosa è andato storto.
+    title: Woops! Something went wrong.
     subtitle: Sfortunatamente 🤯
-    exp: prova ad aggiornare la pagina
-    cta: prova a tornare alla home
+    exp: Try refreshing the page
+    cta: Try to go home
   home:
     welcome: Benvenuto a
     welcome_site: Chaskiq
     tagline: Trova qui le applicazioni correnti
-    create_new: Crea una nuova app
-    choose_lang: Scegli la lingua
-    edit_profile: Modifica profilo
-    edit_credentials: Edit user credentials
-    go_to_doc: Vai alla documentazione
+    create_new: Create New App
+    choose_lang: Choose Language
+    edit_profile: Edit Profile
+    edit_credentials: Edit User Credentials
+    go_to_doc: Go To Documentation
   dashboard:
     hey: "👋 Hey!, stai visualizzando la dashboard di <strong>%{name} </strong>! <br /> Ricevi la snippet di installazione per la configurazione web <br />"
-    response_avg: Tempo di risposta medio
-    new_conversations: Nuove conversazioni
+    response_avg: Average Response Time
+    new_conversations: New Conversations
     resolutions: Risoluzioni
     incoming_messages: Messaggi in arrivo
-    visit_activity: Visita attività
-    users_browser: Browser utenti
-    lead_os: Sistema Operativo Potenziali Clienti
-    user_os: Sistema Operativo utente
+    visit_activity: Visit Activity
+    users_browser: Users Browser
+    lead_os: Lead OS
+    user_os: User OS
     mac_os: Mac OS
-    user_country: Paese dell'utente
+    user_country: User Country
     snippet: Inserisci il seguente script alla fine del tag html <body>
     status: Stato della Live Chat
     status_running: In Esecuzione
@@ -111,28 +114,36 @@ it:
       for_users: Per utenti
       bot_settings: Attività Del Bot
       outbound: In uscita
-      new_conversations: Nuove conversazioni
+      new_conversations: New Conversations
       articles: Articoli
       collections: Collezioni
       article_settings: Impostazioni
       app_settings: Impostazioni App
       team: Squadra
-      messenger_settings: Impostazioni di Messenger
+      messenger_settings: Messenger Settings
       integrations: Integrazioni
       webhooks: Webhook
-      api_access: Accesso API
+      api_access: API Access
       billing: Fatturazione
     user_menu:
-      create_app: 'Crea una nuova app'
-      create_app_description: 'Crea l''app Chaskiq della tua azienda'
-      signout: Esci
-      title: Menu utente
+      create_app: Create New App
+      create_app_description: Crea l'app Chaskiq della tua azienda
+      signout: Sign Out
+      title: User Menu
+  profile:
+    no_name: No name
+    name: Full name
+    area_of_expertise: Area of expertise
+    specialization: Specialization
+    phone_number: Phone number
+    address: Address
+    availability: Availability
   login:
     title: Connect to your account
     email: Your Email
     password: Your password
     remember_me: Remember me
-    forgot_password: Forgot your password ?
+    forgot_password: Forgot your password?
     sign_in: Connect
     continue_with: Continue with
   invitation:
@@ -163,22 +174,33 @@ it:
     empty:
       title: Nessuna conversazione
       text: Scegli conversazioni dal lato
+    app_package_panel:
+      title: Send App Package
+      send_app: Send App
+      preview: Anteprima
+    assignment_rules:
+      title: Title
+      hint: This is the rule name
+      select_agent: Select Agent
   conversation:
     with: Conversazione con
+    tag_modal_title: Manage conversation tags
     actions:
-      priorize: Priorizzare la conversazione
-      remove_priority: Rimuovi la priorità
+      priorize: Priorize Conversation
+      remove_priority: Remove Priority
       close: Chiudi
       reopen: Riapri
-      start_call: Inizia una videochiamata
+      start_call: Start Videocall
       end_call: Termina chiamata
       assign_agent: Assegna Agente
+      tag_conversation: Tag Conversation
     messages:
       seen: Letti
       not_seen: Non visto
       note: Nota Privata
       reply: Rispondi
     sidebar:
+      customize: Customize
       show_profile: Mostra profilo
       location: Posizione
       browser: Browser utente
@@ -186,6 +208,9 @@ it:
       created_at: Creato il
       assignee: Assegnato a
       first_agent_reply: Prima risposta agente
+      app_inserter:
+        title: Add apps to inbox sidebar
+        add_app: Aggiungi App
     editor:
       panels:
         bot:
@@ -196,7 +221,7 @@ it:
           choose_another: Scegli un altro
         quick_reply:
           title: Invia una risposta rapida
-          confirm: Confermi l'invio di %{title}?
+          confirm: Confirm send %{title}?
           confirm_msg: Questa risposta rapida sarà inviata alla conversazione attuale dell'utente.
           empty: nessuna risposta rapida disponibile
           choose_another: Scegli un altro
@@ -212,7 +237,7 @@ it:
     remove_success: Campagna rimossa
     remove_hint: Distruggeremo qualsiasi contenuto e i dati correlati
     delete_campaign: Elimina campagna %{name}
-    create_new: Crea nuova campagna
+    create_new: Create New Campaign
     empty:
       title: Nessuna campagna trovata
     mailing: Campagne mail
@@ -230,7 +255,7 @@ it:
     pause_description: ferma la campagna
     clone_title: Duplica
     clone_description: clona la campagna
-    activate: 'Attivare la campagna'
+    activate: Attivare la campagna
     enables: Abilita la campagna
     disables: Disabilita la campagna
     state:
@@ -264,23 +289,23 @@ it:
       cancel: Annulla la tua iscrizione
   task_bots:
     type_filters:
-      title_visitors: 'Visitatori'
-      description_visitors: 'visitatori sulla piattaforma'
-      title_leads: 'Potenziali Clienti'
-      description_leads: 'Visitatori che fanno azioni'
-      title_users: 'Utenti'
+      title_visitors: Visitatori
+      description_visitors: visitatori sulla piattaforma
+      title_leads: Potenziali Clienti
+      description_leads: Visitatori che fanno azioni
+      title_users: Utenti
       description_users: "gli utenti registrati della tua piattaforma"
     state_filters:
-      enabled_title: 'Abilitato'
-      enabled_description: 'attività bot abilitate'
-      disabled_title: 'Disabilitato'
-      disabled_description: 'Attività bot disabilitate'
+      enabled_title: Abilitato
+      enabled_description: Enabled bot tasks
+      disabled_title: Disabilitato
+      disabled_description: Attività bot disabilitate
     title: Compiti Del bot
     reply_soon: Ciao, %{name} risponderà il prima possibile.
     reply_agent: riceverai una risposta da uno dei nostri agenti
     email_support: per ottenere il supporto è possibile inviare un'email a %{email}
     outbound: '🏓 In uscita'
-    new_conversations: '👋 Nuove conversazioni'
+    new_conversations: '👋 New Conversations'
     new_conversations_notice: Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione
     options:
       add_message: Aggiungi Bolla Dei Messaggi
@@ -307,7 +332,7 @@ it:
       placeholder: Enter your email
       ack: Thank you
     support:
-      ask: Are you an existing %{name} customer ?
+      ask: Are you an existing %{name} customer?
       options:
         op1: Yes, I'm a customer
         op2: No, I'm not an existing customer yet
@@ -332,7 +357,7 @@ it:
         email_only: Ask for email only
         override:
           label: Override default behavior with your own task bot
-          hint: 'When you do this the default behavior below will not take place and the task will be triggered on each new conversation'
+          hint: When you do this the default behavior below will not take place and the task will be triggered on each new conversation
       users:
         tab: Per utenti
         start_conversation: When users start a conversation
@@ -348,7 +373,7 @@ it:
       custom_time: Custom time
       enable_title: Enable bot task
       enable_hint: when enabled the bot task will start operating
-    new: Create new task
+    new: Create New Task
     remove_success: bot removed
     empty:
       title: No bot tasks found
@@ -389,7 +414,7 @@ it:
     add_as_dialog:
       title: Add this message as a Quick Reply
   new_app:
-    title: 'Crea l''app Chaskiq della tua azienda'
+    title: Crea l'app Chaskiq della tua azienda
     text: Provide basic information to setup Chaskiq for your team and customers.
     hint: Crea l'app Chaskiq della tua azienda
   settings:
@@ -411,16 +436,16 @@ it:
       security: Security
       messenger_settings: Messenger Settings
       appearance: Appearance
-      contact_avatars: Contact avatars
-      appearance_title: Appearance settings
+      contact_avatars: Contact Avatars
+      appearance_title: Appearance Settings
       privacy: Privacy
-      privacy_title: Privacy settings
+      privacy_title: Privacy Settings
       translations: Translations
       availability: Availability
       email_requirement: Email Requirement
-      inbound_settings: Inbound settings
+      inbound_settings: Inbound Settings
       messenger_style: Messenger Style
-      user_data: User data
+      user_data: User Data
       tags: Etichette
       quick_replies: Quick Replies
       email_forwarding: Email Forwarding
@@ -435,7 +460,7 @@ it:
     app_inserter:
       title: Add apps to your Messenger
       subtitle: Help your customers before they start a conversation
-      action: Add app
+      action: Aggiungi App
     integrations:
       title: Third party integrations
       create_success: Integration created
@@ -449,15 +474,15 @@ it:
         title: Active Integrations
         text: API Integrations
       available:
-        title: "Available API's"
+        title: Available API's
         text: Available API Services
       yours:
-        title: 'Your Integration Apps'
+        title: Your Integration Apps
         text: Integration apps created by you
       hints:
         hook_url: This integration will receive webhook at
       delete_dialog:
-        title: Delete "%{name}" integration ?
+        title: Delete "%{name}" integration?
         text: The integration with %{name} service will be disabled immediately
       empty:
         title: You don't have any api integrations yet
@@ -503,7 +528,7 @@ it:
           value: Never
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
     languages:
-      add: Add Language
+      add: Add language
       title: Languages
     inbound:
       title: New conversations button
@@ -528,14 +553,14 @@ it:
         hint: This doesn’t affect the outbound messages you send.
     team:
       title: Squadra
-      invitations: invitations
+      invitations: Invitations
       agents: Agents
-      invitation_success: invitation sent!
-      invitatin_error: invitation not sent!
+      invitation_success: Invitation sent!
+      invitatin_error: Invitation not sent!
       action_button: add user
       title_content: Add a new agent
       content_text: send an activable invitation
-      hint: the new team member will be notified by it's email
+      hint: The new team member will be notified by it's email
       send_invitation: Send invitation
       resend_invitation: Resend invitation
       add_new: Add Team Member
@@ -544,7 +569,7 @@ it:
       destroyed_agent: Agent deleted successfully
       destroy_agent_title: Delete Agent
       destroy_agent: Elimina
-      destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
+      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: Aggiorna
     webhooks:
       title: Webhook
@@ -555,7 +580,7 @@ it:
       delete_success: Webhook removed correctly
       delete_error: Error removing webhook
       outgoing_webhooks: Outgoing webhooks
-      new_webhook: New webhook
+      new_webhook: New Webhook
       active_webhooks: Active Webhooks
       disabled_webhooks: Disabled Webhooks
       empty:
@@ -563,13 +588,13 @@ it:
         desc: Search for your webhooks in
         disabled_webhooks: Disabled webhooks
       delete:
-        title: Delete webhook ?
+        title: Delete webhook?
         text: The webhook with %{name} service will be disabled immediately
     tags:
       title: Etichette
       modal:
         title: Create app's tag
-        hint: Looking for more tags ? look at
+        hint: Looking for more tags? Look at
         link: account settings
       inputs:
         name: Field name
@@ -599,14 +624,14 @@ it:
     published: Published
     draft: Drafts
     visit: visit the help center
-    new: New article
-    add: Add item
+    new: New Article
+    add: Add Item
     collections: Collezioni
     help_center: Centro assistenza
     description_placeholder: Describe your collection to help you find it.
     title_placeholder: Write the title of the sections
-    new_section: New section
-    new_collection: New collection
+    new_section: New Section
+    new_collection: New Collection
     edit_collection: Edit collection
     create_article:
       placeholder: Write the title of the article
@@ -615,24 +640,25 @@ it:
       title: New collection of articles
       placeholder: Enter the title of the collection
       description: Describe your collection to help you find it.
-    deleted_success: article deleted
-    new_article: new article
-    settings_updated_success: 'article settings updated'
-    settings_updated_error: 'article settings failed'
+    deleted_success: Article deleted
+    new_article: New article
+    settings_updated_success: Article settings updated
+    settings_updated_error: Article settings failed
     activate_help_center: Activate Help Center
-    delete_article: Delete article "%{title} ?
+    delete_article: Delete article "%{title}?
     delete_article_exp: we will destroy any content and related data
     square_preferred: square images preferred (min size 200x200px)
     square_preferred_hint: squared images will be optimal resized
-    reordered_success: 'reordered correctly'
-    reordered_error: 'reordered error'
-    add_articles: Add articles
-    updated_success: article updated
-    updated_error: article error on save
+    reordered_success: Reordered correctly
+    reordered_error: Reordered error
+    add_articles: Add Articles
+    updated_success: Article updated
+    updated_error: Article error on save
     delete_section: Delete section
     author: Author
     written_by: written by
     created_on: Created on
+    base_section: Base Section
     state:
       published: published
       published_desc: 'shows article on the help center'
@@ -640,7 +666,7 @@ it:
       draft_desc: 'hides the article on the help center'
     settings:
       title: Help Center settings
-      add_language: Add language
+      add_language: Add Language
       select_lang: Select language
       add_language_to_help: Add new language to Help Center
       delete:
@@ -680,8 +706,8 @@ it:
     any: any
     criteria: criteria
     days_ago: days ago
-    filter_for: select filter for %{name}
-    date_filter_for: Select the date filter for  %{name}
+    filter_for: Select filter for %{name}
+    date_filter_for: Select the date filter for %{name}
     integer_filter_for: Select the integer filter for %{name}
     match_criteria_for: Match criteria options for %{name}
     apply: apply
@@ -701,3 +727,20 @@ it:
     match_any: match any
     match_all: match all
     missing_value: Missing value!
+  full_contact:
+    inbox:
+      name: Name
+      first_name: First name
+      last_name: Last name
+      twitter: Twitter
+      facebook: Facebook
+      linkedin: Linkedin
+      organization: Organization
+      job_title: Job title
+  contact_fields:
+    inbox:
+      first_name: First name
+      last_name: Last name
+      email: Email
+      company: Company
+      phone: Phone
