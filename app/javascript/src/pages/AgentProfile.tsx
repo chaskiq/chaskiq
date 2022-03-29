@@ -258,7 +258,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   nameEditor = () => {
     return (
       <h5 className="text-2xl font-bold text-gray-900 truncate">
-        {this.state.agent.name || 'no name'}
+        {this.state.agent.name || I18n.t("profile.no_name")}
         <Button variant="icon" onClick={this.toggleNameEdit} color={'inherit'}>
           <EditIcon />
         </Button>
@@ -272,18 +272,18 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   agentProperties = () => {
     return [
-      { name: 'name', value: this.state.agent['name'] },
+      { name: I18n.t("profile.name"), value: this.state.agent['name'] },
 
       //{ name: 'lang', value: this.state.agent['lang'] },
       {
-        name: 'area of expertise',
+        name: I18n.t("profile.area_of_expertise"),
         value: this.state.agent['areaOfExpertise'],
       },
-      { name: 'specialization', value: this.state.agent['specialization'] },
-      { name: 'phone number', value: this.state.agent['phoneNumber'] },
-      { name: 'address', value: this.state.agent['address'] },
+      { name: I18n.t("profile.specialization"), value: this.state.agent['specialization'] },
+      { name: I18n.t("profile.phone_number"), value: this.state.agent['phoneNumber'] },
+      { name: I18n.t("profile.address"), value: this.state.agent['address'] },
       {
-        name: 'availability',
+        name: I18n.t("profile.availability"),
         value: this.state.agent['availability'],
         span: '2',
       },
@@ -294,35 +294,38 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     return [
       {
         name: 'name',
-        label: 'Full Name',
         type: 'string',
+        label: I18n.t("profile.name"),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'area_of_expertise',
         type: 'string',
-        label: 'Area of expertise',
+        label: I18n.t("profile.area_of_expertise"),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'specialization',
         type: 'string',
-        label: 'Specialization',
+        label: I18n.t("profile.specialization"),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'phone_number',
-        label: 'Phone number',
         type: 'string',
+        label: I18n.t("profile.phone_number"),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
-
-      { name: 'address', type: 'string', grid: { xs: 'w-full', sm: 'w-1/2' } },
-
+      {
+        name: 'address',
+        type: 'string',
+        label: I18n.t("profile.address"),
+        grid: { xs: 'w-full', sm: 'w-1/2' }
+      },
       {
         name: 'availability',
-        label: 'Availability',
         type: 'textarea',
+        label: I18n.t("profile.availability"),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
     ];

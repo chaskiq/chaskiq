@@ -5,6 +5,8 @@ on:
     branches:
       - master
       - stage
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -36,6 +38,7 @@ jobs:
                .
 
       - name: Tag and Push Docker image
+        if: github.event_name == 'push'
         run: |
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:$SHORT_SHA
           docker push $GITHUB_REPOSITORY:$SHORT_SHA
@@ -44,8 +47,15 @@ jobs:
           SHORT_SHA: ${{ steps.vars.outputs.short_sha }}
 
       - name: Tag LATEST and Push Docker image
-        if: github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: |
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:latest
           docker push $GITHUB_REPOSITORY:latest
           echo "LATEST deployed!"
+
+      - name: Tag RELEASE and Push Docker image
+        if: github.event_name	== 'release'
+        run: |
+          docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:${{ github.ref_name }}
+          docker push $GITHUB_REPOSITORY:${{ github.ref_name }}
+          echo "${{ github.ref_name }} deployed!"

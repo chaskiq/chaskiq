@@ -5,7 +5,7 @@ module UserHandler
     session_id = attrs.delete(:session_id)
     callbacks = attrs.delete(:disable_callbacks)
 
-    next_id = attrs[:name].presence || "visitor #{DummyName::Name.new}"
+    next_id = attrs[:name].presence || "Visitor #{DummyName::Name.new}"
 
     if attrs.dig(:properties, :name).blank?
       attrs.merge!(
