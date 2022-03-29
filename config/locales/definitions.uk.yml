@@ -74,7 +74,7 @@ uk:
         label: Register Visits
         hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
       languages:
-        select_lang: "select lang"
+        select_lang: Select language
     campaigns:
       campaign_name:
         label: Campaign Name
@@ -200,7 +200,7 @@ uk:
       email: Email
       state: State
       online: Online
-      ip: Ip
+      ip: IP
       country: Country
       city: City
       phone: Phone
