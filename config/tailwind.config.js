@@ -14,6 +14,7 @@ module.exports = {
       './app/**/*.erb',
       './app/javascript/**/*.scss',
       './app/helpers/**/*.rb',
+      './app/services/message_apis/**/presenter.rb',
       './app/javascript/**/*.js',
       './app/javascript/**/*.jsx',
       './app/javascript/**/*.ts',
@@ -98,8 +99,8 @@ module.exports = {
     // ...
   },
   plugins: [
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
   ],
 };

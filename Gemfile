@@ -65,6 +65,7 @@ gem "geoip"
 gem "truemail"
 
 gem "google-cloud-dialogflow"
+gem "twilio-ruby", "~> 5.58.1"
 
 gem "jwe"
 gem "jwt"
@@ -168,3 +169,5 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "jsbundling-rails", "~> 1.0"
 
 gem "tailwindcss-rails", "~> 2.0"
+
+gem "kredis", "~> 1.1"

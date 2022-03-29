@@ -10,6 +10,7 @@ import app_users from './actions/app_users';
 import app_user from './actions/app_user';
 import rtc from './actions/rtc';
 import campaigns from './actions/campaigns';
+import fixedSlider from './actions/fixedSlider';
 
 import upgradePages from './actions/upgradePages';
 
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   campaigns,
   paddleSubscription,
   upgradePages,
+  fixedSlider,
 });
 
 const middlewares = [thunkMiddleware]; //, routerMiddleware(history)]
@@ -50,6 +52,7 @@ const enhancer = compose(
   applyMiddleware(...middlewares),
   persistState('auth', { key: 'AUTH' }),
   persistState('current_user', { key: 'CURRENT_USER' }),
+  persistState('fixedSlider', { key: 'FIXED_SLIDER' }),
   persistState('theme', { key: 'THEME' })
 );
 
