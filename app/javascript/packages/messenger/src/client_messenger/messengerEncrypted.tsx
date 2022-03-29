@@ -6,7 +6,6 @@ import GraphqlClient from './graphql/client';
 //import { graphqlUrl } from './shared/absintheSubscription';
 import { graphqlUrl } from './shared/actionCableSubscription';
 
-
 type ChaskiqMessengerProps = {
   lang: string;
   app_id: string;
