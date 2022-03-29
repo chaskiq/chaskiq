@@ -11211,10 +11211,11 @@
     },
     "articles": {
       "activate_help_center": "Activate Help Center",
-      "add": "Add item",
-      "add_articles": "Add articles",
+      "add": "Add Item",
+      "add_articles": "Add Articles",
       "all": "All",
       "author": "Author",
+      "base_section": "Base Section",
       "collections": "Collections",
       "create": {
         "description": "Describe your collection to help you find it.",
@@ -11226,23 +11227,23 @@
         "placeholder": "Write the title of the article"
       },
       "created_on": "Created on",
-      "delete_article": "Delete article \"%{title} ?",
+      "delete_article": "Delete article \"%{title}?",
       "delete_article_exp": "we will destroy any content and related data",
       "delete_section": "Delete section",
-      "deleted_success": "article deleted",
+      "deleted_success": "Article deleted",
       "description_placeholder": "Describe your collection to help you find it.",
       "draft": "Drafts",
       "edit_collection": "Edit collection",
       "help_center": "Help Center",
-      "new": "New article",
-      "new_article": "new article",
-      "new_collection": "New collection",
-      "new_section": "New section",
+      "new": "New Article",
+      "new_article": "New article",
+      "new_collection": "New Collection",
+      "new_section": "New Section",
       "published": "Published",
-      "reordered_error": "reordered error",
-      "reordered_success": "reordered correctly",
+      "reordered_error": "Reordered error",
+      "reordered_success": "Reordered correctly",
       "settings": {
-        "add_language": "Add language",
+        "add_language": "Add Language",
         "add_language_to_help": "Add new language to Help Center",
         "appearance": "Appearance",
         "appearance_settings": "Appearance settings",
@@ -11258,8 +11259,8 @@
         "select_lang": "Select language",
         "title": "Help Center settings"
       },
-      "settings_updated_error": "article settings failed",
-      "settings_updated_success": "article settings updated",
+      "settings_updated_error": "Article settings failed",
+      "settings_updated_success": "Article settings updated",
       "square_preferred": "square images preferred (min size 200x200px)",
       "square_preferred_hint": "squared images will be optimal resized",
       "state": {
@@ -11270,8 +11271,8 @@
       },
       "title": "Articles",
       "title_placeholder": "Write the title of the sections",
-      "updated_error": "article error on save",
-      "updated_success": "article updated",
+      "updated_error": "Article error on save",
+      "updated_success": "Article updated",
       "visit": "visit the help center",
       "written_by": "written by"
     },
@@ -11312,7 +11313,7 @@
       "clone_title": "Clone",
       "cloned_error": "error while cloning record",
       "cloned_success": "cloned successfully",
-      "create_new": "Create new campaign",
+      "create_new": "Create New Campaign",
       "delete_campaign": "Delete campaign %{name}",
       "deliver_description": "Delivers the campaign",
       "deliver_title": "Deliver",
@@ -11350,19 +11351,21 @@
     "common": {
       "actions": "Actions",
       "add": "Add",
-      "add_new": "add new",
-      "away_mode": "Away mode",
+      "add_new": "Add New",
+      "away_mode": "Away Mode",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
-      "confirm_deletion": "Confirm deletion ?",
-      "confirm_deletion_ready": "are you ready to delete ?",
+      "choose_language": "Choose Language",
+      "confirm_deletion": "Confirm deletion?",
+      "confirm_deletion_ready": "Are you ready to delete?",
       "create": "Create",
       "days": "Days",
       "delete": "Delete",
+      "done": "Done",
       "edit": "Edit",
       "get_snippet": "Get the snippet",
-      "image": "Imagen",
+      "image": "Image",
       "langs": {
         "ca": "Catalan",
         "de": "Deutsch",
@@ -11390,15 +11393,25 @@
       "showing": "Showing",
       "submit": "Submit",
       "to": "to",
-      "toggle_dark_mode": "Toggle dark mode",
-      "toggle_light_mode": "Toggle light mode",
-      "type_message": "type your message",
+      "toggle_dark_mode": "Toggle Dark Mode",
+      "toggle_light_mode": "Toggle Light Mode",
+      "type_message": "Type your message",
       "tz_hint": "Your browser timezone is <b className=\"text-bold\">%{timezone}</b>",
       "update": "Update",
-      "upload_field": "upload %{field}",
+      "upload_field": "Upload %{field}",
       "users": "Users",
+      "visit": "Visit",
       "visitors": "Visitors",
-      "your_apps": "Your apps"
+      "your_apps": "Your Apps"
+    },
+    "contact_fields": {
+      "inbox": {
+        "company": "Company",
+        "email": "Email",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "phone": "Phone"
+      }
     },
     "contact_manager": {
       "create": "Create Users & Leads",
@@ -11421,10 +11434,11 @@
         "assign_agent": "Assign Agent",
         "close": "Close",
         "end_call": "End Call",
-        "priorize": "Priorize conversation",
-        "remove_priority": "Remove priority",
+        "priorize": "Priorize Conversation",
+        "remove_priority": "Remove Priority",
         "reopen": "Reopen",
-        "start_call": "Start videocall"
+        "start_call": "Start Videocall",
+        "tag_conversation": "Tag Conversation"
       },
       "editor": {
         "panels": {
@@ -11437,7 +11451,7 @@
           },
           "quick_reply": {
             "choose_another": "Choose another",
-            "confirm": "Confirm send %{title} ?",
+            "confirm": "Confirm send %{title}?",
             "confirm_msg": "This quick reply will be delivered on user's current conversation.",
             "empty": "no quick replies available",
             "title": "Send a quick reply"
@@ -11451,17 +11465,33 @@
         "seen": "Seen"
       },
       "sidebar": {
+        "app_inserter": {
+          "add_app": "Add App",
+          "title": "Add apps to inbox sidebar"
+        },
         "assignee": "Assignee",
         "browser": "User Browser",
         "created_at": "Created at",
+        "customize": "Customize",
         "first_agent_reply": "First agent reply",
         "latest_user_visible_comment_at": "Last comment",
         "location": "Location",
         "show_profile": "Show profile"
       },
+      "tag_modal_title": "Manage conversation tags",
       "with": "Conversation with"
     },
     "conversations": {
+      "app_package_panel": {
+        "preview": "Preview",
+        "send_app": "Send App",
+        "title": "Send App Package"
+      },
+      "assignment_rules": {
+        "hint": "This is the rule name",
+        "select_agent": "Select Agent",
+        "title": "Title"
+      },
       "empty": {
         "text": "Choose conversations on the side",
         "title": "No conversations"
@@ -11492,19 +11522,19 @@
       "guides": "Chaskiq Guides",
       "hey": "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />",
       "incoming_messages": "Incoming Messages",
-      "lead_os": "Lead Os",
+      "lead_os": "Lead OS",
       "mac_os": "Mac OS",
-      "new_conversations": "New conversations",
+      "new_conversations": "New Conversations",
       "resolutions": "Resolutions",
-      "response_avg": "Response Time avg",
+      "response_avg": "Average Response Time",
       "snippet": "Put the following script on the end of your html <body> tag",
       "status": "Live chat status",
       "status_paused": "Paused",
       "status_running": "Running",
-      "user_country": "User country",
-      "user_os": "User Os",
-      "users_browser": "Users browser",
-      "visit_activity": "Visit activity"
+      "user_country": "User Country",
+      "user_os": "User OS",
+      "users_browser": "Users Browser",
+      "visit_activity": "Visit Activity"
     },
     "data_tables": {
       "agents": {
@@ -11539,7 +11569,7 @@
         "country": "Country",
         "email": "Email",
         "first_seen": "Last Seen",
-        "ip": "Ip",
+        "ip": "IP",
         "lang": "Lang",
         "last_seen": "First Seen",
         "lat": "Lat",
@@ -11854,7 +11884,7 @@
           "label": "Display new messages in floating box"
         },
         "languages": {
-          "select_lang": "select lang"
+          "select_lang": "Select language"
         },
         "logo": {
           "hint": null,
@@ -12176,10 +12206,10 @@
       "title": "Email Forwarding"
     },
     "error_view": {
-      "cta": "try to go home",
-      "exp": "try refreshing the page",
+      "cta": "Try to go home",
+      "exp": "Try refreshing the page",
       "subtitle": "Unfortunately 🤯",
-      "title": "Woops! something went wrong."
+      "title": "Woops! Something went wrong."
     },
     "errors": {
       "connection_refused": "Oops! Failed to connect to the Web Console middleware.\nPlease make sure a rails development server is running.\n",
@@ -12244,6 +12274,18 @@
         "update": {
           "notice": "%{resource_name} was successfully updated."
         }
+      }
+    },
+    "full_contact": {
+      "inbox": {
+        "facebook": "Facebook",
+        "first_name": "First name",
+        "job_title": "Job title",
+        "last_name": "Last name",
+        "linkedin": "Linkedin",
+        "name": "Name",
+        "organization": "Organization",
+        "twitter": "Twitter"
       }
     },
     "helpers": {
@@ -12328,11 +12370,11 @@
       }
     },
     "home": {
-      "choose_lang": "Choose language",
-      "create_new": "Create new app",
-      "edit_credentials": "Edit user credentials",
-      "edit_profile": "Edit profile",
-      "go_to_doc": "Go to documentation",
+      "choose_lang": "Choose Language",
+      "create_new": "Create New App",
+      "edit_credentials": "Edit User Credentials",
+      "edit_profile": "Edit Profile",
+      "go_to_doc": "Go To Documentation",
       "tagline": "Find your current applications here",
       "welcome": "Welcome to",
       "welcome_site": "Chaskiq"
@@ -12356,7 +12398,7 @@
     "login": {
       "continue_with": "Continue with",
       "email": "Your Email",
-      "forgot_password": "Forgot your password ?",
+      "forgot_password": "Forgot your password?",
       "password": "Your password",
       "remember_me": "Remember me",
       "sign_in": "Connect",
@@ -12390,7 +12432,7 @@
         },
         "title": "Conversations"
       },
-      "create_new_conversation": "create new conversation",
+      "create_new_conversation": "Create new conversation",
       "dismiss": "Dismiss",
       "editor": {
         "placeholder": "Send message..."
@@ -12427,7 +12469,7 @@
     "navigator": {
       "campaigns": "Campaigns",
       "childs": {
-        "api_access": "API access",
+        "api_access": "API Access",
         "app_settings": "App Settings",
         "article_settings": "Settings",
         "articles": "Articles",
@@ -12443,8 +12485,8 @@
         "in_app_messages": "In App Messages",
         "integrations": "Integrations",
         "mailing_campaigns": "Mailing Campaigns",
-        "messenger_settings": "Messenger settings",
-        "new_conversations": "New conversations",
+        "messenger_settings": "Messenger Settings",
+        "new_conversations": "New Conversations",
         "outbound": "Outbound",
         "team": "Team",
         "webhooks": "Webhooks"
@@ -12456,10 +12498,10 @@
       "routing_bots": "Routing Bots",
       "settings": "Settings",
       "user_menu": {
-        "create_app": "Create new app",
+        "create_app": "Create New App",
         "create_app_description": "Create your company’s Chaskiq app",
-        "signout": "Sign out",
-        "title": "User menu"
+        "signout": "Sign Out",
+        "title": "User Menu"
       }
     },
     "new_app": {
@@ -12533,6 +12575,15 @@
         }
       }
     },
+    "profile": {
+      "address": "Address",
+      "area_of_expertise": "Area of expertise",
+      "availability": "Availability",
+      "name": "Full name",
+      "no_name": "No name",
+      "phone_number": "Phone number",
+      "specialization": "Specialization"
+    },
     "quick_replies": {
       "add_as_dialog": {
         "title": "Add this message as a Quick Reply"
@@ -12566,13 +12617,13 @@
       "contains": "contains",
       "create_segment": "Create new segment",
       "criteria": "criteria",
-      "date_filter_for": "Select the date filter for  %{name}",
+      "date_filter_for": "Select the date filter for %{name}",
       "days_ago": "days ago",
       "delete_segment": "Delete segment",
       "does_not_contain": "does not contain",
       "ends_with": "ends with",
       "exactly": "exactly",
-      "filter_for": "select filter for %{name}",
+      "filter_for": "Select filter for %{name}",
       "has_any_value": "has any value",
       "integer_filter_for": "Select the integer filter for %{name}",
       "is": "is",
@@ -12612,24 +12663,24 @@
       "app": {
         "app_settings": "App Settings",
         "appearance": "Appearance",
-        "appearance_title": "Appearance settings",
+        "appearance_title": "Appearance Settings",
         "availability": "Availability",
-        "contact_avatars": "Contact avatars",
+        "contact_avatars": "Contact Avatars",
         "email_forwarding": "Email Forwarding",
         "email_requirement": "Email Requirement",
-        "inbound_settings": "Inbound settings",
+        "inbound_settings": "Inbound Settings",
         "messenger_settings": "Messenger Settings",
         "messenger_style": "Messenger Style",
         "privacy": "Privacy",
-        "privacy_title": "Privacy settings",
+        "privacy_title": "Privacy Settings",
         "quick_replies": "Quick Replies",
         "security": "Security",
         "tags": "Tags",
         "translations": "Translations",
-        "user_data": "User data"
+        "user_data": "User Data"
       },
       "app_inserter": {
-        "action": "Add app",
+        "action": "Add App",
         "subtitle": "Help your customers before they start a conversation",
         "title": "Add apps to your Messenger"
       },
@@ -12738,7 +12789,7 @@
         "create_success": "Integration created",
         "delete_dialog": {
           "text": "The integration with %{name} service will be disabled immediately",
-          "title": "Delete \"%{name}\" integration ?"
+          "title": "Delete \"%{name}\" integration?"
         },
         "empty": {
           "text": "Search for available api services in",
@@ -12758,7 +12809,7 @@
         }
       },
       "languages": {
-        "add": "Add Language",
+        "add": "Add language",
         "title": "Languages"
       },
       "tags": {
@@ -12767,7 +12818,7 @@
           "name": "Field name"
         },
         "modal": {
-          "hint": "Looking for more tags ? look at",
+          "hint": "Looking for more tags? Look at",
           "link": "account settings",
           "title": "Create app's tag"
         },
@@ -12780,12 +12831,12 @@
         "content_text": "send an activable invitation",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
-        "destroy_agent_warning": "Are you sure you want to delete %{agent} ?",
+        "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
-        "hint": "the new team member will be notified by it's email",
-        "invitatin_error": "invitation not sent!",
-        "invitation_success": "invitation sent!",
-        "invitations": "invitations",
+        "hint": "The new team member will be notified by it's email",
+        "invitatin_error": "Invitation not sent!",
+        "invitation_success": "Invitation sent!",
+        "invitations": "Invitations",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
@@ -12819,7 +12870,7 @@
         "create_success": "Webhook created",
         "delete": {
           "text": "The webhook with %{name} service will be disabled immediately",
-          "title": "Delete webhook ?"
+          "title": "Delete webhook?"
         },
         "delete_error": "Error removing webhook",
         "delete_success": "Webhook removed correctly",
@@ -12829,7 +12880,7 @@
           "disabled_webhooks": "Disabled webhooks",
           "title": "You don't have any active webhooks yet"
         },
-        "new_webhook": "New webhook",
+        "new_webhook": "New Webhook",
         "outgoing_webhooks": "Outgoing webhooks",
         "title": "Webhooks",
         "update_error": "Error updating webhook",
@@ -13016,8 +13067,8 @@
       "end_bot_with": "End bot with",
       "end_with_follow": "End bot with follow actions",
       "follow_actions": "follow actions",
-      "new": "Create new task",
-      "new_conversations": "👋 New conversations",
+      "new": "Create New Task",
+      "new_conversations": "👋 New Conversations",
       "new_conversations_notice": "This is what people will see when they start a new conversation",
       "options": {
         "add_app_package": "Add App",
@@ -13073,11 +13124,11 @@
       "state_filters": {
         "disabled_description": "Disabled bot tasks",
         "disabled_title": "Disabled",
-        "enabled_description": "enabled bot tasks",
+        "enabled_description": "Enabled bot tasks",
         "enabled_title": "Enabled"
       },
       "support": {
-        "ask": "Are you an existing %{name} customer ?",
+        "ask": "Are you an existing %{name} customer?",
         "options": {
           "op1": "Yes, I'm a customer",
           "op2": "No, I'm not an existing customer yet"

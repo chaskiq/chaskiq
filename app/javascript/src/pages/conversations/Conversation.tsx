@@ -687,10 +687,10 @@ function Conversation({
             </button>
           </Tooltip>
 
-          <Tooltip placement="bottom" overlay={'tag conversation'}>
+          <Tooltip placement="bottom" overlay={I18n.t('conversation.actions.tag_conversation')}>
             <button
               onClick={() => setOpenTagManager(true)}
-              aria-label={'tag conversation'}
+              aria-label={I18n.t('conversation.actions.tag_conversation')}
               className="focus:outline-none outline-none mr-1 rounded-full 
               bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
               dark:hover:bg-gray-800 dark:text-gray-100 
@@ -703,7 +703,7 @@ function Conversation({
 
           {openTagManager && (
             <TagDialog
-              title={'manage conversation tags'}
+              title={I18n.t('conversation.tag_modal_title')}
               tags={conversation.tagList}
               saveHandler={(tags) => updateTags(tags)}
               closeHandler={() => setOpenTagManager(false)}

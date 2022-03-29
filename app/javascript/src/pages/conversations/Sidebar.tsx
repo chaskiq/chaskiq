@@ -97,7 +97,7 @@ function Sidebar({
                         className="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100 hover:text-indigo-500"
                         onClick={() => setEditable(true)}
                       >
-                        customize
+                        {I18n.t('conversation.sidebar.customize')}
                       </button>
                     )}
                   </div>

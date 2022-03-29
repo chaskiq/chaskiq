@@ -98,7 +98,7 @@ module MessageApis::InboxSections
               type: "item",
               id: "tag-blocks",
               title: "TagBlocks",
-              subtitle: "put some TagBlocks",
+              subtitle: "Put some TagBlocks",
               action: {
                 type: "submit"
               }
@@ -107,7 +107,7 @@ module MessageApis::InboxSections
               type: "item",
               id: "user-properties-block",
               title: "User Properties",
-              subtitle: "put some ConversationBlock",
+              subtitle: "Put some ConversationBlock",
               action: {
                 type: "submit"
               }
@@ -116,7 +116,7 @@ module MessageApis::InboxSections
               type: "item",
               id: "external-profiles",
               title: "External Profiles",
-              subtitle: "put some ConversationBlock",
+              subtitle: "Put some ConversationBlock",
               action: {
                 type: "submit"
               }
@@ -125,7 +125,7 @@ module MessageApis::InboxSections
               type: "item",
               id: "assignee-block",
               title: "AssigneeBlock",
-              subtitle: "put some AssigneeBlock",
+              subtitle: "Put some AssigneeBlock",
               action: {
                 type: "submit"
               }
@@ -134,7 +134,7 @@ module MessageApis::InboxSections
               type: "item",
               id: "conversation-events",
               title: "Conversation Events",
-              subtitle: "put some Events on the sidebar",
+              subtitle: "Put some Events on the sidebar",
               action: {
                 type: "submit"
               }
@@ -234,7 +234,7 @@ module MessageApis::InboxSections
 
         definitions << {
           id: "visit-user-profile",
-          label: "visit",
+          label: I18n.t("common.visit"),
           type: "button",
           variant: "link",
           align: "right",
@@ -379,7 +379,7 @@ module MessageApis::InboxSections
 
           definitions << {
             id: "visit-agent-profile",
-            label: "visit",
+            label: I18n.t("common.visit"),
             type: "button",
             variant: "link",
             align: "right",

@@ -18,6 +18,8 @@ import InserterForm from '@chaskiq/components/src/components/packageBlocks/Inser
 
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 
+import I18n from '../../shared/FakeI18n';
+
 const SortableList = SortableContainer(({ children }) => {
   return <ul className="border-b">{children}</ul>;
 });
@@ -195,10 +197,10 @@ function SidebarAppInserter({
             size="xs"
             onClick={() => setEditable(false)}
           >
-            cancel
+            {I18n.t('common.cancel')}
           </Button>
           <Button size="xs" onClick={handleSubmit}>
-            done
+            {I18n.t('common.done')}
           </Button>
         </div>
       </div>
@@ -209,13 +211,13 @@ function SidebarAppInserter({
       >
         <div>
           <h2 className="text-sm leading-6 font-medium text-gray-900 dark:text-gray-100">
-            Add apps to inbox sidebar
+            {I18n.t('conversation.sidebar.app_inserter.title')}
           </h2>
         </div>
 
         <div className="flex justify-end my-2">
           <Button size="xs" variant={'success'} onClick={() => setIsOpen(true)}>
-            Add app
+            {I18n.t('conversation.sidebar.app_inserter.add_app')}
           </Button>
         </div>
       </div>
