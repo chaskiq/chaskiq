@@ -1306,7 +1306,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         trackable_id: id,
       });*/
 
-    console.log(this.state.availableMessages, id);
     const newAvailableMessages = this.state.availableMessages.filter(
       (o) => o.id != id
     );

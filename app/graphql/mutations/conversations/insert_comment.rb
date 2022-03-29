@@ -10,7 +10,7 @@ module Mutations
 
       # TODO: define resolve method
       def resolve(app_key:, id:, message:)
-        message = message.to_h
+        message = message.to_h.with_indifferent_access
         app = App.find_by(key: app_key)
 
         conversation = app.conversations.find_by(key: id)
