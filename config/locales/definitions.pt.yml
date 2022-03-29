@@ -74,7 +74,7 @@ pt:
         label: Registrar Visitas
         hint: "Mesmo que isso esteja desativado, nós coletaremos o contador global de visitas e armazenaremos as últimas informações de visita sobre o perfil do visitante"
       languages:
-        select_lang: "selecionar idioma"
+        select_lang: Selecionar idioma
     campaigns:
       campaign_name:
         label: Nome da campanha
@@ -200,7 +200,7 @@ pt:
       email: Email
       state: Estado
       online: Online
-      ip: Ip
+      ip: IP
       country: País
       city: Cidade
       phone: Phone
