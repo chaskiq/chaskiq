@@ -169,7 +169,7 @@ export function sendPush(name, { ctx, app, data }) {
       success: (data) => {
         console.log('SENT PUSH EVENT: ', data);
       },
-      error: () => {},
+      error: () => { },
     }
   );
 }
