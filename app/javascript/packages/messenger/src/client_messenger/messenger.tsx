@@ -86,8 +86,6 @@ import { Conversation } from './conversations/conversation';
 import Conversations from './conversations/conversations';
 
 //import RtcView from '@chaskiq/components/src/components/rtcView'
-import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
-
 import MessageFrame from './messageFrame';
 
 import RtcViewWrapper from './rtcView';
@@ -869,7 +867,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             blocks: step.controls,
             source: null,
             stepId: step.id,
-            triggerId: welcomeBot.id,
+            triggerId: welcomeBot.id + '',
             fromBot: true,
             appUser: {
               id: 3,
@@ -1049,7 +1047,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   pushEvent = (name, data) => {
-    sendPush(name, { ctx: this, app: App, data: data });
+    sendPush(name, { ctx: this, app: this.App, data: data });
   };
 
   // check url pattern before trigger tours
@@ -1308,6 +1306,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         trackable_id: id,
       });*/
 
+    console.log(this.state.availableMessages, id);
     const newAvailableMessages = this.state.availableMessages.filter(
       (o) => o.id != id
     );

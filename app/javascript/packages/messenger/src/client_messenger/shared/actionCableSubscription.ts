@@ -10,7 +10,7 @@ export function createSubscription(props, userData) {
     cable: actioncable.createConsumer(
       `${props.ws}?enc=${props.encData}&user_data=${btoa(userData)}&app=${
         props.app_id
-      }&session_id=${props.session_id}`
+      }&session_id=${props.sessionId}`
     ),
   };
 }
@@ -24,7 +24,7 @@ export function eventsSubscriber(app, { ctx }) {
     ctx.cableDataFor({ channel: 'MessengerEventsChannel' }),
     {
       connected: () => {
-        console.log('connected to events');
+        console.log('connected to events xxxx');
         ctx.registerVisit();
 
         if (!ctx.state.banner) {
@@ -33,9 +33,10 @@ export function eventsSubscriber(app, { ctx }) {
         // ctx.processTriggers()
       },
       disconnected: () => {
-        console.log('disconnected from events');
+        console.log('disconnected from events xx');
       },
       received: (data) => {
+        console.log('RECEIVED: ', data);
         switch (data.type) {
           case 'messages:receive':
             ctx.setState({
