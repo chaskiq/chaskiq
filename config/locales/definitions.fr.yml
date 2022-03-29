@@ -74,7 +74,7 @@ fr:
         label: Enregistrer les visites
         hint: "Même si cette option est désactivée, nous collecterons le compteur mondial de visites et stockerons les informations de dernière visite sur le profil du visiteur"
       languages:
-        select_lang: "sélectionnez la langue"
+        select_lang: Sélectionnez la langue
     campaigns:
       campaign_name:
         label: Nom de la campagne
@@ -200,7 +200,7 @@ fr:
       email: E-mail
       state: État
       online: En ligne
-      ip: Ip
+      ip: IP
       country: Pays
       city: Ville
       phone: Phone
