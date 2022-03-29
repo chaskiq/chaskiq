@@ -41,7 +41,7 @@ function SidebarMenu({ dispatch, app }) {
   return (
     <>
       <Link className={cc} to={`/apps/${app.key}/reports/`}>
-        overview
+        Overview
       </Link>
       {/*<Link className={cc} to={`/apps/${app.key}/reports/leads`}>leads</Link>*/}
       {data.map((d, i) => (

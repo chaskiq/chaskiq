@@ -505,12 +505,12 @@ function AssignmentForm(props) {
       </div>
 
       <Input
-        label={'title'}
+        label={I18n.t('conversations.assignment_rules.title')}
         value={title}
         name="title"
         type="text"
         onChange={(e) => setTitle(e.target.value)}
-        helperText={'this is the rule name'}
+        helperText={I18n.t('conversations.assignment_rules.hint')}
       ></Input>
 
       {agents.length > 0 && (
@@ -518,7 +518,7 @@ function AssignmentForm(props) {
           type={'select'}
           name={'agent'}
           id={'agent'}
-          label={'select agent'}
+          label={I18n.t('conversations.assignment_rules.select_agent')}
           value={selectedValue()}
           options={agents.map((o) => ({
             value: o.id,

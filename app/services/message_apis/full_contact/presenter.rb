@@ -19,14 +19,14 @@ module MessageApis::FullContact
 
     def self.user_attrs
       items_attrs = [
-        { label: "Name", call: ->(user) { user.name } },
-        { label: "First name", call: ->(user) { user.first_name } },
-        { label: "Last name", call: ->(user) { user.last_name } },
-        { label: "Twitter", call: ->(user) { user.twitter } },
-        { label: "Facebook", call: ->(user) { user.facebook } },
-        { label: "Linkedin", call: ->(user) { user.linkedin } },
-        { label: "Organization", call: ->(user) { user.organization } },
-        { label: "Job title", call: ->(user) { user.job_title } }
+        { label: I18n.t("full_contact.inbox.name"), call: ->(user) { user.name } },
+        { label: I18n.t("full_contact.inbox.first_name"), call: ->(user) { user.first_name } },
+        { label: I18n.t("full_contact.inbox.last_name"), call: ->(user) { user.last_name } },
+        { label: I18n.t("full_contact.inbox.twitter"), call: ->(user) { user.twitter } },
+        { label: I18n.t("full_contact.inbox.facebook"), call: ->(user) { user.facebook } },
+        { label: I18n.t("full_contact.inbox.linkedin"), call: ->(user) { user.linkedin } },
+        { label: I18n.t("full_contact.inbox.organization"), call: ->(user) { user.organization } },
+        { label: I18n.t("full_contact.inbox.job_title"), call: ->(user) { user.job_title } }
       ]
     end
 
