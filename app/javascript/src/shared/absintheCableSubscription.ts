@@ -5,6 +5,8 @@ import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns';
 import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
+import { PUSH_EVENT } from '@chaskiq/store/src/graphql/mutations';
+import graphql from '@chaskiq/store/src/graphql/client';
 
 import {
   camelizeKeys,
@@ -31,7 +33,7 @@ export function createSubscription(match, accessToken) {
   };
 }
 
-const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
+export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
   const operation = `
   subscription eventSubscription($appKey: String!) {
     agentEvents(appKey: $appKey) {
@@ -128,3 +130,26 @@ const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
 
   // window.cable = CableApp
 };
+
+export function destroySubscription(subscription) {
+  subscription.cable.phoenixSocket.disconnect();
+}
+
+export function sendPush(name, { props, events, data }) {
+  console.log('WILL SEND PUSH EVENT: ', data);
+
+  graphql(
+    PUSH_EVENT,
+    {
+      appKey: props.app.key,
+      id: name,
+      data: data,
+    },
+    {
+      success: (data) => {
+        console.log('SENT PUSH EVENT: ', data);
+      },
+      error: () => {},
+    }
+  );
+}

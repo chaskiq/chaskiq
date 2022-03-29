@@ -90,3 +90,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
 
   // window.cable = CableApp
 };
+
+export function sendPush(name, { props, events, data }) {
+  events && events.perform(name, data);
+}

@@ -45,8 +45,9 @@ import {
   createSubscription,
   destroySubscription,
   eventsSubscriber,
+  sendPush,
 } from '../shared/actionCableSubscription';
-//import {createSubscription, destroySubscription, eventsSubscriber } from '../shared/absintheCableSubscription';
+// import {createSubscription, destroySubscription, eventsSubscriber, sendPush } from '../shared/absintheCableSubscription';
 
 declare global {
   interface Window {
@@ -119,6 +120,14 @@ function AppContainer({
 
   function handleUserSidebar() {
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }));
+  }
+
+  function pushEvent(name, data) {
+    sendPush(name, {
+      props: { app },
+      events: CableApp.current.events,
+      data: data,
+    });
   }
 
   return (
@@ -262,6 +271,7 @@ function AppContainer({
                   <RestrictedArea section="conversations">
                     <Conversations
                       subscribed
+                      pushEvent={pushEvent}
                       events={CableApp.current.events}
                     />
                   </RestrictedArea>

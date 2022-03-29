@@ -510,7 +510,7 @@ class AllArticles extends React.Component<AllArticlesProps, AllArticlesState> {
                   field: 'author',
                   title: I18n.t('definitions.articles.author.label'),
                   render: (row) =>
-                    row ? (
+                    row && row.author ? (
                       <div className="flex items-center">
                         <span>
                           <b className="font-bold">{row.author.name}</b>

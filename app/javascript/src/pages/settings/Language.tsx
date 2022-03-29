@@ -29,10 +29,23 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
       }
     });
 
-    // const newData = Object.assign({}, data.settings, next)
     const newData = Object.assign({}, { key: settings.key }, next);
     update({ app: newData });
-    toggleDialog();
+    return toggleDialog();
+
+    /*const n = {
+      translations: {
+        [value]: {
+          greetings: '-',
+          intro: '-',
+          tagline: '-',
+        },
+      },
+    };
+
+    const newData = Object.assign({}, { key: settings.key }, n);
+    update({ app: newData });
+    toggleDialog();*/
   }
 
   function close() {
@@ -119,6 +132,7 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
                   // id="standard-name"
                   label={false}
                   defaultValue={row[field]}
+                  //name={`${namespace}["translations"][${row.locale}][${field}]`}
                   name={`${namespace}[${field}_${row.locale}]`}
                 />
               )}
