@@ -136,7 +136,7 @@ module Types
     end
 
     def app_packages_capabilities(kind:)
-      raise "not in type" unless %w[home conversations conversation_part bots inbox].include?(kind)
+      raise "not in type" unless %w[home conversations conversation_part bots inbox fixed_sidebar].include?(kind)
 
       authorize! object, to: :show?, with: AppPolicy
 
@@ -204,17 +204,23 @@ module Types
       argument :agent_id, Integer, required: false
       argument :tag, String, required: false
       argument :term, String, required: false
+      argument :channel_id, String, required: false
     end
 
     field :conversations_counts, Types::JsonType, null: true
 
     field :conversations_tag_counts, Types::JsonType, null: true
 
+    field :conversations_channels_counts, Types::JsonType, null: true
+
     field :conversation, Types::ConversationType, null: true do
       argument :id, String, required: false
     end
 
-    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
+    # rubocop:disable Metrics/ParameterLists
+    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil, channel_id: nil)
+      # rubocop:enable Metrics/ParameterLists
+
       # object.plan.allow_feature!("Conversations")
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_conversations?, with: AppPolicy
@@ -225,6 +231,12 @@ module Types
                           .distinct
 
       @collection = @collection.where(state: filter) if filter.present?
+
+      if channel_id.present?
+        @collection = @collection
+                      .joins(:conversation_channels)
+                      .where("conversation_channels.provider =?", channel_id)
+      end
 
       @collection = filter_by_agent(agent_id)
       @collection = @collection.page(page).per(per)
@@ -256,6 +268,10 @@ module Types
       object.conversations.tag_counts.map do |o|
         { tag: o.name, count: o.taggings_count }
       end
+    end
+
+    def conversations_channels_counts
+      object.conversation_channels.group("provider").count
     end
 
     def conversation(id:)

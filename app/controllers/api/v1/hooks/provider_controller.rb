@@ -50,11 +50,18 @@ class Api::V1::Hooks::ProviderController < ApplicationController
     when "String"
       render plain: response
     when "Hash"
+
+      return handle_formatted_response(response) if response[:format].present? && response[:response].present?
+
       render(json: response, status: resolve_status(response))
     when "Array"
       render(json: response)
     else
       head :ok
     end
+  end
+
+  def handle_formatted_response(response)
+    render response[:format] => response[:response]
   end
 end

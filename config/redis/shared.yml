@@ -1,0 +1,15 @@
+production: &production
+  url: <%= Chaskiq::Config.fetch("REDIS_URL", "redis://127.0.0.1:6379/0") %>
+  timeout: 1
+
+development: &development
+  url: <%= Chaskiq::Config.fetch("REDIS_URL", "redis://127.0.0.1:6379/0") %>
+  timeout: 1
+
+  # You can also specify host, port, and db instead of url
+  # host: <%= ENV.fetch("REDIS_SHARED_HOST", "127.0.0.1") %>
+  # port: <%= ENV.fetch("REDIS_SHARED_PORT", "6379") %>
+  # db: <%= ENV.fetch("REDIS_SHARED_DB", "11") %>
+
+test:
+  <<: *development

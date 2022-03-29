@@ -128,9 +128,9 @@ export default function ConversationItemList({ app, conversation }) {
           <div className="flex justify-between">
             <div className="flex">
               {conversation.conversationChannels &&
-                conversation.conversationChannels.map((o) => (
+                conversation.conversationChannels.map((o, i) => (
                   <div
-                    key={`${conversation.key}-${o}`}
+                    key={`${conversation.key}-${o}-${i}`}
                     className="mr-0.5 border inline-flex items-center px-2.5 py-0.5 
                     rounded-full text-xs font-medium bg-gray-100 
                     text-blue-800 capitalize dark:bg-gray-900 dark:text-gray-100"
