@@ -27,7 +27,6 @@ import {
   START_CONVERSATION,
   APP_USER_UPDATE_STATE,
   UPDATE_AGENT,
-  UPDATE_AGENT_ROLE,
 } from '@chaskiq/store/src/graphql/mutations';
 
 import {
@@ -133,10 +132,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   handleData = (option) => {
     graphql(
-      UPDATE_AGENT_ROLE,
+      UPDATE_AGENT,
       {
         appKey: this.props.app.key,
-        id: this.state.agent.id + '',
+        email: this.state.agent.email,
         params: option.app,
       },
       {

@@ -13,16 +13,15 @@ module Mutations
         agent = app.agents.find_by(email: email) # , name: 'John Doe')
 
         authorize! agent,
-                   to: :can_manage_own_profile?,
+                   to: :can_manage_profile?,
                    with: AppPolicy,
                    context: {
                      app: app
                    }
 
         data = params.permit(
-          :name,
           :avatar,
-          :lang,
+          :name,
           :first_name,
           :last_name,
           :country,
@@ -30,7 +29,13 @@ module Mutations
           :region,
           :region_code,
           :enable_deliveries,
-          :available
+          :lang,
+          :permissions,
+          :area_of_expertise,
+          :specialization,
+          :phone_number,
+          :address,
+          :availability,
         )
 
         # data.merge!({avatar: avatar}) if avatar.present?
