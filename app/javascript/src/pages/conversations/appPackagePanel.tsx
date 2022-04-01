@@ -108,7 +108,9 @@ function AppPackagePanel(props) {
                         clipRule="evenodd"
                       ></path>
                     </svg>
-                    <span>{I18n.t('conversations.app_package_panel.preview')}</span>
+                    <span>
+                      {I18n.t('conversations.app_package_panel.preview')}
+                    </span>
                   </div>
                 </div>
 

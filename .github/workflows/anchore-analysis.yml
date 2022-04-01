@@ -21,7 +21,7 @@ jobs:
                --tag localbuild/testimage:latest \
                .
 
-      - uses: anchore/scan-action@v3
+      - uses: anchore/scan-action@v3.2.0
         id: scan
         with:
           image: "localbuild/testimage:latest"
