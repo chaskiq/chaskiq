@@ -19,24 +19,7 @@ module Mutations
 
         agent = role&.agent # , name: 'John Doe')
 
-        data = params.permit(
-          :avatar,
-          :name,
-          :first_name,
-          :last_name,
-          :country,
-          :country_code,
-          :region,
-          :region_code,
-          :enable_deliveries,
-          :lang,
-          :permissions,
-          :area_of_expertise,
-          :specialization,
-          :phone_number,
-          :address,
-          :availability,
-        )
+        data = params.permit(Agent.editable_attributes)
 
         # role.update(data)
         agent.update(data)

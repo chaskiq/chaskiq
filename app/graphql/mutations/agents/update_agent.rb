@@ -19,24 +19,7 @@ module Mutations
                      app: app
                    }
 
-        data = params.permit(
-          :avatar,
-          :name,
-          :first_name,
-          :last_name,
-          :country,
-          :country_code,
-          :region,
-          :region_code,
-          :enable_deliveries,
-          :lang,
-          :permissions,
-          :area_of_expertise,
-          :specialization,
-          :phone_number,
-          :address,
-          :availability,
-        )
+        data = params.permit(Agent.editable_attributes)
 
         # data.merge!({avatar: avatar}) if avatar.present?
 
