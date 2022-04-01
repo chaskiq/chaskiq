@@ -92,7 +92,7 @@ export function AppList({
             onClick={() => setSelected(null)}
           >
             <LeftArrow />
-            {I18n.t("common.back")}
+            {I18n.t('common.back')}
           </Button>
 
           <BaseInserter

@@ -687,7 +687,10 @@ function Conversation({
             </button>
           </Tooltip>
 
-          <Tooltip placement="bottom" overlay={I18n.t('conversation.actions.tag_conversation')}>
+          <Tooltip
+            placement="bottom"
+            overlay={I18n.t('conversation.actions.tag_conversation')}
+          >
             <button
               onClick={() => setOpenTagManager(true)}
               aria-label={I18n.t('conversation.actions.tag_conversation')}
