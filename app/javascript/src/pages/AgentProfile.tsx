@@ -27,7 +27,6 @@ import {
   START_CONVERSATION,
   APP_USER_UPDATE_STATE,
   UPDATE_AGENT,
-  UPDATE_AGENT_ROLE,
 } from '@chaskiq/store/src/graphql/mutations';
 
 import {
@@ -133,10 +132,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   handleData = (option) => {
     graphql(
-      UPDATE_AGENT_ROLE,
+      UPDATE_AGENT,
       {
         appKey: this.props.app.key,
-        id: this.state.agent.id + '',
+        email: this.state.agent.email,
         params: option.app,
       },
       {
@@ -258,7 +257,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   nameEditor = () => {
     return (
       <h5 className="text-2xl font-bold text-gray-900 truncate">
-        {this.state.agent.name || I18n.t("profile.no_name")}
+        {this.state.agent.name || I18n.t('profile.no_name')}
         <Button variant="icon" onClick={this.toggleNameEdit} color={'inherit'}>
           <EditIcon />
         </Button>
@@ -272,18 +271,24 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   agentProperties = () => {
     return [
-      { name: I18n.t("profile.name"), value: this.state.agent['name'] },
+      { name: I18n.t('profile.name'), value: this.state.agent['name'] },
 
       //{ name: 'lang', value: this.state.agent['lang'] },
       {
-        name: I18n.t("profile.area_of_expertise"),
+        name: I18n.t('profile.area_of_expertise'),
         value: this.state.agent['areaOfExpertise'],
       },
-      { name: I18n.t("profile.specialization"), value: this.state.agent['specialization'] },
-      { name: I18n.t("profile.phone_number"), value: this.state.agent['phoneNumber'] },
-      { name: I18n.t("profile.address"), value: this.state.agent['address'] },
       {
-        name: I18n.t("profile.availability"),
+        name: I18n.t('profile.specialization'),
+        value: this.state.agent['specialization'],
+      },
+      {
+        name: I18n.t('profile.phone_number'),
+        value: this.state.agent['phoneNumber'],
+      },
+      { name: I18n.t('profile.address'), value: this.state.agent['address'] },
+      {
+        name: I18n.t('profile.availability'),
         value: this.state.agent['availability'],
         span: '2',
       },
@@ -295,37 +300,37 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       {
         name: 'name',
         type: 'string',
-        label: I18n.t("profile.name"),
+        label: I18n.t('profile.name'),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'area_of_expertise',
         type: 'string',
-        label: I18n.t("profile.area_of_expertise"),
+        label: I18n.t('profile.area_of_expertise'),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'specialization',
         type: 'string',
-        label: I18n.t("profile.specialization"),
+        label: I18n.t('profile.specialization'),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'phone_number',
         type: 'string',
-        label: I18n.t("profile.phone_number"),
+        label: I18n.t('profile.phone_number'),
         grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'address',
         type: 'string',
-        label: I18n.t("profile.address"),
-        grid: { xs: 'w-full', sm: 'w-1/2' }
+        label: I18n.t('profile.address'),
+        grid: { xs: 'w-full', sm: 'w-1/2' },
       },
       {
         name: 'availability',
         type: 'textarea',
-        label: I18n.t("profile.availability"),
+        label: I18n.t('profile.availability'),
         grid: { xs: 'w-full', sm: 'w-full' },
       },
     ];
