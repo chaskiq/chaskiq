@@ -121,6 +121,27 @@ class Agent < ApplicationRecord
     self.class.model_name.singular
   end
 
+  def self.editable_attributes
+    %i[
+      avatar
+      name
+      first_name
+      last_name
+      country
+      country_code
+      region
+      region_code
+      enable_deliveries
+      lang
+      permissions
+      area_of_expertise
+      specialization
+      phone_number
+      address
+      availability
+    ]
+  end
+
   private
 
   def default_bot_avatar
