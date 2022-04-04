@@ -38,14 +38,6 @@ GIT
       redis-namespace (~> 1.6)
 
 GIT
-  remote: https://github.com/rails/sprockets.git
-  revision: 4aa1c55e66463f982c05cc85b94375be52d0d3f9
-  specs:
-    sprockets (4.0.2)
-      concurrent-ruby (~> 1.0)
-      rack (> 1, < 3)
-
-GIT
   remote: https://github.com/roo-rb/roo.git
   revision: 709464c77623be2bc09b2103405d90ded7604a75
   specs:
@@ -452,6 +444,11 @@ GEM
       activesupport (>= 5.2)
     phone (1.2.3)
     php_serialize (1.2)
+    propshaft (0.6.4)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
+      railties (>= 7.0.0)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -565,16 +562,8 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
-    sassc-rails (2.1.2)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
     scout_apm (5.1.1)
       parser
     shoulda (4.0.0)
@@ -595,6 +584,9 @@ GEM
     simpleidn (0.2.1)
       unf (~> 0.1.4)
     spring (4.0.0)
+    sprockets (4.0.3)
+      concurrent-ruby (~> 1.0)
+      rack (> 1, < 3)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
@@ -617,8 +609,6 @@ GEM
       nokogiri (>= 1.6, < 2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8)
@@ -672,6 +662,7 @@ DEPENDENCIES
   draftjs_exporter!
   email_reply_trimmer
   emoji_data!
+  execjs
   factory_bot_rails
   faker!
   faraday
@@ -705,6 +696,7 @@ DEPENDENCIES
   pg_search
   phone
   php_serialize (~> 1.2)
+  propshaft (~> 0.6.4)
   pry
   puma (~> 5.6)
   rack-cors (~> 1.0)
@@ -727,19 +719,17 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   ruby-oembed
-  sass-rails
+  sassc
   scout_apm
   shoulda
   shoulda-matchers
   sidekiq
   spring
-  sprockets!
   tailwindcss-rails (~> 2.0)
   timezone (~> 1.2)
   truemail
   twilio-ruby (~> 5.58.1)
   tzinfo-data
-  uglifier (>= 1.3.0)
   urlcrypt
   web-console (>= 3.3.0)
   webmock
