@@ -14,14 +14,13 @@ gem "anycable-rails"
 # gem 'sqlite3'
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
-gem "puma", "~> 5.6"
-# Use SCSS for stylesheets
-gem "sass-rails"
-# Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 1.3.0"
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
 gem "haml"
+gem "jsbundling-rails", "~> 1.0"
+gem "kredis", "~> 1.1"
+gem "propshaft", "~> 0.6.4"
+gem "puma", "~> 5.6"
+gem "sassc"
+gem "tailwindcss-rails", "~> 2.0"
 
 gem "devise" # , "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views
@@ -122,13 +121,12 @@ gem "bootsnap", ">= 1.1.0", require: false
 
 gem "dotenv-rails", groups: %i[development test]
 
-gem "sprockets", github: "rails/sprockets"
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "cypress-on-rails", "~> 1.0"
   gem "pry"
+  gem "execjs"
   # gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
@@ -165,9 +163,3 @@ end
 gem "php_serialize", "~> 1.2"
 gem "scout_apm"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
-
-gem "jsbundling-rails", "~> 1.0"
-
-gem "tailwindcss-rails", "~> 2.0"
-
-gem "kredis", "~> 1.1"
