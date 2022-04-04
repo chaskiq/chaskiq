@@ -240,6 +240,7 @@ GEM
       railties (>= 3.2)
     email_reply_trimmer (0.1.13)
     erubi (1.10.0)
+    execjs (2.8.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -661,6 +662,7 @@ DEPENDENCIES
   draftjs_exporter!
   email_reply_trimmer
   emoji_data!
+  execjs
   factory_bot_rails
   faker!
   faraday
