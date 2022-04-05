@@ -238,7 +238,7 @@ module Types
                       .where("conversation_channels.provider =?", channel_id)
       end
 
-      @collection = filter_by_agent(agent_id)
+      @collection = filter_by_agent(agent_id) if agent_id.present?
       @collection = @collection.page(page).per(per)
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
