@@ -1,7 +1,7 @@
 import { appFragment, appUserFragment } from './fragments';
 
 export const UPDATE_APP = `
-  mutation AppsUpdate($appKey: String!, $appParams: Json!){
+  mutation AppsUpdate($appKey: String!, $appParams: Any!){
     appsUpdate(appKey: $appKey, appParams: $appParams){
       errors
       app{
@@ -12,7 +12,7 @@ export const UPDATE_APP = `
 `;
 
 export const IMPORT_CONTACTS = `
-  mutation ImportContact($appKey: String!, $appParams: Json!){
+  mutation ImportContact($appKey: String!, $appParams: Any!){
     importContacts(appKey: $appKey, appParams: $appParams){
       errors
     }
@@ -28,7 +28,7 @@ export const DESTROY_APP = `
 `;
 
 export const CREATE_APP = `
-  mutation AppsCreate($appParams: Json!, $operation: String){
+  mutation AppsCreate($appParams: Any!, $operation: String){
     appsCreate(appParams: $appParams, operation: $operation){
       errors
       app{
@@ -39,24 +39,25 @@ export const CREATE_APP = `
 `;
 
 export const APP_USER_UPDATE_STATE = `
-  mutation AppUserUpdateData($appKey: String!, $id: Int!, $state: String!){
+  mutation AppUserUpdateData($appKey: String!, $id: String!, $state: String!){
     appUserUpdateData(appKey: $appKey, id: $id, state: $state){
-      ${appUserFragment}
+      appUser {
+        ${appUserFragment}
+      }
     }
   }
 `;
 
 export const APP_USER_UPDATE = `
-  mutation UpdateAppUser($appKey: String!, $id: Int!, $options: Json!){
+  mutation UpdateAppUser($appKey: String!, $id: String!, $options: Any!){
     updateAppUser(appKey: $appKey, id: $id, options: $options){
       ${appUserFragment}
-      errors
     }
   }
 `;
 
 export const APP_USER_CREATE = `
-  mutation CreateAppUser($appKey: String!, $options: Json!){
+  mutation CreateAppUser($appKey: String!, $options: Any!){
     createAppUser(appKey: $appKey, options: $options){
       ${appUserFragment}
       errors
@@ -107,7 +108,7 @@ export const APP_USER_PROFILE_DELETE = `
 `;
 
 export const SYNC_EXTERNAL_PROFILE = `
-  mutation SyncExternalProfile($appKey: String!, $id: Int!, $provider: String!){
+  mutation SyncExternalProfile($appKey: String!, $id: String!, $provider: String!){
     syncExternalProfile(appKey: $appKey, id: $id, provider: $provider){
       ${appUserFragment}
     }
@@ -115,7 +116,7 @@ export const SYNC_EXTERNAL_PROFILE = `
 `;
 
 export const START_CONVERSATION = `
-  mutation StartConversation($appKey: String!, $id: Int, $message: Json!){
+  mutation StartConversation($appKey: String!, $id: String, $message: MessageInput!){
     startConversation(appKey: $appKey, id: $id, message: $message){
       conversation{
         id
@@ -166,7 +167,7 @@ export const START_CONVERSATION = `
 `;
 
 export const INSERT_COMMMENT = `
-  mutation InsertComment($appKey: String!, $id: String!, $message: Json!){
+  mutation InsertComment($appKey: String!, $id: String!, $message: MessageInput!){
     insertComment(appKey: $appKey, id: $id, message: $message){
       message{
         key
@@ -207,7 +208,7 @@ export const TYPING_NOTIFIER = `
 `;
 
 export const INSERT_APP_BLOCK_COMMMENT = `
-  mutation InsertAppBlockComment($appKey: String!, $id: String!, $controls: Json!){
+  mutation InsertAppBlockComment($appKey: String!, $id: String!, $controls: Any!){
     insertAppBlockComment(appKey: $appKey, id: $id, controls: $controls){
       message{
         key
@@ -240,7 +241,7 @@ export const INSERT_APP_BLOCK_COMMMENT = `
 `;
 
 export const SEND_TRIGGER = `
-  mutation SendTrigger($appKey: String!, $conversationId: Int!, $triggerId: Int!){
+  mutation SendTrigger($appKey: String!, $conversationId: String!, $triggerId: String!){
     sendTrigger(appKey: $appKey, conversationId: $conversationId, triggerId: $triggerId){
       conversation{
         id
@@ -254,7 +255,7 @@ export const SEND_TRIGGER = `
 `;
 
 export const INSERT_NOTE = `
-  mutation InsertNote($appKey: String!, $id: Int!, $message: Json!){
+  mutation InsertNote($appKey: String!, $id: String!, $message: MessageInput!){
     insertNote(appKey: $appKey, id: $id, message: $message){
       message{
         message{
@@ -287,7 +288,7 @@ export const INSERT_NOTE = `
 `;
 
 export const ASSIGN_USER = `
-  mutation AssignUser($appKey: String!, $conversationId: Int!, $appUserId: Int!){
+  mutation AssignUser($appKey: String!, $conversationId: String!, $appUserId: String!){
     assignUser(appKey: $appKey, conversationId: $conversationId, appUserId: $appUserId){
       conversation{
         id
@@ -313,7 +314,7 @@ export const ASSIGN_USER = `
 `;
 
 export const CREATE_ASSIGNMENT_RULE = `
-  mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $conditions: Json!){
+  mutation CreateAssignmentRule($appKey: String!, $agentId: String!, $title: String!, $conditions: [Any!]!){
     createAssignmentRule(appKey: $appKey, agentId: $agentId, title: $title, conditions: $conditions){
       errors
       assignmentRule{
@@ -333,7 +334,7 @@ export const CREATE_ASSIGNMENT_RULE = `
 `;
 
 export const UPDATE_RULE_PRIORITIES = `
-  mutation UpdateRulePriorities($appKey: String!, $rules: [Json!]!){
+  mutation UpdateRulePriorities($appKey: String!, $rules: [Any!]!){
     updateRulePriorities(appKey: $appKey, rules: $rules){
       errors
     }
@@ -341,7 +342,7 @@ export const UPDATE_RULE_PRIORITIES = `
 `;
 
 export const EDIT_ASSIGNMENT_RULE = `
-  mutation EditAssignmentRule($appKey: String!, $ruleId: Int!, $agentId: String!, $title: String!, $conditions: Json!){
+  mutation EditAssignmentRule($appKey: String!, $ruleId: String!, $agentId: String!, $title: String!, $conditions: [Any!]!){
     editAssignmentRule(appKey: $appKey, ruleId: $ruleId, agentId: $agentId, title: $title, conditions: $conditions){
       errors
       assignmentRule{
@@ -361,7 +362,7 @@ export const EDIT_ASSIGNMENT_RULE = `
 `;
 
 export const DELETE_ASSIGNMENT_RULE = `
-  mutation DeleteAssignmentRule($appKey: String!, $ruleId: Int! ){
+  mutation DeleteAssignmentRule($appKey: String!, $ruleId: String! ){
     deleteAssignmentRule(appKey: $appKey, ruleId: $ruleId){
       errors
       assignmentRule{
@@ -381,7 +382,7 @@ export const DELETE_ASSIGNMENT_RULE = `
 `;
 
 export const UPDATE_CONVERSATION_TAG_LIST = `
-  mutation UpdateConversationTags($appKey: String!, $conversationId: Int!, $tagList: [String!]!){
+  mutation UpdateConversationTags($appKey: String!, $conversationId: String!, $tagList: [String!]!){
     updateConversationTags(appKey: $appKey, conversationId: $conversationId, tagList: $tagList){
       conversation{
         id
@@ -408,7 +409,7 @@ export const UPDATE_CONVERSATION_TAG_LIST = `
 `;
 
 export const UPDATE_CONVERSATION_STATE = `
-  mutation UpdateConversationState($appKey: String!, $conversationId: Int!, $state: String!){
+  mutation UpdateConversationState($appKey: String!, $conversationId: String!, $state: String!){
     updateConversationState(appKey: $appKey, conversationId: $conversationId, state: $state){
       conversation{
         id
@@ -434,7 +435,7 @@ export const UPDATE_CONVERSATION_STATE = `
 `;
 
 export const TOGGLE_CONVERSATION_PRIORITY = `
-  mutation ToggleConversationPriority($appKey: String!, $conversationId: Int!){
+  mutation ToggleConversationPriority($appKey: String!, $conversationId: String!){
     toggleConversationPriority(appKey: $appKey, conversationId: $conversationId){
       conversation{
         id
@@ -460,7 +461,7 @@ export const TOGGLE_CONVERSATION_PRIORITY = `
 `;
 
 export const UPDATE_CAMPAIGN = `
-  mutation UpdateCampaign($appKey: String!, $id: Int!, $campaignParams: Json!){
+  mutation UpdateCampaign($appKey: String!, $id: String!, $campaignParams: Any!){
     campaignUpdate(appKey: $appKey, id: $id, campaignParams: $campaignParams){
       errors
       campaign {
@@ -489,7 +490,7 @@ export const UPDATE_CAMPAIGN = `
 `;
 
 export const DELETE_CAMPAIGN = `
-  mutation DeleteCampaign($appKey: String!, $id: Int!){
+  mutation DeleteCampaign($appKey: String!, $id: String!){
     campaignDelete(appKey: $appKey, id: $id){
       errors
       campaign {
@@ -500,7 +501,7 @@ export const DELETE_CAMPAIGN = `
 `;
 
 export const DELIVER_CAMPAIGN = `
-  mutation DeliverCampaign($appKey: String!, $id: Int!, ){
+  mutation DeliverCampaign($appKey: String!, $id: String!, ){
     campaignDeliver(appKey: $appKey, id: $id){
       errors
       campaign {
@@ -528,7 +529,7 @@ export const DELIVER_CAMPAIGN = `
 `;
 
 export const PURGE_METRICS = `
-  mutation PurgeMetrics($appKey: String!, $id: Int!, ){
+  mutation PurgeMetrics($appKey: String!, $id: String!, ){
     purgeMetrics(appKey: $appKey, id: $id){
       errors
       campaign {
@@ -554,7 +555,7 @@ export const PURGE_METRICS = `
 `;
 
 export const CREATE_CAMPAIGN = `
-  mutation CreateCampaign($appKey: String!, $campaignParams: Json!, $operation: String, $mode: String!){
+  mutation CreateCampaign($appKey: String!, $campaignParams: Any!, $operation: String, $mode: String!){
     campaignCreate(operation: $operation, appKey: $appKey, mode: $mode, campaignParams: $campaignParams){
       errors
       campaign {
@@ -583,7 +584,7 @@ export const CREATE_CAMPAIGN = `
 `;
 
 export const PREDICATES_SEARCH = `
-  mutation PredicatesSearch($appKey: String!, $search: Json!, $page: Int, $per: Int){
+  mutation PredicatesSearch($appKey: String!, $search: Any!, $page: Int, $per: Int){
     predicatesSearch(appKey: $appKey, search: $search, page: $page, per: $per){
       appUsers{
         collection{
@@ -591,7 +592,6 @@ export const PREDICATES_SEARCH = `
           email
           avatarUrl
           os
-          phone
           osVersion
           lastVisitedAt
           browser
@@ -622,7 +622,7 @@ export const PREDICATES_SEARCH = `
 `;
 
 export const PREDICATES_DELETE = `
-  mutation PredicatesDelete($appKey: String!, $id: Int,){
+  mutation PredicatesDelete($appKey: String!, $id: String,){
     predicatesDelete(appKey: $appKey, id: $id){
       segment {
         name
@@ -632,7 +632,7 @@ export const PREDICATES_DELETE = `
 `;
 
 export const PREDICATES_CREATE = `
-  mutation PredicatesCreate($appKey: String!, $name: String!, $predicates: Json!){
+  mutation PredicatesCreate($appKey: String!, $name: String!, $predicates: Any!){
     predicatesCreate(appKey: $appKey, name: $name, predicates: $predicates){
       segment {
         id
@@ -649,7 +649,7 @@ export const PREDICATES_CREATE = `
 `;
 
 export const PREDICATES_UPDATE = `
-  mutation PredicatesUpdate($appKey: String!, $predicates: Json!, $id: Int){
+  mutation PredicatesUpdate($appKey: String!, $predicates: Any!, $id: String){
     predicatesUpdate(appKey: $appKey, predicates: $predicates, id: $id){
       segment {
         id
@@ -666,7 +666,7 @@ export const PREDICATES_UPDATE = `
 `;
 
 export const WEBHOOK_DELETE = `
-  mutation WebhookDelete($appKey: String!, $id: Int!){
+  mutation WebhookDelete($appKey: String!, $id: String!){
     deleteWebhook(appKey: $appKey, id: $id){
       webhook
       errors
@@ -675,7 +675,7 @@ export const WEBHOOK_DELETE = `
 `;
 
 export const WEBHOOK_CREATE = `
-  mutation WebhookCreate($appKey: String!, $url: String!, $tags: Json!, $state: String!){
+  mutation WebhookCreate($appKey: String!, $url: String!, $tags: Any!, $state: String!){
     createWebhook(appKey: $appKey, url: $url, tags: $tags, state: $state){
       webhook
       errors
@@ -684,7 +684,7 @@ export const WEBHOOK_CREATE = `
 `;
 
 export const WEBHOOK_UPDATE = `
-  mutation WebhookUpdate($appKey: String!, $url: String!, $state: String!, $tags: Json!, $id: Int!){
+  mutation WebhookUpdate($appKey: String!, $url: String!, $state: String!, $tags: Any!, $id: String!){
     updateWebhook(appKey: $appKey, url: $url, tags: $tags, id: $id, state: $state){
       webhook
       errors
@@ -715,7 +715,7 @@ export const QUICK_REPLY_CREATE = `
 `;
 
 export const QUICK_REPLY_UPDATE = `
-  mutation QuickReplyUpdate($appKey: String!, $title: String!, $content: String!, $id: Int!, $lang: String ){
+  mutation QuickReplyUpdate($appKey: String!, $title: String!, $content: String!, $id: String!, $lang: String ){
     updateQuickReply(appKey: $appKey, title: $title, content: $content, id: $id, lang: $lang ){
       quickReply {
         id
@@ -728,7 +728,7 @@ export const QUICK_REPLY_UPDATE = `
 `;
 
 export const QUICK_REPLY_DELETE = `
-  mutation QuickReplyDelete($appKey: String!, $id: Int! ){
+  mutation QuickReplyDelete($appKey: String!, $id: String! ){
     deleteQuickReply(appKey: $appKey, id: $id){
       quickReply {
         id
@@ -751,7 +751,7 @@ export const INVITE_AGENT = `
 `;
 
 export const UPDATE_AGENT = `
-  mutation UpdateAgent($appKey: String!, $email: String!, $params: Json!){
+  mutation UpdateAgent($appKey: String!, $email: String!, $params: Any!){
     updateAgent(appKey: $appKey, email: $email, params: $params){
       agent {
         email
@@ -764,7 +764,7 @@ export const UPDATE_AGENT = `
 `;
 
 export const UPDATE_AGENT_ROLE = `
-  mutation UpdateAgentRole($appKey: String!, $id: String!, $params: Json!){
+  mutation UpdateAgentRole($appKey: String!, $id: String!, $params: Any!){
     updateAgentRole(appKey: $appKey, id: $id, params: $params){
       agent {
         id
@@ -773,7 +773,6 @@ export const UPDATE_AGENT_ROLE = `
         name
         lang
         agentId
-        
       }
     }
   }
@@ -790,7 +789,7 @@ export const DESTROY_AGENT_ROLE = `
 `;
 
 export const CREATE_ARTICLE = `
-  mutation CreateArticle($appKey: String!, $content: Json!, $title: String!, $lang: String){
+  mutation CreateArticle($appKey: String!, $content: Any!, $title: String!, $lang: String){
     createArticle(appKey: $appKey, content: $content, title: $title, lang: $lang){
       article {
         id
@@ -810,7 +809,7 @@ export const CREATE_ARTICLE = `
 `;
 
 export const EDIT_ARTICLE = `
-  mutation EditArticle($appKey: String!, $content: Json, $id: String!, $title: String!, $description: String!, $lang: String){
+  mutation EditArticle($appKey: String!, $content: Any, $id: String!, $title: String!, $description: String!, $lang: String){
     editArticle(appKey: $appKey, content: $content, id: $id, title: $title, description: $description, lang: $lang){
       article {
         id
@@ -830,7 +829,7 @@ export const EDIT_ARTICLE = `
 `;
 
 export const ARTICLE_BLOB_ATTACH = `
-  mutation ArticleBlobAttach($appKey: String!, $id: Int!, $blobId: String!){
+  mutation ArticleBlobAttach($appKey: String!, $id: String!, $blobId: String!){
     articleBlobAttach(appKey: $appKey, id: $id, blobId: $blobId){
       article {
         id
@@ -967,7 +966,7 @@ export const ARTICLE_COLLECTION_CREATE = `
 `;
 
 export const ARTICLE_COLLECTION_CHANGE = `
-  mutation ChangeCollectionArticle($appKey: String!, $id: String!, $collectionId: Int!){
+  mutation ChangeCollectionArticle($appKey: String!, $id: String!, $collectionId: String!){
     changeCollectionArticle( 
       appKey: $appKey, 
       id: $id, 
@@ -990,7 +989,7 @@ export const ARTICLE_COLLECTION_CHANGE = `
 `;
 
 export const ARTICLE_COLLECTION_EDIT = `
-  mutation ArticleCollectionEdit($appKey: String!, $id: Int!, $title: String!, $description: String, $lang: String, $icon: String){
+  mutation ArticleCollectionEdit($appKey: String!, $id: String!, $title: String!, $description: String, $lang: String, $icon: String){
     articleCollectionEdit( 
       appKey: $appKey, 
       title: $title, 
@@ -1011,7 +1010,7 @@ export const ARTICLE_COLLECTION_EDIT = `
 `;
 
 export const ARTICLE_COLLECTION_DELETE = `
-  mutation ArticleCollectionDelete($appKey: String!, $id: Int!){
+  mutation ArticleCollectionDelete($appKey: String!, $id: String!){
     articleCollectionDelete( 
       appKey: $appKey, 
       id: $id,
@@ -1037,7 +1036,7 @@ export const ARTICLE_COLLECTION_REORDER = `
 `;
 
 export const ARTICLE_SECTION_CREATE = `
-  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: Int!, $lang: String){
+  mutation ArticleSectionCreate($appKey: String!, $title: String!, $collectionId: String!, $lang: String){
     articleSectionCreate( 
       appKey: $appKey, 
       title: $title, 
@@ -1058,7 +1057,7 @@ export const ARTICLE_SECTION_CREATE = `
 `;
 
 export const ARTICLE_SECTION_EDIT = `
-  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: String!, $collectionId: Int!, $lang: String){
+  mutation ArticleSectionEdit($appKey: String!, $title: String!, $id: String!, $collectionId: String!, $lang: String){
     articleSectionEdit( 
       appKey: $appKey, 
       title: $title,
@@ -1089,7 +1088,7 @@ export const ARTICLE_SECTION_DELETE = `
 `;
 
 export const ADD_ARTICLES_TO_COLLECTION = `
-  mutation AddArticlesToCollection($appKey: String!, $collectionId: Int!, $articlesId: [String!]!){
+  mutation AddArticlesToCollection($appKey: String!, $collectionId: String!, $articlesId: [String!]!){
     addArticlesToCollection( 
       appKey: $appKey,
       collectionId: $collectionId,
@@ -1103,7 +1102,7 @@ export const ADD_ARTICLES_TO_COLLECTION = `
 `;
 
 export const ARTICLE_SETTINGS_UPDATE = `
-  mutation ArticleSettingsUpdate($appKey: String!, $settings: Json!){
+  mutation ArticleSettingsUpdate($appKey: String!, $settings: Any!){
     articleSettingsUpdate( 
       appKey: $appKey,
       settings: $settings
@@ -1160,7 +1159,7 @@ export const ARTICLE_SETTINGS_DELETE_LANG = `
 `;
 
 export const CREATE_BOT_TASK = `
-  mutation CreateBotTask($appKey: String!, $params: Json!){
+  mutation CreateBotTask($appKey: String!, $params: Any!){
     createBotTask( 
       appKey: $appKey,
       params: $params,
@@ -1185,7 +1184,7 @@ export const CREATE_BOT_TASK = `
 `;
 
 export const UPDATE_BOT_TASK = `
-  mutation UpdateBotTask($appKey: String!, $id: String!, $params: Json!){
+  mutation UpdateBotTask($appKey: String!, $id: String!, $params: Any!){
     updateBotTask( 
       appKey: $appKey,
       params: $params,
@@ -1237,7 +1236,7 @@ export const REORDER_BOT_TASK = `
 `;
 
 export const CREATE_OAUTH_APP = `
-  mutation CreateOauthApplication($appKey: String!, $params: Json!){
+  mutation CreateOauthApplication($appKey: String!, $params: Any!){
     createOauthApplication( 
       appKey: $appKey,
       params: $params,
@@ -1254,7 +1253,7 @@ export const CREATE_OAUTH_APP = `
 `;
 
 export const UPDATE_OAUTH_APP = `
-  mutation UpdateOauthApplication($appKey: String!, $uid: String!, $params: Json!){
+  mutation UpdateOauthApplication($appKey: String!, $uid: String!, $params: Any!){
     updateOauthApplication( 
       appKey: $appKey,
       params: $params,
@@ -1290,7 +1289,7 @@ export const DELETE_OAUTH_APP = `
 `;
 
 export const CREATE_INTEGRATION = `
-  mutation CreateIntegration($appKey: String!, $appPackage: String! , $params: Json!){
+  mutation CreateIntegration($appKey: String!, $appPackage: String! , $params: Any!){
     integrationsCreate(appKey: $appKey, appPackage: $appPackage, params: $params){
       errors
       integration {
@@ -1308,7 +1307,7 @@ export const CREATE_INTEGRATION = `
 `;
 
 export const UPDATE_INTEGRATION = `
-  mutation UpdateIntegration($appKey: String!, $id: Int!, , $params: Json!){
+  mutation UpdateIntegration($appKey: String!, $id: String!, $params: Any!){
     integrationsUpdate(appKey: $appKey, id: $id, params: $params){
       errors
       integration {
@@ -1326,7 +1325,7 @@ export const UPDATE_INTEGRATION = `
 `;
 
 export const DELETE_INTEGRATION = `
-  mutation DeleteIntegration($appKey: String!, $id: Int!){
+  mutation DeleteIntegration($appKey: String!, $id: String!){
     integrationsDelete(appKey: $appKey, id: $id){
       errors
       integration {
@@ -1343,7 +1342,7 @@ export const DELETE_INTEGRATION = `
 `;
 
 export const CREATE_PACKAGE = `
-  mutation CreatePackage($appKey: String!, $params: Json!){
+  mutation CreatePackage($appKey: String!, $params: Any!){
     appPackagesCreate(appKey: $appKey, params: $params){
       errors
       appPackage {
@@ -1354,6 +1353,8 @@ export const CREATE_PACKAGE = `
         name
         definitions
         description
+        apiUrl
+        contentUrl
         initializeUrl
         configureUrl
         submitUrl
@@ -1368,7 +1369,7 @@ export const CREATE_PACKAGE = `
 `;
 
 export const UPDATE_PACKAGE = `
-  mutation UpdatePackage($appKey: String!, $id: String!, $params: Json!){
+  mutation UpdatePackage($appKey: String!, $id: String!, $params: Any!){
     appPackagesUpdate(appKey: $appKey, id: $id, params: $params){
       errors
       appPackage {
@@ -1379,6 +1380,8 @@ export const UPDATE_PACKAGE = `
         name
         definitions
         description
+        apiUrl
+        contentUrl
         initializeUrl
         configureUrl
         submitUrl
@@ -1404,6 +1407,8 @@ export const DELETE_PACKAGE = `
         name
         definitions
         description
+        apiUrl
+        contentUrl
         initializeUrl
         configureUrl
         submitUrl
@@ -1417,7 +1422,16 @@ export const DELETE_PACKAGE = `
   }
 `;
 
+export const PUSH_EVENT = `
+  mutation PushEvent($appKey: String!, $id: String!, $data: Any!){
+    pushEvent(appKey: $appKey, id: $id, data: $data){
+      status
+    }
+  }
+`;
+
 export default {
+  PUSH_EVENT,
   UPDATE_APP,
   IMPORT_CONTACTS,
   DESTROY_APP,

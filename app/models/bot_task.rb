@@ -201,4 +201,15 @@ class BotTask < Message
   def self.duplicate(record)
     create(record.dup)
   end
+
+  def as_json(options = nil)
+    result = super({
+      only: %i[id settings name scheduled_at scheduled_to],
+      methods: %i[id settings name scheduled_at scheduled_to]
+    }
+             .merge(options || {})
+    )
+    result[:id] = id.to_s
+    result
+  end
 end

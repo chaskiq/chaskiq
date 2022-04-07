@@ -3,6 +3,7 @@ import { isObject, isEmpty } from 'lodash';
 import store from '..';
 import { errorMessage } from '../actions/status_messages'; //  '../actions/status_messages'
 import { lockPage } from '../actions/upgradePages';
+import { doSignout } from '@chaskiq/store/src/actions/auth';
 
 import { refreshToken } from '../actions/auth';
 
@@ -37,12 +38,43 @@ const graphql = (query, variables, callbacks) => {
         // const errors = data[Object.keys(data)[0]];
         // callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
         if (
-          errors[0].extensions &&
-          errors[0].extensions.code === 'unauthorized'
+          (errors[0].extensions &&
+            errors[0].extensions.code === 'unauthorized') ||
+          errors[0]?.code === 'unauthenticated'
         ) {
           //@ts-ignore
-          return store.dispatch(errorMessage(errors[0].message));
+          store.dispatch(errorMessage(errors[0].message));
+          store.dispatch(doSignout());
+          //@ts-ignore
+          return store.dispatch(clearCurrentUser());
         }
+
+        const status_code = errors[0].status_code;
+
+        switch (status_code) {
+          case 500:
+            //@ts-ignore
+            store.dispatch(errorMessage('server error ocurred'));
+            break;
+          case 402:
+            //
+            //@ts-ignore
+            store.dispatch(lockPage(errors[0].message));
+            // store.dispatch(errorMessage('server error ocurred'))
+            break;
+          case 401:
+            // history.push("/")
+            //@ts-ignore
+            store.dispatch(errorMessage('session expired'));
+            //@ts-ignore
+            store.dispatch(refreshToken(auth));
+            // store.dispatch(expireAuthentication())
+            // refreshToken(auth)
+            break;
+          default:
+            break;
+        }
+
         if (callbacks.error) {
           return callbacks.error(res, errors);
         }

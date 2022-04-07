@@ -4,7 +4,23 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'emotion-theming';
 
 import { uniqBy } from 'lodash';
-import actioncable from 'actioncable';
+import {
+  createSubscription,
+  destroySubscription,
+  eventsSubscriber,
+  precenseSubscriber,
+  sendPush,
+  graphqlUrl,
+} from './shared/actionCableSubscription';
+
+/*import { 
+  createSubscription, 
+  destroySubscription, 
+  eventsSubscriber,
+  precenseSubscriber,
+  sendPush,
+  graphqlUrl
+} from "./shared/absintheSubscription";*/
 
 import UAParser from 'ua-parser-js';
 import DraftRenderer from './textEditor/draftRenderer';
@@ -70,8 +86,6 @@ import { Conversation } from './conversations/conversation';
 import Conversations from './conversations/conversations';
 
 //import RtcView from '@chaskiq/components/src/components/rtcView'
-import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
-
 import MessageFrame from './messageFrame';
 
 import RtcViewWrapper from './rtcView';
@@ -85,7 +99,7 @@ type MessengerProps = {
   email: string;
   app_id: any;
   encData: any;
-  session_id: any;
+  sessionId: any;
   encryptedMode: any;
   domain: string;
   kind: string;
@@ -144,11 +158,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   graphqlClient: any;
   defaultHeaders: any;
   defaultCableData: any;
+  App: any;
 
   constructor(props) {
     super(props);
-
-    console.log(this.context);
     // set language from user auth lang props
     //i18n.changeLanguage(this.props.lang)
     i18n.enableFallback = true;
@@ -214,7 +227,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       app: this.props.app_id,
       email: this.props.email,
       properties: this.props.properties,
-      session_id: this.props.session_id,
+      session_id: this.props.sessionId,
     };
 
     if (this.props.encryptedMode) {
@@ -222,7 +235,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         app: this.props.app_id,
         'enc-data': this.props.encData || '',
         'user-data': JSON.stringify(this.props.encData),
-        'session-id': this.props.session_id,
+        'session-id': this.props.sessionId,
         lang: this.props.lang,
       };
 
@@ -230,22 +243,16 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         app: this.props.app_id,
         enc_data: this.props.encData || '',
         user_data: JSON.stringify(this.props.encData),
-        session_id: this.props.session_id,
+        session_id: this.props.sessionId,
       };
     }
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
-      url: `${this.props.domain}/api/graphql`,
+      url: `${graphqlUrl(this.props.domain)}`,
     });
 
-    App = {
-      cable: actioncable.createConsumer(
-        `${this.props.ws}?enc=${this.props.encData}&user_data=${btoa(
-          this.defaultCableData.user_data
-        )}&app=${this.props.app_id}&session_id=${this.props.session_id}`
-      ),
-    };
+    this.App = createSubscription(this.props, this.defaultCableData.user_data);
 
     this.overflow = null;
     this.inlineOverflow = null;
@@ -282,8 +289,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     this.visibility();
 
     this.ping(() => {
-      this.precenseSubscriber();
-      this.eventsSubscriber();
+      precenseSubscriber(this.App, { ctx: this });
+      eventsSubscriber(this.App, { ctx: this });
       // this.getConversations()
       // this.getMessage()
       // this.getTours()
@@ -317,7 +324,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   }
 
   unload() {
-    App.cable && App.cable.subscriptions.consumer.disconnect();
+    destroySubscription(App);
+    //App.cable && App.cable.subscriptions.consumer.disconnect();
   }
 
   componentWillUnmount() {
@@ -410,7 +418,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       os_version: results.os.version,
       os: results.os.name,
     };
-    App.events.perform('send_message', data);
+    this.pushEvent('send_message', data);
+    // this.App.events.perform('send_message', data);
   };
 
   detectMobile = () => {
@@ -439,70 +448,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     }
   };
 
-  eventsSubscriber = () => {
-    App.events = App.cable.subscriptions.create(
-      this.cableDataFor({ channel: 'MessengerEventsChannel' }),
-      {
-        connected: () => {
-          // console.log("connected to events")
-          this.registerVisit();
-
-          if (!this.state.banner) {
-            App.events.perform('get_banners_for_user');
-          }
-          // this.processTriggers()
-        },
-        disconnected: () => {
-          // console.log("disconnected from events")
-        },
-        received: (data) => {
-          switch (data.type) {
-            case 'messages:receive':
-              this.setState({
-                availableMessages: data.data,
-                messages: data.data,
-                availableMessage: data.data[0],
-              });
-              break;
-            case 'tours:receive':
-              this.receiveTours([data.data]);
-              break;
-            case 'banners:receive':
-              this.receiveBanners(data.data);
-              break;
-            case 'triggers:receive':
-              this.receiveTrigger(data.data);
-              break;
-            case 'conversations:conversation_part':
-              const newMessage = toCamelCase(data.data);
-              setTimeout(() => this.receiveMessage(newMessage), 100);
-              break;
-            case 'conversations:update_state':
-              this.handleConversationState(toCamelCase(data.data));
-            case 'conversations:typing':
-              this.handleTypingNotification(toCamelCase(data.data));
-              break;
-            case 'conversations:unreads':
-              this.receiveUnread(data.data);
-              break;
-            case 'rtc_events':
-              return this.updateRtcEvents(data);
-            case 'true':
-              return true;
-            default:
-          }
-          // console.log(`received event`, data)
-        },
-        notify: () => {
-          console.log('notify event!!');
-        },
-        handleMessage: (message) => {
-          console.log('handle event message', message);
-        },
-      }
-    );
-  };
-
   handleTypingNotification = (data) => {
     clearTimeout(this.delayTimer);
     this.handleTyping(data);
@@ -524,6 +469,16 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         conversation: Object.assign({}, this.state.conversation, data),
       });
     }
+  };
+
+  handleConnected = () => {
+    // console.log("connected to events")
+    this.registerVisit();
+    if (!this.state.banner) {
+      this.pushEvent('get_banners_for_user', {});
+      // App.events.perform('get_banners_for_user')
+    }
+    // this.processTriggers()
   };
 
   receiveUnread = (newMessage) => {
@@ -631,29 +586,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     } else {
       this.appendMessage(newMessage);
     }
-  };
-
-  precenseSubscriber = () => {
-    App.precense = App.cable.subscriptions.create(
-      this.cableDataFor({ channel: 'PresenceChannel' }),
-      {
-        connected: () => {
-          // console.log("connected to presence")
-        },
-        disconnected: () => {
-          console.log('disconnected from presence');
-        },
-        received: (data) => {
-          console.log(`received ${data}`);
-        },
-        notify: () => {
-          console.log('notify!!');
-        },
-        handleMessage: (_message) => {
-          console.log('handle message');
-        },
-      }
-    );
   };
 
   scrollToLastItem = () => {
@@ -771,7 +703,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       html: comment.html_content,
       serialized: comment.serialized_content,
       text: comment.text_content,
-      volatile: this.state.conversation,
+      volatile: true, //this.state.conversation,
     };
 
     if (comment.reply) {
@@ -935,7 +867,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             blocks: step.controls,
             source: null,
             stepId: step.id,
-            triggerId: welcomeBot.id,
+            triggerId: welcomeBot.id + '',
             fromBot: true,
             appUser: {
               id: 3,
@@ -1099,11 +1031,15 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   requestTrigger = (kind) => {
-    App.events &&
+    /*App.events &&
       App.events.perform('request_trigger', {
         conversation: this.state.conversation && this.state.conversation.key,
         trigger: kind,
-      });
+      });*/
+    this.pushEvent('request_trigger', {
+      conversation: this.state.conversation && this.state.conversation.key,
+      trigger: kind,
+    });
   };
 
   receiveTrigger = (data) => {
@@ -1111,7 +1047,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   pushEvent = (name, data) => {
-    App.events && App.events.perform(name, data);
+    sendPush(name, { ctx: this, app: this.App, data: data });
   };
 
   // check url pattern before trigger tours
@@ -1129,10 +1065,13 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   receiveBanners = (banner) => {
     localStorage.setItem('chaskiq-banner', JSON.stringify(banner));
     this.setState({ banner: banner }, () => {
-      App.events &&
+      this.pushEvent('track_open', {
+        trackable_id: this.state.banner.id,
+      });
+      /*App.events &&
         App.events.perform('track_open', {
           trackable_id: this.state.banner.id,
-        });
+        });*/
     });
   };
 
@@ -1158,7 +1097,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   submitAppUserData = (data, _next_step) => {
-    App.events && App.events.perform('data_submit', data);
+    this.pushEvent('data_submit', data);
+    //App.events && App.events.perform('data_submit', data);
   };
 
   updateHeaderOpacity = (val) => {
@@ -1229,12 +1169,18 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   // TODO, send a getPackage hook instead, and call a submit action
   // save trigger id
   handleAppPackageEvent = (ev) => {
-    App.events &&
+    /*App.events &&
       App.events.perform('app_package_submit', {
         conversation_key: this.state.conversation.key,
         message_key: this.state.currentAppBlock.message.key,
         data: ev.data,
-      });
+      });*/
+
+    this.pushEvent('app_package_submit', {
+      conversation_key: this.state.conversation.key,
+      message_key: this.state.currentAppBlock.message.key,
+      data: ev.data,
+    });
 
     this.setState(
       {
@@ -1313,21 +1259,26 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   closeBanner = () => {
     if (!this.state.banner) return;
 
-    App.events &&
+    this.pushEvent('track_close', {
+      trackable_id: this.state.banner.id,
+    });
+    /*App.events &&
       App.events.perform('track_close', {
         trackable_id: this.state.banner.id,
-      });
+      });*/
     this.setState({ banner: null });
     localStorage.removeItem('chaskiq-banner');
   };
 
   bannerActionClick = (url) => {
     window.open(url, '_blank');
-
-    App.events &&
+    this.pushEvent('track_click', {
+      trackable_id: this.state.banner.id,
+    });
+    /*App.events &&
       App.events.perform('track_click', {
         trackable_id: this.state.banner.id,
-      });
+      });*/
   };
 
   handleBack = (e) => {
@@ -1347,10 +1298,13 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   closeUserAutoMessage = (id: Number) => {
-    App.events &&
+    this.pushEvent('track_close', {
+      trackable_id: id,
+    });
+    /*App.events &&
       App.events.perform('track_close', {
         trackable_id: id,
-      });
+      });*/
 
     const newAvailableMessages = this.state.availableMessages.filter(
       (o) => o.id != id
@@ -1428,6 +1382,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                   availableMessages={this.state.availableMessages}
                   domain={this.props.domain}
                   i18n={i18n}
+                  pushEvent={this.pushEvent}
                   events={App.events}
                 />
               )}
@@ -1454,6 +1409,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           state={this.state}
                           props={this.props}
                           events={App.events}
+                          pushEvent={this.pushEvent}
                           updateRtc={(data) => this.setState({ rtc: data })}
                           toggleAudio={this.toggleAudio}
                           toggleVideo={this.toggleVideo}
@@ -1731,10 +1687,15 @@ class Messenger extends Component<MessengerProps, MessengerState> {
           </EditorWrapper>
 
           {this.state.tourManagerEnabled ? (
-            <TourManager ev={this.state.ev} domain={this.props.domain} />
+            <TourManager
+              pushEvent={this.pushEvent}
+              ev={this.state.ev}
+              domain={this.props.domain}
+            />
           ) : this.state.tours.length > 0 ? (
             <Tour
               i18n={i18n}
+              pushEvent={this.pushEvent}
               tours={this.state.tours}
               events={App.events}
               domain={this.props.domain}

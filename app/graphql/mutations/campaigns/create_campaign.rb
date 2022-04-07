@@ -7,7 +7,7 @@ module Mutations
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
       argument :operation, String, required: false
-      argument :campaign_params, Types::JsonType, required: true
+      argument :campaign_params, Types::AnyType, required: true
       argument :mode, String, required: true
 
       def resolve(operation:, app_key:, campaign_params:, mode:)

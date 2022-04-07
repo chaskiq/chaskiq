@@ -10,7 +10,11 @@
     <meta content='True' name='HandheldFriendly'>
     <meta content='320' name='MobileOptimized'>
     <meta name="chaskiq-host" content="<%= Chaskiq::Config.get('HOST') %>"/>
+    <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
 
+    <% if oauth_app = Doorkeeper::Application.first %>
+      <meta name="chaskiq-client-id" content="<%= oauth_app.uid %>"/>
+    <% end %>
     <!--
     <meta content='width=device-width, initial-scale=1' name='viewport'>
     <meta content='width=device-width, initial-scale=1' media='(device-height: 568px)' name='viewport'>
@@ -20,8 +24,6 @@
       content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
     >
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css' rel='stylesheet' />
-
-    <script> window.chaskiq_cable_url = "<%= Chaskiq::Config.get('WS') %>"</script>
 
     <% #= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <% #= stylesheet_pack_tag "application" %>

@@ -5,7 +5,7 @@ module Mutations
     class AddArticlesToCollection < Mutations::BaseMutation
       field :collection, Types::CollectionType, null: false
       argument :app_key, String, required: true
-      argument :collectionId, Integer, required: true
+      argument :collectionId, String, required: true
       argument :articlesId, [String], required: true
 
       def resolve(app_key:, collection_id:, articles_id:)

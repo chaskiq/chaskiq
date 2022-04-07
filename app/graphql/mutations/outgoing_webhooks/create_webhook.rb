@@ -9,7 +9,7 @@ module Mutations
 
     argument :url, String, required: true
     argument :state, String, required: true
-    argument :tags, Types::JsonType, required: false
+    argument :tags, Types::AnyType, required: false
 
     def resolve(app_key:, url:, tags:, state:)
       current_user = context[:current_user]

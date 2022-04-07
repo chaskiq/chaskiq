@@ -12,8 +12,8 @@ Rails.application.configure do
   ENV['WS'] = 'ws://localhost:5002/cable'
   # Turn false under Spring and add config.action_view.cache_template_loading = true.
   # config.cache_classes = true
-  config.cache_classes = true # if ENV['CI'].present?
-  config.assets.compile = false
+  config.cache_classes = ENV['CI'].present?
+  config.assets.compile = true
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.

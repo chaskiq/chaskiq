@@ -5,10 +5,10 @@ module Mutations
     # TODO: define return fields
     # field :post, Types::PostType, null: false
     field :segment, Types::SegmentType, null: false
-    field :errors, Types::JsonType, null: true
+    field :errors, Types::AnyType, null: true
 
-    argument :predicates, Types::JsonType, required: true
-    argument :id, Integer, required: false
+    argument :predicates, Types::AnyType, required: true
+    argument :id, String, required: false
     argument :app_key, String, required: false
 
     def resolve(app_key:, predicates:, id:)

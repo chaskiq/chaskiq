@@ -8,7 +8,7 @@ module Mutations
     field :errors, Types::JsonType, null: true
 
     argument :app_key, String, required: true
-    argument :app_params, Types::JsonType, required: true
+    argument :app_params, Types::AnyType, required: true
 
     def resolve(app_key:, app_params:)
       @app = current_user.apps.find_by(key: app_key)

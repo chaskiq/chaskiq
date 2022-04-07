@@ -5,7 +5,7 @@ module Mutations
     field :app, Types::AppType, null: false
     field :errors, Types::JsonType, null: true
 
-    argument :app_params, Types::JsonType, required: true
+    argument :app_params, Types::AnyType, required: true
     argument :operation, String, required: false
 
     def resolve(app_params:, operation:)

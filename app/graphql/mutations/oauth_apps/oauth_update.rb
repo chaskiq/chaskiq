@@ -6,7 +6,7 @@ module Mutations
 
       argument :app_key, String, required: true
       argument :uid, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
 
       def resolve(app_key:, uid:, params:)
         find_app(app_key)

@@ -3,6 +3,8 @@ import { setCookie, getCookie, deleteCookie } from './cookies';
 
 import { AUTH } from './graphql/queries';
 import GraphqlClient from './graphql/client';
+//import { graphqlUrl } from './shared/absintheSubscription';
+import { graphqlUrl } from './shared/actionCableSubscription';
 
 type ChaskiqMessengerProps = {
   lang: string;
@@ -58,7 +60,7 @@ export default class ChaskiqMessengerEncrypted {
 
     this.graphqlClient = new GraphqlClient({
       config: this.defaultHeaders,
-      url: `${this.props.domain}/api/graphql`,
+      url: graphqlUrl(this.props.domain),
     });
 
     this.graphqlClient.send(
@@ -69,10 +71,9 @@ export default class ChaskiqMessengerEncrypted {
       {
         success: (data) => {
           const user = data.messenger.user;
-
           if (user.kind !== 'AppUser') {
-            if (user.session_id) {
-              this.checkCookie(user.session_id);
+            if (user.sessionId) {
+              this.checkCookie(user.sessionId);
             } else {
               deleteCookie(this.cookieNamespace());
             }

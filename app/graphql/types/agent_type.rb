@@ -2,7 +2,7 @@
 
 module Types
   class AgentType < Types::BaseObject
-    field :id, Int, null: false
+    field :id, String, null: false
     field :email, String, null: true, authorize: { to: :agent_only?, with: AppPolicy }
     # field :user, [Types::UserType], null: true
     field :name, String, null: true
@@ -73,7 +73,7 @@ module Types
           Types::JsonType,
           null: true,
           authorized_scope: { with: AppPolicy } do
-      argument :range, Types::JsonType, required: true
+      argument :range, Types::AnyType, required: true
       argument :kind,  String, required: true
     end
   end
