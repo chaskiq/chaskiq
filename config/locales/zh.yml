@@ -3,7 +3,7 @@ zh-CN:
     edit: 编辑
     new: 新增
     add: 添加
-    add_new: 新增
+    add_new: Add New
     update: 更新
     remove: 移除
     delete: 删除
@@ -16,8 +16,8 @@ zh-CN:
     not_found: 您要查找的页面不存在。
     get_snippet: 获取代码片段
     submit: 提交
-    confirm_deletion: '删除确认'
-    confirm_deletion_ready: 确定要删除吗？
+    confirm_deletion: Confirm deletion?
+    confirm_deletion_ready: Are you ready to delete?
     next: 下一个
     prev: 上一个
     showing: 显示中
@@ -27,10 +27,10 @@ zh-CN:
     tz_hint: 您的浏览器时区是 <b className="text-bold">%{timezone}</b>
     send: 发送
     actions: 操作
-    your_apps: 您的应用程序
-    upload_field: 上传 %{field}
+    your_apps: Your Apps
+    upload_field: Upload %{field}
     choose_color: 选择颜色
-    image: 图片
+    image: Image
     langs:
       en: 英文
       es: 西班牙语
@@ -39,17 +39,20 @@ zh-CN:
       ca: 加泰罗尼亚语
       zh-CN: 中文
     redirecting: 重定向中
+    choose_language: Choose Language
     select_language: 选择语言
     send_on_enter: 回车发布
-    away_mode: 离开模式
-    toggle_light_mode: 切换到白天模式
-    toggle_dark_mode: 切换到夜间模式
+    away_mode: Away Mode
+    toggle_light_mode: Toggle Light Mode
+    toggle_dark_mode: Toggle Dark Mode
     leads: 线索
     visitors: 访客
     users: 用户
-    type_message: 输入您的信息……
+    type_message: Type your message
     search_conversations: 在对话中搜索
     days: 天后
+    visit: Visit
+    done: Done
   status_messages:
     error: '错误'
     success: '成功'
@@ -62,31 +65,31 @@ zh-CN:
     reordered_error: 重新排序时出错
     reordered_success: 成功重排顺序
   error_view:
-    title: 出错了。
+    title: Woops! Something went wrong.
     subtitle: 很不幸
-    exp: 尝试刷新页面
-    cta: 下班时间
+    exp: Try refreshing the page
+    cta: Try to go home
   home:
     welcome: 欢迎来到
     welcome_site: Chaskiq
     tagline: 找到您当前的应用程序
-    create_new: 创建应用
-    choose_lang: 选择语言：
-    edit_profile: 编辑个人资料
-    edit_credentials: 编辑用户认证信息
-    go_to_doc: 转到文档
+    create_new: Create New App
+    choose_lang: Choose Language
+    edit_profile: Edit Profile
+    edit_credentials: Edit User Credentials
+    go_to_doc: Go To Documentation
   dashboard:
     hey: "👋 Hey!, 你正在查看 <strong>%{name} 的</strong> 仪表板！ <br /> 为网页设置获取安装代码 <br />"
-    response_avg: 平均响应时间
-    new_conversations: 新对话
+    response_avg: Average Response Time
+    new_conversations: New Conversations
     resolutions: 解决方案
     incoming_messages: 收到的消息
-    visit_activity: 访客活动
-    users_browser: 用户浏览器
-    lead_os: 线索 Os
-    user_os: 用户 Os
+    visit_activity: Visit Activity
+    users_browser: Users Browser
+    lead_os: Lead OS
+    user_os: User OS
     mac_os: Mac OS
-    user_country: 用户国家
+    user_country: User Country
     snippet: 放置以下脚本到您的 html <body> 标签的末端
     status: 在线聊天状态
     status_running: 运行中
@@ -111,7 +114,7 @@ zh-CN:
       for_users: 为用户
       bot_settings: Bot任务
       outbound: Outbound
-      new_conversations: 新建会话
+      new_conversations: New Conversations
       articles: 文章
       collections: 文档集
       article_settings: 设置
@@ -120,19 +123,27 @@ zh-CN:
       messenger_settings: Messenger 设置
       integrations: 集成 Integrations
       webhooks: Webhooks
-      api_access: API权限
+      api_access: API Access
       billing: 账单
     user_menu:
-      create_app: '创建新应用'
-      create_app_description: '创建您公司的 Chaskiq 应用'
-      signout: 退出
-      title: 用户菜单
+      create_app: Create New App
+      create_app_description: 创建您公司的 Chaskiq 应用
+      signout: Sign Out
+      title: User Menu
+  profile:
+    no_name: No name
+    name: Full name
+    area_of_expertise: Area of expertise
+    specialization: Specialization
+    phone_number: Phone number
+    address: Address
+    availability: 可用性
   login:
     title: 连接到您的账户
     email: 您的电子邮箱
     password: 您的密码
     remember_me: 记住我
-    forgot_password: 忘记密码？
+    forgot_password: Forgot your password?
     sign_in: 连接
     continue_with: 继续用
   invitation:
@@ -163,22 +174,33 @@ zh-CN:
     empty:
       title: 没有对话
       text: 选择侧边的对话
+    app_package_panel:
+      title: Send App Package
+      send_app: Send App
+      preview: 预览
+    assignment_rules:
+      title: 标题
+      hint: This is the rule name
+      select_agent: Select Agent
   conversation:
     with: 与“%”对话。
+    tag_modal_title: Manage conversation tags
     actions:
-      priorize: 优先对话
-      remove_priority: 取消优先级
+      priorize: Priorize Conversation
+      remove_priority: Remove Priority
       close: 关闭
       reopen: 重新打开
-      start_call: 开始视频通话
+      start_call: Start Videocall
       end_call: 结束通话
       assign_agent: 分配代理
+      tag_conversation: Tag Conversation
     messages:
       seen: 已查看
       not_seen: 未查看
       note: 私有备注
       reply: 回复
     sidebar:
+      customize: Customize
       show_profile: 显示个人资料
       location: 定位
       browser: 用户浏览器
@@ -186,6 +208,9 @@ zh-CN:
       created_at: 创建于：
       assignee: 指定人
       first_agent_reply: 第一个代理回复
+      app_inserter:
+        title: Add apps to inbox sidebar
+        add_app: 添加应用
     editor:
       panels:
         bot:
@@ -196,7 +221,7 @@ zh-CN:
           choose_another: 选择另一个
         quick_reply:
           title: 快速回复
-          confirm: 确认发送 %{title} 吗？
+          confirm: Confirm send %{title}?
           confirm_msg: 此回复将在用户当前对话中发送。
           empty: 没有可用的快速回复
           choose_another: 选择另一个
@@ -212,7 +237,7 @@ zh-CN:
     remove_success: 已移除活动
     remove_hint: 我们将销毁任何内容和相关数据
     delete_campaign: 删除营销活动 %{name}
-    create_new: 创建营销活动
+    create_new: Create New Campaign
     empty:
       title: 未找到任何活动
     mailing: 邮件营销活动
@@ -230,7 +255,7 @@ zh-CN:
     pause_description: 暂停此活动
     clone_title: 复制
     clone_description: 克隆此活动
-    activate: '激活活动'
+    activate: 激活活动
     enables: 启用活动
     disables: 禁用活动
     state:
@@ -264,23 +289,23 @@ zh-CN:
       cancel: 取消订阅
   task_bots:
     type_filters:
-      title_visitors: '访客'
-      description_visitors: '平台上的访客数'
-      title_leads: '线索'
-      description_leads: '进行操作的访客数量'
-      title_users: '用户'
+      title_visitors: 访客
+      description_visitors: 平台上的访客数
+      title_leads: 线索
+      description_leads: 进行操作的访客数量
+      title_users: 用户
       description_users: "平台注册用户"
     state_filters:
-      enabled_title: '已启用'
-      enabled_description: '已启用的机器人任务'
-      disabled_title: '已停用'
-      disabled_description: '已停用的机器人任务'
+      enabled_title: 已启用
+      enabled_description: Enabled bot tasks
+      disabled_title: 已停用
+      disabled_description: 已停用的机器人任务
     title: Bot任务
     reply_soon: 您好， %{name} 会尽快回复。
     reply_agent: 您将从我们的代理人中获得回复
     email_support: 您可以发送电子邮件到 %{email} 以获得支持
     outbound: '🏓 出站'
-    new_conversations: '👋 新对话'
+    new_conversations: '👋 New Conversations'
     new_conversations_notice: 这是用户在开始新对话时会看到的
     options:
       add_message: 添加消息泡
@@ -307,7 +332,7 @@ zh-CN:
       placeholder: 输入邮箱地址
       ack: 谢谢。
     support:
-      ask: 您已经是我们的 %{name} 客户吗？
+      ask: Are you an existing %{name} customer?
       options:
         op1: 是的，我是客户
         op2: 不，我还不是你们的客户
@@ -332,7 +357,7 @@ zh-CN:
         email_only: 仅电子邮件
         override:
           label: 用您自己的 Bot 任务覆盖默认行为
-          hint: '当您这样做时，下面的默认行为将不会发生，任务将在每个新的对话中被触发'
+          hint: 当您这样做时，下面的默认行为将不会发生，任务将在每个新的对话中被触发
       users:
         tab: 为用户
         start_conversation: 当用户开始对话
@@ -348,7 +373,7 @@ zh-CN:
       custom_time: 自定义时间
       enable_title: 启用 Bot 任务
       enable_hint: 启用后，Bot 任务将开始运行
-    new: 创建新任务
+    new: Create New Task
     remove_success: 机器人已删除
     empty:
       title: 未发现 Bot 任务
@@ -389,7 +414,7 @@ zh-CN:
     add_as_dialog:
       title: 将此消息添加为快速回复
   new_app:
-    title: '创建您公司的 Chaskiq 应用'
+    title: 创建您公司的 Chaskiq 应用
     text: 为您的团队和客户设置Chaskiq基本信息。
     hint: 创建您公司的 Chaskiq 应用
   settings:
@@ -411,16 +436,16 @@ zh-CN:
       security: 安全
       messenger_settings: Messenger 设置
       appearance: 外观
-      contact_avatars: 联系人头像
-      appearance_title: 外观设置
+      contact_avatars: Contact Avatars
+      appearance_title: Appearance Settings
       privacy: 隐私
-      privacy_title: 隐私设置
+      privacy_title: Privacy Settings
       translations: 翻译
       availability: 可用性
       email_requirement: 请填写邮箱地址。
-      inbound_settings: Inbound 入站设置
+      inbound_settings: Inbound Settings
       messenger_style: Messenger 样式
-      user_data: 用户数据
+      user_data: User Data
       tags: 标签
       quick_replies: 快捷回复
       email_forwarding: 邮件转发中
@@ -449,15 +474,15 @@ zh-CN:
         title: 开启的集成
         text: API 集成
       available:
-        title: "可用的API"
+        title: 可用的API
         text: 可用的API服务
       yours:
-        title: '集成应用'
+        title: 集成应用
         text: 您创建的集成应用
       hints:
         hook_url: 这个集成将在 webhook
       delete_dialog:
-        title: 删除"%{name}"集成？
+        title: Delete "%{name}" integration?
         text: 与 %{name} 服务的集成将立即禁用
       empty:
         title: 暂无通告
@@ -528,14 +553,14 @@ zh-CN:
         hint: 这并不影响您发送的出站消息。
     team:
       title: 团队
-      invitations: 邀请
+      invitations: Invitations
       agents: Agents 代理人
-      invitation_success: 邀请已发送！
-      invitatin_error: 邀请未发送！
+      invitation_success: Invitation sent!
+      invitatin_error: Invitation not sent!
       action_button: 添加用户
       title_content: 添加新代理
       content_text: 发送激活邀请
-      hint: 新团队成员将通过它的电子邮件收到通知
+      hint: The new team member will be notified by it's email
       send_invitation: 发送邀请
       resend_invitation: 重新发送邀请
       add_new: 添加团队成员
@@ -544,7 +569,7 @@ zh-CN:
       destroyed_agent: Agent 已成功删除
       destroy_agent_title: 删除Agent
       destroy_agent: 删除
-      destroy_agent_warning: '确实要删除代理 %{agent} 吗？'
+      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: 更新
     webhooks:
       title: Webhooks
@@ -555,7 +580,7 @@ zh-CN:
       delete_success: Webhooks 已正确的删除
       delete_error: 移除 Webhook 出错
       outgoing_webhooks: 传出的 Webhooks
-      new_webhook: 新建 Webhook
+      new_webhook: New Webhook
       active_webhooks: 活动的 Webhoks
       disabled_webhooks: 已禁用的 Webhooks
       empty:
@@ -563,13 +588,13 @@ zh-CN:
         desc: 搜索 webhooks 在
         disabled_webhooks: 禁用的 Webhooks
       delete:
-        title: 删除Webhook ？
+        title: Delete webhook?
         text: 包含 %{name} 服务的Webhook 将被立即禁用
     tags:
       title: Tags
       modal:
         title: 创建应用程序标签
-        hint: '更多标签 ? 查看:'
+        hint: Looking for more tags? Look at
         link: 帐户设置
       inputs:
         name: 字段名称
@@ -599,14 +624,14 @@ zh-CN:
     published: 已发布
     draft: 草稿
     visit: 访问帮助中心
-    new: 新建文章
-    add: 添加项目
+    new: New Article
+    add: Add Item
     collections: 文档集
     help_center: Help Center
     description_placeholder: 描述集合以帮助你找到它。
     title_placeholder: 填写该章节的标题
-    new_section: 新建章节
-    new_collection: 新建文档集
+    new_section: New Section
+    new_collection: New Collection
     edit_collection: 编辑文档集
     create_article:
       placeholder: 填写文章的标题
@@ -615,24 +640,25 @@ zh-CN:
       title: 新建文档集的文章
       placeholder: 输入文档集的标题。
       description: 添加文档集描述
-    deleted_success: 文章已删除！
+    deleted_success: Article deleted
     new_article: 新建文章
-    settings_updated_success: '文章设置已更新'
-    settings_updated_error: '保存设置失败'
+    settings_updated_success: Article settings updated
+    settings_updated_error: Article settings failed
     activate_help_center: 激活帮助中心
-    delete_article: 删除文章 "%{title}？
+    delete_article: Delete article "%{title}?
     delete_article_exp: 我们将销毁任何内容和相关数据
     square_preferred: 首选方形图像 (最小 200x200px)
     square_preferred_hint: 平方图像将是最佳调整大小
-    reordered_success: '已正确排序'
-    reordered_error: '排序错误'
-    add_articles: 添加文章
-    updated_success: 文章已更新
-    updated_error: 保存文章时出错
+    reordered_success: Reordered correctly
+    reordered_error: Reordered error
+    add_articles: Add Articles
+    updated_success: Article updated
+    updated_error: Article error on save
     delete_section: 删除章节
     author: 作者
     written_by: 作者
     created_on: 创建于
+    base_section: Base Section
     state:
       published: 已发布
       published_desc: '在帮助中心显示文章'
@@ -680,8 +706,8 @@ zh-CN:
     any: 任何
     criteria: 标准
     days_ago: 天前
-    filter_for: 选择 %{name} 的过滤规则
-    date_filter_for: 选择  %{name} 的日期过滤器
+    filter_for: Select filter for %{name}
+    date_filter_for: Select the date filter for %{name}
     integer_filter_for: 选择 %{name} 的整数过滤器
     match_criteria_for: 匹配 %{name} 的标准选项
     apply: 应用
@@ -701,3 +727,20 @@ zh-CN:
     match_any: 匹配任意
     match_all: 匹配全部
     missing_value: 数值缺失
+  full_contact:
+    inbox:
+      name: 名称
+      first_name: First name
+      last_name: Last name
+      twitter: Twitter
+      facebook: Facebook
+      linkedin: Linkedin
+      organization: Organization
+      job_title: Job title
+  contact_fields:
+    inbox:
+      first_name: First name
+      last_name: Last name
+      email: Email
+      company: Company
+      phone: 电话
