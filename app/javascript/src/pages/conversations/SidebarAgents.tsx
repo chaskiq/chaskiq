@@ -49,7 +49,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
   }
 
   function findAgent(o) {
-    const agent = agents.find((a) => a.id === parseInt(o));
+    const agent = agents.find((a) => a.id === o);
     if (agent) return agent;
     return null;
   }
@@ -149,7 +149,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
             key={`agent-list-${i}`}
             agent={findAgent(o)}
             count={counts[o]}
-            active={conversations.agentId === parseInt(o)}
+            active={conversations.agentId === o}
             filterHandler={filterAgent}
             label={o === 'all' ? I18n.t('conversations.menu.all') : null}
           />
