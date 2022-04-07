@@ -10,7 +10,9 @@ module Types
     field :state, String, null: true
     field :description, String, null: true
     field :initialize_url, String, null: true
+    field :api_url, String, null: true
     field :configure_url, String, null: true
+    field :content_url, String, null: true
     field :submit_url, String, null: true
     field :sheet_url, String, null: true
     field :oauth_url, String, null: true
