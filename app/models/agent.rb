@@ -139,6 +139,7 @@ class Agent < ApplicationRecord
       phone_number
       address
       availability
+      available
     ]
   end
 
