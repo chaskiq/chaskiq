@@ -174,6 +174,8 @@ class ConversationPart < ApplicationRecord
   def assign_agent_by_rules
     return if conversation_part_content.blank?
 
+    # return if authorable.is_a?(Agent)
+
     serialized_content = conversation_part_content.serialized_content
 
     return if serialized_content.blank?

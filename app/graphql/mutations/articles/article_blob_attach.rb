@@ -5,7 +5,7 @@ module Mutations
     class ArticleBlobAttach < Mutations::BaseMutation
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
-      argument :id, Integer, required: true
+      argument :id, String, required: true
       argument :blob_id, String, "Signed blob ID generated via `createDirectUpload` mutation", required: true
 
       def resolve(app_key:, id:, blob_id:)

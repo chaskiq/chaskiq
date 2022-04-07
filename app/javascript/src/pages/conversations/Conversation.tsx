@@ -136,13 +136,13 @@ function Conversation({
   current_user,
   drawer,
   events,
+  pushEvent,
   toggleFixedSidebar,
   fixedSidebarOpen,
   isDark,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
-
   const messagesLength = conversation.collection
     ? conversation.collection.length
     : null;
@@ -658,6 +658,7 @@ function Conversation({
               video={videoSession}
               rtcVideo={rtcVideo}
               rtcAudio={rtcAudio}
+              pushEvent={pushEvent}
               events={events}
             />
           )}
@@ -816,6 +817,7 @@ function Conversation({
                     key={`message-item-${conversation.key}-${message.key}`}
                     data={message}
                     events={events}
+                    pushEvent={pushEvent}
                     conversation={conversation}
                   >
                     <ThemeProvider
@@ -879,7 +881,13 @@ function Conversation({
   );
 }
 
-function MessageItemWrapper({ conversation, data, events, children }) {
+function MessageItemWrapper({
+  conversation,
+  data,
+  events,
+  children,
+  pushEvent,
+}) {
   React.useEffect(() => {
     // mark as read on first render
     setTimeout(sendRead, 300);
@@ -887,7 +895,19 @@ function MessageItemWrapper({ conversation, data, events, children }) {
 
   function sendRead() {
     if (!data.readAt) {
-      events &&
+      pushEvent(
+        'receive_conversation_part',
+        Object.assign(
+          {},
+          {
+            conversation_key: conversation.key,
+            message_key: data.key,
+          },
+          { email: data.email }
+        )
+      );
+
+      /*events &&
         events.perform(
           'receive_conversation_part',
           Object.assign(
@@ -898,7 +918,7 @@ function MessageItemWrapper({ conversation, data, events, children }) {
             },
             { email: data.email }
           )
-        );
+        );*/
     }
   }
 

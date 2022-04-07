@@ -5,10 +5,11 @@ module Mutations
     class InsertNote < Mutations::BaseMutation
       field :message, Types::ConversationPartType, null: false
       argument :app_key, String, required: true
-      argument :id, Int, required: true
-      argument :message, Types::JsonType, required: true
+      argument :id, String, required: true
+      argument :message, Types::MessageInputType, required: true
 
       def resolve(app_key:, id:, message:)
+        message = message.to_h.with_indifferent_access
         app = App.find_by(key: app_key)
         conversation = app.conversations.find(id)
 
@@ -26,9 +27,9 @@ module Mutations
         @message = conversation.add_private_note(
           from: author,
           message: {
-            html_content: message["html"],
-            serialized_content: message["serialized"],
-            text_content: message["text"] || ActionController::Base.helpers.strip_tags(message["html"])
+            html_content: message[:html],
+            serialized_content: message[:serialized],
+            text_content: message[:text] || ActionController::Base.helpers.strip_tags(message[:html])
           }
         )
         { message: @message }

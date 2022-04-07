@@ -25,7 +25,7 @@ RSpec.describe GraphqlController, type: :controller do
 
   describe "app_user" do
     it "return current user" do
-      graphql_post(type: "APP_USER", variables: { appKey: app.key, id: user.id })
+      graphql_post(type: "APP_USER", variables: { appKey: app.key, id: user.id.to_s })
       expect(graphql_response.errors).to be_nil
       expect(graphql_response.data.app.appUser.email).to be_present
     end

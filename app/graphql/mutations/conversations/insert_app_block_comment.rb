@@ -6,7 +6,7 @@ module Mutations
       field :message, Types::ConversationPartType, null: false
       argument :app_key, String, required: true
       argument :id, String, required: true
-      argument :controls, Types::JsonType, required: true
+      argument :controls, Types::AnyType, required: true
 
       def resolve(app_key:, id:, controls:)
         app = App.find_by(key: app_key)

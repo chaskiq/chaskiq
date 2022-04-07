@@ -19,14 +19,20 @@ export function authenticate(email, password, cb) {
 
     axios.defaults.withCredentials = true;
 
+    //@ts-ignore
+    const client_id = document.querySelector('meta[name="chaskiq-client-id"]')
+      ?.content;
+
     return axios({
       // baseURL: 'http://localhost:3000',
       // url: '/agents/sign_in.json',
       url: '/oauth/token.json',
       method: 'POST',
       data: {
+        client_id: client_id,
         agent: { email, password },
         email: email,
+        username: email,
         password: password,
         grant_type: 'password',
       },
@@ -39,7 +45,8 @@ export function authenticate(email, password, cb) {
         if (cb) cb();
       })
       .catch((data) => {
-        const err = data?.response?.data?.error_description || 'error!';
+        const err =
+          data && data.response.data ? data.response.data.message : 'error!';
         dispatch(errorMessage(err));
         dispatch(failAuthentication());
       });

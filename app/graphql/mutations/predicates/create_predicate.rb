@@ -7,12 +7,10 @@ module Mutations
     field :segment, Types::SegmentType, null: false
     field :errors, Types::JsonType, null: true
 
-    argument :predicates, Types::JsonType, required: true
-    argument :id, Integer, required: false
+    argument :predicates, Types::AnyType, required: true
+    argument :id, String, required: false
     argument :app_key, String, required: false
-
     argument :name, String, required: true
-    argument :predicates, Types::JsonType, required: false
 
     def resolve(app_key:, name:, predicates:)
       current_user = context[:current_user]

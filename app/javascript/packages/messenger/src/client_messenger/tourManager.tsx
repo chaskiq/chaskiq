@@ -7,7 +7,6 @@ import DraftRenderer from './textEditor/draftRenderer';
 import DanteContainer from './textEditor/editorStyles';
 import theme from './textEditor/theme';
 import { ThemeProvider } from 'emotion-theming';
-
 import Tour from 'reactour-emotion';
 import tw from 'twin.macro';
 
@@ -136,6 +135,7 @@ const NewStepBody = styled.div`
 type TourManagerProps = {
   ev: any;
   domain: string;
+  pushEvent: any;
 };
 export default class TourManager extends Component<TourManagerProps> {
   state = {

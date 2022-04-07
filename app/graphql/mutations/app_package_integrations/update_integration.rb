@@ -6,8 +6,8 @@ module Mutations
       field :integration, Types::AppPackageIntegrationType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
-      argument :id, Integer, required: true
+      argument :params, Types::AnyType, required: true
+      argument :id, String, required: true
 
       def resolve(app_key:, id:, params:)
         app = find_app(app_key)

@@ -68,7 +68,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       AGENT,
       {
         appKey: this.props.app.key,
-        id: parseInt(this.props.match.params.id),
+        id: this.props.match.params.id,
         page: 1,
         per: 20,
       },

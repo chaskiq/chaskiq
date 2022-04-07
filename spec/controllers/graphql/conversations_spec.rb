@@ -90,8 +90,9 @@ RSpec.describe GraphqlController, type: :controller do
     graphql_post(type: "INSERT_COMMMENT", variables: {
                    appKey: app.key,
                    id: conversation.key,
-                   message: "<p>helo</p>"
+                   message: { html: "<p>helo</p>" }
                  })
+
     expect(graphql_response.data.insertComment.message.message).to_not be_blank
   end
 end

@@ -7,7 +7,7 @@ module Mutations
       field :assignment_rule, Types::AssignmentRuleType, null: true
 
       argument :app_key, String, required: true
-      argument :rule_id, Integer, required: true
+      argument :rule_id, String, required: true
 
       def resolve(app_key:, rule_id:)
         find_app(app_key)

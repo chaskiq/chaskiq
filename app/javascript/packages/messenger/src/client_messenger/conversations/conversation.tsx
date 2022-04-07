@@ -103,7 +103,7 @@ export function Conversation(props) {
     ) {
       return insertComment(
         {
-          conversation_key: conversation.key,
+          conversationKey: conversation.key,
           message_key: message.key,
           trigger: message.message.triggerId,
           reply: item,

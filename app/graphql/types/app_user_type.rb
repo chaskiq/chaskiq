@@ -2,7 +2,7 @@
 
 module Types
   class AppUserType < Types::BaseObject
-    field :id, Int, null: true
+    field :id, String, null: true
     field :email, String, null: true
     # field :user, [Types::UserType], null: true
     field  :last_visited_at, String, null: true
@@ -99,7 +99,7 @@ module Types
     end
 
     field :dashboard, Types::JsonType, null: true do
-      argument :range, Types::JsonType, required: true
+      argument :range, Types::AnyType, required: true
       argument :kind,  String, required: true
     end
   end

@@ -37,6 +37,7 @@ function Conversations({
   app,
   events,
   app_user,
+  pushEvent,
 }) {
   const [fetching, setFetching] = React.useState(false);
   const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false);
@@ -323,6 +324,7 @@ function Conversations({
           >
             <Conversation
               events={events}
+              pushEvent={pushEvent}
               fixedSidebarOpen={fixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}
             />

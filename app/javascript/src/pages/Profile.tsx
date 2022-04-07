@@ -92,9 +92,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   }
 
   getUser = (cb = null) => {
-    this.props.dispatch(
-      getAppUser(parseInt(this.props.match.params.id), cb && cb())
-    );
+    this.props.dispatch(getAppUser(this.props.match.params.id, cb && cb()));
   };
 
   fetchUserConversations = () => {
@@ -102,7 +100,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       APP_USER_CONVERSATIONS,
       {
         appKey: this.props.app.key,
-        id: parseInt(this.props.match.params.id),
+        id: this.props.match.params.id,
         page: 1,
         per: 20,
       },
@@ -153,7 +151,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       },
       {
         success: (_data) => {
-          this.props.dispatch(getAppUser(parseInt(this.props.app_user.id)));
+          this.props.dispatch(getAppUser(this.props.app_user.id));
           this.props.dispatch(successMessage('status updated'));
         },
         error: (_error) => {

@@ -175,7 +175,7 @@ RSpec.describe Api::GraphqlController, type: :controller do
     it "sessionless will return Lead" do
       expect(graphql_response.data.messenger.user.kind).to be == "Visitor"
       expect(graphql_response.data.messenger.user.email).to be_blank
-      expect(graphql_response.data.messenger.user.session_id).to be == @user.session_id
+      expect(graphql_response.data.messenger.user.sessionId).to be == @user.session_id
     end
 
     it "convert will return Lead" do

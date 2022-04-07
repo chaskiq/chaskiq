@@ -6,10 +6,11 @@ module Mutations
       field :message, Types::ConversationPartType, null: true
       argument :app_key, String, required: true
       argument :id, String, required: true
-      argument :message, Types::JsonType, required: true
+      argument :message, Types::MessageInputType, required: true
 
       # TODO: define resolve method
       def resolve(app_key:, id:, message:)
+        message = message.to_h.with_indifferent_access
         app = App.find_by(key: app_key)
 
         conversation = app.conversations.find_by(key: id)
@@ -26,9 +27,9 @@ module Mutations
         options = {
           from: author,
           message: {
-            html_content: message["html"],
-            serialized_content: message["serialized"],
-            text_content: message["text"] || ActionController::Base.helpers.strip_tags(message["html"])
+            html_content: message[:html],
+            serialized_content: message[:serialized],
+            text_content: message[:text] || ActionController::Base.helpers.strip_tags(message[:html])
           }
         }
 
