@@ -3,7 +3,7 @@ pt:
     edit: Editar
     new: Novo
     add: Adicionar
-    add_new: adicionar novo
+    add_new: Add New
     update: Atualizar
     remove: Retirar
     delete: Apagar
@@ -16,8 +16,8 @@ pt:
     not_found: A Página que Você está Procurando não Existe.
     get_snippet: Obtenha o trecho
     submit: Submit
-    confirm_deletion: 'Confirmar exclusão?'
-    confirm_deletion_ready: você está pronto para excluir?
+    confirm_deletion: Confirm deletion?
+    confirm_deletion_ready: Are you ready to delete?
     next: Seguinte
     prev: Anterior
     showing: Mostrando
@@ -27,10 +27,10 @@ pt:
     tz_hint: Seu fuso horário de navegador é <b className="text-bold">%{timezone}</b>
     send: Enviar
     actions: Ações
-    your_apps: Seus aplicativos
-    upload_field: enviar %{field}
+    your_apps: Your Apps
+    upload_field: Upload %{field}
     choose_color: Escolher cor
-    image: Imagen
+    image: Image
     langs:
       en: Português
       es: Espanhol
@@ -39,17 +39,20 @@ pt:
       ca: Catalão
       zh-CN: Chinês
     redirecting: A redireccionar
+    choose_language: Choose Language
     select_language: Selecione o idioma
     send_on_enter: Publicar no website
-    away_mode: Modo Ausente
-    toggle_light_mode: Alternar modo de luz
-    toggle_dark_mode: Ativar modo noturno
+    away_mode: Away Mode
+    toggle_light_mode: Toggle Light Mode
+    toggle_dark_mode: Toggle Dark Mode
     leads: Contactos
     visitors: Visitante
     users: Usuários
-    type_message: escreve a tua mensagem
+    type_message: Type your message
     search_conversations: Pesquisar conversas
     days: Dias
+    visit: Visit
+    done: Done
   status_messages:
     error: 'Erro'
     success: 'Sucesso'
@@ -62,31 +65,31 @@ pt:
     reordered_error: Erro ao reordenar
     reordered_success: Reordenado com sucesso
   error_view:
-    title: Ocorreu algo de errado.
+    title: Woops! Something went wrong.
     subtitle: Infelizmente 🤯
-    exp: tente atualizar a página
-    cta: tente ir para casa
+    exp: Try refreshing the page
+    cta: Try to go home
   home:
     welcome: Bem-vindo à
     welcome_site: Chaskiq
     tagline: Encontrar a sua localização atual
-    create_new: Criar nova app
-    choose_lang: Escolher idioma
-    edit_profile: Editar perfil
-    edit_credentials: Edit user credentials
-    go_to_doc: Ir para a documentação
+    create_new: Create New App
+    choose_lang: Choose Language
+    edit_profile: Edit Profile
+    edit_credentials: Edit User Credentials
+    go_to_doc: Go To Documentation
   dashboard:
     hey: "👋 Ei!, você está vendo o painel de <strong>%{name} 's </strong>! <br /> Obtenha o snippet de instalação para a configuração da web <br />"
-    response_avg: Tempo de Resposta
-    new_conversations: Nova conversa
+    response_avg: Average Response Time
+    new_conversations: New Conversations
     resolutions: Resolução
     incoming_messages: Mensagens recebidas
-    visit_activity: Visitar atividade
-    users_browser: Navegador de Usuários
-    lead_os: Contactos Os
-    user_os: Os dos Usuários
+    visit_activity: Visit Activity
+    users_browser: Users Browser
+    lead_os: Lead OS
+    user_os: User OS
     mac_os: Mac OS
-    user_country: País do usuário
+    user_country: User Country
     snippet: Coloque o seguinte script no final da sua tag html <body>
     status: Mostrar estado no chat
     status_running: Em execução
@@ -111,7 +114,7 @@ pt:
       for_users: Para Os Usuários
       bot_settings: Tarefas de bot
       outbound: Saída
-      new_conversations: Nova conversa
+      new_conversations: New Conversations
       articles: Artigos
       collections: Coleções
       article_settings: Configurações
@@ -120,19 +123,27 @@ pt:
       messenger_settings: Configurações do Messenger
       integrations: Integrações
       webhooks: Webhooks
-      api_access: Acesso API
+      api_access: API Access
       billing: Facturação
     user_menu:
-      create_app: 'Criar nova app'
-      create_app_description: 'Crie o aplicativo Chaskiq da sua empresa'
-      signout: Terminar sessão
-      title: Menu do usuário
+      create_app: Create New App
+      create_app_description: Crie o aplicativo Chaskiq da sua empresa
+      signout: Sign Out
+      title: User Menu
+  profile:
+    no_name: No name
+    name: Full name
+    area_of_expertise: Area of expertise
+    specialization: Specialization
+    phone_number: Phone number
+    address: Address
+    availability: Disponibilidade
   login:
     title: Connect to your account
     email: Your Email
     password: Your password
     remember_me: Remember me
-    forgot_password: Forgot your password ?
+    forgot_password: Forgot your password?
     sign_in: Connect
     continue_with: Continue with
   invitation:
@@ -163,22 +174,33 @@ pt:
     empty:
       title: Sem conversas
       text: Escolha conversas ao lado
+    app_package_panel:
+      title: Send App Package
+      send_app: Send App
+      preview: Pré-visualização
+    assignment_rules:
+      title: Titulo
+      hint: This is the rule name
+      select_agent: Select Agent
   conversation:
     with: Conversa com
+    tag_modal_title: Manage conversation tags
     actions:
-      priorize: Priorizar conversa
-      remove_priority: Remover prioridade
+      priorize: Priorize Conversation
+      remove_priority: Remove Priority
       close: Fechar
       reopen: Reabrir
-      start_call: Iniciar video chamada
+      start_call: Start Videocall
       end_call: Terminar Chamada
       assign_agent: Designar agente
+      tag_conversation: Tag Conversation
     messages:
       seen: Visto
       not_seen: Não Visto
       note: Nota Privada
       reply: Responder
     sidebar:
+      customize: Customize
       show_profile: Mostrar perfil
       location: Localização
       browser: Navegador de Usuários
@@ -186,6 +208,9 @@ pt:
       created_at: Criado em
       assignee: Atribuído
       first_agent_reply: Primeira resposta do agente
+      app_inserter:
+        title: Add apps to inbox sidebar
+        add_app: Adicionar aplicação
     editor:
       panels:
         bot:
@@ -196,7 +221,7 @@ pt:
           choose_another: Escolha outro
         quick_reply:
           title: Enviar uma resposta rápida
-          confirm: Confirma o envio de %{title}?
+          confirm: Confirm send %{title}?
           confirm_msg: Essa resposta rápida será entregue na conversa atual do usuário.
           empty: sem respostas rápidas disponíveis
           choose_another: Escolha outro
@@ -212,7 +237,7 @@ pt:
     remove_success: Campanha removida
     remove_hint: Nós destruiremos qualquer conteúdo e dados relacionados
     delete_campaign: Excluir campanha %{name}
-    create_new: Criar nova campanha
+    create_new: Create New Campaign
     empty:
       title: Sem campanhas para mostrar
     mailing: Campanhas De E-Mailing
@@ -230,7 +255,7 @@ pt:
     pause_description: pausar a esta campanha
     clone_title: Duplicar
     clone_description: clones a campanha
-    activate: 'Ativar Campanhas'
+    activate: Ativar Campanhas
     enables: Habilitar campanha
     disables: Desativa a campanha
     state:
@@ -264,23 +289,23 @@ pt:
       cancel: Cancele a sua subscrição
   task_bots:
     type_filters:
-      title_visitors: 'Visitante'
-      description_visitors: 'visitantes na plataforma'
-      title_leads: 'Contactos'
-      description_leads: 'Visitantes que fazem uma ação'
-      title_users: 'Usuários'
+      title_visitors: Visitante
+      description_visitors: visitantes na plataforma
+      title_leads: Contactos
+      description_leads: Visitantes que fazem uma ação
+      title_users: Usuários
       description_users: "os usuários registrados da sua plataforma"
     state_filters:
-      enabled_title: 'Habilitada'
-      enabled_description: 'habilitar tarefa do bot'
-      disabled_title: 'Desativada'
-      disabled_description: 'Tarefas do bot desabilitadas'
+      enabled_title: Habilitada
+      enabled_description: Enabled bot tasks
+      disabled_title: Desativada
+      disabled_description: Tarefas do bot desabilitadas
     title: Tarefas de bot
     reply_soon: Oi, %{name} responderá assim que puder.
     reply_agent: você receberá uma resposta de um de nossos agentes
     email_support: para obter suporte você pode enviar um e-mail para %{email}
     outbound: '🏓 Saída'
-    new_conversations: '👋 Novas conversas'
+    new_conversations: '👋 New Conversations'
     new_conversations_notice: Isto é o que as pessoas verão quando iniciarem uma nova conversa
     options:
       add_message: Adicionar Mensagem
@@ -307,7 +332,7 @@ pt:
       placeholder: Introduz o teu email
       ack: Muito obrigado
     support:
-      ask: Você tem um cliente existente em %{name}?
+      ask: Are you an existing %{name} customer?
       options:
         op1: Sim, sou um cliente
         op2: Não, eu ainda não sou um cliente existente
@@ -332,7 +357,7 @@ pt:
         email_only: Pedir apenas por e-mail
         override:
           label: Sobrescrever o comportamento padrão com o próprio bot de tarefa
-          hint: 'Quando você fizer isso, o comportamento padrão abaixo não ocorrerá e a tarefa será acionada em cada nova conversa'
+          hint: Quando você fizer isso, o comportamento padrão abaixo não ocorrerá e a tarefa será acionada em cada nova conversa
       users:
         tab: Para Os Usuários
         start_conversation: Quando leads iniciar uma conversa
@@ -348,7 +373,7 @@ pt:
       custom_time: Personalize
       enable_title: Habilitar tarefa do bot
       enable_hint: quando ativado a tarefa do bot começará a operar
-    new: Criar nova tarefa
+    new: Create New Task
     remove_success: bot removido
     empty:
       title: Nenhuma tarefa de bot encontrada
@@ -389,7 +414,7 @@ pt:
     add_as_dialog:
       title: Adicionar esta mensagem como uma resposta rápida
   new_app:
-    title: 'Crie o aplicativo Chaskiq da sua empresa'
+    title: Crie o aplicativo Chaskiq da sua empresa
     text: Forneça informações básicas para configurar o Chaskiq para sua equipe e clientes.
     hint: Crie o aplicativo Chaskiq da sua empresa
   settings:
@@ -411,16 +436,16 @@ pt:
       security: Security
       messenger_settings: Configurações do Messenger
       appearance: Aparência
-      contact_avatars: Contact avatars
-      appearance_title: Definições de Aparência
+      contact_avatars: Contact Avatars
+      appearance_title: Appearance Settings
       privacy: Privacidade
-      privacy_title: Definições de Privacidade
+      privacy_title: Privacy Settings
       translations: Translação
       availability: Disponibilidade
       email_requirement: Email requerido
-      inbound_settings: Configurações de entrada
+      inbound_settings: Inbound Settings
       messenger_style: Estilo Messenger
-      user_data: Dados de usuário
+      user_data: User Data
       tags: Etiquetas
       quick_replies: Respostas rápidas
       email_forwarding: Encaminhamento de e-mail
@@ -449,15 +474,15 @@ pt:
         title: Integrações ativas
         text: Integração API
       available:
-        title: "APIs Disponíveis"
+        title: APIs Disponíveis
         text: Serviços API disponíveis
       yours:
-        title: 'Seus aplicativos de integração'
+        title: Seus aplicativos de integração
         text: Aplicativos de integração criados por você
       hints:
         hook_url: Essa integração receberá webhook em
       delete_dialog:
-        title: Excluir "%{name}" integração?
+        title: Delete "%{name}" integration?
         text: O webhook com o serviço %{name} será desativado imediatamente
       empty:
         title: Você ainda não tem nenhuma integração de api
@@ -528,14 +553,14 @@ pt:
         hint: Isso não afeta as mensagens de saída que você envia.
     team:
       title: Equipa
-      invitations: convites
+      invitations: Invitations
       agents: Agentes
-      invitation_success: convite enviado!
-      invitatin_error: convite enviado!
+      invitation_success: Invitation sent!
+      invitatin_error: Invitation not sent!
       action_button: adicionar usuário
       title_content: Adicionar agente de usuário
       content_text: enviar um convite por email
-      hint: o novo membro da equipe será notificado por seu e-mail
+      hint: The new team member will be notified by it's email
       send_invitation: Enviar convite
       resend_invitation: Reenviar o convite
       add_new: Adicionar um Membro
@@ -544,7 +569,7 @@ pt:
       destroyed_agent: Agente excluído com sucesso
       destroy_agent_title: Excluir Agente
       destroy_agent: Apagar
-      destroy_agent_warning: 'Tem certeza que deseja excluir %{agent}?'
+      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: Atualizar
     webhooks:
       title: Webhooks
@@ -555,7 +580,7 @@ pt:
       delete_success: Webhook removido corretamente
       delete_error: Erro ao remover webhook
       outgoing_webhooks: Webhooks de saída
-      new_webhook: Novo webhook
+      new_webhook: New Webhook
       active_webhooks: Adicionar Webhooks
       disabled_webhooks: Webhooks Desativados
       empty:
@@ -563,13 +588,13 @@ pt:
         desc: Pesquisar por webhooks em
         disabled_webhooks: Webhooks Desativados
       delete:
-        title: Excluir webhook ?
+        title: Delete webhook?
         text: O webhook com o serviço %{name} será desativado imediatamente
     tags:
       title: Etiquetas
       modal:
         title: Criar tag
-        hint: Procurando por mais tags? Veja
+        hint: Looking for more tags? Look at
         link: configurações da conta
       inputs:
         name: Nome do campo
@@ -599,14 +624,14 @@ pt:
     published: Publicado
     draft: Rascunhos
     visit: visite o Centro de Ajuda
-    new: Novo artigo
-    add: Adicionar item
+    new: New Article
+    add: Add Item
     collections: Coleções
     help_center: Centro de ajuda
     description_placeholder: Descreva sua coleção para ajudá-lo a encontrá-la.
     title_placeholder: Escreva o título do artigo
-    new_section: Nova secção
-    new_collection: Nova coleção
+    new_section: New Section
+    new_collection: New Collection
     edit_collection: Nova coleção
     create_article:
       placeholder: Escreva o título do artigo
@@ -615,24 +640,25 @@ pt:
       title: Nova coleção de artigos
       placeholder: Digite o título da coleção
       description: Descreva sua coleção para ajudá-lo a encontrá-la.
-    deleted_success: artigo apagado
-    new_article: novo artigo
-    settings_updated_success: 'configurações do artigo atualizadas'
-    settings_updated_error: 'ocorreu um erro ao tentar modificar as definições'
+    deleted_success: Article deleted
+    new_article: Novo artigo
+    settings_updated_success: Article settings updated
+    settings_updated_error: Article settings failed
     activate_help_center: Ativar Central de Ajuda
-    delete_article: Excluir artigo "%{title}?
+    delete_article: Delete article "%{title}?
     delete_article_exp: nós destruiremos qualquer conteúdo e dados relacionados
     square_preferred: imagens quadradas preferidas (tamanho mínimo 200x200px)
     square_preferred_hint: imagens quadradas serão redimensionadas idealmente
-    reordered_success: 'reordenado corretamente'
-    reordered_error: 'erro reordenado'
-    add_articles: Adicionar artigo
-    updated_success: artigo apagado
-    updated_error: erro de artigo ao salvar
+    reordered_success: Reordered correctly
+    reordered_error: Reordered error
+    add_articles: Add Articles
+    updated_success: Article updated
+    updated_error: Article error on save
     delete_section: Selecione a seção
     author: Autor(a)
     written_by: escrito por
     created_on: Criado em
+    base_section: Base Section
     state:
       published: publicado
       published_desc: 'mostra artigo no centro de ajuda'
@@ -680,8 +706,8 @@ pt:
     any: qualquer
     criteria: critério
     days_ago: dias atrás
-    filter_for: selecionar filtro para %{name}
-    date_filter_for: Selecione o filtro de data para  %{name}
+    filter_for: Select filter for %{name}
+    date_filter_for: Select the date filter for %{name}
     integer_filter_for: Selecione o filtro inteiro para %{name}
     match_criteria_for: Opções de critérios de partida para %{name}
     apply: aplicar
@@ -701,3 +727,20 @@ pt:
     match_any: corresponde a qualquer
     match_all: corresponder a todos
     missing_value: Faltando valor!
+  full_contact:
+    inbox:
+      name: Nome
+      first_name: First name
+      last_name: Last name
+      twitter: Twitter
+      facebook: Facebook
+      linkedin: Linkedin
+      organization: Organization
+      job_title: Job title
+  contact_fields:
+    inbox:
+      first_name: First name
+      last_name: Last name
+      email: Email
+      company: Company
+      phone: Phone

@@ -74,7 +74,7 @@ ca:
         label: Registre de visites
         hint: "Fins i tot si està desactivat, recollirem el comptador global de visites i emmagatzemarem la informació de la darrera visita al perfil del visitant"
       languages:
-        select_lang: "selecciona idioma"
+        select_lang: Selecciona l'idioma
     campaigns:
       campaign_name:
         label: Nom de la campanya
@@ -200,7 +200,7 @@ ca:
       email: Correu electrònic
       state: Estat
       online: Connectat
-      ip: Ip
+      ip: IP
       country: País
       city: Ciutat
       phone: Telèfon

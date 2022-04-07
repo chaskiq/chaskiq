@@ -3,7 +3,7 @@ ca:
     edit: Edita
     new: Nou
     add: Afegir
-    add_new: afegir nou
+    add_new: Add New
     update: Actualitza
     remove: Eliminar
     delete: Borrar
@@ -16,8 +16,8 @@ ca:
     not_found: No hem trobat la pàgina que cerques.
     get_snippet: Consegueix el fragment
     submit: Envia
-    confirm_deletion: 'Confirmes esborrar?'
-    confirm_deletion_ready: esteu preparats per esborrar?
+    confirm_deletion: Confirm deletion?
+    confirm_deletion_ready: Are you ready to delete?
     next: Següent
     prev: Anterior
     showing: Mostrant
@@ -27,10 +27,10 @@ ca:
     tz_hint: La zona horària del teu navegador és <b className="text-bold">%{timezone}</b>
     send: Envia
     actions: Accions
-    your_apps: Les teves Apps
-    upload_field: carregar %{field}
+    your_apps: Your Apps
+    upload_field: Upload %{field}
     choose_color: Triar color
-    image: Imatge
+    image: Image
     langs:
       en: Anglès
       es: Espanyol
@@ -39,17 +39,20 @@ ca:
       ca: Català
       zh-CN: Xinès
     redirecting: Redireccionant
+    choose_language: Choose Language
     select_language: Selecciona un Idioma
     send_on_enter: Publicar al entrar
-    away_mode: Mode absent
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Canviar a tema fosc
+    away_mode: Away Mode
+    toggle_light_mode: Toggle Light Mode
+    toggle_dark_mode: Toggle Dark Mode
     leads: Client potencial
     visitors: Visitants
     users: Usuaris
-    type_message: escriu el teu missatge
+    type_message: Type your message
     search_conversations: Cerca la conversa
     days: Dies
+    visit: Visit
+    done: Done
   status_messages:
     error: 'Error'
     success: 'Correcte'
@@ -62,31 +65,31 @@ ca:
     reordered_error: S'ha produït un error al reordenar
     reordered_success: Reordenat correctament
   error_view:
-    title: Ui! Alguna cosa ha anat malament.
+    title: Woops! Something went wrong.
     subtitle: Unfortunately 🤯
-    exp: prova d'actualitzar la pàgina
-    cta: prova d'anar al inici
+    exp: Try refreshing the page
+    cta: Try to go home
   home:
     welcome: Benvingut a
     welcome_site: Chaskiq
     tagline: Troba la teva localització actual
-    create_new: Crea una nova aplicació
-    choose_lang: Trieu l'idioma
-    edit_profile: Edita el perfil
-    edit_credentials: Edit user credentials
-    go_to_doc: Aneu a la documentació
+    create_new: Create New App
+    choose_lang: Choose Language
+    edit_profile: Edit Profile
+    edit_credentials: Edit User Credentials
+    go_to_doc: Go To Documentation
   dashboard:
     hey: "👋 Ei, esteu veient el tauler de <strong>%{name} </strong>! <br /> Obteniu el fragment d'instal·lació per a la configuració web <br />"
-    response_avg: Temps de resposta mitjà
-    new_conversations: Nova conversa
+    response_avg: Average Response Time
+    new_conversations: New Conversations
     resolutions: Resolució
     incoming_messages: Missatges entrants
-    visit_activity: Activitat de visita
-    users_browser: Navegador dels usuaris
-    lead_os: So Client potencial
-    user_os: So del usuari
+    visit_activity: Visit Activity
+    users_browser: Users Browser
+    lead_os: Lead OS
+    user_os: User OS
     mac_os: Mac OS
-    user_country: País del usuari
+    user_country: User Country
     snippet: Posa el següent script a la fin de la teva etiqueta html <body>
     status: Estat del xat en directe
     status_running: En execució
@@ -111,7 +114,7 @@ ca:
       for_users: Pels usuaris
       bot_settings: Tasques del bot
       outbound: Sortint
-      new_conversations: Nova conversa
+      new_conversations: New Conversations
       articles: Articles
       collections: Col·leccions
       article_settings: Configuració
@@ -120,19 +123,27 @@ ca:
       messenger_settings: Configuració de Messenger
       integrations: Integracions
       webhooks: Webhook
-      api_access: Accés API
+      api_access: API Access
       billing: Facturació
     user_menu:
-      create_app: 'Crea una nova aplicació'
-      create_app_description: 'Crea l''aplicació Chaskiq de la teva empresa'
-      signout: Tanca sessió
-      title: Menú d'usuari
+      create_app: Create New App
+      create_app_description: Crea l'aplicació Chaskiq de la teva empresa
+      signout: Sign Out
+      title: User Menu
+  profile:
+    no_name: No name
+    name: Full name
+    area_of_expertise: Area of expertise
+    specialization: Specialization
+    phone_number: Phone number
+    address: Address
+    availability: Disponibilitat
   login:
     title: Connect to your account
     email: Your Email
     password: Your password
     remember_me: Remember me
-    forgot_password: Forgot your password ?
+    forgot_password: Forgot your password?
     sign_in: Connect
     continue_with: Continue with
   invitation:
@@ -163,22 +174,33 @@ ca:
     empty:
       title: No hi ha converses
       text: Trieu converses al costat
+    app_package_panel:
+      title: Send App Package
+      send_app: Send App
+      preview: Vista prèvia
+    assignment_rules:
+      title: Títol
+      hint: This is the rule name
+      select_agent: Select Agent
   conversation:
     with: Conversa amb
+    tag_modal_title: Manage conversation tags
     actions:
-      priorize: Prioritza la conversació
-      remove_priority: Elimina prioritat
+      priorize: Priorize Conversation
+      remove_priority: Remove Priority
       close: Tanca
       reopen: Reobrir
-      start_call: Inicia videotrucada
+      start_call: Start Videocall
       end_call: Finalitza trucada
       assign_agent: Asignar agent
+      tag_conversation: Tag Conversation
     messages:
       seen: Vist
       not_seen: No vist
       note: Nota privada
       reply: Respondre
     sidebar:
+      customize: Customize
       show_profile: Mostra el perfil
       location: Ubicación
       browser: Navegador del usuari
@@ -186,6 +208,9 @@ ca:
       created_at: Creada el
       assignee: Assignat a
       first_agent_reply: Primera resposta del agent
+      app_inserter:
+        title: Add apps to inbox sidebar
+        add_app: Afegir Aplicació
     editor:
       panels:
         bot:
@@ -196,7 +221,7 @@ ca:
           choose_another: Selecciona un altre
         quick_reply:
           title: Envia una resposta ràpida
-          confirm: Confirma enviament %{title}?
+          confirm: Confirm send %{title}?
           confirm_msg: Aquesta resposta ràpida s'entregara en la conversa actual del usuari.
           empty: no hi ha resposta ràpida disponible
           choose_another: Selecciona un altre
@@ -212,7 +237,7 @@ ca:
     remove_success: Campanya eliminada
     remove_hint: Destruirem qualsevol contingut i dades relacionades
     delete_campaign: Suprimir campanya %{name}
-    create_new: Crea una nova campanya
+    create_new: Create New Campaign
     empty:
       title: No hi ha campanyes
     mailing: Campanyes de correo
@@ -230,7 +255,7 @@ ca:
     pause_description: posa en pausa la campanya
     clone_title: Duplicar
     clone_description: clona la campanya
-    activate: 'Activar campanyes'
+    activate: Activar campanyes
     enables: Activa la campanya
     disables: Campanya desactivada
     state:
@@ -264,23 +289,23 @@ ca:
       cancel: Cancel·la la teva subscripció
   task_bots:
     type_filters:
-      title_visitors: 'Visitants'
-      description_visitors: 'visitors on the platform'
-      title_leads: 'Client potencial'
-      description_leads: 'Visitors who make an actions'
-      title_users: 'Usuaris'
+      title_visitors: Visitants
+      description_visitors: visitors on the platform
+      title_leads: Client potencial
+      description_leads: Visitors who make an actions
+      title_users: Usuaris
       description_users: "your platform's registered users"
     state_filters:
-      enabled_title: 'Activat'
-      enabled_description: 'enabled bot tasks'
-      disabled_title: 'Inhabilitat'
-      disabled_description: 'Disabled bot tasks'
+      enabled_title: Activat
+      enabled_description: Enabled bot tasks
+      disabled_title: Inhabilitat
+      disabled_description: Disabled bot tasks
     title: Tasques del bot
     reply_soon: Hola, %{name} contestarà el més aviat possible.
     reply_agent: rebràs una resposta d'un dels nostres agents
     email_support: per obtenir assistència, podeu enviar un correu electrònic a %{email}
     outbound: '🏓 Sortint'
-    new_conversations: '👋 Nova conversa'
+    new_conversations: '👋 New Conversations'
     new_conversations_notice: This is what people will see when they start a new conversation
     options:
       add_message: Add Message Bubble
@@ -307,7 +332,7 @@ ca:
       placeholder: Introduïu el vostre correu
       ack: Gràcies
     support:
-      ask: Ja sou client de %{name}?
+      ask: Are you an existing %{name} customer?
       options:
         op1: Si, sóc un client
         op2: No, encara no sóc un client
@@ -332,7 +357,7 @@ ca:
         email_only: Només preguntar pel mail
         override:
           label: Substitueix el comportament predeterminat amb el teu propi bot de tasques
-          hint: 'Quan feu això, el comportament predeterminat següent, no tindrà lloc i la tasca s''activarà en cada nova conversa'
+          hint: Quan feu això, el comportament predeterminat següent, no tindrà lloc i la tasca s'activarà en cada nova conversa
       users:
         tab: Pels usuaris
         start_conversation: Quan els usuaris inicien una conversa
@@ -348,7 +373,7 @@ ca:
       custom_time: Temps personalitzat
       enable_title: Activa tasca del bot
       enable_hint: quan estigui activat, la tasca de bot començarà a funcionar
-    new: Crea una tasca nova
+    new: Create New Task
     remove_success: bot eliminat
     empty:
       title: No s'han trobat tasques del bot
@@ -389,7 +414,7 @@ ca:
     add_as_dialog:
       title: Afegiu aquest missatge com a resposta ràpida
   new_app:
-    title: 'Crea l''aplicació Chaskiq de la teva empresa'
+    title: Crea l'aplicació Chaskiq de la teva empresa
     text: Proporcioneu informació bàsica per configurar Chaskiq per al vostre equip i clients.
     hint: Crea l'aplicació Chaskiq de la teva empresa
   settings:
@@ -411,16 +436,16 @@ ca:
       security: Seguretat
       messenger_settings: Configuració de Messenger
       appearance: Aparença
-      contact_avatars: Contact avatars
-      appearance_title: Configuració de l'aspecte
+      contact_avatars: Contact Avatars
+      appearance_title: Appearance Settings
       privacy: Privacitat
-      privacy_title: Configuració de privacitat
+      privacy_title: Privacy Settings
       translations: Traduccions
       availability: Disponibilitat
       email_requirement: El correu electrònic fa falta
-      inbound_settings: Paràmetres d'entrada
+      inbound_settings: Inbound Settings
       messenger_style: Estil de Messenger
-      user_data: Dades d'usuari
+      user_data: User Data
       tags: Etiquetes
       quick_replies: Respostes ràpides
       email_forwarding: Reenviament de mail
@@ -435,7 +460,7 @@ ca:
     app_inserter:
       title: Add apps to your Messenger
       subtitle: Help your customers before they start a conversation
-      action: Afegir aplicació
+      action: Afegir Aplicació
     integrations:
       title: Integracions de tercers
       create_success: Integració creada
@@ -449,15 +474,15 @@ ca:
         title: Integracions actives
         text: Integracions API
       available:
-        title: "APIs disponibles"
+        title: APIs disponibles
         text: Serveis API disponibles
       yours:
-        title: 'Les vostres aplicacions d’integració'
+        title: Les vostres aplicacions d’integració
         text: Aplicacions d'integració creades
       hints:
         hook_url: Aquesta integració rebrà un webhook a
       delete_dialog:
-        title: Vols eliminar l'integració amb "%{name}" ?
+        title: Delete "%{name}" integration?
         text: La integració amb el servei %{name} es desactivarà immediatament
       empty:
         title: Encara no teniu cap integració Api
@@ -528,14 +553,14 @@ ca:
         hint: Això no afecta els missatges de sortida que envieu.
     team:
       title: Equip
-      invitations: invitacions
+      invitations: Invitations
       agents: Agents
-      invitation_success: invitació enviada!
-      invitatin_error: invitació no enviada!
+      invitation_success: Invitation sent!
+      invitatin_error: Invitation not sent!
       action_button: afegeix usuari/a
       title_content: Afegeix un nou agent
       content_text: envia una invitació per correu
-      hint: el nou membre de l’equip rebrà una notificació per mail
+      hint: The new team member will be notified by it's email
       send_invitation: Enviar invitació
       resend_invitation: Reenviar la invitació
       add_new: Afegeix membre a l'equip
@@ -544,7 +569,7 @@ ca:
       destroyed_agent: L'agent s'ha eliminat correctament
       destroy_agent_title: Suprimeix agent
       destroy_agent: Suprimir
-      destroy_agent_warning: 'Estàs segur que voleu suprimir %{agent}?'
+      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: Actualitza
     webhooks:
       title: Webhook
@@ -555,7 +580,7 @@ ca:
       delete_success: El webhook s'ha eliminat correctament
       delete_error: Error al eliminar el webhook
       outgoing_webhooks: Webhook de sortida
-      new_webhook: Nou webhook
+      new_webhook: New Webhook
       active_webhooks: Webhooks actius
       disabled_webhooks: Webhooks desactivats
       empty:
@@ -563,13 +588,13 @@ ca:
         desc: Cerca els teus webhooks
         disabled_webhooks: Webhooks desactivats
       delete:
-        title: Eliminar el webhook?
+        title: Delete webhook?
         text: El webhook amb el servei %{name} es desactivarà immediatament
     tags:
       title: Etiquetes
       modal:
         title: Crea l'etiqueta de l'aplicació
-        hint: Cerques més etiquetes? mira en
+        hint: Looking for more tags? Look at
         link: configuració del compte
       inputs:
         name: Nom del camp
@@ -599,14 +624,14 @@ ca:
     published: Publicat
     draft: Esborranys
     visit: visita el centre d'ajuda
-    new: Article nou
-    add: Afegeix element
+    new: New Article
+    add: Add Item
     collections: Col·leccions
     help_center: Centre d'ajuda
     description_placeholder: Descriu la teva col·lecció per ajudar-vos a trobar-la.
     title_placeholder: Escriu el títol de les seccions
-    new_section: Nova secció
-    new_collection: Nova col·lecció
+    new_section: New Section
+    new_collection: New Collection
     edit_collection: Edita col·lecció
     create_article:
       placeholder: Escriu el títol de l'article
@@ -615,24 +640,25 @@ ca:
       title: Nova col·lecció d'articles
       placeholder: Introdueix el títol de la col·lecció
       description: Descriviu la vostra col·lecció per ajudar-vos a trobar-la.
-    deleted_success: article deleted
-    new_article: article nou
-    settings_updated_success: 'article settings updated'
-    settings_updated_error: 'article settings failed'
+    deleted_success: Article deleted
+    new_article: Article nou
+    settings_updated_success: Article settings updated
+    settings_updated_error: Article settings failed
     activate_help_center: Activate Help Center
-    delete_article: Delete article "%{title} ?
+    delete_article: Delete article "%{title}?
     delete_article_exp: destruirem qualsevol contingut i dades relacionades
     square_preferred: square images preferred (min size 200x200px)
     square_preferred_hint: squared images will be optimal resized
-    reordered_success: 'reordered correctly'
-    reordered_error: 'reordered error'
-    add_articles: Add articles
-    updated_success: article updated
-    updated_error: article error on save
+    reordered_success: Reordered correctly
+    reordered_error: Reordered error
+    add_articles: Add Articles
+    updated_success: Article updated
+    updated_error: Article error on save
     delete_section: Suprimeix una secció
     author: Autor/a
     written_by: written by
     created_on: Creat el
+    base_section: Base Section
     state:
       published: publicat
       published_desc: 'shows article on the help center'
@@ -680,8 +706,8 @@ ca:
     any: qualsevol
     criteria: criteri
     days_ago: dies abans
-    filter_for: select filter for %{name}
-    date_filter_for: Select the date filter for  %{name}
+    filter_for: Select filter for %{name}
+    date_filter_for: Select the date filter for %{name}
     integer_filter_for: Select the integer filter for %{name}
     match_criteria_for: Match criteria options for %{name}
     apply: aplicar
@@ -701,3 +727,20 @@ ca:
     match_any: match any
     match_all: match all
     missing_value: Falta el valor!
+  full_contact:
+    inbox:
+      name: Nom
+      first_name: First name
+      last_name: Last name
+      twitter: Twitter
+      facebook: Facebook
+      linkedin: Linkedin
+      organization: Organization
+      job_title: Job title
+  contact_fields:
+    inbox:
+      first_name: First name
+      last_name: Last name
+      email: Email
+      company: Company
+      phone: Telèfon

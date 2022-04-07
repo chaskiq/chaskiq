@@ -3,7 +3,7 @@ ru:
     edit: Edit
     new: New
     add: Add
-    add_new: add new
+    add_new: Add New
     update: Update
     remove: Remove
     delete: Delete
@@ -16,8 +16,8 @@ ru:
     not_found: The page you are looking for does not exist.
     get_snippet: Get the snippet
     submit: Submit
-    confirm_deletion: 'Confirm deletion ?'
-    confirm_deletion_ready: are you ready to delete ?
+    confirm_deletion: Confirm deletion?
+    confirm_deletion_ready: Are you ready to delete?
     next: Next
     prev: Prev
     showing: Showing
@@ -27,10 +27,10 @@ ru:
     tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
     send: Send
     actions: Actions
-    your_apps: Your apps
-    upload_field: upload %{field}
+    your_apps: Your Apps
+    upload_field: Upload %{field}
     choose_color: Choose color
-    image: Imagen
+    image: Image
     langs:
       en: English
       es: Spanish
@@ -39,17 +39,20 @@ ru:
       ca: Catalan
       zh-CN: Chinese
     redirecting: Redirecting
+    choose_language: Choose Language
     select_language: Select Language
     send_on_enter: Publish on enter
-    away_mode: Away mode
-    toggle_light_mode: Toggle light mode
-    toggle_dark_mode: Toggle dark mode
+    away_mode: Away Mode
+    toggle_light_mode: Toggle Light Mode
+    toggle_dark_mode: Toggle Dark Mode
     leads: Leads
     visitors: Visitors
     users: Users
-    type_message: type your message
+    type_message: Type your message
     search_conversations: Search conversations
     days: Days
+    visit: Visit
+    done: Done
   status_messages:
     error: 'Error'
     success: 'Success'
@@ -62,31 +65,31 @@ ru:
     reordered_error: Error reordering
     reordered_success: Successfully Reordered
   error_view:
-    title: Woops! something went wrong.
+    title: Woops! Something went wrong.
     subtitle: Unfortunately 🤯
-    exp: try refreshing the page
-    cta: try to go home
+    exp: Try refreshing the page
+    cta: Try to go home
   home:
     welcome: Welcome to
     welcome_site: Chaskiq
     tagline: Find your current applications here
-    create_new: Create new app
-    choose_lang: Choose language
-    edit_profile: Edit profile
-    edit_credentials: Edit user credentials
-    go_to_doc: Go to documentation
+    create_new: Create New App
+    choose_lang: Choose Language
+    edit_profile: Edit Profile
+    edit_credentials: Edit User Credentials
+    go_to_doc: Go To Documentation
   dashboard:
     hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Response Time avg
-    new_conversations: New conversations
+    response_avg: Average Response Time
+    new_conversations: New Conversations
     resolutions: Resolutions
     incoming_messages: Incoming Messages
-    visit_activity: Visit activity
-    users_browser: Users browser
-    lead_os: Lead Os
-    user_os: User Os
+    visit_activity: Visit Activity
+    users_browser: Users Browser
+    lead_os: Lead OS
+    user_os: User OS
     mac_os: Mac OS
-    user_country: User country
+    user_country: User Country
     snippet: Put the following script on the end of your html <body> tag
     status: Live chat status
     status_running: Running
@@ -111,28 +114,36 @@ ru:
       for_users: For Users
       bot_settings: Bot Tasks
       outbound: Outbound
-      new_conversations: New conversations
+      new_conversations: New Conversations
       articles: Articles
       collections: Collections
       article_settings: Settings
       app_settings: App Settings
       team: Team
-      messenger_settings: Messenger settings
+      messenger_settings: Messenger Settings
       integrations: Integrations
       webhooks: Webhooks
-      api_access: API access
+      api_access: API Access
       billing: Billing
     user_menu:
-      create_app: 'Create new app'
-      create_app_description: 'Create your company’s Chaskiq app'
-      signout: Sign out
-      title: User menu
+      create_app: Create New App
+      create_app_description: Create your company’s Chaskiq app
+      signout: Sign Out
+      title: User Menu
+  profile:
+    no_name: No name
+    name: Full name
+    area_of_expertise: Area of expertise
+    specialization: Specialization
+    phone_number: Phone number
+    address: Address
+    availability: Availability
   login:
     title: Connect to your account
     email: Your Email
     password: Your password
     remember_me: Remember me
-    forgot_password: Forgot your password ?
+    forgot_password: Forgot your password?
     sign_in: Connect
     continue_with: Continue with
   invitation:
@@ -163,22 +174,33 @@ ru:
     empty:
       title: No conversations
       text: Choose conversations on the side
+    app_package_panel:
+      title: Send App Package
+      send_app: Send App
+      preview: Preview
+    assignment_rules:
+      title: Title
+      hint: This is the rule name
+      select_agent: Select Agent
   conversation:
     with: Conversation with
+    tag_modal_title: Manage conversation tags
     actions:
-      priorize: Priorize conversation
-      remove_priority: Remove priority
+      priorize: Priorize Conversation
+      remove_priority: Remove Priority
       close: Close
       reopen: Reopen
-      start_call: Start videocall
+      start_call: Start Videocall
       end_call: End Call
       assign_agent: Assign Agent
+      tag_conversation: Tag Conversation
     messages:
       seen: Seen
       not_seen: Not seen
       note: Private Note
       reply: Reply
     sidebar:
+      customize: Customize
       show_profile: Show profile
       location: Location
       browser: User Browser
@@ -186,6 +208,9 @@ ru:
       created_at: Created at
       assignee: Assignee
       first_agent_reply: First agent reply
+      app_inserter:
+        title: Add apps to inbox sidebar
+        add_app: Add App
     editor:
       panels:
         bot:
@@ -196,7 +221,7 @@ ru:
           choose_another: Choose another
         quick_reply:
           title: Send a quick reply
-          confirm: Confirm send %{title} ?
+          confirm: Confirm send %{title}?
           confirm_msg: This quick reply will be delivered on user's current conversation.
           empty: no quick replies available
           choose_another: Choose another
@@ -212,7 +237,7 @@ ru:
     remove_success: Campaign removed
     remove_hint: We will destroy any content and related data
     delete_campaign: Delete campaign %{name}
-    create_new: Create new campaign
+    create_new: Create New Campaign
     empty:
       title: No campaigns found
     mailing: Mailing campaign
@@ -230,7 +255,7 @@ ru:
     pause_description: pauses the campaign
     clone_title: Clone
     clone_description: clones the campaign
-    activate: 'Activate Campaigns'
+    activate: Activate Campaigns
     enables: Enables campaign
     disables: Disables campaign
     state:
@@ -264,23 +289,23 @@ ru:
       cancel: Cancel your subscription
   task_bots:
     type_filters:
-      title_visitors: 'Visitors'
-      description_visitors: 'visitors on the platform'
-      title_leads: 'Leads'
-      description_leads: 'Visitors who make an actions'
-      title_users: 'Users'
+      title_visitors: Visitors
+      description_visitors: visitors on the platform
+      title_leads: Leads
+      description_leads: Visitors who make an actions
+      title_users: Users
       description_users: "your platform's registered users"
     state_filters:
-      enabled_title: 'Enabled'
-      enabled_description: 'enabled bot tasks'
-      disabled_title: 'Disabled'
-      disabled_description: 'Disabled bot tasks'
+      enabled_title: Enabled
+      enabled_description: Enabled bot tasks
+      disabled_title: Disabled
+      disabled_description: Disabled bot tasks
     title: Bot Tasks
     reply_soon: Hi, %{name} will reply as soon as they can.
     reply_agent: you will get a reply from one of our agents
     email_support: to get support you can email at %{email}
     outbound: '🏓 Outbound'
-    new_conversations: '👋 New conversations'
+    new_conversations: '👋 New Conversations'
     new_conversations_notice: This is what people will see when they start a new conversation
     options:
       add_message: Add Message Bubble
@@ -307,7 +332,7 @@ ru:
       placeholder: Enter your email
       ack: Thank you
     support:
-      ask: Are you an existing %{name} customer ?
+      ask: Are you an existing %{name} customer?
       options:
         op1: Yes, I'm a customer
         op2: No, I'm not an existing customer yet
@@ -332,7 +357,7 @@ ru:
         email_only: Ask for email only
         override:
           label: Override default behavior with your own task bot
-          hint: 'When you do this the default behavior below will not take place and the task will be triggered on each new conversation'
+          hint: When you do this the default behavior below will not take place and the task will be triggered on each new conversation
       users:
         tab: For Users
         start_conversation: When users start a conversation
@@ -348,7 +373,7 @@ ru:
       custom_time: Custom time
       enable_title: Enable bot task
       enable_hint: when enabled the bot task will start operating
-    new: Create new task
+    new: Create New Task
     remove_success: bot removed
     empty:
       title: No bot tasks found
@@ -389,7 +414,7 @@ ru:
     add_as_dialog:
       title: Add this message as a Quick Reply
   new_app:
-    title: 'Create your company’s Chaskiq app'
+    title: Create your company’s Chaskiq app
     text: Provide basic information to setup Chaskiq for your team and customers.
     hint: Create your company’s Chaskiq app
   settings:
@@ -411,16 +436,16 @@ ru:
       security: Security
       messenger_settings: Messenger Settings
       appearance: Appearance
-      contact_avatars: Contact avatars
-      appearance_title: Appearance settings
+      contact_avatars: Contact Avatars
+      appearance_title: Appearance Settings
       privacy: Privacy
-      privacy_title: Privacy settings
+      privacy_title: Privacy Settings
       translations: Translations
       availability: Availability
       email_requirement: Email Requirement
-      inbound_settings: Inbound settings
+      inbound_settings: Inbound Settings
       messenger_style: Messenger Style
-      user_data: User data
+      user_data: User Data
       tags: Tags
       quick_replies: Quick Replies
       email_forwarding: Email Forwarding
@@ -435,7 +460,7 @@ ru:
     app_inserter:
       title: Add apps to your Messenger
       subtitle: Help your customers before they start a conversation
-      action: Add app
+      action: Add App
     integrations:
       title: Third party integrations
       create_success: Integration created
@@ -449,15 +474,15 @@ ru:
         title: Active Integrations
         text: API Integrations
       available:
-        title: "Available API's"
+        title: Available API's
         text: Available API Services
       yours:
-        title: 'Your Integration Apps'
+        title: Your Integration Apps
         text: Integration apps created by you
       hints:
         hook_url: This integration will receive webhook at
       delete_dialog:
-        title: Delete "%{name}" integration ?
+        title: Delete "%{name}" integration?
         text: The integration with %{name} service will be disabled immediately
       empty:
         title: You don't have any api integrations yet
@@ -503,7 +528,7 @@ ru:
           value: Never
           hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
     languages:
-      add: Add Language
+      add: Add language
       title: Languages
     inbound:
       title: New conversations button
@@ -528,14 +553,14 @@ ru:
         hint: This doesn’t affect the outbound messages you send.
     team:
       title: Team
-      invitations: invitations
+      invitations: Invitations
       agents: Agents
-      invitation_success: invitation sent!
-      invitatin_error: invitation not sent!
+      invitation_success: Invitation sent!
+      invitatin_error: Invitation not sent!
       action_button: add user
       title_content: Add a new agent
       content_text: send an activable invitation
-      hint: the new team member will be notified by it's email
+      hint: The new team member will be notified by it's email
       send_invitation: Send invitation
       resend_invitation: Resend invitation
       add_new: Add Team Member
@@ -544,7 +569,7 @@ ru:
       destroyed_agent: Agent deleted successfully
       destroy_agent_title: Delete Agent
       destroy_agent: Delete
-      destroy_agent_warning: 'Are you sure you want to delete %{agent} ?'
+      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: Update
     webhooks:
       title: Webhooks
@@ -555,7 +580,7 @@ ru:
       delete_success: Webhook removed correctly
       delete_error: Error removing webhook
       outgoing_webhooks: Outgoing webhooks
-      new_webhook: New webhook
+      new_webhook: New Webhook
       active_webhooks: Active Webhooks
       disabled_webhooks: Disabled Webhooks
       empty:
@@ -563,13 +588,13 @@ ru:
         desc: Search for your webhooks in
         disabled_webhooks: Disabled webhooks
       delete:
-        title: Delete webhook ?
+        title: Delete webhook?
         text: The webhook with %{name} service will be disabled immediately
     tags:
       title: Tags
       modal:
         title: Create app's tag
-        hint: Looking for more tags ? look at
+        hint: Looking for more tags? Look at
         link: account settings
       inputs:
         name: Field name
@@ -599,14 +624,14 @@ ru:
     published: Published
     draft: Drafts
     visit: visit the help center
-    new: New article
-    add: Add item
+    new: New Article
+    add: Add Item
     collections: Collections
     help_center: Help Center
     description_placeholder: Describe your collection to help you find it.
     title_placeholder: Write the title of the sections
-    new_section: New section
-    new_collection: New collection
+    new_section: New Section
+    new_collection: New Collection
     edit_collection: Edit collection
     create_article:
       placeholder: Write the title of the article
@@ -615,24 +640,25 @@ ru:
       title: New collection of articles
       placeholder: Enter the title of the collection
       description: Describe your collection to help you find it.
-    deleted_success: article deleted
-    new_article: new article
-    settings_updated_success: 'article settings updated'
-    settings_updated_error: 'article settings failed'
+    deleted_success: Article deleted
+    new_article: New article
+    settings_updated_success: Article settings updated
+    settings_updated_error: Article settings failed
     activate_help_center: Activate Help Center
-    delete_article: Delete article "%{title} ?
+    delete_article: Delete article "%{title}?
     delete_article_exp: we will destroy any content and related data
     square_preferred: square images preferred (min size 200x200px)
     square_preferred_hint: squared images will be optimal resized
-    reordered_success: 'reordered correctly'
-    reordered_error: 'reordered error'
-    add_articles: Add articles
-    updated_success: article updated
-    updated_error: article error on save
+    reordered_success: Reordered correctly
+    reordered_error: Reordered error
+    add_articles: Add Articles
+    updated_success: Article updated
+    updated_error: Article error on save
     delete_section: Delete section
     author: Author
     written_by: written by
     created_on: Created on
+    base_section: Base Section
     state:
       published: published
       published_desc: 'shows article on the help center'
@@ -640,7 +666,7 @@ ru:
       draft_desc: 'hides the article on the help center'
     settings:
       title: Help Center settings
-      add_language: Add language
+      add_language: Add Language
       select_lang: Select language
       add_language_to_help: Add new language to Help Center
       delete:
@@ -680,8 +706,8 @@ ru:
     any: any
     criteria: criteria
     days_ago: days ago
-    filter_for: select filter for %{name}
-    date_filter_for: Select the date filter for  %{name}
+    filter_for: Select filter for %{name}
+    date_filter_for: Select the date filter for %{name}
     integer_filter_for: Select the integer filter for %{name}
     match_criteria_for: Match criteria options for %{name}
     apply: apply
@@ -701,3 +727,20 @@ ru:
     match_any: match any
     match_all: match all
     missing_value: Missing value!
+  full_contact:
+    inbox:
+      name: Name
+      first_name: First name
+      last_name: Last name
+      twitter: Twitter
+      facebook: Facebook
+      linkedin: Linkedin
+      organization: Organization
+      job_title: Job title
+  contact_fields:
+    inbox:
+      first_name: First name
+      last_name: Last name
+      email: Email
+      company: Company
+      phone: Phone
