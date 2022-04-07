@@ -187,6 +187,11 @@ describe('Conversation Spec', function () {
                       rules: [],
                     });
 
+                    cy.wrap($body).xpath(
+                      '/html/body/main/div/div/div/main/div/div/div[2]/div/div/textarea'
+                    )
+                    .type('oeoe \n')
+
                     cy.wrap($body).contains(
                       'was assigned to this conversation'
                     );
