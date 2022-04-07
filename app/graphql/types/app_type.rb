@@ -642,8 +642,7 @@ module Types
     private
 
     def filter_by_agent(agent_id)
-      agent = agent_id.present? && agent_id.zero? ? nil : agent_id
-      @collection.where(assignee_id: agent)
+      @collection.where(assignee_id: agent_id)
     end
 
     def sort_conversations(sort)
