@@ -71,7 +71,7 @@ export const TextInput = styled.input<TextInputProps>`
   ${(props) =>
     props.disabled
       ? `background: #f6f4f4 !important;
-    color: #ddd !important;`
+    color: #525252 !important;`
       : ''}
 `;
 
