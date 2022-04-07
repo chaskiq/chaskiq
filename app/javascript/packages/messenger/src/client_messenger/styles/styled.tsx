@@ -503,7 +503,7 @@ export const AppPackageBlockButtonItem = styled.div`
 `;
 
 export const AppPackageBlockTextItem = styled.div`
-  ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-400 font-light`}
+  ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-700 font-light`}
   a {
     ${() => tw`text-sm text-gray-600 font-normal hover:text-gray-900`}
   }
