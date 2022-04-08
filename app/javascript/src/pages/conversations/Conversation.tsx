@@ -755,7 +755,7 @@ function Conversation({
             <div
               className="flex items-center text-gray-300"
               style={{
-                marginRight: '-30px',
+                marginRight: '-21px',
                 marginLeft: '16px',
               }}
             >
