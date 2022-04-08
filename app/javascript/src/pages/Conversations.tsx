@@ -239,7 +239,7 @@ function Conversations({
         <div
           className="overflow-scroll"
           onScroll={handleScroll}
-          style={{ height: 'calc(100vh - 60px)' }}
+          style={{ height: 'calc(100vh - 64px)' }}
         >
           {conversations.collection.map((o) => {
             const user = o.mainParticipant;
