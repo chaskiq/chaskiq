@@ -102,7 +102,7 @@
       "url": "heroku/ruby"
     },
     {
-      "url": "https://github.com/Lostmyname/heroku-buildpack-post-build-clean"
+      "url": "https://github.com/leoafarias/heroku-buildpack-node-modules-cleanup"
     }
   ],
   "environments": {
