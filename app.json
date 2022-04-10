@@ -100,23 +100,34 @@
   "buildpacks": [
     {
       "url": "heroku/ruby"
+    },
+    {
+      "url": "https://github.com/Lostmyname/heroku-buildpack-post-build-clean"
     }
   ],
   "environments": {
     "test": {
-      "scripts":{
+      "scripts": {
         "test": "bundle exec rspec",
         "test": "bundle exec rspec -t browser"
       },
-      "addons":[
+      "addons": [
         "heroku-redis",
         "heroku-postgresql"
       ],
       "buildpacks": [
-        { "url": "heroku/ruby" },
-        { "url": "heroku/nodejs" },
-        { "url": "https://github.com/heroku/heroku-buildpack-google-chrome" },
-        { "url": "https://github.com/heroku/heroku-buildpack-chromedriver" }
+        {
+          "url": "heroku/ruby"
+        },
+        {
+          "url": "heroku/nodejs"
+        },
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-google-chrome"
+        },
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-chromedriver"
+        }
       ]
     }
   }
