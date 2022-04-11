@@ -27,7 +27,7 @@ module MessageApis::Dialog360
       )
 
       @conn.headers = {
-        'D360-Api-Key': @api_key,
+        "D360-Api-Key": @api_key,
         "Content-Type" => "application/json",
         "Accept" => "application/json"
       }
@@ -71,7 +71,7 @@ module MessageApis::Dialog360
     def process_statuses(statuses)
       statuses.each do |status|
         case status["status"]
-        when "read" then process_read(status)
+        when "read" then process_read(status["id"])
         when "failed" then process_error(status)
         else
           Rails.logger.info "no processing for #{status['status']} event"
@@ -105,19 +105,14 @@ module MessageApis::Dialog360
       )
     end
 
-    def process_read(params)
-      conversation_part_channel = find_channel(params["id"])
-      return if conversation_part_channel.blank?
-
-      conversation_part_channel.conversation_part.read!
-    end
-
     def get_message_id(response_data)
       response_data["messages"].first["id"]
     end
 
-    def send_message(conversation, message)
-      # TODO: implement event format
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
 
       return nil if message["serialized_content"].blank?
 
@@ -149,7 +144,7 @@ module MessageApis::Dialog360
         message_params.merge!({
                                 type: "image",
                                 image: {
-                                  link: ENV["HOST"] + image_block["data"]["url"],
+                                  link: Chaskiq::Config.get("HOST") + image_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -157,7 +152,7 @@ module MessageApis::Dialog360
         message_params.merge!({
                                 type: "video",
                                 video: {
-                                  url: ENV["HOST"] + video_block["data"]["url"],
+                                  url: Chaskiq::Config.get("HOST") + video_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -166,7 +161,7 @@ module MessageApis::Dialog360
         message_params.merge!({
                                 type: "document",
                                 document: {
-                                  link: ENV["HOST"] + file_block["data"]["url"],
+                                  link: Chaskiq::Config.get("HOST") + file_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -191,7 +186,7 @@ module MessageApis::Dialog360
     end
 
     def send_template_message(template:, conversation_key:, parameters:)
-      parameters = parameters.is_a?(Array) ? parameters : [parameters]
+      parameters = [parameters] unless parameters.is_a?(Array)
 
       conversation = @package.app.conversations.find_by(key: conversation_key)
 

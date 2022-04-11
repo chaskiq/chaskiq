@@ -381,7 +381,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
       ARTICLE_BLOB_ATTACH,
       {
         appKey: this.props.app.key,
-        id: parseInt(this.state.article.id),
+        id: this.state.article.id,
         blobId: signedBlobId,
       },
       {

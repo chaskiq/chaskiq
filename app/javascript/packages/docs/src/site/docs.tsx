@@ -79,6 +79,7 @@ function Docs(props) {
             // className={'classes.heroContent'}
             style={{
               backgroundImage: `url('${settings.headerImageLarge}')`,
+              backgroundSize: 'cover',
             }}
           >
             <div className="lg:px-40 px-2">
@@ -99,7 +100,9 @@ function Docs(props) {
                       onClick={(_e) => (window.location = settings.website)}
                     >
                       <LaunchIcon />
-                      {' Go to'} {settings.siteTitle}
+                      <span className={'ml-1'}>
+                        {' Go to'} {settings.siteTitle}
+                      </span>
                     </button>
 
                     <div>

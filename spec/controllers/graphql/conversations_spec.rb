@@ -12,7 +12,7 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let!(:agent_role) do
-    app.add_agent({ email: "test2@test.cl" })
+    app.add_agent({ email: "test2@test.cl" }, role_attrs: { access_list: ["manage"], role: "admin" })
   end
 
   let(:app_user) do
@@ -90,8 +90,9 @@ RSpec.describe GraphqlController, type: :controller do
     graphql_post(type: "INSERT_COMMMENT", variables: {
                    appKey: app.key,
                    id: conversation.key,
-                   message: "<p>helo</p>"
+                   message: { html: "<p>helo</p>" }
                  })
+
     expect(graphql_response.data.insertComment.message.message).to_not be_blank
   end
 end

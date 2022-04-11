@@ -49,6 +49,9 @@
 - API support - consumable via GrapqhQL with Oauth authorization
 - Quick replies (as canned responses)
 - Configurable Data protection (GDPR) consent
+- Audits on Access and records changes
+- Composable Roles access/permissions system
+- Pluggable Reports
 
 And many features to come
 
@@ -102,7 +105,7 @@ Before you get started, ensure you have the following minimum versions: [Ruby 2.
 
 ## Setting up Chaskiq
 
-If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/en/collections/production-configuration).
+If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/production-configuration).
 
 ## Requirements
 

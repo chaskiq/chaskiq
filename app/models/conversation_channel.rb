@@ -5,7 +5,7 @@ class ConversationChannel < ApplicationRecord
     pkg = conversation.app
                       .app_package_integrations
                       .joins(:app_package)
-                      .where("app_packages.name =?", provider.classify)
+                      .where("app_packages.name =?", provider_name(provider))
                       .limit(1).first
 
     # TODO: notify from time to time that this package is not delivering
@@ -18,5 +18,12 @@ class ConversationChannel < ApplicationRecord
       part: part,
       channel: provider_channel_id
     )
+  end
+
+  private
+
+  def provider_name(provider)
+    # a classify version without the singularize
+    provider.to_s.sub(/.*\./, "").camelize
   end
 end

@@ -31,7 +31,7 @@ export default class MessageContainer extends Component<MessageContainerProps> {
           href="#"
           onClick={() => this.props.handleClose(this.props.availableMessage)}
         >
-          {this.props.i18n.t('dismiss')}
+          {this.props.i18n.t('messenger.dismiss')}
         </MessageCloseBtn>
 
         <ThemeProvider theme={editorTheme}>

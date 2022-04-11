@@ -5,7 +5,7 @@ module UserHandler
     session_id = attrs.delete(:session_id)
     callbacks = attrs.delete(:disable_callbacks)
 
-    next_id = attrs[:name].presence || "visitor #{DummyName::Name.new}"
+    next_id = attrs[:name].presence || "Visitor #{DummyName::Name.new}"
 
     if attrs.dig(:properties, :name).blank?
       attrs.merge!(
@@ -24,7 +24,9 @@ module UserHandler
   def add_lead(attrs)
     email = attrs.delete(:email)
     callbacks = attrs.delete(:disable_callbacks)
+    additional_validations = attrs.delete(:additional_validations)
     ap = app_users.leads.find_or_initialize_by(email: email)
+    ap.additional_validations = true if additional_validations
     ap = handle_app_user_params(ap, attrs)
     ap.disable_callbacks = true if callbacks.present?
     data = attrs.deep_merge!(properties: ap.properties)
@@ -35,10 +37,11 @@ module UserHandler
 
   def add_user(attrs)
     email = attrs.delete(:email)
-
+    additional_validations = attrs.delete(:additional_validations)
     callbacks = attrs.delete(:disable_callbacks)
     # page_url = attrs.delete(:page_url)
     ap = app_users.find_or_initialize_by(email: email)
+    ap.additional_validations = true if additional_validations
     ap.disable_callbacks = true if callbacks.present?
 
     ap = handle_app_user_params(ap, attrs)
@@ -50,18 +53,29 @@ module UserHandler
   end
 
   def handle_app_user_params(app_user, attrs)
+    attrs = attrs.to_h.with_indifferent_access
     attrs = { properties: attrs } unless attrs.key?(:properties)
 
-    keys = attrs[:properties].keys & app_user_updateable_fields
+    # data keys
+    keys = attrs[:properties].keys.map(&:to_sym) & built_in_updateable_fields
     data_keys = attrs[:properties].slice(*keys)
 
-    property_keys = attrs[:properties].keys - keys
+    # custom fields support
+    property_keys = attrs[:properties].keys.map(&:to_sym) & custom_field_keys
     property_params = attrs[:properties].slice(*property_keys)
 
-    data = { properties: app_user.properties.merge(property_params) }
-    app_user.assign_attributes(data)
+    if property_params.any?
+      data = { properties: app_user.properties.merge(property_params) }
+      app_user.assign_attributes(data)
+    end
+
     app_user.assign_attributes(data_keys)
     app_user
+  end
+
+  def update_properties(app_user, attrs)
+    u = handle_app_user_params(app_user, attrs)
+    u.save
   end
 
   def add_agent(attrs, bot: nil, role_attrs: {})
@@ -118,7 +132,7 @@ module UserHandler
         password: attrs[:password]
       },
       bot: nil,
-      role_attrs: { access_list: ["manage"] }
+      role_attrs: { access_list: ["manage"], role: "admin" }
     )
   end
 

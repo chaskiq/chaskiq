@@ -135,6 +135,7 @@ const NewStepBody = styled.div`
 type TourManagerProps = {
   ev: any;
   domain: string;
+  pushEvent: any;
 };
 export default class TourManager extends Component<TourManagerProps> {
   state = {
@@ -632,6 +633,7 @@ export default class TourManager extends Component<TourManagerProps> {
         )}
 
         <StyledFrame
+          title={'tour manager'}
           style={{
             zIndex: 100000000,
             position: 'fixed',

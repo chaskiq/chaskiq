@@ -5,7 +5,7 @@ module Types
     field :assignee, Types::AppUserType, null: true
     # association_field :assignee, Types::AgentType, null: true
 
-    field :id, Integer, null: true
+    field :id, String, null: true
     field :key, String, null: true
     field :reply_count, Integer, null: true
     field :priority, Boolean, null: true

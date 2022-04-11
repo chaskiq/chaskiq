@@ -28,13 +28,18 @@ agent = app.add_agent({
                         name: "sharleena",
                         password: "123456",
                         password_confirmation: "123456"
-                      })
+                      }, 
+                        role_attrs: {
+                          role: "admin"
+                        }
+                      )
 
 agent.agent
 
 Doorkeeper::Application.create(
   name: "authapp",
-  redirect_uri: "http://localhost:5002"
+  redirect_uri: "http://localhost:5002",
+  confidential: false
 )
 
 true

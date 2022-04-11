@@ -136,7 +136,8 @@ export function RtcView(props) {
 
     const params = Object.assign({}, data, a);
     // console.log('BROADCAST', params)
-    props.events.perform('rtc_events', params);
+    props.pushEvent('rtc_events', params);
+    //props.events.perform('rtc_events', params);
   }
 
   function broadcastJoinSession() {

@@ -5,7 +5,7 @@ module Mutations
     class ArticleBlobAttach < Mutations::BaseMutation
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
-      argument :id, Integer, required: true
+      argument :id, String, required: true
       argument :blob_id, String, "Signed blob ID generated via `createDirectUpload` mutation", required: true
 
       def resolve(app_key:, id:, blob_id:)
@@ -14,6 +14,10 @@ module Mutations
         # current_user.avatar.attach(blob_id)
         app = App.find_by(key: app_key)
         article = app.articles.find(id)
+
+        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
         article.images.attach(blob_id)
         { article: article }
       end

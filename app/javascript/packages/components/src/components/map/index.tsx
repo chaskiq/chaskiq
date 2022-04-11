@@ -1,6 +1,6 @@
 import React from 'react';
 //@ts-ignore
-import mapboxgl from '!mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import styled from '@emotion/styled';
 import { isEmpty } from 'lodash';

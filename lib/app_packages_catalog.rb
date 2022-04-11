@@ -122,6 +122,15 @@ class AppPackagesCatalog
       },
 
       {
+        name: "AuditsReports",
+        # capability_list: %w[],
+        tag_list: ["dashboard"],
+        description: "App Audits log reports",
+        state: "enabled",
+        definitions: []
+      },
+
+      {
         name: "Clearbit",
         tag_list: ["enrichment"],
         description: "Clearbit data enrichment",
@@ -245,7 +254,16 @@ class AppPackagesCatalog
       },
       {
         name: "Slack",
-        tag_list: ["email_changed", "conversation.user.first.comment"],
+        tag_list: [
+          "email_changed",
+          "conversation.user.first.comment",
+          "conversations.assigned",
+          "conversations.prioritized",
+          "conversations.started",
+          "conversations.added",
+          "conversations.closed",
+          "conversations.reopened"
+        ],
         state: "enabled",
         description: "Slack channel integration",
         icon: "https://logo.clearbit.com/slack.com",
@@ -272,10 +290,43 @@ class AppPackagesCatalog
                            type: "string",
                            required: true,
                            grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name",
+                           label: "Slack channel for Identified Contacts.",
+                           hint: "This will be your primary channel.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name_leads",
+                           label: "Slack channel for Leads and Visitors.",
+                           hint: "If you leave this blank you will be using the primary channel for Leads.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
                          }
                        ]
                      else
-                       []
+                       [
+                         {
+                           name: "slack_channel_name",
+                           label: "Slack channel for Identified Contacts.",
+                           hint: "This will be your primary channel.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name_leads",
+                           label: "Slack channel for Leads and Visitors.",
+                           hint: "If you leave this blank you will be using the primary channel for Leads.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         }
+                       ]
                      end
       },
 
@@ -455,6 +506,51 @@ class AppPackagesCatalog
       },
 
       {
+        name: "TwilioPhone",
+        capability_list: %w[conversations bots fixed_sidebar],
+        description: "Interfaces twilio telephony",
+        state: "enabled",
+        definitions: [
+          {
+            name: "account_sid",
+            hint: "Twilio API credentials, Found at https://www.twilio.com/console",
+            type: "string",
+            required: true
+          },
+          {
+            name: "application_sid",
+            hint: "You need to create a TwiML app to use this project. Create one at https://www.twilio.com/console/phone-numbers/dev-tools/twiml-apps",
+            type: "string",
+            required: true
+          },
+          {
+            name: "phone_number",
+            hint: "Get your number at, https://www.twilio.com/console/phone-numbers/incoming",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_key",
+            hint: "Your REST API Key, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_secret",
+            hint: "Your REST API Secret, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "auth_token",
+            hint: "Find your Auth Token at twilio.com/console",
+            type: "string",
+            required: true
+          }
+        ]
+      },
+
+      {
         name: "Vonage",
         tag_list: ["conversations.added"],
         description: "Interfaces Vonage Whatsapp",
@@ -556,6 +652,49 @@ class AppPackagesCatalog
       },
 
       {
+        name: "Telegram",
+        tag_list: ["conversations.added"],
+        description: "Interfaces Telegram Messaging",
+        icon: "https://logo.clearbit.com/Telegram",
+        state: "enabled",
+        capability_list: %w[conversations bots],
+        definitions: [
+          {
+            name: "access_token",
+            label: "Your Telegram Bot token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      },
+
+      {
+        name: "Zapier",
+        tag_list: [
+          "conversations.started",
+          "conversations.assigned",
+          "conversations.added",
+          "conversations.closed",
+          "users.created"
+        ],
+        description: "Interfaces Zapier template",
+        icon: "https://logo.clearbit.com/zapier.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "access_token",
+            type: "string",
+            label: "Password",
+            hint: "Put a password to be used in the Zapier auth",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+
+        ]
+      },
+
+      {
         name: "Messenger",
         tag_list: ["conversations.added"],
         description: "Interfaces Facebook Messenger",
@@ -574,6 +713,36 @@ class AppPackagesCatalog
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
           }
+        ]
+      },
+
+      {
+        name: "TelnyxSms",
+        description: "Interfaces Telnyx SMS",
+        icon: "https://logo.clearbit.com/telnyx.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "profile_id",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "phones",
+            label: "Numbers pool",
+            hint: "Desired format ie: +17777777777, add comma separated values for your phones, ie:. phone1,phone2,phone3",
+            type: "textarea",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+
         ]
       }
     ]

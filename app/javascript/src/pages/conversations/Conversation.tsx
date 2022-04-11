@@ -71,6 +71,10 @@ import {
 } from '@chaskiq/store/src/actions/conversation';
 
 import { AGENTS } from '@chaskiq/store/src/graphql/queries';
+import Avatar from '@chaskiq/components/src/components/Avatar';
+
+import bg from '../../images/bg/patterns/memphis-mini.png';
+import bgDark from '../../images/bg/patterns/papyrus-dark.png';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -85,12 +89,23 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
   }
 `;
 
-const BgContainer = styled.div`
-  //background-color: #DFDBE5;
-  background-image: radial-gradient(currentColor 2px, transparent 2px),
+type BgContainerProps = {
+  isDark?: string;
+};
+
+const BgContainer = styled.div<BgContainerProps>`
+  /*background-image: radial-gradient(currentColor 2px, transparent 2px),
     radial-gradient(currentColor 2px, transparent 2px);
   background-size: calc(20 * 2px) calc(20 * 2px);
-  background-position: 0 0, calc(10 * 2px) calc(10 * 2px);
+  background-position: 0 0, calc(10 * 2px) calc(10 * 2px);*/
+
+  background-image: url(${(props) => {
+    //@ts-ignore
+    return props.isDark ? bgDark : bg;
+  }});
+
+  /* background-size: calc(40px) calc(40px); */
+  background-position: 0px 0px, calc(20px) calc(20px);
 `;
 
 type MessageItemType = {
@@ -103,10 +118,10 @@ const MessageItem = styled.div<MessageItemType>`
   ${
     (props) =>
       props.userOrAdmin === 'user'
-        ? tw`bg-white text-green-500`
+        ? tw`bg-gray-600 text-white dark:bg-gray-800 dark:border dark:border-black`
         : props.privateNote
         ? tw`bg-yellow-300 text-black`
-        : tw`bg-gray-700 text-white`
+        : tw`bg-gray-800 text-white dark:bg-black dark:border dark:border-gray-700 dark:text-white`
 
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -121,13 +136,13 @@ function Conversation({
   current_user,
   drawer,
   events,
+  pushEvent,
   toggleFixedSidebar,
   fixedSidebarOpen,
+  isDark,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
-
   const matchId = match ? match.params.id : null;
-
   const messagesLength = conversation.collection
     ? conversation.collection.length
     : null;
@@ -337,12 +352,16 @@ function Conversation({
         key={`conversations-messages/${message.key}`}
       >
         {userOrAdmin === 'user' && (
-          <img
-            alt={message.appUser.displayName}
-            src={message.appUser.avatarUrl}
+          <div
+            className={`cursor-pointer w-10 h-10 ${avatarM}`}
             onClick={handleUserSidebar}
-            className={`cursor-pointer w-10 h-10 rounded ${avatarM}`}
-          />
+          >
+            <Avatar
+              size={10}
+              alt={message.appUser.displayName}
+              src={message.appUser.avatarUrl}
+            />
+          </div>
         )}
 
         <AppPackagePanel
@@ -503,7 +522,10 @@ function Conversation({
   };
 
   return (
-    <BgContainer className="flex-1 flex flex-col overflow-hidden-- h-screen">
+    <BgContainer
+      isDark={isDark}
+      className="flex-1 flex flex-col overflow-hidden-- h-screen"
+    >
       <div
         className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
         style={{ height: '63px' }}
@@ -517,13 +539,16 @@ function Conversation({
           </Link>
 
           {conversation.mainParticipant && !fixedSidebarOpen && (
-            <img
-              // onClick={handleUserSidebar}
+            <div
               onClick={toggleFixedSidebar}
               className="h-9 w-9 rounded-full mr-2 cursor-pointer"
-              src={conversation.mainParticipant.avatarUrl}
-              alt=""
-            />
+            >
+              <Avatar
+                size={9}
+                alt={conversation.mainParticipant.displayName}
+                src={conversation.mainParticipant.avatarUrl}
+              />
+            </div>
           )}
           <h3
             className="mb-1 text-grey-darkest hidden md:flex 
@@ -633,6 +658,7 @@ function Conversation({
               video={videoSession}
               rtcVideo={rtcVideo}
               rtcAudio={rtcAudio}
+              pushEvent={pushEvent}
               events={events}
             />
           )}
@@ -662,10 +688,13 @@ function Conversation({
             </button>
           </Tooltip>
 
-          <Tooltip placement="bottom" overlay={'tag conversation'}>
+          <Tooltip
+            placement="bottom"
+            overlay={I18n.t('conversation.actions.tag_conversation')}
+          >
             <button
               onClick={() => setOpenTagManager(true)}
-              aria-label={'tag conversation'}
+              aria-label={I18n.t('conversation.actions.tag_conversation')}
               className="focus:outline-none outline-none mr-1 rounded-full 
               bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
               dark:hover:bg-gray-800 dark:text-gray-100 
@@ -678,7 +707,7 @@ function Conversation({
 
           {openTagManager && (
             <TagDialog
-              title={'manage conversation tags'}
+              title={I18n.t('conversation.tag_modal_title')}
               tags={conversation.tagList}
               saveHandler={(tags) => updateTags(tags)}
               closeHandler={() => setOpenTagManager(false)}
@@ -726,7 +755,7 @@ function Conversation({
             <div
               className="flex items-center text-gray-300"
               style={{
-                marginRight: '-30px',
+                marginRight: '-21px',
                 marginLeft: '16px',
               }}
             >
@@ -788,16 +817,18 @@ function Conversation({
                     key={`message-item-${conversation.key}-${message.key}`}
                     data={message}
                     events={events}
+                    pushEvent={pushEvent}
                     conversation={conversation}
                   >
                     <ThemeProvider
-                      theme={
+                      theme={message.privateNote ? theme : themeDark}
+                      /*theme={
                         userOrAdmin === 'admin'
                           ? message.privateNote
                             ? theme
                             : themeDark
                           : theme
-                      }
+                      }*/
                     >
                       {message.message.blocks ? (
                         <RenderBlocks
@@ -850,7 +881,13 @@ function Conversation({
   );
 }
 
-function MessageItemWrapper({ conversation, data, events, children }) {
+function MessageItemWrapper({
+  conversation,
+  data,
+  events,
+  children,
+  pushEvent,
+}) {
   React.useEffect(() => {
     // mark as read on first render
     setTimeout(sendRead, 300);
@@ -858,7 +895,19 @@ function MessageItemWrapper({ conversation, data, events, children }) {
 
   function sendRead() {
     if (!data.readAt) {
-      events &&
+      pushEvent(
+        'receive_conversation_part',
+        Object.assign(
+          {},
+          {
+            conversation_key: conversation.key,
+            message_key: data.key,
+          },
+          { email: data.email }
+        )
+      );
+
+      /*events &&
         events.perform(
           'receive_conversation_part',
           Object.assign(
@@ -869,7 +918,7 @@ function MessageItemWrapper({ conversation, data, events, children }) {
             },
             { email: data.email }
           )
-        );
+        );*/
     }
   }
 
@@ -878,14 +927,18 @@ function MessageItemWrapper({ conversation, data, events, children }) {
 
 function RenderBlocks({ message, app, conversation, dispatch }) {
   const { data, blocks } = toCamelCase(message).message;
-
   const schema = blocks.schema;
   // will update package
   const updatePackage = (data, cb) => {
     // for now the only supported action for agent facing pkg will be the url link
 
     if (data.field.action.type === 'url') {
-      return window.open(data.field.action.url, '_blank');
+      //return window.open(data.field.action.url, '_blank');
+      return window.open(
+        data.field.action.url,
+        'win',
+        data.field.action.options
+      );
     }
 
     const params = {
@@ -902,9 +955,11 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
     };
 
     getPackage(params, 'conversation', (data) => {
-      const definitions = data.app.appPackage.callHook.definitions;
-      const newMessage = message;
+      const { definitions, enabled_for_agents } = data.app.appPackage.callHook;
+      const newMessage = { ...message, conversationKey: conversation.key };
+
       newMessage.message.blocks.schema = definitions;
+      newMessage.message.blocks['enabledForAgents'] = enabled_for_agents;
       dispatch(appendConversation(newMessage));
       cb && cb();
     });
@@ -913,17 +968,16 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
   const renderBlockRepresentation = () => {
     // TODO: display labels, schema buttons
     let output = null;
+
     switch (blocks.type) {
       case 'app_package':
         output = (
           <div>
-            <div
-              className="text-gray-800 text-xs
-            font-bold uppercase tracking-wide"
-            >
+            <div className="text-gray-800 text-xs font-bold uppercase tracking-wide">
               <div
-                className="inline-flex items-baseline px-2.5 py-0.5 rounded-full
-            text-xs font-light bg-green-100 text-green-800 md:mt-2 lg:mt-0"
+                className="inline-flex items-baseline 
+                px-2.5 py-0.5 rounded-full text-xs font-light bg-green-100 
+                text-green-800 md:mt-2 lg:mt-0"
               >
                 <span>{blocks.appPackage}</span>
               </div>
@@ -935,7 +989,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
               schema={schema}
               values={blocks.values}
               updatePackage={updatePackage}
-              disabled={true}
+              disabled={!blocks.enabledForAgents}
             />
           </div>
         );
@@ -1104,10 +1158,19 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer } = state;
+  const {
+    auth,
+    app,
+    conversation,
+    app_user,
+    current_user,
+    drawer,
+    theme,
+  } = state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;
+  const isDark = theme === 'dark';
 
   return {
     jwt,
@@ -1119,6 +1182,7 @@ function mapStateToProps(state) {
     app,
     drawer,
     isAuthenticated,
+    isDark,
   };
 }
 

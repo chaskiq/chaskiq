@@ -32,6 +32,7 @@ const Container = styled.div`
 
 function App({ dispatch, loading }) {
   const [apps, setApps] = React.useState([]);
+  const [canCreateApps, setCanCreateApps] = React.useState(false);
   const [ready, setReady] = React.useState(false);
 
   React.useEffect(() => {
@@ -43,6 +44,7 @@ function App({ dispatch, loading }) {
       {
         success: (data) => {
           setApps(data.apps);
+          setCanCreateApps(data.canCreateApps);
           setReady(true);
         },
         error: () => {},
@@ -96,14 +98,16 @@ function App({ dispatch, loading }) {
                     </p>
 
                     <div className="mt-5 sm:mt-8 mb-8 sm:flex sm:justify-center lg:justify-start">
-                      <div className="rounded-md shadow">
-                        <Link
-                          to="/apps/new"
-                          className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
-                        >
-                          {I18n.t('home.create_new')}
-                        </Link>
-                      </div>
+                      {canCreateApps && (
+                        <div className="rounded-md shadow">
+                          <Link
+                            to="/apps/new"
+                            className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                          >
+                            {I18n.t('home.create_new')}
+                          </Link>
+                        </div>
+                      )}
                       <div className="mt-3 sm:mt-0 sm:ml-3">
                         <a
                           href="https://dev.chaskiq.io"

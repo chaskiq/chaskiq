@@ -13,7 +13,8 @@ export const APPS = `
       name
       state
       tagline
-    }  
+    }
+    canCreateApps
   }
 `;
 
@@ -104,6 +105,15 @@ export const ROLE_AGENTS = `
         lastSignInAt
         invitationAcceptedAt
         invitationSentAt
+        agentId
+        enableDeliveries
+        lang
+        permissions
+        areaOfExpertise
+        specialization
+        phoneNumber
+        address
+        availability
       }
     }
   }
@@ -127,13 +137,19 @@ export const PENDING_AGENTS = `
 `;
 
 export const AGENT = `
-  query App($appKey: String!, $id: Int!, $page: Int, $per: Int){
+  query App($appKey: String!, $id: String!, $page: Int, $per: Int){
     app(key: $appKey) {
       agent(id: $id){
         id
         email
         avatarUrl
         name
+        permissions
+        areaOfExpertise
+        specialization
+        phoneNumber
+        address
+        availability
         conversations(page: $page , per: $per ){
           collection{
             id
@@ -183,7 +199,7 @@ export const AGENT = `
 `;
 
 export const SEGMENT = `
-  query App($appKey: String!, $id: Int!){
+  query App($appKey: String!, $id: String!){
     app(key: $appKey) {
       segment(id: $id ) {
         name
@@ -200,11 +216,11 @@ export const SEGMENT = `
 `;
 
 export const CONVERSATIONS = `
-  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: Int, $tag: String, $term: String){
+  query App($appKey: String!, $page: Int!, $sort: String, $filter: String, $agentId: String, $tag: String, $term: String, $channelId: String){
     app(key: $appKey) {
       key
       name
-      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag, term: $term){
+      conversations(page: $page, sort: $sort, filter: $filter, agentId: $agentId, tag: $tag, term: $term, channelId: $channelId){
         collection{
           id
           key
@@ -267,6 +283,7 @@ export const CONVERSATIONS_COUNTS = `
     app(key: $appKey) {
       conversationsCounts
       conversationsTagCounts
+      conversationsChannelsCounts
       agents{
         id
         avatarUrl
@@ -303,6 +320,7 @@ export const CONVERSATION_WITH_LAST_MESSAGE = `
 export const CURRENT_USER = `
   query CurrentUser {
     userSession {
+      id
       email
       avatarUrl
       lang
@@ -312,7 +330,7 @@ export const CURRENT_USER = `
 `;
 
 export const APP_USER = `
-query AppUser($appKey: String!, $id: Int! ) {
+query AppUser($appKey: String!, $id: String! ) {
   app(key: $appKey) {
     appUser(id: $id ) {
       id
@@ -354,7 +372,7 @@ query AppUser($appKey: String!, $id: Int! ) {
 `;
 
 export const APP_USER_CONVERSATIONS = `
-query AppUserConversations($appKey: String!, $id: Int!, $page: Int, $per: Int){
+query AppUserConversations($appKey: String!, $id: String!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
     key
@@ -524,7 +542,7 @@ export const QUICK_REPLIES = `
 `;
 
 export const QUICK_REPLY = `
-  query App($appKey: String!, $id: Int!, $lang: String){
+  query App($appKey: String!, $id: String!, $lang: String){
     app(key: $appKey) {
       quickReply(id: $id, lang: $lang){
         id
@@ -723,7 +741,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
 `;
 
 export const BOT_TASKS = `
-  query BotTasks($appKey: String!, $lang: String, $mode: String, $filters: Json){
+  query BotTasks($appKey: String!, $lang: String, $mode: String, $filters: BotTaskFilter){
     app(key: $appKey){
       botTasks(lang: $lang, mode: $mode, filters: $filters){
         title
@@ -786,7 +804,7 @@ export const BOT_TASK_METRICS = `
 `;
 
 export const DASHBOARD = `
-  query Dashboard($appKey: String!, $range: Json!, $kind: String!, $package: String)  {
+  query Dashboard($appKey: String!, $range: Any!, $kind: String!, $package: String)  {
     app(key: $appKey){
       dashboard(range: $range, kind: $kind, package: $package)
     }
@@ -819,6 +837,8 @@ export const APP_PACKAGES = `
         icon
         description
         capabilities
+        capabilityList
+        tagList
       }
     }
   }
@@ -834,12 +854,16 @@ export const AGENT_APP_PACKAGES = `
         icon
         description
         definitions
+        apiUrl
+        contentUrl
         initializeUrl
         configureUrl
         submitUrl
         sheetUrl
         oauthUrl
         capabilities
+        capabilityList
+        tagList
       }
     }
   }
@@ -855,6 +879,8 @@ export const APP_PACKAGE = `
         icon
         description
         capabilities
+        capabilityList
+        tagList
       }
     }
   }
@@ -870,12 +896,16 @@ export const AGENT_APP_PACKAGE = `
         icon
         description
         definitions
+        apiUrl
+        contentUrl
         initializeUrl
         configureUrl
         submitUrl
         oauthUrl
         sheetUrl
         capabilities
+        capabilityList
+        tagList
       }
     }
   }
@@ -897,7 +927,7 @@ export const APP_PACKAGES_BY_CAPABILITY = `
 `;
 
 export const APP_PACKAGE_HOOK = `
-  query App($appKey: String!, $id: String!, $hooKind: String!, $ctx: Json!) { 
+  query App($appKey: String!, $id: String!, $hooKind: String!, $ctx: Any!) { 
     app(key: $appKey) {
       appPackage(id: $id){
         name

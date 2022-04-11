@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import Platform from './Platform';
 import Conversations from './Conversations';
 import Settings from './Settings';
+import AppSettings from './AppSettings';
 import MessengerSettings from './MessengerSettings';
 import Team from './Team';
 import Webhooks from './Webhooks';
@@ -24,26 +25,29 @@ import { connect } from 'react-redux';
 import UpgradePage from './UpgradePage';
 // import Pricing from '../pages/pricingPage'
 
-import actioncable from 'actioncable';
 import CampaignHome from './campaigns/home';
 import Progress from '@chaskiq/components/src/components/Progress';
 import UserSlide from '@chaskiq/components/src/components/UserSlide';
 
 import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
-import { appendConversation } from '@chaskiq/store/src/actions/conversations';
-import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns';
-import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
-import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { setApp } from '@chaskiq/store/src/actions/app';
-import { camelizeKeys } from '@chaskiq/store/src/actions/conversation';
 
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
 import LoadingView from '@chaskiq/components/src/components/loadingView';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
-
+import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 import Sidebar from '../layout/sidebar';
+import PackageSlider from '../pages/conversations/packageSlider';
+
+import {
+  createSubscription,
+  destroySubscription,
+  eventsSubscriber,
+  sendPush,
+} from '../shared/actionCableSubscription';
+// import {createSubscription, destroySubscription, eventsSubscriber, sendPush } from '../shared/absintheCableSubscription';
 
 declare global {
   interface Window {
@@ -62,21 +66,26 @@ function AppContainer({
   loading,
   upgradePages,
   accessToken,
+  history,
 }) {
-  const CableApp = React.useRef({
-    events: null,
-    cable: actioncable.createConsumer(
-      `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`
-    ),
-  });
+  const CableApp = React.useRef(createSubscription(match, accessToken));
 
   const [_subscribed, setSubscribed] = React.useState(null);
 
   React.useEffect(() => {
     dispatch(getCurrentUser());
     fetchApp(() => {
-      eventsSubscriber(match.params.appId);
+      eventsSubscriber(
+        match.params.appId,
+        CableApp.current,
+        dispatch,
+        fetchApp
+      );
     });
+    return () => {
+      console.log('unmounting cable from app container');
+      if (CableApp.current) destroySubscription(CableApp.current);
+    };
   }, [match.params.appId]);
 
   const fetchApp = (cb) => {
@@ -90,57 +99,16 @@ function AppContainer({
     );
   };
 
-  const eventsSubscriber = (id) => {
-    // unsubscribe cable ust in case
-    if (CableApp.current.events) {
-      CableApp.current.events.unsubscribe();
+  React.useEffect(() => {
+    function frameCallbackHandler(event) {
+      if (event.data.type !== 'url-push-from-frame') return;
+      console.log('HANDLED EVENT FROM FRAME', event.data);
+      history.push(event.data.url);
     }
 
-    CableApp.current.events = CableApp.current.cable.subscriptions.create(
-      {
-        channel: 'EventsChannel',
-        app: id,
-      },
-      {
-        connected: () => {
-          console.log('connected to events');
-          setSubscribed(true);
-        },
-        disconnected: () => {
-          console.log('disconnected from events');
-          setSubscribed(false);
-        },
-        received: (data) => {
-          // console.log('received', data)
-          switch (data.type) {
-            case 'conversation_part':
-              return dispatch(appendConversation(camelizeKeys(data.data)));
-            case 'presence':
-              return updateUser(camelizeKeys(data.data));
-            case 'rtc_events':
-              return dispatch(updateRtcEvents(data));
-            case 'campaigns':
-              return dispatch(updateCampaignEvents(data.data));
-            case 'paddle:subscription':
-              fetchApp(() => {
-                dispatch(setSubscriptionState(data.data));
-              });
-              return null;
-            default:
-              return null;
-          }
-        },
-        notify: () => {
-          console.log('notify!!');
-        },
-        handleMessage: () => {
-          console.log('handle message');
-        },
-      }
-    );
-
-    // window.cable = CableApp
-  };
+    window.addEventListener('message', frameCallbackHandler);
+    return () => window.removeEventListener('message', frameCallbackHandler);
+  }, []);
 
   function updateUser(data) {
     dispatch(updateAppUserPresence(data));
@@ -152,6 +120,14 @@ function AppContainer({
 
   function handleUserSidebar() {
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }));
+  }
+
+  function pushEvent(name, data) {
+    sendPush(name, {
+      props: { app },
+      events: CableApp.current.events,
+      data: data,
+    });
   }
 
   return (
@@ -169,7 +145,7 @@ function AppContainer({
             width: '100vw',
             height: '100vh',
           }}
-        ></div>
+        />
       )}
 
       {/* drawer.userDrawer && (
@@ -228,19 +204,31 @@ function AppContainer({
                 </Route>
 
                 <Route exact path={`${match.path}/segments/:segmentID/:Jwt?`}>
-                  <Platform />
+                  <RestrictedArea section="segments">
+                    <Platform />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/settings`}>
                   <Settings />
                 </Route>
 
+                <Route path={`${match.url}/app_settings`}>
+                  <RestrictedArea section="app_settings">
+                    <AppSettings />
+                  </RestrictedArea>
+                </Route>
+
                 <Route path={`${match.url}/messenger`}>
-                  <MessengerSettings />
+                  <RestrictedArea section="messenger_settings">
+                    <MessengerSettings />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/team`}>
-                  <Team />
+                  <RestrictedArea section="team">
+                    <Team />
+                  </RestrictedArea>
                 </Route>
 
                 <Route
@@ -256,35 +244,55 @@ function AppContainer({
                 />
 
                 <Route path={`${match.url}/webhooks`}>
-                  <Webhooks />
+                  <RestrictedArea section="outgoing_webhooks">
+                    <Webhooks />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/integrations`}>
-                  <Integrations />
+                  <RestrictedArea section="app_packages">
+                    <Integrations />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/reports`}>
-                  <Reports />
+                  <RestrictedArea section="reports">
+                    <Reports />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/articles`}>
-                  <Articles />
+                  <RestrictedArea section="help_center">
+                    <Articles />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/conversations`}>
-                  <Conversations subscribed events={CableApp.current.events} />
+                  <RestrictedArea section="conversations">
+                    <Conversations
+                      subscribed
+                      pushEvent={pushEvent}
+                      events={CableApp.current.events}
+                    />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/oauth_applications`}>
-                  <Api />
+                  <RestrictedArea section="oauth_applications">
+                    <Api />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/billing`}>
-                  <Billing />
+                  <RestrictedArea section="billing">
+                    <Billing />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/bots`}>
-                  <Bots />
+                  <RestrictedArea section="routing_bots">
+                    <Bots />
+                  </RestrictedArea>
                 </Route>
 
                 <Route path={`${match.url}/campaigns`}>
@@ -292,13 +300,16 @@ function AppContainer({
                 </Route>
 
                 <Route path={`${match.path}/messages/:message_type`}>
-                  <Campaigns />
+                  <RestrictedArea section="campaigns">
+                    <Campaigns />
+                  </RestrictedArea>
                 </Route>
               </Switch>
             </ErrorBoundary>
           )}
         </div>
       )}
+      {app && <PackageSlider />}
     </div>
   );
 }
@@ -315,6 +326,7 @@ function mapStateToProps(state) {
     navigation,
     paddleSubscription,
     upgradePages,
+    fixedSlider,
   } = state;
   const { loading, isAuthenticated, accessToken } = auth;
   const { current_section } = navigation;
@@ -331,6 +343,7 @@ function mapStateToProps(state) {
     paddleSubscription,
     upgradePages,
     accessToken,
+    fixedSlider,
   };
 }
 

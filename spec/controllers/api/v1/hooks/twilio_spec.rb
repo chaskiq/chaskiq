@@ -189,5 +189,49 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       expect(blocks.size).to be == 4
     end
+
+    describe "process message" do
+      before :each do
+        get(:process_event,
+            params: data_for(
+              id: @pkg.id,
+              sender: owner_phone,
+              recipient: user_phone,
+              message_id: "1234"
+            ))
+        perform_enqueued_jobs
+      end
+
+      it "#send_message, create message from conversation" do
+        opts = {
+          from: Agent.first,
+          message: {
+            serialized_content: { blocks: [] }.to_json,
+            html_content: "message"
+          }
+        }
+
+        expect_any_instance_of(Faraday::Connection).to receive(:post)
+
+        Conversation.last.add_message(opts)
+        perform_enqueued_jobs
+      end
+
+      it "#send_message, create message from conversation" do
+        opts = {
+          private_note: true,
+          from: Agent.first,
+          message: {
+            serialized_content: { blocks: [] }.to_json,
+            html_content: "message"
+          }
+        }
+
+        expect_any_instance_of(Faraday::Connection).to_not receive(:post)
+
+        Conversation.last.add_message(opts)
+        perform_enqueued_jobs
+      end
+    end
   end
 end

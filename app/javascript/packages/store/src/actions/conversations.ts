@@ -13,7 +13,15 @@ import { uniqBy } from 'lodash';
 export function getConversations(options, cb) {
   const { page } = options;
   return (dispatch, getState) => {
-    const { sort, filter, meta, agentId, tag, term } = getState().conversations;
+    const {
+      sort,
+      filter,
+      meta,
+      agentId,
+      tag,
+      term,
+      channelId,
+    } = getState().conversations;
 
     const nextPage = page || meta.next_page || 1;
 
@@ -29,6 +37,7 @@ export function getConversations(options, cb) {
         agentId: agentId,
         tag: tag,
         term: term,
+        channelId: channelId,
       },
       {
         success: (data) => {
@@ -46,14 +55,6 @@ export function getConversations(options, cb) {
 
           dispatch(dispatchGetConversations(newData));
 
-          /* this.setState({
-          conversations: nextPage > 1 ?
-          this.state.conversations.concat(conversations.collection) :
-          conversations.collection,
-          meta: conversations.meta,
-          loading: false
-        }) */
-
           if (cb) cb();
         },
       }
@@ -70,11 +71,12 @@ export function appendConversation(data) {
     let newMessages = null;
 
     // add new or update existing
-    if (!conversation) {
+    const appKey = getState()?.app?.key;
+    if (!conversation && appKey) {
       graphql(
         CONVERSATION_WITH_LAST_MESSAGE,
         {
-          appKey: getState().app.key,
+          appKey: appKey,
           id: data.conversationKey,
         },
         {
@@ -170,6 +172,7 @@ export default function reducer(
     agentId: null,
     tag: null,
     term: null,
+    channelId: null,
   },
   action: ActionType = {}
 ) {

@@ -41,11 +41,13 @@ type UserToursProps = {
   events: any;
   domain: string;
   i18n: any;
+  pushEvent: any;
 };
 
 type UserTourProps = {
   tour: any;
   events: any;
+  pushEvent: any;
   domain: string;
   i18n: any;
 };
@@ -61,6 +63,7 @@ export default class UserTours extends Component<UserToursProps> {
   render() {
     return this.props.tours.length > 0 ? (
       <UserTour
+        pushEvent={this.props.pushEvent}
         i18n={this.props.i18n}
         tour={this.props.tours[0]}
         events={this.props.events}
@@ -125,25 +128,35 @@ class UserTour extends Component<UserTourProps, UserTourSteps> {
 
   registerEvent = (status) => {
     const path = `track_tour_${status}`;
-    this.props.events &&
+    this.props.pushEvent(path, {
+      trackable_id: this.props.tour.id,
+      trackable_type: 'Tour',
+    });
+    /*this.props.events &&
       this.props.events.perform(path, {
         trackable_id: this.props.tour.id,
         trackable_type: 'Tour',
-      });
+      });*/
   };
 
   registerOpen = () => {
-    this.props.events &&
+    this.props.pushEvent('track_open', {
+      trackable_id: this.props.tour.id,
+    });
+    /*this.props.events &&
       this.props.events.perform('track_open', {
         trackable_id: this.props.tour.id,
-      });
+      });*/
   };
 
   registerClose = () => {
-    this.props.events &&
+    this.props.pushEvent('track_close', {
+      trackable_id: this.props.tour.id,
+    });
+    /*this.props.events &&
       this.props.events.perform('track_close', {
         trackable_id: this.props.tour.id,
-      });
+      });*/
   };
 
   renderTour = () => {

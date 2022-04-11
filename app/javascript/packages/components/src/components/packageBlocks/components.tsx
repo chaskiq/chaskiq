@@ -41,7 +41,7 @@ function ContentRenderer({
   }, []);
 
   return (
-    <p>{disabled ? 'dynamic content will be rendered here' : <Loader />}</p>
+    <div>{disabled ? 'dynamic content will be rendered here' : <Loader />}</div>
   );
 }
 
@@ -199,6 +199,21 @@ export function DefinitionRenderer({
         return (
           <Padder>
             <TextAreaRenderer loading={loading} field={field} />
+          </Padder>
+        );
+      case 'frame':
+        return (
+          <Padder>
+            <iframe
+              id="package-frame"
+              // sandbox="allow-top-navigation allow-same-origin allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts allow-downloads"
+              src={field.url}
+              style={{
+                width: '100%',
+                height: 'calc(100vh - 75px)',
+                border: '0px',
+              }}
+            />
           </Padder>
         );
       default:

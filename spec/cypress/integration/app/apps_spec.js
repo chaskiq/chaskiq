@@ -45,10 +45,10 @@ describe('Login Spec', function () {
 
                 cy.get("a[aria-label='Platform']")
                   .click({ force: true }).then(() => {
-                    cy.get('body').should('contain', 'all users')
-                    cy.get('body').should('contain', 'all leads')
-                    cy.get('body').should('contain', 'active users')
-                    cy.get('body').should('contain', 'sliping away')
+                    cy.get('body').should('contain', 'All Users')
+                    cy.get('body').should('contain', 'All Leads')
+                    cy.get('body').should('contain', 'Active Users')
+                    cy.get('body').should('contain', 'Slipping Away')
                   })
 
                 cy.get("a[aria-label='Conversations']")
@@ -67,7 +67,7 @@ describe('Login Spec', function () {
                 cy.get("a[aria-label='Routing Bots']")
                   .click({ force: true }).then(() => {
                     cy.get('body').should('contain', 'Outbound')
-                    cy.get('body').should('contain', 'New conversations')
+                    cy.get('body').should('contain', 'New Conversations')
                     cy.get('body').should('contain', 'Bot Tasks')
                   })
 

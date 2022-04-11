@@ -2,6 +2,7 @@
 en:
   messenger:
     runon: 'We run on Chaskiq'
+    show_more: Show more
     conversation_block:
       choosen: 'You replied <strong>%{field}</strong>'
     continue_conversation: 'Continue the conversation'
@@ -12,7 +13,7 @@ en:
     search_articles: 'Search articles'
     latest_articles: 'Our latest articles'
     reply_above: 'Reply above'
-    create_new_conversation: 'create new conversation'
+    create_new_conversation: 'Create new conversation'
     you: 'You'
     not_seen: 'not seen'
     by: 'By'
@@ -42,12 +43,12 @@ en:
 
     is_typing: '%{name} is typing'
     availability:
-      aprox: "we'll back in approximately %{time} hrs"
-      tomorrow: "we'll back back tomorrow"
-      days: "we'll back in %{val} days"
-      next_week: "we'll back next week"
-      back_from: "we'll back online from %{hours} hrs"
-      tomorrow_from: "we'll back online tomorrow from %{hours} hrs"
+      aprox: "we'll be back in approximately %{time} hrs"
+      tomorrow: "we'll be back back tomorrow"
+      days: "we'll be back in %{val} days"
+      next_week: "we'll be back next week"
+      back_from: "we'll be back online from %{hours} hrs"
+      tomorrow_from: "we'll be back online tomorrow from %{hours} hrs"
     tours:
       done: 'Done!'
     invalid: '%{name} entered is invalid'

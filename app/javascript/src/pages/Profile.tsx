@@ -25,7 +25,9 @@ import {
 import graphql from '@chaskiq/store/src/graphql/client';
 
 import DialogEditor from './conversations/DialogEditor';
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
+import sanitizeHtml, {
+  escapeHTML,
+} from '@chaskiq/components/src/utils/htmlSanitize';
 //require('sanitize-html')
 
 import { setCurrentSection } from '@chaskiq/store/src/actions/navigation';
@@ -90,9 +92,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   }
 
   getUser = (cb = null) => {
-    this.props.dispatch(
-      getAppUser(parseInt(this.props.match.params.id), cb && cb())
-    );
+    this.props.dispatch(getAppUser(this.props.match.params.id, cb && cb()));
   };
 
   fetchUserConversations = () => {
@@ -100,7 +100,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       APP_USER_CONVERSATIONS,
       {
         appKey: this.props.app.key,
-        id: parseInt(this.props.match.params.id),
+        id: this.props.match.params.id,
         page: 1,
         per: 20,
       },
@@ -151,7 +151,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       },
       {
         success: (_data) => {
-          this.props.dispatch(getAppUser(parseInt(this.props.app_user.id)));
+          this.props.dispatch(getAppUser(this.props.app_user.id));
           this.props.dispatch(successMessage('status updated'));
         },
         error: (_error) => {
@@ -240,6 +240,12 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   setTab = (val) => {
     this.setState({ tab: val });
   };
+
+  tabClass(index) {
+    return this.state.tab == index
+      ? 'border-pink-500 text-gray-900 dark:text-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
+      : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm';
+  }
 
   render() {
     if (!this.props.app_user) {
@@ -426,7 +432,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                   <a
                     href="#"
                     onClick={(_e) => this.setTab(0)}
-                    className="border-pink-500 text-gray-900 dark:text-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    className={this.tabClass(0)}
                     aria-current="page"
                   >
                     Profile
@@ -434,14 +440,14 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                   <a
                     href="#"
                     onClick={(_e) => this.setTab(1)}
-                    className="border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    className={this.tabClass(1)}
                   >
                     Conversations
                   </a>
                   <a
                     href="#"
                     onClick={(_e) => this.setTab(2)}
-                    className="border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-400 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    className={this.tabClass(3)}
                   >
                     Visits
                   </a>
@@ -515,8 +521,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                             <div
                               className="text-sm text-gray-500 truncate"
                               dangerouslySetInnerHTML={{
-                                __html: sanitizeHtml(
-                                  o.lastMessage.message.htmlContent
+                                __html: escapeHTML(
+                                  sanitizeHtml(
+                                    o.lastMessage.message.htmlContent
+                                  )
                                 ).substring(0, 250),
                               }}
                             />

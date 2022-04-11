@@ -14,13 +14,17 @@ module Mutations
     end
 
     argument :app_key, String, required: true
-    argument :search, Types::JsonType, required: true
+    argument :search, Types::AnyType, required: true
     argument :page, Integer, required: false, default_value: 1
     argument :per, Integer, required: false, default_value: 20
     # argument :mode, String, required: true
 
     def resolve(app_key:, search:, page:, per:)
       @app = App.find_by(key: app_key)
+
+      authorize! @app, to: :can_read_segments?, with: AppPolicy, context: {
+        app: @app
+      }
 
       @segment = @app.segments.new
       resource_params = search.require(:data).permit(

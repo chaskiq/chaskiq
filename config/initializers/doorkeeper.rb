@@ -38,6 +38,8 @@ Doorkeeper.configure do
 
   access_token_expires_in 1.week
 
+  # skip_client_authentication_for_password_grant true
+
   # custom_access_token_expires_in do |context|
   #  # context.grant_type for grant_type, context.client for client, context.scopes for scopes
   #  if context.grant_type == Doorkeeper::OAuth::CLIENT_CREDENTIALS # see Doorkeeper::OAuth::GRANT_TYPES for other types

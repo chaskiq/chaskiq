@@ -34,6 +34,7 @@ class App < ApplicationRecord
     paddle_subscription_status
     privacy_consent_required
     inbound_email_address
+    avatar_settings
   ], coder: JSON
 
   include InboundAddress
@@ -59,6 +60,7 @@ class App < ApplicationRecord
   has_many :article_collections, dependent: :destroy_async
   has_many :sections, through: :article_collections
   has_many :conversations, dependent: :destroy_async
+  has_many :conversation_channels, through: :conversations
   has_many :conversation_parts, through: :conversations, source: :messages
   has_many :conversation_events, through: :conversations, source: :events
   has_many :segments, dependent: :destroy_async
@@ -67,6 +69,7 @@ class App < ApplicationRecord
   has_many :campaigns, dependent: :destroy_async
   has_many :user_auto_messages, dependent: :destroy_async
   has_many :tours, dependent: :destroy_async
+  has_many :audits, dependent: :destroy_async
   has_many :banners, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
   has_many :bot_tasks, dependent: :destroy_async
@@ -103,7 +106,7 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    preferences[:outgoing_email_domain].presence || ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"]
+    preferences[:outgoing_email_domain].presence || Chaskiq::Config.get("DEFAULT_OUTGOING_EMAIL_DOMAIN")
   end
 
   def config_fields
@@ -272,8 +275,16 @@ class App < ApplicationRecord
     (custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
   end
 
+  def built_in_updateable_fields
+    AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
+  end
+
+  def custom_field_keys
+    custom_fields&.map { |o| o[:name].to_sym } || []
+  end
+
   def app_user_updateable_fields
-    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
+    (custom_fields || []) + built_in_updateable_fields
   end
 
   def searcheable_fields_list

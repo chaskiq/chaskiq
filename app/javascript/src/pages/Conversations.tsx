@@ -14,6 +14,7 @@ import ConversationItemList from './conversations/ItemList';
 import AssignmentRules from './conversations/AssignmentRules';
 import Conversation from './conversations/Conversation';
 import ConversationSidebar from './conversations/Sidebar';
+import AccessDenied from '@chaskiq/components/src/components/AccessDenied';
 
 import emptyImage from '../images/empty-icon8.png';
 import I18n from '../shared/FakeI18n';
@@ -36,6 +37,7 @@ function Conversations({
   app,
   events,
   app_user,
+  pushEvent,
 }) {
   const [fetching, setFetching] = React.useState(false);
   const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false);
@@ -237,7 +239,7 @@ function Conversations({
         <div
           className="overflow-scroll"
           onScroll={handleScroll}
-          style={{ height: 'calc(100vh - 60px)' }}
+          style={{ height: 'calc(100vh - 64px)' }}
         >
           {conversations.collection.map((o) => {
             const user = o.mainParticipant;
@@ -308,7 +310,9 @@ function Conversations({
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
           <div className="flex-grow bg-gray-50 dark:bg-gray-800 h-screen border-r w-1/12 dark:border-black">
-            <AssignmentRules />
+            <AccessDenied section="assign_rules">
+              <AssignmentRules />
+            </AccessDenied>
           </div>
         </Route>
 
@@ -320,6 +324,7 @@ function Conversations({
           >
             <Conversation
               events={events}
+              pushEvent={pushEvent}
               fixedSidebarOpen={fixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}
             />

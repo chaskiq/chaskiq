@@ -19,7 +19,7 @@ module MessageApis::FullContact
     end
 
     def authorize!
-      @conn.authorization :Bearer, @token
+      @conn.request :authorization, :Bearer, @token
     end
 
     def get_data(params: {})

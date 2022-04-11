@@ -19,14 +19,20 @@ export function authenticate(email, password, cb) {
 
     axios.defaults.withCredentials = true;
 
+    //@ts-ignore
+    const client_id = document.querySelector('meta[name="chaskiq-client-id"]')
+      ?.content;
+
     return axios({
       // baseURL: 'http://localhost:3000',
       // url: '/agents/sign_in.json',
       url: '/oauth/token.json',
       method: 'POST',
       data: {
+        client_id: client_id,
         agent: { email, password },
         email: email,
+        username: email,
         password: password,
         grant_type: 'password',
       },
@@ -86,10 +92,8 @@ export function refreshToken(auth) {
     dispatch(errorMessage('refresh token, hang tight'));
 
     axios
-      .create({
-        baseURL: '/oauth/token',
-      })
-      .post('', {
+      .create()
+      .post('/oauth/token', {
         refresh_token: auth.refreshToken,
         grant_type: 'refresh_token',
       })

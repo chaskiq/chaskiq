@@ -195,7 +195,7 @@ class ActionTriggerFactory
       if kind === "AppUser"
         path_messages << [
           c.message(
-            text: I18n.t("task_bots.reply_soon", { name: app.name }),
+            text: I18n.t("task_bots.reply_soon", name: app.name),
             uuid: 1,
             agent: bot_agent
           )
@@ -206,7 +206,7 @@ class ActionTriggerFactory
 
         if app.lead_tasks_settings["share_typical_time"]
           path_messages << c.message(
-            text: I18n.t("task_bots.reply_soon", { name: app.name }),
+            text: I18n.t("task_bots.reply_soon", name: app.name),
             uuid: 1,
             agent: bot_agent
           )
@@ -239,10 +239,10 @@ class ActionTriggerFactory
         follow_actions: follow_actions
       )
 
-      c.path(path_options)
+      c.path(**path_options)
 
       step_7 = [c.message(
-        text: I18n.t("task_bots.reply_agent", { name: app.name }),
+        text: I18n.t("task_bots.reply_agent", name: app.name),
         uuid: 7,
         agent: bot_agent
       )]

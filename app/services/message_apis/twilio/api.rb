@@ -22,7 +22,7 @@ module MessageApis::Twilio
         }
       )
 
-      @conn.basic_auth(@api_key, @api_token)
+      @conn.request(:basic_auth, @api_key, @api_token)
 
       self
     end
@@ -38,7 +38,7 @@ module MessageApis::Twilio
       current = params["current"]
 
       case params["SmsStatus"]
-      when "read" then process_read(params)
+      when "read" then process_read(params["MessageSid"])
       # when "DELIVERED" then puts("DELIVERED!")
       when "received" then process_message(params, @package)
         # when "updated" then update_app_user_profile(current)
@@ -46,21 +46,14 @@ module MessageApis::Twilio
       end
     end
 
-    def process_read(params)
-      message_id = params["MessageSid"]
-      conversation_part_channel = ConversationPartChannelSource.find_by(
-        message_source_id: message_id
-      )
-      return if conversation_part_channel.blank?
-
-      conversation_part_channel.conversation_part.read!
-    end
-
     def get_message_id(response_data)
       response_data["sid"]
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       blocks = JSON.parse(
         message["serialized_content"]
       )["blocks"]
@@ -97,7 +90,7 @@ module MessageApis::Twilio
 
       if image_block
         message_params.merge!({
-                                MediaUrl: ENV["HOST"] + image_block["data"]["url"]
+                                MediaUrl: Chaskiq::Config.get("HOST") + image_block["data"]["url"]
                               })
       end
 

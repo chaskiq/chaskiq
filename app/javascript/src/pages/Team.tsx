@@ -167,7 +167,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
       UPDATE_AGENT_ROLE,
       {
         appKey: this.props.app.key,
-        id: this.state.isEditDialogOpen.id,
+        id: this.state.isEditDialogOpen.agentId,
         params: params,
       },
       {
@@ -221,17 +221,23 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
-        name: 'access_list',
+        name: 'role',
         type: 'select',
         label: I18n.t('definitions.agents.access_list.label'),
         hint: I18n.t('definitions.agents.access_list.hint'),
-        multiple: true,
-        options: [
+        multiple: false,
+        options: Object.keys(this.props.app.availableRoles).map((o) => ({
+          label: o,
+          value: o,
+        })),
+        /*[
           { label: 'none', value: null },
           { label: 'mananger', value: 'manage' },
           { label: 'admin', value: 'admin' },
-        ],
-        grid: { xs: 'w-full', sm: 'w-full' },
+        ]*/ grid: {
+          xs: 'w-full',
+          sm: 'w-full',
+        },
       },
     ];
   };
@@ -265,7 +271,7 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                 </Button>
               </React.Fragment>
             }
-          ></FormDialog>
+          />
         )}
       </div>
     );
@@ -362,14 +368,14 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                       </div>
 
                       <div className="ml-4">
-                        <div className="text-sm leading-5 font-medium text-gray-900">
+                        <div className="text-sm leading-5 font-medium text-gray-900 dark:text-gray-50">
                           <Link
                             to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                           >
                             {row.displayName}
                           </Link>
                         </div>
-                        <div className="text-sm leading-5 text-gray-500">
+                        <div className="text-sm leading-5 text-gray-500 dark:text-gray-50">
                           <Link
                             to={`/apps/${this.props.app.key}/agents/${row.agentId}`}
                           >
@@ -380,14 +386,14 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                     </div>
                   ),
               },
-              { field: 'name', title: I18n.t('data_tables.agents.email') },
+              { field: 'name', title: I18n.t('data_tables.agents.name') },
               {
                 field: 'owner',
                 title: I18n.t('data_tables.agents.owner'),
                 render: (row) =>
                   row && row.owner && <Badge variant="green">OWNER</Badge>,
               },
-              {
+              /*{
                 field: 'accessList',
                 title: I18n.t('data_tables.agents.access_list'),
                 render: (row) =>
@@ -396,7 +402,13 @@ class AppUsers extends React.Component<AppUsersProps, AppUsersState> {
                     <Badge className="mr-2" key={`access-list-${o}-${row.id}`}>
                       {o}
                     </Badge>
-                  )),
+                  ))
+              },*/
+              {
+                field: 'role',
+                title: I18n.t('data_tables.agents.access_list'),
+                render: (row) =>
+                  row && row.role && <Badge className="mr-2">{row.role}</Badge>,
               },
               {
                 field: 'Actions',

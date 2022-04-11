@@ -2,7 +2,7 @@
 
 module Types
   class CampaignType < Types::BaseObject
-    field :id, Int, null: true
+    field :id, String, null: true
     field :type, String, null: true
     field :from_name, String, null: true
     field :url, String, null: true
