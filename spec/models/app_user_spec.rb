@@ -48,7 +48,7 @@ RSpec.describe AppUser, type: :model do
       )
 
       app.app_package_integrations.create(
-        app_package: app_package,
+        app_package:,
         api_secret: "12345"
       )
 
@@ -88,8 +88,8 @@ RSpec.describe AppUser, type: :model do
     context "verify will clone lead to app user" do
       before :each do
         email = "a@a.cl"
-        app_user.update(email: email, country: "chile", session_id: "123")
-        visitor.update(email: email, country: "peru", session_id: "000")
+        app_user.update(email:, country: "chile", session_id: "123")
+        visitor.update(email:, country: "peru", session_id: "000")
       end
 
       it "will dispatch session event" do

@@ -244,10 +244,10 @@ class AppUser < ApplicationRecord
 
   def formatted_user
     {
-      id: id,
-      email: email,
-      properties: properties,
-      state: state
+      id:,
+      email:,
+      properties:,
+      state:
     }
   end
 

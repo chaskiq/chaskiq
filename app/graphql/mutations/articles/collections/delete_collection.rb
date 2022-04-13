@@ -11,12 +11,12 @@ module Mutations
         def resolve(app_key:, id:)
           app = current_user.apps.find_by(key: app_key)
           authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
-            app: app
+            app:
           }
           collection = app.article_collections.find(id)
 
           collection.destroy
-          { collection: collection }
+          { collection: }
         end
 
         def current_user

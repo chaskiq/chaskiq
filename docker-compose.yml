@@ -6,11 +6,11 @@ x-app:
     context: .
     dockerfile: ./Dockerfile.development
     args:
-      RUBY_VERSION: '3.0.3'
+      RUBY_VERSION: '3.1.2'
       PG_MAJOR: '14'
       NODE_MAJOR: '16'
       YARN_VERSION: '1.13.0'
-      BUNDLER_VERSION: '2.0.2'
+      BUNDLER_VERSION: '2.3.7'
   environment:
     &env
     NODE_ENV: development
@@ -80,6 +80,7 @@ services:
     command: ./bin/dev
     ports:
       - '3000:3000'
+      - '3001:3001'
 
   sidekiq:
     <<: *backend

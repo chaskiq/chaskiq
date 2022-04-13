@@ -108,7 +108,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
-        app_package: app_package
+        app_package:
       )
     end
 
@@ -118,27 +118,27 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive contact" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:enqueue_process_event).once
-      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app:))
     end
 
     it "receive contact" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:process_event).once
 
       expect do
-        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app:))
         perform_enqueued_jobs
       end.to_not change { AppUser.count } # .by(1)
     end
 
     it "update profile" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:update_app_user_profile).once
-      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app:))
       perform_enqueued_jobs
     end
 
     it "delete profile" do
       allow_any_instance_of(MessageApis::Pipedrive).to receive(:delete_app_user_profile).once
-      post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app: app))
+      post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app:))
       perform_enqueued_jobs
     end
 
@@ -148,13 +148,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       end
       it "will destroy profile" do
         expect do
-          post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app: app))
+          post(:process_event, params: delete_data_for(id: @pkg.encoded_id, app:))
           perform_enqueued_jobs
         end.to change { ExternalProfile.count }
       end
 
       it "will update profile" do
-        post(:process_event, params: update_data_for(id: @pkg.encoded_id, app: app, profile_id: 1))
+        post(:process_event, params: update_data_for(id: @pkg.encoded_id, app:, profile_id: 1))
         perform_enqueued_jobs
         expect(user.external_profiles.first.data).to be_present
         user.reload

@@ -13,7 +13,7 @@ module Mutations
         settings.permit!
 
         authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app: app
+          app:
         }
         # TODO: set specific permitted fields!
 

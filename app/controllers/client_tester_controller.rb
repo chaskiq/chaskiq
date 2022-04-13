@@ -39,7 +39,7 @@ class ClientTesterController < ApplicationController
     key = @app.encryption_key
     email = "test@test.cl"
     options = {
-      email: email,
+      email:,
       properties: {
         name: params[:name] || "miguel",
         lang: params[:lang] || "en",

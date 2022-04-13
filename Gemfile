@@ -3,13 +3,13 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.3"
+ruby "3.1.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "pg"
 gem "rails", "7.0.2.3" # , github: "rails/rails",
 
-gem "anycable-rails"
+gem "anycable-rails", "~> 1.3.0"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # gem "sqlite3", "~> 1.3.6"

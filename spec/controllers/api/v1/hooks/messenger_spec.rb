@@ -111,7 +111,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         access_token: "aaa",
         user_id: owner,
         verify_token: "1234",
-        app_package: app_package
+        app_package:
       )
     end
 
@@ -126,7 +126,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         "id" => @pkg.encoded_id
       }
 
-      get(:process_event, params: params)
+      get(:process_event, params:)
       perform_enqueued_jobs
       expect(response.status).to be == 200
     end

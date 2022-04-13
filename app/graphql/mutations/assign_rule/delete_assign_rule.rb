@@ -18,7 +18,7 @@ module Mutations
 
         assignment_rule = @app.assignment_rules.find(rule_id).destroy
         {
-          assignment_rule: assignment_rule,
+          assignment_rule:,
           errors: assignment_rule.errors
         }
       end

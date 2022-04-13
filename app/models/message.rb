@@ -37,7 +37,7 @@ class Message < ApplicationRecord
 
   def available_for_user?(user)
     comparator = SegmentComparator.new(
-      user: user,
+      user:,
       predicates: segments
     )
     comparator.compare # && metrics.where(app_user_id: user.id).blank?
@@ -148,13 +148,13 @@ class Message < ApplicationRecord
   ## CHART STUFF
   def sparklines_by_day(opts = {})
     range = opts[:range] ||= 2.weeks.ago.midnight..Time.zone.now
-    metrics.group_by_day(:created_at, range: range).count.map { |o| o.to_a.last }
+    metrics.group_by_day(:created_at, range:).count.map { |o| o.to_a.last }
   end
 
   def add_stat_field(name:, label:, keys:)
     {
-      name: name, label: label,
-      keys: keys
+      name:, label:,
+      keys:
     }
   end
 end
