@@ -65,10 +65,10 @@ module Types
 
     def call_hook(kind:, ctx:)
       object.call_hook({
-                         kind: kind,
+                         kind:,
                          ctx: ctx.merge!(
                            lang: I18n.locale,
-                           current_user: current_user
+                           current_user:
                          )
                        })
     end

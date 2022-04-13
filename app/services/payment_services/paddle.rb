@@ -67,8 +67,8 @@ module PaymentServices
         url: "https://vendors.paddle.com/api/2.0/subscription/users/update",
         params: auth.merge({
                              subscription_id: id,
-                             passthrough: passthrough,
-                             plan_id: plan_id
+                             passthrough:,
+                             plan_id:
                            })
       )
     end

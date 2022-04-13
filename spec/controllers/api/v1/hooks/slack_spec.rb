@@ -306,7 +306,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
 
       @pkg = app.app_package_integrations.create(
-        app_package: app_package,
+        app_package:,
         external_id: "TQUC0ASKT",
         settings: {
           api_secret: "aaa",
@@ -377,7 +377,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                              .and_return(OpenStruct.new(body: ":)"))
 
       @pkg = app.app_package_integrations.create(
-        app_package: app_package,
+        app_package:,
         external_id: "TQUC0ASKT",
         settings: {
           api_secret: "aaa",

@@ -134,17 +134,17 @@ GEM
       activerecord (>= 3.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    anycable (1.2.0)
-      anycable-core (= 1.2.0)
+    anycable (1.2.2)
+      anycable-core (= 1.2.2)
       grpc (~> 1.37)
-    anycable-core (1.2.0)
+    anycable-core (1.2.2)
       anyway_config (>= 2.1.0)
       google-protobuf (>= 3.13)
     anycable-rails (1.3.0)
       actioncable (>= 6.0)
       anycable (~> 1.2.0)
       globalid
-    anyway_config (2.2.3)
+    anyway_config (2.3.0)
       ruby-next-core (>= 0.14.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
@@ -302,13 +302,13 @@ GEM
     google-cloud-env (1.5.0)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.2.0)
-    google-protobuf (3.19.4-x86_64-darwin)
-    google-protobuf (3.19.4-x86_64-linux)
+    google-protobuf (3.20.0-x86_64-darwin)
+    google-protobuf (3.20.0-x86_64-linux)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
       grpc (~> 1.27)
-    googleapis-common-protos-types (1.3.0)
+    googleapis-common-protos-types (1.3.1)
       google-protobuf (~> 3.14)
     googleauth (1.1.1)
       faraday (>= 0.17.3, < 2.0)
@@ -323,11 +323,8 @@ GEM
     graphql (1.11.10)
     groupdate (6.0.1)
       activesupport (>= 5.2)
-    grpc (1.43.1-universal-darwin)
-      google-protobuf (~> 3.18)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.43.1-x86_64-linux)
-      google-protobuf (~> 3.18)
+    grpc (1.45.0)
+      google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
     haml (5.2.2)
       temple (>= 0.8.0)
@@ -555,7 +552,7 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
     rubocop-rspec (2.8.0)
       rubocop (~> 1.19)
-    ruby-next-core (0.14.1)
+    ruby-next-core (0.15.1)
     ruby-oembed (0.16.1)
     ruby-progressbar (1.11.0)
     ruby-vips (2.1.4)
@@ -735,7 +732,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.0.3p157
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.2.32

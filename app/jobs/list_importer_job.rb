@@ -8,9 +8,9 @@ class ListImporterJob < ApplicationJob
     ListImporter.import(
       blob_url,
       params: {
-        app_id: app_id,
-        agent_id: agent_id,
-        type: type
+        app_id:,
+        agent_id:,
+        type:
       }
     )
   end

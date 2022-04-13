@@ -27,7 +27,7 @@ module MessageApis
           secondsLeft: 0,
           fileReady: true,
           paused: false,
-          url: url,
+          url:,
           recording: false,
           granted: true,
           loading: false,
@@ -55,7 +55,7 @@ module MessageApis
         data: {
           caption: text.to_s,
           forceUpload: false,
-          url: url,
+          url:,
           width: 100,
           height: 100,
           loading_progress: 0,
@@ -78,7 +78,7 @@ module MessageApis
         data: {
           caption: text.to_s,
           forceUpload: false,
-          url: url,
+          url:,
           loading_progress: 0,
           selected: false,
           loading: true,
@@ -121,15 +121,15 @@ module MessageApis
       end
 
       fill_ratio = (height / width) * 100
-      { width: width, height: height, ratio: fill_ratio }
+      { width:, height:, ratio: fill_ratio }
       # console.log result
     end
 
     def direct_upload(file:, filename:, content_type:)
       blob = ActiveStorage::Blob.create_and_upload!(
         io: file,
-        filename: filename,
-        content_type: content_type,
+        filename:,
+        content_type:,
         identify: false
       )
       {
@@ -183,7 +183,7 @@ module MessageApis
         }
 
         external_profile = app.external_profiles.find_by(
-          provider: provider,
+          provider:,
           profile_id: user_data["id"]
         )
 
@@ -193,7 +193,7 @@ module MessageApis
         if participant.blank?
           participant = app.add_anonymous_user(data)
           participant.external_profiles.create(
-            provider: provider,
+            provider:,
             profile_id: user_data["id"]
           )
         end

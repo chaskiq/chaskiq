@@ -26,7 +26,7 @@ module Mutations
                     end
 
       @webhook.update(
-        url: url,
+        url:,
         tag_list: tags,
         state: state_value
       )

@@ -185,7 +185,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       messages: [
         {
           from: sender,
-          id: id,
+          id:,
           sticker: {
             id: "2d0eb523-84cd-4bec-ba73-9e06f0721918",
             metadata: {
@@ -247,7 +247,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_secret: "aaa",
         api_key: "aaa",
         user_id: owner_phone,
-        app_package: app_package,
+        app_package:,
         sandbox: true
       )
 

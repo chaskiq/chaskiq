@@ -102,7 +102,7 @@ module MessageApis::Counto
       if ctx[:field] && ctx[:field]["name"] === "command-confirm"
 
         response = api.notify_conversation_part(
-          conversation_part: conversation_part,
+          conversation_part:,
           command: Base64.decode64(ctx[:field]["id"])
         )
 
@@ -140,8 +140,8 @@ module MessageApis::Counto
       end
 
       {
-        kind: kind,
-        definitions: definitions
+        kind:,
+        definitions:
       }
     end
 

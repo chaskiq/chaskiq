@@ -117,13 +117,13 @@ module MessageApis::Twilio
       participant = add_participant(twilio_user)
 
       add_conversation(
-        conversation: conversation,
-        agent_sender: agent_sender,
-        participant: participant,
-        serialized_content: serialized_content,
-        text: text,
-        message_id: message_id,
-        channel_id: channel_id
+        conversation:,
+        agent_sender:,
+        participant:,
+        serialized_content:,
+        text:,
+        message_id:,
+        channel_id:
       )
     end
 
@@ -154,7 +154,7 @@ module MessageApis::Twilio
         from: agent_sender ? @package.app.agents.first : participant, # agent_required ? Agent.first : participant,
         message: {
           html_content: text,
-          serialized_content: serialized_content
+          serialized_content:
         },
         provider: "twilio",
         message_source_id: message_id,
@@ -205,8 +205,8 @@ module MessageApis::Twilio
       text = data["Body"]
 
       case media_type
-      when "image/gif", "image/jpeg" then photo_block(url: attachment, text: text)
-      when "video/mp4" then gif_block(url: attachment, text: text)
+      when "image/gif", "image/jpeg" then photo_block(url: attachment, text:)
+      when "video/mp4" then gif_block(url: attachment, text:)
         # TODO: support audio as content block
         # "audio/ogg" then ....
       else file_block(url: attachment, text: "media: #{media_type}")

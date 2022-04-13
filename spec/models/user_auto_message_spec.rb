@@ -25,7 +25,7 @@ RSpec.describe UserAutoMessage, type: :model do
   end
 
   let(:campaign) do
-    FactoryBot.create(:user_auto_message, app: app)
+    FactoryBot.create(:user_auto_message, app:)
   end
 
   let(:premailer_template) do
@@ -39,7 +39,7 @@ RSpec.describe UserAutoMessage, type: :model do
 
   describe "creation" do
     it "will create a pending campaign by default" do
-      @c = FactoryBot.create(:user_auto_message, app: app)
+      @c = FactoryBot.create(:user_auto_message, app:)
       expect(@c).to_not be_sent
       allow_any_instance_of(UserAutoMessage).to receive(:html_content).and_return(premailer_template)
     end
@@ -58,7 +58,7 @@ RSpec.describe UserAutoMessage, type: :model do
 
     let(:message) do
       FactoryBot.create(:user_auto_message,
-                        app: app,
+                        app:,
                         segments: app.segments.first.predicates,
                         scheduled_at: 2.days.ago,
                         scheduled_to: 30.days.from_now)

@@ -14,12 +14,12 @@ module Mutations
         integration = app.app_package_integrations.find(id)
         app_package = integration.app_package
 
-        authorize! integration, to: :can_manage_app_packages?, with: AppPolicy, context: { app: app }
+        authorize! integration, to: :can_manage_app_packages?, with: AppPolicy, context: { app: }
 
         integration.settings = params.permit!.to_h
         integration.app_package = app_package
         integration.save
-        { integration: integration, errors: integration.errors }
+        { integration:, errors: integration.errors }
       end
 
       def find_app(app_id)

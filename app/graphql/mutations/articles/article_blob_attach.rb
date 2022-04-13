@@ -16,10 +16,10 @@ module Mutations
         article = app.articles.find(id)
 
         authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app: app
+          app:
         }
         article.images.attach(blob_id)
-        { article: article }
+        { article: }
       end
 
       def current_user

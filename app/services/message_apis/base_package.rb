@@ -22,7 +22,7 @@ module MessageApis
 
       return if part
                 .conversation_part_channel_sources
-                .find_by(provider: provider).present?
+                .find_by(provider:).present?
 
       # message = part.message.as_json
       response = send_message(conversation, part)
@@ -38,7 +38,7 @@ module MessageApis
       return if message_id.blank?
 
       part.conversation_part_channel_sources.create(
-        provider: provider,
+        provider:,
         message_source_id: message_id
       )
     end

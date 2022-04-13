@@ -79,8 +79,8 @@ class ChatNotifierMailer < ApplicationMailer
 
     roadie_mail(from: "#{from_name_parametrized}<#{from_email}>",
                 to: email,
-                subject: subject,
-                content_type: content_type,
+                subject:,
+                content_type:,
                 return_path: reply_email) do |format|
       format.html { render "chat_notifier_mailer/#{template}" }
       # format.text # assuming you want a text fallback as well

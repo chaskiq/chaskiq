@@ -64,15 +64,15 @@ module MessageApis::Pipedrive
 
       update_params = {
         email: data["email"][0]["value"],
-        name: name,
-        last_name: last_name,
-        first_name: first_name,
+        name:,
+        last_name:,
+        first_name:,
         phone: data["phone"][0]["value"]
       }.compact_blank
 
       app_user.update(update_params)
 
-      external_profile.update(data: data)
+      external_profile.update(data:)
     end
 
     def self.tester
@@ -117,8 +117,8 @@ module MessageApis::Pipedrive
     def find_user(term:, search_by_email: false, start: 0)
       url = url("/persons/find")
       data = {
-        term: term,
-        start: start,
+        term:,
+        start:,
         limit: 20
       }
 
@@ -171,7 +171,7 @@ module MessageApis::Pipedrive
       subscription_url = integration.hook_url
       # "#{ENV['HOST']}/api/v1/hooks/#{integration.app.key}/#{app_package.name.underscore}/#{integration.id}"
       data = {
-        subscription_url: subscription_url,
+        subscription_url:,
         event_action: "*",
         event_object: "person"
       }

@@ -13,10 +13,10 @@ module Mutations
         agent = app.agents.find_by(email: author_id)
         article = app.articles.find(id)
         authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app: app
+          app:
         }
         article.update(author: agent)
-        { article: article }
+        { article: }
       end
 
       def current_user

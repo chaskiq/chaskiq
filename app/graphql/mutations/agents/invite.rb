@@ -11,13 +11,13 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
 
         authorize! app, to: :can_manage_team?, with: AppPolicy, context: {
-          app: app
+          app:
         }
 
-        agent = app.agents.find_by(email: email)
+        agent = app.agents.find_by(email:)
 
         if agent.blank?
-          agent = Agent.invite!(email: email)
+          agent = Agent.invite!(email:)
           role = app.roles.find_or_initialize_by(agent_id: agent.id)
           role.save
         else
@@ -26,7 +26,7 @@ module Mutations
 
         track_resource_event(agent, :agent_invite, nil, app.id)
 
-        { agent: agent }
+        { agent: }
       end
     end
   end

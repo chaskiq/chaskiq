@@ -6,7 +6,7 @@ module MessageApis::Telegram
       definitions = []
       {
         kind: "initialize",
-        definitions: definitions,
+        definitions:,
         values: {}
       }
     end
@@ -17,7 +17,7 @@ module MessageApis::Telegram
       definitions = []
       {
         kind: "submit",
-        definitions: definitions,
+        definitions:,
         values: {}
       }
     end

@@ -102,7 +102,7 @@ class BotTask < Message
   # consumed
   def available_for_user?(user)
     comparator = SegmentComparator.new(
-      user: user,
+      user:,
       predicates: segments
     )
 

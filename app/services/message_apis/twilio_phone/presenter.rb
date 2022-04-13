@@ -6,7 +6,7 @@ module MessageApis::TwilioPhone
       definitions = []
       {
         kind: "initialize",
-        definitions: definitions,
+        definitions:,
         values: {}
       }
     end
@@ -17,7 +17,7 @@ module MessageApis::TwilioPhone
       definitions = []
       {
         kind: "submit",
-        definitions: definitions,
+        definitions:,
         values: {}
       }
     end
@@ -29,14 +29,14 @@ module MessageApis::TwilioPhone
     def self.content_hook(kind:, ctx:)
       definitions = case ctx[:location]
                     when "fixed_sidebar"
-                      content_frame_definitions(kind: kind, ctx: ctx)
+                      content_frame_definitions(kind:, ctx:)
                       # content_definitions(kind: kind, ctx: ctx)
                     else
-                      definitions_for_content(kind: kind, ctx: ctx)
+                      definitions_for_content(kind:, ctx:)
                     end
       {
         enabled_for_agents: true,
-        definitions: definitions
+        definitions:
       }
     end
 
@@ -284,9 +284,9 @@ module MessageApis::TwilioPhone
         url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf)}",
         update_url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf, :update)}",
         conference: conf,
-        agent_ids: agent_ids,
+        agent_ids:,
         agent_names: agents.map(&:display_name),
-        conversation: conversation,
+        conversation:,
         participant: conversation.main_participant,
         profile: conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
       }
@@ -299,7 +299,7 @@ module MessageApis::TwilioPhone
         conversation_key: conf.friendly_name,
         lang: @lang,
         current_user: @user,
-        action: action
+        action:
       }
 
       CHASKIQ_FRAME_VERIFIER.generate(data)
@@ -500,7 +500,7 @@ module MessageApis::TwilioPhone
               package_id: ctx[:package].id,
               conversation_key: conf.friendly_name,
               lang: ctx[:lang],
-              agents_ids: agents_ids,
+              agents_ids:,
               agents_names: agents.map(&:display_name),
               current_user: ctx[:current_user].as_json
             }
