@@ -205,7 +205,7 @@ module MessageApis::Telegram
         from: is_agent ? @package.app.agents.first : participant, # agent_required ? Agent.first : participant,
         message: {
           html_content: text,
-          serialized_content: serialized_content
+          serialized_content:
         },
         provider: PROVIDER,
         message_source_id: message_id,

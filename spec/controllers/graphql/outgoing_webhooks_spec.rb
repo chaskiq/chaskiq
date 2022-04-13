@@ -69,8 +69,8 @@ RSpec.describe GraphqlController, type: :controller do
                      variables: {
                        appKey: app.key,
                        id: webhook.id.to_s,
-                       url: url,
-                       tags: tags,
+                       url:,
+                       tags:,
                        state: "true"
                      })
 
@@ -128,8 +128,8 @@ RSpec.describe GraphqlController, type: :controller do
                      variables: {
                        appKey: app.key,
                        id: webhook.id,
-                       url: url,
-                       tags: tags,
+                       url:,
+                       tags:,
                        state: "true"
                      })
 

@@ -144,7 +144,7 @@ module MessageApis::TwilioPhone
 
       conversation.add_message(
         from: author,
-        controls: controls
+        controls:
       )
 
       conference_call(payload, conversation, {
@@ -171,7 +171,7 @@ module MessageApis::TwilioPhone
       ActionCable.server.broadcast "events:#{@package.app.key}", {
         type: "/package/TwilioPhone",
         app: @package.app.key,
-        payload: payload,
+        payload:,
         event_type: "INIT"
       }
 
@@ -217,7 +217,7 @@ module MessageApis::TwilioPhone
                         statusCallbackEvent: "start end join leave mute hold")
       end
 
-      { format: :xml, response: response }
+      { format: :xml, response: }
     end
 
     ## client

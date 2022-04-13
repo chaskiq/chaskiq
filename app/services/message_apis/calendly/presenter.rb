@@ -15,7 +15,7 @@ module MessageApis::Calendly
       definitions = [
         {
           type: "text",
-          text: text,
+          text:,
           align: "left",
           style: "muted"
         },
@@ -34,7 +34,7 @@ module MessageApis::Calendly
 
       {
         kind: "initialize",
-        definitions: definitions,
+        definitions:,
         values: params[:ctx][:values]
       }
     end
@@ -65,7 +65,7 @@ module MessageApis::Calendly
 
       {
         kind: "submit",
-        definitions: definitions,
+        definitions:,
         values: params[:ctx][:values]
       }
     end
@@ -136,24 +136,24 @@ module MessageApis::Calendly
             action
           ]
           return {
-            kind: kind,
-            definitions: definitions
+            kind:,
+            definitions:
           }
         end
 
         return {
           kind: "initialize",
-          definitions: definitions,
+          definitions:,
           results: {
-            url: url,
-            label: label,
+            url:,
+            label:,
             invitation_text: invitation
           }
         }
 
       end
 
-      { kind: kind, ctx: ctx, definitions: definitions }
+      { kind:, ctx:, definitions: }
     end
 
     # Submit Sheet flow webhook URL (optional)

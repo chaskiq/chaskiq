@@ -36,7 +36,7 @@ RSpec.describe Segment, type: :model do
     end
 
     it "add predicate" do
-      segment = app.segments.create(predicates: predicates)
+      segment = app.segments.create(predicates:)
       expect(segment.predicates.size).to be == 1
     end
 
@@ -115,7 +115,7 @@ RSpec.describe Segment, type: :model do
 
         comparator = SegmentComparator.new(
           user: app.app_users.last,
-          predicates: predicates
+          predicates:
         )
 
         expect(comparator.compare).to be_truthy
@@ -347,7 +347,7 @@ RSpec.describe Segment, type: :model do
 
         comparator = SegmentComparator.new(
           user: app.app_users.last,
-          predicates: predicates
+          predicates:
         )
 
         expect(comparator.compare).to be_falsey

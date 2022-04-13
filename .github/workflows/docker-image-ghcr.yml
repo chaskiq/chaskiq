@@ -43,11 +43,11 @@ jobs:
           build-args: |
             "APP_ENV=production"
             "NODE_ENV=production"
-            "RUBY_VERSION=3.0.3"
+            "RUBY_VERSION=3.1.2"
             "PG_MAJOR=11"
             "NODE_MAJOR=16"
             "YARN_VERSION=1.13.0"
-            "BUNDLER_VERSION=2.1.3"
+            "BUNDLER_VERSION=2.2.32"
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

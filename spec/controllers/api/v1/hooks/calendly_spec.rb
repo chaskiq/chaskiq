@@ -138,7 +138,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
-        app_package: app_package
+        app_package:
       )
     end
 
@@ -148,13 +148,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive hook" do
       allow_any_instance_of(MessageApis::Calendly::Api).to receive(:enqueue_process_event).once
-      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app:))
       perform_enqueued_jobs
     end
 
     it "receive invitee" do
       perform_enqueued_jobs do
-        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app:))
         expect(message.reload.message.data).to be_present
       end
     end

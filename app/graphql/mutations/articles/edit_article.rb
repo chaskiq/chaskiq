@@ -16,15 +16,15 @@ module Mutations
         article = app.articles.find(id)
 
         authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app: app
+          app:
         }
 
         I18n.locale = lang
 
         options = {
           author: current_user,
-          title: title,
-          description: description
+          title:,
+          description:
         }
 
         if content.present?
@@ -38,7 +38,7 @@ module Mutations
 
         article.update(options)
 
-        { article: article }
+        { article: }
       end
 
       def current_user

@@ -17,7 +17,7 @@ module MessageApis::Qualifier
       end
 
       {
-        kind: kind,
+        kind:,
         # ctx: ctx,
         definitions: record.schema
       }
@@ -65,7 +65,7 @@ module MessageApis::Qualifier
 
       result = {
         # kind: 'initialize',
-        definitions: definitions
+        definitions:
       }
 
       if record.valid?
@@ -144,7 +144,7 @@ module MessageApis::Qualifier
         r.add_item("company_name")
 
         return {
-          kind: kind,
+          kind:,
           definitions: r.schema
         }
       end
@@ -157,7 +157,7 @@ module MessageApis::Qualifier
         r.add_item(nil)
 
         return {
-          kind: kind,
+          kind:,
           definitions: r.schema
         }
       end
@@ -175,7 +175,7 @@ module MessageApis::Qualifier
         r.add_item(nil)
 
         return {
-          kind: kind,
+          kind:,
           definitions: r.schema
         }
       end
@@ -187,7 +187,7 @@ module MessageApis::Qualifier
 
         return {
           kind: "initialize",
-          definitions: definitions,
+          definitions:,
           results: ctx[:values]
         }
       end
@@ -195,7 +195,7 @@ module MessageApis::Qualifier
       {
         # kind: kind,
         # ctx: ctx,
-        definitions: definitions
+        definitions:
       }
     end
 
@@ -220,7 +220,7 @@ module MessageApis::Qualifier
       end
 
       def add_item(name)
-        items << { name: name, label: "" }
+        items << { name:, label: "" }
       end
 
       def item(name:, label:, index:)
@@ -347,7 +347,7 @@ module MessageApis::Qualifier
           type: "input",
           id: name,
           placeholder: "type your #{label}",
-          label: label,
+          label:,
           value: send(name.to_sym),
           errors: errors[name.to_sym]&.uniq&.join(", "),
           action: {

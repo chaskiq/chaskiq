@@ -16,7 +16,7 @@ class FetchLinkCardService < BaseService
     url = url.to_s
 
     # card = PreviewCard.where(status: status).first_or_initialize(status: status, url: url)
-    card = PreviewCard.find_or_initialize_by(url: url)
+    card = PreviewCard.find_or_initialize_by(url:)
     # TODO: add a TTL here
     return card if card.persisted?
 
@@ -34,7 +34,7 @@ class FetchLinkCardService < BaseService
   def http_client(options = {})
     timeout = { write: 10, connect: 10, read: 10 }.merge(options)
 
-    HTTP.headers(user_agent: user_agent)
+    HTTP.headers(user_agent:)
         .timeout(timeout)
         .follow
   end

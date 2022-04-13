@@ -143,7 +143,7 @@ module MessageApis::TelnyxSms
         from: participant,
         message: {
           html_content: text,
-          serialized_content: serialized_content
+          serialized_content:
         },
         provider: PROVIDER,
         message_source_id: message_id,

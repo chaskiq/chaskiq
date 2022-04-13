@@ -84,10 +84,10 @@ class AppPackageIntegration < ApplicationRecord
     )
 
     @message_api_klass ||= if app_package.is_external?
-                             ExternalApiClient.new(config: config)
+                             ExternalApiClient.new(config:)
                            else
                              "MessageApis::#{app_package.name}::Api".constantize.new(
-                               config: config
+                               config:
                              )
                            end
     # rescue nil

@@ -134,17 +134,17 @@ GEM
       activerecord (>= 3.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    anycable (1.2.0)
-      anycable-core (= 1.2.0)
+    anycable (1.2.2)
+      anycable-core (= 1.2.2)
       grpc (~> 1.37)
-    anycable-core (1.2.0)
+    anycable-core (1.2.2)
       anyway_config (>= 2.1.0)
       google-protobuf (>= 3.13)
     anycable-rails (1.3.0)
       actioncable (>= 6.0)
       anycable (~> 1.2.0)
       globalid
-    anyway_config (2.2.3)
+    anyway_config (2.3.0)
       ruby-next-core (>= 0.14.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
@@ -185,6 +185,7 @@ GEM
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
+    bcrypt (3.1.16-java)
     bindex (0.8.1)
     biz (1.8.2)
       clavius (~> 1.0)
@@ -230,6 +231,7 @@ GEM
       devise (>= 4.6)
     diff-lcs (1.5.0)
     digest (3.1.0)
+    digest (3.1.0-java)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     doorkeeper (5.5.4)
@@ -270,6 +272,9 @@ GEM
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
     ffi (1.15.5)
+    ffi (1.15.5-java)
+    ffi (1.15.5-x64-mingw32)
+    ffi (1.15.5-x86-mingw32)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -302,13 +307,12 @@ GEM
     google-cloud-env (1.5.0)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.2.0)
-    google-protobuf (3.19.4-x86_64-darwin)
-    google-protobuf (3.19.4-x86_64-linux)
+    google-protobuf (3.20.0)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
       grpc (~> 1.27)
-    googleapis-common-protos-types (1.3.0)
+    googleapis-common-protos-types (1.3.1)
       google-protobuf (~> 3.14)
     googleauth (1.1.1)
       faraday (>= 0.17.3, < 2.0)
@@ -323,11 +327,8 @@ GEM
     graphql (1.11.10)
     groupdate (6.0.1)
       activesupport (>= 5.2)
-    grpc (1.43.1-universal-darwin)
-      google-protobuf (~> 3.18)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.43.1-x86_64-linux)
-      google-protobuf (~> 3.18)
+    grpc (1.45.0)
+      google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
     haml (5.2.2)
       temple (>= 0.8.0)
@@ -390,8 +391,10 @@ GEM
     method_source (1.0.0)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.0)
     minitest (5.15.0)
     msgpack (1.4.5)
+    msgpack (1.4.5-java)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -415,9 +418,9 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.13.4-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.13.4-x86_64-linux)
+    nio4r (2.5.8-java)
+    nokogiri (1.13.4)
+      mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     oauth (0.5.8)
     oauth2 (1.4.9)
@@ -439,6 +442,8 @@ GEM
     parser (3.1.1.0)
       ast (~> 2.4.1)
     pg (1.3.3)
+    pg (1.3.3-x64-mingw32)
+    pg (1.3.3-x86-mingw32)
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
@@ -452,10 +457,17 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry (0.14.1-java)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+      spoon (~> 0.0)
     public_suffix (4.0.6)
     puma (5.6.4)
       nio4r (~> 2.0)
+    puma (5.6.4-java)
+      nio4r (~> 2.0)
     racc (1.6.0)
+    racc (1.6.0-java)
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
@@ -555,7 +567,7 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
     rubocop-rspec (2.8.0)
       rubocop (~> 1.19)
-    ruby-next-core (0.14.1)
+    ruby-next-core (0.15.1)
     ruby-oembed (0.16.1)
     ruby-progressbar (1.11.0)
     ruby-vips (2.1.4)
@@ -563,6 +575,8 @@ GEM
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc (2.4.0-x64-mingw32)
       ffi (~> 1.9)
     scout_apm (5.1.1)
       parser
@@ -583,6 +597,8 @@ GEM
       multi_json (~> 1.10)
     simpleidn (0.2.1)
       unf (~> 0.1.4)
+    spoon (0.0.6)
+      ffi
     spring (4.0.0)
     sprockets (4.0.3)
       concurrent-ruby (~> 1.0)
@@ -592,6 +608,10 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     strscan (3.0.1)
+    tailwindcss-rails (2.0.7)
+      railties (>= 6.0.0)
+    tailwindcss-rails (2.0.7-x64-mingw32)
+      railties (>= 6.0.0)
     tailwindcss-rails (2.0.7-x86_64-darwin)
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.7-x86_64-linux)
@@ -609,8 +629,11 @@ GEM
       nokogiri (>= 1.6, < 2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2022.1)
+      tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
+    unf (0.1.4-java)
     unf_ext (0.0.8)
     unicode-display_width (2.1.0)
     uri (0.11.0)
@@ -628,10 +651,16 @@ GEM
       hashdiff (>= 0.4.0, < 2.0.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
+    websocket-driver (0.7.5-java)
+      websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     zeitwerk (2.5.4)
 
 PLATFORMS
+  java
+  x64-mingw32
+  x86-mingw32
+  x86-mswin32
   x86_64-darwin-19
   x86_64-linux
 
@@ -641,7 +670,7 @@ DEPENDENCIES
   active_importer
   acts-as-taggable-on!
   acts_as_list (~> 0.9.19)
-  anycable-rails
+  anycable-rails (~> 1.3.0)
   aws-sdk-rails
   aws-sdk-s3 (~> 1.48)
   biz (~> 1.8)
@@ -735,7 +764,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.0.3p157
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.2.32

@@ -8,7 +8,7 @@ module MessageApis::Gumroad
         url: ctx.dig("values", "url")
       )
       {
-        kind: kind,
+        kind:,
         values: {
           url: r.url
         },
@@ -65,7 +65,7 @@ module MessageApis::Gumroad
 
       {
         kind: "submit",
-        definitions: definitions,
+        definitions:,
         results: params[:ctx][:values]
       }
     end
@@ -79,7 +79,7 @@ module MessageApis::Gumroad
       url = ctx.dig("values", "url")
       # fields = app.searcheable_fields
       r = PaymentRecord.new(
-        url: url
+        url:
       )
 
       button = {
@@ -102,7 +102,7 @@ module MessageApis::Gumroad
           return {
             kind: "initialize",
             results: {
-              url: url
+              url:
             },
             definitions: []
           }
@@ -139,9 +139,9 @@ module MessageApis::Gumroad
       ]
 
       {
-        kind: kind,
+        kind:,
         # ctx: ctx,
-        definitions: definitions
+        definitions:
       }
     end
 

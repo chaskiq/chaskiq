@@ -42,7 +42,7 @@ module MessageApis::ArticleSearch
         # kind: kind,
         # ctx: ctx,
         definitions_url: "",
-        definitions: definitions
+        definitions:
       }
     end
 
@@ -51,7 +51,7 @@ module MessageApis::ArticleSearch
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
-      { content: { kind: kind, ctx: ctx } }
+      { content: { kind:, ctx: } }
       app = ctx[:package].app
       term = ctx.dig(:value, :search_articles)
       # I18n.locale = lang
@@ -140,15 +140,15 @@ module MessageApis::ArticleSearch
         return {
           kind: "initialize",
           # ctx: ctx,
-          definitions: definitions,
-          results: results
+          definitions:,
+          results:
         }
       end
 
       {
-        kind: kind,
+        kind:,
         # ctx: ctx,
-        definitions: definitions
+        definitions:
       }
     end
 

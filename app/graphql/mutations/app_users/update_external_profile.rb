@@ -13,10 +13,10 @@ module Mutations
       def resolve(app_key:, id:, profile_id:)
         app = current_user.apps.find_by(key: app_key)
         external_profile = app.external_profiles.find(id)
-        authorize! app, to: :can_manage_users?, with: AppPolicy, context: { app: app }
+        authorize! app, to: :can_manage_users?, with: AppPolicy, context: { app: }
 
         external_profile.assign_attributes(
-          profile_id: profile_id
+          profile_id:
         )
 
         external_profile.save

@@ -93,7 +93,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .and_return({})
 
       @pkg = app.app_package_integrations.create(
-        app_package: app_package,
+        app_package:,
         settings: {
           api_key: "aaa",
           profile_id: owner_phone,

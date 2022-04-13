@@ -5,8 +5,8 @@ class ActionTrigger
     message = conversation.messages.find_by(key: data["message_key"])
 
     trigger, path = ActionTriggerFactory.find_task(
-      data: data,
-      app: app,
+      data:,
+      app:,
       app_user: current_user
     )
 
@@ -69,7 +69,7 @@ class ActionTrigger
         "step" => message.step_id,
         "trigger" => message.trigger_id
       },
-      app: app,
+      app:,
       app_user: current_user
     )
 

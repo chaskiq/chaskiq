@@ -31,7 +31,7 @@ module MessageApis::Stripe
         url: ctx.dig("values", "url")
       )
       {
-        kind: kind,
+        kind:,
         values: {
           url: r.url
         },
@@ -65,7 +65,7 @@ module MessageApis::Stripe
           label: "Stripe Payment Button",
           action: {
             type: "url",
-            url: url
+            url:
           }
         }
       else
@@ -113,7 +113,7 @@ module MessageApis::Stripe
 
       # fields = app.searcheable_fields
       r = PaymentRecord.new(
-        url: url
+        url:
       )
 
       button = {
@@ -142,7 +142,7 @@ module MessageApis::Stripe
         return {
           kind: "initialize",
           definitions: [],
-          results: results
+          results:
         }
       end
 
@@ -176,9 +176,9 @@ module MessageApis::Stripe
       ]
 
       {
-        kind: kind,
+        kind:,
         # ctx: ctx,
-        definitions: definitions
+        definitions:
       }
     end
 

@@ -183,7 +183,7 @@ module MessageApis::MessageBird
       file_string = get_media(id)
       file = StringIO.new(file_string)
       direct_upload(
-        file: file,
+        file:,
         filename: "mb-file",
         content_type: content_type || "image/jpeg"
       )
@@ -232,7 +232,7 @@ module MessageApis::MessageBird
         from: is_agent ? @package.app.agents.first : participant, # agent_required ? Agent.first : participant,
         message: {
           html_content: text,
-          serialized_content: serialized_content
+          serialized_content:
         },
         provider: PROVIDER,
         message_source_id: message_id,
@@ -276,13 +276,13 @@ module MessageApis::MessageBird
       when "unsupported" then nil
       when "image"
         file = handle_direct_upload(url["id"], url["mime_type"])
-        photo_block(url: file[:url], text: text)
+        photo_block(url: file[:url], text:)
       when "video"
         file = handle_direct_upload(url["id"], url["mime_type"])
-        gif_block(url: file[:url], text: text)
+        gif_block(url: file[:url], text:)
       when "audio", "voice", "document"
         file = handle_direct_upload(url["id"], url["mime_type"])
-        file_block(url: file[:url], text: text)
+        file_block(url: file[:url], text:)
       end
     end
 

@@ -14,16 +14,16 @@ module Mutations
       def resolve(app_key:, user_id:, provider:, profile_id:)
         app = current_user.apps.find_by(key: app_key)
         user = app.app_users.find(user_id)
-        authorize! app, to: :can_manage_users?, with: AppPolicy, context: { app: app }
+        authorize! app, to: :can_manage_users?, with: AppPolicy, context: { app: }
 
         profile = user.external_profiles.find_or_initialize_by(
-          provider: provider,
-          profile_id: profile_id
+          provider:,
+          profile_id:
         )
 
         profile.save
 
-        { profile: profile, errors: profile.errors }
+        { profile:, errors: profile.errors }
       end
     end
   end

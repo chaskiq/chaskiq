@@ -53,7 +53,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def controls=(blocks)
-    self.messageable = ConversationPartBlock.create(blocks: blocks)
+    self.messageable = ConversationPartBlock.create(blocks:)
   end
 
   def conversation_part_content
@@ -123,7 +123,7 @@ class ConversationPart < ApplicationRecord
 
   def notify_message_on_available_channels
     conversation.conversation_channels.each do |channel|
-      channel.notify_part(conversation: conversation, part: self)
+      channel.notify_part(conversation:, part: self)
     end
   end
 

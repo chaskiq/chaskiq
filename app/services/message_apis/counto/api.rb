@@ -26,7 +26,7 @@ module MessageApis::Counto
       end
 
       company_name = info["company_name"]
-      conversation_part.authorable.update(company_name: company_name) if company_name
+      conversation_part.authorable.update(company_name:) if company_name
 
       user = conversation_part.conversation.main_participant.reload.as_json(
         methods: %i[company_name display_name email]

@@ -126,10 +126,10 @@ Human:'''"
         }.to_json
 
         add_message(
-          conversation: conversation,
+          conversation:,
           from: conversation.app.agents.bots.first,
-          text: text,
-          blocks: blocks,
+          text:,
+          blocks:,
           message_id: gpt_result[:id]
         )
       end
@@ -137,7 +137,7 @@ Human:'''"
 
     def prompt_settings(prompt)
       {
-        prompt: prompt,
+        prompt:,
         stop: ["\n", "\nHuman:", "\nAI:"],
         temperature: 0.9,
         top_p: 1,
@@ -157,7 +157,7 @@ Human:'''"
       # TODO: serialize message
       conversation.transaction do
         conversation.add_message(
-          from: from,
+          from:,
           message: {
             html_content: text,
             serialized_content: blocks
@@ -189,7 +189,7 @@ Human:'''"
       end
 
       text = json_body["choices"].map { |o| o["text"] }.join(" ")
-      { text: text, id: json_body["id"] }
+      { text:, id: json_body["id"] }
     end
 
     def process_event(params, package)

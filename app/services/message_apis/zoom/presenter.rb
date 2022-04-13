@@ -65,16 +65,16 @@ module MessageApis::Zoom
             action
           ]
           return {
-            kind: kind,
-            definitions: definitions
+            kind:,
+            definitions:
           }
         end
 
         return {
           kind: "initialize",
-          definitions: definitions,
+          definitions:,
           results: {
-            email: email
+            email:
           }
         }
 
@@ -101,7 +101,7 @@ module MessageApis::Zoom
         #         }
       end
 
-      { kind: kind, ctx: ctx, definitions: definitions }
+      { kind:, ctx:, definitions: }
     end
 
     def self.definitions_for_initialize(params)
