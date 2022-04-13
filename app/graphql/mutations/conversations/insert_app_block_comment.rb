@@ -20,7 +20,7 @@ module Mutations
 
         @message = conversation.add_message(
           from: author,
-          controls: controls
+          controls:
         )
         { message: @message }
       end

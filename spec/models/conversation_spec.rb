@@ -412,7 +412,7 @@ RSpec.describe Conversation, type: :model do
         api_key: "aaa",
         access_token: "aaa",
         access_token_secret: "aaa",
-        app_package: app_package
+        app_package:
       )
       app_user
     end

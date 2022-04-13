@@ -156,7 +156,7 @@ class Campaign < Message
 
     {
       email: subscriber.email,
-      campaign_url: campaign_url,
+      campaign_url:,
       campaign_unsubscribe: "#{subscriber_url}/delete",
       campaign_subscribe: "#{campaign_url}/subscribers/new",
       campaign_description: description.to_s,

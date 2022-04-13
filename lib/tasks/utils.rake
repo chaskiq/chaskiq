@@ -37,7 +37,7 @@ namespace :upgrade_tasks do
         end
       end.compact
 
-      c.update(segments: segments)
+      c.update(segments:)
     end
 
     Segment.all.each do |c|

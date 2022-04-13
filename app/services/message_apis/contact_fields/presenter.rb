@@ -8,7 +8,7 @@ module MessageApis::ContactFields
       block_type = ctx.dig(:values, :block_type)
       {
         # ctx: ctx,
-        values: { block_type: block_type },
+        values: { block_type: },
         definitions: [
           {
             type: "content"
@@ -87,7 +87,7 @@ module MessageApis::ContactFields
       }
 
       {
-        definitions: definitions
+        definitions:
       }
     end
 
@@ -135,7 +135,7 @@ module MessageApis::ContactFields
       }
 
       {
-        definitions: definitions
+        definitions:
       }
     end
 

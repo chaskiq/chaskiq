@@ -12,7 +12,7 @@ module Types
 
     def app(key:)
       doorkeeper_authorize!
-      @app = current_user.apps.find_by(key: key)
+      @app = current_user.apps.find_by(key:)
     end
 
     field :apps, [Types::AppType], null: false, description: "get apps"

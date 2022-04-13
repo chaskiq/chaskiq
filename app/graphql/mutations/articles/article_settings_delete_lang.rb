@@ -11,7 +11,7 @@ module Mutations
       def resolve(app_key:, lang_item:)
         app = App.find_by(key: app_key)
         authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app: app
+          app:
         }
         article_settings = app.article_settings.presence || app.build_article_settings
 

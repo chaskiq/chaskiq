@@ -325,7 +325,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_key: "aaa",
         access_token: "aaa",
         access_token_secret: "aaa",
-        app_package: app_package
+        app_package:
       )
     end
 

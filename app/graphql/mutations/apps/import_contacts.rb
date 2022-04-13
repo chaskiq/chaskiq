@@ -38,7 +38,7 @@ module Mutations
       )
 
       # @app.update(app_params.permit!)
-      { app: app, errors: app.errors }
+      { app:, errors: app.errors }
     end
   end
 end

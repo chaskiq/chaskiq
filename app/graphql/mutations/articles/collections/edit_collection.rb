@@ -16,18 +16,18 @@ module Mutations
         def resolve(app_key:, title:, id:, description:, lang:, icon: nil)
           app = current_user.apps.find_by(key: app_key)
           authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
-            app: app
+            app:
           }
           collection = app.article_collections.find(id)
 
           collection.update(
-            title: title,
-            description: description,
+            title:,
+            description:,
             locale: lang,
-            icon: icon
+            icon:
           )
 
-          { collection: collection, errors: collection.errors }
+          { collection:, errors: collection.errors }
         end
 
         def current_user

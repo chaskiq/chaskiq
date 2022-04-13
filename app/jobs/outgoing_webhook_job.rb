@@ -21,7 +21,7 @@ class OutgoingWebhookJob < ApplicationJob
        .where(state: "enabled").each do |webhook|
       OutgoingWebhookDispatcherJob.perform_later(
         webhook_id: webhook.id,
-        payload: payload
+        payload:
       )
     end
   end

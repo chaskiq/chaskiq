@@ -8,12 +8,12 @@ module Mutations
       def resolve(app_key:, id:)
         app = current_user.apps.find_by(key: app_key)
 
-        role = app.roles.find_by(id: id)
+        role = app.roles.find_by(id:)
 
         agent = role&.agent
 
         authorize! agent, to: :can_manage_team?, with: AppPolicy, context: {
-          app: app
+          app:
         }
 
         ActiveRecord::Base.transaction do
@@ -29,7 +29,7 @@ module Mutations
           )
         end
 
-        { agent: agent }
+        { agent: }
       end
 
       def current_user

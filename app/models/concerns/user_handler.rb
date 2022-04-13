@@ -13,7 +13,7 @@ module UserHandler
       )
     end
 
-    ap = app_users.visitors.find_or_initialize_by(session_id: session_id)
+    ap = app_users.visitors.find_or_initialize_by(session_id:)
     app_user.disable_callbacks = true if callbacks.present?
     ap = handle_app_user_params(ap, attrs)
     ap.generate_token
@@ -25,7 +25,7 @@ module UserHandler
     email = attrs.delete(:email)
     callbacks = attrs.delete(:disable_callbacks)
     additional_validations = attrs.delete(:additional_validations)
-    ap = app_users.leads.find_or_initialize_by(email: email)
+    ap = app_users.leads.find_or_initialize_by(email:)
     ap.additional_validations = true if additional_validations
     ap = handle_app_user_params(ap, attrs)
     ap.disable_callbacks = true if callbacks.present?
@@ -40,7 +40,7 @@ module UserHandler
     additional_validations = attrs.delete(:additional_validations)
     callbacks = attrs.delete(:disable_callbacks)
     # page_url = attrs.delete(:page_url)
-    ap = app_users.find_or_initialize_by(email: email)
+    ap = app_users.find_or_initialize_by(email:)
     ap.additional_validations = true if additional_validations
     ap.disable_callbacks = true if callbacks.present?
 
@@ -80,14 +80,14 @@ module UserHandler
 
   def add_agent(attrs, bot: nil, role_attrs: {})
     email = attrs.delete(:email)
-    user = Agent.find_or_initialize_by(email: email)
+    user = Agent.find_or_initialize_by(email:)
     # user.skip_confirmation!
     if user.new_record?
       user.password = attrs[:password] || Devise.friendly_token[0, 20]
       user.save
     end
 
-    role = roles.find_or_initialize_by(agent_id: user.id, role: role)
+    role = roles.find_or_initialize_by(agent_id: user.id, role:)
     data = attrs.deep_merge!(properties: user.properties)
 
     user.assign_attributes(data)
@@ -105,11 +105,11 @@ module UserHandler
   end
 
   def get_non_users_by_session(session_id)
-    app_users.non_users.find_by(session_id: session_id)
+    app_users.non_users.find_by(session_id:)
   end
 
   def get_app_user_by_email(email)
-    app_users.users.find_by(email: email)
+    app_users.users.find_by(email:)
   end
 
   def compare_user_identifier(data)

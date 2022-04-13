@@ -16,7 +16,7 @@ module Mutations
         integration = app.app_package_integrations.new
         integration.settings = params.permit!.to_h
 
-        authorize! app_package, to: :can_manage_app_packages?, with: AppPolicy, context: { app: app }
+        authorize! app_package, to: :can_manage_app_packages?, with: AppPolicy, context: { app: }
 
         integration.app_package = app_package
         integration.save
@@ -33,7 +33,7 @@ module Mutations
         end
 
         # if operation.present? && operation == "create"
-        { integration: integration, errors: integration.errors }
+        { integration:, errors: integration.errors }
       end
 
       def find_app(app_id)

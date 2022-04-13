@@ -14,7 +14,7 @@ module Mutations
         @app_package = current_user.app_packages.find(id)
 
         authorize! @app_package, to: :can_manage_app_packages?, with: AppPolicy, context: {
-          app: app
+          app:
         }
 
         delete_app_package(id)

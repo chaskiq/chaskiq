@@ -105,8 +105,8 @@ module MessageApis::Csat
       end
 
       {
-        kind: kind,
-        definitions: definitions
+        kind:,
+        definitions:
       }
     end
 
@@ -171,7 +171,7 @@ module MessageApis::Csat
     ###
     def self.submit_response(kind, ctx)
       {
-        kind: kind,
+        kind:,
         # ctx: ctx,
         definitions: [
           {
