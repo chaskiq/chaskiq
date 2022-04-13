@@ -9,7 +9,7 @@ ruby "3.1.2"
 gem "pg"
 gem "rails", "7.0.2.3" # , github: "rails/rails",
 
-gem "anycable-rails"
+gem "anycable-rails", "~> 1.3.0"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # gem "sqlite3", "~> 1.3.6"
