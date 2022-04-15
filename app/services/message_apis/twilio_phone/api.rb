@@ -106,17 +106,17 @@ module MessageApis::TwilioPhone
 
       participant = add_participant(user_data, PROVIDER)
 
-      conversation = find_conversation_by_channel(PROVIDER, phone_number)
+      # conversation = find_conversation_by_channel(PROVIDER, phone_number)
 
-      if conversation.blank?
-        conversation = app.conversations.create(
-          main_participant: participant,
-          conversation_channels_attributes: [
-            provider: PROVIDER,
-            provider_channel_id: phone_number
-          ]
-        )
-      end
+      # if conversation.blank?
+      conversation = app.conversations.create(
+        main_participant: participant,
+        conversation_channels_attributes: [
+          provider: PROVIDER,
+          provider_channel_id: phone_number
+        ]
+      )
+      # end
 
       # conversation.add_message(
       #   from: participant,
@@ -168,6 +168,7 @@ module MessageApis::TwilioPhone
         }
       )
 
+      # this will trigger an event on the view
       ActionCable.server.broadcast "events:#{@package.app.key}", {
         type: "/package/TwilioPhone",
         app: @package.app.key,
@@ -208,7 +209,7 @@ module MessageApis::TwilioPhone
       response.dial do |dial|
         name = conversation.key
 
-        hook_url = @package.hook_url # .gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
+        hook_url = @package.hook_url.gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
 
         dial.conference(name,
                         beep: false,
@@ -231,7 +232,7 @@ module MessageApis::TwilioPhone
 
       conferences = @client.conferences.list(
         date_created_after: 3.hours.ago,
-        status: "in-progress",
+        # status: "in-progress",
         limit: 60
       )
 

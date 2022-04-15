@@ -154,6 +154,17 @@ module MessageApis::TwilioPhone
       "console.log('aollaaaaa')"
     end
 
+    def self.status_class(status)
+      case status
+      when "completed"
+        "bg-gray-800 text-white"
+      when "in-progress"
+        "bg-green-500 text-white"
+      else
+        "bg-gray-100 text-black"
+      end
+    end
+
     def self.sidebar_sheet
       @conferences = conferences_list_object
       @agent_in_call = MessageApis::TwilioPhone::Store.locked_agents.elements.include?(@user["id"].to_s)
@@ -192,7 +203,7 @@ module MessageApis::TwilioPhone
           </head>
 
           <body>
-            <div class="mt-4 hidden">
+            <div class="mt-4 hidden--">
               <%= MessageApis::TwilioPhone::Store.locked_agents.elements %>
             </div>
 
@@ -204,23 +215,22 @@ module MessageApis::TwilioPhone
                         <div class="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true"></div>
                         <div class="relative flex min-w-0 flex-1 items-center">
                           <a
-                            class="relative inline-block flex-shrink-0"
                             href="/app"
                             <% if @agent_in_call %>
                               onClick="return false;"
-                              class="-m-1 block flex-1 p-1 bg-gray-200 opacity-50"
-                            <% else %>
+                              class="-m-1 p-3 border border-transparent rounded-full shadow-sm text-white bg-green-300 cursor-default"
+                                <% else %>
                               onClick="window.open('<%= conf[:url] %>','pagename','resizable,height=260,width=370'); return false;"
-                              class="-m-1 block flex-1 p-1"
+                              class="-m-1 p-3 border border-transparent rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                           <% end %>
                           targettt="_parent"
                           target="_blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
                           </a>
                           <div class="ml-4 truncate">
-                            <p class="truncate text-sm font-medium text-gray-900">
+                            <p class=" text-xs font-medium p-1 my-1 rounded inline-block <%= status_class(conf[:conference].status) %>">
                               <%= conf[:conference].status %>
                             </p>
 
@@ -234,7 +244,9 @@ module MessageApis::TwilioPhone
                               </p>
                             <% end %>
 
-                            <button onClick="parent.postMessage({type: 'url-push-from-frame', url: '<%= conversation_url(conf) %>'}, '*'); return false;" class="truncate text-sm text-gray-500">
+                            <button
+                              class="relative flex items-center hover:text-gray-900 no-underline hover:underline"
+                              onClick="parent.postMessage({type: 'url-push-from-frame', url: '<%= conversation_url(conf) %>'}, '*'); return false;" class="truncate text-sm text-gray-500">
                               Go to conversation
                             </button>
 
