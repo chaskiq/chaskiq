@@ -1006,7 +1006,7 @@ module MessageApis::Slack
     end
 
     def mentions?(data)
-      data["text"].match(/(<@\S+>) /)
+      data["text"].match(/(<@\S+>)/)
     end
 
     def process_blocks(data)
