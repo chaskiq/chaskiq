@@ -12,6 +12,7 @@ import { IntegrationsIcon } from '@chaskiq/components/src/components/icons';
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 import graphql from '@chaskiq/store/src/graphql/client';
 import { errorMessage } from '@chaskiq/store/src/actions/status_messages';
+import logos from '../../shared/logos';
 
 function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
   const [open, setOpen] = useState(fixedSlider.open);
@@ -82,7 +83,11 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                   text-2xl font-semibold 
                   my-5 overflow-hidden"
                 >
-                  <img src={o.icon} height={20} width={20} />
+                  <img
+                    src={logos[o.name.toLocaleLowerCase()]}
+                    height={20}
+                    width={20}
+                  />
                 </button>
               </Tooltip>
             ))}
