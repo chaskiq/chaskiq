@@ -752,6 +752,7 @@ module MessageApis::Slack
 
     # triggered when a new chaskiq message is created
     # will triggered just after the ws notification
+    # rubocop:disable Metrics/PerceivedComplexity
     def notify_message(conversation:, part:, channel:)
       # TODO: ? redis cache here for provider / channel id / part
       return if part.conversation_part_channel_sources.find_by(provider: "slack").present?
@@ -765,14 +766,11 @@ module MessageApis::Slack
         icon_url: part&.authorable&.avatar_url
       }
 
-      # text = !blocks.blank? ?
-      #        blocks.join(" ") :
-      #        part.messageable.html_content rescue nil
-
       if part.messageable.is_a?(ConversationPartBlock)
         return unless messageable.replied?
 
-        data = messageable.data
+        data = messageable.data || {}
+
         data_label = data["label"]
 
         data_fmt = if data.is_a?(Hash)
@@ -834,14 +832,6 @@ module MessageApis::Slack
         # })
       end
 
-      # blocks.prepend({
-      #  "type": "section",
-      #  "text": {
-      #    "type": "mrkdwn",
-      #    "text": "*#{part.authorable.name}* (#{part.authorable.model_name.human}) sent a message"
-      #  }
-      # })
-
       provider_channel_id = conversation.conversation_channels
                                         .find_by(provider: "slack")&.provider_channel_id
 
@@ -865,6 +855,7 @@ module MessageApis::Slack
         message_source_id: response_data["ts"]
       )
     end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def format_user_name(user)
       display = [user.display_name, user.email].join(" \u00B7 ")

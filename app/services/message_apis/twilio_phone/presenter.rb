@@ -73,6 +73,7 @@ module MessageApis::TwilioPhone
       @email = @user[:email]
       @package = AppPackageIntegration.find(params[:package_id])
       @app = @package.app
+      @agents_ids = MessageApis::TwilioPhone::Store.hash(@conversation_key).values
 
       template = case params[:namespace]
                  when "sidebar_frame" then sidebar_sheet_handler(params)
@@ -83,13 +84,16 @@ module MessageApis::TwilioPhone
     end
 
     def self.call_frame
+      @conversation = Conversation.find_by(key: @conversation_key)
+      @profile = @conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
+
       template = ERB.new <<~SHEET_VIEW
         <html lang="en">
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>[Twilio phone] Widget embed API example</title>
+            <title>Call <%= @profile.profile_id %></title>
             <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
 
             <script> window.token = "<%= self.token(@package) %>" </script>
@@ -108,7 +112,7 @@ module MessageApis::TwilioPhone
               <div class="max-w-3xl mx-auto justify-center items-center">
                 <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                   <div class="text-lg leading-6 font-medium text-gray-900">
-                    <h3 class="panel-title">Make a call</h3>
+                    <h3 class="panel-title">Call with <%= @profile.profile_id %></h3>
                   </div>
 
                   <div class="panel-body">
@@ -127,8 +131,8 @@ module MessageApis::TwilioPhone
                     </button>
 
                     <button class="inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 disabled:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 btn-notice"
-                    onclick="joinConferenceCustomer()">
-                      Join call
+                    onclick="joinConferenceCustomer('<%= @profile.profile_id %>')">
+                      <%= @agents_ids.any? ? "Join call" : "Pickup" %>
                     </button>
                   </div>
                 </div>
@@ -167,7 +171,7 @@ module MessageApis::TwilioPhone
 
     def self.sidebar_sheet
       @conferences = conferences_list_object
-      @agent_in_call = MessageApis::TwilioPhone::Store.locked_agents.elements.include?(@user["id"].to_s)
+      @agent_in_call = MessageApis::TwilioPhone::Store.locked_agents(@app.key).elements.include?(@user["id"].to_s)
 
       template = ERB.new <<~SHEET_VIEW
         <html lang="en">
@@ -204,7 +208,7 @@ module MessageApis::TwilioPhone
 
           <body>
             <div class="mt-4 hidden--">
-              <%= MessageApis::TwilioPhone::Store.locked_agents.elements %>
+              <% MessageApis::TwilioPhone::Store.locked_agents(@app.key).elements %>
             </div>
 
             <ul role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto">
@@ -219,10 +223,10 @@ module MessageApis::TwilioPhone
                             <% if @agent_in_call %>
                               onClick="return false;"
                               class="-m-1 p-3 border border-transparent rounded-full shadow-sm text-white bg-green-300 cursor-default"
-                                <% else %>
+                            <% else %>
                               onClick="window.open('<%= conf[:url] %>','pagename','resizable,height=260,width=370'); return false;"
                               class="-m-1 p-3 border border-transparent rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                          <% end %>
+                            <% end %>
                           targettt="_parent"
                           target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -240,8 +244,12 @@ module MessageApis::TwilioPhone
 
                             <% if conf[:agent_names].any? %>
                               <p class="truncate text-sm text-gray-500">
-                                agents in call: <%= conf[:agent_names].join(",") %>
+                                AGENTS IN THE CALL: <%= conf[:agent_names].join(",") %>
                               </p>
+                            <% else %>
+                            <p class="truncate text-sm text-gray-500">
+                              NO AGENTS IN THE CALL
+                            </p>
                             <% end %>
 
                             <button
@@ -291,7 +299,7 @@ module MessageApis::TwilioPhone
       return nil if conversation.blank?
 
       agent_ids = MessageApis::TwilioPhone::Store.hash(conf.friendly_name).values
-      agents = Agent.find(agent_ids)
+      agents = conversation.app.agents.find(agent_ids)
       {
         url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf)}",
         update_url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf, :update)}",
