@@ -65,6 +65,7 @@ module MessageApis::TwilioPhone
       # call events handler
       return process_incoming_event(params) if params[:StatusCallbackEvent].present?
 
+      app = package.app
       # caller initiators
 
       # for agent
@@ -77,8 +78,15 @@ module MessageApis::TwilioPhone
           params[:chaskiq_agent]
         )
 
-        unique_list = MessageApis::TwilioPhone::Store.locked_agents
+        unique_list = MessageApis::TwilioPhone::Store.locked_agents(@package.app.key)
         unique_list.append(params[:chaskiq_agent])
+
+        # turn agent not available
+        agent = app.agents.find(params[:chaskiq_agent])
+        agent.update(available: false)
+
+        # assign agent unless already assigned
+        conversation.assign_user(agent) if conversation.assignee.blank?
 
         return conference_call(params, conversation, {
                                  message: "Hi, we are connecting you to the conversation now"
@@ -106,28 +114,13 @@ module MessageApis::TwilioPhone
 
       participant = add_participant(user_data, PROVIDER)
 
-      conversation = find_conversation_by_channel(PROVIDER, phone_number)
-
-      if conversation.blank?
-        conversation = app.conversations.create(
-          main_participant: participant,
-          conversation_channels_attributes: [
-            provider: PROVIDER,
-            provider_channel_id: phone_number
-          ]
-        )
-      end
-
-      # conversation.add_message(
-      #   from: participant,
-      #   message: {
-      #     html_content: text,
-      #     serialized_content: serialized_content
-      #   },
-      #   provider: PROVIDER,
-      #   message_source_id: channel_id, # usar conversation_key=?
-      #   check_assignment_rules: true
-      # )
+      conversation = app.conversations.create(
+        main_participant: participant,
+        conversation_channels_attributes: [
+          provider: PROVIDER,
+          provider_channel_id: channel_id # phone_number
+        ]
+      )
 
       author = app.agents.first
 
@@ -142,9 +135,14 @@ module MessageApis::TwilioPhone
         wait_for_input: true
       }
 
-      conversation.add_message(
+      message = conversation.add_message(
         from: author,
         controls:
+      )
+
+      MessageApis::TwilioPhone::Store.set_callblock(
+        conversation.key,
+        message.id
       )
 
       conference_call(payload, conversation, {
@@ -153,7 +151,6 @@ module MessageApis::TwilioPhone
     end
 
     def process_incoming_event(payload)
-      # TODO: serialize message
       conversation = @package.app.conversations.find_by(key: payload["FriendlyName"])
 
       # return if conversation && conversation.conversation_part_channel_sources
@@ -168,6 +165,7 @@ module MessageApis::TwilioPhone
         }
       )
 
+      # this will trigger an event on the view
       ActionCable.server.broadcast "events:#{@package.app.key}", {
         type: "/package/TwilioPhone",
         app: @package.app.key,
@@ -179,25 +177,42 @@ module MessageApis::TwilioPhone
       when "conference-end"
         values = MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).values
 
-        unique_list = MessageApis::TwilioPhone::Store.locked_agents
+        unique_list = MessageApis::TwilioPhone::Store.locked_agents(@package.app.key)
+
+        # here we are assuming that every agent that we will unlock will be available
+        begin
+          @package.app.agents.find(unique_list.elements).update_all(available: true)
+        rescue StandardError
+          nil
+        end
+
+        # remove list
         unique_list.remove(values)
 
         MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).remove
 
+        modify_message_block_part(conversation)
+
       else
         Rails.logger.debug { "NO STORE HANDLED FOR #{payload['StatusCallbackEvent']}" }
       end
+    end
 
-      # conversation.conversation_parts_events
+    def modify_message_block_part(conversation)
+      block_id = MessageApis::TwilioPhone::Store.callblock(
+        conversation.key
+      )
 
-      # conversation.events.create(
-      #  action: "plugins.twilio_phone",
-      #  properties: {
-      #    label: payload["text"],
-      #    value: payload["StatusCallbackEvent"],
-      #    comment: "nada aun"
-      #  }
-      # )
+      # modify block
+      block_part = ConversationPart.find(block_id).message
+      block_part.blocks = block_part.blocks.merge({ "schema" => [
+                                                    "type" => "text",
+                                                    "text" => "Call ended"
+                                                  ] })
+      block_part.save_replied(nil)
+
+      # delete redis key
+      MessageApis::TwilioPhone::Store.del_callblock(conversation.key)
     end
 
     def conference_call(params, conversation, opts)
@@ -225,19 +240,19 @@ module MessageApis::TwilioPhone
     def conferences_list
       account_sid = @package.settings["account_sid"]
       auth_token = @package.settings["auth_token"]
-      @client = Twilio::REST::Client.new(account_sid, auth_token)
+      client = Twilio::REST::Client.new(account_sid, auth_token)
 
       # conferences = @client.conferences.list(limit: 20)
 
-      conferences = @client.conferences.list(
+      client.conferences.list(
         date_created_after: 3.hours.ago,
         status: "in-progress",
         limit: 60
       )
 
-      conferences.each do |record|
-        Rails.logger.debug record.sid
-      end
+      # conferences.each do |record|
+      #  Rails.logger.debug record.sid
+      # end
     end
   end
 end

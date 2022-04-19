@@ -22,8 +22,22 @@ module MessageApis::TwilioPhone
       hash(namespace(conversation_key)).del(key)
     end
 
-    def self.locked_agents
-      Kredis.unique_list "#{NAMESPACE}/locked_agents"
+    # locked agents at app key
+    def self.locked_agents(key)
+      Kredis.unique_list "#{NAMESPACE}/locked_agents/#{key}"
+    end
+
+    def self.callblock(key)
+      Kredis.string(key).value
+    end
+
+    def self.set_callblock(key, value)
+      string = Kredis.string(key)
+      string.value = value
+    end
+
+    def self.del_callblock(key)
+      Kredis.string(key).del
     end
 
     def self.namespace(conversation_key)
