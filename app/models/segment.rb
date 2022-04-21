@@ -128,7 +128,6 @@ class Segment < ApplicationRecord
         )
       end
     end
-    check
   end
 
   def check_string(predicate, field)
