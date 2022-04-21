@@ -95,7 +95,7 @@ Chaskiq has a powerful article content creator which can serve as a Help Center 
 
 To get your environment setup, follow the community setup guide for your operating system.
 
-1. If you're on macOS, try the [macOS development guide](https://dev.chaskiq.io/en/articles/installation-on-mac).
+1. If you're on macOS, try the [macOS development guide](https://dev.chaskiq.io/getting-started/installation-on-mac-for-development).
 1. If you're on Ubuntu, try the [Ubuntu development guide](https://dev.chaskiq.io/en/articles/install-chaskiq-on-ubuntu-for-development).
 1. If you're on Windows, try the [Windows 10 development guide](https://dev.chaskiq.io/en/articles/install-discourse-on-windows-10-for-development).
 1. If you want to develop on Docker [Docker Dev Guide](https://dev.chaskiq.io/en/articles/docker-for-development)
