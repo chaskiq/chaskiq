@@ -44,7 +44,7 @@ function TriggersPanel(props) {
       SEND_TRIGGER,
       {
         appKey: props.app.key,
-        triggerId: parseInt(botTask.id),
+        triggerId: botTask.id,
         conversationId: props.conversation.id,
       },
       {
