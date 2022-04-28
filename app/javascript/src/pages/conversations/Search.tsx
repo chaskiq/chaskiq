@@ -33,7 +33,7 @@ function ConversationSearch({ _app, dispatch, conversations, asButton }) {
         },
         () => {
           setOpen(false);
-          fetchConversations({});
+          fetchConversations({ page: 1 });
         }
       )
     );
