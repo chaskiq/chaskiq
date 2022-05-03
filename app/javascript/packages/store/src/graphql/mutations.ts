@@ -41,9 +41,7 @@ export const CREATE_APP = `
 export const APP_USER_UPDATE_STATE = `
   mutation AppUserUpdateData($appKey: String!, $id: String!, $state: String!){
     appUserUpdateData(appKey: $appKey, id: $id, state: $state){
-      appUser {
-        ${appUserFragment}
-      }
+      ${appUserFragment}
     }
   }
 `;
