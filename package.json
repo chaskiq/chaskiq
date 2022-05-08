@@ -102,7 +102,7 @@
     "sanitize-html": "^2.4.0",
     "sass": "^1.32.7",
     "simmerjs": "^0.5.6",
-    "simple-peer": "^9.7.0",
+    "simple-peer": "^9.11.0",
     "tailwindcss": "^3.0.23",
     "twin.macro": "^2.8.2",
     "ua-parser-js": "^0.7.20",
