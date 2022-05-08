@@ -30,6 +30,7 @@ esbuild
             'process.env.NODE_DEBUG': '""',
         },
         platform: 'browser',
+        inject: ['./esbuild/process-shim.js'],
         entryPoints: [
             "app/javascript/application.js", 
             "app/javascript/embed.js",
@@ -61,9 +62,9 @@ esbuild
         watch: watch && watchOptions,
         outdir: 'app/assets/builds',
         plugins: [
-        babel({
-            filter: /\.([^cpj].*|c([^s].*)?|cs([^s].*)?|css.+|p([^n].*)?|pn([^g].*)?|png.+|j([^s].*)?|js([^o].*)?|jso([^n].*)?|json.+)$/,
-          })
+          babel({
+              filter: /\.([^cpj].*|c([^s].*)?|cs([^s].*)?|css.+|p([^n].*)?|pn([^g].*)?|png.+|j([^s].*)?|js([^o].*)?|jso([^n].*)?|json.+)$/,
+            })
         ]
     })
     .then(result => {

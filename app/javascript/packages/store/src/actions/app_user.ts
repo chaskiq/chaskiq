@@ -10,7 +10,7 @@ export function getAppUser(userId: any, cb?: (data: any) => void) {
       APP_USER,
       {
         appKey: getState().app.key,
-        id: userId,
+        id: userId + '',
       },
       {
         success: (data) => {
