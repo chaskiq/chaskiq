@@ -47,6 +47,7 @@ import {
   APP_PACKAGE_HOOK,
   PRIVACY_CONSENT,
   GET_NEW_CONVERSATION_BOTS,
+  BANNER,
 } from './graphql/queries';
 import GraphqlClient from './graphql/client';
 
@@ -136,6 +137,7 @@ type MessengerState = {
   tourManagerEnabled: boolean;
   tours: any;
   banner: any;
+  bannerID: any;
   headerOpacity: any;
   headerTranslateY: any;
   header: any;
@@ -184,9 +186,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       availableMessages: [],
       availableMessage: null,
       needsPrivacyConsent: null,
-      banner:
-        localStorage.getItem('chaskiq-banner') &&
-        JSON.parse(localStorage.getItem('chaskiq-banner')),
+      banner: null,
+      bannerID: this.getBannerID(),
       display_mode: 'home', // "conversation", "conversations",
       tours: [],
       open: false,
@@ -472,11 +473,15 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   handleConnected = () => {
-    // console.log("connected to events")
     this.registerVisit();
-    if (!this.state.banner) {
+
+    if (!this.state.banner && !this.state.bannerID) {
       this.pushEvent('get_banners_for_user', {});
-      // App.events.perform('get_banners_for_user')
+    }
+
+    // will fetch banner from the server
+    if (!this.state.banner && this.state.bannerID) {
+      this.fetchBanner(this.state.bannerID);
     }
     // this.processTriggers()
   };
@@ -1031,11 +1036,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   requestTrigger = (kind) => {
-    /*App.events &&
-      App.events.perform('request_trigger', {
-        conversation: this.state.conversation && this.state.conversation.key,
-        trigger: kind,
-      });*/
     this.pushEvent('request_trigger', {
       conversation: this.state.conversation && this.state.conversation.key,
       trigger: kind,
@@ -1054,24 +1054,84 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   receiveTours = (tours) => {
     const filteredTours = tours.filter((o) => {
       // eslint-disable-next-line no-useless-escape
-      var pattern = new UrlPattern(o.url.replace(/^.*\/\/[^\/]+/, ''));
-      var url = document.location.pathname;
+      const pattern = new UrlPattern(o.url.replace(/^.*\/\/[^\/]+/, ''));
+      const url = document.location.pathname;
       return pattern.match(url);
     });
 
     if (filteredTours.length > 0) this.setState({ tours: filteredTours });
   };
 
+  fetchBanner = (id) => {
+    this.graphqlClient.send(
+      BANNER,
+      {
+        id: id + '',
+      },
+      {
+        success: (data) => {
+          const banner = data.messenger.app.banner;
+          this.setState(
+            {
+              banner: banner,
+            },
+            () => {
+              this.persistBannerCache(banner);
+            }
+          );
+        },
+        error: () => {
+          console.error('error fetching banner');
+          //this.clearBannerCache()
+        },
+      }
+    );
+  };
+
+  getBanner = () => {
+    return (
+      localStorage.getItem('chaskiq-banner') &&
+      JSON.parse(localStorage.getItem('chaskiq-banner'))
+    );
+  };
+
+  getBannerID = () => {
+    const banner = this.getBanner();
+    return banner?.id;
+  };
+
   receiveBanners = (banner) => {
-    localStorage.setItem('chaskiq-banner', JSON.stringify(banner));
+    this.persistBannerCache(banner);
     this.setState({ banner: banner }, () => {
       this.pushEvent('track_open', {
         trackable_id: this.state.banner.id,
       });
-      /*App.events &&
-        App.events.perform('track_open', {
-          trackable_id: this.state.banner.id,
-        });*/
+    });
+  };
+
+  persistBannerCache = (banner) => {
+    localStorage.setItem('chaskiq-banner', JSON.stringify(banner));
+  };
+
+  clearBannerCache = () => {
+    this.setState({ banner: null });
+    localStorage.removeItem('chaskiq-banner');
+  };
+
+  closeBanner = () => {
+    if (!this.state.banner) return;
+
+    this.pushEvent('track_close', {
+      trackable_id: this.state.banner.id,
+    });
+
+    this.clearBannerCache();
+  };
+
+  bannerActionClick = (url) => {
+    window.open(url, '_blank');
+    this.pushEvent('track_click', {
+      trackable_id: this.state.banner.id,
     });
   };
 
@@ -1169,13 +1229,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   // TODO, send a getPackage hook instead, and call a submit action
   // save trigger id
   handleAppPackageEvent = (ev) => {
-    /*App.events &&
-      App.events.perform('app_package_submit', {
-        conversation_key: this.state.conversation.key,
-        message_key: this.state.currentAppBlock.message.key,
-        data: ev.data,
-      });*/
-
     this.pushEvent('app_package_submit', {
       conversation_key: this.state.conversation.key,
       message_key: this.state.currentAppBlock.message.key,
@@ -1254,31 +1307,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         cb && cb(data);
       },
     });
-  };
-
-  closeBanner = () => {
-    if (!this.state.banner) return;
-
-    this.pushEvent('track_close', {
-      trackable_id: this.state.banner.id,
-    });
-    /*App.events &&
-      App.events.perform('track_close', {
-        trackable_id: this.state.banner.id,
-      });*/
-    this.setState({ banner: null });
-    localStorage.removeItem('chaskiq-banner');
-  };
-
-  bannerActionClick = (url) => {
-    window.open(url, '_blank');
-    this.pushEvent('track_click', {
-      trackable_id: this.state.banner.id,
-    });
-    /*App.events &&
-      App.events.perform('track_click', {
-        trackable_id: this.state.banner.id,
-      });*/
   };
 
   handleBack = (e) => {

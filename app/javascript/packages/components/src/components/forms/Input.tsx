@@ -165,7 +165,7 @@ const WrappedComponent = React.forwardRef(function Input(
 
   function renderSelect() {
     const isMulti = props.data && props.data.multiple;
-    let initialValue = isMulti
+    const initialValue = isMulti
       ? isArray(defaultValue)
         ? defaultValue.map((o) => ({ label: o, value: o }))
         : defaultValue

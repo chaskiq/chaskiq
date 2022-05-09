@@ -123,5 +123,16 @@ module Types
         only_path: true
       )
     end
+
+    field :banner, Types::JsonType, null: true do
+      argument :id, String, required: true, default_value: ""
+    end
+    def banner(id:)
+      object.banners
+            .enabled
+            .in_time
+            .find(id)
+            .as_json(only: %i[id html_content serialized_content], methods: [:banner_data])
+    end
   end
 end
