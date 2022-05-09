@@ -482,6 +482,7 @@ export const UPDATE_CAMPAIGN = `
         replyEmail
         steps
         bannerData
+        hiddenConstraints
       }
     }
   }

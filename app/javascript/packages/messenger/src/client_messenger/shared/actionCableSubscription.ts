@@ -24,12 +24,7 @@ export function eventsSubscriber(app, { ctx }) {
     ctx.cableDataFor({ channel: 'MessengerEventsChannel' }),
     {
       connected: () => {
-        console.log('connected to events xxxx');
-        ctx.registerVisit();
-
-        if (!ctx.state.banner) {
-          app.events.perform('get_banners_for_user');
-        }
+        ctx.handleConnected();
         // ctx.processTriggers()
       },
       disconnected: () => {

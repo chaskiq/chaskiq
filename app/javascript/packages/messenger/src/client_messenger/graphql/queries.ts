@@ -560,3 +560,13 @@ export const PUSH_EVENT = `
     }
   }
 `;
+
+export const BANNER = `
+query Messenger($id: String!){
+  messenger {
+    app{
+      banner(id: $id)
+    }
+  }
+}
+`;
