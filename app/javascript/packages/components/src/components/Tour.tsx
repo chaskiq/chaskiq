@@ -45,15 +45,13 @@ const ConnectorStep = styled.div`
 `;
 
 const StepBody = styled.div`
-  background: #fff;
   max-height: 148px;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
   overflow: hidden;
   max-width: 140px;
-  padding: 10px;
   position: relative;
+
+  ${tw`bg-white dark:bg-black border rounded-md shadow-md p-4`}
+
   .MuiIconButton-root {
     position: absolute;
     top: -7px;
@@ -74,19 +72,15 @@ const StepMessage = styled.div`
       position: absolute;
       left: 0;
       top: 31px;
-      background: linear-gradient(transparent 57px, white);
+      /*background: linear-gradient(transparent 57px, white);*/
     }
   }
 `;
 const StepsContainer = styled.div`
-  //width: 50%;
-  overflow: scroll;
-  display: flex;
+  ${tw`flex overflow-scroll py-10`}
 `;
 
 const Body = styled.div`
-  padding: 30px;
-  background: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,10 +89,11 @@ const Body = styled.div`
 const NewStepContainer = styled.div`
   min-width: 205px;
   height: 100px;
-  ${tw`px-2 py-1 
+  ${tw`px-2
       self-center
       rounded-lg 
       bg-gray-100 
+      dark:bg-black
       text-xl 
       font-light 
       uppercase 
@@ -341,7 +336,7 @@ class NewTourStep extends Component<NewTourStepProps> {
         <NewStepBody>
           <Button
             onClick={this.enableSelection}
-            className="border h-12 w-12 flex justify-center items-center"
+            className="border h-12 w-12 flex justify-center items-center text-black dark:text-white"
             variant={'icon'}
           >
             <PlusIcon />
