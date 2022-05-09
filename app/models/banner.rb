@@ -40,7 +40,7 @@ class Banner < Message
     return nil if a.blank?
 
     {
-      id: a.id,
+      id: a.id.to_s,
       displayName: a.display_name,
       avatarUrl: a.avatar_url,
       email: a.email
