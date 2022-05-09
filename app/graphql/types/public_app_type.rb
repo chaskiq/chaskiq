@@ -131,7 +131,7 @@ module Types
       object.banners
             .enabled
             .in_time
-            .find(id)
+            .find_by(id:)
             .as_json(only: %i[id html_content serialized_content], methods: [:banner_data])
     end
   end

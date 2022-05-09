@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
-import Simmer from 'simmerjs';
+import { finder } from '@medv/finder';
 import TextEditor from './textEditor/index';
 import StyledFrame from './styledFrame';
 import DraftRenderer from './textEditor/draftRenderer';
@@ -28,10 +28,6 @@ const EditorStylesForTour = styled(DanteContainer)`
     max-height: 200px;
   }
 `;
-
-const simmer = new Simmer(window, {
-  depth: 20,
-});
 
 const TourManagerContainer = styled.div`
   ${() => tw`shadow-lg`}
@@ -169,10 +165,10 @@ export default class TourManager extends Component<TourManagerProps> {
     // this.sleep(1000)
 
     e = e || window.event;
-    var target = e.target || e.srcElement;
+    const target = e.target || e.srcElement;
     // var text = target.textContent || target.innerText
 
-    const cssPath = simmer(target);
+    const cssPath = finder(target);
 
     const path = {
       target: cssPath,
@@ -208,12 +204,12 @@ export default class TourManager extends Component<TourManagerProps> {
     if (this.state.selectionMode === 'edit') return;
 
     e = e || window.event;
-    var target = e.target || e.srcElement;
+    const target = e.target || e.srcElement;
     // var text = target.textContent || target.innerText
-
+    console.log(target);
     this.getElementShape(target);
     this.setState({
-      cssPath: simmer(target),
+      cssPath: finder(target),
     });
   }
 
