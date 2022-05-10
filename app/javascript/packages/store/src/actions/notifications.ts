@@ -1,15 +1,23 @@
 import actionTypes, { ActionType } from '../constants/action_types';
 
-export function createNotification(message) {
+export function createNotification({
+  message,
+  subject,
+  timeout,
+  placement,
+  actions,
+}) {
   return (dispatch) => {
     dispatch(
       setMessage({
+        subject: subject,
         message: message,
         variant: 'success',
-        placement: defaultPlacement(),
+        placement: placement || defaultPlacement(),
         sound: defaultSound(),
         action: defaultAction(),
-        timeout: 3500
+        timeout: timeout || 3500,
+        actions: actions,
       })
     );
   };
@@ -22,13 +30,13 @@ export function clearNotification() {
 }
 
 function defaultSound() {
-  return "pling"
+  return 'pling';
 }
 
 function defaultAction() {
   return {
-    type: "dismiss"
-  }
+    type: 'dismiss',
+  };
 }
 
 function defaultPlacement() {
