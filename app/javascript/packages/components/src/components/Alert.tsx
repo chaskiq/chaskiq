@@ -8,6 +8,14 @@ import { isEmpty } from 'lodash';
 import { clearStatusMessage } from '@chaskiq/store/src/actions/status_messages';
 import I18n from '../../../../src/shared/FakeI18n';
 
+type AlertType = {
+  title?: string;
+  message: string;
+  status?: 'success' | 'error';
+  onClose: (event: any, reason?: any) => void;
+  placementClass: string;
+};
+
 function CustomizedSnackbars(props) {
   const [open, setOpen] = React.useState(!isEmpty(props.status_message));
 
@@ -88,14 +96,6 @@ function CustomizedSnackbars(props) {
   );
 }
 
-type AlertType = {
-  title?: string;
-  message: string;
-  status?: 'success' | 'error';
-  onClose: (event: any, reason?: any) => void;
-  placementClass: string;
-};
-
 function Alert({ title, message, status, onClose, placementClass }: AlertType) {
   /*const [items, set] = useState([1])
   const transitions = useTransition(items, (item) => item.key, {
@@ -141,15 +141,6 @@ function Alert({ title, message, status, onClose, placementClass }: AlertType) {
     }
   }
 
-  //function transitionsClasses (status) {
-  // x-show="show" x-transition:enter="transform ease-out duration-300 transition"
-  // x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-  // x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-  // x-transition:leave="transition ease-in duration-100"
-  // x-transition:leave-start="opacity-100"
-  // x-transition:leave-end="opacity-0"
-  //}
-
   return (
     <div
       style={{ zIndex: 1000 }}
@@ -193,7 +184,6 @@ function Alert({ title, message, status, onClose, placementClass }: AlertType) {
               </div>
               <div className="ml-4 flex-shrink-0 flex">
                 <button
-                  // @click="show = false; setTimeout(() => show = true, 1000)"
                   onClick={onClose}
                   className="inline-flex text-gray-400 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
                 >
