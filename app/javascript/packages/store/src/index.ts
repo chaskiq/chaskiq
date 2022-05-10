@@ -45,7 +45,7 @@ const rootReducer = combineReducers({
   paddleSubscription,
   upgradePages,
   fixedSlider,
-  notifications
+  notifications,
 });
 
 const middlewares = [thunkMiddleware]; //, routerMiddleware(history)]

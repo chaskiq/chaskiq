@@ -41,7 +41,6 @@ import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
 
 import Notifications from '@chaskiq/components/src/components/notifications';
 
-
 import Sidebar from '../layout/sidebar';
 import PackageSlider from '../pages/conversations/packageSlider';
 
@@ -70,7 +69,7 @@ function AppContainer({
   loading,
   upgradePages,
   accessToken,
-  history
+  history,
 }) {
   const CableApp = React.useRef(createSubscription(match, accessToken));
 
@@ -152,8 +151,8 @@ function AppContainer({
         />
       )}
 
-      <Notifications/>
-      
+      <Notifications history={history} />
+
       {drawer.userDrawer && (
         <UserSlide open={!!drawer.userDrawer} onClose={handleUserSidebar}>
           {app_user ? <UserProfileCard width={'300px'} /> : <Progress />}
@@ -318,7 +317,7 @@ function mapStateToProps(state) {
     paddleSubscription,
     upgradePages,
     fixedSlider,
-    notifications
+    notifications,
   } = state;
   const { loading, isAuthenticated, accessToken } = auth;
   const { current_section } = navigation;
@@ -335,7 +334,7 @@ function mapStateToProps(state) {
     paddleSubscription,
     upgradePages,
     accessToken,
-    fixedSlider
+    fixedSlider,
   };
 }
 

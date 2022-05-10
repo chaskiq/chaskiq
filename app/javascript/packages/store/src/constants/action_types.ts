@@ -29,7 +29,7 @@ const actionTypes = {
 
   SetUpgradePage: 'SET_UPGRADE_PAGE',
 
-  SetNotification: 'SET_NOTIFICATION'
+  SetNotification: 'SET_NOTIFICATION',
 };
 
 export interface ActionType {
