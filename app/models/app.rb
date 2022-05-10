@@ -330,6 +330,14 @@ class App < ApplicationRecord
     end
   end
 
+  def notify_notification(params)
+    EventsChannel.broadcast_to(key,
+                               {
+                                 type: "notification",
+                                 data: params
+                               }.as_json)
+  end
+
   private
 
   def init_app_segments
