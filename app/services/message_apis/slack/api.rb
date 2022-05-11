@@ -1018,7 +1018,13 @@ module MessageApis::Slack
       end
 
       { blocks: [
-        serialized_block(replace_emojis(data["text"])),
+        serialized_block(
+          replace_emojis(
+            replace_links(
+              data["text"]
+            )
+          )
+        ),
         images
       ].flatten.compact }.to_json
     end
@@ -1083,6 +1089,12 @@ module MessageApis::Slack
       text.gsub(/(:[+-]*\w+:)/) do |m|
         short_name = m.gsub(":", "")
         EmojiData.from_short_name(short_name)&.render || m
+      end
+    end
+
+    def replace_links(text)
+      text.gsub(%r{<(https?://\S+)\|link>}) do |o|
+        o.gsub(%r{<(https?://\S+)\|link>}, Regexp.last_match(1).to_s)
       end
     end
   end
