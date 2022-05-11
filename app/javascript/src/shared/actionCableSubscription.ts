@@ -27,12 +27,18 @@ export function createSubscription(match, accessToken) {
 
 export function destroySubscription(cableApp) {
   cableApp.events.unsubscribe();
+  cableApp.agentEvents.unsubscribe();
 }
 
 export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
-  // unsubscribe cable ust in case
+  // unsubscribe event cable ust in case
   if (cableApp.events) {
     cableApp.events.unsubscribe();
+  }
+
+  // unsubscribe agent cable ust in case
+  if (cableApp.agentEvents) {
+    cableApp.agentEvents.unsubscribe();
   }
 
   cableApp.events = cableApp.cable.subscriptions.create(
@@ -90,9 +96,46 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
     }
   );
 
-  // window.cable = CableApp
+  // agent channel
+  cableApp.agentEvents = cableApp.cable.subscriptions.create(
+    {
+      channel: 'AgentChannel',
+      app: appId,
+    },
+    {
+      connected: () => {
+        console.log('connected to agent events');
+        //setSubscribed(true);
+      },
+      disconnected: () => {
+        console.log('disconnected from agent events');
+        //setSubscribed(false);
+      },
+      received: (data) => {
+        // console.log('received', data)
+        switch (data.type) {
+          case 'notification':
+            dispatch(createNotification(data.data));
+            return null;
+          default:
+            console.log('unhandled', data);
+            return null;
+        }
+      },
+      notify: () => {
+        console.log('notify!!');
+      },
+      handleMessage: () => {
+        console.log('handle message');
+      },
+    }
+  );
 };
 
 export function sendPush(name, { props, events, data }) {
+  events && events.perform(name, data);
+}
+
+export function sendAgentPush(name, { props, events, data }) {
   events && events.perform(name, data);
 }

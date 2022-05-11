@@ -6,6 +6,7 @@ class App < ApplicationRecord
   include GlobalizeAccessors
   include Tokenable
   include UserHandler
+  include Notificable
 
   store :preferences, accessors: %i[
     active_messenger
@@ -328,14 +329,6 @@ class App < ApplicationRecord
     else
       @plan = Plan.get("free")
     end
-  end
-
-  def notify_notification(params)
-    EventsChannel.broadcast_to(key,
-                               {
-                                 type: "notification",
-                                 data: params
-                               }.as_json)
   end
 
   private
