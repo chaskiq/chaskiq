@@ -124,26 +124,40 @@ module MessageApis::TwilioPhone
 
       author = app.agents.first
 
-      controls = {
-        app_package: "TwilioPhone",
-        schema: [
-          {
-            type: "content"
-          }
-        ],
-        type: "app_package",
-        wait_for_input: true
-      }
-
       message = conversation.add_message(
         from: author,
-        controls:
+        controls: {
+          app_package: "TwilioPhone",
+          schema: [
+            {
+              type: "content"
+            }
+          ],
+          type: "app_package",
+          wait_for_input: true
+        }
       )
 
       MessageApis::TwilioPhone::Store.set_callblock(
         conversation.key,
         message.id
       )
+
+      locked_ids = MessageApis::TwilioPhone::Store.locked_agents(app.key).elements
+      agents = app.agents.humans.where.not(id: locked_ids)
+
+      agents.each do |agent|
+        params = {
+          subject: "New conversation call",
+          message: "#{PROVIDER} new call",
+          timeout: 5500,
+          actions: [
+            { type: "navigate", path: "/apps/#{app.key}/conversations/#{conversation.key}", label: "Go to conversation", tone: "indigo" },
+            { type: "close", label: "Dismiss" }
+          ]
+        }
+        app.notify_agent_notification(agent, params)
+      end
 
       conference_call(payload, conversation, {
                         message: "Thanks for calling to #{app.name}!"

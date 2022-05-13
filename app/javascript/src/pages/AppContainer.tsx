@@ -38,6 +38,9 @@ import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard'
 import LoadingView from '@chaskiq/components/src/components/loadingView';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
+
+import Notifications from '@chaskiq/components/src/components/notifications';
+
 import Sidebar from '../layout/sidebar';
 import PackageSlider from '../pages/conversations/packageSlider';
 
@@ -148,20 +151,7 @@ function AppContainer({
         />
       )}
 
-      {/* drawer.userDrawer && (
-        <div
-          className="navbar w-64 absolute
-              bg-white top-0 z-50 right-0  navbar-open"
-        >
-          <div className="overflow-x-scroll h-screen">
-            {app_user ? (
-              <UserData width={'300px'} app={app} appUser={app_user} />
-            ) : (
-              <Progress />
-            )}
-          </div>
-        </div>
-      ) */}
+      <Notifications history={history} />
 
       {drawer.userDrawer && (
         <UserSlide open={!!drawer.userDrawer} onClose={handleUserSidebar}>
@@ -327,6 +317,7 @@ function mapStateToProps(state) {
     paddleSubscription,
     upgradePages,
     fixedSlider,
+    notifications,
   } = state;
   const { loading, isAuthenticated, accessToken } = auth;
   const { current_section } = navigation;
