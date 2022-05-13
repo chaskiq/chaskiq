@@ -28,6 +28,8 @@ const actionTypes = {
   ClearSubscriptionState: 'CLEAR_SUBSCRIPTION_STATE',
 
   SetUpgradePage: 'SET_UPGRADE_PAGE',
+
+  SetNotification: 'SET_NOTIFICATION',
 };
 
 export interface ActionType {

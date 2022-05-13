@@ -6,6 +6,7 @@ class App < ApplicationRecord
   include GlobalizeAccessors
   include Tokenable
   include UserHandler
+  include Notificable
 
   store :preferences, accessors: %i[
     active_messenger

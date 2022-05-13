@@ -22,6 +22,7 @@ import navigation from './actions/navigation';
 import drawer from './actions/drawer';
 import theme from './actions/theme';
 import imageZoom from './actions/imageZoom';
+import notifications from './actions/notifications';
 
 import paddleSubscription from './actions/paddleSubscription';
 
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
   paddleSubscription,
   upgradePages,
   fixedSlider,
+  notifications,
 });
 
 const middlewares = [thunkMiddleware]; //, routerMiddleware(history)]
