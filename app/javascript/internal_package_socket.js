@@ -27,7 +27,7 @@ export function destroySubscription(cableApp) {
   cableApp.events.unsubscribe();
 }
 
-export const eventsSubscriber = (cableApp) => {
+export const eventsSubscriber = (cableApp, cb) => {
   const appId = document.querySelector(
     'meta[name="app-id"]'
     //@ts-ignore
@@ -55,6 +55,8 @@ export const eventsSubscriber = (cableApp) => {
       received: (data) => {
         // console.log('received', data)
         switch (data.type) {
+          case '/package/TwilioPhone':
+            cb(data);
           default:
             console.log('unhandled', data);
             return null;
@@ -79,14 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
     //@ts-ignore
   ).content;
 
+  const endpointURL = document.querySelector(
+    'meta[name="endpoint-url"]'
+    //@ts-ignore
+  ).content;
+
   data = JSON.parse(data);
   ReactDOM.render(
-    <PhoneApp data={data} />,
+    <PhoneApp data={data} endpointURL={endpointURL} />,
     document.body.appendChild(document.getElementById('content'))
   );
 });
 
-function PhoneApp({ data }) {
+function PhoneApp({ data, endpointURL }) {
   const CableApp = React.useRef(createSubscription());
 
   // Setup Twilio.Device
@@ -95,6 +102,7 @@ function PhoneApp({ data }) {
   const [callStatus, setCallStatus] = React.useState('Connecting to Twilio...');
 
   const [callStarted, setCallStarted] = React.useState(false);
+  const [holdStatus, setHoldStatus] = React.useState(false);
 
   let hangUpButton = React.useRef(null);
   let answerButton = React.useRef(null);
@@ -102,7 +110,18 @@ function PhoneApp({ data }) {
   const { agents_id, conversation_key, profile_id, user_key, user } = data;
 
   React.useEffect(() => {
-    eventsSubscriber(CableApp.current);
+    eventsSubscriber(CableApp.current, (event) => {
+      if (event.payload.FriendlyName == conversation_key) {
+        switch (event.payload.StatusCallbackEvent) {
+          case 'participant-hold':
+          case 'participant-unhold':
+            setHoldStatus(event.payload.Hold === 'true');
+            break;
+          default:
+            break;
+        }
+      }
+    });
 
     return () => {
       console.log('unmounting cable from app container');
@@ -231,6 +250,29 @@ function PhoneApp({ data }) {
     device.current.disconnectAll();
   }
 
+  function putOnHold() {
+    console.log(endpointURL);
+
+    var url = endpointURL;
+    var data = {
+      conversation_key: conversation_key,
+      type: 'hold',
+      profile_id: profile_id,
+      hold_action: !holdStatus,
+    };
+
+    fetch(url, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .catch((error) => console.error('Error:', error))
+      .then((response) => console.log('Success:', response));
+  }
+
   return (
     <React.Fragment>
       <div className="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8 flex">
@@ -251,8 +293,6 @@ function PhoneApp({ data }) {
                 </div>
               </div>
 
-              {callStarted ? 'SI' : 'NO'}
-
               <button
                 className="hangup-button inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 disabled:bg-red-300 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 //disabled
@@ -271,6 +311,15 @@ function PhoneApp({ data }) {
               >
                 {agents_id.length > 0 ? 'Join call' : 'Pickup'}
               </button>
+
+              {callStarted && (
+                <button
+                  className="btn-notice inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 disabled:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  onClick={putOnHold}
+                >
+                  {holdStatus ? 'unhold' : 'put on hold'}
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -41,6 +41,7 @@ module MessageApis::TwilioPhone
 
     def enqueue_process_event(params, package)
       return process_event(params, package) if params["CallStatus"].present?
+      return process_hold(params, package) if params["type"] == "hold"
 
       HookMessageReceiverJob.perform_later(
         id: package.id,
@@ -52,6 +53,21 @@ module MessageApis::TwilioPhone
     def process_event(params, package)
       @package = package
       process_message(params, @package)
+    end
+
+    def process_hold(params, package)
+      conference_sid = MessageApis::TwilioPhone::Store.get_data(params[:conversation_key], :conference_sid)
+      participant_sid = package.app.conversations.find_by(key: params[:conversation_key]).conversation_channels.find_by(provider: "TwilioPhone").provider_channel_id
+
+      client.api.conferences(conference_sid).participants(participant_sid).update(hold: params[:hold_action])
+
+      MessageApis::TwilioPhone::Store.set_data(
+        params[:conversation_key],
+        :holdStatus,
+        params[:action]
+      )
+      # send notification here
+      { status: :ok }
     end
 
     def send_message(conversation, part)
@@ -138,14 +154,13 @@ module MessageApis::TwilioPhone
         }
       )
 
-      MessageApis::TwilioPhone::Store.set_callblock(
+      MessageApis::TwilioPhone::Store.set_data(
         conversation.key,
+        :callblock,
         message.id
       )
 
       ## set the caller record
-
-      # cli.api.conferences("CFd0d941fb1f6199c106ea32962bf6ea43").participants("CA118b39d5e0f6dedcf8a4862e11094e3a").fetch
       locked_ids = MessageApis::TwilioPhone::Store.locked_agents(app.key).elements
       agents = app.agents.humans.where.not(id: locked_ids)
 
@@ -182,6 +197,12 @@ module MessageApis::TwilioPhone
         }
       )
 
+      MessageApis::TwilioPhone::Store.set_data(
+        payload["FriendlyName"],
+        :conference_sid,
+        payload["ConferenceSid"]
+      )
+
       # this will trigger an event on the view
       ActionCable.server.broadcast "events:#{@package.app.key}", {
         type: "/package/TwilioPhone",
@@ -206,17 +227,18 @@ module MessageApis::TwilioPhone
         # remove list
         unique_list.remove(values)
 
-        MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).remove
-
         modify_message_block_part(conversation)
+
+        MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).remove
+        MessageApis::TwilioPhone::Store.data(payload["FriendlyName"]).remove
 
       when "participant-hold"
         #  cli.conferences.list.first.participants.list.first.update(hold: false)
 
-        # AccountSid	ACa99e0b29e5f2652c432d79c4a09f3128
-        # CallSid	CA118b39d5e0f6dedcf8a4862e11094e3a
+        # AccountSid	xx
+        # CallSid	xx
         # Coaching	false
-        # ConferenceSid	CFd0d941fb1f6199c106ea32962bf6ea43
+        # ConferenceSid	xx
         # EndConferenceOnExit	true
         # FriendlyName	fnKwXndKiG19HjQ2LvwkDmpv
         # Hold	false
@@ -224,10 +246,10 @@ module MessageApis::TwilioPhone
         # SequenceNumber	7
         # StartConferenceOnEnter	true
       when "participant-unhold"
-        # AccountSid	ACa99e0b29e5f2652c432d79c4a09f3128
-        # CallSid	CA118b39d5e0f6dedcf8a4862e11094e3a
+        # AccountSid	xx
+        # CallSid	xx
         # Coaching	false
-        # ConferenceSid	CFd0d941fb1f6199c106ea32962bf6ea43
+        # ConferenceSid	xx
         # EndConferenceOnExit	true
         # FriendlyName	fnKwXndKiG19HjQ2LvwkDmpv
         # Hold	false
@@ -240,9 +262,12 @@ module MessageApis::TwilioPhone
     end
 
     def modify_message_block_part(conversation)
-      block_id = MessageApis::TwilioPhone::Store.callblock(
-        conversation.key
+      block_id = MessageApis::TwilioPhone::Store.get_data(
+        conversation.key,
+        :callblock
       )
+
+      return if block_id.blank?
 
       # modify block
       block_part = ConversationPart.find(block_id).message
@@ -251,9 +276,6 @@ module MessageApis::TwilioPhone
                                                     "text" => "Call ended"
                                                   ] })
       block_part.save_replied(nil)
-
-      # delete redis key
-      MessageApis::TwilioPhone::Store.del_callblock(conversation.key)
     end
 
     def conference_call(params, conversation, opts)
@@ -293,7 +315,7 @@ module MessageApis::TwilioPhone
 
       client.conferences.list(
         date_created_after: 3.hours.ago,
-        # status: "in-progress",
+        status: "in-progress",
         limit: 60
       )
 

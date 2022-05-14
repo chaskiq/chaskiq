@@ -106,6 +106,7 @@ module MessageApis::TwilioPhone
             <script> window.token = "<%= self.token(@package) %>" </script>
             <script type="text/javascript" src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>
             <meta name="data" content='<%= @data %>'/>
+            <meta name="endpoint-url" content='<%= @package.hook_url %>'/>
 
             <script>
               window.domain="<%= Rails.application.config.action_controller.asset_host %>";
@@ -217,6 +218,9 @@ module MessageApis::TwilioPhone
                           <div class="ml-4 truncate">
                             <p class=" text-xs font-medium p-1 my-1 rounded inline-block <%= status_class(conf[:conference].status) %>">
                               <%= conf[:conference].status %>
+
+                              
+
                             </p>
 
                             <p class="truncate text-sm text-gray-500">
