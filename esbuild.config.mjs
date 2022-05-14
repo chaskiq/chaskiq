@@ -37,6 +37,7 @@ esbuild
             "app/javascript/article.js",
             "app/javascript/docs.js",
             "app/javascript/locales.js",
+            "app/javascript/internal_package_socket.js"
         ],
         bundle: true,
         loader: { 

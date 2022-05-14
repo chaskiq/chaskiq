@@ -97,16 +97,16 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
 
       {open && (
         <div className="pointer-events-auto w-screen max-w-xs">
-          <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+          <div className="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black shadow-xl">
             <div className="p-6">
               <div className="flex items-start justify-between">
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 bg:text-gray-100">
                   Integration packages
                 </h3>
                 <div className="ml-3 flex h-7 items-center">
                   <button
                     type="button"
-                    className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500"
+                    className="rounded-md bg-white text-gray-400 hover:text-gray-500 dark:bg-black dark:text-gray-100 dark:hover:text-gray-300 focus:ring-2 focus:ring-indigo-500"
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close panel</span>

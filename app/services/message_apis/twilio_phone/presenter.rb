@@ -86,6 +86,13 @@ module MessageApis::TwilioPhone
     def self.call_frame
       @conversation = Conversation.find_by(key: @conversation_key)
       @profile = @conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
+      @data = {
+        conversation_key: @conversation_key,
+        user_key: @user["kind"],
+        profile_id: @profile.profile_id,
+        agents_id: @agents_ids,
+        user: @user
+      }.to_json
 
       template = ERB.new <<~SHEET_VIEW
         <html lang="en">
@@ -93,53 +100,27 @@ module MessageApis::TwilioPhone
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <meta name="app-id" content="<%= @app.key %>"/>
+            <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
             <title>Call <%= @profile.profile_id %></title>
-            <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
-
             <script> window.token = "<%= self.token(@package) %>" </script>
             <script type="text/javascript" src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>
+            <meta name="data" content='<%= @data %>'/>
 
-
-            <script type="text/javascript">
-              <%= self.script(@conversation_key) %>
+            <script>
+              window.domain="<%= Rails.application.config.action_controller.asset_host %>";
             </script>
+
+            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('internal_package_socket.js')}" %>"></script>
+
+            <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
+
           </head>
 
           <body>
 
-          <% if @user["kind"] == "agent" %>
-            <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8 flex">
-              <div class="max-w-3xl mx-auto justify-center items-center">
-                <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                  <div class="text-lg leading-6 font-medium text-gray-900">
-                    <h3 class="panel-title">Call with <%= @profile.profile_id %></h3>
-                  </div>
+          <div id="content"></div>
 
-                  <div class="panel-body">
-
-                    <div class="my-2 max-w-xl text-sm text-gray-500">
-                      <p><strong>Status</strong></p>
-
-                      <div class="well well-sm" id="call-status">
-                        Connecting to Twilio...
-                      </div>
-                    </div>
-
-                    <button class="inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 disabled:bg-red-300 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 hangup-button"
-                    disabled onclick="hangUp()">
-                      Hang up
-                    </button>
-
-                    <button class="inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 disabled:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 btn-notice"
-                    onclick="joinConferenceCustomer('<%= @profile.profile_id %>')">
-                      <%= @agents_ids.any? ? "Join call" : "Pickup" %>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          <% end %>
           </body>
         </html>
       SHEET_VIEW
@@ -328,139 +309,6 @@ module MessageApis::TwilioPhone
     def self.script(conversation_key)
       @conversation_key = conversation_key
       template = ERB.new <<~SHEET_VIEW
-
-        /**
-        * Twilio Client configuration for the browser calls
-        */
-
-        // Store some selectors for elements we'll reuse
-        var callStatus,
-            answerButton,
-            callSupportButton,
-            hangUpButton,
-            callCustomerButtons = null;
-
-        var device;
-
-        document.addEventListener("DOMContentLoaded", function(event) {
-
-          console.log("Requesting Access Token...");
-
-          callStatus = document.querySelector("#call-status");
-          answerButton = document.querySelector(".answer-button");
-          callSupportButton = document.querySelector(".call-support-button");
-          hangUpButton = document.querySelector(".hangup-button");
-          callCustomerButtons = document.querySelector(".call-customer-button");
-
-          // Setup Twilio.Device
-          device = new Twilio.Device(window.token, {
-            // Set Opus as our preferred codec. Opus generally performs better, requiring less bandwidth and
-            // providing better audio quality in restrained network conditions. Opus will be default in 2.0.
-            codecPreferences: ["opus", "pcmu"],
-            // Use fake DTMF tones client-side. Real tones are still sent to the other end of the call,
-            // but the client-side DTMF tones are fake. This prevents the local mic capturing the DTMF tone
-            // a second time and sending the tone twice. This will be default in 2.0.
-            fakeLocalDTMF: true,
-            // Use `enableRingingState` to enable the device to emit the `ringing`
-            // state. The TwiML backend also needs to have the attribute
-            // `answerOnBridge` also set to true in the `Dial` verb. This option
-            // changes the behavior of the SDK to consider a call `ringing` starting
-            // from the connection to the TwiML backend to when the recipient of
-            // the `Dial` verb answers.
-            enableRingingState: true
-          });
-
-          device.on("ready", function(device) {
-            console.log("Twilio.Device Ready!");
-            updateCallStatus("Ready");
-          });
-
-          device.on("error", function(error) {
-            console.log("Twilio.Device Error: " + error.message);
-            updateCallStatus("ERROR: " + error.message);
-          });
-
-          device.on("connect", function(conn) {
-            console.log("Successfully established call!");
-            hangUpButton.disabled = false;
-            callCustomerButtons.disabled = true;
-            callSupportButton.disabled = true;
-            answerButton.disabled = true;
-
-            // If phoneNumber is part of the connection, this is a call from a
-            // support agent to a customer's phone
-            if ("phoneNumber" in conn.message) {
-              updateCallStatus("In call with " + conn.message.phoneNumber);
-            } else {
-              // This is a call from a website user to a support agent
-              updateCallStatus("In call with support");
-            }
-          });
-
-          device.on("disconnect", function(conn) {
-            // Disable the hangup button and enable the call buttons
-            hangUpButton.disabled = true;
-            callCustomerButtons.disabled = false;
-            callSupportButton.disabled = false;
-
-            updateCallStatus("Ready");
-          });
-
-          device.on("incoming", function(conn) {
-            updateCallStatus("Incoming support call");
-
-            // Set a callback to be executed when the connection is accepted
-            conn.accept(function() {
-              updateCallStatus("In call with customer");
-            });
-
-            // Set a callback on the answer button and enable it
-            answerButton.click(function() {
-              conn.accept();
-            });
-            answerButton.disabled = false;
-          });
-        })
-
-        /* Helper function to update the call status bar */
-        function updateCallStatus(status) {
-          callStatus.textContent = status;
-        }
-
-        /* Call a customer from a support ticket */
-        function callCustomer(phoneNumber) {
-          updateCallStatus("Calling " + phoneNumber + "...");
-
-          var params = {"phoneNumber": phoneNumber};
-          device.connect(params);
-        }
-
-        /* Join conference */
-        function joinConferenceCustomer(phoneNumber) {
-          updateCallStatus("Calling " + phoneNumber + "...");
-
-          console.log("joining", "<%= @conversation_key %>")
-          var params = {
-            "name": '<%= @conversation_key %>',#{' '}
-            "chaskiq_agent": <%= @user["id"] %>,
-          };
-          device.connect(params);
-        }
-
-        /* Call the support_agent from the home page */
-        function callSupport() {
-          updateCallStatus("Calling support...");
-
-          // Our backend will assume that no params means a call to support_agent
-          device.connect();
-        }
-
-        /* End a call */
-        function hangUp() {
-          device.disconnectAll();
-        }
-
-
 
       SHEET_VIEW
 

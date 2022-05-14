@@ -145,6 +145,10 @@ module MessageApis::TwilioPhone
         message.id
       )
 
+      ## set the caller record
+
+      # cli.api.conferences("CFd0d941fb1f6199c106ea32962bf6ea43").participants("CA118b39d5e0f6dedcf8a4862e11094e3a").fetch
+
       conference_call(payload, conversation, {
                         message: "Thanks for calling to #{app.name}!"
                       })
@@ -193,6 +197,30 @@ module MessageApis::TwilioPhone
 
         modify_message_block_part(conversation)
 
+      when "participant-hold"
+        #  cli.conferences.list.first.participants.list.first.update(hold: false)
+
+        # AccountSid	ACa99e0b29e5f2652c432d79c4a09f3128
+        # CallSid	CA118b39d5e0f6dedcf8a4862e11094e3a
+        # Coaching	false
+        # ConferenceSid	CFd0d941fb1f6199c106ea32962bf6ea43
+        # EndConferenceOnExit	true
+        # FriendlyName	fnKwXndKiG19HjQ2LvwkDmpv
+        # Hold	false
+        # Muted	false
+        # SequenceNumber	7
+        # StartConferenceOnEnter	true
+      when "participant-unhold"
+        # AccountSid	ACa99e0b29e5f2652c432d79c4a09f3128
+        # CallSid	CA118b39d5e0f6dedcf8a4862e11094e3a
+        # Coaching	false
+        # ConferenceSid	CFd0d941fb1f6199c106ea32962bf6ea43
+        # EndConferenceOnExit	true
+        # FriendlyName	fnKwXndKiG19HjQ2LvwkDmpv
+        # Hold	false
+        # Muted	false
+        # SequenceNumber	7
+        # StartConferenceOnEnter	true
       else
         Rails.logger.debug { "NO STORE HANDLED FOR #{payload['StatusCallbackEvent']}" }
       end
@@ -223,7 +251,7 @@ module MessageApis::TwilioPhone
       response.dial do |dial|
         name = conversation.key
 
-        hook_url = @package.hook_url # .gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
+        hook_url = @package.hook_url.gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
 
         dial.conference(name,
                         beep: false,
@@ -237,6 +265,12 @@ module MessageApis::TwilioPhone
 
     ## client
 
+    def client
+      account_sid = @package.settings["account_sid"]
+      auth_token = @package.settings["auth_token"]
+      client = Twilio::REST::Client.new(account_sid, auth_token)
+    end
+
     def conferences_list
       account_sid = @package.settings["account_sid"]
       auth_token = @package.settings["auth_token"]
@@ -246,7 +280,7 @@ module MessageApis::TwilioPhone
 
       client.conferences.list(
         date_created_after: 3.hours.ago,
-        status: "in-progress",
+        # status: "in-progress",
         limit: 60
       )
 
