@@ -4,6 +4,7 @@ import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns';
 import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
+import { createNotification } from '@chaskiq/store/src/actions/notifications';
 
 import {
   camelizeKeys,
@@ -26,12 +27,18 @@ export function createSubscription(match, accessToken) {
 
 export function destroySubscription(cableApp) {
   cableApp.events.unsubscribe();
+  cableApp.agentEvents.unsubscribe();
 }
 
 export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
-  // unsubscribe cable ust in case
+  // unsubscribe event cable ust in case
   if (cableApp.events) {
     cableApp.events.unsubscribe();
+  }
+
+  // unsubscribe agent cable ust in case
+  if (cableApp.agentEvents) {
+    cableApp.agentEvents.unsubscribe();
   }
 
   cableApp.events = cableApp.cable.subscriptions.create(
@@ -69,7 +76,8 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
             });
             return null;
           case 'notification':
-            console.log('notification!');
+            dispatch(createNotification(data.data));
+            return null;
           case data.type.match(/\/package\/\S+/)?.input:
             const popup = document.getElementById('package-frame')
               ?.contentWindow;
@@ -88,9 +96,46 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
     }
   );
 
-  // window.cable = CableApp
+  // agent channel
+  cableApp.agentEvents = cableApp.cable.subscriptions.create(
+    {
+      channel: 'AgentChannel',
+      app: appId,
+    },
+    {
+      connected: () => {
+        console.log('connected to agent events');
+        //setSubscribed(true);
+      },
+      disconnected: () => {
+        console.log('disconnected from agent events');
+        //setSubscribed(false);
+      },
+      received: (data) => {
+        // console.log('received', data)
+        switch (data.type) {
+          case 'notification':
+            dispatch(createNotification(data.data));
+            return null;
+          default:
+            console.log('unhandled', data);
+            return null;
+        }
+      },
+      notify: () => {
+        console.log('notify!!');
+      },
+      handleMessage: () => {
+        console.log('handle message');
+      },
+    }
+  );
 };
 
 export function sendPush(name, { props, events, data }) {
+  events && events.perform(name, data);
+}
+
+export function sendAgentPush(name, { props, events, data }) {
   events && events.perform(name, data);
 }
