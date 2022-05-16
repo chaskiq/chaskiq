@@ -6,6 +6,13 @@ module PackageIframeBehavior
   def package_iframe
     if params[:token]
       data = CHASKIQ_FRAME_VERIFIER.verify(params[:token])
+      # in case an user_token is provided
+      if params[:user_token].present?
+        data.merge!({
+                      current_user: CHASKIQ_FRAME_VERIFIER.verify(params[:user_token])
+                    })
+      end
+
       @app = App.find_by(key: data[:app_id])
 
       pkg = AppPackageIntegration.find(data[:package_id])

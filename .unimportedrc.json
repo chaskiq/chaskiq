@@ -1,0 +1,52 @@
+{
+  "entry": [
+    "app/javascript/application.js",
+    "app/javascript/embed.js",
+    "app/javascript/article.js",
+    "app/javascript/docs.js",
+    "app/javascript/locales.js",
+    "src/pages/**/*.{js,ts}"
+  ],
+  "extensions": [
+    ".ts",
+    ".js",
+    ".tsx"
+  ],
+  "aliases": {
+    "@chaskiq/*": [
+      "./app/javascript/packages/",
+      "./app/javascript/packages/*"
+    ]
+  },
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "private/**",
+    "app/assets/builds/**",
+    "app/javascript/packages/components/dist/**",
+    "app/javascript/packages/store/dist/**",
+    "app/javascript/packages/messenger/dist/**",
+    "app/javascript/packages/docs/dist/**",
+    "spec/cypress/**"
+  ],
+  "ignoreUnresolved": [
+    "some-npm-dependency"
+  ],
+  "ignoreUnimported": [
+    "babel-plugin-macros.config.js",
+    "babel.config.js",
+    "config/tailwind.config.js",
+    "esbuild/process-shim.js",
+    "index.d.ts",
+    "postcss.config.js",
+    "prettier.config.js",
+    "rollup.config.js",
+    "app/javascript/src/serviceWorker.js",
+    "app/javascript/src/setupTests.js",
+    "app/javascript/src/shared/absintheCableSubscription.ts",
+    "app/assets/config/manifest.js"
+  ],
+  "ignoreUnused": [
+    "bcrypt",
+    "create-emotion"
+  ]
+}

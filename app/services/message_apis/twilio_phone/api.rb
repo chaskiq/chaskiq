@@ -41,6 +41,7 @@ module MessageApis::TwilioPhone
 
     def enqueue_process_event(params, package)
       return process_event(params, package) if params["CallStatus"].present?
+      return process_hold(params, package) if params["type"] == "hold"
 
       HookMessageReceiverJob.perform_later(
         id: package.id,
@@ -54,6 +55,21 @@ module MessageApis::TwilioPhone
       process_message(params, @package)
     end
 
+    def process_hold(params, package)
+      conference_sid = MessageApis::TwilioPhone::Store.get_data(params[:conversation_key], :conference_sid)
+      participant_sid = package.app.conversations.find_by(key: params[:conversation_key]).conversation_channels.find_by(provider: "TwilioPhone").provider_channel_id
+
+      client.api.conferences(conference_sid).participants(participant_sid).update(hold: params[:hold_action])
+
+      MessageApis::TwilioPhone::Store.set_data(
+        params[:conversation_key],
+        :holdStatus,
+        params[:action]
+      )
+      # send notification here
+      { status: :ok }
+    end
+
     def send_message(conversation, part)
       return if part.private_note?
 
@@ -63,13 +79,13 @@ module MessageApis::TwilioPhone
 
     def process_message(params, package)
       # call events handler
-      return process_incoming_event(params) if params[:StatusCallbackEvent].present?
+      return process_incoming_event(params) if params[:StatusCallbackEvent].present? && params[:Caller] != "client:support_agent"
 
       app = package.app
       # caller initiators
 
       # for agent
-      if params[:Caller] == "client:support_agent"
+      if params[:Caller] == "client:agent"
         conversation = Conversation.find_by(key: params[:name])
 
         MessageApis::TwilioPhone::Store.set(
@@ -138,11 +154,13 @@ module MessageApis::TwilioPhone
         }
       )
 
-      MessageApis::TwilioPhone::Store.set_callblock(
+      MessageApis::TwilioPhone::Store.set_data(
         conversation.key,
+        :callblock,
         message.id
       )
 
+      ## set the caller record
       locked_ids = MessageApis::TwilioPhone::Store.locked_agents(app.key).elements
       agents = app.agents.humans.where.not(id: locked_ids)
 
@@ -179,15 +197,24 @@ module MessageApis::TwilioPhone
         }
       )
 
+      MessageApis::TwilioPhone::Store.set_data(
+        payload["FriendlyName"],
+        :conference_sid,
+        payload["ConferenceSid"]
+      )
+
       # this will trigger an event on the view
       ActionCable.server.broadcast "events:#{@package.app.key}", {
         type: "/package/TwilioPhone",
         app: @package.app.key,
         payload:,
+        conference: conference_object(payload),
         event_type: "INIT"
       }
 
       case payload["StatusCallbackEvent"]
+      # when "participant-join"
+
       when "conference-end"
         values = MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).values
 
@@ -203,19 +230,47 @@ module MessageApis::TwilioPhone
         # remove list
         unique_list.remove(values)
 
-        MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).remove
-
         modify_message_block_part(conversation)
 
+        MessageApis::TwilioPhone::Store.hash(payload["FriendlyName"]).remove
+        MessageApis::TwilioPhone::Store.data(payload["FriendlyName"]).remove
+
+      when "participant-hold"
+        #  cli.conferences.list.first.participants.list.first.update(hold: false)
+
+        # AccountSid	xx
+        # CallSid	xx
+        # Coaching	false
+        # ConferenceSid	xx
+        # EndConferenceOnExit	true
+        # FriendlyName	fnKwXndKiG19HjQ2LvwkDmpv
+        # Hold	false
+        # Muted	false
+        # SequenceNumber	7
+        # StartConferenceOnEnter	true
+      when "participant-unhold"
+        # AccountSid	xx
+        # CallSid	xx
+        # Coaching	false
+        # ConferenceSid	xx
+        # EndConferenceOnExit	true
+        # FriendlyName	fnKwXndKiG19HjQ2LvwkDmpv
+        # Hold	false
+        # Muted	false
+        # SequenceNumber	7
+        # StartConferenceOnEnter	true
       else
         Rails.logger.debug { "NO STORE HANDLED FOR #{payload['StatusCallbackEvent']}" }
       end
     end
 
     def modify_message_block_part(conversation)
-      block_id = MessageApis::TwilioPhone::Store.callblock(
-        conversation.key
+      block_id = MessageApis::TwilioPhone::Store.get_data(
+        conversation.key,
+        :callblock
       )
+
+      return if block_id.blank?
 
       # modify block
       block_part = ConversationPart.find(block_id).message
@@ -224,15 +279,11 @@ module MessageApis::TwilioPhone
                                                     "text" => "Call ended"
                                                   ] })
       block_part.save_replied(nil)
-
-      # delete redis key
-      MessageApis::TwilioPhone::Store.del_callblock(conversation.key)
     end
 
     def conference_call(params, conversation, opts)
       response = Twilio::TwiML::VoiceResponse.new
       response.say(message: opts[:message]) if opts[:message].present?
-      # response.say(message: 'other message here')
 
       response.dial do |dial|
         name = conversation.key
@@ -251,22 +302,98 @@ module MessageApis::TwilioPhone
 
     ## client
 
+    def client
+      account_sid = @package.settings["account_sid"]
+      auth_token = @package.settings["auth_token"]
+      @client = Twilio::REST::Client.new(account_sid, auth_token)
+    end
+
     def conferences_list
       account_sid = @package.settings["account_sid"]
       auth_token = @package.settings["auth_token"]
       client = Twilio::REST::Client.new(account_sid, auth_token)
 
-      # conferences = @client.conferences.list(limit: 20)
-
       client.conferences.list(
-        date_created_after: 3.hours.ago,
+        date_created_after: 5.hours.ago,
         status: "in-progress",
         limit: 60
       )
+    end
 
-      # conferences.each do |record|
-      #  Rails.logger.debug record.sid
-      # end
+    def conference_object(payload)
+      if payload["StatusCallbackEvent"] == "participant-join"
+        conference = client.conferences(payload["ConferenceSid"]).fetch
+        self.class.conference_json_item(conference, @package)
+      end
+    end
+
+    def self.conversation_url(app, conf)
+      "/apps/#{app.key}/conversations/#{conf.friendly_name}"
+    end
+
+    def self.conference_json_item(conf, package)
+      @package = package
+
+      conversation = Conversation.find_by(key: conf.friendly_name)
+      return nil if conversation.blank?
+
+      agent_ids = MessageApis::TwilioPhone::Store.hash(conf.friendly_name).values
+      agents = conversation.app.agents.where(id: agent_ids)
+      {
+        url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf)}",
+        update_url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{frame_token(conf, :update)}",
+        conference: {
+          sid: conf.sid,
+          status: conf.status,
+          hold_status: MessageApis::TwilioPhone::Store.get_data(conversation.key, :holdStatus),
+          fiendly_name: conf.friendly_name,
+          url: conversation_url(package.app, conf)
+        },
+        key: conversation.key,
+        agent_ids:,
+        agent_names: agents&.map(&:display_name) || [],
+        conversation: conversation.as_json,
+        participant: conversation.main_participant.as_json,
+        profile: conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone").as_json
+      }
+    end
+
+    def self.frame_token(conf, action = nil)
+      data = {
+        app_id: @package.app.id,
+        package_id: @package.id,
+        conversation_key: conf.friendly_name,
+        # lang: @lang,
+        # current_user: @user,
+        action:
+      }
+
+      CHASKIQ_FRAME_VERIFIER.generate(data)
+    end
+
+    def self.token(package)
+      generate_access_token(package)
+    end
+
+    def self.generate_access_token(package)
+      settings = package.settings
+      # Create Voice grant for our token
+      grant = Twilio::JWT::AccessToken::VoiceGrant.new
+      grant.outgoing_application_sid = settings["application_sid"]
+
+      # Optional: add to allow incoming calls
+      grant.incoming_allow = true
+
+      # Create an Access Token
+      token = Twilio::JWT::AccessToken.new(
+        settings["account_sid"],
+        settings["api_key"],
+        settings["api_secret"],
+        [grant],
+        identity: "agent"
+      )
+
+      token.to_jwt
     end
   end
 end

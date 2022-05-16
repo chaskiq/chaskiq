@@ -2,6 +2,18 @@ module MessageApis::TwilioPhone
   class Store
     NAMESPACE = "/twilio_phone/".freeze
 
+    def self.data(conversation_key)
+      hash("#{conversation_key}/data")
+    end
+
+    def self.set_data(conversation_key, key, value)
+      set("#{conversation_key}/data", key, value)
+    end
+
+    def self.get_data(conversation_key, key)
+      get("#{conversation_key}/data", key)
+    end
+
     def self.hash(conversation_key)
       Kredis.hash(namespace(conversation_key))
     end
