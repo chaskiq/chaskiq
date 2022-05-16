@@ -316,7 +316,7 @@ module MessageApis::TwilioPhone
       client.conferences.list(
         date_created_after: 5.hours.ago,
         status: "in-progress",
-        limit: 10
+        limit: 60
       )
     end
 
