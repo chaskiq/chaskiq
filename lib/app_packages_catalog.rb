@@ -501,6 +501,14 @@ class AppPackagesCatalog
             type: "string",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "new_conversations_after",
+            label: "Count messages as new conversations",
+            hint: "After a conversation is closed new messages will create a new conversation if there are received after this time period",
+            type: "number",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
           }
         ]
       },
@@ -765,7 +773,8 @@ class AppPackagesCatalog
     packages(dev_packages:).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-      Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
+
+      Rails.logger.debug { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?
     end
   end
 end

@@ -97,6 +97,14 @@ module MessageApis::Twilio
       message_params
     end
 
+    def enqueue_process_event(params, package)
+      HookMessageReceiverJob.perform_later(
+        id: package.id,
+        params: params.permit!.to_h
+      )
+      { status: :ok, format: :xml, response: {} }
+    end
+
     def process_message(params, package)
       @package = package
       app = package.app
@@ -125,6 +133,8 @@ module MessageApis::Twilio
         message_id:,
         channel_id:
       )
+
+      { status: :ok, format: :xml, response: {}.to_xml }
     end
 
     def parse_remitent(params)
@@ -135,12 +145,36 @@ module MessageApis::Twilio
       [channel_id, twilio_user, agent_sender]
     end
 
+    def new_conversation_thread?(from)
+      return if from.blank?
+      return if new_thread_in_hours.blank?
+
+      from > new_thread_in_hours
+    end
+
+    def new_thread_in_hours
+      return if @package.settings[:new_conversations_after].blank?
+
+      @package.settings[:new_conversations_after].hours.ago
+    end
+
+    def clear_conversation(conversation)
+      conversation.conversation_channels.find_by(provider: "twilio").destroy
+      conversation.block("blocked by Whatsapp twilio")
+      conversation.close unless conversation.closed?
+      conversation.save
+      # TODO: add permament close with reason!
+    end
+
     def add_conversation(
       agent_sender:, participant:, serialized_content:,
       text:, message_id:, channel_id:, conversation: nil
     )
 
-      if conversation.blank?
+      if conversation.blank? || conversation.closed? || new_conversation_thread?(conversation.latest_user_visible_comment_at)
+
+        clear_conversation(conversation) if conversation.present?
+
         conversation = @package.app.conversations.create(
           main_participant: participant,
           conversation_channels_attributes: [

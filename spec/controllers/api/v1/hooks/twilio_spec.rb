@@ -79,10 +79,15 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                            .and_return({})
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "aaa",
-        api_key: "aaa",
-        user_id: owner_phone,
-        app_package:
+        {
+          app_package:,
+          settings: {
+            api_secret: "aaa",
+            api_key: "aaa",
+            user_id: owner_phone,
+            new_conversations_after: 1
+          }
+        }
       )
     end
 
@@ -231,6 +236,79 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
         Conversation.last.add_message(opts)
         perform_enqueued_jobs
+      end
+    end
+
+    describe "thread slicing" do
+      it "second message will create a new conversation when time is up" do
+        expect(app.app_users).to be_empty
+
+        get(:process_event, params: data_for(
+          id: @pkg.id,
+          sender: user_phone,
+          recipient: owner_phone,
+          message_id: "1234"
+        ))
+        perform_enqueued_jobs
+
+        expect(app.app_users.size).to be == 1
+
+        Conversation.any_instance
+                    .stub(:latest_user_visible_comment_at)
+                    .and_return(10.minutes.ago)
+
+        get(:process_event, params: data_for(
+          id: @pkg.id,
+          sender: user_phone,
+          recipient: owner_phone,
+          message_id: "1235"
+        ))
+        perform_enqueued_jobs
+
+        expect(app.app_users.size).to be == 1
+
+        expect(response.status).to be == 200
+        expect(app.conversations.count).to be == 2
+        expect(app.conversations.first.messages.count).to be == 1
+        expect(app.conversations.last.messages.count).to be == 1
+        expect(app.conversations.first).to be_closed
+        expect(app.conversations.first.conversation_channels).to be_empty
+      end
+
+      it "second message will create a new conversation if current convo is closed" do
+        expect(app.app_users).to be_empty
+
+        get(:process_event, params: data_for(
+          id: @pkg.id,
+          sender: user_phone,
+          recipient: owner_phone,
+          message_id: "1234"
+        ))
+        perform_enqueued_jobs
+
+        expect(app.app_users.size).to be == 1
+
+        app.conversations.first.close!
+
+        get(:process_event, params: data_for(
+          id: @pkg.id,
+          sender: user_phone,
+          recipient: owner_phone,
+          message_id: "1235"
+        ))
+
+        perform_enqueued_jobs
+
+        expect(app.app_users.size).to be == 1
+
+        expect(response.status).to be == 200
+        expect(app.conversations.count).to be == 2
+        expect(app.conversations.first.messages.count).to be == 1
+        expect(app.conversations.last.messages.count).to be == 1
+        expect(app.conversations.first).to be_closed
+        expect(app.conversations.first).to be_blocked
+        expect(app.conversations.first.blocked_reason).to_not be_blank
+        expect(app.conversations.first.conversation_channels).to be_empty
       end
     end
   end
