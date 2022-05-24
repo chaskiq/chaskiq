@@ -12,6 +12,7 @@ en:
     save_changes: Save changes
     preview: Preview
     cancel: Cancel
+    back: Back
     back_to_site: Back to site
     not_found: The page you are looking for does not exist.
     get_snippet: Get the snippet
@@ -261,6 +262,8 @@ en:
     state:
       enabled: enabled
       disabled: disabled
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Settings

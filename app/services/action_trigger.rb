@@ -142,7 +142,7 @@ class ActionTrigger
 
       conversation.assign_user(agent)
     when "close"
-      conversation.close
+      conversation.close!
     end
   end
 
