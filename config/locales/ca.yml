@@ -12,6 +12,7 @@ ca:
     save_changes: Desa els canvis
     preview: Vista prèvia
     cancel: Cancel·lar
+    back: Back
     back_to_site: Torna al site
     not_found: No hem trobat la pàgina que cerques.
     get_snippet: Consegueix el fragment
@@ -261,6 +262,8 @@ ca:
     state:
       enabled: activat
       disabled: inhabilitat
+      send: sent
+      delivering: delivering
     tabs:
       stats: Estadístiques
       settings: Configuració
