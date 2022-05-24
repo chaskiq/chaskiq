@@ -12,6 +12,7 @@ pt:
     save_changes: Salvar as alterações
     preview: Pré-visualização
     cancel: Cancelar
+    back: Back
     back_to_site: Voltar ao site
     not_found: A Página que Você está Procurando não Existe.
     get_snippet: Obtenha o trecho
@@ -261,6 +262,8 @@ pt:
     state:
       enabled: ativo
       disabled: desativo
+      send: sent
+      delivering: delivering
     tabs:
       stats: Estatísticas
       settings: Configurações
