@@ -12,6 +12,7 @@ it:
     save_changes: Salva modifiche
     preview: Anteprima
     cancel: Annulla
+    back: Back
     back_to_site: Ritorna al sito
     not_found: La pagina che stai cercando non esiste.
     get_snippet: Ottieni la snippet
@@ -261,6 +262,8 @@ it:
     state:
       enabled: abilitato
       disabled: disabilitato
+      send: sent
+      delivering: delivering
     tabs:
       stats: Statistiche
       settings: Impostazioni
