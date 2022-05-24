@@ -12,6 +12,7 @@ sv:
     save_changes: Spara ändringar
     preview: Förhandsgranska
     cancel: Avbryt
+    back: Back
     back_to_site: Tillbaka till webbplatsen
     not_found: Sidan du letar efter finns inte.
     get_snippet: Hämta snippet
@@ -261,6 +262,8 @@ sv:
     state:
       enabled: enabled
       disabled: disabled
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Settings
