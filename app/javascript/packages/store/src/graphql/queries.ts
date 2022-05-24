@@ -317,6 +317,18 @@ export const CONVERSATION_WITH_LAST_MESSAGE = `
   }
 `;
 
+export const CONTACT_SEARCH = `
+  query App($appKey: String!, $term: String!){
+    app(key: $appKey) {
+      contactSearch(term: $term){
+        id
+        email
+        displayName
+      }
+    }
+  }
+`;
+
 export const CURRENT_USER = `
   query CurrentUser {
     userSession {

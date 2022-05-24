@@ -489,6 +489,19 @@ module Types
       object.articles.friendly.find(id)
     end
 
+    field :contact_search, [Types::AppUserType], null: true do
+      argument :term, String, required: true, default_value: ""
+    end
+
+    def contact_search(term:)
+
+      query_term = :last_name_or_first_name_or_name_or_email_i_cont_any
+      @collection = object.app_users.limit(10).ransack(
+        query_term => term
+      ).result
+
+    end
+
     field :collections, [Types::CollectionType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
     end

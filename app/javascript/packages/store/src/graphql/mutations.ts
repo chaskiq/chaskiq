@@ -114,8 +114,8 @@ export const SYNC_EXTERNAL_PROFILE = `
 `;
 
 export const START_CONVERSATION = `
-  mutation StartConversation($appKey: String!, $id: String, $message: MessageInput!){
-    startConversation(appKey: $appKey, id: $id, message: $message){
+  mutation StartConversation($appKey: String!, $id: String, $message: MessageInput!, $subject: String){
+    startConversation(appKey: $appKey, id: $id, message: $message, subject: $subject){
       conversation{
         id
         key

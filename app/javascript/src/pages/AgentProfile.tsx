@@ -24,7 +24,6 @@ import SettingsForm from '../pages/settings/form';
 
 import {
   CREATE_DIRECT_UPLOAD,
-  START_CONVERSATION,
   APP_USER_UPDATE_STATE,
   UPDATE_AGENT,
 } from '@chaskiq/store/src/graphql/mutations';

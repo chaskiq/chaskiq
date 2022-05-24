@@ -7,8 +7,9 @@ module Mutations
       argument :app_key, String, required: true
       argument :id, String, required: false, default_value: nil
       argument :message, Types::MessageInputType, required: true
+      argument :subject, String, required: false, default_value: nil
 
-      def resolve(app_key:, id:, message:)
+      def resolve(app_key:, id:, message:, subject: )
         message = message.to_h.with_indifferent_access
 
         if current_user.is_a?(Agent)
@@ -28,6 +29,7 @@ module Mutations
         options = {
           from: author,
           participant:,
+          subject:,
           message: {
             html_content: message[:html],
             serialized_content: message[:serialized],

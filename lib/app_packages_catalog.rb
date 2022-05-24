@@ -476,6 +476,7 @@ class AppPackagesCatalog
       {
         name: "Twilio",
         tag_list: ["conversations.added"],
+        capability_list: %w[conversations_initiator],
         description: "Interfaces twillio",
         icon: "https://logo.clearbit.com/twillio.com",
         state: "enabled",
