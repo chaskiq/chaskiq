@@ -12,6 +12,7 @@ fa:
     save_changes: ذخیره تغییرات
     preview: پیش نمایش
     cancel: لغو
+    back: Back
     back_to_site: بازگشت به سایت
     not_found: The page you are looking for does not exist.
     get_snippet: Get the snippet
@@ -261,6 +262,8 @@ fa:
     state:
       enabled: enabled
       disabled: disabled
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Settings
