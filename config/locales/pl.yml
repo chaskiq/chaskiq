@@ -12,6 +12,7 @@ pl:
     save_changes: Zapisz zmiany
     preview: Podgląd
     cancel: Anuluj
+    back: Back
     back_to_site: Wróć do strony
     not_found: Strona, której szukasz nie istnieje.
     get_snippet: Get the snippet
@@ -261,6 +262,8 @@ pl:
     state:
       enabled: enabled
       disabled: disabled
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Settings
