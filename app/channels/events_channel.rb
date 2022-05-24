@@ -14,6 +14,8 @@ class EventsChannel < ApplicationCable::Channel
   def rtc_events(data)
     # @app = App.find_by(key: params[:app])
     conversation = app.conversations.find_by(key: data["conversation_id"])
+    return if conversation.blank?
+
     key = "messenger_events:#{app.key}-#{conversation.main_participant.session_id}"
 
     if data["event_type"] == "JOIN_ROOM"

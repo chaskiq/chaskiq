@@ -12,7 +12,6 @@ type CssInjectorType = {
 class CssInjector extends React.Component<CssInjectorType> {
   cache: any;
   constructor(props) {
-    console.log('frame props', props);
     super(props);
     // const iframe = document.getElementsByTagName('iframe')[0]
     // const iframe = document.getElementsByTagName('iframe')[0]
