@@ -12,6 +12,7 @@ es:
     save_changes: Guardar cambios
     preview: Vista previa
     cancel: Cancelar
+    back: Back
     back_to_site: Volver al sitio
     not_found: La página que buscas no existe.
     get_snippet: Consigue el fragmento de código
@@ -261,6 +262,8 @@ es:
     state:
       enabled: habilitado
       disabled: desactivado
+      send: sent
+      delivering: delivering
     tabs:
       stats: Estadísticas
       settings: Ajustes
