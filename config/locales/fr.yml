@@ -12,6 +12,7 @@ fr:
     save_changes: Enregistrer les modifications
     preview: Prévisualisation
     cancel: Annuler
+    back: Back
     back_to_site: Retour au site
     not_found: La page que vous cherchez n'existe pas.
     get_snippet: Obtenir le snippet
@@ -261,6 +262,8 @@ fr:
     state:
       enabled: activé
       disabled: désactivé
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Paramètres
