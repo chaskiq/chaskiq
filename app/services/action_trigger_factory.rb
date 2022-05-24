@@ -285,7 +285,7 @@ class ActionTriggerFactory
             agent: bot_agent
           )
         ],
-        follow_actions: [c.close]
+        follow_actions: []
       )
     end
 

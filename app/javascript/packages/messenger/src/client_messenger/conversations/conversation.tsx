@@ -170,7 +170,6 @@ export function Conversation(props) {
     const namespace = kind === 'AppUser' ? 'users' : 'visitors';
 
     const inboundSettings = appData.inboundSettings[namespace];
-
     // if this option is not enabled then replies are allowed
     if (!inboundSettings.close_conversations_enabled) return;
 
@@ -416,6 +415,7 @@ export function Conversation(props) {
       <Footer
         conversationState={conversation.state}
         isInputEnabled={isInputEnabled()}
+        isInboundRepliesClosed={isInboundRepliesClosed()}
         className={footerClassName || ''}
       >
         {!isInputEnabled() ? (

@@ -764,6 +764,7 @@ export const Body = styled.div`
 export const Footer = styled.div<{
   isInputEnabled: boolean;
   conversationState: string;
+  isInboundRepliesClosed: boolean;
 }>`
   z-index: 100000;
   text-align: center;
@@ -786,8 +787,8 @@ export const Footer = styled.div<{
   color: gray;
   padding: 11px 0px 0px 0px;
 
-  ${({ conversationState }) =>
-    conversationState == 'closed'
+  ${({ conversationState, isInboundRepliesClosed }) =>
+    conversationState == 'closed' && isInboundRepliesClosed
       ? `pointer-events: none; 
        height: 100%; 
        color: black; 

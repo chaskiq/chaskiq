@@ -11693,8 +11693,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -11710,6 +11712,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
