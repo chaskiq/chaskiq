@@ -12,6 +12,7 @@ de:
     save_changes: Save changes
     preview: Vorschau
     cancel: Abbrechen
+    back: Back
     back_to_site: Zurück zur Seite
     not_found: Die gesuchte Seite existiert nicht.
     get_snippet: Hol dir das Snippet
@@ -261,6 +262,8 @@ de:
     state:
       enabled: enabled
       disabled: disabled
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Einstellungen
