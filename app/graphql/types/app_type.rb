@@ -243,7 +243,7 @@ module Types
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
       if term
-        query_term = :main_participant_postal_or_main_participant_phone_or_main_participant_last_name_or_main_participant_first_name_or_main_participant_name_or_messages_messageable_of_ConversationPartContent_type_text_content_i_cont_any
+        query_term = :main_participant_full_name_or_main_participant_name_or_main_participant_email_or_main_participant_postal_or_main_participant_phone_or_messages_messageable_of_ConversationPartContent_type_text_content_i_cont_any
         @collection = @collection.ransack(
           query_term => term
         ).result
