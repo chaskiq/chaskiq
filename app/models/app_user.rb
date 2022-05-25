@@ -127,6 +127,15 @@ class AppUser < ApplicationRecord
     end
   end
 
+  ransacker :full_name do |parent|
+    Arel::Nodes::NamedFunction.new('concat', [
+        Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(:first_name)),
+        Arel::Nodes::Quoted.new(' '),
+        Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(:last_name))
+      ]
+    )
+  end
+
   scope :availables, lambda {
     where(["app_users.subscription_state =? or app_users.subscription_state=?",
            "passive", "subscribed"])
