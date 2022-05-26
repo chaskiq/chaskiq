@@ -140,6 +140,8 @@ RSpec.describe GraphqlController, type: :controller do
     end
 
     it "create_conversation with initiator" do
+      allow_any_instance_of(MessageApis::Twilio::Api).to receive(:prepare_initiator_channel_for).and_return(true)
+
       graphql_post(type: "START_CONVERSATION", variables: {
                      appKey: app.key,
                      subject: "aaa",
@@ -150,6 +152,7 @@ RSpec.describe GraphqlController, type: :controller do
                        serialized: "aaa"
                      }
                    })
+
       expect(graphql_response.data.startConversation.conversation.subject).to be == "aaa"
     end
   end

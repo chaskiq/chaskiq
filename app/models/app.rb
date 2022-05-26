@@ -187,7 +187,7 @@ class App < ApplicationRecord
       if options[:initiator_channel]
         # here we will create a conversation channel and a external profile if it's neccessary
         pkg = find_app_package(options[:initiator_channel])
-        pkg&.message_api_klass&.prepare_initiator_channel_for(conversation, pkg)
+        pkg&.message_api_klass&.prepare_initiator_channel_for(conversation, pkg) if pkg.present?
       end
 
       if message.present?
