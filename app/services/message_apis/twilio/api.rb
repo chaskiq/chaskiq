@@ -41,13 +41,64 @@ module MessageApis::Twilio
       when "read" then process_read(params["MessageSid"])
       # when "DELIVERED" then puts("DELIVERED!")
       when "received" then process_message(params, @package)
+      when "undelivered" then process_error(params)
         # when "updated" then update_app_user_profile(current)
         # when "deleted" then delete_app_user_profile(params)
       end
     end
 
+    def find_channel_from_part_source(id)
+      ConversationPartChannelSource.find_by(
+        provider: PROVIDER,
+        message_source_id: id
+      )
+    end
+
+    def process_error(params)
+      conversation_part_channel = find_channel_from_part_source(params["SmsSid"])
+      # return if conversation_part_channel.blank?
+
+      channel_id, twilio_user, agent_sender = parse_remitent(params)
+
+      conversation = conversation_part_channel.conversation_part.conversation
+
+      # crea el mensaje con el channel de una, asi cuando se cree
+      # el notify_message va a bypasear el canal
+      # conversation.add_message()
+      conversation.add_message_event(
+        action: "errored: #{params['SmsStatus']}",
+        provider: PROVIDER,
+        message_source_id: "bypass-internal-#{params['id']}",
+        data: {
+          status: params
+        }
+      )
+    end
+
     def get_message_id(response_data)
       response_data["sid"]
+    end
+
+    def prepare_initiator_channel_for(conversation, package)
+      @package = package
+
+      profile_id = conversation.main_participant
+                                &.external_profiles
+                                &.find_by(provider: PROVIDER)
+                                &.profile_id
+
+      raise ActiveRecord::Rollback if profile_id.blank?
+
+      previous_conversation = find_conversation_by_channel(profile_id)
+
+      clear_conversation(previous_conversation) if previous_conversation.present?
+
+      conversation.update(
+        conversation_channels_attributes: [
+          provider: "twilio",
+          provider_channel_id: profile_id
+        ]
+      )
     end
 
     def send_message(conversation, part)
@@ -137,11 +188,13 @@ module MessageApis::Twilio
       { status: :ok, format: :xml, response: {}.to_xml }
     end
 
+    def reply_with_alert(params, package); end
+
     def parse_remitent(params)
-      cond = params["From"] == "whatsapp:#{@package.user_id.gsub('whatsapp:', '')}"
-      channel_id = cond ? params["To"] : params["From"]
-      twilio_user = cond ? params["To"] : params["From"]
-      agent_sender = cond
+      agent_sender = params["From"] == "whatsapp:#{@package.user_id.gsub('whatsapp:', '')}"
+
+      twilio_user = agent_sender ? params["To"] : params["From"]
+      channel_id  = agent_sender ? params["To"] : params["From"]
       [channel_id, twilio_user, agent_sender]
     end
 
@@ -160,7 +213,7 @@ module MessageApis::Twilio
 
     def clear_conversation(conversation)
       conversation.conversation_channels.find_by(provider: "twilio").destroy
-      conversation.block("blocked by Whatsapp twilio")
+      conversation.block("Blocked by Whatsapp Twilio")
       conversation.close unless conversation.closed?
       conversation.save
       # TODO: add permament close with reason!

@@ -4,9 +4,9 @@ import Tabs from './tabs';
 import NewEditor from './newEditor';
 import 'draft-js/dist/Draft.css';
 import I18n from '../../shared/FakeI18n';
-import Dropdown from "@chaskiq/components/src/components/Dropdown";
-import Button from "@chaskiq/components/src/components/Button";
-import { PlusIcon } from "@chaskiq/components/src/components/icons";
+import Dropdown from '@chaskiq/components/src/components/Dropdown';
+import Button from '@chaskiq/components/src/components/Button';
+import { PlusIcon } from '@chaskiq/components/src/components/icons';
 
 type EditorContainerType = {
   note: boolean;
@@ -59,6 +59,9 @@ type ConversationEditorProps = {
   typingNotifier: (cb?: any) => void;
   insertAppBlockComment: (data: any, cb: any) => void;
   isNew: boolean;
+  initiatorChannels: any;
+  initiatorChannel: any;
+  setInitiatorChannel: any;
 };
 
 type ConversationEditorState = {
@@ -139,23 +142,22 @@ export default class ConversationEditor extends Component<
   };
 
   resolvedTabs = () => {
-    const channelsItems = [
-      {name: "email"},
-      {name: "twilio whatsapp"},
-      {name: "web"}
-    ]
-    if(this.props.isNew){
+    if (this.props.isNew) {
       return [
         {
-          label: "Email",
+          label: 'Email',
           content: this.renderEditor({}),
-          render: ()=>{
-            return <EEDropdown 
-              key="conversation-channel-select" 
-              content={"oijoiojoi"} 
-              items={channelsItems}
-            />
-          }
+          render: () => {
+            return (
+              <EEDropdown
+                key="conversation-channel-select"
+                content={'oijoiojoi'}
+                items={this.props.initiatorChannels}
+                selectedItem={this.props.initiatorChannel}
+                setSelectedItem={this.props.setInitiatorChannel}
+              />
+            );
+          },
         },
         {
           label: I18n.t('conversation.messages.note'),
@@ -167,17 +169,16 @@ export default class ConversationEditor extends Component<
     return [
       {
         label: I18n.t('conversation.messages.reply'),
-        content: this.renderEditor({})
+        content: this.renderEditor({}),
       },
       {
         label: I18n.t('conversation.messages.note'),
         content: this.renderEditor({ note: true }),
       },
     ];
-  }
+  };
 
   render() {
-
     return (
       <Tabs
         tabs={this.resolvedTabs()}
@@ -205,44 +206,46 @@ export default class ConversationEditor extends Component<
   }
 }
 
+function EEDropdown({ content, items, selectedItem, setSelectedItem }) {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
 
-
-function EEDropdown({content, items}){
-  const [dialogOpen, setDialogOpen] = React.useState(false)
-  const [selectedItem, setSelectedItem] = React.useState(items[0])
-
-  function selectItem(o){
-    setSelectedItem(o)
-    setDialogOpen(false)
+  function selectItem(o) {
+    setSelectedItem(o);
+    setDialogOpen(false);
   }
 
-  return <Dropdown
-  isOpen={dialogOpen}
-  onOpen={(v) => setDialogOpen(v)}
-  triggerButton={(cb) => (
-    <Button
-      variant="clean"
-      className="flex flex-wrap"
-      color="primary"
-      size="sm"
-      onClick={cb}
+  return (
+    <Dropdown
+      isOpen={dialogOpen}
+      onOpen={(v) => setDialogOpen(v)}
+      triggerButton={(cb) => (
+        <Button
+          variant="clean"
+          className="flex flex-wrap"
+          color="primary"
+          size="sm"
+          onClick={cb}
+        >
+          <PlusIcon variant="small" /> {selectedItem.name}
+        </Button>
+      )}
     >
-      <PlusIcon variant="small" /> {selectedItem.name}
-    </Button>
-  )}
->
-  <ul className="max-h-24 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800" role="listbox">
-    { 
-      items.map((o)=> (
-        <li key={`channel-item-${o.name}`}
-          onClick={()=> selectItem(o)}
-          className="cursor-default select-none px-4 py-2 hover:text-white hover:bg-black" 
-          role="option" 
-          tabIndex={-1}>
-          {o.name}
-        </li>
-      ))
-    }
-  </ul>
-</Dropdown>
+      <ul
+        className="max-h-24 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800"
+        role="listbox"
+      >
+        {items.map((o) => (
+          <li
+            key={`channel-item-${o.name}`}
+            onClick={() => selectItem(o)}
+            className="cursor-default select-none px-4 py-2 hover:text-white hover:bg-black"
+            role="option"
+            tabIndex={-1}
+          >
+            {o.name}
+          </li>
+        ))}
+      </ul>
+    </Dropdown>
+  );
 }

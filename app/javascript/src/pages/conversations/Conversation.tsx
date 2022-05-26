@@ -54,7 +54,10 @@ import {
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation';
 
-import { successMessage, errorMessage } from '@chaskiq/store/src/actions/status_messages';
+import {
+  successMessage,
+  errorMessage,
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   getConversation,
@@ -75,7 +78,11 @@ import Avatar from '@chaskiq/components/src/components/Avatar';
 
 import bg from '../../images/bg/patterns/memphis-mini.png';
 import bgDark from '../../images/bg/patterns/papyrus-dark.png';
-import { APP_USER_CREATE, START_CONVERSATION } from "@chaskiq/store/src/graphql/mutations";
+import {
+  APP_USER_CREATE,
+  START_CONVERSATION,
+} from '@chaskiq/store/src/graphql/mutations';
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -141,7 +148,7 @@ function Conversation({
   toggleFixedSidebar,
   fixedSidebarOpen,
   isDark,
-  history
+  history,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
@@ -160,8 +167,14 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
-  const [newAppUser, setNewAppUser] = React.useState(null)
-  const [newSubject, setNewSubject] = React.useState(null)
+  const [newAppUser, setNewAppUser] = React.useState(null);
+  const [newSubject, setNewSubject] = React.useState(null);
+  const [initiatorChannels, setInitiatorChannels] = React.useState([
+    { name: 'Email' },
+  ]);
+  const [initiatorChannel, setInitiatorChannel] = React.useState({
+    name: 'Email',
+  });
 
   const [
     conversationPartSelected,
@@ -170,10 +183,10 @@ function Conversation({
 
   const appId = app.key;
 
-  const isNew = matchId === "new"
+  const isNew = matchId === 'new';
 
   React.useEffect(() => {
-    if(isNew) return
+    if (isNew) return;
     getAgents((data) => {
       setAgents(data);
     });
@@ -184,14 +197,16 @@ function Conversation({
 
     dispatch(
       clearConversation(() => {
-        setNewAppUser(null)
-        setNewSubject(null)
-        if(!isNew) getMessages(scrollToLastItem);
+        setNewAppUser(null);
+        setNewSubject(null);
+        if (!isNew) getMessages(scrollToLastItem);
       })
     );
 
-    if(isNew)
+    if (isNew) {
+      getChannelPackagesForNewConversations();
       dispatch(setLoading(false));
+    }
 
     dispatch(setCurrentPage('Conversations'));
 
@@ -210,8 +225,27 @@ function Conversation({
     setScrolling(false);
   }, [messagesLength]);
 
+  function getChannelPackagesForNewConversations() {
+    graphql(
+      APP_PACKAGES_BY_CAPABILITY,
+      {
+        appKey: app.key,
+        kind: 'conversations_initiator',
+      },
+      {
+        success: (data) => {
+          setLoading(false);
+          setInitiatorChannels(
+            [{ name: 'Email' }].concat(data.app.appPackagesCapabilities)
+          );
+        },
+        error: () => {},
+      }
+    );
+  }
+
   const insertCommentDispatch = (comment, cb) => {
-    if(isNew) return startConversation(comment, cb)
+    if (isNew) return startConversation(comment, cb);
 
     dispatch(
       insertComment(comment, () => {
@@ -221,27 +255,33 @@ function Conversation({
   };
 
   const startConversation = (comment, cb) => {
-    const {html, serialized} = comment
+    const { html, serialized } = comment;
     graphql(
       START_CONVERSATION,
       {
         appKey: app.key,
         id: newAppUser.value,
         message: { html, serialized },
-        subject: newSubject
+        subject: newSubject,
+        initiatorChannel: initiatorChannel?.name,
       },
       {
         success: (data) => {
           const { conversation } = data.startConversation;
           const url = `/apps/${app.key}/conversations/${conversation.key}`;
           history.push(url);
+          cb && cb(data);
         },
-        errors: (_error) => {
-          dispatch(errorMessage("error sending message"))
+        errors: (error) => {
+          dispatch(errorMessage('error sending message'));
+          cb && cb(error);
+        },
+        fail: (req) => {
+          cb && cb(req);
         },
       }
     );
-  }
+  };
 
   const insertNoteDispatch = (comment, cb) => {
     dispatch(
@@ -564,56 +604,57 @@ function Conversation({
       isDark={isDark}
       className="flex-1 flex flex-col overflow-hidden-- h-screen"
     >
-      {
-        !isNew && 
-          <div
-            className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
-            style={{ height: '63px' }}
-          >
-            <div className="flex items-center">
-              <Link
-                to={`/apps/${app.key}/conversations`}
-                className="block md:hidden"
-              >
-                <LeftArrow />
-              </Link>
+      {!isNew && (
+        <div
+          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
+          style={{ height: '63px' }}
+        >
+          <div className="flex items-center">
+            <Link
+              to={`/apps/${app.key}/conversations`}
+              className="block md:hidden"
+            >
+              <LeftArrow />
+            </Link>
 
-              {conversation.mainParticipant && !fixedSidebarOpen && (
-                <div
-                  onClick={toggleFixedSidebar}
-                  className="h-9 w-9 rounded-full mr-2 cursor-pointer"
-                >
-                  <Avatar
-                    size={9}
-                    alt={conversation.mainParticipant.displayName}
-                    src={conversation.mainParticipant.avatarUrl}
-                  />
-                </div>
-              )}
-              <h3
-                className="mb-1 text-grey-darkest hidden md:flex 
+            {conversation.mainParticipant && !fixedSidebarOpen && (
+              <div
+                onClick={toggleFixedSidebar}
+                className="h-9 w-9 rounded-full mr-2 cursor-pointer"
+              >
+                <Avatar
+                  size={9}
+                  alt={conversation.mainParticipant.displayName}
+                  src={conversation.mainParticipant.avatarUrl}
+                />
+              </div>
+            )}
+            <h3
+              className="mb-1 text-grey-darkest hidden md:flex 
                 flex-col justify-center items-start"
-              >
-                {conversation.subject && (
-                  <span className="font-bold text-sm">{conversation.subject}</span>
-                )}
-
-                <span className="flex space-x-1 text-xs">
-                  <span>{I18n.t('conversation.with')}</span>
-                  <span
-                    className="font-extrabold hover:text-underline"
-                    onClick={toggleFixedSidebar}
-                    // onClick={handleUserSidebar}
-                  >
-                    {conversation.mainParticipant &&
-                      conversation.mainParticipant.displayName}
-                  </span>
+            >
+              {conversation.subject && (
+                <span className="font-bold text-sm">
+                  {conversation.subject}
                 </span>
-              </h3>
-            </div>
+              )}
 
-            <div className="ml-auto flex">
-              {/*
+              <span className="flex space-x-1 text-xs">
+                <span>{I18n.t('conversation.with')}</span>
+                <span
+                  className="font-extrabold hover:text-underline"
+                  onClick={toggleFixedSidebar}
+                  // onClick={handleUserSidebar}
+                >
+                  {conversation.mainParticipant &&
+                    conversation.mainParticipant.displayName}
+                </span>
+              </span>
+            </h3>
+          </div>
+
+          <div className="ml-auto flex">
+            {/*
                 <div className="relative">
                   <input type="search" placeholder="Search" className="appearance-none border border-grey rounded-lg pl-8 pr-4 py-2"/>
                   <div className="absolute pin-y pin-l pl-3 flex items-center justify-center">
@@ -624,26 +665,26 @@ function Conversation({
                   </div>
               */}
 
-              <Tooltip
-                placement="bottom"
-                overlay={I18n.t(
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t(
+                `conversation.actions.${
+                  conversation.state === 'closed' ? 'reopen' : 'close'
+                }`
+              )}
+            >
+              <button
+                onClick={() => {
+                  const option =
+                    conversation.state === 'closed' ? 'reopen' : 'close';
+                  updateConversationStateDispatch(option);
+                }}
+                aria-label={I18n.t(
                   `conversation.actions.${
                     conversation.state === 'closed' ? 'reopen' : 'close'
                   }`
                 )}
-              >
-                <button
-                  onClick={() => {
-                    const option =
-                      conversation.state === 'closed' ? 'reopen' : 'close';
-                    updateConversationStateDispatch(option);
-                  }}
-                  aria-label={I18n.t(
-                    `conversation.actions.${
-                      conversation.state === 'closed' ? 'reopen' : 'close'
-                    }`
-                  )}
-                  className={`
+                className={`
                   focus:outline-none outline-none mr-1 rounded-full 
                   font-semibold border
                   border-gray-400 shadow
@@ -654,176 +695,177 @@ function Conversation({
                       : 'bg-white hover:bg-gray-100 text-gray-800 dark:hover:bg-gray-800 dark:text-gray-100 dark:bg-gray-900 dark:border-gray-200'
                   }
                   `}
-                >
-                  <CheckmarkIcon variant="rounded" />
-                </button>
-              </Tooltip>
-
-              <Tooltip
-                placement="bottom"
-                overlay={I18n.t(
-                  `conversation.actions.${videoSession ? 'end_call' : 'start_call'}`
-                )}
               >
-                <button
-                  className="focus:outline-none outline-none mr-1 rounded-full
+                <CheckmarkIcon variant="rounded" />
+              </button>
+            </Tooltip>
+
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t(
+                `conversation.actions.${
+                  videoSession ? 'end_call' : 'start_call'
+                }`
+              )}
+            >
+              <button
+                className="focus:outline-none outline-none mr-1 rounded-full
                   bg-white hover:bg-gray-100 text-gray-800
                   dark:hover:bg-gray-800 dark:text-gray-100
                   font-semibold border border-gray-400 shadow dark:bg-gray-900 dark:border-gray-200"
-                  onClick={() => setVideoSession(!videoSession)}
-                >
-                  {videoSession ? (
-                    <CallEnd variant="rounded" />
-                  ) : (
-                    <Call variant="rounded" />
-                  )}
-                </button>
-              </Tooltip>
+                onClick={() => setVideoSession(!videoSession)}
+              >
+                {videoSession ? (
+                  <CallEnd variant="rounded" />
+                ) : (
+                  <Call variant="rounded" />
+                )}
+              </button>
+            </Tooltip>
 
-              <div id="button-element" className="hidden"></div>
+            <div id="button-element" className="hidden"></div>
 
-              {events && (
-                <Rtc
-                  buttonElement={'button-element'}
-                  callInitiatorElement={'callInitiator'}
-                  callButtonsElement={'callButtons'}
-                  infoElement={'info'}
-                  localVideoElement={'localVideo'}
-                  remoteVideoElement={'remoteVideo'}
-                  handleRTCMessage={(_data) => {}}
-                  onCloseSession={() => updateRtcEvents({})}
-                  toggleVideoSession={() => setVideoSession(!videoSession)}
-                  toggleVideo={() => setRtcVideo(!rtcVideo)}
-                  toggleAudio={() => setRtcAudio(!rtcAudio)}
-                  video={videoSession}
-                  rtcVideo={rtcVideo}
-                  rtcAudio={rtcAudio}
-                  pushEvent={pushEvent}
-                  events={events}
-                />
+            {events && (
+              <Rtc
+                buttonElement={'button-element'}
+                callInitiatorElement={'callInitiator'}
+                callButtonsElement={'callButtons'}
+                infoElement={'info'}
+                localVideoElement={'localVideo'}
+                remoteVideoElement={'remoteVideo'}
+                handleRTCMessage={(_data) => {}}
+                onCloseSession={() => updateRtcEvents({})}
+                toggleVideoSession={() => setVideoSession(!videoSession)}
+                toggleVideo={() => setRtcVideo(!rtcVideo)}
+                toggleAudio={() => setRtcAudio(!rtcAudio)}
+                video={videoSession}
+                rtcVideo={rtcVideo}
+                rtcAudio={rtcAudio}
+                pushEvent={pushEvent}
+                events={events}
+              />
+            )}
+
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t(
+                `conversation.actions.${
+                  !conversation.priority ? 'priorize' : 'remove_priority'
+                }`
               )}
-
-              <Tooltip
-                placement="bottom"
-                overlay={I18n.t(
+            >
+              <button
+                onClick={toggleConversationPriority}
+                aria-label={I18n.t(
                   `conversation.actions.${
                     !conversation.priority ? 'priorize' : 'remove_priority'
                   }`
                 )}
-              >
-                <button
-                  onClick={toggleConversationPriority}
-                  aria-label={I18n.t(
-                    `conversation.actions.${
-                      !conversation.priority ? 'priorize' : 'remove_priority'
-                    }`
-                  )}
-                  className="focus:outline-none outline-none mr-1 rounded-full 
+                className="focus:outline-none outline-none mr-1 rounded-full 
                   bg-white hover:bg-gray-100 text-gray-800
                   dark:hover:bg-gray-800 dark:text-gray-100 
                   dark:bg-gray-900 dark:border-gray-200 
                   font-semibold border border-gray-400 shadow"
-                >
-                  <PinIcon variant="rounded" />
-                </button>
-              </Tooltip>
-
-              <Tooltip
-                placement="bottom"
-                overlay={I18n.t('conversation.actions.tag_conversation')}
               >
-                <button
-                  onClick={() => setOpenTagManager(true)}
-                  aria-label={I18n.t('conversation.actions.tag_conversation')}
-                  className="focus:outline-none outline-none mr-1 rounded-full 
+                <PinIcon variant="rounded" />
+              </button>
+            </Tooltip>
+
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t('conversation.actions.tag_conversation')}
+            >
+              <button
+                onClick={() => setOpenTagManager(true)}
+                aria-label={I18n.t('conversation.actions.tag_conversation')}
+                className="focus:outline-none outline-none mr-1 rounded-full 
                   bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
                   dark:hover:bg-gray-800 dark:text-gray-100 
                   dark:bg-gray-900 dark:border-gray-200
                   border-gray-400 shadow"
-                >
-                  <LabelIcon variant="rounded" />
-                </button>
-              </Tooltip>
+              >
+                <LabelIcon variant="rounded" />
+              </button>
+            </Tooltip>
 
-              {openTagManager && (
-                <TagDialog
-                  title={I18n.t('conversation.tag_modal_title')}
-                  tags={conversation.tagList}
-                  saveHandler={(tags) => updateTags(tags)}
-                  closeHandler={() => setOpenTagManager(false)}
-                ></TagDialog>
-              )}
+            {openTagManager && (
+              <TagDialog
+                title={I18n.t('conversation.tag_modal_title')}
+                tags={conversation.tagList}
+                saveHandler={(tags) => updateTags(tags)}
+                closeHandler={() => setOpenTagManager(false)}
+              ></TagDialog>
+            )}
 
-              <FilterMenu
-                options={agents.map((o) => ({
-                  key: o.email,
-                  name: o.name || o.email,
-                  id: o.id,
-                }))}
-                value={conversation.assignee ? conversation.assignee.email : ''}
-                filterHandler={(data) => setAgent(data.id)}
-                position={'right'}
-                origin={'top-50'}
-                triggerButton={(cb) => {
-                  return (
-                    <Tooltip
-                      placement="bottom"
-                      overlay={I18n.t('conversation.actions.assign_agent')}
-                    >
-                      <div
-                        onClick={cb}
-                        className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
+            <FilterMenu
+              options={agents.map((o) => ({
+                key: o.email,
+                name: o.name || o.email,
+                id: o.id,
+              }))}
+              value={conversation.assignee ? conversation.assignee.email : ''}
+              filterHandler={(data) => setAgent(data.id)}
+              position={'right'}
+              origin={'top-50'}
+              triggerButton={(cb) => {
+                return (
+                  <Tooltip
+                    placement="bottom"
+                    overlay={I18n.t('conversation.actions.assign_agent')}
+                  >
+                    <div
+                      onClick={cb}
+                      className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
                         bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
                         dark:hover:bg-gray-800 dark:text-gray-100 
                         dark:bg-gray-900 dark:border-gray-200
                         border shadow items-center justify-center"
-                      >
-                        {conversation.assignee && (
-                          <img
-                            className="h-6 w-6 rounded-full"
-                            src={conversation.assignee.avatarUrl}
-                            alt={conversation.assignee.name}
-                          />
-                        )}
-                      </div>
-                    </Tooltip>
-                  );
+                    >
+                      {conversation.assignee && (
+                        <img
+                          className="h-6 w-6 rounded-full"
+                          src={conversation.assignee.avatarUrl}
+                          alt={conversation.assignee.name}
+                        />
+                      )}
+                    </div>
+                  </Tooltip>
+                );
+              }}
+            />
+
+            {!fixedSidebarOpen && (
+              <div
+                className="flex items-center text-gray-300"
+                style={{
+                  marginRight: '-21px',
+                  marginLeft: '16px',
                 }}
-              />
-
-              {!fixedSidebarOpen && (
-                <div
-                  className="flex items-center text-gray-300"
-                  style={{
-                    marginRight: '-21px',
-                    marginLeft: '16px',
-                  }}
+              >
+                <Button
+                  variant="clean"
+                  className="hidden md:block"
+                  onClick={toggleFixedSidebar}
                 >
-                  <Button
-                    variant="clean"
-                    className="hidden md:block"
-                    onClick={toggleFixedSidebar}
-                  >
-                    <LeftArrow />
-                  </Button>
-                </div>
-              )}
-            </div>
+                  <LeftArrow />
+                </Button>
+              </div>
+            )}
           </div>
-      }
+        </div>
+      )}
 
-      {
-        isNew && 
-        <NewConversationControls 
+      {isNew && (
+        <NewConversationControls
           app={app}
-          conversation={conversation} 
+          conversation={conversation}
           dispatch={dispatch}
           newAppUser={newAppUser}
           setNewAppUser={setNewAppUser}
           newSubject={newSubject}
           setNewSubject={setNewSubject}
         />
-      }
+      )}
 
       <div className={`${videoSession ? 'fixed--' : 'hidden'}`}>
         <div
@@ -917,7 +959,6 @@ function Conversation({
                 <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
                 </span> */}
 
-
             {!conversation.blocked && (
               <ConversationEditor
                 insertAppBlockComment={insertAppBlockCommentDispatch}
@@ -925,6 +966,9 @@ function Conversation({
                 typingNotifier={typingNotifierDispatch}
                 insertNote={insertNoteDispatch}
                 isNew={isNew}
+                initiatorChannels={initiatorChannels}
+                initiatorChannel={initiatorChannel}
+                setInitiatorChannel={setInitiatorChannel}
               />
             )}
 
@@ -957,83 +1001,91 @@ function Conversation({
 }
 
 function NewConversationControls({
-  conversation, 
-  app, 
+  conversation,
+  app,
   dispatch,
   newAppUser,
   setNewAppUser,
   newSubject,
-  setNewSubject
-}){
-
-  const [elements, setElements] = React.useState([])
+  setNewSubject,
+}) {
+  const [elements, setElements] = React.useState([]);
   //const [value, setValue] = React.useState(null)
-  const [isLoading, setLoading] = React.useState(false)
+  const [isLoading, setLoading] = React.useState(false);
 
-  function handleChange(e){
-    console.log("changed", e)
-    setNewAppUser(e)
+  function handleChange(e) {
+    console.log('changed', e);
+    setNewAppUser(e);
   }
 
-  function handleInputChange(e){
-    graphql(CONTACT_SEARCH, {
-      appKey: app.key,
-      term: e
-    }, {
-      success: (data)=>{
-        const collection = data.app.contactSearch.map((o)=> ({ 
-          label: `${o.displayName} · ${o.email}`, 
-          value: o.id 
-        }))
-        
-        setElements(collection)
+  function handleInputChange(e) {
+    graphql(
+      CONTACT_SEARCH,
+      {
+        appKey: app.key,
+        term: e,
       },
-      error: (err)=>{
-        console.log("err", err)
+      {
+        success: (data) => {
+          const collection = data.app.contactSearch.map((o) => ({
+            label: `${o.displayName} · ${o.email}`,
+            value: o.id,
+          }));
+
+          setElements(collection);
+        },
+        error: (err) => {
+          console.log('err', err);
+        },
       }
-    })
+    );
   }
 
-  function handleCreate(email){
-    setLoading(true)
+  function handleCreate(email) {
+    setLoading(true);
 
-    graphql(APP_USER_CREATE, {
-      appKey: app.key,
-      options: {
-        app: {
-          contact_kind: "AppUser",
-          email: email,
-          name: email
-        }
+    graphql(
+      APP_USER_CREATE,
+      {
+        appKey: app.key,
+        options: {
+          app: {
+            contact_kind: 'AppUser',
+            email: email,
+            name: email,
+          },
+        },
+      },
+      {
+        success: (data) => {
+          console.log(data.createAppUser.appUser);
+
+          if (!isEmpty(data.createAppUser.errors)) {
+            const errors = data.createAppUser.errors;
+            const errorsStr = Object.keys(errors)
+              .map((o) => o + ' ' + errors[o].join(''))
+              .join(' ');
+            dispatch(errorMessage(errorsStr));
+          }
+          if (data.createAppUser.appUser.id) {
+            setNewAppUser({
+              label: data.createAppUser.appUser.email,
+              id: data.createAppUser.appUser.id,
+            });
+          }
+          setLoading(false);
+        },
+        error: () => {
+          dispatch(errorMessage('error'));
+          setLoading(false);
+        },
       }
-    }, {
-      success: (data)=>{
-        console.log(data.createAppUser.appUser)
-        
-        if(!isEmpty(data.createAppUser.errors)){
-          const errors = data.createAppUser.errors
-          const errorsStr = Object.keys(errors).map((o)=> o + " "  + errors[o].join("")).join(" ")
-          dispatch(errorMessage(errorsStr))
-        }
-        if(data.createAppUser.appUser.id) {
-          setNewAppUser({
-            label: data.createAppUser.appUser.email,
-            id: data.createAppUser.appUser.id
-          })
-        }
-        setLoading(false)
-      },
-      error: ()=>{
-        dispatch(errorMessage("error"))
-        setLoading(false)
-      },
-    })
+    );
   }
 
   return (
     <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700">
       <div className="flex items-start justify-between w-full">
-        
         <div className="flex-grow pr-10">
           <ul className="flex flex-col space-y-2">
             <li>
@@ -1056,9 +1108,10 @@ function NewConversationControls({
             </li>
             <li>
               <span className="font-bold">Subject: </span>
-              <input type="text"
+              <input
+                type="text"
                 value={newSubject}
-                onChange={(e)=> setNewSubject()}
+                onChange={(e) => setNewSubject(e.target.value)}
                 className="p-2 w-3/4"
                 placeholder="Add a subject for your email"
               />
@@ -1070,10 +1123,9 @@ function NewConversationControls({
           <span className="font-bold">Assign to: </span>
           You
         </div>
-
       </div>
-  </div>
-  )
+    </div>
+  );
 }
 
 function MessageItemWrapper({

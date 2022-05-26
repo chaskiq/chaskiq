@@ -29,8 +29,8 @@ import {
   setCurrentSection,
   setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation';
-import { AnchorLink } from "@chaskiq/components/src/components/RouterLink";
-import { WriteIcon } from "@chaskiq/components/src/components/icons";
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
+import { WriteIcon } from '@chaskiq/components/src/components/icons';
 
 function Conversations({
   dispatch,
@@ -229,17 +229,22 @@ function Conversations({
             </span>
           */}
 
-          <FilterMenu
-            options={sorts}
-            position={'right'}
-            value={conversations.sort}
-            filterHandler={sortConversations}
-            triggerButton={sortButton}
-          />
+          <div className="flex items-center">
+            <FilterMenu
+              options={sorts}
+              position={'right'}
+              value={conversations.sort}
+              filterHandler={sortConversations}
+              triggerButton={sortButton}
+            />
 
-          <AnchorLink to={`/apps/${app.key}/conversations/new`} className="p-2">
-            <WriteIcon/>
-          </AnchorLink>
+            <AnchorLink
+              to={`/apps/${app.key}/conversations/new`}
+              className="ml-2"
+            >
+              <WriteIcon />
+            </AnchorLink>
+          </div>
         </div>
 
         <div
