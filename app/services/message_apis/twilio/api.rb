@@ -202,7 +202,7 @@ module MessageApis::Twilio
       return if from.blank?
       return if new_thread_in_hours.blank?
 
-      from > new_thread_in_hours
+      from < new_thread_in_hours
     end
 
     def new_thread_in_hours

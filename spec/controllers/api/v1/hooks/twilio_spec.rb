@@ -255,7 +255,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
         Conversation.any_instance
                     .stub(:latest_user_visible_comment_at)
-                    .and_return(10.minutes.ago)
+                    .and_return(10.hours.ago)
 
         get(:process_event, params: data_for(
           id: @pkg.id,
@@ -273,6 +273,40 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         expect(app.conversations.last.messages.count).to be == 1
         expect(app.conversations.first).to be_closed
         expect(app.conversations.first.conversation_channels).to be_empty
+      end
+
+      it "second message will be kept in same conversation when in time" do
+        expect(app.app_users).to be_empty
+
+        get(:process_event, params: data_for(
+          id: @pkg.id,
+          sender: user_phone,
+          recipient: owner_phone,
+          message_id: "1234"
+        ))
+        perform_enqueued_jobs
+
+        expect(app.app_users.size).to be == 1
+
+        Conversation.any_instance
+                    .stub(:latest_user_visible_comment_at)
+                    .and_return(10.minutes.ago)
+
+        get(:process_event, params: data_for(
+          id: @pkg.id,
+          sender: user_phone,
+          recipient: owner_phone,
+          message_id: "1235"
+        ))
+        perform_enqueued_jobs
+
+        expect(app.app_users.size).to be == 1
+
+        expect(response.status).to be == 200
+        expect(app.conversations.count).to be == 1
+        expect(app.conversations.first.messages.count).to be == 2
+        expect(app.conversations.first).to be_opened
+        expect(app.conversations.first.conversation_channels).to be_present
       end
 
       it "second message will create a new conversation if current convo is closed" do
