@@ -6,7 +6,7 @@ import 'draft-js/dist/Draft.css';
 import I18n from '../../shared/FakeI18n';
 import Dropdown from '@chaskiq/components/src/components/Dropdown';
 import Button from '@chaskiq/components/src/components/Button';
-import { PlusIcon } from '@chaskiq/components/src/components/icons';
+import { DownArrow } from '@chaskiq/components/src/components/icons';
 
 type EditorContainerType = {
   note: boolean;
@@ -151,7 +151,6 @@ export default class ConversationEditor extends Component<
             return (
               <EEDropdown
                 key="conversation-channel-select"
-                content={'oijoiojoi'}
                 items={this.props.initiatorChannels}
                 selectedItem={this.props.initiatorChannel}
                 setSelectedItem={this.props.setInitiatorChannel}
@@ -206,7 +205,7 @@ export default class ConversationEditor extends Component<
   }
 }
 
-function EEDropdown({ content, items, selectedItem, setSelectedItem }) {
+function EEDropdown({ items, selectedItem, setSelectedItem }) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   function selectItem(o) {
@@ -226,7 +225,7 @@ function EEDropdown({ content, items, selectedItem, setSelectedItem }) {
           size="sm"
           onClick={cb}
         >
-          <PlusIcon variant="small" /> {selectedItem.name}
+          <DownArrow variant="small" /> {selectedItem.name}
         </Button>
       )}
     >
