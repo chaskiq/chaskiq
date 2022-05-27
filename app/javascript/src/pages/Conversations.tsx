@@ -31,6 +31,7 @@ import {
 } from '@chaskiq/store/src/actions/navigation';
 import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
 import { WriteIcon } from '@chaskiq/components/src/components/icons';
+import AppUserEdit from './conversations/ParticipantBlock';
 
 function Conversations({
   dispatch,
@@ -337,19 +338,34 @@ function Conversations({
               events={events}
               pushEvent={pushEvent}
               fixedSidebarOpen={fixedSidebarOpen}
+              setFixedSidebarOpen={setFixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}
             />
           </div>
         </Route>
       </Switch>
 
-      {!isEmpty(conversation) && fixedSidebarOpen && (
+      {!isEmpty(conversation) && conversation.id && fixedSidebarOpen && (
         <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           {app_user && app_user.id ? (
             <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
           ) : (
             <Progress />
           )}
+        </div>
+      )}
+
+      {conversation && !conversation.id && fixedSidebarOpen && (
+        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+          <div className="m-2">
+            {conversation.mainParticipant ? (
+              <AppUserEdit />
+            ) : (
+              <div className="bg-white rounded-md border p-4">
+                <p>No recipient selected.</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -83,6 +83,8 @@ import {
   START_CONVERSATION,
 } from '@chaskiq/store/src/graphql/mutations';
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
+import { dispatchUpdateConversationData } from '@chaskiq/store/src/actions/conversation';
+import useDebounce from '@chaskiq/components/src/components/hooks/useDebounce';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -147,6 +149,7 @@ function Conversation({
   pushEvent,
   toggleFixedSidebar,
   fixedSidebarOpen,
+  setFixedSidebarOpen,
   isDark,
   history,
 }) {
@@ -167,8 +170,6 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
-  const [newAppUser, setNewAppUser] = React.useState(null);
-  const [newSubject, setNewSubject] = React.useState(null);
   const [initiatorChannels, setInitiatorChannels] = React.useState([
     { name: 'Email' },
   ]);
@@ -197,14 +198,21 @@ function Conversation({
 
     dispatch(
       clearConversation(() => {
-        setNewAppUser(null);
-        setNewSubject(null);
         if (!isNew) getMessages(scrollToLastItem);
       })
     );
 
     if (isNew) {
       getChannelPackagesForNewConversations();
+      // inits new conversation
+      dispatch(
+        dispatchUpdateConversationData({
+          id: null,
+          mainParticipant: null,
+          assignee: current_user,
+          subject: '',
+        })
+      );
       dispatch(setLoading(false));
     }
 
@@ -260,9 +268,9 @@ function Conversation({
       START_CONVERSATION,
       {
         appKey: app.key,
-        id: newAppUser.value,
+        id: conversation.mainParticipant.id,
         message: { html, serialized },
-        subject: newSubject,
+        subject: conversation.subject,
         initiatorChannel: initiatorChannel?.name,
       },
       {
@@ -308,7 +316,11 @@ function Conversation({
     const element = e.target;
     if (element.scrollTop === 0) {
       // on top
-      if (conversation.meta.next_page && !conversation.loading) {
+      if (
+        conversation.meta &&
+        conversation.meta.next_page &&
+        !conversation.loading
+      ) {
         setScrolling(true);
         getMessages((item) => {
           scrollToItem(item);
@@ -860,10 +872,8 @@ function Conversation({
           app={app}
           conversation={conversation}
           dispatch={dispatch}
-          newAppUser={newAppUser}
-          setNewAppUser={setNewAppUser}
-          newSubject={newSubject}
-          setNewSubject={setNewSubject}
+          setFixedSidebarOpen={setFixedSidebarOpen}
+          toggleFixedSidebar={toggleFixedSidebar}
         />
       )}
 
@@ -1004,41 +1014,72 @@ function NewConversationControls({
   conversation,
   app,
   dispatch,
-  newAppUser,
-  setNewAppUser,
-  newSubject,
-  setNewSubject,
+  toggleFixedSidebar,
+  setFixedSidebarOpen,
 }) {
   const [elements, setElements] = React.useState([]);
-  //const [value, setValue] = React.useState(null)
   const [isLoading, setLoading] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  // Effect for API call
+  React.useEffect(
+    () => {
+      if (debouncedSearchTerm) {
+        getElements(debouncedSearchTerm);
+      } else {
+        setElements([]);
+      }
+    },
+    [debouncedSearchTerm] // Only call effect if debounced search term changes
+  );
 
   function handleChange(e) {
-    console.log('changed', e);
-    setNewAppUser(e);
+    dispatch(
+      dispatchUpdateConversationData({
+        mainParticipant: elements.find((o) => o.id == e.value),
+      })
+    );
+
+    setFixedSidebarOpen(false);
+    setTimeout(() => setFixedSidebarOpen(true), 30);
+  }
+
+  function setSubject(value) {
+    dispatch(
+      dispatchUpdateConversationData({
+        subject: value,
+      })
+    );
   }
 
   function handleInputChange(e) {
+    setSearchTerm(e);
+  }
+
+  function getElements(term) {
     graphql(
       CONTACT_SEARCH,
       {
         appKey: app.key,
-        term: e,
+        term: term,
       },
       {
         success: (data) => {
-          const collection = data.app.contactSearch.map((o) => ({
-            label: `${o.displayName} · ${o.email}`,
-            value: o.id,
-          }));
-
-          setElements(collection);
+          setElements(data.app.contactSearch);
         },
         error: (err) => {
           console.log('err', err);
         },
       }
     );
+  }
+
+  function displayElementList() {
+    return elements.map((o) => ({
+      label: `${o.displayName} · ${o.email}`,
+      value: o.id,
+    }));
   }
 
   function handleCreate(email) {
@@ -1068,10 +1109,15 @@ function NewConversationControls({
             dispatch(errorMessage(errorsStr));
           }
           if (data.createAppUser.appUser.id) {
-            setNewAppUser({
-              label: data.createAppUser.appUser.email,
-              id: data.createAppUser.appUser.id,
-            });
+            dispatch(
+              dispatchUpdateConversationData({
+                mainParticipant: data.createAppUser.appUser,
+              })
+            );
+
+            //
+            setFixedSidebarOpen(false);
+            setTimeout(() => setFixedSidebarOpen(true), 30);
           }
           setLoading(false);
         },
@@ -1081,6 +1127,16 @@ function NewConversationControls({
         },
       }
     );
+  }
+
+  function getMainParticipantValue() {
+    const { mainParticipant } = conversation;
+    if (!mainParticipant) return null;
+    const { displayName, email } = mainParticipant;
+    return {
+      id: mainParticipant.id,
+      label: `${displayName} · ${email}`,
+    };
   }
 
   return (
@@ -1096,9 +1152,9 @@ function NewConversationControls({
               <div className="mx-2 w-full">
                 <Select
                   isClearable
-                  options={elements}
+                  options={displayElementList()}
                   isLoading={isLoading}
-                  value={newAppUser}
+                  value={getMainParticipantValue()}
                   onChange={handleChange}
                   placeholder="Search for a contact or enter a new one"
                   onInputChange={handleInputChange}
@@ -1110,8 +1166,8 @@ function NewConversationControls({
               <span className="font-bold">Subject: </span>
               <input
                 type="text"
-                value={newSubject}
-                onChange={(e) => setNewSubject(e.target.value)}
+                value={conversation.subject}
+                onChange={(e) => setSubject(e.target.value)}
                 className="p-2 w-3/4"
                 placeholder="Add a subject for your email"
               />
@@ -1119,9 +1175,20 @@ function NewConversationControls({
           </ul>
         </div>
 
-        <div>
-          <span className="font-bold">Assign to: </span>
-          You
+        <div className="flex-col">
+          {/*<div className="flex items-end">
+            <Button
+              variant="clean"
+              className="hidden md:block"
+              onClick={toggleFixedSidebar}
+            >
+              <LeftArrow />
+            </Button>
+          </div>*/}
+
+          <div className="flex">
+            <span className="font-bold">Assign to: </span>You
+          </div>
         </div>
       </div>
     </div>
