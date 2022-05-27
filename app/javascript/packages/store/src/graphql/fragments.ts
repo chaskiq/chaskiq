@@ -9,6 +9,8 @@ tagList
 firstAgentReply
 latestUserVisibleCommentAt
 subject
+blocked
+blockedReason
 assignee {
   id
   email

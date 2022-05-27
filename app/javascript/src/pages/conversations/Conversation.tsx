@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { ThemeProvider } from 'emotion-theming';
 import Tooltip from 'rc-tooltip';
 import I18n from '../../shared/FakeI18n';
-
-import { last } from 'lodash';
+import { last, isEmpty } from 'lodash';
 import Moment from 'react-moment';
 import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
 import ConversationEditor from './Editor';
@@ -18,6 +17,7 @@ import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBl
 import QuickRepliesDialog from './QuickReplyDialog';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
+import Select from 'react-select/creatable';
 
 import {
   CheckmarkIcon,
@@ -54,7 +54,10 @@ import {
   setCurrentSection,
 } from '@chaskiq/store/src/actions/navigation';
 
-import { successMessage } from '@chaskiq/store/src/actions/status_messages';
+import {
+  successMessage,
+  errorMessage,
+} from '@chaskiq/store/src/actions/status_messages';
 
 import {
   getConversation,
@@ -70,11 +73,18 @@ import {
   updateConversationPriority,
 } from '@chaskiq/store/src/actions/conversation';
 
-import { AGENTS } from '@chaskiq/store/src/graphql/queries';
+import { AGENTS, CONTACT_SEARCH } from '@chaskiq/store/src/graphql/queries';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 
 import bg from '../../images/bg/patterns/memphis-mini.png';
 import bgDark from '../../images/bg/patterns/papyrus-dark.png';
+import {
+  APP_USER_CREATE,
+  START_CONVERSATION,
+} from '@chaskiq/store/src/graphql/mutations';
+import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
+import { dispatchUpdateConversationData } from '@chaskiq/store/src/actions/conversation';
+import useDebounce from '@chaskiq/components/src/components/hooks/useDebounce';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -139,7 +149,9 @@ function Conversation({
   pushEvent,
   toggleFixedSidebar,
   fixedSidebarOpen,
+  setFixedSidebarOpen,
   isDark,
+  history,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
@@ -158,6 +170,13 @@ function Conversation({
   const [openTagManager, setOpenTagManager] = React.useState(false);
   const [quickReplyDialogOpen, setQuickReplyDialogOpen] = React.useState(false);
 
+  const [initiatorChannels, setInitiatorChannels] = React.useState([
+    { name: 'Email' },
+  ]);
+  const [initiatorChannel, setInitiatorChannel] = React.useState({
+    name: 'Email',
+  });
+
   const [
     conversationPartSelected,
     setConversationPartSelected,
@@ -165,7 +184,10 @@ function Conversation({
 
   const appId = app.key;
 
+  const isNew = matchId === 'new';
+
   React.useEffect(() => {
+    if (isNew) return;
     getAgents((data) => {
       setAgents(data);
     });
@@ -176,9 +198,23 @@ function Conversation({
 
     dispatch(
       clearConversation(() => {
-        getMessages(scrollToLastItem);
+        if (!isNew) getMessages(scrollToLastItem);
       })
     );
+
+    if (isNew) {
+      getChannelPackagesForNewConversations();
+      // inits new conversation
+      dispatch(
+        dispatchUpdateConversationData({
+          id: null,
+          mainParticipant: null,
+          assignee: current_user,
+          subject: '',
+        })
+      );
+      dispatch(setLoading(false));
+    }
 
     dispatch(setCurrentPage('Conversations'));
 
@@ -197,11 +233,61 @@ function Conversation({
     setScrolling(false);
   }, [messagesLength]);
 
+  function getChannelPackagesForNewConversations() {
+    graphql(
+      APP_PACKAGES_BY_CAPABILITY,
+      {
+        appKey: app.key,
+        kind: 'conversations_initiator',
+      },
+      {
+        success: (data) => {
+          setLoading(false);
+          setInitiatorChannels(
+            [{ name: 'Email' }].concat(data.app.appPackagesCapabilities)
+          );
+        },
+        error: () => {},
+      }
+    );
+  }
+
   const insertCommentDispatch = (comment, cb) => {
+    if (isNew) return startConversation(comment, cb);
+
     dispatch(
       insertComment(comment, () => {
         cb && cb();
       })
+    );
+  };
+
+  const startConversation = (comment, cb) => {
+    const { html, serialized } = comment;
+    graphql(
+      START_CONVERSATION,
+      {
+        appKey: app.key,
+        id: conversation.mainParticipant.id,
+        message: { html, serialized },
+        subject: conversation.subject,
+        initiatorChannel: initiatorChannel?.name,
+      },
+      {
+        success: (data) => {
+          const { conversation } = data.startConversation;
+          const url = `/apps/${app.key}/conversations/${conversation.key}`;
+          history.push(url);
+          cb && cb(data);
+        },
+        errors: (error) => {
+          dispatch(errorMessage('error sending message'));
+          cb && cb(error);
+        },
+        fail: (req) => {
+          cb && cb(req);
+        },
+      }
     );
   };
 
@@ -230,7 +316,11 @@ function Conversation({
     const element = e.target;
     if (element.scrollTop === 0) {
       // on top
-      if (conversation.meta.next_page && !conversation.loading) {
+      if (
+        conversation.meta &&
+        conversation.meta.next_page &&
+        !conversation.loading
+      ) {
         setScrolling(true);
         getMessages((item) => {
           scrollToItem(item);
@@ -526,250 +616,266 @@ function Conversation({
       isDark={isDark}
       className="flex-1 flex flex-col overflow-hidden-- h-screen"
     >
-      <div
-        className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
-        style={{ height: '63px' }}
-      >
-        <div className="flex items-center">
-          <Link
-            to={`/apps/${app.key}/conversations`}
-            className="block md:hidden"
-          >
-            <LeftArrow />
-          </Link>
-
-          {conversation.mainParticipant && !fixedSidebarOpen && (
-            <div
-              onClick={toggleFixedSidebar}
-              className="h-9 w-9 rounded-full mr-2 cursor-pointer"
+      {!isNew && (
+        <div
+          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
+          style={{ height: '63px' }}
+        >
+          <div className="flex items-center">
+            <Link
+              to={`/apps/${app.key}/conversations`}
+              className="block md:hidden"
             >
-              <Avatar
-                size={9}
-                alt={conversation.mainParticipant.displayName}
-                src={conversation.mainParticipant.avatarUrl}
-              />
-            </div>
-          )}
-          <h3
-            className="mb-1 text-grey-darkest hidden md:flex 
-            flex-col justify-center items-start"
-          >
-            {conversation.subject && (
-              <span className="font-bold text-sm">{conversation.subject}</span>
-            )}
+              <LeftArrow />
+            </Link>
 
-            <span className="flex space-x-1 text-xs">
-              <span>{I18n.t('conversation.with')}</span>
-              <span
-                className="font-extrabold hover:text-underline"
+            {conversation.mainParticipant && !fixedSidebarOpen && (
+              <div
                 onClick={toggleFixedSidebar}
-                // onClick={handleUserSidebar}
+                className="h-9 w-9 rounded-full mr-2 cursor-pointer"
               >
-                {conversation.mainParticipant &&
-                  conversation.mainParticipant.displayName}
-              </span>
-            </span>
-          </h3>
-        </div>
-
-        <div className="ml-auto flex">
-          {/*
-            <div className="relative">
-              <input type="search" placeholder="Search" className="appearance-none border border-grey rounded-lg pl-8 pr-4 py-2"/>
-              <div className="absolute pin-y pin-l pl-3 flex items-center justify-center">
-                <svg className="fill-current text-grey h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-                </svg>
+                <Avatar
+                  size={9}
+                  alt={conversation.mainParticipant.displayName}
+                  src={conversation.mainParticipant.avatarUrl}
+                />
               </div>
-              </div>
-          */}
-
-          <Tooltip
-            placement="bottom"
-            overlay={I18n.t(
-              `conversation.actions.${
-                conversation.state === 'closed' ? 'reopen' : 'close'
-              }`
             )}
-          >
-            <button
-              onClick={() => {
-                const option =
-                  conversation.state === 'closed' ? 'reopen' : 'close';
-                updateConversationStateDispatch(option);
-              }}
-              aria-label={I18n.t(
+            <h3
+              className="mb-1 text-grey-darkest hidden md:flex 
+                flex-col justify-center items-start"
+            >
+              {conversation.subject && (
+                <span className="font-bold text-sm">
+                  {conversation.subject}
+                </span>
+              )}
+
+              <span className="flex space-x-1 text-xs">
+                <span>{I18n.t('conversation.with')}</span>
+                <span
+                  className="font-extrabold hover:text-underline"
+                  onClick={toggleFixedSidebar}
+                  // onClick={handleUserSidebar}
+                >
+                  {conversation.mainParticipant &&
+                    conversation.mainParticipant.displayName}
+                </span>
+              </span>
+            </h3>
+          </div>
+
+          <div className="ml-auto flex">
+            {/*
+                <div className="relative">
+                  <input type="search" placeholder="Search" className="appearance-none border border-grey rounded-lg pl-8 pr-4 py-2"/>
+                  <div className="absolute pin-y pin-l pl-3 flex items-center justify-center">
+                    <svg className="fill-current text-grey h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                    </svg>
+                  </div>
+                  </div>
+              */}
+
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t(
                 `conversation.actions.${
                   conversation.state === 'closed' ? 'reopen' : 'close'
                 }`
               )}
-              className={`
-              focus:outline-none outline-none mr-1 rounded-full 
-              font-semibold border
-              border-gray-400 shadow
-
-              ${
-                conversation.state === 'closed'
-                  ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                  : 'bg-white hover:bg-gray-100 text-gray-800 dark:hover:bg-gray-800 dark:text-gray-100 dark:bg-gray-900 dark:border-gray-200'
-              }
-              `}
             >
-              <CheckmarkIcon variant="rounded" />
-            </button>
-          </Tooltip>
+              <button
+                onClick={() => {
+                  const option =
+                    conversation.state === 'closed' ? 'reopen' : 'close';
+                  updateConversationStateDispatch(option);
+                }}
+                aria-label={I18n.t(
+                  `conversation.actions.${
+                    conversation.state === 'closed' ? 'reopen' : 'close'
+                  }`
+                )}
+                className={`
+                  focus:outline-none outline-none mr-1 rounded-full 
+                  font-semibold border
+                  border-gray-400 shadow
 
-          <Tooltip
-            placement="bottom"
-            overlay={I18n.t(
-              `conversation.actions.${videoSession ? 'end_call' : 'start_call'}`
-            )}
-          >
-            <button
-              className="focus:outline-none outline-none mr-1 rounded-full
-               bg-white hover:bg-gray-100 text-gray-800
-              dark:hover:bg-gray-800 dark:text-gray-100
-               font-semibold border border-gray-400 shadow dark:bg-gray-900 dark:border-gray-200"
-              onClick={() => setVideoSession(!videoSession)}
-            >
-              {videoSession ? (
-                <CallEnd variant="rounded" />
-              ) : (
-                <Call variant="rounded" />
+                  ${
+                    conversation.state === 'closed'
+                      ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
+                      : 'bg-white hover:bg-gray-100 text-gray-800 dark:hover:bg-gray-800 dark:text-gray-100 dark:bg-gray-900 dark:border-gray-200'
+                  }
+                  `}
+              >
+                <CheckmarkIcon variant="rounded" />
+              </button>
+            </Tooltip>
+
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t(
+                `conversation.actions.${
+                  videoSession ? 'end_call' : 'start_call'
+                }`
               )}
-            </button>
-          </Tooltip>
+            >
+              <button
+                className="focus:outline-none outline-none mr-1 rounded-full
+                  bg-white hover:bg-gray-100 text-gray-800
+                  dark:hover:bg-gray-800 dark:text-gray-100
+                  font-semibold border border-gray-400 shadow dark:bg-gray-900 dark:border-gray-200"
+                onClick={() => setVideoSession(!videoSession)}
+              >
+                {videoSession ? (
+                  <CallEnd variant="rounded" />
+                ) : (
+                  <Call variant="rounded" />
+                )}
+              </button>
+            </Tooltip>
 
-          <div id="button-element" className="hidden"></div>
+            <div id="button-element" className="hidden"></div>
 
-          {events && (
-            <Rtc
-              buttonElement={'button-element'}
-              callInitiatorElement={'callInitiator'}
-              callButtonsElement={'callButtons'}
-              infoElement={'info'}
-              localVideoElement={'localVideo'}
-              remoteVideoElement={'remoteVideo'}
-              handleRTCMessage={(_data) => {}}
-              onCloseSession={() => updateRtcEvents({})}
-              toggleVideoSession={() => setVideoSession(!videoSession)}
-              toggleVideo={() => setRtcVideo(!rtcVideo)}
-              toggleAudio={() => setRtcAudio(!rtcAudio)}
-              video={videoSession}
-              rtcVideo={rtcVideo}
-              rtcAudio={rtcAudio}
-              pushEvent={pushEvent}
-              events={events}
-            />
-          )}
-
-          <Tooltip
-            placement="bottom"
-            overlay={I18n.t(
-              `conversation.actions.${
-                !conversation.priority ? 'priorize' : 'remove_priority'
-              }`
+            {events && (
+              <Rtc
+                buttonElement={'button-element'}
+                callInitiatorElement={'callInitiator'}
+                callButtonsElement={'callButtons'}
+                infoElement={'info'}
+                localVideoElement={'localVideo'}
+                remoteVideoElement={'remoteVideo'}
+                handleRTCMessage={(_data) => {}}
+                onCloseSession={() => updateRtcEvents({})}
+                toggleVideoSession={() => setVideoSession(!videoSession)}
+                toggleVideo={() => setRtcVideo(!rtcVideo)}
+                toggleAudio={() => setRtcAudio(!rtcAudio)}
+                video={videoSession}
+                rtcVideo={rtcVideo}
+                rtcAudio={rtcAudio}
+                pushEvent={pushEvent}
+                events={events}
+              />
             )}
-          >
-            <button
-              onClick={toggleConversationPriority}
-              aria-label={I18n.t(
+
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t(
                 `conversation.actions.${
                   !conversation.priority ? 'priorize' : 'remove_priority'
                 }`
               )}
-              className="focus:outline-none outline-none mr-1 rounded-full 
-              bg-white hover:bg-gray-100 text-gray-800
-              dark:hover:bg-gray-800 dark:text-gray-100 
-              dark:bg-gray-900 dark:border-gray-200 
-              font-semibold border border-gray-400 shadow"
             >
-              <PinIcon variant="rounded" />
-            </button>
-          </Tooltip>
-
-          <Tooltip
-            placement="bottom"
-            overlay={I18n.t('conversation.actions.tag_conversation')}
-          >
-            <button
-              onClick={() => setOpenTagManager(true)}
-              aria-label={I18n.t('conversation.actions.tag_conversation')}
-              className="focus:outline-none outline-none mr-1 rounded-full 
-              bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
-              dark:hover:bg-gray-800 dark:text-gray-100 
-              dark:bg-gray-900 dark:border-gray-200
-              border-gray-400 shadow"
-            >
-              <LabelIcon variant="rounded" />
-            </button>
-          </Tooltip>
-
-          {openTagManager && (
-            <TagDialog
-              title={I18n.t('conversation.tag_modal_title')}
-              tags={conversation.tagList}
-              saveHandler={(tags) => updateTags(tags)}
-              closeHandler={() => setOpenTagManager(false)}
-            ></TagDialog>
-          )}
-
-          <FilterMenu
-            options={agents.map((o) => ({
-              key: o.email,
-              name: o.name || o.email,
-              id: o.id,
-            }))}
-            value={conversation.assignee ? conversation.assignee.email : ''}
-            filterHandler={(data) => setAgent(data.id)}
-            position={'right'}
-            origin={'top-50'}
-            triggerButton={(cb) => {
-              return (
-                <Tooltip
-                  placement="bottom"
-                  overlay={I18n.t('conversation.actions.assign_agent')}
-                >
-                  <div
-                    onClick={cb}
-                    className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
-                    bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
-                    dark:hover:bg-gray-800 dark:text-gray-100 
-                    dark:bg-gray-900 dark:border-gray-200
-                    border shadow items-center justify-center"
-                  >
-                    {conversation.assignee && (
-                      <img
-                        className="h-6 w-6 rounded-full"
-                        src={conversation.assignee.avatarUrl}
-                        alt={conversation.assignee.name}
-                      />
-                    )}
-                  </div>
-                </Tooltip>
-              );
-            }}
-          />
-
-          {!fixedSidebarOpen && (
-            <div
-              className="flex items-center text-gray-300"
-              style={{
-                marginRight: '-21px',
-                marginLeft: '16px',
-              }}
-            >
-              <Button
-                variant="clean"
-                className="hidden md:block"
-                onClick={toggleFixedSidebar}
+              <button
+                onClick={toggleConversationPriority}
+                aria-label={I18n.t(
+                  `conversation.actions.${
+                    !conversation.priority ? 'priorize' : 'remove_priority'
+                  }`
+                )}
+                className="focus:outline-none outline-none mr-1 rounded-full 
+                  bg-white hover:bg-gray-100 text-gray-800
+                  dark:hover:bg-gray-800 dark:text-gray-100 
+                  dark:bg-gray-900 dark:border-gray-200 
+                  font-semibold border border-gray-400 shadow"
               >
-                <LeftArrow />
-              </Button>
-            </div>
-          )}
+                <PinIcon variant="rounded" />
+              </button>
+            </Tooltip>
+
+            <Tooltip
+              placement="bottom"
+              overlay={I18n.t('conversation.actions.tag_conversation')}
+            >
+              <button
+                onClick={() => setOpenTagManager(true)}
+                aria-label={I18n.t('conversation.actions.tag_conversation')}
+                className="focus:outline-none outline-none mr-1 rounded-full 
+                  bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
+                  dark:hover:bg-gray-800 dark:text-gray-100 
+                  dark:bg-gray-900 dark:border-gray-200
+                  border-gray-400 shadow"
+              >
+                <LabelIcon variant="rounded" />
+              </button>
+            </Tooltip>
+
+            {openTagManager && (
+              <TagDialog
+                title={I18n.t('conversation.tag_modal_title')}
+                tags={conversation.tagList}
+                saveHandler={(tags) => updateTags(tags)}
+                closeHandler={() => setOpenTagManager(false)}
+              ></TagDialog>
+            )}
+
+            <FilterMenu
+              options={agents.map((o) => ({
+                key: o.email,
+                name: o.name || o.email,
+                id: o.id,
+              }))}
+              value={conversation.assignee ? conversation.assignee.email : ''}
+              filterHandler={(data) => setAgent(data.id)}
+              position={'right'}
+              origin={'top-50'}
+              triggerButton={(cb) => {
+                return (
+                  <Tooltip
+                    placement="bottom"
+                    overlay={I18n.t('conversation.actions.assign_agent')}
+                  >
+                    <div
+                      onClick={cb}
+                      className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
+                        bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
+                        dark:hover:bg-gray-800 dark:text-gray-100 
+                        dark:bg-gray-900 dark:border-gray-200
+                        border shadow items-center justify-center"
+                    >
+                      {conversation.assignee && (
+                        <img
+                          className="h-6 w-6 rounded-full"
+                          src={conversation.assignee.avatarUrl}
+                          alt={conversation.assignee.name}
+                        />
+                      )}
+                    </div>
+                  </Tooltip>
+                );
+              }}
+            />
+
+            {!fixedSidebarOpen && (
+              <div
+                className="flex items-center text-gray-300"
+                style={{
+                  marginRight: '-21px',
+                  marginLeft: '16px',
+                }}
+              >
+                <Button
+                  variant="clean"
+                  className="hidden md:block"
+                  onClick={toggleFixedSidebar}
+                >
+                  <LeftArrow />
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {isNew && (
+        <NewConversationControls
+          app={app}
+          conversation={conversation}
+          dispatch={dispatch}
+          setFixedSidebarOpen={setFixedSidebarOpen}
+          toggleFixedSidebar={toggleFixedSidebar}
+        />
+      )}
 
       <div className={`${videoSession ? 'fixed--' : 'hidden'}`}>
         <div
@@ -856,28 +962,236 @@ function Conversation({
         </div>
       </div>
 
-      <div className="pb-3 px-4 flex-none mt-auto">
-        <div className="bg-white flex rounded-lg border border-grey overflow-hidden shadow-lg">
-          {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
-              <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
-              </span> */}
+      {!conversation.loading && (
+        <div className="pb-3 px-4 flex-none mt-auto">
+          <div className="bg-white flex rounded-lg border border-grey overflow-hidden-- shadow-lg">
+            {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
+                <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
+                </span> */}
 
-          <ConversationEditor
-            insertAppBlockComment={insertAppBlockCommentDispatch}
-            insertComment={insertCommentDispatch}
-            typingNotifier={typingNotifierDispatch}
-            insertNote={insertNoteDispatch}
-          />
+            {!conversation.blocked && (
+              <ConversationEditor
+                insertAppBlockComment={insertAppBlockCommentDispatch}
+                insertComment={insertCommentDispatch}
+                typingNotifier={typingNotifierDispatch}
+                insertNote={insertNoteDispatch}
+                isNew={isNew}
+                initiatorChannels={initiatorChannels}
+                initiatorChannel={initiatorChannel}
+                setInitiatorChannel={setInitiatorChannel}
+              />
+            )}
 
-          {/* <input type="text" className="w-full px-4" placeholder="Message #general"/> */}
+            {conversation.blocked && (
+              <div className="w-full">
+                <div className="rounded-md bg-gray-100 p-4 h-32">
+                  <div className="flex">
+                    <div className="ml-3 flex-1 md:flex md:justify-between flex-col space-y-3">
+                      <p className="text-sm text-gray-700 font-bold border-b-4 border-b-gray-900">
+                        Conversation locked
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        {conversation.blockedReason || 'conversation blocked'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       <QuickRepliesDialog
         closeHandler={() => setQuickReplyDialogOpen(null)}
         open={quickReplyDialogOpen}
       ></QuickRepliesDialog>
     </BgContainer>
+  );
+}
+
+function NewConversationControls({
+  conversation,
+  app,
+  dispatch,
+  toggleFixedSidebar,
+  setFixedSidebarOpen,
+}) {
+  const [elements, setElements] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(false);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  // Effect for API call
+  React.useEffect(
+    () => {
+      if (debouncedSearchTerm) {
+        getElements(debouncedSearchTerm);
+      } else {
+        setElements([]);
+      }
+    },
+    [debouncedSearchTerm] // Only call effect if debounced search term changes
+  );
+
+  function handleChange(e) {
+    dispatch(
+      dispatchUpdateConversationData({
+        mainParticipant: elements.find((o) => o.id == e.value),
+      })
+    );
+
+    setFixedSidebarOpen(false);
+    setTimeout(() => setFixedSidebarOpen(true), 30);
+  }
+
+  function setSubject(value) {
+    dispatch(
+      dispatchUpdateConversationData({
+        subject: value,
+      })
+    );
+  }
+
+  function handleInputChange(e) {
+    setSearchTerm(e);
+  }
+
+  function getElements(term) {
+    graphql(
+      CONTACT_SEARCH,
+      {
+        appKey: app.key,
+        term: term,
+      },
+      {
+        success: (data) => {
+          setElements(data.app.contactSearch);
+        },
+        error: (err) => {
+          console.log('err', err);
+        },
+      }
+    );
+  }
+
+  function displayElementList() {
+    return elements.map((o) => ({
+      label: `${o.displayName} · ${o.email}`,
+      value: o.id,
+    }));
+  }
+
+  function handleCreate(email) {
+    setLoading(true);
+
+    graphql(
+      APP_USER_CREATE,
+      {
+        appKey: app.key,
+        options: {
+          app: {
+            contact_kind: 'AppUser',
+            email: email,
+            name: email,
+          },
+        },
+      },
+      {
+        success: (data) => {
+          console.log(data.createAppUser.appUser);
+
+          if (!isEmpty(data.createAppUser.errors)) {
+            const errors = data.createAppUser.errors;
+            const errorsStr = Object.keys(errors)
+              .map((o) => o + ' ' + errors[o].join(''))
+              .join(' ');
+            dispatch(errorMessage(errorsStr));
+          }
+          if (data.createAppUser.appUser.id) {
+            dispatch(
+              dispatchUpdateConversationData({
+                mainParticipant: data.createAppUser.appUser,
+              })
+            );
+
+            //
+            setFixedSidebarOpen(false);
+            setTimeout(() => setFixedSidebarOpen(true), 30);
+          }
+          setLoading(false);
+        },
+        error: () => {
+          dispatch(errorMessage('error'));
+          setLoading(false);
+        },
+      }
+    );
+  }
+
+  function getMainParticipantValue() {
+    const { mainParticipant } = conversation;
+    if (!mainParticipant) return null;
+    const { displayName, email } = mainParticipant;
+    return {
+      id: mainParticipant.id,
+      label: `${displayName} · ${email}`,
+    };
+  }
+
+  return (
+    <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex items-start justify-between w-full">
+        <div className="flex-grow pr-10">
+          <ul className="flex flex-col space-y-2">
+            <li>
+              <span className="font-bold">From: </span> you
+            </li>
+            <li className="flex justify-between items-center">
+              <span className="font-bold">To:</span>
+              <div className="mx-2 w-full">
+                <Select
+                  isClearable
+                  options={displayElementList()}
+                  isLoading={isLoading}
+                  value={getMainParticipantValue()}
+                  onChange={handleChange}
+                  placeholder="Search for a contact or enter a new one"
+                  onInputChange={handleInputChange}
+                  onCreateOption={handleCreate}
+                />
+              </div>
+            </li>
+            <li>
+              <span className="font-bold">Subject: </span>
+              <input
+                type="text"
+                value={conversation.subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="p-2 w-3/4"
+                placeholder="Add a subject for your email"
+              />
+            </li>
+          </ul>
+        </div>
+
+        <div className="flex-col">
+          {/*<div className="flex items-end">
+            <Button
+              variant="clean"
+              className="hidden md:block"
+              onClick={toggleFixedSidebar}
+            >
+              <LeftArrow />
+            </Button>
+          </div>*/}
+
+          <div className="flex">
+            <span className="font-bold">Assign to: </span>You
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

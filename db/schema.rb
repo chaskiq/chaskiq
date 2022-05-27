@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_22_200854) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_19_012507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -535,6 +535,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_22_200854) do
     t.datetime "first_agent_reply", precision: nil
     t.datetime "closed_at", precision: nil
     t.string "subject"
+    t.boolean "blocked"
+    t.string "blocked_reason"
     t.index ["app_id"], name: "index_conversations_on_app_id"
     t.index ["assignee_id"], name: "index_conversations_on_assignee_id"
     t.index ["key"], name: "index_conversations_on_key"
