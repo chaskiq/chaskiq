@@ -145,9 +145,13 @@ module MessageApis::Twilio
             status: body
           }
         )
-        nil
+        return nil
       end
+
+      response
     end
+
+    def handle_post_failure; end
 
     def process_message_params(blocks, profile_id)
       # TODO: support more blocks

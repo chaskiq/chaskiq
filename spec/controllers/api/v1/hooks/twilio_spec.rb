@@ -1,6 +1,14 @@
 require "rails_helper"
 include ActiveJob::TestHelper
 
+class SuccessMock
+  attr_accessor :body
+
+  def success?
+    true
+  end
+end
+
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   let(:owner_phone) do
     "whatsapp:+1111"
@@ -216,7 +224,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           }
         }
 
-        expect_any_instance_of(Faraday::Connection).to receive(:post)
+        body = {}.to_json
+        success_mock = SuccessMock.new
+        success_mock.body = body
+
+        expect_any_instance_of(Faraday::Connection).to receive(:post).and_return(
+          success_mock
+        )
 
         Conversation.last.add_message(opts)
         perform_enqueued_jobs
