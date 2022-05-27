@@ -87,6 +87,8 @@ module MessageApis::Twilio
                                 &.find_by(provider: PROVIDER)
                                 &.profile_id
 
+      profile_id = add_participant_to_existing_user(conversation.main_participant, conversation.main_participant.phone) if profile_id.blank?
+
       raise ActiveRecord::Rollback if profile_id.blank?
 
       previous_conversation = find_conversation_by_channel(profile_id)
@@ -119,10 +121,32 @@ module MessageApis::Twilio
 
       message_params = process_message_params(blocks, profile_id)
 
-      @conn.post(
+      response = @conn.post(
         @url,
         message_params
       )
+
+      unless response.success?
+        body = begin
+          JSON.parse(response.body)
+        rescue StandardError
+          ""
+        end
+        msg = begin
+          body["message"]
+        rescue StandardError
+          ""
+        end
+        conversation.add_message_event(
+          action: "errored: #{msg}",
+          provider: PROVIDER,
+          message_source_id: "bypass-internal-#{part.id}",
+          data: {
+            status: body
+          }
+        )
+        nil
+      end
     end
 
     def process_message_params(blocks, profile_id)
@@ -298,6 +322,39 @@ module MessageApis::Twilio
         # "audio/ogg" then ....
       else file_block(url: attachment, text: "media: #{media_type}")
       end
+    end
+
+    def add_participant_to_existing_user(app_user, phone)
+      twilio_user = "whatsapp:#{phone}"
+
+      app = @package.app
+
+      data = {
+        properties: {
+          name: twilio_user,
+          twilio_id: twilio_user
+        }
+      }
+
+      external_profile = app.external_profiles.find_by(
+        provider: PROVIDER,
+        profile_id: twilio_user
+      )
+
+      # creates the profile
+      if external_profile.blank?
+        app_user.external_profiles.create(
+          provider: PROVIDER,
+          profile_id: twilio_user
+        )
+        return twilio_user
+      end
+
+      participant = external_profile&.app_user
+      # means the external profile belongs to somebody else
+      return nil if participant && participant.id != app_user.id
+
+      twilio_user if participant && participant.id == app_user.id
     end
 
     def add_participant(twilio_user)

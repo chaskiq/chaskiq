@@ -35,8 +35,9 @@ module MessageApis::ContactFields
       conversation = Conversation.find_by(
         key: ctx[:conversation_key]
       )
-      user = conversation.main_participant
       app = ctx[:package].app
+
+      user = conversation&.main_participant || app.app_users.find_by(id: ctx[:conversation_participant])
 
       error_notice = {
         type: "text",
@@ -107,7 +108,8 @@ module MessageApis::ContactFields
       conversation = Conversation.find_by(
         key: ctx[:conversation_key]
       )
-      user = conversation.main_participant
+
+      user = conversation&.main_participant || ctx[:package].app.app_users.find_by(id: ctx[:conversation_participant])
 
       definitions = [
         {
