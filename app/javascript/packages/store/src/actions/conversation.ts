@@ -151,10 +151,11 @@ export function insertComment(comment, cb) {
         success: (data) => {
           // console.log(data)
           dispatch(appendMessage(data.insertComment.message));
-          cb();
+          cb && cb(data);
         },
         error: (error) => {
           console.log(error);
+          cb && cb(error);
         },
       }
     );
@@ -181,11 +182,11 @@ export function insertAppBlockComment(comment, cb) {
       {
         success: (data) => {
           console.log(data);
-          cb && cb();
+          cb && cb(data);
         },
         error: (error) => {
           console.log(error);
-          cb && cb();
+          cb && cb(error);
         },
       }
     );
@@ -204,10 +205,11 @@ export function insertNote(comment, cb) {
       {
         success: (data) => {
           console.log(data);
-          cb();
+          cb && cb(data);
         },
         error: (error) => {
           console.log(error);
+          cb && cb(error);
         },
       }
     );

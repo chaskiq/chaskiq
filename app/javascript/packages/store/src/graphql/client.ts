@@ -83,6 +83,7 @@ const graphql = (query, variables, callbacks) => {
       callbacks.success ? callbacks.success(data, res) : null;
     })
     .catch((req) => {
+      callbacks.fail ? callbacks.fail(req) : null;
       // throw r
       // const res = r.response
       // console.log("error on grapqhl client", req, error)

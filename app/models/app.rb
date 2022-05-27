@@ -176,24 +176,32 @@ class App < ApplicationRecord
     participant = options[:participant] || user
     message_source = options[:message_source]
 
-    conversation = conversations.create(
-      main_participant: participant,
-      initiator: user,
-      assignee: options[:assignee],
-      subject: options[:subject]
-    )
-
-    if message.present?
-      conversation.add_message(
-        from: user,
-        message:,
-        message_source:,
-        check_assignment_rules: true
+    ActiveRecord::Base.transaction do
+      conversation = conversations.create(
+        main_participant: participant,
+        initiator: user,
+        assignee: options[:assignee],
+        subject: options[:subject]
       )
-    end
 
-    conversation.add_started_event
-    conversation
+      if options[:initiator_channel]
+        # here we will create a conversation channel and a external profile if it's neccessary
+        pkg = find_app_package(options[:initiator_channel])
+        pkg&.message_api_klass&.prepare_initiator_channel_for(conversation, pkg) if pkg.present?
+      end
+
+      if message.present?
+        conversation.add_message(
+          from: user,
+          message:,
+          message_source:,
+          check_assignment_rules: true
+        )
+      end
+
+      conversation.add_started_event
+      conversation
+    end
   end
 
   def query_segment(kind)
