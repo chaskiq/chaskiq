@@ -88,7 +88,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       @pkg = app.app_package_integrations.create(
         {
-          app_package:,
+          app_package: app_package,
           settings: {
             api_secret: "aaa",
             api_key: "aaa",

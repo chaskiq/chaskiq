@@ -99,7 +99,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
-        app_package:,
+        app_package: app_package,
         api_key: "aaa",
         access_token: "aaa"
       )
@@ -109,19 +109,19 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "receive hook" do
       allow_any_instance_of(MessageApis::Zoom).to receive(:enqueue_process_event).once
-      post(:process_event, params: data_for(id: @pkg.encoded_id, app:))
+      post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
     end
 
     it "meeting started" do
       perform_enqueued_jobs do
-        post(:process_event, params: data_for(id: @pkg.encoded_id, app:))
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app))
         expect(message.reload.message.data["status"]).to be == "meeting_started"
       end
     end
 
     it "meeting ended" do
       perform_enqueued_jobs do
-        post(:process_event, params: data_for(id: @pkg.encoded_id, app:, event: "meeting.ended"))
+        post(:process_event, params: data_for(id: @pkg.encoded_id, app: app, event: "meeting.ended"))
         expect(message.reload.message.data["status"]).to be == "meeting_ended"
       end
     end

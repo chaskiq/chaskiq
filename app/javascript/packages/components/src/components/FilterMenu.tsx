@@ -65,12 +65,18 @@ export default function FilterMenu({
               {option.icon && <i>{option.icon}</i>}
 
               <div className="flex flex-col justify-between ml-2 overflow-hidden">
-                <span className="font-bold self-start dark:text-gray-100 w-full overflow-hidden text-ellipsis" title={option.name || option.title}>
+                <span
+                  className="font-bold self-start dark:text-gray-100 w-full overflow-hidden text-ellipsis"
+                  title={option.name || option.title}
+                >
                   {option.name || option.title}
                 </span>
 
                 {option.description && (
-                  <span className="text-xs text-left dark:text-gray-300 w-full overflow-hidden text-ellipsis" title={option.description}>
+                  <span
+                    className="text-xs text-left dark:text-gray-300 w-full overflow-hidden text-ellipsis"
+                    title={option.description}
+                  >
                     {option.description}
                   </span>
                 )}

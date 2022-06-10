@@ -8,7 +8,7 @@ module MessageApis::FullContact
       block_type = ctx.dig(:values, :block_type)
       {
         # ctx: ctx,
-        values: { block_type: },
+        values: { block_type: block_type },
         definitions: [
           {
             type: "content"
@@ -73,7 +73,7 @@ module MessageApis::FullContact
       # }
 
       {
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -121,7 +121,7 @@ module MessageApis::FullContact
       }
 
       {
-        definitions:
+        definitions: definitions
       }
     end
 

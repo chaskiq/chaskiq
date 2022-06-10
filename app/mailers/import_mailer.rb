@@ -10,7 +10,7 @@ class ImportMailer < ApplicationMailer
 
     mail(from: "Chaskiq notifications <#{from_email}>",
          to: @agent.email,
-         subject:) do |format|
+         subject: subject) do |format|
       format.html { render "import_mailer/notify" }
       # format.text # assuming you want a text fallback as well
     end

@@ -24,7 +24,7 @@ module Mutations
 
         bot_task.insert_at(position)
 
-        { bot_task: }
+        { bot_task: bot_task }
       end
 
       def current_user

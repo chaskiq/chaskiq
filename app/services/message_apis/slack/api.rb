@@ -120,7 +120,7 @@ module MessageApis::Slack
       data = {
         channel: options[:channel] || @keys["channel"],
         text: message,
-        blocks:
+        blocks: blocks
       }
 
       data.merge!(options) if options.present?
@@ -155,7 +155,7 @@ module MessageApis::Slack
 
       data = {
         name: name || @keys["channel"],
-        user_ids:
+        user_ids: user_ids
       }
 
       url = url("/api/conversations.create")
@@ -173,7 +173,7 @@ module MessageApis::Slack
     def find_channel(name)
       authorize_bot!
       url = url("/api/conversations.list")
-      response = @conn.get(url, { name: })
+      response = @conn.get(url, { name: name })
       data = JSON.parse(response.body)
       data["channels"].find { |o| o["name"] == name } if data["ok"] && data["channels"].any?
     end
@@ -450,9 +450,9 @@ module MessageApis::Slack
         text: {
           type: "plain_text",
           emoji: true,
-          text:
+          text: text
         },
-        value:
+        value: value
       }.merge(confirm_block).tap do |hash|
         hash[:style] = style if style
       end
@@ -685,7 +685,7 @@ module MessageApis::Slack
     def get_slack_user_by_email(email)
       authorize_bot!
       url = url("/api/users.lookupByEmail")
-      response = get_data(url, { email: })
+      response = get_data(url, { email: email })
       user = JSON.parse(response.body)["user"]
     rescue StandardError
       nil
@@ -917,7 +917,7 @@ module MessageApis::Slack
                   text: "image1",
                   emoji: true
                 },
-                image_url:,
+                image_url: image_url,
                 alt_text: "image1"
               }
             when "file"
@@ -979,8 +979,8 @@ module MessageApis::Slack
 
       parts.each do |part|
         notify_message(
-          conversation:,
-          part:,
+          conversation: conversation,
+          part: part,
           channel: channel.provider_channel_id
         )
       end
@@ -1079,7 +1079,7 @@ module MessageApis::Slack
       file = StringIO.new(get_data(url, {}).body)
 
       direct_upload(
-        file:,
+        file: file,
         filename: File.basename(url),
         content_type: content_type || "image/jpeg"
       )

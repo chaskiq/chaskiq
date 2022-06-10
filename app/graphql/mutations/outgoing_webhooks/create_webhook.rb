@@ -29,7 +29,7 @@ module Mutations
 
       @webhook = @app.outgoing_webhooks.new
       @webhook.assign_attributes(
-        url:,
+        url: url,
         tag_list: tags,
         state: state_value
       )

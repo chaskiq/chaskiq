@@ -90,9 +90,9 @@ module MessageApis::Zapier
       action = event.action
 
       case action
-      when "users.created" then notify_user_created_trigger_hook(event:)
+      when "users.created" then notify_user_created_trigger_hook(event: event)
       when "conversations.started", "conversations.assigned", "conversations.added", "conversations.closed"
-        notify_conversation_trigger(event:)
+        notify_conversation_trigger(event: event)
       end
     end
 
@@ -126,9 +126,9 @@ module MessageApis::Zapier
       last_name = params[:last_name]
 
       app_user = app.add_user(
-        email:,
-        first_name:,
-        last_name:
+        email: email,
+        first_name: first_name,
+        last_name: last_name
       )
       app_user.save
 

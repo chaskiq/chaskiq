@@ -79,9 +79,9 @@ class MessengerEventsChannel < ApplicationCable::Channel
       kind: "submit",
       ctx: {
         lang: I18n.locale,
-        app:,
+        app: app,
         location: "messenger",
-        current_user:,
+        current_user: current_user,
         values: data["data"]
       }
     )

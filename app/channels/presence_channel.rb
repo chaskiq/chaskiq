@@ -31,7 +31,7 @@ class PresenceChannel < ApplicationCable::Channel
       report.add_tab(
         :context,
         {
-          key:,
+          key: key,
           app: app&.key
         }
       )

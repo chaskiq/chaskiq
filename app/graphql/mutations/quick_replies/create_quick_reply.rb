@@ -16,15 +16,15 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
 
         authorize! app, to: :can_manage_quick_replies?, with: AppPolicy, context: {
-          app:
+          app: app
         }
 
         quick_reply = app.quick_replies.create(
-          title:,
-          content:
+          title: title,
+          content: content
         )
 
-        { quick_reply:, errors: quick_reply.errors }
+        { quick_reply: quick_reply, errors: quick_reply.errors }
       end
 
       def current_user

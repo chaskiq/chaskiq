@@ -31,7 +31,7 @@ module MessageApis::Reveniu
         url: ctx.dig("values", "url")
       )
       {
-        kind:,
+        kind: kind,
         values: {
           url: r.url
         },
@@ -114,7 +114,7 @@ module MessageApis::Reveniu
 
       # fields = app.searcheable_fields
       r = PaymentRecord.new(
-        url:
+        url: url
       )
 
       button = {
@@ -143,7 +143,7 @@ module MessageApis::Reveniu
         return {
           kind: "initialize",
           definitions: [],
-          results:
+          results: results
         }
       end
 
@@ -177,9 +177,9 @@ module MessageApis::Reveniu
       ]
 
       {
-        kind:,
+        kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 

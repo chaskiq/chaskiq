@@ -193,8 +193,8 @@ class App < ApplicationRecord
       if message.present?
         conversation.add_message(
           from: user,
-          message:,
-          message_source:,
+          message: message,
+          message_source: message_source,
           check_assignment_rules: true
         )
       end
@@ -222,7 +222,7 @@ class App < ApplicationRecord
     a = availability.time(0, :hours).after(time)
     diff = a - time
     days = diff.to_f / (24 * 60 * 60)
-    { at: a, diff:, days: }
+    { at: a, diff: diff, days: days }
   rescue StandardError # Biz::Error::Configuration
     nil
   end
