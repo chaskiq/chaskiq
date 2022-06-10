@@ -571,7 +571,7 @@ GEM
     shoulda-context (2.0.0)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
-    sidekiq (6.5.0)
+    sidekiq (6.4.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -722,7 +722,7 @@ DEPENDENCIES
   scout_apm
   shoulda
   shoulda-matchers
-  sidekiq
+  sidekiq (= 6.4.1)
   spring
   tailwindcss-rails (~> 2.0)
   timezone (~> 1.2)
