@@ -308,6 +308,11 @@ GEM
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.2.0)
     google-protobuf (3.20.0)
+    google-protobuf (3.20.0-java)
+    google-protobuf (3.20.0-x64-mingw32)
+    google-protobuf (3.20.0-x86-mingw32)
+    google-protobuf (3.20.0-x86_64-darwin)
+    google-protobuf (3.20.0-x86_64-linux)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
@@ -328,6 +333,18 @@ GEM
     groupdate (6.0.1)
       activesupport (>= 5.2)
     grpc (1.45.0)
+      google-protobuf (~> 3.19)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.45.0-universal-darwin)
+      google-protobuf (~> 3.19)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.45.0-x64-mingw32)
+      google-protobuf (~> 3.19)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.45.0-x86-mingw32)
+      google-protobuf (~> 3.19)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.45.0-x86_64-linux)
       google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
     haml (5.2.2)
@@ -419,6 +436,16 @@ GEM
     nio4r (2.5.8-java)
     nokogiri (1.13.6)
       mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+    nokogiri (1.13.6-java)
+      racc (~> 1.4)
+    nokogiri (1.13.6-x64-mingw32)
+      racc (~> 1.4)
+    nokogiri (1.13.6-x86-mingw32)
+      racc (~> 1.4)
+    nokogiri (1.13.6-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.8)
     oauth2 (1.4.9)
@@ -634,6 +661,8 @@ GEM
       unf_ext
     unf (0.1.4-java)
     unf_ext (0.0.8)
+    unf_ext (0.0.8-x64-mingw32)
+    unf_ext (0.0.8-x86-mingw32)
     unicode-display_width (2.1.0)
     uri (0.11.0)
     urlcrypt (0.1.2)
@@ -763,7 +792,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 2.7.5p203
 
 BUNDLED WITH
-   2.2.32
+   2.3.9
