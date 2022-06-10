@@ -15,13 +15,13 @@ module Mutations
         app_package = current_user.app_packages.new(params.permit!)
 
         authorize! app_package, to: :can_manage_app_packages?, with: AppPolicy, context: {
-          app:
+          app: app
         }
 
         app_package.state = "enabled"
         app_package.save
         # app_package.save # if operation.present? && operation == "create"
-        { app_package:, errors: app_package.errors }
+        { app_package: app_package, errors: app_package.errors }
       end
 
       def find_app(app_id)

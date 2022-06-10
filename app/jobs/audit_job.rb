@@ -5,11 +5,11 @@ class AuditJob < ApplicationJob
 
   def perform(model:, user:, action:, data: nil, ip: nil, app_id: nil)
     model.audits.log(
-      action:,
-      user:,
-      data:,
-      ip:,
-      app_id:
+      action: action,
+      user: user,
+      data: data,
+      ip: ip,
+      app_id: app_id
     )
   end
 end

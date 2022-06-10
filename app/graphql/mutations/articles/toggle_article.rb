@@ -13,13 +13,13 @@ module Mutations
         article = app.articles.find(id)
 
         authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app:
+          app: app
         }
 
         article.state = state
         article.save
 
-        { article: }
+        { article: article }
       end
 
       def current_user

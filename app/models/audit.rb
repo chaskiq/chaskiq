@@ -48,8 +48,8 @@ class Audit < ApplicationRecord
     @app = app ||= auditable.app.key
     as_json(methods: %i[id agent_name auditable_name action created_at sdata])
       .merge(
-        auditable_link:,
-        agent_email:
+        auditable_link: auditable_link,
+        agent_email: agent_email
       )
   end
 

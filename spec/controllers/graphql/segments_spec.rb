@@ -16,7 +16,7 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let(:campaign) do
-    FactoryBot.create(:campaign, app:)
+    FactoryBot.create(:campaign, app: app)
   end
 
   let(:valid_segments) do

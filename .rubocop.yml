@@ -12,6 +12,8 @@ Style/StringLiterals:
   - single_quotes
   - double_quotes
 
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
 
 
 Rails/EnvironmentVariableAccess:

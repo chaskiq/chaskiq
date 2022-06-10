@@ -43,7 +43,7 @@ class SnsReceiverJob < ApplicationJob
                   host: data["ipAddress"],
                   trackable: campaign,
                   # message_id: message_id,
-                  data:)
+                  data: data)
   end
 
   def handle_chat_message(track_type, m, part_id)
@@ -78,7 +78,7 @@ class SnsReceiverJob < ApplicationJob
 
   def get_app_user_from_email(message, message_type, type_kind)
     email = message.dig(message_type, type_kind).map { |o| o["emailAddress"] }
-    users = AppUser.where(email:) if email.present?
+    users = AppUser.where(email: email) if email.present?
     users.map(&:unsubscribe!)
   end
 

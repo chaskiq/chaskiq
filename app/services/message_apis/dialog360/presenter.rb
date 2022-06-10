@@ -6,7 +6,7 @@ module MessageApis::Dialog360
       definitions = []
       {
         kind: "initialize",
-        definitions:,
+        definitions: definitions,
         values: {}
       }
     end
@@ -17,7 +17,7 @@ module MessageApis::Dialog360
       definitions = []
       {
         kind: "submit",
-        definitions:,
+        definitions: definitions,
         values: {}
       }
     end
@@ -132,7 +132,7 @@ module MessageApis::Dialog360
 
         return {
           kind: "configure",
-          definitions:,
+          definitions: definitions,
           results: {
             id: ctx.dig(:field, :id),
             label: ctx.dig(:field, :title)
@@ -186,7 +186,7 @@ module MessageApis::Dialog360
 
         return {
           kind: "configure",
-          definitions:,
+          definitions: definitions,
           results: {
             id: ctx.dig(:field, :id),
             label: ctx.dig(:field, :title)
@@ -195,7 +195,7 @@ module MessageApis::Dialog360
 
       end
 
-      { kind:, definitions: }
+      { kind: kind, definitions: definitions }
     end
 
     # Submit Sheet flow webhook URL (optional)

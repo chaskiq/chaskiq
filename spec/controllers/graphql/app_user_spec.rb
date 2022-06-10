@@ -39,7 +39,7 @@ RSpec.describe GraphqlController, type: :controller do
         variables: {
           appKey: app.key,
           userId: user.id.to_s,
-          provider:,
+          provider: provider,
           profileId: profile_id
         }
       )
@@ -53,7 +53,7 @@ RSpec.describe GraphqlController, type: :controller do
         variables: {
           appKey: app.key,
           userId: user.id.to_s,
-          provider:,
+          provider: provider,
           profileId: profile_id
         }
       )
@@ -69,7 +69,7 @@ RSpec.describe GraphqlController, type: :controller do
         variables: {
           appKey: app.key,
           userId: user.id.to_s,
-          provider:,
+          provider: provider,
           profileId: "#{profile_id}xxx"
         }
       )
@@ -88,7 +88,7 @@ RSpec.describe GraphqlController, type: :controller do
           variables: {
             appKey: app.key,
             userId: user.id.to_s,
-            provider:,
+            provider: provider,
             profileId: profile_id
           }
         )

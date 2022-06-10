@@ -27,7 +27,7 @@ class CampaignMailer < ApplicationMailer
       from: "#{campaign.from_name}<#{campaign.campaign_outgoing_email}>",
       to: subscriber.email,
       subject: campaign.subject,
-      content_type:
+      content_type: content_type
     )
   end
 
@@ -52,7 +52,7 @@ class CampaignMailer < ApplicationMailer
          to: Chaskiq::Config.get("ADMIN_EMAIL"),
          subject: campaign.subject,
          body: campaign.reply_email,
-         content_type:) do |format|
+         content_type: content_type) do |format|
       format.html { render "newsletter" }
     end
   end

@@ -139,7 +139,7 @@ RSpec.describe App, type: :model do
       agent = role.agent
       app.assignment_rules.create(
         title: "test",
-        agent:,
+        agent: agent,
         conditions: [],
         priority: 1
       )
@@ -257,25 +257,25 @@ RSpec.describe App, type: :model do
 
     it "return for user user" do
       user_options = [{ attribute: "email", comparison: "contains", type: "string", value: "test" }]
-      setting_for_user(user_options:)
+      setting_for_user(user_options: user_options)
       expect(app.query_segment("users")).to be_any
     end
 
     it "no return for user" do
       user_options = [{ attribute: "email", comparison: "not_contains", type: "string", value: "test" }]
-      setting_for_user(user_options:)
+      setting_for_user(user_options: user_options)
       expect(app.query_segment("users")).to_not be_any
     end
 
     it "return for visitor " do
       visitor_options = [{ attribute: "email", comparison: "contains", type: "string", value: "test" }]
-      setting_for_user(visitor_options:)
+      setting_for_user(visitor_options: visitor_options)
       expect(app.query_segment("visitors")).to be_any
     end
 
     it "no return for visitors" do
       visitor_options = [{ attribute: "email", comparison: "not_contains", type: "string", value: "test" }]
-      setting_for_user(visitor_options:)
+      setting_for_user(visitor_options: visitor_options)
       expect(app.query_segment("visitors")).to_not be_any
     end
   end

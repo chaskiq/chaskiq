@@ -27,7 +27,7 @@ module MessageApis::ContentShowcase
 
         return {
           wait_for_input: false,
-          definitions:
+          definitions: definitions
         }
       end
 
@@ -47,7 +47,7 @@ module MessageApis::ContentShowcase
         # kind: kind,
         # ctx: ctx,
         wait_for_input: false,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -56,7 +56,7 @@ module MessageApis::ContentShowcase
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
-      { content: { kind:, ctx: } }
+      { content: { kind: kind, ctx: ctx } }
 
       definitions = [
         {
@@ -74,7 +74,7 @@ module MessageApis::ContentShowcase
       {
         # kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -91,7 +91,7 @@ module MessageApis::ContentShowcase
       if ctx.dig(:field, :action, :type) === "submit"
         if ctx.dig(:field, :id) == "pick-another"
           return {
-            kind:,
+            kind: kind,
             definitions: base_definitions
           }
         end
@@ -103,8 +103,8 @@ module MessageApis::ContentShowcase
           ) + record.customize_buttons(type: "announcement")
 
           return {
-            kind:,
-            definitions:
+            kind: kind,
+            definitions: definitions
           }
         end
 
@@ -115,8 +115,8 @@ module MessageApis::ContentShowcase
           ) + record.customize_buttons(type: "top-articles")
 
           return {
-            kind:,
-            definitions:
+            kind: kind,
+            definitions: definitions
           }
         end
 
@@ -131,7 +131,7 @@ module MessageApis::ContentShowcase
           aa.schema
 
           return {
-            kind:,
+            kind: kind,
             definitions: aa.schema
           }
         end
@@ -148,7 +148,7 @@ module MessageApis::ContentShowcase
 
           unless aa.valid?
             return {
-              kind:,
+              kind: kind,
               definitions: aa.schema
             }
           end
@@ -170,8 +170,8 @@ module MessageApis::ContentShowcase
           ) + record.schema
 
           return {
-            kind:,
-            definitions:
+            kind: kind,
+            definitions: definitions
           }
         end
 
@@ -182,8 +182,8 @@ module MessageApis::ContentShowcase
           ) + record.top_articles_schema
 
           return {
-            kind:,
-            definitions:
+            kind: kind,
+            definitions: definitions
           }
         end
 
@@ -217,7 +217,7 @@ module MessageApis::ContentShowcase
             )
 
             return {
-              kind:,
+              kind: kind,
               definitions: definitions.flatten
             }
 
@@ -245,7 +245,7 @@ module MessageApis::ContentShowcase
             )
           )
           return {
-            kind:,
+            kind: kind,
             definitions: definitions.flatten
           }
         end
@@ -265,11 +265,11 @@ module MessageApis::ContentShowcase
               articles,
               append: false,
               validate: false,
-              autofill_index:
+              autofill_index: autofill_index
             )
           )
           return {
-            kind:,
+            kind: kind,
             definitions: definitions.flatten
           }
 
@@ -278,9 +278,9 @@ module MessageApis::ContentShowcase
       end
 
       {
-        kind:,
+        kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -612,7 +612,7 @@ module MessageApis::ContentShowcase
               {
                 type: "item",
                 id: "list-item-1",
-                title:,
+                title: title,
                 subtitle: description,
                 action: {
                   type: "url",
@@ -645,7 +645,7 @@ module MessageApis::ContentShowcase
               {
                 type: "item",
                 id: "list-item-1",
-                title:,
+                title: title,
                 subtitle: description,
                 image: cover_image,
                 action: {
@@ -728,7 +728,7 @@ module MessageApis::ContentShowcase
         {
           type: "item",
           id: "list-item-1",
-          title:,
+          title: title,
           subtitle: description,
           image: cover_image,
           action: {

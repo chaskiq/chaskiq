@@ -17,20 +17,20 @@ class Api::GraphqlController < ApiController
 
     context = {
       # Query context goes here, for example:
-      user_data:,
+      user_data: user_data,
       app: @app,
       from_api: true,
       set_locale: -> { set_locale },
       auth: -> { auth },
       get_app_user: -> { get_app_user },
       current_user: get_app_user,
-      request:
+      request: request
     }
 
     result = ChaskiqSchema.execute(query,
-                                   variables:,
-                                   context:,
-                                   operation_name:)
+                                   variables: variables,
+                                   context: context,
+                                   operation_name: operation_name)
     # max_depth: 5
 
     render json: result

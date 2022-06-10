@@ -68,7 +68,7 @@ RSpec.describe AppPackageIntegration, type: :model do
         \"sheet_url\":\"https://domain.com/frame\",
         \"definitions\":[{\"name\":\"access_token\",\"type\":\"string\",\"grid\":{\"xs\":\"w-full\",\"sm\":\"w-full\"}}]
       }")
-      AppPackage.create(name: "any", settings:, author: agent_role.agent)
+      AppPackage.create(name: "any", settings: settings, author: agent_role.agent)
     end
 
     before :each do

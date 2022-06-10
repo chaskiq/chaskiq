@@ -102,7 +102,7 @@ module MessageApis::Csat
 
       subject.add_message(
         from: author,
-        controls:
+        controls: controls
       )
     end
   end

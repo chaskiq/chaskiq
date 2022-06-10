@@ -14,7 +14,7 @@ module Mutations
 
         article = app.articles.create(
           author: current_user,
-          title:,
+          title: title,
           article_content_attributes: {
             html_content: content["html"],
             serialized_content: content["serialized"],
@@ -23,11 +23,11 @@ module Mutations
         )
 
         authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app:
+          app: app
         }
         I18n.locale = lang
 
-        { article: }
+        { article: article }
       end
 
       def current_user

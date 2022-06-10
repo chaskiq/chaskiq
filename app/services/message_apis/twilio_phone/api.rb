@@ -207,7 +207,7 @@ module MessageApis::TwilioPhone
       ActionCable.server.broadcast "events:#{@package.app.key}", {
         type: "/package/TwilioPhone",
         app: @package.app.key,
-        payload:,
+        payload: payload,
         conference: conference_object(payload),
         event_type: "INIT"
       }
@@ -297,7 +297,7 @@ module MessageApis::TwilioPhone
                         statusCallbackEvent: "start end join leave mute hold")
       end
 
-      { format: :xml, response: }
+      { format: :xml, response: response }
     end
 
     ## client
@@ -350,7 +350,7 @@ module MessageApis::TwilioPhone
           url: conversation_url(package.app, conf)
         },
         key: conversation.key,
-        agent_ids:,
+        agent_ids: agent_ids,
         agent_names: agents&.map(&:display_name) || [],
         conversation: conversation.as_json,
         participant: conversation.main_participant.as_json,
@@ -365,7 +365,7 @@ module MessageApis::TwilioPhone
         conversation_key: conf.friendly_name,
         # lang: @lang,
         # current_user: @user,
-        action:
+        action: action
       }
 
       CHASKIQ_FRAME_VERIFIER.generate(data)

@@ -29,7 +29,7 @@ RSpec.describe GraphqlController, type: :controller do
   end
 
   let(:campaign) do
-    FactoryBot.create(:campaign, app:)
+    FactoryBot.create(:campaign, app: app)
   end
 
   describe "apps" do
@@ -82,7 +82,7 @@ RSpec.describe GraphqlController, type: :controller do
 
     it "segments" do
       stub_current_user(agent_role)
-      app.segments.create(predicates:)
+      app.segments.create(predicates: predicates)
 
       # controller.stub(:current_user).and_return(agent_role.agent)
       graphql_post(type: "SEGMENT", variables: {
