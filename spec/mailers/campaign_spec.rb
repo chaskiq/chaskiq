@@ -13,7 +13,7 @@ RSpec.describe CampaignMailer, type: :mailer do
                    company: "Acme"
                  })
   end
-  let!(:campaign) { FactoryBot.create(:campaign, app:) }
+  let!(:campaign) { FactoryBot.create(:campaign, app: app) }
   let(:template_html) { "<p>{{name}}</p>" }
   let(:premailer_template) do
     "<p>

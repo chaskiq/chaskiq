@@ -15,7 +15,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     {
       update_id: 779_649_024,
       message: {
-        message_id:,
+        message_id: message_id,
         from: {
           id: sender,
           is_bot: false,
@@ -46,7 +46,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       update_id: 779_649_030,
       message: {
-        message_id:,
+        message_id: message_id,
         from: {
           id: sender,
           is_bot: false,
@@ -106,7 +106,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     {
       update_id: 779_649_032,
       message: {
-        message_id:,
+        message_id: message_id,
         from: {
           id: sender,
           is_bot: false,
@@ -284,7 +284,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     {
       update_id: 779_649_031,
       message: {
-        message_id:,
+        message_id: message_id,
         from: {
           id: sender,
           is_bot: false,
@@ -353,7 +353,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       @pkg = app.app_package_integrations.create(
         access_token: "aaa",
         user_id: owner_phone,
-        app_package:,
+        app_package: app_package,
         sandbox: true
       )
 

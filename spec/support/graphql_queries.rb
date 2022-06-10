@@ -21,7 +21,7 @@ end
 def graphql_post(type:, variables: {})
   data = {
     query: graphql_query(type),
-    variables:
+    variables: variables
   }
   post :execute, body: data.to_json, as: :json, xhr: true
 end
@@ -29,7 +29,7 @@ end
 def graphql_raw_post(raw:, variables: {})
   data = {
     query: raw,
-    variables:
+    variables: variables
   }
   post :execute, body: data.to_json, as: :json, xhr: true
 end

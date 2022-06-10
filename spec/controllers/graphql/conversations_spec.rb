@@ -128,7 +128,7 @@ RSpec.describe GraphqlController, type: :controller do
     let!(:pkg) do
       app.app_package_integrations.create(
         {
-          app_package:,
+          app_package: app_package,
           settings: {
             api_secret: "aaa",
             api_key: "aaa",

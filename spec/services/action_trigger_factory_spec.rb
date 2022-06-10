@@ -19,7 +19,7 @@ RSpec.describe ActionTriggerFactory do
       c.path(
         title: "base path",
         steps: [
-          c.message(text: "are you an existing customer ?", uuid: 1, agent:),
+          c.message(text: "are you an existing customer ?", uuid: 1, agent: agent),
           c.controls(
             uuid: 2,
             type: "ask_option",
@@ -35,7 +35,7 @@ RSpec.describe ActionTriggerFactory do
       c.path(
         title: "yes",
         steps: [
-          c.message(text: "great", uuid: 2, agent:)
+          c.message(text: "great", uuid: 2, agent: agent)
         ],
         follow_actions: [c.assign(10)]
       )
@@ -43,7 +43,7 @@ RSpec.describe ActionTriggerFactory do
       c.path(
         title: "no",
         steps: [
-          c.message(text: "uha", uuid: 4, agent:),
+          c.message(text: "uha", uuid: 4, agent: agent),
           c.controls(
             uuid: "sss",
             type: "data_retrieval",

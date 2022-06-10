@@ -85,9 +85,9 @@ class Api::V1::HooksController < ActionController::API
     end
 
     opts = {
-      from:,
+      from: from,
       message: {
-        serialized_content:,
+        serialized_content: serialized_content,
         html_content: message
       },
       email_message_id: mail.message_id
@@ -129,7 +129,7 @@ class Api::V1::HooksController < ActionController::API
   def handle_direct_upload(attachment)
     file = StringIO.new(attachment.decoded)
     direct_upload(
-      file:,
+      file: file,
       filename: attachment.filename,
       content_type: attachment.mime_type
     )
@@ -168,7 +168,7 @@ class Api::V1::HooksController < ActionController::API
     w = img.attr("width")&.value
     h = img.attr("height")&.value
     title = img.attr("title")&.value
-    photo_block(url:, text: title, w:, h:)
+    photo_block(url: url, text: title, w: w, h: h)
   end
 
   def handle_message_recipient(mail)
@@ -176,7 +176,7 @@ class Api::V1::HooksController < ActionController::API
     recipient_parts = URLcrypt.decode(recipient.split("@").first.split("+").last)
     app, conversation = find_resources_in_recipient_parts(recipient_parts)
     # this logic implies that if the email.from correspond to an agent , then we assume that the message is from agent
-    from = find_remitent(app:, from: mail.from)
+    from = find_remitent(app: app, from: mail.from)
     # TODO: handle blank author with a conversation.add_message_event
     # to notify that the email was not delivered, which is the mos probable case
     # but whe should inspect the status of this
@@ -220,7 +220,7 @@ class Api::V1::HooksController < ActionController::API
       app_user = app.app_users.find_by(email: mail_from) ||
                  app.add_user(email: mail_from, name: mail[:from]&.formatted)
       from = app_user
-      conversation = app.start_conversation(from:, subject: mail.subject)
+      conversation = app.start_conversation(from: from, subject: mail.subject)
     end
     [app, conversation, from]
   end

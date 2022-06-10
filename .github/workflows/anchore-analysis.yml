@@ -12,11 +12,11 @@ jobs:
       - name: Build the Container image
         run: |
           docker build --build-arg APP_ENV=production \
-               --build-arg RUBY_VERSION=3.1.2 \
+               --build-arg RUBY_VERSION=2.7.5 \
                --build-arg PG_MAJOR=11 \
                --build-arg NODE_MAJOR=16 \
                --build-arg YARN_VERSION=1.13.0 \
-               --build-arg BUNDLER_VERSION=2.2.32 \
+               --build-arg BUNDLER_VERSION=2.3.15 \
                --file Dockerfile \
                --tag localbuild/testimage:latest \
                .

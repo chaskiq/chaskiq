@@ -21,7 +21,7 @@ RSpec.describe Api::V1::HooksController, type: :controller do
     app.add_agent({ email: "test@test.cl", first_name: "dsdsa" })
   end
 
-  let(:campaign) { FactoryBot.create(:campaign, app:) }
+  let(:campaign) { FactoryBot.create(:campaign, app: app) }
 
   let(:metric) do
     FactoryBot.create(:metric,

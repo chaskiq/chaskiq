@@ -28,7 +28,7 @@ module MessageApis::InboxSections
 
         return {
           # ctx: ctx,
-          values: { block_type: },
+          values: { block_type: block_type },
           definitions: [
             {
               type: "content"
@@ -51,7 +51,7 @@ module MessageApis::InboxSections
       {
         # kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -60,7 +60,7 @@ module MessageApis::InboxSections
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
-      { content: { kind:, ctx: } }
+      { content: { kind: kind, ctx: ctx } }
 
       {
         definitions: [
@@ -188,14 +188,14 @@ module MessageApis::InboxSections
         return {
           kind: "initialize",
           definitions: [],
-          results:
+          results: results
         }
       end
 
       {
-        kind:,
+        kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -416,7 +416,7 @@ module MessageApis::InboxSections
       end
 
       {
-        definitions:
+        definitions: definitions
       }
     end
 

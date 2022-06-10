@@ -65,7 +65,7 @@ module Types
 
       AgentDashboard.new(
         app: object,
-        range:
+        range: range
       ).send(kind)
     end
 

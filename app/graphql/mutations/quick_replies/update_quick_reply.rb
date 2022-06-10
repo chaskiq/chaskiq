@@ -18,15 +18,15 @@ module Mutations
         quick_reply = app.quick_replies.find(id)
 
         authorize! quick_reply, to: :can_manage_quick_replies?, with: AppPolicy, context: {
-          app:
+          app: app
         }
         quick_reply.update(
-          title:,
-          content:
+          title: title,
+          content: content
         )
 
         {
-          quick_reply:,
+          quick_reply: quick_reply,
           errors: quick_reply.errors
         }
       end

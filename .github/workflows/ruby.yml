@@ -35,9 +35,11 @@ jobs:
         with:
           # ruby-version: 2.7.2 # no need with ruby-version file
           bundler-cache: true
-      - uses: borales/actions-yarn@v2.3.0
+
+      - uses: actions/setup-node@v3
         with:
-          cmd: install
+          node-version: 16
+          cache: 'yarn'
 
       - name: Build and precompile
         run: |

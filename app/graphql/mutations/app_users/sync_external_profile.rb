@@ -17,7 +17,7 @@ module Mutations
         )
         profile.sync
 
-        { app_user: }
+        { app_user: app_user }
       end
 
       def current_user

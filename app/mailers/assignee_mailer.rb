@@ -11,7 +11,7 @@ class AssigneeMailer < ApplicationMailer
 
     mail(from: "Chaskiq notifications <#{from_email}>",
          to: conversation.assignee.email,
-         subject:) do |format|
+         subject: subject) do |format|
       format.html { render "assignee_mailer/notify" }
       # format.text # assuming you want a text fallback as well
     end
