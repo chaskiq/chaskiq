@@ -729,6 +729,7 @@ DEPENDENCIES
   truemail
   twilio-ruby (~> 5.58.1)
   tzinfo-data
+  uri (= 0.11.0)
   urlcrypt
   web-console (>= 3.3.0)
   webmock
