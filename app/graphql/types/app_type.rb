@@ -70,7 +70,7 @@ module Types
     def update_subscription_plan(plan_id:)
       PaymentServices::Paddle.new.update_subscription(
         object.paddle_subscription_id,
-        plan_id:,
+        plan_id: plan_id,
         passthrough: object.key
       )
     end
@@ -387,7 +387,7 @@ module Types
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_segments?, with: AppPolicy
 
-      s = Segment.where("app_id is null ").where(id:).first
+      s = Segment.where("app_id is null ").where(id: id).first
       s.presence || object.segments.find(id)
     end
 
@@ -564,8 +564,8 @@ module Types
       if package.present?
         return AppPackageDashboard.new(
           app: object,
-          range:,
-          package:
+          range: range,
+          package: package
         ).report_for(kind)
       end
 
@@ -590,8 +590,8 @@ module Types
 
       Dashboard.new(
         app: object,
-        range:,
-        package:
+        range: range,
+        package: package
       ).send(kind)
     end
 
@@ -640,7 +640,7 @@ module Types
     def oauth_application(uid:)
       # authorize! object, to: :manage?, with: AppPolicy
       authorize! object, to: :can_read_oauth_applications?, with: AppPolicy
-      object.oauth_applications.find_by(uid:)
+      object.oauth_applications.find_by(uid: uid)
     end
 
     field :authorized_oauth_applications, [OauthApplicationType], null: true

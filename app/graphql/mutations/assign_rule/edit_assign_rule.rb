@@ -21,13 +21,13 @@ module Mutations
         }
         assignment_rule = @app.assignment_rules.find(rule_id)
         assignment_rule.update(
-          title:,
+          title: title,
           agent: @agent,
-          conditions:
+          conditions: conditions
         )
 
         {
-          assignment_rule:,
+          assignment_rule: assignment_rule,
           errors: assignment_rule.errors
         }
       end

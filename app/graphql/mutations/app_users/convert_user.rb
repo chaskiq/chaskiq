@@ -11,7 +11,7 @@ module Mutations
         # app = App.find_by(key: app_key)
         app_user = context[:get_app_user].call
         if app_user.email.blank?
-          app_user.update(email:)
+          app_user.update(email: email)
           app_user.become_lead! if app_user.is_a?(Visitor)
 
           track_resource_event(app_user, :app_user_converted, app_user.saved_changes) if app_user.errors.blank?

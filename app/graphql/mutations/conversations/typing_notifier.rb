@@ -13,7 +13,7 @@ module Mutations
         conversation = app.conversations.find_by(key: id)
 
         authorize! conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
-          app:
+          app: app
         }
 
         key = "#{app.key}-#{conversation.main_participant.session_id}"

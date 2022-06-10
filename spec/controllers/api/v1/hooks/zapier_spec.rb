@@ -7,7 +7,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   def data_for_auth(id:, app:, token: "aaa", url: nil)
     {
       auth: token,
-      url:,
+      url: url,
       "id" => id.to_s
     }
   end
@@ -35,7 +35,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
   def data_for_polling(id:, event_type:)
     {
-      event_type:,
+      event_type: event_type,
       event: "perform_list",
       "id" => id.to_s
     }
@@ -89,7 +89,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       @pkg = app.app_package_integrations.create(
         api_secret: "aaa",
-        app_package:,
+        app_package: app_package,
         api_key: "aaa",
         access_token: "aaa"
       )
@@ -101,7 +101,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           :process_event,
           params: data_for_auth(
             id: @pkg.encoded_id,
-            app:,
+            app: app,
             token: "aaa",
             url: nil
           )
@@ -115,7 +115,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
           :process_event,
           params: data_for_auth(
             id: @pkg.encoded_id,
-            app:, token: "bbb",
+            app: app, token: "bbb",
             url: nil
           )
         )
@@ -130,7 +130,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       it "receive new_contact" do
         response = post(
           :process_event,
-          params: data_for_new_contact(id: @pkg.encoded_id, app:)
+          params: data_for_new_contact(id: @pkg.encoded_id, app: app)
         )
         expect(JSON.parse(response.body).keys).to include("email")
       end
@@ -138,7 +138,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       it "receive new_conversation" do
         response = post(
           :process_event,
-          params: data_for_new_conversation(id: @pkg.encoded_id, app:)
+          params: data_for_new_conversation(id: @pkg.encoded_id, app: app)
         )
         expect(JSON.parse(response.body).keys).to include("key")
         response
@@ -148,7 +148,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     it "subscribe hook" do
       response = post(
         :process_event,
-        params: data_for_subscribe(id: @pkg.encoded_id, app:)
+        params: data_for_subscribe(id: @pkg.encoded_id, app: app)
       )
       expect(JSON.parse(response.body)).to eql({ "status" => "ok" })
       expect(@pkg.reload.settings["new_contact"]).to be_present
@@ -161,7 +161,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
       response = post(
         :process_event,
-        params: data_for_unsubscribe(id: @pkg.encoded_id, app:)
+        params: data_for_unsubscribe(id: @pkg.encoded_id, app: app)
       )
       expect(JSON.parse(response.body)).to eql({ "status" => "ok" })
       expect(@pkg.reload.settings["new_contact"]).to be_nil

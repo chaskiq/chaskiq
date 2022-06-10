@@ -6,7 +6,7 @@ module MessageApis::OpenAi
     def self.initialize_hook(kind:, ctx:)
       record = PromptRecord.new(prompt: ctx.dig(:values, :prompt))
       {
-        kind:,
+        kind: kind,
         # ctx: ctx,
         definitions: record.success_schema
       }
@@ -93,7 +93,7 @@ module MessageApis::OpenAi
       end
 
       {
-        kind:,
+        kind: kind,
         definitions: schema
       }
     end

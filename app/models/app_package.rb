@@ -35,7 +35,7 @@ class AppPackage < ApplicationRecord
 
   scope :published, -> { where(published: true) }
   scope :enabled, -> { where(state: "enabled") }
-  scope :by_agent, ->(agent_id) { where(agent_id:) }
+  scope :by_agent, ->(agent_id) { where(agent_id: agent_id) }
   # Ex:- scope :active, -> {where(:active => true)}
 
   before_save :set_default_definitions

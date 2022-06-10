@@ -46,7 +46,7 @@ module GlobalizeAccessors
           should_delete = translation_for(locale)[key].blank?
           break unless should_delete
         end
-        translations.where(locale:).delete_all if should_delete
+        translations.where(locale: locale).delete_all if should_delete
       end
 
       define_method :"#{localized_attr_name}=" do |value|
@@ -54,7 +54,7 @@ module GlobalizeAccessors
           translation_for(locale)[attr_name] = value
           delete_translation_if_all_blank(locale)
         else
-          write_attribute(attr_name, value, locale:) if value.present?
+          write_attribute(attr_name, value, locale: locale) if value.present?
           translation_for(locale)[attr_name] = value
         end
       end

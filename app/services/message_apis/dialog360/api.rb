@@ -297,7 +297,7 @@ module MessageApis::Dialog360
           from: is_agent ? @package.app.agents.first : participant, # agent_required ? Agent.first : participant,
           message: {
             html_content: text,
-            serialized_content:
+            serialized_content: serialized_content
           },
           provider: PROVIDER,
           message_source_id: message_id,
@@ -341,17 +341,17 @@ module MessageApis::Dialog360
         url = data[data["type"]]
         text = data[data["type"]]["caption"]
         file = handle_direct_upload(url["id"], url["mime_type"])
-        photo_block(url: file[:url], text:)
+        photo_block(url: file[:url], text: text)
       when "video"
         url = data["video"]
         text = data["video"]["caption"]
         file = handle_direct_upload(url["id"], url["mime_type"])
-        gif_block(url: file[:url], text:)
+        gif_block(url: file[:url], text: text)
       when "audio", "voice", "document"
         url = data[media_type]
         text = data[media_type]["caption"]
         file = handle_direct_upload(url["id"], url["mime_type"])
-        file_block(url: file[:url], text:)
+        file_block(url: file[:url], text: text)
       end
     end
 

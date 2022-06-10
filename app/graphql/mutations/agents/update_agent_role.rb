@@ -14,7 +14,7 @@ module Mutations
         role = app.roles.find_by(agent_id: id)
 
         authorize! role, to: :can_manage_team?, with: AppPolicy, context: {
-          app:
+          app: app
         }
 
         agent = role&.agent # , name: 'John Doe')

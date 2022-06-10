@@ -12,14 +12,14 @@ module Mutations
       message = app.messages.find(id)
 
       authorize! message, to: :can_manage_campaigns?, with: AppPolicy, context: {
-        app:
+        app: app
       }
 
       new_message = message.dup
       new_message.name = "#{new_message.name} (copy)"
       new_message.state = "disabled"
       new_message.save
-      { id:, errors: new_message.errors }
+      { id: id, errors: new_message.errors }
     end
   end
 end

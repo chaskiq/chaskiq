@@ -140,7 +140,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         api_secret: "aaa",
         api_key: "aaa",
         user_id: owner_phone,
-        app_package:
+        app_package: app_package
       )
     end
 

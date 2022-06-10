@@ -164,7 +164,7 @@ module MessageApis::Twitter
             from: agent_sender ? @package.app.agents.first : participant, # agent_required ? Agent.first : participant,
             message: {
               html_content: text,
-              serialized_content:
+              serialized_content: serialized_content
             },
             provider: PROVIDER,
             message_source_id: message_id,
@@ -301,12 +301,12 @@ module MessageApis::Twitter
         variant = media["video_info"]["variants"][0]
         file = handle_direct_upload(variant["url"], variant["content_type"])
         text = data["text"].split.last
-        gif_block(url: file[:url], text:)
+        gif_block(url: file[:url], text: text)
       when "photo"
         media = data["attachment"]["media"]
         file = handle_direct_upload(media["media_url_https"])
         text = data["text"].split.last
-        photo_block(url: file[:url], text:)
+        photo_block(url: file[:url], text: text)
       end
     end
 
@@ -315,7 +315,7 @@ module MessageApis::Twitter
       file = StringIO.new(file_string)
 
       direct_upload(
-        file:,
+        file: file,
         filename: File.basename(url),
         content_type: content_type || "image/jpeg"
       )
@@ -369,8 +369,8 @@ module MessageApis::Twitter
       init = make_post_media_request("/1.1/media/upload.json",
                                      {
                                        command: "INIT",
-                                       media_type:,
-                                       media_category:,
+                                       media_type: media_type,
+                                       media_category: media_category,
                                        total_bytes: file.size
                                      },
                                      { "Content-Type" => "multipart/form-data" })

@@ -52,7 +52,7 @@ class UserAutoMessage < Message
 
   def attributes_for_template(subscriber)
     { email: subscriber.email,
-      campaign_url:,
+      campaign_url: campaign_url,
       campaign_description: description.to_s }
   end
 

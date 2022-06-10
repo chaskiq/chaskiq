@@ -8,7 +8,7 @@ class OutgoingWebhook < ApplicationRecord
   def send_verification; end
 
   def send_notification(data: {})
-    service = OutgoingWebhookService.new(url:)
+    service = OutgoingWebhookService.new(url: url)
     service.send_post(data)
   end
 

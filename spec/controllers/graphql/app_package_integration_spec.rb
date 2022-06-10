@@ -175,7 +175,7 @@ RSpec.describe GraphqlController, type: :controller do
     describe "update package" do
       before :each do
         app.app_package_integrations.create(
-          app_package:,
+          app_package: app_package,
           api_secret: "123455",
           api_key: "asd"
         )

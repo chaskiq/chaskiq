@@ -17,14 +17,14 @@ module Mutations
         section = collection.sections.where(id: section).first
 
         authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app:
+          app: app
         }
 
-        article.update(collection:, section:)
+        article.update(collection: collection, section: section)
 
         article.insert_at(position + 1)
 
-        { article: }
+        { article: article }
       end
 
       def current_user

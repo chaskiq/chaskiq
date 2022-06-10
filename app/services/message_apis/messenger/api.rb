@@ -126,13 +126,13 @@ module MessageApis::Messenger
       participant = add_participant(messenger_user)
 
       add_message(
-        conversation:,
-        participant:,
-        serialized_content:,
+        conversation: conversation,
+        participant: participant,
+        serialized_content: serialized_content,
         text: message["message"]["text"],
-        message_id:,
+        message_id: message_id,
         from: agent_or_participant(agent_sender, participant),
-        channel_id:
+        channel_id: channel_id
       )
     end
 
@@ -170,10 +170,10 @@ module MessageApis::Messenger
       end
 
       conversation.add_message(
-        from:,
+        from: from,
         message: {
           html_content: text,
-          serialized_content:
+          serialized_content: serialized_content
         },
         provider: PROVIDER,
         message_source_id: message_id,
@@ -264,7 +264,7 @@ module MessageApis::Messenger
 
       if profile_data.keys.include?("first_name")
         name = "#{profile_data['first_name']} #{profile_data['last_name']}"
-        profile_data.merge!(name:)
+        profile_data.merge!(name: name)
 
         data = {
           name: "#{profile_data['first_name']} #{profile_data['last_name']}"

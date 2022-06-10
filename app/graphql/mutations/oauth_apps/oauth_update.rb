@@ -10,7 +10,7 @@ module Mutations
 
       def resolve(app_key:, uid:, params:)
         find_app(app_key)
-        @application = @app.oauth_applications.find_by(uid:)
+        @application = @app.oauth_applications.find_by(uid: uid)
 
         authorize! @application, to: :can_manage_oauth_applications?, with: AppPolicy, context: {
           app: @app

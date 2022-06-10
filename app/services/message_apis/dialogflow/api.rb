@@ -68,7 +68,7 @@ module MessageApis::Dialogflow
         o["text"]
       end.join("\r\n")
 
-      response_text = get_response_for(text:, session_id: conversation.id)
+      response_text = get_response_for(text: text, session_id: conversation.id)
 
       return if response_text.empty?
 
@@ -87,7 +87,7 @@ module MessageApis::Dialogflow
     def get_response_for(text:, session_id:, lang: "en-US")
       query_input = {
         text: {
-          text:,
+          text: text,
           language_code: lang
         }
       }
@@ -118,7 +118,7 @@ module MessageApis::Dialogflow
 
       request = Google::Cloud::Dialogflow::V2::DetectIntentRequest.new(
         session: "projects/#{@project_id}/agent/sessions/#{session_id}",
-        query_input:,
+        query_input: query_input,
         query_params: query_parameters
       )
 

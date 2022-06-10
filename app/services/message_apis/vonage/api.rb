@@ -77,9 +77,9 @@ module MessageApis::Vonage
       return if profile_id.blank?
 
       message_params = build_message_params(
-        blocks:,
-        plain_message:,
-        profile_id:
+        blocks: blocks,
+        plain_message: plain_message,
+        profile_id: profile_id
       )
 
       s = @conn.post(
@@ -104,19 +104,19 @@ module MessageApis::Vonage
 
       if image_block
         message_params.merge!(
-          vonage_block(block_type: "image", plain_message:, block: image_block)
+          vonage_block(block_type: "image", plain_message: plain_message, block: image_block)
         )
       end
 
       if video_block
         message_params.merge!(
-          vonage_block(block_type: "video", plain_message:, block: video_block)
+          vonage_block(block_type: "video", plain_message: plain_message, block: video_block)
         )
       end
 
       if file_block
         message_params.merge!(
-          vonage_block(block_type: "file", plain_message:, block: file_block)
+          vonage_block(block_type: "file", plain_message: plain_message, block: file_block)
         )
       end
 
@@ -158,13 +158,13 @@ module MessageApis::Vonage
       participant = add_participant(vonage_user)
 
       add_message(
-        conversation:,
-        participant:,
-        channel_id:,
+        conversation: conversation,
+        participant: participant,
+        channel_id: channel_id,
         from: agent_sender ? @package.app.agents.first : participant,
-        serialized_content:,
-        text:,
-        message_id:
+        serialized_content: serialized_content,
+        text: text,
+        message_id: message_id
       )
     end
 
@@ -200,10 +200,10 @@ module MessageApis::Vonage
 
       # TODO: serialize message
       conversation.add_message(
-        from:, # agent_required ? Agent.first : participant,
+        from: from, # agent_required ? Agent.first : participant,
         message: {
           html_content: text,
-          serialized_content:
+          serialized_content: serialized_content
         },
         provider: PROVIDER,
         message_source_id: message_id,
@@ -247,15 +247,15 @@ module MessageApis::Vonage
               when "image"
                 url = data["image"]["url"]
                 text = data["image"]["caption"]
-                photo_block(url:, text:)
+                photo_block(url: url, text: text)
               when "video"
                 url = data["video"]["url"]
                 text = data["video"]["caption"]
-                gif_block(url:, text:)
+                gif_block(url: url, text: text)
               when "audio", "file"
                 url = data[media_type]["url"]
                 text = data[media_type]["caption"]
-                file_block(url:, text:)
+                file_block(url: url, text: text)
               end
     end
 

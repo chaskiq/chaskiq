@@ -19,7 +19,7 @@ module DataEnrichmentService
       }
 
       klass = "MessageApis::#{provider.to_s.camelize}"::Api.constantize
-      klass.new(token:)
+      klass.new(token: token)
     end
 
     def get_data(params: {})

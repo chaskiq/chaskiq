@@ -6,7 +6,7 @@ module AuditableBehavior
   included do
     has_many :audits, as: :auditable, dependent: :destroy_async do
       def log(action:, user:, data: nil, ip: nil, app_id: nil)
-        create(agent: user, action:, data:, ip:, app_id:)
+        create(agent: user, action: action, data: data, ip: ip, app_id: app_id)
       end
     end
   end
@@ -17,11 +17,11 @@ module AuditableBehavior
 
     AuditJob.perform_later(
       model: self,
-      user:,
-      action:,
-      data:,
-      ip:,
-      app_id:
+      user: user,
+      action: action,
+      data: data,
+      ip: ip,
+      app_id: app_id
     )
   end
 end

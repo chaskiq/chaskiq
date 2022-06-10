@@ -3,7 +3,7 @@
 class Lead < AppUser
   def verify!
     if email.present? &&
-       app_users = app.app_users.where(type: "AppUser", email:)
+       app_users = app.app_users.where(type: "AppUser", email: email)
       app_users.any?
       clone_records_and_discard(app_users.first)
     else

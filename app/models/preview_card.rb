@@ -31,7 +31,7 @@ class PreviewCard < ApplicationRecord
   end
 
   def media
-    { html: }
+    { html: html }
   end
 
   def as_oembed_json(_opts = {})

@@ -32,7 +32,7 @@ module MessageApis::UiCatalog
       {
         # kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -41,7 +41,7 @@ module MessageApis::UiCatalog
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
-      { content: { kind:, ctx: } }
+      { content: { kind: kind, ctx: ctx } }
 
       definitions = [
         {
@@ -59,7 +59,7 @@ module MessageApis::UiCatalog
       {
         # kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -129,8 +129,8 @@ module MessageApis::UiCatalog
           return {
             kind: "initialize",
             # ctx: ctx,
-            definitions:,
-            results:
+            definitions: definitions,
+            results: results
           }
         end
 
@@ -143,7 +143,7 @@ module MessageApis::UiCatalog
           return {
             kind: "initialize",
             definitions: [],
-            results:
+            results: results
           }
         end
 
@@ -905,9 +905,9 @@ module MessageApis::UiCatalog
       end
 
       {
-        kind:,
+        kind: kind,
         # ctx: ctx,
-        definitions:
+        definitions: definitions
       }
     end
 
@@ -925,7 +925,7 @@ module MessageApis::UiCatalog
       ]
 
       {
-        definitions:
+        definitions: definitions
       }
     end
 

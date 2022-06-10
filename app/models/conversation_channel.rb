@@ -14,8 +14,8 @@ class ConversationChannel < ApplicationRecord
     return if pkg.blank?
 
     pkg.message_api_klass.notify_message(
-      conversation:,
-      part:,
+      conversation: conversation,
+      part: part,
       channel: provider_channel_id
     )
   end

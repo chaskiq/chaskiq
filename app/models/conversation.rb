@@ -86,13 +86,13 @@ class Conversation < ApplicationRecord
     EventsChannel.broadcast_to(
       app.key,
       { type: "conversations:update_state",
-        data: }
+        data: data }
     )
 
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
       { type: "conversations:update_state",
-        data: }
+        data: data }
     )
   end
 

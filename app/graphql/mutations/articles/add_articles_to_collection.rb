@@ -12,15 +12,15 @@ module Mutations
         app = App.find_by(key: app_key)
 
         authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app:
+          app: app
         }
         collection = app.article_collections.find(collection_id)
 
         app.articles.where(id: articles_id).each do |a|
-          a.update(collection:, section: nil)
+          a.update(collection: collection, section: nil)
         end
 
-        { collection: }
+        { collection: collection }
       end
 
       def current_user

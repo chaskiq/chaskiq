@@ -236,7 +236,7 @@ class ActionTriggerFactory
       }
 
       path_options.merge!(
-        follow_actions:
+        follow_actions: follow_actions
       )
 
       c.path(**path_options)
@@ -298,8 +298,8 @@ class ActionTriggerFactory
     return if app.send(settings_namespace)["task_rules"].empty?
 
     find_by_segment(
-      app:,
-      user:,
+      app: app,
+      user: user,
       rules: app.send(settings_namespace)["task_rules"]
     )
   end
@@ -307,7 +307,7 @@ class ActionTriggerFactory
   def self.find_by_segment(app:, user:, rules:)
     rules.find do |o|
       comparator = SegmentComparator.new(
-        user:,
+        user: user,
         predicates: o["predicates"] || []
       )
       if comparator.compare && trigger = app.bot_tasks.find(o["trigger"])
@@ -321,17 +321,17 @@ class ActionTriggerFactory
   def self.find_factory_template(app:, app_user:, data:)
     case data["trigger"]
     when "infer"
-      trigger = ActionTriggerFactory.infer_for(app:, user: app_user)
+      trigger = ActionTriggerFactory.infer_for(app: app, user: app_user)
       # trigger = ActionTriggerFactory.find_configured_bot_for_user(app: app, user: app_user) ||
       #          ActionTriggerFactory.infer_for(app: app, user: app_user)
     when "request_for_email"
-      ActionTriggerFactory.request_for_email(app:)
+      ActionTriggerFactory.request_for_email(app: app)
 
     when "route_support"
-      ActionTriggerFactory.route_support(app:)
+      ActionTriggerFactory.route_support(app: app)
 
     when "typical_reply_time"
-      ActionTriggerFactory.typical_reply_time(app:)
+      ActionTriggerFactory.typical_reply_time(app: app)
 
     else
       raise "trigger template not found"
@@ -343,9 +343,9 @@ class ActionTriggerFactory
       app.bot_tasks.find(data["trigger"])
     rescue StandardError
       find_factory_template(
-        data:,
-        app:,
-        app_user:
+        data: data,
+        app: app,
+        app_user: app_user
       )
     end
 
@@ -365,7 +365,7 @@ class ActionTriggerFactory
   end
 
   def path(title: "", follow_actions: [], steps: [])
-    @paths << { title:, follow_actions:, steps: }
+    @paths << { title: title, follow_actions: follow_actions, steps: steps }
   end
 
   def message(text:, uuid:, agent:)
@@ -393,11 +393,11 @@ class ActionTriggerFactory
       type: "messages",
       messages: [],
       controls: {
-        type:,
-        schema:,
-        next_step_uuid:,
-        app_package:,
-        wait_for_input:
+        type: type,
+        schema: schema,
+        next_step_uuid: next_step_uuid,
+        app_package: app_package,
+        wait_for_input: wait_for_input
       }
     }
   end
@@ -405,7 +405,7 @@ class ActionTriggerFactory
   def button(label:, next_uuid:)
     {
       element: "button",
-      label:,
+      label: label,
       next_step_uuid: next_uuid
     }
   end
@@ -414,9 +414,9 @@ class ActionTriggerFactory
     {
       element: "input",
       id: "",
-      name:,
-      label:,
-      placeholder:,
+      name: name,
+      label: label,
+      placeholder: placeholder,
       type: "text"
     }
   end
