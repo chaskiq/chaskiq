@@ -38,7 +38,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 15
+          node-version: 16
           cache: 'yarn'
 
       - name: Build and precompile
