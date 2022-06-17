@@ -37,6 +37,7 @@ module PackageIframeBehavior
     end
 
     # rubocop:disable Rails/OutputSafety
+    response.headers.delete "X-Frame-Options"
     render html: html.html_safe, layout: false
     # rubocop:enable Rails/OutputSafety
   end
@@ -106,7 +107,6 @@ module PackageIframeBehavior
   def iframe_package_request(url, data, app_user)
     resp = Faraday.post(url, data.merge!(user: app_user).to_json,
                         "Content-Type" => "application/json")
-    response.headers.delete "X-Frame-Options"
     resp.body
   end
 end
