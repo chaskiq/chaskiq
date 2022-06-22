@@ -14,7 +14,6 @@ describe('Login Spec', function () {
     cy.visit('/apps')
 
     cy.get('body').should('contain', 'my app').then(() => {
-      // debugger
       // findButtonByName("View app").click()
       cy.get('a').contains('my app').click().then(() => {
         cy.get('body').should('contain', 'Hey!, you are viewing the')

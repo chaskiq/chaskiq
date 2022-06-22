@@ -62,7 +62,6 @@ export default class ImageBlock extends React.Component<
   }
 
   componentWillUnmount() {
-    // debugger
   }
 
   blockPropsSrc = () => {

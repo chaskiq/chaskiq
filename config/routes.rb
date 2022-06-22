@@ -41,7 +41,8 @@ Rails.application.routes.draw do
     registrations: 'agents/registrations',
     invitations: 'agents/invitations',
     sessions: 'agents/sessions',
-    omniauth_callbacks: 'agents/omniauth_callbacks'
+    omniauth_callbacks: 'agents/omniauth_callbacks',
+    passwords: 'agents/passwords'
   } do
     delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_agent_session
   end

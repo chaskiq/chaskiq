@@ -156,7 +156,6 @@ export default class TourManager extends Component<TourManagerProps> {
     if (!this.state.selectionMode) return;
     if (!this.state.selecting) return;
     if (this.state.selectionMode === 'edit') return;
-    // debugger
 
     e.stopPropagation();
     e.preventDefault();

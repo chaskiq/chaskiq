@@ -57,8 +57,8 @@ export function getConversation(options, cb) {
               collection:
                 nextPage > 1
                   ? getState().conversation.collection.concat(
-                      conversation.messages.collection
-                    )
+                    conversation.messages.collection
+                  )
                   : conversation.messages.collection,
               meta: conversation.messages.meta,
               loading: false,
@@ -70,7 +70,7 @@ export function getConversation(options, cb) {
 
           if (cb) cb();
         },
-        error: () => {},
+        error: () => { },
       }
     );
   };
@@ -105,7 +105,7 @@ export function updateConversationTagList(options, cb) {
           );
           if (cb) cb();
         },
-        error: () => {},
+        error: () => { },
       }
     );
   };
@@ -244,7 +244,6 @@ export function appendMessage(data, cb?: any) {
         collection: [newData].concat(getState().conversation.collection),
       });
 
-      // debugger
       dispatch(dispatchGetConversations(newMessages));
 
       if (cb) cb();
@@ -253,7 +252,7 @@ export function appendMessage(data, cb?: any) {
 }
 
 export function assignUser(_key, _cb) {
-  return (_dispatch, _getState) => {};
+  return (_dispatch, _getState) => { };
 }
 
 export function setLoading(val) {
@@ -279,7 +278,7 @@ export function updateTags(val) {
 }
 
 export function toggleConversationPriority(_key, _cb) {
-  return (_dispatch, _getState) => {};
+  return (_dispatch, _getState) => { };
 }
 
 export function updateConversationState(state, cb) {
@@ -304,7 +303,7 @@ export function updateConversationState(state, cb) {
 
           if (cb) cb(newConversation);
         },
-        error: () => {},
+        error: () => { },
       }
     );
   };
@@ -329,7 +328,7 @@ export function updateConversationPriority(cb) {
           dispatch(dispatchGetConversations(newConversation));
           if (cb) cb(newConversation);
         },
-        error: () => {},
+        error: () => { },
       }
     );
   };
@@ -355,7 +354,7 @@ export function assignAgent(id, cb) {
           dispatch(dispatchGetConversations(newConversation));
           if (cb) cb(data.assignUser.conversation);
         },
-        error: () => {},
+        error: () => { },
       }
     );
   };

@@ -59,7 +59,6 @@ export default class FileBlock extends React.Component<
   }
 
   componentWillUnmount() {
-    // debugger
   }
 
   blockPropsSrc = () => {

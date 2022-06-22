@@ -15,6 +15,7 @@ class Agent < ApplicationRecord
           :recoverable,
           :rememberable,
           :validatable,
+          :lockable,
           :omniauthable, omniauth_providers: %i[doorkeeper]
 
   has_many :app_packages, dependent: :nullify
