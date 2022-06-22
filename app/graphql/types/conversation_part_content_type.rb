@@ -2,6 +2,9 @@
 
 module Types
   class ConversationPartContentType < Types::BaseObject
+
+    include SanitizeHelpers
+
     field :serialized_content, String, null: true
     field :html_content, String, null: true
     field :text_content, String, null: true
@@ -15,11 +18,11 @@ module Types
     end
 
     def html_content
-      object.html_content if object.respond_to?(:html_content)
+      sanitize_field(object.html_content) if object.respond_to?(:html_content)
     end
 
     def text_content
-      object.text_content if object.respond_to?(:text_content)
+      sanitize_field(object.text_content) if object.respond_to?(:text_content)
     end
 
     def blocks
