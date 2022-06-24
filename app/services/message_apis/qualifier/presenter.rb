@@ -307,7 +307,7 @@ module MessageApis::Qualifier
     end
 
     class QualifierRecord
-      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
 
       include ActiveModel::Model
       include ActiveModel::Validations

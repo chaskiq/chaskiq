@@ -61,8 +61,7 @@ export default class ImageBlock extends React.Component<
     return this.replaceImg();
   }
 
-  componentWillUnmount() {
-  }
+  componentWillUnmount() {}
 
   blockPropsSrc = () => {
     return this.props.blockProps.data.src;

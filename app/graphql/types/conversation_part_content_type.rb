@@ -2,7 +2,6 @@
 
 module Types
   class ConversationPartContentType < Types::BaseObject
-
     include SanitizeHelpers
 
     field :serialized_content, String, null: true

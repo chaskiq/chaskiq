@@ -13,7 +13,7 @@ module Mutations
         authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
           app: app
         }
-        
+
         article = app.articles.find(id).delete
 
         { article: article }

@@ -23,6 +23,8 @@ class PresenceChannel < ApplicationCable::Channel
   end
 
   def offline
+    return if current_user.blank?
+
     OfflineCheckerJob.set(wait: 5.seconds).perform_later(current_user.id, key)
   end
 

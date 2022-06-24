@@ -2,7 +2,9 @@ module MessageApis::Reveniu
   class Api < MessageApis::BasePackage
     attr_accessor :secret
 
-    def initialize(config:); end
+    def initialize(config:)
+      @config = config
+    end
 
     def process_event(params, package)
       # todo, here we can do so many things like make a pause and

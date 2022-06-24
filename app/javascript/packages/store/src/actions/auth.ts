@@ -87,7 +87,6 @@ export function successAuthentication(accessToken, refreshToken) {
 }
 
 export function refreshToken(auth) {
-
   //@ts-ignore
   const client_id = document.querySelector('meta[name="chaskiq-client-id"]')
     ?.content;

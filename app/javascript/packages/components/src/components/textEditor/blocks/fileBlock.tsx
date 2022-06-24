@@ -58,8 +58,7 @@ export default class FileBlock extends React.Component<
     return this.replaceFile();
   }
 
-  componentWillUnmount() {
-  }
+  componentWillUnmount() {}
 
   blockPropsSrc = () => {
     return this.props.blockProps.data.src;
