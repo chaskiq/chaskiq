@@ -8,7 +8,7 @@ class Metric < ApplicationRecord
 
   scope :action, ->(action) { where(action: action) }
   # system output
-  scope :deliveries, -> { action(action: "delivery") }
+  scope :deliveries, -> { action("delivery") }
   # user feedback
   scope :bounces, -> { action("bounce") }
   scope :opens,   -> { action("open") }

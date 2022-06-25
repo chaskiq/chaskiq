@@ -12,7 +12,7 @@ module Mutations
       def resolve(app_key:, content:, title:, lang:)
         app = App.find_by(key: app_key)
 
-        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+        authorize! app.articles.new, to: :can_manage_help_center?, with: AppPolicy, context: {
           app: app
         }
 
