@@ -5,7 +5,7 @@ class Api::V1::DirectUploadsController < ActiveStorage::DirectUploadsController
   skip_before_action :verify_authenticity_token
 
   def create
-    ActiveStorage::Current.url_options = { host: ENV["HOST"] }
+    ActiveStorage::Current.url_options = { host: Chaskiq::Config.fetch("HOST", nil) }
     blob = ActiveStorage::Blob.create_before_direct_upload!(**blob_args)
     render json: direct_upload_json(blob)
   end

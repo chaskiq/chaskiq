@@ -26,7 +26,7 @@ module Mutations
           access_token = Doorkeeper::AccessToken.create!(
             application_id: nil,
             resource_owner_id: current_user.id,
-            # expires_in: 2.hours,
+            expires_in: nil,
             scopes: "public"
           )
           integration.update(access_token: access_token.token)

@@ -24,8 +24,7 @@ class ArticleSetting < ApplicationRecord
   has_one_attached :header_image
 
   validates :subdomain,
-            exclusion: { in: %w[www],
-                         message: "%{value} is reserved." },
+            exclusion: { in: %w[www] },
             presence: true,
             uniqueness: true,
             allow_blank: true

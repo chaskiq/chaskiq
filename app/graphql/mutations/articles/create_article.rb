@@ -12,6 +12,10 @@ module Mutations
       def resolve(app_key:, content:, title:, lang:)
         app = App.find_by(key: app_key)
 
+        authorize! app.articles.new, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
+
         article = app.articles.create(
           author: current_user,
           title: title,
@@ -22,9 +26,6 @@ module Mutations
           }
         )
 
-        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
-          app: app
-        }
         I18n.locale = lang
 
         { article: article }

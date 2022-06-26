@@ -6,31 +6,26 @@ function getDomainName(hostName) {
   );
 }
 
-export function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
+export function setCookie(cname, cvalue, exdays, domain = null) {
+  const d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   //@ts-ignore
-  var expires = 'expires=' + d.toGMTString();
-  document.cookie =
-    cname +
-    '=' +
-    cvalue +
-    ';' +
-    'domain=' +
-    getDomainName(window.location.hostname) +
-    ';' +
-    expires +
-    ';path=/';
+  const expires = 'expires=' + d.toGMTString();
+  const secure = window.location.protocol.includes('https') ? 'secure' : '';
+  const a = domain || getDomainName(window.location.hostname);
+  const cookie = `${cname}=${cvalue};domain=${a};${expires};path=/;${secure}`;
+  console.log('set cookie', cookie);
+  document.cookie = cookie;
 }
 
 // Set-Cookie: name=value; domain=example.com
 
 export function getCookie(cname) {
-  var name = cname + '=';
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
+  const name = cname + '=';
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
     while (c.charAt(0) == ' ') {
       c = c.substring(1);
     }
@@ -51,16 +46,3 @@ export function deleteCookie(name) {
   console.log(cookieString);
   document.cookie = cookieString;
 }
-
-/*
-export function checkCookie() {
-  var user=getCookie("username");
-  if (user != "") {
-    alert("Welcome again " + user);
-  } else {
-     user = prompt("Please enter your name:","");
-     if (user != "" && user != null) {
-       setCookie("username", user, 30);
-     }
-  }
-} */

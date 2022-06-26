@@ -11,3 +11,25 @@
 }
 
 */
+
+/* sessions notice */
+
+.error,
+.alert,
+.notice,
+.success,
+.info {
+  padding: 0.8em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.success {
+  background: #e6efc2;
+  color: #264409;
+}
+
+.actions {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
