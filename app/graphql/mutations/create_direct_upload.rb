@@ -29,7 +29,7 @@ module Mutations
     field :direct_upload, DirectUpload, null: false
 
     def resolve(input:)
-      ActiveStorage::Current.url_options = { host: ENV["HOST"] }
+      ActiveStorage::Current.url_options = { host: Chaskiq::Config.fetch("HOST", nil) }
       blob = ActiveStorage::Blob.create_before_direct_upload!(**input)
       {
         direct_upload: {

@@ -2,6 +2,8 @@ module MessageApis::Stripe
   class Api
     attr_accessor :secret
 
-    def initialize(config:); end
+    def initialize(config:)
+      @config = config
+    end
   end
 end

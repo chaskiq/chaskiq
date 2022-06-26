@@ -44,10 +44,6 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon
 
-  Rails.application.routes.default_url_options = { host: ENV['HOST'] }
-  config.action_controller.default_url_options = { host: ENV['HOST'] }
-  config.action_mailer.default_url_options = { host: ENV['HOST'] }
-
   Rails.application.routes.default_url_options = { host: Chaskiq::Config.get('HOST') }
   config.action_controller.default_url_options = { host: Chaskiq::Config.get('HOST') }
   config.action_mailer.default_url_options = { host: Chaskiq::Config.get('HOST') }

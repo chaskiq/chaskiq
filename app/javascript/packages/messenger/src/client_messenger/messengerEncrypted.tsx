@@ -47,7 +47,14 @@ export default class ChaskiqMessengerEncrypted {
     };
 
     this.checkCookie = (val) => {
+      //console.log("SET COOKIE ", val, this.cookieNamespace())
       setCookie(this.cookieNamespace(), val, 365);
+
+      if (!getCookie(this.cookieNamespace())) {
+        // falbacks to direct hostname
+        //console.info("cookie not found, fallabck to:")
+        setCookie(this.cookieNamespace(), val, 365, window.location.hostname);
+      }
     };
 
     this.defaultHeaders = {

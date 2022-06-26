@@ -244,7 +244,6 @@ export function appendMessage(data, cb?: any) {
         collection: [newData].concat(getState().conversation.collection),
       });
 
-      // debugger
       dispatch(dispatchGetConversations(newMessages));
 
       if (cb) cb();

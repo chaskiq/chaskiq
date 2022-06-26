@@ -85,9 +85,9 @@ module MessageApis::TelnyxSms
 
       response = send_sms_message(channel.provider_channel_id, plain_message)
       data = JSON.parse(response.body)
-      if data["errors"].any?
-        # handle error here:
-      end
+      # if data["errors"].any?
+      #  # handle error here:
+      # end
     end
 
     def get_message_id(response_data)

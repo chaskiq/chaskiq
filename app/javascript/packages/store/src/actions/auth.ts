@@ -87,6 +87,10 @@ export function successAuthentication(accessToken, refreshToken) {
 }
 
 export function refreshToken(auth) {
+  //@ts-ignore
+  const client_id = document.querySelector('meta[name="chaskiq-client-id"]')
+    ?.content;
+
   return (dispatch, _getState) => {
     dispatch(startAuthentication());
     dispatch(errorMessage('refresh token, hang tight'));
@@ -96,6 +100,7 @@ export function refreshToken(auth) {
       .post('/oauth/token', {
         refresh_token: auth.refreshToken,
         grant_type: 'refresh_token',
+        client_id: client_id,
       })
       .then((res) => {
         const accessToken = res.data.access_token;

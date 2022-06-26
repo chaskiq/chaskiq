@@ -6,17 +6,16 @@ class Metric < ApplicationRecord
   # belongs_to :app_user , foreign_key: :trackable_id
   belongs_to :app_user
 
+  scope :action, ->(action) { where(action: action) }
   # system output
-  scope :deliveries, -> { where(action: "delivery") }
-
+  scope :deliveries, -> { action("delivery") }
   # user feedback
-  scope :bounces, -> { where(action: "bounce") }
-  scope :opens,   -> { where(action: "open") }
-  scope :clicks,  -> { where(action: "click") }
-  scope :complaints, -> { where(action: "complaint") }
-  scope :rejects, -> { where(action: "reject") }
-  scope :spams,   -> { where(action: "complaint") }
-
+  scope :bounces, -> { action("bounce") }
+  scope :opens,   -> { action("open") }
+  scope :clicks,  -> { action("click") }
+  scope :complaints, -> { action("complaint") }
+  scope :rejects, -> { action("reject") }
+  scope :spams,   -> { complaints }
   # reportery
   scope :uniques, -> { group("host") }
 

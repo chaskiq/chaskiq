@@ -36,7 +36,7 @@ Doorkeeper.configure do
 
   allow_blank_redirect_uri true
 
-  access_token_expires_in 1.week
+  access_token_expires_in Chaskiq::Config.fetch("USER_TOKEN_EXPIRES_IN", 1.hour ) 
 
   # skip_client_authentication_for_password_grant true
 
