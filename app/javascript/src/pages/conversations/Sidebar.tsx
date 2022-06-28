@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
@@ -12,6 +12,7 @@ import I18n from '../../shared/FakeI18n';
 import RestrictedArea, {
   allowedAccessTo,
 } from '@chaskiq/components/src/components/AccessDenied';
+import { useEventBroker } from '../../shared/EventBroker';
 
 import { updateApp } from '@chaskiq/store/src/actions/app';
 
@@ -27,6 +28,8 @@ function Sidebar({
   toggleFixedSidebar,
 }) {
   const [editable, setEditable] = React.useState(false);
+  const [inboxApps, setInboxApps] = React.useState(app.inboxApps);
+  const broker = useEventBroker(() => ({ channel: 'EventsChannel', app: app.key }), [app]);
 
   const participant = conversation.mainParticipant;
   if (!participant) {
@@ -40,6 +43,30 @@ function Sidebar({
       })
     );
   }
+
+  useEffect(() => {
+    const subs = inboxApps.filter((inboxApp) => {
+      if (!inboxApp.definitions || inboxApp.definitions.length === 0) {
+        return false;
+      }
+      const { definitions: [{ events }] } = inboxApp;
+      if (!events) {
+        return false;
+      }
+      return true;
+    }).map((inboxApp) => {
+      const { definitions: [{ events }] } = inboxApp;
+      return events.map((eventName) => {
+        return broker.on(eventName, () => {
+          setInboxApps([...inboxApps.filter((x) => x !== inboxApp), { ...inboxApp }]);
+        });
+      })
+    }).flat();
+
+    return () => {
+      subs.forEach(sub => sub() );
+    };
+  },[broker, inboxApps])
 
   return (
     <div className="xl:border-r-- xl:border-gray-200--">
@@ -101,8 +128,8 @@ function Sidebar({
                     )}
                   </div>
 
-                  {app.inboxApps &&
-                    app.inboxApps.map((object, index) => (
+                  {inboxApps &&
+                    inboxApps.map((object, index) => (
                       <AppItem
                         key={`inboxApp-${object.name}-${index}`}
                         app={app}
@@ -277,7 +304,11 @@ function AssigneeBlock({ conversation, app }) {
 
 export function AppItem({ app, object, conversation, app_user }) {
   const pkg = object;
-  const [definitions, setDefinitions] = React.useState(object.definitions);
+  const [definitions, setDefinitions] = React.useState([]);
+
+  React.useEffect(() => {
+    setDefinitions(object.definitions);
+  }, [object])
 
   function updatePackage(packageParams, cb) {
     if (packageParams.field.action.type === 'url') {
