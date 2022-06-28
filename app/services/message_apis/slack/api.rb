@@ -1030,16 +1030,12 @@ module MessageApis::Slack
 
     def get_file_info(file_id)
       response = @conn.get(
-        url("/api/files.info"), 
-        { file: file_id, token: self.keys["access_token"] }, 
-        { 'Content-Type' => "application/x-www-form-urlencoded" }
+        url("/api/files.info"),
+        { file: file_id, token: keys["access_token"] },
+        { "Content-Type" => "application/x-www-form-urlencoded" }
       )
       body = JSON.parse(response.body)
-      if( body["ok"] && body["file"])
-        body["file"]
-      else
-        nil
-      end
+      body["file"] if body["ok"] && body["file"]
     end
 
     def get_file_data(file_data)
@@ -1055,7 +1051,7 @@ module MessageApis::Slack
       files = data["files"].map do |o|
         begin
           file_data = get_file_data(o)
-          
+
           file = handle_direct_upload(
             file_data["url_private_download"],
             file_data["mimetype"]
