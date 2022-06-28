@@ -650,7 +650,6 @@ module MessageApis::Slack
                             .find_by(message_source_id: event["ts"]).present?
 
       serialized_blocks = serialize_content(event)
-
       # search for <@mention> and add to private message here!
       mentions = mentions?(event)
 
@@ -1029,13 +1028,33 @@ module MessageApis::Slack
       ].flatten.compact }.to_json
     end
 
+    def get_file_info(file_id)
+      response = @conn.get(
+        url("/api/files.info"),
+        { file: file_id, token: keys["access_token"] },
+        { "Content-Type" => "application/x-www-form-urlencoded" }
+      )
+      body = JSON.parse(response.body)
+      body["file"] if body["ok"] && body["file"]
+    end
+
+    def get_file_data(file_data)
+      if file_data["mode"] == "file_access" && file_data["file_access"] == "check_file_info"
+        get_file_info(file_data["id"])
+      elsif file_data["url_private_download"].present?
+        file_data
+      end
+    end
+
     def attachment_block(data)
       err = nil
       files = data["files"].map do |o|
         begin
+          file_data = get_file_data(o)
+
           file = handle_direct_upload(
-            o["url_private_download"],
-            o["mimetype"]
+            file_data["url_private_download"],
+            file_data["mimetype"]
           )
         rescue StandardError => e
           Rails.logger.info e.message
@@ -1049,8 +1068,8 @@ module MessageApis::Slack
           url: file[:url],
           w: file[:width],
           h: file[:height],
-          text: o["title"],
-          mimetype: o["mimetype"]
+          text: file_data["title"],
+          mimetype: file_data["mimetype"]
         }
       end
 
@@ -1069,6 +1088,7 @@ module MessageApis::Slack
 
     def media_block(data)
       params = data.slice(:url, :text, :w, :h)
+
       return photo_block(**params) if data[:mimetype].include?("image/")
 
       file_block(url: data[:url], text: data[:text])
@@ -1093,8 +1113,8 @@ module MessageApis::Slack
     end
 
     def replace_links(text)
-      text.gsub(%r{<(https?://\S+)\|link>}) do |o|
-        o.gsub(%r{<(https?://\S+)\|link>}, Regexp.last_match(1).to_s)
+      text.gsub(%r{<(https?://\S+)\|(\S|\s)+>}) do |o|
+        o.gsub(%r{<(https?://\S+)\|(\S|\s)+>}, Regexp.last_match(1).to_s)
       end
     end
   end
