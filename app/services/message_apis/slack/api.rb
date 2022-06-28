@@ -1093,8 +1093,8 @@ module MessageApis::Slack
     end
 
     def replace_links(text)
-      text.gsub(%r{<(https?://\S+)\|link>}) do |o|
-        o.gsub(%r{<(https?://\S+)\|link>}, Regexp.last_match(1).to_s)
+      text.gsub(%r{<(https?:\/\/\S+)\|(\S|\s)+>}) do |o|
+        o.gsub(%r{<(https?:\/\/\S+)\|(\S|\s)+>}, Regexp.last_match(1).to_s)
       end
     end
   end
