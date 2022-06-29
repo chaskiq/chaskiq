@@ -78,8 +78,7 @@
     "tailwindcss": "^3.0.23",
     "twin.macro": "^2.8.2",
     "ua-parser-js": "^0.7.20",
-    "url-pattern": "^1.0.3",
-    "events": "^3.3.0"
+    "url-pattern": "^1.0.3"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",
@@ -91,6 +90,7 @@
     "@types/react": "^17.0.18",
     "@types/react-dom": "^17.0.9",
     "@types/simple-peer": "^9.11.1",
+    "events": "^3.3.0",
     "util": "^0.12.4",
     "path-browserify": "^1.0.1",
     "postcss": "^8.2.10",

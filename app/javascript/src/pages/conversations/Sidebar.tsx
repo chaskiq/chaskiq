@@ -12,7 +12,6 @@ import I18n from '../../shared/FakeI18n';
 import RestrictedArea, {
   allowedAccessTo,
 } from '@chaskiq/components/src/components/AccessDenied';
-import { useEventBroker } from '../../shared/EventBroker';
 
 import { updateApp } from '@chaskiq/store/src/actions/app';
 
@@ -20,7 +19,35 @@ function localeDate(date) {
   return new Date(date).toLocaleString();
 }
 
+export const eventsSubscriber = (appId, cableApp, callback) => {
+  cableApp.events = cableApp.cable.subscriptions.create(
+    {
+      channel: 'EventsChannel',
+      app: appId,
+    },
+    {
+      connected: () => {
+        console.log('connected to events');
+      },
+      disconnected: () => {
+        console.log('disconnected from events');
+      },
+      received: (data) => {
+        callback(data);
+        return null;
+      },
+      notify: () => {
+        console.log('notify!!');
+      },
+      handleMessage: () => {
+        console.log('handle message');
+      },
+    }
+  );
+};
+
 function Sidebar({
+  cableApp,
   app,
   conversation,
   app_user,
@@ -29,7 +56,6 @@ function Sidebar({
 }) {
   const [editable, setEditable] = React.useState(false);
   const [inboxApps, setInboxApps] = React.useState(app.inboxApps);
-  const broker = useEventBroker(() => ({ channel: 'EventsChannel', app: app.key }), [app]);
 
   const participant = conversation.mainParticipant;
   if (!participant) {
@@ -44,8 +70,8 @@ function Sidebar({
     );
   }
 
-  useEffect(() => {
-    const subs = inboxApps.filter((inboxApp) => {
+  const handleSidebarEvents = ({ type, data }) => {
+    inboxApps.filter((inboxApp) => {
       if (!inboxApp.definitions || inboxApp.definitions.length === 0) {
         return false;
       }
@@ -57,16 +83,22 @@ function Sidebar({
     }).map((inboxApp) => {
       const { definitions: [{ events }] } = inboxApp;
       return events.map((eventName) => {
-        return broker.on(eventName, () => {
+        if (type === eventName && data['conversation_key'] === conversation.key) {
           setInboxApps([...inboxApps.filter((x) => x !== inboxApp), { ...inboxApp }]);
-        });
+        }
       })
-    }).flat();
+    });
+  }
 
-    return () => {
-      subs.forEach(sub => sub() );
-    };
-  },[broker, inboxApps])
+  useEffect(() => {
+    if (cableApp) {
+      eventsSubscriber(
+        app.key,
+        cableApp,
+        handleSidebarEvents,
+      );
+    }
+  },[inboxApps, cableApp, handleSidebarEvents])
 
   return (
     <div className="xl:border-r-- xl:border-gray-200--">

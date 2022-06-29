@@ -38,9 +38,9 @@ function Conversations({
   conversations,
   conversation,
   app,
-  events,
   app_user,
   pushEvent,
+  cableApp,
 }) {
   const [fetching, setFetching] = React.useState(false);
   const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false);
@@ -335,7 +335,7 @@ function Conversations({
             } w-full bg-gray-200 dark:bg-gray-900 h-screen border-r dark:border-black`}
           >
             <Conversation
-              events={events}
+              events={cableApp.events}
               pushEvent={pushEvent}
               fixedSidebarOpen={fixedSidebarOpen}
               setFixedSidebarOpen={setFixedSidebarOpen}
@@ -348,7 +348,7 @@ function Conversations({
       {!isEmpty(conversation) && conversation.id && fixedSidebarOpen && (
         <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           {app_user && app_user.id ? (
-            <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
+            <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} cableApp={cableApp} />
           ) : (
             <Progress />
           )}

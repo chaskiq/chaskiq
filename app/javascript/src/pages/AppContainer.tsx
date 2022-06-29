@@ -262,7 +262,7 @@ function AppContainer({
                     <Conversations
                       subscribed
                       pushEvent={pushEvent}
-                      events={CableApp.current.events}
+                      cableApp={CableApp.current}
                     />
                   </RestrictedArea>
                 </Route>

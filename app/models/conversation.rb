@@ -4,6 +4,7 @@ class Conversation < ApplicationRecord
   include Eventable
   include AASM
   include Tokenable
+  include Syncable
 
   include AuditableBehavior
 
