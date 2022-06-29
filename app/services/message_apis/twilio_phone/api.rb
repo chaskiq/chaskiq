@@ -105,7 +105,8 @@ module MessageApis::TwilioPhone
         conversation.assign_user(agent) if conversation.assignee.blank?
 
         return conference_call(params, conversation, {
-                                 message: "Hi, we are connecting you to the conversation now"
+                                 message: "Hi, we are connecting you to the conversation now",
+                                 end_conference_on_exit: false
                                })
       end
 
@@ -209,7 +210,8 @@ module MessageApis::TwilioPhone
         app: @package.app.key,
         payload: payload,
         conference: conference_object(payload),
-        event_type: "INIT"
+        event_type: "INIT",
+        agent_id: MessageApis::TwilioPhone::Store.get(conversation.key, payload["CallSid"])
       }
 
       case payload["StatusCallbackEvent"]
@@ -285,14 +287,16 @@ module MessageApis::TwilioPhone
       response = Twilio::TwiML::VoiceResponse.new
       response.say(message: opts[:message]) if opts[:message].present?
 
+      end_conference_on_exit = opts.keys.include?(:end_conference_on_exit) ? opts[:end_conference_on_exit] : true
+
       response.dial do |dial|
         name = conversation.key
 
         hook_url = @package.hook_url.gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
 
         dial.conference(name,
-                        beep: false,
-                        end_conference_on_exit: true,
+                        beep: true,
+                        end_conference_on_exit: end_conference_on_exit,
                         statusCallback: hook_url,
                         statusCallbackEvent: "start end join leave mute hold")
       end
