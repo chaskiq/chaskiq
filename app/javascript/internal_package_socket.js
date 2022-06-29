@@ -120,10 +120,14 @@ function PhoneCall({ data, endpointURL }) {
   React.useEffect(() => {
     eventsSubscriber(CableApp.current, (event) => {
       if (event.payload.FriendlyName == conversation_key) {
+        console.log(event);
         switch (event.payload.StatusCallbackEvent) {
           case 'participant-hold':
           case 'participant-unhold':
             setHoldStatus(event.payload.Hold === 'true');
+            break;
+          case 'participant-leave':
+            //if(user.id + "" == event.agents_id)
             break;
           default:
             break;
@@ -181,10 +185,6 @@ function PhoneCall({ data, endpointURL }) {
 
     device.current.on('disconnect', function (conn) {
       // Disable the hangup button and enable the call buttons
-      /*hangUpButton.disabled = true;
-      callCustomerButtons.disabled = false;
-      callSupportButton.disabled = false;*/
-      //hangUpButton.current.disabled = false
       setCallStatus('Ready');
       setCallStarted(false);
     });
