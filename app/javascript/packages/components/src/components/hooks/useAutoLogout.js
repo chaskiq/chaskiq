@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const useLogout = (startTime, otherWindow) => {
   const [timer, setTimer] = useState(startTime);
@@ -12,12 +12,12 @@ const useLogout = (startTime, otherWindow) => {
       setTimer(startTime);
     };
     const events = [
-      "load",
-      "mousemove",
-      "mousedown",
-      "click",
-      "scroll",
-      "keypress"
+      'load',
+      'mousemove',
+      'mousedown',
+      'click',
+      'scroll',
+      'keypress',
     ];
     for (let i in events) {
       window.addEventListener(events[i], resetTimeout);

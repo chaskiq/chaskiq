@@ -247,7 +247,7 @@ class AppSettingsContainer extends Component<
             label: I18n.t('settings.app.tags'),
             content: (
               <Tags
-               key="settings-app-tags"
+                key="settings-app-tags"
                 settings={this.props.app}
                 update={this.update}
                 namespace={'app'}

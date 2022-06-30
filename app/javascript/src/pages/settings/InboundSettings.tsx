@@ -122,7 +122,6 @@ function RepliesClosedConversationsControls({
   );
 }
 
-
 function IdleSessionClosedMessenger({
   kind,
   option,
@@ -136,7 +135,7 @@ function IdleSessionClosedMessenger({
   return (
     <div>
       <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
-        {I18n.t('settings.inbound.idle_sessions_title', { name: option.name }) }
+        {I18n.t('settings.inbound.idle_sessions_title', { name: option.name })}
       </p>
 
       <div className="flex items-center space-x-1 h-24 py-3">
@@ -189,7 +188,6 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
     users_close_conversations_after:
       settings.inboundSettings.users.close_conversations_after || 0,
 
-
     users_idle_sessions_enabled:
       settings.inboundSettings.users.users_idle_sessions_enabled,
     users_idle_sessions_after:
@@ -203,7 +201,6 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
       settings.inboundSettings.visitors.close_conversations_enabled,
     visitors_close_conversations_after:
       settings.inboundSettings.visitors.close_conversations_after || 0,
-
 
     visitors_idle_sessions_enabled:
       settings.inboundSettings.visitors.idle_sessions_enabled,
@@ -313,15 +310,14 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         handleChangeNumber={handleChangeNumber}
       />
 
-      {
-        option.namespace == "visitors" && 
-          <IdleSessionClosedMessenger
-            state={state}
-            option={option}
-            kind={`${option.namespace}_idle_sessions`}
-            handleChangeNumber={handleChangeNumber}
-          />
-      }
+      {option.namespace == 'visitors' && (
+        <IdleSessionClosedMessenger
+          state={state}
+          option={option}
+          kind={`${option.namespace}_idle_sessions`}
+          handleChangeNumber={handleChangeNumber}
+        />
+      )}
 
       <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.hint2')}

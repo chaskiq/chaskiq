@@ -213,7 +213,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       rtcAudio: true,
       rtcVideo: true,
       timer: null,
-      tabId: Math.random() + ""
+      tabId: Math.random() + '',
     };
 
     this.delayTimer = null;
@@ -1355,8 +1355,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   setTimer = (timer) => {
-    this.setState({timer: timer})
-  }
+    this.setState({ timer: timer });
+  };
 
   render() {
     const palette = this.themePalette();
@@ -1453,14 +1453,18 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                       closeMessenger={this.closeMessenger}
                       kind={this.props.kind}
                       inboundSettings={this.state.appData.inboundSettings}
-                      setTimer={(timer, tabId)=> {
-                        this.setTimer(timer)
+                      setTimer={(timer, tabId) => {
+                        this.setTimer(timer);
                         // console.log(window.localStorage.getItem("chaskiqTabId"), tabId)
-                        if(window.localStorage.getItem("chaskiqTabId") === tabId){
-                          this.closeMessenger()
-                          window.localStorage.setItem("chaskiqTabClosedAt", Math.random() + "")
+                        if (
+                          window.localStorage.getItem('chaskiqTabId') === tabId
+                        ) {
+                          this.closeMessenger();
+                          window.localStorage.setItem(
+                            'chaskiqTabClosedAt',
+                            Math.random() + ''
+                          );
                         }
-                        
                       }}
                     >
                       {this.state.display_mode === 'conversation' ? (
@@ -1581,9 +1585,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           )}
 
                           {this.state.display_mode === 'article' && (
-                            <Article
-                              i18n={i18n}
-                            />
+                            <Article i18n={i18n} />
                           )}
 
                           {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
@@ -1596,7 +1598,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           )}
 
                           {this.state.display_mode === 'conversation' && (
-                            <Conversation/>
+                            <Conversation />
                           )}
 
                           {
