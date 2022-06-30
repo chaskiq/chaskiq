@@ -147,6 +147,8 @@ type MessengerState = {
   rtcVideo: boolean;
   visible: boolean;
   isMinimized?: boolean;
+  timer: number;
+  tabId: string;
 };
 class Messenger extends Component<MessengerProps, MessengerState> {
   i18n: any;
@@ -210,6 +212,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       videoSession: false,
       rtcAudio: true,
       rtcVideo: true,
+      timer: null,
+      tabId: Math.random() + ""
     };
 
     this.delayTimer = null;
@@ -1010,6 +1014,16 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     );
   };
 
+  closeMessenger = () => {
+    this.setState(
+      {
+        open: false,
+        // display_mode: "conversations",
+      },
+      this.clearInlineConversation
+    );
+  };
+
   wakeup = () => {
     this.setState({ open: true });
   };
@@ -1340,6 +1354,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     this.setState({ availableMessages: newAvailableMessages });
   };
 
+  setTimer = (timer) => {
+    this.setState({timer: timer})
+  }
+
   render() {
     const palette = this.themePalette();
     return (
@@ -1430,7 +1448,20 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                     }}
                   >
                     <FrameBridge
+                      tabId={this.state.tabId}
                       handleAppPackageEvent={this.handleAppPackageEvent}
+                      closeMessenger={this.closeMessenger}
+                      kind={this.props.kind}
+                      inboundSettings={this.state.appData.inboundSettings}
+                      setTimer={(timer, tabId)=> {
+                        this.setTimer(timer)
+                        // console.log(window.localStorage.getItem("chaskiqTabId"), tabId)
+                        if(window.localStorage.getItem("chaskiqTabId") === tabId){
+                          this.closeMessenger()
+                          window.localStorage.setItem("chaskiqTabClosedAt", Math.random() + "")
+                        }
+                        
+                      }}
                     >
                       {this.state.display_mode === 'conversation' ? (
                         <FrameChild
@@ -1552,15 +1583,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           {this.state.display_mode === 'article' && (
                             <Article
                               i18n={i18n}
-                              //graphqlClient={this.graphqlClient}
-                              //updateHeader={this.updateHeader}
-                              //transition={this.state.transition}
-                              //articleSlug={this.state.article.slug}
-                              //transition={this.state.transition}
-                              //appData={this.state.appData}
-                              //i18n={this.props.i18n}
-                              //domain={this.props.domain}
-                              //lang={this.props.lang}
                             />
                           )}
 
@@ -1574,16 +1596,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           )}
 
                           {this.state.display_mode === 'conversation' && (
-                            <Conversation />
+                            <Conversation/>
                           )}
 
                           {
                             <RtcViewWrapper
-                              //toggleVideo={this.toggleVideo}
-                              //toggleAudio={this.toggleAudio}
-                              //rtcVideo={this.state.rtcVideo}
-                              //rtcAudio={this.state.rtcAudio}
-                              //setVideoSession={this.setVideoSession.bind(this)}
                               videoSession={this.state.videoSession}
                             ></RtcViewWrapper>
                           }

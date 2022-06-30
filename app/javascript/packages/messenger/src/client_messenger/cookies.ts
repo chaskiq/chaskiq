@@ -14,7 +14,7 @@ export function setCookie(cname, cvalue, exdays, domain = null) {
   const secure = window.location.protocol.includes('https') ? 'secure' : '';
   const a = domain || getDomainName(window.location.hostname);
   const cookie = `${cname}=${cvalue};domain=${a};${expires};path=/;${secure}`;
-  console.log('set cookie', cookie);
+  // console.log('set cookie', cookie);
   document.cookie = cookie;
 }
 

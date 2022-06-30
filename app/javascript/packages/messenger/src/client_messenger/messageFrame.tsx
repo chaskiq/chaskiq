@@ -15,6 +15,7 @@ type MessageFrameProps = {
   domain: string;
   i18n: any;
   handleClose: (id: Number) => void;
+  pushEvent: any;
 };
 
 type MessageFrameState = {
