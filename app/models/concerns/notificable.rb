@@ -47,4 +47,12 @@ module Notificable
                                  data: params
                                }.as_json)
   end
+
+  def notify_app_events_subscribers(app_key, event_name, params)
+    EventsChannel.broadcast_to(app_key,
+                               {
+                                 type: event_name,
+                                 data: params
+                               }.as_json)
+  end
 end
