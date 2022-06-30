@@ -1,5 +1,6 @@
 const actionTypes = {
   GetApp: 'GET_APP',
+  UpdateApp: 'UPDATE_APP',
   setCurrentUser: 'SET_CURRENT_USER',
   setSignOut: 'SET_SIGNOUT',
 

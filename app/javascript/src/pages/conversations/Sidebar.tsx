@@ -19,35 +19,7 @@ function localeDate(date) {
   return new Date(date).toLocaleString();
 }
 
-export const eventsSubscriber = (appId, cableApp, callback) => {
-  cableApp.events = cableApp.cable.subscriptions.create(
-    {
-      channel: 'EventsChannel',
-      app: appId,
-    },
-    {
-      connected: () => {
-        console.log('connected to events');
-      },
-      disconnected: () => {
-        console.log('disconnected from events');
-      },
-      received: (data) => {
-        callback(data);
-        return null;
-      },
-      notify: () => {
-        console.log('notify!!');
-      },
-      handleMessage: () => {
-        console.log('handle message');
-      },
-    }
-  );
-};
-
 function Sidebar({
-  cableApp,
   app,
   conversation,
   app_user,
@@ -55,7 +27,6 @@ function Sidebar({
   toggleFixedSidebar,
 }) {
   const [editable, setEditable] = React.useState(false);
-  const [inboxApps, setInboxApps] = React.useState(app.inboxApps);
 
   const participant = conversation.mainParticipant;
   if (!participant) {
@@ -69,36 +40,6 @@ function Sidebar({
       })
     );
   }
-
-  const handleSidebarEvents = ({ type, data }) => {
-    inboxApps.filter((inboxApp) => {
-      if (!inboxApp.definitions || inboxApp.definitions.length === 0) {
-        return false;
-      }
-      const { definitions: [{ events }] } = inboxApp;
-      if (!events) {
-        return false;
-      }
-      return true;
-    }).map((inboxApp) => {
-      const { definitions: [{ events }] } = inboxApp;
-      return events.map((eventName) => {
-        if (type === eventName && data['conversation_key'] === conversation.key) {
-          setInboxApps([...inboxApps.filter((x) => x !== inboxApp), { ...inboxApp }]);
-        }
-      })
-    });
-  }
-
-  useEffect(() => {
-    if (cableApp) {
-      eventsSubscriber(
-        app.key,
-        cableApp,
-        handleSidebarEvents,
-      );
-    }
-  },[inboxApps, cableApp, handleSidebarEvents])
 
   return (
     <div className="xl:border-r-- xl:border-gray-200--">
@@ -160,8 +101,8 @@ function Sidebar({
                     )}
                   </div>
 
-                  {inboxApps &&
-                    inboxApps.map((object, index) => (
+                  {app.inboxApps &&
+                    app.inboxApps.map((object, index) => (
                       <AppItem
                         key={`inboxApp-${object.name}-${index}`}
                         app={app}

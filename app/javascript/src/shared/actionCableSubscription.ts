@@ -4,7 +4,8 @@ import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns';
 import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
-import { createNotification } from '@chaskiq/store/src/actions/notifications';
+import { createNotification } from '@chaskiq/store/src/actions/notifications'
+import { appEventReceived } from '@chaskiq/store/src/actions/app';;
 
 import {
   camelizeKeys,
@@ -83,6 +84,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
               ?.contentWindow;
             popup && popup.postMessage(data, '*');
           default:
+            dispatch(appEventReceived(data))
             console.log('unhandled', data);
             return null;
         }
