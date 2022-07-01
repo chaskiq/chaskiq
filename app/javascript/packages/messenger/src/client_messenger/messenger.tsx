@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { setCookie, getCookie, deleteCookie } from './cookies';
+
 // import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming';
 
@@ -48,6 +50,7 @@ import {
   PRIVACY_CONSENT,
   GET_NEW_CONVERSATION_BOTS,
   BANNER,
+  AUTH
 } from './graphql/queries';
 import GraphqlClient from './graphql/client';
 
@@ -105,6 +108,7 @@ type MessengerProps = {
   domain: string;
   kind: string;
   ws: string;
+  reset: any;
 };
 
 type MessengerState = {
@@ -218,47 +222,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
     this.delayTimer = null;
 
-    const data = {
-      email: this.props.email,
-      properties: this.props.properties,
-    };
-
-    this.defaultHeaders = {
-      app: this.props.app_id,
-      user_data: JSON.stringify(data),
-    };
-
-    this.defaultCableData = {
-      app: this.props.app_id,
-      email: this.props.email,
-      properties: this.props.properties,
-      session_id: this.props.sessionId,
-    };
-
-    if (this.props.encryptedMode) {
-      this.defaultHeaders = {
-        app: this.props.app_id,
-        'enc-data': this.props.encData || '',
-        'user-data': JSON.stringify(this.props.encData),
-        'session-id': this.props.sessionId,
-        lang: this.props.lang,
-      };
-
-      this.defaultCableData = {
-        app: this.props.app_id,
-        enc_data: this.props.encData || '',
-        user_data: JSON.stringify(this.props.encData),
-        session_id: this.props.sessionId,
-      };
-    }
-
-    this.graphqlClient = new GraphqlClient({
-      config: this.defaultHeaders,
-      url: `${graphqlUrl(this.props.domain)}`,
-    });
-
-    this.App = createSubscription(this.props, this.defaultCableData.user_data);
-
     this.overflow = null;
     this.inlineOverflow = null;
     this.commentWrapperRef = React.createRef();
@@ -291,6 +254,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   }
 
   componentDidMount() {
+
+    this.setup()
+
     this.visibility();
 
     this.ping(() => {
@@ -335,6 +301,49 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  setup = ()=>{
+    const data = {
+      email: this.props.email,
+      properties: this.props.properties,
+    };
+
+    this.defaultHeaders = {
+      app: this.props.app_id,
+      user_data: JSON.stringify(data),
+    };
+
+    this.defaultCableData = {
+      app: this.props.app_id,
+      email: this.props.email,
+      properties: this.props.properties,
+      session_id: this.props.sessionId,
+    };
+
+    if (this.props.encryptedMode) {
+      this.defaultHeaders = {
+        app: this.props.app_id,
+        'enc-data': this.props.encData || '',
+        'user-data': JSON.stringify(this.props.encData),
+        'session-id': this.props.sessionId,
+        lang: this.props.lang,
+      };
+
+      this.defaultCableData = {
+        app: this.props.app_id,
+        enc_data: this.props.encData || '',
+        user_data: JSON.stringify(this.props.encData),
+        session_id: this.props.sessionId,
+      };
+    }
+
+    this.graphqlClient = new GraphqlClient({
+      config: this.defaultHeaders,
+      url: `${graphqlUrl(this.props.domain)}`,
+    });
+
+    this.App = createSubscription(this.props, this.defaultCableData.user_data);
   }
 
   setVideoSession() {
@@ -1020,7 +1029,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         open: false,
         // display_mode: "conversations",
       },
-      this.clearInlineConversation
+      ()=>{
+        this.setup()
+        this.clearInlineConversation
+      }
     );
   };
 
@@ -1450,7 +1462,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                     <FrameBridge
                       tabId={this.state.tabId}
                       handleAppPackageEvent={this.handleAppPackageEvent}
-                      closeMessenger={this.closeMessenger}
+                      closeMessenger={()=> {
+                        //this.closeMessenger
+                        // triggered on other tabs
+                        this.props.reset(false)
+                      }}
                       kind={this.props.kind}
                       inboundSettings={this.state.appData.inboundSettings}
                       setTimer={(timer, tabId) => {
@@ -1459,11 +1475,15 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                         if (
                           window.localStorage.getItem('chaskiqTabId') === tabId
                         ) {
-                          this.closeMessenger();
-                          window.localStorage.setItem(
-                            'chaskiqTabClosedAt',
-                            Math.random() + ''
-                          );
+                          this.props.reset(true)
+                          setTimeout(()=>{
+                            // this.closeMessenger();
+                            window.localStorage.setItem(
+                              'chaskiqTabClosedAt',
+                              Math.random() + ''
+                            );
+                          }, 200)
+                          
                         }
                       }}
                     >
@@ -1793,8 +1813,115 @@ export default class ChaskiqMessenger {
     }
 
     ReactDOM.render(
-      <Messenger {...this.props} />,
+      <MessengerBridge {...this.props} />,
       document.getElementById(this.props.wrapperId)
     );
   }
+}
+
+
+function MessengerBridge(props){
+
+  const [ready, setReady] = React.useState(false)
+  const [user, setUser] = React.useState(null)
+
+  React.useEffect(()=>{
+    if(ready) return
+    setup()
+  }, [ready])
+
+  function cookieNamespace() {
+    // old app keys have hypens, we get rid of this
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_session_id_${app_id}`;
+  };
+
+  const currentLang = props.lang || navigator.language || navigator['userLanguage'];
+
+  function getSession() {
+    // cookie rename, if we wet an old cookie update to new format and expire it
+    const oldCookie = getCookie('chaskiq_session_id');
+    if (getCookie('chaskiq_session_id')) {
+      checkCookie(oldCookie); // will append a appkey
+      deleteCookie('chaskiq_session_id');
+    }
+    return getCookie(cookieNamespace()) || '';
+  }
+
+  function checkCookie(val) {
+    //console.log("SET COOKIE ", val, this.cookieNamespace())
+    setCookie(cookieNamespace(), val, 365);
+
+    if (!getCookie(cookieNamespace())) {
+      // falbacks to direct hostname
+      //console.info("cookie not found, fallabck to:")
+      setCookie(cookieNamespace(), val, 365, window.location.hostname);
+    }
+  }
+
+  function defaultHeaders() {
+    return {
+      app: props.app_id,
+      'enc-data': props.data || '',
+      'user-data': JSON.stringify(props.data),
+      'session-id': getSession(),
+      lang: currentLang
+    }
+  }
+
+  function graphqlClient(){
+    return new GraphqlClient({
+      config: defaultHeaders(),
+      url: graphqlUrl(props.domain),
+    })
+  }
+
+  function setup(){
+    graphqlClient().send(
+      AUTH,
+      {
+        lang: currentLang,
+      },
+      {
+        success: (data) => {
+          const u = data.messenger.user;
+          if (u.kind !== 'AppUser') {
+            if (u.sessionId) {
+              checkCookie(u.sessionId);
+            } else {
+              deleteCookie(cookieNamespace());
+            }
+          }
+
+          setUser(u)
+          setReady(true)
+        },
+        errors: (e) => {
+          console.log('Error', e);
+        },
+      }
+    );
+  }
+
+  // the only client that wipes is true is the one who triggers the idle
+  function reset(wipe_cookie = false){
+    if(wipe_cookie) deleteCookie(cookieNamespace())
+    setReady(false)
+  }
+
+  function dataBundle(){
+    return user && Object.assign({}, user, {
+      app_id: props.app_id,
+      encData: props.data,
+      encryptedMode: true,
+      domain: props.domain,
+      ws: props.ws,
+      lang: user.lang,
+      wrapperId: props.wrapperId || 'ChaskiqMessengerRoot',
+    })
+  }
+
+  return <React.Fragment>
+    {ready && user && <Messenger {...dataBundle()} reset={reset} />}
+  </React.Fragment>
 }

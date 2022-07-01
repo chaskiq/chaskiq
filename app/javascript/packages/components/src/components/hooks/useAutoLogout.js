@@ -21,13 +21,13 @@ const useLogout = (startTime, otherWindow) => {
     ];
     for (let i in events) {
       window.addEventListener(events[i], resetTimeout);
-      otherWindow.addEventListener(events[i], resetTimeout);
+      otherWindow && otherWindow.addEventListener(events[i], resetTimeout);
     }
     return () => {
       clearInterval(myInterval);
       for (let i in events) {
         window.removeEventListener(events[i], resetTimeout);
-        otherWindow.removeEventListener(events[i], resetTimeout);
+        otherWindow && otherWindow.removeEventListener(events[i], resetTimeout);
       }
     };
   });
