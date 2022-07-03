@@ -24,7 +24,7 @@ export default class ChaskiqMessengerEncrypted {
       domain: this.props.domain,
       ws: this.props.ws,
       wrapperId: this.props.wrapperId || 'ChaskiqMessengerRoot',
-    })
+    });
 
     this.unload = () => {
       this.sendCommand('unload', {});

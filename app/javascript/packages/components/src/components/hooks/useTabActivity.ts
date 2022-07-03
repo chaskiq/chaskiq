@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 export default function usePageVisibility() {
   const [isVisible, setIsVisible] = useState(getIsDocumentHidden());

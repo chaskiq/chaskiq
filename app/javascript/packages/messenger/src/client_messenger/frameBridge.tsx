@@ -1,7 +1,7 @@
 // frame internals grab
 import React from 'react';
 import useAutoLogout from '@chaskiq/components/src/components/hooks/useAutoLogout';
-import {getDiff, setLastActivity } from './activityUtils'
+import { getDiff, setLastActivity } from './activityUtils';
 
 export default function FrameBridge(props) {
   // console.log(props)
@@ -19,7 +19,7 @@ export default function FrameBridge(props) {
   React.useEffect(() => {
     // we'll asume that opening this will set current tab
     // window.localStorage.setItem('chaskiqTabId', props.tabId);
-    setLastActivity()
+    setLastActivity();
   }, []);
 
   React.useEffect(() => {
@@ -33,7 +33,7 @@ export default function FrameBridge(props) {
     }
 
     if (timer == timeoutLapse) {
-      setLastActivity()
+      setLastActivity();
     }
 
     if (timer == 0) {
@@ -78,5 +78,3 @@ const useUnload = (fn) => {
     };
   }, [cb]);
 };
-
-
