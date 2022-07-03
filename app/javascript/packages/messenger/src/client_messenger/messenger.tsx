@@ -1020,6 +1020,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   toggleMessenger = () => {
     // idle support not for appUsers
     if (!this.state.open && this.props.kind !== 'AppUser') {
+      // console.log("idleSessionRequired", this.idleSessionRequired())
       if (this.idleSessionRequired() && this.isElapsedTimeUp()) {
         console.log('DIFF GOT', getDiff());
         setLastActivity();
@@ -1042,10 +1043,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   idleSessionRequired = () => {
+    const inboundData = this.state.appData?.inboundSettings?.visitors;
     return (
-      this.state.appData?.inboundSettings?.visitors
-        ?.close_conversations_enabled &&
-      this.state.appData?.inboundSettings?.visitors?.idle_sessions_after
+      inboundData?.idle_sessions_enabled && inboundData?.idle_sessions_after
     );
   };
 

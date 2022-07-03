@@ -11,7 +11,7 @@ export function getDiff() {
   if (lastActivity && lastActivity != '') {
     const now = Math.round(new Date().getTime() / 1000);
     const res = now - parseInt(lastActivity);
-    console.log('time elapsed', res);
+    // console.log('time elapsed', res);
     return res;
   }
 }
