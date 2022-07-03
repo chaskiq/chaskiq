@@ -136,6 +136,7 @@ visitorHomeApps
 inboxApps
 privacyConsentRequired
 availableRoles
+allowIdleSessions
 segments {
   name
   id

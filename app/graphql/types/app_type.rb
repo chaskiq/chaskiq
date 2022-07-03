@@ -10,6 +10,7 @@ module Types
     field :team_schedule, Types::JsonType, null: true
     field :gather_social_data, Boolean, null: true
     field :register_visits, Boolean, null: true
+    field :allow_idle_sessions, Boolean, null: true
     field :translations, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
     field :custom_fields, [Types::JsonType], null: true
@@ -25,6 +26,10 @@ module Types
     field :plan, Types::JsonType, null: true
     field :inbound_email_address, String, null: true
     field :outgoing_email_domain, String, null: true
+
+    def allow_idle_sessions
+      Chaskiq::Config.get("ALLOW_IDLE_SESSIONS")
+    end
 
     def plan
       return { disabled: true } unless context[:enabled_subscriptions]

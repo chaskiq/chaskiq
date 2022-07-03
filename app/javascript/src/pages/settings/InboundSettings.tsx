@@ -310,7 +310,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         handleChangeNumber={handleChangeNumber}
       />
 
-      {option.namespace == 'visitors' && (
+      { option.namespace == 'visitors' && settings.allowIdleSessions && (
         <IdleSessionClosedMessenger
           state={state}
           option={option}

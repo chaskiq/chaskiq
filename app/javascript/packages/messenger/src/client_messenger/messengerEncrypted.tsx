@@ -19,13 +19,12 @@ export default class ChaskiqMessengerEncrypted {
     const messenger = new ChaskiqMessenger({
       app_id: this.props.app_id,
       encData: this.props.data,
+      data: this.props.data,
       encryptedMode: true,
       domain: this.props.domain,
       ws: this.props.ws,
       wrapperId: this.props.wrapperId || 'ChaskiqMessengerRoot',
     })
-
-    messenger.render();
 
     this.unload = () => {
       this.sendCommand('unload', {});
@@ -38,5 +37,7 @@ export default class ChaskiqMessengerEncrypted {
       });
       window.document.body.dispatchEvent(event);
     };
+
+    messenger.render();
   }
 }
