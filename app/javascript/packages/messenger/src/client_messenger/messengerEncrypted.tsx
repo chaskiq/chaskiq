@@ -23,6 +23,7 @@ export default class ChaskiqMessengerEncrypted {
       encryptedMode: true,
       domain: this.props.domain,
       ws: this.props.ws,
+      lang: this.props.lang,
       wrapperId: this.props.wrapperId || 'ChaskiqMessengerRoot',
     });
 

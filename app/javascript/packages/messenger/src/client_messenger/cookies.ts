@@ -42,7 +42,7 @@ export function deleteCookie(name) {
   const cookieString = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${getDomainName(
     window.location.hostname
   )};`;
-  console.log(getDomainName(window.location.hostname));
-  console.log(cookieString);
+  // console.log(getDomainName(window.location.hostname));
+  // console.log(cookieString);
   document.cookie = cookieString;
 }

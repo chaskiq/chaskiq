@@ -1022,7 +1022,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     if (!this.state.open && this.props.kind !== 'AppUser') {
       // console.log("idleSessionRequired", this.idleSessionRequired())
       if (this.idleSessionRequired() && this.isElapsedTimeUp()) {
-        console.log('DIFF GOT', getDiff());
+        // console.log('DIFF GOT', getDiff());
         setLastActivity();
         this.props.reset(true, true);
 
@@ -1858,6 +1858,8 @@ function MessengerBridge(props) {
   const isVisible = usePageVisibility();
   const openOnLoad = React.useRef(null);
   const tabId = React.useRef(Math.random() + '');
+  const currentLang =
+    props.lang || navigator.language || navigator['userLanguage'];
 
   React.useEffect(() => {
     if (ready) return;
@@ -1893,9 +1895,6 @@ function MessengerBridge(props) {
     return `chaskiq_session_id_${app_id}`;
   }
 
-  const currentLang =
-    props.lang || navigator.language || navigator['userLanguage'];
-
   function getSession() {
     // cookie rename, if we wet an old cookie update to new format and expire it
     const oldCookie = getCookie('chaskiq_session_id');
@@ -1912,7 +1911,7 @@ function MessengerBridge(props) {
 
     if (!getCookie(cookieNamespace())) {
       // falbacks to direct hostname
-      //console.info("cookie not found, fallabck to:")
+      // console.info("cookie not found, fallabck to:")
       setCookie(cookieNamespace(), val, 365, window.location.hostname);
     }
   }
