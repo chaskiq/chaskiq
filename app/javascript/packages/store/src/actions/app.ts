@@ -71,9 +71,9 @@ export function updateApp(appParams, cb = null) {
   };
 }
 
-export function appEventReceived({ type: eventName }) {
+export function appPackageEventReceived({ type: eventName }) {
   return {
-    type: ActionTypes.AppEvent,
+    type: ActionTypes.AppPackageEvent,
     data: eventName,
   };
 }
@@ -86,7 +86,7 @@ export default function reducer(state = initialState, action: ActionType = {}) {
     case ActionTypes.GetApp: {
       return action.data;
     }
-    case ActionTypes.AppEvent: {
+    case ActionTypes.AppPackageEvent: {
       const inboxApps = state.inboxApps
 
       const updatedInboxApps = inboxApps.map((inboxApp) => {
