@@ -156,6 +156,7 @@ module MessageApis::Twilio
     def process_message_params(blocks, profile_id)
       # TODO: support more blocks
       image_block = blocks.find { |o| o["type"] == "image" }
+      file_block = blocks.find { |o| o["type"] == "file" }
 
       plain_message = blocks.map do |o|
         o["text"]
@@ -170,6 +171,12 @@ module MessageApis::Twilio
       if image_block
         message_params.merge!({
                                 MediaUrl: Chaskiq::Config.get("HOST") + image_block["data"]["url"]
+                              })
+      end
+
+      if file_block
+        message_params.merge!({
+                                MediaUrl: Chaskiq::Config.get("HOST") + file_block["data"]["url"]
                               })
       end
 
