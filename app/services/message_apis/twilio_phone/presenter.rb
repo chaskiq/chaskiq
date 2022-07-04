@@ -3,11 +3,14 @@ module MessageApis::TwilioPhone
     # Initialize flow webhook URL
     # Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.
     def self.initialize_hook(params)
-      definitions = []
       {
-        kind: "initialize",
-        definitions: definitions,
-        values: {}
+        # ctx: ctx,
+        # values: { block_type: "block_type" },
+        definitions: [
+          {
+            type: "content"
+          }
+        ]
       }
     end
 
@@ -22,15 +25,52 @@ module MessageApis::TwilioPhone
       }
     end
 
+
+    def self.base_schema
+      [
+
+        {
+          type: "text",
+          text: "confirm",
+          style: "header"
+        },
+
+        {
+          type: "list",
+          disabled: false,
+          items: [
+            {
+              type: "item",
+              id: "user-blocks",
+              title: "UserBlock",
+              subtitle: "Put some user blocks",
+              action: {
+                type: "submit"
+              }
+            },
+            
+          ]
+        }
+      ]
+    end
+
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
-    def self.configure_hook(kind:, ctx:); end
+    def self.configure_hook(kind:, ctx:)
+      {
+        kind: "initialize",
+        definitions: []
+        # results: results
+      }
+    end
 
     def self.content_hook(kind:, ctx:)
       definitions = case ctx[:location]
                     when "fixed_sidebar"
                       content_frame_definitions(kind: kind, ctx: ctx)
                       # content_definitions(kind: kind, ctx: ctx)
+                    when "inbox"
+                      definitions_for_content(kind: kind, ctx: ctx)
                     else
                       definitions_for_content(kind: kind, ctx: ctx)
                     end
@@ -38,6 +78,23 @@ module MessageApis::TwilioPhone
         enabled_for_agents: true,
         definitions: definitions
       }
+    end
+
+    def self.definitions_for_inbox_content(kind:, ctx:)
+      data = {
+        app_id: ctx[:package].app.id,
+        package_id: ctx[:package].id,
+        lang: ctx[:lang],
+        current_user: ctx[:current_user].as_json,
+        namespace: "sidebar_frame"
+      }
+
+      token = CHASKIQ_FRAME_VERIFIER.generate(data)
+
+      [{
+        type: "frame",
+        url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}"
+      }]
     end
 
     def self.content_frame_definitions(kind:, ctx:)
