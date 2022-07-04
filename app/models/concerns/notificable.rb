@@ -48,11 +48,13 @@ module Notificable
                                }.as_json)
   end
 
-  def notify_app_package_events_subscribers(app_key, event_name, params)
+  def notify_app_package_change(app_key, app_package_id)
     EventsChannel.broadcast_to(app_key,
                                {
-                                 type: event_name,
-                                 data: params
+                                 type: "app_package",
+                                 data: {
+                                   app_package_id: app_package_id, command: "refresh"
+                                 }
                                }.as_json)
   end
 end

@@ -71,10 +71,10 @@ export function updateApp(appParams, cb = null) {
   };
 }
 
-export function appPackageEventReceived({ type: eventName }) {
+export function appPackageEventReceived(data) {
   return {
     type: ActionTypes.AppPackageEvent,
-    data: eventName,
+    data: data,
   };
 }
 
@@ -88,18 +88,10 @@ export default function reducer(state = initialState, action: ActionType = {}) {
     }
     case ActionTypes.AppPackageEvent: {
       const inboxApps = state.inboxApps
-
       const updatedInboxApps = inboxApps.map((inboxApp) => {
-        if (!inboxApp.definitions || inboxApp.definitions.length === 0) {
-          return inboxApp;
-        }
-        const { definitions: [{ events }] } = inboxApp;
-        if (!events) {
-          return inboxApp;
-        }
-        const subscribed = events.some((event) => event === action.data)
+        const targetAppPackage = action.data.app_package_id === inboxApp.id && action.data.command === "refresh"
 
-        if (!subscribed) {
+        if (!targetAppPackage) {
           return inboxApp;
         }
         return { ...inboxApp };
