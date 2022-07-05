@@ -243,7 +243,7 @@ module MessageApis::Twilio
     def new_thread_in_hours
       return if @package.settings[:new_conversations_after].blank?
 
-      @package.settings[:new_conversations_after].hours.ago
+      @package.settings[:new_conversations_after].to_i.hours.ago
     end
 
     def clear_conversation(conversation)
