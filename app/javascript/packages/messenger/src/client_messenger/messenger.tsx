@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { setCookie, getCookie, deleteCookie } from './cookies';
+
 // import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming';
 
@@ -48,6 +50,7 @@ import {
   PRIVACY_CONSENT,
   GET_NEW_CONVERSATION_BOTS,
   BANNER,
+  AUTH,
 } from './graphql/queries';
 import GraphqlClient from './graphql/client';
 
@@ -91,6 +94,9 @@ import MessageFrame from './messageFrame';
 
 import RtcViewWrapper from './rtcView';
 
+import { getDiff, setLastActivity } from './activityUtils';
+import usePageVisibility from '@chaskiq/components/src/components/hooks/useTabActivity';
+
 let App: any = {};
 
 type MessengerProps = {
@@ -105,6 +111,9 @@ type MessengerProps = {
   domain: string;
   kind: string;
   ws: string;
+  reset: any;
+  open: boolean;
+  tabId: string;
 };
 
 type MessengerState = {
@@ -147,6 +156,8 @@ type MessengerState = {
   rtcVideo: boolean;
   visible: boolean;
   isMinimized?: boolean;
+  timer: number;
+  tabId: string;
 };
 class Messenger extends Component<MessengerProps, MessengerState> {
   i18n: any;
@@ -190,7 +201,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       bannerID: this.getBannerID(),
       display_mode: 'home', // "conversation", "conversations",
       tours: [],
-      open: false,
+      open: this.props.open,
       appData: {},
       agents: [],
       isMinimized: false,
@@ -210,10 +221,93 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       videoSession: false,
       rtcAudio: true,
       rtcVideo: true,
+      timer: null,
+      tabId: this.props.tabId,
     };
 
     this.delayTimer = null;
 
+    this.overflow = null;
+    this.inlineOverflow = null;
+    this.commentWrapperRef = React.createRef();
+
+    document.addEventListener('chaskiq_events', (event) => {
+      // @ts-ignore
+      const { data, action } = event.detail;
+      switch (action) {
+        case 'wakeup':
+          this.wakeup();
+          break;
+        case 'toggle':
+          this.toggleMessenger();
+          break;
+        case 'convert':
+          this.convertVisitor(data);
+          break;
+        case 'trigger':
+          this.requestTrigger(data);
+          break;
+        case 'unload':
+          // this.unload()
+          break;
+        default:
+          break;
+      }
+    });
+
+    this.pling = new Audio(`${this.props.domain}/sounds/BING-E5.wav`);
+  }
+
+  componentDidMount() {
+    this.setup();
+
+    this.visibility();
+
+    this.ping(() => {
+      precenseSubscriber(this.App, { ctx: this });
+      eventsSubscriber(this.App, { ctx: this });
+      // this.getConversations()
+      // this.getMessage()
+      // this.getTours()
+      this.locationChangeListener();
+    });
+
+    document.addEventListener('turbolinks:before-visit', () => {
+      console.log('unload triggered');
+      this.unload();
+    });
+
+    this.updateDimensions();
+    window.addEventListener('resize', this.updateDimensions);
+
+    window.addEventListener(
+      'message',
+      (e) => {
+        if (e.data.tourManagerEnabled) {
+          // console.log("EVENTO TOUR!", e)
+          this.setState({
+            tourManagerEnabled: e.data.tourManagerEnabled,
+            ev: e,
+          });
+        }
+      },
+      false
+    );
+
+    window.opener &&
+      window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
+  }
+
+  unload() {
+    destroySubscription(this.App);
+  }
+
+  componentWillUnmount() {
+    this.unload();
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  setup = () => {
     const data = {
       email: this.props.email,
       properties: this.props.properties,
@@ -254,84 +348,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     });
 
     this.App = createSubscription(this.props, this.defaultCableData.user_data);
-
-    this.overflow = null;
-    this.inlineOverflow = null;
-    this.commentWrapperRef = React.createRef();
-
-    document.addEventListener('chaskiq_events', (event) => {
-      // @ts-ignore
-      const { data, action } = event.detail;
-      switch (action) {
-        case 'wakeup':
-          this.wakeup();
-          break;
-        case 'toggle':
-          this.toggleMessenger();
-          break;
-        case 'convert':
-          this.convertVisitor(data);
-          break;
-        case 'trigger':
-          this.requestTrigger(data);
-          break;
-        case 'unload':
-          // this.unload()
-          break;
-        default:
-          break;
-      }
-    });
-
-    this.pling = new Audio(`${this.props.domain}/sounds/BING-E5.wav`);
-  }
-
-  componentDidMount() {
-    this.visibility();
-
-    this.ping(() => {
-      precenseSubscriber(this.App, { ctx: this });
-      eventsSubscriber(this.App, { ctx: this });
-      // this.getConversations()
-      // this.getMessage()
-      // this.getTours()
-      this.locationChangeListener();
-    });
-
-    document.addEventListener('turbolinks:before-visit', () => {
-      console.log('unload triggered');
-      this.unload();
-    });
-
-    this.updateDimensions();
-    window.addEventListener('resize', this.updateDimensions);
-
-    window.addEventListener(
-      'message',
-      (e) => {
-        if (e.data.tourManagerEnabled) {
-          // console.log("EVENTO TOUR!", e)
-          this.setState({
-            tourManagerEnabled: e.data.tourManagerEnabled,
-            ev: e,
-          });
-        }
-      },
-      false
-    );
-
-    window.opener &&
-      window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
-  }
-
-  unload() {
-    destroySubscription(App);
-    //App.cable && App.cable.subscriptions.consumer.disconnect();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
-  }
+  };
 
   setVideoSession() {
     this.setState({ videoSession: !this.state.videoSession });
@@ -1001,12 +1018,54 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   }
 
   toggleMessenger = () => {
+    // idle support not for appUsers
+    if (!this.state.open && this.props.kind !== 'AppUser') {
+      // console.log("idleSessionRequired", this.idleSessionRequired())
+      if (this.idleSessionRequired() && this.isElapsedTimeUp()) {
+        // console.log('DIFF GOT', getDiff());
+        setLastActivity();
+        this.props.reset(true, true);
+
+        // trigger close for other tabs
+        window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
+
+        return true;
+      }
+    }
+
     this.setState(
       {
         open: !this.state.open,
         // display_mode: "conversations",
       },
       this.clearInlineConversation
+    );
+  };
+
+  idleSessionRequired = () => {
+    const inboundData = this.state.appData?.inboundSettings?.visitors;
+    return (
+      inboundData?.idle_sessions_enabled && inboundData?.idle_sessions_after
+    );
+  };
+
+  isElapsedTimeUp = () => {
+    return (
+      getDiff() >
+      this.state.appData?.inboundSettings?.visitors?.idle_sessions_after * 60
+    );
+  };
+
+  closeMessenger = () => {
+    this.setState(
+      {
+        open: false,
+        // display_mode: "conversations",
+      },
+      () => {
+        this.setup();
+        this.clearInlineConversation;
+      }
     );
   };
 
@@ -1340,6 +1399,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     this.setState({ availableMessages: newAvailableMessages });
   };
 
+  setTimer = (timer) => {
+    this.setState({ timer: timer });
+  };
+
   render() {
     const palette = this.themePalette();
     return (
@@ -1430,7 +1493,32 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                     }}
                   >
                     <FrameBridge
+                      tabId={this.state.tabId}
                       handleAppPackageEvent={this.handleAppPackageEvent}
+                      closeMessenger={() => {
+                        //this.closeMessenger
+                        // triggered on other tabs
+                        console.log('triggered close from other tab!');
+                        this.props.reset(false);
+                      }}
+                      kind={this.props.kind}
+                      inboundSettings={this.state.appData.inboundSettings}
+                      setTimer={(timer, tabId) => {
+                        this.setTimer(timer);
+                        // console.log(window.localStorage.getItem("chaskiqTabId"), tabId)
+                        if (
+                          window.localStorage.getItem('chaskiqTabId') === tabId
+                        ) {
+                          this.props.reset(true);
+                          setTimeout(() => {
+                            // this.closeMessenger();
+                            window.localStorage.setItem(
+                              'chaskiqTabClosedAt',
+                              Math.random() + ''
+                            );
+                          }, 200);
+                        }
+                      }}
                     >
                       {this.state.display_mode === 'conversation' ? (
                         <FrameChild
@@ -1550,18 +1638,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           )}
 
                           {this.state.display_mode === 'article' && (
-                            <Article
-                              i18n={i18n}
-                              //graphqlClient={this.graphqlClient}
-                              //updateHeader={this.updateHeader}
-                              //transition={this.state.transition}
-                              //articleSlug={this.state.article.slug}
-                              //transition={this.state.transition}
-                              //appData={this.state.appData}
-                              //i18n={this.props.i18n}
-                              //domain={this.props.domain}
-                              //lang={this.props.lang}
-                            />
+                            <Article i18n={i18n} />
                           )}
 
                           {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
@@ -1579,11 +1656,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
                           {
                             <RtcViewWrapper
-                              //toggleVideo={this.toggleVideo}
-                              //toggleAudio={this.toggleAudio}
-                              //rtcVideo={this.state.rtcVideo}
-                              //rtcAudio={this.state.rtcAudio}
-                              //setVideoSession={this.setVideoSession.bind(this)}
                               videoSession={this.state.videoSession}
                             ></RtcViewWrapper>
                           }
@@ -1774,8 +1846,157 @@ export default class ChaskiqMessenger {
     }
 
     ReactDOM.render(
-      <Messenger {...this.props} />,
+      <MessengerBridge {...this.props} />,
       document.getElementById(this.props.wrapperId)
     );
   }
+}
+
+function MessengerBridge(props) {
+  const [ready, setReady] = React.useState(false);
+  const [user, setUser] = React.useState(null);
+  const isVisible = usePageVisibility();
+  const openOnLoad = React.useRef(null);
+  const tabId = React.useRef(Math.random() + '');
+  const currentLang =
+    props.lang || navigator.language || navigator['userLanguage'];
+
+  React.useEffect(() => {
+    if (ready) return;
+    setup();
+  }, [ready]);
+
+  // visibility, active tab will set the current item
+  React.useEffect(() => {
+    if (isVisible) {
+      window.localStorage.setItem('chaskiqTabId', tabId.current);
+    }
+  }, [isVisible]);
+
+  React.useEffect(() => {
+    // listens other windows closed
+    function listenForStorage(event) {
+      //if (event.storageArea != window.localStorage) return;
+      if (event.key === 'chaskiqTabClosedAt') {
+        // console.log("EVENT RUN", event)
+        setTimeout(() => setReady(false), 400);
+      }
+    }
+
+    window.addEventListener('storage', listenForStorage);
+    return () => {
+      window.removeEventListener('storage', listenForStorage);
+    };
+  }, []);
+
+  function cookieNamespace() {
+    // old app keys have hypens, we get rid of this
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_session_id_${app_id}`;
+  }
+
+  function getSession() {
+    // cookie rename, if we wet an old cookie update to new format and expire it
+    const oldCookie = getCookie('chaskiq_session_id');
+    if (getCookie('chaskiq_session_id')) {
+      checkCookie(oldCookie); // will append a appkey
+      deleteCookie('chaskiq_session_id');
+    }
+    return getCookie(cookieNamespace()) || '';
+  }
+
+  function checkCookie(val) {
+    //console.log("SET COOKIE ", val, this.cookieNamespace())
+    setCookie(cookieNamespace(), val, 365);
+
+    if (!getCookie(cookieNamespace())) {
+      // falbacks to direct hostname
+      // console.info("cookie not found, fallabck to:")
+      setCookie(cookieNamespace(), val, 365, window.location.hostname);
+    }
+  }
+
+  function defaultHeaders() {
+    return {
+      app: props.app_id,
+      'enc-data': props.data || '',
+      'user-data': JSON.stringify(props.data),
+      'session-id': getSession(),
+      lang: currentLang,
+    };
+  }
+
+  function graphqlClient() {
+    return new GraphqlClient({
+      config: defaultHeaders(),
+      url: graphqlUrl(props.domain),
+    });
+  }
+
+  function setup() {
+    // console.log("SETUP!")
+    graphqlClient().send(
+      AUTH,
+      {
+        lang: currentLang,
+      },
+      {
+        success: (data) => {
+          const u = data.messenger.user;
+          if (u.kind !== 'AppUser') {
+            if (u.sessionId) {
+              checkCookie(u.sessionId);
+            } else {
+              deleteCookie(cookieNamespace());
+            }
+          }
+
+          setUser(u);
+          setReady(true);
+        },
+        errors: (e) => {
+          console.log('Error', e);
+        },
+      }
+    );
+  }
+
+  // the only client that wipes is true is the one who triggers the idle
+  function reset(wipe_cookie = false, open = false) {
+    if (wipe_cookie) deleteCookie(cookieNamespace());
+    setReady(false);
+    openOnLoad.current = open;
+
+    // send event to other tabs
+    // if(open) window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
+  }
+
+  function dataBundle() {
+    // console.log("USER BUNDLE", user)
+    return (
+      user &&
+      Object.assign({}, user, {
+        app_id: props.app_id,
+        encData: props.data,
+        encryptedMode: true,
+        domain: props.domain,
+        ws: props.ws,
+        lang: user.lang,
+        wrapperId: props.wrapperId || 'ChaskiqMessengerRoot',
+      })
+    );
+  }
+
+  return (
+    <React.Fragment>
+      {ready && user && (
+        <Messenger
+          {...dataBundle()}
+          reset={reset}
+          open={openOnLoad.current}
+          tabId={tabId.current}
+        />
+      )}
+    </React.Fragment>
+  );
 }
