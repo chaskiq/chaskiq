@@ -52,6 +52,7 @@ pt:
     type_message: Type your message
     search_conversations: Pesquisar conversas
     days: Dias
+    minutes: Minutes
     visit: Visit
     done: Done
   status_messages:
@@ -544,6 +545,9 @@ pt:
       closed_replies_title: Impedir respostas a conversas fechadas de %{name}
       closed_replies_enabled: Deixar os usuários responderem a mensagens fechadas a qualquer momento.
       closed_replies_disabled: Impedir usuários de responder a conversas fechadas depois.
+      idle_sessions_title: Reset sessions on idle sessions for %{name}
+      idle_sessions_enabled: Allow idle sessions on messenger.
+      idle_sessions_disabled: Resets sessions on idle time after.
       filters:
         users:
           label: Usuários
