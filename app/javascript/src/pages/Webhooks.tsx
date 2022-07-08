@@ -208,7 +208,7 @@ function Settings({ app, dispatch }) {
       {
         appKey: app.key,
         appPackage: open.name,
-        id: open.id,
+        id: open.id + "",
         url: url,
         state: enabled,
         tags: tag_list,
@@ -242,7 +242,7 @@ function Settings({ app, dispatch }) {
       WEBHOOK_DELETE,
       {
         appKey: app.key,
-        id: openDeleteDialog.id,
+        id: openDeleteDialog.id + "",
       },
       {
         success: (data) => {
