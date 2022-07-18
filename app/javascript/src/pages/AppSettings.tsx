@@ -219,6 +219,7 @@ class AppSettingsContainer extends Component<
                 update={this.update.bind(this)}
                 classes={this.props.classes}
                 definitions={this.definitionsForSettings}
+                key="settings-app-settings"
                 {...this.props}
               />
             ),
@@ -226,7 +227,7 @@ class AppSettingsContainer extends Component<
           {
             label: I18n.t('settings.app.security'),
             content: (
-              <div>
+              <div key="settings-app-security">
                 <VerificationView />
               </div>
             ),
@@ -235,6 +236,7 @@ class AppSettingsContainer extends Component<
             label: I18n.t('settings.app.user_data'),
             content: (
               <UserData
+                key="settings-app-user-data"
                 settings={this.props.app}
                 update={this.update}
                 namespace={'app'}
@@ -245,6 +247,7 @@ class AppSettingsContainer extends Component<
             label: I18n.t('settings.app.tags'),
             content: (
               <Tags
+                key="settings-app-tags"
                 settings={this.props.app}
                 update={this.update}
                 namespace={'app'}
@@ -255,6 +258,7 @@ class AppSettingsContainer extends Component<
             label: I18n.t('settings.app.quick_replies'),
             content: (
               <QuickReplies
+                key="settings-app-quick-replies"
                 settings={this.props.app}
                 update={this.update}
                 namespace={'app'}
@@ -266,6 +270,7 @@ class AppSettingsContainer extends Component<
             label: I18n.t('settings.app.contact_avatars'),
             content: (
               <ContactAvatars
+                key="settings-app-contact-avatars"
                 settings={this.props.app}
                 update={this.update}
                 namespace={'app'}
@@ -276,7 +281,7 @@ class AppSettingsContainer extends Component<
           {
             label: I18n.t('settings.app.email_forwarding'),
             content: (
-              <div className="py-4">
+              <div className="py-4" key="settings-email-forwarding">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
                   {I18n.t('email_forwarding.subtitle')}
                 </h3>

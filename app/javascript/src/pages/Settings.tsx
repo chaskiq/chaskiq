@@ -35,7 +35,7 @@ function AppSettingsContainer({ app, dispatch }) {
               className="mt-6 border-t border-b border-gray-200 dark:border-black py-6 grid grid-cols-1 gap-6 sm:grid-cols-2"
             >
               {items.map((item) => (
-                <li className="flow-root">
+                <li className="flow-root" key={`settings-item-${item.url}`}>
                   <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 dark:hover:bg-black focus-within:ring-2 focus-within:ring-indigo-500">
                     <div className="text-white dark:text-black flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-black dark:bg-white">
                       {item.icon}

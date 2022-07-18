@@ -14,7 +14,7 @@ export function setCookie(cname, cvalue, exdays, domain = null) {
   const secure = window.location.protocol.includes('https') ? 'secure' : '';
   const a = domain || getDomainName(window.location.hostname);
   const cookie = `${cname}=${cvalue};domain=${a};${expires};path=/;${secure}`;
-  console.log('set cookie', cookie);
+  // console.log('set cookie', cookie);
   document.cookie = cookie;
 }
 
@@ -42,7 +42,7 @@ export function deleteCookie(name) {
   const cookieString = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${getDomainName(
     window.location.hostname
   )};`;
-  console.log(getDomainName(window.location.hostname));
-  console.log(cookieString);
+  // console.log(getDomainName(window.location.hostname));
+  // console.log(cookieString);
   document.cookie = cookieString;
 }

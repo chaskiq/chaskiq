@@ -12,6 +12,7 @@ fr:
     save_changes: Enregistrer les modifications
     preview: Prévisualisation
     cancel: Annuler
+    back: Back
     back_to_site: Retour au site
     not_found: La page que vous cherchez n'existe pas.
     get_snippet: Obtenir le snippet
@@ -51,6 +52,7 @@ fr:
     type_message: Type your message
     search_conversations: Rechercher des conversations 
     days: Jours
+    minutes: Minutes
     visit: Visit
     done: Done
   status_messages:
@@ -261,6 +263,8 @@ fr:
     state:
       enabled: activé
       disabled: désactivé
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Paramètres
@@ -541,6 +545,9 @@ fr:
       closed_replies_title: Empêche les réponses aux conversations fermées pour %{name}
       closed_replies_enabled: Laisser les utilisateurs répondre à des messages fermés à tout moment.
       closed_replies_disabled: Empêcher les utilisateurs de répondre aux conversations fermées après.
+      idle_sessions_title: Reset sessions on idle sessions for %{name}
+      idle_sessions_enabled: Allow idle sessions on messenger.
+      idle_sessions_disabled: Resets sessions on idle time after.
       filters:
         users:
           label: Utilisateurs

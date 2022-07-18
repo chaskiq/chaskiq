@@ -11735,6 +11735,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -13137,6 +13138,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",

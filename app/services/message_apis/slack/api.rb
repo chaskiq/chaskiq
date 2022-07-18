@@ -277,7 +277,7 @@ module MessageApis::Slack
 
       base = "#{Chaskiq::Config.get('HOST')}/apps/#{conversation.app.key}"
       conversation_url = "#{base}/conversations/#{conversation.key}"
-      user_url = "#{base}/users/#{conversation.key}"
+      user_url = "#{base}/users/#{conversation.main_participant.id}"
       links = "*<#{user_url}|#{format_user_name(conversation.main_participant)}>* <#{conversation_url}|view in chaskiq>"
 
       data = [

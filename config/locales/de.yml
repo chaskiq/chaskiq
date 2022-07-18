@@ -12,6 +12,7 @@ de:
     save_changes: Save changes
     preview: Vorschau
     cancel: Abbrechen
+    back: Back
     back_to_site: Zurück zur Seite
     not_found: Die gesuchte Seite existiert nicht.
     get_snippet: Hol dir das Snippet
@@ -51,6 +52,7 @@ de:
     type_message: Type your message
     search_conversations: Search conversations
     days: Days
+    minutes: Minutes
     visit: Visit
     done: Done
   status_messages:
@@ -261,6 +263,8 @@ de:
     state:
       enabled: enabled
       disabled: disabled
+      send: sent
+      delivering: delivering
     tabs:
       stats: Stats
       settings: Einstellungen
@@ -541,6 +545,9 @@ de:
       closed_replies_title: Prevent replies to closed conversations for %{name}
       closed_replies_enabled: Letting users reply to closed messages at any time.
       closed_replies_disabled: Preventing users from responding to closed conversations after.
+      idle_sessions_title: Reset sessions on idle sessions for %{name}
+      idle_sessions_enabled: Allow idle sessions on messenger.
+      idle_sessions_disabled: Resets sessions on idle time after.
       filters:
         users:
           label: Nutzer

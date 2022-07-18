@@ -12,6 +12,7 @@ zh-CN:
     save_changes: 保存更改
     preview: 预览
     cancel: 取消
+    back: Back
     back_to_site: 返回站点
     not_found: 您要查找的页面不存在。
     get_snippet: 获取代码片段
@@ -51,6 +52,7 @@ zh-CN:
     type_message: Type your message
     search_conversations: 在对话中搜索
     days: 天后
+    minutes: Minutes
     visit: Visit
     done: Done
   status_messages:
@@ -261,6 +263,8 @@ zh-CN:
     state:
       enabled: 启用
       disabled: 关闭
+      send: sent
+      delivering: delivering
     tabs:
       stats: 统计
       settings: 设置
@@ -541,6 +545,9 @@ zh-CN:
       closed_replies_title: 禁止回复已关闭的对话 %{name}
       closed_replies_enabled: 允许用户随时回复已关闭的消息。
       closed_replies_disabled: 防止用户在之后回复已关闭的会话。
+      idle_sessions_title: Reset sessions on idle sessions for %{name}
+      idle_sessions_enabled: Allow idle sessions on messenger.
+      idle_sessions_disabled: Resets sessions on idle time after.
       filters:
         users:
           label: 用户
