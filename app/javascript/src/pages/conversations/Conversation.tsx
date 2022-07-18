@@ -1248,6 +1248,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 
     if (data.field.action.type === 'url') {
       //return window.open(data.field.action.url, '_blank');
+      cb && cb(); // will set the loading false, so the button is not disabled
       return window.open(
         data.field.action.url,
         'win',
