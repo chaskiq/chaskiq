@@ -281,6 +281,7 @@ export function AppItem({ app, object, conversation, app_user }) {
 
   function updatePackage(packageParams, cb) {
     if (packageParams.field.action.type === 'url') {
+      cb && cb()
       return window.open(packageParams.field.action.url);
     }
 

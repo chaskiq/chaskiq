@@ -318,7 +318,7 @@ module MessageApis::TwilioPhone
         {
           id: "call-button",
           name: "book-meeting",
-          label: "pick the phonecall",
+          label: "start a phonecall",
           type: "button",
           align: "center",
           width: "full",

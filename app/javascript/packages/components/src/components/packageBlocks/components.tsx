@@ -190,9 +190,6 @@ export function DefinitionRenderer({
               >
                 {field.label}
               </Button>
-              oijoijoijoij
-              {disabled && "disabled"}
-              {loading && "loading"}
             </ButtonWrapper>
           </Padder>
         );
