@@ -70,7 +70,7 @@ module Chaskiq
       global_cors_domain = Chaskiq::Config.fetch("GLOBAL_CORS_DOMAIN", "*")
       allow do
         origins global_cors_domain
-        resource global_cors_domain, headers: :any, methods: %i[get post put options]
+        resource "*", headers: :any, methods: %i[get post put options]
       end
     end
 

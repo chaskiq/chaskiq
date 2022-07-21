@@ -24,12 +24,13 @@ module Mutations
           author = app_user
         end
 
+        sanitized_html = ActionController::Base.helpers.strip_tags(message[:html])
         options = {
           from: author,
           message: {
-            html_content: message[:html],
+            html_content: sanitized_html,
             serialized_content: message[:serialized],
-            text_content: message[:text] || ActionController::Base.helpers.strip_tags(message[:html])
+            text_content: message[:text] || sanitized_html
           }
         }
 
