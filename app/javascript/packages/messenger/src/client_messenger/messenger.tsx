@@ -498,6 +498,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   handleConnected = () => {
     this.registerVisit();
 
+    this.dispatchEvent('chaskiq:connected');
+
     if (!this.state.banner && !this.state.bannerID) {
       this.pushEvent('get_banners_for_user', {});
     }
