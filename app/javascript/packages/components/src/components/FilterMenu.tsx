@@ -64,7 +64,7 @@ export default function FilterMenu({
 
               {option.icon && <i>{option.icon}</i>}
 
-              <div className="flex flex-col justify-between ml-2 overflow-hidden">
+              <div className="flex flex-col justify-between ml-2 overflow-hidden text-left">
                 <span
                   className="font-bold self-start dark:text-gray-100 w-full overflow-hidden text-ellipsis"
                   title={option.name || option.title}

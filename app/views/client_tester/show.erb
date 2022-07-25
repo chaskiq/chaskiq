@@ -36,6 +36,13 @@
     })(document,"script");
   </script>
 
+  <script>
+
+    document.addEventListener("chaskiq:boot", ()=> { console.log("BOOT!") } )
+    document.addEventListener("chaskiq:connected", ()=> { console.log("CONNECTED!") } )
+
+  </script>
+
 <% end %>
 
 <%
