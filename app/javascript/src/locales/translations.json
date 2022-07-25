@@ -154,8 +154,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -171,6 +173,7 @@
       "add": "Ajouter",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -193,6 +196,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "Nuus",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -1261,6 +1265,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -1799,8 +1806,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -1816,6 +1825,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -1838,6 +1848,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -2910,6 +2921,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -3450,8 +3464,10 @@
       "remove_hint": "Destruirem qualsevol contingut i dades relacionades",
       "remove_success": "Campanya eliminada",
       "state": {
+        "delivering": "delivering",
         "disabled": "inhabilitat",
-        "enabled": "activat"
+        "enabled": "activat",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audiència",
@@ -3467,6 +3483,7 @@
       "add": "Afegir",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Torna al site",
       "cancel": "Cancel·lar",
       "choose_color": "Triar color",
@@ -3489,6 +3506,7 @@
         "zh-CN": "Xinès"
       },
       "leads": "Client potencial",
+      "minutes": "Minutes",
       "new": "Nou",
       "next": "Següent",
       "not_found": "No hem trobat la pàgina que cerques.",
@@ -4557,6 +4575,9 @@
         },
         "hint": "Quan aquesta opció està desactivada, la gent només pot respondre als missatges de sortida que envieu.",
         "hint2": "Controleu qui veu el llançador estàndard de Messenger al vostre lloc web.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "TOTS ELS MISSATGES QUE ENVIïS SERAN ENTREGATS.",
         "note3": "Al web, mostreu el llançador estàndard de Messenger a:",
         "title": "Noves converses",
@@ -5095,8 +5116,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -5112,6 +5135,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -5134,6 +5158,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -6204,6 +6229,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -6751,8 +6779,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -6768,6 +6798,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -6790,6 +6821,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -7858,6 +7890,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -8396,8 +8431,10 @@
       "remove_hint": "Wir werden alle Inhalte und verwandten Daten löschen",
       "remove_success": "Kampagne entfernt",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -8413,6 +8450,7 @@
       "add": "Hinzufügen",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Zurück zur Seite",
       "cancel": "Abbrechen",
       "choose_color": "Choose color",
@@ -8435,6 +8473,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "Neu",
       "next": "Weiter",
       "not_found": "Die gesuchte Seite existiert nicht.",
@@ -9503,6 +9542,9 @@
         },
         "hint": "Wenn diese Option deaktiviert ist, können die Leute nur auf die von Ihnen gesendeten ausgehenden Nachrichten antworten.",
         "hint2": "Legen Sie fest, wer den Standard Messenger Launcher auf Ihrer Website sieht.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "JEGLICHE NACHRICHTEN DIE SIE SENDEN, WERDEN WEITERHIN GELIEFERT.",
         "note3": "Zeigen Sie im Web den Standard Messenger Launcher an für:",
         "title": "Neue Konversation-Button",
@@ -10041,8 +10083,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -10058,6 +10102,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -10080,6 +10125,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -11148,6 +11194,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -13708,8 +13757,10 @@
       "remove_hint": "Destruiremos cualquier contenido y datos relacionados",
       "remove_success": "Campaña eliminada",
       "state": {
+        "delivering": "delivering",
         "disabled": "desactivado",
-        "enabled": "habilitado"
+        "enabled": "habilitado",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audiencia",
@@ -13725,6 +13776,7 @@
       "add": "Añadir",
       "add_new": "Añadir Nuevo",
       "away_mode": "Modo Ausente",
+      "back": "Back",
       "back_to_site": "Volver al sitio",
       "cancel": "Cancelar",
       "choose_color": "Escoger color",
@@ -13747,6 +13799,7 @@
         "zh-CN": "Chino"
       },
       "leads": "Prospectos",
+      "minutes": "Minutes",
       "new": "Nuevo",
       "next": "Siguente",
       "not_found": "La página que buscas no existe.",
@@ -15120,6 +15173,9 @@
         },
         "hint": "Cuando esto está desactivado, la gente sólo puede responder a los mensajes salientes que envía.",
         "hint2": "Controla quién ve el lanzador estándar de Messenger en tu sitio web.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "CUALQUIER MESAJE QUE ENVÍE SERÁ ENTREGADO.",
         "note3": "En la web, mostrar el lanzador estándar de Messenger para:",
         "title": "Nuevas conversaciones",
@@ -15701,8 +15757,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -15718,6 +15776,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -15740,6 +15799,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -16808,6 +16868,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -17346,8 +17409,10 @@
       "remove_hint": "Nous allons détruire tout contenu et données connexes",
       "remove_success": "Campagne supprimée",
       "state": {
+        "delivering": "delivering",
         "disabled": "désactivé",
-        "enabled": "activé"
+        "enabled": "activé",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Visiteurs",
@@ -17363,6 +17428,7 @@
       "add": "Ajouter",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Retour au site",
       "cancel": "Annuler",
       "choose_color": "Choisir une couleur",
@@ -17385,6 +17451,7 @@
         "zh-CN": "Chinois"
       },
       "leads": "Prospects",
+      "minutes": "Minutes",
       "new": "Nouveau",
       "next": "Suivant",
       "not_found": "La page que vous cherchez n'existe pas.",
@@ -18517,6 +18584,9 @@
         },
         "hint": "Lorsque cette option est désactivée, les personnes ne peuvent répondre qu'aux messages sortants que vous envoyez.",
         "hint2": "Contrôlez qui voit le lanceur standard Messenger sur votre site Web.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "TOUS LES MESSAGES QUE VOUS ENVOYEZ SERONT DÉLIVÉS.",
         "note3": "Sur le web, montrez le lanceur standard Messenger à:",
         "title": "Bouton de nouvelles conversations",
@@ -19055,8 +19125,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -19072,6 +19144,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -19094,6 +19167,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -20162,6 +20236,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -20700,8 +20777,10 @@
       "remove_hint": "Distruggeremo qualsiasi contenuto e i dati correlati",
       "remove_success": "Campagna rimossa",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabilitato",
-        "enabled": "abilitato"
+        "enabled": "abilitato",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Pubblico",
@@ -20717,6 +20796,7 @@
       "add": "Aggiungi",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Ritorna al sito",
       "cancel": "Annulla",
       "choose_color": "Selezionare un colore",
@@ -20739,6 +20819,7 @@
         "zh-CN": "Cinese"
       },
       "leads": "Potenziali Clienti",
+      "minutes": "Minutes",
       "new": "Nuovo",
       "next": "Successivo",
       "not_found": "La pagina che stai cercando non esiste.",
@@ -21807,6 +21888,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -22345,8 +22429,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -22362,6 +22448,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -22384,6 +22471,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -23451,6 +23539,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -23989,8 +24080,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -24006,6 +24099,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -24028,6 +24122,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -25095,6 +25190,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -25633,8 +25731,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -25650,6 +25750,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -25672,6 +25773,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -26740,6 +26842,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -27278,8 +27383,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -27295,6 +27402,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -27317,6 +27425,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -28385,6 +28494,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -28923,8 +29035,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -28940,6 +29054,7 @@
       "add": "Dodaj",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Wróć do strony",
       "cancel": "Anuluj",
       "choose_color": "Choose color",
@@ -28962,6 +29077,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "Nowy",
       "next": "Next",
       "not_found": "Strona, której szukasz nie istnieje.",
@@ -30032,6 +30148,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -30570,8 +30689,10 @@
       "remove_hint": "Nós destruiremos qualquer conteúdo e dados relacionados",
       "remove_success": "Campanha removida",
       "state": {
+        "delivering": "delivering",
         "disabled": "desativo",
-        "enabled": "ativo"
+        "enabled": "ativo",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audiências",
@@ -30587,6 +30708,7 @@
       "add": "Adicionar",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Voltar ao site",
       "cancel": "Cancelar",
       "choose_color": "Escolher cor",
@@ -30609,6 +30731,7 @@
         "zh-CN": "Chinês"
       },
       "leads": "Contactos",
+      "minutes": "Minutes",
       "new": "Novo",
       "next": "Seguinte",
       "not_found": "A Página que Você está Procurando não Existe.",
@@ -31677,6 +31800,9 @@
         },
         "hint": "Quando isso estiver desativado, as pessoas só podem responder às mensagens de saída que você enviar.",
         "hint2": "Controle que vê o lançador padrão de Messenger em seu site.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "QUALQUER MENSAGENS QUE VOCÊ ENCONTRE DISPOSITIVO.",
         "note3": "Na web, mostre o launcher padrão do Messenger para:",
         "title": "Botão de novas conversas",
@@ -32215,8 +32341,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -32232,6 +32360,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -32254,6 +32383,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -33323,6 +33453,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -33861,8 +33994,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -33878,6 +34013,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -33900,6 +34036,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -34970,6 +35107,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -35508,8 +35648,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -35525,6 +35667,7 @@
       "add": "Lägg till",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Tillbaka till webbplatsen",
       "cancel": "Avbryt",
       "choose_color": "Välj färg",
@@ -35547,6 +35690,7 @@
         "zh-CN": "Kinesiska"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "Ny",
       "next": "Nästa",
       "not_found": "Sidan du letar efter finns inte.",
@@ -36615,6 +36759,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -37153,8 +37300,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -37170,6 +37319,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -37192,6 +37342,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -38260,6 +38411,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -38798,8 +38952,10 @@
       "remove_hint": "We will destroy any content and related data",
       "remove_success": "Campaign removed",
       "state": {
+        "delivering": "delivering",
         "disabled": "disabled",
-        "enabled": "enabled"
+        "enabled": "enabled",
+        "send": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -38815,6 +38971,7 @@
       "add": "Add",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "Back to site",
       "cancel": "Cancel",
       "choose_color": "Choose color",
@@ -38837,6 +38994,7 @@
         "zh-CN": "Chinese"
       },
       "leads": "Leads",
+      "minutes": "Minutes",
       "new": "New",
       "next": "Next",
       "not_found": "The page you are looking for does not exist.",
@@ -39907,6 +40065,9 @@
         },
         "hint": "When this is turned off, people can only reply to the outbound messages you send.",
         "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
         "note3": "On the web, show the standard Messenger launcher to:",
         "title": "New conversations button",
@@ -40445,8 +40606,10 @@
       "remove_hint": "我们将销毁任何内容和相关数据",
       "remove_success": "已移除活动",
       "state": {
+        "delivering": "delivering",
         "disabled": "关闭",
-        "enabled": "启用"
+        "enabled": "启用",
+        "send": "sent"
       },
       "tabs": {
         "audience": "受众",
@@ -40462,6 +40625,7 @@
       "add": "添加",
       "add_new": "Add New",
       "away_mode": "Away Mode",
+      "back": "Back",
       "back_to_site": "返回站点",
       "cancel": "取消",
       "choose_color": "选择颜色",
@@ -40484,6 +40648,7 @@
         "zh-CN": "中文"
       },
       "leads": "线索",
+      "minutes": "Minutes",
       "new": "新增",
       "next": "下一个",
       "not_found": "您要查找的页面不存在。",
@@ -41551,6 +41716,9 @@
         },
         "hint": "关闭后，只能回复您发送的出站消息。",
         "hint2": "控制谁可以在你的网站上看到标准的Messenger 启动器。",
+        "idle_sessions_disabled": "Resets sessions on idle time after.",
+        "idle_sessions_enabled": "Allow idle sessions on messenger.",
+        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
         "note2": "你发送的任何信息仍将被送达。",
         "note3": "在网页上显示标准的Messenger 启动器：",
         "title": "新对话按钮",
