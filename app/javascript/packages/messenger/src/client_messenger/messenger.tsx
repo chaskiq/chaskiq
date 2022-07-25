@@ -270,6 +270,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       // this.getMessage()
       // this.getTours()
       this.locationChangeListener();
+      this.dispatchEvent('chaskiq:boot');
     });
 
     document.addEventListener('turbolinks:before-visit', () => {
@@ -296,6 +297,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
     window.opener &&
       window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
+  }
+
+  dispatchEvent(key, data = {}) {
+    const event = new Event(key, data);
+    document.dispatchEvent(event);
   }
 
   unload() {
