@@ -356,7 +356,7 @@ function Conversation({
         // this.getMainUser(this.state.conversation.mainParticipant.id)
         // TODO: this will scroll scroll to last when new items
         // are added on pagination (scroll up)!
-        cb && cb(lastItem ? lastItem.id : null);
+        cb && cb(lastItem ? lastItem.key : null);
       })
     );
   };
