@@ -303,7 +303,9 @@ class CheckboxSchema
     self.type = params[:type]
     self.id = params[:id]
     self.label = params[:text]
-    self.options = params[:options].map { |o| CheckboxItemSchema.new(o) }
+    self.options = params[:options].map do |o|
+      CheckboxItemSchema.new(o)
+    end
     self.value = params[:value]
   end
 

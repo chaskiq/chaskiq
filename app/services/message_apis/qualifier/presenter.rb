@@ -13,7 +13,8 @@ module MessageApis::Qualifier
       record = QualifierRecord.new(items: [])
 
       ctx[:values][:item].map do |o|
-        record.add_item(o[:name], o[:label])
+        required = o[:required] ? "--required" : ""
+        record.add_item("#{o[:name]}#{required}", o[:label])
       end
 
       {
@@ -32,17 +33,29 @@ module MessageApis::Qualifier
         o["name"].to_sym
       end
 
+      required_fields = ctx[:package].app.searcheable_fields.map do |o|
+        "#{o['name']}--required".to_sym
+      end
+
+      all_fields = fields + required_fields
+
       QualifierRecord.configure(
         fields
       )
 
-      params = ctx[:values].permit(fields)
+      params = ctx[:values].permit(all_fields)
+
+      params = params.transform_keys { |key| key.gsub("--required", "") }
 
       record = QualifierRecord.new(
         params
       )
 
-      record.validatable_fields = params.keys.map(&:to_sym)
+      keys_to_validate = params.to_h.keys.map do |o|
+        o.gsub("--required", "") if o.include?("--required")
+      end.compact
+
+      record.validatable_fields = keys_to_validate.map(&:to_sym)
 
       record.valid?
 
@@ -233,6 +246,21 @@ module MessageApis::Qualifier
             value: label
           },
           {
+            type: "checkbox",
+            id: "input-required-#{index}",
+            text: "required field",
+            value: "#{index}-required",
+            options: [
+              {
+                type: "option",
+                id: "#{index}-required",
+                name: "item[#{index}][required]",
+                text: "is required?"
+              }
+            ]
+          },
+
+          {
             type: "dropdown",
             id: "item[#{index}][name]",
             label: "Value",
@@ -343,13 +371,15 @@ module MessageApis::Qualifier
       end
 
       def add_item(name, label = nil)
+        name_s = name.split("--")
+        name_f = name_s.first
         @items = items << {
           type: "input",
           id: name,
-          placeholder: "type your #{label}",
+          placeholder: "type your #{name_f}",
           label: label,
-          value: send(name.to_sym),
-          errors: errors[name.to_sym]&.uniq&.join(", "),
+          value: send(name_f.to_sym),
+          errors: errors[name_f.to_sym]&.uniq&.join(", "),
           action: {
             type: "submit"
           }
