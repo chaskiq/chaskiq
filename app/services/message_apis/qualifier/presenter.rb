@@ -11,9 +11,11 @@ module MessageApis::Qualifier
       )
 
       record = QualifierRecord.new(items: [])
+      record.searcheable_fields = ctx[:package].app.searcheable_fields
 
       ctx[:values][:item].map do |o|
-        record.add_item(o[:name], o[:label])
+        optional = o[:optional].present? ? "--optional" : ""
+        record.add_item("#{o[:name]}#{optional}", o[:label])
       end
 
       {
@@ -28,21 +30,43 @@ module MessageApis::Qualifier
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
+      app = ctx[:package].app
+
+      optional_identifier = "--optional"
+
       fields = ctx[:package].app.searcheable_fields.map do |o|
         o["name"].to_sym
       end
+
+      optional_fields = ctx[:package].app.searcheable_fields.map do |o|
+        "#{o['name']}#{optional_identifier}".to_sym
+      end
+
+      all_fields = fields + optional_fields
 
       QualifierRecord.configure(
         fields
       )
 
-      params = ctx[:values].permit(fields)
+      params = ctx[:values].permit(all_fields)
+
+      optional_keys = params.to_h.keys.select { |key| key.include?(optional_identifier) }
+
+      params = params.transform_keys { |key| key.gsub(optional_identifier, "") }
 
       record = QualifierRecord.new(
         params
       )
 
-      record.validatable_fields = params.keys.map(&:to_sym)
+      record.searcheable_fields = app.searcheable_fields
+
+      keys_to_bypass = optional_keys.map do |o|
+        o.gsub(optional_identifier, "")
+      end.compact
+
+      keys_to_validate = params.to_h.keys - keys_to_bypass
+
+      record.validatable_fields = keys_to_validate.map(&:to_sym)
 
       record.valid?
 
@@ -233,6 +257,21 @@ module MessageApis::Qualifier
             value: label
           },
           {
+            type: "checkbox",
+            id: "input-optional-#{index}",
+            text: "optional field",
+            # value: "#{index}-optional",
+            options: [
+              {
+                type: "option",
+                id: "#{index}-optional",
+                name: "item[#{index}][optional]",
+                text: "mark as optional"
+              }
+            ]
+          },
+
+          {
             type: "dropdown",
             id: "item[#{index}][name]",
             label: "Value",
@@ -312,7 +351,7 @@ module MessageApis::Qualifier
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_writer :items
-      attr_accessor :validatable_fields
+      attr_accessor :validatable_fields, :searcheable_fields
 
       def self.configure(opts)
         opts.each do |o|
@@ -329,6 +368,12 @@ module MessageApis::Qualifier
               errors.add(field,
                          I18n.t("errors.messages.invalid"))
             end
+          when :phone
+            unless Phonelib.valid?(send(field))
+              errors.add(field,
+                         I18n.t("errors.messages.invalid"))
+            end
+
           else
             if send(field).blank?
               errors.add(field,
@@ -338,38 +383,61 @@ module MessageApis::Qualifier
         end
       end
 
+      validate do
+        searcheable_fields.each do |f|
+          name = f["name"].to_sym
+          validate_field_with(name, f["type"]) if respond_to?(name) && send(name).present?
+        end
+      end
+
+      def validate_field_with(name, type)
+        case type
+        when "string"
+          # errors.add(name, I18n.t("errors.messages.invalid"))
+        when "date"
+          begin
+            value = Date.parse(send(name.to_sym))
+            send("#{name}=", value.to_s)
+          rescue StandardError
+            errors.add(name, I18n.t("errors.messages.invalid"))
+          end
+        when "integer"
+          begin
+            Integer(send(name.to_sym))
+          rescue StandardError
+            errors.add(name, I18n.t("errors.messages.invalid"))
+          end
+        end
+      end
+
       def items
         @items ||= []
       end
 
       def add_item(name, label = nil)
+        name_s = name.split("--")
+        name_f = name_s.first
         @items = items << {
           type: "input",
           id: name,
-          placeholder: "type your #{label}",
+          placeholder: "type your #{name_f}",
           label: label,
-          value: send(name.to_sym),
-          errors: errors[name.to_sym]&.uniq&.join(", "),
+          hint: hint_for(name_f),
+          value: send(name_f.to_sym),
+          errors: errors[name_f.to_sym]&.uniq&.join(", "),
           action: {
             type: "submit"
           }
         }
       end
 
-      def valid_schema
-        []
-        #         [
-        #           {
-        #             type: 'text',
-        #             text: "yes!!!!! your email is #{email}",
-        #             style: 'header'
-        #           },
-        #           {
-        #             type: 'text',
-        #             text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-        #             style: 'paragraph'
-        #           }
-        #         ]
+      def hint_for(name)
+        case name
+        when "phone"
+          "Example: +5699303030"
+        else
+          "Needs a valid date, Example: 2012-20-12" if searcheable_fields.find { |o| o["name"] == name && o["type"] == "date" }
+        end
       end
 
       def schema
