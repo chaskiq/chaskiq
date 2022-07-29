@@ -11,6 +11,7 @@ module MessageApis::Qualifier
       )
 
       record = QualifierRecord.new(items: [])
+      record.searcheable_fields = ctx[:package].app.searcheable_fields
 
       ctx[:values][:item].map do |o|
         optional = o[:optional].present? ? "--optional" : ""
@@ -259,7 +260,7 @@ module MessageApis::Qualifier
             type: "checkbox",
             id: "input-optional-#{index}",
             text: "optional field",
-            value: "#{index}-optional",
+            # value: "#{index}-optional",
             options: [
               {
                 type: "option",
@@ -350,7 +351,7 @@ module MessageApis::Qualifier
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_writer :items
-      attr_accessor :validatable_fields, :searcheable_fields, :app
+      attr_accessor :validatable_fields, :searcheable_fields
 
       def self.configure(opts)
         opts.each do |o|
@@ -421,6 +422,7 @@ module MessageApis::Qualifier
           id: name,
           placeholder: "type your #{name_f}",
           label: label,
+          hint: hint_for(name_f),
           value: send(name_f.to_sym),
           errors: errors[name_f.to_sym]&.uniq&.join(", "),
           action: {
@@ -429,20 +431,13 @@ module MessageApis::Qualifier
         }
       end
 
-      def valid_schema
-        []
-        #         [
-        #           {
-        #             type: 'text',
-        #             text: "yes!!!!! your email is #{email}",
-        #             style: 'header'
-        #           },
-        #           {
-        #             type: 'text',
-        #             text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-        #             style: 'paragraph'
-        #           }
-        #         ]
+      def hint_for(name)
+        case name
+        when "phone"
+          "Example: +5699303030"
+        else
+          "Needs a valid date, Example: 2012-20-12" if searcheable_fields.find { |o| o["name"] == name && o["type"] == "date" }
+        end
       end
 
       def schema
