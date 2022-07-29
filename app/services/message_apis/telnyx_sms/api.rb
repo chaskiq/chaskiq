@@ -192,7 +192,7 @@ module MessageApis::TelnyxSms
       data = {}
       phones = @package.settings["phones"] || ""
       phones.split(",").each do |o|
-        pn = Phoner::Phone.parse o
+        pn = Phonelib.parse(o)
         code = pn.country_code
         data[code].present? ? data[code] << o : data[code] = [o]
       end
