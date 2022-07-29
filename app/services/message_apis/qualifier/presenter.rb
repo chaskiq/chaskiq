@@ -13,8 +13,8 @@ module MessageApis::Qualifier
       record = QualifierRecord.new(items: [])
 
       ctx[:values][:item].map do |o|
-        required = o[:required] ? "--required" : ""
-        record.add_item("#{o[:name]}#{required}", o[:label])
+        optional = o[:optional].present? ? "--optional" : ""
+        record.add_item("#{o[:name]}#{optional}", o[:label])
       end
 
       {
@@ -29,15 +29,19 @@ module MessageApis::Qualifier
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
+      app = ctx[:package].app
+
+      optional_identifier = "--optional"
+
       fields = ctx[:package].app.searcheable_fields.map do |o|
         o["name"].to_sym
       end
 
-      required_fields = ctx[:package].app.searcheable_fields.map do |o|
-        "#{o['name']}--required".to_sym
+      optional_fields = ctx[:package].app.searcheable_fields.map do |o|
+        "#{o['name']}#{optional_identifier}".to_sym
       end
 
-      all_fields = fields + required_fields
+      all_fields = fields + optional_fields
 
       QualifierRecord.configure(
         fields
@@ -45,15 +49,21 @@ module MessageApis::Qualifier
 
       params = ctx[:values].permit(all_fields)
 
-      params = params.transform_keys { |key| key.gsub("--required", "") }
+      optional_keys = params.to_h.keys.select { |key| key.include?(optional_identifier) }
+
+      params = params.transform_keys { |key| key.gsub(optional_identifier, "") }
 
       record = QualifierRecord.new(
         params
       )
 
-      keys_to_validate = params.to_h.keys.map do |o|
-        o.gsub("--required", "") if o.include?("--required")
+      record.searcheable_fields = app.searcheable_fields
+
+      keys_to_bypass = optional_keys.map do |o|
+        o.gsub(optional_identifier, "")
       end.compact
+
+      keys_to_validate = params.to_h.keys - keys_to_bypass
 
       record.validatable_fields = keys_to_validate.map(&:to_sym)
 
@@ -247,15 +257,15 @@ module MessageApis::Qualifier
           },
           {
             type: "checkbox",
-            id: "input-required-#{index}",
-            text: "required field",
-            value: "#{index}-required",
+            id: "input-optional-#{index}",
+            text: "optional field",
+            value: "#{index}-optional",
             options: [
               {
                 type: "option",
-                id: "#{index}-required",
-                name: "item[#{index}][required]",
-                text: "is required?"
+                id: "#{index}-optional",
+                name: "item[#{index}][optional]",
+                text: "mark as optional"
               }
             ]
           },
@@ -340,7 +350,7 @@ module MessageApis::Qualifier
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_writer :items
-      attr_accessor :validatable_fields
+      attr_accessor :validatable_fields, :searcheable_fields, :app
 
       def self.configure(opts)
         opts.each do |o|
@@ -357,11 +367,44 @@ module MessageApis::Qualifier
               errors.add(field,
                          I18n.t("errors.messages.invalid"))
             end
+          when :phone
+            unless Phonelib.valid?(send(field))
+              errors.add(field,
+                         I18n.t("errors.messages.invalid"))
+            end
+
           else
             if send(field).blank?
               errors.add(field,
                          I18n.t("errors.messages.blank"))
             end
+          end
+        end
+      end
+
+      validate do
+        searcheable_fields.each do |f|
+          name = f["name"].to_sym
+          validate_field_with(name, f["type"]) if respond_to?(name) && send(name).present?
+        end
+      end
+
+      def validate_field_with(name, type)
+        case type
+        when "string"
+          # errors.add(name, I18n.t("errors.messages.invalid"))
+        when "date"
+          begin
+            value = Date.parse(send(name.to_sym))
+            send("#{name}=", value.to_s)
+          rescue StandardError
+            errors.add(name, I18n.t("errors.messages.invalid"))
+          end
+        when "integer"
+          begin
+            Integer(send(name.to_sym))
+          rescue StandardError
+            errors.add(name, I18n.t("errors.messages.invalid"))
           end
         end
       end
