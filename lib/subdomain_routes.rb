@@ -17,7 +17,10 @@ end
 
 class SubdomainOrDomain
   def self.matches?(request)
-    request.subdomain.present? && APP_SUBDOMAINS.exclude?(request.subdomain)
+    if (subdomains = request.subdomains) && subdomains.any?
+      subdomain = subdomains.first
+      APP_SUBDOMAINS.exclude?(subdomain)
+    end
   end
 end
 
