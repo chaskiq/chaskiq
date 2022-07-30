@@ -2,7 +2,8 @@ subscriptions:
   plans:
     - 
       name: "free"
-      id: 618560
+      # id: 618560
+      id: "price_1LSYJ4FvJw1lbNt4zlSrVW8P"
       features:
         -
           name: Segments
@@ -67,7 +68,8 @@ subscriptions:
 
     - 
       name: "rookie"
-      id: 616249
+      # id: 616249
+      id: "price_1LSPeTFvJw1lbNt4BDjylNZq"
       features:
         -
           name: Segments
@@ -128,7 +130,8 @@ subscriptions:
     
     - 
       name: "super"
-      id: 596123
+      # id: 596123
+      id: "price_1LSYG7FvJw1lbNt4y094SQBM"
       features:
         -
           name: Segments

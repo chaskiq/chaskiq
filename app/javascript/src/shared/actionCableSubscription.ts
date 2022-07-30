@@ -70,6 +70,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
             return dispatch(updateRtcEvents(data));
           case 'campaigns':
             return dispatch(updateCampaignEvents(data.data));
+          case 'stripe:subscription':
           case 'paddle:subscription':
             fetchApp(() => {
               dispatch(setSubscriptionState(data.data));

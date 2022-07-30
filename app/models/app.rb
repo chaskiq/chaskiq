@@ -8,7 +8,7 @@ class App < ApplicationRecord
   include UserHandler
   include Notificable
 
-  store :preferences, accessors: %i[
+  store_accessor :preferences, %i[
     active_messenger
     domain_url
     theme
@@ -29,14 +29,21 @@ class App < ApplicationRecord
     user_home_apps
     visitor_home_apps
     inbox_apps
+
     paddle_user_id
     paddle_subscription_id
     paddle_subscription_plan_id
     paddle_subscription_status
+
+    stripe_customer_id
+    stripe_subscription_id
+    stripe_subscription_plan_id
+    stripe_subscription_status
+
     privacy_consent_required
     inbound_email_address
     avatar_settings
-  ], coder: JSON
+  ] # , coder: JSON
 
   include InboundAddress
 
@@ -233,6 +240,14 @@ class App < ApplicationRecord
     nil
   end
 
+  def email
+    if owner.present?
+      owner.email
+    else
+      agents.humans.first.email
+    end
+  end
+
   def generate_encryption_key
     self.encryption_key = SecureRandom.hex(8)
   end
@@ -330,12 +345,29 @@ class App < ApplicationRecord
   end
 
   def plan
-    if paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
+    if stripe_subscription_status == "active" || stripe_subscription_status == "trialing"
+      @plan ||= Plan.new(
+        Plan.get_by_id(stripe_subscription_plan_id) || Plan.get("free")
+      )
+    elsif paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
       @plan ||= Plan.new(
         Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get("free")
       )
     else
       @plan = Plan.get("free")
+    end
+  end
+
+  def payment_service
+    PaymentServices::StripeService
+    # PaymentServices::Paddle
+  end
+
+  def payment_attribute(key)
+    if PaymentServices::StripeService == payment_service
+      send("stripe_#{key}".to_sym)
+    elsif PaymentServices::Paddle == payment_service
+      send("paddle_#{key}".to_sym)
     end
   end
 

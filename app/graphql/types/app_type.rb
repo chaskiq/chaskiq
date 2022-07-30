@@ -42,29 +42,30 @@ module Types
     end
 
     def plans
-      PaymentServices::Paddle.new.get_plans
+      object.payment_service.new.get_plans
+      # PaymentServices::Paddle.new.get_plans
     end
 
     field :user_transactions, [Types::JsonType], null: true
     def user_transactions
-      PaymentServices::Paddle.new.get_user_transactions(
-        object.paddle_user_id
+      object.payment_service.new.get_user_transactions(
+        object.payment_attribute("user_id")
       )
     end
 
     field :subscription_transactions, [Types::JsonType], null: true
     def subscription_transactions
-      PaymentServices::Paddle.new.get_subscription_transactions(
-        object.paddle_subscription_id
+      object.payment_service.new.get_subscription_transactions(
+        object.payment_attribute("customer_id")
       )
-    rescue StandardError
-      []
+      # rescue StandardError
+      #  []
     end
 
     field :subscription_details, Types::JsonType, null: true
     def subscription_details
-      PaymentServices::Paddle.new.get_subscription(
-        object.paddle_subscription_id
+      object.payment_service.new.get_subscription(
+        object.payment_attribute("subscription_id")
       )
     end
 
@@ -73,7 +74,7 @@ module Types
     end
 
     def update_subscription_plan(plan_id:)
-      PaymentServices::Paddle.new.update_subscription(
+      object.payment_service.new.update_subscription(
         object.paddle_subscription_id,
         plan_id: plan_id,
         passthrough: object.key

@@ -103,5 +103,8 @@ module Types
     field :createOauthApplication, mutation: Mutations::OauthApps::OauthCreate
     field :updateOauthApplication, mutation: Mutations::OauthApps::OauthUpdate
     field :deleteOauthApplication, mutation: Mutations::OauthApps::OauthDelete
+
+    field :stripeCustomerPortal, mutation: Mutations::StripeSubscriptions::CustomerPortal
+    field :stripeCreateIntent, mutation: Mutations::StripeSubscriptions::CreateIntent
   end
 end

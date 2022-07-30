@@ -25,6 +25,11 @@ import {
   UPDATE_SUBSCRIPTION_PLAN,
 } from '@chaskiq/store/src/graphql/queries';
 
+import {
+  STRIPE_CUSTOMER_PORTAL,
+  STRIPE_SUBSCRIPTION_CREATE_INTENT,
+} from '@chaskiq/store/src/graphql/mutations';
+
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([]);
   const [openCheckout, setOpenCheckout] = React.useState(null);
@@ -32,6 +37,9 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
     null
   );
   const [subscriptionDetails, setSubscriptionDetails] = React.useState([]);
+  const [customerPortalLoading, setCustomerPortalLoading] = React.useState(
+    false
+  );
 
   React.useEffect(() => {
     dispatch(setCurrentPage('Billing'));
@@ -94,8 +102,35 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
     }
   }
 
-  function openCheckoutHandler(plan) {
+  function openCheckoutHandlerOld(plan) {
     subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan);
+  }
+
+  function openCheckoutHandler(plan) {
+    graphql(
+      STRIPE_SUBSCRIPTION_CREATE_INTENT,
+      {
+        appKey: app.key,
+        planId: plan.id + '',
+      },
+      {
+        success: (data) => {
+          switch (data.stripeCreateIntent.redirectUrl) {
+            case 'no':
+              break;
+            default:
+              setOpenCheckout(plan);
+              window.location = data.stripeCreateIntent.redirectUrl;
+              break;
+          }
+          //console.log(data)
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      }
+    );
+    //subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan);
   }
 
   function getSubscriptionDetails() {
@@ -163,6 +198,26 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
 
     const plan = plans.find((o) => o.id === subscriptionDetails[0].plan_id);
     return plan && plan.name;
+  }
+
+  function manageSubscription() {
+    setCustomerPortalLoading(true);
+    graphql(
+      STRIPE_CUSTOMER_PORTAL,
+      {
+        appKey: app.key,
+      },
+      {
+        success: (data) => {
+          setCustomerPortalLoading(false);
+          window.location = data.stripeCustomerPortal.redirectUrl;
+        },
+        error: (err) => {
+          setCustomerPortalLoading(false);
+          console.log(err);
+        },
+      }
+    );
   }
 
   const subscription = subscriptionDetails[0];
@@ -260,7 +315,14 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
         {!isEmpty(paddleSubscription) && renderAlert()}
 
         {openCheckout && (
-          <Checkout
+          /*<PaddleCheckout
+            current_user={current_user}
+            app={app}
+            handleClose={() => setOpenCheckout(null)}
+            handleSuccess={() => setOpenCheckout(null)}
+            product={openCheckout}
+          />*/
+          <StripeCheckout
             current_user={current_user}
             app={app}
             handleClose={() => setOpenCheckout(null)}
@@ -276,6 +338,19 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
             handleSubmit={(planId) => updatesubscription(planId)}
             plan={openSubscriptionUpdate}
           />
+        )}
+
+        {app.subscriptionsEnabled && app.preferences.stripe_customer_id && (
+          <div className="flex items-center justify-end">
+            <button
+              className="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-gray-900 text-white hover:bg-gray-700"
+              onClick={manageSubscription}
+              disabled={customerPortalLoading}
+            >
+              manage subscription
+              {customerPortalLoading && 'loadding...'}
+            </button>
+          </div>
         )}
 
         <Tabs tabs={tabs()}></Tabs>
@@ -503,7 +578,7 @@ function UpdateSubscriptionModal({
               <span className="font-bold">{plan.name}</span> plan
             </h3>
 
-            {!loading && plan.recurring_price.USD != '0.00' && (
+            {!loading && plan.pricing != '0.00' && (
               <div className="mt-2">
                 <p className="text-sm leading-5 text-gray-500 dark:text-gray-300">
                   {
@@ -528,7 +603,7 @@ function UpdateSubscriptionModal({
                         __html: I18n.t(
                           'subscriptions.update_subscription.amount',
                           {
-                            recurring_price: plan.recurring_price.USD,
+                            recurring_price: plan.pricing,
                           }
                         ),
                       }}
@@ -574,108 +649,74 @@ function UpdateSubscriptionModal({
   );
 }
 
-/*
-function Plans ({ plans, openCheckout, currentPlan, appPlan }) {
-  return (
-    plans.filter((o) => o.id !== currentPlan)
-      .map((o) => <div
-        key={`plan-key-${o.id}`}
-        className="pt-4">
-        <Plan
-          key={`plan-key-${o.id}`}
-          plan={o}
-          appPlan={appPlan}
-          currentPlan={currentPlan}
-          openCheckout={openCheckout}
-        />
-      </div>
-      )
-  )
-}
-
-function Plan ({ plan, openCheckout, _currentPlan, appPlan }) {
-  function findInTranslation () {
-    const translatedPlan = I18n.t('subscriptions.plans').find((o) => o.id === plan)
-    return translatedPlan && translatedPlan
-  }
-
-  return (
-    <div className={`${appPlan.id === plan.id ? 'bg-gray-100' : ''} border rounded-md shadow-lg flex mb-4`}>
-      <div className="p-5 flex-grow">
-        <h2 className="text-4xl font-extrabold">{plan.name}</h2>
-        <p className="text-gray-600">
-          {findInTranslation() && findInTranslation().description }
-        </p>
-
-        <div>
-          <div className="flex items-center my-4">
-            <span className="mr-2 font-bold text-md uppercase">
-              {I18n.t('subscriptions.plan.included')}
-            </span>
-            <div className="ml-2 h-1 bg-gray-200 flex-grow"/>
-          </div>
-
-          <dl className="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
-            {
-              // findInTranslation() && findInTranslation()
-              plan.features.filter((o) => o.active).map((o, index) => (
-                <div key={`items-${index}`} className="sm:col-span-1">
-                  <dt className="text-sm leading-5 font-medium text-gray-500">
-                    <div className="flex">
-                      <div className="mr-1 flex items-center justify-center h-4 w-4 rounded-full bg-green-100">
-                        <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                      </div>
-                      <span>{I18n.t(`subscriptions.features.${o.name}.title`)}</span>
-                    </div>
-                  </dt>
-                </div>
-              ))
-            }
-
-          </dl>
-
-        </div>
-      </div>
-
-      <div className="bg-gray-100 p-5 text-center flex flex-col items-center justify-center">
-        <p className="font-bold text-lg">
-          {I18n.t('subscriptions.plan.pay_by', { billing_type: plan.billing_type })}
-        </p>
-        <h2 className="flex justify-center items-center my-4">
-          <span className="mr-2 text-3xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-5xl">
-            $ {plan.recurring_price.USD}
-          </span>
-          <span className="text-2xl text-gray-300">USD</span>
-        </h2>
-        {
-          plan.trial_days !== 0 &&
-            <p dangerouslySetInnerHTML={
-              {
-                __html: I18n.t('subscriptions.plan.trial_days', { trial_days: plan.trial_days })
-              }
-            }>
-            </p>
-        }
-        <Button
-          className="my-4"
-          size="large"
-          onClick={() => openCheckout(plan)}>
-          { I18n.t('subscriptions.plan.get_access') }
-        </Button>
-      </div>
-    </div>
-  )
-}*/
-
 declare global {
   interface Window {
     Paddle: any;
   }
 }
 
-function Checkout({ current_user, app, product, handleSuccess, handleClose }) {
+function StripeCheckout({
+  current_user,
+  app,
+  product,
+  handleSuccess,
+  handleClose,
+}) {
+  return (
+    <div>
+      <div className="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
+        <div className="fixed inset-0 transition-opacity">
+          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+
+        <div
+          className="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-sm sm:w-full sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
+          <div>
+            <div className="mt-3 text-center sm:mt-5">
+              <div className="absolute top-0 right-0 pt-4 pr-4">
+                <button
+                  onClick={handleClose}
+                  type="button"
+                  className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+
+              <div className="checkout-container">
+                You will be redirected to the checkeout gateway
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PaddleCheckout({
+  current_user,
+  app,
+  product,
+  handleSuccess,
+  handleClose,
+}) {
   React.useEffect(() => {
     window.Paddle.Setup({
       vendor: 115475, // Replace with your Vendor ID.
@@ -829,6 +870,10 @@ function Transactions({ app }) {
 export default withRouter(connect(mapStateToProps)(Billing));
 
 function PlanBoard({ appPlan, plans, openCheckout }) {
+  function isPlan(plan) {
+    return appPlan && appPlan.id === plan.id;
+  }
+
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       {/* xs to lg */}
@@ -841,14 +886,14 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               </h2>
               <p className="mt-4">
                 <span className="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
-                  ${Math.floor(plan.recurring_price.USD)}
+                  ${Math.floor(plan.pricing)}
                 </span>
                 <span className="text-base font-medium text-gray-500 dark:text-gray-300">
                   /mo
                 </span>
               </p>
 
-              {appPlan && appPlan.id === plan.id && (
+              {isPlan(plan) && (
                 <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
                   This is your current plan
                 </p>
@@ -865,6 +910,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                   focus:shadow-outline
                   mt-6 block w-full border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center`}
                     onClick={() => openCheckout(plan)}
+                    //onClick={() => payIntent(plan)}
                   >
                     {' '}
                     Buy {plan.name}
@@ -986,7 +1032,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                     <div>
                       <p>
                         <span className="text-4xl font-extrabold text-gray-900 dark:text-gray-100">
-                          ${Math.floor(p.recurring_price.USD)}
+                          ${Math.floor(p.pricing)}
                         </span>
                         <span className="text-base font-medium text-gray-500 dark:text-gray-300">
                           /mo
@@ -997,7 +1043,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                       </p>
                     </div>
 
-                    {appPlan && appPlan.id == p.id && (
+                    {isPlan(p) && (
                       <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
                         This is your current plan
                       </p>

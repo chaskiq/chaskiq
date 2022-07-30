@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_19_012507) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_02_235735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -117,7 +117,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_19_012507) do
     t.datetime "updated_at", null: false
     t.bigint "agent_id"
     t.boolean "published", default: false
+    t.bigint "app_id"
     t.index ["agent_id"], name: "index_app_packages_on_agent_id"
+    t.index ["app_id"], name: "index_app_packages_on_app_id"
     t.index ["name"], name: "index_app_packages_on_name", unique: true
   end
 
@@ -768,6 +770,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_19_012507) do
   add_foreign_key "app_package_integrations", "app_packages"
   add_foreign_key "app_package_integrations", "apps"
   add_foreign_key "app_packages", "agents"
+  add_foreign_key "app_packages", "apps"
   add_foreign_key "app_users", "apps"
   add_foreign_key "article_collections", "apps"
   add_foreign_key "article_settings", "apps"
