@@ -25,29 +25,32 @@ import { connect } from 'react-redux';
 import UpgradePage from './UpgradePage';
 // import Pricing from '../pages/pricingPage'
 
-import actioncable from 'actioncable';
 import CampaignHome from './campaigns/home';
 import Progress from '@chaskiq/components/src/components/Progress';
 import UserSlide from '@chaskiq/components/src/components/UserSlide';
 
 import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
-import { appendConversation } from '@chaskiq/store/src/actions/conversations';
-import { updateCampaignEvents } from '@chaskiq/store/src/actions/campaigns';
-import { updateRtcEvents } from '@chaskiq/store/src/actions/rtc';
 import { updateAppUserPresence } from '@chaskiq/store/src/actions/app_users';
-import { setSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 import { setApp } from '@chaskiq/store/src/actions/app';
-import {
-  camelizeKeys,
-  dispatchUpdateConversationData,
-} from '@chaskiq/store/src/actions/conversation';
 
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
 import LoadingView from '@chaskiq/components/src/components/loadingView';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
+
+import Notifications from '@chaskiq/components/src/components/notifications';
+
 import Sidebar from '../layout/sidebar';
+import PackageSlider from '../pages/conversations/packageSlider';
+
+import {
+  createSubscription,
+  destroySubscription,
+  eventsSubscriber,
+  sendPush,
+} from '../shared/actionCableSubscription';
+// import {createSubscription, destroySubscription, eventsSubscriber, sendPush } from '../shared/absintheCableSubscription';
 
 declare global {
   interface Window {
@@ -66,24 +69,25 @@ function AppContainer({
   loading,
   upgradePages,
   accessToken,
+  history,
 }) {
-  const CableApp = React.useRef({
-    events: null,
-    cable: actioncable.createConsumer(
-      `${window.chaskiq_cable_url}?app=${match.params.appId}&token=${accessToken}`
-    ),
-  });
+  const CableApp = React.useRef(createSubscription(match, accessToken));
 
   const [_subscribed, setSubscribed] = React.useState(null);
 
   React.useEffect(() => {
     dispatch(getCurrentUser());
     fetchApp(() => {
-      eventsSubscriber(match.params.appId);
+      eventsSubscriber(
+        match.params.appId,
+        CableApp.current,
+        dispatch,
+        fetchApp
+      );
     });
     return () => {
       console.log('unmounting cable from app container');
-      if (CableApp.current) CableApp.current.events.unsubscribe();
+      if (CableApp.current) destroySubscription(CableApp.current);
     };
   }, [match.params.appId]);
 
@@ -98,61 +102,16 @@ function AppContainer({
     );
   };
 
-  const eventsSubscriber = (id) => {
-    // unsubscribe cable ust in case
-    if (CableApp.current.events) {
-      CableApp.current.events.unsubscribe();
+  React.useEffect(() => {
+    function frameCallbackHandler(event) {
+      if (event.data.type !== 'url-push-from-frame') return;
+      console.log('HANDLED EVENT FROM FRAME', event.data);
+      history.push(event.data.url);
     }
 
-    CableApp.current.events = CableApp.current.cable.subscriptions.create(
-      {
-        channel: 'EventsChannel',
-        app: id,
-      },
-      {
-        connected: () => {
-          console.log('connected to events');
-          setSubscribed(true);
-        },
-        disconnected: () => {
-          console.log('disconnected from events');
-          setSubscribed(false);
-        },
-        received: (data) => {
-          // console.log('received', data)
-          switch (data.type) {
-            case 'conversation_part':
-              return dispatch(appendConversation(camelizeKeys(data.data)));
-            case 'conversations:update_state':
-              return dispatch(
-                dispatchUpdateConversationData(camelizeKeys(data.data))
-              );
-            case 'presence':
-              return updateUser(camelizeKeys(data.data));
-            case 'rtc_events':
-              return dispatch(updateRtcEvents(data));
-            case 'campaigns':
-              return dispatch(updateCampaignEvents(data.data));
-            case 'paddle:subscription':
-              fetchApp(() => {
-                dispatch(setSubscriptionState(data.data));
-              });
-              return null;
-            default:
-              return null;
-          }
-        },
-        notify: () => {
-          console.log('notify!!');
-        },
-        handleMessage: () => {
-          console.log('handle message');
-        },
-      }
-    );
-
-    // window.cable = CableApp
-  };
+    window.addEventListener('message', frameCallbackHandler);
+    return () => window.removeEventListener('message', frameCallbackHandler);
+  }, []);
 
   function updateUser(data) {
     dispatch(updateAppUserPresence(data));
@@ -164,6 +123,14 @@ function AppContainer({
 
   function handleUserSidebar() {
     dispatch(toggleDrawer({ userDrawer: !drawer.userDrawer }));
+  }
+
+  function pushEvent(name, data) {
+    sendPush(name, {
+      props: { app },
+      events: CableApp.current.events,
+      data: data,
+    });
   }
 
   return (
@@ -184,20 +151,7 @@ function AppContainer({
         />
       )}
 
-      {/* drawer.userDrawer && (
-        <div
-          className="navbar w-64 absolute
-              bg-white top-0 z-50 right-0  navbar-open"
-        >
-          <div className="overflow-x-scroll h-screen">
-            {app_user ? (
-              <UserData width={'300px'} app={app} appUser={app_user} />
-            ) : (
-              <Progress />
-            )}
-          </div>
-        </div>
-      ) */}
+      <Notifications history={history} />
 
       {drawer.userDrawer && (
         <UserSlide open={!!drawer.userDrawer} onClose={handleUserSidebar}>
@@ -307,6 +261,7 @@ function AppContainer({
                   <RestrictedArea section="conversations">
                     <Conversations
                       subscribed
+                      pushEvent={pushEvent}
                       events={CableApp.current.events}
                     />
                   </RestrictedArea>
@@ -344,6 +299,7 @@ function AppContainer({
           )}
         </div>
       )}
+      {app && <PackageSlider />}
     </div>
   );
 }
@@ -360,6 +316,8 @@ function mapStateToProps(state) {
     navigation,
     paddleSubscription,
     upgradePages,
+    fixedSlider,
+    notifications,
   } = state;
   const { loading, isAuthenticated, accessToken } = auth;
   const { current_section } = navigation;
@@ -376,6 +334,7 @@ function mapStateToProps(state) {
     paddleSubscription,
     upgradePages,
     accessToken,
+    fixedSlider,
   };
 }
 

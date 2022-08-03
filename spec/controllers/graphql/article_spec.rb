@@ -151,7 +151,7 @@ RSpec.describe GraphqlController, type: :controller do
       graphql_post(type: "ARTICLE_COLLECTION_EDIT", variables: {
                      appKey: app.key,
                      title: "edited",
-                     id: collection.id,
+                     id: collection.id.to_s,
                      description: ""
                    })
 
@@ -162,7 +162,7 @@ RSpec.describe GraphqlController, type: :controller do
     it "delete" do
       graphql_post(type: "ARTICLE_COLLECTION_DELETE", variables: {
                      appKey: app.key,
-                     id: collection.id
+                     id: collection.id.to_s
                    })
 
       expect(graphql_response.data.articleCollectionDelete.collection).to be_present
@@ -189,7 +189,7 @@ RSpec.describe GraphqlController, type: :controller do
 
       graphql_post(type: "ADD_ARTICLES_TO_COLLECTION", variables: {
                      appKey: app.key,
-                     collectionId: collection.id,
+                     collectionId: collection.id.to_s,
                      articlesId: [app.articles.last.id.to_s]
                    })
 
@@ -214,7 +214,7 @@ RSpec.describe GraphqlController, type: :controller do
       graphql_post(type: "ARTICLE_SECTION_CREATE", variables: {
                      appKey: app.key,
                      title: "foo",
-                     collectionId: collection.id
+                     collectionId: collection.id.to_s
                    })
 
       expect(graphql_response.data.articleSectionCreate).to be_present
@@ -227,7 +227,7 @@ RSpec.describe GraphqlController, type: :controller do
                      appKey: app.key,
                      title: "edited",
                      id: section.id.to_s,
-                     collectionId: collection.id
+                     collectionId: collection.id.to_s
                    })
 
       expect(graphql_response.data.articleSectionEdit).to be_present

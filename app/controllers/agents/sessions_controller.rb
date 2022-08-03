@@ -60,6 +60,12 @@ class Agents::SessionsController < Devise::SessionsController
   # DELETE /resource/sign_out
   def destroy
     track_event(current_agent, "logout")
+
+    if request.headers["access-token"]
+      token = current_agent.access_tokens.find_by(token: request.headers["access-token"])
+      token.destroy if token.present?
+    end
+
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
     set_flash_message! :notice, :signed_out if signed_out
     yield if block_given?

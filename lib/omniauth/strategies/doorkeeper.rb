@@ -4,7 +4,7 @@ module OmniAuth
       option :name, :doorkeeper
 
       option :client_options,
-             site: ENV["HOST"],
+             site: Chaskiq::Config.fetch("HOST", nil),
              authorize_path: "/oauth/authorize"
 
       uid do

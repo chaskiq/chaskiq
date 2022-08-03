@@ -74,7 +74,7 @@ zh-CN:
         label: 注册访问
         hint: "即使禁用此功能，我们也会收集全球访客计数器，并在访客资料中存储最后一次访客信息"
       languages:
-        select_lang: "选择语言"
+        select_lang: 选择语言
     campaigns:
       campaign_name:
         label: 宣传活动名称
@@ -200,7 +200,7 @@ zh-CN:
       email: Email
       state: 省
       online: Online（在线）
-      ip: Ip
+      ip: IP
       country: 国家
       city: 城市
       phone: 电话

@@ -6,7 +6,7 @@ module Mutations
       field :quick_reply, Types::QuickReplyType, null: false
       field :errors, Types::JsonType, null: false
       argument :app_key, String, required: true
-      argument :id, Integer, required: true
+      argument :id, String, required: true
 
       # , lang:)
       def resolve(app_key:, id:)

@@ -47,8 +47,8 @@ class AppPolicy < ActionPolicy::Base
     end
   end
 
-  def can_manage_own_profile?
-    can_manage_team? || @record.agent == @user
+  def can_manage_profile?
+    can_manage_team? || @record == @user
   end
 
   def find_role_by_resource

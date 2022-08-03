@@ -2,7 +2,7 @@
 
 module Types
   class AuthorType < Types::BaseObject
-    field :id, Int, null: false
+    field :id, String, null: false
     field :email, String, null: true
     field :kind, String, null: false
     field :display_name, String, null: false

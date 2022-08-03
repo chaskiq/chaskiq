@@ -35,6 +35,7 @@ esbuild
             'process.env.NODE_DEBUG': '""',
         },
         platform: 'browser',
+        inject: ['./esbuild/process-shim.js'],
         entryPoints: [
             "app/javascript/new_application.js", 
             "app/javascript/application.js", 
@@ -42,6 +43,7 @@ esbuild
             "app/javascript/article.js",
             "app/javascript/docs.js",
             "app/javascript/locales.js",
+            "app/javascript/internal_package_socket.js"
         ],
         bundle: true,
         loader: { 

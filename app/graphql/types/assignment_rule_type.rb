@@ -2,7 +2,7 @@
 
 module Types
   class AssignmentRuleType < Types::BaseObject
-    field :id, Int, null: false
+    field :id, String, null: false
     field :agent, Types::AgentType, null: true
     field :conditions, [Types::JsonType], null: true
     field :priority, Integer, null: true

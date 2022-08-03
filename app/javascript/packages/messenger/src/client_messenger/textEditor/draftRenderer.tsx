@@ -115,21 +115,23 @@ function renderers(props) {
         </ol>
       ),
 
-      file: (children, { _keys, data }) => {
-        const fileName = data[0].url.split('/').pop();
-        return (
-          <div>
-            <a
-              href={getImageUrl(data[0].url, props)}
-              target="blank"
-              rel="noopener noreferrer"
-              className="graf graf--attachment"
-            >
-              <AttachmentIcon2 width={20} height={20} />
-              {fileName}
-            </a>
-          </div>
-        );
+      file: (children, { keys, data }) => {
+        return data.map((file, index) => {
+          const fileName = file.url.split('/').pop();
+          return (
+            <div key={`file-${keys[index]}`}>
+              <a
+                href={getImageUrl(file.url, props)}
+                target="blank"
+                rel="noopener noreferrer"
+                className="graf graf--attachment"
+              >
+                <AttachmentIcon2 width={20} height={20} />
+                {fileName}
+              </a>
+            </div>
+          );
+        });
       },
 
       image: (children, { keys, data }) => {

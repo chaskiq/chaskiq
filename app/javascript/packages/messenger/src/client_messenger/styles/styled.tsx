@@ -503,7 +503,7 @@ export const AppPackageBlockButtonItem = styled.div`
 `;
 
 export const AppPackageBlockTextItem = styled.div`
-  ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-400 font-light`}
+  ${() => tw`text-right mx-4 my-1.5 text-sm text-gray-700 font-light`}
   a {
     ${() => tw`text-sm text-gray-600 font-normal hover:text-gray-900`}
   }
@@ -764,6 +764,7 @@ export const Body = styled.div`
 export const Footer = styled.div<{
   isInputEnabled: boolean;
   conversationState: string;
+  isInboundRepliesClosed: boolean;
 }>`
   z-index: 100000;
   text-align: center;
@@ -786,8 +787,8 @@ export const Footer = styled.div<{
   color: gray;
   padding: 11px 0px 0px 0px;
 
-  ${({ conversationState }) =>
-    conversationState == 'closed'
+  ${({ conversationState, isInboundRepliesClosed }) =>
+    conversationState == 'closed' && isInboundRepliesClosed
       ? `pointer-events: none; 
        height: 100%; 
        color: black; 

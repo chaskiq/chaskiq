@@ -9,6 +9,8 @@ tagList
 firstAgentReply
 latestUserVisibleCommentAt
 subject
+blocked
+blockedReason
 assignee {
   id
   email
@@ -134,6 +136,7 @@ visitorHomeApps
 inboxApps
 privacyConsentRequired
 availableRoles
+allowIdleSessions
 segments {
   name
   id

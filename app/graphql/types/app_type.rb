@@ -10,6 +10,7 @@ module Types
     field :team_schedule, Types::JsonType, null: true
     field :gather_social_data, Boolean, null: true
     field :register_visits, Boolean, null: true
+    field :allow_idle_sessions, Boolean, null: true
     field :translations, [Types::JsonType], null: true
     field :outgoing_email_domain, String, null: true
     field :custom_fields, [Types::JsonType], null: true
@@ -25,6 +26,10 @@ module Types
     field :plan, Types::JsonType, null: true
     field :inbound_email_address, String, null: true
     field :outgoing_email_domain, String, null: true
+
+    def allow_idle_sessions
+      Chaskiq::Config.get("ALLOW_IDLE_SESSIONS")
+    end
 
     def plan
       return { disabled: true } unless context[:enabled_subscriptions]
@@ -136,7 +141,7 @@ module Types
     end
 
     def app_packages_capabilities(kind:)
-      raise "not in type" unless %w[home conversations conversation_part bots inbox].include?(kind)
+      raise "not in type" unless %w[home conversations conversation_part bots inbox fixed_sidebar conversations_initiator].include?(kind)
 
       authorize! object, to: :show?, with: AppPolicy
 
@@ -201,20 +206,26 @@ module Types
       argument :per, Integer, required: false, default_value: 20
       argument :sort, String, required: false
       argument :filter, String, required: false
-      argument :agent_id, Integer, required: false
+      argument :agent_id, String, required: false
       argument :tag, String, required: false
       argument :term, String, required: false
+      argument :channel_id, String, required: false
     end
 
     field :conversations_counts, Types::JsonType, null: true
 
     field :conversations_tag_counts, Types::JsonType, null: true
 
+    field :conversations_channels_counts, Types::JsonType, null: true
+
     field :conversation, Types::ConversationType, null: true do
       argument :id, String, required: false
     end
 
-    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil)
+    # rubocop:disable Metrics/ParameterLists
+    def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil, channel_id: nil)
+      # rubocop:enable Metrics/ParameterLists
+
       # object.plan.allow_feature!("Conversations")
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_conversations?, with: AppPolicy
@@ -226,14 +237,20 @@ module Types
 
       @collection = @collection.where(state: filter) if filter.present?
 
-      @collection = filter_by_agent(agent_id)
+      if channel_id.present?
+        @collection = @collection
+                      .joins(:conversation_channels)
+                      .where("conversation_channels.provider =?", channel_id)
+      end
+
+      @collection = filter_by_agent(agent_id) if agent_id.present?
       @collection = @collection.page(page).per(per)
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
-      # TODO: add _or_main_participant_name_cont, or do this with Arel
       if term
+        query_term = :main_participant_full_name_or_main_participant_name_or_main_participant_email_or_main_participant_postal_or_main_participant_phone_or_messages_messageable_of_ConversationPartContent_type_text_content_i_cont_any
         @collection = @collection.ransack(
-          messages_messageable_of_ConversationPartContent_type_text_content_cont: term
+          query_term => term
         ).result
       end
 
@@ -258,6 +275,10 @@ module Types
       end
     end
 
+    def conversations_channels_counts
+      object.conversation_channels.group("provider").count
+    end
+
     def conversation(id:)
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_conversations?, with: AppPolicy
@@ -276,7 +297,7 @@ module Types
     end
 
     field :app_user, Types::AppUserType, null: true do
-      argument :id, Integer, required: false
+      argument :id, String, required: false
     end
 
     def app_user(id:)
@@ -343,7 +364,7 @@ module Types
     end
 
     field :agent, Types::AgentType, null: false do
-      argument :id, Integer, required: true
+      argument :id, String, required: true
     end
 
     def agent(id:)
@@ -364,7 +385,7 @@ module Types
     end
 
     field :segment, Types::SegmentType, null: true do
-      argument :id, Integer, required: true
+      argument :id, String, required: true
     end
 
     def segment(id:)
@@ -403,7 +424,7 @@ module Types
     end
 
     field :quick_reply, Types::QuickReplyType, null: true do
-      argument :id, Integer, required: true
+      argument :id, String, required: true
       argument :lang, String, required: false, default_value: I18n.default_locale
     end
 
@@ -473,6 +494,17 @@ module Types
       object.articles.friendly.find(id)
     end
 
+    field :contact_search, [Types::AppUserType], null: true do
+      argument :term, String, required: true, default_value: ""
+    end
+
+    def contact_search(term:)
+      query_term = :last_name_or_first_name_or_name_or_email_i_cont_any
+      @collection = object.app_users.limit(10).ransack(
+        query_term => term
+      ).result
+    end
+
     field :collections, [Types::CollectionType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
     end
@@ -500,7 +532,7 @@ module Types
     field :bot_tasks, [Types::BotTaskType], null: true do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
       argument :mode, String, required: false, default_value: "outbound"
-      argument :filters, Types::JsonType, required: false, default_value: {}
+      argument :filters, Types::BotTaskFilterType, required: false, default_value: {}
     end
 
     def bot_tasks(lang:, mode:, filters:)
@@ -569,7 +601,7 @@ module Types
     end
 
     field :dashboard, Types::JsonType, null: true do
-      argument :range, Types::JsonType, required: true
+      argument :range, Types::AnyType, required: true
       argument :kind,  String, required: true
       argument :package,  String, required: false
     end
@@ -626,8 +658,7 @@ module Types
     private
 
     def filter_by_agent(agent_id)
-      agent = agent_id.present? && agent_id.zero? ? nil : agent_id
-      @collection.where(assignee_id: agent)
+      @collection.where(assignee_id: agent_id)
     end
 
     def sort_conversations(sort)

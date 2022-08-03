@@ -4,7 +4,7 @@ module Mutations
     field :errors, Types::JsonType, null: true
 
     argument :app_key, String, required: false
-    argument :id, Integer, required: true
+    argument :id, String, required: true
 
     def resolve(app_key:, id:)
       current_user = context[:current_user]

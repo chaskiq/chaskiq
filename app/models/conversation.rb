@@ -117,7 +117,6 @@ class Conversation < ApplicationRecord
 
   def add_message(opts = {})
     part = process_message_part(opts)
-
     ActiveRecord::Base.transaction do
       part.save
     end
@@ -211,14 +210,22 @@ class Conversation < ApplicationRecord
   end
 
   def update_latest_user_visible_comment_at
-    unless has_user_visible_comment?
-      update_column(:latest_user_visible_comment_at, Time.zone.now)
-      first_user_interaction
-    end
+    first_user_interaction unless has_user_visible_comment?
+    update_column(:latest_user_visible_comment_at, Time.zone.now)
   end
 
   def has_user_visible_comment?
     latest_user_visible_comment_at.present?
+  end
+
+  def block(msg = nil)
+    self.blocked = true
+    self.blocked_reason = msg
+  end
+
+  def block!(msg = nil)
+    block(msg)
+    save
   end
 
   def notify_conversation_list

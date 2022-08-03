@@ -20,6 +20,9 @@ export class Controller extends BaseController {
       body: this.element.dataset.values,
       responseKind: 'html', //'turbo-stream'
     })
+
+    debugger
+
     if (response.ok) {
       const body = await response.html
       // this.element.innerHTML = body

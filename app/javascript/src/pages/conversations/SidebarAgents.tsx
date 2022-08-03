@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 import {
   FolderIcon,
+  IntegrationsIcon,
   LabelIcon,
 } from '@chaskiq/components/src/components/icons';
 import I18n from '../../shared/FakeI18n';
@@ -22,6 +23,8 @@ function SidebarAgents({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null);
   const [agents, setAgents] = useState(null);
   const [tagCounts, setTagCounts] = useState(null);
+  const [conversationsChannelsCounts, setConversationsChannelsCounts] =
+    useState(null);
 
   useEffect(() => {
     getCounts();
@@ -36,6 +39,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
           setCounts(data.app.conversationsCounts);
           setTagCounts(data.app.conversationsTagCounts);
           setAgents(data.app.agents);
+          setConversationsChannelsCounts(data.app.conversationsChannelsCounts);
         },
         error: () => {},
       }
@@ -43,7 +47,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
   }
 
   function findAgent(o) {
-    const agent = agents.find((a) => a.id === parseInt(o));
+    const agent = agents.find((a) => a.id === o);
     if (agent) return agent;
     return null;
   }
@@ -72,6 +76,28 @@ function SidebarAgents({ app, dispatch, conversations }) {
             sort: 'unfiltered',
             filter: 'opened',
             tag: null,
+            channelId: null,
+          });
+        }
+      )
+    );
+  }
+
+  function filterChannel(option) {
+    dispatch(clearConversations([]));
+    dispatch(
+      updateConversationsData(
+        {
+          channelId: option,
+          sort: 'unfiltered',
+        },
+        () => {
+          fetchConversations({
+            page: 1,
+            channelId: option,
+            sort: 'unfiltered',
+            filter: 'opened',
+            tag: null,
           });
         }
       )
@@ -92,6 +118,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
             tag: tag,
             sort: 'unfiltered',
             filter: 'opened',
+            channelId: null,
           });
         }
       )
@@ -120,9 +147,30 @@ function SidebarAgents({ app, dispatch, conversations }) {
             key={`agent-list-${i}`}
             agent={findAgent(o)}
             count={counts[o]}
-            active={conversations.agentId === parseInt(o)}
+            active={conversations.agentId === o}
             filterHandler={filterAgent}
             label={o === 'all' ? I18n.t('conversations.menu.all') : null}
+          />
+        ))}
+
+      <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
+        <h3 className="font-bold">
+          Channels
+          {/*I18n.t('conversations.menu.conversations')*/}
+        </h3>
+      </div>
+
+      {counts &&
+        conversationsChannelsCounts &&
+        Object.keys(conversationsChannelsCounts).map((o, i) => (
+          <ListItem
+            key={`conversation-channel-count-list-${i}`}
+            agent={findAgent(o)}
+            count={conversationsChannelsCounts[o]}
+            active={conversations.channelId === o}
+            filterHandler={filterChannel}
+            label={o}
+            icon={<IntegrationsIcon className="-ml-1 mr-3" />}
           />
         ))}
 
@@ -200,7 +248,7 @@ function ListItem({
       text-gray-600
       dark:text-gray-50
       hover:text-gray-900
-      hover:dark:text-gray-100
+      dark:hover:text-gray-100
       rounded-md 
       hover:bg-gray-50 
       dark:hover:bg-gray-800 

@@ -109,20 +109,22 @@ const renderers = {
     ),
 
     file: (_children, { keys, data }) => {
-      const fileName = data[0].url.split('/').pop();
-      return (
-        <div>
-          <a
-            href={data[0].url}
-            rel="noopener noreferrer"
-            target="blank"
-            className="flex items-center border rounded text-gray-100 bg-gray-800 border-gray-600 p-4 py-2"
-          >
-            <AttachmentIcon></AttachmentIcon>
-            {fileName}
-          </a>
-        </div>
-      );
+      return data.map((file, index) => {
+        const fileName = file.url.split('/').pop();
+        return (
+          <div key={`file-${keys[index]}`}>
+            <a
+              href={file.url}
+              rel="noopener noreferrer"
+              target="blank"
+              className="flex items-center border rounded text-gray-100 bg-gray-800 border-gray-600 p-4 py-2 mb-1"
+            >
+              <AttachmentIcon></AttachmentIcon>
+              {fileName}
+            </a>
+          </div>
+        );
+      });
     },
 
     giphy: (children, { keys, data }) => {

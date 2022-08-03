@@ -5,7 +5,7 @@ module Mutations
     class UpdateAppUserState < Mutations::BaseMutation
       field :app_user, Types::AppUserType, null: false
       argument :app_key, String, required: true
-      argument :id, Int, required: true
+      argument :id, String, required: true
       argument :state, String, required: true
 
       def resolve(app_key:, id:, state:)

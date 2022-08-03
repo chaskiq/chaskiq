@@ -5,10 +5,14 @@ module Mutations
     class StartConversation < Mutations::BaseMutation
       field :conversation, Types::ConversationType, null: false
       argument :app_key, String, required: true
-      argument :id, Int, required: false, default_value: nil
-      argument :message, Types::JsonType, required: true
+      argument :id, String, required: false, default_value: nil
+      argument :message, Types::MessageInputType, required: true
+      argument :subject, String, required: false, default_value: nil
+      argument :initiator_channel, String, required: false, default_value: nil
 
-      def resolve(app_key:, id:, message:)
+      def resolve(app_key:, id:, message:, subject:, initiator_channel:)
+        message = message.to_h.with_indifferent_access
+
         if current_user.is_a?(Agent)
           app = current_user.apps.find_by(key: app_key)
           authorize! app, to: :can_manage_conversations?, with: AppPolicy, context: {
@@ -23,13 +27,17 @@ module Mutations
           participant = nil
         end
 
+        sanitized_html = ActionController::Base.helpers.strip_tags(message["html"])
+
         options = {
           from: author,
           participant: participant,
+          initiator_channel: initiator_channel,
+          subject: subject,
           message: {
-            html_content: message["html"],
-            serialized_content: message["serialized"],
-            text_content: message["text"] || ActionController::Base.helpers.strip_tags(message["html"])
+            html_content: sanitized_html,
+            serialized_content: message[:serialized],
+            text_content: message[:text] || ActionController::Base.helpers.strip_tags(message["html"])
           }
         }
 

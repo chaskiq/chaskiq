@@ -74,9 +74,10 @@ module Chaskiq
     end
 
     config.middleware.insert_before 0, Rack::Cors do
+      global_cors_domain = Chaskiq::Config.fetch("GLOBAL_CORS_DOMAIN", "*")
       allow do
-        origins '*'
-        resource '*', headers: :any, methods: %i[get post put options]
+        origins global_cors_domain
+        resource "*", headers: :any, methods: %i[get post put options]
       end
     end
 

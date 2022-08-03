@@ -1,7 +1,15 @@
 export const AUTH = `
   query Messenger{
     messenger {
-      user
+      user {
+        id,
+        email,
+        avatarUrl,
+        lang,
+        kind,
+        properties
+        sessionId
+      }
     }
   }
 `;
@@ -197,7 +205,7 @@ export const CONVERSATION = `
 `;
 
 export const INSERT_COMMMENT = `
-  mutation InsertComment($appKey: String!, $id: String!, $message: Json!){
+  mutation InsertComment($appKey: String!, $id: String!, $message: MessageInput!){
     insertComment(appKey: $appKey, id: $id, message: $message){
       message{
         message{
@@ -228,7 +236,7 @@ export const INSERT_COMMMENT = `
 `;
 
 export const START_CONVERSATION = `
-  mutation StartConversation($appKey: String!, $id: Int, $message: Json!){
+  mutation StartConversation($appKey: String!, $id: String, $message: MessageInput!){
     startConversation(appKey: $appKey, id: $id, message: $message){
       conversation{
         id
@@ -526,7 +534,7 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
 
 export const APP_PACKAGE_HOOK = `
 
-query Messenger($id: String!, $hooKind: String!, $ctx: Json!){
+query Messenger($id: String!, $hooKind: String!, $ctx: Any!){
     
   messenger {
     enabledForUser
@@ -540,6 +548,24 @@ query Messenger($id: String!, $hooKind: String!, $ctx: Json!){
         description
         callHook(kind: $hooKind, ctx: $ctx)
       }
+    }
+  }
+}
+`;
+
+export const PUSH_EVENT = `
+  mutation PushEvent($appKey: String!, $id: String!, $data: Any!){
+    pushEvent(appKey: $appKey, id: $id, data: $data){
+      status
+    }
+  }
+`;
+
+export const BANNER = `
+query Messenger($id: String!){
+  messenger {
+    app{
+      banner(id: $id)
     }
   }
 }

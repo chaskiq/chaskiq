@@ -112,7 +112,6 @@ export function RtcView(props) {
   }, [localStream.id]);
 
   React.useEffect(() => {
-    // console.log("RTC CHANGED!", props.rtc)
     handleRtcData();
   }, [props.rtc]);
 
@@ -136,7 +135,8 @@ export function RtcView(props) {
 
     const params = Object.assign({}, data, a);
     // console.log('BROADCAST', params)
-    props.events.perform('rtc_events', params);
+    props.pushEvent('rtc_events', params);
+    //props.events.perform('rtc_events', params);
   }
 
   function broadcastJoinSession() {
@@ -236,13 +236,12 @@ export function RtcView(props) {
 
     const data = props.rtc;
 
-    if (data.from === currentUser) return;
+    if (data.event_type !== READY && data.from === currentUser) return;
     if (data.event_type === START_CALL) setCallStarted(true);
     if (!props.video) return;
 
     switch (data.event_type) {
       case JOIN_ROOM:
-        // console.log('join room!', data)
         return enter();
       case SIGNAL:
         const signal = data.signal;

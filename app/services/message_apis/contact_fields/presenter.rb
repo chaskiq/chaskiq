@@ -19,11 +19,11 @@ module MessageApis::ContactFields
 
     def self.user_attrs
       items_attrs = [
-        { id: "first_name", label: "First name", call: ->(user) { user.first_name } },
-        { id: "last_name", label: "Last name", call: ->(user) { user.last_name } },
-        { id: "email", label: "Email", call: ->(user) { user.email } },
-        { id: "company_name", label: "Company", call: ->(user) { user.company_name } },
-        { id: "phone", label: "phone", call: ->(user) { user.phone } }
+        { id: "first_name", label: I18n.t("contact_fields.inbox.first_name"), call: ->(user) { user.first_name } },
+        { id: "last_name", label: I18n.t("contact_fields.inbox.last_name"), call: ->(user) { user.last_name } },
+        { id: "email", label: I18n.t("contact_fields.inbox.email"), call: ->(user) { user.email } },
+        { id: "company_name", label: I18n.t("contact_fields.inbox.company"), call: ->(user) { user.company_name } },
+        { id: "phone", label: I18n.t("contact_fields.inbox.phone"), call: ->(user) { user.phone } }
       ]
     end
 
@@ -35,8 +35,9 @@ module MessageApis::ContactFields
       conversation = Conversation.find_by(
         key: ctx[:conversation_key]
       )
-      user = conversation.main_participant
       app = ctx[:package].app
+
+      user = conversation&.main_participant || app.app_users.find_by(id: ctx[:conversation_participant])
 
       error_notice = {
         type: "text",
@@ -107,7 +108,8 @@ module MessageApis::ContactFields
       conversation = Conversation.find_by(
         key: ctx[:conversation_key]
       )
-      user = conversation.main_participant
+
+      user = conversation&.main_participant || ctx[:package].app.app_users.find_by(id: ctx[:conversation_participant])
 
       definitions = [
         {

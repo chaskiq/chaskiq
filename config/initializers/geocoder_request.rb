@@ -17,12 +17,21 @@ module GeocoderRequestOverride
     #  ip_address: true
     # ).first
 
-    @location ||= Geocoder.search(
-      geocoder_spoofable_ip,
-      ip_address: true,
-      ip_lookup: default_geocoder_service
-      # api_key: DEFAULT_GEOCODER_SERVICE[:api_key]
-    ).first
+    @location ||= geocode!
+  end
+
+  def geocode!
+    begin
+      Geocoder.search(
+        geocoder_spoofable_ip,
+        ip_address: true,
+        ip_lookup: default_geocoder_service,
+        # api_key: DEFAULT_GEOCODER_SERVICE[:api_key]
+      ).first
+    rescue StandardError => e
+      Bugsnag.notify(e)
+      nil
+    end
   end
 
   def default_geocoder_service

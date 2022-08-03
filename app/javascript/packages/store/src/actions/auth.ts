@@ -19,14 +19,21 @@ export function authenticate(email, password, cb) {
 
     axios.defaults.withCredentials = true;
 
+    //@ts-ignore
+    const client_id = document.querySelector(
+      'meta[name="chaskiq-client-id"]'
+    )?.content;
+
     return axios({
       // baseURL: 'http://localhost:3000',
       // url: '/agents/sign_in.json',
       url: '/oauth/token.json',
       method: 'POST',
       data: {
+        client_id: client_id,
         agent: { email, password },
         email: email,
+        username: email,
         password: password,
         grant_type: 'password',
       },
@@ -39,7 +46,8 @@ export function authenticate(email, password, cb) {
         if (cb) cb();
       })
       .catch((data) => {
-        const err = data?.response?.data?.error_description || 'error!';
+        const err =
+          data && data.response.data ? data.response.data.message : 'error!';
         dispatch(errorMessage(err));
         dispatch(failAuthentication());
       });
@@ -80,6 +88,11 @@ export function successAuthentication(accessToken, refreshToken) {
 }
 
 export function refreshToken(auth) {
+  //@ts-ignore
+  const client_id = document.querySelector(
+    'meta[name="chaskiq-client-id"]'
+  )?.content;
+
   return (dispatch, _getState) => {
     dispatch(startAuthentication());
     dispatch(errorMessage('refresh token, hang tight'));
@@ -89,6 +102,7 @@ export function refreshToken(auth) {
       .post('/oauth/token', {
         refresh_token: auth.refreshToken,
         grant_type: 'refresh_token',
+        client_id: client_id,
       })
       .then((res) => {
         const accessToken = res.data.access_token;

@@ -74,7 +74,7 @@ de:
         label: Besuche registrieren
         hint: "Auch wenn dies deaktiviert ist, werden wir globale Besuchszähler sammeln und die letzten Besuchsinformationen auf dem Profil des Besuchers speichern"
       languages:
-        select_lang: "wähle Sprache"
+        select_lang: Sprache auswählen
     campaigns:
       campaign_name:
         label: Kampagnenname
@@ -200,7 +200,7 @@ de:
       email: E-Mail-Adresse
       state: Status
       online: Online
-      ip: Ip
+      ip: IP
       country: Land
       city: Ort
       phone: Phone

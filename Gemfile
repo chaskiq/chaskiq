@@ -3,25 +3,25 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.3"
+ruby "2.7.5"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem "anycable-rails", "~> 1.3.0"
 gem "pg"
-gem "rails", "7.0.2.3" # , github: "rails/rails",
+gem "rails", "7.0.3" # , github: "rails/rails",
+gem "uri", "0.10.0"
 
-gem "anycable-rails"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
-gem "puma", "~> 5.6"
-# Use SCSS for stylesheets
-gem "sass-rails"
-# Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 1.3.0"
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
 gem "haml"
+gem "jsbundling-rails", "~> 1.0"
+gem "kredis", "~> 1.1"
+gem "propshaft", "~> 0.6.4"
+gem "puma", "~> 5.6"
+gem "sassc"
+gem "tailwindcss-rails", "~> 2.0"
 
 gem "devise" # , "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views
@@ -55,7 +55,7 @@ gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
 gem "pg_search"
-gem "phone"
+gem "phonelib"
 gem "ransack"
 
 gem "browser", "~> 2.5"
@@ -63,10 +63,11 @@ gem "geocoder", "~> 1.6"
 gem "geoip"
 gem "truemail"
 
-gem "hotwire-rails"
+gem "turbo-rails"
 gem "view_component", require: "view_component/engine"
 
 gem "google-cloud-dialogflow"
+gem "twilio-ruby", "~> 5.58.1"
 
 gem "jwe"
 gem "jwt"
@@ -74,12 +75,12 @@ gem "jwt"
 # AUTH
 # gem 'devise-jwt', '~> 0.5.9'
 gem "devise_invitable", "~> 2.0"
-gem "doorkeeper", "~> 5.4.0"
+gem "doorkeeper", "~> 5.5.0"
 gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 
 gem "image_processing", "~> 1.12"
-gem "sidekiq"
+gem "sidekiq", "6.4.1"
 # gem "sidekiq-cron"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
@@ -123,12 +124,11 @@ gem "bootsnap", ">= 1.1.0", require: false
 
 gem "dotenv-rails", groups: %i[development test]
 
-gem "sprockets", github: "rails/sprockets"
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "cypress-on-rails", "~> 1.0"
+  gem "execjs"
   gem "pry"
   # gem "debug", platforms: %i[mri mingw x64_mingw]
 end
@@ -168,10 +168,5 @@ gem "php_serialize", "~> 1.2"
 gem "scout_apm"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
-gem "jsbundling-rails", "~> 1.0"
-
-gem "tailwindcss-rails", "~> 2.0"
-
-gem "view_component-contrib", "~> 0.1.0"
-
 gem "dry-initializer", "~> 3.0"
+gem "view_component-contrib", "~> 0.1.0"

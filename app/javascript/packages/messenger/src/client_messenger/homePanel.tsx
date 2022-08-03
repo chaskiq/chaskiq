@@ -267,13 +267,15 @@ const HomePanel = () => {
                   {i18n.t('messenger.start_conversation')}
                 </AnchorButton>
 
-                <a
-                  href="#"
-                  className="see_previous"
-                  onClick={viewConversations}
-                >
-                  {i18n.t('messenger.see_previous')}
-                </a>
+                {conversations.length > 0 && (
+                  <a
+                    href="#"
+                    className="see_previous"
+                    onClick={viewConversations}
+                  >
+                    {i18n.t('messenger.see_previous')}
+                  </a>
+                )}
               </CardButtonsGroup>
             </CardContent>
           </CardPadder>

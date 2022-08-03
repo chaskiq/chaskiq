@@ -5,7 +5,7 @@ module Mutations
     class UpdateAgent < Mutations::BaseMutation
       field :agent, Types::AgentType, null: false
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
       argument :email, String, required: true
 
       def resolve(app_key:, email:, params:)
@@ -13,25 +13,13 @@ module Mutations
         agent = app.agents.find_by(email: email) # , name: 'John Doe')
 
         authorize! agent,
-                   to: :can_manage_own_profile?,
+                   to: :can_manage_profile?,
                    with: AppPolicy,
                    context: {
                      app: app
                    }
 
-        data = params.permit(
-          :name,
-          :avatar,
-          :lang,
-          :first_name,
-          :last_name,
-          :country,
-          :country_code,
-          :region,
-          :region_code,
-          :enable_deliveries,
-          :available
-        )
+        data = params.permit(Agent.editable_attributes)
 
         # data.merge!({avatar: avatar}) if avatar.present?
 

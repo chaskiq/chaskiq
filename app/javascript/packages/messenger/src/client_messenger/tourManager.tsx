@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
-import Simmer from 'simmerjs';
+import { finder } from '@medv/finder';
 import TextEditor from './textEditor/index';
 import StyledFrame from './styledFrame';
 import DraftRenderer from './textEditor/draftRenderer';
 import DanteContainer from './textEditor/editorStyles';
 import theme from './textEditor/theme';
 import { ThemeProvider } from 'emotion-theming';
-
 import Tour from 'reactour-emotion';
 import tw from 'twin.macro';
 
@@ -29,10 +28,6 @@ const EditorStylesForTour = styled(DanteContainer)`
     max-height: 200px;
   }
 `;
-
-const simmer = new Simmer(window, {
-  depth: 20,
-});
 
 const TourManagerContainer = styled.div`
   ${() => tw`shadow-lg`}
@@ -136,6 +131,7 @@ const NewStepBody = styled.div`
 type TourManagerProps = {
   ev: any;
   domain: string;
+  pushEvent: any;
 };
 export default class TourManager extends Component<TourManagerProps> {
   state = {
@@ -160,7 +156,6 @@ export default class TourManager extends Component<TourManagerProps> {
     if (!this.state.selectionMode) return;
     if (!this.state.selecting) return;
     if (this.state.selectionMode === 'edit') return;
-    // debugger
 
     e.stopPropagation();
     e.preventDefault();
@@ -169,10 +164,10 @@ export default class TourManager extends Component<TourManagerProps> {
     // this.sleep(1000)
 
     e = e || window.event;
-    var target = e.target || e.srcElement;
+    const target = e.target || e.srcElement;
     // var text = target.textContent || target.innerText
 
-    const cssPath = simmer(target);
+    const cssPath = finder(target);
 
     const path = {
       target: cssPath,
@@ -208,12 +203,12 @@ export default class TourManager extends Component<TourManagerProps> {
     if (this.state.selectionMode === 'edit') return;
 
     e = e || window.event;
-    var target = e.target || e.srcElement;
+    const target = e.target || e.srcElement;
     // var text = target.textContent || target.innerText
-
+    console.log(target);
     this.getElementShape(target);
     this.setState({
-      cssPath: simmer(target),
+      cssPath: finder(target),
     });
   }
 

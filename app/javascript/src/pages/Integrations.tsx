@@ -189,7 +189,7 @@ function Integrations({ app, dispatch }) {
       {
         appKey: app.key,
         appPackage: open.name,
-        id: parseInt(open.id),
+        id: open.id,
         params: serializedData.app,
       },
       {
@@ -225,7 +225,7 @@ function Integrations({ app, dispatch }) {
       DELETE_INTEGRATION,
       {
         appKey: app.key,
-        id: parseInt(openDeleteDialog.id),
+        id: openDeleteDialog.id,
       },
       {
         success: (data) => {

@@ -74,7 +74,7 @@ sv:
         label: Registrera besök
         hint: "Även om detta är inaktiverat kommer vi att samla in totala besöksantal av besök och lagra den senaste besöksinformationen på besökarens profil"
       languages:
-        select_lang: "välj språk"
+        select_lang: Select language
     campaigns:
       campaign_name:
         label: Kampanjnamn
@@ -200,7 +200,7 @@ sv:
       email: E-postadress
       state: Tillstånd
       online: Aktiv
-      ip: Ip
+      ip: IP
       country: Land
       city: Stad
       phone: Phone

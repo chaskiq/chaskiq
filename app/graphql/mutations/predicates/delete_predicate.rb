@@ -7,7 +7,7 @@ module Mutations
     field :segment, Types::SegmentType, null: false
     field :errors, Types::JsonType, null: true
 
-    argument :id, Integer, required: false
+    argument :id, String, required: false
     argument :app_key, String, required: false
 
     def resolve(app_key:, id:)

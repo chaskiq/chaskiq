@@ -6,8 +6,9 @@ class App < ApplicationRecord
   include GlobalizeAccessors
   include Tokenable
   include UserHandler
+  include Notificable
 
-  store :preferences, accessors: %i[
+  store_accessor :preferences, %i[
     active_messenger
     domain_url
     theme
@@ -35,7 +36,7 @@ class App < ApplicationRecord
     privacy_consent_required
     inbound_email_address
     avatar_settings
-  ], coder: JSON
+  ]
 
   include InboundAddress
 
@@ -60,6 +61,7 @@ class App < ApplicationRecord
   has_many :article_collections, dependent: :destroy_async
   has_many :sections, through: :article_collections
   has_many :conversations, dependent: :destroy_async
+  has_many :conversation_channels, through: :conversations
   has_many :conversation_parts, through: :conversations, source: :messages
   has_many :conversation_events, through: :conversations, source: :events
   has_many :segments, dependent: :destroy_async
@@ -174,24 +176,32 @@ class App < ApplicationRecord
     participant = options[:participant] || user
     message_source = options[:message_source]
 
-    conversation = conversations.create(
-      main_participant: participant,
-      initiator: user,
-      assignee: options[:assignee],
-      subject: options[:subject]
-    )
-
-    if message.present?
-      conversation.add_message(
-        from: user,
-        message: message,
-        message_source: message_source,
-        check_assignment_rules: true
+    ActiveRecord::Base.transaction do
+      conversation = conversations.create(
+        main_participant: participant,
+        initiator: user,
+        assignee: options[:assignee],
+        subject: options[:subject]
       )
-    end
 
-    conversation.add_started_event
-    conversation
+      if options[:initiator_channel]
+        # here we will create a conversation channel and a external profile if it's neccessary
+        pkg = find_app_package(options[:initiator_channel])
+        pkg&.message_api_klass&.prepare_initiator_channel_for(conversation, pkg) if pkg.present?
+      end
+
+      if message.present?
+        conversation.add_message(
+          from: user,
+          message: message,
+          message_source: message_source,
+          check_assignment_rules: true
+        )
+      end
+
+      conversation.add_started_event
+      conversation
+    end
   end
 
   def query_segment(kind)

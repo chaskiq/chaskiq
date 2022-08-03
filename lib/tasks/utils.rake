@@ -14,7 +14,7 @@ namespace :owner_apps do
   task make_owner: :environment do
     # roles owners
     App.all.each  do |o|
-      o.owner = Agent.find_by(email: ENV["ADMIN_EMAIL"])
+      o.owner = Agent.find_by(email: Chaskiq::Config.fetch("ADMIN_EMAIL", nil))
       o.save
     end
   end

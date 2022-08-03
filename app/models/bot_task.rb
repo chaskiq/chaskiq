@@ -225,6 +225,17 @@ class BotTask < Message
     # self.paths = JSON.parse(array.map { |o| ScheduleRecord.new(o) }.to_json)
     # array.map{|o| ScheduleRecord.new(o) }
   end
+
+  def as_json(options = nil)
+    result = super({
+      only: %i[id settings name scheduled_at scheduled_to],
+      methods: %i[id settings name scheduled_at scheduled_to]
+    }
+             .merge(options || {})
+    )
+    result[:id] = id.to_s
+    result
+  end
 end
 
 class BotPath

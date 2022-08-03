@@ -5,7 +5,7 @@ module Mutations
     class UpdateAgentRole < Mutations::BaseMutation
       field :agent, Types::RoleType, null: false
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
       argument :id, String, required: true
 
       def resolve(app_key:, id:, params:)
@@ -19,34 +19,7 @@ module Mutations
 
         agent = role&.agent # , name: 'John Doe')
 
-        authorize! role,
-                   to: :can_manage_own_profile?,
-                   with: AppPolicy,
-                   context: {
-                     app: app
-                   }
-
-        data = params.permit(
-          :avatar,
-          :lang,
-          :name,
-          :first_name,
-          :last_name,
-          :country,
-          :country_code,
-          :region,
-          :region_code,
-          :enable_deliveries,
-          :available,
-          # :access_list,
-          :address,
-          :area_of_expertise,
-          :availability,
-          :phone_number,
-          :specialization,
-          :enable_deliveries,
-          :available
-        )
+        data = params.permit(Agent.editable_attributes)
 
         # role.update(data)
         agent.update(data)

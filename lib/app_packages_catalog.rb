@@ -476,6 +476,7 @@ class AppPackagesCatalog
       {
         name: "Twilio",
         tag_list: ["conversations.added"],
+        capability_list: %w[conversations_initiator],
         description: "Interfaces twillio",
         icon: "https://logo.clearbit.com/twillio.com",
         state: "enabled",
@@ -501,6 +502,59 @@ class AppPackagesCatalog
             type: "string",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "new_conversations_after",
+            label: "Count messages as new conversations",
+            hint: "After a conversation is closed new messages will create a new conversation if there are received after this time period",
+            type: "number",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      },
+
+      {
+        name: "TwilioPhone",
+        capability_list: %w[fixed_sidebar],
+        description: "Interfaces twilio telephony",
+        state: "enabled",
+        definitions: [
+          {
+            name: "account_sid",
+            hint: "Twilio API credentials, Found at https://www.twilio.com/console",
+            type: "string",
+            required: true
+          },
+          {
+            name: "application_sid",
+            hint: "You need to create a TwiML app to use this project. Create one at https://www.twilio.com/console/phone-numbers/dev-tools/twiml-apps",
+            type: "string",
+            required: true
+          },
+          {
+            name: "phone_number",
+            hint: "Get your number at, https://www.twilio.com/console/phone-numbers/incoming",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_key",
+            hint: "Your REST API Key, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_secret",
+            hint: "Your REST API Secret, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "auth_token",
+            hint: "Find your Auth Token at twilio.com/console",
+            type: "string",
+            required: true
           }
         ]
       },
@@ -720,7 +774,8 @@ class AppPackagesCatalog
     packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-      Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
+
+      Rails.logger.debug { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?
     end
   end
 end

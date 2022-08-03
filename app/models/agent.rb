@@ -15,6 +15,7 @@ class Agent < ApplicationRecord
           :recoverable,
           :rememberable,
           :validatable,
+          :lockable,
           :omniauthable, omniauth_providers: %i[doorkeeper]
 
   has_many :app_packages, dependent: :nullify
@@ -121,6 +122,28 @@ class Agent < ApplicationRecord
 
   def kind
     self.class.model_name.singular
+  end
+
+  def self.editable_attributes
+    %i[
+      avatar
+      name
+      first_name
+      last_name
+      country
+      country_code
+      region
+      region_code
+      enable_deliveries
+      lang
+      permissions
+      area_of_expertise
+      specialization
+      phone_number
+      address
+      availability
+      available
+    ]
   end
 
   private
