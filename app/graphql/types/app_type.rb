@@ -55,9 +55,7 @@ module Types
 
     field :subscription_transactions, [Types::JsonType], null: true
     def subscription_transactions
-      object.payment_service.new.get_subscription_transactions(
-        object.payment_attribute("customer_id")
-      )
+      object.payment_service.new.get_subscription_transactions(object)
       # rescue StandardError
       #  []
     end

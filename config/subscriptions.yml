@@ -2,7 +2,6 @@ subscriptions:
   plans:
     - 
       name: "free"
-      # id: 618560
       id: "price_1LSYJ4FvJw1lbNt4zlSrVW8P"
       features:
         -
@@ -68,7 +67,6 @@ subscriptions:
 
     - 
       name: "rookie"
-      # id: 616249
       id: "price_1LSPeTFvJw1lbNt4BDjylNZq"
       features:
         -
@@ -130,7 +128,6 @@ subscriptions:
     
     - 
       name: "super"
-      # id: 596123
       id: "price_1LSYG7FvJw1lbNt4y094SQBM"
       features:
         -
@@ -189,3 +186,196 @@ subscriptions:
           name: CustomAttributes
           active: true
           count: unlimited
+
+
+
+    - 
+      name: "free"
+      id: 618560
+      features:
+        -
+          name: Segments
+          active: true
+          count: unlimited
+        -
+          name: Leads
+          active: true
+          count: unlimited
+        -
+          name: AppUsers
+          active: true
+          count: unlimited
+        - 
+          name: Conversations
+          active: true
+          count: unlimited
+
+        - 
+          name: BotTasks
+          active: false
+          count: unlimited
+        - 
+          name: Integrations
+          active: true
+          count: unlimited
+
+        - 
+          name: Campaigns
+          active: false
+          count: unlimited
+
+        - 
+          name: Tours
+          active: false
+          count: unlimited
+
+        - 
+          name: UserAutoMessages
+          active: false
+          count: unlimited
+
+        - name: OutgoingWebhooks
+          active: false
+          count: unlimited
+
+        - name: OauthApplications
+          active: true
+          count: unlimited
+          
+        - name: Articles
+          active: false
+          count: unlimited
+
+        - name: QuickReplies
+          active: true
+          count: unlimited
+
+        - name: CustomAttributes
+          active: false
+          count: unlimited
+
+    - 
+      name: "rookie"
+      id: 616249
+      features:
+        -
+          name: Segments
+          active: true
+          count: unlimited
+        -
+          name: Leads
+          active: true
+          count: unlimited
+        -
+          name: AppUsers
+          active: true
+          count: unlimited
+        - 
+          name: Conversations
+          active: true
+          count: unlimited
+        - 
+          name: BotTasks
+          active: false
+          count: unlimited
+        - 
+          name: Integrations
+          active: true
+          count: unlimited
+        - 
+          name: Campaigns
+          active: false
+          count: unlimited
+        - 
+          name: Tours
+          active: false
+          count: unlimited
+        - 
+          name: UserAutoMessages
+          active: false
+          count: unlimited
+        - 
+          name: OutgoingWebhooks
+          active: true
+          count: unlimited
+        - 
+          name: OauthApplications
+          active: true
+          count: unlimited
+        - 
+          name: Articles
+          active: false
+          count: unlimited
+        - 
+          name: QuickReplies
+          active: false
+          count: unlimited
+        - 
+          name: CustomAttributes
+          active: false
+          count: unlimited
+    
+    - 
+      name: "super"
+      id: 596123
+      features:
+        -
+          name: Segments
+          active: true
+          count: unlimited
+        -
+          name: Leads
+          active: true
+          count: unlimited
+        -
+          name: AppUsers
+          active: true
+          count: unlimited
+        - 
+          name: Conversations
+          active: true
+          count: unlimited
+        - 
+          name: BotTasks
+          active: true
+          count: unlimited
+        - 
+          name: Integrations
+          active: true
+          count: unlimited
+        - 
+          name: Campaigns
+          active: true
+          count: unlimited
+        - 
+          name: Tours
+          active: true
+          count: unlimited
+        - 
+          name: UserAutoMessages
+          active: true
+          count: unlimited
+        - 
+          name: OutgoingWebhooks
+          active: true
+          count: unlimited
+        - 
+          name: OauthApplications
+          active: true
+          count: unlimited
+        - 
+          name: Articles
+          active: true
+          count: unlimited
+        - 
+          name: QuickReplies
+          active: true
+          count: unlimited
+        - 
+          name: CustomAttributes
+          active: true
+          count: unlimited
+
+
+
+

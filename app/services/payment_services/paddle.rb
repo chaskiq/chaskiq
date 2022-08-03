@@ -34,6 +34,8 @@ module PaymentServices
       end.map do |o|
         p = Plan.get_by_id(o.id)
         {
+          id: p["id"],
+          source: "paddle",
           features: p.dig("features"),
           name: p["name"],
           pricing: o.recurring_price.USD
@@ -48,7 +50,10 @@ module PaymentServices
       )
     end
 
-    def get_subscription_transactions(id)
+    def get_subscription_transactions(app)
+      id = app.payment_attribute("user_id")
+      return [] if id.blank?
+
       res = get_data(
         url: "https://vendors.paddle.com/api/2.0/subscription/#{id}/transactions",
         params: auth

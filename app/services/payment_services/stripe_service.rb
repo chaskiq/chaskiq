@@ -19,6 +19,7 @@ module PaymentServices
         p = Plan.get_by_id(o.id)
         {
           id: o.id,
+          source: "stripe",
           features: p["features"],
           name: p["name"],
           pricing: o.unit_amount / 100
@@ -30,7 +31,8 @@ module PaymentServices
       Stripe::Subscription.retrieve id
     end
 
-    def get_subscription_transactions(id)
+    def get_subscription_transactions(app)
+      id = app.payment_attribute("customer_id")
       return [] if id.blank?
 
       Stripe::Invoice.list({ limit: 24, customer: id }).data.map do |o|

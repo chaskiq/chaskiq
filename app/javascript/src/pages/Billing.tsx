@@ -33,13 +33,11 @@ import {
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([]);
   const [openCheckout, setOpenCheckout] = React.useState(null);
-  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] = React.useState(
-    null
-  );
+  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] =
+    React.useState(null);
   const [subscriptionDetails, setSubscriptionDetails] = React.useState([]);
-  const [customerPortalLoading, setCustomerPortalLoading] = React.useState(
-    false
-  );
+  const [customerPortalLoading, setCustomerPortalLoading] =
+    React.useState(false);
 
   React.useEffect(() => {
     dispatch(setCurrentPage('Billing'));
@@ -102,7 +100,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
     }
   }
 
-  function openCheckoutHandlerOld(plan) {
+  function openCheckoutHandlerPaddle(plan) {
     subscription ? setOpenSubscriptionUpdate(plan) : setOpenCheckout(plan);
   }
 
@@ -150,21 +148,16 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
   }
 
   function tabs() {
-    /*
-    <Plans plans={plans}
-      currentPlan={subscriptionPlanId}
-      appPlan={app.plan}
-      openCheckout={(plan) => openCheckoutHandler(plan) }
-    />
-    */
     return [
       {
         label: I18n.t('subscriptions.tabs')[0],
         content: !isEmpty(plans) && (
           <PlanBoard
             plans={plans}
-            openCheckout={(plan) => openCheckoutHandler(plan)}
-            // currentPlan={subscriptionPlanId}
+            openCheckout={(plan) => {
+              if (plan.source == 'stripe') return openCheckoutHandler(plan);
+              openCheckoutHandlerPaddle(plan);
+            }}
             appPlan={app.plan}
           />
         ),
@@ -307,21 +300,19 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
           // actions={}
         />
 
-        <p>
-          {/* JSON.stringify(paddleSubscription) */}
-          {/* JSON.stringify(subscriptionDetails) */}
-        </p>
-
         {!isEmpty(paddleSubscription) && renderAlert()}
 
-        {openCheckout && (
-          /*<PaddleCheckout
+        {openCheckout && openCheckout.source === 'paddle' && (
+          <PaddleCheckout
             current_user={current_user}
             app={app}
             handleClose={() => setOpenCheckout(null)}
             handleSuccess={() => setOpenCheckout(null)}
             product={openCheckout}
-          />*/
+          />
+        )}
+
+        {openCheckout && openCheckout.source === 'stripe' && (
           <StripeCheckout
             current_user={current_user}
             app={app}

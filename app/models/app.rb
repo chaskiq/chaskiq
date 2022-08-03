@@ -359,8 +359,11 @@ class App < ApplicationRecord
   end
 
   def payment_service
-    PaymentServices::StripeService
-    # PaymentServices::Paddle
+    if paddle_subscription_plan_id.present?
+      PaymentServices::Paddle
+    else
+      PaymentServices::StripeService
+    end
   end
 
   def payment_attribute(key)
