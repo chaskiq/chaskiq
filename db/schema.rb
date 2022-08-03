@@ -183,7 +183,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_02_235735) do
     t.string "timezone"
     t.string "test_key"
     t.string "encryption_key", limit: 16
-    t.jsonb "preferences", default: "{}", null: false
+    t.jsonb "preferences", default: {}, null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "owner_id"

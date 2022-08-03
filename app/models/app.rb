@@ -43,7 +43,7 @@ class App < ApplicationRecord
     privacy_consent_required
     inbound_email_address
     avatar_settings
-  ] # , coder: JSON
+  ]
 
   include InboundAddress
 
@@ -304,7 +304,7 @@ class App < ApplicationRecord
   end
 
   def custom_field_keys
-    custom_fields&.map { |o| o[:name].to_sym } || []
+    custom_fields&.map { |o| o["name"].to_sym } || []
   end
 
   def app_user_updateable_fields
