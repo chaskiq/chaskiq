@@ -6,8 +6,8 @@ RSpec.describe ClientTesterController, type: :controller do
   before(:each) do
     @request.host = "app.chat.com.br"
   end
-
-  it "text route" do
+  
+  pending "text route" do
     get :show
   end
 end
