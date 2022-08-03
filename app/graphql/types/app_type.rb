@@ -64,9 +64,13 @@ module Types
 
     field :subscription_details, Types::JsonType, null: true
     def subscription_details
-      object.payment_service.new.get_subscription(
-        object.payment_attribute("subscription_id")
-      )
+      if (sub_id = object.payment_attribute("subscription_id")) && sub_id
+        object.payment_service.new.get_subscription(
+          object.payment_attribute("subscription_id")
+        )
+      else
+        {}
+      end
     end
 
     field :update_subscription_plan, Types::JsonType, null: true do

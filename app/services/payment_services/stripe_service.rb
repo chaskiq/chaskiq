@@ -31,6 +31,8 @@ module PaymentServices
     end
 
     def get_subscription_transactions(id)
+      return [] if id.blank?
+
       Stripe::Invoice.list({ limit: 24, customer: id }).data.map do |o|
         {
           id: o.id,
