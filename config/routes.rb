@@ -95,7 +95,8 @@ Rails.application.routes.draw do
 
       resources :direct_uploads, only: [:create], controller: 'api/v1/direct_uploads'
 
-      resources :subscription_hooks, only: [:create], controller: 'api/v1/subscription_hooks'
+      resources :stripe_hooks, only: [:create], controller: 'api/v1/subscriptions/stripe_hooks'
+      resources :subscription_hooks, only: [:create], controller: 'api/v1/subscriptions/paddle_hooks'
     end
   end
 

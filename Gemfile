@@ -117,6 +117,8 @@ gem "i18n-js", "~> 4.0.0.alpha1"
 
 gem "globalize", github: "globalize/globalize"
 
+# To use Stripe, also include:
+gem "stripe", "~> 6.0"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.1.0", require: false
 
