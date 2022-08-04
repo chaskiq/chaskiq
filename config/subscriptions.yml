@@ -2,7 +2,7 @@ subscriptions:
   plans:
     - 
       name: "free"
-      id: "price_1LSYJ4FvJw1lbNt4zlSrVW8P"
+      id: <%= ENV['STRIPE_PLAN_1'] %>
       features:
         -
           name: Segments
@@ -67,7 +67,7 @@ subscriptions:
 
     - 
       name: "rookie"
-      id: "price_1LSPeTFvJw1lbNt4BDjylNZq"
+      id: <%= ENV['STRIPE_PLAN_2'] %>
       features:
         -
           name: Segments
@@ -128,7 +128,7 @@ subscriptions:
     
     - 
       name: "super"
-      id: "price_1LSYG7FvJw1lbNt4y094SQBM"
+      id: <%= ENV['STRIPE_PLAN_3'] %>
       features:
         -
           name: Segments
