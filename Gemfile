@@ -119,11 +119,6 @@ gem "globalize", github: "globalize/globalize"
 
 # To use Stripe, also include:
 gem "stripe", "~> 6.0"
-# To use Braintree + PayPal, also include:
-# gem "braintree", "~> 4.7"
-# To use Paddle, also include:
-# gem "paddle_pay", "~> 0.2"
-
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.1.0", require: false
 
