@@ -632,6 +632,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stripe (6.5.0)
     strscan (3.0.2)
     strscan (3.0.2-java)
     tailwindcss-rails (2.0.7)
@@ -782,6 +783,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq (= 6.4.1)
   spring
+  stripe (~> 6.0)
   tailwindcss-rails (~> 2.0)
   timezone (~> 1.2)
   truemail

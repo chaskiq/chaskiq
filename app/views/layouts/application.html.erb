@@ -15,6 +15,7 @@
     <% if oauth_app = Doorkeeper::Application.first %>
       <meta name="chaskiq-client-id" content="<%= oauth_app.uid %>"/>
     <% end %>
+
     <!--
     <meta content='width=device-width, initial-scale=1' name='viewport'>
     <meta content='width=device-width, initial-scale=1' media='(device-height: 568px)' name='viewport'>
@@ -42,7 +43,7 @@
     <div class="page" id="main-page">
     </div>
 
-    <% if enabled_subscriptions? %>
+    <% if paddle_subscriptions? %>
       <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
       <script type="text/javascript">
         Paddle.Setup({ vendor: 115475 });

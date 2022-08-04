@@ -13,15 +13,8 @@ import { uniqBy } from 'lodash';
 export function getConversations(options, cb) {
   const { page } = options;
   return (dispatch, getState) => {
-    const {
-      sort,
-      filter,
-      meta,
-      agentId,
-      tag,
-      term,
-      channelId,
-    } = getState().conversations;
+    const { sort, filter, meta, agentId, tag, term, channelId } =
+      getState().conversations;
 
     const nextPage = page || meta.next_page || 1;
 
