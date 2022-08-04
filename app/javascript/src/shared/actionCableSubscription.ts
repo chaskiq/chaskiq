@@ -70,6 +70,7 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
             return dispatch(updateRtcEvents(data));
           case 'campaigns':
             return dispatch(updateCampaignEvents(data.data));
+          case 'stripe:subscription':
           case 'paddle:subscription':
             fetchApp(() => {
               dispatch(setSubscriptionState(data.data));
@@ -79,8 +80,8 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
             dispatch(createNotification(data.data));
             return null;
           case data.type.match(/\/package\/\S+/)?.input:
-            const popup = document.getElementById('package-frame')
-              ?.contentWindow;
+            const popup =
+              document.getElementById('package-frame')?.contentWindow;
             popup && popup.postMessage(data, '*');
           default:
             console.log('unhandled', data);

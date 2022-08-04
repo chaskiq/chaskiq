@@ -20,8 +20,9 @@ export function authenticate(email, password, cb) {
     axios.defaults.withCredentials = true;
 
     //@ts-ignore
-    const client_id = document.querySelector('meta[name="chaskiq-client-id"]')
-      ?.content;
+    const client_id = document.querySelector(
+      'meta[name="chaskiq-client-id"]'
+    )?.content;
 
     return axios({
       // baseURL: 'http://localhost:3000',
@@ -88,8 +89,9 @@ export function successAuthentication(accessToken, refreshToken) {
 
 export function refreshToken(auth) {
   //@ts-ignore
-  const client_id = document.querySelector('meta[name="chaskiq-client-id"]')
-    ?.content;
+  const client_id = document.querySelector(
+    'meta[name="chaskiq-client-id"]'
+  )?.content;
 
   return (dispatch, _getState) => {
     dispatch(startAuthentication());
