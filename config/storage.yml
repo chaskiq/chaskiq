@@ -4,7 +4,7 @@ test:
 
 local:
   service: Disk
-  root: Chaskiq::Config.fetch("LOCAL_STORAGE_PATH", Rails.root.join("storage"))
+  root: <%= Chaskiq::Config.fetch("LOCAL_STORAGE_PATH", Rails.root.join("storage")) %>
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 amazon:
