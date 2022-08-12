@@ -2,7 +2,7 @@
 
 url = Addressable::URI.parse(ENV['HOST'])
 subdomain = begin
-  url.host.split(".").first
+  url.host.gsub(".#{url.domain}", '')
 rescue StandardError
   nil
 end
