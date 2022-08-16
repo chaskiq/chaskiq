@@ -148,4 +148,39 @@ RSpec.describe AppUser, type: :model do
       expect(app_user.properties["aaa"]).to include("555")
     end
   end
+
+  describe "merge users" do
+
+    it "add user to be one" do
+      app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+      app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+      expect(AppUser.all.size).to be == 1
+    end
+
+    it "add user to be one" do
+      app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+      visitor
+      expect(AppUser.all.size).to be == 2
+    end
+
+    describe "merge" do
+      before :each do
+        app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
+        visitor.become_lead!
+      end
+
+      it "merge from visitor" do
+        lead = Lead.first
+        binding.pry
+        lead.update_email(email: "test@test.cl")
+      end
+
+      it "merge_contact from lead to app user " do
+        lead = Lead.first
+        lead.update(phone: "123456")
+        app.merge_contact(from: lead, to: app_user)
+        expect(app_user.reload.phone).to be == "123456"
+      end
+    end
+  end
 end

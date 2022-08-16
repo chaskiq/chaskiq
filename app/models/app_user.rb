@@ -53,6 +53,8 @@ class AppUser < ApplicationRecord
            foreign_key: :main_participant_id,
            dependent: :destroy_async
 
+  has_many :conversation_parts, inverse_of: :authorable
+
   # has_many :metrics , as: :trackable
   has_many :metrics, dependent: :destroy_async
   has_many :visits, dependent: :destroy_async
@@ -182,6 +184,17 @@ class AppUser < ApplicationRecord
     event :archive do
       transitions from: %i[blocked subscribed unsubscribed passive], to: :archived
     end
+  end
+
+  def update_email(email)
+    app_user = app.get_app_user_by_email(email)
+    if(app_user)
+      # merge here
+    end
+
+    self
+
+    
   end
 
   def additional_validations?

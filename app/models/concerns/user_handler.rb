@@ -112,6 +112,15 @@ module UserHandler
     app_users.users.find_by(email: email)
   end
 
+  def merge_contact(from:, to: )
+    to.update(properties: to.properties.merge!(from.properties))
+
+    to.conversations.update_all(main_participant_id: from.id)
+    to.conversation_parts.update_all(authorable_id: from.id)
+    
+    from
+  end
+
   def compare_user_identifier(data)
     return if data.blank?
 
