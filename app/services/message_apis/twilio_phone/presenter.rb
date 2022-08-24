@@ -113,7 +113,7 @@ module MessageApis::TwilioPhone
               window.domain="<%= Rails.application.config.action_controller.asset_host %>";
             </script>
 
-            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('internal_package_socket.js')}" %>"></script>
+            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('twilio_phone_package.js')}" %>"></script>
 
             <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
 
@@ -167,7 +167,7 @@ module MessageApis::TwilioPhone
 
             <meta name="endpoint-url" content='<%= @package.hook_url %>'/>
 
-            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('internal_package_socket.js')}" %>"></script>
+            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('twilio_phone_package.js')}" %>"></script>
             <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
           </head>
           <body>
