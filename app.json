@@ -18,6 +18,7 @@
   "scripts": {
     "postdeploy": "bundle exec rake db:schema:load && bundle exec rake db:seed"
   },
+  "stack": "heroku-20"
   "env": {
     "ADMIN_EMAIL": {
       "description": "An admin email to be generated on db:seed task",
