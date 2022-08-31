@@ -361,7 +361,7 @@ module Types
 
     def not_confirmed_agents
       # authorize! object, to: :show?, with: AppPolicy
-      authorize! object, to: :can_read_not_confirmed_agents?, with: AppPolicy
+      authorize! object, to: :can_read_team?, with: AppPolicy
 
       object.agents.invitation_not_accepted
     end

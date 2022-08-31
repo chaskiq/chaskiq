@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { isObject, isEmpty } from 'lodash';
 import store from '..';
-import { errorMessage } from '../actions/status_messages'; //  '../actions/status_messages'
+import { errorMessage, UNAUTHENTICATED } from '../actions/status_messages';
+import { setErrorCode } from '../actions/error_status_code';
 import { lockPage } from '../actions/upgradePages';
 import { doSignout } from '@chaskiq/store/src/actions/auth';
 
@@ -37,16 +38,20 @@ const graphql = (query, variables, callbacks) => {
       if (isObject(errors) && !isEmpty(errors)) {
         // const errors = data[Object.keys(data)[0]];
         // callbacks['error'] ? callbacks['error'](res, errors['errors']) : null
-        if (
-          (errors[0].extensions &&
-            errors[0].extensions.code === 'unauthorized') ||
-          errors[0]?.code === 'unauthenticated'
-        ) {
-          //@ts-ignore
-          store.dispatch(errorMessage(errors[0].message));
-          store.dispatch(doSignout());
-          //@ts-ignore
-          return store.dispatch(clearCurrentUser());
+        if (errors[0].extensions) {
+          if (errors[0]?.code === UNAUTHENTICATED) {
+            //@ts-ignore
+            store.dispatch(errorMessage(errors[0].message));
+            store.dispatch(doSignout());
+            //@ts-ignore
+            return store.dispatch(clearCurrentUser());
+          }
+          else {
+            const error_code = errors[0].extensions.code || errors[0].code
+            store.dispatch(errorMessage(errors[0].message));
+            store.dispatch(setErrorCode(error_code));
+            return;
+          }
         }
 
         const status_code = errors[0].status_code;
