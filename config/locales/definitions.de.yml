@@ -24,7 +24,7 @@ de:
         label: Google Code
         hint: Google-Tracking-ID
       credits:
-        label: Show credits
+        label: Credits anzeigen
         hint: ""
     settings:
       name:
