@@ -81,6 +81,7 @@ module Chaskiq
     I18n.available_locales = locales
     config.i18n.default_locale = :en
 
+    config.action_dispatch.tld_length = Chaskiq::Config.fetch('TLD_LENGTH', 1)&.to_i
 
   end
 end
