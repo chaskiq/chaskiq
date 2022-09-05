@@ -18,6 +18,7 @@ import conversations from './actions/conversations';
 import conversation from './actions/conversation';
 import current_user from './actions/current_user';
 import status_message from './actions/status_messages';
+import error_code from './actions/error_status_code';
 import navigation from './actions/navigation';
 import drawer from './actions/drawer';
 import theme from './actions/theme';
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   upgradePages,
   fixedSlider,
   notifications,
+  error_code
 });
 
 const middlewares = [thunkMiddleware]; //, routerMiddleware(history)]
