@@ -25,7 +25,7 @@ module Mutations
                       "disabled"
                     end
 
-      authorize! @app, to: :manage?, with: AppPolicy
+      # authorize! @app, to: :manage?, with: AppPolicy
 
       @webhook = @app.outgoing_webhooks.new
       @webhook.assign_attributes(

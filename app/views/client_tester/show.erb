@@ -36,6 +36,22 @@
     })(document,"script");
   </script>
 
+  <script>
+
+    document.addEventListener("chaskiq:boot", ()=> { console.log("BOOT!") } )
+    document.addEventListener("chaskiq:connected", ()=> { console.log("CONNECTED!") } )
+
+  </script>
+
+  <script>
+    var dismissibleAlerts = document.querySelectorAll('.alert-dismissible');
+    dismissibleAlerts.forEach((alert) =>
+      alert.querySelector('[role="button"]').addEventListener('click', function () {
+        alert.classList.add('hidden');
+      })
+    );
+  </script>
+
 <% end %>
 
 <%

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::SubscriptionHooksController, type: :controller do
+RSpec.describe Api::V1::Subscriptions::PaddleHooksController, type: :controller do
   let(:payment_succeed) do
     {
       "alert_id" => "731429497",
@@ -127,7 +127,7 @@ RSpec.describe Api::V1::SubscriptionHooksController, type: :controller do
   end
 
   before :each do
-    expect_any_instance_of(Api::V1::SubscriptionHooksController).to receive(:verify_key).and_return(true)
+    expect_any_instance_of(Api::V1::Subscriptions::PaddleHooksController).to receive(:verify_key).and_return(true)
   end
 
   it "create subscription" do

@@ -27,13 +27,15 @@ module Mutations
           participant = nil
         end
 
+        sanitized_html = ActionController::Base.helpers.strip_tags(message["html"])
+
         options = {
           from: author,
           participant: participant,
           initiator_channel: initiator_channel,
           subject: subject,
           message: {
-            html_content: message[:html],
+            html_content: sanitized_html,
             serialized_content: message[:serialized],
             text_content: message[:text] || ActionController::Base.helpers.strip_tags(message["html"])
           }

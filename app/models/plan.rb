@@ -1,14 +1,12 @@
 class Plan
   include ActiveModel::Model
-  attr_accessor :name, :id, :features, :description
+  attr_accessor :name, :stripe_id, :id, :features, :description
 
   def self.all
-    YAML.load(
-      File.open(Rails.root.join("config/subscriptions.yml"))
-    )
-        .with_indifferent_access
-        .dig("subscriptions", "plans")
-    # YAML_PLANS
+    path = Rails.root.join("config/subscriptions.yml")
+    template = ERB.new File.new(path).read
+    processed = YAML.load template.result(binding)
+    processed.with_indifferent_access.dig("subscriptions", "plans")
   end
 
   def self.free

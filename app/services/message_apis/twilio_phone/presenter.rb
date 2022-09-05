@@ -148,7 +148,8 @@ module MessageApis::TwilioPhone
         user_key: @user["kind"],
         profile_id: @profile.profile_id,
         agents_id: @agents_ids,
-        user: @user
+        user: @user,
+        on_hold: MessageApis::TwilioPhone::Store.get_data(@conversation.key, :holdStatus)
       }.to_json
 
       template = ERB.new <<~SHEET_VIEW
@@ -170,7 +171,7 @@ module MessageApis::TwilioPhone
               window.domain="<%= Rails.application.config.action_controller.asset_host %>";
             </script>
 
-            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('internal_package_socket.js')}" %>"></script>
+            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('twilio_phone_package.js')}" %>"></script>
 
             <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
 
@@ -224,7 +225,7 @@ module MessageApis::TwilioPhone
 
             <meta name="endpoint-url" content='<%= @package.hook_url %>'/>
 
-            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('internal_package_socket.js')}" %>"></script>
+            <script src="<%= "#{ActionController::Base.helpers.compute_asset_path('twilio_phone_package.js')}" %>"></script>
             <link rel="stylesheet" href="<%= "#{ActionController::Base.helpers.compute_asset_path('tailwind.css')}" %>" data-turbo-track="reload" media="screen" />
           </head>
           <body>

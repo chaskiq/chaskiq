@@ -64,7 +64,7 @@ module MessageApis::TwilioPhone
       MessageApis::TwilioPhone::Store.set_data(
         params[:conversation_key],
         :holdStatus,
-        params[:action]
+        params[:hold_action]
       )
       # send notification here
       { status: :ok }

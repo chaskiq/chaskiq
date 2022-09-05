@@ -70,7 +70,7 @@ module Chaskiq
       global_cors_domain = Chaskiq::Config.fetch("GLOBAL_CORS_DOMAIN", "*")
       allow do
         origins global_cors_domain
-        resource global_cors_domain, headers: :any, methods: %i[get post put options]
+        resource "*", headers: :any, methods: %i[get post put options]
       end
     end
 
@@ -81,6 +81,7 @@ module Chaskiq
     I18n.available_locales = locales
     config.i18n.default_locale = :en
 
+    config.action_dispatch.tld_length = Chaskiq::Config.fetch('TLD_LENGTH', 1)&.to_i
 
   end
 end

@@ -177,10 +177,8 @@ function Conversation({
     name: 'Email',
   });
 
-  const [
-    conversationPartSelected,
-    setConversationPartSelected,
-  ] = React.useState(false);
+  const [conversationPartSelected, setConversationPartSelected] =
+    React.useState(false);
 
   const appId = app.key;
 
@@ -356,7 +354,7 @@ function Conversation({
         // this.getMainUser(this.state.conversation.mainParticipant.id)
         // TODO: this will scroll scroll to last when new items
         // are added on pagination (scroll up)!
-        cb && cb(lastItem ? lastItem.id : null);
+        cb && cb(lastItem ? lastItem.key : null);
       })
     );
   };
@@ -1473,15 +1471,8 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const {
-    auth,
-    app,
-    conversation,
-    app_user,
-    current_user,
-    drawer,
-    theme,
-  } = state;
+  const { auth, app, conversation, app_user, current_user, drawer, theme } =
+    state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;

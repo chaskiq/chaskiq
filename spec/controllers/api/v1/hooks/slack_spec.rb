@@ -490,7 +490,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         expect(conversation.messages.last.messageable.html_content).to be == "hello \u{1F44D} there"
       end
 
-      it "receive message with wrong emojis" do
+      it "receive message with link" do
         get(:global_process_event,
             params: message_blocks(
               global: true,
