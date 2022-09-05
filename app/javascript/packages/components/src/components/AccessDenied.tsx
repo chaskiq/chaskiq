@@ -37,21 +37,28 @@ function get(role_definition, role_name) {
 }
 
 function has_error(code) {
-  return code === UNAUTHORIZED
+  return code === UNAUTHORIZED;
 }
 
-function RestrictedArea({ app, current_user, verb, section, children, error_code }) {
-  const dispatch = useDispatch()
+function RestrictedArea({
+  app,
+  current_user,
+  verb,
+  section,
+  children,
+  error_code,
+}) {
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     return function cleanup() {
-      dispatch(clearCode())
+      dispatch(clearCode());
     };
   }, [verb, section, children]);
 
   return (
     <React.Fragment>
-      {(has_error(error_code) || !allowedAccessTo(app, section, verb)) ? (
+      {has_error(error_code) || !allowedAccessTo(app, section, verb) ? (
         <main className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex-shrink-0 flex justify-center">
             <a href="/" className="inline-flex">
@@ -94,7 +101,7 @@ function mapStateToProps(state) {
   return {
     current_user,
     app,
-    error_code
+    error_code,
   };
 }
 

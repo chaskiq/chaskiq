@@ -34,11 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   ReactDOM.render(
     contentType && contentType === 'call-list' ? (
-      <CallList data={data} endpointURL={endpointURL} userToken={userToken} i18n={i18n} />
+      <CallList
+        data={data}
+        endpointURL={endpointURL}
+        userToken={userToken}
+        i18n={i18n}
+      />
     ) : (
       <PhoneCall data={data} endpointURL={endpointURL} i18n={i18n} />
     ),
     document.body.appendChild(document.getElementById('content'))
   );
 });
-

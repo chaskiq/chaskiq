@@ -1,17 +1,17 @@
 import actionTypes, { ActionType } from '../constants/action_types';
 
-export const UNAUTHORIZED = "unauthorized";
-export const UNAUTHENTICATED = "unauthenticated";
+export const UNAUTHORIZED = 'unauthorized';
+export const UNAUTHENTICATED = 'unauthenticated';
 
 export function setErrorCode(code) {
   return (dispatch) => {
     dispatch(setCode(code));
   };
 }
-  
+
 export function clearCode() {
   return (dispatch) => {
-    dispatch(setCode(""));
+    dispatch(setCode(''));
   };
 }
 

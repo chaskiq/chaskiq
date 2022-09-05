@@ -1,7 +1,7 @@
 import actionTypes, { ActionType } from '../constants/action_types';
 
-export const UNAUTHORIZED = "unauthorized";
-export const UNAUTHENTICATED = "unauthenticated";
+export const UNAUTHORIZED = 'unauthorized';
+export const UNAUTHENTICATED = 'unauthenticated';
 
 export function errorMessage(message) {
   return (dispatch) => {

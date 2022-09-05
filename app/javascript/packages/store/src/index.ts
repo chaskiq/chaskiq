@@ -47,7 +47,7 @@ const rootReducer = combineReducers({
   upgradePages,
   fixedSlider,
   notifications,
-  error_code
+  error_code,
 });
 
 const middlewares = [thunkMiddleware]; //, routerMiddleware(history)]

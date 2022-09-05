@@ -45,9 +45,8 @@ const graphql = (query, variables, callbacks) => {
             store.dispatch(doSignout());
             //@ts-ignore
             return store.dispatch(clearCurrentUser());
-          }
-          else {
-            const error_code = errors[0].extensions.code || errors[0].code
+          } else {
+            const error_code = errors[0].extensions.code || errors[0].code;
             store.dispatch(errorMessage(errors[0].message));
             store.dispatch(setErrorCode(error_code));
             return;
