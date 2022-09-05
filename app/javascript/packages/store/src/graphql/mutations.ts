@@ -1430,6 +1430,23 @@ export const PUSH_EVENT = `
   }
 `;
 
+export const STRIPE_SUBSCRIPTION_CREATE_INTENT = `
+  mutation StripeCreateIntent($appKey: String!, $planId: String!) {
+    stripeCreateIntent(appKey: $appKey, planId: $planId){
+      redirectUrl
+      data
+    }
+  }
+`;
+
+export const STRIPE_CUSTOMER_PORTAL = `
+  mutation StripeCustomerPortal($appKey: String!) {
+    stripeCustomerPortal(appKey: $appKey){
+      redirectUrl
+    }
+  }
+`;
+
 export default {
   PUSH_EVENT,
   UPDATE_APP,
@@ -1510,4 +1527,5 @@ export default {
   APP_USER_PROFILE_CREATE,
   APP_USER_PROFILE_UPDATE,
   APP_USER_PROFILE_DELETE,
+  STRIPE_SUBSCRIPTION_CREATE_INTENT,
 };

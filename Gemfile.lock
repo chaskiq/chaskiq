@@ -397,7 +397,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    loofah (2.17.0)
+    loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -519,7 +519,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.2)
+    rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
     railties (7.0.3)
       actionpack (= 7.0.3)
@@ -632,6 +632,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stripe (6.5.0)
     strscan (3.0.2)
     strscan (3.0.2-java)
     tailwindcss-rails (2.0.7)
@@ -782,6 +783,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq (= 6.4.1)
   spring
+  stripe (~> 6.0)
   tailwindcss-rails (~> 2.0)
   timezone (~> 1.2)
   truemail

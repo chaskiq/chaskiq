@@ -292,11 +292,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
                 title: I18n.t('definitions.bot_tasks.state.label'),
                 render: (row) =>
                   row && (
-                    <Badge
-                      className={`bg-${
-                        row.state === 'enabled' ? 'green-500' : 'gray-200'
-                      }`}
-                    >
+                    <Badge variant={row.state === 'enabled' ? 'green' : 'gray'}>
                       {I18n.t(`campaigns.state.${row.state}`)}
                     </Badge>
                   ),

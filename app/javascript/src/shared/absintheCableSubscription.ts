@@ -88,37 +88,42 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
     variables: { appKey: appId },
   });
 
-  const logEvent = (eventName) => (...args) => console.log(eventName, ...args);
+  const logEvent =
+    (eventName) =>
+    (...args) =>
+      console.log(eventName, ...args);
 
-  const handleResult = (eventName) => (...args) => {
-    //console.log(args)
+  const handleResult =
+    (eventName) =>
+    (...args) => {
+      //console.log(args)
 
-    //@ts-ignore
-    const data = args[0].data.agentEvents;
-    console.log(eventName, data);
+      //@ts-ignore
+      const data = args[0].data.agentEvents;
+      console.log(eventName, data);
 
-    switch (data.type) {
-      case 'conversation_part':
-        return dispatch(appendConversation(data.message));
-      case 'conversations:update_state':
-        return dispatch(
-          dispatchUpdateConversationData(camelizeKeys(data.data))
-        );
-      //case 'presence':
-      //  return updateUser(camelizeKeys(data.data))
-      //case 'rtc_events':
-      //  return dispatch(updateRtcEvents(data))
-      //case 'campaigns':
-      //  return dispatch(updateCampaignEvents(data.data))
-      //case 'paddle:subscription':
-      //  fetchApp(() => {
-      //    dispatch(setSubscriptionState(data.data))
-      //  })
-      //  return null
-      default:
-        return null;
-    }
-  };
+      switch (data.type) {
+        case 'conversation_part':
+          return dispatch(appendConversation(data.message));
+        case 'conversations:update_state':
+          return dispatch(
+            dispatchUpdateConversationData(camelizeKeys(data.data))
+          );
+        //case 'presence':
+        //  return updateUser(camelizeKeys(data.data))
+        //case 'rtc_events':
+        //  return dispatch(updateRtcEvents(data))
+        //case 'campaigns':
+        //  return dispatch(updateCampaignEvents(data.data))
+        //case 'paddle:subscription':
+        //  fetchApp(() => {
+        //    dispatch(setSubscriptionState(data.data))
+        //  })
+        //  return null
+        default:
+          return null;
+      }
+    };
 
   //@ts-ignore
   cableApp.events = withAbsintheSocket.observe(cableApp.cable, notifier, {

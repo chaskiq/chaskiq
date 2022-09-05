@@ -2,7 +2,7 @@ require "base64"
 require "php_serialize"
 require "openssl"
 
-class Api::V1::SubscriptionHooksController < ApplicationController
+class Api::V1::Subscriptions::PaddleHooksController < ApplicationController
   before_action :verify_key
 
   def create
