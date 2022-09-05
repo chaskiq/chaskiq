@@ -751,3 +751,30 @@
       email: Email
       company: Company
       phone: Phone
+  twilio_phone:
+    buttons:
+      holdOn: Put on hold
+      holdOff: Remove hold
+      pickUp: Pick up
+      hangUp: Hang up
+      join: Join
+      leave: Leave
+      goToConversation: Go to conversation
+      open_call_window: Open Call Window
+    messages:
+      inProgress: In-progress
+      incoming: Incoming call...
+      error: "ERROR: %{message}"
+      noConversations: No active conversations
+      noAgentsInCall: NO AGENTS IN THE CALL
+      agentsInCall: "AGENTS IN THE CALL:"
+    conversations:
+      message_header: New Phone Call
+    status:
+      onHold: ON HOLD
+    labels:
+      title: "Call with %{subject}"
+      status: Status
+      'client:Anonymous': Anonymous client
+      'client:agent': Agent
+      'client:support_agent': Agent
