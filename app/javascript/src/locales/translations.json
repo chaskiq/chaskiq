@@ -13585,6 +13585,39 @@
       },
       "pm": "PM"
     },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
+    },
     "views": {
       "pagination": {
         "first": "&laquo; First",
