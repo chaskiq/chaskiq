@@ -2,9 +2,9 @@ vi:
   definitions:
     articles:
       title:
-        label: Title
+        label: Tiêu đề
       author:
-        label: Author
+        label: Tác giả
       state:
         label: State
       collection:
