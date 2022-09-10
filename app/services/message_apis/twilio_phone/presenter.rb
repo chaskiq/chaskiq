@@ -152,10 +152,31 @@ module MessageApis::TwilioPhone
     def self.call_frame
       @conversation = Conversation.find_by(key: @conversation_key)
       @profile = @conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
+      # when a user has a phone number but not a profile , lets create a new conversation for the valid user or create a new profile in this conversation
+      if @profile.blank?
+        raise "invalid phone" if @conversation.main_participant.phone.blank?
+        raise "invalid phone" unless Phonelib.valid?(@conversation.main_participant.phone)
+
+        @profile = @conversation.app.external_profiles.find_by(provider: "TwilioPhone", profile_id: @conversation.main_participant.phone)
+        if @profile.present?
+          @conversation = @conversation.app.conversations.create(
+            main_participant: @profile.app_user,
+            conversation_channels_attributes: [
+              provider: "TwilioPhone",
+              provider_channel_id: @profile.profile_id # phone_number
+            ]
+          )
+          @conversation_key = @conversation.key
+        else
+          @profile = @conversation.main_participant.external_profiles.create(provider: "TwilioPhone", profile_id: @conversation.main_participant.phone)
+        end
+      end
+
+      @profile_id = @profile&.profile_id
       @data = {
-        conversation_key: @conversation_key,
+        conversation_key: @conversation.key,
         user_key: @user["kind"],
-        profile_id: @profile.profile_id,
+        profile_id: @profile_id,
         agents_id: @agents_ids,
         user: @user,
         action: @action,
@@ -170,16 +191,12 @@ module MessageApis::TwilioPhone
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <meta name="app-id" content="<%= @app.key %>"/>
             <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
-            <title>Call <%= @profile.profile_id %></title>
+            <title>Call <%= @profile_id %></title>
             <script> window.token = "<%= MessageApis::TwilioPhone::Api.token(@package) %>" </script>
-            <!-- <script type="text/javascript" src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>-->
-            <!--<script type="text/javascript" src="https://sdk.twilio.com/js/client/v1.13/twilio.min.js"></script>-->
+            <script type="text/javascript" src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>
+            <!-- <script type="text/javascript" src="https://sdk.twilio.com/js/client/v1.13/twilio.min.js"></script> -->
+            <!-- <script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.7/twilio.min.js"></script> -->
 
-            <!--<script src="https://cdn.jsdelivr.net/npm/@twilio/voice-sdk@2.0.1/dist/twilio.min.js"></script>-->
-
-            <script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.7/twilio.min.js"></script>
-
-            <!--<script src="https://cdn.jsdelivr.net/npm/@twilio/voice-sdk@2.1.1/dist/twilio.min.js"></script>-->
 
             <meta name="data" content='<%= @data %>'/>
             <meta name="content-type" content='call'/>
