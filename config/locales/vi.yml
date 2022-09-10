@@ -1,64 +1,64 @@
 vi:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: Add New
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    save_changes: Save changes
-    preview: Preview
-    cancel: Cancel
-    back: Back
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
-    get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: Confirm deletion?
-    confirm_deletion_ready: Are you ready to delete?
-    next: Next
-    prev: Prev
-    showing: Showing
-    to: to
-    of: of
-    results: results
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
-    actions: Actions
-    your_apps: Your Apps
-    upload_field: Upload %{field}
-    choose_color: Choose color
-    image: Image
+    edit: Chỉnh sửa
+    new: Mới
+    add: Thêm
+    add_new: Thêm mới
+    update: Cập nhật
+    remove: Xoá
+    delete: Xoá
+    create: Thêm mới
+    save: Lưu
+    save_changes: Lưu thay đổi
+    preview: Xem trước
+    cancel: Huỷ bỏ
+    back: Quay lại
+    back_to_site: Quay lại trang
+    not_found: Trang bạn tìm kiếm không tồn tại.
+    get_snippet: Lấy đoạn mã
+    submit: Xác nhận
+    confirm_deletion: Xác nhận xoá?
+    confirm_deletion_ready: Bạn có thực sự muốn xoá?
+    next: Tiếp
+    prev: Trước
+    showing: Hiện
+    to: đến
+    of: của
+    results: các kết quả
+    tz_hint: Múi giờ của trình duyệt của bạn là <b className="text-bold">%{timezone}</b>
+    send: Gửi
+    actions: Các hành động
+    your_apps: Các ứng dụng của bạn
+    upload_field: Tải lên %{field}
+    choose_color: Chọn màu
+    image: Ảnh
     langs:
-      en: English
-      es: Spanish
-      pt: Portuguese
-      de: Deutsch
-      ca: Catalan
-      zh-CN: Chinese
-    redirecting: Redirecting
-    choose_language: Choose Language
-    select_language: Select Language
-    send_on_enter: Publish on enter
-    away_mode: Away Mode
-    toggle_light_mode: Toggle Light Mode
-    toggle_dark_mode: Toggle Dark Mode
-    leads: Leads
-    visitors: Visitors
-    users: Users
-    type_message: Type your message
-    search_conversations: Search conversations
-    days: Days
-    minutes: Minutes
-    visit: Visit
-    done: Done
+      en: Tiếng Anh
+      es: Tiếng Tây Ban Nha
+      pt: Tiếng Bồ Đào Nha
+      de: Tiếng Đức
+      ca: Tiếng Bun-ga-ry
+      zh-CN: Tiếng Trung
+    redirecting: Đang chuyển hướng
+    choose_language: Chọn ngôn ngữ
+    select_language: Chọn ngôn ngữ
+    send_on_enter: Xuất bản khi enter
+    away_mode: Chế độ đi vắng
+    toggle_light_mode: Chuyển sang Chế độ nền sáng
+    toggle_dark_mode: Chuyển sang Chế độ nền tối
+    leads: Những khách hàng tiềm năng
+    visitors: Người truy cập
+    users: Người dùng
+    type_message: Nhập tin nhắn của bạn
+    search_conversations: Tìm kiếm cuộc trò chuyện
+    days: Ngày
+    minutes: Phút
+    visit: Truy cập
+    done: Hoàn thành
   status_messages:
-    error: 'Error'
-    success: 'Success'
-    updated_success: Updated successfully
+    error: 'Lỗi'
+    success: 'Thành công'
+    updated_success: Cập nhật thành công
     updated_error: Error on upddate
     created_success: Successfully created
     created_error: Error creating
