@@ -1649,6 +1649,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "ar": {
@@ -3307,6 +3340,39 @@
         }
       },
       "pm": "مساءًا"
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "ca": {
@@ -4958,6 +5024,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -6612,6 +6711,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -8274,6 +8406,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "de": {
@@ -8764,7 +8929,7 @@
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Credits anzeigen"
         },
         "domain": {
           "hint": "Help Center Domain",
@@ -9925,6 +10090,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -11577,6 +11775,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -15602,6 +15833,39 @@
         "short": "%-d de %b %H:%M"
       },
       "pm": "pm"
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "et": {
@@ -17284,6 +17548,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -19001,6 +19298,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "hu": {
@@ -20652,6 +20982,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -22305,6 +22668,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "ja": {
@@ -23956,6 +24352,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "ko": {
@@ -25606,6 +26035,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -27259,6 +27721,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "no": {
@@ -28910,6 +29405,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -30565,6 +31093,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "pt": {
@@ -32216,6 +32777,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -33869,6 +34463,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -35524,6 +36151,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "sv": {
@@ -37176,6 +37836,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "tr": {
@@ -38827,6 +39520,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   },
@@ -40482,6 +41208,39 @@
           }
         }
       }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
+      }
     }
   },
   "zh-CN": {
@@ -42132,6 +42891,39 @@
             }
           }
         }
+      }
+    },
+    "twilio_phone": {
+      "buttons": {
+        "goToConversation": "Go to conversation",
+        "hangUp": "Hang up",
+        "holdOff": "Remove hold",
+        "holdOn": "Put on hold",
+        "join": "Join",
+        "leave": "Leave",
+        "open_call_window": "Open Call Window",
+        "pickUp": "Pick up"
+      },
+      "conversations": {
+        "message_header": "New Phone Call"
+      },
+      "labels": {
+        "client:Anonymous": "Anonymous client",
+        "client:agent": "Agent",
+        "client:support_agent": "Agent",
+        "status": "Status",
+        "title": "Call with %{subject}"
+      },
+      "messages": {
+        "agentsInCall": "AGENTS IN THE CALL:",
+        "error": "ERROR: %{message}",
+        "inProgress": "In-progress",
+        "incoming": "Incoming call...",
+        "noAgentsInCall": "NO AGENTS IN THE CALL",
+        "noConversations": "No active conversations"
+      },
+      "status": {
+        "onHold": "ON HOLD"
       }
     }
   }

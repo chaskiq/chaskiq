@@ -13,7 +13,7 @@ import {
 } from './subscriptions';
 
 export const PhoneCall = ({ data, endpointURL, i18n }) => {
-  const { conversation_key, agents_id, profile_id, user_key, user, on_hold } = data;
+  const { conversation_key, agents_id, profile_id, user_key, user, on_hold, action } = data;
   const CableApp = useRef(createSubscription());
 
   // Setup Twilio.Device
@@ -28,6 +28,8 @@ export const PhoneCall = ({ data, endpointURL, i18n }) => {
     var params = {
       name: conversation_key,
       chaskiq_agent: user.id,
+      chaskiq_action: action,
+      profile_id: profile_id
     };
 
     device.connect(params);
@@ -144,6 +146,7 @@ export const PhoneCall = ({ data, endpointURL, i18n }) => {
         <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
           <div className="text-lg leading-6 font-medium text-gray-900">
             <h3 className="panel-title">
+              {callStatus}
               {i18n.t('twilio_phone.labels.title', {
                 subject: i18n.t(`twilio_phone.labels.${profile_id}`, {
                   defaultValue: profile_id,
@@ -186,7 +189,7 @@ export const PhoneCall = ({ data, endpointURL, i18n }) => {
                   {i18n.t('twilio_phone.buttons.pickUp')}
                 </button>
               )}
-              {callState === CallStates.Idle && (
+              {callState === CallStates.Idle || callState === CallStates.Incoming && (
                 <button
                   className="btn-notice inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 disabled:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mr-5"
                   onClick={joinCall}
@@ -213,6 +216,16 @@ export const PhoneCall = ({ data, endpointURL, i18n }) => {
                 >
                   <Pause className="mr-1" />
                   {i18n.t('twilio_phone.buttons.holdOn')}
+                </button>
+              )}
+              {action == "new" && callState === CallStates.Idle && (
+                <button
+                  className="btn-notice inline-flex items-center px-3 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 disabled:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mr-5"
+                  onClick={joinCall}>
+                  <Call className="mr-1" />
+                  {agents_id.length > 0
+                    ? i18n.t('twilio_phone.buttons.join')
+                    : i18n.t('twilio_phone.buttons.pickUp')}
                 </button>
               )}
             </div>

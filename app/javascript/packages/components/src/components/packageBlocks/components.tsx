@@ -25,7 +25,7 @@ function ContentRenderer({
   updatePackage,
   disabled,
   appPackage,
-  cb
+  cb,
 }) {
   React.useEffect(() => {
     updatePackage &&
@@ -38,7 +38,7 @@ function ContentRenderer({
           // location: 'content'
         },
         () => {
-          cb && cb()
+          cb && cb();
         }
       );
   }, []);
@@ -109,9 +109,9 @@ export function DefinitionRenderer({
             disabled={disabled}
             appPackage={appPackage}
             updatePackage={updatePackage}
-            cb={
-              ()=> {setLoading(false)}
-            }
+            cb={() => {
+              setLoading(false);
+            }}
           />
         );
       case 'image':

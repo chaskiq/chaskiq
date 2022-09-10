@@ -18,13 +18,21 @@ module MessageApis::TwilioPhone
     # Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.
     def self.submit_hook(params)
       definitions = []
+
+      if params[:ctx]["field"]["name"] == "book-meeting"
+        api = params[:ctx]["package"].message_api_klass
+        api.new_call
+        definitions = [
+          { type: "text", text: "a new conversation will be created" }
+        ]
+      end
+
       {
         kind: "submit",
         definitions: definitions,
         values: {}
       }
     end
-
 
     def self.base_schema
       [
@@ -47,8 +55,8 @@ module MessageApis::TwilioPhone
               action: {
                 type: "submit"
               }
-            },
-            
+            }
+
           ]
         }
       ]
@@ -69,8 +77,8 @@ module MessageApis::TwilioPhone
                     when "fixed_sidebar"
                       content_frame_definitions(kind: kind, ctx: ctx)
                       # content_definitions(kind: kind, ctx: ctx)
-                    when "inbox"
-                      definitions_for_content(kind: kind, ctx: ctx)
+                      # when "inbox"
+                      #  definitions_for_content(kind: kind, ctx: ctx)
                     else
                       definitions_for_content(kind: kind, ctx: ctx)
                     end
@@ -128,6 +136,7 @@ module MessageApis::TwilioPhone
       @user = params[:user] || params[:current_user]
       @name = @user[:name]
       @email = @user[:email]
+      @action = params[:action]
       @package = AppPackageIntegration.find(params[:package_id])
       @app = @package.app
       @agents_ids = MessageApis::TwilioPhone::Store.hash(@conversation_key).values
@@ -149,6 +158,7 @@ module MessageApis::TwilioPhone
         profile_id: @profile.profile_id,
         agents_id: @agents_ids,
         user: @user,
+        action: @action,
         on_hold: MessageApis::TwilioPhone::Store.get_data(@conversation.key, :holdStatus)
       }.to_json
 
@@ -162,7 +172,15 @@ module MessageApis::TwilioPhone
             <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
             <title>Call <%= @profile.profile_id %></title>
             <script> window.token = "<%= MessageApis::TwilioPhone::Api.token(@package) %>" </script>
-            <script type="text/javascript" src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>
+            <!-- <script type="text/javascript" src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>-->
+            <!--<script type="text/javascript" src="https://sdk.twilio.com/js/client/v1.13/twilio.min.js"></script>-->
+
+            <!--<script src="https://cdn.jsdelivr.net/npm/@twilio/voice-sdk@2.0.1/dist/twilio.min.js"></script>-->
+
+            <script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.7/twilio.min.js"></script>
+
+            <!--<script src="https://cdn.jsdelivr.net/npm/@twilio/voice-sdk@2.1.1/dist/twilio.min.js"></script>-->
+
             <meta name="data" content='<%= @data %>'/>
             <meta name="content-type" content='call'/>
             <meta name="endpoint-url" content='<%= @package.hook_url %>'/>
@@ -296,19 +314,57 @@ module MessageApis::TwilioPhone
 
     def self.definitions_for_content(kind:, ctx:)
       conversation = Conversation.find_by(key: ctx[:conversation_key])
-      user = conversation.main_participant
+      user = conversation&.main_participant
 
       data = {
         app_id: ctx[:package].app.id,
         package_id: ctx[:package].id,
         conversation_key: ctx[:conversation_key],
         lang: ctx[:lang],
+        action: "new",
         # field: ctx[:field].as_json,
         current_user: ctx[:current_user].as_json
         # values: ctx[:values].as_json
       }
 
       token = CHASKIQ_FRAME_VERIFIER.generate(data)
+
+      button = {
+        id: "call-button",
+        name: "book-meeting",
+        label: "start a phonecall",
+        type: "button",
+        align: "center",
+        width: "full",
+        action: {
+          type: "submit"
+        }
+        # action: {
+        #  type: "url",
+        #  url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}",
+        #  options: "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=270,left=200,top=100"
+        #  # url: "/package_iframe_internal/TwilioPhone"
+        # }
+      }
+
+      if ctx[:location] == "conversation" && conversation.present?
+        button.merge!({ action: {
+                        type: "url",
+                        url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}",
+                        options: "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=270,left=200,top=100"
+                        # url: "/package_iframe_internal/TwilioPhone"
+                      } })
+      end
+
+      if ctx[:location] == "conversation" && conversation.blank?
+        button.merge!({ action: {
+                        type: "submit"
+                        # url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}",
+                        # options: "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=270,left=200,top=100"
+                        # url: "/package_iframe_internal/TwilioPhone"
+                      } })
+      end
+
       definitions = [
         {
           text: "New phonecall",
@@ -316,20 +372,7 @@ module MessageApis::TwilioPhone
           style: "header",
           align: "center"
         },
-        {
-          id: "call-button",
-          name: "book-meeting",
-          label: "start a phonecall",
-          type: "button",
-          align: "center",
-          width: "full",
-          action: {
-            type: "url",
-            url: "#{Chaskiq::Config.get(:host)}/package_iframe/TwilioPhone?token=#{token}",
-            options: "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=600,height=270,left=200,top=100"
-            # url: "/package_iframe_internal/TwilioPhone"
-          }
-        }
+        button
       ]
     end
   end

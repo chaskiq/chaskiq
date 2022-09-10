@@ -9,8 +9,9 @@ module Mutations
       argument :message, Types::MessageInputType, required: true
       argument :subject, String, required: false, default_value: nil
       argument :initiator_channel, String, required: false, default_value: nil
+      argument :initiator_block, Types::AnyType, required: false, default_value: nil
 
-      def resolve(app_key:, id:, message:, subject:, initiator_channel:)
+      def resolve(app_key:, id:, message:, subject:, initiator_channel:, initiator_block:)
         message = message.to_h.with_indifferent_access
 
         if current_user.is_a?(Agent)
@@ -33,6 +34,7 @@ module Mutations
           from: author,
           participant: participant,
           initiator_channel: initiator_channel,
+          initiator_block: initiator_block,
           subject: subject,
           message: {
             html_content: sanitized_html,

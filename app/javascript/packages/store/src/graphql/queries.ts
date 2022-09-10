@@ -414,7 +414,7 @@ query AppUserConversations($appKey: String!, $id: String!, $page: Int, $per: Int
 `;
 
 export const APP_USER_VISITS = `
-query AppUserVisits($appKey: String!, $id: Int!, $page: Int, $per: Int){
+query AppUserVisits($appKey: String!, $id: String!, $page: Int, $per: Int){
   app(key: $appKey ){
     name
     key

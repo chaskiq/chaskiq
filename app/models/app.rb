@@ -29,6 +29,7 @@ class App < ApplicationRecord
     user_home_apps
     visitor_home_apps
     inbox_apps
+    profile_apps
 
     paddle_user_id
     paddle_subscription_id
@@ -195,6 +196,12 @@ class App < ApplicationRecord
         # here we will create a conversation channel and a external profile if it's neccessary
         pkg = find_app_package(options[:initiator_channel])
         pkg&.message_api_klass&.prepare_initiator_channel_for(conversation, pkg) if pkg.present?
+      end
+
+      if options[:initiator_block]
+        pkg = find_app_package(options[:initiator_block]["name"])
+        pkg&.message_api_klass&.prepare_block_initiator_channel_for(conversation, pkg, options[:initiator_block]) if pkg.present?
+        message = nil
       end
 
       if message.present?
