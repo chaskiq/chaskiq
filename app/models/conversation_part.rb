@@ -14,6 +14,8 @@ class ConversationPart < ApplicationRecord
   belongs_to :messageable, polymorphic: true, optional: true
   belongs_to :authorable, polymorphic: true, optional: true
 
+  belongs_to :message_block, class_name: "ConversationPartBlock", foreign_key: :messageable_id, optional: true
+
   # has_one :conversation_part_content, dependent: :destroy
 
   after_create :assign_and_notify

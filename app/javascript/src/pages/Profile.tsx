@@ -22,6 +22,8 @@ import {
   MoreIcon,
 } from '@chaskiq/components/src/components/icons';
 
+import ConversationSidebar from './conversations/Sidebar';
+
 import graphql from '@chaskiq/store/src/graphql/client';
 
 import DialogEditor from './conversations/DialogEditor';
@@ -120,6 +122,30 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   handleDialogClose = () => {
     this.setState({ startConversationModal: false });
+  };
+
+  handleSubmitWithPackage = (pkgOptions) => {
+    graphql(
+      START_CONVERSATION,
+      {
+        appKey: this.props.app.key,
+        id: this.props.app_user.id,
+        initiatorBlock: pkgOptions.provider,
+        message: {
+          html: '',
+          serialized: '',
+          text: '',
+        },
+      },
+      {
+        success: (data) => {
+          const { conversation } = data.startConversation;
+          const url = `/apps/${this.props.app.key}/conversations/${conversation.key}`;
+          this.props.history.push(url);
+        },
+        errors: (_error) => {},
+      }
+    );
   };
 
   handleSubmit = ({ html, serialized, text }) => {
@@ -417,6 +443,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
           {this.state.startConversationModal && (
             <DialogEditor
+              insertAppBlockComment={this.handleSubmitWithPackage}
               handleSubmit={this.handleSubmit}
               close={this.handleDialogClose}
               open={this.state.startConversationModal}
