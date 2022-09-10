@@ -23,8 +23,10 @@ function SidebarAgents({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null);
   const [agents, setAgents] = useState(null);
   const [tagCounts, setTagCounts] = useState(null);
-  const [conversationsChannelsCounts, setConversationsChannelsCounts] =
-    useState(null);
+  const [
+    conversationsChannelsCounts,
+    setConversationsChannelsCounts,
+  ] = useState(null);
 
   useEffect(() => {
     getCounts();

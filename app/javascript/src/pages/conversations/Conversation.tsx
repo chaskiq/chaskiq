@@ -177,8 +177,10 @@ function Conversation({
     name: 'Email',
   });
 
-  const [conversationPartSelected, setConversationPartSelected] =
-    React.useState(false);
+  const [
+    conversationPartSelected,
+    setConversationPartSelected,
+  ] = React.useState(false);
 
   const appId = app.key;
 
@@ -1246,6 +1248,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 
     if (data.field.action.type === 'url') {
       //return window.open(data.field.action.url, '_blank');
+      cb && cb(); // will set the loading false, so the button is not disabled
       return window.open(
         data.field.action.url,
         'win',
@@ -1470,8 +1473,15 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer, theme } =
-    state;
+  const {
+    auth,
+    app,
+    conversation,
+    app_user,
+    current_user,
+    drawer,
+    theme,
+  } = state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;
