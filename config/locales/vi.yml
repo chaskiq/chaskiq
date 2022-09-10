@@ -59,37 +59,37 @@ vi:
     error: 'Lỗi'
     success: 'Thành công'
     updated_success: Cập nhật thành công
-    updated_error: Error on upddate
-    created_success: Successfully created
-    created_error: Error creating
-    deleted_success: Successfully deleted
-    deleted_error: Error deleting
-    reordered_error: Error reordering
-    reordered_success: Successfully Reordered
+    updated_error: Lỗi khi cập nhật
+    created_success: Đã tạo thành công
+    created_error: Lỗi khi tạo
+    deleted_success: Đã xóa thành công
+    deleted_error: Lỗi khi xoá
+    reordered_error: Lỗi khi sắp xếp
+    reordered_success: Đã sắp xếp lại thành công
   error_view:
-    title: Woops! Something went wrong.
-    subtitle: Unfortunately 🤯
-    exp: Try refreshing the page
-    cta: Try to go home
+    title: Oh! Đã xảy ra lỗi.
+    subtitle: Không may
+    exp: Thử làm mới trang
+    cta: Thử trở về trang chủ
   home:
-    welcome: Welcome to
+    welcome: Chào mứng j đến với
     welcome_site: Chaskiq
-    tagline: Find your current applications here
-    create_new: Create New App
-    choose_lang: Choose Language
-    edit_profile: Edit Profile
-    edit_credentials: Edit User Credentials
-    go_to_doc: Go To Documentation
+    tagline: Tìm các ứng dụng hiện tại của bạn ở đây
+    create_new: Tạo ứng dụng mới
+    choose_lang: Chọn ngôn ngữ
+    edit_profile: Chỉnh sửa hồ sơ
+    edit_credentials: Cập nhật thông tin xác thực người dùng
+    go_to_doc: Chuyển đến tài liệu
   dashboard:
-    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Average Response Time
-    new_conversations: New Conversations
-    resolutions: Resolutions
-    incoming_messages: Incoming Messages
-    visit_activity: Visit Activity
-    users_browser: Users Browser
-    lead_os: Lead OS
-    user_os: User OS
+    hey: "👋 Này!, bạn đang xem <strong>%{name}'s</strong> dashboard! <br /> Lấy hướng dẫn cài đặt web <br />"
+    response_avg: Thời gian phản hồi trung bình
+    new_conversations: Cuộc trò chuyện mới
+    resolutions: Độ phân giải
+    incoming_messages: Tin nhắn đến
+    visit_activity: Hoạt động truy cập
+    users_browser: Trình duyệt của người dùng
+    lead_os: Hệ điều hành của khách hàng tiềm năng
+    user_os: Hệ điều hành người dùng
     mac_os: Mac OS
     user_country: User Country
     snippet: Put the following script on the end of your html <body> tag
