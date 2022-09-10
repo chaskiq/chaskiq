@@ -120,6 +120,8 @@ export function clearConversation(cb) {
 
 export function typingNotifier(cb) {
   return (dispatch, getState) => {
+    if (!getState()?.conversation?.key) return;
+
     graphql(
       TYPING_NOTIFIER,
       {

@@ -43,6 +43,15 @@
 
   </script>
 
+  <script>
+    var dismissibleAlerts = document.querySelectorAll('.alert-dismissible');
+    dismissibleAlerts.forEach((alert) =>
+      alert.querySelector('[role="button"]').addEventListener('click', function () {
+        alert.classList.add('hidden');
+      })
+    );
+  </script>
+
 <% end %>
 
 <%

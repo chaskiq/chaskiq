@@ -281,7 +281,16 @@ export function AppItem({ app, object, conversation, app_user }) {
 
   function updatePackage(packageParams, cb) {
     if (packageParams.field.action.type === 'url') {
-      return window.open(packageParams.field.action.url);
+      cb && cb();
+
+      if (!packageParams.field?.action?.options)
+        return window.open(packageParams.field.action.url);
+
+      return window.open(
+        packageParams.field.action.url,
+        'pagename',
+        packageParams.field?.action?.options
+      );
     }
 
     const params = {

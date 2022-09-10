@@ -17,7 +17,7 @@ module Mutations
           app: app
         }
 
-        authorize! app, to: :manage?, with: AppPolicy
+        # authorize! app, to: :manage?, with: AppPolicy
 
         app_package.update(params.permit!)
 

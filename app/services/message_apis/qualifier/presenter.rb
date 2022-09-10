@@ -35,47 +35,50 @@ module MessageApis::Qualifier
       optional_identifier = "--optional"
 
       fields = ctx[:package].app.searcheable_fields.map do |o|
-        o["name"].to_sym
+        o["name"]
       end
 
       optional_fields = ctx[:package].app.searcheable_fields.map do |o|
-        "#{o['name']}#{optional_identifier}".to_sym
+        "#{o['name']}#{optional_identifier}"
       end
 
       all_fields = fields + optional_fields
+      params = ctx[:values].permit(all_fields)
 
       QualifierRecord.configure(
         fields
       )
 
-      params = ctx[:values].permit(all_fields)
+      optional_keys = params.to_h.keys.select do |key|
+        key.include?(optional_identifier)
+      end
 
-      optional_keys = params.to_h.keys.select { |key| key.include?(optional_identifier) }
-
-      params = params.transform_keys { |key| key.gsub(optional_identifier, "") }
+      original_params = params
+      params = params.transform_keys do |key|
+        key.gsub(optional_identifier, "")
+      end
 
       record = QualifierRecord.new(
         params
       )
 
-      record.searcheable_fields = app.searcheable_fields
-
       keys_to_bypass = optional_keys.map do |o|
         o.gsub(optional_identifier, "")
       end.compact
 
-      keys_to_validate = params.to_h.keys - keys_to_bypass
+      keys_to_validate = params.to_h.keys
 
-      record.validatable_fields = keys_to_validate.map(&:to_sym)
-
-      record.valid?
+      record.validatable_fields = keys_to_validate
+      record.optional_fields = keys_to_bypass
+      record.searcheable_fields = app.searcheable_fields
 
       if record.valid? && ctx[:current_user].is_a?(AppUser)
         app = ctx[:current_user].app
+
         app.update_properties(ctx[:current_user], params)
       end
 
-      params.each_key do |o|
+      original_params.each_key do |o|
         record.add_item(o)
       end
 
@@ -351,7 +354,7 @@ module MessageApis::Qualifier
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_writer :items
-      attr_accessor :validatable_fields, :searcheable_fields
+      attr_accessor :validatable_fields, :searcheable_fields, :optional_fields
 
       def self.configure(opts)
         opts.each do |o|
@@ -362,20 +365,23 @@ module MessageApis::Qualifier
       validate do
         validatable_fields.each do |f|
           field = f.to_sym
+
           case field
           when :email
-            unless send(field).match? VALID_EMAIL_REGEX
+            if send(field).present? && !send(field).match?(VALID_EMAIL_REGEX)
               errors.add(field,
                          I18n.t("errors.messages.invalid"))
             end
           when :phone
-            unless Phonelib.valid?(send(field))
+            if send(field).present? && !Phonelib.valid?(send(field))
               errors.add(field,
                          I18n.t("errors.messages.invalid"))
             end
 
           else
             if send(field).blank?
+              next if optional_fields.include?(field.to_s)
+
               errors.add(field,
                          I18n.t("errors.messages.blank"))
             end
@@ -386,6 +392,9 @@ module MessageApis::Qualifier
       validate do
         searcheable_fields.each do |f|
           name = f["name"].to_sym
+
+          next if send(name).blank? && optional_fields.include?(name.to_s)
+
           validate_field_with(name, f["type"]) if respond_to?(name) && send(name).present?
         end
       end
@@ -396,7 +405,7 @@ module MessageApis::Qualifier
           # errors.add(name, I18n.t("errors.messages.invalid"))
         when "date"
           begin
-            value = Date.parse(send(name.to_sym))
+            value = Date.strptime(send(name.to_sym), "%Y-%m-%d")
             send("#{name}=", value.to_s)
           rescue StandardError
             errors.add(name, I18n.t("errors.messages.invalid"))
@@ -417,12 +426,14 @@ module MessageApis::Qualifier
       def add_item(name, label = nil)
         name_s = name.split("--")
         name_f = name_s.first
+        optional = name_s.last == "optional" # optional_fields.include?(name.to_s)
+
         @items = items << {
           type: "input",
           id: name,
           placeholder: "type your #{name_f}",
           label: label,
-          hint: hint_for(name_f),
+          hint: hint_for(name_f, optional),
           value: send(name_f.to_sym),
           errors: errors[name_f.to_sym]&.uniq&.join(", "),
           action: {
@@ -431,12 +442,13 @@ module MessageApis::Qualifier
         }
       end
 
-      def hint_for(name)
+      def hint_for(name, optional)
+        optional_message = optional ? "(optional)" : ""
         case name
         when "phone"
-          "Example: +5699303030"
+          "#{optional_message} Example: +56992302301"
         else
-          "Needs a valid date, Example: 2012-20-12" if searcheable_fields.find { |o| o["name"] == name && o["type"] == "date" }
+          "#{optional_message} Needs a valid date, Example: 2012-12-30 (YYYY-MM-DD)" if searcheable_fields.find { |o| o["name"] == name && o["type"] == "date" }
         end
       end
 

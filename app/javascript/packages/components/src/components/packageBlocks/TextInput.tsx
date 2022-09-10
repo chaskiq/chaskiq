@@ -153,6 +153,7 @@ const TextInputButton = styled.div<TextInputButtonProps>`
       : ''}
 
   svg {
+    height: 36px;
     position: absolute;
     left: 4px;
     ${(props) => (props.saved ? tw`text-green-400` : tw`text-white`)}

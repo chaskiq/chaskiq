@@ -39,7 +39,25 @@ module MessageApis::TwilioPhone
       # end
     end
 
+    # this is called when create a conversation from profile
+    def prepare_block_initiator_channel_for(conversation, pkg, initiator_block)
+      conversation.add_message(
+        from: pkg.app.agents.bots.first,
+        controls: {
+          app_package: "TwilioPhone",
+          schema: [
+            {
+              type: "content"
+            }
+          ],
+          type: "app_package",
+          wait_for_input: true
+        }
+      )
+    end
+
     def enqueue_process_event(params, package)
+      return process_event(params, package) if params["StatusCallbackEvent"].present?
       return process_event(params, package) if params["CallStatus"].present?
       return process_hold(params, package) if params["type"] == "hold"
 
@@ -64,7 +82,7 @@ module MessageApis::TwilioPhone
       MessageApis::TwilioPhone::Store.set_data(
         params[:conversation_key],
         :holdStatus,
-        params[:action]
+        params[:hold_action]
       )
       # send notification here
       { status: :ok }
@@ -77,15 +95,39 @@ module MessageApis::TwilioPhone
       nil # nil does not send anything
     end
 
+    def new_call(conversation = nil)
+      q = conversation.present? ? conversation.key : ""
+
+      hook_url = @package.hook_url.gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
+
+      client.calls.create(
+        url: "#{hook_url}?c=#{q}",
+        to: "+56992302305",
+        from: "+56232411839",
+        status_callback_event: "<Response><Say>Felisin</Say></Response>",
+        status_callback: "#{hook_url}?c=#{q}"
+      )
+    end
+
     def process_message(params, package)
+      if params["chaskiq_action"] == "new"
+        conversation = Conversation.find_by(key: params["name"])
+        new_call(conversation)
+        return conference_call(params, conversation, {})
+      end
+
+      # hook handler for outbound calls from agent this is triggered when the callee pick up
+      return process_outbound_call(params, "outbound") if params["Direction"] == "outbound-api"
+
       # call events handler
       return process_incoming_event(params) if params[:StatusCallbackEvent].present? && params[:Caller] != "client:support_agent"
 
       app = package.app
       # caller initiators
-
+      Rails.logger.debug params
       # for agent
       if params[:Caller] == "client:agent"
+
         conversation = Conversation.find_by(key: params[:name])
 
         MessageApis::TwilioPhone::Store.set(
@@ -111,13 +153,19 @@ module MessageApis::TwilioPhone
       end
 
       # for users
-      return process_incoming_call(params) if params["CallSid"] && params["CallStatus"]
+      return process_inbound_call(params) if params["CallSid"] && params["CallStatus"]
     end
 
-    def process_incoming_call(payload)
-      channel_id = payload[:CallSid]
-      phone_number = payload[:Caller]
+    def process_incoming_call(payload, direction)
       app = @package.app
+      channel_id = payload[:CallSid]
+
+      case direction
+      when "inbound"
+        phone_number = payload[:Caller]
+      when "outbound"
+        phone_number = payload[:Called]
+      end
 
       conversation = nil
 
@@ -131,35 +179,43 @@ module MessageApis::TwilioPhone
 
       participant = add_participant(user_data, PROVIDER)
 
-      conversation = app.conversations.create(
-        main_participant: participant,
-        conversation_channels_attributes: [
-          provider: PROVIDER,
-          provider_channel_id: channel_id # phone_number
-        ]
-      )
+      # when the outbound call carries a conversation key
+      conversation = if payload[:c].present?
+                       Conversation.find_by(key: payload[:c])
+                     else
+                       app.conversations.create(
+                         main_participant: participant,
+                         conversation_channels_attributes: [
+                           provider: PROVIDER,
+                           provider_channel_id: channel_id # phone_number
+                         ]
+                       )
+                     end
 
       author = app.agents.first
 
-      message = conversation.add_message(
-        from: author,
-        controls: {
-          app_package: "TwilioPhone",
-          schema: [
-            {
-              type: "content"
-            }
-          ],
-          type: "app_package",
-          wait_for_input: true
-        }
-      )
+      if direction != "outbound" || payload[:c].blank?
+        message = conversation.add_message(
+          from: author,
+          controls: {
+            app_package: "TwilioPhone",
+            schema: [
+              {
+                type: "content"
+              }
+            ],
+            type: "app_package",
+            wait_for_input: true
+          }
+        )
 
-      MessageApis::TwilioPhone::Store.set_data(
-        conversation.key,
-        :callblock,
-        message.id
-      )
+        # MessageApis::TwilioPhone::Store.set_data(
+        #  conversation.key,
+        #  :callblock,
+        #  message.id
+        # )
+
+      end
 
       ## set the caller record
       locked_ids = MessageApis::TwilioPhone::Store.locked_agents(app.key).elements
@@ -181,6 +237,16 @@ module MessageApis::TwilioPhone
       conference_call(payload, conversation, {
                         message: "Thanks for calling to #{app.name}!"
                       })
+    end
+
+    # this handles the outbound call
+    def process_outbound_call(payload, direction = "outbound")
+      process_incoming_call(payload, direction)
+    end
+
+    # this handles the inbound call
+    def process_inbound_call(payload, direction = "inbound")
+      process_incoming_call(payload, direction)
     end
 
     def process_incoming_event(payload)
@@ -267,20 +333,31 @@ module MessageApis::TwilioPhone
     end
 
     def modify_message_block_part(conversation)
-      block_id = MessageApis::TwilioPhone::Store.get_data(
-        conversation.key,
-        :callblock
-      )
+      conversation.message_blocks
+                  .where(state: nil)
+                  .find_each do |block_part|
+        # modify block
+        block_part.blocks = block_part.blocks.merge({ "schema" => [
+                                                      "type" => "text",
+                                                      "text" => "Call ended"
+                                                    ] })
+        block_part.save_replied(nil)
+      end
 
-      return if block_id.blank?
+      # block_id = MessageApis::TwilioPhone::Store.get_data(
+      #  conversation.key,
+      #  :callblock
+      # )
+
+      # return if block_id.blank?
 
       # modify block
-      block_part = ConversationPart.find(block_id).message
-      block_part.blocks = block_part.blocks.merge({ "schema" => [
-                                                    "type" => "text",
-                                                    "text" => "Call ended"
-                                                  ] })
-      block_part.save_replied(nil)
+      # block_part = ConversationPart.find(block_id).message
+      # block_part.blocks = block_part.blocks.merge({ "schema" => [
+      #                                             "type" => "text",
+      #                                             "text" => "Call ended"
+      #                                           ] })
+      # block_part.save_replied(nil)
     end
 
     def conference_call(params, conversation, opts)
