@@ -68,7 +68,7 @@ export default function Dropdown({
             ${origin || ''}
              mt-2 w-56 rounded-md shadow-lg`}
           >
-            <div className="rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs max-h-[85vh] overflow-y-scroll">
+            <div className="rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs max-h-[85vh] overflow-y-auto">
               {children}
             </div>
           </div>
