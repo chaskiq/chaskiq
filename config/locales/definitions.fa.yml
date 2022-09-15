@@ -2,9 +2,9 @@ fa:
   definitions:
     articles:
       title:
-        label: Title
+        label: عنوان
       author:
-        label: Author
+        label: مؤلف
       state:
         label: State
       collection:
