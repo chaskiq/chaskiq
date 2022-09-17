@@ -21,7 +21,13 @@ module MessageApis::TwilioPhone
 
       if params[:ctx]["field"]["name"] == "book-meeting"
         api = params[:ctx]["package"].message_api_klass
-        api.new_call
+
+        profile_id = AppUser.find(
+          params[:ctx][:conversation_participant]
+        )&.external_profiles&.find_by(provider: "TwilioPhone")&.profile_id
+
+        api.new_call(profile_id, nil)
+
         definitions = [
           { type: "text", text: "a new conversation will be created" }
         ]
