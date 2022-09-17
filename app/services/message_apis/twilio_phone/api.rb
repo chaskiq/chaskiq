@@ -95,16 +95,16 @@ module MessageApis::TwilioPhone
       nil # nil does not send anything
     end
 
-    def new_call(conversation = nil)
+    def new_call(profile_id, conversation = nil)
       q = conversation.present? ? conversation.key : ""
 
       hook_url = @package.hook_url.gsub("http://localhost:3000", "https://chaskiq.ngrok.io")
 
       client.calls.create(
         url: "#{hook_url}?c=#{q}",
-        to: "+56992302305",
-        from: "+56232411839",
-        status_callback_event: "<Response><Say>Felisin</Say></Response>",
+        to: profile_id,
+        from: @package.settings[:phone_number],
+        status_callback_event: "<Response><Say>Hello</Say></Response>",
         status_callback: "#{hook_url}?c=#{q}"
       )
     end
@@ -112,7 +112,8 @@ module MessageApis::TwilioPhone
     def process_message(params, package)
       if params["chaskiq_action"] == "new"
         conversation = Conversation.find_by(key: params["name"])
-        new_call(conversation)
+        profile_id = conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")&.profile_id
+        new_call(profile_id, conversation)
         return conference_call(params, conversation, {})
       end
 
