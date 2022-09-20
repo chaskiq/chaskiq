@@ -113,7 +113,7 @@ module MessageApis::TwilioPhone
       if params["chaskiq_action"] == "new"
         conversation = Conversation.find_by(key: params["name"])
         profile_id = conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")&.profile_id
-        new_call(profile_id, conversation)
+        # new_call(profile_id, conversation)
         return conference_call(params, conversation, {})
       end
 
