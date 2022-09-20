@@ -516,7 +516,7 @@ class AppPackagesCatalog
 
       {
         name: "TwilioPhone",
-        capability_list: %w[fixed_sidebar inbox conversations],
+        capability_list: %w[fixed_sidebar inbox],
         description: "Interfaces twilio telephony",
         state: "enabled",
         definitions: [
