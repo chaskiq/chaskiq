@@ -179,6 +179,7 @@ module MessageApis::TwilioPhone
       }
 
       participant = add_participant(user_data, PROVIDER)
+      participant.update(phone: user_data["id"])
 
       # when the outbound call carries a conversation key
       conversation = if payload[:c].present?
@@ -476,6 +477,31 @@ module MessageApis::TwilioPhone
       )
 
       token.to_jwt
+    end
+
+    def self.get_profile(conversation, package)
+      profile = conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
+      # when a user has a phone number but not a profile , lets create a new conversation for the valid user or create a new profile in this conversation
+      if profile.blank?
+        raise "invalid phone" if conversation.main_participant.phone.blank?
+        raise "invalid phone" unless Phonelib.valid?(conversation.main_participant.phone)
+
+        profile = conversation.app.external_profiles.find_by(provider: "TwilioPhone", profile_id: conversation.main_participant.phone)
+        if profile.present?
+          conversation = conversation.app.conversations.create(
+            main_participant: profile.app_user,
+            conversation_channels_attributes: [
+              provider: "TwilioPhone",
+              provider_channel_id: profile.profile_id # phone_number
+            ]
+          )
+          @conversation_key = conversation.key
+        else
+          profile = conversation.main_participant.external_profiles.create(provider: "TwilioPhone", profile_id: conversation.main_participant.phone)
+        end
+      end
+
+      [conversation, profile]
     end
   end
 end
