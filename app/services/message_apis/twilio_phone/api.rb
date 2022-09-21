@@ -479,6 +479,22 @@ module MessageApis::TwilioPhone
       token.to_jwt
     end
 
+    def self.find_or_create_profile(conversation, package)
+      participant = conversation.main_participant
+      profile = participant.external_profiles.find_by(provider: "TwilioPhone")
+      if profile.blank?
+        raise "invalid phone" if participant.phone.blank?
+        raise "invalid phone" unless Phonelib.valid?(participant.phone)
+        profile = conversation.app.external_profiles.find_by(provider: "TwilioPhone", profile_id: participant.phone)
+        if profile.present?
+          profile
+        else
+          profile = participant.external_profiles.create(provider: "TwilioPhone", profile_id: participant.phone)
+        end
+      end
+      profile
+    end
+
     def self.get_profile(conversation, package)
       profile = conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
       # when a user has a phone number but not a profile , lets create a new conversation for the valid user or create a new profile in this conversation
