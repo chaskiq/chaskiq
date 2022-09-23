@@ -18,6 +18,10 @@ class Agent < ApplicationRecord
           :lockable,
           :omniauthable, omniauth_providers: %i[doorkeeper]
 
+
+  has_many :agent_teams
+  has_many :teams, through: :agent_teams
+
   has_many :app_packages, dependent: :nullify
   has_many :access_grants,
            class_name: "Doorkeeper::AccessGrant",
