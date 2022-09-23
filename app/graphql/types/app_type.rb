@@ -26,7 +26,7 @@ module Types
     field :plan, Types::JsonType, null: true
     field :inbound_email_address, String, null: true
     field :outgoing_email_domain, String, null: true
-    field :teams, Types::PaginatedTeamType, null: true do
+    field :teams, Types::PaginatedTeamsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
       argument :sort, String, required: false
