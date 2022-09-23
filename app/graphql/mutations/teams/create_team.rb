@@ -3,7 +3,7 @@
 module Mutations
   module Teams
     class CreateTeam < Mutations::BaseMutation
-      field :team, Types::Team, null: false
+      field :team, Types::TeamType, null: false
       field :errors, Types::JsonType, null: false
       argument :app_key, String, required: true
       argument :description, String, required: true
