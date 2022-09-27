@@ -23,6 +23,7 @@ const watchOptions = {
 esbuild
     .build({
         logLevel: 'info',
+        target: 'es2020',
         sourcemap: watch,
         define: { 
             'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
