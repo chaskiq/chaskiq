@@ -19,7 +19,7 @@ module Mutations
           app: app
         }
 
-        a = team.agent_teams.find_by(agent_id: agent_role.id)
+        a = team.roles.find(agent_role.id)
         a.delete
 
         {

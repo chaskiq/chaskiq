@@ -19,7 +19,7 @@ module Mutations
           app: app
         }
 
-        a = team.agents << agent_role
+        a = team.agent_teams.create(role_id: agent_role.id)
 
         {
           agent: a,
