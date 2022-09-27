@@ -53,10 +53,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_035927) do
 
   create_table "agent_teams", force: :cascade do |t|
     t.bigint "team_id", null: false
-    t.bigint "agent_id", null: false
+    t.bigint "role_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["agent_id"], name: "index_agent_teams_on_agent_id"
+    t.index ["role_id"], name: "index_agent_teams_on_role_id"
     t.index ["team_id"], name: "index_agent_teams_on_team_id"
   end
 
@@ -787,7 +787,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_035927) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agent_teams", "agents"
+  add_foreign_key "agent_teams", "roles"
   add_foreign_key "agent_teams", "teams"
   add_foreign_key "app_package_integrations", "app_packages"
   add_foreign_key "app_package_integrations", "apps"

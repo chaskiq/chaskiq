@@ -11,7 +11,6 @@ module Mutations
       argument :name, String, required: true
 
       def resolve(app_key:, description:, name:, id:)
-
         app = current_user.apps.find_by(key: app_key)
         team = app.teams.find(id)
 

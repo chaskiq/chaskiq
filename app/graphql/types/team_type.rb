@@ -1,4 +1,3 @@
-
 module Types
   class TeamType < Types::BaseObject
     field :id, String, null: true
@@ -10,6 +9,5 @@ module Types
       argument :per, Integer, required: false, default_value: 20
       argument :sort, String, required: false
     end
-
   end
 end

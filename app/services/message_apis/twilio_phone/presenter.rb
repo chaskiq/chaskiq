@@ -22,7 +22,7 @@ module MessageApis::TwilioPhone
       if params[:ctx]["field"]["name"] == "book-meeting"
         api = params[:ctx]["package"].message_api_klass
 
-        conversation = Conversation.find_by(key: params[:ctx][:conversation_key] )
+        conversation = Conversation.find_by(key: params[:ctx][:conversation_key])
 
         profile = api.class.find_or_create_profile(conversation, @package)
 

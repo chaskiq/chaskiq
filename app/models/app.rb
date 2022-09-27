@@ -75,7 +75,7 @@ class App < ApplicationRecord
   has_many :segments, dependent: :destroy_async
   has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles
-  has_many :teams
+  has_many :teams, dependent: :destroy_async
   has_many :agent_teams, through: :teams
   has_many :campaigns, dependent: :destroy_async
   has_many :user_auto_messages, dependent: :destroy_async

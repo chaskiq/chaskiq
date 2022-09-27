@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Team, type: :model do
   let(:app) do
@@ -14,12 +14,12 @@ RSpec.describe Team, type: :model do
   end
 
   it "create team" do
-    team.agents << app.agents.first
+    team.agent_teams.create(role_id: role.id)
     expect(team.agents.size).to be == 1
   end
 
   it "remove agent team" do
-    team.agents << app.agents.first
+    team.agent_teams.create(role_id: role.id)
     expect(team.agents.size).to be == 1
     team.agent_teams.first.destroy
     expect(team.agents.size).to be == 0

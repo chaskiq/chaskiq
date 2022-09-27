@@ -10,7 +10,6 @@ module Mutations
       argument :name, String, required: true
 
       def resolve(app_key:, description:, name:)
-        
         app = current_user.apps.find_by(key: app_key)
 
         authorize! app, to: :can_manage_teams?, with: AppPolicy, context: {
