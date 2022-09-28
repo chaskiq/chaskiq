@@ -765,6 +765,7 @@ const Teams = function (props) {
         appKey: props.app.key,
         name: serializedData.app.name,
         description: serializedData.app.description,
+        role: serializedData.app.role
       },
       {
         success: (data) => {
@@ -797,6 +798,7 @@ const Teams = function (props) {
         name: serializedData.app.name,
         id: team.id,
         description: serializedData.app.description,
+        role: serializedData.app.role
       },
       {
         success: (data) => {
@@ -851,6 +853,21 @@ const Teams = function (props) {
         grid: { xs: 'w-full', sm: 'w-full' },
       },
       {
+        name: 'role',
+        type: 'select',
+        label: I18n.t('definitions.agents.access_list.label'),
+        hint: I18n.t('definitions.agents.access_list.hint'),
+        multiple: false,
+        options: Object.keys(props.app.availableRoles).map((o) => ({
+          label: o,
+          value: o,
+        })),
+        grid: {
+          xs: 'w-full',
+          sm: 'w-full',
+        },
+      },
+      {
         name: 'description',
         type: 'textarea',
         label: I18n.t('definitions.teams.description.label'),
@@ -877,6 +894,12 @@ const Teams = function (props) {
             disablePagination={true}
             columns={[
               { field: 'name', title: I18n.t('data_tables.agents.name') },
+              {
+                field: 'role',
+                title: I18n.t('data_tables.agents.access_list'),
+                render: (row) =>
+                  row && row.role && <Badge className="mr-2">{row.role}</Badge>,
+              },
               {
                 field: 'Actions',
                 title: I18n.t('data_tables.agents.actions'),
