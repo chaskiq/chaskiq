@@ -179,6 +179,13 @@ pt:
       access_list:
         label: 'Papéis para o agente'
         hint: 'o acesso em branco desabilitará o acesso às configurações de conta para o usuário'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email

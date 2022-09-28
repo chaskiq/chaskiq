@@ -179,6 +179,13 @@ zh-CN:
       access_list:
         label: '代理人的角色'
         hint: '空白访问将禁用用户的账户设置权限'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email

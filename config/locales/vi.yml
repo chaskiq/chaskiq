@@ -1,95 +1,95 @@
 vi:
   common:
-    edit: Edit
-    new: New
-    add: Add
-    add_new: Add New
-    update: Update
-    remove: Remove
-    delete: Delete
-    create: Create
-    save: Save
-    save_changes: Save changes
-    preview: Preview
-    cancel: Cancel
-    back: Back
-    back_to_site: Back to site
-    not_found: The page you are looking for does not exist.
-    get_snippet: Get the snippet
-    submit: Submit
-    confirm_deletion: Confirm deletion?
-    confirm_deletion_ready: Are you ready to delete?
-    next: Next
-    prev: Prev
-    showing: Showing
-    to: to
-    of: of
-    results: results
-    tz_hint: Your browser timezone is <b className="text-bold">%{timezone}</b>
-    send: Send
-    actions: Actions
-    your_apps: Your Apps
-    upload_field: Upload %{field}
-    choose_color: Choose color
-    image: Image
+    edit: Chỉnh sửa
+    new: Mới
+    add: Thêm
+    add_new: Thêm mới
+    update: Cập nhật
+    remove: Xoá
+    delete: Xoá
+    create: Thêm mới
+    save: Lưu
+    save_changes: Lưu thay đổi
+    preview: Xem trước
+    cancel: Huỷ bỏ
+    back: Quay lại
+    back_to_site: Quay lại trang
+    not_found: Trang bạn tìm kiếm không tồn tại.
+    get_snippet: Lấy đoạn mã
+    submit: Xác nhận
+    confirm_deletion: Xác nhận xoá?
+    confirm_deletion_ready: Bạn có thực sự muốn xoá?
+    next: Tiếp
+    prev: Trước
+    showing: Hiện
+    to: đến
+    of: của
+    results: các kết quả
+    tz_hint: Múi giờ của trình duyệt của bạn là <b className="text-bold">%{timezone}</b>
+    send: Gửi
+    actions: Các hành động
+    your_apps: Các ứng dụng của bạn
+    upload_field: Tải lên %{field}
+    choose_color: Chọn màu
+    image: Ảnh
     langs:
-      en: English
-      es: Spanish
-      pt: Portuguese
-      de: Deutsch
-      ca: Catalan
-      zh-CN: Chinese
-    redirecting: Redirecting
-    choose_language: Choose Language
-    select_language: Select Language
-    send_on_enter: Publish on enter
-    away_mode: Away Mode
-    toggle_light_mode: Toggle Light Mode
-    toggle_dark_mode: Toggle Dark Mode
-    leads: Leads
-    visitors: Visitors
-    users: Users
-    type_message: Type your message
-    search_conversations: Search conversations
-    days: Days
-    minutes: Minutes
-    visit: Visit
-    done: Done
+      en: Tiếng Anh
+      es: Tiếng Tây Ban Nha
+      pt: Tiếng Bồ Đào Nha
+      de: Tiếng Đức
+      ca: Tiếng Bun-ga-ry
+      zh-CN: Tiếng Trung
+    redirecting: Đang chuyển hướng
+    choose_language: Chọn ngôn ngữ
+    select_language: Chọn ngôn ngữ
+    send_on_enter: Xuất bản khi enter
+    away_mode: Chế độ đi vắng
+    toggle_light_mode: Chuyển sang Chế độ nền sáng
+    toggle_dark_mode: Chuyển sang Chế độ nền tối
+    leads: Những khách hàng tiềm năng
+    visitors: Người truy cập
+    users: Người dùng
+    type_message: Nhập tin nhắn của bạn
+    search_conversations: Tìm kiếm cuộc trò chuyện
+    days: Ngày
+    minutes: Phút
+    visit: Truy cập
+    done: Hoàn thành
   status_messages:
-    error: 'Error'
-    success: 'Success'
-    updated_success: Updated successfully
-    updated_error: Error on upddate
-    created_success: Successfully created
-    created_error: Error creating
-    deleted_success: Successfully deleted
-    deleted_error: Error deleting
-    reordered_error: Error reordering
-    reordered_success: Successfully Reordered
+    error: 'Lỗi'
+    success: 'Thành công'
+    updated_success: Cập nhật thành công
+    updated_error: Lỗi khi cập nhật
+    created_success: Đã tạo thành công
+    created_error: Lỗi khi tạo
+    deleted_success: Đã xóa thành công
+    deleted_error: Lỗi khi xoá
+    reordered_error: Lỗi khi sắp xếp
+    reordered_success: Đã sắp xếp lại thành công
   error_view:
-    title: Woops! Something went wrong.
-    subtitle: Unfortunately 🤯
-    exp: Try refreshing the page
-    cta: Try to go home
+    title: Oh! Đã xảy ra lỗi.
+    subtitle: Không may
+    exp: Thử làm mới trang
+    cta: Thử trở về trang chủ
   home:
-    welcome: Welcome to
+    welcome: Chào mứng j đến với
     welcome_site: Chaskiq
-    tagline: Find your current applications here
-    create_new: Create New App
-    choose_lang: Choose Language
-    edit_profile: Edit Profile
-    edit_credentials: Edit User Credentials
-    go_to_doc: Go To Documentation
+    tagline: Tìm các ứng dụng hiện tại của bạn ở đây
+    create_new: Tạo ứng dụng mới
+    choose_lang: Chọn ngôn ngữ
+    edit_profile: Chỉnh sửa hồ sơ
+    edit_credentials: Cập nhật thông tin xác thực người dùng
+    go_to_doc: Chuyển đến tài liệu
   dashboard:
-    hey: "👋 Hey!, you are viewing the <strong>%{name}'s</strong> dashboard! <br /> Get you installation snippet for the web setup <br />"
-    response_avg: Average Response Time
-    new_conversations: New Conversations
-    resolutions: Resolutions
-    incoming_messages: Incoming Messages
-    visit_activity: Visit Activity
-    users_browser: Users Browser
-    lead_os: Lead OS
-    user_os: User OS
+    hey: "👋 Này!, bạn đang xem <strong>%{name}'s</strong> dashboard! <br /> Lấy hướng dẫn cài đặt web <br />"
+    response_avg: Thời gian phản hồi trung bình
+    new_conversations: Cuộc trò chuyện mới
+    resolutions: Độ phân giải
+    incoming_messages: Tin nhắn đến
+    visit_activity: Hoạt động truy cập
+    users_browser: Trình duyệt của người dùng
+    lead_os: Hệ điều hành của khách hàng tiềm năng
+    user_os: Hệ điều hành người dùng
     mac_os: Mac OS
     user_country: User Country
     snippet: Put the following script on the end of your html <body> tag
@@ -578,6 +578,33 @@ vi:
       destroy_agent: Delete
       destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: Update
+      participants: Manage participants
+      updated_team: Team updated
+      created_team: Team created
+      deleted_team: Team deleted
+      confirm_team_delete: Are you sure you want to delete this team?
+      new:
+        action_button: Add Team
+        title_content: Add a new Team
+        content_text: Create a new Team
+      edit:
+        action_button: Edit Team
+        title_content: Edit Team
+        content_text: Edit Team
+      delete:
+        action_button: Delete Team
+        title_content: Delete Team
+        content_text: Delete Team
+    agent_teams:
+      action_button: Add Team member
+      title_content: Add a new agent
+      content_text: send an activable invitation
+      search_placeholder: "Search for an agent"
+      delete_success: Agent deleted from team
+      added_success: Agent added to team
+      add_team: Add Team
+      updated_team: Team updated successfully
+      created_team: Team created successfully
     webhooks:
       title: Webhooks
       create_success: Webhook created
