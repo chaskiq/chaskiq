@@ -605,7 +605,6 @@ en:
       add_team: Add Team
       updated_team: Team updated successfully
       created_team: Team created successfully
-
     webhooks:
       title: Webhooks
       create_success: Webhook created

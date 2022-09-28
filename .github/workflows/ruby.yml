@@ -2,9 +2,9 @@
 
 name: CI
 on:
-  pull_request:
-    branches-ignore:
-      - l10n_master2
+  push:
+    branches_ignore:
+      - 'l10n_master2'
 jobs:
   test:
     runs-on: ubuntu-latest

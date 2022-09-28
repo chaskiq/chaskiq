@@ -2,7 +2,11 @@ name: Create and publish a Docker image to ghcr.io
 
 on:
   push:
-    branches: ['enc-credentials']
+    branches:
+      - master
+      - stage
+  release:
+    types: [published]
 
 env:
   REGISTRY: ghcr.io
