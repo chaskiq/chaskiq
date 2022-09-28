@@ -179,6 +179,13 @@ ko:
       access_list:
         label: 'Roles for agent'
         hint: 'blank access will disable account settings access for user'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email
