@@ -751,8 +751,8 @@ export const INVITE_AGENT = `
 `;
 
 export const CREATE_TEAM = `
-  mutation CreateTeam($appKey: String!, $name: String!, $description: String){
-    createTeam(appKey: $appKey, name: $name, description: $description){
+  mutation CreateTeam($appKey: String!, $name: String!, $description: String, $role: String!){
+    createTeam(appKey: $appKey, name: $name, description: $description, role: $role){
       team {
         name
         description
@@ -775,8 +775,8 @@ export const DELETE_TEAM = `
 `;
 
 export const UPDATE_TEAM = `
-  mutation UpdateTeam($appKey: String!, $id: String!, $name: String!, $description: String!){
-    updateTeam(appKey: $appKey, id: $id, name: $name, description: $description){
+  mutation UpdateTeam($appKey: String!, $id: String!, $name: String!, $role: String!, $description: String!){
+    updateTeam(appKey: $appKey, id: $id, name: $name, description: $description, role: $role){
       team {
         name
         description
