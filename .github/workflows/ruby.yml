@@ -5,9 +5,6 @@ on:
   push:
     branches:
       - '!l10n_master2'
-  pull_request:
-    branches-ignore:
-      - l10n_master2
 jobs:
   test:
     runs-on: ubuntu-latest
