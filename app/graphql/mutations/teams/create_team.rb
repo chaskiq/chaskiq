@@ -6,7 +6,7 @@ module Mutations
       field :team, Types::TeamType, null: false
       field :errors, Types::JsonType, null: false
       argument :app_key, String, required: true
-      argument :description, String, required: true
+      argument :description, String, required: false
       argument :name, String, required: true
 
       def resolve(app_key:, description:, name:)

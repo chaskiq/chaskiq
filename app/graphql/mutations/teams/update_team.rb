@@ -14,7 +14,7 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
         team = app.teams.find(id)
 
-        authorize! team, to: :can_manage_teams?, with: AppPolicy, context: {
+        authorize! app, to: :can_manage_teams?, with: AppPolicy, context: {
           app: app
         }
         team.update(

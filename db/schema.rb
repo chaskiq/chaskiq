@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_035927) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["role_id"], name: "index_agent_teams_on_role_id"
+    t.index ["team_id", "role_id"], name: "index_agent_teams_on_team_id_and_role_id", unique: true
     t.index ["team_id"], name: "index_agent_teams_on_team_id"
   end
 

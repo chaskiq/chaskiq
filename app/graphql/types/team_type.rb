@@ -7,7 +7,11 @@ module Types
     field :agents, Types::PaginatedAgentTeamsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
-      argument :sort, String, required: false
+      # argument :sort, String, required: false
+    end
+
+    def agents(page:, per:)
+      object.agents.page(page).per(per)
     end
   end
 end
