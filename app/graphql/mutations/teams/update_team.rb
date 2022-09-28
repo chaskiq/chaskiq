@@ -9,8 +9,9 @@ module Mutations
       argument :description, String, required: true
       argument :id, String, required: true
       argument :name, String, required: true
+      argument :role, String, required: true
 
-      def resolve(app_key:, description:, name:, id:)
+      def resolve(app_key:, description:, name:, id:, role:)
         app = current_user.apps.find_by(key: app_key)
         team = app.teams.find(id)
 
@@ -19,7 +20,8 @@ module Mutations
         }
         team.update(
           name: name,
-          description: description
+          description: description,
+          role: role
         )
 
         {

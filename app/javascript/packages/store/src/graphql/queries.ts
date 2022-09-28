@@ -127,6 +127,7 @@ export const TEAMS = `
         collection{
           id
           name
+          role
           description
         }
       }
