@@ -485,12 +485,9 @@ module MessageApis::TwilioPhone
       if profile.blank?
         raise "invalid phone" if participant.phone.blank?
         raise "invalid phone" unless Phonelib.valid?(participant.phone)
+
         profile = conversation.app.external_profiles.find_by(provider: "TwilioPhone", profile_id: participant.phone)
-        if profile.present?
-          profile
-        else
-          profile = participant.external_profiles.create(provider: "TwilioPhone", profile_id: participant.phone)
-        end
+        profile.presence || profile = participant.external_profiles.create(provider: "TwilioPhone", profile_id: participant.phone)
       end
       profile
     end

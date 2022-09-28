@@ -27,6 +27,24 @@ module Types
     field :inbound_email_address, String, null: true
     field :outgoing_email_domain, String, null: true
 
+    field :team, Types::TeamType, null: true do
+      argument :id, String, required: false
+    end
+
+    def team(id:)
+      object.teams.find(id)
+    end
+
+    field :teams, Types::PaginatedTeamsType, null: true do
+      argument :page, Integer, required: false, default_value: 1
+      argument :per, Integer, required: false, default_value: 20
+      argument :sort, String, required: false
+    end
+
+    def teams(per:, page:, sort: nil)
+      object.teams.page(page).per(per)
+    end
+
     def allow_idle_sessions
       Chaskiq::Config.get("ALLOW_IDLE_SESSIONS")
     end
@@ -504,6 +522,17 @@ module Types
     def contact_search(term:)
       query_term = :last_name_or_first_name_or_name_or_email_i_cont_any
       @collection = object.app_users.limit(10).ransack(
+        query_term => term
+      ).result
+    end
+
+    field :agent_search, [Types::AgentType], null: true do
+      argument :term, String, required: true, default_value: ""
+    end
+
+    def agent_search(term:)
+      query_term = :last_name_or_first_name_or_name_or_email_i_cont_any
+      @collection = object.agents.humans.limit(10).ransack(
         query_term => term
       ).result
     end
