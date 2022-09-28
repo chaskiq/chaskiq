@@ -765,7 +765,7 @@ const Teams = function (props) {
         appKey: props.app.key,
         name: serializedData.app.name,
         description: serializedData.app.description,
-        role: serializedData.app.role
+        role: serializedData.app.role,
       },
       {
         success: (data) => {
@@ -798,7 +798,7 @@ const Teams = function (props) {
         name: serializedData.app.name,
         id: team.id,
         description: serializedData.app.description,
-        role: serializedData.app.role
+        role: serializedData.app.role,
       },
       {
         success: (data) => {
