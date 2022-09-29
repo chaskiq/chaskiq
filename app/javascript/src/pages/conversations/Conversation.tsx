@@ -1262,6 +1262,7 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
       hooKind: data.field.action.type,
       ctx: {
         conversation_key: conversation.key,
+        message_key: message.key,
         field: data.field,
         definitions: [data.field.action],
         location: 'inbox',
