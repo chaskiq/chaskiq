@@ -172,7 +172,6 @@ module MessageApis::Whereby
           </head>
 
           <body>
-            <%= @message.message.data %>
             <div class="container">
               <whereby-embed minimal room="<%= @message.message.data["whereby_meeting"]["roomUrl"] %>"></whereby-embed>
             </div>
