@@ -24,8 +24,21 @@ module MessageApis::Whereby
       @conn.request :authorization, "Bearer", @api_token
     end
 
-    def create_fase(message, klass)
+    def create_fase_nono(message, klass)
       response = create_meeting
+
+      if response.blank?
+        return {
+          kind: "initialize",
+          definitions: [
+            {
+              type: "text",
+              text: "Something wrong happened when creating the call"
+            }
+          ],
+          values: { whereby_meeting: response }
+        }
+      end
 
       definitions = {
         kind: "initialize",

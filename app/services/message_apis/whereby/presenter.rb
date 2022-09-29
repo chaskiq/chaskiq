@@ -1,17 +1,10 @@
 module MessageApis::Whereby
   class Presenter
-    def self.valid_url?(uri)
-      uri = URI.parse(uri).try(:host)
-    rescue URI::InvalidURIError
-      false
-    end
-
     # Initialize flow webhook URL
     # Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.
     def self.initialize_hook(params)
       {
-        # ctx: ctx,
-        # values: { block_type: "block_type" },
+        values: params[:ctx]["values"],
         definitions: [
           {
             type: "content"
@@ -36,10 +29,46 @@ module MessageApis::Whereby
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
+      if ctx.dig("field", "id") == "abc"
+        if (meeting = ctx[:package].message_api_klass.create_meeting) && meeting
+          return {
+            kind: "initialize",
+            definitions: [],
+            results: meeting
+          }
+        else
+          other = {
+            type: "text",
+            style: "notice-error",
+            text: "error creating meeting"
+          }
+          return configure_definitions(ctx, other)
+        end
+      end
+
+      configure_definitions(ctx)
+    end
+
+    def self.configure_definitions(ctx, other_blocks = nil)
       {
-        kind: "initialize",
-        definitions: []
-        # results: results
+        kind: "configure",
+        definitions: [
+          other_blocks,
+          {
+            type: "text",
+            text: "please configure the meeting"
+          },
+
+          {
+            id: "abc",
+            type: "button",
+            label: "create a meeting",
+            action: {
+              type: "submit"
+            }
+          }
+        ].compact,
+        values: ctx["values"]
       }
     end
 
@@ -47,7 +76,8 @@ module MessageApis::Whereby
       definitions = definitions_for_content(kind: kind, ctx: ctx)
       {
         enabled_for_agents: true,
-        definitions: definitions
+        definitions: definitions,
+        values: ctx["values"]
       }
     end
 
@@ -173,7 +203,7 @@ module MessageApis::Whereby
 
           <body>
             <div class="container">
-              <whereby-embed minimal room="<%= @message.message.data["whereby_meeting"]["roomUrl"] %>"></whereby-embed>
+              <whereby-embed minimal room="<%= @message.message.data["roomUrl"] %>"></whereby-embed>
             </div>
             <script>
               listenWherebyEvents()
