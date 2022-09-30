@@ -7,5 +7,6 @@
   :queues:
     - [mailers, 2]
     - [default, 1]
+    - [cron_tasks, 3]
     - [active_storage_analysis, 2]
     - [active_storage_purge, 2]
