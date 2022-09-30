@@ -55,7 +55,8 @@ class ConversationPart < ApplicationRecord
   end
 
   def controls=(blocks)
-    self.messageable = ConversationPartBlock.create(blocks: blocks)
+    values = blocks.delete("values")
+    self.messageable = ConversationPartBlock.create(blocks: blocks, data: values)
   end
 
   def conversation_part_content
