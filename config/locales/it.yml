@@ -3,7 +3,7 @@ it:
     edit: Modifica
     new: Nuovo
     add: Aggiungi
-    add_new: Add New
+    add_new: Aggiungi nuovo
     update: Aggiorna
     remove: Rimuovi
     delete: Elimina
@@ -12,13 +12,13 @@ it:
     save_changes: Salva modifiche
     preview: Anteprima
     cancel: Annulla
-    back: Back
+    back: Indietro
     back_to_site: Ritorna al sito
     not_found: La pagina che stai cercando non esiste.
     get_snippet: Ottieni la snippet
     submit: Invia
-    confirm_deletion: Confirm deletion?
-    confirm_deletion_ready: Are you ready to delete?
+    confirm_deletion: Confermi la cancellazione?
+    confirm_deletion_ready: Sicuro di voler eliminare?
     next: Successivo
     prev: Precedente
     showing: Visualizzati
@@ -28,10 +28,10 @@ it:
     tz_hint: Il fuso orario del browser è di <b className="text-bold">%{timezone}</b>
     send: Invia
     actions: Azioni
-    your_apps: Your Apps
-    upload_field: Upload %{field}
+    your_apps: Le tue app
+    upload_field: Carica %{field}
     choose_color: Selezionare un colore
-    image: Image
+    image: Immagine
     langs:
       en: Inglese
       es: Spagnolo
@@ -40,21 +40,21 @@ it:
       ca: Catalano
       zh-CN: Cinese
     redirecting: Reindirizzamento
-    choose_language: Choose Language
+    choose_language: Scegli la lingua
     select_language: Seleziona la Lingua
     send_on_enter: Pubblica al momento dell'invio
-    away_mode: Away Mode
-    toggle_light_mode: Toggle Light Mode
-    toggle_dark_mode: Toggle Dark Mode
+    away_mode: Modalità Assente
+    toggle_light_mode: Attiva Light Mode
+    toggle_dark_mode: Attiva Dark Mode
     leads: Potenziali Clienti
     visitors: Visitatori
     users: Utenti
-    type_message: Type your message
+    type_message: Scrivi il tuo messaggio
     search_conversations: Ricerca conversazione
     days: Giorni
-    minutes: Minutes
-    visit: Visit
-    done: Done
+    minutes: Minuti
+    visit: Visita
+    done: Fatto
   status_messages:
     error: 'Errore'
     success: 'Successo'
@@ -67,9 +67,9 @@ it:
     reordered_error: Errore nel riordinamento
     reordered_success: Riordinato Con Successo
   error_view:
-    title: Woops! Something went wrong.
+    title: Si è verificato un errore sconosciuto.
     subtitle: Sfortunatamente 🤯
-    exp: Try refreshing the page
+    exp: Prova ad aggiornare la pagina
     cta: Try to go home
   home:
     welcome: Benvenuto a
