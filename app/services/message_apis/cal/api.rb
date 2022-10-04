@@ -21,8 +21,6 @@ module MessageApis::Cal
       @conn.headers = {
         "Content-Type" => "application/json"
       }
-
-      # @conn.request :authorization, "Bearer", @api_token
     end
 
     def after_install
@@ -41,33 +39,6 @@ module MessageApis::Cal
       end
     end
 
-    def create_fase_nono(message, klass)
-      response = create_meeting
-
-      if response.blank?
-        return {
-          kind: "initialize",
-          definitions: [
-            {
-              type: "text",
-              text: "Something wrong happened when creating the call"
-            }
-          ],
-          values: { whereby_meeting: response }
-        }
-      end
-
-      definitions = {
-        kind: "initialize",
-        definitions: [
-          {
-            type: "content"
-          }
-        ],
-        values: { whereby_meeting: response }
-      }
-    end
-
     def url(url)
       "#{@base_url}#{url}?apiKey=#{@api_token}"
     end
@@ -78,6 +49,49 @@ module MessageApis::Cal
       @package = package
       event = params["event"]
       payload = params["payload"]
+
+      case payload["status"]
+      when "ACCEPTED" 
+        if params["triggerEvent"] == "BOOKING_CREATED"
+          process_accepted_event(payload)
+        end
+      end
+    end
+
+    def process_accepted_event(payload)
+      message = @package.app.conversation_parts.find_by(
+        id: payload["metadata"]["mid"]
+      )
+
+      definitions = [
+        {
+          type: "text",
+          text: "Scheduled #{payload["title"]}",
+          align: "center",
+          style: "header"
+        },
+        {
+          type: "text",
+          text: payload["startTime"],
+          align: "center"
+        },
+        {
+          type: "text",
+          text: payload["endTime"],
+          align: "center"
+        }
+      ]
+ 
+      schema = {
+        kind: "submit",
+        definitions: definitions,
+        results: {}
+      }
+
+      m = message.message
+      blocks = m.blocks.merge("schema" => definitions)
+      m.blocks = blocks
+      m.save_replied(m.data.merge({"payload"=> payload}))
     end
 
     def event_type(id)
@@ -88,7 +102,6 @@ module MessageApis::Cal
       else
         Rails.logger.debug response.body
         response
-
       end
     end
 

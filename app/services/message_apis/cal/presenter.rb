@@ -35,52 +35,12 @@ module MessageApis::Cal
     # Submit flow webhook URL
     # Sent when an end-user interacts with your app, via a button, link, or text input. This flow can occur multiple times as an end-user interacts with your app.
     def self.submit_hook(params)
-      definitions = [
-        {
-          type: "text",
-          text: "Cal.com",
-          align: "center",
-          style: "header"
-        }
-      ]
-
-      # puts "*********AAAAAA*********"
-      # puts params.dig(:ctx, :values, "data")
-      if (event = params.dig(:ctx, :values, "data")) && event && (event["confirmed"])
-        definitions << {
-          type: "text",
-          text: "Scheduled!",
-          align: "center",
-          style: "header"
-        }
-
-        definitions << {
-          type: "text",
-          text: event["eventType"]["title"],
-          align: "center"
-        }
-
-        definitions << {
-          type: "text",
-          text: event["date"],
-          align: "center"
-        }
-      end
-
-      {
-        kind: "submit",
-        definitions: definitions,
-        results: params[:ctx][:values]
-      }
+      { }
     end
 
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
-      # puts "ctx[:field]********************"
-      # puts ctx
-      # puts ctx[:field]
-
       if ctx[:field] && ctx[:field]["type"] == "option"
         return {
           kind: "initialize",
@@ -100,8 +60,7 @@ module MessageApis::Cal
       end
 
       event_types = ctx[:package].message_api_klass.event_types.filter { |o| !o["hidden"] }
-
-      Rails.logger.debug event_types
+      # Rails.logger.debug event_types
       {
         kind: "configure",
         definitions: [
@@ -229,19 +188,18 @@ module MessageApis::Cal
               <script>
                 Cal("inline", {
                   elementOrSelector: "#cal-wrapper", // You can also provide an element directly
-                  calLink: "#{@cal_link}", // The link that you want to embed. It would open https://cal.com/jane in embed
+                  calLink: "#{@cal_link}?metadata[mid]=#{@message.id}", // The link that you want to embed. It would open https://cal.com/jane in embed
                   config: {
                     name: "#{@user&.display_name}", // Prefill Name
                     email: "#{@user&.email}", // Prefill Email
                     // notes: "Chaskiq Meeting", // Prefill Notes
                     // guests: ["janedoe@gmail.com", "test@gmail.com"], // Prefill Guests
                     theme: "light", // "dark" or "light" theme
-        #{'            '}
                   },
-                  metadata: {
-                    bb: 123,
-                    mid: "<%= @message.id %>"
-                  }
+                  //metadata: {
+                  //  bb: 123,
+                  //  mid: "<%= @message.id %>"
+                  //}
                 });
 
                 Cal("on", {
@@ -253,25 +211,19 @@ module MessageApis::Cal
                     const {data, type, namespace} = e.detail;
                     console.log(e.detail)
 
-
-                    setTimeout(function(){
+                    /*setTimeout(function(){
                       window.parent.postMessage({
                         chaskiqMessage: true,
                         type: "Cal",
                         status: "submit",
                         data: e.detail.data
                       }, "*")
-                    }, 3000)
+                    }, 3000)*/
 
                   }
                 })
-
-
-
               </script>
-
             </div>
-        #{'    '}
           </body>
         </html>
       SHEET_VIEW
