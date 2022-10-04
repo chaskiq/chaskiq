@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - master
+      - l10n_master2
 
 jobs:
   build:

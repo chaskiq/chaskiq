@@ -33,7 +33,18 @@ module PackageIframeBehavior
                          first_name
                          last_name
                        ])
-      html = iframe_package_request(url, data, app_user)
+
+      if url_base.match(%r{^/package_iframe_internal/})
+
+        presenter = @app.app_package_integrations
+                        .joins(:app_package)
+                        .find_by("app_packages.name": data["data"]["id"])
+                        .presenter
+
+        html = presenter.sheet_view(data["data"]&.with_indifferent_access)
+      else
+        html = iframe_package_request(url, data, app_user)
+      end
     end
 
     # rubocop:disable Rails/OutputSafety

@@ -578,6 +578,33 @@ sr-Cyrl:
       destroy_agent: Delete
       destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
       update_agent: Update
+      participants: Manage participants
+      updated_team: Team updated
+      created_team: Team created
+      deleted_team: Team deleted
+      confirm_team_delete: Are you sure you want to delete this team?
+      new:
+        action_button: Add Team
+        title_content: Add a new Team
+        content_text: Create a new Team
+      edit:
+        action_button: Edit Team
+        title_content: Edit Team
+        content_text: Edit Team
+      delete:
+        action_button: Delete Team
+        title_content: Delete Team
+        content_text: Delete Team
+    agent_teams:
+      action_button: Add Team member
+      title_content: Add a new agent
+      content_text: send an activable invitation
+      search_placeholder: "Search for an agent"
+      delete_success: Agent deleted from team
+      added_success: Agent added to team
+      add_team: Add Team
+      updated_team: Team updated successfully
+      created_team: Team created successfully
     webhooks:
       title: Webhooks
       create_success: Webhook created
