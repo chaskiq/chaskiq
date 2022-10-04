@@ -42,6 +42,7 @@ export default class AppBlockPackageFrame extends Component<AppBlockPackageFrame
       <div>
         <iframe
           id="package-frame"
+          allow="autoplay; camera; microphone; fullscreen; speaker; display-capture"
           // sandbox="allow-top-navigation allow-same-origin allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts allow-downloads"
           src={src.href}
           style={{
