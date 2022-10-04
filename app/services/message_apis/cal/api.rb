@@ -51,10 +51,8 @@ module MessageApis::Cal
       payload = params["payload"]
 
       case payload["status"]
-      when "ACCEPTED" 
-        if params["triggerEvent"] == "BOOKING_CREATED"
-          process_accepted_event(payload)
-        end
+      when "ACCEPTED"
+        process_accepted_event(payload) if params["triggerEvent"] == "BOOKING_CREATED"
       end
     end
 
@@ -66,7 +64,7 @@ module MessageApis::Cal
       definitions = [
         {
           type: "text",
-          text: "Scheduled #{payload["title"]}",
+          text: "Scheduled #{payload['title']}",
           align: "center",
           style: "header"
         },
@@ -81,7 +79,7 @@ module MessageApis::Cal
           align: "center"
         }
       ]
- 
+
       schema = {
         kind: "submit",
         definitions: definitions,
@@ -91,7 +89,7 @@ module MessageApis::Cal
       m = message.message
       blocks = m.blocks.merge("schema" => definitions)
       m.blocks = blocks
-      m.save_replied(m.data.merge({"payload"=> payload}))
+      m.save_replied(m.data.merge({ "payload" => payload }))
     end
 
     def event_type(id)
