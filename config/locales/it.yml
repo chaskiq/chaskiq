@@ -350,28 +350,28 @@ it:
         delay: Lascia un ritardo di 2 minuti prima di attivare i Task Bots durante le ore di ufficio
         share_time: Condividi il tempo di risposta medio
         route: Percorso supporto dei clienti già esistenti
-        route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
-        route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
-        assign: Assign the conversation
-        close: Close the conversation
-        ask: Ask for contact details
-        ask_hint: If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.
-        dont_ask_email: Don't ask for email
-        ask_email_phone: Ask for email or mobile number
-        email_only: Ask for email only
+        route_desc: Questo percorso filtra le persone che sono già clienti quando si avvia una nuova conversazione.
+        route_costumer: Cosa vuoi fare quando scelgono "Sì, sono un cliente"?
+        assign: Assegna conversazione
+        close: Chiudi conversazione
+        ask: Richiedi dettagli contatto
+        ask_hint: Se non abbiamo già i loro dati di contatto, il Chatbot suggerirà agli utenti d'indicare la loro email o il loro numero di telefono per ricevere una notifica ogni volta avviene una risposta.
+        dont_ask_email: Non chiedere l'email
+        ask_email_phone: Richiedi email o numero di telefono
+        email_only: Richiedi solo email
         override:
-          label: Override default behavior with your own task bot
-          hint: When you do this the default behavior below will not take place and the task will be triggered on each new conversation
+          label: Sovrascrivi il comportamento predefinito con il tuo bot task
+          hint: Quando si esegue questa operazione, il comportamento predefinito qui sotto non si svolgerà e l'attività verrà attivata in ogni nuova conversazione
       users:
         tab: Per utenti
-        start_conversation: When users start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
+        start_conversation: Quando gli utenti avviano una conversazione
+        delay: Lascia un ritardo di 2 minuti prima di attivare il Bot Task durante le ore d'ufficio
         override:
-          label: Override default behavior with your own task
-          hint: hint!
-      settings_title: Bot Task settings
-      specific_times_title: Set specific times to show this bot to your audience.
-      tz_hint: Your app's timezone is %{timezone} See your office hours.
+          label: Sovrascrivi il comportamento predefinito con il tuo bot task
+          hint: suggerimento!
+      settings_title: Impostazioni Bot
+      specific_times_title: Imposta orari specifici per l'attività di questo bot al tuo pubblico.
+      tz_hint: Il fuso orario della tua app è %{timezone} Guarda gli orari d'ufficio
       office_hours: Durante le ore d'ufficio
       outside_office: Fuori dagli orari d'ufficio
       custom_time: Orario personalizzato
@@ -443,31 +443,31 @@ it:
       contact_avatars: Avatar Contatti
       appearance_title: Impostazioni Aspetto
       privacy: Privacy
-      privacy_title: Privacy Settings
-      translations: Translations
-      availability: Availability
-      email_requirement: Email Requirement
-      inbound_settings: Inbound Settings
-      messenger_style: Messenger Style
-      user_data: User Data
+      privacy_title: Impostazioni privacy
+      translations: Traduzioni
+      availability: Disponibilità
+      email_requirement: Email obbligatoria
+      inbound_settings: Impostazioni Inbound
+      messenger_style: Stile Messenger
+      user_data: Dati utente
       tags: Etichette
-      quick_replies: Quick Replies
-      email_forwarding: Email Forwarding
+      quick_replies: Risposte veloci
+      email_forwarding: Inoltro Email
     app_packages:
-      create_success: Package created
-      create_error: Error creating package
-      update_success: Package updated
-      update_error: Error updating package
-      remove_success: Package removed correctly
-      remove_error: Error removing package
-      create_integration: Create New package
+      create_success: Pacchetto creato
+      create_error: Errore nell'elaborazione del pacchetto.
+      update_success: Pacchetto aggiornato
+      update_error: Errore nell'aggiornamento del pacchetto
+      remove_success: Pacchetto rimosso correttamente
+      remove_error: Errore nel rimuovere il pacchetto
+      create_integration: Creare nuovo pacchetto
     app_inserter:
-      title: Add apps to your Messenger
-      subtitle: Help your customers before they start a conversation
+      title: Aggiungi app al Messenger
+      subtitle: Aiuta i tuoi clienti prima di iniziare una conversazione
       action: Aggiungi App
     integrations:
-      title: Third party integrations
-      create_success: Integration created
+      title: Integrazioni di terze parti
+      create_success: Integrazione creata
       create_error: Error linking integration
       update_success: Integration updated
       update_error: Error updating integration
