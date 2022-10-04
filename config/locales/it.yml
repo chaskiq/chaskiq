@@ -70,28 +70,28 @@ it:
     title: Si è verificato un errore sconosciuto.
     subtitle: Sfortunatamente 🤯
     exp: Prova ad aggiornare la pagina
-    cta: Try to go home
+    cta: Prova a tornare alla home
   home:
     welcome: Benvenuto a
     welcome_site: Chaskiq
     tagline: Trova qui le applicazioni correnti
-    create_new: Create New App
-    choose_lang: Choose Language
-    edit_profile: Edit Profile
-    edit_credentials: Edit User Credentials
-    go_to_doc: Go To Documentation
+    create_new: Crea nuova App
+    choose_lang: Scegli la lingua
+    edit_profile: Modifica profilo
+    edit_credentials: Modifica credenziali utente
+    go_to_doc: Vai alla documentazione
   dashboard:
     hey: "👋 Hey!, stai visualizzando la dashboard di <strong>%{name} </strong>! <br /> Ricevi la snippet di installazione per la configurazione web <br />"
-    response_avg: Average Response Time
-    new_conversations: New Conversations
+    response_avg: Tempo medio di risposta
+    new_conversations: Nuove conversazioni
     resolutions: Risoluzioni
     incoming_messages: Messaggi in arrivo
-    visit_activity: Visit Activity
-    users_browser: Users Browser
-    lead_os: Lead OS
-    user_os: User OS
+    visit_activity: Attività visite
+    users_browser: Browser utenti
+    lead_os: Sistema Operativo dei Lead
+    user_os: Sistema Operativo degli utenti
     mac_os: Mac OS
-    user_country: User Country
+    user_country: Paese Utente
     snippet: Inserisci il seguente script alla fine del tag html <body>
     status: Stato della Live Chat
     status_running: In Esecuzione
@@ -116,46 +116,46 @@ it:
       for_users: Per utenti
       bot_settings: Attività Del Bot
       outbound: In uscita
-      new_conversations: New Conversations
+      new_conversations: Nuove conversazioni
       articles: Articoli
       collections: Collezioni
       article_settings: Impostazioni
       app_settings: Impostazioni App
       team: Squadra
-      messenger_settings: Messenger Settings
+      messenger_settings: Impostazioni Messenger
       integrations: Integrazioni
       webhooks: Webhook
-      api_access: API Access
+      api_access: Accesso API
       billing: Fatturazione
     user_menu:
-      create_app: Create New App
+      create_app: Crea nuova App
       create_app_description: Crea l'app Chaskiq della tua azienda
-      signout: Sign Out
-      title: User Menu
+      signout: Esci
+      title: Menu utente
   profile:
-    no_name: No name
-    name: Full name
-    area_of_expertise: Area of expertise
-    specialization: Specialization
-    phone_number: Phone number
-    address: Address
-    availability: Availability
+    no_name: Senza nome
+    name: Nome completo
+    area_of_expertise: Settore di competenza
+    specialization: Specializzazione
+    phone_number: Numero di telefono
+    address: Indirizzo
+    availability: Disponibilità
   login:
-    title: Connect to your account
-    email: Your Email
-    password: Your password
-    remember_me: Remember me
-    forgot_password: Forgot your password?
-    sign_in: Connect
-    continue_with: Continue with
+    title: Connetti al tuo account
+    email: La Tua Email
+    password: La tua password
+    remember_me: Ricordami
+    forgot_password: Password dimenticata?
+    sign_in: Connetti
+    continue_with: Continua con
   invitation:
-    title: Create your account
-    password: Type your password
-    password_confirmation: Confirm your password
+    title: Crea il tuo account
+    password: Digita la password
+    password_confirmation: Conferma la tua password
     button: Salva
-    built_with_love: Built with love by the team
+    built_with_love: Sviluppato con amore dal team
   conversations:
-    start_conversation: Start a conversation
+    start_conversation: Inizia conversazione
     title: Conversazioni
     menu:
       conversations: Conversazioni
@@ -177,32 +177,32 @@ it:
       title: Nessuna conversazione
       text: Scegli conversazioni dal lato
     app_package_panel:
-      title: Send App Package
-      send_app: Send App
+      title: Invia Pacchetto App
+      send_app: Invia App
       preview: Anteprima
     assignment_rules:
-      title: Title
-      hint: This is the rule name
-      select_agent: Select Agent
+      title: Titolo
+      hint: Questo è il nome della regola
+      select_agent: Seleziona agente
   conversation:
     with: Conversazione con
-    tag_modal_title: Manage conversation tags
+    tag_modal_title: Gestire i tag delle conversazioni
     actions:
-      priorize: Priorize Conversation
-      remove_priority: Remove Priority
+      priorize: Priorizza Conversazione
+      remove_priority: Rimuovi Priorità
       close: Chiudi
       reopen: Riapri
-      start_call: Start Videocall
+      start_call: Avvia Videocall
       end_call: Termina chiamata
       assign_agent: Assegna Agente
-      tag_conversation: Tag Conversation
+      tag_conversation: Tag conversazione
     messages:
       seen: Letti
       not_seen: Non visto
       note: Nota Privata
       reply: Rispondi
     sidebar:
-      customize: Customize
+      customize: Personalizza
       show_profile: Mostra profilo
       location: Posizione
       browser: Browser utente
@@ -211,7 +211,7 @@ it:
       assignee: Assegnato a
       first_agent_reply: Prima risposta agente
       app_inserter:
-        title: Add apps to inbox sidebar
+        title: Aggiungi app alla barra laterale
         add_app: Aggiungi App
     editor:
       panels:
@@ -372,76 +372,76 @@ it:
       settings_title: Bot Task settings
       specific_times_title: Set specific times to show this bot to your audience.
       tz_hint: Your app's timezone is %{timezone} See your office hours.
-      office_hours: During office hours
-      outside_office: Outside office hours
-      custom_time: Custom time
-      enable_title: Enable bot task
-      enable_hint: when enabled the bot task will start operating
-    new: Create New Task
-    remove_success: bot removed
+      office_hours: Durante le ore d'ufficio
+      outside_office: Fuori dagli orari d'ufficio
+      custom_time: Orario personalizzato
+      enable_title: Attiva attività bot
+      enable_hint: quando abilitato l'attività del bot inizierà a funzionare
+    new: Crea nuova task
+    remove_success: bot rimosso
     empty:
-      title: No bot tasks found
-      create_new: Create a new one
+      title: Nessun bot creato
+      create_new: Crea nuovo bot
     delete:
-      title: Delete bot "%{name}"
-      hint: we will destroy any content and related data
+      title: Elimina bot "%{name}"
+      hint: distruggeremo qualsiasi contenuto e i dati correlati
     create:
-      title: Create Bot task
+      title: Crea nuovo Bot task
   email_forwarding:
-    title: Email Forwarding
-    subtitle: Default Inbound Address
-    ex: Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel
+    title: Inoltro Email
+    subtitle: Indirizzo Predefinito In Entrata
+    ex: Inoltra email dal tuo normale indirizzo email di supporto (come help@mycompany.com) a Chaskiq in modo da poter rispondere alle email dalla dashboard Agente
   identified_users:
-    title: Verified users setup
-    hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
-    lang: Your code to generate an HMAC for your app is
-    hint2: 'Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className="font-bold">identifier_key</span> and pass the <span className="font-bold">email</span> and give it the HMAC tag for the logged in user:'
-    encryption_key_label: Identity verification secret
-    dont_share_code: "Don't share this code"
-    hmac_hint1: To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.
+    title: Configurazione utenti verificati
+    hint1: Per configurare la verifica dell'identità, è necessario generare un HMAC sul server per ogni utente registrato e inviarlo a Chaskiq.
+    lang: Il codice per generare un HMAC per la tua app è
+    hint2: 'Ovunque si caricano i dati utente e si dispone di uno snippet di codice Chaskiq, bisogna aggiungere un nuovo attributo denominato <span className="font-bold">identifier_key</span> e passare l''email <span className="font-bold"></span> e dargli il tag HMAC per l''utente registrato:'
+    encryption_key_label: Codice segreto per verifica
+    dont_share_code: "Non condividere questo codice"
+    hmac_hint1: Per configurare la verifica dell'identità, è necessario generare un HMAC sul server per ogni utente registrato e inviarlo a Chaskiq.
   quick_replies:
-    title: Quick Replies
-    search: Search Quick replies
-    will_send: The "%{lang}" version will be sent to the conversation.
+    title: Risposte veloci
+    search: Ricerca risposte veloci
+    will_send: La versione "%{lang}" verrà inviata alla conversazione.
     empty:
-      title: No quick replies
-      create_new: Create new
+      title: Nessuna risposta veloce
+      create_new: Crea nuova
     delete:
-      title: Delete quick reply %{name}
-      hint: we will destroy any content and related data, conversations will keep content though
+      title: Elimina risposta veloce %{name}
+      hint: elimineremo questi dati e quelli correlati, sebbene le conversazioni manterranno i loro contenuti
     create:
-      success: Quick reply was created successfully
-      error: Error creating quick reply
+      success: Risposta veloce creata con successo
+      error: Errore nella creazione della risposta veloce
     update:
-      success: Quick reply was updated successfully
-      error: Error updating quick reply
+      success: Risposta veloce aggiornata con successo
+      error: Errore nell'aggiornamento della risposta veloce
     add_as_dialog:
-      title: Add this message as a Quick Reply
+      title: Aggiungi questo messaggio come risposta veloce
   new_app:
     title: Crea l'app Chaskiq della tua azienda
-    text: Provide basic information to setup Chaskiq for your team and customers.
+    text: Fornisci informazioni di base per configurare Chaskiq per il tuo team e i clienti.
     hint: Crea l'app Chaskiq della tua azienda
   settings:
     api:
-      title: Oauth Applications
+      title: Applicazioni Oauth
       tabs:
-        apps: OAUTH Applications
-        authorized: Authorized OAUTH Applications
-      oauth_information: Oauth App Information
-      details: Oauth details and credentials.
-      delete_app: Delete Oauth App?
-      create_app: Create Oauth App
-      hint: We will destroy any content and related data
+        apps: Applicazioni OAuth
+        authorized: Applicazioni OAUTH Autorizzate
+      oauth_information: Informazioni App Oauth
+      details: Dettagli e credenziali Oauth.
+      delete_app: Vuoi eliminare l'App Oauth?
+      create_app: Crea App Oauth
+      hint: Distruggeremo qualsiasi contenuto e dati correlati
       invite:
-        title: Add a new agent
-        text: send an activable invitation
+        title: Aggiungi nuovo agente
+        text: Invia una email d'invito
     app:
       app_settings: Impostazioni App
-      security: Security
-      messenger_settings: Messenger Settings
-      appearance: Appearance
-      contact_avatars: Contact Avatars
-      appearance_title: Appearance Settings
+      security: Sicurezza
+      messenger_settings: Impostazioni Messenger
+      appearance: Aspetto
+      contact_avatars: Avatar Contatti
+      appearance_title: Impostazioni Aspetto
       privacy: Privacy
       privacy_title: Privacy Settings
       translations: Translations
@@ -509,14 +509,14 @@ it:
             label: 'Team usually responds within minutes.'
           - 
             value: 'hours'
-            label: 'Team usually responds within hours.'
+            label: 'Il team risponde di solito in poche ore.'
           - 
-            value: '1 day'
-            label: 'The team usually responds in one day.'
-        hint2: 'Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times.'
+            value: '1 giorno'
+            label: 'Il team risponde di solito in un giorno.'
+        hint2: 'Nota: il visitatore riceverà una risposta automatica con la disponibilità del tuo team durante le ore di fuori ufficio o lunghi tempi di risposta.'
     email_requirement:
-      title: Require an email for new conversations
-      hint: So you can always get back to your website visitors
+      title: Richiedi un'email per nuove conversazioni
+      hint: Così potrai essere contattare i visitatori del tuo sito
       ask: 'Ask your website visitors to leave their email before starting a live chat:'
       options:
         - 
@@ -802,6 +802,6 @@ it:
     labels:
       title: "Call with %{subject}"
       status: Status
-      'client:Anonymous': Anonymous client
-      'client:agent': Agent
-      'client:support_agent': Agent
+      'client:Anonymous': Cliente anonimo
+      'client:agent': Agente
+      'client:support_agent': Agente
