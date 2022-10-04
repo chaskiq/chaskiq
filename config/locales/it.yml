@@ -223,7 +223,7 @@ it:
           choose_another: Scegli un altro
         quick_reply:
           title: Invia una risposta rapida
-          confirm: Confirm send %{title}?
+          confirm: Confermi l'invio di %{title}?
           confirm_msg: Questa risposta rapida sarà inviata alla conversazione attuale dell'utente.
           empty: nessuna risposta rapida disponibile
           choose_another: Scegli un altro
@@ -239,7 +239,7 @@ it:
     remove_success: Campagna rimossa
     remove_hint: Distruggeremo qualsiasi contenuto e i dati correlati
     delete_campaign: Elimina campagna %{name}
-    create_new: Create New Campaign
+    create_new: Crea nuova campagna
     empty:
       title: Nessuna campagna trovata
     mailing: Campagne mail
@@ -263,8 +263,8 @@ it:
     state:
       enabled: abilitato
       disabled: disabilitato
-      send: sent
-      delivering: delivering
+      send: inviata
+      delivering: In fase di invio
     tabs:
       stats: Statistiche
       settings: Impostazioni
@@ -301,7 +301,7 @@ it:
       description_users: "gli utenti registrati della tua piattaforma"
     state_filters:
       enabled_title: Abilitato
-      enabled_description: Enabled bot tasks
+      enabled_description: Attiva bot tasks
       disabled_title: Disabilitato
       disabled_description: Attività bot disabilitate
     title: Compiti Del bot
@@ -309,7 +309,7 @@ it:
     reply_agent: riceverai una risposta da uno dei nostri agenti
     email_support: per ottenere il supporto è possibile inviare un'email a %{email}
     outbound: '🏓 In uscita'
-    new_conversations: '👋 New Conversations'
+    new_conversations: '👋 Nuove conversazioni'
     new_conversations_notice: Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione
     options:
       add_message: Aggiungi Bolla Dei Messaggi
@@ -317,39 +317,39 @@ it:
       add_app_package: Aggiungi App
     path_title_hint: titolo percorso
     delete_path: elimina percorso
-    add_path: Add new conversation part
-    continue_bot_with: Continue bot with
-    continue_with_reply_button: Continue bot with reply button
-    end_bot_with: End bot with
-    end_with_follow: End bot with follow actions
-    reply_button: reply button
-    follow_actions: follow actions
-    add_data_option: + add data option
-    save_data: Save data
-    close_conversation: close conversation
-    assign_agent: assign_agent
-    add_follow_action: Add Follow Action
-    assignee_agent: Assignee Agent
+    add_path: Aggiungi nuova parte di conversazione
+    continue_bot_with: Continua con
+    continue_with_reply_button: Continua con il pulsante risposta
+    end_bot_with: Termina con
+    end_with_follow: Termina con un'azione seguente
+    reply_button: pulsante di risposta
+    follow_actions: azioni successive
+    add_data_option: + aggiungi dati opzione
+    save_data: Salva
+    close_conversation: chiudi conversazione
+    assign_agent: assegna_agente
+    add_follow_action: Aggiungi Azione Successiva
+    assignee_agent: Assegna Agente
     email_requirement:
-      message: Give the team a way to reach you
-      input_label: Get notified by email
-      placeholder: Enter your email
-      ack: Thank you
+      message: Indica al team un modo per contattarti
+      input_label: Ricevi una notifica via email
+      placeholder: Inserisci la tua mail
+      ack: Grazie
     support:
-      ask: Are you an existing %{name} customer?
+      ask: Sei già cliente, %{name}?
       options:
-        op1: Yes, I'm a customer
-        op2: No, I'm not an existing customer yet
+        op1: Sì, sono già cliente
+        op2: No, non sono ancora un cliente
       reply:
-        op1: Welcome back!
-        op2: ok, let us know if you need something and an agent will reply as soon as possible
+        op1: Bentornato!
+        op2: ok, fateci sapere di cosa avete bisogno e un agente risponderà il prima possibile
     settings:
       leads:
         tab: Per potenziali clienti
-        start_conversation: When leads start a conversation
-        delay: Leave a 2 minute delay before triggering Task Bots during office hours
-        share_time: Share your typical reply time
-        route: Route existing customers to support
+        start_conversation: Quando i lead avviano una conversazione
+        delay: Lascia un ritardo di 2 minuti prima di attivare i Task Bots durante le ore di ufficio
+        share_time: Condividi il tempo di risposta medio
+        route: Percorso supporto dei clienti già esistenti
         route_desc: Route leads to the right people by asking if they are an existing customer when they start a new conversation.
         route_costumer: What do you want to do when they choose "Yes, I'm a customer"?
         assign: Assign the conversation
@@ -517,30 +517,30 @@ it:
     email_requirement:
       title: Richiedi un'email per nuove conversazioni
       hint: Così potrai essere contattare i visitatori del tuo sito
-      ask: 'Ask your website visitors to leave their email before starting a live chat:'
+      ask: 'Chiedi ai visitatori del tuo sito di indicare la loro email prima d''iniziare una conversazione:'
       options:
         - 
-          label: Only outside of office hours
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE
-          value: office
+          label: Solo fuori dagli orari d'ufficio
+          hint: RIDUZIONI DI CIRCA IL 5% DEL VOLUME DELLE CONVERSAZIONI
+          value: ufficio
         - 
-          label: Always
-          hint: REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE
-          value: Always
+          label: Sempre
+          hint: RIDUZIONE DI CIRCA IL 30% DEL VOLUME DELLE CONVERSAZIONI
+          value: Sempre
         - 
-          label: Never
-          value: Never
-          hint: WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME
+          label: Mai
+          value: Mai
+          hint: CONSENTI AI VISITATORI DEL SITO DI AVVIARE UNA CONVERSAZIONE IN QUALSIASI MOMENTO
     languages:
-      add: Add language
-      title: Languages
+      add: Aggiungi lingua
+      title: Lingue
     inbound:
-      title: New conversations button
-      checkbox: Let people start new inbound conversations with you
-      hint: When this is turned off, people can only reply to the outbound messages you send.
-      title2: visibility
-      hint2: Control who sees the standard Messenger launcher on your website.
-      note2: ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.
+      title: Nuovo pulsante di conversazione
+      checkbox: Consenti agli utenti di avviare nuove conversazioni in entrata con te
+      hint: Quando questo è disattivato, le persone possono rispondere solo ai messaggi in uscita che invii.
+      title2: visibilità
+      hint2: Controlla chi vede il launcher di Messenger sul tuo sito.
+      note2: QUALSIASI MESSAGGIO TU INVIERAI, SARÀ DEFINITIVO.
       note3: 'On the web, show the standard Messenger launcher to:'
       closed_replies_title: Prevent replies to closed conversations for %{name}
       closed_replies_enabled: Letting users reply to closed messages at any time.
