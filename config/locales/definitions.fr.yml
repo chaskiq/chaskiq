@@ -179,6 +179,13 @@ fr:
       access_list:
         label: 'Rôles de l''agent'
         hint: 'un accès vide désactivera l''accès aux paramètres du compte de l''utilisateur'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: E-mail

@@ -34,7 +34,7 @@ const DanteStylesExtend = styled(DanteContainer)`
   }
 `;
 export function Conversation(props) {
-  let wait_for_input = React.useRef(null);
+  const wait_for_input = React.useRef(null);
   const {
     value: {
       kind,

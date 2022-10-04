@@ -179,6 +179,13 @@ es:
       access_list:
         label: 'Rol para el agente'
         hint: 'el acceso en blanco desactivará el acceso a la configuración de la cuenta para el usuario'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email

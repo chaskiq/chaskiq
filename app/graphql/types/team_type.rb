@@ -2,6 +2,7 @@ module Types
   class TeamType < Types::BaseObject
     field :id, String, null: true
     field :name, String, null: true
+    field :role, String, null: true
     field :description, String, null: true
 
     field :agents, Types::PaginatedAgentTeamsType, null: true do
