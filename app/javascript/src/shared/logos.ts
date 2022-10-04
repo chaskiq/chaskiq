@@ -27,6 +27,7 @@ import zapier from '../images/logos/zapier.png';
 import dialog360 from '../images/logos/dialog360.png';
 import vonage from '../images/logos/vonage.png';
 import messagebird from '../images/logos/messagebird.png';
+import cal from '../images/logos/cal.png';
 
 export default {
   messagebird,
@@ -34,6 +35,7 @@ export default {
   dialog360,
   telegram,
   zapier,
+  cal,
   calendly,
   facebook,
   pipedrive,

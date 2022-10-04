@@ -36,10 +36,12 @@ module PackageIframeBehavior
 
       if url_base.match(%r{^/package_iframe_internal/})
 
-        presenter = @app.app_package_integrations
-                        .joins(:app_package)
-                        .find_by("app_packages.name": data["data"]["id"])
-                        .presenter
+        package = @app.app_package_integrations
+                      .joins(:app_package)
+                      .find_by("app_packages.name": data["data"]["id"])
+
+        presenter = package.presenter
+        data.merge!({ "data" => data["data"].merge("package" => package) })
 
         html = presenter.sheet_view(data["data"]&.with_indifferent_access)
       else
