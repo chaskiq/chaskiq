@@ -651,6 +651,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -1139,6 +1149,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -1326,22 +1347,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -2336,6 +2377,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -2828,6 +2879,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -3015,22 +3077,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -4027,6 +4109,16 @@
           "label": "Quan"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -4515,6 +4607,17 @@
       "starts_with": "comença amb"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "envia una invitació per correu",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Afegeix un nou agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Crea nova app Oauth",
         "delete_app": "Elimina Oauth app?",
@@ -4702,22 +4805,42 @@
         "action_button": "afegeix usuari/a",
         "add_new": "Afegeix membre a l'equip",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "envia una invitació per correu",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Suprimir",
         "destroy_agent_title": "Suprimeix agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "L'agent s'ha eliminat correctament",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Reenviar la invitació",
         "send_invitation": "Enviar invitació",
         "title": "Equip",
         "title_content": "Afegeix un nou agent",
         "update_agent": "Actualitza",
         "update_agent_title": "Actualitza la Informació",
-        "updated_agent": "La informació s'ha actualitzat correctament"
+        "updated_agent": "La informació s'ha actualitzat correctament",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -5712,6 +5835,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -6202,6 +6335,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -6389,22 +6533,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -7408,6 +7572,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -7896,6 +8070,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -8083,22 +8268,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -9093,6 +9298,16 @@
           "label": "Wenn"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -9581,6 +9796,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "eine aktivierbare Einladung senden",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Neuen Mitarbeiter hinzufügen",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Oauth App erstellen",
         "delete_app": "Oauth App entfernen?",
@@ -9768,22 +9994,42 @@
         "action_button": "Benutzer hinzufügen",
         "add_new": "Teammitglied hinzufügen",
         "agents": "Mitarbeiter",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "eine aktivierbare Einladung senden",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Löschen",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Einladung erneut senden",
         "send_invitation": "Einladung senden",
         "title": "Team",
         "title_content": "Neuen Mitarbeiter hinzufügen",
         "update_agent": "Aktualisieren",
         "update_agent_title": "Mitarbeiterinformationen aktualisieren",
-        "updated_agent": "Informationen erfolgreich aktualisiert"
+        "updated_agent": "Informationen erfolgreich aktualisiert",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -10778,6 +11024,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -11266,6 +11522,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -11453,22 +11720,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -14680,6 +14967,16 @@
           "label": "Cuando"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "activar webhook"
@@ -15352,6 +15649,17 @@
       "starts_with": "comienza con"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "Enviar una invitación por correo electrónico",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Añadir un nuevo agente",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Crear nueva app OAuth",
         "delete_app": "¿Eliminar aplicación de OAUTH?",
@@ -15539,22 +15847,42 @@
         "action_button": "añadir usuarios",
         "add_new": "Añadir miembro al equipo",
         "agents": "Agentes",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "Enviar una invitación por correo electrónico",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Eliminar",
         "destroy_agent_title": "Eliminar agente",
         "destroy_agent_warning": "¿Estás seguro que deseas eliminar el %{agent}?",
         "destroyed_agent": "Agente eliminado correctamente",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "El nuevo miembro del equipo será notificado por su correo electrónico",
         "invitatin_error": "¡Invitación enviada!",
         "invitation_success": "¡Invitación enviada!",
         "invitations": "Invitaciones",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Reenviar la invitación",
         "send_invitation": "Enviar invitación",
         "title": "Equipo",
         "title_content": "Añadir un nuevo agente",
         "update_agent": "Actualizar",
         "update_agent_title": "Actualiza su información",
-        "updated_agent": "Configuración actualizada correctamente"
+        "updated_agent": "Configuración actualizada correctamente",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -16592,6 +16920,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -17080,6 +17418,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -17267,22 +17616,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -18277,6 +18646,16 @@
           "label": "Quand"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "activer le Webhook"
@@ -18829,6 +19208,17 @@
       "starts_with": "commence par"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "envoyer une invitation activable",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Ajouter un nouvel agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Créer une application Oauth",
         "delete_app": "Supprimer l'application Oauth ?",
@@ -19016,22 +19406,42 @@
         "action_button": "ajouter un utilisateur",
         "add_new": "Ajouter un membre de l'équipe",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "envoyer une invitation activable",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Effacer",
         "destroy_agent_title": "Supprimer l'agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent supprimé avec succès",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Renvoyer l'invitation",
         "send_invitation": "Envoyer invitation",
         "title": "Equipe",
         "title_content": "Ajouter un nouvel agent",
         "update_agent": "Mise à jour",
         "update_agent_title": "Mettre à jour les informations de l'agent",
-        "updated_agent": "Informations mises à jour avec succès"
+        "updated_agent": "Informations mises à jour avec succès",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -20026,6 +20436,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -20514,6 +20934,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -20701,22 +21132,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -21191,7 +21642,7 @@
       "clone_title": "Duplica",
       "cloned_error": "errore durante la duplicazione del record",
       "cloned_success": "duplicato con successo",
-      "create_new": "Create New Campaign",
+      "create_new": "Crea nuova campagna",
       "delete_campaign": "Elimina campagna %{name}",
       "deliver_description": "Consegna la campagna",
       "deliver_title": "Consegna",
@@ -21214,10 +21665,10 @@
       "remove_hint": "Distruggeremo qualsiasi contenuto e i dati correlati",
       "remove_success": "Campagna rimossa",
       "state": {
-        "delivering": "delivering",
+        "delivering": "In fase di invio",
         "disabled": "disabilitato",
         "enabled": "abilitato",
-        "send": "sent"
+        "send": "inviata"
       },
       "tabs": {
         "audience": "Pubblico",
@@ -21231,22 +21682,22 @@
     "common": {
       "actions": "Azioni",
       "add": "Aggiungi",
-      "add_new": "Add New",
-      "away_mode": "Away Mode",
-      "back": "Back",
+      "add_new": "Aggiungi nuovo",
+      "away_mode": "Modalità Assente",
+      "back": "Indietro",
       "back_to_site": "Ritorna al sito",
       "cancel": "Annulla",
       "choose_color": "Selezionare un colore",
-      "choose_language": "Choose Language",
-      "confirm_deletion": "Confirm deletion?",
-      "confirm_deletion_ready": "Are you ready to delete?",
+      "choose_language": "Scegli la lingua",
+      "confirm_deletion": "Confermi la cancellazione?",
+      "confirm_deletion_ready": "Sicuro di voler eliminare?",
       "create": "Crea",
       "days": "Giorni",
       "delete": "Elimina",
-      "done": "Done",
+      "done": "Fatto",
       "edit": "Modifica",
       "get_snippet": "Ottieni la snippet",
-      "image": "Image",
+      "image": "Immagine",
       "langs": {
         "ca": "Catalano",
         "de": "Tedesco",
@@ -21256,7 +21707,7 @@
         "zh-CN": "Cinese"
       },
       "leads": "Potenziali Clienti",
-      "minutes": "Minutes",
+      "minutes": "Minuti",
       "new": "Nuovo",
       "next": "Successivo",
       "not_found": "La pagina che stai cercando non esiste.",
@@ -21275,16 +21726,16 @@
       "showing": "Visualizzati",
       "submit": "Invia",
       "to": "a",
-      "toggle_dark_mode": "Toggle Dark Mode",
-      "toggle_light_mode": "Toggle Light Mode",
-      "type_message": "Type your message",
+      "toggle_dark_mode": "Attiva Dark Mode",
+      "toggle_light_mode": "Attiva Light Mode",
+      "type_message": "Scrivi il tuo messaggio",
       "tz_hint": "Il fuso orario del browser è di <b className=\"text-bold\">%{timezone}</b>",
       "update": "Aggiorna",
-      "upload_field": "Upload %{field}",
+      "upload_field": "Carica %{field}",
       "users": "Utenti",
-      "visit": "Visit",
+      "visit": "Visita",
       "visitors": "Visitatori",
-      "your_apps": "Your Apps"
+      "your_apps": "Le tue app"
     },
     "contact_fields": {
       "inbox": {
@@ -21316,11 +21767,11 @@
         "assign_agent": "Assegna Agente",
         "close": "Chiudi",
         "end_call": "Termina chiamata",
-        "priorize": "Priorize Conversation",
-        "remove_priority": "Remove Priority",
+        "priorize": "Priorizza Conversazione",
+        "remove_priority": "Rimuovi Priorità",
         "reopen": "Riapri",
-        "start_call": "Start Videocall",
-        "tag_conversation": "Tag Conversation"
+        "start_call": "Avvia Videocall",
+        "tag_conversation": "Tag conversazione"
       },
       "editor": {
         "panels": {
@@ -21333,7 +21784,7 @@
           },
           "quick_reply": {
             "choose_another": "Scegli un altro",
-            "confirm": "Confirm send %{title}?",
+            "confirm": "Confermi l'invio di %{title}?",
             "confirm_msg": "Questa risposta rapida sarà inviata alla conversazione attuale dell'utente.",
             "empty": "nessuna risposta rapida disponibile",
             "title": "Invia una risposta rapida"
@@ -21349,30 +21800,30 @@
       "sidebar": {
         "app_inserter": {
           "add_app": "Aggiungi App",
-          "title": "Add apps to inbox sidebar"
+          "title": "Aggiungi app alla barra laterale"
         },
         "assignee": "Assegnato a",
         "browser": "Browser utente",
         "created_at": "Creato il",
-        "customize": "Customize",
+        "customize": "Personalizza",
         "first_agent_reply": "Prima risposta agente",
         "latest_user_visible_comment_at": "Ultimo commento",
         "location": "Posizione",
         "show_profile": "Mostra profilo"
       },
-      "tag_modal_title": "Manage conversation tags",
+      "tag_modal_title": "Gestire i tag delle conversazioni",
       "with": "Conversazione con"
     },
     "conversations": {
       "app_package_panel": {
         "preview": "Anteprima",
-        "send_app": "Send App",
-        "title": "Send App Package"
+        "send_app": "Invia App",
+        "title": "Invia Pacchetto App"
       },
       "assignment_rules": {
-        "hint": "This is the rule name",
-        "select_agent": "Select Agent",
-        "title": "Title"
+        "hint": "Questo è il nome della regola",
+        "select_agent": "Seleziona agente",
+        "title": "Titolo"
       },
       "empty": {
         "text": "Scegli conversazioni dal lato",
@@ -21393,7 +21844,7 @@
         "unfiltered": "Tutti",
         "waiting": "In Attesa"
       },
-      "start_conversation": "Start a conversation",
+      "start_conversation": "Inizia conversazione",
       "states": {
         "closed": "Chiuso",
         "opened": "Aperto"
@@ -21404,19 +21855,19 @@
       "guides": "Guida Chaskiq",
       "hey": "👋 Hey!, stai visualizzando la dashboard di <strong>%{name} </strong>! <br /> Ricevi la snippet di installazione per la configurazione web <br />",
       "incoming_messages": "Messaggi in arrivo",
-      "lead_os": "Lead OS",
+      "lead_os": "Sistema Operativo dei Lead",
       "mac_os": "Mac OS",
-      "new_conversations": "New Conversations",
+      "new_conversations": "Nuove conversazioni",
       "resolutions": "Risoluzioni",
-      "response_avg": "Average Response Time",
+      "response_avg": "Tempo medio di risposta",
       "snippet": "Inserisci il seguente script alla fine del tag html <body>",
       "status": "Stato della Live Chat",
       "status_paused": "In pausa",
       "status_running": "In Esecuzione",
-      "user_country": "User Country",
-      "user_os": "User OS",
-      "users_browser": "Users Browser",
-      "visit_activity": "Visit Activity"
+      "user_country": "Paese Utente",
+      "user_os": "Sistema Operativo degli utenti",
+      "users_browser": "Browser utenti",
+      "visit_activity": "Attività visite"
     },
     "data_tables": {
       "agents": {
@@ -21711,6 +22162,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -21963,15 +22424,15 @@
       }
     },
     "email_forwarding": {
-      "ex": "Forward email from your normal support email address (such as help@mycompany.com) to Chaskiq so you can reply to emails from your agent panel",
-      "subtitle": "Default Inbound Address",
-      "title": "Email Forwarding"
+      "ex": "Inoltra email dal tuo normale indirizzo email di supporto (come help@mycompany.com) a Chaskiq in modo da poter rispondere alle email dalla dashboard Agente",
+      "subtitle": "Indirizzo Predefinito In Entrata",
+      "title": "Inoltro Email"
     },
     "error_view": {
-      "cta": "Try to go home",
-      "exp": "Try refreshing the page",
+      "cta": "Prova a tornare alla home",
+      "exp": "Prova ad aggiornare la pagina",
       "subtitle": "Sfortunatamente 🤯",
-      "title": "Woops! Something went wrong."
+      "title": "Si è verificato un errore sconosciuto."
     },
     "errors": {
       "messages": {
@@ -22053,44 +22514,44 @@
       }
     },
     "home": {
-      "choose_lang": "Choose Language",
-      "create_new": "Create New App",
-      "edit_credentials": "Edit User Credentials",
-      "edit_profile": "Edit Profile",
-      "go_to_doc": "Go To Documentation",
+      "choose_lang": "Scegli la lingua",
+      "create_new": "Crea nuova App",
+      "edit_credentials": "Modifica credenziali utente",
+      "edit_profile": "Modifica profilo",
+      "go_to_doc": "Vai alla documentazione",
       "tagline": "Trova qui le applicazioni correnti",
       "welcome": "Benvenuto a",
       "welcome_site": "Chaskiq"
     },
     "identified_users": {
-      "dont_share_code": "Don't share this code",
-      "encryption_key_label": "Identity verification secret",
-      "hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
-      "hint2": "Wherever you upload user data and have a Chaskiq code snippet, Add a new attribute called <span className=\"font-bold\">identifier_key</span> and pass the <span className=\"font-bold\">email</span> and give it the HMAC tag for the logged in user:",
-      "hmac_hint1": "To configure identity verification, you will need to generate an HMAC on your server for each logged in user and submit it to Chaskiq.",
-      "lang": "Your code to generate an HMAC for your app is",
-      "title": "Verified users setup"
+      "dont_share_code": "Non condividere questo codice",
+      "encryption_key_label": "Codice segreto per verifica",
+      "hint1": "Per configurare la verifica dell'identità, è necessario generare un HMAC sul server per ogni utente registrato e inviarlo a Chaskiq.",
+      "hint2": "Ovunque si caricano i dati utente e si dispone di uno snippet di codice Chaskiq, bisogna aggiungere un nuovo attributo denominato <span className=\"font-bold\">identifier_key</span> e passare l'email <span className=\"font-bold\"></span> e dargli il tag HMAC per l'utente registrato:",
+      "hmac_hint1": "Per configurare la verifica dell'identità, è necessario generare un HMAC sul server per ogni utente registrato e inviarlo a Chaskiq.",
+      "lang": "Il codice per generare un HMAC per la tua app è",
+      "title": "Configurazione utenti verificati"
     },
     "invitation": {
-      "built_with_love": "Built with love by the team",
+      "built_with_love": "Sviluppato con amore dal team",
       "button": "Salva",
-      "password": "Type your password",
-      "password_confirmation": "Confirm your password",
-      "title": "Create your account"
+      "password": "Digita la password",
+      "password_confirmation": "Conferma la tua password",
+      "title": "Crea il tuo account"
     },
     "login": {
-      "continue_with": "Continue with",
-      "email": "Your Email",
-      "forgot_password": "Forgot your password?",
-      "password": "Your password",
-      "remember_me": "Remember me",
-      "sign_in": "Connect",
-      "title": "Connect to your account"
+      "continue_with": "Continua con",
+      "email": "La Tua Email",
+      "forgot_password": "Password dimenticata?",
+      "password": "La tua password",
+      "remember_me": "Ricordami",
+      "sign_in": "Connetti",
+      "title": "Connetti al tuo account"
     },
     "navigator": {
       "campaigns": "Campagne",
       "childs": {
-        "api_access": "API Access",
+        "api_access": "Accesso API",
         "app_settings": "Impostazioni App",
         "article_settings": "Impostazioni",
         "articles": "Articoli",
@@ -22106,8 +22567,8 @@
         "in_app_messages": "Messaggi In App",
         "integrations": "Integrazioni",
         "mailing_campaigns": "Campagne mail",
-        "messenger_settings": "Messenger Settings",
-        "new_conversations": "New Conversations",
+        "messenger_settings": "Impostazioni Messenger",
+        "new_conversations": "Nuove conversazioni",
         "outbound": "In uscita",
         "team": "Squadra",
         "webhooks": "Webhook"
@@ -22119,49 +22580,49 @@
       "routing_bots": "Bot Di Routing",
       "settings": "Impostazioni",
       "user_menu": {
-        "create_app": "Create New App",
+        "create_app": "Crea nuova App",
         "create_app_description": "Crea l'app Chaskiq della tua azienda",
-        "signout": "Sign Out",
-        "title": "User Menu"
+        "signout": "Esci",
+        "title": "Menu utente"
       }
     },
     "new_app": {
       "hint": "Crea l'app Chaskiq della tua azienda",
-      "text": "Provide basic information to setup Chaskiq for your team and customers.",
+      "text": "Fornisci informazioni di base per configurare Chaskiq per il tuo team e i clienti.",
       "title": "Crea l'app Chaskiq della tua azienda"
     },
     "profile": {
-      "address": "Address",
-      "area_of_expertise": "Area of expertise",
-      "availability": "Availability",
-      "name": "Full name",
-      "no_name": "No name",
-      "phone_number": "Phone number",
-      "specialization": "Specialization"
+      "address": "Indirizzo",
+      "area_of_expertise": "Settore di competenza",
+      "availability": "Disponibilità",
+      "name": "Nome completo",
+      "no_name": "Senza nome",
+      "phone_number": "Numero di telefono",
+      "specialization": "Specializzazione"
     },
     "quick_replies": {
       "add_as_dialog": {
-        "title": "Add this message as a Quick Reply"
+        "title": "Aggiungi questo messaggio come risposta veloce"
       },
       "create": {
-        "error": "Error creating quick reply",
-        "success": "Quick reply was created successfully"
+        "error": "Errore nella creazione della risposta veloce",
+        "success": "Risposta veloce creata con successo"
       },
       "delete": {
-        "hint": "we will destroy any content and related data, conversations will keep content though",
-        "title": "Delete quick reply %{name}"
+        "hint": "elimineremo questi dati e quelli correlati, sebbene le conversazioni manterranno i loro contenuti",
+        "title": "Elimina risposta veloce %{name}"
       },
       "empty": {
-        "create_new": "Create new",
-        "title": "No quick replies"
+        "create_new": "Crea nuova",
+        "title": "Nessuna risposta veloce"
       },
-      "search": "Search Quick replies",
-      "title": "Quick Replies",
+      "search": "Ricerca risposte veloci",
+      "title": "Risposte veloci",
       "update": {
-        "error": "Error updating quick reply",
-        "success": "Quick reply was updated successfully"
+        "error": "Errore nell'aggiornamento della risposta veloce",
+        "success": "Risposta veloce aggiornata con successo"
       },
-      "will_send": "The \"%{lang}\" version will be sent to the conversation."
+      "will_send": "La versione \"%{lang}\" verrà inviata alla conversazione."
     },
     "segment_manager": {
       "add_filters": "Add filters",
@@ -22199,61 +22660,72 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
-        "create_app": "Create Oauth App",
-        "delete_app": "Delete Oauth App?",
-        "details": "Oauth details and credentials.",
-        "hint": "We will destroy any content and related data",
+        "create_app": "Crea App Oauth",
+        "delete_app": "Vuoi eliminare l'App Oauth?",
+        "details": "Dettagli e credenziali Oauth.",
+        "hint": "Distruggeremo qualsiasi contenuto e dati correlati",
         "invite": {
-          "text": "send an activable invitation",
-          "title": "Add a new agent"
+          "text": "Invia una email d'invito",
+          "title": "Aggiungi nuovo agente"
         },
-        "oauth_information": "Oauth App Information",
+        "oauth_information": "Informazioni App Oauth",
         "tabs": {
-          "apps": "OAUTH Applications",
-          "authorized": "Authorized OAUTH Applications"
+          "apps": "Applicazioni OAuth",
+          "authorized": "Applicazioni OAUTH Autorizzate"
         },
-        "title": "Oauth Applications"
+        "title": "Applicazioni Oauth"
       },
       "app": {
         "app_settings": "Impostazioni App",
-        "appearance": "Appearance",
-        "appearance_title": "Appearance Settings",
-        "availability": "Availability",
-        "contact_avatars": "Contact Avatars",
-        "email_forwarding": "Email Forwarding",
-        "email_requirement": "Email Requirement",
-        "inbound_settings": "Inbound Settings",
-        "messenger_settings": "Messenger Settings",
-        "messenger_style": "Messenger Style",
+        "appearance": "Aspetto",
+        "appearance_title": "Impostazioni Aspetto",
+        "availability": "Disponibilità",
+        "contact_avatars": "Avatar Contatti",
+        "email_forwarding": "Inoltro Email",
+        "email_requirement": "Email obbligatoria",
+        "inbound_settings": "Impostazioni Inbound",
+        "messenger_settings": "Impostazioni Messenger",
+        "messenger_style": "Stile Messenger",
         "privacy": "Privacy",
-        "privacy_title": "Privacy Settings",
-        "quick_replies": "Quick Replies",
-        "security": "Security",
+        "privacy_title": "Impostazioni privacy",
+        "quick_replies": "Risposte veloci",
+        "security": "Sicurezza",
         "tags": "Etichette",
-        "translations": "Translations",
-        "user_data": "User Data"
+        "translations": "Traduzioni",
+        "user_data": "Dati utente"
       },
       "app_inserter": {
         "action": "Aggiungi App",
-        "subtitle": "Help your customers before they start a conversation",
-        "title": "Add apps to your Messenger"
+        "subtitle": "Aiuta i tuoi clienti prima di iniziare una conversazione",
+        "title": "Aggiungi app al Messenger"
       },
       "app_packages": {
-        "create_error": "Error creating package",
-        "create_integration": "Create New package",
-        "create_success": "Package created",
-        "remove_error": "Error removing package",
-        "remove_success": "Package removed correctly",
-        "update_error": "Error updating package",
-        "update_success": "Package updated"
+        "create_error": "Errore nell'elaborazione del pacchetto.",
+        "create_integration": "Creare nuovo pacchetto",
+        "create_success": "Pacchetto creato",
+        "remove_error": "Errore nel rimuovere il pacchetto",
+        "remove_success": "Pacchetto rimosso correttamente",
+        "update_error": "Errore nell'aggiornamento del pacchetto",
+        "update_success": "Pacchetto aggiornato"
       },
       "availability": {
         "hint": "Set team office hours and reply times",
         "hint2": "Outside these hours, customers see when you'll be back, relative to their timezone.",
         "reply_time": {
           "hint": "During office hours, let your customers know when they can expect a reply.",
-          "hint2": "Note: visitor will receive an auto reply with your team’s availability during out-of-office hours or long reply times.",
+          "hint2": "Nota: il visitatore riceverà una risposta automatica con la disponibilità del tuo team durante le ore di fuori ufficio o lunghi tempi di risposta.",
           "options": [
             {
               "value": "auto",
@@ -22265,11 +22737,11 @@
             },
             {
               "value": "hours",
-              "label": "Team usually responds within hours."
+              "label": "Il team risponde di solito in poche ore."
             },
             {
-              "value": "1 day",
-              "label": "The team usually responds in one day."
+              "value": "1 giorno",
+              "label": "Il team risponde di solito in un giorno."
             }
           ],
           "title": "Set reply time"
@@ -22284,29 +22756,29 @@
         "title": "Contact avatars style"
       },
       "email_requirement": {
-        "ask": "Ask your website visitors to leave their email before starting a live chat:",
-        "hint": "So you can always get back to your website visitors",
+        "ask": "Chiedi ai visitatori del tuo sito di indicare la loro email prima d'iniziare una conversazione:",
+        "hint": "Così potrai essere contattare i visitatori del tuo sito",
         "options": [
           {
-            "label": "Only outside of office hours",
-            "hint": "REDUCES CONVERSATION VOLUME BY AROUND 5% ON AVERAGE",
-            "value": "office"
+            "label": "Solo fuori dagli orari d'ufficio",
+            "hint": "RIDUZIONI DI CIRCA IL 5% DEL VOLUME DELLE CONVERSAZIONI",
+            "value": "ufficio"
           },
           {
-            "label": "Always",
-            "hint": "REDUCES CONVERSATION VOLUME BY AROUND 30% ON AVERAGE",
-            "value": "Always"
+            "label": "Sempre",
+            "hint": "RIDUZIONE DI CIRCA IL 30% DEL VOLUME DELLE CONVERSAZIONI",
+            "value": "Sempre"
           },
           {
-            "label": "Never",
-            "value": "Never",
-            "hint": "WILL ALLOW WEBSITE VISITORS TO START A CONVERSATION AT ANY TIME"
+            "label": "Mai",
+            "value": "Mai",
+            "hint": "CONSENTI AI VISITATORI DEL SITO DI AVVIARE UNA CONVERSAZIONE IN QUALSIASI MOMENTO"
           }
         ],
-        "title": "Require an email for new conversations"
+        "title": "Richiedi un'email per nuove conversazioni"
       },
       "inbound": {
-        "checkbox": "Let people start new inbound conversations with you",
+        "checkbox": "Consenti agli utenti di avviare nuove conversazioni in entrata con te",
         "closed_replies_disabled": "Preventing users from responding to closed conversations after.",
         "closed_replies_enabled": "Letting users reply to closed messages at any time.",
         "closed_replies_title": "Prevent replies to closed conversations for %{name}",
@@ -22323,15 +22795,15 @@
             "some": "Users who match certain data"
           }
         },
-        "hint": "When this is turned off, people can only reply to the outbound messages you send.",
-        "hint2": "Control who sees the standard Messenger launcher on your website.",
+        "hint": "Quando questo è disattivato, le persone possono rispondere solo ai messaggi in uscita che invii.",
+        "hint2": "Controlla chi vede il launcher di Messenger sul tuo sito.",
         "idle_sessions_disabled": "Resets sessions on idle time after.",
         "idle_sessions_enabled": "Allow idle sessions on messenger.",
         "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
-        "note2": "ANY MESSAGES YOU SEND WILL STILL BE DELIVERED.",
+        "note2": "QUALSIASI MESSAGGIO TU INVIERAI, SARÀ DEFINITIVO.",
         "note3": "On the web, show the standard Messenger launcher to:",
-        "title": "New conversations button",
-        "title2": "visibility"
+        "title": "Nuovo pulsante di conversazione",
+        "title2": "visibilità"
       },
       "integrations": {
         "active": {
@@ -22344,7 +22816,7 @@
         },
         "create_error": "Error linking integration",
         "create_integration": "Create New integration",
-        "create_success": "Integration created",
+        "create_success": "Integrazione creata",
         "delete_dialog": {
           "text": "The integration with %{name} service will be disabled immediately",
           "title": "Delete \"%{name}\" integration?"
@@ -22358,7 +22830,7 @@
         },
         "remove_error": "Error removing integration",
         "remove_success": "Integration removed correctly",
-        "title": "Third party integrations",
+        "title": "Integrazioni di terze parti",
         "update_error": "Error updating integration",
         "update_success": "Integration updated",
         "yours": {
@@ -22367,8 +22839,8 @@
         }
       },
       "languages": {
-        "add": "Add language",
-        "title": "Languages"
+        "add": "Aggiungi lingua",
+        "title": "Lingue"
       },
       "tags": {
         "inputs": {
@@ -22386,22 +22858,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Elimina",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Squadra",
         "title_content": "Add a new agent",
         "update_agent": "Aggiorna",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -22588,38 +23080,38 @@
       "upgrade": "Upgrade"
     },
     "task_bots": {
-      "add_data_option": "+ add data option",
-      "add_follow_action": "Add Follow Action",
-      "add_path": "Add new conversation part",
-      "assign_agent": "assign_agent",
-      "assignee_agent": "Assignee Agent",
-      "close_conversation": "close conversation",
-      "continue_bot_with": "Continue bot with",
-      "continue_with_reply_button": "Continue bot with reply button",
+      "add_data_option": "+ aggiungi dati opzione",
+      "add_follow_action": "Aggiungi Azione Successiva",
+      "add_path": "Aggiungi nuova parte di conversazione",
+      "assign_agent": "assegna_agente",
+      "assignee_agent": "Assegna Agente",
+      "close_conversation": "chiudi conversazione",
+      "continue_bot_with": "Continua con",
+      "continue_with_reply_button": "Continua con il pulsante risposta",
       "create": {
-        "title": "Create Bot task"
+        "title": "Crea nuovo Bot task"
       },
       "delete": {
-        "hint": "we will destroy any content and related data",
-        "title": "Delete bot \"%{name}\""
+        "hint": "distruggeremo qualsiasi contenuto e i dati correlati",
+        "title": "Elimina bot \"%{name}\""
       },
       "delete_path": "elimina percorso",
       "email_requirement": {
-        "ack": "Thank you",
-        "input_label": "Get notified by email",
-        "message": "Give the team a way to reach you",
-        "placeholder": "Enter your email"
+        "ack": "Grazie",
+        "input_label": "Ricevi una notifica via email",
+        "message": "Indica al team un modo per contattarti",
+        "placeholder": "Inserisci la tua mail"
       },
       "email_support": "per ottenere il supporto è possibile inviare un'email a %{email}",
       "empty": {
-        "create_new": "Create a new one",
-        "title": "No bot tasks found"
+        "create_new": "Crea nuovo bot",
+        "title": "Nessun bot creato"
       },
-      "end_bot_with": "End bot with",
-      "end_with_follow": "End bot with follow actions",
-      "follow_actions": "follow actions",
-      "new": "Create New Task",
-      "new_conversations": "👋 New Conversations",
+      "end_bot_with": "Termina con",
+      "end_with_follow": "Termina con un'azione seguente",
+      "follow_actions": "azioni successive",
+      "new": "Crea nuova task",
+      "new_conversations": "👋 Nuove conversazioni",
       "new_conversations_notice": "Questo è ciò che le persone vedranno quando inizieranno una nuova conversazione",
       "options": {
         "add_app_package": "Aggiungi App",
@@ -22628,65 +23120,65 @@
       },
       "outbound": "🏓 In uscita",
       "path_title_hint": "titolo percorso",
-      "remove_success": "bot removed",
+      "remove_success": "bot rimosso",
       "reply_agent": "riceverai una risposta da uno dei nostri agenti",
-      "reply_button": "reply button",
+      "reply_button": "pulsante di risposta",
       "reply_soon": "Ciao, %{name} risponderà il prima possibile.",
-      "save_data": "Save data",
+      "save_data": "Salva",
       "settings": {
-        "custom_time": "Custom time",
-        "enable_hint": "when enabled the bot task will start operating",
-        "enable_title": "Enable bot task",
+        "custom_time": "Orario personalizzato",
+        "enable_hint": "quando abilitato l'attività del bot inizierà a funzionare",
+        "enable_title": "Attiva attività bot",
         "leads": {
-          "ask": "Ask for contact details",
-          "ask_email_phone": "Ask for email or mobile number",
-          "ask_hint": "If we don’t already have their contact details, Bot will suggest that customers leave their email address or their phone number to get notified whenever you reply.",
-          "assign": "Assign the conversation",
-          "close": "Close the conversation",
-          "delay": "Leave a 2 minute delay before triggering Task Bots during office hours",
-          "dont_ask_email": "Don't ask for email",
-          "email_only": "Ask for email only",
+          "ask": "Richiedi dettagli contatto",
+          "ask_email_phone": "Richiedi email o numero di telefono",
+          "ask_hint": "Se non abbiamo già i loro dati di contatto, il Chatbot suggerirà agli utenti d'indicare la loro email o il loro numero di telefono per ricevere una notifica ogni volta avviene una risposta.",
+          "assign": "Assegna conversazione",
+          "close": "Chiudi conversazione",
+          "delay": "Lascia un ritardo di 2 minuti prima di attivare i Task Bots durante le ore di ufficio",
+          "dont_ask_email": "Non chiedere l'email",
+          "email_only": "Richiedi solo email",
           "override": {
-            "hint": "When you do this the default behavior below will not take place and the task will be triggered on each new conversation",
-            "label": "Override default behavior with your own task bot"
+            "hint": "Quando si esegue questa operazione, il comportamento predefinito qui sotto non si svolgerà e l'attività verrà attivata in ogni nuova conversazione",
+            "label": "Sovrascrivi il comportamento predefinito con il tuo bot task"
           },
-          "route": "Route existing customers to support",
-          "route_costumer": "What do you want to do when they choose \"Yes, I'm a customer\"?",
-          "route_desc": "Route leads to the right people by asking if they are an existing customer when they start a new conversation.",
-          "share_time": "Share your typical reply time",
-          "start_conversation": "When leads start a conversation",
+          "route": "Percorso supporto dei clienti già esistenti",
+          "route_costumer": "Cosa vuoi fare quando scelgono \"Sì, sono un cliente\"?",
+          "route_desc": "Questo percorso filtra le persone che sono già clienti quando si avvia una nuova conversazione.",
+          "share_time": "Condividi il tempo di risposta medio",
+          "start_conversation": "Quando i lead avviano una conversazione",
           "tab": "Per potenziali clienti"
         },
-        "office_hours": "During office hours",
-        "outside_office": "Outside office hours",
-        "settings_title": "Bot Task settings",
-        "specific_times_title": "Set specific times to show this bot to your audience.",
-        "tz_hint": "Your app's timezone is %{timezone} See your office hours.",
+        "office_hours": "Durante le ore d'ufficio",
+        "outside_office": "Fuori dagli orari d'ufficio",
+        "settings_title": "Impostazioni Bot",
+        "specific_times_title": "Imposta orari specifici per l'attività di questo bot al tuo pubblico.",
+        "tz_hint": "Il fuso orario della tua app è %{timezone} Guarda gli orari d'ufficio",
         "users": {
-          "delay": "Leave a 2 minute delay before triggering Task Bots during office hours",
+          "delay": "Lascia un ritardo di 2 minuti prima di attivare il Bot Task durante le ore d'ufficio",
           "override": {
-            "hint": "hint!",
-            "label": "Override default behavior with your own task"
+            "hint": "suggerimento!",
+            "label": "Sovrascrivi il comportamento predefinito con il tuo bot task"
           },
-          "start_conversation": "When users start a conversation",
+          "start_conversation": "Quando gli utenti avviano una conversazione",
           "tab": "Per utenti"
         }
       },
       "state_filters": {
         "disabled_description": "Attività bot disabilitate",
         "disabled_title": "Disabilitato",
-        "enabled_description": "Enabled bot tasks",
+        "enabled_description": "Attiva bot tasks",
         "enabled_title": "Abilitato"
       },
       "support": {
-        "ask": "Are you an existing %{name} customer?",
+        "ask": "Sei già cliente, %{name}?",
         "options": {
-          "op1": "Yes, I'm a customer",
-          "op2": "No, I'm not an existing customer yet"
+          "op1": "Sì, sono già cliente",
+          "op2": "No, non sono ancora un cliente"
         },
         "reply": {
-          "op1": "Welcome back!",
-          "op2": "ok, let us know if you need something and an agent will reply as soon as possible"
+          "op1": "Bentornato!",
+          "op2": "ok, fateci sapere di cosa avete bisogno e un agente risponderà il prima possibile"
         }
       },
       "title": "Compiti Del bot",
@@ -22725,9 +23217,9 @@
         "message_header": "New Phone Call"
       },
       "labels": {
-        "client:Anonymous": "Anonymous client",
-        "client:agent": "Agent",
-        "client:support_agent": "Agent",
+        "client:Anonymous": "Cliente anonimo",
+        "client:agent": "Agente",
+        "client:support_agent": "Agente",
         "status": "Status",
         "title": "Call with %{subject}"
       },
@@ -23396,6 +23888,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -23883,6 +24385,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -24070,22 +24583,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -25080,6 +25613,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -25567,6 +26110,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -25754,22 +26308,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -26764,6 +27338,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -27252,6 +27836,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -27439,22 +28034,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -28449,6 +29064,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -28937,6 +29562,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -29124,22 +29760,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -30134,6 +30790,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -30624,6 +31290,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -30811,22 +31488,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -31821,6 +32518,16 @@
           "label": "Quando"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "webhooks Desativados"
@@ -32309,6 +33016,17 @@
       "starts_with": "começa com"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "enviar um convite por email",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Adicionar agente de usuário",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Excluir aplicativo Oauth",
         "delete_app": "Excluir aplicativo Oauth?",
@@ -32496,22 +33214,42 @@
         "action_button": "adicionar usuário",
         "add_new": "Adicionar um Membro",
         "agents": "Agentes",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "enviar um convite por email",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Apagar",
         "destroy_agent_title": "Excluir Agente",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agente excluído com sucesso",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Reenviar o convite",
         "send_invitation": "Enviar convite",
         "title": "Equipa",
         "title_content": "Adicionar agente de usuário",
         "update_agent": "Atualizar",
         "update_agent_title": "Actualizar Informação",
-        "updated_agent": "As informações foram atualizadas com sucesso"
+        "updated_agent": "As informações foram atualizadas com sucesso",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -33506,6 +34244,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -33995,6 +34743,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -34182,22 +34941,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -35192,6 +35971,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -35682,6 +36471,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -35869,22 +36669,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -36879,6 +37699,16 @@
           "label": "Den"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "aktivera webhook"
@@ -37367,6 +38197,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -37554,22 +38395,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -38564,6 +39425,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -39052,6 +39923,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -39239,22 +40121,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -40249,6 +41151,16 @@
           "label": "When"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "enable webhook"
@@ -40739,6 +41651,17 @@
       "starts_with": "starts with"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "send an activable invitation",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "Add a new agent",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "Create Oauth App",
         "delete_app": "Delete Oauth App?",
@@ -40926,22 +41849,42 @@
         "action_button": "add user",
         "add_new": "Add Team Member",
         "agents": "Agents",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "send an activable invitation",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "Delete",
         "destroy_agent_title": "Delete Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent deleted successfully",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "Resend invitation",
         "send_invitation": "Send invitation",
         "title": "Team",
         "title_content": "Add a new agent",
         "update_agent": "Update",
         "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully"
+        "updated_agent": "Information updated successfully",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
@@ -41936,6 +42879,16 @@
           "label": "当"
         }
       },
+      "teams": {
+        "description": {
+          "label": "Team's description",
+          "placeholder": "Write what's this team is about"
+        },
+        "name": {
+          "label": "Team's name",
+          "placeholder": "My awesome team"
+        }
+      },
       "webhooks": {
         "enabled": {
           "label": "启用 webhook"
@@ -42423,6 +43376,17 @@
       "starts_with": "开始于"
     },
     "settings": {
+      "agent_teams": {
+        "action_button": "Add Team member",
+        "add_team": "Add Team",
+        "added_success": "Agent added to team",
+        "content_text": "发送激活邀请",
+        "created_team": "Team created successfully",
+        "delete_success": "Agent deleted from team",
+        "search_placeholder": "Search for an agent",
+        "title_content": "添加新代理",
+        "updated_team": "Team updated successfully"
+      },
       "api": {
         "create_app": "创建 Oauth应用程序",
         "delete_app": "删除 Oauth 应用程序？",
@@ -42610,22 +43574,42 @@
         "action_button": "添加用户",
         "add_new": "添加团队成员",
         "agents": "Agents 代理人",
+        "confirm_team_delete": "Are you sure you want to delete this team?",
         "content_text": "发送激活邀请",
+        "created_team": "Team created",
+        "delete": {
+          "action_button": "Delete Team",
+          "content_text": "Delete Team",
+          "title_content": "Delete Team"
+        },
+        "deleted_team": "Team deleted",
         "destroy_agent": "删除",
         "destroy_agent_title": "删除Agent",
         "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
         "destroyed_agent": "Agent 已成功删除",
+        "edit": {
+          "action_button": "Edit Team",
+          "content_text": "Edit Team",
+          "title_content": "Edit Team"
+        },
         "hint": "The new team member will be notified by it's email",
         "invitatin_error": "Invitation not sent!",
         "invitation_success": "Invitation sent!",
         "invitations": "Invitations",
+        "new": {
+          "action_button": "Add Team",
+          "content_text": "Create a new Team",
+          "title_content": "Add a new Team"
+        },
+        "participants": "Manage participants",
         "resend_invitation": "重新发送邀请",
         "send_invitation": "发送邀请",
         "title": "团队",
         "title_content": "添加新代理",
         "update_agent": "更新",
         "update_agent_title": "更新Agent代理信息",
-        "updated_agent": "已成功上传信息"
+        "updated_agent": "已成功上传信息",
+        "updated_team": "Team updated"
       },
       "user_data": {
         "attr_types": {
