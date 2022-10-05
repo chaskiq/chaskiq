@@ -572,236 +572,236 @@ it:
       resend_invitation: Reinvia invito
       add_new: Aggiungi Membro Team
       update_agent_title: Aggiorna informazioni agente
-      updated_agent: Information updated successfully
-      destroyed_agent: Agent deleted successfully
-      destroy_agent_title: Delete Agent
+      updated_agent: Informazioni aggiornate con successo
+      destroyed_agent: Agente eliminato con successo
+      destroy_agent_title: Elimina Agente
       destroy_agent: Elimina
-      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
+      destroy_agent_warning: 'Sei sicuro di voler eliminare %{agent}?'
       update_agent: Aggiorna
-      participants: Manage participants
-      updated_team: Team updated
-      created_team: Team created
-      deleted_team: Team deleted
-      confirm_team_delete: Are you sure you want to delete this team?
+      participants: Gestisci partecipanti
+      updated_team: Team aggiornato
+      created_team: Team creato
+      deleted_team: Team eliminato
+      confirm_team_delete: Sei sicuro di voler eliminare questo team?
       new:
-        action_button: Add Team
-        title_content: Add a new Team
-        content_text: Create a new Team
+        action_button: Aggiungi Team
+        title_content: Aggiungi un nuovo team
+        content_text: Crea un nuovo team
       edit:
-        action_button: Edit Team
-        title_content: Edit Team
-        content_text: Edit Team
+        action_button: Modifica Team
+        title_content: Modifica Team
+        content_text: Modifica Team
       delete:
-        action_button: Delete Team
-        title_content: Delete Team
-        content_text: Delete Team
+        action_button: Elimina team
+        title_content: Elimina team
+        content_text: Elimina team
     agent_teams:
-      action_button: Add Team member
-      title_content: Add a new agent
-      content_text: send an activable invitation
-      search_placeholder: "Search for an agent"
-      delete_success: Agent deleted from team
-      added_success: Agent added to team
-      add_team: Add Team
-      updated_team: Team updated successfully
-      created_team: Team created successfully
+      action_button: Aggiungi Membro Team
+      title_content: Aggiungi nuovo agente
+      content_text: Invia una email d'invito
+      search_placeholder: "Ricerca agente"
+      delete_success: Agente eliminato dal team
+      added_success: Agente aggiunto al team
+      add_team: Aggiungi Team
+      updated_team: Team aggiornato con successo
+      created_team: Team creato con successo
     webhooks:
       title: Webhook
-      create_success: Webhook created
-      create_error: Error adding webhook
-      update_success: Webhook updated
-      update_error: Error updating webhook
-      delete_success: Webhook removed correctly
-      delete_error: Error removing webhook
-      outgoing_webhooks: Outgoing webhooks
-      new_webhook: New Webhook
-      active_webhooks: Active Webhooks
-      disabled_webhooks: Disabled Webhooks
+      create_success: Webhook creato
+      create_error: Errore nell'aggiunta del webhook
+      update_success: Webhook aggiornato
+      update_error: Errore nell'aggiornamento del webhook
+      delete_success: Webhook rimosso correttamente
+      delete_error: Errore nella rimozione del webhook
+      outgoing_webhooks: Webhooks in uscita
+      new_webhook: Nuovo Webhook
+      active_webhooks: Webhook Attivi
+      disabled_webhooks: Webhook Disabilitati
       empty:
-        title: You don't have any active webhooks yet
-        desc: Search for your webhooks in
-        disabled_webhooks: Disabled webhooks
+        title: Non hai ancora alcun webhook attivo
+        desc: Cerca i tuoi webhook in
+        disabled_webhooks: Webhooks disabilitati
       delete:
-        title: Delete webhook?
-        text: The webhook with %{name} service will be disabled immediately
+        title: Eliminare questo webhook?
+        text: Il webhook con il servizio %{name} sarà disabilitato immediatamente
     tags:
       title: Etichette
       modal:
-        title: Create app's tag
-        hint: Looking for more tags? Look at
-        link: account settings
+        title: Crea tag dell'app
+        hint: Cerchi altri tag? Guarda
+        link: impostazioni account
       inputs:
-        name: Field name
-        color: Field color
+        name: Campo del Nome
+        color: Campo del Colore
     contact_avatars:
-      title: Contact avatars style
-      hint: Choose one of the 6 avatar styles provided by https://boringavatars.com/
+      title: Stile avatar dei contatti
+      hint: Scegli uno dei 6 stili avatar forniti da https://boringavatars.com/
       choose_color: Selezionare un colore
     user_data:
-      title: Custom Fields
-      default_fields: Default attributes
-      non_editable: This fields are not editable
+      title: Campi personalizzati
+      default_fields: Attributi predefiniti
+      non_editable: Questo campo non è modificabile
       modal:
-        title: Create user data field
+        title: Crea campo dati utente
       inputs:
-        name: Field name
-        type: Field type
-        validation: Validation
-        validation_hint: Validation is optional
+        name: Campo del Nome
+        type: Campo del Tipo
+        validation: Convalida
+        validation_hint: La convalida è facoltativa
       attr_types:
-        date: Date
-        integer: Integer
-        string: String
+        date: Data
+        integer: Intero
+        string: Stringa
   articles:
     title: Articoli
     all: Tutti
-    published: Published
-    draft: Drafts
-    visit: visit the help center
-    new: New Article
-    add: Add Item
+    published: Pubblicato
+    draft: Bozze
+    visit: Visita l’Help Center
+    new: Nuovo articolo
+    add: Aggiungi elemento
     collections: Collezioni
     help_center: Centro assistenza
-    description_placeholder: Describe your collection to help you find it.
-    title_placeholder: Write the title of the sections
-    new_section: New Section
-    new_collection: New Collection
-    edit_collection: Edit collection
+    description_placeholder: Descrivi la tua collezione per aiutarti a trovarla.
+    title_placeholder: Scrivi il titolo delle sezioni
+    new_section: Nuova Sezione
+    new_collection: Nuova Collezione
+    edit_collection: Modifica Collezione
     create_article:
-      placeholder: Write the title of the article
-      description_placeholder: Add a summary to find the article later
+      placeholder: Scrivi il titolo dell'articolo
+      description_placeholder: Aggiungi un riassunto per trovare l'articolo in seguito
     create:
-      title: New collection of articles
-      placeholder: Enter the title of the collection
-      description: Describe your collection to help you find it.
-    deleted_success: Article deleted
-    new_article: New article
-    settings_updated_success: Article settings updated
-    settings_updated_error: Article settings failed
-    activate_help_center: Activate Help Center
-    delete_article: Delete article "%{title}?
-    delete_article_exp: we will destroy any content and related data
-    square_preferred: square images preferred (min size 200x200px)
-    square_preferred_hint: squared images will be optimal resized
-    reordered_success: Reordered correctly
-    reordered_error: Reordered error
-    add_articles: Add Articles
-    updated_success: Article updated
-    updated_error: Article error on save
-    delete_section: Delete section
-    author: Author
-    written_by: written by
-    created_on: Created on
-    base_section: Base Section
+      title: Nuova collezione di articoli
+      placeholder: Aggiungi il titolo della collezione
+      description: Descrivi la tua collezione per aiutarti a trovarla.
+    deleted_success: Articolo eliminato
+    new_article: Nuovo articolo
+    settings_updated_success: Impostazioni articolo aggiornate
+    settings_updated_error: Impostazioni articolo non riuscito
+    activate_help_center: Attiva Help Center
+    delete_article: Vuoi eliminare l'articolo "%{title}?
+    delete_article_exp: elimineremo i contenuti e i dati correlati
+    square_preferred: immagini quadrate preferite (dimensione minima 200x200px)
+    square_preferred_hint: le immagini squadrate saranno ridimensionate
+    reordered_success: Riordinata correttamente
+    reordered_error: Errore riordinamento
+    add_articles: Aggiungi Articolo
+    updated_success: Articolo aggiornato
+    updated_error: Errore articolo nel salvataggio
+    delete_section: Elimina sezione
+    author: Autore
+    written_by: scritto da
+    created_on: Creato il
+    base_section: Sezione Base
     state:
-      published: published
-      published_desc: 'shows article on the help center'
-      draft: draft
-      draft_desc: 'hides the article on the help center'
+      published: pubblicato
+      published_desc: 'mostra l''articolo sull''Help Center'
+      draft: bozza
+      draft_desc: 'nasconde l''articolo nell''Help Center'
     settings:
-      title: Help Center settings
-      add_language: Add Language
-      select_lang: Select language
-      add_language_to_help: Add new language to Help Center
+      title: Impostazioni Help Center
+      add_language: Aggiungi Lingua
+      select_lang: Seleziona lingua
+      add_language_to_help: Aggiungi nuova lingua all'Help Center
       delete:
-        title: Delete translation "%{name}"
-        text: We will destroy the translation and hide any article with the language "%{name}"
-      appearance: Appearance
-      appearance_settings: Appearance settings
-      lang: Language
-      lang_title: Find your Help Center
-      lang_desc: Manage supported languages and customize your Help Center header
-      basic: Basic setup
-      general_app: Application overview
+        title: Elimina traduzione "%{name}"
+        text: Distruggeremo la traduzione e nasconderemo qualsiasi articolo con la lingua "%{name}"
+      appearance: Aspetto
+      appearance_settings: Impostazioni aspetto
+      lang: Lingua
+      lang_title: Trova il tuo Help Center
+      lang_desc: Gestisci le lingue supportate e personalizza l'intestazione dell'Help Center
+      basic: Configurazione base
+      general_app: Panoramica dell'app
   contact_manager:
-    create: Create Users & Leads
-    import_csv: Import csv
-    success_message: Processing file import, you will be notified the status soon
-    import_contacts: import_contacts
-    import_exp: You can upload a csv or excel file in order to import contacts
-    import_type: Import Type
-    import_choose: Choose what kind of contacts you will import
-    select_file: Select a file
+    create: Crea Utenti & Lead
+    import_csv: Importa csv
+    success_message: Elaborazione importazione del file, ti avviseremo non appena completata.
+    import_contacts: importa_contatti
+    import_exp: Puoi caricare un file csv o excel per importare contatti
+    import_type: Importa tipo
+    import_choose: Scegli che tipo di contatti importerai
+    select_file: Seleziona file
     definitions:
-      app_user: Verified User
+      app_user: Utente Verificato
       lead: Lead
-      phone: Phone
-      company_name: Company Name
+      phone: Telefono
+      company_name: Nome azienda
   segment_manager:
-    add_filters: Add filters
-    select_fields: 'Select fields:'
-    create_segment: Create new segment
-    save_changes_to: Save changes to the <b>%{name}</b>{' '} segment.
-    changes_notice: The changes will be saved to the app segments.
-    delete_segment: 'Delete segment'
-    save_segment: Save segment
-    match: match
-    all: all
-    any: any
-    criteria: criteria
-    days_ago: days ago
-    filter_for: Select filter for %{name}
-    date_filter_for: Select the date filter for %{name}
-    integer_filter_for: Select the integer filter for %{name}
-    match_criteria_for: Match criteria options for %{name}
-    apply: apply
-    is: is
-    is_not: is not
-    starts_with: starts with
-    ends_with: ends with
-    contains: contains
-    does_not_contain: does not contain
-    is_unknown: is unknown
-    has_any_value: has any value
-    exactly: exactly
-    less_than: less than
-    less_than_eq: less than eq
-    more_than: more than
-    more_than_eq: more than eq
-    match_any: match any
-    match_all: match all
-    missing_value: Missing value!
+    add_filters: Aggiungi filtri
+    select_fields: 'Seleziona campi:'
+    create_segment: Crea nuovo segmento
+    save_changes_to: Salva le modifiche al segmento <b>%{name}</b>{' '}
+    changes_notice: Le modifiche saranno salvate nei segmenti dell'app.
+    delete_segment: 'Elimina segmento'
+    save_segment: Salva segmento
+    match: corrispondenza
+    all: tutti
+    any: qualsiasi
+    criteria: criteri
+    days_ago: giorni fa
+    filter_for: Seleziona filtro per %{name}
+    date_filter_for: Seleziona filtro per %{name}
+    integer_filter_for: Seleziona il filtro integro per %{name}
+    match_criteria_for: Opzioni dei criteri per %{name}
+    apply: applica
+    is: è
+    is_not: non è
+    starts_with: inizia con
+    ends_with: finisce con
+    contains: contiene
+    does_not_contain: non contiene
+    is_unknown: è sconosciuto
+    has_any_value: ha un qualsiasi valore
+    exactly: esattamente
+    less_than: meno di
+    less_than_eq: meno di
+    more_than: più di
+    more_than_eq: più di
+    match_any: corrisponde a qualsiasi
+    match_all: corrisponde a tutto
+    missing_value: Valore mancante!
   full_contact:
     inbox:
-      name: Name
-      first_name: First name
-      last_name: Last name
+      name: Nome completo
+      first_name: Nome
+      last_name: Cognome
       twitter: Twitter
       facebook: Facebook
       linkedin: Linkedin
-      organization: Organization
-      job_title: Job title
+      organization: Organizzazione
+      job_title: Impiego
   contact_fields:
     inbox:
-      first_name: First name
-      last_name: Last name
+      first_name: Nome
+      last_name: Cognome
       email: Email
-      company: Company
-      phone: Phone
+      company: Azienda
+      phone: Telefono
   twilio_phone:
     buttons:
-      holdOn: Put on hold
-      holdOff: Remove hold
-      pickUp: Pick up
-      hangUp: Hang up
-      join: Join
-      leave: Leave
-      goToConversation: Go to conversation
-      open_call_window: Open Call Window
+      holdOn: Metti in attesa
+      holdOff: Elimina Attesa
+      pickUp: Rispondi
+      hangUp: Interrompi
+      join: Unisciti
+      leave: Esci
+      goToConversation: Vai alla conversazione
+      open_call_window: Apri Finestra Chiamata
     messages:
-      inProgress: In-progress
-      incoming: Incoming call...
-      error: "ERROR: %{message}"
-      noConversations: No active conversations
-      noAgentsInCall: NO AGENTS IN THE CALL
-      agentsInCall: "AGENTS IN THE CALL:"
+      inProgress: In corso
+      incoming: Chiamata in entrata
+      error: "ERRORE: %{message}"
+      noConversations: Nessuna conversazione attiva
+      noAgentsInCall: NESSUN AGENTE IN CHIAMATA
+      agentsInCall: "AGENTI IN CHIAMATA:"
     conversations:
-      message_header: New Phone Call
+      message_header: Nuova Chiamata
     status:
-      onHold: ON HOLD
+      onHold: IN ATTESA
     labels:
-      title: "Call with %{subject}"
-      status: Status
+      title: "Chiama con %{subject}"
+      status: Stato
       'client:Anonymous': Cliente anonimo
       'client:agent': Agente
       'client:support_agent': Agente
