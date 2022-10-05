@@ -289,7 +289,7 @@ export function updateConversationState(state, cb) {
       UPDATE_CONVERSATION_STATE,
       {
         appKey: getState().app.key,
-        conversationId: getState().conversation.id,
+        conversationId: `${getState().conversation.id}`,
         state: state,
       },
       {
@@ -408,6 +408,7 @@ export default function reducer(
       return action.data;
     }
     case ActionTypes.UpdateConversation: {
+      if (state.key !== action.data.key) return state;
       return { ...state, ...action.data };
     }
     default:
