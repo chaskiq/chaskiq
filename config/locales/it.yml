@@ -468,47 +468,47 @@ it:
     integrations:
       title: Integrazioni di terze parti
       create_success: Integrazione creata
-      create_error: Error linking integration
-      update_success: Integration updated
-      update_error: Error updating integration
-      remove_success: Integration removed correctly
-      remove_error: Error removing integration
-      create_integration: Create New integration
+      create_error: Errore nel collegamento dell'integrazione
+      update_success: Integrazione aggiornata
+      update_error: Errore nell'aggiornare l'integrazione
+      remove_success: Integrazione rimossa correttamente
+      remove_error: Errore nel rimuovere l'integrazione
+      create_integration: Crea nuova integrazione
       active:
-        title: Active Integrations
-        text: API Integrations
+        title: Integrazione attive
+        text: Integrazione Api
       available:
-        title: Available API's
-        text: Available API Services
+        title: API Disponibili
+        text: Servizi API disponibili
       yours:
-        title: Your Integration Apps
-        text: Integration apps created by you
+        title: Le tue integrazioni
+        text: Integrazioni create da te
       hints:
-        hook_url: This integration will receive webhook at
+        hook_url: Questa integrazione riceverà webhook a
       delete_dialog:
-        title: Delete "%{name}" integration?
-        text: The integration with %{name} service will be disabled immediately
+        title: Vuoi eliminare l'integrazione "%{name}"?
+        text: L'integrazione con il servizio %{name} sarà disattivata immediatamente
       empty:
-        title: You don't have any api integrations yet
-        text: Search for available api services in
+        title: Non hai ancora nessuna integrazione API
+        text: Cerca i servizi API disponibili in
     availability:
-      title: Set your availability
-      hint: Set team office hours and reply times
-      title2: Set office hours
-      hint2: Outside these hours, customers see when you'll be back, relative to their timezone.
-      timezone: YOUR APP’S TIMEZONE IS %{tz}
+      title: Imposta la tua disponibilità
+      hint: Imposta ore d'ufficio e tempi di risposta
+      title2: Imposta orario d'ufficio
+      hint2: Al di fuori di queste ore, i clienti vedranno quando tornerai disponibile, rispetto al loro fuso orario.
+      timezone: Il fuso orario della tua App è %{tz}
       reply_time:
-        title: Set reply time
-        hint: During office hours, let your customers know when they can expect a reply.
+        title: Imposta tempo risposta
+        hint: Durante gli orari d'ufficio, fai sapere ai clienti quando avranno una risposta in media.
         options:
           - 
             value: 'auto'
-            label: 'Automatic reply time. Currently El equipo responderá lo antes posible'
+            label: 'Tempo di risposta automatico. Il team risponderà il prima possibile.'
           - 
-            value: 'minutes'
-            label: 'Team usually responds within minutes.'
+            value: 'minuti'
+            label: 'Il team risponde di solito in poche ore.'
           - 
-            value: 'hours'
+            value: 'ore'
             label: 'Il team risponde di solito in poche ore.'
           - 
             value: '1 giorno'
@@ -541,37 +541,37 @@ it:
       title2: visibilità
       hint2: Controlla chi vede il launcher di Messenger sul tuo sito.
       note2: QUALSIASI MESSAGGIO TU INVIERAI, SARÀ DEFINITIVO.
-      note3: 'On the web, show the standard Messenger launcher to:'
-      closed_replies_title: Prevent replies to closed conversations for %{name}
-      closed_replies_enabled: Letting users reply to closed messages at any time.
-      closed_replies_disabled: Preventing users from responding to closed conversations after.
-      idle_sessions_title: Reset sessions on idle sessions for %{name}
-      idle_sessions_enabled: Allow idle sessions on messenger.
-      idle_sessions_disabled: Resets sessions on idle time after.
+      note3: 'Sul web, mostra il launcher del Messenger per:'
+      closed_replies_title: Impedisci le risposte alle conversazioni chiuse per %{name}
+      closed_replies_enabled: Consenti agli utenti di rispondere ai messaggi chiusi in qualsiasi momento.
+      closed_replies_disabled: Impedisci agli utenti di rispondere alle conversazioni chiuse in seguito.
+      idle_sessions_title: Azzera sessioni su sessioni inattive per %{name}
+      idle_sessions_enabled: Permetti sessioni inattive su Messenger.
+      idle_sessions_disabled: Ripristina le sessioni dopo il tempo d'inattività.
       filters:
         users:
           label: Utenti
-          all: All Users
-          some: Users who match certain data
+          all: Tutti gli utenti
+          some: Utenti che corrispondono a determinati dati
         leads:
           label: Potenziali Clienti
-          all: All Visitors
-          some: Visitors who match certain data
-        hint: This doesn’t affect the outbound messages you send.
+          all: Tutti i visitatori
+          some: Visitatori che corrispondono a determinati dati
+        hint: Questo non influisce sui messaggi in uscita che invii.
     team:
       title: Squadra
-      invitations: Invitations
-      agents: Agents
-      invitation_success: Invitation sent!
-      invitatin_error: Invitation not sent!
-      action_button: add user
-      title_content: Add a new agent
-      content_text: send an activable invitation
-      hint: The new team member will be notified by it's email
-      send_invitation: Send invitation
-      resend_invitation: Resend invitation
-      add_new: Add Team Member
-      update_agent_title: Update Agent information
+      invitations: Inviti
+      agents: Agenti
+      invitation_success: Invito inoltrato
+      invitatin_error: Invito non inoltrato!
+      action_button: Aggiungi utente
+      title_content: Aggiungi nuovo agente
+      content_text: Invia una email d'invito
+      hint: Il nuovo membro del team sarà avvisato via email
+      send_invitation: Inoltra invito
+      resend_invitation: Reinvia invito
+      add_new: Aggiungi Membro Team
+      update_agent_title: Aggiorna informazioni agente
       updated_agent: Information updated successfully
       destroyed_agent: Agent deleted successfully
       destroy_agent_title: Delete Agent
