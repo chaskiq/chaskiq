@@ -14,10 +14,6 @@
   <img src="https://img.shields.io/docker/pulls/chaskiq/chaskiq.svg" alt="CI">
 </a>
 
-<a href="https://hub.docker.com/r/chaskiq/chaskiq">
-  <img src="https://img.shields.io/docker/cloud/build/chaskiq/chaskiq" alt="CI">
-</a>
-
 [![Crowdin](https://badges.crowdin.net/e/41a6bbb31a5d79361a6264cb9ceac533/localized.svg)](https://chaskiq.crowdin.com/chaskiq)
 
 <br/>
