@@ -106,6 +106,10 @@ function Sidebar({
 
   const [langChooser, setLangChooser] = useState(false);
 
+  //@ts-ignore
+  const auth0Domain = document.querySelector('meta[name="auth0-domain"]')
+    ?.content;
+
   useEffect(() => {
     setExpanded(current_section);
   }, [current_section]);
@@ -116,6 +120,7 @@ function Sidebar({
   }
 
   function handleSignout() {
+    if (auth0Domain) return history.push('/logout'); //logout({returnTo: window.location.origin})
     dispatch(signout());
   }
 

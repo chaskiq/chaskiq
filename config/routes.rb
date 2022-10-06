@@ -47,6 +47,8 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_agent_session
   end
 
+  post "/auth0/authenticate", to: "agents/auth0#create"
+
   resource :oembed, controller: 'oembed', only: :show
   get '/package_iframe/:package' => 'application#package_iframe'
   post '/package_iframe_internal/:package' => 'application#package_iframe_internal'

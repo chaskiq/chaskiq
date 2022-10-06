@@ -84,6 +84,12 @@ class GraphqlController < ApplicationController
   private
 
   def api_authorize!
+    # AUTH0
+    if auth0_enabled?
+      @auth0_resource ||= auth0_resource
+      return @auth0_resource if @auth0_resource.present?
+    end
+
     resource = current_resource_owner
     raise OauthExeption, "Oauth Exception!" unless resource
 

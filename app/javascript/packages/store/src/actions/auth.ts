@@ -53,6 +53,40 @@ export function authenticate(email, password, cb) {
   };
 }
 
+// Auth0 Action Creators
+export function authenticateFromAuth0(accessToken, cb) {
+  return (dispatch, getState) => {
+    //if (getState().auth.loading) return;
+
+    axios.defaults.withCredentials = true;
+
+    //@ts-ignore
+    const crsfToken = document.querySelector('meta[name="csrf-token"]')
+      ?.content;
+
+    return axios({
+      url: '/auth0/authenticate.json',
+      method: 'POST',
+      data: {
+        authenticity_token: crsfToken,
+        access_token: accessToken,
+      },
+    })
+      .then((response) => {
+        const accessToken = response.data.access_token;
+        const refreshToken = response.data.refresh_token;
+        dispatch(successAuthentication(accessToken, refreshToken)); //, uid, client, accessToken, expiry))
+        if (cb) cb();
+      })
+      .catch((data) => {
+        const err =
+          data && data.response.data ? data.response.data.message : 'error!';
+        dispatch(errorMessage(err));
+        dispatch(failAuthentication());
+      });
+  };
+}
+
 export function signout() {
   return (dispatch, getState) => {
     const { auth } = getState();

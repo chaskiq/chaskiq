@@ -10,12 +10,21 @@ import Docs from '@chaskiq/docs/src/index'; //'./pages/docs'
 import { Provider } from 'react-redux';
 import store from '@chaskiq/store/src/index';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 function App() {
   const host: string = document
     .querySelector("meta[name='chaskiq-host']")
     .getAttribute('content');
   const chaskiqHost: string = new URL(host).hostname;
+
+  //@ts-ignore
+  const auth0Domain = document.querySelector('meta[name="auth0-domain"]')
+    ?.content;
+
+  //@ts-ignore
+  const auth0ClientId = document.querySelector('meta[name="auth0-client-id"]')
+    ?.content;
 
   return (
     <Provider store={store}>
@@ -30,7 +39,21 @@ function App() {
 
             return (
               <ErrorBoundary variant={'very-wrong'}>
-                <AppRouter {...props} />
+                <React.Fragment>
+                  {auth0Domain && (
+                    <Auth0Provider
+                      domain={auth0Domain}
+                      clientId={auth0ClientId}
+                      redirectUri={window.location.origin}
+                      audience={`https://${auth0Domain}/api/v2/`}
+                      scope="profile read:current_user update:current_user_metadata"
+                    >
+                      <AppRouter {...props} />
+                    </Auth0Provider>
+                  )}
+
+                  {!auth0Domain && <AppRouter {...props} />}
+                </React.Fragment>
               </ErrorBoundary>
             );
           }}
