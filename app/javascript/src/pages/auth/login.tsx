@@ -272,12 +272,14 @@ function Login({ dispatch, current_user, loading }) {
             </form>
           )}
 
-          <Auth0Login
-            dispatch={dispatch}
-            domain={auth0Domain}
-            currentUser={current_user}
-            loading={loading}
-          />
+          {auth0Domain && 
+            <Auth0Login
+              dispatch={dispatch}
+              domain={auth0Domain}
+              currentUser={current_user}
+              loading={loading}
+            />
+          }         
 
           <div className="mt-6 hidden">
             <div className="relative">
