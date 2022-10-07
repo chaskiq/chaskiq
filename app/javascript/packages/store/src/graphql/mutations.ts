@@ -750,6 +750,58 @@ export const INVITE_AGENT = `
   }
 `;
 
+export const CREATE_TEAM = `
+  mutation CreateTeam($appKey: String!, $name: String!, $description: String, $role: String!){
+    createTeam(appKey: $appKey, name: $name, description: $description, role: $role){
+      team {
+        name
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const DELETE_TEAM = `
+  mutation DeleteTeam($appKey: String!, $id: String!){
+    deleteTeam(appKey: $appKey, id: $id){
+      team {
+        name
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const UPDATE_TEAM = `
+  mutation UpdateTeam($appKey: String!, $id: String!, $name: String!, $role: String!, $description: String!){
+    updateTeam(appKey: $appKey, id: $id, name: $name, description: $description, role: $role){
+      team {
+        name
+        description
+      }
+      errors
+    }
+  }
+`;
+
+export const ADD_TEAM_AGENT = `
+  mutation AddTeamAgent($appKey: String!, $id: String!, $agentId: String!){
+    addTeamAgent(appKey: $appKey, id: $id, agentId: $agentId){
+      errors
+    }
+  }
+`;
+
+export const DELETE_TEAM_AGENT = `
+  mutation DeleteTeamAgent($appKey: String!, $id: String!, $agentId: String!){
+    deleteTeamAgent(appKey: $appKey, id: $id, agentId: $agentId){
+      errors
+    }
+  }
+`;
+
 export const UPDATE_AGENT = `
   mutation UpdateAgent($appKey: String!, $email: String!, $params: Any!){
     updateAgent(appKey: $appKey, email: $email, params: $params){

@@ -107,6 +107,9 @@ module MessageApis::Twilio
       return if part.private_note?
 
       message = part.message.as_json
+      # only accepts messages
+      return if message["serialized_content"].blank?
+
       blocks = JSON.parse(
         message["serialized_content"]
       )["blocks"]

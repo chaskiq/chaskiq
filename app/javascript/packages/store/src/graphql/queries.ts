@@ -119,6 +119,40 @@ export const ROLE_AGENTS = `
   }
 `;
 
+export const TEAMS = `
+  query App($appKey: String!, $page: Int, $per: Int) { 
+    app(key: $appKey){
+      key
+      teams(page: $page, per: $per ){
+        collection{
+          id
+          name
+          role
+          description
+        }
+      }
+    }
+  }
+`;
+
+export const TEAM_WITH_AGENTS = `
+  query App($appKey: String!, $id: String!, $page: Int, $per: Int) { 
+    app(key: $appKey){
+      key
+      team(id: $id){
+        agents(page: $page, per: $per ){
+          collection{
+            id
+            name
+            avatarUrl
+            email
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const PENDING_AGENTS = `
   query App($appKey: String!){
     app(key: $appKey) {
@@ -321,6 +355,18 @@ export const CONTACT_SEARCH = `
   query App($appKey: String!, $term: String!){
     app(key: $appKey) {
       contactSearch(term: $term){
+        id
+        email
+        displayName
+      }
+    }
+  }
+`;
+
+export const AGENT_SEARCH = `
+  query App($appKey: String!, $term: String!){
+    app(key: $appKey) {
+      agentSearch(term: $term){
         id
         email
         displayName

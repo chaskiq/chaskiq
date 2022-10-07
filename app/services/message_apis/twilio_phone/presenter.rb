@@ -22,11 +22,11 @@ module MessageApis::TwilioPhone
       if params[:ctx]["field"]["name"] == "book-meeting"
         api = params[:ctx]["package"].message_api_klass
 
-        profile_id = AppUser.find(
-          params[:ctx][:conversation_participant]
-        )&.external_profiles&.find_by(provider: "TwilioPhone")&.profile_id
+        conversation = Conversation.find_by(key: params[:ctx][:conversation_key])
 
-        api.new_call(profile_id, nil)
+        profile = api.class.find_or_create_profile(conversation, @package)
+
+        api.new_call(profile.profile_id, nil)
 
         definitions = [
           { type: "text", text: "a new conversation will be created" }
@@ -157,26 +157,8 @@ module MessageApis::TwilioPhone
 
     def self.call_frame
       @conversation = Conversation.find_by(key: @conversation_key)
-      @profile = @conversation.main_participant.external_profiles.find_by(provider: "TwilioPhone")
-      # when a user has a phone number but not a profile , lets create a new conversation for the valid user or create a new profile in this conversation
-      if @profile.blank?
-        raise "invalid phone" if @conversation.main_participant.phone.blank?
-        raise "invalid phone" unless Phonelib.valid?(@conversation.main_participant.phone)
 
-        @profile = @conversation.app.external_profiles.find_by(provider: "TwilioPhone", profile_id: @conversation.main_participant.phone)
-        if @profile.present?
-          @conversation = @conversation.app.conversations.create(
-            main_participant: @profile.app_user,
-            conversation_channels_attributes: [
-              provider: "TwilioPhone",
-              provider_channel_id: @profile.profile_id # phone_number
-            ]
-          )
-          @conversation_key = @conversation.key
-        else
-          @profile = @conversation.main_participant.external_profiles.create(provider: "TwilioPhone", profile_id: @conversation.main_participant.phone)
-        end
-      end
+      @conversation, @profile = MessageApis::TwilioPhone::Api.get_profile(@conversation, @package)
 
       @profile_id = @profile&.profile_id
       @data = {

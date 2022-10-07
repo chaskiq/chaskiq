@@ -5,6 +5,7 @@ class Role < ApplicationRecord
 
   belongs_to :agent
   belongs_to :app
+  has_many :agent_teams, dependent: :destroy_async
   acts_as_taggable_on :access
 
   store_accessor :properties, %i[write_access read_access all_access]

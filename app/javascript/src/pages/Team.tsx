@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import { isEmpty } from 'lodash';
+import Select from 'react-select';
 
 import PageHeader from '@chaskiq/components/src/components/PageHeader';
 import Content from '@chaskiq/components/src/components/Content';
@@ -36,13 +38,22 @@ import {
 import {
   ROLE_AGENTS,
   PENDING_AGENTS,
+  TEAMS,
+  AGENT_SEARCH,
+  TEAM_WITH_AGENTS,
 } from '@chaskiq/store/src/graphql/queries';
 import {
   INVITE_AGENT,
   UPDATE_AGENT_ROLE,
   DESTROY_AGENT_ROLE,
+  CREATE_TEAM,
+  DELETE_TEAM,
+  ADD_TEAM_AGENT,
+  DELETE_TEAM_AGENT,
+  UPDATE_TEAM,
 } from '@chaskiq/store/src/graphql/mutations';
 import I18n from '../shared/FakeI18n';
+import useDebounce from '@chaskiq/components/src/components/hooks/useDebounce';
 
 type TeamPageProps = {
   dispatch: (val: any) => void;
@@ -72,9 +83,14 @@ class TeamPage extends Component<TeamPageProps> {
           currentTab={this.state.tabValue}
           tabs={[
             {
-              label: I18n.t('settings.team.title'),
+              label: I18n.t('settings.team.agents'),
               // icon: <HomeIcon />,
               content: <AppUsers {...this.props} />,
+            },
+            {
+              label: I18n.t('settings.team.title'),
+              // icon: <HomeIcon />,
+              content: <Teams {...this.props} />,
             },
             {
               label: I18n.t('settings.team.invitations'),
@@ -683,6 +699,559 @@ class NonAcceptedAppUsers extends React.Component<
       </React.Fragment>
     );
   }
+}
+
+const Teams = function (props) {
+  const [teams, setTeams] = React.useState({ collection: [], loading: false });
+  const [action, setAction] = React.useState(null);
+  const [team, setTeam] = React.useState(null);
+  const [errors, setErrors] = React.useState({});
+
+  const form = React.useRef(null);
+
+  function getTeams() {
+    graphql(
+      TEAMS,
+      { appKey: props.app.key, page: 1, per: 10 },
+      {
+        success: (data) => {
+          setTeams({
+            collection: data.app.teams.collection,
+            loading: false,
+          });
+        },
+        error: () => {},
+      }
+    );
+  }
+
+  function search() {
+    getTeams();
+    console.log('search teams');
+  }
+
+  function handleEdit(row, kind = 'edit') {
+    setTeam(row);
+    setAction(kind);
+  }
+
+  function handleDelete(row) {
+    setTeam(row);
+    setAction('delete');
+  }
+
+  function handleNew(row) {
+    setTeam({});
+    setAction('new');
+  }
+
+  function closeModal() {
+    setAction(null);
+  }
+
+  React.useEffect(() => {
+    search();
+  }, []);
+
+  function createTeam(_e) {
+    const serializedData = serialize(form.current, {
+      hash: true,
+      empty: true,
+    });
+
+    graphql(
+      CREATE_TEAM,
+      {
+        appKey: props.app.key,
+        name: serializedData.app.name,
+        description: serializedData.app.description,
+        role: serializedData.app.role,
+      },
+      {
+        success: (data) => {
+          if (!isEmpty(data.createTeam.errors)) {
+            return setErrors(data.createTeam.errors);
+          }
+
+          search();
+
+          props.dispatch(successMessage(I18n.t('settings.team.created_team')));
+          setAction(null);
+        },
+        error: (_err) => {
+          // errorMessage('...')
+        },
+      }
+    );
+  }
+
+  function updateTeam(_e) {
+    const serializedData = serialize(form.current, {
+      hash: true,
+      empty: true,
+    });
+
+    graphql(
+      UPDATE_TEAM,
+      {
+        appKey: props.app.key,
+        name: serializedData.app.name,
+        id: team.id,
+        description: serializedData.app.description,
+        role: serializedData.app.role,
+      },
+      {
+        success: (data) => {
+          if (!isEmpty(data.updateTeam.errors)) {
+            return setErrors(data.updateTeam.errors);
+          }
+
+          search();
+
+          props.dispatch(successMessage(I18n.t('settings.team.updated_team')));
+          setAction(null);
+        },
+        error: (_err) => {
+          // errorMessage('...')
+        },
+      }
+    );
+  }
+
+  function deleteTeam(id) {
+    graphql(
+      DELETE_TEAM,
+      {
+        appKey: props.app.key,
+        id: id,
+      },
+      {
+        success: (data) => {
+          if (!isEmpty(data.deleteTeam.errors)) {
+            return setErrors(data.createTeam.errors);
+          }
+
+          props.dispatch(successMessage(I18n.t('settings.team.deleted_team')));
+
+          search();
+          setAction(null);
+        },
+        error: (_err) => {
+          // errorMessage('...')
+        },
+      }
+    );
+  }
+
+  function definitions() {
+    return [
+      {
+        name: 'name',
+        type: 'string',
+        label: I18n.t('definitions.teams.name.label'),
+        placeholder: I18n.t('definitions.teams.name.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+      {
+        name: 'role',
+        type: 'select',
+        label: I18n.t('definitions.agents.access_list.label'),
+        hint: I18n.t('definitions.agents.access_list.hint'),
+        multiple: false,
+        options: Object.keys(props.app.availableRoles).map((o) => ({
+          label: o,
+          value: o,
+        })),
+        grid: {
+          xs: 'w-full',
+          sm: 'w-full',
+        },
+      },
+      {
+        name: 'description',
+        type: 'textarea',
+        label: I18n.t('definitions.teams.description.label'),
+        placeholder: I18n.t('definitions.teams.description.placeholder'),
+        grid: { xs: 'w-full', sm: 'w-full' },
+      },
+    ];
+  }
+
+  return (
+    <div className="py-2">
+      <div className="flex justify-end">
+        <Button variant="flat-dark" onClick={handleNew}>
+          {I18n.t('settings.agent_teams.add_team')}
+        </Button>
+      </div>
+
+      <div className="py-2 justify-end">
+        {!teams.loading ? (
+          <DataTable
+            meta={{}}
+            data={teams.collection}
+            search={search}
+            disablePagination={true}
+            columns={[
+              { field: 'name', title: I18n.t('data_tables.agents.name') },
+              {
+                field: 'role',
+                title: I18n.t('data_tables.agents.access_list'),
+                render: (row) =>
+                  row && row.role && <Badge className="mr-2">{row.role}</Badge>,
+              },
+              {
+                field: 'Actions',
+                title: I18n.t('data_tables.agents.actions'),
+                render: (row) =>
+                  row && (
+                    <React.Fragment>
+                      <Button
+                        onClick={() => handleEdit(row)}
+                        variant="outlined"
+                        className="mr-1"
+                        size="small"
+                      >
+                        {I18n.t('common.edit')}
+                      </Button>
+                      <Button
+                        onClick={() => handleEdit(row, 'editParticipants')}
+                        variant="outlined"
+                        className="mr-1"
+                        size="small"
+                      >
+                        {I18n.t('settings.team.participants')}
+                      </Button>
+                      <Button
+                        onClick={() => handleDelete(row)}
+                        variant="danger"
+                        size="small"
+                      >
+                        {I18n.t('common.delete')}
+                      </Button>
+                    </React.Fragment>
+                  ),
+              },
+            ]}
+            enableMapView={false}
+          />
+        ) : (
+          <Progress />
+        )}
+      </div>
+
+      {action === 'new' && (
+        <FormDialog
+          open={true}
+          handleClose={closeModal}
+          actionButton={I18n.t('settings.team.new.action_button')}
+          titleContent={I18n.t('settings.team.new.title_content')}
+          contentText={I18n.t('settings.team.new.content_text')}
+          formComponent={
+            <form ref={form}>
+              {definitions().map((field) => {
+                return (
+                  <div
+                    className={`${gridClasses(field)} py-2 pr-2`}
+                    key={field.name}
+                  >
+                    <FieldRenderer
+                      namespace={'app'}
+                      type={field.type}
+                      data={camelizeKeys(field)}
+                      props={{
+                        data: camelizeKeys(team),
+                      }}
+                      errors={errors}
+                    />
+                  </div>
+                );
+              })}
+            </form>
+          }
+          dialogButtons={
+            <React.Fragment>
+              <Button variant="success" onClick={createTeam}>
+                {I18n.t('common.submit')}
+              </Button>
+            </React.Fragment>
+          }
+        />
+      )}
+
+      {action === 'edit' && (
+        <FormDialog
+          open={true}
+          handleClose={closeModal}
+          actionButton={I18n.t('settings.team.edit.action_button')}
+          titleContent={I18n.t('settings.team.edit.title_content')}
+          contentText={I18n.t('settings.team.edit.content_text')}
+          formComponent={
+            <form ref={form}>
+              {definitions().map((field) => {
+                return (
+                  <div
+                    className={`${gridClasses(field)} py-2 pr-2`}
+                    key={field.name}
+                  >
+                    <FieldRenderer
+                      namespace={'app'}
+                      type={field.type}
+                      data={camelizeKeys(field)}
+                      props={{
+                        data: camelizeKeys(team),
+                      }}
+                      errors={errors}
+                    />
+                  </div>
+                );
+              })}
+            </form>
+          }
+          dialogButtons={
+            <React.Fragment>
+              <Button variant="success" onClick={updateTeam}>
+                {I18n.t('common.submit')}
+              </Button>
+            </React.Fragment>
+          }
+        />
+      )}
+
+      {action === 'editParticipants' && (
+        <TeamAgentEdit {...props} closeModal={closeModal} team={team} />
+      )}
+
+      {action === 'delete' && (
+        <FormDialog
+          open={true}
+          handleClose={closeModal}
+          actionButton={I18n.t('settings.team.delete.action_button')}
+          titleContent={I18n.t('settings.team.delete.title_content')}
+          contentText={I18n.t('settings.team.delete.content_text')}
+          formComponent={<p>{I18n.t('settings.team.confirm_team_delete')}</p>}
+          dialogButtons={
+            <React.Fragment>
+              <Button variant="danger" onClick={() => deleteTeam(team.id)}>
+                {I18n.t('common.confirm_deletion')}
+              </Button>
+            </React.Fragment>
+          }
+        />
+      )}
+    </div>
+  );
+};
+
+function TeamAgentEdit(props) {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [elements, setElements] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(false);
+  const [searchValue, setSearchValue] = React.useState(null);
+  const [agents, setAgents] = React.useState([]);
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  React.useEffect(
+    () => {
+      if (debouncedSearchTerm) {
+        getElements(debouncedSearchTerm);
+      } else {
+        setElements([]);
+      }
+    },
+    [debouncedSearchTerm] // Only call effect if debounced search term changes
+  );
+
+  React.useEffect(() => {
+    getTeamAgents();
+  }, []);
+
+  function getElements(term) {
+    graphql(
+      AGENT_SEARCH,
+      {
+        appKey: props.app.key,
+        term: term,
+      },
+      {
+        success: (data) => {
+          setElements(data.app.agentSearch);
+        },
+        error: (err) => {
+          console.log('err', err);
+        },
+      }
+    );
+  }
+
+  function displayElementList() {
+    return elements.map((o) => ({
+      label: `${o.displayName} · ${o.email}`,
+      value: o.id,
+    }));
+  }
+
+  function handleChange(e) {
+    setSearchValue(e);
+  }
+
+  function handleInputChange(e) {
+    setSearchTerm(e);
+  }
+
+  function addAgent() {
+    if (!searchValue.value) return;
+
+    graphql(
+      ADD_TEAM_AGENT,
+      {
+        appKey: props.app.key,
+        id: props.team.id,
+        agentId: searchValue.value,
+      },
+      {
+        success: (data) => {
+          if (isEmpty(data.addTeamAgent.errors)) {
+            props.dispatch(
+              successMessage(I18n.t('settings.agent_teams.added_success'))
+            );
+            return getTeamAgents();
+          }
+          if (data.addTeamAgent.errors.role_id) {
+            props.dispatch(errorMessage(data.addTeamAgent.errors.role_id));
+          }
+        },
+        error: (err) => {
+          console.log('err', err);
+        },
+      }
+    );
+  }
+
+  function getTeamAgents() {
+    graphql(
+      TEAM_WITH_AGENTS,
+      {
+        appKey: props.app.key,
+        id: props.team.id,
+      },
+      {
+        success: (data) => {
+          setLoading(false);
+          setAgents(data.app.team.agents.collection);
+        },
+        error: (err) => {
+          console.log('err', err);
+        },
+      }
+    );
+  }
+
+  function removeAgent(id) {
+    graphql(
+      DELETE_TEAM_AGENT,
+      {
+        appKey: props.app.key,
+        id: props.team.id,
+        agentId: id,
+      },
+      {
+        success: (data) => {
+          props.dispatch(
+            successMessage(I18n.t('settings.agent_teams.delete_success'))
+          );
+          getTeamAgents();
+        },
+        error: (err) => {
+          console.log('err', err);
+        },
+      }
+    );
+  }
+
+  return (
+    <React.Fragment>
+      <FormDialog
+        open={true}
+        handleClose={props.closeModal}
+        actionButton={I18n.t('settings.agent_teams.action_button')}
+        titleContent={I18n.t('settings.agent_teams.title_content')}
+        contentText={I18n.t('settings.agent_teams.content_text')}
+        formComponent={
+          <div className="space-y-2 w-full">
+            <div className="space-y-1">
+              <div className="flex">
+                <div className="flex-grow">
+                  <Select
+                    isClearable
+                    options={displayElementList()}
+                    isLoading={isLoading}
+                    value={searchValue}
+                    onChange={handleChange}
+                    placeholder={I18n.t(
+                      'settings.agent_teams.search_placeholder'
+                    )}
+                    onInputChange={handleInputChange}
+                  />
+                </div>
+
+                <span className="ml-3">
+                  <button
+                    type="button"
+                    onClick={addAgent}
+                    className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                  >
+                    <svg
+                      className="-ml-2 mr-1 h-5 w-5 text-gray-400"
+                      x-description="Heroicon name: mini/plus"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"></path>
+                    </svg>
+                    <span>{I18n.t('common.add')}</span>
+                  </button>
+                </span>
+              </div>
+            </div>
+
+            <div className="border-b border-gray-200">
+              <ul role="list" className="divide-y divide-gray-200">
+                {agents.map((agent) => (
+                  <li className="flex py-4" key={`agent-team-id-${agent.id}`}>
+                    <img
+                      className="h-10 w-10 rounded-full"
+                      src={agent.avatarUrl}
+                      alt=""
+                    />
+                    <div className="flex justify-between w-full">
+                      <div className="ml-3 flex flex-col">
+                        <span className="text-sm font-medium text-gray-900">
+                          {agent.name}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {agent.email}
+                        </span>
+                      </div>
+                      <Button
+                        variant="danger"
+                        onClick={() => removeAgent(agent.id)}
+                      >
+                        {I18n.t('common.remove')}
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        }
+        dialogButtons={<React.Fragment></React.Fragment>}
+      />
+    </React.Fragment>
+  );
 }
 
 function mapStateToProps(state) {

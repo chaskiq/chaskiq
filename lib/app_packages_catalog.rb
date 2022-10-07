@@ -413,6 +413,88 @@ class AppPackagesCatalog
       },
 
       {
+        name: "Whereby",
+        tag_list: ["editor"],
+        capability_list: ["conversations"],
+        description: "whereby 1:1 conference calls",
+        icon: "https://logo.clearbit.com/whereby.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ],
+        editor_definitions: {
+          requires: [
+            { type: "input",
+              name: "src",
+              placeholder: "user email",
+              hint: "is the zoom owner email or zoom user id" }
+          ],
+          schema: [
+            {
+              name: "zoom",
+              type: "button",
+              label: "enter video call",
+              element: "button",
+              placeholder: "click button to open video call"
+            }
+          ]
+        }
+      },
+
+      {
+        name: "Cal",
+        tag_list: ["editor"],
+        capability_list: ["conversations"],
+        description: "cal.com integration",
+        icon: "https://logo.clearbit.com/cal.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "calendar_name",
+            type: "string",
+            hint: "which calendar to point, type \"mike\" for cal.com/mike ",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "url",
+            type: "string",
+            hint: "defaults to cal.com api",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ],
+        editor_definitions: {
+          requires: [
+            { type: "input",
+              name: "src",
+              placeholder: "user email",
+              hint: "is the zoom owner email or zoom user id" }
+          ],
+          schema: [
+            {
+              name: "zoom",
+              type: "button",
+              label: "enter video call",
+              element: "button",
+              placeholder: "click button to open video call"
+            }
+          ]
+        }
+      },
+
+      {
         name: "Calendly",
         tag_list: ["editor"],
         capability_list: %w[conversations home],
@@ -516,7 +598,7 @@ class AppPackagesCatalog
 
       {
         name: "TwilioPhone",
-        capability_list: %w[fixed_sidebar inbox conversations],
+        capability_list: %w[fixed_sidebar inbox],
         description: "Interfaces twilio telephony",
         state: "enabled",
         definitions: [

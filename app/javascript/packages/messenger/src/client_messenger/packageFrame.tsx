@@ -35,14 +35,13 @@ export default class AppBlockPackageFrame extends Component<AppBlockPackageFrame
       const url = `${this.props.domain}/package_iframe/${data.id}`;
       src = new URL(url);
     }
-
     src.searchParams.set('data', params);
 
     return (
       <div>
         <iframe
           id="package-frame"
-          // sandbox="allow-top-navigation allow-same-origin allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts allow-downloads"
+          allow="autoplay; camera; microphone; fullscreen; speaker; display-capture"
           src={src.href}
           style={{
             width: '100%',
