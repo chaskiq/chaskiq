@@ -112,15 +112,17 @@ module UserHandler
     app_users.users.find_by(email: email)
   end
 
+  # from visitor to app user
   def merge_contact(from:, to:)
     raise "contact origin is not a Lead" if from.type == "AppUser"
+    raise "contact destination is not Contact" if to.type != "AppUser"
 
-    # to.update(properties: to.properties.merge!(from.properties))
+    to.update(properties: to.properties.merge!(from.properties))
 
     from.conversations.where(main_participant_id: from.id).update_all(main_participant_id: to.id)
     from.conversation_parts.where(authorable_id: from.id).update_all(authorable_id: to.id)
     from.events.update_all(eventable_id: to.id)
-    from.visits.update_app(app_user_id: to.id)
+    from.visits.update_all(app_user_id: to.id)
     from
   end
 
