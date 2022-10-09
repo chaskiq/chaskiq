@@ -150,7 +150,6 @@ RSpec.describe AppUser, type: :model do
   end
 
   describe "merge users" do
-
     it "add user to be one" do
       app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
       app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
@@ -171,8 +170,7 @@ RSpec.describe AppUser, type: :model do
 
       it "merge from visitor" do
         lead = Lead.first
-        binding.pry
-        lead.update_email(email: "test@test.cl")
+        lead.update_email("test@test.cl")
       end
 
       it "merge_contact from lead to app user " do
@@ -180,6 +178,12 @@ RSpec.describe AppUser, type: :model do
         lead.update(phone: "123456")
         app.merge_contact(from: lead, to: app_user)
         expect(app_user.reload.phone).to be == "123456"
+      end
+
+      it "merge_contact from user to app lead " do
+        lead = Lead.first
+        lead.update(phone: "123456")
+        expect { app.merge_contact(from: app_user, to: lead) }.to raise_exception
       end
     end
   end

@@ -33,19 +33,6 @@ module ApplicationCable
       params = request.query_parameters
       self.app = App.find_by(key: params[:app])
 
-      if app.blank?
-        # Bugsnag.notify("error getting session data") do |report|
-        #   report.add_tab(
-        #     :context,
-        #     {
-        #       origin: env['HTTP_ORIGIN'],
-        #       params: params
-        #     }
-        #   )
-        # end
-        # return
-      end
-
       OriginValidator.new(
         app: app.domain_url,
         host: env["HTTP_ORIGIN"]
@@ -73,6 +60,13 @@ module ApplicationCable
     end
 
     def get_user_data
+      # check cookie session
+      c = cookies[:"chaskiq_ap_session_#{app.key}"]
+
+      if c.present? && (u = SessionFinder.get_by_cookie_session(c)) && u.present?
+        return u
+      end
+
       if app.encryption_enabled?
         authorize_by_identifier_params || authorize_by_encrypted_params
       else

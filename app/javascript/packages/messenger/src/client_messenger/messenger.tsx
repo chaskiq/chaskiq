@@ -114,6 +114,7 @@ type MessengerProps = {
   reset: any;
   open: boolean;
   tabId: string;
+  handleShutDown: any;
 };
 
 type MessengerState = {
@@ -250,6 +251,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         case 'unload':
           // this.unload()
           break;
+        case 'shutdown':
+          this.handleShutDown();
+          break;
         default:
           break;
       }
@@ -302,6 +306,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   dispatchEvent(key, data = {}) {
     const event = new Event(key, data);
     document.dispatchEvent(event);
+  }
+
+  handleShutDown() {
+    this.props.handleShutDown();
   }
 
   unload() {
@@ -1639,6 +1647,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                                     alt={'https://chaskiq.io'}
                                     src={`${this.props.domain}/logo-gray.png`}
                                   />
+                                  {/* NOTICE:
+                                    If you need to rebrand chaskiq 
+                                    there is special commercial license, 
+                                    please contact us 
+                                  */}
                                   {i18n.t('messenger.runon')}
                                 </a>
                               </FooterAck>
@@ -1903,6 +1916,11 @@ function MessengerBridge(props) {
     return `chaskiq_session_id_${app_id}`;
   }
 
+  function sessionCookieNamespace() {
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  }
+
   function getSession() {
     // cookie rename, if we wet an old cookie update to new format and expire it
     const oldCookie = getCookie('chaskiq_session_id');
@@ -1952,11 +1970,11 @@ function MessengerBridge(props) {
         success: (data) => {
           const u = data.messenger.user;
           if (u.kind !== 'AppUser') {
-            if (u.sessionId) {
+            /*if (u.sessionId) {
               checkCookie(u.sessionId);
             } else {
               deleteCookie(cookieNamespace());
-            }
+            }*/
           }
 
           setUser(u);
@@ -1977,6 +1995,14 @@ function MessengerBridge(props) {
 
     // send event to other tabs
     // if(open) window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
+  }
+
+  function shutdown() {
+    deleteCookie(cookieNamespace());
+    deleteCookie(sessionCookieNamespace());
+    // setReady(false); // this will reset the session, but we really dont that dat to happen
+    // what will happen is that the livechat will be still connected
+    openOnLoad.current = open;
   }
 
   function dataBundle() {
@@ -2001,6 +2027,7 @@ function MessengerBridge(props) {
         <Messenger
           {...dataBundle()}
           reset={reset}
+          handleShutDown={shutdown}
           open={openOnLoad.current}
           tabId={tabId.current}
         />

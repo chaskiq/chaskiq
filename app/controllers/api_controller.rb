@@ -1,9 +1,18 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
+  include ActionController::Cookies
+
   private
 
   def get_user_data_from_auth
+    # it will find the session from cookie
+    # for now we will avoid this and only use the cookie as a session for subsequent requests
+    # if @user_data = get_by_cookie_session
+    #  set_locale
+    #  handle_encrypted_auth
+    # it will authorize by params passed on embed
+    # elsif ...
     if @app.encryption_enabled?
       @user_data = authorize_by_encrypted_params
       @user_data = (identify_by_user_data || {}) if @user_data.blank?
@@ -17,6 +26,56 @@ class ApiController < ActionController::API
     @user_data
   end
 
+  def cookie_id_namespace
+    :"chaskiq_session_id_#{@app.key}"
+  end
+
+  def set_session_id_cookie(session_id)
+    response.set_cookie(
+      cookie_id_namespace,
+      {
+        value: session_id,
+        expires: 1.year.from_now,
+        path: "/",
+        secure: Rails.env.production?,
+        httponly: Rails.env.production?
+      }
+    )
+  end
+
+  def delete_id_cookie
+    cookies.delete cookie_id_namespace,
+                   expires: 1.week.ago,
+                   value: nil,
+                   path: "/"
+  end
+
+  def set_session_cookie
+    # @verifier.verify(self.cookies[:"chaskiq_appuser_#{@app.key}"], purpose: :login)
+    response.set_cookie(
+      cookie_namespace,
+      {
+        value: CHASKIQ_VERIFIER.generate(@user_data, purpose: :login),
+        # value: nil,
+        # expires: 30.minutes.from_now,
+        path: "/",
+        secure: Rails.env.production?,
+        httponly: Rails.env.production?
+      }
+    )
+  end
+
+  def delete_session_cookie
+    cookies.delete cookie_namespace,
+                   expires: 1.week.ago,
+                   value: nil,
+                   path: "/"
+  end
+
+  def cookie_namespace
+    :"chaskiq_ap_session_#{@app.key}"
+  end
+
   def handle_encrypted_auth
     if @user_data.present? && @user_data[:email].present?
       app_user =  get_user_by_email ||
@@ -27,12 +86,37 @@ class ApiController < ActionController::API
         properties: app_user.properties.merge(@user_data[:properties]),
         lang: I18n.locale
       }
+
+      set_session_cookie
+
+      handle_user_merge
+
       app_user.update(options)
     else
+      # delete_session_cookie
       visitor = (get_user_by_session || add_vistor)
       visitor.update(lang: I18n.locale)
+      set_session_id_cookie(visitor.session_id)
       merge_user_data(visitor.reload)
     end
+  end
+
+  def handle_user_merge
+    # if app allow user auto merge
+    c = cookies[:"chaskiq_session_id_#{@app.key}"]
+
+    return if c.blank?
+
+    delete_id_cookie
+
+    return if @app_user.session_id == c
+
+    # merge user
+    # do this in a job
+    visitor = @app.app_users.find_by(session_id: c)
+    return if visitor.blank?
+
+    @app.merge_contact(from: visitor, to: @app_user)
   end
 
   def merge_user_data(model)
@@ -46,7 +130,7 @@ class ApiController < ActionController::API
 
   def get_user_data
     @user_data ||= if @app.encryption_enabled?
-                     identify_by_user_data || authorize_by_encrypted_params
+                     get_by_cookie_session || identify_by_user_data || authorize_by_encrypted_params
                    else
                      get_user_from_unencrypted
                    end
@@ -100,16 +184,8 @@ class ApiController < ActionController::API
     @app.get_app_user_by_email(get_user_data[:email])
   end
 
-  def valid_origin?
-    OriginValidator.new(
-      app: @app.domain_url,
-      host: request.env["HTTP_ORIGIN"]
-    ).is_valid?
-  end
-
-  def eu_location?
-    return true
-    eu_countries = EuCountries.includes?(request.location&.country_code)
+  def get_by_cookie_session
+    @session_from_cookie = SessionFinder.get_by_cookie_session(cookies[cookie_namespace])
   end
 
   def get_user_by_session
@@ -146,5 +222,17 @@ class ApiController < ActionController::API
     return if lang.blank?
 
     I18n.available_locales.include?(lang.to_sym)
+  end
+
+  def valid_origin?
+    OriginValidator.new(
+      app: @app.domain_url,
+      host: request.env["HTTP_ORIGIN"]
+    ).is_valid?
+  end
+
+  def eu_location?
+    return true
+    eu_countries = EuCountries.includes?(request.location&.country_code)
   end
 end
