@@ -48,6 +48,7 @@ module UserHandler
     ap.last_visited_at = attrs[:last_visited_at] if attrs[:last_visited_at].present?
     ap.subscribe! unless ap.subscribed?
     ap.type = "AppUser"
+
     ap.save
     ap
   end
@@ -110,6 +111,10 @@ module UserHandler
 
   def get_app_user_by_email(email)
     app_users.users.find_by(email: email)
+  end
+
+  def merge_contact_async(from:, to:)
+    ContactMergerJob.perform_later(app_id: id, from: from, to: to)
   end
 
   # from visitor to app user

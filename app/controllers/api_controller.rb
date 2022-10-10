@@ -116,7 +116,7 @@ class ApiController < ActionController::API
     visitor = @app.app_users.find_by(session_id: c)
     return if visitor.blank?
 
-    @app.merge_contact(from: visitor, to: @app_user)
+    @app.merge_contact_async(from: visitor, to: @app_user)
   end
 
   def merge_user_data(model)

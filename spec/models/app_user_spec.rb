@@ -153,13 +153,13 @@ RSpec.describe AppUser, type: :model do
     it "add user to be one" do
       app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
       app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
-      expect(AppUser.all.size).to be == 1
+      expect(AppUser.where(email: "test@test.cl").all.size).to be == 1
     end
 
     it "add user to be one" do
       app.add_user({ email: "test@test.cl", first_name: "dsdsa" })
       visitor
-      expect(AppUser.all.size).to be == 2
+      expect(AppUser.where(email: "test@test.cl").all.size).to be == 1
     end
 
     describe "merge" do
