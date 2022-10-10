@@ -43,6 +43,11 @@ module PackageIframeBehavior
         presenter = package.presenter
         data.merge!({ "data" => data["data"].merge("package" => package) })
 
+        data["data"].merge!({
+                              "app_key" => data["data"]["app_id"],
+                              "user" => app_user
+                            })
+
         html = presenter.sheet_view(data["data"]&.with_indifferent_access)
       else
         html = iframe_package_request(url, data, app_user)

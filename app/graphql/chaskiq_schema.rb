@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ChaskiqSchema < GraphQL::Schema
-  disable_introspection_entry_points if Rails.env.production?
+  disable_introspection_entry_points unless Chaskiq::Config.get("ENABLE_GRAPHQL_INSTROSPECTION") # if Rails.env.production?
 
   log_query_depth = GraphQL::Analysis::QueryDepth.new do |_query, depth|
     Rails.logger.info("[GraphQL Query Depth] #{depth}")
