@@ -5,12 +5,12 @@ export function graphqlUrl(domain) {
   return `${domain}/api/graphql`;
 }
 
-export function createSubscription(props, userData) {
+export function createSubscription(props, userData, sessionValue) {
   return {
     cable: actioncable.createConsumer(
       `${props.ws}?enc=${props.encData}&user_data=${btoa(userData)}&app=${
         props.app_id
-      }&session_id=${props.sessionId}`
+      }&session_id=${props.sessionId}&session_value=${sessionValue}`
     ),
   };
 }

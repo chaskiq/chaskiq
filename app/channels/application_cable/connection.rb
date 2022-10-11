@@ -61,9 +61,9 @@ module ApplicationCable
 
     def get_user_data
       # check cookie session
-      c = cookies[:"chaskiq_ap_session_#{app.key}"]
+      session_value = request.query_parameters[:session_value]
 
-      if c.present? && (u = SessionFinder.get_by_cookie_session(c)) && u.present?
+      if session_value.present? && (u = SessionFinder.get_by_cookie_session(session_value)) && u.present?
         return u
       end
 

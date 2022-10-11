@@ -107,6 +107,7 @@ type MessengerProps = {
   app_id: any;
   encData: any;
   sessionId: any;
+  sessionValue: any;
   encryptedMode: any;
   domain: string;
   kind: string;
@@ -337,6 +338,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       email: this.props.email,
       properties: this.props.properties,
       session_id: this.props.sessionId,
+      session_value: this.props.sessionValue,
     };
 
     if (this.props.encryptedMode) {
@@ -345,6 +347,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         'enc-data': this.props.encData || '',
         'user-data': JSON.stringify(this.props.encData),
         'session-id': this.props.sessionId,
+        'session-value': this.props.sessionValue,
         lang: this.props.lang,
       };
 
@@ -353,6 +356,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         enc_data: this.props.encData || '',
         user_data: JSON.stringify(this.props.encData),
         session_id: this.props.sessionId,
+        session_value: this.props.sessionValue,
       };
     }
 
@@ -361,7 +365,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       url: `${graphqlUrl(this.props.domain)}`,
     });
 
-    this.App = createSubscription(this.props, this.defaultCableData.user_data);
+    this.App = createSubscription(
+      this.props,
+      this.defaultCableData.user_data,
+      this.props.sessionValue
+    );
   };
 
   setVideoSession() {
@@ -1916,6 +1924,12 @@ function MessengerBridge(props) {
     return `chaskiq_session_id_${app_id}`;
   }
 
+  function cookieSessionNamespace() {
+    // old app keys have hypens, we get rid of this
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  }
+
   function sessionCookieNamespace() {
     const app_id = props.app_id.replace('-', '');
     return `chaskiq_ap_session_${app_id}`;
@@ -1969,12 +1983,16 @@ function MessengerBridge(props) {
       {
         success: (data) => {
           const u = data.messenger.user;
-          if (u.kind !== 'AppUser') {
-            /*if (u.sessionId) {
+          if (u.kind === 'AppUser') {
+            if (u.sessionValue) {
+              setCookie(cookieSessionNamespace(), u.sessionValue, 7);
+            }
+          } else {
+            if (u.sessionId) {
               checkCookie(u.sessionId);
             } else {
               deleteCookie(cookieNamespace());
-            }*/
+            }
           }
 
           setUser(u);

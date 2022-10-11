@@ -9,6 +9,7 @@ export const AUTH = `
         kind,
         properties
         sessionId
+        sessionValue
       }
     }
   }

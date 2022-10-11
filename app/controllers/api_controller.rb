@@ -30,41 +30,6 @@ class ApiController < ActionController::API
     :"chaskiq_session_id_#{@app.key}"
   end
 
-  def set_session_id_cookie(session_id)
-    response.set_cookie(
-      cookie_id_namespace,
-      {
-        value: session_id,
-        expires: 1.year.from_now,
-        path: "/",
-        secure: Rails.env.production?,
-        httponly: Rails.env.production?
-      }
-    )
-  end
-
-  def delete_id_cookie
-    cookies.delete cookie_id_namespace,
-                   expires: 1.week.ago,
-                   value: nil,
-                   path: "/"
-  end
-
-  def set_session_cookie
-    # @verifier.verify(self.cookies[:"chaskiq_appuser_#{@app.key}"], purpose: :login)
-    response.set_cookie(
-      cookie_namespace,
-      {
-        value: CHASKIQ_VERIFIER.generate(@user_data, purpose: :login),
-        # value: nil,
-        # expires: 30.minutes.from_now,
-        path: "/",
-        secure: Rails.env.production?,
-        httponly: Rails.env.production?
-      }
-    )
-  end
-
   def delete_session_cookie
     cookies.delete cookie_namespace,
                    expires: 1.week.ago,
@@ -87,27 +52,29 @@ class ApiController < ActionController::API
         lang: I18n.locale
       }
 
-      set_session_cookie
+      # set_session_cookie
+      # binding.pry
 
       handle_user_merge
 
       app_user.update(options)
     else
+      # binding.pry
       # delete_session_cookie
       visitor = (get_user_by_session || add_vistor)
       visitor.update(lang: I18n.locale)
-      set_session_id_cookie(visitor.session_id)
+      # set_session_id_cookie(visitor.session_id)
       merge_user_data(visitor.reload)
     end
   end
 
   def handle_user_merge
     # if app allow user auto merge
-    c = cookies[:"chaskiq_session_id_#{@app.key}"]
+    c = request.headers["session-id"] # cookies[:"chaskiq_session_id_#{@app.key}"]
 
     return if c.blank?
 
-    delete_id_cookie
+    # delete_id_cookie
 
     return if @app_user.session_id == c
 
@@ -185,7 +152,8 @@ class ApiController < ActionController::API
   end
 
   def get_by_cookie_session
-    @session_from_cookie = SessionFinder.get_by_cookie_session(cookies[cookie_namespace])
+    session_value = request.headers["session-value"]
+    @session_from_cookie = SessionFinder.get_by_cookie_session(session_value)
   end
 
   def get_user_by_session

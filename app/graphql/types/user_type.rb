@@ -11,5 +11,11 @@ module Types
     field :new_messages, Int, null: true
     field :properties, Types::JsonType, null: true
     field :session_id, String, null: false
+    field :session_value, String, null: true
+
+    def session_value
+      options = { email: object[:email], type: object[:type] }
+      CHASKIQ_VERIFIER.generate(options, purpose: :login)
+    end
   end
 end
