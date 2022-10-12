@@ -1,18 +1,152 @@
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
-// import { Redirect } from 'react-router-dom'
 
 import logo from '../../images/logo.png';
 import serialize from 'form-serialize';
 
-import { authenticate, doSignout } from '@chaskiq/store/src/actions/auth';
+import {
+  authenticate,
+  doSignout,
+  authenticateFromAuth0,
+  startAuthentication,
+} from '@chaskiq/store/src/actions/auth';
 
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
 
 import I18n from '../../shared/FakeI18n';
 
-function Login({ dispatch }) {
+import { useAuth0 } from '@auth0/auth0-react';
+import CircularIndeterminate from '@chaskiq/components/src/components/Progress';
+
+const Auth0Login = ({ dispatch, domain, currentUser, loading }) => {
+  const { user, isAuthenticated, getAccessTokenSilently, logout } = useAuth0();
+  const [userMetadata, setUserMetadata] = React.useState(null);
+
+  React.useEffect(() => {
+    const getUserMetadata = async () => {
+      if (!domain) {
+        console.log('No DOMAIN ON AUTH0');
+        return null;
+      }
+
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: `https://${domain}/api/v2/`,
+          scope: 'read:current_user',
+        });
+
+        console.log(accessToken, user);
+
+        if (!user) {
+          console.log('no suer');
+          return;
+        }
+
+        dispatch(startAuthentication());
+
+        dispatch(
+          authenticateFromAuth0(accessToken, () => {
+            console.log('LOGGED IN!');
+            dispatch(getCurrentUser());
+          })
+        );
+
+        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+        const metadataResponse = await fetch(userDetailsByIdUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const { user_metadata } = await metadataResponse.json();
+
+        setUserMetadata(setUserMetadata);
+        console.log(user_metadata);
+
+        setUserMetadata(user_metadata);
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+
+    getUserMetadata();
+  }, [getAccessTokenSilently, user?.sub]);
+
+
+  return (
+    <div>
+      {domain && isAuthenticated && (
+        <React.Fragment>
+          <div className="flex items-center space-x-2 m-4">
+            <div className="flex-shrink-0">
+              <div className="relative">
+                <img
+                  className="h-16 w-16 rounded-full"
+                  src={user.picture}
+                  alt=""
+                />
+                <span
+                  className="absolute inset-0 rounded-full shadow-inner"
+                  aria-hidden="true"
+                ></span>
+              </div>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
+              <p className="text-sm font-medium text-gray-500">{user.email}</p>
+            </div>
+          </div>
+
+          {/*<div>
+            <img src={user.picture} alt={user.name} />
+            <h2>{user.name}</h2>
+            <p>{user.email}</p>
+            <p>{user.sub}</p>
+            <h3>User Metadata</h3>
+            {userMetadata ? (
+              <pre>{JSON.stringify(userMetadata, null, 2)}</pre>
+            ) : (
+              "No user metadata defined"
+            )}
+            </div>*/}
+        </React.Fragment>
+      )}
+
+      {loading && <CircularIndeterminate size={16} />}
+
+      {domain && (!isAuthenticated || (!currentUser?.id && !loading)) && (
+        <LoginButton dispatch={dispatch} />
+      )}
+    </div>
+  );
+};
+
+const LoginButton = ({ dispatch }) => {
+  const { loginWithRedirect } = useAuth0();
+
+  function handleRedirect() {
+    dispatch(startAuthentication());
+    loginWithRedirect();
+  }
+
+  return (
+    <button
+      onClick={handleRedirect}
+      type="submit"
+      className="mt-4 w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+    >
+      {I18n.t('login.sign_in')}
+    </button>
+  );
+};
+
+function Login({ dispatch, current_user, loading }) {
   const form = useRef(null);
+
+  //@ts-ignore
+  const auth0Domain = document.querySelector('meta[name="auth0-domain"]')
+    ?.content;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -43,6 +177,7 @@ function Login({ dispatch }) {
         <h2 className="mt-6 text-center text-1xl leading-3 font-light text-gray-400">
           {I18n.t('login.title')}
         </h2>
+
         {/* <p className="mt-2 text-center text-sm leading-5 text-gray-600 max-w">
           Or {' '}
           <a
@@ -56,80 +191,91 @@ function Login({ dispatch }) {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form action="#" ref={form} method="POST" onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-5 text-gray-700"
-              >
-                {I18n.t('login.email')}
-              </label>
-              <div className="mt-1 rounded-md shadow-sm">
-                <input
-                  id="email"
-                  type="email"
-                  name={'email'}
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                />
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-5 text-gray-700"
-              >
-                {I18n.t('login.password')}
-              </label>
-              <div className="mt-1 rounded-md shadow-sm">
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                />
-              </div>
-            </div>
-
-            <div className="mt-6 flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember_me"
-                  type="checkbox"
-                  className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
-                />
+          {!auth0Domain && (
+            <form action="#" ref={form} method="POST" onSubmit={handleSubmit}>
+              <div>
                 <label
-                  htmlFor="remember_me"
-                  className="ml-2 block text-sm leading-5 text-gray-900"
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-5 text-gray-700"
                 >
-                  {I18n.t('login.remember_me')}
+                  {I18n.t('login.email')}
                 </label>
+                <div className="mt-1 rounded-md shadow-sm">
+                  <input
+                    id="email"
+                    type="email"
+                    name={'email'}
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                  />
+                </div>
               </div>
 
-              <div className="text-sm leading-5">
-                <a
-                  href="/agents/password/new"
-                  className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+              <div className="mt-6">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-5 text-gray-700"
                 >
-                  {I18n.t('login.forgot_password')}
-                </a>
+                  {I18n.t('login.password')}
+                </label>
+                <div className="mt-1 rounded-md shadow-sm">
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    required
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="mt-6">
-              <span className="block w-full rounded-md shadow-sm">
-                <button
-                  onClick={handleSubmit}
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-                >
-                  {I18n.t('login.sign_in')}
-                </button>
-              </span>
-            </div>
-          </form>
+              <div className="mt-6 flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    id="remember_me"
+                    type="checkbox"
+                    className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                  />
+                  <label
+                    htmlFor="remember_me"
+                    className="ml-2 block text-sm leading-5 text-gray-900"
+                  >
+                    {I18n.t('login.remember_me')}
+                  </label>
+                </div>
+
+                <div className="text-sm leading-5">
+                  <a
+                    href="/agents/password/new"
+                    className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+                  >
+                    {I18n.t('login.forgot_password')}
+                  </a>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <span className="block w-full rounded-md shadow-sm">
+                  <button
+                    onClick={handleSubmit}
+                    type="submit"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+                  >
+                    {I18n.t('login.sign_in')}
+                  </button>
+                </span>
+              </div>
+            </form>
+          )}
+
+          {auth0Domain && 
+            <Auth0Login
+              dispatch={dispatch}
+              domain={auth0Domain}
+              currentUser={current_user}
+              loading={loading}
+            />
+          }         
 
           <div className="mt-6 hidden">
             <div className="relative">

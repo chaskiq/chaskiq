@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Agents::SessionsController < Devise::SessionsController
+  include Trackeable
+
   skip_before_action :verify_authenticity_token, only: [:destroy]
   skip_before_action :verify_signed_out_user, only: [:destroy]
 
@@ -63,10 +65,6 @@ class Agents::SessionsController < Devise::SessionsController
   end
 
   private
-
-  def track_event(resource, action)
-    resource.log_async(action: action, user: resource, ip: request.remote_ip)
-  end
 
   def clear_session
     request.env["warden"].logout

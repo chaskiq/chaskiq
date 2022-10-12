@@ -11,7 +11,14 @@ module ApplicationCable
     # finds agent or app user
     def find_resource
       params = request.query_parameters
-      return find_verified_agent if params[:token]
+      # TODO: decide either pick auth0 or doorkeeper strategy
+      self.app = App.find_by(key: params[:app]) if params[:app]
+
+      if Chaskiq::Config.get("AUTH0_ENABLED") == "true"
+        return AuthIdentity.find_agent_from_token(params[:token]) if params[:token]
+      elsif params[:token]
+        return find_verified_agent
+      end
 
       get_session_data
     end
@@ -25,13 +32,11 @@ module ApplicationCable
 
     def access_token
       params = request.query_parameters
-      self.app = App.find_by(key: params[:app])
       @access_token ||= Doorkeeper::AccessToken.by_token(params[:token])
     end
 
     def get_session_data
       params = request.query_parameters
-      self.app = App.find_by(key: params[:app])
 
       OriginValidator.new(
         app: app.domain_url,

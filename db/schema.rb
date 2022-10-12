@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_28_200122) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_05_144614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -338,6 +338,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_200122) do
     t.index ["agent_id"], name: "index_audits_on_agent_id"
     t.index ["app_id"], name: "index_audits_on_app_id"
     t.index ["auditable_type", "auditable_id"], name: "index_audits_on_auditable"
+  end
+
+  create_table "auth_identities", force: :cascade do |t|
+    t.bigint "agent_id", null: false
+    t.string "provider"
+    t.string "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_auth_identities_on_agent_id"
+    t.index ["provider"], name: "index_auth_identities_on_provider"
+    t.index ["uid"], name: "index_auth_identities_on_uid"
   end
 
   create_table "bot_tasks", force: :cascade do |t|
@@ -802,6 +813,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_28_200122) do
   add_foreign_key "assignment_rules", "apps"
   add_foreign_key "audits", "agents"
   add_foreign_key "audits", "apps"
+  add_foreign_key "auth_identities", "agents"
   add_foreign_key "bot_tasks", "apps"
   add_foreign_key "campaigns", "apps"
   add_foreign_key "campaigns", "workflows"
