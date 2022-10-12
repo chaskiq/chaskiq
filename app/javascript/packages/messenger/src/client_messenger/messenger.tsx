@@ -1699,6 +1699,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               app_id={this.props.app_id}
                               enc_data={this.props.encData}
                               conversation={this.state.conversation}
+                              session_id={this.props.sessionId}
                               appBlock={this.state.currentAppBlock}
                             />
                           )}

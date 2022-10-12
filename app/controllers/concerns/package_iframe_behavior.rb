@@ -41,7 +41,7 @@ module PackageIframeBehavior
                       .find_by("app_packages.name": data["data"]["id"])
 
         presenter = package.presenter
-        data.merge!({ "data" => data["data"].merge("package" => package) })
+        data.merge!({ "data" => data["data"].merge("package" => package, "user" => app_user) })
 
         html = presenter.sheet_view(data["data"]&.with_indifferent_access)
       else
@@ -98,6 +98,10 @@ module PackageIframeBehavior
                  @app.app_users.users.find_by(email: user_data[:email])
                elsif data.dig("data", "enc_data", "identifier_key") && @app.compare_user_identifier(data["data"]["enc_data"])
                  @app.app_users.users.find_by(email: data.dig("data", "enc_data", "email"))
+               elsif data.dig("data", "session_id").present?
+                 @app.app_users.find_by(
+                   session_id: data.dig("data", "session_id")
+                 )
                else
                  @app.app_users.find_by(
                    session_id: cookies[cookie_namespace]

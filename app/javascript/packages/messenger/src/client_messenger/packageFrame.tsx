@@ -7,6 +7,7 @@ type AppBlockPackageFrameProps = {
   enc_data?: string;
   app_id: string;
   domain: string;
+  session_id?: string;
 };
 export default class AppBlockPackageFrame extends Component<AppBlockPackageFrameProps> {
   componentDidMount() {}
@@ -21,6 +22,7 @@ export default class AppBlockPackageFrame extends Component<AppBlockPackageFrame
       ...data,
       enc_data: this.props.enc_data,
       app_id: this.props.app_id,
+      session_id: this.props.session_id,
     };
 
     if (conversation.key && message) {

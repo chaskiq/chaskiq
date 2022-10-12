@@ -63,7 +63,7 @@ module ApplicationCable
       # check cookie session
       session_value = request.query_parameters[:session_value]
 
-      if session_value.present? && (u = SessionFinder.get_by_cookie_session(session_value)) && u.present?
+      if session_value.present? && (u = SessionFinder.get_by_cookie_session(session_value)) && u.present? && u[:email].present?
         return u
       end
 
