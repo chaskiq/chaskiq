@@ -63,6 +63,8 @@ module Types
     field :privacyConsent, mutation: Mutations::AppUsers::PrivacyConsent
     field :createAppUser, mutation: Mutations::AppUsers::CreateAppUser
     field :updateAppUser, mutation: Mutations::AppUsers::UpdateAppUser
+    field :mergeContact, mutation: Mutations::AppUsers::MergeContact
+
     field :syncExternalProfile, mutation: Mutations::AppUsers::SyncExternalProfile
     field :createExternalProfile, mutation: Mutations::AppUsers::CreateExternalProfile
     field :updateExternalProfile, mutation: Mutations::AppUsers::UpdateExternalProfile
