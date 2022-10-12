@@ -63,7 +63,7 @@
           g.src="<%= Chaskiq::Config.get('HOST') %>/embed.js"
           s.parentNode.insertBefore(g,s);
           g.onload=function(){
-            new window.ChaskiqMessengerEncrypted({
+            window.chaskiqSupport = new window.ChaskiqMessengerEncrypted({
               domain: "<%= Chaskiq::Config.get('HOST') %>",
               ws:  "<%= Chaskiq::Config.get('WS') %>",
               app_id: "<%= support_app_data[:app].key %>",

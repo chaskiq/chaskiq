@@ -38,19 +38,6 @@ module ApplicationCable
     def get_session_data
       params = request.query_parameters
 
-      if app.blank?
-        # Bugsnag.notify("error getting session data") do |report|
-        #   report.add_tab(
-        #     :context,
-        #     {
-        #       origin: env['HTTP_ORIGIN'],
-        #       params: params
-        #     }
-        #   )
-        # end
-        # return
-      end
-
       OriginValidator.new(
         app: app.domain_url,
         host: env["HTTP_ORIGIN"]
@@ -78,6 +65,13 @@ module ApplicationCable
     end
 
     def get_user_data
+      # check cookie session
+      session_value = request.query_parameters[:session_value]
+
+      if session_value.present? && (u = SessionFinder.get_by_cookie_session(session_value)) && u.present? && u[:email].present?
+        return u
+      end
+
       if app.encryption_enabled?
         authorize_by_identifier_params || authorize_by_encrypted_params
       else

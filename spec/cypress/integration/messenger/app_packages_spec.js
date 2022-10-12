@@ -223,7 +223,7 @@ describe('Visitor home apps', function () {
     })
   })
 
-  it('add package, frame', function () {
+  it.only('add package, frame', function () {
     cy.appScenario('basic')
 
     addAppPackage('UiCatalog')
@@ -282,4 +282,66 @@ describe('Visitor home apps', function () {
         })
     })
   })
+
+  it('add package, frame', function () {
+    cy.appScenario('basic')
+  
+    addAppPackage('UiCatalog')
+    addAppPackageToHome('user_home_apps', 'UiCatalog', `{
+      name: "UiCatalog",
+      definitions: [
+        {
+          id: 'da',
+          name: 'bubu',
+          label: 'Click this action',
+          type: 'button',
+          action: {
+            type: "content",
+            content_url: "/internal/ui_catalog"
+          }
+        },
+        {
+          type: "list",
+          disabled: false,
+          items: [
+            {
+              "type": "item",
+              "id": "slug",
+              "title": 'a title',
+              "subtitle": 'subtitle',
+              action: {
+                type: "frame",
+                url: "/package_iframe_internal/UiCatalog" 
+              }
+            }
+          ]
+        }
+      ]
+    }`)
+  
+    translations()
+  
+    cy.appEval('App.last').then((results) => {
+      const appKey = results.key
+  
+      cy.visit(`/tester/${appKey}`)
+  
+      getIframeBody('iframe:first').find('#chaskiq-prime').click()
+  
+      getIframeBody('iframe:first').xpath(
+        '/html/body/main/div/div[2]/div/div[1]/div[2]/div/form/div[2]/div/ul/div'
+      ).click()
+  
+      cy.wait(1000)
+      getIframeBody('iframe:first')
+        .find('#package-frame')
+        .its('0.contentDocument').should('exist')
+        .its('body').should('not.be.undefined')
+        .then(($iframe) => {
+          cy.wrap($iframe).contains('my friend')
+        })
+    })
+  })
 })
+
+
