@@ -6,6 +6,7 @@
     "app/javascript/packages/*"
   ],
   "dependencies": {
+    "@auth0/auth0-react": "^1.11.0",
     "@chaskiq/components": "0.0.0",
     "@chaskiq/store": "0.0.0",
     "@date-io/moment": "^1.3.6",

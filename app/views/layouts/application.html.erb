@@ -12,7 +12,10 @@
     <meta name="chaskiq-host" content="<%= Chaskiq::Config.get('HOST') %>"/>
     <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
 
-    <% if oauth_app = Doorkeeper::Application.first %>
+    <% if auth0_enabled? %>
+      <meta name="auth0-domain" content="<%= Chaskiq::Config.get('AUTH0_DOMAIN') %>"/>
+      <meta name="auth0-client-id" content="<%= Chaskiq::Config.get('AUTH0_CLIENT_ID') %>"/>
+    <% elsif oauth_app = Doorkeeper::Application.first %>
       <meta name="chaskiq-client-id" content="<%= oauth_app.uid %>"/>
     <% end %>
 
