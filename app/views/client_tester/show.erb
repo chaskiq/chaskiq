@@ -22,11 +22,11 @@
   <script>
     (function(d,t) {
       var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=`${window.location.origin}/embed.js`
+      g.src=`${"<%= Chaskiq::Config.get("HOST") %>"}/embed.js`
       s.parentNode.insertBefore(g,s);
       g.onload=function(){
         window.chaskiqMessenger = new window.ChaskiqMessengerEncrypted({
-          domain: window.location.origin,
+          domain: "<%= Chaskiq::Config.get("HOST") %>",
           ws:  '<%= Rails.application.config.action_cable.url %>',
           data: <%= raw @encrypted_data %>,
           lang: "<%= @lang %>",

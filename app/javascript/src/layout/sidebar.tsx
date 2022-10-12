@@ -116,6 +116,8 @@ function Sidebar({
   }
 
   function handleSignout() {
+    //@ts-ignore
+    window?.chaskiqSupport?.shutdown()
     dispatch(signout());
   }
 

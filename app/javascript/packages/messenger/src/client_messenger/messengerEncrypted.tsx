@@ -12,6 +12,7 @@ export default class ChaskiqMessengerEncrypted {
   props: ChaskiqMessengerProps;
   unload: () => void;
   sendCommand: (action: string, data: any) => void;
+  shutdown: () => void;
 
   constructor(props) {
     this.props = props;
@@ -37,6 +38,10 @@ export default class ChaskiqMessengerEncrypted {
         detail: { action: action, data: data },
       });
       window.document.body.dispatchEvent(event);
+    };
+
+    this.shutdown = () => {
+      this.sendCommand('shutdown', null);
     };
 
     messenger.render();
