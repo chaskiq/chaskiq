@@ -122,7 +122,7 @@ function Sidebar({
   function handleSignout() {
     //@ts-ignore
     window?.chaskiqSupport?.shutdown()
-    if (auth0Domain) return history.push('/logout'); //logout({returnTo: window.location.origin})
+    if (auth0Domain) return history.push('/logout');
     dispatch(signout());
   }
 
