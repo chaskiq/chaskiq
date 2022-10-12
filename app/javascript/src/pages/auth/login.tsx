@@ -73,10 +73,6 @@ const Auth0Login = ({ dispatch, domain, currentUser, loading }) => {
     getUserMetadata();
   }, [getAccessTokenSilently, user?.sub]);
 
-  /*React.useEffect(() => {
-    if (currentUser ) return;
-    if (currentUser && !currentUser.id) return logout({ returnTo: `${window.location.origin}?action=logout` }));
-  }, [currentUser]);*/
 
   return (
     <div>
