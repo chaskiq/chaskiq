@@ -59,11 +59,8 @@ class ApiController < ActionController::API
 
       app_user.update(options)
     else
-      # binding.pry
-      # delete_session_cookie
       visitor = (get_user_by_session || add_vistor)
       visitor.update(lang: I18n.locale)
-      # set_session_id_cookie(visitor.session_id)
       merge_user_data(visitor.reload)
     end
   end
@@ -73,9 +70,6 @@ class ApiController < ActionController::API
     c = request.headers["session-id"] # cookies[:"chaskiq_session_id_#{@app.key}"]
 
     return if c.blank?
-
-    # delete_id_cookie
-
     return if @app_user.session_id == c
 
     # merge user
