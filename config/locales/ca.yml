@@ -39,6 +39,8 @@ ca:
       de: Alemany
       ca: Català
       zh-CN: Xinès
+      fr: "French"
+      it: "Italian"
     redirecting: Redireccionant
     choose_language: Choose Language
     select_language: Selecciona un Idioma

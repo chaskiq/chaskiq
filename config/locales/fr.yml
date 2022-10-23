@@ -39,6 +39,8 @@ fr:
       de: Allemand
       ca: Catalan
       zh-CN: Chinois
+      fr: "French"
+      it: "Italian"
     redirecting: Redirection
     choose_language: Choose Language
     select_language: Sélectionnez une langue
