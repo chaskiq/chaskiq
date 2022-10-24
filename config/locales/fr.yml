@@ -29,7 +29,7 @@ fr:
     send: Envoyer
     actions: Actions
     your_apps: Your Apps
-    upload_field: Upload %{field}
+    upload_field: Téléverser %{field}
     choose_color: Choisir une couleur
     image: Image
     langs:
@@ -39,24 +39,24 @@ fr:
       de: Allemand
       ca: Catalan
       zh-CN: Chinois
-      fr: "French"
-      it: "Italian"
+      fr: "Français"
+      it: "Italien"
     redirecting: Redirection
-    choose_language: Choose Language
+    choose_language: Sélectionnez une langue
     select_language: Sélectionnez une langue
     send_on_enter: Publier à la saisie
-    away_mode: Away Mode
-    toggle_light_mode: Toggle Light Mode
-    toggle_dark_mode: Toggle Dark Mode
+    away_mode: Mode Absent
+    toggle_light_mode: Basculer en mode clair
+    toggle_dark_mode: Basculer en mode sombre
     leads: Prospects
     visitors: Visiteurs
     users: Utilisateurs
-    type_message: Type your message
+    type_message: Veuillez entrer votre message
     search_conversations: Rechercher des conversations 
     days: Jours
     minutes: Minutes
-    visit: Visit
-    done: Done
+    visit: Visite
+    done: Terminé
   status_messages:
     error: 'Erreur'
     success: 'Effectué'
