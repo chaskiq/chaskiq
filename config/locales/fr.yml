@@ -3,7 +3,7 @@ fr:
     edit: Éditer
     new: Nouveau
     add: Ajouter
-    add_new: Add New
+    add_new: Ajouter un Nouveau
     update: Mise à jour
     remove: Supprimer
     delete: Effacer
@@ -12,13 +12,13 @@ fr:
     save_changes: Enregistrer les modifications
     preview: Prévisualisation
     cancel: Annuler
-    back: Back
+    back: Retour
     back_to_site: Retour au site
     not_found: La page que vous cherchez n'existe pas.
     get_snippet: Obtenir le snippet
     submit: Valider
-    confirm_deletion: Confirm deletion?
-    confirm_deletion_ready: Are you ready to delete?
+    confirm_deletion: Confirmer la suppression?
+    confirm_deletion_ready: Êtes-vous certain de vouloir supprimer ?
     next: Suivant
     prev: Précédent
     showing: Afficher
@@ -28,7 +28,7 @@ fr:
     tz_hint: Le fuseau horaire de votre navigateur est <b className="text-bold">%{timezone}</b>
     send: Envoyer
     actions: Actions
-    your_apps: Your Apps
+    your_apps: Vos applications
     upload_field: Téléverser %{field}
     choose_color: Choisir une couleur
     image: Image
@@ -69,31 +69,31 @@ fr:
     reordered_error: Erreur lors de la réorganisation
     reordered_success: Réordonné avec succès
   error_view:
-    title: Woops! Something went wrong.
+    title: Oups! Quelque chose s'est mal passé.
     subtitle: Malheureusement 🤯
-    exp: Try refreshing the page
-    cta: Try to go home
+    exp: Essayez de rafraîchir la page.
+    cta: Essayer d'aller à l'accueil
   home:
     welcome: Bienvenue à
     welcome_site: Chaskiq
     tagline: Trouvez vos applications actuelles ici
-    create_new: Create New App
-    choose_lang: Choose Language
-    edit_profile: Edit Profile
-    edit_credentials: Edit User Credentials
-    go_to_doc: Go To Documentation
+    create_new: Créer une nouvelle app
+    choose_lang: Sélectionnez une langue
+    edit_profile: Modifier le profil
+    edit_credentials: Modifier les identifiants
+    go_to_doc: Accéder à la documentation
   dashboard:
     hey: "👋 Hé !, vous regardez le tableau de bord <strong>du</strong> de%{name}! <br /> Obtenez un snippet d'installation pour la configuration du web <br />"
-    response_avg: Average Response Time
-    new_conversations: New Conversations
+    response_avg: Temps de Réponse Moyen
+    new_conversations: Nouvelles conversations
     resolutions: Résolution
     incoming_messages: Messages reçus
-    visit_activity: Visit Activity
-    users_browser: Users Browser
-    lead_os: Lead OS
-    user_os: User OS
+    visit_activity: Visiter l'activité
+    users_browser: Navigateur d'utilisateurs
+    lead_os: Prospects Os
+    user_os: OS des utilisateurs
     mac_os: Mac OS
-    user_country: User Country
+    user_country: Pays des utilisateurs
     snippet: Mettez le script suivant à la fin de votre balise html <body>
     status: Statut du chat en direct
     status_running: En cours d'exécution
@@ -118,7 +118,7 @@ fr:
       for_users: Pour les utilisateurs
       bot_settings: Tâches du bot
       outbound: Sortant
-      new_conversations: New Conversations
+      new_conversations: Nouvelles conversations
       articles: Articles
       collections: Collections
       article_settings: Paramètres
@@ -127,37 +127,37 @@ fr:
       messenger_settings: Paramètres de Messenger
       integrations: Intégrations
       webhooks: Webhooks
-      api_access: API Access
+      api_access: Accès API
       billing: Facturation
     user_menu:
-      create_app: Create New App
+      create_app: Créer une nouvelle appli
       create_app_description: Créez l'application Chaskiq de votre entreprise
-      signout: Sign Out
-      title: User Menu
+      signout: Se déconnecter
+      title: Menu utilisateur
   profile:
-    no_name: No name
-    name: Full name
-    area_of_expertise: Area of expertise
-    specialization: Specialization
-    phone_number: Phone number
-    address: Address
+    no_name: Aucun nom
+    name: Nom complet
+    area_of_expertise: Domaine d'expertise
+    specialization: Spécialisation
+    phone_number: Numéro de téléphone
+    address: Adresse
     availability: Disponibilité
   login:
-    title: Connect to your account
-    email: Your Email
-    password: Your password
-    remember_me: Remember me
-    forgot_password: Forgot your password?
-    sign_in: Connect
-    continue_with: Continue with
+    title: Accédez à votre compte
+    email: Votre e-mail
+    password: Votre mot de passe
+    remember_me: Mémoriser mes informations
+    forgot_password: Mot de passe oublié ?
+    sign_in: Se connecter
+    continue_with: Continue avec
   invitation:
-    title: Create your account
-    password: Type your password
-    password_confirmation: Confirm your password
+    title: Créez votre compte
+    password: Saisissez votre mot de passe
+    password_confirmation: Confirmation du mot de passe
     button: Enregistrer
-    built_with_love: Built with love by the team
+    built_with_love: Construit avec amour par l’équipe
   conversations:
-    start_conversation: Start a conversation
+    start_conversation: Démarrer une conversation
     title: Conversations
     menu:
       conversations: Conversations
@@ -179,32 +179,32 @@ fr:
       title: Aucune conversation
       text: Choisir les conversations sur le côté
     app_package_panel:
-      title: Send App Package
-      send_app: Send App
+      title: Envoyez le package applicatif
+      send_app: Envoyer l'application
       preview: Prévisualisation
     assignment_rules:
       title: Titre
-      hint: This is the rule name
-      select_agent: Select Agent
+      hint: C'est le nom de la règle
+      select_agent: Sélectionner un agent
   conversation:
     with: Conversation avec
-    tag_modal_title: Manage conversation tags
+    tag_modal_title: Gérer les conversations
     actions:
-      priorize: Priorize Conversation
-      remove_priority: Remove Priority
+      priorize: Prioriser la conversation
+      remove_priority: Supprimer la priorité
       close: Fermer
       reopen: Rouvrir
-      start_call: Start Videocall
+      start_call: Démarrer un appel vidéo
       end_call: Terminer l’appel
       assign_agent: Assigner un agent
-      tag_conversation: Tag Conversation
+      tag_conversation: Tag de conversation
     messages:
       seen: Vu
       not_seen: Non vu
       note: Note personnelle
       reply: Répondre
     sidebar:
-      customize: Customize
+      customize: Personnaliser
       show_profile: Voir le profil
       location: Localisation
       browser: Navigateur de l’utilisateur
@@ -213,7 +213,7 @@ fr:
       assignee: Assigné
       first_agent_reply: Réponse du premier agent
       app_inserter:
-        title: Add apps to inbox sidebar
+        title: Ajouter des applications à la barre latérale de la boîte de réception
         add_app: Ajouter une app
     editor:
       panels:
@@ -225,7 +225,7 @@ fr:
           choose_another: Choisir un autre
         quick_reply:
           title: Envoyer une réponse rapide
-          confirm: Confirm send %{title}?
+          confirm: Confirmer l'envoi de %{title}?
           confirm_msg: Cette réponse rapide sera livrée dans la conversation actuelle de l'utilisateur.
           empty: aucune réponse rapide disponible
           choose_another: Choisir un autre
@@ -241,7 +241,7 @@ fr:
     remove_success: Campagne supprimée
     remove_hint: Nous allons détruire tout contenu et données connexes
     delete_campaign: Supprimer la campagne %{name}
-    create_new: Create New Campaign
+    create_new: Créer nouvelle campagne
     empty:
       title: Aucune campagne n’a été trouvée
     mailing: Campagne(s) de mails
@@ -265,8 +265,8 @@ fr:
     state:
       enabled: activé
       disabled: désactivé
-      send: sent
-      delivering: delivering
+      send: envoyé !
+      delivering: en cours de livraison
     tabs:
       stats: Stats
       settings: Paramètres
@@ -303,7 +303,7 @@ fr:
       description_users: "les utilisateurs enregistrés de votre plateforme"
     state_filters:
       enabled_title: Activé
-      enabled_description: Enabled bot tasks
+      enabled_description: Activer la tâche de bot
       disabled_title: Désactivé
       disabled_description: Tâches de bot désactivées
     title: Tâches du bot
@@ -311,7 +311,7 @@ fr:
     reply_agent: vous recevrez une réponse de l'un de nos agents
     email_support: pour obtenir de l'aide vous pouvez envoyer un e-mail à %{email}
     outbound: '🏓 Sortant'
-    new_conversations: '👋 New Conversations'
+    new_conversations: '👋 Nouvelles conversations'
     new_conversations_notice: C'est ce que les gens verront lorsqu'ils commenceront une nouvelle conversation
     options:
       add_message: Ajouter une Bulle de Message
@@ -320,8 +320,8 @@ fr:
     path_title_hint: titre du chemin
     delete_path: supprimer le chemin
     add_path: Ajouter une nouvelle partie de conversation
-    continue_bot_with: Continue bot with
-    continue_with_reply_button: Continue bot with reply button
+    continue_bot_with: Continuer le bot avec
+    continue_with_reply_button: Continuer le bot avec le bouton répondre
     end_bot_with: Fin du bot avec
     end_with_follow: Terminer le bot avec des actions de suivi
     reply_button: bouton répondre
@@ -338,7 +338,7 @@ fr:
       placeholder: Saisissez votre e-mail
       ack: Merci
     support:
-      ask: Are you an existing %{name} customer?
+      ask: Êtes-vous un client existant de %{name}?
       options:
         op1: Oui, je suis un client
         op2: Non, je ne suis pas encore un client existant
@@ -379,7 +379,7 @@ fr:
       custom_time: Heure personnalisée
       enable_title: Activer la tâche de bot
       enable_hint: lorsque cette option est activée, la tâche du bot commencera à fonctionner
-    new: Create New Task
+    new: Créer une nouvelle tâche
     remove_success: bot supprimé
     empty:
       title: Aucune tâche de bot trouvée
@@ -442,16 +442,16 @@ fr:
       security: Sécurité
       messenger_settings: Paramètres de Messenger
       appearance: Apparence
-      contact_avatars: Contact Avatars
-      appearance_title: Appearance Settings
+      contact_avatars: Avatars de contact
+      appearance_title: Apparence
       privacy: Confidentialité
-      privacy_title: Privacy Settings
+      privacy_title: Paramètres de confidentialité
       translations: Traductions
       availability: Disponibilité
       email_requirement: Exigences d'email
-      inbound_settings: Inbound Settings
+      inbound_settings: Paramètres entrants
       messenger_style: Style Messenger
-      user_data: User Data
+      user_data: Données utilisateur
       tags: Tags
       quick_replies: Réponses rapides
       email_forwarding: Transfert d'email
@@ -488,7 +488,7 @@ fr:
       hints:
         hook_url: Cette intégration recevra le webhook à
       delete_dialog:
-        title: Delete "%{name}" integration?
+        title: Supprimer l'intégration "%{name}" ?
         text: L'intégration avec le service %{name} sera désactivée immédiatement
       empty:
         title: Vous n'avez pas encore d'intégrations api
@@ -547,9 +547,9 @@ fr:
       closed_replies_title: Empêche les réponses aux conversations fermées pour %{name}
       closed_replies_enabled: Laisser les utilisateurs répondre à des messages fermés à tout moment.
       closed_replies_disabled: Empêcher les utilisateurs de répondre aux conversations fermées après.
-      idle_sessions_title: Reset sessions on idle sessions for %{name}
-      idle_sessions_enabled: Allow idle sessions on messenger.
-      idle_sessions_disabled: Resets sessions on idle time after.
+      idle_sessions_title: Réinitialiser les sessions sur les sessions inactives pour %{name}
+      idle_sessions_enabled: Autoriser les sessions inactives sur la messagerie.
+      idle_sessions_disabled: Réinitialisez les sessions après.
       filters:
         users:
           label: Utilisateurs
@@ -564,12 +564,12 @@ fr:
       title: Equipe
       invitations: Invitations
       agents: Agents
-      invitation_success: Invitation sent!
-      invitatin_error: Invitation not sent!
+      invitation_success: Invitation envoyée !
+      invitatin_error: Invitation non envoyée !
       action_button: ajouter un utilisateur
       title_content: Ajouter un nouvel agent
       content_text: envoyer une invitation activable
-      hint: The new team member will be notified by it's email
+      hint: Le nouveau membre de l'équipe sera notifié par son e-mail
       send_invitation: Envoyer invitation
       resend_invitation: Renvoyer l'invitation
       add_new: Ajouter un membre de l'équipe
@@ -578,35 +578,35 @@ fr:
       destroyed_agent: Agent supprimé avec succès
       destroy_agent_title: Supprimer l'agent
       destroy_agent: Effacer
-      destroy_agent_warning: 'Are you sure you want to delete %{agent}?'
+      destroy_agent_warning: 'Êtes-vous sûr de vouloir supprimer %{agent}?'
       update_agent: Mise à jour
-      participants: Manage participants
-      updated_team: Team updated
-      created_team: Team created
-      deleted_team: Team deleted
-      confirm_team_delete: Are you sure you want to delete this team?
+      participants: Gérer les participants
+      updated_team: Équipe mise à jour
+      created_team: Équipe mise à jour
+      deleted_team: Équipe supprimée
+      confirm_team_delete: Êtes-vous sûr de vouloir supprimer cette équipe ?
       new:
-        action_button: Add Team
-        title_content: Add a new Team
-        content_text: Create a new Team
+        action_button: Ajouter une équipe
+        title_content: Ajouter une nouvelle équipe
+        content_text: Créer une nouvelle équipe
       edit:
-        action_button: Edit Team
-        title_content: Edit Team
-        content_text: Edit Team
+        action_button: Modifier l'équipe
+        title_content: Modifier l'équipe
+        content_text: Modifier l'équipe
       delete:
-        action_button: Delete Team
-        title_content: Delete Team
-        content_text: Delete Team
+        action_button: Supprimer l'équipe
+        title_content: Supprimer l'équipe
+        content_text: Supprimer l'équipe
     agent_teams:
-      action_button: Add Team member
+      action_button: Ajouter un membre d'équipe
       title_content: Ajouter un nouvel agent
       content_text: envoyer une invitation activable
-      search_placeholder: "Search for an agent"
-      delete_success: Agent deleted from team
-      added_success: Agent added to team
-      add_team: Add Team
-      updated_team: Team updated successfully
-      created_team: Team created successfully
+      search_placeholder: "Rechercher un agent"
+      delete_success: Agent supprimé de l'équipe
+      added_success: Agent ajouté à l'équipe
+      add_team: Ajouter une équipe
+      updated_team: Équipe mise à jour avec succès
+      created_team: Équipe mise à jour avec succès
     webhooks:
       title: Webhooks
       create_success: Webhook crée
@@ -616,7 +616,7 @@ fr:
       delete_success: Webhook supprimé correctement
       delete_error: Erreur lors de la suppression du webhook
       outgoing_webhooks: Webhooks sortants
-      new_webhook: New Webhook
+      new_webhook: Nouveau webhook
       active_webhooks: Webhooks actifs
       disabled_webhooks: Webhooks désactivés
       empty:
@@ -624,13 +624,13 @@ fr:
         desc: Recherchez vos webhooks dans
         disabled_webhooks: Webhooks désactivés
       delete:
-        title: Delete webhook?
+        title: Supprimer le webhook?
         text: Le webhook avec le service %{name} sera désactivé immédiatement
     tags:
       title: Tags
       modal:
         title: Créer le tag de l'application
-        hint: Looking for more tags? Look at
+        hint: Vous cherchez plus de tags ? regardez à
         link: Paramètres du compte
       inputs:
         name: Nom du champ
@@ -660,14 +660,14 @@ fr:
     published: Publié
     draft: Brouillons
     visit: visitez le centre d'aide
-    new: New Article
-    add: Add Item
+    new: Nouvel article
+    add: Ajouter un élément
     collections: Collections
     help_center: Centre d'Aide
     description_placeholder: Décrivez votre collection pour vous aider à la trouver.
     title_placeholder: Écrivez le titre des sections
-    new_section: New Section
-    new_collection: New Collection
+    new_section: Nouvelle section
+    new_collection: Nouvelle collection
     edit_collection: Editer la collection
     create_article:
       placeholder: Écrivez le titre de l'article
@@ -676,25 +676,25 @@ fr:
       title: Nouvelle collection d'articles
       placeholder: Entrez le titre de la collection
       description: Décrivez votre collection pour vous aider à la trouver.
-    deleted_success: Article deleted
+    deleted_success: Article supprimé
     new_article: Nouvel article
-    settings_updated_success: Article settings updated
-    settings_updated_error: Article settings failed
+    settings_updated_success: Paramètres de l'article mis à jour
+    settings_updated_error: La sauvegarde de l'article a échoué
     activate_help_center: Activer le Centre d'Aide
-    delete_article: Delete article "%{title}?
+    delete_article: Supprimer l'article "%{title}?
     delete_article_exp: nous allons détruire tout contenu et données connexes
     square_preferred: images carrées préférées (taille min 200x200px)
     square_preferred_hint: les images carrées seront redimensionnées de manière optimale
-    reordered_success: Reordered correctly
-    reordered_error: Reordered error
-    add_articles: Add Articles
-    updated_success: Article updated
-    updated_error: Article error on save
+    reordered_success: Réordonné correctement
+    reordered_error: Erreur de réorganisation
+    add_articles: Ajouter des articles
+    updated_success: Article mis à jour
+    updated_error: Erreur lors de la sauvegarde des articles
     delete_section: Supprimer la section
     author: Auteur
     written_by: écrit par
     created_on: Créé le
-    base_section: Base Section
+    base_section: Section de base
     state:
       published: publié
       published_desc: 'affiche l''article dans le centre d''aide'
@@ -725,10 +725,10 @@ fr:
     import_choose: Choisissez le type de contacts que vous allez importer
     select_file: Sélectionnez un fichier
     definitions:
-      app_user: Verified User
-      lead: Lead
-      phone: Phone
-      company_name: Company Name
+      app_user: Utilisateur vérifié
+      lead: Prospects
+      phone: Téléphone
+      company_name: Nom de la société
   segment_manager:
     add_filters: Ajouter des filtres
     select_fields: 'Sélectionner des champs :'
@@ -742,8 +742,8 @@ fr:
     any: tout
     criteria: critères
     days_ago: jours plus tôt
-    filter_for: Select filter for %{name}
-    date_filter_for: Select the date filter for %{name}
+    filter_for: Filtrer sur %{name}
+    date_filter_for: Filtre de date sur %{name}
     integer_filter_for: Sélectionner le filtre entier pour %{name}
     match_criteria_for: Options de critères de correspondance pour %{name}
     apply: appliquer
@@ -757,53 +757,53 @@ fr:
     has_any_value: a n'importe quelle valeur
     exactly: exactement
     less_than: inférieur(e) à
-    less_than_eq: less than eq
+    less_than_eq: inférieur(e) à
     more_than: plus que
-    more_than_eq: more than eq
+    more_than_eq: supérieur à
     match_any: correspond à n'importe quel
     match_all: correspond à tous
     missing_value: Valeur manquante !
   full_contact:
     inbox:
       name: Nom
-      first_name: First name
-      last_name: Last name
+      first_name: Prénom
+      last_name: Nom
       twitter: Twitter
       facebook: Facebook
-      linkedin: Linkedin
-      organization: Organization
-      job_title: Job title
+      linkedin: LinkedIn
+      organization: Organisation
+      job_title: Intitulé du poste
   contact_fields:
     inbox:
-      first_name: First name
-      last_name: Last name
+      first_name: Prénom
+      last_name: Nom
       email: E-mail
-      company: Company
-      phone: Phone
+      company: Société
+      phone: Téléphone
   twilio_phone:
     buttons:
-      holdOn: Put on hold
-      holdOff: Remove hold
-      pickUp: Pick up
-      hangUp: Hang up
-      join: Join
-      leave: Leave
-      goToConversation: Go to conversation
-      open_call_window: Open Call Window
+      holdOn: Placer en attente
+      holdOff: Réactivé
+      pickUp: Ramasser
+      hangUp: Raccrocher
+      join: Joindre
+      leave: Quitter
+      goToConversation: Aller à la discussion
+      open_call_window: Ouvrir la fenêtre d'appel
     messages:
-      inProgress: In-progress
-      incoming: Incoming call...
-      error: "ERROR: %{message}"
-      noConversations: No active conversations
-      noAgentsInCall: NO AGENTS IN THE CALL
-      agentsInCall: "AGENTS IN THE CALL:"
+      inProgress: En cours
+      incoming: Appel entrant...
+      error: "ERREUR : %{message}"
+      noConversations: Aucune conversation active
+      noAgentsInCall: AUCUN AGENTS DANS L'APPEL
+      agentsInCall: "AGENTS DANS L'APPEL :"
     conversations:
-      message_header: New Phone Call
+      message_header: Nouvel appel téléphonique
     status:
-      onHold: ON HOLD
+      onHold: EN ATTENTE
     labels:
-      title: "Call with %{subject}"
-      status: Status
-      'client:Anonymous': Anonymous client
+      title: "Appeler avec %{subject}"
+      status: Statut
+      'client:Anonymous': Client anonyme
       'client:agent': Agent
       'client:support_agent': Agent
