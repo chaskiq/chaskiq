@@ -192,6 +192,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -1918,6 +1920,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -3650,6 +3654,8 @@
         "de": "Alemany",
         "en": "Anglès",
         "es": "Espanyol",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguès",
         "zh-CN": "Xinès"
       },
@@ -5376,6 +5382,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -7113,6 +7121,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -8839,6 +8849,8 @@
         "de": "Deutsch",
         "en": "Englisch",
         "es": "Spanisch",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portugiesisch",
         "zh-CN": "Chinese"
       },
@@ -10565,6 +10577,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -14389,6 +14403,8 @@
         "de": "Alemán",
         "en": "Inglés",
         "es": "Español",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portugués",
         "zh-CN": "Chino"
       },
@@ -16463,6 +16479,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -18026,11 +18044,11 @@
     },
     "articles": {
       "activate_help_center": "Activer le Centre d'Aide",
-      "add": "Add Item",
-      "add_articles": "Add Articles",
+      "add": "Ajouter un élément",
+      "add_articles": "Ajouter des articles",
       "all": "Tous",
       "author": "Auteur",
-      "base_section": "Base Section",
+      "base_section": "Section de base",
       "collections": "Collections",
       "create": {
         "description": "Décrivez votre collection pour vous aider à la trouver.",
@@ -18042,21 +18060,21 @@
         "placeholder": "Écrivez le titre de l'article"
       },
       "created_on": "Créé le",
-      "delete_article": "Delete article \"%{title}?",
+      "delete_article": "Supprimer l'article \"%{title}?",
       "delete_article_exp": "nous allons détruire tout contenu et données connexes",
       "delete_section": "Supprimer la section",
-      "deleted_success": "Article deleted",
+      "deleted_success": "Article supprimé",
       "description_placeholder": "Décrivez votre collection pour vous aider à la trouver.",
       "draft": "Brouillons",
       "edit_collection": "Editer la collection",
       "help_center": "Centre d'Aide",
-      "new": "New Article",
+      "new": "Nouvel article",
       "new_article": "Nouvel article",
-      "new_collection": "New Collection",
-      "new_section": "New Section",
+      "new_collection": "Nouvelle collection",
+      "new_section": "Nouvelle section",
       "published": "Publié",
-      "reordered_error": "Reordered error",
-      "reordered_success": "Reordered correctly",
+      "reordered_error": "Erreur de réorganisation",
+      "reordered_success": "Réordonné correctement",
       "settings": {
         "add_language": "Ajouter une langue",
         "add_language_to_help": "Ajouter une nouvelle langue au centre d'aide",
@@ -18074,8 +18092,8 @@
         "select_lang": "Sélectionnez la langue",
         "title": "Paramètres du Centre d'aide"
       },
-      "settings_updated_error": "Article settings failed",
-      "settings_updated_success": "Article settings updated",
+      "settings_updated_error": "La sauvegarde de l'article a échoué",
+      "settings_updated_success": "Paramètres de l'article mis à jour",
       "square_preferred": "images carrées préférées (taille min 200x200px)",
       "square_preferred_hint": "les images carrées seront redimensionnées de manière optimale",
       "state": {
@@ -18086,8 +18104,8 @@
       },
       "title": "Articles",
       "title_placeholder": "Écrivez le titre des sections",
-      "updated_error": "Article error on save",
-      "updated_success": "Article updated",
+      "updated_error": "Erreur lors de la sauvegarde des articles",
+      "updated_success": "Article mis à jour",
       "visit": "visitez le centre d'aide",
       "written_by": "écrit par"
     },
@@ -18128,7 +18146,7 @@
       "clone_title": "Dupliquer",
       "cloned_error": "erreur lors du clonage de l'enregistrement",
       "cloned_success": "dupliqué avec succès",
-      "create_new": "Create New Campaign",
+      "create_new": "Créer nouvelle campagne",
       "delete_campaign": "Supprimer la campagne %{name}",
       "deliver_description": "Livre la campagne",
       "deliver_title": "Livrer",
@@ -18151,10 +18169,10 @@
       "remove_hint": "Nous allons détruire tout contenu et données connexes",
       "remove_success": "Campagne supprimée",
       "state": {
-        "delivering": "delivering",
+        "delivering": "en cours de livraison",
         "disabled": "désactivé",
         "enabled": "activé",
-        "send": "sent"
+        "send": "envoyé !"
       },
       "tabs": {
         "audience": "Visiteurs",
@@ -18168,19 +18186,19 @@
     "common": {
       "actions": "Actions",
       "add": "Ajouter",
-      "add_new": "Add New",
-      "away_mode": "Away Mode",
-      "back": "Back",
+      "add_new": "Ajouter un Nouveau",
+      "away_mode": "Mode Absent",
+      "back": "Retour",
       "back_to_site": "Retour au site",
       "cancel": "Annuler",
       "choose_color": "Choisir une couleur",
-      "choose_language": "Choose Language",
-      "confirm_deletion": "Confirm deletion?",
-      "confirm_deletion_ready": "Are you ready to delete?",
+      "choose_language": "Sélectionnez une langue",
+      "confirm_deletion": "Confirmer la suppression?",
+      "confirm_deletion_ready": "Êtes-vous certain de vouloir supprimer ?",
       "create": "Créer",
       "days": "Jours",
       "delete": "Effacer",
-      "done": "Done",
+      "done": "Terminé",
       "edit": "Éditer",
       "get_snippet": "Obtenir le snippet",
       "image": "Image",
@@ -18189,6 +18207,8 @@
         "de": "Allemand",
         "en": "Anglais",
         "es": "Espagnol",
+        "fr": "Français",
+        "it": "Italien",
         "pt": "Portugais",
         "zh-CN": "Chinois"
       },
@@ -18212,33 +18232,33 @@
       "showing": "Afficher",
       "submit": "Valider",
       "to": "vers",
-      "toggle_dark_mode": "Toggle Dark Mode",
-      "toggle_light_mode": "Toggle Light Mode",
-      "type_message": "Type your message",
+      "toggle_dark_mode": "Basculer en mode sombre",
+      "toggle_light_mode": "Basculer en mode clair",
+      "type_message": "Veuillez entrer votre message",
       "tz_hint": "Le fuseau horaire de votre navigateur est <b className=\"text-bold\">%{timezone}</b>",
       "update": "Mise à jour",
-      "upload_field": "Upload %{field}",
+      "upload_field": "Téléverser %{field}",
       "users": "Utilisateurs",
-      "visit": "Visit",
+      "visit": "Visite",
       "visitors": "Visiteurs",
-      "your_apps": "Your Apps"
+      "your_apps": "Vos applications"
     },
     "contact_fields": {
       "inbox": {
-        "company": "Company",
+        "company": "Société",
         "email": "E-mail",
-        "first_name": "First name",
-        "last_name": "Last name",
-        "phone": "Phone"
+        "first_name": "Prénom",
+        "last_name": "Nom",
+        "phone": "Téléphone"
       }
     },
     "contact_manager": {
       "create": "Créer des Utilisateurs & Dirigeants",
       "definitions": {
-        "app_user": "Verified User",
-        "company_name": "Company Name",
-        "lead": "Lead",
-        "phone": "Phone"
+        "app_user": "Utilisateur vérifié",
+        "company_name": "Nom de la société",
+        "lead": "Prospects",
+        "phone": "Téléphone"
       },
       "import_choose": "Choisissez le type de contacts que vous allez importer",
       "import_contacts": "importer des contacts",
@@ -18253,11 +18273,11 @@
         "assign_agent": "Assigner un agent",
         "close": "Fermer",
         "end_call": "Terminer l’appel",
-        "priorize": "Priorize Conversation",
-        "remove_priority": "Remove Priority",
+        "priorize": "Prioriser la conversation",
+        "remove_priority": "Supprimer la priorité",
         "reopen": "Rouvrir",
-        "start_call": "Start Videocall",
-        "tag_conversation": "Tag Conversation"
+        "start_call": "Démarrer un appel vidéo",
+        "tag_conversation": "Tag de conversation"
       },
       "editor": {
         "panels": {
@@ -18270,7 +18290,7 @@
           },
           "quick_reply": {
             "choose_another": "Choisir un autre",
-            "confirm": "Confirm send %{title}?",
+            "confirm": "Confirmer l'envoi de %{title}?",
             "confirm_msg": "Cette réponse rapide sera livrée dans la conversation actuelle de l'utilisateur.",
             "empty": "aucune réponse rapide disponible",
             "title": "Envoyer une réponse rapide"
@@ -18286,29 +18306,29 @@
       "sidebar": {
         "app_inserter": {
           "add_app": "Ajouter une app",
-          "title": "Add apps to inbox sidebar"
+          "title": "Ajouter des applications à la barre latérale de la boîte de réception"
         },
         "assignee": "Assigné",
         "browser": "Navigateur de l’utilisateur",
         "created_at": "Créé à",
-        "customize": "Customize",
+        "customize": "Personnaliser",
         "first_agent_reply": "Réponse du premier agent",
         "latest_user_visible_comment_at": "Dernier commentaire",
         "location": "Localisation",
         "show_profile": "Voir le profil"
       },
-      "tag_modal_title": "Manage conversation tags",
+      "tag_modal_title": "Gérer les conversations",
       "with": "Conversation avec"
     },
     "conversations": {
       "app_package_panel": {
         "preview": "Prévisualisation",
-        "send_app": "Send App",
-        "title": "Send App Package"
+        "send_app": "Envoyer l'application",
+        "title": "Envoyez le package applicatif"
       },
       "assignment_rules": {
-        "hint": "This is the rule name",
-        "select_agent": "Select Agent",
+        "hint": "C'est le nom de la règle",
+        "select_agent": "Sélectionner un agent",
         "title": "Titre"
       },
       "empty": {
@@ -18330,7 +18350,7 @@
         "unfiltered": "Tous",
         "waiting": "En attente"
       },
-      "start_conversation": "Start a conversation",
+      "start_conversation": "Démarrer une conversation",
       "states": {
         "closed": "Fermé",
         "opened": "Ouvert"
@@ -18341,19 +18361,19 @@
       "guides": "Tutoriels Chaskiq",
       "hey": "👋 Hé !, vous regardez le tableau de bord <strong>du</strong> de%{name}! <br /> Obtenez un snippet d'installation pour la configuration du web <br />",
       "incoming_messages": "Messages reçus",
-      "lead_os": "Lead OS",
+      "lead_os": "Prospects Os",
       "mac_os": "Mac OS",
-      "new_conversations": "New Conversations",
+      "new_conversations": "Nouvelles conversations",
       "resolutions": "Résolution",
-      "response_avg": "Average Response Time",
+      "response_avg": "Temps de Réponse Moyen",
       "snippet": "Mettez le script suivant à la fin de votre balise html <body>",
       "status": "Statut du chat en direct",
       "status_paused": "En pause",
       "status_running": "En cours d'exécution",
-      "user_country": "User Country",
-      "user_os": "User OS",
-      "users_browser": "Users Browser",
-      "visit_activity": "Visit Activity"
+      "user_country": "Pays des utilisateurs",
+      "user_os": "OS des utilisateurs",
+      "users_browser": "Navigateur d'utilisateurs",
+      "visit_activity": "Visiter l'activité"
     },
     "data_tables": {
       "agents": {
@@ -18397,7 +18417,7 @@
         "online": "En ligne",
         "os": "Os",
         "os_version": "Version Os",
-        "phone": "Phone",
+        "phone": "Téléphone",
         "postal": "Code postal",
         "referrer": "Référant",
         "state": "État",
@@ -18439,9 +18459,9 @@
           "placeholder": "par exemple https://votredomaine.fr/configure-url/"
         },
         "content_url": {
-          "hint": "Sent when the content_url is set for a block, allows dynamic content to be rendered on demand",
-          "label": "Dynamic content flow webhook URL",
-          "placeholder": "e.g. https://yourdomain.com/content-url/"
+          "hint": "Envoyé lorsque le content_url est défini pour un bloc, permet au contenu dynamique d'être rendu à la demande",
+          "label": "Url du webhook du flux de contenu dynamique",
+          "placeholder": "par exemple https://votredomaine.fr/configure-url/"
         },
         "description": {
           "hint": "dire ce que fait votre plugin",
@@ -18650,12 +18670,12 @@
       },
       "teams": {
         "description": {
-          "label": "Team's description",
-          "placeholder": "Write what's this team is about"
+          "label": "Description de l'équipe",
+          "placeholder": "Écrivez quelque chose sur la mission de cette équipe"
         },
         "name": {
-          "label": "Team's name",
-          "placeholder": "My awesome team"
+          "label": "Nom de l'équipe",
+          "placeholder": "Ma super équipe"
         }
       },
       "webhooks": {
@@ -18918,10 +18938,10 @@
       "title": "Transfert d'email"
     },
     "error_view": {
-      "cta": "Try to go home",
-      "exp": "Try refreshing the page",
+      "cta": "Essayer d'aller à l'accueil",
+      "exp": "Essayez de rafraîchir la page.",
       "subtitle": "Malheureusement 🤯",
-      "title": "Woops! Something went wrong."
+      "title": "Oups! Quelque chose s'est mal passé."
     },
     "errors": {
       "messages": {
@@ -18939,12 +18959,12 @@
     "full_contact": {
       "inbox": {
         "facebook": "Facebook",
-        "first_name": "First name",
-        "job_title": "Job title",
-        "last_name": "Last name",
-        "linkedin": "Linkedin",
+        "first_name": "Prénom",
+        "job_title": "Intitulé du poste",
+        "last_name": "Nom",
+        "linkedin": "LinkedIn",
         "name": "Nom",
-        "organization": "Organization",
+        "organization": "Organisation",
         "twitter": "Twitter"
       }
     },
@@ -19003,11 +19023,11 @@
       }
     },
     "home": {
-      "choose_lang": "Choose Language",
-      "create_new": "Create New App",
-      "edit_credentials": "Edit User Credentials",
-      "edit_profile": "Edit Profile",
-      "go_to_doc": "Go To Documentation",
+      "choose_lang": "Sélectionnez une langue",
+      "create_new": "Créer une nouvelle app",
+      "edit_credentials": "Modifier les identifiants",
+      "edit_profile": "Modifier le profil",
+      "go_to_doc": "Accéder à la documentation",
       "tagline": "Trouvez vos applications actuelles ici",
       "welcome": "Bienvenue à",
       "welcome_site": "Chaskiq"
@@ -19022,20 +19042,20 @@
       "title": "Configuration des utilisateurs vérifiée"
     },
     "invitation": {
-      "built_with_love": "Built with love by the team",
+      "built_with_love": "Construit avec amour par l’équipe",
       "button": "Enregistrer",
-      "password": "Type your password",
-      "password_confirmation": "Confirm your password",
-      "title": "Create your account"
+      "password": "Saisissez votre mot de passe",
+      "password_confirmation": "Confirmation du mot de passe",
+      "title": "Créez votre compte"
     },
     "login": {
-      "continue_with": "Continue with",
-      "email": "Your Email",
-      "forgot_password": "Forgot your password?",
-      "password": "Your password",
-      "remember_me": "Remember me",
-      "sign_in": "Connect",
-      "title": "Connect to your account"
+      "continue_with": "Continue avec",
+      "email": "Votre e-mail",
+      "forgot_password": "Mot de passe oublié ?",
+      "password": "Votre mot de passe",
+      "remember_me": "Mémoriser mes informations",
+      "sign_in": "Se connecter",
+      "title": "Accédez à votre compte"
     },
     "messenger": {
       "article_meta": "Par: <strong>%{name}</strong> le <0>%{date}</0>",
@@ -19101,7 +19121,7 @@
     "navigator": {
       "campaigns": "Campagnes",
       "childs": {
-        "api_access": "API Access",
+        "api_access": "Accès API",
         "app_settings": "Paramètres de l'Application",
         "article_settings": "Paramètres",
         "articles": "Articles",
@@ -19118,7 +19138,7 @@
         "integrations": "Intégrations",
         "mailing_campaigns": "Campagnes de mailing",
         "messenger_settings": "Paramètres de Messenger",
-        "new_conversations": "New Conversations",
+        "new_conversations": "Nouvelles conversations",
         "outbound": "Sortant",
         "team": "Team",
         "webhooks": "Webhooks"
@@ -19130,10 +19150,10 @@
       "routing_bots": "Bots de Routage",
       "settings": "Paramètres",
       "user_menu": {
-        "create_app": "Create New App",
+        "create_app": "Créer une nouvelle appli",
         "create_app_description": "Créez l'application Chaskiq de votre entreprise",
-        "signout": "Sign Out",
-        "title": "User Menu"
+        "signout": "Se déconnecter",
+        "title": "Menu utilisateur"
       }
     },
     "new_app": {
@@ -19142,13 +19162,13 @@
       "title": "Créez l'application Chaskiq de votre entreprise"
     },
     "profile": {
-      "address": "Address",
-      "area_of_expertise": "Area of expertise",
+      "address": "Adresse",
+      "area_of_expertise": "Domaine d'expertise",
       "availability": "Disponibilité",
-      "name": "Full name",
-      "no_name": "No name",
-      "phone_number": "Phone number",
-      "specialization": "Specialization"
+      "name": "Nom complet",
+      "no_name": "Aucun nom",
+      "phone_number": "Numéro de téléphone",
+      "specialization": "Spécialisation"
     },
     "quick_replies": {
       "add_as_dialog": {
@@ -19183,27 +19203,27 @@
       "contains": "contient",
       "create_segment": "Créer un nouveau segment",
       "criteria": "critères",
-      "date_filter_for": "Select the date filter for %{name}",
+      "date_filter_for": "Filtre de date sur %{name}",
       "days_ago": "jours plus tôt",
       "delete_segment": "Supprimer le segment",
       "does_not_contain": "ne contient pas",
       "ends_with": "finit par",
       "exactly": "exactement",
-      "filter_for": "Select filter for %{name}",
+      "filter_for": "Filtrer sur %{name}",
       "has_any_value": "a n'importe quelle valeur",
       "integer_filter_for": "Sélectionner le filtre entier pour %{name}",
       "is": "est",
       "is_not": "n'est pas",
       "is_unknown": "est inconnu",
       "less_than": "inférieur(e) à",
-      "less_than_eq": "less than eq",
+      "less_than_eq": "inférieur(e) à",
       "match": "correspondance",
       "match_all": "correspond à tous",
       "match_any": "correspond à n'importe quel",
       "match_criteria_for": "Options de critères de correspondance pour %{name}",
       "missing_value": "Valeur manquante !",
       "more_than": "plus que",
-      "more_than_eq": "more than eq",
+      "more_than_eq": "supérieur à",
       "save_changes_to": "Sauvegarder les modifications sur le segment <b>%{name}</b>{' '}.",
       "save_segment": "Sauvegarder le segment",
       "select_fields": "Sélectionner des champs :",
@@ -19211,15 +19231,15 @@
     },
     "settings": {
       "agent_teams": {
-        "action_button": "Add Team member",
-        "add_team": "Add Team",
-        "added_success": "Agent added to team",
+        "action_button": "Ajouter un membre d'équipe",
+        "add_team": "Ajouter une équipe",
+        "added_success": "Agent ajouté à l'équipe",
         "content_text": "envoyer une invitation activable",
-        "created_team": "Team created successfully",
-        "delete_success": "Agent deleted from team",
-        "search_placeholder": "Search for an agent",
+        "created_team": "Équipe mise à jour avec succès",
+        "delete_success": "Agent supprimé de l'équipe",
+        "search_placeholder": "Rechercher un agent",
         "title_content": "Ajouter un nouvel agent",
-        "updated_team": "Team updated successfully"
+        "updated_team": "Équipe mise à jour avec succès"
       },
       "api": {
         "create_app": "Créer une application Oauth",
@@ -19240,21 +19260,21 @@
       "app": {
         "app_settings": "Paramètres de l'Application",
         "appearance": "Apparence",
-        "appearance_title": "Appearance Settings",
+        "appearance_title": "Apparence",
         "availability": "Disponibilité",
-        "contact_avatars": "Contact Avatars",
+        "contact_avatars": "Avatars de contact",
         "email_forwarding": "Transfert d'email",
         "email_requirement": "Exigences d'email",
-        "inbound_settings": "Inbound Settings",
+        "inbound_settings": "Paramètres entrants",
         "messenger_settings": "Paramètres de Messenger",
         "messenger_style": "Style Messenger",
         "privacy": "Confidentialité",
-        "privacy_title": "Privacy Settings",
+        "privacy_title": "Paramètres de confidentialité",
         "quick_replies": "Réponses rapides",
         "security": "Sécurité",
         "tags": "Tags",
         "translations": "Traductions",
-        "user_data": "User Data"
+        "user_data": "Données utilisateur"
       },
       "app_inserter": {
         "action": "Ajouter une app",
@@ -19347,9 +19367,9 @@
         },
         "hint": "Lorsque cette option est désactivée, les personnes ne peuvent répondre qu'aux messages sortants que vous envoyez.",
         "hint2": "Contrôlez qui voit le lanceur standard Messenger sur votre site Web.",
-        "idle_sessions_disabled": "Resets sessions on idle time after.",
-        "idle_sessions_enabled": "Allow idle sessions on messenger.",
-        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
+        "idle_sessions_disabled": "Réinitialisez les sessions après.",
+        "idle_sessions_enabled": "Autoriser les sessions inactives sur la messagerie.",
+        "idle_sessions_title": "Réinitialiser les sessions sur les sessions inactives pour %{name}",
         "note2": "TOUS LES MESSAGES QUE VOUS ENVOYEZ SERONT DÉLIVÉS.",
         "note3": "Sur le web, montrez le lanceur standard Messenger à:",
         "title": "Bouton de nouvelles conversations",
@@ -19369,7 +19389,7 @@
         "create_success": "L'intégration a été créée",
         "delete_dialog": {
           "text": "L'intégration avec le service %{name} sera désactivée immédiatement",
-          "title": "Delete \"%{name}\" integration?"
+          "title": "Supprimer l'intégration \"%{name}\" ?"
         },
         "empty": {
           "text": "Rechercher les services api disponibles dans",
@@ -19398,7 +19418,7 @@
           "name": "Nom du champ"
         },
         "modal": {
-          "hint": "Looking for more tags? Look at",
+          "hint": "Vous cherchez plus de tags ? regardez à",
           "link": "Paramètres du compte",
           "title": "Créer le tag de l'application"
         },
@@ -19408,34 +19428,34 @@
         "action_button": "ajouter un utilisateur",
         "add_new": "Ajouter un membre de l'équipe",
         "agents": "Agents",
-        "confirm_team_delete": "Are you sure you want to delete this team?",
+        "confirm_team_delete": "Êtes-vous sûr de vouloir supprimer cette équipe ?",
         "content_text": "envoyer une invitation activable",
-        "created_team": "Team created",
+        "created_team": "Équipe mise à jour",
         "delete": {
-          "action_button": "Delete Team",
-          "content_text": "Delete Team",
-          "title_content": "Delete Team"
+          "action_button": "Supprimer l'équipe",
+          "content_text": "Supprimer l'équipe",
+          "title_content": "Supprimer l'équipe"
         },
-        "deleted_team": "Team deleted",
+        "deleted_team": "Équipe supprimée",
         "destroy_agent": "Effacer",
         "destroy_agent_title": "Supprimer l'agent",
-        "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
+        "destroy_agent_warning": "Êtes-vous sûr de vouloir supprimer %{agent}?",
         "destroyed_agent": "Agent supprimé avec succès",
         "edit": {
-          "action_button": "Edit Team",
-          "content_text": "Edit Team",
-          "title_content": "Edit Team"
+          "action_button": "Modifier l'équipe",
+          "content_text": "Modifier l'équipe",
+          "title_content": "Modifier l'équipe"
         },
-        "hint": "The new team member will be notified by it's email",
-        "invitatin_error": "Invitation not sent!",
-        "invitation_success": "Invitation sent!",
+        "hint": "Le nouveau membre de l'équipe sera notifié par son e-mail",
+        "invitatin_error": "Invitation non envoyée !",
+        "invitation_success": "Invitation envoyée !",
         "invitations": "Invitations",
         "new": {
-          "action_button": "Add Team",
-          "content_text": "Create a new Team",
-          "title_content": "Add a new Team"
+          "action_button": "Ajouter une équipe",
+          "content_text": "Créer une nouvelle équipe",
+          "title_content": "Ajouter une nouvelle équipe"
         },
-        "participants": "Manage participants",
+        "participants": "Gérer les participants",
         "resend_invitation": "Renvoyer l'invitation",
         "send_invitation": "Envoyer invitation",
         "title": "Equipe",
@@ -19443,7 +19463,7 @@
         "update_agent": "Mise à jour",
         "update_agent_title": "Mettre à jour les informations de l'agent",
         "updated_agent": "Informations mises à jour avec succès",
-        "updated_team": "Team updated"
+        "updated_team": "Équipe mise à jour"
       },
       "user_data": {
         "attr_types": {
@@ -19470,7 +19490,7 @@
         "create_success": "Webhook crée",
         "delete": {
           "text": "Le webhook avec le service %{name} sera désactivé immédiatement",
-          "title": "Delete webhook?"
+          "title": "Supprimer le webhook?"
         },
         "delete_error": "Erreur lors de la suppression du webhook",
         "delete_success": "Webhook supprimé correctement",
@@ -19480,7 +19500,7 @@
           "disabled_webhooks": "Webhooks désactivés",
           "title": "Vous n'avez pas encore de webhooks actifs"
         },
-        "new_webhook": "New Webhook",
+        "new_webhook": "Nouveau webhook",
         "outgoing_webhooks": "Webhooks sortants",
         "title": "Webhooks",
         "update_error": "Erreur lors de la mise à jour du webhook",
@@ -19636,8 +19656,8 @@
       "assign_agent": "assigner un agent",
       "assignee_agent": "Agent assigné",
       "close_conversation": "fermer la conversation",
-      "continue_bot_with": "Continue bot with",
-      "continue_with_reply_button": "Continue bot with reply button",
+      "continue_bot_with": "Continuer le bot avec",
+      "continue_with_reply_button": "Continuer le bot avec le bouton répondre",
       "create": {
         "title": "Créer une tâche de bot"
       },
@@ -19660,8 +19680,8 @@
       "end_bot_with": "Fin du bot avec",
       "end_with_follow": "Terminer le bot avec des actions de suivi",
       "follow_actions": "suivre les actions",
-      "new": "Create New Task",
-      "new_conversations": "👋 New Conversations",
+      "new": "Créer une nouvelle tâche",
+      "new_conversations": "👋 Nouvelles conversations",
       "new_conversations_notice": "C'est ce que les gens verront lorsqu'ils commenceront une nouvelle conversation",
       "options": {
         "add_app_package": "Ajouter une app",
@@ -19717,11 +19737,11 @@
       "state_filters": {
         "disabled_description": "Tâches de bot désactivées",
         "disabled_title": "Désactivé",
-        "enabled_description": "Enabled bot tasks",
+        "enabled_description": "Activer la tâche de bot",
         "enabled_title": "Activé"
       },
       "support": {
-        "ask": "Are you an existing %{name} customer?",
+        "ask": "Êtes-vous un client existant de %{name}?",
         "options": {
           "op1": "Oui, je suis un client",
           "op2": "Non, je ne suis pas encore un client existant"
@@ -19754,35 +19774,35 @@
     },
     "twilio_phone": {
       "buttons": {
-        "goToConversation": "Go to conversation",
-        "hangUp": "Hang up",
-        "holdOff": "Remove hold",
-        "holdOn": "Put on hold",
-        "join": "Join",
-        "leave": "Leave",
-        "open_call_window": "Open Call Window",
-        "pickUp": "Pick up"
+        "goToConversation": "Aller à la discussion",
+        "hangUp": "Raccrocher",
+        "holdOff": "Réactivé",
+        "holdOn": "Placer en attente",
+        "join": "Joindre",
+        "leave": "Quitter",
+        "open_call_window": "Ouvrir la fenêtre d'appel",
+        "pickUp": "Ramasser"
       },
       "conversations": {
-        "message_header": "New Phone Call"
+        "message_header": "Nouvel appel téléphonique"
       },
       "labels": {
-        "client:Anonymous": "Anonymous client",
+        "client:Anonymous": "Client anonyme",
         "client:agent": "Agent",
         "client:support_agent": "Agent",
-        "status": "Status",
-        "title": "Call with %{subject}"
+        "status": "Statut",
+        "title": "Appeler avec %{subject}"
       },
       "messages": {
-        "agentsInCall": "AGENTS IN THE CALL:",
-        "error": "ERROR: %{message}",
-        "inProgress": "In-progress",
-        "incoming": "Incoming call...",
-        "noAgentsInCall": "NO AGENTS IN THE CALL",
-        "noConversations": "No active conversations"
+        "agentsInCall": "AGENTS DANS L'APPEL :",
+        "error": "ERREUR : %{message}",
+        "inProgress": "En cours",
+        "incoming": "Appel entrant...",
+        "noAgentsInCall": "AUCUN AGENTS DANS L'APPEL",
+        "noConversations": "Aucune conversation active"
       },
       "status": {
-        "onHold": "ON HOLD"
+        "onHold": "EN ATTENTE"
       }
     }
   },
@@ -19979,6 +19999,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -21541,71 +21563,71 @@
       }
     },
     "articles": {
-      "activate_help_center": "Activate Help Center",
-      "add": "Add Item",
-      "add_articles": "Add Articles",
+      "activate_help_center": "Attiva Help Center",
+      "add": "Aggiungi elemento",
+      "add_articles": "Aggiungi Articolo",
       "all": "Tutti",
-      "author": "Author",
-      "base_section": "Base Section",
+      "author": "Autore",
+      "base_section": "Sezione Base",
       "collections": "Collezioni",
       "create": {
-        "description": "Describe your collection to help you find it.",
-        "placeholder": "Enter the title of the collection",
-        "title": "New collection of articles"
+        "description": "Descrivi la tua collezione per aiutarti a trovarla.",
+        "placeholder": "Aggiungi il titolo della collezione",
+        "title": "Nuova collezione di articoli"
       },
       "create_article": {
-        "description_placeholder": "Add a summary to find the article later",
-        "placeholder": "Write the title of the article"
+        "description_placeholder": "Aggiungi un riassunto per trovare l'articolo in seguito",
+        "placeholder": "Scrivi il titolo dell'articolo"
       },
-      "created_on": "Created on",
-      "delete_article": "Delete article \"%{title}?",
-      "delete_article_exp": "we will destroy any content and related data",
-      "delete_section": "Delete section",
-      "deleted_success": "Article deleted",
-      "description_placeholder": "Describe your collection to help you find it.",
-      "draft": "Drafts",
-      "edit_collection": "Edit collection",
+      "created_on": "Creato il",
+      "delete_article": "Vuoi eliminare l'articolo \"%{title}?",
+      "delete_article_exp": "elimineremo i contenuti e i dati correlati",
+      "delete_section": "Elimina sezione",
+      "deleted_success": "Articolo eliminato",
+      "description_placeholder": "Descrivi la tua collezione per aiutarti a trovarla.",
+      "draft": "Bozze",
+      "edit_collection": "Modifica Collezione",
       "help_center": "Centro assistenza",
-      "new": "New Article",
-      "new_article": "New article",
-      "new_collection": "New Collection",
-      "new_section": "New Section",
-      "published": "Published",
-      "reordered_error": "Reordered error",
-      "reordered_success": "Reordered correctly",
+      "new": "Nuovo articolo",
+      "new_article": "Nuovo articolo",
+      "new_collection": "Nuova Collezione",
+      "new_section": "Nuova Sezione",
+      "published": "Pubblicato",
+      "reordered_error": "Errore riordinamento",
+      "reordered_success": "Riordinata correttamente",
       "settings": {
-        "add_language": "Add Language",
-        "add_language_to_help": "Add new language to Help Center",
-        "appearance": "Appearance",
-        "appearance_settings": "Appearance settings",
-        "basic": "Basic setup",
+        "add_language": "Aggiungi Lingua",
+        "add_language_to_help": "Aggiungi nuova lingua all'Help Center",
+        "appearance": "Aspetto",
+        "appearance_settings": "Impostazioni aspetto",
+        "basic": "Configurazione base",
         "delete": {
-          "text": "We will destroy the translation and hide any article with the language \"%{name}\"",
-          "title": "Delete translation \"%{name}\""
+          "text": "Distruggeremo la traduzione e nasconderemo qualsiasi articolo con la lingua \"%{name}\"",
+          "title": "Elimina traduzione \"%{name}\""
         },
-        "general_app": "Application overview",
-        "lang": "Language",
-        "lang_desc": "Manage supported languages and customize your Help Center header",
-        "lang_title": "Find your Help Center",
-        "select_lang": "Select language",
-        "title": "Help Center settings"
+        "general_app": "Panoramica dell'app",
+        "lang": "Lingua",
+        "lang_desc": "Gestisci le lingue supportate e personalizza l'intestazione dell'Help Center",
+        "lang_title": "Trova il tuo Help Center",
+        "select_lang": "Seleziona lingua",
+        "title": "Impostazioni Help Center"
       },
-      "settings_updated_error": "Article settings failed",
-      "settings_updated_success": "Article settings updated",
-      "square_preferred": "square images preferred (min size 200x200px)",
-      "square_preferred_hint": "squared images will be optimal resized",
+      "settings_updated_error": "Impostazioni articolo non riuscito",
+      "settings_updated_success": "Impostazioni articolo aggiornate",
+      "square_preferred": "immagini quadrate preferite (dimensione minima 200x200px)",
+      "square_preferred_hint": "le immagini squadrate saranno ridimensionate",
       "state": {
-        "draft": "draft",
-        "draft_desc": "hides the article on the help center",
-        "published": "published",
-        "published_desc": "shows article on the help center"
+        "draft": "bozza",
+        "draft_desc": "nasconde l'articolo nell'Help Center",
+        "published": "pubblicato",
+        "published_desc": "mostra l'articolo sull'Help Center"
       },
       "title": "Articoli",
-      "title_placeholder": "Write the title of the sections",
-      "updated_error": "Article error on save",
-      "updated_success": "Article updated",
-      "visit": "visit the help center",
-      "written_by": "written by"
+      "title_placeholder": "Scrivi il titolo delle sezioni",
+      "updated_error": "Errore articolo nel salvataggio",
+      "updated_success": "Articolo aggiornato",
+      "visit": "Visita l’Help Center",
+      "written_by": "scritto da"
     },
     "assignment_rules": {
       "create_button": "Crea Regola",
@@ -21705,6 +21727,8 @@
         "de": "Tedesco",
         "en": "Inglese",
         "es": "Spagnolo",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portoghese",
         "zh-CN": "Cinese"
       },
@@ -21741,28 +21765,28 @@
     },
     "contact_fields": {
       "inbox": {
-        "company": "Company",
+        "company": "Azienda",
         "email": "Email",
-        "first_name": "First name",
-        "last_name": "Last name",
-        "phone": "Phone"
+        "first_name": "Nome",
+        "last_name": "Cognome",
+        "phone": "Telefono"
       }
     },
     "contact_manager": {
-      "create": "Create Users & Leads",
+      "create": "Crea Utenti & Lead",
       "definitions": {
-        "app_user": "Verified User",
-        "company_name": "Company Name",
+        "app_user": "Utente Verificato",
+        "company_name": "Nome azienda",
         "lead": "Lead",
-        "phone": "Phone"
+        "phone": "Telefono"
       },
-      "import_choose": "Choose what kind of contacts you will import",
-      "import_contacts": "import_contacts",
-      "import_csv": "Import csv",
-      "import_exp": "You can upload a csv or excel file in order to import contacts",
-      "import_type": "Import Type",
-      "select_file": "Select a file",
-      "success_message": "Processing file import, you will be notified the status soon"
+      "import_choose": "Scegli che tipo di contatti importerai",
+      "import_contacts": "importa_contatti",
+      "import_csv": "Importa csv",
+      "import_exp": "Puoi caricare un file csv o excel per importare contatti",
+      "import_type": "Importa tipo",
+      "select_file": "Seleziona file",
+      "success_message": "Elaborazione importazione del file, ti avviseremo non appena completata."
     },
     "conversation": {
       "actions": {
@@ -21993,36 +22017,36 @@
           "label": "Azioni"
         },
         "author": {
-          "label": "Author"
+          "label": "Autore"
         },
         "collection": {
-          "label": "Collection"
+          "label": "Collezione"
         },
         "credits": {
           "hint": "",
-          "label": "Show credits"
+          "label": "Mostra crediti"
         },
         "domain": {
-          "hint": "Domain of the Help Center",
-          "label": "Domain"
+          "hint": "Dominio dell'Help Center",
+          "label": "Dominio"
         },
         "google_code": {
           "hint": "Google tracking ID",
           "label": "Google Code"
         },
         "state": {
-          "label": "State"
+          "label": "Stato"
         },
         "subdomain": {
-          "hint": "Subdomain in which the Help Center will be available",
-          "label": "Subdomain"
+          "hint": "Sottodominio in cui sarà disponibile l'Help Center",
+          "label": "Sottodominio"
         },
         "title": {
-          "label": "Title"
+          "label": "Titolo"
         },
         "website": {
-          "hint": "Website of your main domain",
-          "label": "Website"
+          "hint": "Sito del tuo dominio principale",
+          "label": "Sito"
         }
       },
       "bot_tasks": {
@@ -22085,21 +22109,21 @@
           "label": "Domain URL"
         },
         "enable_articles": {
-          "hint": "This option will display the articles in the home section of the messenger",
-          "label": "Display article on chat window"
+          "hint": "Questa opzione mostrerà gli articoli nella sezione principale del Messenger",
+          "label": "Visualizza articolo nella finestra di chat"
         },
         "encryption_key": {
           "hint": "This key will be used to encrypt and decrypt JWE user data",
-          "label": "Encryption Key",
-          "placeholder": "Leave it blank for no encryption"
+          "label": "Chiave di crittografia",
+          "placeholder": "Lascia vuoto per nessuna crittografia"
         },
         "gather_social_data": {
           "hint": "Collect social profiles via fullcontact service (e.g. LinkedIn, Twitter, etc.) for my users via a third party",
           "label": "Gather Social Data"
         },
         "inline_conversation": {
-          "hint": "This option will not open chat box widget",
-          "label": "Display new messages in floating box"
+          "hint": "Questa opzione non aprirà il widget della chat",
+          "label": "Mostra nuovi messaggi in una finestra fluttuante"
         },
         "languages": {
           "select_lang": "Select language"
@@ -22110,7 +22134,7 @@
         },
         "name": {
           "hint": null,
-          "label": "Name"
+          "label": "Nome completo"
         },
         "outgoing_email_domain": {
           "hint": "The email domain to send conversations, for @yourapp use 'your app'",
@@ -22452,12 +22476,12 @@
     "full_contact": {
       "inbox": {
         "facebook": "Facebook",
-        "first_name": "First name",
-        "job_title": "Job title",
-        "last_name": "Last name",
+        "first_name": "Nome",
+        "job_title": "Impiego",
+        "last_name": "Cognome",
         "linkedin": "Linkedin",
-        "name": "Name",
-        "organization": "Organization",
+        "name": "Nome completo",
+        "organization": "Organizzazione",
         "twitter": "Twitter"
       }
     },
@@ -22465,54 +22489,54 @@
       "app_config": null,
       "appearance": null,
       "articles": {
-        "description": "Here you can manage the articles of Chaskiq",
-        "title": "Chaskiq HelpCenter platform"
+        "description": "Qui puoi gestire gli articoli dell'Help Center",
+        "title": "Piattaforma HelpCenter"
       },
       "availability": {
-        "description": "Availability settings let your team set office hours & reply times.",
-        "title": "Team Availability Settings"
+        "description": "Le impostazioni di disponibilità consentono al tuo team di impostare ore d'ufficio e tempi di risposta.",
+        "title": "Impostazioni Disponibilità Team"
       },
       "bots": null,
       "email_requirement": {
-        "description": "So you can always get back to your website visitors",
-        "title": "Require an email for new conversations"
+        "description": "Così potrai essere contattare i visitatori del tuo sito",
+        "title": "Richiedi un'email per nuove conversazioni"
       },
       "guided_tours": null,
       "in_app": null,
       "inbound_settings": {
-        "description": "Control who can send you messages and where they see the launcher",
-        "title": "Control inbound conversations and the launcher"
+        "description": "Controlla chi può inviarti messaggi e dove vedere il launcher",
+        "title": "Controlla le conversazioni in entrata e il launcher"
       },
       "integrations": {
-        "description": "This is the third party API integrations section.",
+        "description": "Questa è la sezione per le integrazioni API di terze parti.",
         "title": null
       },
       "languages": null,
       "mailing_campaigns": null,
       "platform": {
-        "description": "Segments allows to filter specific contacts through multiple filter",
-        "title": "Here you can manage your contact list via segments"
+        "description": "I segmenti permettono di filtrare contatti specifici attraverso filtri multipli",
+        "title": "Qui puoi gestire la tua lista di contatti tramite segmenti"
       },
       "quick_replies": {
-        "description": "Quick replies provides a way to organize common anwsers for your bussiness",
-        "title": "Manage quick replies"
+        "description": "Le risposte veloci servono gestire al meglio le conversazioni con quesiti più frequenti",
+        "title": "Gestisci risposte veloci"
       },
       "security": {
-        "description": "This is the encryption key to identify registered users on your service",
-        "title": "Security"
+        "description": "Questa è la chiave di cifratura per identificare gli utenti registrati sul tuo servizio",
+        "title": "Sicurezza"
       },
       "tags": {
-        "description": "Tags attributes provides a way to customize data for segment filtering and organize conversations",
-        "title": "Manage app tags"
+        "description": "Gli attributi Tag forniscono un modo per personalizzare i dati per filtrare i segmenti e organizzare le conversazioni",
+        "title": "Gestisci tag app"
       },
       "team": null,
       "user_data": {
-        "description": "User attributes provides a way to customize data for segment filtering",
-        "title": "Manage user attributes"
+        "description": "Gli attributi utente forniscono un modo per personalizzare i dati per il filtraggio dei segmenti",
+        "title": "Gestisci gli attributi personalizzati"
       },
       "webhooks": {
-        "description": "Webhooks feature it's all about delivering notifications of chaskiq events",
-        "title": "Active Webhooks"
+        "description": "Le funzioni dei Webhook consisteranno nell'invio di notifiche per gli eventi dell'app",
+        "title": "Webhook Attivi"
       }
     },
     "home": {
@@ -22627,51 +22651,51 @@
       "will_send": "La versione \"%{lang}\" verrà inviata alla conversazione."
     },
     "segment_manager": {
-      "add_filters": "Add filters",
-      "all": "all",
-      "any": "any",
-      "apply": "apply",
-      "changes_notice": "The changes will be saved to the app segments.",
-      "contains": "contains",
-      "create_segment": "Create new segment",
-      "criteria": "criteria",
-      "date_filter_for": "Select the date filter for %{name}",
-      "days_ago": "days ago",
-      "delete_segment": "Delete segment",
-      "does_not_contain": "does not contain",
-      "ends_with": "ends with",
-      "exactly": "exactly",
-      "filter_for": "Select filter for %{name}",
-      "has_any_value": "has any value",
-      "integer_filter_for": "Select the integer filter for %{name}",
-      "is": "is",
-      "is_not": "is not",
-      "is_unknown": "is unknown",
-      "less_than": "less than",
-      "less_than_eq": "less than eq",
-      "match": "match",
-      "match_all": "match all",
-      "match_any": "match any",
-      "match_criteria_for": "Match criteria options for %{name}",
-      "missing_value": "Missing value!",
-      "more_than": "more than",
-      "more_than_eq": "more than eq",
-      "save_changes_to": "Save changes to the <b>%{name}</b>{' '} segment.",
-      "save_segment": "Save segment",
-      "select_fields": "Select fields:",
-      "starts_with": "starts with"
+      "add_filters": "Aggiungi filtri",
+      "all": "tutti",
+      "any": "qualsiasi",
+      "apply": "applica",
+      "changes_notice": "Le modifiche saranno salvate nei segmenti dell'app.",
+      "contains": "contiene",
+      "create_segment": "Crea nuovo segmento",
+      "criteria": "criteri",
+      "date_filter_for": "Seleziona filtro per %{name}",
+      "days_ago": "giorni fa",
+      "delete_segment": "Elimina segmento",
+      "does_not_contain": "non contiene",
+      "ends_with": "finisce con",
+      "exactly": "esattamente",
+      "filter_for": "Seleziona filtro per %{name}",
+      "has_any_value": "ha un qualsiasi valore",
+      "integer_filter_for": "Seleziona il filtro integro per %{name}",
+      "is": "è",
+      "is_not": "non è",
+      "is_unknown": "è sconosciuto",
+      "less_than": "meno di",
+      "less_than_eq": "meno di",
+      "match": "corrispondenza",
+      "match_all": "corrisponde a tutto",
+      "match_any": "corrisponde a qualsiasi",
+      "match_criteria_for": "Opzioni dei criteri per %{name}",
+      "missing_value": "Valore mancante!",
+      "more_than": "più di",
+      "more_than_eq": "più di",
+      "save_changes_to": "Salva le modifiche al segmento <b>%{name}</b>{' '}",
+      "save_segment": "Salva segmento",
+      "select_fields": "Seleziona campi:",
+      "starts_with": "inizia con"
     },
     "settings": {
       "agent_teams": {
-        "action_button": "Add Team member",
-        "add_team": "Add Team",
-        "added_success": "Agent added to team",
-        "content_text": "send an activable invitation",
-        "created_team": "Team created successfully",
-        "delete_success": "Agent deleted from team",
-        "search_placeholder": "Search for an agent",
-        "title_content": "Add a new agent",
-        "updated_team": "Team updated successfully"
+        "action_button": "Aggiungi Membro Team",
+        "add_team": "Aggiungi Team",
+        "added_success": "Agente aggiunto al team",
+        "content_text": "Invia una email d'invito",
+        "created_team": "Team creato con successo",
+        "delete_success": "Agente eliminato dal team",
+        "search_placeholder": "Ricerca agente",
+        "title_content": "Aggiungi nuovo agente",
+        "updated_team": "Team aggiornato con successo"
       },
       "api": {
         "create_app": "Crea App Oauth",
@@ -22723,22 +22747,22 @@
         "update_success": "Pacchetto aggiornato"
       },
       "availability": {
-        "hint": "Set team office hours and reply times",
-        "hint2": "Outside these hours, customers see when you'll be back, relative to their timezone.",
+        "hint": "Imposta ore d'ufficio e tempi di risposta",
+        "hint2": "Al di fuori di queste ore, i clienti vedranno quando tornerai disponibile, rispetto al loro fuso orario.",
         "reply_time": {
-          "hint": "During office hours, let your customers know when they can expect a reply.",
+          "hint": "Durante gli orari d'ufficio, fai sapere ai clienti quando avranno una risposta in media.",
           "hint2": "Nota: il visitatore riceverà una risposta automatica con la disponibilità del tuo team durante le ore di fuori ufficio o lunghi tempi di risposta.",
           "options": [
             {
               "value": "auto",
-              "label": "Automatic reply time. Currently El equipo responderá lo antes posible"
+              "label": "Tempo di risposta automatico. Il team risponderà il prima possibile."
             },
             {
-              "value": "minutes",
-              "label": "Team usually responds within minutes."
+              "value": "minuti",
+              "label": "Il team risponde di solito in poche ore."
             },
             {
-              "value": "hours",
+              "value": "ore",
               "label": "Il team risponde di solito in poche ore."
             },
             {
@@ -22746,16 +22770,16 @@
               "label": "Il team risponde di solito in un giorno."
             }
           ],
-          "title": "Set reply time"
+          "title": "Imposta tempo risposta"
         },
-        "timezone": "YOUR APP’S TIMEZONE IS %{tz}",
-        "title": "Set your availability",
-        "title2": "Set office hours"
+        "timezone": "Il fuso orario della tua App è %{tz}",
+        "title": "Imposta la tua disponibilità",
+        "title2": "Imposta orario d'ufficio"
       },
       "contact_avatars": {
         "choose_color": "Selezionare un colore",
-        "hint": "Choose one of the 6 avatar styles provided by https://boringavatars.com/",
-        "title": "Contact avatars style"
+        "hint": "Scegli uno dei 6 stili avatar forniti da https://boringavatars.com/",
+        "title": "Stile avatar dei contatti"
       },
       "email_requirement": {
         "ask": "Chiedi ai visitatori del tuo sito di indicare la loro email prima d'iniziare una conversazione:",
@@ -22781,63 +22805,63 @@
       },
       "inbound": {
         "checkbox": "Consenti agli utenti di avviare nuove conversazioni in entrata con te",
-        "closed_replies_disabled": "Preventing users from responding to closed conversations after.",
-        "closed_replies_enabled": "Letting users reply to closed messages at any time.",
-        "closed_replies_title": "Prevent replies to closed conversations for %{name}",
+        "closed_replies_disabled": "Impedisci agli utenti di rispondere alle conversazioni chiuse in seguito.",
+        "closed_replies_enabled": "Consenti agli utenti di rispondere ai messaggi chiusi in qualsiasi momento.",
+        "closed_replies_title": "Impedisci le risposte alle conversazioni chiuse per %{name}",
         "filters": {
-          "hint": "This doesn’t affect the outbound messages you send.",
+          "hint": "Questo non influisce sui messaggi in uscita che invii.",
           "leads": {
-            "all": "All Visitors",
+            "all": "Tutti i visitatori",
             "label": "Potenziali Clienti",
-            "some": "Visitors who match certain data"
+            "some": "Visitatori che corrispondono a determinati dati"
           },
           "users": {
-            "all": "All Users",
+            "all": "Tutti gli utenti",
             "label": "Utenti",
-            "some": "Users who match certain data"
+            "some": "Utenti che corrispondono a determinati dati"
           }
         },
         "hint": "Quando questo è disattivato, le persone possono rispondere solo ai messaggi in uscita che invii.",
         "hint2": "Controlla chi vede il launcher di Messenger sul tuo sito.",
-        "idle_sessions_disabled": "Resets sessions on idle time after.",
-        "idle_sessions_enabled": "Allow idle sessions on messenger.",
-        "idle_sessions_title": "Reset sessions on idle sessions for %{name}",
+        "idle_sessions_disabled": "Ripristina le sessioni dopo il tempo d'inattività.",
+        "idle_sessions_enabled": "Permetti sessioni inattive su Messenger.",
+        "idle_sessions_title": "Azzera sessioni su sessioni inattive per %{name}",
         "note2": "QUALSIASI MESSAGGIO TU INVIERAI, SARÀ DEFINITIVO.",
-        "note3": "On the web, show the standard Messenger launcher to:",
+        "note3": "Sul web, mostra il launcher del Messenger per:",
         "title": "Nuovo pulsante di conversazione",
         "title2": "visibilità"
       },
       "integrations": {
         "active": {
-          "text": "API Integrations",
-          "title": "Active Integrations"
+          "text": "Integrazione Api",
+          "title": "Integrazione attive"
         },
         "available": {
-          "text": "Available API Services",
-          "title": "Available API's"
+          "text": "Servizi API disponibili",
+          "title": "API Disponibili"
         },
-        "create_error": "Error linking integration",
-        "create_integration": "Create New integration",
+        "create_error": "Errore nel collegamento dell'integrazione",
+        "create_integration": "Crea nuova integrazione",
         "create_success": "Integrazione creata",
         "delete_dialog": {
-          "text": "The integration with %{name} service will be disabled immediately",
-          "title": "Delete \"%{name}\" integration?"
+          "text": "L'integrazione con il servizio %{name} sarà disattivata immediatamente",
+          "title": "Vuoi eliminare l'integrazione \"%{name}\"?"
         },
         "empty": {
-          "text": "Search for available api services in",
-          "title": "You don't have any api integrations yet"
+          "text": "Cerca i servizi API disponibili in",
+          "title": "Non hai ancora nessuna integrazione API"
         },
         "hints": {
-          "hook_url": "This integration will receive webhook at"
+          "hook_url": "Questa integrazione riceverà webhook a"
         },
-        "remove_error": "Error removing integration",
-        "remove_success": "Integration removed correctly",
+        "remove_error": "Errore nel rimuovere l'integrazione",
+        "remove_success": "Integrazione rimossa correttamente",
         "title": "Integrazioni di terze parti",
-        "update_error": "Error updating integration",
-        "update_success": "Integration updated",
+        "update_error": "Errore nell'aggiornare l'integrazione",
+        "update_success": "Integrazione aggiornata",
         "yours": {
-          "text": "Integration apps created by you",
-          "title": "Your Integration Apps"
+          "text": "Integrazioni create da te",
+          "title": "Le tue integrazioni"
         }
       },
       "languages": {
@@ -22846,97 +22870,97 @@
       },
       "tags": {
         "inputs": {
-          "color": "Field color",
-          "name": "Field name"
+          "color": "Campo del Colore",
+          "name": "Campo del Nome"
         },
         "modal": {
-          "hint": "Looking for more tags? Look at",
-          "link": "account settings",
-          "title": "Create app's tag"
+          "hint": "Cerchi altri tag? Guarda",
+          "link": "impostazioni account",
+          "title": "Crea tag dell'app"
         },
         "title": "Etichette"
       },
       "team": {
-        "action_button": "add user",
-        "add_new": "Add Team Member",
-        "agents": "Agents",
-        "confirm_team_delete": "Are you sure you want to delete this team?",
-        "content_text": "send an activable invitation",
-        "created_team": "Team created",
+        "action_button": "Aggiungi utente",
+        "add_new": "Aggiungi Membro Team",
+        "agents": "Agenti",
+        "confirm_team_delete": "Sei sicuro di voler eliminare questo team?",
+        "content_text": "Invia una email d'invito",
+        "created_team": "Team creato",
         "delete": {
-          "action_button": "Delete Team",
-          "content_text": "Delete Team",
-          "title_content": "Delete Team"
+          "action_button": "Elimina team",
+          "content_text": "Elimina team",
+          "title_content": "Elimina team"
         },
-        "deleted_team": "Team deleted",
+        "deleted_team": "Team eliminato",
         "destroy_agent": "Elimina",
-        "destroy_agent_title": "Delete Agent",
-        "destroy_agent_warning": "Are you sure you want to delete %{agent}?",
-        "destroyed_agent": "Agent deleted successfully",
+        "destroy_agent_title": "Elimina Agente",
+        "destroy_agent_warning": "Sei sicuro di voler eliminare %{agent}?",
+        "destroyed_agent": "Agente eliminato con successo",
         "edit": {
-          "action_button": "Edit Team",
-          "content_text": "Edit Team",
-          "title_content": "Edit Team"
+          "action_button": "Modifica Team",
+          "content_text": "Modifica Team",
+          "title_content": "Modifica Team"
         },
-        "hint": "The new team member will be notified by it's email",
-        "invitatin_error": "Invitation not sent!",
-        "invitation_success": "Invitation sent!",
-        "invitations": "Invitations",
+        "hint": "Il nuovo membro del team sarà avvisato via email",
+        "invitatin_error": "Invito non inoltrato!",
+        "invitation_success": "Invito inoltrato",
+        "invitations": "Inviti",
         "new": {
-          "action_button": "Add Team",
-          "content_text": "Create a new Team",
-          "title_content": "Add a new Team"
+          "action_button": "Aggiungi Team",
+          "content_text": "Crea un nuovo team",
+          "title_content": "Aggiungi un nuovo team"
         },
-        "participants": "Manage participants",
-        "resend_invitation": "Resend invitation",
-        "send_invitation": "Send invitation",
+        "participants": "Gestisci partecipanti",
+        "resend_invitation": "Reinvia invito",
+        "send_invitation": "Inoltra invito",
         "title": "Squadra",
-        "title_content": "Add a new agent",
+        "title_content": "Aggiungi nuovo agente",
         "update_agent": "Aggiorna",
-        "update_agent_title": "Update Agent information",
-        "updated_agent": "Information updated successfully",
-        "updated_team": "Team updated"
+        "update_agent_title": "Aggiorna informazioni agente",
+        "updated_agent": "Informazioni aggiornate con successo",
+        "updated_team": "Team aggiornato"
       },
       "user_data": {
         "attr_types": {
-          "date": "Date",
-          "integer": "Integer",
-          "string": "String"
+          "date": "Data",
+          "integer": "Intero",
+          "string": "Stringa"
         },
-        "default_fields": "Default attributes",
+        "default_fields": "Attributi predefiniti",
         "inputs": {
-          "name": "Field name",
-          "type": "Field type",
-          "validation": "Validation",
-          "validation_hint": "Validation is optional"
+          "name": "Campo del Nome",
+          "type": "Campo del Tipo",
+          "validation": "Convalida",
+          "validation_hint": "La convalida è facoltativa"
         },
         "modal": {
-          "title": "Create user data field"
+          "title": "Crea campo dati utente"
         },
-        "non_editable": "This fields are not editable",
-        "title": "Custom Fields"
+        "non_editable": "Questo campo non è modificabile",
+        "title": "Campi personalizzati"
       },
       "webhooks": {
-        "active_webhooks": "Active Webhooks",
-        "create_error": "Error adding webhook",
-        "create_success": "Webhook created",
+        "active_webhooks": "Webhook Attivi",
+        "create_error": "Errore nell'aggiunta del webhook",
+        "create_success": "Webhook creato",
         "delete": {
-          "text": "The webhook with %{name} service will be disabled immediately",
-          "title": "Delete webhook?"
+          "text": "Il webhook con il servizio %{name} sarà disabilitato immediatamente",
+          "title": "Eliminare questo webhook?"
         },
-        "delete_error": "Error removing webhook",
-        "delete_success": "Webhook removed correctly",
-        "disabled_webhooks": "Disabled Webhooks",
+        "delete_error": "Errore nella rimozione del webhook",
+        "delete_success": "Webhook rimosso correttamente",
+        "disabled_webhooks": "Webhook Disabilitati",
         "empty": {
-          "desc": "Search for your webhooks in",
-          "disabled_webhooks": "Disabled webhooks",
-          "title": "You don't have any active webhooks yet"
+          "desc": "Cerca i tuoi webhook in",
+          "disabled_webhooks": "Webhooks disabilitati",
+          "title": "Non hai ancora alcun webhook attivo"
         },
-        "new_webhook": "New Webhook",
-        "outgoing_webhooks": "Outgoing webhooks",
+        "new_webhook": "Nuovo Webhook",
+        "outgoing_webhooks": "Webhooks in uscita",
         "title": "Webhook",
-        "update_error": "Error updating webhook",
-        "update_success": "Webhook updated"
+        "update_error": "Errore nell'aggiornamento del webhook",
+        "update_success": "Webhook aggiornato"
       }
     },
     "status_messages": {
@@ -23032,7 +23056,7 @@
         },
         "Segments": {
           "description": true,
-          "title": "Segments",
+          "title": "Segmenti",
           "upgrade_message": "Enable contact segments and targeting"
         },
         "Tours": {
@@ -23070,8 +23094,8 @@
         }
       ],
       "tabs": [
-        "Plans",
-        "Transaction history"
+        "Piani",
+        "Storico transazioni"
       ],
       "update_subscription": {
         "amount": "With the amount of <span class=\"font-bold\">$ %{recurring_price} USD</span>",
@@ -23079,7 +23103,7 @@
         "cta": "Update subscription",
         "next_payment": "Next payment will be on <span class=\"font-bold\">%{next_payment_date}</span>"
       },
-      "upgrade": "Upgrade"
+      "upgrade": "Aggiorna"
     },
     "task_bots": {
       "add_data_option": "+ aggiungi dati opzione",
@@ -23206,35 +23230,35 @@
     },
     "twilio_phone": {
       "buttons": {
-        "goToConversation": "Go to conversation",
-        "hangUp": "Hang up",
-        "holdOff": "Remove hold",
-        "holdOn": "Put on hold",
-        "join": "Join",
-        "leave": "Leave",
-        "open_call_window": "Open Call Window",
-        "pickUp": "Pick up"
+        "goToConversation": "Vai alla conversazione",
+        "hangUp": "Interrompi",
+        "holdOff": "Elimina Attesa",
+        "holdOn": "Metti in attesa",
+        "join": "Unisciti",
+        "leave": "Esci",
+        "open_call_window": "Apri Finestra Chiamata",
+        "pickUp": "Rispondi"
       },
       "conversations": {
-        "message_header": "New Phone Call"
+        "message_header": "Nuova Chiamata"
       },
       "labels": {
         "client:Anonymous": "Cliente anonimo",
         "client:agent": "Agente",
         "client:support_agent": "Agente",
-        "status": "Status",
-        "title": "Call with %{subject}"
+        "status": "Stato",
+        "title": "Chiama con %{subject}"
       },
       "messages": {
-        "agentsInCall": "AGENTS IN THE CALL:",
-        "error": "ERROR: %{message}",
-        "inProgress": "In-progress",
-        "incoming": "Incoming call...",
-        "noAgentsInCall": "NO AGENTS IN THE CALL",
-        "noConversations": "No active conversations"
+        "agentsInCall": "AGENTI IN CHIAMATA:",
+        "error": "ERRORE: %{message}",
+        "inProgress": "In corso",
+        "incoming": "Chiamata in entrata",
+        "noAgentsInCall": "NESSUN AGENTE IN CHIAMATA",
+        "noConversations": "Nessuna conversazione attiva"
       },
       "status": {
-        "onHold": "ON HOLD"
+        "onHold": "IN ATTESA"
       }
     }
   },
@@ -23431,6 +23455,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -25156,6 +25182,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -26881,6 +26909,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -28607,6 +28637,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -30333,6 +30365,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -32061,6 +32095,8 @@
         "de": "Alemão",
         "en": "Português",
         "es": "Espanhol",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Português",
         "zh-CN": "Chinês"
       },
@@ -33787,6 +33823,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -35514,6 +35552,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -37242,6 +37282,8 @@
         "de": "Tyska",
         "en": "Engelska",
         "es": "Spanska",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portugisiska",
         "zh-CN": "Kinesiska"
       },
@@ -38968,6 +39010,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -40694,6 +40738,8 @@
         "de": "Deutsch",
         "en": "English",
         "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
         "pt": "Portuguese",
         "zh-CN": "Chinese"
       },
@@ -42422,6 +42468,8 @@
         "de": "德语",
         "en": "英文",
         "es": "西班牙语",
+        "fr": "French",
+        "it": "Italian",
         "pt": "葡萄牙语",
         "zh-CN": "中文"
       },
