@@ -66,35 +66,9 @@ function EditorSettings({ settings, update, dispatch }) {
 
 function EditorSettingsForm({ settings, update, dispatch, option }) {
   const [state, setState] = React.useState({
-    enable_inbound: settings.inboundSettings.enabled,
-
-    users_enable_inbound: settings.inboundSettings.enabled,
-    users_radio: settings.inboundSettings.users.segment,
-    users_enabled: settings.inboundSettings.users.enabled,
-    users_predicates: settings.inboundSettings.users.predicates,
-    users_close_conversations_enabled:
-      settings.inboundSettings.users.close_conversations_enabled,
-    users_close_conversations_after:
-      settings.inboundSettings.users.close_conversations_after || 0,
-
-    users_idle_sessions_enabled:
-      settings.inboundSettings.users.users_idle_sessions_enabled,
-    users_idle_sessions_after:
-      settings.inboundSettings.users.users_idle_sessions_after || 0,
-
-    visitors_enable_inbound: settings.inboundSettings.enabled,
-    visitors_radio: settings.inboundSettings.visitors.segment,
-    visitors_enabled: settings.inboundSettings.visitors.enabled,
-    visitors_predicates: settings.inboundSettings.visitors.predicates,
-    visitors_close_conversations_enabled:
-      settings.inboundSettings.visitors.close_conversations_enabled,
-    visitors_close_conversations_after:
-      settings.inboundSettings.visitors.close_conversations_after || 0,
-
-    visitors_idle_sessions_enabled:
-      settings.inboundSettings.visitors.idle_sessions_enabled,
-    visitors_idle_sessions_after:
-      settings.inboundSettings.visitors.idle_sessions_after || 0,
+    agent_editor_settings: settings.agent_editor_settings,
+    user_editor_settings:  settings.user_editor_settings,
+    lead_editor_settings:  settings.lead_editor_settings
   });
 
   const handleChange = (name, event) => {
@@ -152,6 +126,28 @@ function EditorSettingsForm({ settings, update, dispatch, option }) {
     update(data);
   }
 
+  function userDefinitions(){
+    return [
+      "images",
+      "attachments",
+      "giphy",
+      "link_embeds",
+      "embeds",
+      "video_recorder",
+      "app_packages",
+      "routing_bots",
+      "quick_replies" 
+    ]
+  }
+
+  function leadDefinitions(){
+    return [
+      "emoticons",
+      "gif",
+      "attachments"
+    ]
+  }
+
   return (
     <div>
       <div className="py-4">
@@ -170,133 +166,54 @@ function EditorSettingsForm({ settings, update, dispatch, option }) {
 
       {option.namespace == 'agents' &&  (
         <div>
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"images"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"attachments"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"giphy"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"link_embeds"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"embeds"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"video_recorder"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"app_packages"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"routing_bots"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"quick_replies"}
-          />
+          {
+            userDefinitions().map((item)=> (
+              <Input
+                key={`agents-${item}`}
+                type="checkbox"
+                checked={state.enable_inbound}
+                onChange={(e) => handleChange('enable_inbound', e)}
+                value={state.enable_inbound}
+                label={item}
+              />
+            ))
+          }
         </div>
       )}
 
-      {option.namespace == 'users' &&  (
+      {option.namespace == 'users' && 
+
         <div>
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"emoticons"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"gif"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"attachments"}
-          />
+          { 
+            leadDefinitions().map( (item)=> 
+            <Input
+              key={`users-${item}`}
+              type="checkbox"
+              checked={state.enable_inbound}
+              onChange={(e) => handleChange('enable_inbound', e)}
+              value={state.enable_inbound}
+              label={item}
+            />
+            )
+          }
         </div>
-      )}
+        
+      }
 
       {option.namespace == 'visitors' &&  (
         <div>
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"emoticons"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"gif"}
-          />
-
-          <Input
-            type="checkbox"
-            checked={state.enable_inbound}
-            onChange={(e) => handleChange('enable_inbound', e)}
-            value={state.enable_inbound}
-            label={"attachments"}
-          />
+          { 
+            leadDefinitions().map( (item)=> 
+            <Input
+              key={`visitors-${item}`}
+              type="checkbox"
+              checked={state.enable_inbound}
+              onChange={(e) => handleChange('enable_inbound', e)}
+              value={state.enable_inbound}
+              label={item}
+            />
+            )
+          }
         </div>
       )}
 
