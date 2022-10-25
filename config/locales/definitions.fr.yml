@@ -155,9 +155,9 @@ fr:
         hint: 'Envoyé quand une feuille a été envoyée. Une feuille est une iframe que vous avez chargée dans le Messenger qui est fermée et soumise lorsque la méthode Submit Sheets JS est appelée.'
         placeholder: 'par exemple https://votredomaine.fr/submit-sheet-url/'
       content_url:
-        label: 'Dynamic content flow webhook URL'
-        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
-        placeholder: 'e.g. https://yourdomain.com/content-url/'
+        label: 'Url du webhook du flux de contenu dynamique'
+        hint: 'Envoyé lorsque le content_url est défini pour un bloc, permet au contenu dynamique d''être rendu à la demande'
+        placeholder: 'par exemple https://votredomaine.fr/configure-url/'
     webhooks:
       url:
         label: url du webhook sortant
@@ -181,11 +181,11 @@ fr:
         hint: 'un accès vide désactivera l''accès aux paramètres du compte de l''utilisateur'
     teams:
       name:
-        label: "Team's name"
-        placeholder: "My awesome team"
+        label: "Nom de l'équipe"
+        placeholder: "Ma super équipe"
       description:
-        label: "Team's description"
-        placeholder: "Write what's this team is about"
+        label: "Description de l'équipe"
+        placeholder: "Écrivez quelque chose sur la mission de cette équipe"
   data_tables:
     agents:
       email: E-mail
@@ -210,7 +210,7 @@ fr:
       ip: IP
       country: Pays
       city: Ville
-      phone: Phone
+      phone: Téléphone
       lat: Lat
       lng: Lng
       postal: Code postal
