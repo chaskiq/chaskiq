@@ -14,6 +14,8 @@ class AppPolicy < ActionPolicy::Base
     platform
     apps_create_new_app
     settings_app_settings
+    app_settings
+    fixed_app_packages
     app_packages
     help_center
     platform
@@ -30,7 +32,6 @@ class AppPolicy < ActionPolicy::Base
     campaigns
     routing_bots
     reports
-    settings
     messenger_settings
     outgoing_webhooks
     oauth_applications

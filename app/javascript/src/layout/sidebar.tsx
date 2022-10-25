@@ -121,7 +121,7 @@ function Sidebar({
 
   function handleSignout() {
     //@ts-ignore
-    window?.chaskiqSupport?.shutdown()
+    window?.chaskiqSupport?.shutdown();
     if (auth0Domain) return history.push('/logout');
     dispatch(signout());
   }
@@ -218,6 +218,7 @@ function Sidebar({
       url: `/apps/${app.key}/segments/${
         app.segments.length > 0 ? app.segments[0].id : ''
       }`,
+      allowed: allowedAccessTo(app, 'segments'),
       children: app.segments.map((o) => ({
         id: o.name,
         icon: null,
@@ -231,6 +232,7 @@ function Sidebar({
       label: I18n.t('navigator.conversations'),
       icon: <ChatIcon />,
       url: `/apps/${app.key}/conversations`,
+      allowed: allowedAccessTo(app, 'conversations'),
       children: [
         {
           id: 'Conversations',
@@ -246,10 +248,11 @@ function Sidebar({
           label: I18n.t('navigator.childs.assignment_rules'),
           url: `/apps/${app.key}/conversations/assignment_rules`,
           active: isActivePage('Assignment Rules'),
-          allowed: allowedAccessTo(app, 'conversations'),
+          allowed: allowedAccessTo(app, 'assign_rules'),
         },
         {
           id: 'SidebarAgents',
+          allowed: allowedAccessTo(app, 'conversations'),
           render: () => [
             <SidebarAgents key={'conversations-sidebar-agents'} />,
           ],
@@ -261,6 +264,7 @@ function Sidebar({
       label: I18n.t('navigator.campaigns'),
       url: `/apps/${app.key}/campaigns`,
       icon: <CampaignsIcon />,
+      allowed: allowedAccessTo(app, 'campaigns'),
       children: [
         {
           id: 'campaigns',
@@ -302,6 +306,7 @@ function Sidebar({
       label: I18n.t('navigator.routing_bots'),
       icon: <BotIcon />,
       url: `/apps/${app.key}/bots/settings`,
+      allowed: allowedAccessTo(app, 'bots'),
       children: [
         {
           id: 'outbound',
@@ -335,6 +340,7 @@ function Sidebar({
       id: 'HelpCenter',
       icon: <HelpCenterIcon />,
       url: `/apps/${app.key}/articles`,
+      allowed: allowedAccessTo(app, 'help_center'),
       children: [
         {
           id: 'Articles',
@@ -367,6 +373,7 @@ function Sidebar({
       label: 'Reports',
       icon: <ChartsIcons />,
       url: `/apps/${app.key}/reports`,
+      allowed: allowedAccessTo(app, 'reports'),
       children: [
         {
           id: 'ReportsMenu',
@@ -404,6 +411,7 @@ function Sidebar({
       ),
       url: `/apps/${app.key}/settings`,
       children: app_settings_items(app, isActivePage),
+      allowed: allowedAccessTo(app, 'settings'),
     },
   ];
 
@@ -426,6 +434,7 @@ function Sidebar({
             <nav className="mt-5 flex-1 px-4 space-y-2">
               {children
                 .filter((o) => !o.hidden)
+                .filter((o) => o.allowed)
                 .map(
                   ({
                     id: childId,
@@ -522,17 +531,19 @@ function Sidebar({
           </div>
 
           <div className="overflow-y-auto h-full">
-            {categories.map((o) => (
-              <Tooltip
-                key={`sidebar-categories-${o.id}`}
-                placement="right"
-                overlay={o.label}
-              >
-                {o.url && (
-                  <Link
-                    to={`${o.url}`}
-                    aria-label={o.label}
-                    className="text-gray-700 dark:text-white
+            {categories
+              .filter((o) => o.allowed)
+              .map((o) => (
+                <Tooltip
+                  key={`sidebar-categories-${o.id}`}
+                  placement="right"
+                  overlay={o.label}
+                >
+                  {o.url && (
+                    <Link
+                      to={`${o.url}`}
+                      aria-label={o.label}
+                      className="text-gray-700 dark:text-white
                     rounded-md flex 
                     justify-center 
                     cursor-pointer bg-gray-50 dark:bg-black
@@ -541,12 +552,12 @@ function Sidebar({
                     items-center 
                     text-2xl font-semibold 
                     my-5 overflow-hidden"
-                  >
-                    {o.icon}
-                  </Link>
-                )}
-              </Tooltip>
-            ))}
+                    >
+                      {o.icon}
+                    </Link>
+                  )}
+                </Tooltip>
+              ))}
           </div>
         </div>
       )}
