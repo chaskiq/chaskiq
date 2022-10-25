@@ -411,7 +411,7 @@ function Sidebar({
       ),
       url: `/apps/${app.key}/settings`,
       children: app_settings_items(app, isActivePage),
-      allowed: allowedAccessTo(app, 'settings'),
+      allowed: allowedAccessTo(app, 'app_settings'),
     },
   ];
 
