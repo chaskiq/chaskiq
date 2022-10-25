@@ -73,7 +73,6 @@ const Auth0Login = ({ dispatch, domain, currentUser, loading }) => {
     getUserMetadata();
   }, [getAccessTokenSilently, user?.sub]);
 
-
   return (
     <div>
       {domain && isAuthenticated && (
@@ -268,14 +267,14 @@ function Login({ dispatch, current_user, loading }) {
             </form>
           )}
 
-          {auth0Domain && 
+          {auth0Domain && (
             <Auth0Login
               dispatch={dispatch}
               domain={auth0Domain}
               currentUser={current_user}
               loading={loading}
             />
-          }         
+          )}
 
           <div className="mt-6 hidden">
             <div className="relative">
