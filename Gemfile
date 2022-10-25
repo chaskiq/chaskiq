@@ -19,7 +19,7 @@ gem "haml"
 gem "jsbundling-rails", "~> 1.0"
 gem "kredis", "~> 1.1"
 gem "propshaft", "~> 0.6.4"
-gem "puma", "~> 5.6"
+gem "puma", "~> 6.0"
 gem "sassc"
 gem "tailwindcss-rails", "~> 2.0"
 
