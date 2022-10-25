@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Avatar from '@chaskiq/components/src/components/Avatar';
+import Tooltip from 'rc-tooltip';
+
 import {
   FolderIcon,
   IntegrationsIcon,
@@ -269,10 +271,17 @@ function ListItem({
         </div>
       )}
 
-      <span className="truncate">
-        {agent && (agent.name || agent.email)}
-        {!agent && (label || I18n.t('conversations.menu.unassigned'))}
-      </span>
+      {agent && (
+        <Tooltip placement="bottom" overlay={agent.name || agent.email}>
+          <span className="truncate">{agent.name || agent.email}</span>
+        </Tooltip>
+      )}
+
+      {!agent && (
+        <span className="truncate">
+          {label || I18n.t('conversations.menu.unassigned')}
+        </span>
+      )}
 
       <span
         className="ml-auto inline-block py-0.5 px-3 text-xs 

@@ -121,7 +121,7 @@ function Sidebar({
 
   function handleSignout() {
     //@ts-ignore
-    window?.chaskiqSupport?.shutdown()
+    window?.chaskiqSupport?.shutdown();
     if (auth0Domain) return history.push('/logout');
     dispatch(signout());
   }
