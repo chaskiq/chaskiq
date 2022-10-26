@@ -29,6 +29,7 @@ import { SendIcon } from '@chaskiq/components/src/components/icons';
 import AppPackagePanel from './appPackagePanel';
 import TriggersPanel from './triggersPanel';
 import QuickReplyPanel from './quickRepliesPanel';
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
 
 export const ArticlePad = styled.div`
   @media (max-width: 640px) {
@@ -115,6 +116,7 @@ type ChatEditorProps = {
   sendMode: 'enter' | '';
   insertComment: (val: any, cb: any) => void;
   saveContentCallback: (val: any) => void;
+  app: any;
 };
 
 type ChatEditorState = {
@@ -307,6 +309,32 @@ export default class ChatEditor extends Component<
     this.setState({ openQuickReplyPanel: true });
   };
 
+  appendedWidgets = () => {
+    const widgets = [
+      AppPackageBlockConfig({
+        handleFunc: this.handleAppFunc,
+      }),
+    ];
+
+    if (allowedAccessTo(this.props.app, 'routing_bots')) {
+      widgets.push(
+        OnDemandTriggersBlockConfig({
+          handleFunc: this.handleBotFunc,
+        })
+      );
+    }
+
+    if (allowedAccessTo(this.props.app, 'assign_rules')) {
+      widgets.push(
+        QuickRepliesBlockConfig({
+          handleFunc: this.handleQuickRepliesFunc,
+        })
+      );
+    }
+
+    return widgets;
+  };
+
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
@@ -398,17 +426,7 @@ export default class ChatEditor extends Component<
                     read_only: !this.state.read_only,
                   });
                 }}
-                appendWidgets={[
-                  AppPackageBlockConfig({
-                    handleFunc: this.handleAppFunc,
-                  }),
-                  OnDemandTriggersBlockConfig({
-                    handleFunc: this.handleBotFunc,
-                  }),
-                  QuickRepliesBlockConfig({
-                    handleFunc: this.handleQuickRepliesFunc,
-                  }),
-                ]}
+                appendWidgets={this.appendedWidgets()}
                 data={{
                   serialized_content: serializedContent,
                 }}
