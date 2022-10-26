@@ -18,15 +18,19 @@ describe('AppPackages', function () {
     cy.appEval(`
       app = Agent.find_by(email: 'test@test.cl')
       app.roles.map{|o| o.update(role: "agent")}
+      app.key
     `)
 
     cy.visit('/apps')
     cy.contains('my app').click()
-    cy.get("a[aria-label='Settings']").click({ force: true })
-    cy.get("a[aria-label='App Settings']").click({ force: true })
-    
-    cy.contains('Access denied')
-
+ 
+    cy.url().then(value => {
+      console.log(value)
+      cy.visit(value + "/app_settings")
+      cy.contains('Access denied')
+    });
+    //cy.get("a[aria-label='Settings']").click({ force: true })
+    //cy.get("a[aria-label='App Settings']").click({ force: true })
   })
 
   it('Manage AppPackages', function () {

@@ -47,12 +47,7 @@ function DialogEditor(props) {
               hover:border-gray-400 focus-within:ring-2
               focus-within:ring-offset-2 focus-within:ring-pink-500"
             >
-              <NewEditor 
-                {...props}
-                agentEditorSettings={props.app.agentEditorSettings}
-                data={{}} 
-                submitData={props.handleSubmit} 
-              />
+              <NewEditor {...props} data={{}} submitData={props.handleSubmit} />
             </div>
           </div>
         }

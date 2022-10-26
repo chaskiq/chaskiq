@@ -971,7 +971,6 @@ function Conversation({
 
             {!conversation.blocked && (
               <ConversationEditor
-                agentEditorSettings={app.agentEditorSettings}
                 insertAppBlockComment={insertAppBlockCommentDispatch}
                 insertComment={insertCommentDispatch}
                 typingNotifier={typingNotifierDispatch}
@@ -980,6 +979,7 @@ function Conversation({
                 initiatorChannels={initiatorChannels}
                 initiatorChannel={initiatorChannel}
                 setInitiatorChannel={setInitiatorChannel}
+                app={app}
               />
             )}
 

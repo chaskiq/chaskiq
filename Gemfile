@@ -19,7 +19,7 @@ gem "haml"
 gem "jsbundling-rails", "~> 1.0"
 gem "kredis", "~> 1.1"
 gem "propshaft", "~> 0.6.4"
-gem "puma", "~> 5.6"
+gem "puma", "~> 6.0"
 gem "sassc"
 gem "tailwindcss-rails", "~> 2.0"
 
@@ -78,7 +78,7 @@ gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 
 gem "image_processing", "~> 1.12"
-gem "sidekiq", "6.4.1"
+gem "sidekiq", "6.5.7"
 # gem "sidekiq-cron"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"

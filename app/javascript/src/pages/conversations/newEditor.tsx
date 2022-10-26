@@ -29,6 +29,7 @@ import { SendIcon } from '@chaskiq/components/src/components/icons';
 import AppPackagePanel from './appPackagePanel';
 import TriggersPanel from './triggersPanel';
 import QuickReplyPanel from './quickRepliesPanel';
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
 
 export const ArticlePad = styled.div`
   @media (max-width: 640px) {
@@ -115,7 +116,7 @@ type ChatEditorProps = {
   sendMode: 'enter' | '';
   insertComment: (val: any, cb: any) => void;
   saveContentCallback: (val: any) => void;
-  agentEditorSettings: any;
+  app: any;
 };
 
 type ChatEditorState = {
@@ -306,47 +307,6 @@ export default class ChatEditor extends Component<
 
   handleQuickRepliesFunc = () => {
     this.setState({ openQuickReplyPanel: true });
-  };
-
-  allowedEditorFeature = (feature_type) => {
-    return this.resolveEditorSetting(
-      this.props.agentEditorSettings,
-      feature_type
-    );
-  };
-
-  resolveEditorSetting = (setting, feature_type) => {
-    return !setting ? true : setting[feature_type];
-  };
-
-  extraWidgets = () => {
-    const widgets = [];
-
-    if (this.allowedEditorFeature('app_packages')) {
-      widgets.push(
-        AppPackageBlockConfig({
-          handleFunc: this.handleAppFunc,
-        })
-      );
-    }
-
-    if (this.allowedEditorFeature('bot_triggers')) {
-      widgets.push(
-        OnDemandTriggersBlockConfig({
-          handleFunc: this.handleBotFunc,
-        })
-      );
-    }
-
-    if (this.allowedEditorFeature('quick_replies')) {
-      widgets.push(
-        QuickRepliesBlockConfig({
-          handleFunc: this.handleQuickRepliesFunc,
-        })
-      );
-    }
-
-    return widgets;
   };
 
   render() {

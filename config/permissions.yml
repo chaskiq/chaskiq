@@ -12,6 +12,9 @@ agent:
     - team
     - users
     - segments
+    - fixed_app_packages
+    - routing_bots
+    - quick_replies
   write:
 
 program_manager:
