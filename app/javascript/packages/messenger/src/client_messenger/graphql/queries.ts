@@ -42,6 +42,8 @@ export const PING = `
         customizationColors
         searcheableFields
         homeApps
+        userEditorSettings
+        leadEditorSettings
         articleSettings{
           subdomain
         }

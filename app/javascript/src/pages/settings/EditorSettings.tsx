@@ -64,7 +64,7 @@ function EditorSettings({ settings, update, dispatch }) {
   );
 }
 
-function EditorSettingsForm({ settings, update, dispatch, option }) {
+function EditorSettingsForm({ settings, update, option }) {
   const [state, setState] = React.useState({
     agent_editor_settings:
       settings.agentEditorSettings || defaultAgentDefinitions(),
@@ -73,8 +73,6 @@ function EditorSettingsForm({ settings, update, dispatch, option }) {
     lead_editor_settings:
       settings.leadEditorSettings || defaultUserDefinitions(),
   });
-
-  console.log(state);
 
   const handleChange = (name, item, event) => {
     setState({
@@ -115,7 +113,7 @@ function EditorSettingsForm({ settings, update, dispatch, option }) {
   }
 
   function leadDefinitions() {
-    return ['emoticons', 'gif', 'attachments'];
+    return ['emojis', 'gif', 'attachments'];
   }
 
   function defaultAgentDefinitions() {
@@ -184,9 +182,9 @@ function EditorSettingsForm({ settings, update, dispatch, option }) {
             <Input
               key={`visitors-${item}`}
               type="checkbox"
-              checked={state.user_editor_settings[item]}
+              checked={state.lead_editor_settings[item]}
               onChange={(e) => handleChange('lead_editor_settings', item, e)}
-              value={state.user_editor_settings[item]}
+              value={state.lead_editor_settings[item]}
               label={item}
             />
           ))}

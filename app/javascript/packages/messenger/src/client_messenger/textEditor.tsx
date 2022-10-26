@@ -174,6 +174,9 @@ type EditorProps = {
   domain: string;
   i18n: any;
   footerClassName?: boolean;
+  allowsGiphy: boolean;
+  allowsAttachment: boolean;
+  allowsEmoji: boolean;
 };
 type EditorState = {
   text: string;
@@ -250,12 +253,12 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
     if (document.selection) {
       myField.focus();
       //@ts-ignore
-      var sel = document.selection.createRange();
+      const sel = document.selection.createRange();
       sel.text = myValue;
     } else if (myField.selectionStart || myField.selectionStart === '0') {
       // MOZILLA and others
-      var startPos = myField.selectionStart;
-      var endPos = myField.selectionEnd;
+      const startPos = myField.selectionStart;
+      const endPos = myField.selectionEnd;
       myField.value =
         myField.value.substring(0, startPos) +
         myValue +
@@ -445,30 +448,36 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
               />
             )}
 
-            <button
-              disabled={this.state.loading}
-              onClick={this.toggleEmojiClick}
-            >
-              <EmojiIcon />
-            </button>
+            {this.props.allowsEmoji && (
+              <button
+                disabled={this.state.loading}
+                onClick={this.toggleEmojiClick}
+              >
+                <EmojiIcon />
+              </button>
+            )}
 
-            <button disabled={this.state.loading} onClick={this.toggleGiphy}>
-              <GifIcon />
-            </button>
+            {this.props.allowsGiphy && (
+              <button disabled={this.state.loading} onClick={this.toggleGiphy}>
+                <GifIcon />
+              </button>
+            )}
 
-            <button
-              disabled={this.state.loading}
-              onClick={this.handleInputClick}
-            >
-              <AttachIcon />
-              <input
-                type="file"
-                ref={(comp) => (this.upload_input = comp)}
-                accept={permittedFiles}
-                style={{ display: 'none' }}
-                onChange={this.handleUpload}
-              />
-            </button>
+            {this.props.allowsAttachment && (
+              <button
+                disabled={this.state.loading}
+                onClick={this.handleInputClick}
+              >
+                <AttachIcon />
+                <input
+                  type="file"
+                  ref={(comp) => (this.upload_input = comp)}
+                  accept={permittedFiles}
+                  style={{ display: 'none' }}
+                  onChange={this.handleUpload}
+                />
+              </button>
+            )}
           </EditorButtons>
         </EditorContainer>
       </EditorWrapper>
