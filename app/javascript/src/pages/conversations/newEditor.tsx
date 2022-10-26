@@ -115,6 +115,7 @@ type ChatEditorProps = {
   sendMode: 'enter' | '';
   insertComment: (val: any, cb: any) => void;
   saveContentCallback: (val: any) => void;
+  agentEditorSettings: any;
 };
 
 type ChatEditorState = {
@@ -307,6 +308,47 @@ export default class ChatEditor extends Component<
     this.setState({ openQuickReplyPanel: true });
   };
 
+  allowedEditorFeature = (feature_type) => {
+    return this.resolveEditorSetting(
+      this.props.agentEditorSettings,
+      feature_type
+    );
+  };
+
+  resolveEditorSetting = (setting, feature_type) => {
+    return !setting ? true : setting[feature_type];
+  };
+
+  extraWidgets = () => {
+    const widgets = [];
+
+    if (this.allowedEditorFeature('app_packages')) {
+      widgets.push(
+        AppPackageBlockConfig({
+          handleFunc: this.handleAppFunc,
+        })
+      );
+    }
+
+    if (this.allowedEditorFeature('bot_triggers')) {
+      widgets.push(
+        OnDemandTriggersBlockConfig({
+          handleFunc: this.handleBotFunc,
+        })
+      );
+    }
+
+    if (this.allowedEditorFeature('quick_replies')) {
+      widgets.push(
+        QuickRepliesBlockConfig({
+          handleFunc: this.handleQuickRepliesFunc,
+        })
+      );
+    }
+
+    return widgets;
+  };
+
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
@@ -374,6 +416,7 @@ export default class ChatEditor extends Component<
               />
             ) : (
               <TextEditor
+                allowedEditorFeature={this.allowedEditorFeature}
                 theme={theme}
                 inlineMenu={true}
                 tooltipsConfig={this.tooltipsConfig}
@@ -398,17 +441,7 @@ export default class ChatEditor extends Component<
                     read_only: !this.state.read_only,
                   });
                 }}
-                appendWidgets={[
-                  AppPackageBlockConfig({
-                    handleFunc: this.handleAppFunc,
-                  }),
-                  OnDemandTriggersBlockConfig({
-                    handleFunc: this.handleBotFunc,
-                  }),
-                  QuickRepliesBlockConfig({
-                    handleFunc: this.handleQuickRepliesFunc,
-                  }),
-                ]}
+                appendWidgets={this.extraWidgets()}
                 data={{
                   serialized_content: serializedContent,
                 }}

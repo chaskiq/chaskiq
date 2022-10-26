@@ -971,6 +971,7 @@ function Conversation({
 
             {!conversation.blocked && (
               <ConversationEditor
+                agentEditorSettings={app.agentEditorSettings}
                 insertAppBlockComment={insertAppBlockCommentDispatch}
                 insertComment={insertCommentDispatch}
                 typingNotifier={typingNotifierDispatch}

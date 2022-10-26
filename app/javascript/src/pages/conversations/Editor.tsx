@@ -62,6 +62,7 @@ type ConversationEditorProps = {
   initiatorChannels: any;
   initiatorChannel: any;
   setInitiatorChannel: any;
+  agentEditorSettings: any;
 };
 
 type ConversationEditorState = {

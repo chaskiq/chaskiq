@@ -109,6 +109,8 @@ function EditorSettingsForm({ settings, update, option }) {
       'app_packages',
       'routing_bots',
       'quick_replies',
+      'bot_triggers',
+      'divider',
     ];
   }
 
