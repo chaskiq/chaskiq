@@ -9,7 +9,7 @@ describe('Login Spec', function () {
   beforeEach(() => {
   })
 
-  it('Sign in view + dashboard view', function () {
+  it.only('Sign in view + dashboard view', function () {
     login()
     cy.visit('/apps')
 
