@@ -979,6 +979,7 @@ function Conversation({
                 initiatorChannels={initiatorChannels}
                 initiatorChannel={initiatorChannel}
                 setInitiatorChannel={setInitiatorChannel}
+                app={app}
               />
             )}
 

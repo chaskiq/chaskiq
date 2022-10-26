@@ -254,7 +254,6 @@ function Conversations({
           style={{ height: 'calc(100vh - 64px)' }}
         >
           {conversations.collection.map((o) => {
-            const user = o.mainParticipant;
             return (
               <ConversationItemList key={o.key} app={app} conversation={o} />
             );

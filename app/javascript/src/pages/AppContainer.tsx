@@ -37,7 +37,9 @@ import { setApp } from '@chaskiq/store/src/actions/app';
 import UserProfileCard from '@chaskiq/components/src/components/UserProfileCard';
 import LoadingView from '@chaskiq/components/src/components/loadingView';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
-import RestrictedArea from '@chaskiq/components/src/components/AccessDenied';
+import RestrictedArea, {
+  allowedAccessTo,
+} from '@chaskiq/components/src/components/AccessDenied';
 
 import Notifications from '@chaskiq/components/src/components/notifications';
 
@@ -299,7 +301,7 @@ function AppContainer({
           )}
         </div>
       )}
-      {app && <PackageSlider />}
+      {app && allowedAccessTo(app, 'fixed_app_packages') && <PackageSlider />}
     </div>
   );
 }
