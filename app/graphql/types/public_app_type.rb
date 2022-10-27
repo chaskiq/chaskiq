@@ -21,6 +21,9 @@ module Types
     field :searcheable_fields, [Types::JsonType], null: true
     field :privacy_consent_required, String, null: true
 
+    field :user_editor_settings, AnyType, null: true
+    field :lead_editor_settings, AnyType, null: true
+
     field :new_conversation_bots, Types::JsonType, null: true
     def new_conversation_bots
       availability = object.in_business_hours?(Time.zone.now)
