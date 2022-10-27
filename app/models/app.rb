@@ -44,6 +44,10 @@ class App < ApplicationRecord
     privacy_consent_required
     inbound_email_address
     avatar_settings
+
+    agent_editor_settings
+    user_editor_settings
+    lead_editor_settings
   ]
 
   include InboundAddress

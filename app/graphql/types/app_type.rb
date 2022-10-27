@@ -687,6 +687,10 @@ module Types
       object.oauth_applications.authorized_for(current_user)
     end
 
+    field :agent_editor_settings, AnyType, null: true
+    field :user_editor_settings, AnyType, null: true
+    field :lead_editor_settings, AnyType, null: true
+
     private
 
     def filter_by_agent(agent_id)

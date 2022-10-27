@@ -410,6 +410,19 @@ export function Conversation(props) {
     return renderReplyAbove();
   }
 
+  function allowedEditorFeature(feature_type) {
+    switch (kind) {
+      case 'AppUser':
+        return resolveEditorSetting(appData?.userEditorSettings, feature_type);
+      default:
+        return resolveEditorSetting(appData?.leadEditorSettings, feature_type);
+    }
+  }
+
+  function resolveEditorSetting(setting, feature_type) {
+    return !setting ? true : setting[feature_type];
+  }
+
   function renderFooter() {
     return (
       <Footer
@@ -423,6 +436,9 @@ export function Conversation(props) {
         ) : (
           <UnicornEditor
             i18n={i18n}
+            allowsGiphy={allowedEditorFeature('gif')}
+            allowsAttachment={allowedEditorFeature('attachments')}
+            allowsEmoji={allowedEditorFeature('emojis')}
             beforeSubmit={(data) => handleBeforeSubmit()}
             onSent={(data) => handleSent()}
             domain={domain}

@@ -146,6 +146,9 @@ state
 tagline
 plan
 currentAppRole
+agentEditorSettings
+userEditorSettings
+leadEditorSettings
 `;
 
 export const appUserFragment = `
