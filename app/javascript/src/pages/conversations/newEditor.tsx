@@ -309,6 +309,47 @@ export default class ChatEditor extends Component<
     this.setState({ openQuickReplyPanel: true });
   };
 
+  allowedEditorFeature = (feature_type) => {
+    return this.resolveEditorSetting(
+      this.props.app.agentEditorSettings,
+      feature_type
+    );
+  };
+
+  resolveEditorSetting = (setting, feature_type) => {
+    return !setting ? true : setting[feature_type];
+  };
+
+  extraWidgets = () => {
+    const widgets = [];
+
+    if (this.allowedEditorFeature('app_packages')) {
+      widgets.push(
+        AppPackageBlockConfig({
+          handleFunc: this.handleAppFunc,
+        })
+      );
+    }
+
+    if (this.allowedEditorFeature('bot_triggers')) {
+      widgets.push(
+        OnDemandTriggersBlockConfig({
+          handleFunc: this.handleBotFunc,
+        })
+      );
+    }
+
+    if (this.allowedEditorFeature('quick_replies')) {
+      widgets.push(
+        QuickRepliesBlockConfig({
+          handleFunc: this.handleQuickRepliesFunc,
+        })
+      );
+    }
+
+    return widgets;
+  };
+
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
