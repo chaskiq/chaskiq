@@ -1498,6 +1498,7 @@ const PathEditor = ({ step, message, path, updatePath }) => {
   return (
     <div className="shadow border border-gray-400 rounded p-6 relative dark:bg-gray-800 bg-gray-100 max-w-sm">
       <TextEditor
+        allowedEditorFeature={()=> true}
         uploadHandler={uploadHandler}
         serializedContent={message.serialized_content}
         read_only={readOnly}
