@@ -441,6 +441,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
 
     return (
       <TextEditor
+        allowedEditorFeature={()=>(true)}
         campaign={true}
         uploadHandler={this.props.uploadHandler}
         loading={this.isLoading()}
