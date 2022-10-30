@@ -51,6 +51,7 @@ ca:
     leads: Client potencial
     visitors: Visitants
     users: Usuaris
+    agents: Agents
     type_message: Type your message
     search_conversations: Cerca la conversa
     days: Dies

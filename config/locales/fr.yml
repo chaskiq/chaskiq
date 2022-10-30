@@ -51,6 +51,7 @@ fr:
     leads: Prospects
     visitors: Visiteurs
     users: Utilisateurs
+    agents: Agents
     type_message: Veuillez entrer votre message
     search_conversations: Rechercher des conversations 
     days: Jours
