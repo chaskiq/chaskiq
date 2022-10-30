@@ -17,7 +17,7 @@ module Mutations
         app = current_user.apps.find_by(key: app_key)
         quick_reply = app.quick_replies.find(id)
 
-        authorize! quick_reply, to: :can_manage_quick_replies?, with: AppPolicy, context: {
+        authorize! app, to: :can_manage_quick_replies?, with: AppPolicy, context: {
           app: app
         }
         quick_reply.update(
