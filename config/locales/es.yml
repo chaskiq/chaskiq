@@ -51,6 +51,7 @@ es:
     leads: Prospectos
     visitors: Visitantes
     users: Usuarios
+    agents: Agentes
     type_message: Escribe tu mensaje
     search_conversations: Buscar conversaciones
     days: Días

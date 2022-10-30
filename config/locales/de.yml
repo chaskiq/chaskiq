@@ -51,6 +51,7 @@ de:
     leads: Leads
     visitors: Visitors
     users: Nutzer
+    agents: Mitarbeiter
     type_message: Type your message
     search_conversations: Search conversations
     days: Days

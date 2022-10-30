@@ -51,6 +51,7 @@
     leads: Leads
     visitors: Visitors
     users: Users
+    agents: Agents
     type_message: Type your message
     search_conversations: Search conversations
     days: Days

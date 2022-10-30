@@ -51,6 +51,7 @@ pt:
     leads: Contactos
     visitors: Visitante
     users: Usuários
+    agents: Agentes
     type_message: Type your message
     search_conversations: Pesquisar conversas
     days: Dias
