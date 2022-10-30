@@ -611,10 +611,10 @@ GEM
     shoulda-context (2.0.0)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
-    sidekiq (6.5.7)
-      connection_pool (>= 2.2.5)
+    sidekiq (6.4.1)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      redis (>= 4.5.0, < 5)
+      redis (>= 4.2.0)
     signet (0.16.0)
       addressable (~> 2.8)
       faraday (>= 0.17.3, < 2.0)
@@ -781,7 +781,7 @@ DEPENDENCIES
   scout_apm
   shoulda
   shoulda-matchers
-  sidekiq (= 6.5.7)
+  sidekiq (= 6.4.1)
   spring
   stripe (~> 6.0)
   tailwindcss-rails (~> 2.0)
