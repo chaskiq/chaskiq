@@ -526,6 +526,16 @@ module Types
       ).result
     end
 
+    field :contact_search_by_profile, Types::ExternalProfileType, null: true do
+      argument :provider, String, required: true, default_value: ""
+      argument :profile_id, String, required: true, default_value: ""
+    end
+
+    def contact_search_by_profile(provider:, profile_id:)
+      authorize! object, to: :can_manage_users?, with: AppPolicy
+      object.external_profiles.find_by(provider: provider, profile_id: profile_id)
+    end
+
     field :agent_search, [Types::AgentType], null: true do
       argument :term, String, required: true, default_value: ""
     end
