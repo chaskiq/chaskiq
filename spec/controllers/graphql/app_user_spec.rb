@@ -76,6 +76,18 @@ RSpec.describe GraphqlController, type: :controller do
 
       expect(graphql_response.data.createExternalProfile.profile.profileId).to be == "#{profile_id}xxx"
       expect(ExternalProfile.count).to be == 2
+
+      r = graphql_post(
+        type: "CONTACT_SEARCH_BY_PROFILE",
+        variables: {
+          appKey: app.key,
+          provider: provider,
+          profileId: profile_id
+        }
+      )
+
+      expect(graphql_response.data.app.contactSearchByProfile.appUser.id).to be == user.id.to_s
+      expect(graphql_response.data.app.contactSearchByProfile.profileId).to be == profile_id.to_s
     end
 
     describe "delete & update" do
