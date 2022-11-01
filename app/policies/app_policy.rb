@@ -37,6 +37,7 @@ class AppPolicy < ActionPolicy::Base
     oauth_applications
     api_access
     team
+    teams
   ].each do |namespace|
     %w[manage read write].each do |verb|
       define_method "can_#{verb}_#{namespace}?" do |*_my_arg|
