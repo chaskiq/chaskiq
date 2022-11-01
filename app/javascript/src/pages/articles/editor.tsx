@@ -56,7 +56,7 @@ export default class ArticleEditor extends Component<
 
     return (
       <TextEditor
-        allowedEditorFeature={()=> true}
+        allowedEditorFeature={() => true}
         campaign={true}
         uploadHandler={this.props.uploadHandler}
         loading={this.isLoading()}
