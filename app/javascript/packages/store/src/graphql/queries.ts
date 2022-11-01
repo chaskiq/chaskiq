@@ -363,6 +363,22 @@ export const CONTACT_SEARCH = `
   }
 `;
 
+export const CONTACT_SEARCH_BY_PROFILE = `
+  query ContactSearchByProfile($appKey: String!, $provider: String!, $profileId: String!){
+    app(key: $appKey) {
+      contactSearchByProfile(provider: $provider, profileId: $profileId ){
+        id
+        provider
+        profileId
+        appUser {
+          id
+          email
+        }
+      }
+    }
+  }
+`;
+
 export const AGENT_SEARCH = `
   query App($appKey: String!, $term: String!){
     app(key: $appKey) {
@@ -1141,4 +1157,5 @@ export default {
   SUBSCRIPTION_TRANSACTIONS,
   SUBSCRIPTION_DETAILS,
   UPDATE_SUBSCRIPTION_PLAN,
+  CONTACT_SEARCH_BY_PROFILE,
 };

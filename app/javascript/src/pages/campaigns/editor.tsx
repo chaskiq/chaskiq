@@ -218,7 +218,7 @@ export default class CampaignEditor extends Component<
             <React.Fragment>
               {!this.state.preview && (
                 <TextEditor
-                  allowedEditorFeature={()=> (true)}
+                  allowedEditorFeature={() => true}
                   videoless={this.props.mode === 'campaigns'}
                   campaign={true}
                   uploadHandler={this.uploadHandler}
@@ -266,7 +266,7 @@ export default class CampaignEditor extends Component<
                 notifyHeight={this.heightHandler}
                 textComponent={
                   <TextEditor
-                    allowedEditorFeature={()=> true }
+                    allowedEditorFeature={() => true}
                     campaign={true}
                     uploadHandler={this.uploadHandler}
                     serializedContent={this.props.data.serializedContent}
