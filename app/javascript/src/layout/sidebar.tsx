@@ -134,7 +134,7 @@ function Sidebar({
       label: I18n.t('navigator.dashboard'),
       icon: <DashboardIcon />,
       url: `/apps/${app.key}`,
-      hidden: true,
+      allowed: true,
       children: [
         /* {
           id: 'campaigns', label: 'Mailing Campaigns',
