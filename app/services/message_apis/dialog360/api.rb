@@ -197,10 +197,10 @@ module MessageApis::Dialog360
 
       data = {
         to: profile_id,
-        type: "hsm",
-        hsm: {
+        type: "template",
+        template: {
           namespace: template["namespace"],
-          element_name: template["name"],
+          name: template["name"],
           language: {
             policy: "deterministic",
             code: template["language"]
@@ -218,7 +218,30 @@ module MessageApis::Dialog360
         "#{@url}/messages",
         data.to_json
       )
-      JSON.parse(s.body)
+
+      # puts "TEMPLATE ******* "
+      # puts template
+      json = JSON.parse(s.body)
+
+      if s.success?
+        json_message = json["messages"].first
+        return if json_message.blank?
+
+        message_id = json_message["id"]
+
+        conversation.add_message(
+          from: @package.app.agents.first,
+          message: {
+            html_content: "WHATSAPP TEMPLATE SENT: #{template['name']}"
+            # serialized_content: serialized_content
+          },
+          provider: PROVIDER,
+          message_source_id: message_id,
+          check_assignment_rules: false
+        )
+
+      end
+      json
     end
 
     # not used fro now
