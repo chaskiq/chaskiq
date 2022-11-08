@@ -704,6 +704,8 @@ module Types
     private
 
     def filter_by_agent(agent_id)
+      return @collection.where(assignee_id: nil) if agent_id == "0"
+
       @collection.where(assignee_id: agent_id)
     end
 
