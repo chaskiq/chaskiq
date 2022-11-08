@@ -65,7 +65,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
   }
 
   function filterAgent(option) {
-    const agentID = option ? option.id : null;
+    const agentID = option ? option.id : '0';
     dispatch(clearConversations([]));
     dispatch(
       updateConversationsData(
@@ -177,13 +177,6 @@ function SidebarAgents({ app, dispatch, conversations }) {
             icon={<IntegrationsIcon className="-ml-1 mr-3" />}
           />
         ))}
-
-      {/*
-        <ListItem name="All conversations" count={798} />
-        <ListItem name="Assigned to me" count={0} />
-        <ListItem name="Unassigned" count={340} />
-        <ListItem name="Bot" count={340} />
-      */}
 
       {tagCounts && (
         <div
