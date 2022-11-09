@@ -5,9 +5,11 @@ import Avatar from '@chaskiq/components/src/components/Avatar';
 import Tooltip from 'rc-tooltip';
 
 import {
+  DownArrow,
   FolderIcon,
   IntegrationsIcon,
   LabelIcon,
+  UpArrow,
 } from '@chaskiq/components/src/components/icons';
 import I18n from '../../shared/FakeI18n';
 
@@ -25,6 +27,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null);
   const [agents, setAgents] = useState(null);
   const [tagCounts, setTagCounts] = useState(null);
+  const [expandedFilters, setExpandedFilters] = useState(false);
   const [
     conversationsChannelsCounts,
     setConversationsChannelsCounts,
@@ -136,6 +139,15 @@ function SidebarAgents({ app, dispatch, conversations }) {
     return findedTag.color;
   }
 
+  function slicedAgentsList() {
+    const middleIndex = 4;
+    const list = Object.keys(counts);
+    return [
+      list.slice(0, middleIndex),
+      list.slice(-(list.length - middleIndex)),
+    ];
+  }
+
   return (
     <div>
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
@@ -146,7 +158,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
 
       {counts &&
         agents &&
-        Object.keys(counts).map((o, i) => (
+        slicedAgentsList()[0].map((o, i) => (
           <ListItem
             key={`agent-list-${i}`}
             agent={findAgent(o)}
@@ -156,6 +168,39 @@ function SidebarAgents({ app, dispatch, conversations }) {
             label={o === 'all' ? I18n.t('conversations.menu.all') : null}
           />
         ))}
+
+      {counts && agents && slicedAgentsList()[1] && (
+        <ListItem
+          key={`conversation-filters-collapse`}
+          label={expandedFilters ? 'less' : 'more'}
+          count={null}
+          active={false}
+          filterHandler={() => setExpandedFilters(!expandedFilters)}
+          icon={
+            expandedFilters ? (
+              <UpArrow className="-ml-1 mr-3" />
+            ) : (
+              <DownArrow className="-ml-1 mr-3" />
+            )
+          }
+        />
+      )}
+
+      <div className={`${expandedFilters ? 'block' : 'hidden'}`}>
+        {counts &&
+          agents &&
+          slicedAgentsList()[1] &&
+          slicedAgentsList()[1].map((o, i) => (
+            <ListItem
+              key={`agent-list-${i}`}
+              agent={findAgent(o)}
+              count={counts[o]}
+              active={conversations.agentId === o}
+              filterHandler={filterAgent}
+              label={o === 'all' ? I18n.t('conversations.menu.all') : null}
+            />
+          ))}
+      </div>
 
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
         <h3 className="font-bold">
@@ -276,15 +321,17 @@ function ListItem({
         </span>
       )}
 
-      <span
-        className="ml-auto inline-block py-0.5 px-3 text-xs 
-        leading-4 rounded-full
-         text-gray-600 bg-gray-200 group-hover:bg-gray-200 
-         dark:text-gray-100 dark:bg-gray-800 dark:group-hover:bg-gray-800 
-         group-focus:bg-gray-300 transition ease-in-out duration-150"
-      >
-        {count}
-      </span>
+      {count && (
+        <span
+          className="ml-auto inline-block py-0.5 px-3 text-xs 
+          leading-4 rounded-full
+          text-gray-600 bg-gray-200 group-hover:bg-gray-200 
+          dark:text-gray-100 dark:bg-gray-800 dark:group-hover:bg-gray-800 
+          group-focus:bg-gray-300 transition ease-in-out duration-150"
+        >
+          {count}
+        </span>
+      )}
     </a>
   );
 }
