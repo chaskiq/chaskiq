@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 import Tooltip from 'rc-tooltip';
-
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {
   DownArrow,
   FolderIcon,
@@ -23,9 +23,17 @@ import {
 
 import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries';
 
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  background: isDragging ? 'lightgreen' : 'transparent',
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+
 function SidebarAgents({ app, dispatch, conversations }) {
   const [counts, setCounts] = useState(null);
-  const [agents, setAgents] = useState(null);
+  const [agents, setAgents] = useState([]);
   const [tagCounts, setTagCounts] = useState(null);
   const [expandedFilters, setExpandedFilters] = useState(false);
   const [
@@ -139,15 +147,40 @@ function SidebarAgents({ app, dispatch, conversations }) {
     return findedTag.color;
   }
 
-  function slicedAgentsList() {
-    const middleIndex = 4;
-    const list = Object.keys(counts);
-    return [
-      list.slice(0, middleIndex),
-      list.slice(-(list.length - middleIndex)),
-    ];
-  }
+  // a little function to help us with reordering the result
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
+    return result;
+  };
+
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const newPaths = reorder(
+      agents,
+      result.source.index,
+      result.destination.index
+    );
+
+    console.log(
+      'PATHS',
+      newPaths,
+      result.source.index,
+      result.destination.index
+    );
+    setAgents(newPaths);
+  };
+
+  const middleIndex = 4;
+  const list1 = agents.slice(0, middleIndex);
+  const list2 = agents.slice(-(agents.length - middleIndex));
+  console.log(list1, list2);
   return (
     <div>
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
@@ -156,51 +189,135 @@ function SidebarAgents({ app, dispatch, conversations }) {
         </h3>
       </div>
 
-      {counts &&
-        agents &&
-        slicedAgentsList()[0].map((o, i) => (
-          <ListItem
-            key={`agent-list-${i}`}
-            agent={findAgent(o)}
-            count={counts[o]}
-            active={conversations.agentId === o}
-            filterHandler={filterAgent}
-            label={o === 'all' ? I18n.t('conversations.menu.all') : null}
-          />
-        ))}
-
-      {counts && agents && slicedAgentsList()[1] && (
+      {counts && [
         <ListItem
-          key={`conversation-filters-collapse`}
-          label={expandedFilters ? 'less' : 'more'}
-          count={null}
+          agent={null}
+          key="all-conversations-items"
+          count={counts['all'] || '0'}
           active={false}
-          filterHandler={() => setExpandedFilters(!expandedFilters)}
-          icon={
-            expandedFilters ? (
-              <UpArrow className="-ml-1 mr-3" />
-            ) : (
-              <DownArrow className="-ml-1 mr-3" />
-            )
-          }
-        />
-      )}
+          filterHandler={filterAgent}
+          label={I18n.t('conversations.menu.all')}
+        />,
+        <ListItem
+          key={'unnasigned'}
+          agent={null}
+          count={counts[''] || '0'}
+          active={false}
+          filterHandler={filterAgent}
+          label={null}
+        />,
+      ]}
 
-      <div className={`${expandedFilters ? 'block' : 'hidden'}`}>
-        {counts &&
-          agents &&
-          slicedAgentsList()[1] &&
-          slicedAgentsList()[1].map((o, i) => (
-            <ListItem
-              key={`agent-list-${i}`}
-              agent={findAgent(o)}
-              count={counts[o]}
-              active={conversations.agentId === o}
-              filterHandler={filterAgent}
-              label={o === 'all' ? I18n.t('conversations.menu.all') : null}
-            />
-          ))}
-      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppablePaths">
+          {(provided, snapshot) => (
+            <div>
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                //style={getPathStyle(snapshot.isDraggingOver)}
+              >
+                {counts &&
+                  agents &&
+                  list1.map((o, i) => {
+                    return (
+                      <Draggable
+                        key={`path-list-${o.id}-${i}`}
+                        draggableId={`list-1-${o.id}`}
+                        index={i}
+                        //isDragDisabled={i === 0}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style
+                            )}
+                          >
+                            <ListItem
+                              key={`agent-list-${i}`}
+                              agent={o}
+                              count={counts[o.id] || '0'}
+                              active={conversations.agentId === o.id}
+                              filterHandler={filterAgent}
+                              label={
+                                o === 'all'
+                                  ? I18n.t('conversations.menu.all')
+                                  : null
+                              }
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                {provided.placeholder}
+
+                {counts && agents && list2 && list2.length > 0 && (
+                  <ListItem
+                    key={`conversation-filters-collapse`}
+                    label={expandedFilters ? 'Less' : 'More'}
+                    count={null}
+                    active={false}
+                    filterHandler={() => setExpandedFilters(!expandedFilters)}
+                    icon={
+                      expandedFilters ? (
+                        <UpArrow className="-ml-1 mr-3" />
+                      ) : (
+                        <DownArrow className="-ml-1 mr-3" />
+                      )
+                    }
+                  />
+                )}
+
+                <div className={`${expandedFilters ? 'block' : 'hidden'}`}>
+                  {counts &&
+                    agents &&
+                    list2.map((o, index) => {
+                      const i = index + list1.length;
+                      return (
+                        <Draggable
+                          key={`path-list-2-${o.id}-${i}`}
+                          draggableId={o.id}
+                          index={i}
+                          //isDragDisabled={i === 0}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
+                            >
+                              <ListItem
+                                key={`agent-list-2-${i}`}
+                                agent={o}
+                                count={counts[o.id] || '0'}
+                                active={conversations.agentId === o.id}
+                                filterHandler={filterAgent}
+                                label={
+                                  o === 'all'
+                                    ? I18n.t('conversations.menu.all')
+                                    : null
+                                }
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                </div>
+              </div>
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
 
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
         <h3 className="font-bold">
