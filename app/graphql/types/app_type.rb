@@ -26,6 +26,7 @@ module Types
     field :plan, Types::JsonType, null: true
     field :inbound_email_address, String, null: true
     field :outgoing_email_domain, String, null: true
+    field :sorted_agents, [String], null: true
 
     field :team, Types::TeamType, null: true do
       argument :id, String, required: false

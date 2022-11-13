@@ -22,6 +22,7 @@ import {
 } from '@chaskiq/store/src/actions/conversations';
 
 import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries';
+import { SORT_AGENTS } from '@chaskiq/store/src/graphql/mutations';
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -53,12 +54,19 @@ function SidebarAgents({ app, dispatch, conversations }) {
         success: (data) => {
           setCounts(data.app.conversationsCounts);
           setTagCounts(data.app.conversationsTagCounts);
-          setAgents(data.app.agents);
+          setAndReorderAgents(data.app.agents);
           setConversationsChannelsCounts(data.app.conversationsChannelsCounts);
         },
         error: () => {},
       }
     );
+  }
+
+  function setAndReorderAgents(agents) {
+    if (!app.sortedAgents) return setAgents(agents);
+    const itemOrder = app.sortedAgents.reverse();
+    const sortedAgents = mapOrder(agents, itemOrder, 'id');
+    setAgents(sortedAgents);
   }
 
   function findAgent(o) {
@@ -147,6 +155,23 @@ function SidebarAgents({ app, dispatch, conversations }) {
     return findedTag.color;
   }
 
+  const mapOrder = (array, order, key) => {
+    array.sort(function (a, b) {
+      const A = a[key],
+        B = b[key];
+      if (
+        order.indexOf(A) < order.indexOf(B) ||
+        order.indexOf(A) === -1 ||
+        order.indexOf(B) === -1
+      ) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    return array;
+  };
+
   // a little function to help us with reordering the result
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -174,13 +199,27 @@ function SidebarAgents({ app, dispatch, conversations }) {
       result.source.index,
       result.destination.index
     );
+
+    graphql(
+      SORT_AGENTS,
+      { appKey: app.key, list: newPaths.map((o) => o.id) },
+      {
+        success: (a) => {
+          console.log('succ');
+        },
+        error: (a) => {
+          console.log('errr');
+        },
+      }
+    );
+
     setAgents(newPaths);
   };
 
   const middleIndex = 4;
   const list1 = agents.slice(0, middleIndex);
   const list2 = agents.slice(-(agents.length - middleIndex));
-  console.log(list1, list2);
+
   return (
     <div>
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
@@ -225,7 +264,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
                         key={`path-list-${o.id}-${i}`}
                         draggableId={`list-1-${o.id}`}
                         index={i}
-                        //isDragDisabled={i === 0}
+                        isDragDisabled={!expandedFilters}
                       >
                         {(provided, snapshot) => (
                           <div
@@ -283,7 +322,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
                           key={`path-list-2-${o.id}-${i}`}
                           draggableId={o.id}
                           index={i}
-                          //isDragDisabled={i === 0}
+                          isDragDisabled={!expandedFilters}
                         >
                           {(provided, snapshot) => (
                             <div
