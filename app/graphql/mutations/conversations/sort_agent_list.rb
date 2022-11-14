@@ -11,7 +11,7 @@ module Mutations
       def resolve(app_key:, list:)
         find_app(app_key)
 
-        authorize! @app, to: :can_manage_conversations?, with: AppPolicy
+        authorize! @app, to: :can_manage_conversation_customizations?, with: AppPolicy
 
         @app.update(sorted_agents: list)
 

@@ -23,6 +23,8 @@ import {
 
 import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries';
 import { SORT_AGENTS } from '@chaskiq/store/src/graphql/mutations';
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
+import { successMessage } from '@chaskiq/store/src/actions/status_messages';
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -205,7 +207,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
       { appKey: app.key, list: newPaths.map((o) => o.id) },
       {
         success: (a) => {
-          console.log('succ');
+          dispatch(successMessage(I18n.t('status_messages.reordered_success')));
         },
         error: (a) => {
           console.log('errr');
@@ -216,9 +218,16 @@ function SidebarAgents({ app, dispatch, conversations }) {
     setAgents(newPaths);
   };
 
+  function isSortDisabled() {
+    if (!expandedFilters) return true;
+    if (!allowedAccessTo(app, 'conversation_customizations', 'manage'))
+      return true;
+  }
+
   const middleIndex = 4;
   const list1 = agents.slice(0, middleIndex);
-  const list2 = agents.slice(-(agents.length - middleIndex));
+  const list2 = agents.slice(middleIndex);
+  const sortDisabled = isSortDisabled();
 
   return (
     <div>
@@ -264,7 +273,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
                         key={`path-list-${o.id}-${i}`}
                         draggableId={`list-1-${o.id}`}
                         index={i}
-                        isDragDisabled={!expandedFilters}
+                        isDragDisabled={sortDisabled}
                       >
                         {(provided, snapshot) => (
                           <div
@@ -322,7 +331,7 @@ function SidebarAgents({ app, dispatch, conversations }) {
                           key={`path-list-2-${o.id}-${i}`}
                           draggableId={o.id}
                           index={i}
-                          isDragDisabled={!expandedFilters}
+                          isDragDisabled={sortDisabled}
                         >
                           {(provided, snapshot) => (
                             <div
