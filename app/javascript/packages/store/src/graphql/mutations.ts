@@ -380,6 +380,14 @@ export const DELETE_ASSIGNMENT_RULE = `
   }
 `;
 
+export const SORT_AGENTS = `
+  mutation SortAgents($appKey: String!, $list: [String!]!){
+    sortAgents(appKey: $appKey, list: $list){
+      list
+    }
+  }
+`;
+
 export const UPDATE_CONVERSATION_TAG_LIST = `
   mutation UpdateConversationTags($appKey: String!, $conversationId: String!, $tagList: [String!]!){
     updateConversationTags(appKey: $appKey, conversationId: $conversationId, tagList: $tagList){

@@ -48,6 +48,8 @@ class App < ApplicationRecord
     agent_editor_settings
     user_editor_settings
     lead_editor_settings
+
+    sorted_agents
   ]
 
   include InboundAddress
