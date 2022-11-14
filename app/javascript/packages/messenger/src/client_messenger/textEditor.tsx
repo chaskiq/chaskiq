@@ -94,7 +94,7 @@ const Input = styled.textarea`
 const EditorButtons = styled.div`
     position: absolute;
     top: 12px;
-    right: 7px;
+    right: 15px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;

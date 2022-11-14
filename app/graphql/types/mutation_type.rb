@@ -44,6 +44,7 @@ module Types
     field :typingNotifier, mutation: Mutations::Conversations::TypingNotifier
     field :updateConversationTags, mutation: Mutations::Conversations::UpdateTags
     field :sendTrigger, mutation: Mutations::Conversations::SendTrigger
+    field :sortAgents, mutation: Mutations::Conversations::SortAgentList
 
     field :createWebhook, mutation: Mutations::OutgoingWebhooks::CreateWebhook
     field :updateWebhook, mutation: Mutations::OutgoingWebhooks::UpdateWebhook
