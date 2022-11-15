@@ -63,3 +63,4 @@ admin_only:
 #    - quick_replies
 #    - team
 #    - users
+#    - conversation_customizations
