@@ -35,7 +35,7 @@ export function clearApp() {
   };
 }
 
-function getApp(app) {
+export function getApp(app) {
   return {
     type: ActionTypes.GetApp,
     data: app,

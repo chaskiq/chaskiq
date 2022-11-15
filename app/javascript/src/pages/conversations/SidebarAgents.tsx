@@ -25,6 +25,7 @@ import { CONVERSATIONS_COUNTS } from '@chaskiq/store/src/graphql/queries';
 import { SORT_AGENTS } from '@chaskiq/store/src/graphql/mutations';
 import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
 import { successMessage } from '@chaskiq/store/src/actions/status_messages';
+import { getApp } from '@chaskiq/store/src/actions/app';
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -206,7 +207,13 @@ function SidebarAgents({ app, dispatch, conversations }) {
       SORT_AGENTS,
       { appKey: app.key, list: newPaths.map((o) => o.id) },
       {
-        success: (a) => {
+        success: (data) => {
+          const newObject = Object.assign({}, app, {
+            sortedAgents: data.sortAgents.list,
+          });
+
+          dispatch(getApp(newObject));
+
           dispatch(successMessage(I18n.t('status_messages.reordered_success')));
         },
         error: (a) => {
