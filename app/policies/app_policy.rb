@@ -38,6 +38,7 @@ class AppPolicy < ActionPolicy::Base
     api_access
     team
     teams
+    conversation_customizations
   ].each do |namespace|
     %w[manage read write].each do |verb|
       define_method "can_#{verb}_#{namespace}?" do |*_my_arg|
