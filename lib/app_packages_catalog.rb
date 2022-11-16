@@ -786,6 +786,34 @@ class AppPackagesCatalog
       },
 
       {
+        name: "FacebookWhatsapp",
+        tag_list: ["conversations.added"],
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true
+          },
+          {
+            name: "phone_number",
+            type: "string",
+            required: true
+          },
+          {
+            name: "phone_id",
+            type: "string",
+            required: true
+          },
+          {
+            name: "business_account_id",
+            type: "string",
+            required: true
+          },
+        ]
+      },
+
+      {
         name: "Messenger",
         tag_list: ["conversations.added"],
         description: "Interfaces Facebook Messenger",
