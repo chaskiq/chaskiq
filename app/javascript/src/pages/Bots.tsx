@@ -56,10 +56,10 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
 
     setLoading(true);
 
-    search(1);
+    search(1, []);
   }
 
-  function search(page) {
+  function search(page, currentItems) {
     graphql(
       BOT_TASKS,
       {
@@ -70,7 +70,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
       },
       {
         success: (data) => {
-          setBotTasks(data.app.botTasks.collection.concat(botTasks));
+          setBotTasks(currentItems.concat(data.app.botTasks.collection));
           setMeta(data.app.botTasks.meta);
           setLoading(false);
         },
@@ -246,7 +246,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           }
         />
 
-        <div className="flex">
+        <div className="flex mb-2">
           <div className="mr-3">
             <FilterMenu
               options={options}
@@ -278,7 +278,7 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           <Table
             meta={meta}
             data={botTasks}
-            search={search}
+            search={(n) => search(n, botTasks)}
             sortable={true}
             onSort={onSortEnd}
             infinite={true}
