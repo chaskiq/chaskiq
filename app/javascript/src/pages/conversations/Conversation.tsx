@@ -848,7 +848,7 @@ function Conversation({
 
             {!fixedSidebarOpen && (
               <div
-                className="flex items-center text-gray-300"
+                className="flex items-center text-gray-400"
                 style={{
                   marginRight: '-21px',
                   marginLeft: '16px',
