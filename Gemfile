@@ -44,7 +44,7 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
-gem "graphql", "~> 1.11.6"
+gem "graphql", "~> 1.13"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

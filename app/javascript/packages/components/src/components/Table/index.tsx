@@ -43,6 +43,7 @@ interface ITable {
   sortable?: boolean;
   onSort?: (oldIndex: number, newIndex: number) => void;
   disablePagination?: boolean;
+  infinite?: boolean;
 }
 
 export default function Table({
@@ -55,6 +56,7 @@ export default function Table({
   sortable,
   onSort,
   disablePagination,
+  infinite,
 }: ITable) {
   const [tableColums, setTableColums] = React.useState(columns);
 
@@ -161,9 +163,12 @@ export default function Table({
         </table>
       </div>
 
-      {((meta && !isEmpty(meta)) || !disablePagination) && (
-        <Pagination meta={meta} search={search} />
-      )}
+      {((meta && !isEmpty(meta)) || !disablePagination) &&
+        (infinite ? (
+          <InfinitePaginate meta={meta} search={search} />
+        ) : (
+          <Pagination meta={meta} search={search} />
+        ))}
     </React.Fragment>
   );
 }
@@ -206,6 +211,36 @@ function Pagination({ meta, search }) {
           >
             {I18n.t('common.next')}
           </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function InfinitePaginate({ meta, search }) {
+  return (
+    <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
+      {meta && (
+        <div className="flex-1 flex justify-between items-center">
+          {meta.next_page && (
+            <Button
+              onClick={() => search(meta.next_page)}
+              disabled={!meta.next_page}
+              variant="outlined"
+            >
+              {I18n.t('common.next')}
+            </Button>
+          )}
+
+          <p className="text-sm leading-5 text-gray-700 dark:text-gray-50">
+            {I18n.t('common.showing')}
+            <span className="font-medium ml-1 mr-1">{meta.current_page}</span>
+            {I18n.t('common.to')}
+            <span className="font-medium ml-1 mr-1">{meta.total_pages}</span>
+            {I18n.t('common.of')}
+            <span className="font-medium ml-1 mr-1">{meta.total_count}</span>
+            {I18n.t('common.results')}
+          </p>
         </div>
       )}
     </div>

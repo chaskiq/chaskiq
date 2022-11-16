@@ -40,31 +40,43 @@ import {
   DELETE_BOT_TASK,
   REORDER_BOT_TASK,
 } from '@chaskiq/store/src/graphql/mutations';
+import { setLoading } from '@chaskiq/store/src/actions/conversation';
 
 const BotDataTable = ({ app, match, history, mode, dispatch }) => {
   const [loading, _setLoading] = useState(false);
   const [botTasks, setBotTasks] = useState([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(null);
   const [openTaskForm, setOpenTaskForm] = useState(false);
-  const [meta, _setMeta] = useState({});
+  const [meta, setMeta] = useState({});
   const [options, setOptions] = useState(optionsForFilter());
   const [stateOptions, setStateOptions] = useState(optionsForState());
 
   function init() {
     dispatch(setCurrentPage(`bot_${mode}`));
 
+    setLoading(true);
+
+    search(1);
+  }
+
+  function search(page) {
     graphql(
       BOT_TASKS,
       {
         appKey: app.key,
         mode: mode,
         filters: getFilters(),
+        page: page || 1,
       },
       {
         success: (data) => {
-          setBotTasks(data.app.botTasks);
+          setBotTasks(data.app.botTasks.collection.concat(botTasks));
+          setMeta(data.app.botTasks.meta);
+          setLoading(false);
         },
-        error: () => {},
+        error: () => {
+          setLoading(false);
+        },
       }
     );
   }
@@ -266,9 +278,10 @@ const BotDataTable = ({ app, match, history, mode, dispatch }) => {
           <Table
             meta={meta}
             data={botTasks}
-            search={init}
+            search={search}
             sortable={true}
             onSort={onSortEnd}
+            infinite={true}
             columns={[
               {
                 field: 'name',
