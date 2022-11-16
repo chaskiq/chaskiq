@@ -57,7 +57,9 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
         success: (data) => {
           setCounts(data.app.conversationsCounts);
           setTagCounts(data.app.conversationsTagCounts);
-          setAndReorderAgents(data.app.agents);
+          setAndReorderAgents(
+            data.app.agents.filter((o) => o.id !== current_user.id)
+          );
           setConversationsChannelsCounts(data.app.conversationsChannelsCounts);
         },
         error: () => {},
@@ -265,11 +267,11 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
           key={'assigned_to_me'}
           agent={current_user}
           count={counts[current_user?.id] || '0'}
-          active={current_user.id == counts[current_user?.id] }
-          icon={ <FolderIcon className="-ml-1 mr-3" />}
+          active={current_user.id == counts[current_user?.id]}
+          icon={null}
           filterHandler={filterAgent}
           label={I18n.t(`conversations.menu.assigned_to_me`)}
-        />
+        />,
       ]}
 
       <DragDropContext onDragEnd={onDragEnd}>
@@ -498,7 +500,7 @@ function ListItem({
         </Tooltip>
       )}
 
-      { label && (
+      {label && (
         <Tooltip placement="bottom" overlay={label}>
           <span className="truncate">{label}</span>
         </Tooltip>
@@ -524,7 +526,7 @@ function mapStateToProps(state) {
   return {
     conversations,
     app,
-    current_user
+    current_user,
   };
 }
 
