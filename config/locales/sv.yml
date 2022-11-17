@@ -166,6 +166,7 @@ sv:
       assignment_rules: Tilldelningsregler för agenter
       tags: Taggar
       unassigned: Otilldelad
+      assigned_to_me: Assigned to me
     states:
       opened: Öppnad
       closed: Stängd
