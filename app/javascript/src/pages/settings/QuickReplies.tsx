@@ -327,7 +327,9 @@ function QuickReplies({ app, _update, dispatch }) {
                 <Button variant="success" className="mr-2" onClick={handleSave}>
                   {I18n.t('common.save')}
                 </Button>
-                <Button variant="outlined">{I18n.t('common.cancel')}</Button>
+                <Button onClick={() => setQuickReply(null)} variant="outlined">
+                  {I18n.t('common.cancel')}
+                </Button>
               </div>
             )}
 

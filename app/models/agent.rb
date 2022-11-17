@@ -152,7 +152,7 @@ class Agent < ApplicationRecord
   private
 
   def default_bot_avatar
-    ActionController::Base.helpers.asset_url("icons8-bot-50.png")
+    ActionController::Base.helpers.image_url("icons8-bot-50.png")
   rescue StandardError
     nil
   end

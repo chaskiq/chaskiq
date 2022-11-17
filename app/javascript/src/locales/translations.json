@@ -12450,6 +12450,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",

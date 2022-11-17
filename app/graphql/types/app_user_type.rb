@@ -61,8 +61,6 @@ module Types
       object.offline?
     end
 
-    field :properties, Types::JsonType, null: true
-
     field :visits, Types::PaginatedVisitsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
