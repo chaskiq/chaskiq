@@ -166,6 +166,7 @@ de:
       assignment_rules: Regeln für das Zuweisen von Mitarbeitern
       tags: Tags
       unassigned: Unassigned
+      assigned_to_me: Assigned to me
     states:
       opened: Geöffnet
       closed: Geschlossen
