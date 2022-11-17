@@ -35,7 +35,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle,
 });
 
-function SidebarAgents({ app, dispatch, conversations }) {
+function SidebarAgents({ app, dispatch, conversations, current_user }) {
   const [counts, setCounts] = useState(null);
   const [agents, setAgents] = useState([]);
   const [tagCounts, setTagCounts] = useState(null);
@@ -57,7 +57,9 @@ function SidebarAgents({ app, dispatch, conversations }) {
         success: (data) => {
           setCounts(data.app.conversationsCounts);
           setTagCounts(data.app.conversationsTagCounts);
-          setAndReorderAgents(data.app.agents);
+          setAndReorderAgents(
+            data.app.agents.filter((o) => o.id !== current_user.id)
+          );
           setConversationsChannelsCounts(data.app.conversationsChannelsCounts);
         },
         error: () => {},
@@ -259,7 +261,16 @@ function SidebarAgents({ app, dispatch, conversations }) {
           count={counts[''] || '0'}
           active={false}
           filterHandler={filterAgent}
-          label={null}
+          label={I18n.t(`conversations.menu.unassigned`)}
+        />,
+        <ListItem
+          key={'assigned_to_me'}
+          agent={current_user}
+          count={counts[current_user?.id] || '0'}
+          active={current_user.id == counts[current_user?.id]}
+          icon={null}
+          filterHandler={filterAgent}
+          label={I18n.t(`conversations.menu.assigned_to_me`)}
         />,
       ]}
 
@@ -446,7 +457,7 @@ function ListItem({
     if (agent) {
       option = active ? null : agent;
     }
-    if (label) {
+    if (label && !agent) {
       option = active ? null : label;
     }
     filterHandler(option);
@@ -473,24 +484,26 @@ function ListItem({
     >
       {!agent && icon}
 
+      {agent && icon}
+
       {!agent && !icon && <FolderIcon className="-ml-1 mr-3" />}
 
-      {agent && (
+      {agent && !icon && (
         <div className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-focus:text-gray-500 transition ease-in-out duration-150">
           <Avatar size={6} src={agent.avatarUrl} />
         </div>
       )}
 
-      {agent && (
+      {agent && !label && (
         <Tooltip placement="bottom" overlay={agent.name || agent.email}>
           <span className="truncate">{agent.name || agent.email}</span>
         </Tooltip>
       )}
 
-      {!agent && (
-        <span className="truncate">
-          {label || I18n.t('conversations.menu.unassigned')}
-        </span>
+      {label && (
+        <Tooltip placement="bottom" overlay={label}>
+          <span className="truncate">{label}</span>
+        </Tooltip>
       )}
 
       {count && (
@@ -509,10 +522,11 @@ function ListItem({
 }
 
 function mapStateToProps(state) {
-  const { app, conversations } = state;
+  const { app, conversations, current_user } = state;
   return {
     conversations,
     app,
+    current_user,
   };
 }
 
