@@ -166,6 +166,7 @@ it:
       assignment_rules: Regole di routing degli agenti
       tags: Etichette
       unassigned: Non Assegnato
+      assigned_to_me: Assigned to me
     states:
       opened: Aperto
       closed: Chiuso

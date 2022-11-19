@@ -166,6 +166,7 @@ es:
       assignment_rules: Reglas de ruta del agente
       tags: Etiquetas
       unassigned: No Asignado
+      assigned_to_me: Assigned to me
     states:
       opened: Abierto
       closed: Cerrado
