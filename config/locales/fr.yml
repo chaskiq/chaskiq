@@ -166,6 +166,7 @@ fr:
       assignment_rules: Règles de routage de l'agent
       tags: Tags
       unassigned: Non assigné(e)
+      assigned_to_me: Assigned to me
     states:
       opened: Ouvert
       closed: Fermé

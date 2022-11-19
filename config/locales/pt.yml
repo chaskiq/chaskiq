@@ -166,6 +166,7 @@ pt:
       assignment_rules: Regras de roteamento de agentes
       tags: Etiquetas
       unassigned: Não designado
+      assigned_to_me: Assigned to me
     states:
       opened: Aberto
       closed: Fechado

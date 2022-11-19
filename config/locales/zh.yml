@@ -166,6 +166,7 @@ zh-CN:
       assignment_rules: 代理路由规则
       tags: 标签
       unassigned: 未分配
+      assigned_to_me: Assigned to me
     states:
       opened: 已打开
       closed: 已关闭

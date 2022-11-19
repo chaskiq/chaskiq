@@ -166,6 +166,7 @@ pl:
       assignment_rules: Agent routing Rules
       tags: Tags
       unassigned: Unassigned
+      assigned_to_me: Assigned to me
     states:
       opened: Opened
       closed: Closed
