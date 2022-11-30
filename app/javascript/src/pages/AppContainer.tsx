@@ -253,7 +253,7 @@ function AppContainer({
         {loading || (!app && <LoadingView />)}
 
         {isAuthenticated && current_user.email && (
-          <div className="flex flex-col w-0 flex-1 overflow-auto--">
+          <div className="flex flex-col w-0 flex-1 overflow-auto">
             <div className="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
               <button
                 onClick={handleSidebar}

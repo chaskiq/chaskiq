@@ -4,7 +4,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
-import layoutDefinitions from "../layout/layoutDefinitions"
+import layoutDefinitions from '../layout/layoutDefinitions';
 
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import Progress from '@chaskiq/components/src/components/Progress';
@@ -201,7 +201,7 @@ function Conversations({
       },
     ];
 
-    const layout = layoutDefinitions()
+    const layout = layoutDefinitions();
 
     return (
       <React.Fragment>

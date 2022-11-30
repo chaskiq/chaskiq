@@ -19,7 +19,7 @@ export default function FilterMenu({
   options,
   position,
   origin,
-  panelClass
+  panelClass,
 }: FilterMenuProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -52,10 +52,13 @@ export default function FilterMenu({
                   ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100 '
                   : ''
               }
-             ${option.class || `text-gray-700 hover:bg-gray-100 hover:text-gray-900 
+             ${
+               option.class ||
+               `text-gray-700 hover:bg-gray-100 hover:text-gray-900 
                 focus:outline-none focus:bg-gray-100 focus:text-gray-900 dark:hover:bg-gray-700
               dark:hover:text-gray-100 dark:focus:bg-gray-800
-              `}
+              `
+             }
             `}
             >
               {option.state === 'checked' && (

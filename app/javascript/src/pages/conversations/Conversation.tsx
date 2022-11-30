@@ -38,7 +38,7 @@ import styled from '@emotion/styled';
 import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView'; // './RtcWrapper'
 import TagDialog from '@chaskiq/components/src/components/TagDialog';
 import AppPackagePanel from './appPackagePanel';
-import layoutDefinitions from "../../layout/layoutDefinitions"
+import layoutDefinitions from '../../layout/layoutDefinitions';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
@@ -612,13 +612,13 @@ function Conversation({
     );
   };
 
-  const layout = layoutDefinitions()
+  const layout = layoutDefinitions();
 
   return (
     <BgContainer
       isDark={isDark}
       className="flex-1 flex flex-col overflow-hidden-- h-screen"
-      style={{height: layout.screenHeight || '100vh'}}
+      style={{ height: layout.screenHeight || '100vh' }}
     >
       {!isNew && (
         <div

@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Tooltip from 'rc-tooltip';
 
-import layoutDefinitions from './layoutDefinitions'
+import layoutDefinitions from './layoutDefinitions';
 
 import {
   MoreIcon,
@@ -53,7 +53,7 @@ import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied
 
 // Icons from https://teenyicons.com/
 import app_settings_items from './settingsItems';
-import UserMenu from "./user_menu";
+import UserMenu from './user_menu';
 declare global {
   interface Window {
     location: Location;
@@ -502,10 +502,10 @@ function Sidebar({
     ? 'hidden'
     : 'absolute flex md:flex-shrink-0 z-50 h-screen';
 
-  const definitions = layoutDefinitions()
+  const definitions = layoutDefinitions();
   return (
     <div className={`${drawerClass} md:flex md:flex-shrink-0`}>
-      {app && definitions.verticalSidebar &&  (
+      {app && definitions.verticalSidebar && (
         <div
           className={`md:block 
             bg-white dark:bg-black
@@ -598,22 +598,23 @@ function Sidebar({
                       enabled={current_user.available}
                     ></SwitchControl>
 
-                    <UserMenu 
+                    <UserMenu
                       openLangChooser={openLangChooser}
-                      triggerButton={(handler)=> (
-                      <button
-                        onClick={handler}
-                        id="user_menu"
-                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
-                        <div className="flex items-center">
-                          {/*
+                      triggerButton={(handler) => (
+                        <button
+                          onClick={handler}
+                          id="user_menu"
+                          className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150"
+                        >
+                          <div className="flex items-center">
+                            {/*
                             I18n.t('navigator.user_menu.title')
                           */}
-                          <MoreIcon />
-                        </div>
-                      </button>
-                    )
-                    }/>
+                            <MoreIcon />
+                          </div>
+                        </button>
+                      )}
+                    />
                   </div>
                 </div>
               </div>
