@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Tooltip from 'rc-tooltip';
-import icon from '../images/favicon.png';
+
+import layoutDefinitions from './layoutDefinitions'
+
 import {
   MoreIcon,
   DashboardIcon,
@@ -38,7 +40,6 @@ import SidebarReportMenu from '../pages/reports/SidebarMenu';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
-import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import WebSetup from '@chaskiq/components/src/components/webSetup';
 import LangChooser from '@chaskiq/components/src/components/LangChooser';
 import Badge from '@chaskiq/components/src/components/Badge';
@@ -46,19 +47,13 @@ import Badge from '@chaskiq/components/src/components/Badge';
 import { UPDATE_AGENT } from '@chaskiq/store/src/graphql/mutations';
 
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
-import { toggleTheme } from '@chaskiq/store/src/actions/theme';
-import { signout } from '@chaskiq/store/src/actions/auth';
 
 import SwitchControl from '@chaskiq/components/src/components/Switch';
-
 import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
-import { LangGlobeIcon } from '@chaskiq/components/src/components/icons';
-import { PlusIcon } from '@chaskiq/components/src/components/icons';
-import { EditIcon } from '@chaskiq/components/src/components/icons';
-import { LogoutIcon } from '@chaskiq/components/src/components/icons';
 
 // Icons from https://teenyicons.com/
 import app_settings_items from './settingsItems';
+import UserMenu from "./user_menu";
 declare global {
   interface Window {
     location: Location;
@@ -105,10 +100,6 @@ function Sidebar({
   const [loading, setLoading] = useState(false);
 
   const [langChooser, setLangChooser] = useState(false);
-
-  //@ts-ignore
-  const auth0Domain = document.querySelector('meta[name="auth0-domain"]')
-    ?.content;
 
   useEffect(() => {
     setExpanded(current_section);
@@ -511,9 +502,10 @@ function Sidebar({
     ? 'hidden'
     : 'absolute flex md:flex-shrink-0 z-50 h-screen';
 
+  const definitions = layoutDefinitions()
   return (
     <div className={`${drawerClass} md:flex md:flex-shrink-0`}>
-      {app && (
+      {app && definitions.verticalSidebar &&  (
         <div
           className={`md:block 
             bg-white dark:bg-black
@@ -525,7 +517,7 @@ function Sidebar({
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
               <Link to={'/apps'}>
-                <img src={icon} alt="" />
+                <img src={layoutDefinitions().companyLogo} alt="" />
               </Link>
             </div>
           </div>
@@ -606,89 +598,22 @@ function Sidebar({
                       enabled={current_user.available}
                     ></SwitchControl>
 
-                    <FilterMenu
-                      options={[
-                        {
-                          title: I18n.t('navigator.user_menu.create_app'),
-                          description: I18n.t(
-                            'navigator.user_menu.create_app_description'
-                          ),
-                          id: 'new-app',
-                          onClick: () => history.push('/apps/new'),
-                          icon: <PlusIcon />,
-                        },
-
-                        {
-                          id: 'choose-lang',
-                          title: I18n.t('home.choose_lang'),
-                          onClick: openLangChooser,
-                          icon: <LangGlobeIcon />,
-                        },
-                        {
-                          id: 'edit-profile',
-                          title: I18n.t('home.edit_profile'),
-                          icon: <EditIcon />,
-                          onClick: () =>
-                            history.push(
-                              `/apps/${app.key}/agents/${current_user.id}`
-                            ),
-                          //onClick: () =>
-                          //  (window.location.href = '/agents/edit'),
-                        },
-                        {
-                          id: 'edit-credentials',
-                          title: I18n.t('home.edit_credentials'),
-                          icon: (
-                            <span className="flex space-x-2 items-center">
-                              <KeyIcon />
-                            </span>
-                          ),
-                          onClick: () =>
-                            (window.location.href = '/agents/edit'),
-                        },
-                        {
-                          id: 'toggle-dark-mode',
-                          title:
-                            theme === 'light'
-                              ? I18n.t('common.toggle_dark_mode')
-                              : I18n.t('common.toggle_light_mode'),
-                          icon:
-                            theme === 'light' ? (
-                              <DarkModeIcon />
-                            ) : (
-                              <LightModeIcon />
-                            ),
-                          onClick: () =>
-                            dispatch(
-                              toggleTheme(theme === 'light' ? 'dark' : 'light')
-                            ),
-                        },
-                        {
-                          title: I18n.t('navigator.user_menu.signout'),
-                          icon: <LogoutIcon />,
-                          id: 'sign-out',
-                          onClick: handleSignout,
-                        },
-                      ]}
-                      value={null}
-                      filterHandler={(e) => e.onClick && e.onClick()}
-                      triggerButton={(handler) => (
-                        <button
-                          onClick={handler}
-                          id="user_menu"
-                          className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150"
-                        >
-                          <div className="flex items-center">
-                            {/*
-                              I18n.t('navigator.user_menu.title')
-                            */}
-                            <MoreIcon />
-                          </div>
-                        </button>
-                      )}
-                      position={'left'}
-                      origin={'bottom-0'}
-                    />
+                    <UserMenu 
+                      openLangChooser={openLangChooser}
+                      triggerButton={(handler)=> (
+                      <button
+                        onClick={handler}
+                        id="user_menu"
+                        className="text-xs leading-4 font-medium text-gray-500 group-hover:text-gray-700 group-focus:underline transition ease-in-out duration-150">
+                        <div className="flex items-center">
+                          {/*
+                            I18n.t('navigator.user_menu.title')
+                          */}
+                          <MoreIcon />
+                        </div>
+                      </button>
+                    )
+                    }/>
                   </div>
                 </div>
               </div>
