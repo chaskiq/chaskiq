@@ -166,7 +166,10 @@ module.exports = {
           // Figma design file colors
 
           grey: {
-              DEFAULT: '#F9FAFC',
+            100: '#CBD5E1',
+            900: '#334155',
+            DEFAULT: '#64748B',
+            //  DEFAULT: '#F9FAFC',
           },
           buttonHover: '#F4F5F9',
           primary: {
