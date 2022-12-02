@@ -1,8 +1,17 @@
 import React from 'react';
-import { BlockIcon, BotIcon, CampaignsIcon, ChartsIcons, ChatIcon, DashboardIcon, HelpCenterIcon, PlatformIcon } from '@chaskiq/components/src/components/icons';
+import {
+  BlockIcon,
+  BotIcon,
+  CampaignsIcon,
+  ChartsIcons,
+  ChatIcon,
+  DashboardIcon,
+  HelpCenterIcon,
+  PlatformIcon,
+} from '@chaskiq/components/src/components/icons';
 import icon from '../images/favicon.png';
-import { allowedAccessTo } from "@chaskiq/components/src/components/AccessDenied";
-import I18n from "../shared/FakeI18n";
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
+import I18n from '../shared/FakeI18n';
 
 export default function definitions() {
   return {
@@ -65,9 +74,8 @@ export default function definitions() {
           'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
       },
     ],
-    categories: function(app) {
+    categories: function (app) {
       return [
-    
         {
           id: 'Dashboard',
           label: I18n.t('navigator.dashboard'),
@@ -98,7 +106,7 @@ export default function definitions() {
           icon: <CampaignsIcon />,
           allowed: allowedAccessTo(app, 'campaigns'),
         },
-    
+
         {
           id: 'Bot',
           label: I18n.t('navigator.routing_bots'),
@@ -106,7 +114,7 @@ export default function definitions() {
           url: `/apps/${app.key}/bots/settings`,
           allowed: allowedAccessTo(app, 'bots'),
         },
-    
+
         {
           label: I18n.t('navigator.help_center'),
           id: 'HelpCenter',
@@ -152,7 +160,7 @@ export default function definitions() {
           //children: app_settings_items(app, isActivePage),
           allowed: allowedAccessTo(app, 'app_settings'),
         },
-      ]
-    }
+      ];
+    },
   };
 }

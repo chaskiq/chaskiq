@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Tooltip from "rc-tooltip";
-import LayoutDefinitions from './layoutDefinitions'
-export function InnerMenu({current_section, categories}) {
+import Tooltip from 'rc-tooltip';
+import LayoutDefinitions from './layoutDefinitions';
+export function InnerMenu({ current_section, categories }) {
   return categories
     .filter((o) => o.id === current_section)
     .map(({ id, label, children }) => {
@@ -66,8 +66,8 @@ export function InnerMenu({current_section, categories}) {
     });
 }
 
-export function MainMenu({current_section, categories, app, itemClass}) {
-  const c = categories || LayoutDefinitions().categories(app)
+export function MainMenu({ current_section, categories, app, itemClass }) {
+  const c = categories || LayoutDefinitions().categories(app);
   return c
     .filter((o) => o.allowed)
     .map((o) => (
@@ -82,7 +82,8 @@ export function MainMenu({current_section, categories, app, itemClass}) {
           <Link
             to={`${o.url}`}
             aria-label={o.label}
-            className={itemClass || 
+            className={
+              itemClass ||
               `text-gray-700 dark:text-white
                 rounded-md flex 
                 justify-center 
@@ -92,7 +93,7 @@ export function MainMenu({current_section, categories, app, itemClass}) {
                 items-center 
                 text-2xl font-semibold 
                 my-5 overflow-hidden`
-              }
+            }
           >
             <div className="flex items-center space-x-2">
               <span>{o.icon}</span>
@@ -101,21 +102,23 @@ export function MainMenu({current_section, categories, app, itemClass}) {
           </Link>
         )}
       </Tooltip>
-    ))
+    ));
 }
 
-export function MainMenuHorizontal({current_section, categories, app}) {
-  const c = categories || LayoutDefinitions().categories(app)
+export function MainMenuHorizontal({ current_section, categories, app }) {
+  const c = categories || LayoutDefinitions().categories(app);
   return c
     .filter((o) => o.allowed)
-    .map((o) => (
-      o.url && (
-        <Link
-          to={`${o.url}`}
-          aria-label={o.label}
-          className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900">
-          {o.icon}
-        </Link>
-      )
-    ))
+    .map(
+      (o) =>
+        o.url && (
+          <Link
+            to={`${o.url}`}
+            aria-label={o.label}
+            className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+          >
+            {o.icon}
+          </Link>
+        )
+    );
 }

@@ -52,7 +52,7 @@ import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied
 // Icons from https://teenyicons.com/
 import app_settings_items from './settingsItems';
 import UserMenu from './user_menu';
-import { MainMenu, InnerMenu }  from "./mainMenu";
+import { MainMenu, InnerMenu } from './mainMenu';
 declare global {
   interface Window {
     location: Location;
@@ -456,13 +456,15 @@ function Sidebar({
               </Link>
             </div>
           </div>
-          {app && <div className="overflow-y-auto h-full">
-            <MainMenu 
-            categories={categories} 
-            app={app} 
-            current_section={current_section} />
-          </div>
-          }
+          {app && (
+            <div className="overflow-y-auto h-full">
+              <MainMenu
+                categories={categories}
+                app={app}
+                current_section={current_section}
+              />
+            </div>
+          )}
         </div>
       )}
 
@@ -478,7 +480,10 @@ function Sidebar({
             </h3>
           </div>
 
-          <InnerMenu categories={categories} current_section={current_section} />
+          <InnerMenu
+            categories={categories}
+            current_section={current_section}
+          />
 
           <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
             <div className="flex-shrink-0 group block focus:outline-none">

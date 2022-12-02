@@ -58,7 +58,7 @@ import gridIcon from '../images/grid-icon.png';
 import logo from '../images/logo.png';
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import layoutDefinitions from '../layout/layoutDefinitions';
-import { MainMenu, MainMenuHorizontal } from "../layout/mainMenu";
+import { MainMenu, MainMenuHorizontal } from '../layout/mainMenu';
 declare global {
   interface Window {
     chaskiq_cable_url: any;
@@ -77,7 +77,7 @@ function AppContainer({
   upgradePages,
   accessToken,
   history,
-  current_section
+  current_section,
 }) {
   const CableApp = React.useRef(createSubscription(match, accessToken));
 
@@ -243,12 +243,14 @@ function AppContainer({
         </div>
         <div className="flex justify-between items-center bg-white border-b">
           <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-            {app && <MainMenu
-              app={app} 
-              itemClass="h-16 inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
-              categories={null}
-              current_section={current_section} 
-            />}
+            {app && (
+              <MainMenu
+                app={app}
+                itemClass="h-16 inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+                categories={null}
+                current_section={current_section}
+              />
+            )}
           </div>
         </div>
       </div>
