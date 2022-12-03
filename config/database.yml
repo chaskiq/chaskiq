@@ -51,8 +51,8 @@ staging:
 
 production:
   <<: *default
-  database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq_production') %>
-  username: <%= ENV.fetch('POSTGRES_USERNAME', 'chaskiq') %>
+  database: <%= ENV.fetch('POSTGRES_DATABASE',chaskiq_production) %>
+  username: <%= ENV.fetch('POSTGRES_USERNAME',chaskiq) %>
   password: <%= ENV.fetch('POSTGRES_PASSWORD',admin) %>
   prepared_statements: false
   adapter: postgresql
