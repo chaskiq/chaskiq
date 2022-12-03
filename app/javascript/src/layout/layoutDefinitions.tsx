@@ -25,6 +25,8 @@ export default function definitions() {
     // in case the horizontalSidebar a topPadding is needed along with the screen height
     screenHeight: 'calc(100vh)', //'calc(75vh)',
     topPadding: 'mt-0', //'mt-48',
+    //screenHeight: 'calc(75vh)',
+    //topPadding: 'mt-48',
     horizontalMenu: {
       display: false,
       displayLabel: true,

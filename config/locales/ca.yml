@@ -166,6 +166,7 @@ ca:
       assignment_rules: Regles d'enrutament d'agents
       tags: Etiquetes
       unassigned: Sense assignar
+      assigned_to_me: Assigned to me
     states:
       opened: Obert
       closed: Tancat

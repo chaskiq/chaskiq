@@ -323,6 +323,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -2052,6 +2053,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -3787,6 +3789,7 @@
       },
       "menu": {
         "all": "Totes les converses",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Regles d'enrutament d'agents",
         "conversations": "Converses",
         "tags": "Etiquetes",
@@ -5516,6 +5519,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -7256,6 +7260,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -8985,6 +8990,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Regeln für das Zuweisen von Mitarbeitern",
         "conversations": "Unterhaltungen",
         "tags": "Tags",
@@ -10714,6 +10720,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -12450,6 +12457,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -14542,6 +14550,7 @@
       },
       "menu": {
         "all": "Todas las conversaciones",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Reglas de ruta del agente",
         "conversations": "Conversaciones",
         "tags": "Etiquetas",
@@ -16619,6 +16628,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -18348,6 +18358,7 @@
       },
       "menu": {
         "all": "Toutes les conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Règles de routage de l'agent",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -20141,6 +20152,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -21870,6 +21882,7 @@
       },
       "menu": {
         "all": "Tutte le conversazioni",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Regole di routing degli agenti",
         "conversations": "Conversazioni",
         "tags": "Etichette",
@@ -23599,6 +23612,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -25327,6 +25341,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -27055,6 +27070,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -28784,6 +28800,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -30513,6 +30530,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -32244,6 +32262,7 @@
       },
       "menu": {
         "all": "Ver todas as conversas",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Regras de roteamento de agentes",
         "conversations": "Conversas",
         "tags": "Etiquetas",
@@ -33973,6 +33992,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -35703,6 +35723,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -37434,6 +37455,7 @@
       },
       "menu": {
         "all": "Alla konversationer",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Tilldelningsregler för agenter",
         "conversations": "Konversationer",
         "tags": "Taggar",
@@ -39163,6 +39185,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -40892,6 +40915,7 @@
       },
       "menu": {
         "all": "All conversations",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "Agent routing Rules",
         "conversations": "Conversations",
         "tags": "Tags",
@@ -42623,6 +42647,7 @@
       },
       "menu": {
         "all": "全部对话",
+        "assigned_to_me": "Assigned to me",
         "assignment_rules": "代理路由规则",
         "conversations": "会话",
         "tags": "标签",

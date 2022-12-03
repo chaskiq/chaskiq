@@ -815,14 +815,17 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
 `;
 
 export const BOT_TASKS = `
-  query BotTasks($appKey: String!, $lang: String, $mode: String, $filters: BotTaskFilter){
+  query BotTasks($appKey: String!, $lang: String, $mode: String, $filters: BotTaskFilter, $page: Int){
     app(key: $appKey){
-      botTasks(lang: $lang, mode: $mode, filters: $filters){
-        title
-        id
-        state
-        botType
-        position
+      botTasks(lang: $lang, mode: $mode, filters: $filters, page: $page){
+        collection {
+          title
+          id
+          state
+          botType
+          position
+        }
+        meta 
       }
     }
   }

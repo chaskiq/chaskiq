@@ -498,7 +498,7 @@ function Sidebar({
                     height={40}
                   />
                 </div>
-                <div className="ml-3 w-2/5 flex flex-wrap">
+                <div className="ml-3 w-1/3 flex flex-wrap">
                   <p className="my-1 text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
                     <Link to={`/apps/${app.key}/agents/${current_user.id}`}>
                       {current_user.email}

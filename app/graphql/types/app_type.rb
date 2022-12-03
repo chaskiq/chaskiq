@@ -12,7 +12,6 @@ module Types
     field :register_visits, Boolean, null: true
     field :allow_idle_sessions, Boolean, null: true
     field :translations, [Types::JsonType], null: true
-    field :outgoing_email_domain, String, null: true
     field :custom_fields, [Types::JsonType], null: true
     field :app_packages, [Types::AppPackageType], null: true
     field :agent_app_packages, [Types::AppPackageType], null: true
@@ -572,13 +571,14 @@ module Types
       object.article_collections.friendly.find(id)
     end
 
-    field :bot_tasks, [Types::BotTaskType], null: true do
+    field :bot_tasks, Types::PaginatedBotTasksType, null: false do
       argument :lang, String, required: false, default_value: I18n.default_locale.to_s
       argument :mode, String, required: false, default_value: "outbound"
       argument :filters, Types::BotTaskFilterType, required: false, default_value: {}
+      argument :page, Integer, required: false, default_value: 1
     end
 
-    def bot_tasks(lang:, mode:, filters:)
+    def bot_tasks(lang:, mode:, filters:, page:)
       # object.plan.allow_feature!('BotTasks')
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_routing_bots?, with: AppPolicy
@@ -592,6 +592,8 @@ module Types
       collection = collection.where(state: filters["state"]) if filters["state"].present?
 
       handle_bot_tasks_filters(filters, collection).ordered
+                                                   .page(page)
+                                                   .per(12)
     end
 
     field :bot_task, Types::BotTaskType, null: true do

@@ -259,7 +259,12 @@ function Conversations({
         >
           {conversations.collection.map((o) => {
             return (
-              <ConversationItemList key={o.key} app={app} conversation={o} />
+              <ConversationItemList
+                key={o.key}
+                app={app}
+                conversation={o}
+                isActive={o.key == conversation?.key}
+              />
             );
           })}
 

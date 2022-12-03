@@ -16,7 +16,6 @@ module Types
     field :region, String, null: true
     field :region_code, String, null: true
     field :avatar_url, String, null: true
-    field :lang, String, null: true
     field :available, Boolean, null: true
     field :inbound_email_address, String, null: true
 
@@ -28,8 +27,6 @@ module Types
     field :phone_number, String, null: true
     field :address, String, null: true
     field :availability, String, null: true
-
-    field :agent_id, String, null: true
 
     def name
       object.agent.name
