@@ -130,73 +130,11 @@ module.exports = {
           hop: 'hop 0.65s ease-in-out 1',
       },
       colors: {
-          // Figma design file colors
-          newWhite: {
-              DEFAULT: '#E2E8F0',
-          },
-          newGray: {
-              100: '#CBD5E1',
-              900: '#334155',
-              DEFAULT: '#64748B',
-          },
-          newBlue: {
-              100: '#3076FF',
-              900: '#032E9B',
-              DEFAULT: '#053195',
-          },
-          newGreen: {
-              DEFAULT: '#4FC371',
-          },
-          newRed: {
-              DEFAULT: '#F23041',
-          },
+          brand: '#2668eb',
           'gradientHero': {
               100: '#2668eb',
               200: '#1e4abb',
               DEFAULT: '#04309d',
-          },
-          darkColor: {
-              900: '#122640',
-              DEFAULT: '#081526',
-          },
-          lightColor: {
-              100: '#d2d6ff',
-              DEFAULT: '#f5f5f5',
-          },
-          // Figma design file colors
-
-          grey: {
-            100: '#CBD5E1',
-            900: '#334155',
-            DEFAULT: '#64748B',
-            //  DEFAULT: '#F9FAFC',
-          },
-          buttonHover: '#F4F5F9',
-          primary: {
-              50: '#0531950D',
-              100: '#0531951A',
-              200: '#05319533',
-              300: '#0531954D',
-              400: '#05319566',
-              500: '#05319580',
-              600: '#05319599',
-              700: '#053195B3',
-              800: '#053195CC',
-              900: '#053195E6',
-              DEFAULT: '#053195',
-          },
-          secondary: {
-              50: '#2551c20D',
-              100: '#2551c21A',
-              200: '#2551c233',
-              300: '#2551c24D',
-              400: '#2551c266',
-              500: '#2551c280',
-              600: '#2551c299',
-              700: '#2551c2B3',
-              800: '#2551c2CC',
-              900: '#2551c2E6',
-              DEFAULT: '#2551c2',
           },
           link: {
               50: '#3077ff0D',
@@ -292,19 +230,6 @@ module.exports = {
               800: '#dfd5b0CC',
               900: '#dfd5b0E6',
               DEFAULT: '#dfd5b0',
-          },
-          dark: {
-              50: '#38394f',
-              100: '#38394f',
-              200: '#38394f',
-              300: '#38394f',
-              400: '#38394f',
-              500: '#38394f',
-              600: '#38394f',
-              700: '#38394f',
-              800: '#38394f',
-              900: '#38394f',
-              DEFAULT: '#38394f',
           },
           white: colors.white,
           transparent: 'transparent',

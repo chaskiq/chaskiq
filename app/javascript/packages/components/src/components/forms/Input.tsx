@@ -84,11 +84,11 @@ const WrappedComponent = React.forwardRef(function Input(
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
         w-full py-2 px-3 text-gray-700
-        focus:outline-none focus:border-gray-600 dark:bg-black dark:text-white`;
+        focus:outline-none focus:border-gray-600 dark:bg-gray-800 dark:text-white`;
       default:
-        return `shadow appearance-none border border-${borderColor(
-          error
-        )}-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white
+        return `shadow appearance-none border border-${borderColor(error)}-300 
+        dark:border-${borderColor(error)}-900
+         rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-800 dark:text-white
         leading-tight focus:outline-none focus:shadow-outline`;
     }
   }
@@ -309,7 +309,9 @@ const WrappedComponent = React.forwardRef(function Input(
             name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
-            )}-300 rounded 
+            )}-300
+            dark:border-${borderColor(error)}-800
+            rounded 
             w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight 
             focus:outline-none focus:shadow-outline`}
             defaultValue={defaultValue}
@@ -475,6 +477,7 @@ function DatePickerWrapper({ val, name, onChange }: IDatePickerWrapper) {
       className={`shadow appearance-none border border-gray-300 rounded 
       w-full py-2 px-3 text-gray-700 dark:text-gray-200
       dark:bg-gray-700
+      dark:border-gray-900
       leading-tight focus:outline-none focus:shadow-outline`}
       // includeTimes={[
       //  setHours(setMinutes(new Date(), 0), 17),

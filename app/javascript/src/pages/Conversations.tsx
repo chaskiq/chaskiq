@@ -364,7 +364,7 @@ function Conversations({
             {conversation.mainParticipant ? (
               <AppUserEdit />
             ) : (
-              <div className="bg-white rounded-md border p-4">
+              <div className="bg-white dark:bg-gray-900 rounded-md border p-4">
                 <p>No recipient selected.</p>
               </div>
             )}

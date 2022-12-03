@@ -437,10 +437,10 @@ function Sidebar({
     ? 'hidden'
     : 'absolute flex md:flex-shrink-0 z-50 h-screen';
 
-  const definitions = layoutDefinitions();
+  const layout = layoutDefinitions();
   return (
     <div className={`${drawerClass} md:flex md:flex-shrink-0`}>
-      {app && definitions.verticalSidebar && (
+      {app && layout.verticalSidebar && (
         <div
           className={`md:block 
             bg-white dark:bg-black
@@ -473,11 +473,9 @@ function Sidebar({
       )}
 
       {current_page && (
-        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
-          <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-yellow-400">
-            <h3 className="font-semibold w-full text-gray-600 text-xs">
-              {app.name}
-            </h3>
+        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-gray-900 bg-gray-100 shadow-inner">
+          <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-gray-800 dark:text-gray-200 border">
+            <h3 className="font-semibold w-full text-xs">{app.name}</h3>
           </div>
 
           <InnerMenu

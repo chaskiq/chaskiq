@@ -17,21 +17,22 @@ export default function definitions() {
   return {
     companyLogo: icon,
     verticalSidebar: false,
-    screenHeight: 'calc(83vh)',
+    screenHeight: 'calc(75vh)',
+    topPadding: 'mt-48',
     horizontalSidebar: true,
     menuLeft: [
-      {
-        title: 'lalal',
-        icon: icon,
-        href: '/sssk',
-        key: 'aaa',
-      },
-      {
-        title: 'oooero',
-        icon: icon,
-        href: '/sssk',
-        key: 'aaab',
-      },
+      //{
+      //  title: 'lalal',
+      //  icon: icon,
+      //  href: '/sssk',
+      //  key: 'aaa',
+      //},
+      //{
+      //  title: 'oooero',
+      //  icon: icon,
+      //  href: '/sssk',
+      //  key: 'aaab',
+      //},
     ],
     optionsForFilter: [
       {
@@ -161,6 +162,21 @@ export default function definitions() {
           allowed: allowedAccessTo(app, 'app_settings'),
         },
       ];
+    },
+    mainSidebar: {
+      displaySectionTitle: false,
+      buttons: {
+        activeClass: `bg-gray-200 dark:bg-black`,
+        defaultClass: `
+        hover:text-gray-600 hover:bg-gray-100 
+        dark:hover:text-gray-300 dark:hover:bg-black
+        dark:text-gray-100 dark:focus:bg-black
+        focus:outline-none focus:bg-gray-200
+        group flex items-center 
+        px-2 py-2 
+        text-sm leading-5 font-medium text-gray-900 
+        rounded-md transition ease-in-out duration-150`,
+      },
     },
   };
 }

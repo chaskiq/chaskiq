@@ -150,7 +150,7 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
     <div className="py-4">
       <p
         className="text-lg leading-6 font-medium
-        text-gray-900 pb-4"
+        text-gray-900 dark:text-gray-100 pb-4"
       >
         {I18n.t('settings.languages.title')}
       </p>

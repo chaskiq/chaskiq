@@ -2,15 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import I18n from '../shared/FakeI18n';
+import usePortal from 'react-useportal';
 
+import I18n from '../shared/FakeI18n';
 import ContentHeader from '@chaskiq/components/src/components/PageHeader';
 import Content from '@chaskiq/components/src/components/Content';
 import Tabs from '@chaskiq/components/src/components/Tabs';
 import CircularProgress from '@chaskiq/components/src/components/Progress';
-
 import graphql from '@chaskiq/store/src/graphql/client';
-
 import { clearSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 
 import {
@@ -710,6 +709,10 @@ function PaddleCheckout({
   handleSuccess,
   handleClose,
 }) {
+  const { Portal } = usePortal({
+    bindTo: document && document.getElementById('portal-root'),
+  });
+
   React.useEffect(() => {
     window.Paddle.Setup({
       vendor: 115475, // Replace with your Vendor ID.
@@ -732,8 +735,8 @@ function PaddleCheckout({
   }, []);
 
   return (
-    <div>
-      <div className="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
+    <Portal>
+      <div className="fixed z-50 bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
         <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
@@ -773,7 +776,7 @@ function PaddleCheckout({
           </div>
         </div>
       </div>
-    </div>
+    </Portal>
   );
 }
 
