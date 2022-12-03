@@ -52,8 +52,8 @@ staging:
 production:
   <<: *default
   database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq_production') %>
-  username: <%= ENV.fetch('POSTGRES_USERNAME', 'chaskiq_prod') %>
-  password: <%= ENV.fetch('POSTGRES_PASSWORD', 'chaskiq_prod') %>
+  username: <%= ENV.fetch('POSTGRES_USERNAME', 'chaskiq') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', 'chaskiq') %>
   prepared_statements: false
   adapter: postgresql
   min_messages: warning
