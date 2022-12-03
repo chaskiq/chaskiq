@@ -72,6 +72,8 @@ export function MainMenu({
   app,
   itemClass,
   selectedClass,
+  displayLabel,
+  displayTooltip,
 }) {
   const c = categories || LayoutDefinitions().categories(app);
 
@@ -93,33 +95,41 @@ export function MainMenu({
     my-5 overflow-hidden`;
   }
 
+  function renderMenuItem(o) {
+    return (
+      <Link to={`${o.url}`} aria-label={o.label} className={itemClassName(o)}>
+        <div className="flex items-center space-x-2">
+          <span>{o.icon}</span>
+          {displayLabel && <span>{o.label}</span>}
+        </div>
+      </Link>
+    );
+  }
+
   return c
     .filter((o) => o.allowed)
-    .map((o) => (
-      <Tooltip
-        key={`sidebar-categories-${o.id}`}
-        placement="right"
-        overlay={o.label}
-        defaultVisible={false}
-        visible={false}
-      >
-        {o.url && (
-          <Link
-            to={`${o.url}`}
-            aria-label={o.label}
-            className={itemClassName(o)}
+    .map((o) => {
+      if (!displayTooltip) return renderMenuItem(o);
+
+      if (displayTooltip)
+        return (
+          <Tooltip
+            key={`sidebar-categories-${o.id}`}
+            placement="right"
+            overlay={o.label}
           >
-            <div className="flex items-center space-x-2">
-              <span>{o.icon}</span>
-              <span>{o.label}</span>
-            </div>
-          </Link>
-        )}
-      </Tooltip>
-    ));
+            {renderMenuItem(o)}
+          </Tooltip>
+        );
+    });
 }
 
-export function MainMenuHorizontal({ current_section, current_user, app }) {
+export function MainMenuHorizontal({
+  current_section,
+  current_user,
+  app,
+  displayLabel,
+}) {
   const layout = LayoutDefinitions();
 
   return (
@@ -129,7 +139,7 @@ export function MainMenuHorizontal({ current_section, current_user, app }) {
           <span className="flex space-x-8 items-center">
             <div className="relative z-50 cursor-pointer">
               <FilterMenu
-                options={layout.optionsForFilter}
+                options={layout.horizontalMenu.optionsForFilter}
                 value={null}
                 panelClass={
                   'absolute left-0 grid grid-rows-3 grid-flow-col gap-4 p-2 min-w-max mt-2 origin-top-right bg-white dark:bg-darkColor-900 rounded-md shadow-lg'
@@ -157,7 +167,7 @@ export function MainMenuHorizontal({ current_section, current_user, app }) {
               />
             </div>
 
-            {layout.menuLeft.map((o) => (
+            {layout.horizontalMenu.menuLeft.map((o) => (
               <Link
                 to={o.href}
                 key={o.key}
@@ -225,6 +235,7 @@ export function MainMenuHorizontal({ current_section, current_user, app }) {
               itemClass="h-16 inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-900 dark:bg-gray-900 dark:text-gray-100"
               selectedClass="h-16 inline-flex items-center border-b-2 border-brand px-1 pt-1 text-sm font-medium text-gray-900 dark:bg-gray-900 dark:text-gray-100"
               categories={null}
+              displayLabel={displayLabel}
               current_section={current_section}
             />
           )}

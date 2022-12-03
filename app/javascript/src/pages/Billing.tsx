@@ -827,7 +827,7 @@ function Transactions({ app }) {
             <tr key={`trx-${o.order_id}`}>
               <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
                 <div className="flex items-center space-x-3 lg:pl-2">
-                  <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-pink-600" />
+                  <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-brand" />
                   <a
                     href="#"
                     className="truncate hover:text-gray-600 dark:hover:text-gray-200"
@@ -980,7 +980,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                 {' '}
                 {plan.name}
               </button>
-              {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-pink-600">
+              {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-brand-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-brand-600">
                 Buy Basic
               </a> */}
             </div>

@@ -440,7 +440,7 @@ function Sidebar({
   const layout = layoutDefinitions();
   return (
     <div className={`${drawerClass} md:flex md:flex-shrink-0`}>
-      {app && layout.verticalSidebar && (
+      {app && layout.verticalSidebar.display && (
         <div
           className={`md:block 
             bg-white dark:bg-black
@@ -460,6 +460,9 @@ function Sidebar({
             <div className="overflow-y-auto h-full">
               <MainMenu
                 categories={categories}
+                itemClass={layout.verticalSidebar.itemClass}
+                displayTooltip={layout.verticalSidebar.displayTooltip}
+                displayLabel={layout.verticalSidebar.displayLabel}
                 app={app}
                 current_section={current_section}
               />

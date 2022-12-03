@@ -142,11 +142,14 @@ function AppContainer({
 
   return (
     <React.Fragment>
-      <MainMenuHorizontal
-        current_user={current_user}
-        current_section={current_section}
-        app={app}
-      />
+      {layout.horizontalMenu.display && (
+        <MainMenuHorizontal
+          current_user={current_user}
+          current_section={current_section}
+          displayLabel={layout.horizontalMenu.displayLabel}
+          app={app}
+        />
+      )}
 
       <div
         className={` ${layout.topPadding} h-screen flex overflow-hidden bg-white dark:bg-gray-800 dark:text-white`}

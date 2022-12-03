@@ -16,65 +16,75 @@ import I18n from '../shared/FakeI18n';
 export default function definitions() {
   return {
     companyLogo: icon,
-    verticalSidebar: false,
-    screenHeight: 'calc(75vh)',
-    topPadding: 'mt-48',
-    horizontalSidebar: true,
-    menuLeft: [
-      //{
-      //  title: 'lalal',
-      //  icon: icon,
-      //  href: '/sssk',
-      //  key: 'aaa',
-      //},
-      //{
-      //  title: 'oooero',
-      //  icon: icon,
-      //  href: '/sssk',
-      //  key: 'aaab',
-      //},
-    ],
-    optionsForFilter: [
-      {
-        title: 'Create Contact',
-        //description: 'Adds a lead or verified user',
-        icon: <BlockIcon />,
-        id: 'create-contact',
-        state: 'create-contact',
-        class:
-          'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
-      },
-      {
-        title: 'Create Contact',
-        //description: 'Adds a lead or verified user',
-        // icon: <BlockIcon/>,
-        icon: <BlockIcon />,
-        id: 'acreate-contact',
-        state: 'create-contact',
-        class:
-          'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
-      },
-      {
-        title: 'Create Contact',
-        //description: 'Adds a lead or verified user',
-        // icon: <BlockIcon/>,
-        icon: <BlockIcon />,
-        id: 'acreate-contactl',
-        state: 'create-contact',
-        class:
-          'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
-      },
-      {
-        title: 'Import CSV',
-        //description: 'Imports CSV',
-        // icon: <UnsubscribeIcon/>,
-        icon: <BlockIcon />,
-        id: 'import-csv',
-        state: 'import-csv',
-        class:
-          'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
-      },
-    ],
+    verticalSidebar: {
+      display: true,
+      itemClass: `text-gray-700 dark:text-white rounded-md flex  justify-center  cursor-pointer bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-800  h-10 w-full  items-center  text-2xl font-semibold  my-5 overflow-hidden`,
+      displayLabel: false,
+      displayTooltip: true,
+    },
+    // in case the horizontalSidebar a topPadding is needed along with the screen height
+    screenHeight: 'calc(100vh)', //'calc(75vh)',
+    topPadding: 'mt-0', //'mt-48',
+    horizontalMenu: {
+      display: false,
+      displayLabel: true,
+      displayTooltip: false,
+      menuLeft: [
+        //{
+        //  title: 'lalal',
+        //  icon: icon,
+        //  href: '/sssk',
+        //  key: 'aaa',
+        //},
+        //{
+        //  title: 'oooero',
+        //  icon: icon,
+        //  href: '/sssk',
+        //  key: 'aaab',
+        //},
+      ],
+      optionsForFilter: [
+        {
+          title: 'Create Contact',
+          //description: 'Adds a lead or verified user',
+          icon: <BlockIcon />,
+          id: 'create-contact',
+          state: 'create-contact',
+          class:
+            'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
+        },
+        {
+          title: 'Create Contact',
+          //description: 'Adds a lead or verified user',
+          // icon: <BlockIcon/>,
+          icon: <BlockIcon />,
+          id: 'acreate-contact',
+          state: 'create-contact',
+          class:
+            'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
+        },
+        {
+          title: 'Create Contact',
+          //description: 'Adds a lead or verified user',
+          // icon: <BlockIcon/>,
+          icon: <BlockIcon />,
+          id: 'acreate-contactl',
+          state: 'create-contact',
+          class:
+            'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
+        },
+        {
+          title: 'Import CSV',
+          //description: 'Imports CSV',
+          // icon: <UnsubscribeIcon/>,
+          icon: <BlockIcon />,
+          id: 'import-csv',
+          state: 'import-csv',
+          class:
+            'text-sm py-2 px-4 rounded hover:bg-light dark:hover:bg-darkColor z-50',
+        },
+      ],
+    },
     categories: function (app) {
       return [
         {

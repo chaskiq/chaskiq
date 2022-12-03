@@ -113,7 +113,7 @@ const BaseButton = styled.button<ButtonProps>`
         focus:outline-none 
         focus:ring-2 
         focus:ring-offset-2 
-        focus:ring-pink-500
+        focus:ring-brand
         `;
       case 'outlined-transparent':
         return tw`
@@ -135,7 +135,7 @@ const BaseButton = styled.button<ButtonProps>`
         focus:outline-none 
         focus:ring-2 
         focus:ring-offset-2 
-        focus:ring-pink-500
+        focus:ring-brand
         `;
       case 'icon':
         return tw`

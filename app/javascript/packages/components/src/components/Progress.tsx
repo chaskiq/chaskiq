@@ -26,7 +26,7 @@ export default function CircularIndeterminate({
     <div className="flex justify-center items-center">
       <Loader
         className={`loader ease-linear rounded-full
-          border-4 border-t-4 border-pink-600 h-${sizeVariant} w-${sizeVariant}`}
+          border-4 border-t-4 border-brand h-${sizeVariant} w-${sizeVariant}`}
       />
     </div>
   );

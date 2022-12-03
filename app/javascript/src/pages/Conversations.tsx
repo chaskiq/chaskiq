@@ -255,7 +255,7 @@ function Conversations({
         <div
           className="overflow-scroll"
           onScroll={handleScroll}
-          style={{ height: layout.screenHeight || 'calc(100vh - 64px)' }}
+          style={{ height: layout.screenHeight }}
         >
           {conversations.collection.map((o) => {
             return (
