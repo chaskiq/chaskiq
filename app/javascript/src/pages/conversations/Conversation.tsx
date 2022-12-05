@@ -936,18 +936,20 @@ function Conversation({
                           : theme
                       }*/
                     >
-                      {message.message.blocks ? (
-                        <RenderBlocks
-                          conversation={conversation}
-                          message={message}
-                          app={app}
-                          dispatch={dispatch}
-                        />
-                      ) : message.message.action ? (
-                        renderEventBlock(message)
-                      ) : (
-                        renderMessage(message, userOrAdmin)
-                      )}
+                      <ErrorBoundary>
+                        {message.message.blocks ? (
+                          <RenderBlocks
+                            conversation={conversation}
+                            message={message}
+                            app={app}
+                            dispatch={dispatch}
+                          />
+                        ) : message.message.action ? (
+                          renderEventBlock(message)
+                        ) : (
+                          renderMessage(message, userOrAdmin)
+                        )}
+                      </ErrorBoundary>
                     </ThemeProvider>
                   </MessageItemWrapper>
                 );
