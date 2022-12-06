@@ -94,55 +94,62 @@ export function eventsSubscriber(app, { ctx }) {
     variables: {},
   });
 
-  const logEvent = (eventName) => (...args) => console.log(eventName, ...args);
+  const logEvent =
+    (eventName) =>
+    (...args) =>
+      console.log(eventName, ...args);
 
-  const handleResult = (eventName) => (...args) => {
-    //console.log(args)
+  const handleResult =
+    (eventName) =>
+    (...args) => {
+      //console.log(args)
 
-    //@ts-ignore
-    const data = args[0].data.appUsersEvents;
-    console.log(eventName, data);
+      //@ts-ignore
+      const data = args[0].data.appUsersEvents;
+      console.log(eventName, data);
 
-    switch (data.type) {
-      case 'conversations:conversation_part':
-        const newMessage = data.conversation_part;
-        setTimeout(() => ctx.receiveMessage(newMessage), 100);
-        break;
-      case 'conversations:unreads':
-        ctx.receiveUnread(data.conversation_unreads);
-        break;
-      case 'conversations:update_state':
-        ctx.handleConversationState(data.conversation);
-      case 'conversations:typing':
-        ctx.handleTypingNotification(data.conversation_typing);
-        break;
-      case 'tours:receive':
-        ctx.receiveTours([data.event]);
-        break;
-      case 'banners:receive':
-        ctx.receiveBanners(data.event);
-        break;
-      case 'triggers:receive':
-        ctx.receiveTrigger(data);
-        break;
-      case 'messages:receive':
-        ctx.setState({
-          availableMessages: data.event,
-          messages: data.event,
-          availableMessage: data.event[0],
-        });
-        break;
+      switch (data.type) {
+        case 'conversations:conversation_part':
+          const newMessage = data.conversation_part;
+          setTimeout(() => ctx.receiveMessage(newMessage), 100);
+          break;
+        case 'conversations:unreads':
+          ctx.receiveUnread(data.conversation_unreads);
+          break;
+        case 'conversations:update_state':
+          ctx.handleConversationState(data.conversation);
+        case 'conversations:typing':
+          ctx.handleTypingNotification(data.conversation_typing);
+          break;
+        case 'tours:receive':
+          ctx.receiveTours([data.event]);
+          break;
+        case 'banners:receive':
+          ctx.receiveBanners(data.event);
+          break;
+        case 'triggers:receive':
+          ctx.receiveTrigger(data);
+          break;
+        case 'messages:receive':
+          ctx.setState({
+            availableMessages: data.event,
+            messages: data.event,
+            availableMessage: data.event[0],
+          });
+          break;
 
-      default:
-        return null;
-    }
-  };
+        default:
+          return null;
+      }
+    };
 
-  const handleStart = (eventName) => (...args) => {
-    console.log(eventName, ...args);
+  const handleStart =
+    (eventName) =>
+    (...args) => {
+      console.log(eventName, ...args);
 
-    ctx.handleConnected();
-  };
+      ctx.handleConnected();
+    };
 
   app.events = withAbsintheSocket.observe(app.cable, notifier, {
     onAbort: logEvent('abort'),

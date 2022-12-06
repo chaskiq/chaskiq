@@ -23,10 +23,7 @@ export default function definitions() {
       displayTooltip: true,
     },
     // in case the horizontalSidebar a topPadding is needed along with the screen height
-    screenHeight: 'calc(100vh)', //'calc(75vh)',
-    topPadding: 'mt-0', //'mt-48',
-    //screenHeight: 'calc(75vh)',
-    //topPadding: 'mt-48',
+    // check the tailwind css config  generalHeight & generalTop
     horizontalMenu: {
       display: false,
       displayLabel: true,
@@ -178,15 +175,22 @@ export default function definitions() {
     mainSidebar: {
       displaySectionTitle: false,
       buttons: {
-        activeClass: `bg-gray-200 dark:bg-black`,
+        activeClass: `text-brand hover:text-brand bg-gray-200 dark:bg-black`,
         defaultClass: `
         hover:text-gray-600 hover:bg-gray-100 
-        dark:hover:text-gray-300 dark:hover:bg-black
-        dark:text-gray-100 dark:focus:bg-black
-        focus:outline-none focus:bg-gray-200
-        group flex items-center 
+        dark:hover:text-gray-300 
+        dark:hover:bg-black
+        dark:text-gray-100 
+        dark:focus:bg-black
+        focus:bg-gray-200
+        focus:outline-none 
+        group 
+        flex 
+        items-center 
         px-2 py-2 
-        text-sm leading-5 font-medium text-gray-900 
+        text-sm leading-5 
+        font-medium 
+        text-gray-900 
         rounded-md transition ease-in-out duration-150`,
       },
     },

@@ -35,8 +35,9 @@ function UserMenu({
   }
 
   //@ts-ignore
-  const auth0Domain = document.querySelector('meta[name="auth0-domain"]')
-    ?.content;
+  const auth0Domain = document.querySelector(
+    'meta[name="auth0-domain"]'
+  )?.content;
 
   return (
     <FilterMenu

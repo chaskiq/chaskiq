@@ -214,12 +214,8 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
       { url: url },
       {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createUrlUpload.directUpload;
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload;
           // imageBlock.uploadCompleted(serviceUrl)
           // this.props.uploadHandler({signedBlobId, headers, url, serviceUrl, imageBlock})
           // this.setDisabled(false)
@@ -239,12 +235,8 @@ class TourManager extends Component<TourManagerProps, TourManagerState> {
   handleDirectUpload = (file, input) => {
     graphql(CREATE_DIRECT_UPLOAD, input, {
       success: (data) => {
-        const {
-          signedBlobId,
-          headers,
-          url,
-          serviceUrl,
-        } = data.createDirectUpload.directUpload;
+        const { signedBlobId, headers, url, serviceUrl } =
+          data.createDirectUpload.directUpload;
         console.log('DRECT', signedBlobId, headers, url, serviceUrl);
         directUpload(url, JSON.parse(headers), file).then(() => {
           window.__CHILD_WINDOW_HANDLE_2.postMessage(

@@ -32,13 +32,11 @@ import {
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([]);
   const [openCheckout, setOpenCheckout] = React.useState(null);
-  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] = React.useState(
-    null
-  );
+  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] =
+    React.useState(null);
   const [subscriptionDetails, setSubscriptionDetails] = React.useState([]);
-  const [customerPortalLoading, setCustomerPortalLoading] = React.useState(
-    false
-  );
+  const [customerPortalLoading, setCustomerPortalLoading] =
+    React.useState(false);
 
   React.useEffect(() => {
     dispatch(setCurrentPage('Billing'));

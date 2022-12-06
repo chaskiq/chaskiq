@@ -51,7 +51,7 @@ export function InnerMenu({ current_section, categories }) {
                       ${!allowed ? 'bg-gray-100 dark:bg-gray-100' : ''} 
                       ${layout.mainSidebar.buttons.defaultClass}`}
                     >
-                      <div className="text-lg mr-3 h-6 w-6 dark:text-gray-100 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150">
+                      <div className="text-lg mr-3 h-6 w-6 transition ease-in-out duration-150">
                         {icon}
                       </div>
                       {label || childId}

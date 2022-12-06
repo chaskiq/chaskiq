@@ -152,8 +152,7 @@ function AppContainer({
       )}
 
       <div
-        className={` ${layout.topPadding} h-screen flex overflow-hidden bg-white dark:bg-gray-800 dark:text-white`}
-        style={{ height: layout.screenHeight || '100vh' }}
+        className={` m-generalTop h-generalHeight flex overflow-hidden bg-white dark:bg-gray-800 dark:text-white`}
       >
         {app && <Sidebar />}
 

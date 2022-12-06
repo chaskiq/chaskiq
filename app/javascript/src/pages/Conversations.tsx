@@ -253,9 +253,8 @@ function Conversations({
         </div>
 
         <div
-          className="overflow-scroll"
+          className="overflow-scroll h-generalHeight"
           onScroll={handleScroll}
-          style={{ height: layout.screenHeight }}
         >
           {conversations.collection.map((o) => {
             return (

@@ -178,10 +178,8 @@ function Conversation({
     name: 'Email',
   });
 
-  const [
-    conversationPartSelected,
-    setConversationPartSelected,
-  ] = React.useState(false);
+  const [conversationPartSelected, setConversationPartSelected] =
+    React.useState(false);
 
   const appId = app.key;
 
@@ -617,8 +615,7 @@ function Conversation({
   return (
     <BgContainer
       isDark={isDark}
-      className="flex-1 flex flex-col overflow-hidden-- h-screen"
-      style={{ height: layout.screenHeight || '100vh' }}
+      className="flex-1 flex flex-col overflow-hidden-- h-generalHeight"
     >
       {!isNew && (
         <div
@@ -1482,15 +1479,8 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const {
-    auth,
-    app,
-    conversation,
-    app_user,
-    current_user,
-    drawer,
-    theme,
-  } = state;
+  const { auth, app, conversation, app_user, current_user, drawer, theme } =
+    state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;
