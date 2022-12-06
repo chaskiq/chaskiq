@@ -133,6 +133,20 @@ module MessageApis::Slack
 
       Rails.logger.info response.body
       Rails.logger.info response.status
+
+      unless response.success?
+        Bugsnag.notify("SLACK ERROR") do |report|
+          report.add_tab(
+            :context,
+            {
+              status: response.status,
+              slack_response: response.body,
+              data: data
+            }
+          )
+        end
+      end
+
       response
     end
 
