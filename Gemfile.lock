@@ -496,8 +496,6 @@ GEM
     rack (2.2.4)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (2.3.4)
-      rack (>= 1.2.0)
     rack-protection (2.2.0)
       rack
     rack-test (2.0.2)
@@ -758,7 +756,6 @@ DEPENDENCIES
   pry
   puma (~> 6.0)
   rack-cors (~> 1.0)
-  rack-mini-profiler (~> 2.0)
   rails (= 7.0.4)
   ransack
   redis (~> 4.0)

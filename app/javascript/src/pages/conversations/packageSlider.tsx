@@ -47,7 +47,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
       {!open && (
         <div
           className={`md:block 
-          bg-gray-100 dark:bg-black
+          bg-gray-100 dark:bg-gray-900
           text-purple-lighter 
           flex-none w-23 
           p-2 

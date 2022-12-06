@@ -4,6 +4,8 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
+import layoutDefinitions from '../layout/layoutDefinitions';
+
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import Progress from '@chaskiq/components/src/components/Progress';
 import EmptyView from '@chaskiq/components/src/components/EmptyView';
@@ -199,6 +201,8 @@ function Conversations({
       },
     ];
 
+    const layout = layoutDefinitions();
+
     return (
       <React.Fragment>
         <div className="items-center bg-white dark:bg-gray-800 px-3 py-4 border-b border-gray-200 dark:border-gray-700 sm:px-3 flex justify-between">
@@ -249,9 +253,8 @@ function Conversations({
         </div>
 
         <div
-          className="overflow-scroll"
+          className="overflow-scroll h-generalHeight"
           onScroll={handleScroll}
-          style={{ height: 'calc(100vh - 64px)' }}
         >
           {conversations.collection.map((o) => {
             return (
@@ -365,7 +368,7 @@ function Conversations({
             {conversation.mainParticipant ? (
               <AppUserEdit />
             ) : (
-              <div className="bg-white rounded-md border p-4">
+              <div className="bg-white dark:bg-gray-900 rounded-md border p-4">
                 <p>No recipient selected.</p>
               </div>
             )}

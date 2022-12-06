@@ -19,12 +19,14 @@ function App() {
   const chaskiqHost: string = new URL(host).hostname;
 
   //@ts-ignore
-  const auth0Domain = document.querySelector('meta[name="auth0-domain"]')
-    ?.content;
+  const auth0Domain = document.querySelector(
+    'meta[name="auth0-domain"]'
+  )?.content;
 
   //@ts-ignore
-  const auth0ClientId = document.querySelector('meta[name="auth0-client-id"]')
-    ?.content;
+  const auth0ClientId = document.querySelector(
+    'meta[name="auth0-client-id"]'
+  )?.content;
 
   return (
     <Provider store={store}>

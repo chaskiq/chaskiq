@@ -80,8 +80,8 @@ export const eventsSubscriber = (appId, cableApp, dispatch, fetchApp) => {
             dispatch(createNotification(data.data));
             return null;
           case data.type.match(/\/package\/\S+/)?.input:
-            const popup = document.getElementById('package-frame')
-              ?.contentWindow;
+            const popup =
+              document.getElementById('package-frame')?.contentWindow;
             popup && popup.postMessage(data, '*');
           default:
             console.log('unhandled', data);

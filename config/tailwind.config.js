@@ -41,13 +41,6 @@ module.exports = {
       display: ['Inter', 'sans-serif'],
       body: ['Inter', 'sans-serif'],
     },
-    // borderWidth: {
-    //  default: '1px',
-    //  0: '0',
-    //  2: '2px',
-    //  4: '4px'
-    //},
-
     colors: colors,
 
     extend: {
@@ -56,6 +49,12 @@ module.exports = {
         gray: grayColors,
       },
       colors: {
+        brand: '#2668eb',
+        'gradientHero': {
+            100: '#2668eb',
+            200: '#1e4abb',
+            DEFAULT: '#04309d',
+        },
         transparent: 'transparent',
         current: 'currentColor',
         black: colors.black,
@@ -92,7 +91,15 @@ module.exports = {
         'outline-purple': '0 0 0 3px rgba(221, 214, 254,, .5)',
         'outline-indigo': '0 0 0 3px rgba(199, 210, 254, .5)',
       },
-    },
+      height: {
+        generalHeight: 'calc(100vh)',
+        //generalHeight: 'calc(75vh)' // for horizontal menu
+      },
+      margin: {
+        generalTop: '0',
+        // generalTop: '12rem 0 0 0', // for horizontal menu
+      },
+    }
   },
   variants: {},
   corePlugins: {

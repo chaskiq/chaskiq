@@ -64,19 +64,19 @@ const ItemManagerContainer = styled.div`
   margin-right: 19px;
 `;
 
-const ItemsContainer = styled.div`
-  box-shadow: 0 24px 0 0 #fff, 0 -24px 0 0 #fff,
-    16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
-`;
+const ItemsContainer = styled.div``;
+// box-shadow: 0 24px 0 0 #fff, 0 -24px 0 0 #fff,
+//   16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
+//`;
 
 const PathActionsContainer = styled.div`
   align-items: flex-end;
   border-radius: 0 0 8px 8px;
   box-sizing: border-box;
-  box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.1), 0 -24px 0 0 #fff,
-    16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
   padding: 20px 20px 24px;
 `;
+// box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.1), 0 -24px 0 0 #fff,
+// 16px 0 32px -12px rgba(0, 0, 0, 0.1), -16px 0 32px -12px rgba(0, 0, 0, 0.1);
 
 type ItemButtonsType = {
   first?: boolean;
@@ -1314,7 +1314,7 @@ const Path = ({
         {/* <hr/> */}
       </div>
 
-      <hr className="my-4 w-full border-4" />
+      <hr className="my-4 w-full border-4 dark:border-gray-900" />
 
       <div className="p-4 flex flex-col justify-center items-center">
         <div className="flex">

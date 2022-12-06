@@ -2,15 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import I18n from '../shared/FakeI18n';
+import usePortal from 'react-useportal';
 
+import I18n from '../shared/FakeI18n';
 import ContentHeader from '@chaskiq/components/src/components/PageHeader';
 import Content from '@chaskiq/components/src/components/Content';
 import Tabs from '@chaskiq/components/src/components/Tabs';
 import CircularProgress from '@chaskiq/components/src/components/Progress';
-
 import graphql from '@chaskiq/store/src/graphql/client';
-
 import { clearSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 
 import {
@@ -33,13 +32,11 @@ import {
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([]);
   const [openCheckout, setOpenCheckout] = React.useState(null);
-  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] = React.useState(
-    null
-  );
+  const [openSubscriptionUpdate, setOpenSubscriptionUpdate] =
+    React.useState(null);
   const [subscriptionDetails, setSubscriptionDetails] = React.useState([]);
-  const [customerPortalLoading, setCustomerPortalLoading] = React.useState(
-    false
-  );
+  const [customerPortalLoading, setCustomerPortalLoading] =
+    React.useState(false);
 
   React.useEffect(() => {
     dispatch(setCurrentPage('Billing'));
@@ -710,6 +707,10 @@ function PaddleCheckout({
   handleSuccess,
   handleClose,
 }) {
+  const { Portal } = usePortal({
+    bindTo: document && document.getElementById('portal-root'),
+  });
+
   React.useEffect(() => {
     window.Paddle.Setup({
       vendor: 115475, // Replace with your Vendor ID.
@@ -732,8 +733,8 @@ function PaddleCheckout({
   }, []);
 
   return (
-    <div>
-      <div className="fixed bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
+    <Portal>
+      <div className="fixed z-50 bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
         <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
@@ -773,7 +774,7 @@ function PaddleCheckout({
           </div>
         </div>
       </div>
-    </div>
+    </Portal>
   );
 }
 
@@ -824,7 +825,7 @@ function Transactions({ app }) {
             <tr key={`trx-${o.order_id}`}>
               <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm leading-5 font-medium text-gray-900 dark:text-gray-100">
                 <div className="flex items-center space-x-3 lg:pl-2">
-                  <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-pink-600" />
+                  <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-brand" />
                   <a
                     href="#"
                     className="truncate hover:text-gray-600 dark:hover:text-gray-200"
@@ -868,7 +869,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div className="max-w-2xl mt-5 mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       {/* xs to lg */}
       <div className="space-y-24 lg:hidden">
         {plans.map((plan) => (
@@ -977,7 +978,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                 {' '}
                 {plan.name}
               </button>
-              {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-pink-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-pink-600">
+              {/* <a href="#" className="block w-full bg-gradient-to-r from-orange-500 to-brand-500 border border-transparent rounded-md shadow py-2 text-sm font-semibold text-white text-center hover:to-brand-600">
                 Buy Basic
               </a> */}
             </div>

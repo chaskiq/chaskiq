@@ -10751,6 +10751,13 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-useportal@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/react-useportal/-/react-useportal-1.0.17.tgz#dcea1de8aa6d1ebd4bb3bb08075180a0e620f718"
+  integrity sha512-IS1NC+qQtp8e9Z9f8EPpW5whU85VuaT9Vxzw20vAAfKoRB9dlsnFmZ8NeNkbjNaue7Iy64Qsafs73M7qvkMzoA==
+  dependencies:
+    use-ssr "^1.0.22"
+
 react@17.0.2, react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
@@ -12805,6 +12812,11 @@ use-sidecar@^1.0.1:
   dependencies:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
+
+use-ssr@^1.0.22:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/use-ssr/-/use-ssr-1.0.24.tgz#213a3df58f5ab9268e6fe1a57ad0a9de91e514d1"
+  integrity sha512-0MFps7ezL57/3o0yl4CvrHLlp9z20n1rQZV/lSRz7if+TUoM6POU1XdOvEjIgjgKeIhTEye1U0khrIYWCTWw4g==
 
 use@^3.1.0:
   version "3.1.1"

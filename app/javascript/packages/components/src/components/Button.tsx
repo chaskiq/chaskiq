@@ -35,7 +35,10 @@ const BaseButton = styled.button<ButtonProps>`
         outline-none 
         rounded-md 
         bg-green-400 
-        text-white
+        text-green-800
+        dark:text-gray-100
+        dark:bg-green-500
+        dark:hover:bg-green-600 
         hover:bg-green-500 
         focus:outline-none 
         focus:border-green-700 
@@ -100,19 +103,17 @@ const BaseButton = styled.button<ButtonProps>`
         text-sm 
         font-medium 
         rounded-md 
-        text-gray-700 
-        dark:bg-black
-
+        text-gray-700
         bg-white 
-        hover:bg-gray-50 
-
-        dark:text-gray-100 
+        hover:bg-gray-50
+        dark:bg-gray-800
         dark:hover:bg-gray-900
-
+        dark:border-gray-600 
+        dark:text-gray-100
         focus:outline-none 
         focus:ring-2 
         focus:ring-offset-2 
-        focus:ring-pink-500
+        focus:ring-brand
         `;
       case 'outlined-transparent':
         return tw`
@@ -134,7 +135,7 @@ const BaseButton = styled.button<ButtonProps>`
         focus:outline-none 
         focus:ring-2 
         focus:ring-offset-2 
-        focus:ring-pink-500
+        focus:ring-brand
         `;
       case 'icon':
         return tw`
@@ -162,16 +163,17 @@ const BaseButton = styled.button<ButtonProps>`
         border 
         border-transparent 
         text-indigo-700 
-        dark:bg-white
-        dark:text-gray-900
-        dark:hover:text-gray-600
-        dark:hover:bg-gray-200
+        dark:bg-gray-800
+        dark:border-gray-600
+        dark:text-gray-100
+        dark:hover:text-gray-200
+        dark:hover:bg-gray-900
         bg-indigo-100 
         hover:bg-indigo-200
         focus:outline-none 
         focus:border-indigo-300 
         active:bg-indigo-200
-        `;
+      `;
     }
   }};
 
