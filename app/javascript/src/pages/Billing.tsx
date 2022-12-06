@@ -869,7 +869,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div className="max-w-2xl mt-5 mx-auto bg-white dark:bg-gray-900 py-16 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
       {/* xs to lg */}
       <div className="space-y-24 lg:hidden">
         {plans.map((plan) => (
