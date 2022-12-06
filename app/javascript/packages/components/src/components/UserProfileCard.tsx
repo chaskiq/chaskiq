@@ -64,7 +64,7 @@ function UserProfileCard({ app, app_user }) {
                 <Link
                   className="w-full inline-flex items-center justify-center px-4 py-2 
                   border border-transparent text-sm leading-5 font-medium 
-                  rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:border-pink-700 focus:shadow-outline-indigo active:bg-pink-700 transition ease-in-out duration-150"
+                  rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:border-brand focus:shadow-outline-indigo active:bg-brand transition ease-in-out duration-150"
                   to={`/apps/${app.key}/users/${app_user.id}`}
                 >
                   show profile

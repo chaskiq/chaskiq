@@ -77,7 +77,7 @@ export function ColorPicker(props: IColorPickerProps) {
             </Button>
 
             <HexColorInput
-              className="dark:text-gray-100 dark:bg-gray-900 form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5 border border-gray-300"
+              className="dark:text-gray-100 dark:bg-gray-900 form-input h-full block w-full rounded-none rounded-l-md pl-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5 border border-gray-300 dark:border-gray-900"
               color={value}
               name={props.name}
               placeholder="#00ff00"
@@ -89,7 +89,8 @@ export function ColorPicker(props: IColorPickerProps) {
             onClick={handleClick}
             className="-ml-px relative inline-flex items-center
               px-4 py-2 border border-gray-300 text-sm
-              dark:bg-gray-900 dark:text-gray-100
+              dark:border-gray-900
+              dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-900
               leading-5 font-medium rounded-r-md text-gray-700
               bg-gray-50 hover:text-gray-500 hover:bg-white
               focus:outline-none focus:shadow-outline-blue

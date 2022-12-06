@@ -63,6 +63,8 @@ function AppRouter({
 
       <Snackbar />
 
+      <div id="portal-root" />
+
       {reload && <LoadingView />}
 
       {!reload && (

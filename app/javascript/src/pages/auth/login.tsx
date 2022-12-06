@@ -144,8 +144,9 @@ function Login({ dispatch, current_user, loading }) {
   const form = useRef(null);
 
   //@ts-ignore
-  const auth0Domain = document.querySelector('meta[name="auth0-domain"]')
-    ?.content;
+  const auth0Domain = document.querySelector(
+    'meta[name="auth0-domain"]'
+  )?.content;
 
   function handleSubmit(e) {
     e.preventDefault();

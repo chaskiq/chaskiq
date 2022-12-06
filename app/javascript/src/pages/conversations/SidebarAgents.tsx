@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 import Tooltip from 'rc-tooltip';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import LayoutDefinitions from '../../layout/layoutDefinitions';
 import {
   DownArrow,
   FolderIcon,
@@ -40,10 +41,8 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
   const [agents, setAgents] = useState([]);
   const [tagCounts, setTagCounts] = useState(null);
   const [expandedFilters, setExpandedFilters] = useState(false);
-  const [
-    conversationsChannelsCounts,
-    setConversationsChannelsCounts,
-  ] = useState(null);
+  const [conversationsChannelsCounts, setConversationsChannelsCounts] =
+    useState(null);
 
   useEffect(() => {
     getCounts();
@@ -463,24 +462,15 @@ function ListItem({
     filterHandler(option);
   }
 
+  const layout = LayoutDefinitions();
+
   return (
     <a
       href="#"
       onClick={toggleFilter}
       className={`
-      mt-1 group flex items-center px-3 py-2 text-sm
-      leading-5 font-medium 
-      text-gray-600
-      dark:text-gray-50
-      hover:text-gray-900
-      dark:hover:text-gray-100
-      rounded-md 
-      hover:bg-gray-50 
-      dark:hover:bg-gray-800 
-      focus:outline-none 
-      focus:text-gray-900
-      transition ease-in-out duration-150 
-      ${active ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
+      ${layout.mainSidebar.buttons.defaultClass}
+      ${active ? layout.mainSidebar.buttons.activeClass : ''}`}
     >
       {!agent && icon}
 

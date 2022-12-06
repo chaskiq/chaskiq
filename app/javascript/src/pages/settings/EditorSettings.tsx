@@ -138,7 +138,7 @@ function EditorSettingsForm({ settings, update, option }) {
         <Hints type="inbound_settings" />
       </div>
 
-      <p className="text-lg font-bold text-gray-900 pb-2">
+      <p className="text-lg font-bold text-gray-900 dark:text-gray-100 pb-2">
         Text editor configuration
       </p>
 

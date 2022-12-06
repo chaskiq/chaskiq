@@ -125,14 +125,15 @@ module MessageApis::Slack
 
       data.merge!(options) if options.present?
 
-      @conn.post do |req|
+      response = @conn.post do |req|
         req.url url(path)
         req.headers["Content-Type"] = "application/json; charset=utf-8"
         req.body = data.to_json
       end
 
-      # Rails.logger.info response.body
-      # Rails.logger.info response.status
+      Rails.logger.info response.body
+      Rails.logger.info response.status
+      response
     end
 
     def handle_channel_creation(name = nil, user_ids = "")
