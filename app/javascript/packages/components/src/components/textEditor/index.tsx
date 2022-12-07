@@ -29,9 +29,7 @@ import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 //import findEntities from "Dante2/package/es/utils/find_entities";
 import { ThemeProvider } from 'emotion-theming';
 //import EditorStyles from "Dante2/package/es/styled/base";
-
 import { ImageBlockConfig } from './blocks/image';
-// import { FileBlockConfig } from './blocks/fileBlock';
 
 import Prism from 'prismjs';
 //import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
