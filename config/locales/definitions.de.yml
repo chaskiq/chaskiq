@@ -24,7 +24,7 @@ de:
         label: Google Code
         hint: Google-Tracking-ID
       credits:
-        label: Show credits
+        label: Credits anzeigen
         hint: ""
     settings:
       name:
@@ -74,7 +74,7 @@ de:
         label: Besuche registrieren
         hint: "Auch wenn dies deaktiviert ist, werden wir globale Besuchszähler sammeln und die letzten Besuchsinformationen auf dem Profil des Besuchers speichern"
       languages:
-        select_lang: "wähle Sprache"
+        select_lang: Sprache auswählen
     campaigns:
       campaign_name:
         label: Kampagnenname
@@ -154,6 +154,10 @@ de:
         name: 'sheet_url'
         hint: 'Wird gesendet, wenn ein Sheet abgeschickt wurde. Ein Sheet ist ein iframe, den Sie im Messenger geladen haben, der geschlossen und eingereicht wird, wenn die JS-Methode Submit Sheets aufgerufen wird.'
         placeholder: 'z.B. https://yourdomain.com/submit-sheet-url/'
+      content_url:
+        label: 'Dynamic content flow webhook URL'
+        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
+        placeholder: 'e.g. https://yourdomain.com/content-url/'
     webhooks:
       url:
         label: url for outgoing webhook
@@ -175,6 +179,13 @@ de:
       access_list:
         label: 'Roles for agent'
         hint: 'blank access will disable account settings access for user'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: E-Mail
@@ -196,9 +207,10 @@ de:
       email: E-Mail-Adresse
       state: Status
       online: Online
-      ip: Ip
+      ip: IP
       country: Land
       city: Ort
+      phone: Phone
       lat: Breitengrad
       lng: Längengrad
       postal: Postleitzahl

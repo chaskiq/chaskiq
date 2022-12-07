@@ -47,6 +47,16 @@ module MessageApis::Messenger
       nil
     end
 
+    def enqueue_process_event(params, package)
+      return process_event(params, package) if params["hub.verify_token"].present?
+
+      HookMessageReceiverJob.perform_later(
+        id: package.id,
+        params: params.permit!.to_h
+      )
+      { status: :ok }
+    end
+
     def process_event(params, package)
       @package = package
       current = params["current"]
@@ -60,7 +70,10 @@ module MessageApis::Messenger
       response_data["message_id"]
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       provider_channel_id = conversation.conversation_channels
                                         .find_by(provider: PROVIDER)
                                         .provider_channel_id

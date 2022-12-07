@@ -6,13 +6,16 @@ module Mutations
       field :campaign, Types::CampaignType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :id, Int, required: true
-      argument :campaign_params, Types::JsonType, required: true
+      argument :id, String, required: true
+      argument :campaign_params, Types::AnyType, required: true
       # argument :mode, String, required: true
 
       def resolve(id:, app_key:, campaign_params:)
         find_app(app_key)
         set_campaign(id)
+        authorize! @campaign, to: :can_manage_campaigns?, with: AppPolicy, context: {
+          app: @app
+        }
         # TODO: strict permit here!
         @campaign.update(campaign_params.permit!)
         { campaign: @campaign, errors: @campaign.errors }

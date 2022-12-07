@@ -7,31 +7,18 @@ class Agent < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   include Redis::Objects
 
+  include AuditableBehavior
+
   devise  :invitable,
           :database_authenticatable,
           :registerable, # disabled registrations
           :recoverable,
           :rememberable,
           :validatable,
+          :lockable,
           :omniauthable, omniauth_providers: %i[doorkeeper]
 
   has_many :app_packages, dependent: :nullify
-
-  def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-      user.name = auth.info.name
-    end
-  end
-
-  def update_doorkeeper_credentials(auth)
-    update(
-      doorkeeper_access_token: auth.credentials.token,
-      doorkeeper_refresh_token: auth.credentials.refresh_token
-    )
-  end
-
   has_many :access_grants,
            class_name: "Doorkeeper::AccessGrant",
            foreign_key: :resource_owner_id,
@@ -42,7 +29,12 @@ class Agent < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :delete_all # or :destroy if you need callbacks
 
-  has_many :roles, dependent: :destroy
+  has_many :auth_identities, dependent: :delete_all
+
+  has_many :roles, dependent: :destroy, class_name: "Role"
+  has_many :agent_teams, through: :roles, class_name: "AgentTeam"
+  has_many :teams, through: :agent_teams
+
   has_many :apps, through: :roles, source: :app
   has_many :owned_apps, class_name: "App",
                         foreign_key: "owner_id",
@@ -68,12 +60,32 @@ class Agent < ApplicationRecord
     enable_deliveries
     lang
     permissions
+    area_of_expertise
+    specialization
+    phone_number
+    address
+    availability
   ]
 
   has_one_attached :avatar
 
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name
+    end
+  end
+
+  def update_doorkeeper_credentials(auth)
+    update(
+      doorkeeper_access_token: auth.credentials.token,
+      doorkeeper_refresh_token: auth.credentials.refresh_token
+    )
+  end
+
   def can_create_apps?
-    true
+    Chaskiq::Config.fetch("DISABLE_APP_CREATION", "false") != "true"
   end
 
   def display_name
@@ -115,10 +127,34 @@ class Agent < ApplicationRecord
     self.class.model_name.singular
   end
 
+  def self.editable_attributes
+    %i[
+      avatar
+      name
+      first_name
+      last_name
+      country
+      country_code
+      region
+      region_code
+      enable_deliveries
+      lang
+      permissions
+      area_of_expertise
+      specialization
+      phone_number
+      address
+      availability
+      available
+    ]
+  end
+
   private
 
   def default_bot_avatar
-    ActionController::Base.helpers.asset_url("icons8-bot-50.png")
+    ActionController::Base.helpers.image_url("icons8-bot-50.png")
+  rescue StandardError
+    nil
   end
 
   def default_avatar

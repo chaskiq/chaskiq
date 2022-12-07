@@ -161,66 +161,66 @@ module MessageApis::Gumroad
       @url = params[:url]
 
       template = ERB.new <<~SHEET_VIEW
-        										<html lang="en">
-        											<head>
-        												<meta charset="UTF-8">
-        												<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        												<meta http-equiv="X-UA-Compatible" content="ie=edge">
-        												<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800;900&display=swap" rel="stylesheet">
-        												<title>[Chaskiq Article]</title>
-        #{'          '}
-        												<style>
-        													body {
-        														font-family: 'Inter', sans-serif;#{' '}
-        														margin: 0px; padding: 0px;
-        													}
-        												</style>
-        #{'          '}
-        											</head>
-        #{'          '}
-        											<body>
-        												<div class="container">
-        					#{'							'}
-        													<script src="https://gumroad.com/js/gumroad-embed.js"></script>
-        #{'          '}
-        													<script>
-        #{'          '}
-        														window.addEventListener(
-        															'message',
-        															function(e) {
-        																console.log("ENENE", JSON.stringify(e))
-        #{'          '}
-        																if (e.data && typeof(e.data) == 'string' && JSON.parse(e.data).post_message_name === "sale") {
-        																	//document.getElementById('post-message-data').innerHTML = e.data;
-        																	//window.location.href = 'https://google.com';
-        #{'          '}
-        																	console.log("ENENE", e)
-        #{'          '}
-        																	setTimeout(function(){
-        																		window.parent.postMessage({
-        																			chaskiqMessage: true,#{' '}
-        																			type: "Gumroad",#{' '}
-        																			status: "submit",
-        																			data: JSON.parse(e.data)
-        																		}, "*")
-        																	}, 3000)
-        																}
-        #{'          '}
-        																return true
-        															}
-        														);
-        					#{'									'}
-        													</script>
-        													<div class="gumroad-product-embed"#{' '}
-        														data-gumroad-product-id="chaskiq-premium-support">
-        														<a href="<%= @url %>">
-        														Loading...
-        														</a>
-        													</div>
-        												</div>
-        #{'          '}
-        											</body>
-        										</html>
+        <html lang="en">
+        	<head>
+        		<meta charset="UTF-8">
+        		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+        		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800;900&display=swap" rel="stylesheet">
+        		<title>[Chaskiq Article]</title>
+
+        		<style>
+        			body {
+        				font-family: 'Inter', sans-serif;
+        				margin: 0px; padding: 0px;
+        			}
+        		</style>
+
+        	</head>
+
+        	<body>
+        		<div class="container">
+
+        			<script src="https://gumroad.com/js/gumroad-embed.js"></script>
+
+        			<script>
+
+        				window.addEventListener(
+        					'message',
+        					function(e) {
+        						console.log("ENENE", JSON.stringify(e))
+
+        						if (e.data && typeof(e.data) == 'string' && JSON.parse(e.data).post_message_name === "sale") {
+        							//document.getElementById('post-message-data').innerHTML = e.data;
+        							//window.location.href = 'https://google.com';
+
+        							console.log("ENENE", e)
+
+        							setTimeout(function(){
+        								window.parent.postMessage({
+        									chaskiqMessage: true,
+        									type: "Gumroad",
+        									status: "submit",
+        									data: JSON.parse(e.data)
+        								}, "*")
+        							}, 3000)
+        						}
+
+        						return true
+        					}
+        				);
+
+        			</script>
+        			<div class="gumroad-product-embed"
+        				data-gumroad-product-id="chaskiq-premium-support">
+        				<a href="<%= @url %>">
+        				Loading...
+        				</a>
+        			</div>
+        		</div>
+
+        	</body>
+        </html>
       SHEET_VIEW
 
       template.result(binding)

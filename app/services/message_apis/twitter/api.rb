@@ -178,7 +178,10 @@ module MessageApis::Twitter
       response_data.dig("event", "id")
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
       event = {}
       event["event"] = message_create_header(
         conversation.main_participant.properties["twitter_id"]
@@ -201,7 +204,7 @@ module MessageApis::Twitter
       if image_block.present?
 
         url = image_block["data"]["url"]
-        url = "#{ENV['HOST']}#{url}" unless image_block["data"]["url"].include?("http")
+        url = "#{Chaskiq::Config.get('HOST')}#{url}" unless image_block["data"]["url"].include?("http")
 
         if (uploaded_data = upload_media(url)) && uploaded_data.present?
           attachment = {}

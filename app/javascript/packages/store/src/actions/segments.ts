@@ -15,7 +15,7 @@ export function fetchAppSegment(id, cb) {
       SEGMENT,
       {
         appKey: getState().app.key,
-        id: parseInt(id),
+        id: id,
       },
       {
         success: (data) => {

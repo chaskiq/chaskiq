@@ -21,9 +21,7 @@ module Connectivity
 
     if save
       ActionCable.server.broadcast(channel_key, to_json) # not necessary
-      ActionCable.server.broadcast("events:#{app.key}",
-                                   type: "presence",
-                                   data: formatted_user)
+      ActionCable.server.broadcast("events:#{app.key}", { type: "presence", data: formatted_user })
     end
   end
 
@@ -32,8 +30,8 @@ module Connectivity
     self.last_visited_at = Time.zone.now
     if save
       ActionCable.server.broadcast("events:#{app.key}",
-                                   type: "presence",
-                                   data: formatted_user)
+                                   { type: "presence",
+                                     data: formatted_user })
     end
   end
 end

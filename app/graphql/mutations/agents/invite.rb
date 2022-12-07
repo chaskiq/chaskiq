@@ -10,7 +10,9 @@ module Mutations
       def resolve(app_key:, email:)
         app = current_user.apps.find_by(key: app_key)
 
-        authorize! app, to: :invite_user?, with: AppPolicy
+        authorize! app, to: :can_manage_team?, with: AppPolicy, context: {
+          app: app
+        }
 
         agent = app.agents.find_by(email: email)
 
@@ -22,11 +24,9 @@ module Mutations
           agent.deliver_invitation
         end
 
-        { agent: agent }
-      end
+        track_resource_event(agent, :agent_invite, nil, app.id)
 
-      def current_user
-        context[:current_user]
+        { agent: agent }
       end
     end
   end

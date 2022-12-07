@@ -1,10 +1,19 @@
 export const AUTH = `
   query Messenger{
     messenger {
-      user
+      user {
+        id,
+        email,
+        avatarUrl,
+        lang,
+        kind,
+        properties
+        sessionId
+        sessionValue
+      }
     }
   }
-`
+`;
 
 export const PING = `
   query Messenger{
@@ -33,6 +42,8 @@ export const PING = `
         customizationColors
         searcheableFields
         homeApps
+        userEditorSettings
+        leadEditorSettings
         articleSettings{
           subdomain
         }
@@ -45,7 +56,7 @@ export const PING = `
       }
     }
   }
-`
+`;
 
 export const GET_NEW_CONVERSATION_BOTS = `
   query Messenger{
@@ -55,7 +66,7 @@ export const GET_NEW_CONVERSATION_BOTS = `
       }
     }
   }
-`
+`;
 
 export const CONVERT = `
   mutation ConvertUser($appKey: String!, $email: String!){
@@ -63,7 +74,7 @@ export const CONVERT = `
       status
     }
   }
-`
+`;
 
 export const PRIVACY_CONSENT = `
   mutation PrivacyConsent($appKey: String!, $consent: Boolean!){
@@ -71,7 +82,7 @@ export const PRIVACY_CONSENT = `
       status
     }
   }
-`
+`;
 
 export const CONVERSATIONS = `
   query Messenger($page: Int!, $per: Int){
@@ -128,7 +139,7 @@ export const CONVERSATIONS = `
       }
     }
   }
-`
+`;
 
 export const CONVERSATION = `
   query Messenger($id: String!, $page: Int){
@@ -194,10 +205,10 @@ export const CONVERSATION = `
     }
   }
 }
-`
+`;
 
 export const INSERT_COMMMENT = `
-  mutation InsertComment($appKey: String!, $id: String!, $message: Json!){
+  mutation InsertComment($appKey: String!, $id: String!, $message: MessageInput!){
     insertComment(appKey: $appKey, id: $id, message: $message){
       message{
         message{
@@ -225,10 +236,10 @@ export const INSERT_COMMMENT = `
       }
     }
   }
-`
+`;
 
 export const START_CONVERSATION = `
-  mutation StartConversation($appKey: String!, $id: Int, $message: Json!){
+  mutation StartConversation($appKey: String!, $id: String, $message: MessageInput!){
     startConversation(appKey: $appKey, id: $id, message: $message){
       conversation{
         id
@@ -318,7 +329,7 @@ export const START_CONVERSATION = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_SETTINGS = `
   query HelpCenter($domain: String!, $lang: String){
@@ -339,7 +350,7 @@ export const ARTICLE_SETTINGS = `
       availableLanguages
     }
   }
-`
+`;
 
 export const ARTICLES = `
   query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
@@ -368,7 +379,7 @@ export const ARTICLES = `
       }
     }
   }
-`
+`;
 
 export const SEARCH_ARTICLES = `
   query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String, $term: String!){
@@ -396,7 +407,7 @@ export const SEARCH_ARTICLES = `
       }
     }
   }
-`
+`;
 
 export const ARTICLES_UNCATEGORIZED = `
   query HelpCenter($domain: String!, $page: Int!, $per: Int, $lang: String){
@@ -423,7 +434,7 @@ export const ARTICLES_UNCATEGORIZED = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE = `
   query HelpCenter($domain: String!, $id: String!, $lang: String){
@@ -453,7 +464,7 @@ export const ARTICLE = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTIONS = `
   query ArticleCollections($domain: String!, $lang: String){
@@ -466,7 +477,7 @@ export const ARTICLE_COLLECTIONS = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION = `
   query ArticleCollections($domain: String!, $id: String!, $lang: String){
@@ -478,7 +489,7 @@ export const ARTICLE_COLLECTION = `
       }
     }
   }
-`
+`;
 
 export const ARTICLE_COLLECTION_WITH_SECTIONS = `
   query ArticleCollections($domain: String!, $id: String!, $lang: String){
@@ -522,11 +533,11 @@ export const ARTICLE_COLLECTION_WITH_SECTIONS = `
       }
     }
   }
-`
+`;
 
 export const APP_PACKAGE_HOOK = `
 
-query Messenger($id: String!, $hooKind: String!, $ctx: Json!){
+query Messenger($id: String!, $hooKind: String!, $ctx: Any!){
     
   messenger {
     enabledForUser
@@ -543,4 +554,22 @@ query Messenger($id: String!, $hooKind: String!, $ctx: Json!){
     }
   }
 }
-`
+`;
+
+export const PUSH_EVENT = `
+  mutation PushEvent($appKey: String!, $id: String!, $data: Any!){
+    pushEvent(appKey: $appKey, id: $id, data: $data){
+      status
+    }
+  }
+`;
+
+export const BANNER = `
+query Messenger($id: String!){
+  messenger {
+    app{
+      banner(id: $id)
+    }
+  }
+}
+`;

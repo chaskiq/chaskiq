@@ -11,6 +11,8 @@ import PageHeader from '@chaskiq/components/src/components/PageHeader';
 
 import DashboardItem from './reports/ReportItem';
 
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
+
 import {
   ConversationChatIcon,
   CampaignsIcon,
@@ -26,6 +28,8 @@ import {
 } from '@chaskiq/store/src/actions/navigation';
 import { LinkButton } from '@chaskiq/components/src/components/RouterLink';
 
+import { allowedAccessTo } from '@chaskiq/components/src/components/AccessDenied';
+
 export function Home() {
   return (
     <div>
@@ -38,7 +42,7 @@ function Dashboard(props) {
   const { app, dispatch } = props;
 
   React.useEffect(() => {
-    dispatch(setCurrentSection(null));
+    dispatch(setCurrentSection('Dashboard'));
     dispatch(setCurrentPage(null));
   }, []);
 
@@ -51,6 +55,7 @@ function Dashboard(props) {
       icon: ConversationChatIcon,
       iconForeground: 'text-sky-700',
       iconBackground: 'bg-sky-50',
+      allowed: allowedAccessTo(app, 'conversations'),
       render: () => (
         <div className="mt-2 text-sm text-gray-500">
           <span className="truncate--">
@@ -75,6 +80,7 @@ function Dashboard(props) {
       icon: ChartsIcons,
       iconForeground: 'text-purple-700',
       iconBackground: 'bg-purple-50',
+      alowed: allowedAccessTo(app, 'reports'),
     },
     {
       title: I18n.t('navigator.childs.messenger_settings'),
@@ -82,6 +88,7 @@ function Dashboard(props) {
       icon: AppSettingsIcon,
       iconForeground: 'text-teal-700',
       iconBackground: 'bg-teal-50',
+      allowed: allowedAccessTo(app, 'messenger_settings'),
     },
     {
       title: I18n.t('navigator.childs.app_settings'),
@@ -89,6 +96,7 @@ function Dashboard(props) {
       icon: SettingsIcon,
       iconForeground: 'text-teal-700',
       iconBackground: 'bg-teal-50',
+      allowed: allowedAccessTo(app, 'app_settings'),
     },
     {
       title: I18n.t('navigator.campaigns'),
@@ -96,6 +104,7 @@ function Dashboard(props) {
       icon: CampaignsIcon,
       iconForeground: 'text-sky-700',
       iconBackground: 'bg-sky-50',
+      allowed: allowedAccessTo(app, 'campaigns'),
     },
     {
       title: I18n.t('dashboard.guides'),
@@ -104,6 +113,7 @@ function Dashboard(props) {
       iconForeground: 'text-sky-700',
       iconBackground: 'bg-sky-50',
       text: I18n.t('navigator.help_center'),
+      allowed: true,
     },
   ];
 
@@ -115,7 +125,7 @@ function Dashboard(props) {
             className="text-4xl leading-2 text-gray-900 dark:text-gray-100 font-bold"
             dangerouslySetInnerHTML={{
               __html: I18n.t('dashboard.hey', {
-                name: app.name,
+                name: escapeHTML(app.name),
               }),
             }}
           />
@@ -162,7 +172,7 @@ function Dashboard(props) {
             )}
             </div>*/}
 
-          <Example actions={actions} />
+          <Example actions={actions.filter((o) => o.allowed)} />
         </div>
       </Content>
     </div>
@@ -188,7 +198,7 @@ function classNames(...classes) {
 
 function Example({ actions }) {
   return (
-    <div className="mt-5 rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+    <div className="mt-5 rounded-lg bg-gray-200 dark:bg-gray-900 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
       {actions.map((action, actionIdx) => (
         <div
           key={action.title}

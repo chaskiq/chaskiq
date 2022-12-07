@@ -1,6 +1,8 @@
 module MessageApis
   class BasePackage
-    def initialize(config:); end
+    def initialize(config:)
+      @config = config
+    end
 
     def trigger(event); end
 
@@ -11,6 +13,7 @@ module MessageApis
         id: package.id,
         params: params.permit!.to_h
       )
+      { status: :ok }
     end
 
     # triggered when a new chaskiq message is created
@@ -23,9 +26,8 @@ module MessageApis
                 .conversation_part_channel_sources
                 .find_by(provider: provider).present?
 
-      message = part.message.as_json
-
-      response = send_message(conversation, message)
+      # message = part.message.as_json
+      response = send_message(conversation, part)
 
       return if response.nil?
 

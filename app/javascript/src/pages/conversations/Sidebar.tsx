@@ -9,6 +9,9 @@ import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBl
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
 import AppInserter from './AppInserter';
 import I18n from '../../shared/FakeI18n';
+import RestrictedArea, {
+  allowedAccessTo,
+} from '@chaskiq/components/src/components/AccessDenied';
 
 import { updateApp } from '@chaskiq/store/src/actions/app';
 
@@ -33,7 +36,6 @@ function Sidebar({
   function update(data, cb) {
     dispatch(
       updateApp(data.app, (d) => {
-        console.log(d);
         cb && cb(d);
       })
     );
@@ -44,32 +46,34 @@ function Sidebar({
       <div className="py-2 pt-2">
         <div className="flex items-center justify-between">
           {editable && (
-            <div className="flex flex-col w-full">
-              <div className="px-2">
-                <AppInserter
-                  update={update}
-                  setEditable={setEditable}
-                  location={'inbox'}
-                  option={{
-                    name: 'inbox apps',
-                    namespace: 'inboxApps',
-                    n: 'inbox_apps',
-                    classes: 'rounded-l-lg',
-                  }}
-                  customRenderer={(data) => (
-                    <div>
-                      {renderInternal({
-                        object: data,
-                        app_user,
-                        conversation,
-                        app,
-                      })}
-                    </div>
-                  )}
-                  capability={'inbox'}
-                />
+            <RestrictedArea section="app_packages" verb="manage">
+              <div className="flex flex-col w-full">
+                <div className="px-2">
+                  <AppInserter
+                    update={update}
+                    setEditable={setEditable}
+                    location={'inbox'}
+                    option={{
+                      name: 'inbox apps',
+                      namespace: 'inboxApps',
+                      n: 'inbox_apps',
+                      classes: 'rounded-l-lg',
+                    }}
+                    customRenderer={(data) => (
+                      <div>
+                        {renderInternal({
+                          object: data,
+                          app_user,
+                          conversation,
+                          app,
+                        })}
+                      </div>
+                    )}
+                    capability={'inbox'}
+                  />
+                </div>
               </div>
-            </div>
+            </RestrictedArea>
           )}
 
           {!editable && (
@@ -86,49 +90,15 @@ function Sidebar({
                         <LeftArrow />
                       </Button>
                     </div>
-                    <button
-                      className="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100 hover:text-indigo-500"
-                      onClick={() => setEditable(true)}
-                    >
-                      customize
-                    </button>
-                  </div>
 
-                  <div className="hidden flex-- items-center space-y-2 rounded-md border border-gray-200 bg-white w-full p-2">
-                    {/* <div className="flex-shrink-0 h-12 w-12">
-                      <img className="h-12 w-12 rounded-full"
-                        src={participant.avatarUrl}
-                        alt=""
-                      />
-                    </div>
-
-                    <div className="space-y-1 ml-2">
-                      <div className="text-sm leading-5 font-bold text-gray-900">
-                        {participant.displayName}
-                      </div>
-                      { participant.email &&
-                          <a href="#" className="group flex items-center space-x-2.5">
-                            <div className="text-sm leading-5 text-gray-500 group-hover:text-gray-900 font-medium">
-                              {participant.email}
-                            </div>
-                          </a>
-                      }
-                    </div> */}
-
-                    {/* <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
-                      <span className="inline-flex rounded-md shadow-sm">
-                        <Link
-                          className="w-full inline-flex items-center justify-center
-                          px-4 py-1 border border-transparent text-sm leading-5
-                          font-medium rounded-md text-white bg-indigo-600
-                          hover:bg-indigo-500 focus:outline-none
-                          focus:border-indigo-700 focus:shadow-outline-indigo
-                          active:bg-indigo-700 transition ease-in-out duration-150"
-                          to={`/apps/${app.key}/users/${participant.id}`}>
-                          {I18n.t('conversation.sidebar.show_profile')}
-                        </Link>
-                      </span>
-                    </div> */}
+                    {allowedAccessTo(app, 'app_packages', 'manage') && (
+                      <button
+                        className="text-sm leading-5 font-bold text-gray-900 dark:text-gray-100 hover:text-indigo-500"
+                        onClick={() => setEditable(true)}
+                      >
+                        {I18n.t('conversation.sidebar.customize')}
+                      </button>
+                    )}
                   </div>
 
                   {app.inboxApps &&
@@ -305,26 +275,22 @@ function AssigneeBlock({ conversation, app }) {
   );
 }
 
-function AppItem({ app, object, conversation, app_user }) {
+export function AppItem({ app, object, conversation, app_user }) {
   const pkg = object;
   const [definitions, setDefinitions] = React.useState(object.definitions);
 
   function updatePackage(packageParams, cb) {
-    /* if (packageParams.field.action.type === 'frame') {
-      return displayAppBlockFrame({
-        message: {},
-        data: {
-          field: packageParams.field,
-          location: packageParams.location,
-          id: pkg.name,
-          appKey: app.key,
-          values: { ...pkg.values, ...packageParams.values }
-        }
-      })
-    } */
-
     if (packageParams.field.action.type === 'url') {
-      return window.open(packageParams.field.action.url);
+      cb && cb();
+
+      if (!packageParams.field?.action?.options)
+        return window.open(packageParams.field.action.url);
+
+      return window.open(
+        packageParams.field.action.url,
+        'pagename',
+        packageParams.field?.action?.options
+      );
     }
 
     const params = {
@@ -333,6 +299,7 @@ function AppItem({ app, object, conversation, app_user }) {
       hooKind: packageParams.field.action.type,
       ctx: {
         conversation_key: conversation.key,
+        conversation_participant: conversation.mainParticipant.id,
         field: packageParams.field,
         values: packageParams.values,
       },

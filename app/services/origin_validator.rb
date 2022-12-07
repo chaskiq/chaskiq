@@ -16,7 +16,7 @@ class OriginValidator
     return true if @app.blank?
     return true if @app == "*"
 
-    raise NonAcceptedOrigin if @app.split(",").map do |domain|
+    raise NonAcceptedOrigin if @app.delete(" ").split(",").map do |domain|
       validate_domain(domain)
     end.none?  do |r|
       r == true

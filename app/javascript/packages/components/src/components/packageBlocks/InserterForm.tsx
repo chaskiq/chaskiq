@@ -11,6 +11,7 @@ export default function InserterForm({
   handleAdd,
   packages,
   app,
+  location,
 }) {
   return (
     <div>
@@ -18,12 +19,12 @@ export default function InserterForm({
         <FormDialog
           open={isOpen}
           handleClose={closeHandler}
-          titleContent={'Add apps to chat home'}
+          titleContent={`Add apps to chat ${location}`}
           formComponent={
             <div className="h-64 overflow-auto">
               <ErrorBoundary>
                 <AppList
-                  location={'home'}
+                  location={location}
                   loading={loading}
                   handleAdd={handleAdd}
                   packages={packages}

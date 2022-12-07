@@ -11,9 +11,11 @@ module MessageApis::Qualifier
       )
 
       record = QualifierRecord.new(items: [])
+      record.searcheable_fields = ctx[:package].app.searcheable_fields
 
       ctx[:values][:item].map do |o|
-        record.add_item(o[:name], o[:label])
+        optional = o[:optional].present? ? "--optional" : ""
+        record.add_item("#{o[:name]}#{optional}", o[:label])
       end
 
       {
@@ -28,33 +30,55 @@ module MessageApis::Qualifier
     # link, or text input. This flow can occur multiple times as an
     # end-user interacts with your app.
     def self.submit_hook(kind:, ctx:)
+      app = ctx[:package].app
+
+      optional_identifier = "--optional"
+
       fields = ctx[:package].app.searcheable_fields.map do |o|
-        o["name"].to_sym
+        o["name"]
       end
+
+      optional_fields = ctx[:package].app.searcheable_fields.map do |o|
+        "#{o['name']}#{optional_identifier}"
+      end
+
+      all_fields = fields + optional_fields
+      params = ctx[:values].permit(all_fields)
 
       QualifierRecord.configure(
         fields
       )
 
-      params = ctx[:values].permit(fields)
+      optional_keys = params.to_h.keys.select do |key|
+        key.include?(optional_identifier)
+      end
 
-      QualifierRecord.configure_validations(
-        params.keys.map(&:to_sym)
-      )
+      original_params = params
+      params = params.transform_keys do |key|
+        key.gsub(optional_identifier, "")
+      end
 
       record = QualifierRecord.new(
         params
       )
 
-      record.valid?
+      keys_to_bypass = optional_keys.map do |o|
+        o.gsub(optional_identifier, "")
+      end.compact
+
+      keys_to_validate = params.to_h.keys
+
+      record.validatable_fields = keys_to_validate
+      record.optional_fields = keys_to_bypass
+      record.searcheable_fields = app.searcheable_fields
 
       if record.valid? && ctx[:current_user].is_a?(AppUser)
-        ctx[:current_user].update(
-          params
-        )
+        app = ctx[:current_user].app
+
+        app.update_properties(ctx[:current_user], params)
       end
 
-      params.each_key do |o|
+      original_params.each_key do |o|
         record.add_item(o)
       end
 
@@ -236,6 +260,21 @@ module MessageApis::Qualifier
             value: label
           },
           {
+            type: "checkbox",
+            id: "input-optional-#{index}",
+            text: "optional field",
+            # value: "#{index}-optional",
+            options: [
+              {
+                type: "option",
+                id: "#{index}-optional",
+                name: "item[#{index}][optional]",
+                text: "mark as optional"
+              }
+            ]
+          },
+
+          {
             type: "dropdown",
             id: "item[#{index}][name]",
             label: "Value",
@@ -310,9 +349,12 @@ module MessageApis::Qualifier
     end
 
     class QualifierRecord
+      VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i.freeze
+
       include ActiveModel::Model
       include ActiveModel::Validations
       attr_writer :items
+      attr_accessor :validatable_fields, :searcheable_fields, :optional_fields
 
       def self.configure(opts)
         opts.each do |o|
@@ -320,10 +362,60 @@ module MessageApis::Qualifier
         end
       end
 
-      def self.configure_validations(opts)
-        opts.each do |o|
-          validates o, presence: true
-          validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP if o == :email
+      validate do
+        validatable_fields.each do |f|
+          field = f.to_sym
+
+          case field
+          when :email
+            if send(field).present? && !send(field).match?(VALID_EMAIL_REGEX)
+              errors.add(field,
+                         I18n.t("errors.messages.invalid"))
+            end
+          when :phone
+            if send(field).present? && !Phonelib.valid?(send(field))
+              errors.add(field,
+                         I18n.t("errors.messages.invalid"))
+            end
+
+          else
+            if send(field).blank?
+              next if optional_fields.include?(field.to_s)
+
+              errors.add(field,
+                         I18n.t("errors.messages.blank"))
+            end
+          end
+        end
+      end
+
+      validate do
+        searcheable_fields.each do |f|
+          name = f["name"].to_sym
+
+          next if send(name).blank? && optional_fields.include?(name.to_s)
+
+          validate_field_with(name, f["type"]) if respond_to?(name) && send(name).present?
+        end
+      end
+
+      def validate_field_with(name, type)
+        case type
+        when "string"
+          # errors.add(name, I18n.t("errors.messages.invalid"))
+        when "date"
+          begin
+            value = Date.strptime(send(name.to_sym), "%Y-%m-%d")
+            send("#{name}=", value.to_s)
+          rescue StandardError
+            errors.add(name, I18n.t("errors.messages.invalid"))
+          end
+        when "integer"
+          begin
+            Integer(send(name.to_sym))
+          rescue StandardError
+            errors.add(name, I18n.t("errors.messages.invalid"))
+          end
         end
       end
 
@@ -332,33 +424,32 @@ module MessageApis::Qualifier
       end
 
       def add_item(name, label = nil)
+        name_s = name.split("--")
+        name_f = name_s.first
+        optional = name_s.last == "optional" # optional_fields.include?(name.to_s)
+
         @items = items << {
           type: "input",
           id: name,
-          placeholder: "type your #{label}",
+          placeholder: "type your #{name_f}",
           label: label,
-          value: send(name.to_sym),
-          errors: errors[name.to_sym]&.uniq&.join(", "),
+          hint: hint_for(name_f, optional),
+          value: send(name_f.to_sym),
+          errors: errors[name_f.to_sym]&.uniq&.join(", "),
           action: {
             type: "submit"
           }
         }
       end
 
-      def valid_schema
-        []
-        #         [
-        #           {
-        #             type: 'text',
-        #             text: "yes!!!!! your email is #{email}",
-        #             style: 'header'
-        #           },
-        #           {
-        #             type: 'text',
-        #             text: "This is paragraph text. Here's a [link](https://dev.chaskiq.io/). Here's some *bold text*. Lorem ipsum.",
-        #             style: 'paragraph'
-        #           }
-        #         ]
+      def hint_for(name, optional)
+        optional_message = optional ? "(optional)" : ""
+        case name
+        when "phone"
+          "#{optional_message} Example: +56992302301"
+        else
+          "#{optional_message} Needs a valid date, Example: 2012-12-30 (YYYY-MM-DD)" if searcheable_fields.find { |o| o["name"] == name && o["type"] == "date" }
+        end
       end
 
       def schema

@@ -23,7 +23,7 @@ module MessageApis::OpenAi
     end
 
     def authorize!
-      @conn.authorization :Bearer, @api_secret
+      @conn.request :authorization, :Bearer, @api_secret
     end
 
     def trigger(event)

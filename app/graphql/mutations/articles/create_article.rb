@@ -5,16 +5,18 @@ module Mutations
     class CreateArticle < Mutations::BaseMutation
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
-      argument :content, Types::JsonType, required: true
+      argument :content, Types::AnyType, required: true
       argument :title, String, required: true
       argument :lang, String, required: false, default_value: I18n.default_locale
 
       def resolve(app_key:, content:, title:, lang:)
         app = App.find_by(key: app_key)
 
-        I18n.locale = lang
+        authorize! app.articles.new, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
 
-        @article = app.articles.create(
+        article = app.articles.create(
           author: current_user,
           title: title,
           article_content_attributes: {
@@ -23,7 +25,10 @@ module Mutations
             text_content: content["serialized"]
           }
         )
-        { article: @article }
+
+        I18n.locale = lang
+
+        { article: article }
       end
 
       def current_user

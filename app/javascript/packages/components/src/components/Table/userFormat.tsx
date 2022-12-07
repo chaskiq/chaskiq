@@ -20,6 +20,7 @@ const userFormat = function (showUserDrawer, app) {
               <div className="flex-shrink-0 h-10 w-10">
                 <Avatar
                   size={'medium'}
+                  alt={row.id}
                   src={row.avatarUrl}
                   indicator={row.online}
                 />
@@ -40,6 +41,11 @@ const userFormat = function (showUserDrawer, app) {
     {
       field: 'email',
       title: I18n.t('data_tables.users.email'),
+      hidden: true,
+    },
+    {
+      field: 'phone',
+      title: I18n.t('data_tables.users.phone'),
       hidden: true,
     },
     { field: 'ip', title: I18n.t('data_tables.users.ip'), hidden: true },

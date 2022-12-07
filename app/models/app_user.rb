@@ -9,6 +9,8 @@ class AppUser < ApplicationRecord
   include Redis::Objects
   include Connectivity
   include EmailValidable
+  include Avatar
+  include AuditableBehavior
 
   ENABLED_SEARCH_FIELDS = [
     { "name" => "email", "type" => "string" },
@@ -43,13 +45,15 @@ class AppUser < ApplicationRecord
     { "name" => "browser_language", "type" => "string" }
   ].freeze
 
-  attr_accessor :disable_callbacks
+  attr_accessor :disable_callbacks, :additional_validations
 
   # belongs_to :user
   belongs_to :app
   has_many :conversations,
            foreign_key: :main_participant_id,
            dependent: :destroy_async
+
+  has_many :conversation_parts, inverse_of: :authorable, dependent: :destroy_async
 
   # has_many :metrics , as: :trackable
   has_many :metrics, dependent: :destroy_async
@@ -95,9 +99,9 @@ class AppUser < ApplicationRecord
     :name,
     :first_name,
     :last_name,
-    #:country,
+    # :country,
     :country_code,
-    #:region,
+    # :region,
     :region_code,
     :facebook,
     :twitter,
@@ -111,7 +115,11 @@ class AppUser < ApplicationRecord
     :privacy_consent
   ].freeze
 
-  # validates :email, email: true, allow_blank: true
+  validates :name, presence: true, if: proc { |c| c.additional_validations? }
+
+  validates :email, email: true, allow_blank: true, if: -> { type == "Lead" }, unless: proc { |c| !c.additional_validations? }
+
+  validates :email, email: true, if: -> { type == "AppUser" }, unless: proc { |c| !c.additional_validations? }
 
   store_accessor :properties, ACCESSOR_PROPERTIES
 
@@ -119,6 +127,14 @@ class AppUser < ApplicationRecord
     ransacker prop do |parent|
       Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(prop))
     end
+  end
+
+  ransacker :full_name do |parent|
+    Arel::Nodes::NamedFunction.new("concat", [
+                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(:first_name)),
+                                     Arel::Nodes::Quoted.new(" "),
+                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:properties], Arel::Nodes.build_quoted(:last_name))
+                                   ])
   end
 
   scope :availables, lambda {
@@ -144,7 +160,7 @@ class AppUser < ApplicationRecord
 
   # from redis-objects
   counter :new_messages
-  value :trigger_locked, expireat: -> { Time.zone.now + 5.seconds }
+  value :trigger_locked, expireat: -> { 5.seconds.from_now }
 
   aasm column: :subscription_state do # default column: aasm_state
     state :passive, initial: true
@@ -168,6 +184,19 @@ class AppUser < ApplicationRecord
     event :archive do
       transitions from: %i[blocked subscribed unsubscribed passive], to: :archived
     end
+  end
+
+  def update_email(email)
+    app_user = app.get_app_user_by_email(email)
+    if app_user
+      # merge here
+    end
+
+    self
+  end
+
+  def additional_validations?
+    additional_validations.present?
   end
 
   def delay_for_trigger
@@ -202,7 +231,14 @@ class AppUser < ApplicationRecord
   end
 
   def display_name
-    [name].join(" ")
+    composed_name || name
+  end
+
+  def composed_name
+    names = [first_name, last_name].compact
+    return if names.blank?
+
+    names.join(" ")
   end
 
   def session_key
@@ -265,15 +301,6 @@ class AppUser < ApplicationRecord
     URLcrypt.decode(email)
   end
 
-  def avatar_url
-    ui_avatar_url = "https://ui-avatars.com/api/#{URI.encode_www_form_component(display_name)}/128"
-    return "#{ui_avatar_url}/f5f5dc/888/4" if email.blank?
-
-    email_address = email.downcase
-    hash = Digest::MD5.hexdigest(email_address)
-    image_src = "https://www.gravatar.com/avatar/#{hash}?d=#{ui_avatar_url}/7fffd4"
-  end
-
   def kind
     self.class.model_name.singular
   end
@@ -310,5 +337,9 @@ class AppUser < ApplicationRecord
       )
       profile.sync
     end
+  end
+
+  def identified?
+    type == "AppUser"
   end
 end

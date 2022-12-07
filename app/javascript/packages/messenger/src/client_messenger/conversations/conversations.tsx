@@ -62,7 +62,8 @@ export default function Conversations() {
   }
 
   return (
-    <div
+    <main
+      aria-labelledby="conversations"
       style={{
         position: 'absolute',
         top: '0',
@@ -97,6 +98,6 @@ export default function Conversations() {
           <NewConversationBlock />
         </ConversationsFooter>
       </div>
-    </div>
+    </main>
   );
 }

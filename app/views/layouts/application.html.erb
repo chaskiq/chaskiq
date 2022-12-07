@@ -9,7 +9,15 @@
 
     <meta content='True' name='HandheldFriendly'>
     <meta content='320' name='MobileOptimized'>
-    <meta name="chaskiq-host" content="<%= ENV['HOST'] %>"/>
+    <meta name="chaskiq-host" content="<%= Chaskiq::Config.get('HOST') %>"/>
+    <meta name="chaskiq-ws" content="<%= Chaskiq::Config.get('WS') %>"/>
+
+    <% if auth0_enabled? %>
+      <meta name="auth0-domain" content="<%= Chaskiq::Config.get('AUTH0_DOMAIN') %>"/>
+      <meta name="auth0-client-id" content="<%= Chaskiq::Config.get('AUTH0_CLIENT_ID') %>"/>
+    <% elsif oauth_app = Doorkeeper::Application.first %>
+      <meta name="chaskiq-client-id" content="<%= oauth_app.uid %>"/>
+    <% end %>
 
     <!--
     <meta content='width=device-width, initial-scale=1' name='viewport'>
@@ -19,36 +27,26 @@
       name="viewport"
       content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
     >
-    <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.5.4/antd.css">-->
-
-    <!-- <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.css' rel='stylesheet' /> -->
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-
-    <!--
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js'></script>
-    -->
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css' rel='stylesheet' />
-    
-    <script> window.chaskiq_cable_url = "<%= ENV['WS'] %>"</script>
 
-    <%= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% #= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
-
-    <%= stylesheet_pack_tag "application" %> 
-    <% #= javascript_pack_tag 'locales' %>
-    <%= javascript_pack_tag 'application' %>
+    <% #= stylesheet_link_tag  'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% #= stylesheet_pack_tag "application" %>
+    <% #= javascript_pack_tag 'application' %>
     <!--<link href="https://fonts.googleapis.com/css?family=PT+Sans|Roboto+Mono&display=swap" rel="stylesheet">-->
     <!--<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext" rel="stylesheet">-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
-    <div class="page" id="main-page">
+
+    <%= render partial: "shared/flash" %>
+
+    <div class="page antialiased" id="main-page">
     </div>
 
-    <% if enabled_subscriptions? %>
+    <% if paddle_subscriptions? %>
       <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
       <script type="text/javascript">
         Paddle.Setup({ vendor: 115475 });
@@ -57,17 +55,17 @@
 
     <% if current_agent.present? and
       support_data = support_app_data and
-      support_data.present? %> 
+      support_data.present? %>
 
       <script>
         (function(d,t) {
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-          g.src="<%=ENV['HOST']%>/embed.js"
+          g.src="<%= Chaskiq::Config.get('HOST') %>/embed.js"
           s.parentNode.insertBefore(g,s);
           g.onload=function(){
-            new window.ChaskiqMessengerEncrypted({
-              domain: "<%= ENV['HOST'] %>",
-              ws:  "<%= ENV['WS'] %>",
+            window.chaskiqSupport = new window.ChaskiqMessengerEncrypted({
+              domain: "<%= Chaskiq::Config.get('HOST') %>",
+              ws:  "<%= Chaskiq::Config.get('WS') %>",
               app_id: "<%= support_app_data[:app].key %>",
               data: <%= raw support_app_data[:enc] %>
             })
@@ -76,5 +74,15 @@
       </script>
 
     <% end %>
+
+    <script>
+      var dismissibleAlerts = document.querySelectorAll('.alert-dismissible');
+      dismissibleAlerts.forEach(function(alert) {
+          alert.querySelector('[role="button"]').addEventListener('click', function () {
+            alert.classList.add('hidden');
+          })
+        }
+      );
+    </script>
   </body>
 </html>

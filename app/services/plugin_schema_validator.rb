@@ -27,7 +27,7 @@ class BaseSchema
                  when "single-select" then SingleSelectSchema.new(params)
                  when "checkbox" then CheckboxSchema.new(params)
                  when "dropdown" then DropdownSchema.new(params)
-
+                 when "frame" then FrameSchema.new(params)
                  end
   end
 
@@ -75,7 +75,7 @@ end
 
 class ActionSchema
   include ActiveModel::Validations
-  attr_accessor :type, :content_url, :url
+  attr_accessor :type, :content_url, :url, :options
 
   validates :type, presence: :true, inclusion: { in: %w[frame content submit link url] }
   validates :content_url, presence: :true, if: -> { type == "content" }
@@ -85,6 +85,7 @@ class ActionSchema
     self.url = params[:url] if params[:url].present?
     self.type = params[:type] if params[:type].present?
     self.content_url = params[:content_url] if params[:content_url].present?
+    self.options = params[:options] if params[:options].present?
   end
 end
 
@@ -106,6 +107,27 @@ class ImageSchema
     self.url     = params[:url]
     self.align   = params[:align] || "left"
     self.rounded = params[:rounded] || false
+  end
+end
+
+class SpacerSchema
+  include ActiveModel::Validations
+  attr_accessor :type, :size
+
+  validates :size, presence: :true, inclusion: { in: %w[xs s sm m l xl] }
+
+  def initialize(params)
+    self.size = params[:size] || "m"
+    self.type = params[:type]
+  end
+end
+
+class DividerSchema
+  include ActiveModel::Validations
+  attr_accessor :type
+
+  def initialize(params)
+    self.type = params[:type]
   end
 end
 
@@ -135,27 +157,6 @@ class DataTableItemSchema
     self.type = params[:type]
     self.field = params[:field]
     self.value = params[:value]
-  end
-end
-
-class SpacerSchema
-  include ActiveModel::Validations
-  attr_accessor :type, :size
-
-  validates :size, presence: :true, inclusion: { in: %w[xs s sm m l xl] }
-
-  def initialize(params)
-    self.size = params[:size] || "m"
-    self.type = params[:type]
-  end
-end
-
-class DividerSchema
-  include ActiveModel::Validations
-  attr_accessor :type
-
-  def initialize(params)
-    self.type = params[:type]
   end
 end
 
@@ -302,7 +303,9 @@ class CheckboxSchema
     self.type = params[:type]
     self.id = params[:id]
     self.label = params[:text]
-    self.options = params[:options].map { |o| CheckboxItemSchema.new(o) }
+    self.options = params[:options].map do |o|
+      CheckboxItemSchema.new(o)
+    end
     self.value = params[:value]
   end
 
@@ -352,5 +355,17 @@ class DropdownItemSchema
     self.type = params[:type]
     self.id = params[:id]
     self.text = params[:text]
+  end
+end
+
+class FrameSchema
+  include ActiveModel::Validations
+  attr_accessor :type, :url
+
+  validates :type, :url, presence: :true
+
+  def initialize(params)
+    self.type = params[:type]
+    self.url = params[:url]
   end
 end

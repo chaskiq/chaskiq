@@ -5,12 +5,13 @@ module Mutations
       field :errors, Types::JsonType, null: true
 
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
 
       def resolve(app_key:, params:)
         find_app(app_key)
-
-        authorize! @app, to: :manage?, with: AppPolicy
+        authorize! @app, to: :can_manage_oauth_applications?, with: AppPolicy, context: {
+          app: @app
+        }
 
         @application = @app.oauth_applications.new(
           params.permit(:name, :redirect_uri, :scopes, :confidential)

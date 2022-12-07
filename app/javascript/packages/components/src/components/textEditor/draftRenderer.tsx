@@ -109,20 +109,22 @@ const renderers = {
     ),
 
     file: (_children, { keys, data }) => {
-      const fileName = data[0].url.split('/').pop();
-      return (
-        <div>
-          <a
-            href={data[0].url}
-            rel="noopener noreferrer"
-            target="blank"
-            className="flex items-center border rounded text-gray-100 bg-gray-800 border-gray-600 p-4 py-2"
-          >
-            <AttachmentIcon></AttachmentIcon>
-            {fileName}
-          </a>
-        </div>
-      );
+      return data.map((file, index) => {
+        const fileName = file.url.split('/').pop();
+        return (
+          <div key={`file-${keys[index]}`}>
+            <a
+              href={file.url}
+              rel="noopener noreferrer"
+              target="blank"
+              className="flex items-center border rounded text-gray-100 bg-gray-800 border-gray-600 p-4 py-2 mb-1"
+            >
+              <AttachmentIcon></AttachmentIcon>
+              {fileName}
+            </a>
+          </div>
+        );
+      });
     },
 
     giphy: (children, { keys, data }) => {
@@ -278,8 +280,24 @@ function ImageRenderer({ children, blockKey, data }) {
 
   const defaultStyle = { maxWidth: `${width}px`, maxHeight: `${height}px` };
 
+  function directionClass(direction) {
+    switch (direction) {
+      case 'left':
+        return 'graf--layoutOutsetLeft';
+      case 'center':
+        return '';
+      case 'wide':
+        return 'sectionLayout--fullWidth';
+      case 'fill':
+        return 'graf--layoutFillWidth';
+      default:
+        return '';
+    }
+  }
+
+  let defaultAlignment = directionClass(data.direction);
   return (
-    <figure key={blockKey} className="graf graf--figure">
+    <figure key={blockKey} className={`graf graf--figure ${defaultAlignment}`}>
       <div>
         <div className="aspectRatioPlaceholder is-locked" style={defaultStyle}>
           <div

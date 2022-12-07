@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import AppContainer from './pages/AppContainer';
 import Apps from './pages/Apps';
 import Login from './pages/auth/login';
+import LogOut from './pages/auth/logout';
 import NewApp from './pages/NewApp';
 import NotFound from './pages/NotFound';
 import UnSubscribe from './pages/UnSubscribe';
@@ -62,6 +63,8 @@ function AppRouter({
 
       <Snackbar />
 
+      <div id="portal-root" />
+
       {reload && <LoadingView />}
 
       {!reload && (
@@ -105,6 +108,10 @@ function AppRouter({
 
           <Route path="/signup" exact>
             <Login />
+          </Route>
+
+          <Route path="/logout">
+            <LogOut />
           </Route>
 
           <Route>

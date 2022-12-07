@@ -42,6 +42,12 @@ yarn-debug.log*
 .yarn-integrity
 latest.dump
 .env
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+esbuild-meta.json
 public/schema.graphql
 cypress/cypress-examples
 cypress/videos
@@ -58,3 +64,10 @@ rubocop.sarif
 
 # app/javascript/src/locales/messenger-translations.json
 # app/javascript/src/locales/translations.json
+
+config/credentials/*.key
+config/credentials/*.yml.enc
+
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

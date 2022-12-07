@@ -18,6 +18,7 @@
   "scripts": {
     "postdeploy": "bundle exec rake db:schema:load && bundle exec rake db:seed"
   },
+  "stack": "heroku-20",
   "env": {
     "ADMIN_EMAIL": {
       "description": "An admin email to be generated on db:seed task",
@@ -53,18 +54,6 @@
     },
     "SNS_CONFIGURATION_SET": {
       "description": "Amazon's SNS configuration set (for incoming email processing)",
-      "value": ""
-    },
-    "SES_ADDRESS": {
-      "description": "Amazon's SES mail address",
-      "value": ""
-    },
-    "SES_USER_NAME": {
-      "description": "Amazon's SES mail username",
-      "value": ""
-    },
-    "SES_PASSWORD": {
-      "description": "Amazon's SES mail password",
       "value": ""
     },
     "AWS_ACCESS_KEY_ID": {
@@ -112,23 +101,34 @@
   "buildpacks": [
     {
       "url": "heroku/ruby"
+    },
+    {
+      "url": "https://github.com/leoafarias/heroku-buildpack-node-modules-cleanup"
     }
   ],
   "environments": {
     "test": {
-      "scripts":{
+      "scripts": {
         "test": "bundle exec rspec",
         "test": "bundle exec rspec -t browser"
       },
-      "addons":[
+      "addons": [
         "heroku-redis",
         "heroku-postgresql"
       ],
       "buildpacks": [
-        { "url": "heroku/ruby" },
-        { "url": "heroku/nodejs" },
-        { "url": "https://github.com/heroku/heroku-buildpack-google-chrome" },
-        { "url": "https://github.com/heroku/heroku-buildpack-chromedriver" }
+        {
+          "url": "heroku/ruby"
+        },
+        {
+          "url": "heroku/nodejs"
+        },
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-google-chrome"
+        },
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-chromedriver"
+        }
       ]
     }
   }

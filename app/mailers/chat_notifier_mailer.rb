@@ -4,7 +4,7 @@ class ChatNotifierMailer < ApplicationMailer
   include Roadie::Rails::Mailer
 
   def notify(conversation_part)
-    headers "X-SES-CONFIGURATION-SET" => ENV["SNS_CONFIGURATION_SET"]
+    headers "X-SES-CONFIGURATION-SET" => Chaskiq::Config.get("SNS_CONFIGURATION_SET")
     headers "X-CHASKIQ-PART-ID" => conversation_part.id
 
     @conversation_part = conversation_part
@@ -89,7 +89,7 @@ class ChatNotifierMailer < ApplicationMailer
 
   # rewrites local uploads to absolute urls
   def image_rewrite(html)
-    html.gsub("/rails/active_storage/", "#{ENV['HOST']}/rails/active_storage/")
+    html.gsub("/rails/active_storage/", "#{Chaskiq::Config.get('HOST')}/rails/active_storage/")
   end
 
   def serialized_to_html(serialized_content)

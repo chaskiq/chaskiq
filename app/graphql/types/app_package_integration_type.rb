@@ -41,12 +41,17 @@ module Types
     end
 
     def definitions
-      object.app_package.definitions # .tap { |d| authorize! d, to: :show? }
+      object.app_package.definitions
     end
 
     field :capabilities, [String], null: true
     def capabilities
-      object.app_package.capability_list # .tap { |d| authorize! d, to: :show? }
+      object.app_package.capability_list
+    end
+
+    field :tag_list, [String], null: true
+    def tag_list
+      object.app_package.tag_list
     end
 
     def name
@@ -55,7 +60,7 @@ module Types
 
     field :call_hook, Types::JsonType, null: true do
       argument :kind, String, required: true, default_value: ""
-      argument :ctx, Types::JsonType, required: true, default_value: ""
+      argument :ctx, Types::AnyType, required: true, default_value: ""
     end
 
     def call_hook(kind:, ctx:)

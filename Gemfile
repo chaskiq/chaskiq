@@ -3,32 +3,34 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.2"
+ruby "2.7.5"
 
+# gem 'google-protobuf', git: 'https://github.com/google/protobuf'
+
+gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "pg"
-gem "rails", "6.1.4" # , github: "rails/rails",
-
 gem "anycable-rails"
+gem "pg"
+gem "rails", "7.0.4" # , github: "rails/rails",
+gem "uri", "0.10.0"
+
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
-gem "puma", "~> 5.3"
-# Use SCSS for stylesheets
-gem "sass-rails", "~> 5.0"
-# Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 1.3.0"
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
 gem "haml"
+gem "jsbundling-rails"
+gem "kredis", "~> 1.1"
+gem "propshaft"
+gem "puma", "~> 6.0"
+gem "sassc"
+gem "tailwindcss-rails"
 
-gem "devise", "4.7.1" # github: "plataformatec/devise"
-
+gem "devise" # , "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks", "~> 5"
+# gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder"
 # gem 'haml'
@@ -45,7 +47,9 @@ gem "nightfury", github: "michelson/nightfury" # "~> 1.0"
 gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
-gem "graphql"
+gem "graphql", "~> 1.13"
+
+gem "nokogiri", force_ruby_platform: true
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -57,6 +61,7 @@ gem "deep_cloneable"
 gem "friendly_id", "~> 5.2"
 gem "groupdate"
 gem "pg_search"
+gem "phonelib"
 gem "ransack"
 
 gem "browser", "~> 2.5"
@@ -65,6 +70,7 @@ gem "geoip"
 gem "truemail"
 
 gem "google-cloud-dialogflow"
+gem "twilio-ruby", "~> 5.58.1"
 
 gem "jwe"
 gem "jwt"
@@ -72,14 +78,13 @@ gem "jwt"
 # AUTH
 # gem 'devise-jwt', '~> 0.5.9'
 gem "devise_invitable", "~> 2.0"
-gem "doorkeeper", "~> 5.4"
+gem "doorkeeper", "~> 5.5.0"
 gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 
-gem "image_processing", "~> 1.2"
-gem "sidekiq"
-gem "sidekiq-cron"
-gem "webpacker", "~> 5.4.0"
+gem "image_processing", "~> 1.12"
+gem "sidekiq", "~> 6.5"
+# gem "sidekiq-cron"
 
 gem "emoji_data", github: "chaskiq/emoji_data.rb"
 gem "roadie"
@@ -95,7 +100,8 @@ gem "mini_magick", "~> 4.8"
 gem "active_importer"
 gem "faraday"
 gem "http"
-gem "roo"
+gem "net-http"
+gem "roo", "~> 2.8", ">= 2.8.3", git: "https://github.com/roo-rb/roo.git"
 gem "ruby-oembed"
 
 gem "mustache"
@@ -116,6 +122,8 @@ gem "i18n-js", "~> 4.0.0.alpha1"
 
 gem "globalize", github: "globalize/globalize"
 
+# To use Stripe, also include:
+gem "stripe", "~> 6.0"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.1.0", require: false
 
@@ -125,11 +133,13 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "cypress-on-rails", "~> 1.0"
+  gem "execjs"
   gem "pry"
+  # gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
-  gem "rack-mini-profiler", "~> 2.0"
+  # gem "rack-mini-profiler", "~> 2.0"
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "web-console", ">= 3.3.0"
@@ -159,5 +169,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "php_serialize", "~> 1.2"
-gem "scout_apm", "~> 2.6"
+gem "scout_apm"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]

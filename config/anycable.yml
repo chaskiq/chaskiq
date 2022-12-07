@@ -1,5 +1,7 @@
 # config/anycable.yml
 development:
   redis_url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+staging:
+  redis_url: <%= Chaskiq::Config.get('REDIS_URL') %>
 production:
   redis_url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>

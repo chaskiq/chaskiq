@@ -45,7 +45,7 @@ const Attribution = styled.div`
   }
 
   position: absolute;
-  bottom: 5px;
+  bottom: 0px;
   width: 100%;
   background: white;
   padding: 4px 0px;
@@ -130,6 +130,7 @@ const searchUrl = 'https://api.giphy.com/v1/gifs/search';
 
 type Props = {
   apikey: string;
+  domain: string;
   handleSelected: (value: any) => void;
 };
 
@@ -210,7 +211,7 @@ export default class App extends React.Component<Props, State> {
           </GridListOverflow>
         </Container>
         <Attribution>
-          <img src={attribution} />
+          <img src={`${this.props.domain}${attribution}`} />
         </Attribution>
         {/* <Arrow/> */}
       </GiphyBlock>

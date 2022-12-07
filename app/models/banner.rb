@@ -36,11 +36,11 @@ class Banner < Message
   end
 
   def sender_data
-    a = sender_id ? app.agents.find(sender_id) : nil
+    a = sender_id ? app.agents.find_by(id: sender_id) : nil
     return nil if a.blank?
 
     {
-      id: a.id,
+      id: a.id.to_s,
       displayName: a.display_name,
       avatarUrl: a.avatar_url,
       email: a.email

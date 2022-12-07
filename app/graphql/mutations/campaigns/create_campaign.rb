@@ -7,12 +7,14 @@ module Mutations
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
       argument :operation, String, required: false
-      argument :campaign_params, Types::JsonType, required: true
+      argument :campaign_params, Types::AnyType, required: true
       argument :mode, String, required: true
 
       def resolve(operation:, app_key:, campaign_params:, mode:)
         find_app(app_key)
-
+        authorize! @app, to: :can_manage_campaigns?, with: AppPolicy, context: {
+          app: @app
+        }
         @campaign = collection(mode).new(campaign_params.permit!)
         @campaign.save if operation.present? && operation == "create"
         { campaign: @campaign, errors: @campaign.errors }

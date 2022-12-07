@@ -19,6 +19,7 @@ app = App.create(
 )
 
 Doorkeeper::Application.create(
-  name: 'authapp'
+  name: 'authapp',
+  confidential: false
   # redirect_uri: "#{domain}/callback"
 )

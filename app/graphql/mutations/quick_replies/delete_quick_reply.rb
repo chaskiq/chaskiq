@@ -6,13 +6,17 @@ module Mutations
       field :quick_reply, Types::QuickReplyType, null: false
       field :errors, Types::JsonType, null: false
       argument :app_key, String, required: true
-      argument :id, Integer, required: true
+      argument :id, String, required: true
 
       # , lang:)
       def resolve(app_key:, id:)
         app = current_user.apps.find_by(key: app_key)
-
         quick_reply = app.quick_replies.find(id)
+
+        authorize! app, to: :can_manage_quick_replies?, with: AppPolicy, context: {
+          app: app
+        }
+
         quick_reply.destroy
 
         {

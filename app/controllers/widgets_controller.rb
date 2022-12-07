@@ -2,7 +2,6 @@
 
 class WidgetsController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
-  include Webpacker::Helper
 
   protect_from_forgery except: :show
 
@@ -15,6 +14,6 @@ class WidgetsController < ApplicationController
   private
 
   def widget_javascript_source
-    asset_pack_path("embed.js")
+    ActionController::Base.helpers.compute_asset_path("embed.js", debug: true)
   end
 end

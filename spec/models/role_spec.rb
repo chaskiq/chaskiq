@@ -19,4 +19,8 @@ RSpec.describe Role, type: :model do
     app.add_admin(user)
     expect(app.agents).to be_include(user)
   end
+
+  it "access module" do
+    expect(PermissionsService.allowed_access_to?(:admin_only, :conversations)).to be_falsey
+  end
 end

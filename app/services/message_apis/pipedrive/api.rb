@@ -68,7 +68,7 @@ module MessageApis::Pipedrive
         last_name: last_name,
         first_name: first_name,
         phone: data["phone"][0]["value"]
-      }.reject { |_k, v| v.blank? }
+      }.compact_blank
 
       app_user.update(update_params)
 

@@ -14,10 +14,7 @@ module MessageApis::Slack
 
     def initialize(config: {})
       @access_token = access_token
-      @conn = Faraday.new request: {
-        params_encoder: Faraday::FlatParamsEncoder
-      }
-
+      @conn = build_conn
       @package = nil
       set_keys(config)
     end
@@ -30,6 +27,9 @@ module MessageApis::Slack
       @keys["access_token"] =  config["access_token"]
       @keys["access_token_secret"] = config["access_token_secret"]
       @keys["user_token"] = config["user_token"]
+      @keys["channel_id"] = config["channel_id"]
+      @keys["slack_channel_id"] = config["slack_channel_id"] || config["channel_id"]
+      @keys["slack_channel_id_leads"] = config["slack_channel_id_leads"] || @keys["slack_channel_id"]
     end
 
     def self.process_global_hook(params)
@@ -48,6 +48,25 @@ module MessageApis::Slack
       # TODO: here create the configured channel and join it
     end
 
+    def after_authorize
+      chan1 = @package.settings["slack_channel_name"]
+      chan2 = @package.settings["slack_channel_name_leads"]
+
+      # will create 2 channels here for dual mode
+      {
+        slack_channel_id: chan1,
+        slack_channel_id_leads: chan2
+      }.each do |k, v|
+        next if v.empty?
+
+        channel_id = handle_channel_creation(v)
+        if channel_id
+          new_settings = @package.settings.merge({ k => channel_id })
+          @package.update(settings: new_settings)
+        end
+      end
+    end
+
     def get_api_access
       @base_url = BASE_URL
 
@@ -59,12 +78,14 @@ module MessageApis::Slack
 
     def authorize_bot!
       get_api_access
-      @conn.authorization :Bearer, @keys["access_token"]
+      @conn = build_conn
+      @conn.request :authorization, :Bearer, @keys["access_token"]
     end
 
     def authorize_user!
       get_api_access
-      @conn.authorization :Bearer, @keys["access_token_secret"]
+      @conn = build_conn
+      @conn.request :authorization, :Bearer, @keys["access_token_secret"]
     end
 
     def oauth_client
@@ -84,6 +105,16 @@ module MessageApis::Slack
     end
 
     def post_message(message, blocks, options = {})
+      path = "/api/chat.postMessage"
+      api_post(path, message, blocks, options)
+    end
+
+    def update_message(message, blocks, options = {})
+      path = "/api/chat.update"
+      api_post(path, message, blocks, options)
+    end
+
+    def api_post(path, message, blocks, options = {})
       authorize_bot!
 
       data = {
@@ -94,16 +125,44 @@ module MessageApis::Slack
 
       data.merge!(options) if options.present?
 
-      url = url("/api/chat.postMessage")
-
-      @conn.post do |req|
-        req.url url
+      response = @conn.post do |req|
+        req.url url(path)
         req.headers["Content-Type"] = "application/json; charset=utf-8"
         req.body = data.to_json
       end
 
-      # Rails.logger.info response.body
-      # Rails.logger.info response.status
+      Rails.logger.info response.body
+      Rails.logger.info response.status
+
+      unless response.success?
+        Bugsnag.notify("SLACK ERROR") do |report|
+          report.add_tab(
+            :context,
+            {
+              status: response.status,
+              slack_response: response.body,
+              data: data
+            }
+          )
+        end
+      end
+
+      response
+    end
+
+    def handle_channel_creation(name = nil, user_ids = "")
+      response = create_channel(name, user_ids)
+      if !response["error"] && (chann_id = response.dig("channel", "id"))
+        authorize_user!
+        join_channel(chann_id)
+        chann_id
+      elsif response["error"].present? && response["error"] == "name_taken"
+        response = find_channel(name)
+        if response.present?
+          join_channel(response["id"])
+          response["id"]
+        end
+      end
     end
 
     def create_channel(name = nil, user_ids = "")
@@ -126,13 +185,21 @@ module MessageApis::Slack
       JSON.parse(response.body)
     end
 
+    def find_channel(name)
+      authorize_bot!
+      url = url("/api/conversations.list")
+      response = @conn.get(url, { name: name })
+      data = JSON.parse(response.body)
+      data["channels"].find { |o| o["name"] == name } if data["ok"] && data["channels"].any?
+    end
+
     def join_channel(id)
       data = {
         channel: id
       }
 
       url = url("/api/conversations.join")
-      # @conn.authorization :Bearer, key
+      # @conn.request :authorization, :Bearer, key
       response = @conn.post do |req|
         req.url url
         req.headers["Content-Type"] = "application/json; charset=utf-8"
@@ -140,6 +207,14 @@ module MessageApis::Slack
       end
 
       JSON.parse(response.body)
+    end
+
+    def resolve_channel_id(user)
+      if user.type == "AppUser"
+        @keys["slack_channel_id"]
+      else
+        @keys["slack_channel_id_leads"]
+      end
     end
 
     def join_user_to_package_channel(id)
@@ -150,10 +225,12 @@ module MessageApis::Slack
     def trigger(event)
       subject = event.eventable
       action = event.action
-
       case action
       when "visitors.convert" then notify_new_lead(subject)
       when "conversation.user.first.comment" then notify_added(subject)
+      when "conversations.assigned", "conversations.prioritized", "conversations.started",
+        "conversations.added", "conversations.closed", "conversations.reopened"
+        update_thread_head(subject)
         # when "conversations.added" then notify_added(subject)
       end
     end
@@ -161,15 +238,61 @@ module MessageApis::Slack
     def notify_added(conversation)
       authorize_bot!
 
+      data = thread_head(conversation)
+
+      response_data = json_body(
+        post_message(
+          "New conversation from Chaskiq",
+          data.flatten.compact.as_json,
+          {
+            channel: resolve_channel_id(conversation.main_participant), # @keys["channel"],
+            text: "New conversation from Chaskiq"
+          }
+        )
+      )
+
+      return unless response_data["ok"]
+
+      conversation.conversation_channels.create({
+                                                  provider: "slack",
+                                                  provider_channel_id: response_data["ts"]
+                                                })
+    end
+
+    def update_thread_head(conversation, slack_id = nil)
+      authorize_bot!
+
+      data = thread_head(conversation)
+
+      ts_id = slack_id || conversation.conversation_channels.where(
+        provider: "slack"
+      ).last&.provider_channel_id
+
+      return if ts_id.blank?
+
+      response_data = json_body(
+        update_message(
+          "New conversation from Chaskiq",
+          data.flatten.compact.as_json,
+          {
+            channel: resolve_channel_id(conversation.main_participant), # @keys["channel_id"],
+            text: "New conversation from Chaskiq",
+            ts: ts_id
+          }
+        )
+      )
+    end
+
+    def thread_head(conversation)
       text_blocks = conversation.messages.map do |part|
         part.messageable_type == "ConversationPartBlock" ? replied_block(part) : blocks_transform(part)
       end
 
       participant = conversation.main_participant
 
-      base = "#{ENV['HOST']}/apps/#{conversation.app.key}"
+      base = "#{Chaskiq::Config.get('HOST')}/apps/#{conversation.app.key}"
       conversation_url = "#{base}/conversations/#{conversation.key}"
-      user_url = "#{base}/users/#{conversation.key}"
+      user_url = "#{base}/users/#{conversation.main_participant.id}"
       links = "*<#{user_url}|#{format_user_name(conversation.main_participant)}>* <#{conversation_url}|view in chaskiq>"
 
       data = [
@@ -217,8 +340,28 @@ module MessageApis::Slack
           ]
         },
 
+        conversation_status_blocks(conversation),
+
         {
           type: "divider"
+        },
+
+        {
+          type: "section",
+          block_id: "section678",
+          text: {
+            type: "mrkdwn",
+            text: "Pick an agent and assign them to the conversation"
+          },
+          accessory: {
+            action_id: "pick-agent",
+            type: "external_select",
+            placeholder: {
+              type: "plain_text",
+              text: "Select an item"
+            },
+            min_query_length: 3
+          }
         },
 
         {
@@ -250,23 +393,107 @@ module MessageApis::Slack
         }
       ]
 
-      response_data = json_body(
-        post_message(
-          "New conversation from Chaskiq",
-          data.flatten.compact.as_json,
-          {
-            channel: @keys["channel"],
-            text: "New conversation from Chaskiq"
+      data.flatten!
+    end
+
+    def conversation_status_blocks(conversation)
+      state_action = if conversation.opened?
+                       action_button(value: "close", text: "Close", style: nil)
+                     else
+                       action_button(value: "open", text: "Open", style: nil)
+                     end
+
+      priority_action = if conversation.priority
+                          action_button(value: "unprioritize", text: "UnPrioritize", style: "danger")
+                        else
+                          action_button(value: "prioritize", text: "Prioritize", style: "primary")
+                        end
+
+      avatar_action = conversation&.assignee&.avatar_url
+
+      avatar_action_block = if avatar_action
+                              {
+                                type: "image",
+                                image_url: avatar_action,
+                                alt_text: assignee_display(conversation.assignee)
+                              }
+                            end
+
+      [
+        {
+          type: "actions",
+          elements: [
+            state_action,
+            priority_action
+          ]
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: "Priority: #{conversation.priority ? 'YES' : 'NO'}"
+            },
+
+            {
+              type: "mrkdwn",
+              text: "State: #{conversation.state}"
+            },
+
+            {
+              type: "image",
+              image_url: "https://api.slack.com/img/blocks/bkb_template_images/task-icon.png",
+              alt_text: "Task Icon"
+            },
+            {
+              type: "mrkdwn",
+              text: "Task"
+            },
+            avatar_action_block,
+            {
+              type: "mrkdwn",
+              text: (assignee_display(conversation.assignee) || "Unassigned").to_s #  "<fakelink.toUser.com|Michael Scott>"
+            }
+          ].compact
+        }
+      ]
+    end
+
+    def action_button(value:, text:, style: nil)
+      {
+        type: "button",
+        text: {
+          type: "plain_text",
+          emoji: true,
+          text: text
+        },
+        value: value
+      }.merge(confirm_block).tap do |hash|
+        hash[:style] = style if style
+      end
+    end
+
+    def confirm_block
+      {
+        confirm: {
+          title: {
+            type: "plain_text",
+            text: "Are you sure?"
+          },
+          text: {
+            type: "mrkdwn",
+            text: "This action will change the state of the conversation"
+          },
+          confirm: {
+            type: "plain_text",
+            text: "Do it"
+          },
+          deny: {
+            type: "plain_text",
+            text: "Stop, I've changed my mind!"
           }
-        )
-      )
-
-      return unless response_data["ok"]
-
-      conversation.conversation_channels.create({
-                                                  provider: "slack",
-                                                  provider_channel_id: response_data["ts"]
-                                                })
+        }
+      }
     end
 
     def assignee_display(assignee)
@@ -322,7 +549,23 @@ module MessageApis::Slack
 
     # this call process event in async job
     def enqueue_process_event(params, package)
+      @package = package
+
       return handle_challenge(params) if challenge?(params)
+
+      if params["payload"]
+        data = JSON.parse(params[:payload])
+        case data["type"]
+        when "block_suggestion"
+          case data["action_id"]
+          when "pick-agent"
+            return users_options(data["value"])
+          end
+
+          # when "block_actions"
+          #  handle_external_select_action(data)
+        end
+      end
 
       # process_event(params, package)
       HookMessageReceiverJob.perform_later(
@@ -333,8 +576,61 @@ module MessageApis::Slack
 
     def process_event(params, package)
       @package = package
-
+      handle_incoming_action(params) if params["payload"]
       handle_incoming_event(params) if params["event"]
+    end
+
+    def users_options(value)
+      agents = @package.app.agents.ransack(email_cont: value).result.limit(5)
+      {
+        options: agents.map do |u|
+          {
+            text: {
+              type: "plain_text",
+              text: "#{u.name} #{u.email}"
+            },
+            value: u.id.to_s
+          }
+        end
+      }
+    end
+
+    # handles actions from slack buttons
+    def handle_incoming_action(data)
+      data = JSON.parse(data["payload"])
+
+      if data["type"] == "block_actions"
+        action = data["actions"]&.first
+        return if action.blank?
+
+        slack_ts = data["message"]["ts"]
+        conversation = find_conversation_by_slack_ts(slack_ts)
+
+        case action["value"]
+        when "open"
+          conversation.reopen! unless conversation.opened?
+        when "close"
+          conversation.close! unless conversation.closed?
+        when "prioritize", "unprioritize"
+          conversation.toggle_priority
+        else
+          case action["type"]
+          when "external_select"
+            handle_external_select_action(action, conversation)
+          end
+        end
+        # this is not neccessary since the events will end executing a trigger ending delivering to slack
+        # update_thread_head(conversation.reload, slack_ts)
+      end
+    end
+
+    def handle_external_select_action(action, conversation)
+      case action["action_id"]
+      when "pick-agent"
+        value = action["selected_option"]["value"]
+        agent = @package.app.agents.find(value)
+        conversation.assign_user(agent)
+      end
     end
 
     def handle_incoming_event(params)
@@ -345,42 +641,48 @@ module MessageApis::Slack
       end
     end
 
+    def find_conversation_by_slack_ts(id)
+      @package.app.conversations
+              .joins(:conversation_channels)
+              .where(
+                "conversation_channels.provider =? AND
+        conversation_channels.provider_channel_id =?",
+                "slack", id
+              ).first
+    end
+
     def process_message(event)
       # TODO: add a conversation_event_type for this type
       return if event["subtype"] === "channel_join"
       return if event["thread_ts"].blank?
       return if event["text"] === "New conversation from Chaskiq"
 
-      conversation = @package
-                     .app
-                     .conversations
-                     .joins(:conversation_channels)
-                     .where(
-                       "conversation_channels.provider =? AND
-        conversation_channels.provider_channel_id =?",
-                       "slack", event["thread_ts"]
-                     ).first
-
-      serialized_blocks = serialize_content(event)
-
-      text = replace_emojis(event["text"])
+      conversation = find_conversation_by_slack_ts(event["thread_ts"])
 
       return if conversation.blank?
 
       return if conversation.conversation_part_channel_sources
                             .find_by(message_source_id: event["ts"]).present?
 
-      # TODO: serialize message
-      conversation.add_message(
-        from: get_agent_from_event(event),
-        message: {
-          html_content: text,
-          serialized_content: serialized_blocks
-        },
-        provider: "slack",
-        message_source_id: event["ts"],
-        check_assignment_rules: true
-      )
+      serialized_blocks = serialize_content(event)
+      # search for <@mention> and add to private message here!
+      mentions = mentions?(event)
+
+      namespace = mentions.present? ? :add_private_note : :add_message
+
+      text = replace_emojis(event["text"])
+
+      conversation.send(namespace,
+                        **{
+                          from: get_agent_from_event(event),
+                          message: {
+                            html_content: text,
+                            serialized_content: serialized_blocks
+                          },
+                          provider: "slack",
+                          message_source_id: event["ts"],
+                          check_assignment_rules: true
+                        })
     end
 
     def get_agent_from_event(event)
@@ -413,8 +715,8 @@ module MessageApis::Slack
 
     def oauth_authorize(app, package)
       oauth_client.auth_code.authorize_url(
-        user_scope: "chat:write,channels:history,channels:write,groups:write,mpim:write,im:write",
-        scope: "files:read,channels:history,channels:join,chat:write,channels:manage,chat:write.customize,users:read,users:read.email",
+        user_scope: "chat:write,channels:history,channels:write,groups:write,channels:read,groups:read,mpim:read,im:read",
+        scope: "files:read,channels:history,channels:join,chat:write,channels:read,channels:manage,chat:write.customize,users:read,users:read.email",
         redirect_uri: package.oauth_url
       )
     end
@@ -446,18 +748,20 @@ module MessageApis::Slack
         package.settings.merge!(package.app_package.credentials)
       )
 
-      # this will create the channel
-      package.message_api_klass.after_authorize
+      # this will create the channel or return existing id
+      # channel_id =
+      # package.message_api_klass.after_authorize
+      @package = package
+      after_authorize
+
+      # if channel_id
+      #  new_settings = package.settings.merge({ "channel_id" => channel_id })
+      #  package.update(settings: new_settings)
+      #  # else
+      #  # TODO: raise error here?
+      # end
 
       true
-    end
-
-    def after_authorize
-      response = create_channel
-      if !response["error"] && (chann_id = response.dig("channel", "id"))
-        authorize_user!
-        join_channel(chann_id)
-      end
     end
 
     # triggered when a new chaskiq message is created
@@ -471,18 +775,15 @@ module MessageApis::Slack
       messageable = part.messageable
 
       user_options = {
-        username: format_user_name(part.authorable).to_s,
-        icon_url: part&.authorable&.avatar_url
+        username: format_user_name(part.authorable).to_s
+        # icon_url: part&.authorable&.avatar_url # bug when process external image
       }
-
-      # text = !blocks.blank? ?
-      #        blocks.join(" ") :
-      #        part.messageable.html_content rescue nil
 
       if part.messageable.is_a?(ConversationPartBlock)
         return unless messageable.replied?
 
-        data = messageable.data
+        data = messageable.data || {}
+
         data_label = data["label"]
 
         data_fmt = if data.is_a?(Hash)
@@ -503,8 +804,8 @@ module MessageApis::Slack
         user = conversation.main_participant
 
         user_options.merge!({
-                              username: format_user_name(user),
-                              icon_url: user&.avatar_url
+                              username: format_user_name(user)
+                              # icon_url: user&.avatar_url # icon_url: part&.authorable&.avatar_url # bug when process external image
                             })
       end
 
@@ -537,20 +838,7 @@ module MessageApis::Slack
         }]
 
         user = conversation.main_participant
-
-        # user_options.merge!({
-        #  username: format_user_name(user),
-        #  icon_url: user&.avatar_url
-        # })
       end
-
-      # blocks.prepend({
-      #  "type": "section",
-      #  "text": {
-      #    "type": "mrkdwn",
-      #    "text": "*#{part.authorable.name}* (#{part.authorable.model_name.human}) sent a message"
-      #  }
-      # })
 
       provider_channel_id = conversation.conversation_channels
                                         .find_by(provider: "slack")&.provider_channel_id
@@ -561,7 +849,7 @@ module MessageApis::Slack
         "new message",
         blocks.as_json,
         user_options.merge!({
-                              channel: @keys["channel"],
+                              channel: resolve_channel_id(conversation.main_participant), # @keys["channel"],
                               thread_ts: provider_channel_id
                             })
       )
@@ -628,7 +916,7 @@ module MessageApis::Slack
               }
             when "image"
               image_url = block["data"]["url"]
-              image_url = "#{ENV['HOST']}#{block['data']['url']}" unless block["data"]["url"].include?("://")
+              image_url = "#{Chaskiq::Config.get('HOST')}#{block['data']['url']}" unless block["data"]["url"].include?("://")
               {
                 type: "image",
                 title: {
@@ -644,7 +932,7 @@ module MessageApis::Slack
                 type: "section",
                 text: {
                   type: "mrkdwn",
-                  text: "*File sent*: <#{ENV['HOST']}#{block['data']['url']}|go to file>"
+                  text: "*File sent*: <#{Chaskiq::Config.get('HOST')}#{block['data']['url']}|go to file>"
                 }
                 # block_id: block['key']
               }
@@ -715,10 +1003,15 @@ module MessageApis::Slack
       end
     end
 
+    def mentions?(data)
+      data["text"].match(/(<@\S+>)/)
+    end
+
     def process_blocks(data)
-      images = data["blocks"].select do |o|
+      images = data["blocks"]&.select do |o|
         o["type"] === "image"
-      end
+      end || []
+
       images = images.map do |block|
         media_block(
           {
@@ -732,18 +1025,44 @@ module MessageApis::Slack
       end
 
       { blocks: [
-        serialized_block(replace_emojis(data["text"])),
+        serialized_block(
+          replace_emojis(
+            replace_links(
+              data["text"]
+            )
+          )
+        ),
         images
       ].flatten.compact }.to_json
+    end
+
+    def get_file_info(file_id)
+      response = @conn.get(
+        url("/api/files.info"),
+        { file: file_id, token: keys["access_token"] },
+        { "Content-Type" => "application/x-www-form-urlencoded" }
+      )
+      body = JSON.parse(response.body)
+      body["file"] if body["ok"] && body["file"]
+    end
+
+    def get_file_data(file_data)
+      if file_data["mode"] == "file_access" && file_data["file_access"] == "check_file_info"
+        get_file_info(file_data["id"])
+      elsif file_data["url_private_download"].present?
+        file_data
+      end
     end
 
     def attachment_block(data)
       err = nil
       files = data["files"].map do |o|
         begin
+          file_data = get_file_data(o)
+
           file = handle_direct_upload(
-            o["url_private_download"],
-            o["mimetype"]
+            file_data["url_private_download"],
+            file_data["mimetype"]
           )
         rescue StandardError => e
           Rails.logger.info e.message
@@ -757,8 +1076,8 @@ module MessageApis::Slack
           url: file[:url],
           w: file[:width],
           h: file[:height],
-          text: o["title"],
-          mimetype: o["mimetype"]
+          text: file_data["title"],
+          mimetype: file_data["mimetype"]
         }
       end
 
@@ -777,6 +1096,7 @@ module MessageApis::Slack
 
     def media_block(data)
       params = data.slice(:url, :text, :w, :h)
+
       return photo_block(**params) if data[:mimetype].include?("image/")
 
       file_block(url: data[:url], text: data[:text])
@@ -797,6 +1117,12 @@ module MessageApis::Slack
       text.gsub(/(:[+-]*\w+:)/) do |m|
         short_name = m.gsub(":", "")
         EmojiData.from_short_name(short_name)&.render || m
+      end
+    end
+
+    def replace_links(text)
+      text.gsub(%r{<(https?://\S+)\|(\S|\s)+>}) do |o|
+        o.gsub(%r{<(https?://\S+)\|(\S|\s)+>}, Regexp.last_match(1).to_s)
       end
     end
   end

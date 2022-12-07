@@ -56,7 +56,7 @@ ca:
       already_confirmed: "ja s'ha confirmat, si us plau intenta iniciar la sessió"
       confirmation_period_expired: "s'ha de confirmar dins de %{period}, si us plau sol·licita'n un de nou"
       expired: "ha caducat, si us plau, sol·licita'n un de nou"
-      not_found: "Not found"
+      not_found: "No s'ha trobat"
       not_locked: "no està bloquejada"
       not_saved:
         one: "Un error ha impedit que es guardés aquest %{resource}:"

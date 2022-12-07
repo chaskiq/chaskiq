@@ -81,7 +81,7 @@ function RepliesClosedConversationsControls({
   const enabledValue = state[enabledKind];
   return (
     <div>
-      <p className="text-lg leading-5 font-bold text-gray-900 pb-2">
+      <p className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.closed_replies_title', { name: option.name })}
       </p>
 
@@ -122,6 +122,59 @@ function RepliesClosedConversationsControls({
   );
 }
 
+function IdleSessionClosedMessenger({
+  kind,
+  option,
+  handleChangeNumber,
+  state,
+}) {
+  const afterKind = `${kind}_after`;
+  const enabledKind = `${kind}_enabled`;
+
+  const enabledValue = state[enabledKind];
+  return (
+    <div>
+      <p className="text-lg leading-5 font-bold text-gray-900 dark:text-gray-100 pb-2">
+        {I18n.t('settings.inbound.idle_sessions_title', { name: option.name })}
+      </p>
+
+      <div className="flex items-center space-x-1 h-24 py-3">
+        <Input
+          type="checkbox"
+          checked={enabledValue}
+          defaultValue={enabledValue}
+          onChange={(e) => {
+            handleChangeNumber(enabledKind, e.currentTarget.checked);
+          }}
+          value={enabledValue}
+          label={
+            !enabledValue
+              ? I18n.t('settings.inbound.idle_sessions_enabled')
+              : I18n.t('settings.inbound.idle_sessions_disabled')
+          }
+        />
+
+        {enabledValue && (
+          <div className="w-[10em]">
+            <Input
+              type="number"
+              onChange={(e) => {
+                const num = parseInt(e.currentTarget.value);
+                if (num < 0) return;
+                handleChangeNumber(afterKind, num);
+              }}
+              value={state[afterKind]}
+              className="flex flex-row-reverse space-x-2"
+              labelMargin={'mx-3 py-2'}
+              label={I18n.t('common.minutes')}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function InboundSettingsForm({ settings, update, dispatch, option }) {
   const [state, setState] = React.useState({
     enable_inbound: settings.inboundSettings.enabled,
@@ -135,6 +188,11 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
     users_close_conversations_after:
       settings.inboundSettings.users.close_conversations_after || 0,
 
+    users_idle_sessions_enabled:
+      settings.inboundSettings.users.users_idle_sessions_enabled,
+    users_idle_sessions_after:
+      settings.inboundSettings.users.users_idle_sessions_after || 0,
+
     visitors_enable_inbound: settings.inboundSettings.enabled,
     visitors_radio: settings.inboundSettings.visitors.segment,
     visitors_enabled: settings.inboundSettings.visitors.enabled,
@@ -143,6 +201,11 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
       settings.inboundSettings.visitors.close_conversations_enabled,
     visitors_close_conversations_after:
       settings.inboundSettings.visitors.close_conversations_after || 0,
+
+    visitors_idle_sessions_enabled:
+      settings.inboundSettings.visitors.idle_sessions_enabled,
+    visitors_idle_sessions_after:
+      settings.inboundSettings.visitors.idle_sessions_after || 0,
   });
 
   const handleChange = (name, event) => {
@@ -172,6 +235,10 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
       visitors_close_conversations_enabled,
       users_close_conversations_after,
       users_close_conversations_enabled,
+      visitors_idle_sessions_after,
+      visitors_idle_sessions_enabled,
+      users_idle_sessions_after,
+      users_idle_sessions_enabled,
     } = state;
 
     const data = {
@@ -185,6 +252,8 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
             predicates: users_predicates,
             close_conversations_enabled: users_close_conversations_enabled,
             close_conversations_after: users_close_conversations_after,
+            idle_sessions_enabled: users_idle_sessions_enabled,
+            idle_sessions_after: users_idle_sessions_after,
           },
           visitors: {
             visitors_enable_inbound: visitors_enable_inbound,
@@ -193,6 +262,8 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
             predicates: visitors_predicates,
             close_conversations_enabled: visitors_close_conversations_enabled,
             close_conversations_after: visitors_close_conversations_after,
+            idle_sessions_enabled: visitors_idle_sessions_enabled,
+            idle_sessions_after: visitors_idle_sessions_after,
           },
         },
       },
@@ -206,7 +277,7 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         <Hints type="inbound_settings" />
       </div>
 
-      <p className="text-lg font-bold text-gray-900 pb-2">
+      <p className="text-lg font-bold text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.title')}
       </p>
 
@@ -238,6 +309,15 @@ function InboundSettingsForm({ settings, update, dispatch, option }) {
         kind={`${option.namespace}_close_conversations`}
         handleChangeNumber={handleChangeNumber}
       />
+
+      {option.namespace == 'visitors' && settings.allowIdleSessions && (
+        <IdleSessionClosedMessenger
+          state={state}
+          option={option}
+          kind={`${option.namespace}_idle_sessions`}
+          handleChangeNumber={handleChangeNumber}
+        />
+      )}
 
       <p className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 pb-2">
         {I18n.t('settings.inbound.hint2')}

@@ -2,7 +2,7 @@
 
 module Types
   class AgentType < Types::BaseObject
-    field :id, Int, null: false
+    field :id, String, null: false
     field :email, String, null: true, authorize: { to: :agent_only?, with: AppPolicy }
     # field :user, [Types::UserType], null: true
     field :name, String, null: true
@@ -15,6 +15,14 @@ module Types
     field :avatar_url, String, null: true
     field :lang, String, null: true
     field :available, Boolean, null: true
+
+    field :area_of_expertise, String, null: true
+    field :specialization, String, null: true
+    field :phone_number, String, null: true
+    field :address, String, null: true
+    field :availability, String, null: true
+    field :enable_deliveries, String, null: true
+    field :permissions, String, null: true
 
     field :display_name, String, null: true
 
@@ -65,7 +73,7 @@ module Types
           Types::JsonType,
           null: true,
           authorized_scope: { with: AppPolicy } do
-      argument :range, Types::JsonType, required: true
+      argument :range, Types::AnyType, required: true
       argument :kind,  String, required: true
     end
   end

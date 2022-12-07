@@ -15,7 +15,7 @@ import {
   ARTICLE_COLLECTION,
   ARTICLE_COLLECTION_WITH_SECTIONS,
   APP_PACKAGE_HOOK,
-} from './queries'
+} from './queries';
 
 const GQQueries = {
   AUTH: AUTH,

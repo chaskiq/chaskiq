@@ -9,11 +9,15 @@ module Mutations
 
     argument :url, String, required: true
     argument :state, String, required: true
-    argument :tags, Types::JsonType, required: false
+    argument :tags, Types::AnyType, required: false
 
     def resolve(app_key:, url:, tags:, state:)
       current_user = context[:current_user]
       @app = current_user.apps.find_by(key: app_key)
+
+      authorize! @app, to: :can_manage_outgoing_webhooks?, with: AppPolicy, context: {
+        app: @app
+      }
 
       state_value = if ActiveModel::Type::Boolean.new.cast(state)
                       "enabled"
@@ -21,7 +25,7 @@ module Mutations
                       "disabled"
                     end
 
-      authorize! @app, to: :manage?, with: AppPolicy
+      # authorize! @app, to: :manage?, with: AppPolicy
 
       @webhook = @app.outgoing_webhooks.new
       @webhook.assign_attributes(

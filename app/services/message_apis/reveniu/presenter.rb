@@ -211,7 +211,7 @@ module MessageApis::Reveniu
 
 						<style>
 							body {
-								font-family: 'Inter', sans-serif;#{' '}
+								font-family: 'Inter', sans-serif;
 								margin: 0px; padding: 0px;
 							}
 						</style>
@@ -220,11 +220,11 @@ module MessageApis::Reveniu
 
 					<body>
 						<div class="container">
-							<iframe#{' '}
+							<iframe
 								sandbox="allow-top-navigation allow-forms allow-same-origin allow-scripts"
-								src="<%=@url%>"#{' '}
-								width="100%"#{' '}
-								height="100%"#{' '}
+								src="<%=@url%>"
+								width="100%"
+								height="100%"
 								style="border:none">
 							</iframe>
 						</div>

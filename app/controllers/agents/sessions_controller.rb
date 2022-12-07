@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Agents::SessionsController < Devise::SessionsController
+  include Trackeable
+
   skip_before_action :verify_authenticity_token, only: [:destroy]
   skip_before_action :verify_signed_out_user, only: [:destroy]
 
@@ -21,6 +23,8 @@ class Agents::SessionsController < Devise::SessionsController
     # TODO: figure out how can avoid this
     # like customize /oauth/applications
     # sign_in(resource_name, resource, {store: true})
+
+    track_event(resource, "login")
 
     if session[:return_to].blank?
       a = Doorkeeper::Application.first
@@ -44,6 +48,13 @@ class Agents::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
+    track_event(current_agent, "logout")
+
+    if request.headers["access-token"]
+      token = current_agent.access_tokens.find_by(token: request.headers["access-token"])
+      token.destroy if token.present?
+    end
+
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
     set_flash_message! :notice, :signed_out if signed_out
     yield if block_given?

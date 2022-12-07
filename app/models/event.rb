@@ -8,6 +8,7 @@ class Event < ApplicationRecord
     { identifier: :visitors_convert, name: "visitors.convert" },
     { identifier: :leads_convert, name: "leads.convert" },
     { identifier: :conversation_assigned, name: "conversations.assigned" },
+    { identifier: :conversation_prioritized, name: "conversations.prioritized" },
     { identifier: :conversation_started, name: "conversations.started" },
     { identifier: :conversation_opened, name: "conversations.added" },
     { identifier: :conversation_closed, name: "conversations.closed" },

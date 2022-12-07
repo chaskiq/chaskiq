@@ -60,7 +60,7 @@ class FetchLinkCardService < BaseService
 
   def skip_link?(a)
     # Avoid links for hashtags and mentions (microformats)
-    a["rel"].present? && a["rel"].include?("tag") || a["class"].present? && a["class"].include?("u-url")
+    (a["rel"].present? && a["rel"].include?("tag")) || (a["class"].present? && a["class"].include?("u-url"))
   end
 
   def attempt_oembed(card, url)

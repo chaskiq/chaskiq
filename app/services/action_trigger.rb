@@ -10,6 +10,8 @@ class ActionTrigger
       app_user: current_user
     )
 
+    return if path.blank?
+
     next_step = path["steps"].find do |o|
       o["step_uid"] == data["step"]
     end
@@ -142,7 +144,7 @@ class ActionTrigger
 
       conversation.assign_user(agent)
     when "close"
-      conversation.close
+      conversation.close!
     end
   end
 

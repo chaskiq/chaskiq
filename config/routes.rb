@@ -6,6 +6,9 @@ require 'subdomain_routes'
 Rails.application.routes.draw do
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
+
+    controllers tokens: 'agents/tokens'
+
     # controllers applications: 'agents/authorizations',
     # tokens: 'agents/custom_authorizations'
     # authorizations: 'custom_authorizations',
@@ -28,8 +31,8 @@ Rails.application.routes.draw do
     # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
     # - Use & (do not use &&) so that it doesn't short circuit.
     # - Use digests to stop length information leaking
-    ActiveSupport::SecurityUtils.secure_compare(user, ENV['ADMIN_EMAIL']) &
-      ActiveSupport::SecurityUtils.secure_compare(password, ENV['ADMIN_PASSWORD'])
+    ActiveSupport::SecurityUtils.secure_compare(user, Chaskiq::Config.get('ADMIN_EMAIL')) &
+      ActiveSupport::SecurityUtils.secure_compare(password.to_s, Chaskiq::Config.get('ADMIN_PASSWORD').to_s)
   end
 
   mount Sidekiq::Web, at: '/sidekiq'
@@ -38,10 +41,13 @@ Rails.application.routes.draw do
     registrations: 'agents/registrations',
     invitations: 'agents/invitations',
     sessions: 'agents/sessions',
-    omniauth_callbacks: 'agents/omniauth_callbacks'
+    omniauth_callbacks: 'agents/omniauth_callbacks',
+    passwords: 'agents/passwords'
   } do
     delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_agent_session
   end
+
+  post "/auth0/authenticate", to: "agents/auth0#create"
 
   resource :oembed, controller: 'oembed', only: :show
   get '/package_iframe/:package' => 'application#package_iframe'
@@ -91,7 +97,8 @@ Rails.application.routes.draw do
 
       resources :direct_uploads, only: [:create], controller: 'api/v1/direct_uploads'
 
-      resources :subscription_hooks, only: [:create], controller: 'api/v1/subscription_hooks'
+      resources :stripe_hooks, only: [:create], controller: 'api/v1/subscriptions/stripe_hooks'
+      resources :subscription_hooks, only: [:create], controller: 'api/v1/subscriptions/paddle_hooks'
     end
   end
 

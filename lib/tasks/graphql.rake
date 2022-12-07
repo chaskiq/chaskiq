@@ -8,9 +8,7 @@ namespace :graphql do
     task idl: [:environment] do
       target = Rails.root.join("public/schema.graphql")
       schema = GraphQL::Schema::Printer.print_schema(ChaskiqSchema)
-      File.open(target, "w+") do |f|
-        f.write(schema)
-      end
+      File.write(target, schema)
       puts "Schema dumped into public/schema.graphql"
     end
 
@@ -18,9 +16,7 @@ namespace :graphql do
     task json: [:environment] do
       target = Rails.root.join("public/schema.json")
       result = ChaskiqSchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY)
-      File.open(target, "w+") do |f|
-        f.write(JSON.pretty_generate(result))
-      end
+      File.write(target, JSON.pretty_generate(result))
       puts "Schema dumped into public/schema.json"
     end
   end

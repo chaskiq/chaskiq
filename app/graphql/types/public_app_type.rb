@@ -14,13 +14,15 @@ module Types
     field :email_requirement, String, null: true
     field :greetings, String, null: true
     field :intro, String, null: true
-    field :tagline, String, null: true
     field :user_tasks_settings, Types::JsonType, null: true
     field :lead_tasks_settings, Types::JsonType, null: true
     field :inline_new_conversations, Boolean, null: true
     field :home_apps, [Types::JsonType], null: true
     field :searcheable_fields, [Types::JsonType], null: true
     field :privacy_consent_required, String, null: true
+
+    field :user_editor_settings, AnyType, null: true
+    field :lead_editor_settings, AnyType, null: true
 
     field :new_conversation_bots, Types::JsonType, null: true
     def new_conversation_bots
@@ -123,6 +125,17 @@ module Types
         object.logo.variant(options).processed,
         only_path: true
       )
+    end
+
+    field :banner, Types::JsonType, null: true do
+      argument :id, String, required: true, default_value: ""
+    end
+    def banner(id:)
+      object.banners
+            .enabled
+            .in_time
+            .find_by(id: id)
+            .as_json(only: %i[id html_content serialized_content], methods: [:banner_data])
     end
   end
 end

@@ -48,18 +48,18 @@ pl:
       OauthApplications:
         title: OauthApplications
         description: true
-        upgrade_message: Enable API access support through OAUTH
+        upgrade_message: Włącz obsługę dostępu API poprzez OAUTH
       Articles:
-        title: Articles
+        title: Artykuły
         active: false
-        upgrade_message: Enable Documentation & Help Center
+        upgrade_message: Włącz dokumentację i Centrum Pomocy
       QuickReplies:
-        title: QuickReplies
+        title: Szybkie Odpowiedzi
         description: true
-        upgrade_message: add Quick replies to your conversations
+        upgrade_message: dodaj szybkie odpowiedzi do rozmów
       CustomAttributes:
-        title: CustomAttributes
-        upgrade_message: Enable custom attributes
+        title: Własne Atrybuty
+        upgrade_message: Włącz niestandardowe atrybuty
     plans:
       - 
         name: "free one"
@@ -72,7 +72,7 @@ pl:
       - 
         name: "super"
         id: 596123
-        description: This is the super plan
+        description: To jest super plan
     plan:
       included: What's included
       pay_by: Pay by %{billing_type}
@@ -88,16 +88,16 @@ pl:
       subscription_cancelled:
         title: Subscription Cancelled
         desc: The subscription was cancelled
-      close: Close this dialog
+      close: Zamknij to okno
     billing_information:
       title: Billing plan information
       description: You are currently using "%{plan_name}" plan.
       next_billing: Next Billing on %{next_payment_date} for $%{next_payment_amount} %{next_payment_currency}
-      cancel_plan: cancel plan
-      update_payment_method: Update payment method
+      cancel_plan: anuluj plan
+      update_payment_method: Zaktualizuj metodę płatności
       subscription_state: Estado de subscripción %{state}
     update_subscription:
-      cta: Update subscription
-      billed_on: You will be billed on each <span class="font-bold"> %{billing_period} %{billing_type} </span>
-      amount: With the amount of <span class="font-bold">$ %{recurring_price} USD</span>
-      next_payment: Next payment will be on <span class="font-bold">%{next_payment_date}</span>
+      cta: Zaktualizuj subskrypcję
+      billed_on: Zostaniesz rozliczony za każde <span class="font-bold"> %{billing_period} %{billing_type} </span>
+      amount: Kwota <span class="font-bold">$ %{recurring_price} USD</span>
+      next_payment: Następna płatność będzie w dniu <span class="font-bold">%{next_payment_date}</span>

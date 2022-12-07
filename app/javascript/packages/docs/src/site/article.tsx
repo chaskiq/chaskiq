@@ -13,6 +13,8 @@ import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
 
+import { Link } from 'react-router-dom';
+
 import { withRouter } from 'react-router-dom';
 
 const NewEditorStyles = styled(EditorContainer)<{
@@ -129,6 +131,42 @@ function Article(props: ArticleProps) {
                 />
               </NewEditorStyles>
             </ThemeProvider>
+
+            <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
+              {article.prevArticleUrl && (
+                <div>
+                  <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                    Previous
+                  </dt>
+                  <dd className="mt-1">
+                    <Link
+                      className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                      to={article.prevArticleUrl.slug}
+                    >
+                      <span aria-hidden="true">←</span>{' '}
+                      {article.prevArticleUrl.title}
+                    </Link>
+                  </dd>
+                </div>
+              )}
+
+              {article.nextArticleUrl && (
+                <div className="ml-auto text-right">
+                  <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                    Next
+                  </dt>
+                  <dd className="mt-1">
+                    <Link
+                      className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+                      to={article.nextArticleUrl.slug}
+                    >
+                      {article.nextArticleUrl.title}{' '}
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </dd>
+                </div>
+              )}
+            </dl>
           </div>
         ) : null}
       </div>

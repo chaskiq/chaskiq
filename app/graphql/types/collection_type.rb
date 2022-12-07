@@ -3,7 +3,7 @@
 module Types
   class CollectionType < Types::BaseObject
     field :title, String, null: true
-    field :id, Integer, null: true
+    field :id, String, null: true
     field :description, String, null: true
     field :slug, String, null: false
     field :sections, [Types::SectionType], null: true

@@ -212,7 +212,7 @@ function QuickReplies({ app, _update, dispatch }) {
             )}
           </div>
         </div>
-        <div className="border-2 p-4 border-blue-200 rounded">
+        <div className="border-2 p-4 border-blue-200 dark:border-gray-600 rounded">
           {!loading && (
             <ArticleEditor
               article={{
@@ -273,7 +273,7 @@ function QuickReplies({ app, _update, dispatch }) {
 
       {(quickReply || quickReplies.length > 0) && (
         <div className="flex">
-          <div className="w-1/3 bg-white dark:bg-black shadow overflow-hidden rounded rounded-r-none">
+          <div className="w-1/3 bg-white dark:bg-gray-800 shadow overflow-hidden rounded rounded-r-none">
             <ul>
               {quickReplies.map((o, i) => (
                 <li
@@ -295,7 +295,7 @@ function QuickReplies({ app, _update, dispatch }) {
                       <div className="min-w-0 flex-1 flex items-center">
                         <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
                           <div>
-                            <div className="text-sm leading-5 font-medium text-indigo-600 truncate">
+                            <div className="text-sm leading-5 font-medium text-brand truncate">
                               {o.title}
                             </div>
                           </div>
@@ -321,24 +321,22 @@ function QuickReplies({ app, _update, dispatch }) {
             </ul>
           </div>
 
-          <div className="w-2/3 relative z-0 p-6 shadow bg-yellow rounded rounded-l-none">
+          <div className="w-2/3 relative z-0 p-6 shadow dark:bg-gray-900 rounded rounded-l-none">
             {quickReply && !quickReply.id && (
               <div className="flex justify-end">
-                <Button
-                  variant="outlined"
-                  className="mr-2"
-                  onClick={handleSave}
-                >
+                <Button variant="success" className="mr-2" onClick={handleSave}>
                   {I18n.t('common.save')}
                 </Button>
-                <Button variant="success">{I18n.t('common.cancel')}</Button>
+                <Button onClick={() => setQuickReply(null)} variant="outlined">
+                  {I18n.t('common.cancel')}
+                </Button>
               </div>
             )}
 
             {quickReply && quickReply.id && (
               <div className="flex justify-end">
                 <Button
-                  variant="outlined"
+                  variant="success"
                   className="mr-2"
                   onClick={updateQuickReply}
                 >
@@ -441,6 +439,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
 
     return (
       <TextEditor
+        allowedEditorFeature={() => true}
         campaign={true}
         uploadHandler={this.props.uploadHandler}
         loading={this.isLoading()}

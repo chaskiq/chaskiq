@@ -245,7 +245,11 @@ const HomePanel = () => {
               <ConnectedPeople>
                 {agents.map((agent, i) => (
                   <Avatar key={`home-agent-${i}-${agent.id}`}>
-                    <img src={agent.avatarUrl} title={agent.name} />
+                    <img
+                      alt={agent.name}
+                      src={agent.avatarUrl}
+                      title={agent.name}
+                    />
                   </Avatar>
                 ))}
               </ConnectedPeople>
@@ -263,13 +267,15 @@ const HomePanel = () => {
                   {i18n.t('messenger.start_conversation')}
                 </AnchorButton>
 
-                <a
-                  href="#"
-                  className="see_previous"
-                  onClick={viewConversations}
-                >
-                  {i18n.t('messenger.see_previous')}
-                </a>
+                {conversations.length > 0 && (
+                  <a
+                    href="#"
+                    className="see_previous"
+                    onClick={viewConversations}
+                  >
+                    {i18n.t('messenger.see_previous')}
+                  </a>
+                )}
               </CardButtonsGroup>
             </CardContent>
           </CardPadder>
@@ -280,23 +286,6 @@ const HomePanel = () => {
             </React.Fragment>
           */}
         </ConversationInitiator>
-      )}
-
-      {!appData.inboundSettings.enabled && (
-        <ConversationsBlock in={transition}>
-          <CardButtonsGroup style={{ padding: '2em' }}>
-            <h2>{i18n.t('messenger.conversations')}</h2>
-
-            {newMessages > 0 && (
-              <CountBadge section={'home'}>{newMessages}</CountBadge>
-            )}
-
-            <a className="see_previous" href="#" onClick={viewConversations}>
-              {i18n.t('messenger.see_previous')}
-            </a>
-          </CardButtonsGroup>
-          {renderLastConversation()}
-        </ConversationsBlock>
       )}
 
       {loading && <Loader xs></Loader>}

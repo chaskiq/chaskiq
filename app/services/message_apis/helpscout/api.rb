@@ -43,7 +43,7 @@ module MessageApis::Helpscout
     end
 
     def authorize!
-      @conn.authorization :Bearer, @access_token
+      @conn.request :authorization, :Bearer, @access_token
     end
 
     def create_conversation
