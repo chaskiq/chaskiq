@@ -17,6 +17,7 @@ import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blo
 import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
 import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
 import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
+import { FileBlockConfig } from 'Dante2/package/esm/editor/components/blocks/file';
 import {
   LinkDecorator as Link,
   PrismDraftDecorator,
@@ -30,7 +31,7 @@ import { ThemeProvider } from 'emotion-theming';
 //import EditorStyles from "Dante2/package/es/styled/base";
 
 import { ImageBlockConfig } from './blocks/image';
-import { FileBlockConfig } from './blocks/fileBlock';
+// import { FileBlockConfig } from './blocks/fileBlock';
 
 import Prism from 'prismjs';
 //import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
