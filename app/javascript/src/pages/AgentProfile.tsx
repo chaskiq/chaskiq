@@ -251,7 +251,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   nameEditor = () => {
     return (
-      <h5 className="text-2xl font-bold text-gray-900 truncate">
+      <h5 className="text-2xl font-bold text-gray-900 dark:text-gray-200 truncate">
         {this.state.agent.name || I18n.t('profile.no_name')}
         <Button variant="icon" onClick={this.toggleNameEdit} color={'inherit'}>
           <EditIcon />
@@ -352,9 +352,9 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                 aria-hidden="true"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
               <span>back</span>
@@ -395,7 +395,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                         />
                         <label
                           htmlFor={'avatarUpload'}
-                          className="hover:cursor-pointer text-sm leading-5 text-gray-500"
+                          className="hover:cursor-pointer text-sm leading-5 text-gray-500 dark:text-gray-400"
                         >
                           Upload avatar
                         </label>
@@ -454,11 +454,14 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 mb-8">
                           {this.state.agent &&
                             this.agentProperties().map((o) => (
-                              <div className={`sm:col-span-${o.span || '1'}`}>
-                                <dt className="text-sm font-medium text-gray-500">
+                              <div
+                                key={`agent-prop-${o.name}`}
+                                className={`sm:col-span-${o.span || '1'}`}
+                              >
+                                <dt className="block text-gray-700 dark:text-white text-sm font-bold mb-2">
                                   {o.name}
                                 </dt>
-                                <dd className="mt-1 text-sm text-gray-900">
+                                <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">
                                   {o.value}
                                 </dd>
                               </div>

@@ -5,8 +5,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.7.5"
 
+# gem 'google-protobuf', git: 'https://github.com/google/protobuf'
+
+gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "anycable-rails", "~> 1.3.0"
+gem "anycable-rails"
 gem "pg"
 gem "rails", "7.0.4" # , github: "rails/rails",
 gem "uri", "0.10.0"
@@ -16,12 +19,12 @@ gem "uri", "0.10.0"
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
 gem "haml"
-gem "jsbundling-rails", "~> 1.0"
+gem "jsbundling-rails"
 gem "kredis", "~> 1.1"
-gem "propshaft", "~> 0.6.4"
+gem "propshaft"
 gem "puma", "~> 6.0"
 gem "sassc"
-gem "tailwindcss-rails", "~> 2.0"
+gem "tailwindcss-rails"
 
 gem "devise" # , "4.7.1" # github: "plataformatec/devise"
 # Use CoffeeScript for .coffee assets and views
@@ -45,6 +48,8 @@ gem "action_policy-graphql", "~> 0.4"
 gem "goldiloader"
 gem "graphiql-rails", group: :development
 gem "graphql", "~> 1.13"
+
+gem "nokogiri", force_ruby_platform: true
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
