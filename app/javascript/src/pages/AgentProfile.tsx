@@ -454,7 +454,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
                         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 mb-8">
                           {this.state.agent &&
                             this.agentProperties().map((o) => (
-                              <div key={`agent-prop-${o.name}`} className={`sm:col-span-${o.span || '1'}`}>
+                              <div
+                                key={`agent-prop-${o.name}`}
+                                className={`sm:col-span-${o.span || '1'}`}
+                              >
                                 <dt className="block text-gray-700 dark:text-white text-sm font-bold mb-2">
                                   {o.name}
                                 </dt>
