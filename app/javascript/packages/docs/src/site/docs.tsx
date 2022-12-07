@@ -109,18 +109,19 @@ function Docs(props) {
                       <hr className={'classes.hr'} />
                     </div>
 
-                    {settings.availableLanguages && settings.availableLanguages > 0 && (
-                      <Dropdown
-                        icon={
-                          <LangGlobeIcon className="h-5 w-5 outline-none" />
-                        }
-                        filterHandler={handleLangChange}
-                        options={settings.availableLanguages.map((o) => ({
-                          name: o,
-                          id: o,
-                        }))}
-                      />
-                    )}
+                    {settings.availableLanguages &&
+                      settings.availableLanguages > 0 && (
+                        <Dropdown
+                          icon={
+                            <LangGlobeIcon className="h-5 w-5 outline-none" />
+                          }
+                          filterHandler={handleLangChange}
+                          options={settings.availableLanguages.map((o) => ({
+                            name: o,
+                            id: o,
+                          }))}
+                        />
+                      )}
                   </div>
                 </div>
               </div>
