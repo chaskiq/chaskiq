@@ -1,23 +1,36 @@
-# frozen_string_literal: true
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # In the development environment your application's code is reloaded on
-  # every request. This slows down response time but is perfect for development
+  # In the development environment your application's code is reloaded any time
+  # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
   # config.hosts << "dea224b3.ngrok.io"
   config.hosts = nil # << "/[a-z0-9]+\.chaskiq.test:3000/"
 
+  #main_host = Addressable::URI.parse( ENV["HOST"])
+
+  #raise "no valid host in HOST env var" if main_host.host.blank?
+
+  #config.hosts = [
+  #  IPAddr.new("0.0.0.0/0"),        # All IPv4 addresses.
+  #  IPAddr.new("::/0"),             # All IPv6 addresses.
+  #  "localhost",                    # The localhost reserved domain.
+  #  main_host.host,  # Additional comma-separated hosts for development.
+  #  ".#{main_host.host}"
+  #]
+
   # Do not eager load code on boot.
   config.eager_load = false
 
-  config.cache_store = :redis_cache_store
-
   # Show full error reports.
   config.consider_all_requests_local = true
+
+  # Enable server timing
+  config.server_timing = true
 
   config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 
@@ -35,13 +48,13 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -60,27 +73,27 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
+
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-  # Debug mode disables concatenation and preprocessing of assets.
-  # This option may cause significant delays in view rendering with a large
-  # number of complex assets.
-  config.assets.debug = true
-
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
   config.log_level = :debug
-
   # Raises error for missing translations.
-  # config.action_view.raise_on_missing_translations = true
+  # config.i18n.raise_on_missing_translations = true
 
-  # Use an evented file watcher to asynchronously detect changes in source code,
-  # routes, locales, etc. This feature depends on the listen gem.
+  # Annotate rendered view with file names.
+  # config.action_view.annotate_rendered_view_with_filenames = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   delivery_method = ENV.fetch('SMTP_DELIVERY_METHOD', 'ses')
@@ -98,7 +111,7 @@ Rails.application.configure do
     zone = ENV['AWS_S3_REGION']
 
     creds = Aws::Credentials.new(
-      ENV['AWS_ACCESS_KEY_ID'], 
+      ENV['AWS_ACCESS_KEY_ID'],
       ENV['AWS_SECRET_ACCESS_KEY']
     )
 
@@ -132,8 +145,18 @@ Rails.application.configure do
   config.after_initialize do
     require "i18n-js/listen"
     I18nJS.listen(
-      config_file: Rails.root.join("config/i18n.yml"), 
+      config_file: Rails.root.join("config/i18n.yml"),
       locales_dir: Rails.root.join("config/locales")
     )
   end
+
+  if Chaskiq::Config.get('RAILS_LOG_TO_STDOUT').present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  end
+
+
+  # Uncomment if you wish to allow Action Cable access from any origin.
+  # config.action_cable.disable_request_forgery_protection = true
 end

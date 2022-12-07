@@ -135,14 +135,14 @@ class Campaign < Message
 
   # will remove content blocks text
   def clean_inline_css(url)
-    html = open(url).readlines.join
+    html = URI.open(url).readlines.join
     document = Roadie::Document.new html
     new_html = document.transform
 
     doc = Nokogiri::HTML(new_html)
     # rename active sotrage url to absolute for email readers
     doc.xpath("//img").each do |img|
-      image_url = "#{ENV['HOST']}#{img['src']}"
+      image_url = "#{Chaskiq::Config.get('HOST')}#{img['src']}"
       url = image_url.include?("rails/active_storage") ? image_url : img["src"]
       img["src"] = url
     end

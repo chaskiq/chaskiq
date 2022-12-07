@@ -74,7 +74,7 @@ fi:
         label: Register Visits
         hint: "Even if this is disabled we will collect global counter of visits and store the last visit information on visitor's profile"
       languages:
-        select_lang: "select lang"
+        select_lang: Select language
     campaigns:
       campaign_name:
         label: Campaign Name
@@ -154,6 +154,10 @@ fi:
         name: 'sheet_url'
         hint: 'Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.'
         placeholder: 'e.g. https://yourdomain.com/submit-sheet-url/'
+      content_url:
+        label: 'Dynamic content flow webhook URL'
+        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
+        placeholder: 'e.g. https://yourdomain.com/content-url/'
     webhooks:
       url:
         label: url for outgoing webhook
@@ -175,6 +179,13 @@ fi:
       access_list:
         label: 'Roles for agent'
         hint: 'blank access will disable account settings access for user'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email
@@ -196,9 +207,10 @@ fi:
       email: Email
       state: State
       online: Online
-      ip: Ip
+      ip: IP
       country: Country
       city: City
+      phone: Phone
       lat: Lat
       lng: Lng
       postal: Postal

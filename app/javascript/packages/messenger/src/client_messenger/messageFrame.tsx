@@ -15,6 +15,7 @@ type MessageFrameProps = {
   domain: string;
   i18n: any;
   handleClose: (id: Number) => void;
+  pushEvent: any;
 };
 
 type MessageFrameState = {
@@ -37,15 +38,14 @@ export default class MessageFrame extends Component<
 
   handleClose = (message) => {
     this.props.handleClose(message.id);
-    /*this.props.events &&
-      this.props.events.perform('track_close', {
-        trackable_id: message.id,
-      });*/
   };
 
   render() {
     return (
-      <UserAutoMessageStyledFrame id="messageFrame">
+      <UserAutoMessageStyledFrame
+        id="messageFrame"
+        title={'chaskiq message frame'}
+      >
         <UserAutoMessageFlex>
           {this.props.availableMessages.map((o, i) => {
             return (

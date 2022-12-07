@@ -3,12 +3,12 @@
     "messenger": {
       "article_meta": "By: <strong>%{name}</strong> on <time>%{date}</time>",
       "availability": {
-        "aprox": "we'll back in approximately %{time} hrs",
-        "back_from": "we'll back online from %{hours} hrs",
-        "days": "we'll back in %{val} days",
-        "next_week": "we'll back next week",
-        "tomorrow": "we'll back back tomorrow",
-        "tomorrow_from": "we'll back online tomorrow from %{hours} hrs"
+        "aprox": "we'll be back in approximately %{time} hrs",
+        "back_from": "we'll be back online from %{hours} hrs",
+        "days": "we'll be back in %{val} days",
+        "next_week": "we'll be back next week",
+        "tomorrow": "we'll be back back tomorrow",
+        "tomorrow_from": "we'll be back online tomorrow from %{hours} hrs"
       },
       "by": "By",
       "closed_conversation": "This conversation has ended",
@@ -28,7 +28,7 @@
         },
         "title": "Conversations"
       },
-      "create_new_conversation": "create new conversation",
+      "create_new_conversation": "Create new conversation",
       "dismiss": "Dismiss",
       "editor": {
         "placeholder": "Send message..."
@@ -53,6 +53,7 @@
       "search_article_title": "Find answers in our article's repository",
       "search_articles": "Search articles",
       "see_previous": "See previous",
+      "show_more": "Show more",
       "start_conversation": "Start a conversation",
       "submit": "Submit",
       "tours": {
@@ -116,6 +117,7 @@
       "search_article_title": "Encuentra respuestas en nuestro centro de ayuda",
       "search_articles": "Busca artículos",
       "see_previous": "Ver anteriores",
+      "show_more": "Mostrar más",
       "start_conversation": "Inicia una conversación",
       "submit": "Enviar",
       "tours": {
@@ -137,6 +139,7 @@
         "tomorrow_from": "nous serons en ligne demain à partir de %{hours} heure"
       },
       "by": "Par",
+      "closed_conversation": "Cette conversation est terminée",
       "continue_conversation": "Continuer la discussion",
       "conversation_block": {
         "choosen": "Vous avez répondu <strong>%{field}</strong>"
@@ -177,6 +180,7 @@
       "search_article_title": "Trouver les réponses dans notre répertoire d'article",
       "search_articles": "Rechercher un article",
       "see_previous": "Voir les précedentes",
+      "show_more": "Montre plus",
       "start_conversation": "Commencer une discussion",
       "submit": "Soumettre",
       "tours": {

@@ -1,0 +1,66 @@
+admin:
+  manage:
+    - all
+manager:
+  manage:
+    - all
+agent:
+  login_to: conversations
+  manage:
+    - conversations
+  read:
+    - team
+    - users
+    - segments
+    - fixed_app_packages
+    - routing_bots
+    - quick_replies
+  write:
+
+program_manager:
+  login_to: :conversations
+  manage:
+    - conversations
+    - reports
+    - segments
+  read:
+    - team
+    - users
+  write:
+admin_only:
+  manage:
+    - campaigns
+    - routing_bots
+    - help_center
+    - reports
+    - app_settings
+    - messenger_settings
+    - app_packages
+    - team
+    - outgoing_webhooks
+    - oauth_applications
+  write:
+
+
+
+#    - app
+#    - app_settings
+#    - app_packages
+#    - messenger_settings
+#    - outgoing_webhooks
+#    - oauth_applications
+#    - dashboard
+#    - campaigns
+#    - routing_bots
+#    - help_center
+#    - dashboard
+#    - campaigns
+#    - routing_bots
+#    - help_center
+#    - reports
+#    - settings
+#    - assign_rules
+#    - quick_replies
+#    - team
+#    - users
+#    - conversation_customizations

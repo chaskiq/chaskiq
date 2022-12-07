@@ -11,7 +11,7 @@ RSpec.describe GraphqlController, type: :controller do
     app.add_agent(
       { email: "test2@test.cl" },
       bot: nil,
-      role_attrs: { access_list: ["manage"] }
+      role_attrs: { access_list: ["manage"], role: "admin" }
     )
   end
 
@@ -68,7 +68,7 @@ RSpec.describe GraphqlController, type: :controller do
         graphql_post(type: "WEBHOOK_UPDATE",
                      variables: {
                        appKey: app.key,
-                       id: webhook.id,
+                       id: webhook.id.to_s,
                        url: url,
                        tags: tags,
                        state: "true"
@@ -88,7 +88,7 @@ RSpec.describe GraphqlController, type: :controller do
         graphql_post(type: "WEBHOOK_DELETE",
                      variables: {
                        appKey: app.key,
-                       id: webhook.id
+                       id: webhook.id.to_s
                      })
 
         expect(graphql_response.data.deleteWebhook.webhook).to be_present

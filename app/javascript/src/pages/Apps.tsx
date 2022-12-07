@@ -32,6 +32,7 @@ const Container = styled.div`
 
 function App({ dispatch, loading }) {
   const [apps, setApps] = React.useState([]);
+  const [canCreateApps, setCanCreateApps] = React.useState(false);
   const [ready, setReady] = React.useState(false);
 
   React.useEffect(() => {
@@ -43,6 +44,7 @@ function App({ dispatch, loading }) {
       {
         success: (data) => {
           setApps(data.apps);
+          setCanCreateApps(data.canCreateApps);
           setReady(true);
         },
         error: () => {},
@@ -51,7 +53,7 @@ function App({ dispatch, loading }) {
   }, []);
 
   return (
-    <Container className="h-screen flex overflow-hidden bg-white">
+    <Container className="h-screen flex overflow-hidden bg-white dark:bg-gray-800">
       {loading || (!ready && <LoadingView />)}
 
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
@@ -85,9 +87,9 @@ function App({ dispatch, loading }) {
                   <div className="sm:text-center lg:text-left">
                     <img src={logo} alt="logo" />
 
-                    <h2 className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 sm:text-5xl sm:leading-none md:text-6xl">
+                    <h2 className="text-4xl tracking-tight leading-10 font-extrabold text-gray-900 dark:text-gray-100 sm:text-5xl sm:leading-none md:text-6xl">
                       {I18n.t('home.welcome')} <br className="xl:hidden" />
-                      <span className="text-indigo-600">
+                      <span className="text-brand">
                         {I18n.t('home.welcome_site')}
                       </span>
                     </h2>
@@ -96,19 +98,21 @@ function App({ dispatch, loading }) {
                     </p>
 
                     <div className="mt-5 sm:mt-8 mb-8 sm:flex sm:justify-center lg:justify-start">
-                      <div className="rounded-md shadow">
-                        <Link
-                          to="/apps/new"
-                          className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-indigo-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
-                        >
-                          {I18n.t('home.create_new')}
-                        </Link>
-                      </div>
+                      {canCreateApps && (
+                        <div className="rounded-md shadow">
+                          <Link
+                            to="/apps/new"
+                            className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-brand focus:outline-none focus:shadow-outline transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                          >
+                            {I18n.t('home.create_new')}
+                          </Link>
+                        </div>
+                      )}
                       <div className="mt-3 sm:mt-0 sm:ml-3">
                         <a
                           href="https://dev.chaskiq.io"
                           target={'blank'}
-                          className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:shadow-outline focus:border-indigo-300 transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                          className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-brand bg-indigo-100 hover:text-brand hover:bg-indigo-50 focus:outline-none focus:shadow-outline focus:border-indigo-300 transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
                         >
                           {I18n.t('home.go_to_doc')}
                         </a>
@@ -129,7 +133,7 @@ function App({ dispatch, loading }) {
                     >
                       <Card
                         className={
-                          'hover:bg-gray-100 border rounded overflow-hidden shadow-lg bg-white h-full'
+                          'hover:bg-gray-100 border dark:border-gray-700 rounded overflow-hidden shadow-lg bg-white dark:bg-gray-800 dark:text-gray-100 h-full'
                         }
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}
                         description={a.tagline}

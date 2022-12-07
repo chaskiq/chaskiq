@@ -14,10 +14,6 @@
   <img src="https://img.shields.io/docker/pulls/chaskiq/chaskiq.svg" alt="CI">
 </a>
 
-<a href="https://hub.docker.com/r/chaskiq/chaskiq">
-  <img src="https://img.shields.io/docker/cloud/build/chaskiq/chaskiq" alt="CI">
-</a>
-
 [![Crowdin](https://badges.crowdin.net/e/41a6bbb31a5d79361a6264cb9ceac533/localized.svg)](https://chaskiq.crowdin.com/chaskiq)
 
 <br/>
@@ -49,6 +45,9 @@
 - API support - consumable via GrapqhQL with Oauth authorization
 - Quick replies (as canned responses)
 - Configurable Data protection (GDPR) consent
+- Audits on Access and records changes
+- Composable Roles access/permissions system
+- Pluggable Reports
 
 And many features to come
 
@@ -92,7 +91,7 @@ Chaskiq has a powerful article content creator which can serve as a Help Center 
 
 To get your environment setup, follow the community setup guide for your operating system.
 
-1. If you're on macOS, try the [macOS development guide](https://dev.chaskiq.io/en/articles/installation-on-mac).
+1. If you're on macOS, try the [macOS development guide](https://dev.chaskiq.io/getting-started/installation-on-mac-for-development).
 1. If you're on Ubuntu, try the [Ubuntu development guide](https://dev.chaskiq.io/en/articles/install-chaskiq-on-ubuntu-for-development).
 1. If you're on Windows, try the [Windows 10 development guide](https://dev.chaskiq.io/en/articles/install-discourse-on-windows-10-for-development).
 1. If you want to develop on Docker [Docker Dev Guide](https://dev.chaskiq.io/en/articles/docker-for-development)
@@ -102,7 +101,7 @@ Before you get started, ensure you have the following minimum versions: [Ruby 2.
 
 ## Setting up Chaskiq
 
-If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/en/collections/production-configuration).
+If you want to set up a Chaskiq for production use, see our [**Chaskiq Install Guide**](https://dev.chaskiq.io/production-configuration).
 
 ## Requirements
 

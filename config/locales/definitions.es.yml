@@ -74,7 +74,7 @@ es:
         label: Visitas Registradas
         hint: "Incluso si esto está desactivado, recogeremos la información global de las visitas y almacenaremos la última información de las visitas en el perfil del visitante"
       languages:
-        select_lang: "seleccionar idioma"
+        select_lang: Seleccionar Idioma
     campaigns:
       campaign_name:
         label: Nombre de Campaña
@@ -154,6 +154,10 @@ es:
         name: 'sheet_url'
         hint: 'Enviado cuando una hoja ha sido enviada. Una hoja es un iframe que ha cargado en el Messenger que se cierra y envía cuando se llama al método Enviar Hojas JS.'
         placeholder: 'ej. https://yourdomain.com/submit-sheet-url/'
+      content_url:
+        label: 'URL del webhook de flujo de contenido dinámico'
+        hint: 'Enviado cuando el content_url es establecido para un bloque, permite que el contenido dinámico sea renderizado bajo demanda'
+        placeholder: 'ej. https://yourdomain.com/content-url/'
     webhooks:
       url:
         label: url para webhook saliente
@@ -175,6 +179,13 @@ es:
       access_list:
         label: 'Rol para el agente'
         hint: 'el acceso en blanco desactivará el acceso a la configuración de la cuenta para el usuario'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email
@@ -196,9 +207,10 @@ es:
       email: Email
       state: Estado
       online: En línea
-      ip: Ip
+      ip: IP
       country: País
       city: Ciudad
+      phone: Teléfono
       lat: Latitud
       lng: Longitud
       postal: Postal

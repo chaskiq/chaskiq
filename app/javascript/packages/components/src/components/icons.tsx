@@ -21,6 +21,36 @@ const BaseIcon = styled.svg<BaseIconType>`
   }};
 `;
 
+export function KeyIcon(props) {
+  return (
+    <BaseIcon
+      {...props}
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      aria-hidden="true"
+      role="presentation"
+    >
+      <path
+        d="M.5 14.5l8-8m-6 6l2 2m0-4l2 2m4.5-5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"
+        stroke="currentColor"
+      ></path>
+    </BaseIcon>
+  );
+}
+
+export function WriteIcon(props) {
+  return (
+    <BaseIcon className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+      <path
+        fillRule="evenodd"
+        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+        clipRule="evenodd"
+      />
+    </BaseIcon>
+  );
+}
+
 export function WidgetsIcon(props) {
   return (
     <BaseIcon
@@ -384,6 +414,17 @@ export function FactoryIcon(props) {
       <path
         d="M10.5,20 L5.5,20 L0,20 L0,7 L5,10.3333333 L5,7 L10,10.3333333 L10,7 L15,10.3333333 L15,0 L20,0 L20,20 L15.5,20 L10.5,20 Z"
         id="Combined-Shape"
+      ></path>
+    </BaseIcon>
+  );
+}
+
+export function LogoutIcon(props) {
+  return (
+    <BaseIcon {...props} fill="currentColor" viewBox="0 0 15 15">
+      <path
+        d="M13.5 7.5l-3 3.25m3-3.25l-3-3m3 3H4m4 6H1.5v-12H8"
+        stroke="currentColor"
       ></path>
     </BaseIcon>
   );
@@ -1566,7 +1607,7 @@ export function BillingIcon() {
     </svg>
   );
 }
-export function IntegrationsIcon() {
+export function IntegrationsIcon(props) {
   return (
     <svg
       viewBox="0 0 15 15"
@@ -1574,6 +1615,7 @@ export function IntegrationsIcon() {
       xmlns="http://www.w3.org/2000/svg"
       width="22"
       height="22"
+      className={props.className}
     >
       <path
         d="M7.5 1.5l.197-.46a.5.5 0 00-.394 0l.197.46zm-7 3l-.197-.46a.5.5 0 000 .92L.5 4.5zm7 3l-.197.46a.5.5 0 00.394 0L7.5 7.5zm7-3l.197.46a.5.5 0 000-.92l-.197.46zm-7 6l-.197.46.197.084.197-.084-.197-.46zm0 3l-.197.46.197.084.197-.084-.197-.46zM7.303 1.04l-7 3 .394.92 7-3-.394-.92zm-7 3.92l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm7-3.92l-7-3-.394.92 7 3 .394-.92zM.303 7.96l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92zm-7.394 0l7 3 .394-.92-7-3-.394.92zm7.394 3l7-3-.394-.92-7 3 .394.92z"

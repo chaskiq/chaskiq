@@ -5,18 +5,23 @@ class Conversation < ApplicationRecord
   include AASM
   include Tokenable
 
+  include AuditableBehavior
+
   belongs_to :app
   belongs_to :assignee, class_name: "Agent", optional: true
   belongs_to :main_participant, class_name: "AppUser", optional: true # , foreign_key: "user_id"
   # has_one :conversation_source, dependent: :destroy
   has_many :messages, class_name: "ConversationPart", dependent: :destroy_async
+
+  has_many :message_blocks, through: :messages, source: :message_block
+
   has_many :conversation_channels, dependent: :destroy_async
   has_many :conversation_part_channel_sources, through: :messages
   has_one :latest_message, -> { order("id desc") },
-          class_name: "ConversationPart"
+          class_name: "ConversationPart", dependent: nil
 
   has_one :public_latest_message, -> { visibles.order("id desc") },
-          class_name: "ConversationPart"
+          class_name: "ConversationPart", dependent: nil
 
   acts_as_taggable_on :tags
 
@@ -62,6 +67,7 @@ class Conversation < ApplicationRecord
 
   def add_conversation_assigned
     events.log(action: :conversation_assigned)
+    notify_conversation_state_update
   end
 
   def add_started_event
@@ -74,35 +80,46 @@ class Conversation < ApplicationRecord
 
   def add_closed_event
     events.log(action: :conversation_closed)
-
-    dispatch_conversation_event_to_contacts
+    notify_conversation_state_update
   end
 
-  def dispatch_conversation_event_to_contacts
+  def notify_conversation_state_update
+    data = as_json(methods: [:assignee])
+
+    EventsChannel.broadcast_to(
+      app.key,
+      { type: "conversations:update_state",
+        data: data }
+    )
+
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:update_state",
-      data: as_json
+      { type: "conversations:update_state",
+        data: data }
     )
   end
 
   def add_reopened_event
     events.log(action: :conversation_reopened)
-    dispatch_conversation_event_to_contacts
+    notify_conversation_state_update
   end
 
   def first_user_interaction
     events.log(action: :first_comment_from_user)
   end
 
+  def log_prioritized
+    events.log(action: :conversation_prioritized)
+    notify_conversation_state_update
+  end
+
   def toggle_priority
     self.priority = !priority
-    save
+    log_prioritized if save
   end
 
   def add_message(opts = {})
     part = process_message_part(opts)
-
     ActiveRecord::Base.transaction do
       part.save
     end
@@ -196,14 +213,22 @@ class Conversation < ApplicationRecord
   end
 
   def update_latest_user_visible_comment_at
-    unless has_user_visible_comment?
-      update_column(:latest_user_visible_comment_at, Time.zone.now)
-      first_user_interaction
-    end
+    first_user_interaction unless has_user_visible_comment?
+    update_column(:latest_user_visible_comment_at, Time.zone.now)
   end
 
   def has_user_visible_comment?
     latest_user_visible_comment_at.present?
+  end
+
+  def block(msg = nil)
+    self.blocked = true
+    self.blocked_reason = msg
+  end
+
+  def block!(msg = nil)
+    block(msg)
+    save
   end
 
   private

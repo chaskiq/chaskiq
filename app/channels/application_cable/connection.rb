@@ -11,7 +11,14 @@ module ApplicationCable
     # finds agent or app user
     def find_resource
       params = request.query_parameters
-      return find_verified_agent if params[:token]
+      # TODO: decide either pick auth0 or doorkeeper strategy
+      self.app = App.find_by(key: params[:app]) if params[:app]
+
+      if Chaskiq::Config.get("AUTH0_ENABLED") == "true"
+        return AuthIdentity.find_agent_from_token(params[:token]) if params[:token]
+      elsif params[:token]
+        return find_verified_agent
+      end
 
       get_session_data
     end
@@ -25,26 +32,11 @@ module ApplicationCable
 
     def access_token
       params = request.query_parameters
-      self.app = App.find_by(key: params[:app])
       @access_token ||= Doorkeeper::AccessToken.by_token(params[:token])
     end
 
     def get_session_data
       params = request.query_parameters
-      self.app = App.find_by(key: params[:app])
-
-      if app.blank?
-        # Bugsnag.notify("error getting session data") do |report|
-        #   report.add_tab(
-        #     :context,
-        #     {
-        #       origin: env['HTTP_ORIGIN'],
-        #       params: params
-        #     }
-        #   )
-        # end
-        # return
-      end
 
       OriginValidator.new(
         app: app.domain_url,
@@ -73,6 +65,13 @@ module ApplicationCable
     end
 
     def get_user_data
+      # check cookie session
+      session_value = request.query_parameters[:session_value]
+
+      if session_value.present? && (u = SessionFinder.get_by_cookie_session(session_value)) && u.present? && u[:email].present?
+        return u
+      end
+
       if app.encryption_enabled?
         authorize_by_identifier_params || authorize_by_encrypted_params
       else

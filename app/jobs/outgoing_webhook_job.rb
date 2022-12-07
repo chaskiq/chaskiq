@@ -11,7 +11,7 @@ class OutgoingWebhookJob < ApplicationJob
       action: event.action,
       created_at: event.created_at,
       data: {
-        subject: event.eventable.as_json,
+        subject: subject_data(event.eventable),
         properties: event.properties
       }
     }
@@ -23,6 +23,15 @@ class OutgoingWebhookJob < ApplicationJob
         webhook_id: webhook.id,
         payload: payload
       )
+    end
+  end
+
+  def subject_data(eventable)
+    case eventable.class
+    when Conversation
+      eventable.as_json(methods: %i[main_participant assignee latest_message]).to_json
+    else
+      eventable.to_json
     end
   end
 end

@@ -3,7 +3,7 @@
 module Types
   class MessengerType < Types::BaseObject
     field :app, Types::PublicAppType, null: true
-    field :user, Types::JsonType, null: true # Types::AppUserType, null: true
+    field :user, Types::UserType, null: true # Types::AppUserType, null: true
     field :needs_privacy_consent, Boolean, null: true
 
     def app

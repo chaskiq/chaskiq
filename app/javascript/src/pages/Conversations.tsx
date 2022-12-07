@@ -4,6 +4,8 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
+import layoutDefinitions from '../layout/layoutDefinitions';
+
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import Progress from '@chaskiq/components/src/components/Progress';
 import EmptyView from '@chaskiq/components/src/components/EmptyView';
@@ -14,6 +16,7 @@ import ConversationItemList from './conversations/ItemList';
 import AssignmentRules from './conversations/AssignmentRules';
 import Conversation from './conversations/Conversation';
 import ConversationSidebar from './conversations/Sidebar';
+import AccessDenied from '@chaskiq/components/src/components/AccessDenied';
 
 import emptyImage from '../images/empty-icon8.png';
 import I18n from '../shared/FakeI18n';
@@ -28,6 +31,9 @@ import {
   setCurrentSection,
   setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation';
+import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
+import { WriteIcon } from '@chaskiq/components/src/components/icons';
+import AppUserEdit from './conversations/ParticipantBlock';
 
 function Conversations({
   dispatch,
@@ -36,6 +42,7 @@ function Conversations({
   app,
   events,
   app_user,
+  pushEvent,
 }) {
   const [fetching, setFetching] = React.useState(false);
   const [fixedSidebarOpen, setFixedSidebarOpen] = React.useState(false);
@@ -194,6 +201,8 @@ function Conversations({
       },
     ];
 
+    const layout = layoutDefinitions();
+
     return (
       <React.Fragment>
         <div className="items-center bg-white dark:bg-gray-800 px-3 py-4 border-b border-gray-200 dark:border-gray-700 sm:px-3 flex justify-between">
@@ -225,24 +234,36 @@ function Conversations({
             </span>
           */}
 
-          <FilterMenu
-            options={sorts}
-            position={'right'}
-            value={conversations.sort}
-            filterHandler={sortConversations}
-            triggerButton={sortButton}
-          />
+          <div className="flex items-center">
+            <FilterMenu
+              options={sorts}
+              position={'right'}
+              value={conversations.sort}
+              filterHandler={sortConversations}
+              triggerButton={sortButton}
+            />
+
+            <AnchorLink
+              to={`/apps/${app.key}/conversations/new`}
+              className="ml-2"
+            >
+              <WriteIcon />
+            </AnchorLink>
+          </div>
         </div>
 
         <div
-          className="overflow-scroll"
+          className="overflow-scroll h-generalHeight"
           onScroll={handleScroll}
-          style={{ height: 'calc(100vh - 60px)' }}
         >
           {conversations.collection.map((o) => {
-            const user = o.mainParticipant;
             return (
-              <ConversationItemList key={o.key} app={app} conversation={o} />
+              <ConversationItemList
+                key={o.key}
+                app={app}
+                conversation={o}
+                isActive={o.key == conversation?.key}
+              />
             );
           })}
 
@@ -308,7 +329,9 @@ function Conversations({
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
           <div className="flex-grow bg-gray-50 dark:bg-gray-800 h-screen border-r w-1/12 dark:border-black">
-            <AssignmentRules />
+            <AccessDenied section="assign_rules">
+              <AssignmentRules />
+            </AccessDenied>
           </div>
         </Route>
 
@@ -320,20 +343,36 @@ function Conversations({
           >
             <Conversation
               events={events}
+              pushEvent={pushEvent}
               fixedSidebarOpen={fixedSidebarOpen}
+              setFixedSidebarOpen={setFixedSidebarOpen}
               toggleFixedSidebar={toggleFixedSidebar}
             />
           </div>
         </Route>
       </Switch>
 
-      {!isEmpty(conversation) && fixedSidebarOpen && (
+      {!isEmpty(conversation) && conversation.id && fixedSidebarOpen && (
         <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           {app_user && app_user.id ? (
             <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
           ) : (
             <Progress />
           )}
+        </div>
+      )}
+
+      {conversation && !conversation.id && fixedSidebarOpen && (
+        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+          <div className="m-2">
+            {conversation.mainParticipant ? (
+              <AppUserEdit />
+            ) : (
+              <div className="bg-white dark:bg-gray-900 rounded-md border p-4">
+                <p>No recipient selected.</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

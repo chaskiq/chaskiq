@@ -74,7 +74,7 @@ pt:
         label: Registrar Visitas
         hint: "Mesmo que isso esteja desativado, nós coletaremos o contador global de visitas e armazenaremos as últimas informações de visita sobre o perfil do visitante"
       languages:
-        select_lang: "selecionar idioma"
+        select_lang: Selecionar idioma
     campaigns:
       campaign_name:
         label: Nome da campanha
@@ -154,6 +154,10 @@ pt:
         name: 'sheet_url'
         hint: 'Enviar quando uma folha for submetida. Uma folha é um iframe que você carregou no Messenger que é fechado e enviado quando o método JS de Folhas de Envio é chamado.'
         placeholder: 'ex: https://yourdomain.com/submit-sheet-url/'
+      content_url:
+        label: 'Dynamic content flow webhook URL'
+        hint: 'Sent when the content_url is set for a block, allows dynamic content to be rendered on demand'
+        placeholder: 'e.g. https://yourdomain.com/content-url/'
     webhooks:
       url:
         label: url para webhook de saída
@@ -175,6 +179,13 @@ pt:
       access_list:
         label: 'Papéis para o agente'
         hint: 'o acesso em branco desabilitará o acesso às configurações de conta para o usuário'
+    teams:
+      name:
+        label: "Team's name"
+        placeholder: "My awesome team"
+      description:
+        label: "Team's description"
+        placeholder: "Write what's this team is about"
   data_tables:
     agents:
       email: Email
@@ -196,9 +207,10 @@ pt:
       email: Email
       state: Estado
       online: Online
-      ip: Ip
+      ip: IP
       country: País
       city: Cidade
+      phone: Phone
       lat: Latitude
       lng: Lng
       postal: Código postal

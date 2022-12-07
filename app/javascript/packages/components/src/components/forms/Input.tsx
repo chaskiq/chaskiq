@@ -84,11 +84,11 @@ const WrappedComponent = React.forwardRef(function Input(
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
         w-full py-2 px-3 text-gray-700
-        focus:outline-none focus:border-gray-600 dark:bg-black dark:text-white`;
+        focus:outline-none focus:border-gray-600       dark:bg-gray-900 dark:text-white`;
       default:
-        return `shadow appearance-none border border-${borderColor(
-          error
-        )}-300 rounded w-full py-2 px-3 text-gray-700 dark:bg-black dark:text-white
+        return `shadow appearance-none border border-${borderColor(error)}-300 
+        dark:border-${borderColor(error)}-700
+         rounded w-full py-2 px-3 text-gray-700 dark:bg-gray-900 dark:border-gray-700 dark:text-white
         leading-tight focus:outline-none focus:shadow-outline`;
     }
   }
@@ -164,14 +164,15 @@ const WrappedComponent = React.forwardRef(function Input(
   }
 
   function renderSelect() {
-    const initialValue =
-      props.data && props.data.multiple
-        ? isArray(defaultValue)
-          ? defaultValue.map((o) => ({ label: o, value: o }))
-          : defaultValue
-        : defaultValue;
-
     const isMulti = props.data && props.data.multiple;
+    const initialValue = isMulti
+      ? isArray(defaultValue)
+        ? defaultValue.map((o) => ({ label: o, value: o }))
+        : defaultValue
+      : props.options.find(
+          (o) => o.value == (defaultValue?.value || defaultValue)
+        );
+
     return (
       <FormField name={name} label={label} helperText={helperText}>
         <Select
@@ -209,7 +210,7 @@ const WrappedComponent = React.forwardRef(function Input(
             onChange={props.onChange}
             defaultChecked={defaultValue}
             ref={ref}
-            className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+            className="form-checkbox h-4 w-4 text-brand transition duration-150 ease-in-out"
           />
           <label
             htmlFor={name}
@@ -308,8 +309,12 @@ const WrappedComponent = React.forwardRef(function Input(
             name={name}
             className={`shadow appearance-none border border-${borderColor(
               error
-            )}-300 rounded 
-            w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-gray-900 mb-3 leading-tight 
+            )}-300
+            dark:border-${borderColor(error)}-800
+            rounded 
+            w-full py-2 px-3 text-gray-700 dark:text-gray-200      
+            dark:bg-gray-900
+            dark:border-gray-700 mb-3 leading-tight 
             focus:outline-none focus:shadow-outline`}
             defaultValue={defaultValue}
             value={value}
@@ -317,7 +322,7 @@ const WrappedComponent = React.forwardRef(function Input(
             onChange={props.onChange}
             placeholder={props.placeholder}
             ref={ref}
-          ></textarea>
+          />
         </div>
         {helperText && (
           <div className="mt-2 text-sm text-gray-500">{helperText}</div>
@@ -356,7 +361,7 @@ const WrappedComponent = React.forwardRef(function Input(
                 timezone: defaultTZ,
               }),
             }}
-          ></div>
+          />
         )}
       </FormField>
     );
@@ -473,7 +478,8 @@ function DatePickerWrapper({ val, name, onChange }: IDatePickerWrapper) {
       showTimeSelect
       className={`shadow appearance-none border border-gray-300 rounded 
       w-full py-2 px-3 text-gray-700 dark:text-gray-200
-      dark:bg-gray-700
+      dark:bg-gray-900
+      dark:border-gray-700
       leading-tight focus:outline-none focus:shadow-outline`}
       // includeTimes={[
       //  setHours(setMinutes(new Date(), 0), 17),

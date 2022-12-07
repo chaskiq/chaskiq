@@ -7,6 +7,7 @@ type AppBlockPackageFrameProps = {
   enc_data?: string;
   app_id: string;
   domain: string;
+  session_id?: string;
 };
 export default class AppBlockPackageFrame extends Component<AppBlockPackageFrameProps> {
   componentDidMount() {}
@@ -21,6 +22,7 @@ export default class AppBlockPackageFrame extends Component<AppBlockPackageFrame
       ...data,
       enc_data: this.props.enc_data,
       app_id: this.props.app_id,
+      session_id: this.props.session_id,
     };
 
     if (conversation.key && message) {
@@ -35,14 +37,13 @@ export default class AppBlockPackageFrame extends Component<AppBlockPackageFrame
       const url = `${this.props.domain}/package_iframe/${data.id}`;
       src = new URL(url);
     }
-
     src.searchParams.set('data', params);
 
     return (
       <div>
         <iframe
           id="package-frame"
-          // sandbox="allow-top-navigation allow-same-origin allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts allow-downloads"
+          allow="autoplay; camera; microphone; fullscreen; speaker; display-capture"
           src={src.href}
           style={{
             width: '100%',

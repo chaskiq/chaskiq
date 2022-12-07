@@ -6,7 +6,7 @@ module Mutations
       field :integration, Types::AppPackageIntegrationType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
       argument :app_package, String, required: true
 
       def resolve(app_key:, app_package:, params:)
@@ -16,7 +16,7 @@ module Mutations
         integration = app.app_package_integrations.new
         integration.settings = params.permit!.to_h
 
-        authorize! app, to: :manage?, with: AppPolicy
+        authorize! app_package, to: :can_manage_app_packages?, with: AppPolicy, context: { app: app }
 
         integration.app_package = app_package
         integration.save
@@ -26,7 +26,7 @@ module Mutations
           access_token = Doorkeeper::AccessToken.create!(
             application_id: nil,
             resource_owner_id: current_user.id,
-            # expires_in: 2.hours,
+            expires_in: nil,
             scopes: "public"
           )
           integration.update(access_token: access_token.token)

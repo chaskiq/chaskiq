@@ -2,7 +2,7 @@
 
 module Types
   class AppUserType < Types::BaseObject
-    field :id, Int, null: false
+    field :id, String, null: true
     field :email, String, null: true
     # field :user, [Types::UserType], null: true
     field  :last_visited_at, String, null: true
@@ -11,6 +11,7 @@ module Types
     field  :ip, String, null: true
     field  :city, String, null: true
     field  :region, String, null: true
+    field  :phone, String, null: true
     field  :country, String, null: true
     field  :lat, Float, null: true
     field  :lng, Float, null: true
@@ -60,8 +61,6 @@ module Types
       object.offline?
     end
 
-    field :properties, Types::JsonType, null: true
-
     field :visits, Types::PaginatedVisitsType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20
@@ -98,7 +97,7 @@ module Types
     end
 
     field :dashboard, Types::JsonType, null: true do
-      argument :range, Types::JsonType, required: true
+      argument :range, Types::AnyType, required: true
       argument :kind,  String, required: true
     end
   end

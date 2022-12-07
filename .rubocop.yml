@@ -12,6 +12,10 @@ Style/StringLiterals:
   - single_quotes
   - double_quotes
 
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+
 Rails/EnvironmentVariableAccess:
   AllowReads: true
 
@@ -21,6 +25,9 @@ Lint/EmptyBlock:
 Metrics/BlockLength:
   Exclude:
   - 'spec/**/*'
+
+Style/OpenStructUse:
+  Enabled: false
 Style/AsciiComments:
   Enabled: false
 Lint/MissingSuper:

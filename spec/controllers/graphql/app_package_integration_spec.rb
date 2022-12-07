@@ -15,7 +15,7 @@ RSpec.describe GraphqlController, type: :controller do
     app.add_agent(
       { email: "test2@test.cl" },
       bot: nil,
-      role_attrs: { access_list: ["manage"] }
+      role_attrs: { access_list: ["manage"], role: "admin" }
     )
   end
 
@@ -49,7 +49,9 @@ RSpec.describe GraphqlController, type: :controller do
                          appPackage: app_package.name,
                          params: {
                            api_secret: "123455",
-                           api_key: "asd"
+                           api_key: "asd",
+                           slack_channel_name: "chan1",
+                           slack_channel_name_leads: "chan1"
                          }
                        })
         end.to change { app.app_package_integrations.count }.by(1)
@@ -100,7 +102,9 @@ RSpec.describe GraphqlController, type: :controller do
                        appPackage: app_package.name,
                        params: {
                          api_secret: "123455",
-                         api_key: "asd"
+                         api_key: "asd",
+                         slack_channel_name: "chan1",
+                         slack_channel_name_leads: "chan1"
                        }
                      })
       end
@@ -108,10 +112,12 @@ RSpec.describe GraphqlController, type: :controller do
       it "created in app" do
         graphql_post(type: "UPDATE_INTEGRATION", variables: {
                        appKey: app.key,
-                       id: app.app_package_integrations.first.id,
+                       id: app.app_package_integrations.first.id.to_s,
                        params: {
                          api_secret: "123455",
-                         api_key: "asd"
+                         api_key: "asd",
+                         slack_channel_name: "chan1",
+                         slack_channel_name_leads: "chan1"
                        }
                      })
         expect(graphql_response.data.integrationsUpdate.integration.name).to be_present
@@ -123,7 +129,7 @@ RSpec.describe GraphqlController, type: :controller do
         expect do
           graphql_post(type: "DELETE_INTEGRATION", variables: {
                          appKey: app.key,
-                         id: app.app_package_integrations.first.id
+                         id: app.app_package_integrations.first.id.to_s
                        })
         end.to change { app.app_package_integrations }.by([])
 
@@ -156,7 +162,9 @@ RSpec.describe GraphqlController, type: :controller do
                          appPackage: app_package.name,
                          params: {
                            api_secret: "123455",
-                           api_key: "asd"
+                           api_key: "asd",
+                           slack_channel_name: "chan1",
+                           slack_channel_name_leads: "chan1"
                          }
                        })
         end.to_not change { app.app_package_integrations.count }
@@ -179,10 +187,12 @@ RSpec.describe GraphqlController, type: :controller do
                        id: app.app_package_integrations.first.id,
                        params: {
                          api_key: "123455",
-                         api_secret: "123455"
+                         api_secret: "123455",
+                         slack_channel_name: "chan1",
+                         slack_channel_name_leads: "chan1"
                        }
                      })
-
+        puts graphql_response
         expect(graphql_response.errors).to be_present
       end
 

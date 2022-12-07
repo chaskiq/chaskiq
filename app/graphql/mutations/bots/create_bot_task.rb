@@ -6,10 +6,15 @@ module Mutations
       field :bot_task, Types::BotTaskType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
 
       def resolve(app_key:, params:)
         find_app(app_key)
+
+        authorize! @app, to: :can_manage_routing_bots?, with: AppPolicy, context: {
+          app: @app
+        }
+
         @bot_task = @app.bot_tasks.create(params.permit(:title, :paths, :bot_type))
         { bot_task: @bot_task, errors: @bot_task.errors }
       end

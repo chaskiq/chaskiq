@@ -120,6 +120,8 @@ export function clearConversation(cb) {
 
 export function typingNotifier(cb) {
   return (dispatch, getState) => {
+    if (!getState()?.conversation?.key) return;
+
     graphql(
       TYPING_NOTIFIER,
       {
@@ -151,10 +153,11 @@ export function insertComment(comment, cb) {
         success: (data) => {
           // console.log(data)
           dispatch(appendMessage(data.insertComment.message));
-          cb();
+          cb && cb(data);
         },
         error: (error) => {
           console.log(error);
+          cb && cb(error);
         },
       }
     );
@@ -181,11 +184,11 @@ export function insertAppBlockComment(comment, cb) {
       {
         success: (data) => {
           console.log(data);
-          cb && cb();
+          cb && cb(data);
         },
         error: (error) => {
           console.log(error);
-          cb && cb();
+          cb && cb(error);
         },
       }
     );
@@ -204,10 +207,11 @@ export function insertNote(comment, cb) {
       {
         success: (data) => {
           console.log(data);
-          cb();
+          cb && cb(data);
         },
         error: (error) => {
           console.log(error);
+          cb && cb(error);
         },
       }
     );
@@ -242,7 +246,6 @@ export function appendMessage(data, cb?: any) {
         collection: [newData].concat(getState().conversation.collection),
       });
 
-      // debugger
       dispatch(dispatchGetConversations(newMessages));
 
       if (cb) cb();
@@ -286,7 +289,7 @@ export function updateConversationState(state, cb) {
       UPDATE_CONVERSATION_STATE,
       {
         appKey: getState().app.key,
-        conversationId: getState().conversation.id,
+        conversationId: `${getState().conversation.id}`,
         state: state,
       },
       {
@@ -380,6 +383,13 @@ function dispatchUpdateConversations(data) {
   };
 }
 
+export function dispatchUpdateConversationData(data) {
+  return {
+    type: ActionTypes.UpdateConversation,
+    data: data,
+  };
+}
+
 export function playSound() {
   pling.volume = 0.4;
   pling.play();
@@ -398,7 +408,8 @@ export default function reducer(
       return action.data;
     }
     case ActionTypes.UpdateConversation: {
-      return { ...action.data, ...state };
+      if (state.key !== action.data.key) return state;
+      return { ...state, ...action.data };
     }
     default:
       return state;

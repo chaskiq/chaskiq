@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { setCookie, getCookie, deleteCookie } from './cookies';
+
 // import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming';
 
 import { uniqBy } from 'lodash';
-import actioncable from 'actioncable';
+import {
+  createSubscription,
+  destroySubscription,
+  eventsSubscriber,
+  precenseSubscriber,
+  sendPush,
+  graphqlUrl,
+} from './shared/actionCableSubscription';
+
+/*import { 
+  createSubscription, 
+  destroySubscription, 
+  eventsSubscriber,
+  precenseSubscriber,
+  sendPush,
+  graphqlUrl
+} from "./shared/absintheSubscription";*/
 
 import UAParser from 'ua-parser-js';
 import DraftRenderer from './textEditor/draftRenderer';
@@ -31,6 +49,8 @@ import {
   APP_PACKAGE_HOOK,
   PRIVACY_CONSENT,
   GET_NEW_CONVERSATION_BOTS,
+  BANNER,
+  AUTH,
 } from './graphql/queries';
 import GraphqlClient from './graphql/client';
 
@@ -70,11 +90,12 @@ import { Conversation } from './conversations/conversation';
 import Conversations from './conversations/conversations';
 
 //import RtcView from '@chaskiq/components/src/components/rtcView'
-import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
-
 import MessageFrame from './messageFrame';
 
 import RtcViewWrapper from './rtcView';
+
+import { getDiff, setLastActivity } from './activityUtils';
+import usePageVisibility from '@chaskiq/components/src/components/hooks/useTabActivity';
 
 let App: any = {};
 
@@ -85,11 +106,16 @@ type MessengerProps = {
   email: string;
   app_id: any;
   encData: any;
-  session_id: any;
+  sessionId: any;
+  sessionValue: any;
   encryptedMode: any;
   domain: string;
   kind: string;
   ws: string;
+  reset: any;
+  open: boolean;
+  tabId: string;
+  handleShutDown: any;
 };
 
 type MessengerState = {
@@ -122,6 +148,7 @@ type MessengerState = {
   tourManagerEnabled: boolean;
   tours: any;
   banner: any;
+  bannerID: any;
   headerOpacity: any;
   headerTranslateY: any;
   header: any;
@@ -131,6 +158,8 @@ type MessengerState = {
   rtcVideo: boolean;
   visible: boolean;
   isMinimized?: boolean;
+  timer: number;
+  tabId: string;
 };
 class Messenger extends Component<MessengerProps, MessengerState> {
   i18n: any;
@@ -144,11 +173,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   graphqlClient: any;
   defaultHeaders: any;
   defaultCableData: any;
+  App: any;
 
   constructor(props) {
     super(props);
-
-    console.log(this.context);
     // set language from user auth lang props
     //i18n.changeLanguage(this.props.lang)
     i18n.enableFallback = true;
@@ -171,12 +199,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       availableMessages: [],
       availableMessage: null,
       needsPrivacyConsent: null,
-      banner:
-        localStorage.getItem('chaskiq-banner') &&
-        JSON.parse(localStorage.getItem('chaskiq-banner')),
+      banner: null,
+      bannerID: this.getBannerID(),
       display_mode: 'home', // "conversation", "conversations",
       tours: [],
-      open: false,
+      open: this.props.open,
       appData: {},
       agents: [],
       isMinimized: false,
@@ -196,56 +223,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       videoSession: false,
       rtcAudio: true,
       rtcVideo: true,
+      timer: null,
+      tabId: this.props.tabId,
     };
 
     this.delayTimer = null;
-
-    const data = {
-      email: this.props.email,
-      properties: this.props.properties,
-    };
-
-    this.defaultHeaders = {
-      app: this.props.app_id,
-      user_data: JSON.stringify(data),
-    };
-
-    this.defaultCableData = {
-      app: this.props.app_id,
-      email: this.props.email,
-      properties: this.props.properties,
-      session_id: this.props.session_id,
-    };
-
-    if (this.props.encryptedMode) {
-      this.defaultHeaders = {
-        app: this.props.app_id,
-        'enc-data': this.props.encData || '',
-        'user-data': JSON.stringify(this.props.encData),
-        'session-id': this.props.session_id,
-        lang: this.props.lang,
-      };
-
-      this.defaultCableData = {
-        app: this.props.app_id,
-        enc_data: this.props.encData || '',
-        user_data: JSON.stringify(this.props.encData),
-        session_id: this.props.session_id,
-      };
-    }
-
-    this.graphqlClient = new GraphqlClient({
-      config: this.defaultHeaders,
-      baseURL: `${this.props.domain}/api/graphql`,
-    });
-
-    App = {
-      cable: actioncable.createConsumer(
-        `${this.props.ws}?enc=${this.props.encData}&user_data=${btoa(
-          this.defaultCableData.user_data
-        )}&app=${this.props.app_id}&session_id=${this.props.session_id}`
-      ),
-    };
 
     this.overflow = null;
     this.inlineOverflow = null;
@@ -270,6 +252,9 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         case 'unload':
           // this.unload()
           break;
+        case 'shutdown':
+          this.handleShutDown();
+          break;
         default:
           break;
       }
@@ -279,15 +264,18 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   }
 
   componentDidMount() {
+    this.setup();
+
     this.visibility();
 
     this.ping(() => {
-      this.precenseSubscriber();
-      this.eventsSubscriber();
+      precenseSubscriber(this.App, { ctx: this });
+      eventsSubscriber(this.App, { ctx: this });
       // this.getConversations()
       // this.getMessage()
       // this.getTours()
       this.locationChangeListener();
+      this.dispatchEvent('chaskiq:boot');
     });
 
     document.addEventListener('turbolinks:before-visit', () => {
@@ -316,13 +304,73 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       window.opener.postMessage({ type: 'ENABLE_MANAGER_TOUR' }, '*');
   }
 
+  dispatchEvent(key, data = {}) {
+    const event = new Event(key, data);
+    document.dispatchEvent(event);
+  }
+
+  handleShutDown() {
+    this.props.handleShutDown();
+  }
+
   unload() {
-    App.cable && App.cable.subscriptions.consumer.disconnect();
+    destroySubscription(this.App);
   }
 
   componentWillUnmount() {
+    this.unload();
     window.removeEventListener('resize', this.updateDimensions);
   }
+
+  setup = () => {
+    const data = {
+      email: this.props.email,
+      properties: this.props.properties,
+    };
+
+    this.defaultHeaders = {
+      app: this.props.app_id,
+      user_data: JSON.stringify(data),
+    };
+
+    this.defaultCableData = {
+      app: this.props.app_id,
+      email: this.props.email,
+      properties: this.props.properties,
+      session_id: this.props.sessionId,
+      session_value: this.props.sessionValue,
+    };
+
+    if (this.props.encryptedMode) {
+      this.defaultHeaders = {
+        app: this.props.app_id,
+        'enc-data': this.props.encData || '',
+        'user-data': JSON.stringify(this.props.encData),
+        'session-id': this.props.sessionId,
+        'session-value': this.props.sessionValue,
+        lang: this.props.lang,
+      };
+
+      this.defaultCableData = {
+        app: this.props.app_id,
+        enc_data: this.props.encData || '',
+        user_data: JSON.stringify(this.props.encData),
+        session_id: this.props.sessionId,
+        session_value: this.props.sessionValue,
+      };
+    }
+
+    this.graphqlClient = new GraphqlClient({
+      config: this.defaultHeaders,
+      url: `${graphqlUrl(this.props.domain)}`,
+    });
+
+    this.App = createSubscription(
+      this.props,
+      this.defaultCableData.user_data,
+      this.props.sessionValue
+    );
+  };
 
   setVideoSession() {
     this.setState({ videoSession: !this.state.videoSession });
@@ -410,7 +458,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       os_version: results.os.version,
       os: results.os.name,
     };
-    App.events.perform('send_message', data);
+    this.pushEvent('send_message', data);
+    // this.App.events.perform('send_message', data);
   };
 
   detectMobile = () => {
@@ -439,70 +488,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     }
   };
 
-  eventsSubscriber = () => {
-    App.events = App.cable.subscriptions.create(
-      this.cableDataFor({ channel: 'MessengerEventsChannel' }),
-      {
-        connected: () => {
-          // console.log("connected to events")
-          this.registerVisit();
-
-          if (!this.state.banner) {
-            App.events.perform('get_banners_for_user');
-          }
-          // this.processTriggers()
-        },
-        disconnected: () => {
-          // console.log("disconnected from events")
-        },
-        received: (data) => {
-          switch (data.type) {
-            case 'messages:receive':
-              this.setState({
-                availableMessages: data.data,
-                messages: data.data,
-                availableMessage: data.data[0],
-              });
-              break;
-            case 'tours:receive':
-              this.receiveTours([data.data]);
-              break;
-            case 'banners:receive':
-              this.receiveBanners(data.data);
-              break;
-            case 'triggers:receive':
-              this.receiveTrigger(data.data);
-              break;
-            case 'conversations:conversation_part':
-              const newMessage = toCamelCase(data.data);
-              setTimeout(() => this.receiveMessage(newMessage), 100);
-              break;
-            case 'conversations:update_state':
-              this.handleConversationState(toCamelCase(data.data));
-            case 'conversations:typing':
-              this.handleTypingNotification(toCamelCase(data.data));
-              break;
-            case 'conversations:unreads':
-              this.receiveUnread(data.data);
-              break;
-            case 'rtc_events':
-              return this.updateRtcEvents(data);
-            case 'true':
-              return true;
-            default:
-          }
-          // console.log(`received event`, data)
-        },
-        notify: () => {
-          console.log('notify event!!');
-        },
-        handleMessage: (message) => {
-          console.log('handle event message', message);
-        },
-      }
-    );
-  };
-
   handleTypingNotification = (data) => {
     clearTimeout(this.delayTimer);
     this.handleTyping(data);
@@ -524,6 +509,22 @@ class Messenger extends Component<MessengerProps, MessengerState> {
         conversation: Object.assign({}, this.state.conversation, data),
       });
     }
+  };
+
+  handleConnected = () => {
+    this.registerVisit();
+
+    this.dispatchEvent('chaskiq:connected');
+
+    if (!this.state.banner && !this.state.bannerID) {
+      this.pushEvent('get_banners_for_user', {});
+    }
+
+    // will fetch banner from the server
+    if (!this.state.banner && this.state.bannerID) {
+      this.fetchBanner(this.state.bannerID);
+    }
+    // this.processTriggers()
   };
 
   receiveUnread = (newMessage) => {
@@ -631,29 +632,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     } else {
       this.appendMessage(newMessage);
     }
-  };
-
-  precenseSubscriber = () => {
-    App.precense = App.cable.subscriptions.create(
-      this.cableDataFor({ channel: 'PresenceChannel' }),
-      {
-        connected: () => {
-          // console.log("connected to presence")
-        },
-        disconnected: () => {
-          console.log('disconnected from presence');
-        },
-        received: (data) => {
-          console.log(`received ${data}`);
-        },
-        notify: () => {
-          console.log('notify!!');
-        },
-        handleMessage: (_message) => {
-          console.log('handle message');
-        },
-      }
-    );
   };
 
   scrollToLastItem = () => {
@@ -771,7 +749,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       html: comment.html_content,
       serialized: comment.serialized_content,
       text: comment.text_content,
-      volatile: this.state.conversation,
+      volatile: true, //this.state.conversation,
     };
 
     if (comment.reply) {
@@ -927,7 +905,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     this.getNewConversationBot(() => {
       let result = [];
       const welcomeBot = this.state.appData.newConversationBots;
-      console.log('welcomeBot', welcomeBot);
+      // console.log('welcomeBot', welcomeBot);
       if (welcomeBot) {
         const step = welcomeBot.settings.paths[0].steps[0];
         const message = {
@@ -935,7 +913,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             blocks: step.controls,
             source: null,
             stepId: step.id,
-            triggerId: welcomeBot.id,
+            triggerId: welcomeBot.id + '',
             fromBot: true,
             appUser: {
               id: 3,
@@ -1064,12 +1042,54 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   }
 
   toggleMessenger = () => {
+    // idle support not for appUsers
+    if (!this.state.open && this.props.kind !== 'AppUser') {
+      // console.log("idleSessionRequired", this.idleSessionRequired())
+      if (this.idleSessionRequired() && this.isElapsedTimeUp()) {
+        // console.log('DIFF GOT', getDiff());
+        setLastActivity();
+        this.props.reset(true, true);
+
+        // trigger close for other tabs
+        window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
+
+        return true;
+      }
+    }
+
     this.setState(
       {
         open: !this.state.open,
         // display_mode: "conversations",
       },
       this.clearInlineConversation
+    );
+  };
+
+  idleSessionRequired = () => {
+    const inboundData = this.state.appData?.inboundSettings?.visitors;
+    return (
+      inboundData?.idle_sessions_enabled && inboundData?.idle_sessions_after
+    );
+  };
+
+  isElapsedTimeUp = () => {
+    return (
+      getDiff() >
+      this.state.appData?.inboundSettings?.visitors?.idle_sessions_after * 60
+    );
+  };
+
+  closeMessenger = () => {
+    this.setState(
+      {
+        open: false,
+        // display_mode: "conversations",
+      },
+      () => {
+        this.setup();
+        this.clearInlineConversation;
+      }
     );
   };
 
@@ -1099,11 +1119,10 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   requestTrigger = (kind) => {
-    App.events &&
-      App.events.perform('request_trigger', {
-        conversation: this.state.conversation && this.state.conversation.key,
-        trigger: kind,
-      });
+    this.pushEvent('request_trigger', {
+      conversation: this.state.conversation && this.state.conversation.key,
+      trigger: kind,
+    });
   };
 
   receiveTrigger = (data) => {
@@ -1111,28 +1130,91 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   pushEvent = (name, data) => {
-    App.events && App.events.perform(name, data);
+    sendPush(name, { ctx: this, app: this.App, data: data });
   };
 
   // check url pattern before trigger tours
   receiveTours = (tours) => {
     const filteredTours = tours.filter((o) => {
       // eslint-disable-next-line no-useless-escape
-      var pattern = new UrlPattern(o.url.replace(/^.*\/\/[^\/]+/, ''));
-      var url = document.location.pathname;
+      const pattern = new UrlPattern(o.url.replace(/^.*\/\/[^\/]+/, ''));
+      const url = document.location.pathname;
       return pattern.match(url);
     });
 
     if (filteredTours.length > 0) this.setState({ tours: filteredTours });
   };
 
+  fetchBanner = (id) => {
+    this.graphqlClient.send(
+      BANNER,
+      {
+        id: id + '',
+      },
+      {
+        success: (data) => {
+          const banner = data.messenger.app.banner;
+          this.setState(
+            {
+              banner: banner,
+            },
+            () => {
+              this.persistBannerCache(banner);
+            }
+          );
+        },
+        error: () => {
+          console.error('error fetching banner');
+          //this.clearBannerCache()
+        },
+      }
+    );
+  };
+
+  getBanner = () => {
+    return (
+      localStorage.getItem('chaskiq-banner') &&
+      JSON.parse(localStorage.getItem('chaskiq-banner'))
+    );
+  };
+
+  getBannerID = () => {
+    const banner = this.getBanner();
+    return banner?.id;
+  };
+
   receiveBanners = (banner) => {
-    localStorage.setItem('chaskiq-banner', JSON.stringify(banner));
+    this.persistBannerCache(banner);
     this.setState({ banner: banner }, () => {
-      App.events &&
-        App.events.perform('track_open', {
-          trackable_id: this.state.banner.id,
-        });
+      this.pushEvent('track_open', {
+        trackable_id: this.state.banner.id,
+      });
+    });
+  };
+
+  persistBannerCache = (banner) => {
+    localStorage.setItem('chaskiq-banner', JSON.stringify(banner));
+  };
+
+  clearBannerCache = () => {
+    this.setState({ banner: null });
+    localStorage.removeItem('chaskiq-banner');
+  };
+
+  closeBanner = () => {
+    if (!this.state.banner) return;
+
+    this.pushEvent('track_close', {
+      trackable_id: this.state.banner.id,
+    });
+
+    this.clearBannerCache();
+  };
+
+  bannerActionClick = (url) => {
+    window.open(url, '_blank');
+    this.pushEvent('track_click', {
+      trackable_id: this.state.banner.id,
     });
   };
 
@@ -1158,7 +1240,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   submitAppUserData = (data, _next_step) => {
-    App.events && App.events.perform('data_submit', data);
+    this.pushEvent('data_submit', data);
+    //App.events && App.events.perform('data_submit', data);
   };
 
   updateHeaderOpacity = (val) => {
@@ -1198,7 +1281,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
       <HeaderAvatar>
         {assignee && (
           <React.Fragment>
-            <img src={assignee.avatarUrl} />
+            <img alt={assignee.name} src={assignee.avatarUrl} />
             <AssigneeStatusWrapper>
               <p>{assignee.name}</p>
               {this.state.appData && this.state.appData.replyTime && (
@@ -1229,12 +1312,11 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   // TODO, send a getPackage hook instead, and call a submit action
   // save trigger id
   handleAppPackageEvent = (ev) => {
-    App.events &&
-      App.events.perform('app_package_submit', {
-        conversation_key: this.state.conversation.key,
-        message_key: this.state.currentAppBlock.message.key,
-        data: ev.data,
-      });
+    this.pushEvent('app_package_submit', {
+      conversation_key: this.state.conversation.key,
+      message_key: this.state.currentAppBlock.message.key,
+      data: ev.data,
+    });
 
     this.setState(
       {
@@ -1310,28 +1392,8 @@ class Messenger extends Component<MessengerProps, MessengerState> {
     });
   };
 
-  closeBanner = () => {
-    if (!this.state.banner) return;
-
-    App.events &&
-      App.events.perform('track_close', {
-        trackable_id: this.state.banner.id,
-      });
-    this.setState({ banner: null });
-    localStorage.removeItem('chaskiq-banner');
-  };
-
-  bannerActionClick = (url) => {
-    window.open(url, '_blank');
-
-    App.events &&
-      App.events.perform('track_click', {
-        trackable_id: this.state.banner.id,
-      });
-  };
-
   handleBack = (e) => {
-    console.log(this.state.display_mode);
+    //console.log(this.state.display_mode);
     switch (this.state.display_mode) {
       case 'appBlockAppPackage':
         if (!this.state?.conversation?.key) {
@@ -1347,15 +1409,22 @@ class Messenger extends Component<MessengerProps, MessengerState> {
   };
 
   closeUserAutoMessage = (id: Number) => {
-    App.events &&
+    this.pushEvent('track_close', {
+      trackable_id: id,
+    });
+    /*App.events &&
       App.events.perform('track_close', {
         trackable_id: id,
-      });
+      });*/
 
     const newAvailableMessages = this.state.availableMessages.filter(
       (o) => o.id != id
     );
     this.setState({ availableMessages: newAvailableMessages });
+  };
+
+  setTimer = (timer) => {
+    this.setState({ timer: timer });
   };
 
   render() {
@@ -1428,6 +1497,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                   availableMessages={this.state.availableMessages}
                   domain={this.props.domain}
                   i18n={i18n}
+                  pushEvent={this.pushEvent}
                   events={App.events}
                 />
               )}
@@ -1439,6 +1509,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
               >
                 <SuperDuper>
                   <StyledFrame
+                    title={'chaskiq messenger'}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -1446,13 +1517,39 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                     }}
                   >
                     <FrameBridge
+                      tabId={this.state.tabId}
                       handleAppPackageEvent={this.handleAppPackageEvent}
+                      closeMessenger={() => {
+                        //this.closeMessenger
+                        // triggered on other tabs
+                        console.log('triggered close from other tab!');
+                        this.props.reset(false);
+                      }}
+                      kind={this.props.kind}
+                      inboundSettings={this.state.appData.inboundSettings}
+                      setTimer={(timer, tabId) => {
+                        this.setTimer(timer);
+                        // console.log(window.localStorage.getItem("chaskiqTabId"), tabId)
+                        if (
+                          window.localStorage.getItem('chaskiqTabId') === tabId
+                        ) {
+                          this.props.reset(true);
+                          setTimeout(() => {
+                            // this.closeMessenger();
+                            window.localStorage.setItem(
+                              'chaskiqTabClosedAt',
+                              Math.random() + ''
+                            );
+                          }, 200);
+                        }
+                      }}
                     >
                       {this.state.display_mode === 'conversation' ? (
                         <FrameChild
                           state={this.state}
                           props={this.props}
                           events={App.events}
+                          pushEvent={this.pushEvent}
                           updateRtc={(data) => this.setState({ rtc: data })}
                           toggleAudio={this.toggleAudio}
                           toggleVideo={this.toggleVideo}
@@ -1504,11 +1601,12 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               />
                             ) : null}
 
-                            {this.state.display_mode === 'conversation' && (
-                              <HeaderTitle in={this.state.transition}>
-                                {this.renderAsignee()}
-                              </HeaderTitle>
-                            )}
+                            {this.state.display_mode === 'conversation' &&
+                              this.assignee() && (
+                                <HeaderTitle in={this.state.transition}>
+                                  {this.renderAsignee()}
+                                </HeaderTitle>
+                              )}
 
                             {this.state.display_mode === 'home' && (
                               <HeaderTitle
@@ -1521,6 +1619,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               >
                                 {this.state.appData.logo && (
                                   <img
+                                    alt={this.state.appData.name}
                                     style={{
                                       height: 50,
                                       width: 50,
@@ -1553,8 +1652,14 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               <FooterAck>
                                 <a href="https://chaskiq.io" target="blank">
                                   <img
+                                    alt={'https://chaskiq.io'}
                                     src={`${this.props.domain}/logo-gray.png`}
                                   />
+                                  {/* NOTICE:
+                                    If you need to rebrand chaskiq 
+                                    there is special commercial license, 
+                                    please contact us 
+                                  */}
                                   {i18n.t('messenger.runon')}
                                 </a>
                               </FooterAck>
@@ -1562,18 +1667,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                           )}
 
                           {this.state.display_mode === 'article' && (
-                            <Article
-                              i18n={i18n}
-                              //graphqlClient={this.graphqlClient}
-                              //updateHeader={this.updateHeader}
-                              //transition={this.state.transition}
-                              //articleSlug={this.state.article.slug}
-                              //transition={this.state.transition}
-                              //appData={this.state.appData}
-                              //i18n={this.props.i18n}
-                              //domain={this.props.domain}
-                              //lang={this.props.lang}
-                            />
+                            <Article i18n={i18n} />
                           )}
 
                           {this.state.needsPrivacyConsent && ( // && this.state.gdprContent
@@ -1591,11 +1685,6 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
                           {
                             <RtcViewWrapper
-                              //toggleVideo={this.toggleVideo}
-                              //toggleAudio={this.toggleAudio}
-                              //rtcVideo={this.state.rtcVideo}
-                              //rtcAudio={this.state.rtcAudio}
-                              //setVideoSession={this.setVideoSession.bind(this)}
                               videoSession={this.state.videoSession}
                             ></RtcViewWrapper>
                           }
@@ -1610,6 +1699,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                               app_id={this.props.app_id}
                               enc_data={this.props.encData}
                               conversation={this.state.conversation}
+                              session_id={this.props.sessionId}
                               appBlock={this.state.currentAppBlock}
                             />
                           )}
@@ -1623,6 +1713,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
 
             {!this.state.open && this.state.inline_conversation && (
               <StyledFrame
+                title={'chaskiq inline conversation'}
                 className="inline-frame"
                 style={{
                   height: this.inlineOverflow
@@ -1645,7 +1736,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
                             this.showMore();
                           }}
                         >
-                          mostrar mas
+                          {i18n.t(`messenger.show_more`)}
                         </button>
                         <button
                           onClick={() => this.clearInlineConversation()}
@@ -1671,6 +1762,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             {this.isMessengerActive() && (
               <StyledFrame
                 id="chaskiqPrime"
+                title={'chaskiq prime'}
                 // scrolling="no"
                 style={{
                   zIndex: 10000,
@@ -1725,10 +1817,15 @@ class Messenger extends Component<MessengerProps, MessengerState> {
           </EditorWrapper>
 
           {this.state.tourManagerEnabled ? (
-            <TourManager ev={this.state.ev} domain={this.props.domain} />
+            <TourManager
+              pushEvent={this.pushEvent}
+              ev={this.state.ev}
+              domain={this.props.domain}
+            />
           ) : this.state.tours.length > 0 ? (
             <Tour
               i18n={i18n}
+              pushEvent={this.pushEvent}
               tours={this.state.tours}
               events={App.events}
               domain={this.props.domain}
@@ -1779,8 +1876,181 @@ export default class ChaskiqMessenger {
     }
 
     ReactDOM.render(
-      <Messenger {...this.props} />,
-      document.getElementById('ChaskiqMessengerRoot')
+      <MessengerBridge {...this.props} />,
+      document.getElementById(this.props.wrapperId)
     );
   }
+}
+
+function MessengerBridge(props) {
+  const [ready, setReady] = React.useState(false);
+  const [user, setUser] = React.useState(null);
+  const isVisible = usePageVisibility();
+  const openOnLoad = React.useRef(null);
+  const tabId = React.useRef(Math.random() + '');
+  const currentLang =
+    props.lang || navigator.language || navigator['userLanguage'];
+
+  React.useEffect(() => {
+    if (ready) return;
+    setup();
+  }, [ready]);
+
+  // visibility, active tab will set the current item
+  React.useEffect(() => {
+    if (isVisible) {
+      window.localStorage.setItem('chaskiqTabId', tabId.current);
+    }
+  }, [isVisible]);
+
+  React.useEffect(() => {
+    // listens other windows closed
+    function listenForStorage(event) {
+      //if (event.storageArea != window.localStorage) return;
+      if (event.key === 'chaskiqTabClosedAt') {
+        // console.log("EVENT RUN", event)
+        setTimeout(() => setReady(false), 400);
+      }
+    }
+
+    window.addEventListener('storage', listenForStorage);
+    return () => {
+      window.removeEventListener('storage', listenForStorage);
+    };
+  }, []);
+
+  function cookieNamespace() {
+    // old app keys have hypens, we get rid of this
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_session_id_${app_id}`;
+  }
+
+  function cookieSessionNamespace() {
+    // old app keys have hypens, we get rid of this
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  }
+
+  function sessionCookieNamespace() {
+    const app_id = props.app_id.replace('-', '');
+    return `chaskiq_ap_session_${app_id}`;
+  }
+
+  function getSession() {
+    // cookie rename, if we wet an old cookie update to new format and expire it
+    const oldCookie = getCookie('chaskiq_session_id');
+    if (getCookie('chaskiq_session_id')) {
+      checkCookie(oldCookie); // will append a appkey
+      deleteCookie('chaskiq_session_id');
+    }
+    return getCookie(cookieNamespace()) || '';
+  }
+
+  function checkCookie(val) {
+    //console.log("SET COOKIE ", val, this.cookieNamespace())
+    setCookie(cookieNamespace(), val, 365);
+
+    if (!getCookie(cookieNamespace())) {
+      // falbacks to direct hostname
+      // console.info("cookie not found, fallabck to:")
+      setCookie(cookieNamespace(), val, 365, window.location.hostname);
+    }
+  }
+
+  function defaultHeaders() {
+    return {
+      app: props.app_id,
+      'enc-data': props.data || '',
+      'user-data': JSON.stringify(props.data),
+      'session-id': getSession(),
+      lang: currentLang,
+    };
+  }
+
+  function graphqlClient() {
+    return new GraphqlClient({
+      config: defaultHeaders(),
+      url: graphqlUrl(props.domain),
+    });
+  }
+
+  function setup() {
+    // console.log("SETUP!")
+    graphqlClient().send(
+      AUTH,
+      {
+        lang: currentLang,
+      },
+      {
+        success: (data) => {
+          const u = data.messenger.user;
+          if (u.kind === 'AppUser') {
+            if (u.sessionValue) {
+              setCookie(cookieSessionNamespace(), u.sessionValue, 7);
+            }
+          } else {
+            if (u.sessionId) {
+              checkCookie(u.sessionId);
+            } else {
+              deleteCookie(cookieNamespace());
+            }
+          }
+
+          setUser(u);
+          setReady(true);
+        },
+        errors: (e) => {
+          console.log('Error', e);
+        },
+      }
+    );
+  }
+
+  // the only client that wipes is true is the one who triggers the idle
+  function reset(wipe_cookie = false, open = false) {
+    if (wipe_cookie) deleteCookie(cookieNamespace());
+    setReady(false);
+    openOnLoad.current = open;
+
+    // send event to other tabs
+    // if(open) window.localStorage.setItem('chaskiqTabClosedAt', Math.random() + '');
+  }
+
+  function shutdown() {
+    deleteCookie(cookieNamespace());
+    deleteCookie(sessionCookieNamespace());
+    // setReady(false); // this will reset the session, but we really dont that dat to happen
+    // what will happen is that the livechat will be still connected
+    openOnLoad.current = open;
+  }
+
+  function dataBundle() {
+    // console.log("USER BUNDLE", user)
+    return (
+      user &&
+      Object.assign({}, user, {
+        app_id: props.app_id,
+        encData: props.data,
+        encryptedMode: true,
+        domain: props.domain,
+        ws: props.ws,
+        lang: user.lang,
+        wrapperId: props.wrapperId || 'ChaskiqMessengerRoot',
+      })
+    );
+  }
+
+  return (
+    <React.Fragment>
+      {ready && user && (
+        <Messenger
+          {...dataBundle()}
+          reset={reset}
+          handleShutDown={shutdown}
+          open={openOnLoad.current}
+          tabId={tabId.current}
+        />
+      )}
+    </React.Fragment>
+  );
 }

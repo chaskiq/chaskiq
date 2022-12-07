@@ -122,6 +122,15 @@ class AppPackagesCatalog
       },
 
       {
+        name: "AuditsReports",
+        # capability_list: %w[],
+        tag_list: ["dashboard"],
+        description: "App Audits log reports",
+        state: "enabled",
+        definitions: []
+      },
+
+      {
         name: "Clearbit",
         tag_list: ["enrichment"],
         description: "Clearbit data enrichment",
@@ -245,7 +254,16 @@ class AppPackagesCatalog
       },
       {
         name: "Slack",
-        tag_list: ["email_changed", "conversation.user.first.comment"],
+        tag_list: [
+          "email_changed",
+          "conversation.user.first.comment",
+          "conversations.assigned",
+          "conversations.prioritized",
+          "conversations.started",
+          "conversations.added",
+          "conversations.closed",
+          "conversations.reopened"
+        ],
         state: "enabled",
         description: "Slack channel integration",
         icon: "https://logo.clearbit.com/slack.com",
@@ -272,10 +290,43 @@ class AppPackagesCatalog
                            type: "string",
                            required: true,
                            grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name",
+                           label: "Slack channel for Identified Contacts.",
+                           hint: "This will be your primary channel.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name_leads",
+                           label: "Slack channel for Leads and Visitors.",
+                           hint: "If you leave this blank you will be using the primary channel for Leads.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
                          }
                        ]
                      else
-                       []
+                       [
+                         {
+                           name: "slack_channel_name",
+                           label: "Slack channel for Identified Contacts.",
+                           hint: "This will be your primary channel.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         },
+                         {
+                           name: "slack_channel_name_leads",
+                           label: "Slack channel for Leads and Visitors.",
+                           hint: "If you leave this blank you will be using the primary channel for Leads.",
+                           type: "string",
+                           required: true,
+                           grid: { xs: "w-full", sm: "w-full" }
+                         }
+                       ]
                      end
       },
 
@@ -362,6 +413,88 @@ class AppPackagesCatalog
       },
 
       {
+        name: "Whereby",
+        tag_list: ["editor"],
+        capability_list: ["conversations"],
+        description: "whereby 1:1 conference calls",
+        icon: "https://logo.clearbit.com/whereby.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ],
+        editor_definitions: {
+          requires: [
+            { type: "input",
+              name: "src",
+              placeholder: "user email",
+              hint: "is the zoom owner email or zoom user id" }
+          ],
+          schema: [
+            {
+              name: "zoom",
+              type: "button",
+              label: "enter video call",
+              element: "button",
+              placeholder: "click button to open video call"
+            }
+          ]
+        }
+      },
+
+      {
+        name: "Cal",
+        tag_list: ["editor"],
+        capability_list: ["conversations"],
+        description: "cal.com integration",
+        icon: "https://logo.clearbit.com/cal.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "calendar_name",
+            type: "string",
+            hint: "which calendar to point, type \"mike\" for cal.com/mike ",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "url",
+            type: "string",
+            hint: "defaults to cal.com api",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ],
+        editor_definitions: {
+          requires: [
+            { type: "input",
+              name: "src",
+              placeholder: "user email",
+              hint: "is the zoom owner email or zoom user id" }
+          ],
+          schema: [
+            {
+              name: "zoom",
+              type: "button",
+              label: "enter video call",
+              element: "button",
+              placeholder: "click button to open video call"
+            }
+          ]
+        }
+      },
+
+      {
         name: "Calendly",
         tag_list: ["editor"],
         capability_list: %w[conversations home],
@@ -425,6 +558,7 @@ class AppPackagesCatalog
       {
         name: "Twilio",
         tag_list: ["conversations.added"],
+        capability_list: %w[conversations_initiator],
         description: "Interfaces twillio",
         icon: "https://logo.clearbit.com/twillio.com",
         state: "enabled",
@@ -450,6 +584,59 @@ class AppPackagesCatalog
             type: "string",
             required: true,
             grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "new_conversations_after",
+            label: "Count messages as new conversations",
+            hint: "After a conversation is closed new messages will create a new conversation if there are received after this time period",
+            type: "number",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      },
+
+      {
+        name: "TwilioPhone",
+        capability_list: %w[fixed_sidebar inbox],
+        description: "Interfaces twilio telephony",
+        state: "enabled",
+        definitions: [
+          {
+            name: "account_sid",
+            hint: "Twilio API credentials, Found at https://www.twilio.com/console",
+            type: "string",
+            required: true
+          },
+          {
+            name: "application_sid",
+            hint: "You need to create a TwiML app to use this project. Create one at https://www.twilio.com/console/phone-numbers/dev-tools/twiml-apps",
+            type: "string",
+            required: true
+          },
+          {
+            name: "phone_number",
+            hint: "Get your number at, https://www.twilio.com/console/phone-numbers/incoming",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_key",
+            hint: "Your REST API Key, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_secret",
+            hint: "Your REST API Secret, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "auth_token",
+            hint: "Find your Auth Token at twilio.com/console",
+            type: "string",
+            required: true
           }
         ]
       },
@@ -618,6 +805,36 @@ class AppPackagesCatalog
             grid: { xs: "w-full", sm: "w-full" }
           }
         ]
+      },
+
+      {
+        name: "TelnyxSms",
+        description: "Interfaces Telnyx SMS",
+        icon: "https://logo.clearbit.com/telnyx.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "profile_id",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "phones",
+            label: "Numbers pool",
+            hint: "Desired format ie: +17777777777, add comma separated values for your phones, ie:. phone1,phone2,phone3",
+            type: "textarea",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+
+        ]
       }
     ]
 
@@ -639,8 +856,8 @@ class AppPackagesCatalog
     packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-      # binding.pry if package.errors.any?
-      Rails.logger.info "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" if package.errors.any?
+
+      Rails.logger.debug { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?
     end
   end
 end

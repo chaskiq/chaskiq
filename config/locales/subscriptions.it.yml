@@ -1,12 +1,12 @@
 it:
   subscriptions:
-    upgrade: Upgrade
+    upgrade: Aggiorna
     tabs:
-      - Plans
-      - Transaction history
+      - Piani
+      - Storico transazioni
     features:
       Segments:
-        title: Segments
+        title: Segmenti
         description: true
         upgrade_message: Enable contact segments and targeting
       Leads:

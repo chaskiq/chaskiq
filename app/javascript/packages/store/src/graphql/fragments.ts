@@ -9,6 +9,8 @@ tagList
 firstAgentReply
 latestUserVisibleCommentAt
 subject
+blocked
+blockedReason
 assignee {
   id
   email
@@ -133,6 +135,8 @@ userHomeApps
 visitorHomeApps
 inboxApps
 privacyConsentRequired
+availableRoles
+allowIdleSessions
 segments {
   name
   id
@@ -141,6 +145,48 @@ segments {
 state
 tagline
 plan
+currentAppRole
+agentEditorSettings
+userEditorSettings
+leadEditorSettings
+sortedAgents
+`;
+
+export const appUserFragment = `
+
+appUser {
+  id
+  email
+  avatarUrl
+  lastVisitedAt
+  referrer
+  state
+  ip
+  city
+  region
+  country
+  lat
+  lng
+  postal
+  webSessions
+  timezone
+  browser
+  browserVersion
+  os
+  osVersion
+  browserLanguage
+  online
+  lang
+  displayName
+  name
+  externalProfiles {
+    id
+    provider
+    profileId
+    data
+  }
+}
+
 `;
 
 export default {

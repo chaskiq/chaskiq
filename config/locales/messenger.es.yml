@@ -2,6 +2,7 @@
 es:
   messenger:
     runon: 'Usamos Chaskiq'
+    show_more: Mostrar más
     conversation_block:
       choosen: 'respondiste <strong>%{field}</strong>'
     conversations:

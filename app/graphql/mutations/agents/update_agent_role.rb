@@ -3,46 +3,38 @@
 module Mutations
   module Agents
     class UpdateAgentRole < Mutations::BaseMutation
-      field :agent, Types::AgentType, null: false
+      field :agent, Types::RoleType, null: false
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
+      argument :params, Types::AnyType, required: true
       argument :id, String, required: true
 
       def resolve(app_key:, id:, params:)
         app = current_user.apps.find_by(key: app_key)
 
-        role = app.roles.find_by(id: id)
+        role = app.roles.find_by(agent_id: id)
+
+        authorize! role, to: :can_manage_team?, with: AppPolicy, context: {
+          app: app
+        }
 
         agent = role&.agent # , name: 'John Doe')
 
-        authorize! agent, to: :update_agent_role?, with: AppPolicy, context: {
-          role: app.roles.find_by(agent_id: current_user.id)
-        }
+        data = params.permit(Agent.editable_attributes)
 
-        data = params.permit(
-          :name,
-          :avatar,
-          :lang,
-          :first_name,
-          :last_name,
-          :country,
-          :country_code,
-          :region,
-          :region_code,
-          :enable_deliveries,
-          :available,
-          :access_list
-        )
-
+        # role.update(data)
         agent.update(data)
 
-        role.update(access_list: params[:access_list])
+        role.update(role: params[:role]) if params[:role].present?
+        track_resource_event(role, :agent_role_update, role.saved_changes, app.id) if role.errors.blank?
 
-        { agent: agent }
-      end
+        if agent.errors.blank?
+          changes = agent.saved_changes
+          changes.merge!(role.saved_changes) if params[:role].present?
+          track_resource_event(agent, :agent_update, changes, app.id)
+        end
 
-      def current_user
-        context[:current_user]
+        # agent.update(name: params[:name]) if params[:name].present?
+        { agent: role }
       end
     end
   end

@@ -18,6 +18,7 @@ class GraphqlController < ApplicationController
     context = {
       # Query context goes here, for example:
       current_user: current_user,
+      request: request,
       doorkeeper_authorize: -> { api_authorize! },
       enabled_subscriptions: enabled_subscriptions?
     }
@@ -83,6 +84,12 @@ class GraphqlController < ApplicationController
   private
 
   def api_authorize!
+    # AUTH0
+    if auth0_enabled?
+      @auth0_resource ||= auth0_resource
+      return @auth0_resource if @auth0_resource.present?
+    end
+
     resource = current_resource_owner
     raise OauthExeption, "Oauth Exception!" unless resource
 
@@ -91,7 +98,7 @@ class GraphqlController < ApplicationController
   end
 
   def set_host_for_local_storage
-    ActiveStorage::Current.host = request.base_url if Rails.application.config.active_storage.service == :local
+    ActiveStorage::Current.url_options = request.base_url if Rails.application.config.active_storage.service == :local
   end
 end
 

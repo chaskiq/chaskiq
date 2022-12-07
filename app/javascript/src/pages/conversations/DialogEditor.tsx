@@ -45,7 +45,7 @@ function DialogEditor(props) {
              my-5 shadow-sm
              flex items-center space-x-3
               hover:border-gray-400 focus-within:ring-2
-              focus-within:ring-offset-2 focus-within:ring-pink-500"
+              focus-within:ring-offset-2 focus-within:ring-brand"
             >
               <NewEditor {...props} data={{}} submitData={props.handleSubmit} />
             </div>

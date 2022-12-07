@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "openssl"
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 class AppPackageIntegration < ApplicationRecord
   belongs_to :app_package
   belongs_to :app
@@ -47,7 +50,15 @@ class AppPackageIntegration < ApplicationRecord
     end
   end
 
+  validate :integration_data_prepare, on: %i[create update]
   validate :integration_validation, on: %i[create update]
+
+  def integration_data_prepare
+    return if app_package.is_external?
+    return nil unless message_api_klass.respond_to?(:integration_data_prepare)
+
+    message_api_klass.integration_data_prepare(self)
+  end
 
   def integration_validation
     return if app_package.is_external?
@@ -68,11 +79,17 @@ class AppPackageIntegration < ApplicationRecord
   end
 
   def message_api_klass
-    @message_api_klass ||= "MessageApis::#{app_package.name}::Api".constantize.new(
-      config: settings.dup.merge(package: self).merge(
-        app_package.credentials || {}
-      )
+    config = settings.dup.merge(package: self).merge(
+      app_package.credentials || {}
     )
+
+    @message_api_klass ||= if app_package.is_external?
+                             ExternalApiClient.new(config: config)
+                           else
+                             "MessageApis::#{app_package.name}::Api".constantize.new(
+                               config: config
+                             )
+                           end
     # rescue nil
   end
 
@@ -149,12 +166,12 @@ class AppPackageIntegration < ApplicationRecord
 
   def hook_url
     # host = 'https://chaskiq.ngrok.io'
-    host = ENV["HOST"]
+    host = Chaskiq::Config.get("HOST")
     "#{host}/api/v1/hooks/receiver/#{encoded_id}"
   end
 
   def oauth_url
-    "#{ENV['HOST']}/api/v1/oauth/callback/#{encoded_id}"
+    "#{Chaskiq::Config.get('HOST')}/api/v1/oauth/callback/#{encoded_id}"
   end
 
   def receive_oauth_code(params)
@@ -189,7 +206,7 @@ class AppPackageIntegration < ApplicationRecord
     if response["kind"] == "initialize"
       params[:ctx][:field] = nil
       params[:ctx][:values] = response["results"]
-      response = presenter.initialize_hook(params)
+      response = presenter.initialize_hook(**params)
       response.merge!(kind: "initialize")
     end
 
@@ -218,21 +235,85 @@ class AppPackageIntegration < ApplicationRecord
 
   def presenter_hook_response(params, presenter)
     case params[:kind]
-    when "initialize" then presenter.initialize_hook(params)
-    when "configure" then presenter.configure_hook(params)
-    when "submit" then presenter.submit_hook(params)
-    when "frame" then presenter.sheet_hook(params)
-    when "content" then presenter.content_hook(params) # not used
+    when "initialize" then presenter.initialize_hook(**params)
+    when "configure" then presenter.configure_hook(**params)
+    when "submit" then presenter.submit_hook(**params)
+    when "frame" then presenter.sheet_hook(**params)
+    when "content" then presenter.content_hook(**params)
     else raise "no compatible hook kind"
+    end
+  end
+end
+
+class ExternalApiClient
+  attr_accessor :config
+  attr_reader :api_url
+
+  def initialize(config:)
+    @config  = config
+    @api_url = config["package"].app_package.api_url
+  end
+
+  def trigger(event)
+    data = event.as_json
+
+    payload = {
+      action: event.action,
+      created_at: event.created_at,
+      data: {
+        subject: subject_data(event.eventable),
+        properties: event.properties
+      }
+    }
+
+    post(@api_url, payload)
+  end
+
+  def report(path, options = {})
+    # post(@api_url)
+  end
+
+  def enqueue_process_event(params, integration)
+    params.merge!({ package: integration.as_json })
+    post(@api_url, params)
+  end
+
+  def conn
+    # site = Addressable::URI.parse(@api_url).site
+    # @conn ||= Faraday.new(:url => site , request: { timeout: 2 } ) do |faraday|
+    @conn ||= Faraday.new(request: { timeout: 2 }) do |faraday|
+      faraday.request  :url_encoded
+      faraday.response :logger
+      faraday.adapter  Faraday.default_adapter
+    end
+  end
+
+  def post(url, data)
+    resp = conn.post(
+      url,
+      data.to_json,
+      "Content-Type" => "application/json"
+    )
+    JSON.parse(resp.body)
+  end
+
+  def subject_data(eventable)
+    case eventable.class
+    when Conversation
+      eventable.as_json(methods: %i[main_participant assignee latest_message]).to_json
+    else
+      eventable.to_json
     end
   end
 end
 
 class ExternalPresenterManager
   def self.post(url, data)
-    # it's just for restrict fields on app, refactor this!
+    # This it's just to restrict fields on app, refactor this!
     data[:ctx][:app] = data.dig(:ctx, :app).as_json(only: %i[key name])
-
+    data[:ctx][:current_user] = data.dig(:ctx, :current_user).as_json(methods: %i[email kind display_name avatar_url])
+    Rails.logger.debug url
+    Rails.logger.debug data
     resp = Faraday.post(
       url,
       data.to_json,

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import styled from '@emotion/styled';
 import { BannerRenderer } from '../../../packages/messenger/src/client_messenger/Banner'; //'../../../client_messenger/Banner'
 
 import serialize from 'form-serialize';
@@ -18,12 +17,17 @@ import {
   DELIVER_CAMPAIGN,
 } from '@chaskiq/store/src/graphql/mutations';
 import { AGENTS } from '@chaskiq/store/src/graphql/queries';
+import {
+  errorMessage,
+  successMessage,
+} from '@chaskiq/store/src/actions/status_messages';
 
 type CampaignEditorProps = {
   data: any;
   updateData: (val: any, o: any) => void;
   app: any;
   mode: any;
+  dispatch: any;
 };
 type CampaignEditorState = {
   loading: boolean;
@@ -94,14 +98,25 @@ export default class CampaignEditor extends Component<
       success: (data) => {
         this.props.updateData(data.campaignUpdate.campaign, null);
         this.setState({ status: null });
+        this.props.dispatch(
+          successMessage(I18n.t('campaigns.campaign_updated'))
+        );
       },
       error: () => {
         this.setState({ status: 'error' });
+        this.props.dispatch(errorMessage(I18n.t('campaigns.cloned_error')));
       },
     });
   };
 
   updateFromBanner = (data) => {
+    // get changes
+    if (
+      !Object.keys(data).find((o) => data[o] !== this.props.data.bannerData[o])
+    ) {
+      return;
+    }
+
     const params = {
       appKey: this.props.app.key,
       id: this.props.data.id,
@@ -115,9 +130,13 @@ export default class CampaignEditor extends Component<
       success: (data) => {
         this.props.updateData(data.campaignUpdate.campaign, null);
         this.setState({ status: null });
+        this.props.dispatch(
+          successMessage(I18n.t('campaigns.campaign_updated'))
+        );
       },
       error: () => {
         this.setState({ status: 'error' });
+        this.props.dispatch(errorMessage(I18n.t('campaigns.cloned_error')));
       },
     });
   };
@@ -199,6 +218,7 @@ export default class CampaignEditor extends Component<
             <React.Fragment>
               {!this.state.preview && (
                 <TextEditor
+                  allowedEditorFeature={() => true}
                   videoless={this.props.mode === 'campaigns'}
                   campaign={true}
                   uploadHandler={this.uploadHandler}
@@ -246,6 +266,7 @@ export default class CampaignEditor extends Component<
                 notifyHeight={this.heightHandler}
                 textComponent={
                   <TextEditor
+                    allowedEditorFeature={() => true}
                     campaign={true}
                     uploadHandler={this.uploadHandler}
                     serializedContent={this.props.data.serializedContent}
@@ -311,7 +332,7 @@ function Preview({ campaign, app }) {
               {I18n.t('campaign.preview')}
             </h3>
             <div className="mt-2 text-sm leading-5 text-yellow-700">
-              <p>{I18n.t('campaign.preview_hint')}</p>
+              <p>{I18n.t('campaign.preview_hint', { name: '{{name}}' })}</p>
             </div>
           </div>
         </div>
@@ -422,16 +443,18 @@ function StyleBanner({ app, campaign, onChange }) {
               label="show sender"
               name="show_sender"
             />
-            <Input
-              type="select"
-              options={agents}
-              onChange={(data) => {
-                setAgent(data);
-              }}
-              defaultValue={agent}
-              label="sender"
-              name="sender_id"
-            />
+            {agents.length > 0 && (
+              <Input
+                type="select"
+                options={agents}
+                onChange={(data) => {
+                  setAgent(data);
+                }}
+                defaultValue={agent}
+                label="sender"
+                name="sender_id"
+              />
+            )}
           </div>
         </div>
 

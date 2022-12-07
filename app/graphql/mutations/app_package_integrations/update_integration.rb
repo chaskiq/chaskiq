@@ -6,14 +6,15 @@ module Mutations
       field :integration, Types::AppPackageIntegrationType, null: false
       field :errors, Types::JsonType, null: true
       argument :app_key, String, required: true
-      argument :params, Types::JsonType, required: true
-      argument :id, Integer, required: true
+      argument :params, Types::AnyType, required: true
+      argument :id, String, required: true
 
       def resolve(app_key:, id:, params:)
         app = find_app(app_key)
         integration = app.app_package_integrations.find(id)
         app_package = integration.app_package
-        authorize! app, to: :manage?, with: AppPolicy
+
+        authorize! integration, to: :can_manage_app_packages?, with: AppPolicy, context: { app: app }
 
         integration.settings = params.permit!.to_h
         integration.app_package = app_package

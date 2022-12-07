@@ -8,6 +8,8 @@ import paddle from '../images/logos/paddle.png';
 import openai from '../images/logos/openai.png';
 import reveniu from '../images/logos/reveniu.png';
 import stripe from '../images/logos/stripe.png';
+import telnyxsms from '../images/logos/telnyx_sms.png';
+import whereby from '../images/logos/whereby.png';
 
 import fullcontact from '../images/logos/fullcontact.png';
 import slack from '../images/logos/slack.png';
@@ -15,6 +17,7 @@ import zoom from '../images/logos/zoom.png';
 import dailytics from '../images/logos/dailytics.png';
 import helpscout from '../images/logos/helpscout.png';
 import twilio from '../images/logos/twilio.png';
+import twiliophone from '../images/logos/twilio.png';
 import dialogflow from '../images/logos/dialogflow.png';
 import messenger from '../images/logos/messenger.png';
 import twitter from '../images/logos/twitter.png';
@@ -24,6 +27,7 @@ import zapier from '../images/logos/zapier.png';
 import dialog360 from '../images/logos/dialog360.png';
 import vonage from '../images/logos/vonage.png';
 import messagebird from '../images/logos/messagebird.png';
+import cal from '../images/logos/cal.png';
 
 export default {
   messagebird,
@@ -31,6 +35,7 @@ export default {
   dialog360,
   telegram,
   zapier,
+  cal,
   calendly,
   facebook,
   pipedrive,
@@ -51,4 +56,7 @@ export default {
   paddle,
   openai,
   reveniu,
+  telnyxsms,
+  twiliophone,
+  whereby,
 };

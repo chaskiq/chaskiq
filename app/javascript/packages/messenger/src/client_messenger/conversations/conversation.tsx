@@ -34,7 +34,7 @@ const DanteStylesExtend = styled(DanteContainer)`
   }
 `;
 export function Conversation(props) {
-  let wait_for_input = React.useRef(null);
+  const wait_for_input = React.useRef(null);
   const {
     value: {
       kind,
@@ -103,7 +103,7 @@ export function Conversation(props) {
     ) {
       return insertComment(
         {
-          conversation_key: conversation.key,
+          conversationKey: conversation.key,
           message_key: message.key,
           trigger: message.message.triggerId,
           reply: item,
@@ -170,7 +170,6 @@ export function Conversation(props) {
     const namespace = kind === 'AppUser' ? 'users' : 'visitors';
 
     const inboundSettings = appData.inboundSettings[namespace];
-
     // if this option is not enabled then replies are allowed
     if (!inboundSettings.close_conversations_enabled) return;
 
@@ -264,14 +263,14 @@ export function Conversation(props) {
         >
           {!isUserAutoMessage(o) && isAgent && (
             <ConversationSummaryAvatar>
-              <img src={o.appUser.avatarUrl} />
+              <img alt={o.appUser.displayName} src={o.appUser.avatarUrl} />
             </ConversationSummaryAvatar>
           )}
 
           <div className="message-content-wrapper">
             {isUserAutoMessage(o) && (
               <UserAutoChatAvatar>
-                <img src={o.appUser.avatarUrl} />
+                <img alt={o.appUser.displayName} src={o.appUser.avatarUrl} />
                 <span>{o.appUser.name || '^'}</span>
               </UserAutoChatAvatar>
             )}
@@ -338,7 +337,7 @@ export function Conversation(props) {
           conversation.messages.collection.length >= 3 && (
             <FooterAckInline>
               <a href="https://chaskiq.io" target="blank">
-                <img src={`${domain}/logo-gray.png`} />{' '}
+                <img alt="Chaskiq.io" src={`${domain}/logo-gray.png`} />{' '}
                 {i18n.t('messenger.runon')}
               </a>
             </FooterAckInline>
@@ -411,10 +410,25 @@ export function Conversation(props) {
     return renderReplyAbove();
   }
 
+  function allowedEditorFeature(feature_type) {
+    switch (kind) {
+      case 'AppUser':
+        return resolveEditorSetting(appData?.userEditorSettings, feature_type);
+      default:
+        return resolveEditorSetting(appData?.leadEditorSettings, feature_type);
+    }
+  }
+
+  function resolveEditorSetting(setting, feature_type) {
+    return !setting ? true : setting[feature_type];
+  }
+
   function renderFooter() {
     return (
       <Footer
+        conversationState={conversation.state}
         isInputEnabled={isInputEnabled()}
+        isInboundRepliesClosed={isInboundRepliesClosed()}
         className={footerClassName || ''}
       >
         {!isInputEnabled() ? (
@@ -422,6 +436,9 @@ export function Conversation(props) {
         ) : (
           <UnicornEditor
             i18n={i18n}
+            allowsGiphy={allowedEditorFeature('gif')}
+            allowsAttachment={allowedEditorFeature('attachments')}
+            allowsEmoji={allowedEditorFeature('emojis')}
             beforeSubmit={(data) => handleBeforeSubmit()}
             onSent={(data) => handleSent()}
             domain={domain}
@@ -460,7 +477,8 @@ export function Conversation(props) {
   }
 
   return (
-    <div
+    <main
+      aria-labelledby="conversation"
       style={{
         position: 'absolute',
         top: '0',
@@ -470,7 +488,7 @@ export function Conversation(props) {
       }}
     >
       {inline_conversation ? renderInline() : renderDefault()}
-    </div>
+    </main>
   );
 }
 

@@ -6,8 +6,9 @@ class App < ApplicationRecord
   include GlobalizeAccessors
   include Tokenable
   include UserHandler
+  include Notificable
 
-  store :preferences, accessors: %i[
+  store_accessor :preferences, %i[
     active_messenger
     domain_url
     theme
@@ -28,14 +29,28 @@ class App < ApplicationRecord
     user_home_apps
     visitor_home_apps
     inbox_apps
+    profile_apps
+
     paddle_user_id
     paddle_subscription_id
     paddle_subscription_plan_id
     paddle_subscription_status
+
+    stripe_customer_id
+    stripe_subscription_id
+    stripe_subscription_plan_id
+    stripe_subscription_status
+
     privacy_consent_required
     inbound_email_address
     avatar_settings
-  ], coder: JSON
+
+    agent_editor_settings
+    user_editor_settings
+    lead_editor_settings
+
+    sorted_agents
+  ]
 
   include InboundAddress
 
@@ -60,14 +75,18 @@ class App < ApplicationRecord
   has_many :article_collections, dependent: :destroy_async
   has_many :sections, through: :article_collections
   has_many :conversations, dependent: :destroy_async
+  has_many :conversation_channels, through: :conversations
   has_many :conversation_parts, through: :conversations, source: :messages
   has_many :conversation_events, through: :conversations, source: :events
   has_many :segments, dependent: :destroy_async
   has_many :roles, dependent: :destroy_async
   has_many :agents, through: :roles
+  has_many :teams, dependent: :destroy_async
+  has_many :agent_teams, through: :teams
   has_many :campaigns, dependent: :destroy_async
   has_many :user_auto_messages, dependent: :destroy_async
   has_many :tours, dependent: :destroy_async
+  has_many :audits, dependent: :destroy_async
   has_many :banners, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
   has_many :bot_tasks, dependent: :destroy_async
@@ -104,7 +123,7 @@ class App < ApplicationRecord
   end
 
   def outgoing_email_domain
-    preferences[:outgoing_email_domain].presence || ENV["DEFAULT_OUTGOING_EMAIL_DOMAIN"]
+    preferences[:outgoing_email_domain].presence || Chaskiq::Config.get("DEFAULT_OUTGOING_EMAIL_DOMAIN")
   end
 
   def config_fields
@@ -173,24 +192,38 @@ class App < ApplicationRecord
     participant = options[:participant] || user
     message_source = options[:message_source]
 
-    conversation = conversations.create(
-      main_participant: participant,
-      initiator: user,
-      assignee: options[:assignee],
-      subject: options[:subject]
-    )
-
-    if message.present?
-      conversation.add_message(
-        from: user,
-        message: message,
-        message_source: message_source,
-        check_assignment_rules: true
+    ActiveRecord::Base.transaction do
+      conversation = conversations.create(
+        main_participant: participant,
+        initiator: user,
+        assignee: options[:assignee],
+        subject: options[:subject]
       )
-    end
 
-    conversation.add_started_event
-    conversation
+      if options[:initiator_channel]
+        # here we will create a conversation channel and a external profile if it's neccessary
+        pkg = find_app_package(options[:initiator_channel])
+        pkg&.message_api_klass&.prepare_initiator_channel_for(conversation, pkg) if pkg.present?
+      end
+
+      if options[:initiator_block]
+        pkg = find_app_package(options[:initiator_block]["name"])
+        pkg&.message_api_klass&.prepare_block_initiator_channel_for(conversation, pkg, options[:initiator_block]) if pkg.present?
+        message = nil
+      end
+
+      if message.present?
+        conversation.add_message(
+          from: user,
+          message: message,
+          message_source: message_source,
+          check_assignment_rules: true
+        )
+      end
+
+      conversation.add_started_event
+      conversation
+    end
   end
 
   def query_segment(kind)
@@ -220,6 +253,14 @@ class App < ApplicationRecord
     availability.in_hours?(time)
   rescue StandardError # Biz::Error::Configuration
     nil
+  end
+
+  def email
+    if owner.present?
+      owner.email
+    else
+      agents.humans.first.email
+    end
   end
 
   def generate_encryption_key
@@ -273,8 +314,16 @@ class App < ApplicationRecord
     (custom_fields || []) + AppUser::ENABLED_SEARCH_FIELDS
   end
 
+  def built_in_updateable_fields
+    AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
+  end
+
+  def custom_field_keys
+    custom_fields&.map { |o| o["name"].to_sym } || []
+  end
+
   def app_user_updateable_fields
-    (custom_fields || []) + AppUser::ALLOWED_PROPERTIES + AppUser::ACCESSOR_PROPERTIES
+    (custom_fields || []) + built_in_updateable_fields
   end
 
   def searcheable_fields_list
@@ -311,12 +360,32 @@ class App < ApplicationRecord
   end
 
   def plan
-    if paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
+    if stripe_subscription_status == "active" || stripe_subscription_status == "trialing"
+      @plan ||= Plan.new(
+        Plan.get_by_id(stripe_subscription_plan_id) || Plan.get("free")
+      )
+    elsif paddle_subscription_status == "active" || paddle_subscription_status == "trialing"
       @plan ||= Plan.new(
         Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get("free")
       )
     else
       @plan = Plan.get("free")
+    end
+  end
+
+  def payment_service
+    if paddle_subscription_plan_id.present?
+      PaymentServices::Paddle
+    else
+      PaymentServices::StripeService
+    end
+  end
+
+  def payment_attribute(key)
+    if PaymentServices::StripeService == payment_service
+      send("stripe_#{key}".to_sym)
+    elsif PaymentServices::Paddle == payment_service
+      send("paddle_#{key}".to_sym)
     end
   end
 

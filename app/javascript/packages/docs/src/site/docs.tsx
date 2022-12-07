@@ -100,25 +100,28 @@ function Docs(props) {
                       onClick={(_e) => (window.location = settings.website)}
                     >
                       <LaunchIcon />
-                      {' Go to'} {settings.siteTitle}
+                      <span className={'ml-1'}>
+                        {' Go to'} {settings.siteTitle}
+                      </span>
                     </button>
 
                     <div>
                       <hr className={'classes.hr'} />
                     </div>
 
-                    {settings.availableLanguages && (
-                      <Dropdown
-                        icon={
-                          <LangGlobeIcon className="h-5 w-5 outline-none" />
-                        }
-                        filterHandler={handleLangChange}
-                        options={settings.availableLanguages.map((o) => ({
-                          name: o,
-                          id: o,
-                        }))}
-                      />
-                    )}
+                    {settings.availableLanguages &&
+                      settings.availableLanguages > 0 && (
+                        <Dropdown
+                          icon={
+                            <LangGlobeIcon className="h-5 w-5 outline-none" />
+                          }
+                          filterHandler={handleLangChange}
+                          options={settings.availableLanguages.map((o) => ({
+                            name: o,
+                            id: o,
+                          }))}
+                        />
+                      )}
                   </div>
                 </div>
               </div>

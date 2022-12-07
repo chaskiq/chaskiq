@@ -4,26 +4,60 @@ module PackageIframeBehavior
   extend ActiveSupport::Concern
 
   def package_iframe
-    data = JSON.parse(params[:data])
-    @app = App.find_by(key: data["data"]["app_id"])
+    if params[:token]
+      data = CHASKIQ_FRAME_VERIFIER.verify(params[:token])
+      # in case an user_token is provided
+      if params[:user_token].present?
+        data.merge!({
+                      current_user: CHASKIQ_FRAME_VERIFIER.verify(params[:user_token])
+                    })
+      end
 
-    url_base = data["data"]["field"]["action"]["url"]
-    url = handle_url_data(url_base)
-    # TODO: unify this with the API auth
-    app_user, app_data = handle_user_data(data)
+      @app = App.find_by(key: data[:app_id])
 
-    app_user.as_json(methods: %i[
-                       email
-                       name
-                       display_name
-                       avatar_url
-                       first_name
-                       last_name
-                     ])
+      pkg = AppPackageIntegration.find(data[:package_id])
+      html = pkg.presenter.sheet_view(data)
+    elsif params[:data].present?
+      data = JSON.parse(params[:data])
+      @app = App.find_by(key: data["data"]["app_id"])
+      url_base = data["data"]["field"]["action"]["url"]
+      url = handle_url_data(url_base)
+      # TODO: unify this with the API auth
+      app_user, app_data = handle_user_data(data)
 
-    resp = iframe_package_request(url, data, app_user)
-    render html: resp, layout: false
-    # render "app_packages/#{params[:package]}/show", layout: false
+      app_user.as_json(methods: %i[
+                         email
+                         name
+                         display_name
+                         avatar_url
+                         first_name
+                         last_name
+                       ])
+
+      if url_base.match(%r{^/package_iframe_internal/})
+
+        package = @app.app_package_integrations
+                      .joins(:app_package)
+                      .find_by("app_packages.name": data["data"]["id"])
+
+        presenter = package.presenter
+        data.merge!({ "data" => data["data"].merge("package" => package, "user" => app_user) })
+
+        data["data"].merge!({
+                              "app_key" => data["data"]["app_id"],
+                              "user" => app_user
+                            })
+
+        html = presenter.sheet_view(data["data"]&.with_indifferent_access)
+      else
+        html = iframe_package_request(url, data, app_user)
+      end
+    end
+
+    # rubocop:disable Rails/OutputSafety
+    response.headers.delete "X-Frame-Options"
+    render html: html.html_safe, layout: false
+    # rubocop:enable Rails/OutputSafety
   end
 
   def package_iframe_internal
@@ -69,6 +103,10 @@ module PackageIframeBehavior
                  @app.app_users.users.find_by(email: user_data[:email])
                elsif data.dig("data", "enc_data", "identifier_key") && @app.compare_user_identifier(data["data"]["enc_data"])
                  @app.app_users.users.find_by(email: data.dig("data", "enc_data", "email"))
+               elsif data.dig("data", "session_id").present?
+                 @app.app_users.find_by(
+                   session_id: data.dig("data", "session_id")
+                 )
                else
                  @app.app_users.find_by(
                    session_id: cookies[cookie_namespace]
@@ -82,7 +120,7 @@ module PackageIframeBehavior
 
   def handle_url_data(url_base)
     if url_base.match(%r{^/package_iframe_internal/})
-      "#{ENV['HOST']}#{url_base}"
+      "#{Chaskiq::Config.get('HOST')}#{url_base}"
     else
       url_base
     end
@@ -91,9 +129,6 @@ module PackageIframeBehavior
   def iframe_package_request(url, data, app_user)
     resp = Faraday.post(url, data.merge!(user: app_user).to_json,
                         "Content-Type" => "application/json")
-    response.headers.delete "X-Frame-Options"
-    # rubocop:disable Rails/OutputSafety
-    resp.body.html_safe
-    # rubocop:enable Rails/OutputSafety
+    resp.body
   end
 end

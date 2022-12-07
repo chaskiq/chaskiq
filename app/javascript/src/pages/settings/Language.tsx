@@ -29,10 +29,23 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
       }
     });
 
-    // const newData = Object.assign({}, data.settings, next)
     const newData = Object.assign({}, { key: settings.key }, next);
     update({ app: newData });
-    toggleDialog();
+    return toggleDialog();
+
+    /*const n = {
+      translations: {
+        [value]: {
+          greetings: '-',
+          intro: '-',
+          tagline: '-',
+        },
+      },
+    };
+
+    const newData = Object.assign({}, { key: settings.key }, n);
+    update({ app: newData });
+    toggleDialog();*/
   }
 
   function close() {
@@ -119,6 +132,7 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
                   // id="standard-name"
                   label={false}
                   defaultValue={row[field]}
+                  //name={`${namespace}["translations"][${row.locale}][${field}]`}
                   name={`${namespace}[${field}_${row.locale}]`}
                 />
               )}
@@ -136,7 +150,7 @@ export default function LanguageForm({ settings, update, namespace, fields }) {
     <div className="py-4">
       <p
         className="text-lg leading-6 font-medium
-        text-gray-900 pb-4"
+        text-gray-900 dark:text-gray-100 pb-4"
       >
         {I18n.t('settings.languages.title')}
       </p>

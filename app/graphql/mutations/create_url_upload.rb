@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "open-uri"
-
 module Mutations
   class CreateUrlUpload < GraphQL::Schema::Mutation
     class CreateUrlUploadInput < GraphQL::Schema::InputObject
@@ -29,7 +27,7 @@ module Mutations
     field :direct_upload, UrlUpload, null: false
 
     def download_to_file(uri)
-      stream = open(uri, "rb")
+      stream = URI.parse(uri).open # URI.open(uri, "rb")
       return stream if stream.respond_to?(:path) # Already file-like
 
       Tempfile.new.tap do |file|

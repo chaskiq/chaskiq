@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
 import Button from '@chaskiq/components/src/components/Button';
 import { toCamelCase } from '@chaskiq/components/src/utils/caseConverter';
+import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
+
 import autolink from '../autolink';
 import serialize from 'form-serialize';
 import { isEmpty } from 'lodash';
@@ -80,7 +82,9 @@ export default class AppPackageBlock extends Component<
         message: message,
         data: {
           field: data.field,
-          id: message.message.blocks.app_package,
+          id:
+            message.message.blocks.app_package ||
+            message.message.blocks.appPackage,
           values: message.message.blocks.values,
           message_key: message.key,
           conversation_key: this.props.conversation.key,
@@ -112,11 +116,8 @@ export default class AppPackageBlock extends Component<
         return cb && cb();
       }
 
-      const {
-        definitions,
-        _kind,
-        results,
-      } = data.messenger.app.appPackage.callHook;
+      const { definitions, _kind, results } =
+        data.messenger.app.appPackage.callHook;
 
       if (!results) {
         // this.setState({schema: definitions}, cb && cb())
@@ -199,7 +200,7 @@ export default class AppPackageBlock extends Component<
                 __html: this.props.i18n.t(
                   'messenger.conversation_block.choosen',
                   {
-                    field: item.label,
+                    field: escapeHTML(item.label),
                   }
                 ),
               }}

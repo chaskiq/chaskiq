@@ -647,7 +647,7 @@ class CampaignForm extends Component<CampaignFormProps, CampaignFormState> {
       PURGE_METRICS,
       {
         appKey: this.props.app.key,
-        id: parseInt(this.props.match.params.id),
+        id: this.props.match.params.id,
       },
       {
         success: (_data) => {

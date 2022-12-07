@@ -9,12 +9,15 @@ module Mutations
         argument :app_key, String, required: true
         argument :title, String, required: true
         argument :description, String, required: false
-        argument :id, Integer, required: true
+        argument :id, String, required: true
         argument :lang, String, required: false, default_value: I18n.default_locale
         argument :icon, String, required: false
 
         def resolve(app_key:, title:, id:, description:, lang:, icon: nil)
           app = current_user.apps.find_by(key: app_key)
+          authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
+            app: app
+          }
           collection = app.article_collections.find(id)
 
           collection.update(

@@ -12,6 +12,12 @@ module Types
     field :updateAgentRole, mutation: Mutations::Agents::UpdateAgentRole
     field :destroyAgentRole, mutation: Mutations::Agents::DestroyAgentRole
 
+    field :createTeam, mutation: Mutations::Teams::CreateTeam
+    field :updateTeam, mutation: Mutations::Teams::UpdateTeam
+    field :deleteTeam, mutation: Mutations::Teams::DeleteTeam
+    field :addTeamAgent, mutation: Mutations::Teams::AddTeamAgent
+    field :deleteTeamAgent, mutation: Mutations::Teams::DeleteTeamAgent
+
     field :cloneMessage, mutation: Mutations::CloneMessage
 
     field :createDelete, mutation: Mutations::Predicates::CreatePredicate
@@ -38,6 +44,7 @@ module Types
     field :typingNotifier, mutation: Mutations::Conversations::TypingNotifier
     field :updateConversationTags, mutation: Mutations::Conversations::UpdateTags
     field :sendTrigger, mutation: Mutations::Conversations::SendTrigger
+    field :sortAgents, mutation: Mutations::Conversations::SortAgentList
 
     field :createWebhook, mutation: Mutations::OutgoingWebhooks::CreateWebhook
     field :updateWebhook, mutation: Mutations::OutgoingWebhooks::UpdateWebhook
@@ -55,8 +62,14 @@ module Types
     field :appUserUpdateData, mutation: Mutations::AppUsers::UpdateAppUserState
     field :convertUser, mutation: Mutations::AppUsers::ConvertUser
     field :privacyConsent, mutation: Mutations::AppUsers::PrivacyConsent
+    field :createAppUser, mutation: Mutations::AppUsers::CreateAppUser
     field :updateAppUser, mutation: Mutations::AppUsers::UpdateAppUser
+    field :mergeContact, mutation: Mutations::AppUsers::MergeContact
+
     field :syncExternalProfile, mutation: Mutations::AppUsers::SyncExternalProfile
+    field :createExternalProfile, mutation: Mutations::AppUsers::CreateExternalProfile
+    field :updateExternalProfile, mutation: Mutations::AppUsers::UpdateExternalProfile
+    field :deleteExternalProfile, mutation: Mutations::AppUsers::DeleteExternalProfile
 
     field :createArticle, mutation: Mutations::Articles::CreateArticle
     field :editArticle, mutation: Mutations::Articles::EditArticle
@@ -99,5 +112,8 @@ module Types
     field :createOauthApplication, mutation: Mutations::OauthApps::OauthCreate
     field :updateOauthApplication, mutation: Mutations::OauthApps::OauthUpdate
     field :deleteOauthApplication, mutation: Mutations::OauthApps::OauthDelete
+
+    field :stripeCustomerPortal, mutation: Mutations::StripeSubscriptions::CustomerPortal
+    field :stripeCreateIntent, mutation: Mutations::StripeSubscriptions::CreateIntent
   end
 end

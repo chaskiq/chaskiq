@@ -530,7 +530,11 @@ class OauthList extends React.Component<OauthListProps, OauthListState> {
                   {I18n.t('common.cancel')}
                 </Button>
 
-                <Button className="mr-1" onClick={this.createApp}>
+                <Button
+                  className="mr-1"
+                  onClick={this.createApp}
+                  variant="outlined"
+                >
                   {I18n.t('settings.api.create_app')}
                 </Button>
               </React.Fragment>

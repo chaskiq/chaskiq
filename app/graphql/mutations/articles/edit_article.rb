@@ -5,7 +5,7 @@ module Mutations
     class EditArticle < Mutations::BaseMutation
       field :article, Types::ArticleType, null: false
       argument :app_key, String, required: true
-      argument :content, Types::JsonType, required: false
+      argument :content, Types::AnyType, required: false
       argument :title, String, required: true
       argument :id, String, required: true
       argument :description, String, required: true
@@ -14,6 +14,10 @@ module Mutations
       def resolve(app_key:, id:, content:, title:, lang:, description:)
         app = App.find_by(key: app_key)
         article = app.articles.find(id)
+
+        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
 
         I18n.locale = lang
 

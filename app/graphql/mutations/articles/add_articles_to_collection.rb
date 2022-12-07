@@ -5,13 +5,17 @@ module Mutations
     class AddArticlesToCollection < Mutations::BaseMutation
       field :collection, Types::CollectionType, null: false
       argument :app_key, String, required: true
-      argument :collectionId, Integer, required: true
-      argument :articlesId, [String], required: true
+      argument :collection_id, String, required: true
+      argument :articles_id, [String], required: true
 
       def resolve(app_key:, collection_id:, articles_id:)
         app = App.find_by(key: app_key)
 
+        authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
         collection = app.article_collections.find(collection_id)
+
         app.articles.where(id: articles_id).each do |a|
           a.update(collection: collection, section: nil)
         end

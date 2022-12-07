@@ -71,7 +71,7 @@ export const TextInput = styled.input<TextInputProps>`
   ${(props) =>
     props.disabled
       ? `background: #f6f4f4 !important;
-    color: #ddd !important;`
+    color: #525252 !important;`
       : ''}
 `;
 
@@ -153,6 +153,7 @@ const TextInputButton = styled.div<TextInputButtonProps>`
       : ''}
 
   svg {
+    height: 36px;
     position: absolute;
     left: 4px;
     ${(props) => (props.saved ? tw`text-green-400` : tw`text-white`)}

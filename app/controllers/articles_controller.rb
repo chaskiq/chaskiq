@@ -11,7 +11,7 @@ class ArticlesController < ApplicationController
   private
 
   def messenger_data
-    article_setting = ArticleSetting.find_by(subdomain: request.subdomain)
+    article_setting = ArticleSetting.find_by(subdomain: request.subdomains.join("."))
     @app = article_setting.app
     key = @app.encryption_key
     @sessionless = params[:sessionless]

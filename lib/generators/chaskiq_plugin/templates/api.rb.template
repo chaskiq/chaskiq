@@ -44,7 +44,9 @@ module MessageApis::<%= file_name.classify %>
       process_message(params, @package)
     end
 
-    def send_message(conversation, message)
+    def send_message(conversation, part)
+      return if part.private_note?
+      message = part.message.as_json
       # TODO: implement event format
     end
 

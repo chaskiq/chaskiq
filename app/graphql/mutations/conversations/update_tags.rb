@@ -7,13 +7,17 @@ module Mutations
       field :errors, Types::JsonType, null: true
 
       argument :app_key, String, required: true
-      argument :conversation_id, Integer, required: true
+      argument :conversation_id, String, required: true
       argument :tag_list, [String], required: true
 
       def resolve(app_key:, conversation_id:, tag_list:)
         find_app(app_key)
-
         @conversation = conversation(conversation_id)
+
+        authorize! @conversation, to: :can_manage_conversations?, with: AppPolicy, context: {
+          app: @app
+        }
+
         @conversation.tag_list = tag_list
 
         @conversation.save

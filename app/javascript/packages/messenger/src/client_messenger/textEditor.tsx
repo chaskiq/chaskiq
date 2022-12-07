@@ -51,7 +51,7 @@ const Input = styled.textarea`
     font-family: "Helvetica Neue","Apple Color Emoji",Helvetica,Arial,sans-serif;
     font-size: 14px;
     font-weight: 400;
-    line-height: 1.33;
+    line-height: '1.345rem';
     background-color: #fff;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -94,7 +94,7 @@ const Input = styled.textarea`
 const EditorButtons = styled.div`
     position: absolute;
     top: 12px;
-    right: 7px;
+    right: 15px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -174,6 +174,9 @@ type EditorProps = {
   domain: string;
   i18n: any;
   footerClassName?: boolean;
+  allowsGiphy: boolean;
+  allowsAttachment: boolean;
+  allowsEmoji: boolean;
 };
 type EditorState = {
   text: string;
@@ -250,12 +253,12 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
     if (document.selection) {
       myField.focus();
       //@ts-ignore
-      var sel = document.selection.createRange();
+      const sel = document.selection.createRange();
       sel.text = myValue;
     } else if (myField.selectionStart || myField.selectionStart === '0') {
       // MOZILLA and others
-      var startPos = myField.selectionStart;
-      var endPos = myField.selectionEnd;
+      const startPos = myField.selectionStart;
+      const endPos = myField.selectionEnd;
       myField.value =
         myField.value.substring(0, startPos) +
         myValue +
@@ -419,6 +422,7 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
 
           {this.state.giphyEnabled ? (
             <GiphyPicker
+              domain={this.props.domain}
               apikey={'97g39PuUZ6Q49VdTRBvMYXRoKZYd1ScZ'}
               handleSelected={this.saveGif}
             />
@@ -444,30 +448,36 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
               />
             )}
 
-            <button
-              disabled={this.state.loading}
-              onClick={this.toggleEmojiClick}
-            >
-              <EmojiIcon />
-            </button>
+            {this.props.allowsEmoji && (
+              <button
+                disabled={this.state.loading}
+                onClick={this.toggleEmojiClick}
+              >
+                <EmojiIcon />
+              </button>
+            )}
 
-            <button disabled={this.state.loading} onClick={this.toggleGiphy}>
-              <GifIcon />
-            </button>
+            {this.props.allowsGiphy && (
+              <button disabled={this.state.loading} onClick={this.toggleGiphy}>
+                <GifIcon />
+              </button>
+            )}
 
-            <button
-              disabled={this.state.loading}
-              onClick={this.handleInputClick}
-            >
-              <AttachIcon />
-              <input
-                type="file"
-                ref={(comp) => (this.upload_input = comp)}
-                accept={permittedFiles}
-                style={{ display: 'none' }}
-                onChange={this.handleUpload}
-              />
-            </button>
+            {this.props.allowsAttachment && (
+              <button
+                disabled={this.state.loading}
+                onClick={this.handleInputClick}
+              >
+                <AttachIcon />
+                <input
+                  type="file"
+                  ref={(comp) => (this.upload_input = comp)}
+                  accept={permittedFiles}
+                  style={{ display: 'none' }}
+                  onChange={this.handleUpload}
+                />
+              </button>
+            )}
           </EditorButtons>
         </EditorContainer>
       </EditorWrapper>

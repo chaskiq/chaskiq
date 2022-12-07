@@ -5,7 +5,7 @@ module Types
     field :assignee, Types::AppUserType, null: true
     # association_field :assignee, Types::AgentType, null: true
 
-    field :id, Integer, null: true
+    field :id, String, null: true
     field :key, String, null: true
     field :reply_count, Integer, null: true
     field :priority, Boolean, null: true
@@ -14,6 +14,8 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: true
     field :closed_at, GraphQL::Types::ISO8601DateTime, null: true
     field :subject, String, null: true
+    field :blocked, Boolean, null: true
+    field :blocked_reason, String, null: true
 
     field :first_agent_reply, GraphQL::Types::ISO8601DateTime, null: true
     field :latest_user_visible_comment_at, GraphQL::Types::ISO8601DateTime, null: true

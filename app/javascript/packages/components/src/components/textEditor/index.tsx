@@ -185,6 +185,7 @@ type ArticleEditorProps = {
   inlineTooltipConfig?: any;
   handleReturn?: (e: any, isEmptyDraft: boolean, ctx?: any) => void;
   saveHandler?: (_html3: any, _plain: any, _serialized: any) => void;
+  allowedEditorFeature: any;
 };
 
 type ArticleEditorState = {
@@ -345,12 +346,8 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
       { url: url },
       {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createUrlUpload.directUpload;
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload;
           this.props.uploadHandler({
             signedBlobId,
             headers,
@@ -370,12 +367,8 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createDirectUpload.directUpload;
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             this.props.uploadHandler({
@@ -395,57 +388,94 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     });
   };
 
+  /*
+    app_packages: true
+    attachments: true
+    embeds: true
+    giphy: true
+    images: true
+    link_embeds: true
+    quick_replies: true
+    routing_bots: true
+    video_recorder: true
+  */
+
   widgetsConfig = () => {
-    let widgets = [
-      CodeBlockConfig(),
-      ImageBlockConfig({
-        options: {
-          //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-          upload_handler: this.uploadHandler,
-          image_caption_placeholder: 'type a caption (optional)',
-        },
-      }),
-      FileBlockConfig({
-        options: {
-          //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-          upload_handler: this.uploadHandler,
-          image_caption_placeholder: 'type a caption (optional)',
-        },
-      }),
-      DividerBlockConfig(),
-      EmbedBlockConfig({
-        breakOnContinuous: true,
-        editable: true,
-        options: {
-          placeholder: 'put an external links',
-          endpoint: `/oembed?url=`,
-        },
-      }),
-      PlaceholderBlockConfig(),
-      GiphyBlockConfig(),
-      //SpeechToTextBlockConfig(),
-      //ButtonBlockConfig()
-    ];
+    let widgets = [CodeBlockConfig()];
+
+    if (this.props.allowedEditorFeature('images')) {
+      widgets.push(
+        ImageBlockConfig({
+          options: {
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+            upload_handler: this.uploadHandler,
+            image_caption_placeholder: 'type a caption (optional)',
+          },
+        })
+      );
+    }
+
+    if (this.props.allowedEditorFeature('attachments')) {
+      widgets.push(
+        FileBlockConfig({
+          options: {
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+            upload_handler: this.uploadHandler,
+            image_caption_placeholder: 'type a caption (optional)',
+          },
+        })
+      );
+    }
+
+    if (this.props.allowedEditorFeature('divider')) {
+      widgets.push(DividerBlockConfig());
+    }
+
+    if (this.props.allowedEditorFeature('link_embeds')) {
+      widgets.push(
+        EmbedBlockConfig({
+          breakOnContinuous: true,
+          editable: true,
+          options: {
+            placeholder: 'put an external links',
+            endpoint: `/oembed?url=`,
+          },
+        })
+      );
+    }
+
+    widgets.push(PlaceholderBlockConfig());
+
+    if (this.props.allowedEditorFeature('giphy')) {
+      widgets.push(GiphyBlockConfig());
+    }
 
     if (!this.props.videoless) {
-      widgets = widgets.concat([
-        VideoBlockConfig({
-          breakOnContinuous: true,
-          options: {
-            placeholder:
-              'put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..',
-            endpoint: `/oembed?url=`,
-            caption: 'optional caption',
-          },
-        }),
-        VideoRecorderBlockConfig({
-          options: {
-            seconds_to_record: 20000,
-            upload_handler: this.uploadHandler,
-            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
-          },
-        }),
-      ]);
+      if (this.props.allowedEditorFeature('embeds')) {
+        widgets.push(
+          VideoBlockConfig({
+            breakOnContinuous: true,
+            options: {
+              placeholder:
+                'put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..',
+              endpoint: `/oembed?url=`,
+              caption: 'optional caption',
+            },
+          })
+        );
+      }
+
+      if (this.props.allowedEditorFeature('video_recorder')) {
+        widgets.push(
+          VideoRecorderBlockConfig({
+            options: {
+              seconds_to_record: 20000,
+              upload_handler: this.uploadHandler,
+              //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+            },
+          })
+        );
+      }
     }
 
     if (this.props.appendWidgets)

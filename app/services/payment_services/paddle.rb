@@ -17,8 +17,8 @@ module PaymentServices
         params_encoder: Faraday::FlatParamsEncoder
       }
       @auth = {
-        vendor_id: ENV["PADDLE_VENDOR_ID"],
-        vendor_auth_code: ENV["PADDLE_SECRET_TOKEN"]
+        vendor_id: Chaskiq::Config.get("PADDLE_VENDOR_ID"),
+        vendor_auth_code: Chaskiq::Config.get("PADDLE_SECRET_TOKEN")
       }
       self
     end
@@ -32,8 +32,14 @@ module PaymentServices
       res.filter do |o|
         Plan.all.pluck(:id).include?(o.id)
       end.map do |o|
-        o.features = Plan.get_by_id(o.id).dig("features")
-        o
+        p = Plan.get_by_id(o.id)
+        {
+          id: p["id"],
+          source: "paddle",
+          features: p.dig("features"),
+          name: p["name"],
+          pricing: o.recurring_price.USD
+        }
       end
     end
 
@@ -44,7 +50,10 @@ module PaymentServices
       )
     end
 
-    def get_subscription_transactions(id)
+    def get_subscription_transactions(app)
+      id = app.payment_attribute("user_id")
+      return [] if id.blank?
+
       res = get_data(
         url: "https://vendors.paddle.com/api/2.0/subscription/#{id}/transactions",
         params: auth

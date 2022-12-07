@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { readableColor } from 'polished';
-import sanitizeHtml from '@chaskiq/components/src/utils/htmlSanitize';
+import sanitizeHtml, {
+  escapeHTML,
+} from '@chaskiq/components/src/utils/htmlSanitize';
 import { LabelIcon } from '@chaskiq/components/src/components/icons';
 import Avatar from '@chaskiq/components/src/components/Avatar';
 
@@ -12,11 +14,11 @@ export function textColor(color) {
   return readableColor(color, lightReturnColor, darkReturnColor);
 }
 
-export default function ConversationItemList({ app, conversation }) {
+export default function ConversationItemList({ app, conversation, isActive }) {
   const renderConversationContent = (o) => {
     const message = o.lastMessage.message;
     if (message.htmlContent) {
-      return sanitizeHtml(message.htmlContent).substring(0, 250);
+      return sanitizeHtml(escapeHTML(message.htmlContent)).substring(0, 250);
     }
   };
 
@@ -75,11 +77,15 @@ export default function ConversationItemList({ app, conversation }) {
   return (
     <Link
       to={`/apps/${app.key}/conversations/${conversation.key}`}
-      className="flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out"
+      className={`flex justify-between hover:bg-gray-50 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-800 transition duration-150 ease-in-out`}
       data-cy={`conversation-item`}
     >
       <div className={`block w-2 ${stateClass()}`}></div>
-      <div className="w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800 dark:hover:bg-gray-800">
+      <div
+        className={`${
+          isActive ? 'bg-gray-100 dark:bg-gray-900' : ''
+        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800 dark:hover:bg-gray-900`}
+      >
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
             <Avatar src={user.avatarUrl} alt={user.displayName} size="full" />
@@ -91,7 +97,7 @@ export default function ConversationItemList({ app, conversation }) {
                 {user.displayName}
               </span>
 
-              <span className="text-xs leading-5 font-light text-gray-300 dark:text-gray-300">
+              <span className="text-xs leading-5 font-light text-gray-400 dark:text-gray-200">
                 <Moment fromNow ago>
                   {message.createdAt}
                 </Moment>
@@ -126,9 +132,9 @@ export default function ConversationItemList({ app, conversation }) {
           <div className="flex justify-between">
             <div className="flex">
               {conversation.conversationChannels &&
-                conversation.conversationChannels.map((o) => (
+                conversation.conversationChannels.map((o, i) => (
                   <div
-                    key={`${conversation.key}-${o}`}
+                    key={`${conversation.key}-${o}-${i}`}
                     className="mr-0.5 border inline-flex items-center px-2.5 py-0.5 
                     rounded-full text-xs font-medium bg-gray-100 
                     text-blue-800 capitalize dark:bg-gray-900 dark:text-gray-100"

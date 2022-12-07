@@ -9,10 +9,15 @@ module Mutations
 
       def resolve(app_key:, id:)
         app = App.find_by(key: app_key)
+        article = app.articles.find(id)
 
-        @article = app.articles.find(id).delete
+        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
 
-        { article: @article }
+        article.delete
+
+        { article: article }
       end
 
       def current_user

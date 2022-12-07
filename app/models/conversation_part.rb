@@ -14,13 +14,15 @@ class ConversationPart < ApplicationRecord
   belongs_to :messageable, polymorphic: true, optional: true
   belongs_to :authorable, polymorphic: true, optional: true
 
+  belongs_to :message_block, class_name: "ConversationPartBlock", foreign_key: :messageable_id, optional: true
+
   # has_one :conversation_part_content, dependent: :destroy
 
   after_create :assign_and_notify
 
   scope :visibles, -> { where(private_note: nil) }
 
-  value :trigger_locked, expireat: -> { Time.zone.now + 3.seconds }
+  value :trigger_locked, expireat: -> { 3.seconds.from_now }
 
   attr_accessor :check_assignment_rules
 
@@ -53,7 +55,8 @@ class ConversationPart < ApplicationRecord
   end
 
   def controls=(blocks)
-    self.messageable = ConversationPartBlock.create(blocks: blocks)
+    values = blocks.delete("values")
+    self.messageable = ConversationPartBlock.create(blocks: blocks, data: values)
   end
 
   def conversation_part_content
@@ -95,22 +98,22 @@ class ConversationPart < ApplicationRecord
   def notify_agents
     EventsChannel.broadcast_to(
       conversation.app.key.to_s,
-      type: :conversation_part,
-      data: as_json
+      { type: :conversation_part,
+        data: as_json }
     )
   end
 
   def notify_app_users
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:conversation_part",
-      data: as_json
+      { type: "conversations:conversation_part",
+        data: as_json }
     )
 
     MessengerEventsChannel.broadcast_to(
       broadcast_key,
-      type: "conversations:unreads",
-      data: conversation.main_participant.new_messages.value
+      { type: "conversations:unreads",
+        data: conversation.main_participant.new_messages.value }
     )
   end
 
@@ -173,6 +176,8 @@ class ConversationPart < ApplicationRecord
 
   def assign_agent_by_rules
     return if conversation_part_content.blank?
+
+    return if authorable.is_a?(Agent)
 
     serialized_content = conversation_part_content.serialized_content
 

@@ -8,11 +8,14 @@ module Mutations
       argument :id, String, required: true
       argument :state, String, required: true
 
-      # TODO: define resolve method
       def resolve(app_key:, id:, state:)
         app = App.find_by(key: app_key)
-
         article = app.articles.find(id)
+
+        authorize! article, to: :can_manage_help_center?, with: AppPolicy, context: {
+          app: app
+        }
+
         article.state = state
         article.save
 

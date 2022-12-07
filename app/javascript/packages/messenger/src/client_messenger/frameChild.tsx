@@ -10,6 +10,7 @@ type FrameChildProps = {
   setVideoSession: any;
   toggleAudio: any;
   toggleVideo: any;
+  pushEvent: any;
 };
 
 const FrameChild = ({
@@ -22,6 +23,7 @@ const FrameChild = ({
   setVideoSession,
   toggleAudio,
   toggleVideo,
+  pushEvent,
 }: FrameChildProps) => {
   return (
     <React.Fragment>
@@ -36,6 +38,7 @@ const FrameChild = ({
           callButtonsElement={'callButtons'}
           current_user={{ email: props.session_id }}
           rtc={state.rtc}
+          pushEvent={pushEvent}
           handleRTCMessage={() => {}}
           toggleAudio={toggleAudio}
           toggleVideo={toggleVideo}

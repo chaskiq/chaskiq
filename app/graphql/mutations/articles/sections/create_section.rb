@@ -6,12 +6,15 @@ module Mutations
       class CreateSection < Mutations::BaseMutation
         field :section, Types::SectionType, null: false
         argument :app_key, String, required: true
-        argument :collection_id, Integer, required: true
+        argument :collection_id, String, required: true
         argument :title, String, required: true
         argument :lang, String, required: false, default_value: I18n.default_locale
 
         def resolve(app_key:, collection_id:, title:, lang:)
           app = current_user.apps.find_by(key: app_key)
+          authorize! app, to: :can_manage_help_center?, with: AppPolicy, context: {
+            app: app
+          }
           collection = app.article_collections.find(collection_id)
           section = collection.sections.create(
             title: title,
