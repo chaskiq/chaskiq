@@ -333,7 +333,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   render() {
     return (
-      <div>
+      <div className="overflow-y-auto">
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none xl:order-last">
           <nav
             className="flex items-start px-4 py-3 sm:px-6 lg:px-8 xl:hidden"
