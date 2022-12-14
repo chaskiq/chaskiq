@@ -45,7 +45,6 @@ en:
         title: OutgoingWebhooks
         active: false
         upgrade_message: Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages.
-
       OauthApplications:
         title: OauthApplications
         description: true
@@ -53,7 +52,7 @@ en:
       Articles:
         title: Articles
         active: false
-        upgrade_message: Use Articles to quickly create and share information and answers. 
+        upgrade_message: Use Articles to quickly create and share information and answers.
       QuickReplies:
         title: QuickReplies
         description: true
