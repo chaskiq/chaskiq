@@ -8,58 +8,64 @@ de:
       Segments:
         title: Segmente
         description: true
-        upgrade_message: Kontaktsegmente und Zielgruppe aktivieren
+        upgrade_message: You can create segments by setting rules or filters for your users.
       Leads:
         title: Leads
         description: true
-        upgrade_message: Hol dir externe Apps, viele viele Apps
+        upgrade_message: When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer.
       AppUsers:
         title: App-Benutzer
         description: true
-        upgrade_message: Hol dir externe Apps, viele viele Apps
+        upgrade_message: when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations.
       Conversations:
         title: Unterhaltungen
         description: true
-        upgrade_message: Unterhaltungen aktivieren
+        upgrade_message: use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations.
       BotTasks:
         title: BotTasks
         description: true
-        upgrade_message: Automatische Chatflows zu Ihrer App hinzufügen
+        upgrade_message: use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person.
       Integrations:
         title: Integrationen
         description: true
-        upgrade_message: Hol dir externe Apps, viele viele Apps
+        upgrade_message: Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity.
       Campaigns:
         title: Kampagnen
         active: false
-        upgrade_message: Holen Sie sich ausgehende Nachrichten, Newsletter und Touren!
+        upgrade_message: Send emails campaigns to your subscribers.
       Tours:
         title: Touren
         description: true
-        upgrade_message: Holen Sie sich ausgehende Nachrichten, Newsletter und Touren!
+        upgrade_message: Use interactive tours to help customers learn more about your product.
       UserAutoMessages:
         title: BenutzerAutonachrichten
         description: true
-        upgrade_message: Holen Sie sich ausgehende Nachrichten, Newsletter und Touren!
+        upgrade_message: Use powerful messaging to boost sales, onboard users, and accelerate growth.
       OutgoingWebhooks:
         title: AusgehendeWebhooks
         active: false
-        upgrade_message: Ausgehende Webhooks aktivieren
+        upgrade_message: Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages.
       OauthApplications:
         title: OauthAnwendungen
         description: true
-        upgrade_message: Unterstützung für API-Zugang über OAUTH aktivieren
+        upgrade_message: Use our API and OAuth2 apps to create custom integrations.
       Articles:
         title: Beiträge
         active: false
-        upgrade_message: Dokumentations- und Hilfe-Center aktivieren
+        upgrade_message: Use Articles to quickly create and share information and answers.
       QuickReplies:
         title: Schnellantworten
         description: true
-        upgrade_message: füge Schnellantworten zu deinen Unterhaltungen hinzu
+        upgrade_message: Quickly find and use pre-written responses to save time.
       CustomAttributes:
         title: Eigene Attribute
-        upgrade_message: Eigene Attribute aktivieren
+        upgrade_message: Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business.
+      Agents:
+        title: Mitarbeiter
+        upgrade_message: Number of customer service representatives available to handle inquiries.
+      InboundMessages:
+        title: Inbound messages
+        upgrade_message: Forward emails to Chaskiq to manage them in one place.
     plans:
       - 
         name: "kostenlos"
