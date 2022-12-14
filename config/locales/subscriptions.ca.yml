@@ -8,58 +8,64 @@ ca:
       Segments:
         title: Segments
         description: true
-        upgrade_message: Activeu l'orientació i els segments de contacte
+        upgrade_message: You can create segments by setting rules or filters for your users.
       Leads:
         title: Client potencial
         description: true
-        upgrade_message: Obteniu aplicacions externes, moltes aplicacions
+        upgrade_message: When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer.
       AppUsers:
         title: Usuaris
         description: true
-        upgrade_message: Obteniu aplicacions externes, moltes aplicacions
+        upgrade_message: when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations.
       Conversations:
         title: Converses
         description: true
-        upgrade_message: Habilitar converses
+        upgrade_message: use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations.
       BotTasks:
         title: Tasca del Bot
         description: true
-        upgrade_message: Afegiu fluxos de xat automatitzats a la vostra aplicació
+        upgrade_message: use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person.
       Integrations:
         title: Integracions
         description: true
-        upgrade_message: Obteniu aplicacions externes, moltes aplicacions
+        upgrade_message: Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity.
       Campaigns:
         title: Campanyes
         active: false
-        upgrade_message: Obteniu missatges de sortida, butlletí de notícies i visites guiades!
+        upgrade_message: Send emails campaigns to your subscribers.
       Tours:
         title: Visita guiada
         description: true
-        upgrade_message: Obteniu missatges de sortida, butlletí de notícies i visites guiades!
+        upgrade_message: Use interactive tours to help customers learn more about your product.
       UserAutoMessages:
         title: Missatges automàtics d’usuari
         description: true
-        upgrade_message: Obteniu missatges de sortida, butlletí de notícies i visites guiades!
+        upgrade_message: Use powerful messaging to boost sales, onboard users, and accelerate growth.
       OutgoingWebhooks:
         title: Webhooks de sortida
         active: false
-        upgrade_message: Activa els webhooks de sortida
+        upgrade_message: Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages.
       OauthApplications:
         title: Aplicacions Oauth
         description: true
-        upgrade_message: Activeu l'assistència d'accés a l'API mitjançant OAUTH
+        upgrade_message: Use our API and OAuth2 apps to create custom integrations.
       Articles:
         title: Articles
         active: false
-        upgrade_message: Activeu la documentació i el centre d'ajuda
+        upgrade_message: Use Articles to quickly create and share information and answers.
       QuickReplies:
         title: Respostes ràpides
         description: true
-        upgrade_message: afegiu respostes ràpides a les vostres converses
+        upgrade_message: Quickly find and use pre-written responses to save time.
       CustomAttributes:
         title: Atributs personalitzats
-        upgrade_message: Activa els atributs personalitzats
+        upgrade_message: Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business.
+      Agents:
+        title: Agents
+        upgrade_message: Number of customer service representatives available to handle inquiries.
+      InboundMessages:
+        title: Inbound messages
+        upgrade_message: Forward emails to Chaskiq to manage them in one place.
     plans:
       - 
         name: "gratuït"
