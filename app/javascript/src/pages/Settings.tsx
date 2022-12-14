@@ -13,7 +13,7 @@ import {
 import settingsItems from '../layout/settingsItems';
 
 function AppSettingsContainer({ app, dispatch }) {
-  const items = settingsItems(app, () => false);
+  const items = settingsItems(app, () => false).filter((o) => o.allowed);
   React.useEffect(() => {
     dispatch(setCurrentPage('app_settings'));
     dispatch(setCurrentSection('Settings'));
@@ -35,32 +35,38 @@ function AppSettingsContainer({ app, dispatch }) {
               className="mt-6 border-t border-b border-gray-200 dark:border-black py-6 grid grid-cols-1 gap-6 sm:grid-cols-2"
             >
               {items.map((item) => (
-                <li className="flow-root" key={`settings-item-${item.url}`}>
-                  <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 dark:hover:bg-black focus-within:ring-2 focus-within:ring-indigo-500">
-                    <div className="text-white dark:text-black flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-black dark:bg-white">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        <Link to={item.url} className="focus:outline-none">
-                          <span
-                            className="absolute inset-0"
-                            aria-hidden="true"
-                          ></span>
-                          {item.label}
-                          <span aria-hidden="true"> &rarr;</span>
-                        </Link>
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500 dark:bg-gray-100"></p>
-                    </div>
-                  </div>
-                </li>
+                <SettingLinkItem
+                  item={item}
+                  key={`settings-item-${item.url}`}
+                />
               ))}
             </ul>
           </div>
         </React.Fragment>
       )}
     </Content>
+  );
+}
+
+function SettingLinkItem({ item }) {
+  return (
+    <li className="flow-root">
+      <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 dark:hover:bg-black focus-within:ring-2 focus-within:ring-indigo-500">
+        <div className="text-white dark:text-black flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-black dark:bg-white">
+          {item.icon}
+        </div>
+        <div>
+          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            <Link to={item.url} className="focus:outline-none">
+              <span className="absolute inset-0" aria-hidden="true"></span>
+              {item.label}
+              <span aria-hidden="true"> &rarr;</span>
+            </Link>
+          </h3>
+          <p className="mt-1 text-sm text-gray-500 dark:bg-gray-100"></p>
+        </div>
+      </div>
+    </li>
   );
 }
 

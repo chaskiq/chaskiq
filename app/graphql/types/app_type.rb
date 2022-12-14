@@ -60,8 +60,7 @@ module Types
     end
 
     def plans
-      object.payment_service.new.get_plans
-      # PaymentServices::Paddle.new.get_plans
+      object.payment_service&.new&.get_plans&.sort_by { |p| p[:pricing] }
     end
 
     field :user_transactions, [Types::JsonType], null: true
