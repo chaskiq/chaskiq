@@ -238,7 +238,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
   const sortDisabled = isSortDisabled();
 
   return (
-    <div>
+    <div className="space-y-2">
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
         <h3 className="font-bold">
           {I18n.t('conversations.menu.conversations')}
