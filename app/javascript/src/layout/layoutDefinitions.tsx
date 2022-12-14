@@ -173,16 +173,18 @@ export default function definitions() {
       ];
     },
     mainSidebar: {
-      displaySectionTitle: false,
+      displaySectionTitle: true,
       buttons: {
         activeClass: `text-brand hover:text-brand bg-gray-200 dark:bg-black`,
         defaultClass: `
-        hover:text-gray-600 hover:bg-gray-100 
+        hover:text-gray-600 
+        hover:bg-gray-100 
         dark:hover:text-gray-300 
         dark:hover:bg-black
-        dark:text-gray-100 
+        dark:text-gray-100
         dark:focus:bg-black
-        focus:bg-gray-200
+        focus:bg-gray-100
+        bg-gray-50
         focus:outline-none 
         group 
         flex 

@@ -35,7 +35,7 @@ const BaseButton = styled.button<ButtonProps>`
         outline-none 
         rounded-md 
         bg-green-400 
-        text-green-800
+        text-green-100
         dark:text-gray-100
         dark:bg-green-500
         dark:hover:bg-green-600 
