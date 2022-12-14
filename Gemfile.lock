@@ -307,12 +307,12 @@ GEM
     google-cloud-env (1.5.0)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.2.0)
-    google-protobuf (3.20.0)
-    google-protobuf (3.20.0-java)
-    google-protobuf (3.20.0-x64-mingw32)
-    google-protobuf (3.20.0-x86-mingw32)
-    google-protobuf (3.20.0-x86_64-darwin)
-    google-protobuf (3.20.0-x86_64-linux)
+    google-protobuf (3.21.10)
+    google-protobuf (3.21.10-java)
+    google-protobuf (3.21.10-x64-mingw32)
+    google-protobuf (3.21.10-x86-mingw32)
+    google-protobuf (3.21.10-x86_64-darwin)
+    google-protobuf (3.21.10-x86_64-linux)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
@@ -333,18 +333,6 @@ GEM
     groupdate (6.0.1)
       activesupport (>= 5.2)
     grpc (1.45.0)
-      google-protobuf (~> 3.19)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.45.0-universal-darwin)
-      google-protobuf (~> 3.19)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.45.0-x64-mingw32)
-      google-protobuf (~> 3.19)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.45.0-x86-mingw32)
-      google-protobuf (~> 3.19)
-      googleapis-common-protos-types (~> 1.0)
-    grpc (1.45.0-x86_64-linux)
       google-protobuf (~> 3.19)
       googleapis-common-protos-types (~> 1.0)
     haml (5.2.2)
@@ -372,7 +360,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.0)
-    jsbundling-rails (1.0.1)
+    jsbundling-rails (1.0.3)
       railties (>= 6.0.0)
     jwe (0.4.0)
     jwt (2.3.0)
@@ -397,7 +385,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    loofah (2.18.0)
+    loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -436,16 +424,6 @@ GEM
     nio4r (2.5.8-java)
     nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
-    nokogiri (1.13.9-java)
-      racc (~> 1.4)
-    nokogiri (1.13.9-x64-mingw32)
-      racc (~> 1.4)
-    nokogiri (1.13.9-x86-mingw32)
-      racc (~> 1.4)
-    nokogiri (1.13.9-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.8)
     oauth2 (1.4.9)
@@ -491,13 +469,11 @@ GEM
       nio4r (~> 2.0)
     puma (6.0.0-java)
       nio4r (~> 2.0)
-    racc (1.6.0)
-    racc (1.6.0-java)
+    racc (1.6.1)
+    racc (1.6.1-java)
     rack (2.2.4)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (2.3.4)
-      rack (>= 1.2.0)
     rack-protection (2.2.0)
       rack
     rack-test (2.0.2)
@@ -635,13 +611,17 @@ GEM
     stripe (6.5.0)
     strscan (3.0.4)
     strscan (3.0.4-java)
-    tailwindcss-rails (2.0.7)
+    tailwindcss-rails (2.0.21)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.0.7-x64-mingw32)
+    tailwindcss-rails (2.0.21-aarch64-linux)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.0.7-x86_64-darwin)
+    tailwindcss-rails (2.0.21-arm64-darwin)
       railties (>= 6.0.0)
-    tailwindcss-rails (2.0.7-x86_64-linux)
+    tailwindcss-rails (2.0.21-x64-mingw32)
+      railties (>= 6.0.0)
+    tailwindcss-rails (2.0.21-x86_64-darwin)
+      railties (>= 6.0.0)
+    tailwindcss-rails (2.0.21-x86_64-linux)
       railties (>= 6.0.0)
     temple (0.8.2)
     thor (1.2.1)
@@ -683,10 +663,14 @@ GEM
     websocket-driver (0.7.5-java)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.6)
 
 PLATFORMS
+  aarch64-linux
+  arm64-darwin
+  arm64-darwin-21
   java
+  ruby
   x64-mingw32
   x86-mingw32
   x86-mswin32
@@ -699,7 +683,7 @@ DEPENDENCIES
   active_importer
   acts-as-taggable-on!
   acts_as_list (~> 0.9.19)
-  anycable-rails (~> 1.3.0)
+  anycable-rails
   aws-sdk-rails
   aws-sdk-s3 (~> 1.48)
   biz (~> 1.8)
@@ -733,12 +717,13 @@ DEPENDENCIES
   graphiql-rails
   graphql (~> 1.13)
   groupdate
+  grpc
   haml
   http
   i18n-js (~> 4.0.0.alpha1)
   image_processing (~> 1.12)
   jbuilder
-  jsbundling-rails (~> 1.0)
+  jsbundling-rails
   jwe
   jwt
   kaminari (~> 1.2)
@@ -748,17 +733,17 @@ DEPENDENCIES
   mustache
   net-http
   nightfury!
+  nokogiri
   oauth (~> 0.5.5)
   omniauth-oauth2
   pg
   pg_search
   phonelib
   php_serialize (~> 1.2)
-  propshaft (~> 0.6.4)
+  propshaft
   pry
   puma (~> 6.0)
   rack-cors (~> 1.0)
-  rack-mini-profiler (~> 2.0)
   rails (= 7.0.4)
   ransack
   redis (~> 4.0)
@@ -784,7 +769,7 @@ DEPENDENCIES
   sidekiq (~> 6.5)
   spring
   stripe (~> 6.0)
-  tailwindcss-rails (~> 2.0)
+  tailwindcss-rails
   timezone (~> 1.2)
   truemail
   twilio-ruby (~> 5.58.1)
@@ -798,4 +783,4 @@ RUBY VERSION
    ruby 2.7.5p203
 
 BUNDLED WITH
-   2.3.15
+   2.3.26

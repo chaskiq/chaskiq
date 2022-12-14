@@ -71,7 +71,7 @@ export default function settingsItems(app, isActivePage) {
       label: I18n.t('navigator.childs.billing'),
       url: `/apps/${app.key}/billing`,
       active: isActivePage('billing'),
-      allowed: allowedAccessTo(app, 'billing'),
+      allowed: allowedAccessTo(app, 'billing') && !app.plan.disabled,
     },
     // { id: 'Authentication', icon: <ShuffleIcon />, active: isActivePage("user_auto_messages")},
   ];

@@ -42,7 +42,7 @@ function Dashboard(props) {
   const { app, dispatch } = props;
 
   React.useEffect(() => {
-    dispatch(setCurrentSection(null));
+    dispatch(setCurrentSection('Dashboard'));
     dispatch(setCurrentPage(null));
   }, []);
 

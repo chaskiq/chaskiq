@@ -288,8 +288,8 @@ class AppSettingsContainer extends Component<
                 <div className="mt-2 max-w-xl text-sm text-gray-500">
                   <p>{I18n.t('email_forwarding.ex')}</p>
                 </div>
-                <div className="mt-3 text-sm bg-gray-200 p-4 rounded-md">
-                  <p className="font-medium text-indigo-600 hover:text-indigo-500">
+                <div className="mt-3 text-sm bg-gray-200 dark:bg-gray-900 p-4 rounded-md">
+                  <p className="font-medium text-brand">
                     {this.props.app.inboundEmailAddress}
                   </p>
                 </div>

@@ -17,6 +17,7 @@ import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blo
 import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
 import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
 import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
+import { FileBlockConfig } from 'Dante2/package/esm/editor/components/blocks/file';
 import {
   LinkDecorator as Link,
   PrismDraftDecorator,
@@ -28,9 +29,7 @@ import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 //import findEntities from "Dante2/package/es/utils/find_entities";
 import { ThemeProvider } from 'emotion-theming';
 //import EditorStyles from "Dante2/package/es/styled/base";
-
 import { ImageBlockConfig } from './blocks/image';
-import { FileBlockConfig } from './blocks/fileBlock';
 
 import Prism from 'prismjs';
 //import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
@@ -346,12 +345,8 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
       { url: url },
       {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createUrlUpload.directUpload;
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload;
           this.props.uploadHandler({
             signedBlobId,
             headers,
@@ -371,12 +366,8 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     getFileMetadata(file).then((input) => {
       graphql(CREATE_DIRECT_UPLOAD, input, {
         success: (data) => {
-          const {
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-          } = data.createDirectUpload.directUpload;
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createDirectUpload.directUpload;
 
           directUpload(url, JSON.parse(headers), file).then(() => {
             this.props.uploadHandler({

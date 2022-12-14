@@ -125,14 +125,29 @@ module MessageApis::Slack
 
       data.merge!(options) if options.present?
 
-      @conn.post do |req|
+      response = @conn.post do |req|
         req.url url(path)
         req.headers["Content-Type"] = "application/json; charset=utf-8"
         req.body = data.to_json
       end
 
-      # Rails.logger.info response.body
-      # Rails.logger.info response.status
+      Rails.logger.info response.body
+      Rails.logger.info response.status
+
+      unless response.success?
+        Bugsnag.notify("SLACK ERROR") do |report|
+          report.add_tab(
+            :context,
+            {
+              status: response.status,
+              slack_response: response.body,
+              data: data
+            }
+          )
+        end
+      end
+
+      response
     end
 
     def handle_channel_creation(name = nil, user_ids = "")
@@ -751,7 +766,6 @@ module MessageApis::Slack
 
     # triggered when a new chaskiq message is created
     # will triggered just after the ws notification
-    # rubocop:disable Metrics/PerceivedComplexity
     def notify_message(conversation:, part:, channel:)
       # TODO: ? redis cache here for provider / channel id / part
       return if part.conversation_part_channel_sources.find_by(provider: "slack").present?
@@ -761,8 +775,8 @@ module MessageApis::Slack
       messageable = part.messageable
 
       user_options = {
-        username: format_user_name(part.authorable).to_s,
-        icon_url: part&.authorable&.avatar_url
+        username: format_user_name(part.authorable).to_s
+        # icon_url: part&.authorable&.avatar_url # bug when process external image
       }
 
       if part.messageable.is_a?(ConversationPartBlock)
@@ -790,8 +804,8 @@ module MessageApis::Slack
         user = conversation.main_participant
 
         user_options.merge!({
-                              username: format_user_name(user),
-                              icon_url: user&.avatar_url
+                              username: format_user_name(user)
+                              # icon_url: user&.avatar_url # icon_url: part&.authorable&.avatar_url # bug when process external image
                             })
       end
 
@@ -824,11 +838,6 @@ module MessageApis::Slack
         }]
 
         user = conversation.main_participant
-
-        # user_options.merge!({
-        #  username: format_user_name(user),
-        #  icon_url: user&.avatar_url
-        # })
       end
 
       provider_channel_id = conversation.conversation_channels
@@ -854,7 +863,6 @@ module MessageApis::Slack
         message_source_id: response_data["ts"]
       )
     end
-    # rubocop:enable Metrics/PerceivedComplexity
 
     def format_user_name(user)
       display = [user.display_name, user.email].join(" \u00B7 ")

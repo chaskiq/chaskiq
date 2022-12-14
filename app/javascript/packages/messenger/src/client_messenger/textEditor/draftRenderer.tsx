@@ -148,14 +148,8 @@ function renderers(props) {
       },
       embed: (children, { keys, data }) => {
         const { provisory_text, _type, embed_data } = data[0];
-        const {
-          images,
-          title,
-          _media,
-          provider_url,
-          description,
-          _url,
-        } = embed_data;
+        const { images, title, _media, provider_url, description, _url } =
+          embed_data;
 
         return (
           <div key={keys[0]} className="graf graf--mixtapeEmbed">
@@ -203,15 +197,16 @@ function renderers(props) {
               dangerouslySetInnerHTML={{ __html: `${html}` }}
             />
 
-            {provisory_text && provisory_text === 'type a caption (optional)' && (
-              <figcaption className="imageCaption">
-                <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
-                  <span>
-                    <span>{provisory_text}</span>
-                  </span>
-                </div>
-              </figcaption>
-            )}
+            {provisory_text &&
+              provisory_text === 'type a caption (optional)' && (
+                <figcaption className="imageCaption">
+                  <div className="public-DraftStyleDefault-block public-DraftStyleDefault-ltr">
+                    <span>
+                      <span>{provisory_text}</span>
+                    </span>
+                  </div>
+                </figcaption>
+              )}
           </figure>
         );
       },

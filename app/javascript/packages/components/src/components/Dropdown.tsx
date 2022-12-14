@@ -10,6 +10,7 @@ type DropdownProps = {
   position?: string;
   origin?: string;
   onOpen?: (value: boolean) => void;
+  panelClass?: string;
 };
 
 export default function Dropdown({
@@ -20,6 +21,7 @@ export default function Dropdown({
   position,
   origin,
   onOpen,
+  panelClass,
 }: DropdownProps) {
   const [open, setOpen] = React.useState(isOpen);
 
@@ -68,7 +70,12 @@ export default function Dropdown({
             ${origin || ''}
              mt-2 w-56 rounded-md shadow-lg`}
           >
-            <div className="rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs max-h-[85vh] overflow-y-auto">
+            <div
+              className={
+                panelClass ||
+                'rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs max-h-[85vh] overflow-y-auto'
+              }
+            >
               {children}
             </div>
           </div>

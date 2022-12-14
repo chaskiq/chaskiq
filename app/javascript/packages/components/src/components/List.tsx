@@ -42,7 +42,7 @@ export function ListItem({
         onClick={onClick && onClick}
         className={`${clicableClasses} block
         hover:bg-gray-100
-        dark:bg-black
+        dark:bg-gray-900
         dark:hover:bg-gray-800
         dark:focus:bg-gray-800
         focus:outline-none focus:bg-gray-200 transition duration-150

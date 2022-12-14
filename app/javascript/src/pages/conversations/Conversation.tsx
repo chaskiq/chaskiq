@@ -38,6 +38,7 @@ import styled from '@emotion/styled';
 import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView'; // './RtcWrapper'
 import TagDialog from '@chaskiq/components/src/components/TagDialog';
 import AppPackagePanel from './appPackagePanel';
+import layoutDefinitions from '../../layout/layoutDefinitions';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
@@ -131,7 +132,7 @@ const MessageItem = styled.div<MessageItemType>`
         ? tw`bg-gray-600 text-white dark:bg-gray-800 dark:border dark:border-black`
         : props.privateNote
         ? tw`bg-yellow-300 text-black`
-        : tw`bg-gray-800 text-white dark:bg-black dark:border dark:border-gray-700 dark:text-white`
+        : tw`bg-gray-800 text-white dark:bg-gray-900 dark:border dark:border-gray-800 dark:text-white`
 
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -177,10 +178,8 @@ function Conversation({
     name: 'Email',
   });
 
-  const [
-    conversationPartSelected,
-    setConversationPartSelected,
-  ] = React.useState(false);
+  const [conversationPartSelected, setConversationPartSelected] =
+    React.useState(false);
 
   const appId = app.key;
 
@@ -611,10 +610,12 @@ function Conversation({
     );
   };
 
+  const layout = layoutDefinitions();
+
   return (
     <BgContainer
       isDark={isDark}
-      className="flex-1 flex flex-col overflow-hidden-- h-screen"
+      className="flex-1 flex flex-col overflow-hidden-- h-generalHeight"
     >
       {!isNew && (
         <div
@@ -704,7 +705,7 @@ function Conversation({
                   ${
                     conversation.state === 'closed'
                       ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                      : 'bg-white hover:bg-gray-100 text-gray-800 dark:hover:bg-gray-800 dark:text-gray-100 dark:bg-gray-900 dark:border-gray-200'
+                      : 'bg-white hover:bg-gray-100 text-gray-800 dark:text-gray-100 dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600'
                   }
                   `}
               >
@@ -723,8 +724,9 @@ function Conversation({
               <button
                 className="focus:outline-none outline-none mr-1 rounded-full
                   bg-white hover:bg-gray-100 text-gray-800
-                  dark:hover:bg-gray-800 dark:text-gray-100
-                  font-semibold border border-gray-400 shadow dark:bg-gray-900 dark:border-gray-200"
+                  dark:text-gray-100
+                  font-semibold border border-gray-400 shadow 
+                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600"
                 onClick={() => setVideoSession(!videoSession)}
               >
                 {videoSession ? (
@@ -775,8 +777,8 @@ function Conversation({
                 )}
                 className="focus:outline-none outline-none mr-1 rounded-full 
                   bg-white hover:bg-gray-100 text-gray-800
-                  dark:hover:bg-gray-800 dark:text-gray-100 
-                  dark:bg-gray-900 dark:border-gray-200 
+                  dark:text-gray-100 
+                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
                   font-semibold border border-gray-400 shadow"
               >
                 <PinIcon variant="rounded" />
@@ -792,9 +794,10 @@ function Conversation({
                 aria-label={I18n.t('conversation.actions.tag_conversation')}
                 className="focus:outline-none outline-none mr-1 rounded-full 
                   bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
-                  dark:hover:bg-gray-800 dark:text-gray-100 
-                  dark:bg-gray-900 dark:border-gray-200
-                  border-gray-400 shadow"
+                  dark:text-gray-100 
+                  border-gray-400 shadow
+                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                  "
               >
                 <LabelIcon variant="rounded" />
               </button>
@@ -829,9 +832,10 @@ function Conversation({
                       onClick={cb}
                       className="flex flex-shrink-0 h-10 w-10 mr-1 rounded-full
                         bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
-                        dark:hover:bg-gray-800 dark:text-gray-100 
-                        dark:bg-gray-900 dark:border-gray-200
-                        border shadow items-center justify-center"
+                        dark:text-gray-100 
+                        border shadow items-center justify-center
+                        dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                        "
                     >
                       {conversation.assignee && (
                         <img
@@ -936,18 +940,20 @@ function Conversation({
                           : theme
                       }*/
                     >
-                      {message.message.blocks ? (
-                        <RenderBlocks
-                          conversation={conversation}
-                          message={message}
-                          app={app}
-                          dispatch={dispatch}
-                        />
-                      ) : message.message.action ? (
-                        renderEventBlock(message)
-                      ) : (
-                        renderMessage(message, userOrAdmin)
-                      )}
+                      <ErrorBoundary>
+                        {message.message.blocks ? (
+                          <RenderBlocks
+                            conversation={conversation}
+                            message={message}
+                            app={app}
+                            dispatch={dispatch}
+                          />
+                        ) : message.message.action ? (
+                          renderEventBlock(message)
+                        ) : (
+                          renderMessage(message, userOrAdmin)
+                        )}
+                      </ErrorBoundary>
                     </ThemeProvider>
                   </MessageItemWrapper>
                 );
@@ -964,7 +970,7 @@ function Conversation({
 
       {!conversation.loading && (
         <div className="pb-3 px-4 flex-none mt-auto">
-          <div className="bg-white flex rounded-lg border border-grey overflow-hidden-- shadow-lg">
+          <div className="bg-white flex rounded-lg border border-grey-100 dark:border-gray-900 overflow-hidden-- shadow-lg">
             {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
                 <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
                 </span> */}
@@ -1328,8 +1334,8 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
         }}
         className={`
         w-full
-        bg-white
-        dark:bg-black
+        bg-gray-100
+        dark:bg-gray-900
         dark:text-white
         dark:border-gray-900
         opacity-75
@@ -1475,15 +1481,8 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const {
-    auth,
-    app,
-    conversation,
-    app_user,
-    current_user,
-    drawer,
-    theme,
-  } = state;
+  const { auth, app, conversation, app_user, current_user, drawer, theme } =
+    state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;

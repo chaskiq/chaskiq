@@ -10,7 +10,7 @@ x-app:
       PG_MAJOR: '14'
       NODE_MAJOR: '16'
       YARN_VERSION: '1.13.0'
-      BUNDLER_VERSION: '2.3.15'
+      BUNDLER_VERSION: '2.3.26'
   environment:
     &env
     NODE_ENV: development
