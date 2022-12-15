@@ -32,7 +32,7 @@ function TriggersPanel(props) {
       },
       {
         success: (data) => {
-          setBotTasks(data.app.botTasks);
+          setBotTasks(data.app.botTasks.collection);
         },
         error: () => {},
       }

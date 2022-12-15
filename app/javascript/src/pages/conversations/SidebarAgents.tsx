@@ -255,10 +255,10 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
           label={I18n.t('conversations.menu.all')}
         />,
         <ListItem
-          key={'unnasigned'}
+          key={'unnxasigned'}
           agent={null}
           count={counts[''] || '0'}
-          active={false}
+          active={conversations.agentId == '0'}
           filterHandler={filterAgent}
           label={I18n.t(`conversations.menu.unassigned`)}
         />,
@@ -266,7 +266,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
           key={'assigned_to_me'}
           agent={current_user}
           count={counts[current_user?.id] || '0'}
-          active={current_user.id == counts[current_user?.id]}
+          active={conversations.agentId == current_user?.id}
           icon={null}
           filterHandler={filterAgent}
           label={I18n.t(`conversations.menu.assigned_to_me`)}
@@ -454,7 +454,7 @@ function ListItem({
   function toggleFilter() {
     let option = null;
     if (agent) {
-      option = active ? null : agent;
+      option = agent;
     }
     if (label && !agent) {
       option = active ? null : label;
