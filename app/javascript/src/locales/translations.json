@@ -1467,74 +1467,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -3201,74 +3209,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -4933,74 +4949,82 @@
         "update_payment_method": "Actualitzar el mètoda de pagament"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "Usuaris",
-          "upgrade_message": "Obteniu aplicacions externes, moltes aplicacions"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Activeu la documentació i el centre d'ajuda"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "Tasca del Bot",
-          "upgrade_message": "Afegiu fluxos de xat automatitzats a la vostra aplicació"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campanyes",
-          "upgrade_message": "Obteniu missatges de sortida, butlletí de notícies i visites guiades!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Converses",
-          "upgrade_message": "Habilitar converses"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "Atributs personalitzats",
-          "upgrade_message": "Activa els atributs personalitzats"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integracions",
-          "upgrade_message": "Obteniu aplicacions externes, moltes aplicacions"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Client potencial",
-          "upgrade_message": "Obteniu aplicacions externes, moltes aplicacions"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "Aplicacions Oauth",
-          "upgrade_message": "Activeu l'assistència d'accés a l'API mitjançant OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "Webhooks de sortida",
-          "upgrade_message": "Activa els webhooks de sortida"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "Respostes ràpides",
-          "upgrade_message": "afegiu respostes ràpides a les vostres converses"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Activeu l'orientació i els segments de contacte"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Visita guiada",
-          "upgrade_message": "Obteniu missatges de sortida, butlletí de notícies i visites guiades!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "Missatges automàtics d’usuari",
-          "upgrade_message": "Obteniu missatges de sortida, butlletí de notícies i visites guiades!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -6665,74 +6689,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -8404,74 +8436,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -10134,74 +10174,82 @@
         "update_payment_method": "Zahlungsart aktualisieren"
       },
       "features": {
+        "Agents": {
+          "title": "Mitarbeiter",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "App-Benutzer",
-          "upgrade_message": "Hol dir externe Apps, viele viele Apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Beiträge",
-          "upgrade_message": "Dokumentations- und Hilfe-Center aktivieren"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Automatische Chatflows zu Ihrer App hinzufügen"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Kampagnen",
-          "upgrade_message": "Holen Sie sich ausgehende Nachrichten, Newsletter und Touren!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Unterhaltungen",
-          "upgrade_message": "Unterhaltungen aktivieren"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "Eigene Attribute",
-          "upgrade_message": "Eigene Attribute aktivieren"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrationen",
-          "upgrade_message": "Hol dir externe Apps, viele viele Apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Hol dir externe Apps, viele viele Apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthAnwendungen",
-          "upgrade_message": "Unterstützung für API-Zugang über OAUTH aktivieren"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "AusgehendeWebhooks",
-          "upgrade_message": "Ausgehende Webhooks aktivieren"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "Schnellantworten",
-          "upgrade_message": "füge Schnellantworten zu deinen Unterhaltungen hinzu"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segmente",
-          "upgrade_message": "Kontaktsegmente und Zielgruppe aktivieren"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Touren",
-          "upgrade_message": "Holen Sie sich ausgehende Nachrichten, Newsletter und Touren!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "BenutzerAutonachrichten",
-          "upgrade_message": "Holen Sie sich ausgehende Nachrichten, Newsletter und Touren!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -11864,74 +11912,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -16007,74 +16063,82 @@
         "update_payment_method": "Actualizar el método de pago"
       },
       "features": {
+        "Agents": {
+          "title": "Agentes",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "Usuarios",
-          "upgrade_message": "Obtener aplicaciones externas, muchas aplicaciones"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Artículos",
-          "upgrade_message": "Habilitar Centro de Ayuda y Documentación"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "Tareas Bots",
-          "upgrade_message": "Añade chatflows automatizados a tu aplicación"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campañas",
-          "upgrade_message": "Recibe mensajes salientes, boletín de noticias y Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversaciones",
-          "upgrade_message": "Activar conversaciones"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "Atributos personalizados",
-          "upgrade_message": "Activar atributos personalizados"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integraciones",
-          "upgrade_message": "Obtener aplicaciones externas, muchas aplicaciones"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Prospectos",
-          "upgrade_message": "Obtener aplicaciones externas, muchas aplicaciones"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Habilitar el soporte de acceso a la API a través de OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "Webhooks de salida",
-          "upgrade_message": "Habilitar webhooks salientes"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "Respuestas rápidas",
-          "upgrade_message": "añadir respuestas rápidas a tus conversaciones"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segmentos",
-          "upgrade_message": "Activar segmentos de contactos y orientación"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Recibe mensajes salientes, boletín de noticias y Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "Mensajes automáticos del usuario",
-          "upgrade_message": "Recibe mensajes salientes, boletín de noticias y Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -17780,74 +17844,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -19574,74 +19646,82 @@
         "update_payment_method": "Mise à jour de la méthode de paiement"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "Utilisateurs de l'application",
-          "upgrade_message": "Obtenez des applications externes, beaucoup d'applications"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Activer le Centre de Documentation et d'Aide"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "Tâches de bot",
-          "upgrade_message": "Ajouter des flux de chat automatisés à votre application"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campagnes",
-          "upgrade_message": "Recevez des messages sortants, des bulletins d'information et des tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Activer les conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "Attributs personnalisés",
-          "upgrade_message": "Activez les attributs personnalisés"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Intégrations",
-          "upgrade_message": "Obtenez des applications externes, beaucoup d'applications"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Prospects",
-          "upgrade_message": "Obtenez des applications externes, beaucoup d'applications"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "Applications Oauth",
-          "upgrade_message": "Activer la prise en charge de l'accès à l'API via OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "Webhooks sortants",
-          "upgrade_message": "Activer les webhooks sortants"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "Réponses rapides",
-          "upgrade_message": "Ajouter des réponses rapides à vos conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Activer les segments de contact et le ciblage"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Recevez des messages sortants, des bulletins d'information et des tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "Messages automatiques des utilisateurs",
-          "upgrade_message": "Recevez des messages sortants, des bulletins d'information et des tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -21304,74 +21384,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -23034,74 +23122,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agenti",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articoli",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campagne",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversazioni",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrazioni",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Potenziali Clienti",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segmenti",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -24763,74 +24859,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -26492,74 +26596,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -28222,74 +28334,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -29952,74 +30072,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -31684,74 +31812,82 @@
         "update_payment_method": "Zaktualizuj metodę płatności"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Artykuły",
-          "upgrade_message": "Włącz dokumentację i Centrum Pomocy"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "Własne Atrybuty",
-          "upgrade_message": "Włącz niestandardowe atrybuty"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Włącz obsługę dostępu API poprzez OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "Szybkie Odpowiedzi",
-          "upgrade_message": "dodaj szybkie odpowiedzi do rozmów"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -33414,74 +33550,82 @@
         "update_payment_method": "Atualizar método de pagamento"
       },
       "features": {
+        "Agents": {
+          "title": "Agentes",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "Usuarios",
-          "upgrade_message": "Obtenha aplicativos externos, muitos aplicativos"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Artigos",
-          "upgrade_message": "Ativar centro de documentação e ajuda"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "Tarefas Bot",
-          "upgrade_message": "Adicionar chatflows automatizados ao seu aplicativo"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campanhas",
-          "upgrade_message": "Receba mensagens, boletim informativo e passeios!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversas",
-          "upgrade_message": "Ativar conversas"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "Personalizar Atributos",
-          "upgrade_message": "Ordenar atributos personalizados"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrações",
-          "upgrade_message": "Obtenha aplicativos externos, muitos aplicativos"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Contactos",
-          "upgrade_message": "Obtenha aplicativos externos, muitos aplicativos"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Ativar suporte a API através de OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Ativar webhooks de saída"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "Respostas Rápidas",
-          "upgrade_message": "adicionar respostas rápidas para suas conversas"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segmentos",
-          "upgrade_message": "Habilitar segmentos de contato e direcionamento"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Visitas Guiadas",
-          "upgrade_message": "Receba mensagens, boletim informativo e passeios!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Receba mensagens, boletim informativo e passeios!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -35145,74 +35289,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -36877,74 +37029,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -38607,74 +38767,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -40337,74 +40505,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -42069,74 +42245,82 @@
         "update_payment_method": "Update payment method"
       },
       "features": {
+        "Agents": {
+          "title": "Agents",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "Articles",
-          "upgrade_message": "Enable Documentation & Help Center"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "BotTasks",
-          "upgrade_message": "Add automated chatflows to your app"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "Campaigns",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "Conversations",
-          "upgrade_message": "Enable conversations"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "CustomAttributes",
-          "upgrade_message": "Enable custom attributes"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "Integrations",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "Leads",
-          "upgrade_message": "Get external apps, many many apps"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "OauthApplications",
-          "upgrade_message": "Enable API access support through OAUTH"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "OutgoingWebhooks",
-          "upgrade_message": "Enable outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "QuickReplies",
-          "upgrade_message": "add Quick replies to your conversations"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "Segments",
-          "upgrade_message": "Enable contact segments and targeting"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "UserAutoMessages",
-          "upgrade_message": "Get outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
@@ -43798,74 +43982,82 @@
         "update_payment_method": "更新付款方式"
       },
       "features": {
+        "Agents": {
+          "title": "Agents 代理人",
+          "upgrade_message": "Number of customer service representatives available to handle inquiries."
+        },
         "AppUsers": {
           "description": true,
           "title": "AppUsers",
-          "upgrade_message": "获取外部应用，许多许多程序"
+          "upgrade_message": "when a lead signs up or logs in, they become a user and their profile retains all previous information and conversations."
         },
         "Articles": {
           "active": false,
           "title": "文章",
-          "upgrade_message": "启用文档和帮助中心"
+          "upgrade_message": "Use Articles to quickly create and share information and answers."
         },
         "BotTasks": {
           "description": true,
           "title": "Bot任务列表",
-          "upgrade_message": "添加自动聊天流到你的应用"
+          "upgrade_message": "use Bot tasks's conversation routing to automatically direct new leads and customers to the right team or person."
         },
         "Campaigns": {
           "active": false,
           "title": "营销活动 Campaigns",
-          "upgrade_message": "获取 outbound messages, newsletter and Tours!"
+          "upgrade_message": "Send emails campaigns to your subscribers."
         },
         "Conversations": {
           "description": true,
           "title": "会话",
-          "upgrade_message": "启用会话"
+          "upgrade_message": "use Chaskiq to efficiently and effectively support your customers with personal, familiar conversations."
         },
         "CustomAttributes": {
           "title": "自定义属性",
-          "upgrade_message": "启用自定义属性"
+          "upgrade_message": "Chaskiq lets you create and track custom data attributes about your users and leads, based on criteria that's specific to your business."
+        },
+        "InboundMessages": {
+          "title": "Inbound messages",
+          "upgrade_message": "Forward emails to Chaskiq to manage them in one place."
         },
         "Integrations": {
           "description": true,
           "title": "集成 Integrations",
-          "upgrade_message": "获取外部应用，许多许多程序"
+          "upgrade_message": "Connect your tools with Chaskiq apps to improve efficiency, enhance customer satisfaction, and increase productivity."
         },
         "Leads": {
           "description": true,
           "title": "线索",
-          "upgrade_message": "获取外部应用，许多许多应用"
+          "upgrade_message": "When a visitor starts a conversation, they become a lead. Use their email address to reach out and turn them into a customer."
         },
         "OauthApplications": {
           "description": true,
           "title": "Oauth 应用程序",
-          "upgrade_message": "通过 OAUTH 启用 API 访问支持"
+          "upgrade_message": "Use our API and OAuth2 apps to create custom integrations."
         },
         "OutgoingWebhooks": {
           "active": false,
           "title": "Outgoing Webhooks",
-          "upgrade_message": "启用 outgoing webhooks"
+          "upgrade_message": "Use Webhooks to receive instant notifications for important events in Chaskiq, such as new contacts, incoming messages, and sent messages."
         },
         "QuickReplies": {
           "description": true,
           "title": "快速回复",
-          "upgrade_message": "添加快速回复到您的对话"
+          "upgrade_message": "Quickly find and use pre-written responses to save time."
         },
         "Segments": {
           "description": true,
           "title": "片段 Segments",
-          "upgrade_message": "启用联系人区段和目标对象"
+          "upgrade_message": "You can create segments by setting rules or filters for your users."
         },
         "Tours": {
           "description": true,
           "title": "Tours",
-          "upgrade_message": "获取outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use interactive tours to help customers learn more about your product."
         },
         "UserAutoMessages": {
           "description": true,
           "title": "用户自动消息",
-          "upgrade_message": "获取 outbound messages, newsletter and Tours!"
+          "upgrade_message": "Use powerful messaging to boost sales, onboard users, and accelerate growth."
         }
       },
       "plan": {
