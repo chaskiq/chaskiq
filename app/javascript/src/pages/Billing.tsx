@@ -1084,12 +1084,12 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
 
                 <tr key={`plan-feature-matrix-${k}-exp`}>
                   <th
-                    className="py-2 bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    className="dark:bg-gray-900 py-2 bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
                     scope="row"
                   />
                   <th
                     colSpan={4}
-                    className="py-2  bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    className="dark:bg-gray-900 py-2  bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
                     scope="row"
                   >
                     <span
