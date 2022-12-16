@@ -10,7 +10,7 @@ module PaymentServices
     end
 
     def get_plans
-      res = Stripe::Price.list.data
+      res = Stripe::Price.list(limit: 20).data
       data = res.filter do |o|
         Plan.all.pluck(:id).include?(o.id)
       end
