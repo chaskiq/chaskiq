@@ -500,8 +500,12 @@ function ListItem({
         <span
           className="ml-auto inline-block py-0.5 px-3 text-xs 
           leading-4 rounded-full
-          text-gray-600 bg-gray-200 group-hover:bg-gray-200 
-          dark:text-gray-100 dark:bg-gray-800 dark:group-hover:bg-gray-800 
+          text-gray-600 
+          bg-gray-200
+          dark:bg-gray-800
+          group-hover:bg-gray-200
+          dark:group-hover:bg-gray-800 
+          dark:text-gray-100
           group-focus:bg-gray-300 transition ease-in-out duration-150"
         >
           {count}

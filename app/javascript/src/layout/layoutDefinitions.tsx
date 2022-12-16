@@ -178,9 +178,10 @@ export default function definitions() {
         activeClass: `text-brand hover:text-brand bg-gray-200 dark:bg-black`,
         defaultClass: `
         hover:text-gray-600 
-        hover:bg-gray-100 
-        dark:hover:text-gray-300 
+        hover:bg-gray-100
+        dark:bg-gray-800
         dark:hover:bg-black
+        dark:hover:text-gray-300 
         dark:text-gray-100
         dark:focus:bg-black
         focus:bg-gray-100
