@@ -25,9 +25,57 @@ module MessageApis::Dialog360
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
+
+      offset_page = if ctx.dig("field", "name") == "paginate-template"
+        ctx.dig("field", "id").gsub("paginate-template-", "").to_i
+      else
+        0
+      end
+
       api = ctx[:package].message_api_klass
-      templates = api.retrieve_templates
+      templates = api.retrieve_templates(offset: offset_page)
       templates = JSON.parse(templates)
+      per = 10
+      offset = templates["offset"]
+      paginate_button = nil
+      puts templates
+      puts "OLAAAAAAA"
+      puts ctx
+
+      next_page_value = templates["offset"] + per
+      next_button = nil
+      if next_page_value <= templates["total"]
+        next_button = {
+          type: "button",
+          name: "paginate-template",
+          id: "paginate-template-#{next_page_value}",
+          variant: "success",
+          size: "small",
+          align: "center",
+          label: "Next ->",
+          action: {
+            type: "submit"
+          }
+        }
+      end
+
+      prev_page_value = templates["offset"] - per
+
+      prev_button = nil
+      unless templates["offset"].zero?
+        prev_button = {
+          type: "button",
+          name: "paginate-template",
+          id: "paginate-template-#{prev_page_value}",
+          variant: "success",
+          size: "small",
+          align: "center",
+          label: "<- Prev",
+          action: {
+            type: "submit"
+          }
+        }
+      end
 
       Rails.logger.debug templates
 
@@ -51,20 +99,22 @@ module MessageApis::Dialog360
           style: "header",
           align: "center"
         },
-
         {
           type: "text",
           text: "Whatsapp templates",
           style: "paragraph",
           align: "center"
         },
-        { type: "spacer", size: "xs" },
-        { type: "separator" },
-
-        { type: "list",
+        { type: "spacer", size: "xs"},
+        { type: "separator"},
+        { 
+          type: "list",
           disabled: false,
-          items: components }
-      ]
+          items: components 
+        },
+        prev_button,
+        next_button
+      ].compact
 
       # will submit
       if ctx.dig(:field, :name) == "submit-template" &&

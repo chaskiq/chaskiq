@@ -37,15 +37,15 @@ module MessageApis::Dialog360
 
     def register_webhook(app_package, integration)
       data = {
-        url: integration.hook_url
+        url: integration.hook_url.gsub("http://localhost:3000", "https://chaskiq.sa.ngrok.io")
       }
 
       response = @conn.post("#{@url}/configs/webhook", data.to_json)
       response.status
     end
 
-    def retrieve_templates
-      response = @conn.get("#{@url}/configs/templates?limit=10")
+    def retrieve_templates(offset:)
+      response = @conn.get("#{@url}/configs/templates?limit=10&offset=#{offset}")
       response.body
     end
 
