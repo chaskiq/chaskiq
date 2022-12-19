@@ -195,6 +195,8 @@ module MessageApis::Dialog360
       Rails.logger.debug template
       return if profile_id.blank?
 
+      paramters_list = parameters.compact
+
       data = {
         to: profile_id,
         type: "template",
@@ -205,9 +207,10 @@ module MessageApis::Dialog360
             policy: "deterministic",
             code: template["language"]
           },
-          localizable_params: parameters.compact.map do |o|
-            { default: o }
-          end
+          components: [{
+            type: "body",
+            parameters: paramters_list.map { |o| { type: "text", text: o } }
+          }]
         }
       }
 
@@ -221,6 +224,7 @@ module MessageApis::Dialog360
 
       # puts "TEMPLATE ******* "
       # puts template
+
       json = JSON.parse(s.body)
 
       if s.success?
