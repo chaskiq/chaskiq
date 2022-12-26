@@ -210,7 +210,7 @@ module MessageApis::Dialog360
     end
 
     def add_participant_to_existing_user(app_user, phone)
-      dialog_user = "#{phone}"
+      dialog_user = phone.to_s
 
       app = @package.app
 
