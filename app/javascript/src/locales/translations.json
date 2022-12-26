@@ -12347,7 +12347,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
