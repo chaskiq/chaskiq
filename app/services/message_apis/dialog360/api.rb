@@ -185,6 +185,63 @@ module MessageApis::Dialog360
         &.profile_id
     end
 
+    def prepare_initiator_channel_for(conversation, package)
+      @package = package
+
+      profile_id = conversation.main_participant
+                                &.external_profiles
+                                &.find_by(provider: PROVIDER)
+                                &.profile_id
+
+      profile_id = add_participant_to_existing_user(conversation.main_participant, conversation.main_participant.phone) if profile_id.blank?
+
+      raise ActiveRecord::Rollback if profile_id.blank?
+
+      previous_conversation = find_conversation_by_channel(profile_id) || conversation
+
+      # clear_conversation(previous_conversation) if previous_conversation.present?
+
+      conversation.update(
+        conversation_channels_attributes: [
+          provider: PROVIDER,
+          provider_channel_id: profile_id
+        ]
+      )
+    end
+
+    def add_participant_to_existing_user(app_user, phone)
+      dialog_user = "#{phone}"
+
+      app = @package.app
+
+      data = {
+        properties: {
+          name: dialog_user,
+          twilio_id: dialog_user
+        }
+      }
+
+      external_profile = app.external_profiles.find_by(
+        provider: PROVIDER,
+        profile_id: dialog_user
+      )
+
+      # creates the profile
+      if external_profile.blank?
+        app_user.external_profiles.create(
+          provider: PROVIDER,
+          profile_id: dialog_user
+        )
+        return dialog_user
+      end
+
+      participant = external_profile&.app_user
+      # means the external profile belongs to somebody else
+      return nil if participant && participant.id != app_user.id
+
+      dialog_user if participant && participant.id == app_user.id
+    end
+
     def send_template_message(template:, conversation_key:, parameters:)
       parameters = [parameters] unless parameters.is_a?(Array)
 
