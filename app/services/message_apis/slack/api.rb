@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "pp"
 require "oauth2"
 
 module MessageApis::Slack
@@ -673,16 +672,10 @@ module MessageApis::Slack
       text = replace_emojis(event["text"])
 
       conversation.send(namespace,
-                        **{
-                          from: get_agent_from_event(event),
-                          message: {
-                            html_content: text,
-                            serialized_content: serialized_blocks
-                          },
-                          provider: "slack",
-                          message_source_id: event["ts"],
-                          check_assignment_rules: true
-                        })
+                        from: get_agent_from_event(event), message: {
+                          html_content: text,
+                          serialized_content: serialized_blocks
+                        }, provider: "slack", message_source_id: event["ts"], check_assignment_rules: true)
     end
 
     def get_agent_from_event(event)
