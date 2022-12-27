@@ -239,6 +239,7 @@ module MessageApis::Dialog360
           provider: PROVIDER,
           profile_id: dialog_user
         )
+        app_user.update(phone: dialog_user)
         return dialog_user
       end
 
@@ -491,6 +492,7 @@ module MessageApis::Dialog360
             provider: PROVIDER,
             profile_id: dialog_user
           )
+          participant.update(phone: dialog_user)
         end
 
         participant
