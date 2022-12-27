@@ -519,7 +519,7 @@ module Types
     end
 
     def contact_search(term:)
-      query_term = :last_name_or_first_name_or_name_or_email_i_cont_any
+      query_term = :last_name_or_first_name_or_name_or_email_or_phone_i_cont_any
       @collection = object.app_users.limit(10).ransack(
         query_term => term
       ).result

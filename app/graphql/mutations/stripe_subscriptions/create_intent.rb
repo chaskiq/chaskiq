@@ -41,6 +41,7 @@ module Mutations
             quantity: 1
           }],
           client_reference_id: app.key,
+          allow_promotion_codes: true,
           mode: "subscription",
           success_url: Chaskiq::Config.get("HOST") + "/apps/#{app.key}/billing/success?{CHECKOUT_SESSION_ID}",
           cancel_url: Chaskiq::Config.get("HOST")  + "/apps/#{app.key}/billing/error",

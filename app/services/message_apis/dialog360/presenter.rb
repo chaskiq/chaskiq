@@ -22,6 +22,61 @@ module MessageApis::Dialog360
       }
     end
 
+    def self.search_participant(ctx:)
+      api = ctx[:package].message_api_klass
+
+      definitions = [
+        {
+          type: "input",
+          id: "unsaved-2",
+          name: "search_contact",
+          label: "Search contact by email, name or phone",
+          placeholder: "Search for a contact...",
+          save_state: "unsaved",
+          action: {
+            type: "submit"
+          }
+        },
+        {
+          type: "spacer",
+          size: "m"
+        }
+      ]
+
+      if (term = ctx.dig("values", "search_contact")) && term.present?
+
+        query_term = :last_name_or_first_name_or_name_or_email_or_phone_or_external_profiles_profile_id_i_cont_any
+        items = ctx[:package].app.app_users.limit(15).ransack(
+          query_term => term
+        ).result
+
+        collection = items.map do |c|
+          {
+            type: "item",
+            id: c.id,
+            name: "selected-user",
+            title: "#{c.type}: #{c.display_name} #{c.email}",
+            subtitle: "Phone: #{c.phone} | #{api.get_profile_for_participant_label(c)}",
+            action: { type: "submit" }
+          }
+        end
+
+        if collection.any?
+          definitions << {
+            type: "list",
+            disabled: false,
+            items: collection
+          }
+        end
+      end
+
+      # Rails.logger.info definitions
+
+      {
+        definitions: definitions
+      }
+    end
+
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
     def self.configure_hook(kind:, ctx:)
@@ -30,6 +85,11 @@ module MessageApis::Dialog360
                     else
                       0
                     end
+
+      # Rails.logger.info "::::: CTX:::::"
+      # Rails.logger.info ctx
+
+      return search_participant(ctx: ctx) if ctx[:conversation_key].blank? && ctx.dig("field", "name") != "selected-user" && ctx.dig("values", "selected_user").blank?
 
       api = ctx[:package].message_api_klass
       templates = api.retrieve_templates(offset: offset_page)
@@ -114,6 +174,15 @@ module MessageApis::Dialog360
         next_button
       ].compact
 
+      if ctx.dig("field", "name") == "selected-user"
+        definitions << {
+          value: ctx.dig("field", "id"),
+          name: "selected_user",
+          type: "hidden",
+          id: "selected_user"
+        }
+      end
+
       # will submit
       if ctx.dig(:field, :name) == "submit-template" &&
          ctx.dig(:field, :action, :type) === "submit"
@@ -178,6 +247,15 @@ module MessageApis::Dialog360
           }
         ].flatten
 
+        if ctx.dig("values", "selected_user").present?
+          definitions << {
+            value: ctx.dig("values", "selected_user"),
+            name: "selected_user",
+            type: "hidden",
+            id: "selected_user"
+          }
+        end
+
         return {
           kind: "configure",
           definitions: definitions,
@@ -196,24 +274,37 @@ module MessageApis::Dialog360
 
         body = api.send_template_message(
           template: decoded,
+          selected_user: ctx[:values]["selected_user"],
           conversation_key: ctx[:conversation_key],
           parameters: ctx[:values]["unsaved-1"]
         )
 
-        definitions = [
-          {
-            type: "text",
-            text: "template sent!",
-            style: "header",
-            align: "center"
-          },
-          {
-            type: "text",
-            text: "you can close this window",
-            style: "header",
-            align: "center"
-          }
-        ]
+        if body.is_a?(Hash) && body["errors"].blank?
+          definitions = [
+            {
+              type: "text",
+              text: "template sent!",
+              style: "header",
+              align: "center"
+            },
+            {
+              type: "text",
+              text: "you can close this window",
+              style: "header",
+              align: "center"
+            },
+            {
+              id: "visit-link",
+              type: "button",
+              label: "Visit conversation",
+              action: {
+                type: "link",
+                url: "/apps/#{ctx['package'].app.key}/conversations/#{body['conversation_key']}"
+              },
+              align: "center"
+            }
+          ]
+        end
 
         # Rails.logger.info(body)
 
