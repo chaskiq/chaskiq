@@ -20,6 +20,7 @@ class BaseSchema
                  when "image" then ImageSchema.new(params)
                  when "data-table" then DataTableSchema.new(params)
                  when "spacer" then SpacerSchema.new(params)
+                 when "hidden" then HiddenSchema.new(params)
                  when "separator" then DividerSchema.new(params)
                  when "input" then InputSchema.new(params)
                  when "textarea" then TextAreaSchema.new(params)
@@ -32,6 +33,18 @@ class BaseSchema
   end
 
   delegate :valid?, to: :model
+end
+
+class HiddenSchema
+  include ActiveModel::Validations
+  attr_accessor :type, :value, :name, :id
+
+  def initialize(params)
+    self.type = params[:type]
+    self.id = params[:id]
+    self.name = params[:name]
+    self.value = params[:value]
+  end
 end
 
 class TextSchema
