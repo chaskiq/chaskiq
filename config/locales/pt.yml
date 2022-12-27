@@ -269,6 +269,7 @@ pt:
       disabled: desativo
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: Estatísticas
       settings: Configurações
