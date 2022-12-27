@@ -204,7 +204,7 @@ module MessageApis::Dialog360
 
       raise ActiveRecord::Rollback if profile_id.blank?
 
-      previous_conversation = find_conversation_by_channel(profile_id) || conversation
+      previous_conversation = find_conversation_by_channel(PROVIDER, profile_id) || conversation
 
       # clear_conversation(previous_conversation) if previous_conversation.present?
 
@@ -254,18 +254,25 @@ module MessageApis::Dialog360
       parameters = [parameters] unless parameters.is_a?(Array)
 
       conversation = @package.app.conversations.find_by(key: conversation_key)
+      profile_id = nil
 
       if conversation.blank? && conversation_key.blank? && selected_user.present?
         participant = @package.app.app_users.find(selected_user)
+
+        profile_id = get_profile_for_participant(participant)
+
+        conversation = find_conversation_by_channel(PROVIDER, profile_id) if profile_id.present?
+
         options = {
           # from: author,
           participant: participant,
           initiator_channel: PROVIDER
         }
-        conversation = @package.app.start_conversation(options)
+
+        conversation = @package.app.start_conversation(options) if conversation.blank?
       end
 
-      profile_id = get_profile_for_participant(conversation.main_participant)
+      profile_id = get_profile_for_participant(conversation.main_participant) if profile_id.blank?
 
       Rails.logger.debug template
       return if profile_id.blank?
@@ -373,7 +380,7 @@ module MessageApis::Dialog360
         channel_id = sender_id
         dialog_user = sender_id
 
-        conversation = find_conversation_by_channel(channel_id)
+        conversation = find_conversation_by_channel(PROVIDER, channel_id)
 
         next if conversation && conversation.conversation_part_channel_sources
                                             .find_by(message_source_id: message_id).present?
@@ -406,18 +413,6 @@ module MessageApis::Dialog360
           check_assignment_rules: true
         )
       end
-    end
-
-    def find_conversation_by_channel(channel)
-      conversation = @package
-                     .app
-                     .conversations
-                     .joins(:conversation_channels)
-                     .where(
-                       "conversation_channels.provider =? AND
-                          conversation_channels.provider_channel_id =?",
-                       PROVIDER, channel
-                     ).first
     end
 
     def serialize_content(data)
