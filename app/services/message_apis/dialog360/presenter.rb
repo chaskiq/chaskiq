@@ -44,7 +44,8 @@ module MessageApis::Dialog360
       ]
 
       if (term = ctx.dig("values", "search_contact")) && term.present?
-        query_term = :last_name_or_first_name_or_name_or_email_or_phone_i_cont_any
+
+        query_term = :last_name_or_first_name_or_name_or_email_or_phone_or_external_profiles_profile_id_i_cont_any
         items = ctx[:package].app.app_users.limit(15).ransack(
           query_term => term
         ).result
