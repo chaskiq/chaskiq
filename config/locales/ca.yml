@@ -269,6 +269,7 @@ ca:
       disabled: inhabilitat
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: Estadístiques
       settings: Configuració
