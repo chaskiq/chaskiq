@@ -129,7 +129,7 @@ module MessageApis::Dialog360
         o["text"]
       end.join("\r\n")
 
-      profile_id = get_profile_for_participant(conversation)
+      profile_id = get_profile_for_participant(conversation.main_participant)
 
       # TODO: maybe handle an error here ?
       return if profile_id.blank?
@@ -178,14 +178,21 @@ module MessageApis::Dialog360
       )
     end
 
-    def get_profile_for_participant(conversation)
-      conversation.main_participant
+    def get_profile_for_participant(participant)
+      participant
         &.external_profiles
         &.find_by(provider: PROVIDER)
         &.profile_id
     end
 
+    def get_profile_for_participant_label(participant)
+      if (l = get_profile_for_participant(participant)) && l.present?
+        "Dialog360 profile: #{l}"
+      end
+    end
+
     def prepare_initiator_channel_for(conversation, package)
+      Rails.logger.debug conversation.inspect
       @package = package
 
       profile_id = conversation.main_participant
@@ -210,7 +217,7 @@ module MessageApis::Dialog360
     end
 
     def add_participant_to_existing_user(app_user, phone)
-      dialog_user = "#{phone}"
+      dialog_user = phone.to_s
 
       app = @package.app
 
@@ -242,12 +249,22 @@ module MessageApis::Dialog360
       dialog_user if participant && participant.id == app_user.id
     end
 
-    def send_template_message(template:, conversation_key:, parameters:)
+    def send_template_message(template:, conversation_key:, parameters:, selected_user:)
       parameters = [parameters] unless parameters.is_a?(Array)
 
       conversation = @package.app.conversations.find_by(key: conversation_key)
 
-      profile_id = get_profile_for_participant(conversation)
+      if conversation.blank? && conversation_key.blank? && selected_user.present?
+        participant = @package.app.app_users.find(selected_user)
+        options = {
+          # from: author,
+          participant: participant,
+          initiator_channel: PROVIDER
+        }
+        conversation = @package.app.start_conversation(options)
+      end
+
+      profile_id = get_profile_for_participant(conversation.main_participant)
 
       Rails.logger.debug template
       return if profile_id.blank?
@@ -302,7 +319,7 @@ module MessageApis::Dialog360
         )
 
       end
-      json
+      json.merge({ "conversation_key" => conversation.key })
     end
 
     # not used fro now

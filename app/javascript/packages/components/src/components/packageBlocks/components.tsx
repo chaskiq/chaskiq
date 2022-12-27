@@ -142,6 +142,15 @@ export function DefinitionRenderer({
             />
           </Padder>
         );
+      case 'hidden':
+        return (
+          <input
+            type="hidden"
+            id={field.id}
+            name={field.name || field.id}
+            defaultValue={field.value || ''}
+          />
+        );
       case 'input':
         return (
           <Padder>
