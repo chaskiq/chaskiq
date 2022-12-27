@@ -269,6 +269,7 @@ fr:
       disabled: désactivé
       send: envoyé !
       delivering: en cours de livraison
+      sent: envoyé !
     tabs:
       stats: Stats
       settings: Paramètres
