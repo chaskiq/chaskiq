@@ -269,6 +269,7 @@ it:
       disabled: disabilitato
       send: inviata
       delivering: In fase di invio
+      sent: inviata
     tabs:
       stats: Statistiche
       settings: Impostazioni

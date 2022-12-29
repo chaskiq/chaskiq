@@ -269,6 +269,7 @@ ar:
       disabled: disabled
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: Stats
       settings: Settings
