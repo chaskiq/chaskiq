@@ -269,6 +269,7 @@ zh-CN:
       disabled: 关闭
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: 统计
       settings: 设置
