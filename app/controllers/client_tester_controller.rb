@@ -21,7 +21,7 @@ class ClientTesterController < ApplicationController
 
     @encrypted_data = if params[:jwt].present?
                         t = JWE.encrypt(@json_payload.to_json, @app.encryption_key, alg: "dir")
-                        t = "\'#{t}\'"
+                        t = "'#{t}'"
                       else
                         @json_payload.to_json
                       end
