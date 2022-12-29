@@ -425,4 +425,8 @@ class AppUser < ApplicationRecord
   # index_name: ["#{self.model_name.plural}_#{Rails.env}"]
 
   scope :search_import, -> { includes(:external_profiles) }
+
+  def should_index?
+    Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true"
+  end
 end
