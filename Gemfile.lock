@@ -240,6 +240,14 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
+    elasticsearch (7.12.0)
+      elasticsearch-api (= 7.12.0)
+      elasticsearch-transport (= 7.12.0)
+    elasticsearch-api (7.12.0)
+      multi_json
+    elasticsearch-transport (7.12.0)
+      faraday (~> 1)
+      multi_json
     email_reply_trimmer (0.1.13)
     erubi (1.11.0)
     execjs (2.8.1)
@@ -433,6 +441,14 @@ GEM
     omniauth-oauth2 (1.7.2)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
+    opensearch-api (2.1.0)
+      multi_json
+    opensearch-ruby (2.1.0)
+      opensearch-api (~> 2.1)
+      opensearch-transport (~> 2.0)
+    opensearch-transport (2.1.0)
+      faraday (>= 1.0, < 3)
+      multi_json
     orm_adapter (0.5.0)
     os (1.1.4)
     parallel (1.22.1)
@@ -574,6 +590,9 @@ GEM
       ffi (~> 1.9)
     scout_apm (5.3.2)
       parser
+    searchkick (5.1.1)
+      activemodel (>= 5.2)
+      hashie
     shoulda (4.0.0)
       shoulda-context (~> 2.0)
       shoulda-matchers (~> 4.0)
@@ -693,6 +712,7 @@ DEPENDENCIES
   doorkeeper (~> 5.5.0)
   dotenv-rails
   draftjs_exporter!
+  elasticsearch (= 7.12)
   email_reply_trimmer
   emoji_data!
   execjs
@@ -727,6 +747,7 @@ DEPENDENCIES
   nokogiri
   oauth (~> 0.5.5)
   omniauth-oauth2
+  opensearch-ruby
   pg
   pg_search
   phonelib
@@ -755,6 +776,7 @@ DEPENDENCIES
   ruby-oembed
   sassc
   scout_apm
+  searchkick
   shoulda
   shoulda-matchers
   sidekiq (~> 6.5)

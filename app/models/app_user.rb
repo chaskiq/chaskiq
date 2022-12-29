@@ -342,4 +342,87 @@ class AppUser < ApplicationRecord
   def identified?
     type == "AppUser"
   end
+
+  def search_data
+    a = ACCESSOR_PROPERTIES.map { |o| { o => send(o) } }.reduce({}, :merge)
+                           .merge(
+                             ALLOWED_PROPERTIES.map { |o| { o => send(o) } }.reduce({}, :merge)
+                             .merge(
+                               {
+                                 external_profiles: external_profiles&.map { |o| { "profile_id" => o.profile_id, "provider" => o.provider } },
+                                 custom_attributes: app.custom_fields&.map { |o| { "name" => o["name"], "value" => properties[o["name"]] } }
+                               }
+                             )
+                           ).merge({ app_id: app_id, type: type })
+
+    Rails.logger.debug "this."
+    Rails.logger.debug a
+    a
+  end
+
+  def self.properties_for_index
+    [ALLOWED_PROPERTIES, ACCESSOR_PROPERTIES, %i[app_id type]].flatten
+  end
+
+  # a = [:name, :first_name, :last_name, :display_name, :phone]
+
+  searchkick word_start: properties_for_index,
+             searchable: properties_for_index,
+             filterable: properties_for_index,
+             merge_mappings: true,
+             mappings: {
+               properties: {
+                 custom_attributes: {
+                   type: "nested",
+                   properties: {
+                     name: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     },
+                     value: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     }
+                   }
+                 },
+                 external_profiles: {
+                   type: "nested",
+                   properties: {
+                     profile_id: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     },
+                     provider: {
+                       type: "text",
+                       fields: {
+                         keyword: {
+                           type: "keyword",
+                           ignore_above: 256
+                         }
+                       }
+                     }
+                   }
+                 }
+               }
+             },
+             # locations: [:location],
+             callbacks: :async
+  # index_name: ["#{self.model_name.plural}_#{Rails.env}"]
+
+  scope :search_import, -> { includes(:external_profiles) }
 end

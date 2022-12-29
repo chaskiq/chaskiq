@@ -64,6 +64,11 @@ gem "pg_search"
 gem "phonelib"
 gem "ransack"
 
+gem "searchkick"
+
+gem "elasticsearch", "7.12" # select one
+gem "opensearch-ruby" # select one
+
 gem "browser", "~> 2.5"
 gem "geocoder", "~> 1.6"
 gem "geoip"
