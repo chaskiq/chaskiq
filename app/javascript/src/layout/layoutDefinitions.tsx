@@ -190,7 +190,9 @@ export default function definitions() {
         group 
         flex 
         items-center 
-        px-2 py-2 
+        px-2 
+        py-2 
+        mb-2
         text-sm leading-5 
         font-medium 
         text-gray-900 
