@@ -204,8 +204,7 @@ module MessageApis::Dialog360
 
       raise ActiveRecord::Rollback if profile_id.blank?
 
-      previous_conversation = find_conversation_by_channel(PROVIDER, profile_id) || conversation
-
+      conversation = find_conversation_by_channel(PROVIDER, profile_id) || conversation
       # clear_conversation(previous_conversation) if previous_conversation.present?
 
       conversation.update(
@@ -221,13 +220,6 @@ module MessageApis::Dialog360
 
       app = @package.app
 
-      data = {
-        properties: {
-          name: dialog_user,
-          twilio_id: dialog_user
-        }
-      }
-
       external_profile = app.external_profiles.find_by(
         provider: PROVIDER,
         profile_id: dialog_user
@@ -241,13 +233,14 @@ module MessageApis::Dialog360
         )
         app_user.update(phone: dialog_user)
         return dialog_user
+      else
+        dialog_user
       end
 
-      participant = external_profile&.app_user
+      # participant = external_profile&.app_user
       # means the external profile belongs to somebody else
-      return nil if participant && participant.id != app_user.id
-
-      dialog_user if participant && participant.id == app_user.id
+      # return nil if participant && participant.id != app_user.id
+      # dialog_user if participant && participant.id == app_user.id
     end
 
     def send_template_message(template:, conversation_key:, parameters:, selected_user:)
@@ -274,6 +267,9 @@ module MessageApis::Dialog360
 
       profile_id = get_profile_for_participant(conversation.main_participant) if profile_id.blank?
 
+      
+      profile_id = add_participant_to_existing_user(conversation.main_participant, conversation.main_participant.phone) if profile_id.blank?
+      
       Rails.logger.debug template
       return if profile_id.blank?
 

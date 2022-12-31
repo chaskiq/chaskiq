@@ -157,7 +157,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -1895,7 +1896,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -3639,7 +3641,8 @@
         "delivering": "delivering",
         "disabled": "inhabilitat",
         "enabled": "activat",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audiència",
@@ -5377,7 +5380,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -7126,7 +7130,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -8864,7 +8869,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -10602,7 +10608,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -14449,7 +14456,8 @@
         "delivering": "delivering",
         "disabled": "desactivado",
         "enabled": "habilitado",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audiencia",
@@ -16535,7 +16543,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -18273,7 +18282,8 @@
         "delivering": "en cours de livraison",
         "disabled": "désactivé",
         "enabled": "activé",
-        "send": "envoyé !"
+        "send": "envoyé !",
+        "sent": "envoyé !"
       },
       "tabs": {
         "audience": "Visiteurs",
@@ -20075,7 +20085,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -21813,7 +21824,8 @@
         "delivering": "In fase di invio",
         "disabled": "disabilitato",
         "enabled": "abilitato",
-        "send": "inviata"
+        "send": "inviata",
+        "sent": "inviata"
       },
       "tabs": {
         "audience": "Pubblico",
@@ -23551,7 +23563,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -25288,7 +25301,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -27025,7 +27039,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -28763,7 +28778,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -30501,7 +30517,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -32241,7 +32258,8 @@
         "delivering": "delivering",
         "disabled": "desativo",
         "enabled": "ativo",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audiências",
@@ -33979,7 +33997,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -35718,7 +35737,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -37458,7 +37478,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -39196,7 +39217,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -40934,7 +40956,8 @@
         "delivering": "delivering",
         "disabled": "disabled",
         "enabled": "enabled",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "Audience",
@@ -42674,7 +42697,8 @@
         "delivering": "delivering",
         "disabled": "关闭",
         "enabled": "启用",
-        "send": "sent"
+        "send": "sent",
+        "sent": "sent"
       },
       "tabs": {
         "audience": "受众",
