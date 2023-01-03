@@ -401,6 +401,7 @@ class SettingsForm extends Component<SettingsFormProps> {
 
 function LanguageForm({ settings, update, deleteLang }) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [tableVisible, setTableVisible] = React.useState(true);
   const [selectedLang, _setSelectedLang] = React.useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(null);
 
@@ -419,7 +420,10 @@ function LanguageForm({ settings, update, deleteLang }) {
     next[`site_description_${val}`] = '';
 
     const newData = Object.assign({}, data.settings, next);
-    update({ settings: newData });
+    update({ settings: newData }, () => {
+      //setTableVisible(false)
+      //setTimeout(()=> setTableVisible(true), 400)
+    });
     toggleDialog();
   }
 
@@ -478,11 +482,21 @@ function LanguageForm({ settings, update, deleteLang }) {
       empty: true,
     });
     const data = toSnakeCase(serializedData);
-    update(data);
+
+    update(data, () => {
+      setTableVisible(false);
+      setTimeout(() => setTableVisible(true), 400);
+    });
   }
 
   function columns() {
-    const fields = ['locale', 'site_title', 'site_description', 'action'];
+    const fields = [
+      'locale',
+      'site_title',
+      'site_description',
+      'action',
+      'default_lang',
+    ];
 
     const cols = fields.map((field) => ({
       field: field,
@@ -494,11 +508,13 @@ function LanguageForm({ settings, update, deleteLang }) {
               // onClick={(e)=>(showUserDrawer && showUserDrawer(row))}
               className="flex items-center"
             >
-              {field === 'locale' ? (
+              {field === 'locale' && (
                 <p className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
                   {row[field]}
                 </p>
-              ) : field === 'action' ? (
+              )}
+
+              {field === 'action' && (
                 <Button
                   variant="danger"
                   color="secondary"
@@ -506,14 +522,28 @@ function LanguageForm({ settings, update, deleteLang }) {
                 >
                   {I18n.t('common.delete')}
                 </Button>
-              ) : (
-                <Input
-                  type={'text'}
-                  // id="standard-name"
-                  label={false}
-                  defaultValue={row[field]}
-                  name={`settings[${field}_${row.locale}]`}
-                />
+              )}
+
+              {field === 'site_title' ||
+                (field === 'site_description' && (
+                  <Input
+                    type={'text'}
+                    // id="standard-name"
+                    label={false}
+                    defaultValue={row[field]}
+                    name={`settings[${field}_${row.locale}]`}
+                  />
+                ))}
+
+              {field === 'default_lang' && (
+                <div>
+                  <Input
+                    type={'radio'}
+                    value={row.locale}
+                    defaultChecked={settings.defaultLang == row.locale}
+                    name={'settings[default_lang]'}
+                  />
+                </div>
               )}
             </div>
           )
@@ -537,8 +567,10 @@ function LanguageForm({ settings, update, deleteLang }) {
           </Button>
         </UpgradeButton>
 
+        {settings.defaultLang}
+
         <div>
-          {
+          {true && (
             <Table
               // meta={this.props.meta}
               data={settings.translations}
@@ -552,8 +584,9 @@ function LanguageForm({ settings, update, deleteLang }) {
               // toggleMapView={this.props.toggleMapView}
               // map_view={this.props.map_view}
               // enableMapView={this.props.enableMapView}
+              ts={tableVisible}
             />
-          }
+          )}
         </div>
 
         <div className="flex justify-start py-2">
