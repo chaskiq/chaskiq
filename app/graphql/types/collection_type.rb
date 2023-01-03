@@ -51,10 +51,10 @@ module Types
 
     def meta
       articles = if current_user.blank?
-                   object.articles.published
-                 else
-                   object.articles
-                 end
+                  object.articles.published
+                else
+                  object.articles
+                end
       {
         size: articles.size,
         authors: articles.map(&:author).uniq!
