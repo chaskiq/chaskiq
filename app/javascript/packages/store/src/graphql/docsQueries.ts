@@ -16,6 +16,7 @@ export const ARTICLE_SETTINGS = `
       twitter
       website
       availableLanguages
+      defaultLang
     }
   }
 `;

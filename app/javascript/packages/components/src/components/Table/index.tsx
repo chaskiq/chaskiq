@@ -44,6 +44,7 @@ interface ITable {
   onSort?: (oldIndex: number, newIndex: number) => void;
   disablePagination?: boolean;
   infinite?: boolean;
+  ts?: any;
 }
 
 export default function Table({
@@ -57,6 +58,7 @@ export default function Table({
   onSort,
   disablePagination,
   infinite,
+  ts,
 }: ITable) {
   const [tableColums, setTableColums] = React.useState(columns);
 
@@ -107,6 +109,11 @@ export default function Table({
   const onSortEnd = ({ oldIndex, newIndex }) => {
     onSort && onSort(oldIndex, newIndex);
   };
+
+  React.useEffect(() => {
+    // reset columns
+    setTableColums(columns);
+  }, [ts]);
 
   return (
     <React.Fragment>

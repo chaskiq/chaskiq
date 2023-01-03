@@ -27,7 +27,7 @@ const subdomain = window.location.host.split('.')[1]
 function Docs(props) {
   // const classes = useStyles();
   const [settings, setSettings] = React.useState<any>({}) as any;
-  const [lang, setLang] = React.useState(props.match.params.lang || 'en');
+  const [lang, setLang] = React.useState(props.match.params.lang);
   const [error, _setError] = React.useState(false);
   const { history } = props;
 
@@ -45,6 +45,7 @@ function Docs(props) {
       {
         success: (data) => {
           setSettings(data.helpCenter);
+          if (!lang) setLang(data.helpCenter.defaultLang);
         },
         error: () => {},
       }
