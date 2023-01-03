@@ -232,10 +232,8 @@ module MessageApis::Dialog360
           profile_id: dialog_user
         )
         app_user.update(phone: dialog_user)
-        return dialog_user
-      else
-        dialog_user
       end
+      dialog_user
 
       # participant = external_profile&.app_user
       # means the external profile belongs to somebody else
@@ -267,9 +265,8 @@ module MessageApis::Dialog360
 
       profile_id = get_profile_for_participant(conversation.main_participant) if profile_id.blank?
 
-      
       profile_id = add_participant_to_existing_user(conversation.main_participant, conversation.main_participant.phone) if profile_id.blank?
-      
+
       Rails.logger.debug template
       return if profile_id.blank?
 
