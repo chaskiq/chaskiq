@@ -202,6 +202,7 @@ es:
         site_title: Título del sitio
         site_description: Descripción del Sitio
         action: Acción
+        default_lang: Default Lang
     users:
       name: Nombre
       email: Email
