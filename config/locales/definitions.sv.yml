@@ -202,6 +202,7 @@ sv:
         site_title: Webbplatstitel
         site_description: Webbplatsbeskrivning
         action: Åtgärder
+        default_lang: Default Lang
     users:
       name: Namn
       email: E-postadress

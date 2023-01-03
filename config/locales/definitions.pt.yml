@@ -202,6 +202,7 @@ pt:
         site_title: Título da Área
         site_description: Descrição
         action: Acão
+        default_lang: Default Lang
     users:
       name: Nome
       email: Email

@@ -202,6 +202,7 @@ zh-CN:
         site_title: 站点标题
         site_description: 网站说明
         action: 行为
+        default_lang: Default Lang
     users:
       name: 名称
       email: Email
