@@ -45,8 +45,7 @@ function Docs(props) {
       {
         success: (data) => {
           setSettings(data.helpCenter);
-          if(!lang)
-            setLang(data.helpCenter.defaultLang)
+          if (!lang) setLang(data.helpCenter.defaultLang);
         },
         error: () => {},
       }

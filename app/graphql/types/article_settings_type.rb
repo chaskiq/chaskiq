@@ -25,7 +25,7 @@ module Types
     field :default_lang, String, null: true
 
     def default_lang
-      object.default_lang || 'en'
+      object.default_lang || "en"
     end
 
     def available_languages

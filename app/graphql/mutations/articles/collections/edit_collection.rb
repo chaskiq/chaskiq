@@ -26,7 +26,7 @@ module Mutations
             locale: lang
           }
 
-          options.merge!({icon: icon}) if icon.present?
+          options.merge!({ icon: icon }) if icon.present?
 
           collection.update(options)
 
