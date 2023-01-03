@@ -1184,6 +1184,7 @@ export const ARTICLE_SETTINGS_UPDATE = `
         headerImage
         translations
         availableLanguages
+        defaultLang
       }
       errors
     }
@@ -1212,6 +1213,7 @@ export const ARTICLE_SETTINGS_DELETE_LANG = `
         headerImage
         translations
         availableLanguages
+        defaultLang
       }
       errors
     }
