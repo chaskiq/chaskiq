@@ -12574,6 +12574,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
