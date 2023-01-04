@@ -31,6 +31,7 @@ const actionTypes = {
   SetUpgradePage: 'SET_UPGRADE_PAGE',
 
   SetNotification: 'SET_NOTIFICATION',
+  SetReconnection: 'SET_RECONNECTION',
 };
 
 export interface ActionType {
