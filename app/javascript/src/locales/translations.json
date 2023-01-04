@@ -377,6 +377,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -2116,6 +2117,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -3861,6 +3863,7 @@
       "articles": {
         "settings": {
           "action": "Acció",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Descripció del Lloc",
           "site_title": "Títol del lloc"
@@ -5600,6 +5603,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -7350,6 +7354,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -9089,6 +9094,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -10828,6 +10834,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -14677,6 +14684,7 @@
       "articles": {
         "settings": {
           "action": "Acción",
+          "default_lang": "Default Lang",
           "locale": "Configuración regional",
           "site_description": "Descripción del Sitio",
           "site_title": "Título del sitio"
@@ -16764,6 +16772,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -18503,6 +18512,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Local",
           "site_description": "Description du Site",
           "site_title": "Titre du Site"
@@ -20306,6 +20316,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -22045,6 +22056,7 @@
       "articles": {
         "settings": {
           "action": "Azione",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -23784,6 +23796,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -25522,6 +25535,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -27260,6 +27274,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -28999,6 +29014,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -30738,6 +30754,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -32479,6 +32496,7 @@
       "articles": {
         "settings": {
           "action": "Acão",
+          "default_lang": "Default Lang",
           "locale": "Localidade",
           "site_description": "Descrição",
           "site_title": "Título da Área"
@@ -34218,6 +34236,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -35958,6 +35977,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -37699,6 +37719,7 @@
       "articles": {
         "settings": {
           "action": "Åtgärder",
+          "default_lang": "Default Lang",
           "locale": "Språk",
           "site_description": "Webbplatsbeskrivning",
           "site_title": "Webbplatstitel"
@@ -39438,6 +39459,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -41177,6 +41199,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -42918,6 +42941,7 @@
       "articles": {
         "settings": {
           "action": "行为",
+          "default_lang": "Default Lang",
           "locale": "地点",
           "site_description": "网站说明",
           "site_title": "站点标题"
