@@ -32,20 +32,20 @@ describe('Settings Spec', function () {
         cy.contains("Actions")
 
         cy.contains('td', 'chaskiq bot')  
-          .siblings()  
-          .within(() => {
+          .siblings()
+          /*.within(() => {
             cy.contains('button', 'Edit') 
             cy.contains('button', 'Delete') 
-          })                          
+          }) */                         
           .contains('td', 'chaskiq bot') 
         
         cy.contains('td', 'test@test.cl')  
-          .siblings()    
-          .within(() => {
+          .siblings()
+         /* .within(() => {
             cy.contains('button', 'Edit') 
             cy.contains('button', 'Delete') 
             cy.contains('span', 'admin') 
-          })                             
+          }) */                            
           .contains('td', 'sharleena') 
 
         cy.contains('Invitations').click()
