@@ -120,7 +120,7 @@
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-macros": "^2.8.0",
     "babel-plugin-prismjs": "^1.1.1",
-    "cypress": "9.5.3",
+    "cypress": "12.3.0",
     "cypress-xpath": "^1.4.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.1.0",
