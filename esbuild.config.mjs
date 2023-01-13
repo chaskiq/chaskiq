@@ -29,6 +29,7 @@ esbuild
             'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
             'global': 'window',
             'process.env.NODE_DEBUG': '""',
+            'define': 'undefined'
         },
         platform: 'browser',
         inject: ['./esbuild/process-shim.js'],
