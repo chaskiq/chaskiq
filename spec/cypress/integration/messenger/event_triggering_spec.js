@@ -1,6 +1,6 @@
 import {
   translations
-} from '../../support/utils'
+} from '../../support'
 
 describe('Customization Spec', function () {
   beforeEach(() => {
