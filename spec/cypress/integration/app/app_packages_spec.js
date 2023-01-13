@@ -2,7 +2,7 @@
 import {
   login,
   findButtonByName
-} from '../../support/utils'
+} from '../../support'
 
 describe('AppPackages', function () {
   beforeEach(() => {
