@@ -11,6 +11,7 @@ import {
   IntegrationsIcon,
   LabelIcon,
   UpArrow,
+  WriteIcon,
 } from '@chaskiq/components/src/components/icons';
 import I18n from '../../shared/FakeI18n';
 
