@@ -714,7 +714,8 @@ module Types
     def sort_conversations(sort)
       if sort.present?
         s = case sort
-            when "newest" then "updated_at desc"
+            when "updated" then "updated_at desc"
+            when "newest" then "created_at desc"
             when "oldest" then "updated_at asc"
             when "priority_first" then "priority asc, updated_at desc"
             else

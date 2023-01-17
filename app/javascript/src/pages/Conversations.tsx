@@ -29,8 +29,6 @@ import {
   setCurrentSection,
   setCurrentPage,
 } from '@chaskiq/store/src/actions/navigation';
-import { AnchorLink } from '@chaskiq/components/src/components/RouterLink';
-import { WriteIcon } from '@chaskiq/components/src/components/icons';
 import AppUserEdit from './conversations/ParticipantBlock';
 
 function Conversations({
@@ -119,7 +117,9 @@ function Conversations({
         size="small"
       >
         {/* <MoreVertIcon /> */}
-        {I18n.t('conversations.sorts.' + conversations.sort)}
+        <span className="whitespace-nowrap">
+          {I18n.t('conversations.sorts.' + conversations.sort)}
+        </span>
       </Button>
     );
   };
@@ -188,6 +188,12 @@ function Conversations({
         selected: true,
       },
       {
+        id: 'updated',
+        name: I18n.t('conversations.sorts.updated'),
+        count: 1,
+        selected: true,
+      },
+      {
         id: 'oldest',
         name: I18n.t('conversations.sorts.oldest'),
         count: 1,
@@ -248,12 +254,6 @@ function Conversations({
               filterHandler={sortConversations}
               triggerButton={sortButton}
             />
-
-            <div className="ml-2">
-              <AnchorLink to={`/apps/${app.key}/conversations/new`}>
-                <WriteIcon />
-              </AnchorLink>
-            </div>
           </div>
         </div>
 
