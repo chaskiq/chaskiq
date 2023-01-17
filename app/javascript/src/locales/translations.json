@@ -12540,6 +12540,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -13528,6 +13529,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",

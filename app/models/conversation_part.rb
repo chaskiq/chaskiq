@@ -5,7 +5,7 @@ class ConversationPart < ApplicationRecord
   include Redis::Objects
 
   has_many :conversation_part_channel_sources, dependent: :destroy
-  belongs_to :conversation, touch: true
+  belongs_to :conversation
   # belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true,
                               class_name: "Message",
@@ -18,6 +18,7 @@ class ConversationPart < ApplicationRecord
 
   # has_one :conversation_part_content, dependent: :destroy
 
+  before_save :touch_conversation
   after_create :assign_and_notify
 
   scope :visibles, -> { where(private_note: nil) }
@@ -27,6 +28,16 @@ class ConversationPart < ApplicationRecord
   attr_accessor :check_assignment_rules
 
   delegate :broadcast_key, to: :conversation
+
+  def touch_conversation
+    return if @touching_read
+
+    conversation.touch
+  end
+
+  def reset_read_touch
+    @touching_read = false
+  end
 
   def from_bot?
     trigger_id.present? && step_id.present?
@@ -70,6 +81,7 @@ class ConversationPart < ApplicationRecord
   def read!
     return if read?
 
+    @touching_read = true
     notify_read!
   end
 
