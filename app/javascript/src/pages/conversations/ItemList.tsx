@@ -7,6 +7,7 @@ import sanitizeHtml, {
 } from '@chaskiq/components/src/utils/htmlSanitize';
 import { LabelIcon } from '@chaskiq/components/src/components/icons';
 import Avatar from '@chaskiq/components/src/components/Avatar';
+import { CallIcon } from '@chaskiq/components/src/components/rtc';
 
 export function textColor(color) {
   const lightReturnColor = '#121212';
@@ -107,11 +108,17 @@ export default function ConversationItemList({ app, conversation, isActive }) {
         </div>
         <div className="flex flex-col mt-5 space-y-2">
           <div className="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1">
-            {appUser && appUser.id !== participant.id && (
-              <img
-                alt={appUser.displayName}
-                className="rounded-full h-5 w-5 self-start"
+            {!message.readAt && appUser.kind !== 'agent' && (
+              <div className="flex">
+                <span className="w-3 h-3 bg-red-600 border-2 border-white dark:border-gray-800 rounded-full"></span>
+              </div>
+            )}
+
+            {appUser && appUser.kind === 'agent' && (
+              <Avatar
                 src={appUser.avatarUrl}
+                alt={user.displayName}
+                size="small"
               />
             )}
 
