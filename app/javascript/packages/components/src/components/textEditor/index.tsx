@@ -13,8 +13,11 @@ import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popover
 
 import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed';
 import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video';
+
 import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/placeholder.js';
 import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
+import { AudioRecorderBlockConfig } from './blocks/audioRecorder';
+
 import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
 import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
 import { FileBlockConfig } from 'Dante2/package/esm/editor/components/blocks/file';
@@ -464,6 +467,16 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
         );
       }
 
+      widgets.push(
+        AudioRecorderBlockConfig({
+          options: {
+            seconds_to_record: 20000,
+            upload_handler: this.uploadHandler,
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+          },
+        })
+      );
+
       if (this.props.allowedEditorFeature('video_recorder')) {
         widgets.push(
           VideoRecorderBlockConfig({
@@ -733,9 +746,9 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     };
 
     const currentContent = context.editorState().getCurrentContent();
-    this.props.setDisabled && this.props.setDisabled(!currentContent.hasText());
+    this.props.setDisabled && this.props.setDisabled(currentContent.isEmpty());
 
-    let html = convertToHTML(convertOptions)(currentContent);
+    const html = convertToHTML(convertOptions)(currentContent);
     //let html = null
     const serialized = JSON.stringify(content);
     const plain = context.getTextFromEditor(content);
