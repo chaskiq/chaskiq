@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { videoRecorderIcon } from 'Dante2/package/esm/editor/components/icons';
 import { EditorBlock } from 'draft-js';
-import { CheckIcon, DeleteIcon } from '../../icons';
+import { CheckIcon, DeleteIcon, MicIcon } from '../../icons';
 import { updateDataOfBlock } from 'Dante2/package/esm/editor/model';
 
 const AudioRecorderBlock = (props) => {
@@ -176,20 +175,7 @@ const AudioRecorderBlock = (props) => {
                   : 'bg-gray-300 text-gray-800'
               } `}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
-                />
-              </svg>
+              <MicIcon />
               {!recording && <span> Start Recording </span>}
               {recording && <span> Stop Recording </span>}
             </button>
@@ -245,7 +231,7 @@ export const AudioRecorderBlockConfig = (options = {}) => {
   const config = {
     title: 'record a audio',
     type: 'recorded-audio',
-    icon: videoRecorderIcon,
+    icon: MicIcon,
     block: AudioRecorderBlock,
     editable: true,
     renderable: true,
