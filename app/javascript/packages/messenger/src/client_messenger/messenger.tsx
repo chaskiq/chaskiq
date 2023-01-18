@@ -5,6 +5,9 @@ import { setCookie, getCookie, deleteCookie } from './cookies';
 // import styled from '@emotion/styled'
 import { ThemeProvider } from 'emotion-theming';
 
+import { createRoot } from 'react-dom/client';
+
+
 import { uniqBy } from 'lodash';
 import {
   createSubscription,
@@ -1867,7 +1870,7 @@ export default class ChaskiqMessenger {
   }
 
   render() {
-    var g;
+    let g;
     g = document.getElementById(this.props.wrapperId);
     if (!g) {
       g = document.createElement('div');
@@ -1875,10 +1878,8 @@ export default class ChaskiqMessenger {
       document.body.appendChild(g);
     }
 
-    ReactDOM.render(
-      <MessengerBridge {...this.props} />,
-      document.getElementById(this.props.wrapperId)
-    );
+    const root = createRoot( document.getElementById(this.props.wrapperId) );
+    root.render(<MessengerBridge {...this.props} />);
   }
 }
 

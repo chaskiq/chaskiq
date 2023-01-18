@@ -4,6 +4,9 @@ import { I18n } from 'i18n-js';
 import translations from './src/locales/translations.json';
 import { CallList, PhoneCall } from './packages/twilio';
 
+import { createRoot } from 'react-dom/client';
+
+
 const i18n = new I18n(translations);
 
 // eslint-disable-next-line no-undef
@@ -32,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ...JSON.parse(data_string),
   };
 
-  ReactDOM.render(
+  const root = createRoot(document.getElementById('content'));
+  root.render(
     contentType && contentType === 'call-list' ? (
       <CallList
         data={data}
@@ -42,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
       />
     ) : (
       <PhoneCall data={data} endpointURL={endpointURL} i18n={i18n} />
-    ),
-    document.body.appendChild(document.getElementById('content'))
+    )
   );
 });

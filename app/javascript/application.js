@@ -9,16 +9,16 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 // import './src/styles/tailwind.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import App from './src/App';
 
+
+
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <App />,
-    document.body.appendChild(document.getElementById('main-page'))
-  );
+  const root = createRoot(document.getElementById('main-page'));
+  root.render(<App />);
 });

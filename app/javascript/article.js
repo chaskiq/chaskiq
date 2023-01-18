@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Article from '@chaskiq/messenger/src/client_messenger/articles';
+import { createRoot } from 'react-dom/client';
 
 // eslint-disable-next-line no-undef
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Article />,
-    document.body.appendChild(document.getElementById('main-page'))
-  );
+  const root = createRoot(document.getElementById('main-page'));
+  root.render(<Article />);
 });

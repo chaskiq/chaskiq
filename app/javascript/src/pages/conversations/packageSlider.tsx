@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 
 import React, { useState } from 'react';
-import { XIcon } from '@heroicons/react/outline';
 import { useHotkeys } from 'react-hotkeys-hook';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
@@ -13,6 +12,7 @@ import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 import graphql from '@chaskiq/store/src/graphql/client';
 import { errorMessage } from '@chaskiq/store/src/actions/status_messages';
 import logos from '../../shared/logos';
+import { CloseIcon } from "@chaskiq/components/src/components/icons";
 
 function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
   const [open, setOpen] = useState(fixedSlider.open);
@@ -110,7 +110,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close panel</span>
-                    <XIcon className="h-6 w-6" aria-hidden="true" />
+                    <CloseIcon />
                   </button>
                 </div>
               </div>

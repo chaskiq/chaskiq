@@ -127,16 +127,15 @@ export default class ConversationEditor extends Component<
         <EditorContainer
           note={opts.note}
           style={opts.note ? { background: 'lemonchiffon' } : {}}
-        >
-          {!this.state.loading ? (
-            <NewEditor
+        >          
+            { !this.state.loading && <NewEditor
               insertAppBlockComment={this.props.insertAppBlockComment}
               submitData={(formats) => this.submitData(formats, opts)}
               saveContentCallback={(content) => this.handleTyping(content)}
               sendMode={this.state.sendMode}
               {...this.props}
-            />
-          ) : null}
+          />}
+          
         </EditorContainer>
       </EditorWrapper>
     );
