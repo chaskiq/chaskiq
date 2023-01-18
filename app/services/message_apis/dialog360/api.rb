@@ -123,6 +123,7 @@ module MessageApis::Dialog360
       # TODO: support more blocks
       image_block = blocks.find { |o| o["type"] == "image" }
       video_block = blocks.find { |o| o["type"] == "recorded-video" }
+      audio_block = blocks.find { |o| o["type"] == "recorded-audio" }
       file_block = blocks.find { |o| o["type"] == "file" }
       is_plain = !image_block || !video_block || !file_block
       plain_message = blocks.map do |o|
@@ -154,6 +155,14 @@ module MessageApis::Dialog360
                                 video: {
                                   url: Chaskiq::Config.get("HOST") + video_block["data"]["url"],
                                   caption: plain_message
+                                }
+                              })
+
+      elsif audio_block
+        message_params.merge!({
+                                type: "audio",
+                                audio: {
+                                  url: Chaskiq::Config.get("HOST") + audio_block["data"]["url"]
                                 }
                               })
 
