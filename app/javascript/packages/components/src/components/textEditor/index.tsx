@@ -746,9 +746,9 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     };
 
     const currentContent = context.editorState().getCurrentContent();
-    this.props.setDisabled && this.props.setDisabled(currentContent.isEmpty());
+    this.props.setDisabled && this.props.setDisabled(!currentContent.hasText());
 
-    const html = convertToHTML(convertOptions)(currentContent);
+    let html = convertToHTML(convertOptions)(currentContent);
     //let html = null
     const serialized = JSON.stringify(content);
     const plain = context.getTextFromEditor(content);
