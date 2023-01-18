@@ -26,6 +26,7 @@ import {
   LightModeIcon,
   ChartsIcons,
   KeyIcon,
+  WriteIcon,
 } from '@chaskiq/components/src/components/icons';
 
 import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
@@ -224,6 +225,14 @@ function Sidebar({
       url: `/apps/${app.key}/conversations`,
       allowed: allowedAccessTo(app, 'conversations'),
       children: [
+        {
+          id: 'NewConversation',
+          label: I18n.t('navigator.childs.conversations_new'),
+          icon: <WriteIcon />,
+          url: `/apps/${app.key}/conversations/new`,
+          active: false,
+          allowed: allowedAccessTo(app, 'conversations'),
+        },
         {
           id: 'Conversations',
           label: I18n.t('navigator.childs.conversations'),
