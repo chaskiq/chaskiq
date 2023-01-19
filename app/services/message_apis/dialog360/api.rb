@@ -162,7 +162,7 @@ module MessageApis::Dialog360
         message_params.merge!({
                                 type: "audio",
                                 audio: {
-                                  url: Chaskiq::Config.get("HOST") + audio_block["data"]["url"]
+                                  link: Chaskiq::Config.get("HOST") + audio_block["data"]["url"]
                                 }
                               })
 
@@ -181,10 +181,12 @@ module MessageApis::Dialog360
                               })
       end
 
-      @conn.post(
+      r = @conn.post(
         "#{@url}/messages",
         message_params.to_json
       )
+      Rails.logger.info r.body
+      r
     end
 
     def get_profile_for_participant(participant)

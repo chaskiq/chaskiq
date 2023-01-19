@@ -79,6 +79,8 @@ module MessageApis::Dialog360
 
     # Configure flow webhook URL (optional)
     # Sent when a teammate wants to use your app, so that you can show them configuration options before it’s inserted. Leaving this option blank will skip configuration.
+    #
+    # rubocop:disable Metrics/PerceivedComplexity
     def self.configure_hook(kind:, ctx:)
       offset_page = if ctx.dig("field", "name") == "paginate-template"
                       ctx.dig("field", "id").gsub("paginate-template-", "").to_i
@@ -95,6 +97,13 @@ module MessageApis::Dialog360
       templates = api.retrieve_templates(offset: offset_page)
       templates = JSON.parse(templates)
       per = 10
+
+      if templates.dig("meta", "success") == false
+        return { kind: kind, definitions: [
+          { type: "text", text: "Error retrieving templates #{templates.dig('meta', 'developer_message')}" }
+        ] }
+      end
+
       offset = templates["offset"]
       paginate_button = nil
       # Rails.logger.debug templates
@@ -338,6 +347,7 @@ module MessageApis::Dialog360
 
       { kind: kind, definitions: definitions }
     end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     # Submit Sheet flow webhook URL (optional)
     # Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.
