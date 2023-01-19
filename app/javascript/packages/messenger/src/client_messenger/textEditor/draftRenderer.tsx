@@ -234,6 +234,23 @@ function renderers(props) {
           </figure>
         );
       },
+      'recorded-audio': (children, { keys, data }) => {
+        const { url, text } = data[0];
+
+        return (
+          <figure
+            key={keys[0]}
+            className="graf--figure graf--iframe graf--first flex justify-center items-center"
+          >
+            <audio
+              autoPlay={false}
+              style={{ width: '100%' }}
+              controls={true}
+              src={url}
+            ></audio>
+          </figure>
+        );
+      },
       // If your blocks use meta data it can also be accessed like keys
       // atomic: (children, { keys, data }) => children.map((child, i) => <Atomic key={keys[i]} {...data[i]} />),
     },

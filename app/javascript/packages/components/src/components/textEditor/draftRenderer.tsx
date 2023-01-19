@@ -207,15 +207,32 @@ const renderers = {
         </figure>
       );
     },
+    'recorded-audio': (children, { keys, data }) => {
+      const { url, text } = data[0];
+
+      return (
+        <figure
+          key={keys[0]}
+          className="graf--figure graf--iframe graf--first flex justify-center items-center"
+        >
+          <audio
+            autoPlay={false}
+            style={{ width: '50%' }}
+            controls={true}
+            src={url}
+          ></audio>
+        </figure>
+      );
+    },
     'recorded-video': (children, { keys, data }) => {
       const { url, text } = data[0];
 
       return (
         <figure key={keys[0]} className="graf--figure graf--iframe graf--first">
-          <div className="iframeContainer">
+          <div className="iframeContainer flex justify-center items-center">
             <video
               autoPlay={false}
-              style={{ width: '100%' }}
+              style={{ width: '50%' }}
               controls={true}
               src={url}
             ></video>

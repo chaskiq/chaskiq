@@ -123,6 +123,7 @@ module MessageApis::Dialog360
       # TODO: support more blocks
       image_block = blocks.find { |o| o["type"] == "image" }
       video_block = blocks.find { |o| o["type"] == "recorded-video" }
+      audio_block = blocks.find { |o| o["type"] == "recorded-audio" }
       file_block = blocks.find { |o| o["type"] == "file" }
       is_plain = !image_block || !video_block || !file_block
       plain_message = blocks.map do |o|
@@ -157,6 +158,14 @@ module MessageApis::Dialog360
                                 }
                               })
 
+      elsif audio_block
+        message_params.merge!({
+                                type: "audio",
+                                audio: {
+                                  link: Chaskiq::Config.get("HOST") + audio_block["data"]["url"]
+                                }
+                              })
+
       elsif file_block
         message_params.merge!({
                                 type: "document",
@@ -172,10 +181,12 @@ module MessageApis::Dialog360
                               })
       end
 
-      @conn.post(
+      r = @conn.post(
         "#{@url}/messages",
         message_params.to_json
       )
+      Rails.logger.info r.body
+      r
     end
 
     def get_profile_for_participant(participant)
