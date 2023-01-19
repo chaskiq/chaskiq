@@ -21,7 +21,7 @@ const AudioRecorderBlock = (props) => {
 
   const [count, setCount] = useState(0);
 
-  const countTotal = 10;
+  const countTotal = 120;
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -66,6 +66,7 @@ const AudioRecorderBlock = (props) => {
     if (!mediaRecorder?.current) return;
     if (mediaRecorder?.current.state === 'inactive') return;
     mediaRecorder.current.stop();
+    stream?.current?.getTracks()?.forEach((track) => track.stop()); // stop each of them
     stream.current = null;
     setRecording(false);
     setCount(0);
@@ -254,7 +255,7 @@ export const AudioRecorderBlockConfig = (options = {}) => {
       insert_block: 'image',
     },
     options: {
-      seconds_to_record: 10000,
+      seconds_to_record: 120,
     },
   };
 
