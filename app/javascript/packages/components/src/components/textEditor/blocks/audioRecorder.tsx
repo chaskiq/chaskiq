@@ -50,7 +50,7 @@ const AudioRecorderBlock = (props) => {
       });
 
       mediaRecorder.current.addEventListener('stop', () => {
-        const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+        const audioBlob = new Blob(chunks, { type: 'audio/mp4' });
         const audioUrl = URL.createObjectURL(audioBlob);
         setAudioUrl(audioUrl);
       });
