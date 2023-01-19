@@ -26,7 +26,7 @@ type TextInputProps = {
 
 export const TextInput = styled.input<TextInputProps>`
   ${() =>
-    tw`border relative shadow-sm block w-full bg-gray-200 dark:bg-gray-900`}
+    tw`border relative shadow-sm block w-full bg-gray-100 dark:bg-gray-900`}
 
   ${(props) =>
     props.theme.size === 'sm'
