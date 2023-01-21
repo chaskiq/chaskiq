@@ -123,35 +123,11 @@ Chaskiq is built for the *next* 10 years of the Internet, so our requirements ar
 
 Plus *lots* of Ruby Gems, a complete list of which is at [/master/Gemfile](https://github.com/chaskiq/chaskiq/blob/master/Gemfile).
 
-## Contributing
-
-Chaskiq is **100% free** and **open source**. We encourage and support an active, healthy community that
-accepts contributions from the public &ndash; including you!
-
 ## The Chaskiq Team
 
 For a complete list of the many individuals that contributed to the design and implementation of Chaskiq, please refer to [GitHub's list of contributors](https://github.com/chaskiq/chaskiq/contributors).
 
-## License
-
-### Open source license
-
-Copyright (C) 2018-2020 Miguel Michelson
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 ### Commercial license
 
-The commercial license is designed to for you to use Chaskiq in commercial products and applications, without the provisions of the AGPL-3.0-or-later. With the commercial license, your code is kept proprietary, to yourself. See the Chaskiq Commercial License at [chaskiq.io](https://chaskiq.io/commercial-license)
+The commercial license is designed to for you to use Chaskiq in commercial products and applications, without the provisions of the AGPL-3.0-or-later + commons clause. With the commercial license, your code is kept proprietary, to yourself. See the Chaskiq Commercial License at [chaskiq.io](https://chaskiq.io/commercial-license)
 
