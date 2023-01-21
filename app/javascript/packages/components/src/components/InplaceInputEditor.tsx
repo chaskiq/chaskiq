@@ -25,7 +25,14 @@ export default function InplaceInputEditor({ defaultValue, update }) {
           <button
             onClick={() => setEditing(!editing)}
             type="button"
-            className="mx-3 h-8 w-8 bg-white rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="mx-3 h-8 w-8
+             bg-white dark:bg-black 
+             rounded-full flex items-center 
+             justify-center text-gray-400
+            dark:text-gray-200 hover:bg-gray-100
+            hover:text-gray-500
+            dark:hover:bg-gray-900 dark:hover:text-gray-500 
+            focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             <svg
               className="h-5 w-5"
