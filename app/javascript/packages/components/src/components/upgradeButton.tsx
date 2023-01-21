@@ -20,11 +20,11 @@ function UpgradeButton({ classes, size, app, label, feature, children }) {
     plansEnabled &&
     app.plan.features.find((f) => f.name === feature && f.active);
 
-    if (!app.subscriptionsEnabled) return children;
+  if (!app.subscriptionsEnabled) return children;
 
-    return (
-      <div>
-        {plansEnabled && !activeFeature && (
+  return (
+    <div>
+      {plansEnabled && !activeFeature && (
         <FeaturesMenu
           size={size}
           name={label}
