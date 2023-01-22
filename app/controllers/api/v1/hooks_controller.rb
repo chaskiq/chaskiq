@@ -191,6 +191,7 @@ class Api::V1::HooksController < ActionController::API
     recipient = mail.recipients.first
     app, agent = decode_inbound_address(recipient)
     return if app.blank?
+    return unless app&.plan&.enabled?("InboundEmails")
 
     create_conversation_from_incoming(app, mail)
   end
@@ -198,6 +199,7 @@ class Api::V1::HooksController < ActionController::API
   def handle_inbound_recipient_from_forwarded(mail, val)
     app, agent = decode_inbound_address(val)
     return if app.blank?
+    return unless app&.plan&.enabled?("InboundEmails")
 
     create_conversation_from_incoming(app, mail)
   end
