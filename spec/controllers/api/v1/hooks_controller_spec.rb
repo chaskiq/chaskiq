@@ -1084,6 +1084,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         :message_id
       ).and_return("message_id-1234")
 
+      allow_any_instance_of(Plan).to receive(
+        :enabled?
+      ).and_return(true)
+
       response = send_data(message_notification_params)
       expect(ConversationPart.last.email_message_id).to be == "message_id-1234"
       expect(Conversation.last.subject).to be_present
@@ -1106,6 +1110,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       allow_any_instance_of(Mail::Message).to receive(
         :message_id
       ).and_return("message_id-1234")
+
+      allow_any_instance_of(Plan).to receive(
+        :enabled?
+      ).and_return(true)
 
       response = send_data(message_notification_params)
       expect(ConversationPart.last.email_message_id).to be == "message_id-1234"
@@ -1138,6 +1146,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       allow_any_instance_of(Mail::Message).to receive(
         :message_id
       ).and_return("message_id-1234")
+
+      allow_any_instance_of(Plan).to receive(
+        :enabled?
+      ).and_return(true)
 
       response = send_data(message_notification_params)
 
