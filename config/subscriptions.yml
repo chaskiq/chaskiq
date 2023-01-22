@@ -216,7 +216,6 @@ subscriptions:
           count: unlimited
 
 
-
     - 
       name: "mega"
       id: <%= ENV['STRIPE_PLAN_4'] %>
@@ -474,8 +473,9 @@ subscriptions:
           name: CustomAttributes
           active: true
           count: unlimited
-
-
-
+        - 
+          name: InboundMessages
+          active: true
+          count: unlimited
 
 

@@ -369,7 +369,7 @@ class App < ApplicationRecord
         Plan.get_by_id(paddle_subscription_plan_id.to_i) || Plan.get("free")
       )
     else
-      @plan = Plan.get("free")
+      @plan = Plan.new(Plan.get("free"))
     end
   end
 
