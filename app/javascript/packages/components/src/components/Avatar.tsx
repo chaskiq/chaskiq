@@ -49,7 +49,7 @@ function Avatar({
   if (app?.preferences?.avatarKind) avatarKind = app.preferences.avatarKind;
 
   return (
-    <span className={`inline-block relative ${size == 'full' ? 'w-full' : ''}`}>
+    <span className={`block relative ${size == 'full' ? 'w-full' : ''}`}>
       <img
         style={{
           backgroundSize: 'contain',
