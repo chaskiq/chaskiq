@@ -16,6 +16,7 @@ class AppPolicy < ActionPolicy::Base
     settings_app_settings
     app_settings
     fixed_app_packages
+    quick_replies
     app_packages
     help_center
     platform
