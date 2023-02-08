@@ -3129,10 +3129,10 @@
     "@typescript-eslint/types" "5.23.0"
     eslint-visitor-keys "^3.0.0"
 
-Dante2@0.5.9:
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.9.tgz#2665dc3172a15e90efca18c6c870f31164180f5d"
-  integrity sha512-nLo1S6C1jcOvV1CGOxgl2+hrmVsBkx5wg7+Pu298DCvyjbBCBWUfpuVP90esWfmXuUvIiZpyVkcxwf/US+0Mqw==
+Dante2@0.5.11:
+  version "0.5.11"
+  resolved "https://registry.yarnpkg.com/Dante2/-/Dante2-0.5.11.tgz#46330045b0da44e758f490be9a6e2b4df75dcba2"
+  integrity sha512-LJA6BxuZK4pFMbns+/fQki0ghXrxndL14p0lopaM+/bOqBDbc0ow3oNBvylwePFmpEW+mumVKkpP6XsC2Erbjg==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@emotion/cache" "^10.0.14"

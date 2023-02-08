@@ -37,7 +37,7 @@ module MessageApis::Dialog360
 
     def register_webhook(app_package, integration)
       data = {
-        url: integration.hook_url # .gsub("http://localhost:3000", "https://chaskiq.sa.ngrok.io")
+        url: integration.hook_url #.gsub("http://localhost:3000", "https://chaskiq.sa.ngrok.io")
       }
 
       response = @conn.post("#{@url}/configs/webhook", data.to_json)
@@ -95,8 +95,15 @@ module MessageApis::Dialog360
       # crea el mensaje con el channel de una, asi cuando se cree
       # el notify_message va a bypasear el canal
       # conversation.add_message()
+
+      errors = params["errors"]
+      msg = ""
+      if errors.is_a?(Array)
+        msg = errors.map{|o| "#{o["code"]} #{o["title"]}"}.join("")
+      end
+
       conversation.add_message_event(
-        action: "errored",
+        action: "errored: #{msg}",
         provider: PROVIDER,
         message_source_id: "bypass-internal-#{params['id']}",
         data: {
@@ -140,12 +147,14 @@ module MessageApis::Dialog360
         to: profile_id
       }
 
+      endpoint = Chaskiq::Config.get("HOST") # "https://chaskiq.sa.ngrok.io"
+
       # TODO: support audio / video / gif
       if image_block
         message_params.merge!({
                                 type: "image",
                                 image: {
-                                  link: Chaskiq::Config.get("HOST") + image_block["data"]["url"],
+                                  link: endpoint + image_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -153,7 +162,7 @@ module MessageApis::Dialog360
         message_params.merge!({
                                 type: "video",
                                 video: {
-                                  url: Chaskiq::Config.get("HOST") + video_block["data"]["url"],
+                                  link: endpoint + video_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -162,7 +171,7 @@ module MessageApis::Dialog360
         message_params.merge!({
                                 type: "audio",
                                 audio: {
-                                  link: Chaskiq::Config.get("HOST") + audio_block["data"]["url"]
+                                  link: endpoint + audio_block["data"]["url"]
                                 }
                               })
 
@@ -170,7 +179,7 @@ module MessageApis::Dialog360
         message_params.merge!({
                                 type: "document",
                                 document: {
-                                  link: Chaskiq::Config.get("HOST") + file_block["data"]["url"],
+                                  link: endpoint + file_block["data"]["url"],
                                   caption: plain_message
                                 }
                               })
@@ -185,8 +194,26 @@ module MessageApis::Dialog360
         "#{@url}/messages",
         message_params.to_json
       )
+      
+      puts "---###########---"
+
       Rails.logger.info r.body
+
+      puts "---###########---"
+
       r
+    end
+
+    def upload_media(media)
+      #conn = @conn do |f|
+      #  f.request :multipart
+      #  f.request :url_encoded
+      #  f.adapter :net_http # This is what ended up making it work
+      #end
+      
+      #payload = { :file => Faraday::UploadIO.new('...', 'image/jpeg') }
+      
+      #conn.post('/', payload)
     end
 
     def get_profile_for_participant(participant)

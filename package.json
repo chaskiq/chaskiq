@@ -21,7 +21,7 @@
     "@nivo/pie": "^0.79.0",
     "@nivo/tooltip": "^0.79.0",
     "@rails/activestorage": "^6.0.0",
-    "Dante2": "0.5.9",
+    "Dante2": "0.5.11",
     "actioncable": "^5.2.4-1",
     "activestorage": "^5.2.3",
     "add": "^2.0.6",
