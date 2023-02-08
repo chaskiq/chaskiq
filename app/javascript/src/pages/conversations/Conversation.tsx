@@ -591,7 +591,10 @@ function Conversation({
               </span>
             </span>
 
-            <p className="text-md text-center font-bold">
+            <p
+              className="text-md text-center font-bold word-break"
+              style={{ lineBreak: 'anywhere' }}
+            >
               {messageContent.action}{' '}
               {messageContent.data.name || messageContent.data.email}
             </p>
