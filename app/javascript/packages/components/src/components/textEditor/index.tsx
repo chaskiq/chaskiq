@@ -481,7 +481,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
         widgets.push(
           VideoRecorderBlockConfig({
             options: {
-              mediaType: "video/mp4",
+              mediaType: 'video/webm',
               seconds_to_record: 20000,
               upload_handler: this.uploadHandler,
               //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,

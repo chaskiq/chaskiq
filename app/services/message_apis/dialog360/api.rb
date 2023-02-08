@@ -37,7 +37,7 @@ module MessageApis::Dialog360
 
     def register_webhook(app_package, integration)
       data = {
-        url: integration.hook_url #.gsub("http://localhost:3000", "https://chaskiq.sa.ngrok.io")
+        url: integration.hook_url # .gsub("http://localhost:3000", "https://chaskiq.sa.ngrok.io")
       }
 
       response = @conn.post("#{@url}/configs/webhook", data.to_json)
@@ -98,9 +98,7 @@ module MessageApis::Dialog360
 
       errors = params["errors"]
       msg = ""
-      if errors.is_a?(Array)
-        msg = errors.map{|o| "#{o["code"]} #{o["title"]}"}.join("")
-      end
+      msg = errors.map { |o| "#{o['code']} #{o['title']}" }.join if errors.is_a?(Array)
 
       conversation.add_message_event(
         action: "errored: #{msg}",
@@ -194,26 +192,26 @@ module MessageApis::Dialog360
         "#{@url}/messages",
         message_params.to_json
       )
-      
-      puts "---###########---"
+
+      Rails.logger.debug "---###########---"
 
       Rails.logger.info r.body
 
-      puts "---###########---"
+      Rails.logger.debug "---###########---"
 
       r
     end
 
     def upload_media(media)
-      #conn = @conn do |f|
+      # conn = @conn do |f|
       #  f.request :multipart
       #  f.request :url_encoded
       #  f.adapter :net_http # This is what ended up making it work
-      #end
-      
-      #payload = { :file => Faraday::UploadIO.new('...', 'image/jpeg') }
-      
-      #conn.post('/', payload)
+      # end
+
+      # payload = { :file => Faraday::UploadIO.new('...', 'image/jpeg') }
+
+      # conn.post('/', payload)
     end
 
     def get_profile_for_participant(participant)
