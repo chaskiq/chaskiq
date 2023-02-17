@@ -6,5 +6,7 @@ class AuthIdentity < ApplicationRecord
   def self.find_agent_from_token(token)
     json = Auth0WebToken.verify(token)
     AuthIdentity.find_by(uid: json.first["sub"])&.agent
+  rescue StandardError
+    nil
   end
 end
