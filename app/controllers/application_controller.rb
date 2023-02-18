@@ -113,8 +113,10 @@ class ApplicationController < ActionController::Base
   def auth0_resource
     if (token = request.headers["Authorization"].split&.last) && token.present?
       @agent ||= AuthIdentity.find_agent_from_token(token)
-      sign_in(@agent, scope: "agent")
-      @agent
+      if @agent
+        sign_in(@agent, scope: "agent")
+        @agent
+      end
     end
   end
 
