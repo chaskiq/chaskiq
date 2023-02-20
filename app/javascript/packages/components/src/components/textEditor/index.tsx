@@ -13,10 +13,14 @@ import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popover
 
 import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed';
 import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video';
+
 import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/placeholder.js';
 import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
+import { AudioRecorderBlockConfig } from './blocks/audioRecorder';
+
 import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
 import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
+import { FileBlockConfig } from 'Dante2/package/esm/editor/components/blocks/file';
 import {
   LinkDecorator as Link,
   PrismDraftDecorator,
@@ -28,9 +32,7 @@ import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 //import findEntities from "Dante2/package/es/utils/find_entities";
 import { ThemeProvider } from 'emotion-theming';
 //import EditorStyles from "Dante2/package/es/styled/base";
-
 import { ImageBlockConfig } from './blocks/image';
-import { FileBlockConfig } from './blocks/fileBlock';
 
 import Prism from 'prismjs';
 //import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
@@ -465,10 +467,21 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
         );
       }
 
+      widgets.push(
+        AudioRecorderBlockConfig({
+          options: {
+            seconds_to_record: 20000,
+            upload_handler: this.uploadHandler,
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+          },
+        })
+      );
+
       if (this.props.allowedEditorFeature('video_recorder')) {
         widgets.push(
           VideoRecorderBlockConfig({
             options: {
+              mediaType: 'video/webm',
               seconds_to_record: 20000,
               upload_handler: this.uploadHandler,
               //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,

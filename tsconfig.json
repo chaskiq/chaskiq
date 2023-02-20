@@ -4,9 +4,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "resolveJsonModule": true,
-    "target": "esnext",
+    "target": "es2020",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -22,7 +25,8 @@
   ],
   "compileOnSave": false,
   "include": [
-    "./app/javascript", 
+    "./app/javascript",
     //"./app/javascript/packages", // let's bypass packages for now
-    "./index.d.ts"]
+    "./index.d.ts"
+  ]
 }

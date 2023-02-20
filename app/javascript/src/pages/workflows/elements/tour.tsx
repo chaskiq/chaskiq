@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'react-flow-renderer';
+import { Handle, Position } from 'reactflow';
 import BaseElement from './base';
 
 export default memo(({ data }: { children: React.ReactChild; data: any }) => {

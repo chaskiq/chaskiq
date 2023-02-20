@@ -12,6 +12,8 @@ import CircularProgress from '@chaskiq/components/src/components/Progress';
 import graphql from '@chaskiq/store/src/graphql/client';
 import { clearSubscriptionState } from '@chaskiq/store/src/actions/paddleSubscription';
 
+import subscriptionPlanListFeatures from '../layout/subscriptionPlanFeatures';
+
 import {
   setCurrentSection,
   setCurrentPage,
@@ -28,6 +30,7 @@ import {
   STRIPE_CUSTOMER_PORTAL,
   STRIPE_SUBSCRIPTION_CREATE_INTENT,
 } from '@chaskiq/store/src/graphql/mutations';
+import Tooltip from 'rc-tooltip';
 
 function Billing({ current_user, dispatch, paddleSubscription, app }) {
   const [plans, setPlans] = React.useState([]);
@@ -926,7 +929,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {Object.keys(I18n.t('subscriptions.features')).map((k) => (
+                {subscriptionPlanListFeatures().map((k) => (
                   <tr
                     key={`mobile-feature-${k}`}
                     className="border-t border-gray-200"
@@ -935,30 +938,16 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                       className="py-5 px-4 text-sm font-normal text-gray-500 dark:text-gray-300  text-left"
                       scope="row"
                     >
-                      {I18n.t(`subscriptions.features.${k}.title`)}
+                      <PlanDescriptor k={k} />
                     </th>
-                    <td className="py-5 pr-4">
-                      {plan.features.find((p) => p.active && p.name === k) && (
-                        <svg
-                          className="ml-auto h-5 w-5 text-green-500"
-                          x-description="Heroicon name: check"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
 
-                      {plan.features.find((p) => p.active && p.name === k) && (
-                        <span className="sr-only">Yes</span>
-                      )}
-                    </td>
+                    {plan.features.find((p) => p.active) && (
+                      <PlanItemDescriptor
+                        plan={plan}
+                        k={k}
+                        key={`feature-${k}-plan-${plan.name}`}
+                      />
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -1001,7 +990,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               {plans.map((o) => (
                 <th
                   key={`plan-${o.id}`}
-                  className="w-1/4 pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left"
+                  className="w-1/4- pb-4 px-6 text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 text-left"
                   scope="col"
                 >
                   {o.name}
@@ -1074,40 +1063,43 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               </th>
             </tr>
 
-            {Object.keys(I18n.t('subscriptions.features')).map((k) => (
-              <tr key={`plan-feature-matrix-${k}`}>
-                <th
-                  className="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
-                  scope="row"
-                >
-                  {I18n.t(`subscriptions.features.${k}.title`)}
-                </th>
-
-                {plans.map((plan) => (
-                  <td
-                    className="py-5 px-6"
-                    key={`feature-${k}-plan-${plan.name}`}
+            {subscriptionPlanListFeatures().map((k) => (
+              <React.Fragment key={`plan-feature-matrix-${k}`}>
+                <tr>
+                  <th
+                    className="py-5 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    scope="row"
                   >
-                    {plan.features.find((o) => o.name === k && o.active) && (
-                      <svg
-                        className="h-5 w-5 text-green-500"
-                        x-description="Heroicon name: check"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    )}
-                    <span className="sr-only">Included in {plan.name}</span>
-                  </td>
-                ))}
-              </tr>
+                    <PlanDescriptor k={k} />
+                  </th>
+
+                  {plans.map((plan) => (
+                    <PlanItemDescriptor
+                      plan={plan}
+                      k={k}
+                      key={`feature-${k}-plan-${plan.name}`}
+                    />
+                  ))}
+                </tr>
+
+                <tr key={`plan-feature-matrix-${k}-exp`}>
+                  <th
+                    className="dark:bg-gray-900 py-2 bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    scope="row"
+                  />
+                  <th
+                    colSpan={4}
+                    className="dark:bg-gray-900 py-2  bg-gray-100 pl-6 pr-6 text-sm font-normal text-gray-500 dark:text-gray-300 text-left"
+                    scope="row"
+                  >
+                    <span
+                      className={'text-xs text-gray-500 dark:text-gray-300'}
+                    >
+                      {I18n.t(`subscriptions.features.${k}.upgrade_message`)}
+                    </span>
+                  </th>
+                </tr>
+              </React.Fragment>
             ))}
           </tbody>
           <tfoot>
@@ -1147,5 +1139,67 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
         </table>
       </div>
     </div>
+  );
+}
+
+function PlanDescriptor({ k }) {
+  return (
+    <div className="flex flex-col">
+      <span className={'text-sm text-gray-900 dark:text-gray-100 font-bold'}>
+        {I18n.t(`subscriptions.features.${k}.title`)}
+      </span>
+      <span className={'hidden text-xxs text-gray-500 dark:text-gray-300'}>
+        {I18n.t(`subscriptions.features.${k}.upgrade_message`)}
+      </span>
+    </div>
+  );
+}
+
+function PlanItemDescriptor({ plan, k }) {
+  const planItem = plan.features.find((o) => o.name === k && o.active);
+  return (
+    <td className="py-5 px-6">
+      {planItem && (
+        <div className="flex flex-col items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 text-green-500 bg-green-200 rounded-full"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+
+          <span className="text-xs uppercase font-bold text-gray-400 dark:text-gray-400">
+            {planItem.count == 'unlimited' ? '∞' : `Up to ${planItem.count}`}
+          </span>
+        </div>
+      )}
+      {!planItem && (
+        <div className="text-gray-300 flex flex-col justify-center items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+      )}
+      <span className="sr-only">Included in {plan.name}</span>
+    </td>
   );
 }

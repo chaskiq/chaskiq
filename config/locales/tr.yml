@@ -110,6 +110,7 @@ tr:
     settings: Settings
     childs:
       conversations: Conversations
+      conversations_new: Compose
       assignment_rules: Assignment Rules
       mailing_campaigns: Mailing Campaigns
       in_app_messages: In App Messages
@@ -174,6 +175,7 @@ tr:
       newest: Newest
       oldest: Oldest
       waiting: Waiting
+      updated: Recently Updated
       priority_first: Priorized
       all: All
       unfiltered: All
@@ -269,6 +271,7 @@ tr:
       disabled: disabled
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: Stats
       settings: Settings

@@ -648,6 +648,7 @@ export const ARTICLE_SETTINGS = `
         langs
         translations
         availableLanguages
+        defaultLang
       }
     }
   }

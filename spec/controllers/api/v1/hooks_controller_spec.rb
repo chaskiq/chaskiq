@@ -1084,6 +1084,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         :message_id
       ).and_return("message_id-1234")
 
+      allow_any_instance_of(Plan).to receive(
+        :enabled?
+      ).and_return(true)
+
       response = send_data(message_notification_params)
       expect(ConversationPart.last.email_message_id).to be == "message_id-1234"
       expect(Conversation.last.subject).to be_present
@@ -1106,6 +1110,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       allow_any_instance_of(Mail::Message).to receive(
         :message_id
       ).and_return("message_id-1234")
+
+      allow_any_instance_of(Plan).to receive(
+        :enabled?
+      ).and_return(true)
 
       response = send_data(message_notification_params)
       expect(ConversationPart.last.email_message_id).to be == "message_id-1234"
@@ -1139,6 +1147,10 @@ RSpec.describe Api::V1::HooksController, type: :controller do
         :message_id
       ).and_return("message_id-1234")
 
+      allow_any_instance_of(Plan).to receive(
+        :enabled?
+      ).and_return(true)
+
       response = send_data(message_notification_params)
 
       conversation_part = ConversationPart.where(messageable_type: "ConversationPartContent").last
@@ -1146,6 +1158,38 @@ RSpec.describe Api::V1::HooksController, type: :controller do
       expect(conversation_part.email_message_id).to be == "message_id-1234"
       expect(conversation_part.messageable.serialized_content).to be_present
       expect(conversation_part.conversation.assignee.id).to be(conversation_part.conversation.app.agents.first.id)
+    end
+
+    it "message with rules" do
+      conds = [
+        { type: "match", value: "or", attribute: "match", comparison: "or" },
+        { type: "string", value: ["AppUser"], attribute: "type", comparison: "in" },
+        { type: "string", value: "Diego", attribute: "name", comparison: "eq" },
+        { type: "string", value: "hello heloooooo", attribute: "message_content", comparison: "contains" }
+      ]
+      app.assignment_rules.create(
+        title: "hello",
+        conditions: conds,
+        agent: app.agents.first
+      )
+
+      allow_any_instance_of(Api::V1::HooksController).to receive(
+        :read_mail_file
+      ).and_return(
+        File.read(Rails.root.to_s + "/spec/fixtures/emails/aws_sample.eml")
+      )
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :recipients
+      ).and_return([app.inbound_email_address])
+
+      allow_any_instance_of(Mail::Message).to receive(
+        :message_id
+      ).and_return("message_id-1234")
+
+      response = send_data(message_notification_params)
+
+      expect(ConversationPart.all).to be_empty
     end
   end
 

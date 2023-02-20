@@ -110,6 +110,7 @@ fr:
     settings: Paramètres
     childs:
       conversations: Conversations
+      conversations_new: Compose
       assignment_rules: Règles de devoir
       mailing_campaigns: Campagnes de mailing
       in_app_messages: Messages dans l'application
@@ -174,6 +175,7 @@ fr:
       newest: Plus récent
       oldest: Plus ancien
       waiting: En attente
+      updated: Recently Updated
       priority_first: Priorisé
       all: Tous
       unfiltered: Tous
@@ -269,6 +271,7 @@ fr:
       disabled: désactivé
       send: envoyé !
       delivering: en cours de livraison
+      sent: envoyé !
     tabs:
       stats: Stats
       settings: Paramètres

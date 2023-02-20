@@ -3,14 +3,11 @@ include ActiveJob::TestHelper
 
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   let(:slack_owner) do
-    {
-    }
+    {}
   end
 
   let(:slack_user) do
-    {
-
-    }
+    {}
   end
 
   ## bot giphy images

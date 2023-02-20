@@ -7,6 +7,7 @@ import sanitizeHtml, {
 } from '@chaskiq/components/src/utils/htmlSanitize';
 import { LabelIcon } from '@chaskiq/components/src/components/icons';
 import Avatar from '@chaskiq/components/src/components/Avatar';
+import { CallIcon } from '@chaskiq/components/src/components/rtc';
 
 export function textColor(color) {
   const lightReturnColor = '#121212';
@@ -84,7 +85,7 @@ export default function ConversationItemList({ app, conversation, isActive }) {
       <div
         className={`${
           isActive ? 'bg-gray-100 dark:bg-gray-900' : ''
-        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-800 dark:hover:bg-gray-900`}
+        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 dark:hover:bg-gray-900`}
       >
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
@@ -107,12 +108,20 @@ export default function ConversationItemList({ app, conversation, isActive }) {
         </div>
         <div className="flex flex-col mt-5 space-y-2">
           <div className="space-x-2 text-sm leading-5 text-gray-500 dark:text-gray-100 flex pb-2 pt-1">
-            {appUser && appUser.id !== participant.id && (
-              <img
-                alt={appUser.displayName}
-                className="rounded-full h-5 w-5 self-start"
-                src={appUser.avatarUrl}
-              />
+            {!message.readAt && appUser?.kind !== 'agent' && (
+              <div className="flex">
+                <span className="w-3 h-3 bg-red-600 border-2 border-white dark:border-gray-800 rounded-full"></span>
+              </div>
+            )}
+
+            {appUser?.kind === 'agent' && (
+              <div className="w-12">
+                <Avatar
+                  src={appUser.avatarUrl}
+                  alt={user.displayName}
+                  size="small"
+                />
+              </div>
             )}
 
             {message.privateNote && (

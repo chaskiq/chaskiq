@@ -10,10 +10,14 @@ class Agents::Auth0Controller < ApplicationController
     # TODO: check the json.sub === id_token.sub
     response = get_user_info(params[:access_token])
 
-    if (agent = Agent.find_by(email: response["email"])) && agent.blank?
+    agent = Agent.find_by(email: response["email"])
+
+    if agent.blank?
       pass_placeholder = SecureRandom.base64(10)
       agent = Agent.new(email: response["email"], password: pass_placeholder, password_confirmation: pass_placeholder)
+      agent.save
     end
+
     agent.auth_identities.find_or_create_by(provider: "auth0", uid: response["sub"])
 
     track_event(agent, "login")

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'react-flow-renderer';
+import { Handle, Position } from 'reactflow';
 
 import styled from '@emotion/styled';
 
@@ -13,14 +13,14 @@ const HandeItem = styled.div`
 export default memo(({ data }: { data: any; children: React.ReactChild }) => {
   return (
     <>
-      {data.ruleType !== 'entry' && (
+      {/*data.ruleType !== 'entry' && (
         <Handle
           type="target"
           position={Position.Left}
           style={{ background: '#555' }}
           onConnect={(params) => console.log('handle onConnect', params)}
         ></Handle>
-      )}
+      )*/}
 
       <li className={'col-span-1 flex shadow-sm rounded-md'}>
         <div
@@ -62,32 +62,32 @@ export default memo(({ data }: { data: any; children: React.ReactChild }) => {
         style={{ top: 10, background: '#555' }}
       >
         <div>
-          <HandeItem>when match</HandeItem>
+          <HandeItem>when matched</HandeItem>
         </div>
       </Handle>
 
-      <Handle
+      {/*<Handle
         type="source"
         position={Position.Right}
-        id="b"
+        id="maybe"
         style={{ bottom: 10, top: 'auto', background: '#555' }}
       >
         <HandeItem
           onClick={() => console.log('epa')}
           onMouseOver={() => console.log('nono')}
         >
-          NO
+          maybe
         </HandeItem>
       </Handle>
 
       <Handle
         type="source"
         position={Position.Right}
-        id="b"
+        id="no"
         style={{ bottom: 30, top: 'auto', background: '#555' }}
       >
         <HandeItem>NO</HandeItem>
-      </Handle>
+        </Handle>*/}
     </>
   );
 });

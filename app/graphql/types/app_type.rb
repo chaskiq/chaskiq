@@ -60,8 +60,7 @@ module Types
     end
 
     def plans
-      object.payment_service.new.get_plans
-      # PaymentServices::Paddle.new.get_plans
+      object.payment_service&.new&.get_plans&.sort_by { |p| p[:pricing] }
     end
 
     field :user_transactions, [Types::JsonType], null: true
@@ -520,7 +519,7 @@ module Types
     end
 
     def contact_search(term:)
-      query_term = :last_name_or_first_name_or_name_or_email_i_cont_any
+      query_term = :last_name_or_first_name_or_name_or_email_or_phone_i_cont_any
       @collection = object.app_users.limit(10).ransack(
         query_term => term
       ).result
@@ -715,7 +714,8 @@ module Types
     def sort_conversations(sort)
       if sort.present?
         s = case sort
-            when "newest" then "updated_at desc"
+            when "updated" then "updated_at desc"
+            when "newest" then "created_at desc"
             when "oldest" then "updated_at asc"
             when "priority_first" then "priority asc, updated_at desc"
             else

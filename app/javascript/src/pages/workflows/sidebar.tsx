@@ -11,8 +11,10 @@ export default function Sidebar() {
       </div>
 
       <div>
-        <ul className="overflow-auto" style={{ height: `calc(100vh - 55px)` }}>
-          <li className="text-md font-medium text-gray-900 pt-4--">Audience</li>
+        <div className="overflow-auto" style={{ height: `calc(100vh - 55px)` }}>
+          <div className="text-md font-medium text-gray-900 pt-4--">
+            Audience
+          </div>
 
           <DefaultNode
             color={'yellow'}
@@ -21,9 +23,9 @@ export default function Sidebar() {
             Rules
           </DefaultNode>
 
-          <li className="text-md font-medium text-gray-900 pt-4--">
+          <div className="text-md font-medium text-gray-900 pt-4--">
             Messages to send
-          </li>
+          </div>
 
           <DefaultNode onDragStart={(event) => onDragStart(event, 'chat')}>
             Chat
@@ -57,16 +59,16 @@ export default function Sidebar() {
 						selector
 					</DefaultNode>*/}
 
-          <li className="text-md font-medium text-gray-900 pt-4--">
+          <div className="text-md font-medium text-gray-900 pt-4--">
             Actions to take
-          </li>
+          </div>
 
           <DefaultNode
             onDragStart={(event) => onDragStart(event, 'selectorNode')}
           >
             selector
           </DefaultNode>
-        </ul>
+        </div>
       </div>
     </aside>
   );
@@ -85,7 +87,7 @@ function DefaultNode({ onDragStart, kind, children, color }: DefaultNodeType) {
   }
 
   return (
-    <li
+    <div
       className={`${kind} flex shadow-sm rounded-md`}
       draggable
       onDragStart={onDragStart}
@@ -100,7 +102,7 @@ function DefaultNode({ onDragStart, kind, children, color }: DefaultNodeType) {
           <a href="#" className="text-gray-900 font-medium hover:text-gray-600">
             {children}
           </a>
-          <li className="text-gray-500">12 Members</li>
+          <div className="text-gray-500">12 Members</div>
         </div>
         <div className="flex-shrink-0 pr-2">
           <button className="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -118,6 +120,6 @@ function DefaultNode({ onDragStart, kind, children, color }: DefaultNodeType) {
           </button>
         </div>
       </div>
-    </li>
+    </div>
   );
 }

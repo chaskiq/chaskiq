@@ -11,6 +11,7 @@ import {
   IntegrationsIcon,
   LabelIcon,
   UpArrow,
+  WriteIcon,
 } from '@chaskiq/components/src/components/icons';
 import I18n from '../../shared/FakeI18n';
 
@@ -238,7 +239,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
   const sortDisabled = isSortDisabled();
 
   return (
-    <div>
+    <div className="space-y-2">
       <div className="mt-4 flex items-center flex-shrink-0 px-4 text-md leading-6 font-bold text-gray-900 dark:text-gray-100">
         <h3 className="font-bold">
           {I18n.t('conversations.menu.conversations')}
@@ -255,10 +256,10 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
           label={I18n.t('conversations.menu.all')}
         />,
         <ListItem
-          key={'unnasigned'}
+          key={'unnxasigned'}
           agent={null}
           count={counts[''] || '0'}
-          active={false}
+          active={conversations.agentId == '0'}
           filterHandler={filterAgent}
           label={I18n.t(`conversations.menu.unassigned`)}
         />,
@@ -266,7 +267,7 @@ function SidebarAgents({ app, dispatch, conversations, current_user }) {
           key={'assigned_to_me'}
           agent={current_user}
           count={counts[current_user?.id] || '0'}
-          active={current_user.id == counts[current_user?.id]}
+          active={conversations.agentId == current_user?.id}
           icon={null}
           filterHandler={filterAgent}
           label={I18n.t(`conversations.menu.assigned_to_me`)}
@@ -454,7 +455,7 @@ function ListItem({
   function toggleFilter() {
     let option = null;
     if (agent) {
-      option = active ? null : agent;
+      option = agent;
     }
     if (label && !agent) {
       option = active ? null : label;
@@ -500,8 +501,12 @@ function ListItem({
         <span
           className="ml-auto inline-block py-0.5 px-3 text-xs 
           leading-4 rounded-full
-          text-gray-600 bg-gray-200 group-hover:bg-gray-200 
-          dark:text-gray-100 dark:bg-gray-800 dark:group-hover:bg-gray-800 
+          text-gray-600 
+          bg-gray-200
+          dark:bg-gray-800
+          group-hover:bg-gray-200
+          dark:group-hover:bg-gray-800 
+          dark:text-gray-100
           group-focus:bg-gray-300 transition ease-in-out duration-150"
         >
           {count}

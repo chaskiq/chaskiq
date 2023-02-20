@@ -38,7 +38,6 @@ import styled from '@emotion/styled';
 import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView'; // './RtcWrapper'
 import TagDialog from '@chaskiq/components/src/components/TagDialog';
 import AppPackagePanel from './appPackagePanel';
-import layoutDefinitions from '../../layout/layoutDefinitions';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
@@ -153,6 +152,7 @@ function Conversation({
   setFixedSidebarOpen,
   isDark,
   history,
+  reconnect,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
@@ -231,6 +231,17 @@ function Conversation({
     }
     setScrolling(false);
   }, [messagesLength]);
+
+  // reconnect strategy
+  React.useEffect(() => {
+    if (reconnect > 0) {
+      dispatch(
+        clearConversation(() => {
+          if (!isNew) getMessages(scrollToLastItem);
+        })
+      );
+    }
+  }, [reconnect]);
 
   function getChannelPackagesForNewConversations() {
     graphql(
@@ -580,7 +591,10 @@ function Conversation({
               </span>
             </span>
 
-            <p className="text-md text-center font-bold">
+            <p
+              className="text-md text-center font-bold word-break"
+              style={{ lineBreak: 'anywhere' }}
+            >
               {messageContent.action}{' '}
               {messageContent.data.name || messageContent.data.email}
             </p>
@@ -609,8 +623,6 @@ function Conversation({
       )
     );
   };
-
-  const layout = layoutDefinitions();
 
   return (
     <BgContainer
@@ -1481,8 +1493,16 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer, theme } =
-    state;
+  const {
+    auth,
+    app,
+    conversation,
+    app_user,
+    current_user,
+    drawer,
+    theme,
+    reconnect,
+  } = state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;
@@ -1499,6 +1519,7 @@ function mapStateToProps(state) {
     drawer,
     isAuthenticated,
     isDark,
+    reconnect,
   };
 }
 

@@ -6,7 +6,7 @@ class Api::V1::Subscriptions::StripeHooksController < ApplicationController
 
     begin
       event = Stripe::Webhook.construct_event(
-        payload, sig_header, ENV["STRIPE_SIGNING_SECRET"]
+        payload, sig_header, ENV.fetch("STRIPE_SIGNING_SECRET", nil)
       )
     rescue JSON::ParserError,
            Stripe::SignatureVerificationError => e

@@ -4,6 +4,10 @@ subscriptions:
       name: "free"
       id: <%= ENV['STRIPE_PLAN_1'] %>
       features:
+        - 
+          name: Agents
+          active: true
+          count: 2
         -
           name: Segments
           active: true
@@ -27,7 +31,7 @@ subscriptions:
           count: unlimited
         - 
           name: Integrations
-          active: true
+          active: false
           count: unlimited
 
         - 
@@ -50,7 +54,7 @@ subscriptions:
           count: unlimited
 
         - name: OauthApplications
-          active: true
+          active: false
           count: unlimited
           
         - name: Articles
@@ -58,10 +62,14 @@ subscriptions:
           count: unlimited
 
         - name: QuickReplies
-          active: true
+          active: false
           count: unlimited
 
         - name: CustomAttributes
+          active: false
+          count: unlimited
+
+        - name: InboundEmails
           active: false
           count: unlimited
 
@@ -69,6 +77,14 @@ subscriptions:
       name: "rookie"
       id: <%= ENV['STRIPE_PLAN_2'] %>
       features:
+        - 
+          name: Agents
+          active: true
+          count: 2
+        - 
+          name: Agents
+          active: true
+          count: 2
         -
           name: Segments
           active: true
@@ -91,7 +107,7 @@ subscriptions:
           count: unlimited
         - 
           name: Integrations
-          active: true
+          active: false
           count: unlimited
         - 
           name: Campaigns
@@ -103,15 +119,15 @@ subscriptions:
           count: unlimited
         - 
           name: UserAutoMessages
-          active: false
+          active: true
           count: unlimited
         - 
           name: OutgoingWebhooks
-          active: true
+          active: false
           count: unlimited
         - 
           name: OauthApplications
-          active: true
+          active: false
           count: unlimited
         - 
           name: Articles
@@ -119,10 +135,14 @@ subscriptions:
           count: unlimited
         - 
           name: QuickReplies
-          active: false
+          active: true
           count: unlimited
         - 
           name: CustomAttributes
+          active: false
+          count: unlimited
+
+        - name: InboundEmails
           active: false
           count: unlimited
     
@@ -130,6 +150,10 @@ subscriptions:
       name: "super"
       id: <%= ENV['STRIPE_PLAN_3'] %>
       features:
+        - 
+          name: Agents
+          active: true
+          count: 10
         -
           name: Segments
           active: true
@@ -186,7 +210,81 @@ subscriptions:
           name: CustomAttributes
           active: true
           count: unlimited
+        - 
+          name: InboundMessages
+          active: true
+          count: unlimited
 
+
+    - 
+      name: "mega"
+      id: <%= ENV['STRIPE_PLAN_4'] %>
+
+      features:
+        - 
+          name: Agents
+          active: true
+          count: 25
+        -
+          name: Segments
+          active: true
+          count: unlimited
+        -
+          name: Leads
+          active: true
+          count: unlimited
+        -
+          name: AppUsers
+          active: true
+          count: unlimited
+        - 
+          name: Conversations
+          active: true
+          count: unlimited
+        - 
+          name: BotTasks
+          active: true
+          count: unlimited
+        - 
+          name: Integrations
+          active: true
+          count: unlimited
+        - 
+          name: Campaigns
+          active: true
+          count: unlimited
+        - 
+          name: Tours
+          active: true
+          count: unlimited
+        - 
+          name: UserAutoMessages
+          active: true
+          count: unlimited
+        - 
+          name: OutgoingWebhooks
+          active: true
+          count: unlimited
+        - 
+          name: OauthApplications
+          active: true
+          count: unlimited
+        - 
+          name: Articles
+          active: true
+          count: unlimited
+        - 
+          name: QuickReplies
+          active: true
+          count: unlimited
+        - 
+          name: CustomAttributes
+          active: true
+          count: unlimited
+        - 
+          name: InboundMessages
+          active: true
+          count: unlimited
 
 
     - 
@@ -375,7 +473,9 @@ subscriptions:
           name: CustomAttributes
           active: true
           count: unlimited
-
-
+        - 
+          name: InboundMessages
+          active: true
+          count: unlimited
 
 

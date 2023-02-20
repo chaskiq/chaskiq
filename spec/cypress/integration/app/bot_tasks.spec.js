@@ -1,7 +1,7 @@
 
 import {
   login
-} from '../../support/utils'
+} from '../../support'
 
 describe('Bot Tasks', function () {
   beforeEach(() => {

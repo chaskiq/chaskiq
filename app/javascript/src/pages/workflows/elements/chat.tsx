@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'react-flow-renderer';
+import { Handle, Position } from 'reactflow';
 import BaseElement from './base';
 export default memo(({ data }: { data: any; children: React.ReactChild }) => {
   return (
@@ -19,7 +19,7 @@ export default memo(({ data }: { data: any; children: React.ReactChild }) => {
         id="a"
         style={{ top: 10, background: '#555' }}
       >
-        <div>YES</div>
+        <div>When delivered</div>
       </Handle>
 
       <Handle

@@ -110,6 +110,7 @@ it:
     settings: Impostazioni
     childs:
       conversations: Conversazioni
+      conversations_new: Compose
       assignment_rules: Regole di assegnazione
       mailing_campaigns: Campagne mail
       in_app_messages: Messaggi In App
@@ -174,6 +175,7 @@ it:
       newest: Più Recenti
       oldest: Più Vecchi
       waiting: In Attesa
+      updated: Recently Updated
       priority_first: Priorizzato
       all: Tutti
       unfiltered: Tutti
@@ -269,6 +271,7 @@ it:
       disabled: disabilitato
       send: inviata
       delivering: In fase di invio
+      sent: inviata
     tabs:
       stats: Statistiche
       settings: Impostazioni

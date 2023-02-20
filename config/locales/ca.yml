@@ -110,6 +110,7 @@ ca:
     settings: Configuració
     childs:
       conversations: Converses
+      conversations_new: Compose
       assignment_rules: Regles d'asignació
       mailing_campaigns: Campanyes de correo
       in_app_messages: Missatge d'aplicació
@@ -174,6 +175,7 @@ ca:
       newest: Més recent
       oldest: Més antic
       waiting: Esperant
+      updated: Recently Updated
       priority_first: Prioritzat
       all: Tots
       unfiltered: Tots
@@ -269,6 +271,7 @@ ca:
       disabled: inhabilitat
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: Estadístiques
       settings: Configuració

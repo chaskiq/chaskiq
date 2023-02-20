@@ -99,5 +99,28 @@ RSpec.describe ConversationPart, type: :model do
 
       expect(AppIdentity.new(app.key).outgoing_messages.get).to be_present
     end
+
+    it "read does not touch conversations" do
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+      conversation.add_message(from: app.agents.first, message: { html_content: "foo", serialized_content: serialized })
+      u1 = conversation.reload.updated_at
+      conversation.messages.first.read!
+      expect(conversation.reload.updated_at).to be == u1
+
+      conversation.messages.first.save
+      expect(conversation.reload.updated_at).to_not be == u1
+    end
+
+    it "a save does touch conversations" do
+      serialized = "{\"blocks\":
+      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+      \"entityMap\":{}}"
+      conversation.add_message(from: app.agents.first, message: { html_content: "foo", serialized_content: serialized })
+      u1 = conversation.reload.updated_at
+      conversation.messages.first.save
+      expect(conversation.reload.updated_at).to_not be == u1
+    end
   end
 end

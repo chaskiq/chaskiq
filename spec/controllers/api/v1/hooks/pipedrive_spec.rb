@@ -3,8 +3,7 @@ include ActiveJob::TestHelper
 
 RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
   def block_actions(id:, message_data: {}, conversation: nil)
-    payload = {
-    }
+    payload = {}
 
     {
       "payload" => payload.to_json,

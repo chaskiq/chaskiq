@@ -24,11 +24,12 @@ esbuild
     .build({
         logLevel: 'info',
         target: 'es2020',
-        sourcemap: watch,
+        sourcemap: true,
         define: { 
             'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
             'global': 'window',
             'process.env.NODE_DEBUG': '""',
+            'define': 'undefined'
         },
         platform: 'browser',
         inject: ['./esbuild/process-shim.js'],

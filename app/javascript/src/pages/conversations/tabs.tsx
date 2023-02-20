@@ -23,7 +23,7 @@ export default function SimpleTabs({ tabs, buttons }) {
 
   return (
     <div className="w-full">
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 dark:border-gray-700">
         <nav className="-mb-px flex items-center">
           {tabs.map((o, i) => renderItem(o, i))}
           {buttons && buttons()}

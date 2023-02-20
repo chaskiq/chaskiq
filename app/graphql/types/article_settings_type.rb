@@ -22,6 +22,11 @@ module Types
     field :translations, [Types::JsonType], null: true
 
     field :available_languages, [Types::JsonType], null: true
+    field :default_lang, String, null: true
+
+    def default_lang
+      object.default_lang || "en"
+    end
 
     def available_languages
       object.translations.map(&:locale)

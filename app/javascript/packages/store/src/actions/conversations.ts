@@ -158,7 +158,7 @@ function dispatchDataUpate(data) {
 export default function reducer(
   state = {
     meta: {},
-    sort: 'newest',
+    sort: 'updated',
     filter: 'opened',
     loading: false,
     collection: [],

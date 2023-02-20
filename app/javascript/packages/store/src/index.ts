@@ -24,6 +24,7 @@ import drawer from './actions/drawer';
 import theme from './actions/theme';
 import imageZoom from './actions/imageZoom';
 import notifications from './actions/notifications';
+import reconnect from './actions/reconnection';
 
 import paddleSubscription from './actions/paddleSubscription';
 
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
   fixedSlider,
   notifications,
   error_code,
+  reconnect,
 });
 
 const middlewares = [thunkMiddleware]; //, routerMiddleware(history)]

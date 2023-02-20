@@ -29,6 +29,7 @@ import UpgradePage from './UpgradePage';
 import CampaignHome from './campaigns/home';
 import Progress from '@chaskiq/components/src/components/Progress';
 import UserSlide from '@chaskiq/components/src/components/UserSlide';
+import Connectivity from '@chaskiq/components/src/components/connectivity';
 
 import { toggleDrawer } from '@chaskiq/store/src/actions/drawer';
 import { getCurrentUser } from '@chaskiq/store/src/actions/current_user';
@@ -57,6 +58,7 @@ import {
 import logo from '../images/logo.png';
 import layoutDefinitions from '../layout/layoutDefinitions';
 import { MainMenuHorizontal } from '../layout/mainMenu';
+import { setReconnection } from '@chaskiq/store/src/actions/reconnection';
 declare global {
   interface Window {
     chaskiq_cable_url: any;
@@ -80,6 +82,7 @@ function AppContainer({
   const CableApp = React.useRef(createSubscription(match, accessToken));
 
   const [_subscribed, setSubscribed] = React.useState(null);
+  const [reconnectTs, setReconnectTs] = React.useState(0);
 
   React.useEffect(() => {
     dispatch(getCurrentUser());
@@ -139,6 +142,11 @@ function AppContainer({
     });
   }
 
+  function reconnectHandler() {
+    // console.log("RECONNECT HERE")
+    dispatch(setReconnection());
+  }
+
   const layout = layoutDefinitions();
 
   return (
@@ -156,6 +164,8 @@ function AppContainer({
         className={` m-generalTop h-generalHeight flex overflow-hidden bg-white dark:bg-gray-800 dark:text-white`}
       >
         {app && <Sidebar />}
+
+        <Connectivity onReconnect={reconnectHandler} />
 
         {drawer.open && (
           <div

@@ -1,7 +1,7 @@
 import {
   translations,
   getIframeBody
-} from '../../support/utils'
+} from '../../support'
 
 function addHomeApp (namespace, definitions) {
   cy.appEval(`App.last.update(

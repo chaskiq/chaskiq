@@ -110,6 +110,7 @@ zh-CN:
     settings: 设置
     childs:
       conversations: 会话
+      conversations_new: Compose
       assignment_rules: 作业规则
       mailing_campaigns: 邮件营销活动
       in_app_messages: 应用内消息
@@ -174,6 +175,7 @@ zh-CN:
       newest: 最新的
       oldest: 最早的
       waiting: 等待
+      updated: Recently Updated
       priority_first: 已优先处理
       all: 全部
       unfiltered: 全部
@@ -269,6 +271,7 @@ zh-CN:
       disabled: 关闭
       send: sent
       delivering: delivering
+      sent: sent
     tabs:
       stats: 统计
       settings: 设置

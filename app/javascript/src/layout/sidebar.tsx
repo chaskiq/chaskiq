@@ -27,6 +27,7 @@ import {
   ChartsIcons,
   LabIcon,
   KeyIcon,
+  WriteIcon,
 } from '@chaskiq/components/src/components/icons';
 
 import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
@@ -219,6 +220,14 @@ function Sidebar({
       allowed: allowedAccessTo(app, 'conversations'),
       children: [
         {
+          id: 'NewConversation',
+          label: I18n.t('navigator.childs.conversations_new'),
+          icon: <WriteIcon />,
+          url: `/apps/${app.key}/conversations/new`,
+          active: false,
+          allowed: allowedAccessTo(app, 'conversations'),
+        },
+        {
           id: 'Conversations',
           label: I18n.t('navigator.childs.conversations'),
           icon: <ConversationChatIcon />,
@@ -288,7 +297,7 @@ function Sidebar({
           icon: <LabIcon />,
           url: `${appid}/workflows`,
           active: isActivePage('workflows'),
-          allowed: false, //allowedAccessTo(app, 'workflows'),
+          allowed: true, //allowedAccessTo(app, 'workflows'),
         },
       ],
     },

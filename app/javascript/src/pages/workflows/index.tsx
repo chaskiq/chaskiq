@@ -1,16 +1,17 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReactFlow, {
-  Background,
-  Controls,
-  ReactFlowProvider,
-  removeElements,
   addEdge,
-  ArrowHeadType,
-  BackgroundVariant,
-} from 'react-flow-renderer';
+  MiniMap,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  ReactFlowProvider,
+} from 'reactflow';
 
-import Slide from '@chaskiq/components/src/components/Slide';
-import Sidebar from './sidebar';
+import { MarkerType, Position } from 'reactflow';
+import ButtonEdge from './edges/buttonEdge';
+import 'reactflow/dist/style.css';
 
 import ColorSelectorNode from './con';
 import Rules from './elements/rules';
@@ -22,6 +23,118 @@ import Tour from './elements/tour';
 import Banner from './elements/banner';
 import CustomEdge from './edges/customEdge';
 import EditorRenderer from './editor/editor';
+import Sidebar from './sidebar';
+import Slide from '@chaskiq/components/src/components/Slide';
+
+const initialNodes = [
+  {
+    id: '1',
+    type: 'rules',
+    data: { label: 'entry rule', ruleType: 'entry', predicates: [] },
+    position: { x: 250, y: 0 },
+  },
+  /*{
+    id: '2',
+    //type: 'rules',
+    data: { label: 'entry rule', ruleType: 'entry', predicates: [] },
+    position: { x: 100, y: 100 },
+  },
+  {
+    id: '3',
+    type: 'output',
+    data: {
+      label: 'Output Node',
+    },
+    position: { x: 400, y: 100 },
+  },
+  {
+    id: '4',
+    //type: 'custom',
+    position: { x: 100, y: 200 },
+    data: {
+      selects: {
+        'handle-0': 'smoothstep',
+        'handle-1': 'smoothstep',
+      },
+    },
+  },
+  {
+    id: '5',
+    type: 'output',
+    data: {
+      label: 'custom style',
+    },
+    className: 'circle',
+    style: {
+      background: '#2B6CB0',
+      color: 'white',
+    },
+    position: { x: 400, y: 200 },
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+  },
+  {
+    id: '6',
+    type: 'output',
+    style: {
+      background: '#63B3ED',
+      color: 'white',
+      width: 100,
+    },
+    data: {
+      label: 'Node',
+    },
+    position: { x: 400, y: 325 },
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+  },
+  {
+    id: '7',
+    type: 'default',
+    className: 'annotation',
+    data: {
+      label: (
+        <>
+          On the bottom left you see the <strong>Controls</strong> and the bottom right the{' '}
+          <strong>MiniMap</strong>. This is also just a node 🥳
+        </>
+      ),
+    },
+    draggable: false,
+    selectable: false,
+    position: { x: 150, y: 400 },
+  },*/
+];
+
+const initialEdges = [
+  //{ id: 'e1-2', source: '1', target: '2', type: 'buttonedge'}, //label: 'this is an edge label' },
+  //{ id: 'e1-3', source: '1', target: '3', type: 'buttonedge', animated: true },
+  /*{
+    id: 'e4-5',
+    source: '4',
+    target: '5',
+    sourceHandle: 'handle-0',
+    data: {
+      selectIndex: 0,
+    },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+  },
+  {
+    id: 'e4-6',
+    source: '4',
+    target: '6',
+    type: 'smoothstep',
+    sourceHandle: 'handle-1',
+    data: {
+      selectIndex: 1,
+    },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+  },*/
+];
 
 const nodeTypes = {
   selectorNode: ColorSelectorNode,
@@ -36,119 +149,72 @@ const nodeTypes = {
 
 const edgeTypes = {
   custom: CustomEdge,
+  buttonedge: ButtonEdge,
 };
 
-const getNodeId = () => `randomnode_${+new Date()}`;
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+const minimapStyle = {
+  height: 120,
+};
 
-function Workflows() {
-  const reactFlowWrapper = useRef(null);
+const OverviewFlow = () => {
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const initialElements = [
-    {
-      id: '1',
-      type: 'input',
-      data: { label: 'Node 1' },
-      position: { x: 250, y: 5 },
-    },
-    // { id: '11', type: 'selectorNode', data: { label: 'Node 1' }, position: { x: 250, y: 50 } },
-    {
-      id: '13',
-      type: 'rules',
-      data: { label: 'entry rule', ruleType: 'entry', predicates: [] },
-      position: { x: 250, y: 150 },
-    },
+  const onConnect2 = useCallback((params) => {
+    console.log('connecting', params);
+    setEdges((eds) => addEdge(params, eds));
+  }, []);
 
-    // you can also pass a React Node as a label
-    {
-      id: '2',
-      data: { label: <div>Node 2</div> },
-      position: { x: 100, y: 100 },
-    },
+  const onConnect = useCallback(
+    (params) =>
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...params,
+            type: 'buttonedge',
+            label: 'olii',
+            data: { text: 'custom edge' },
+          },
+          eds
+        )
+      ),
+    []
+  );
 
-    {
-      id: 'e5-8',
-      source: '1',
-      target: '13',
-      type: 'custom',
-      data: { text: 'custom edge' },
-      arrowHeadType: ArrowHeadType.ArrowClosed,
-    },
-
-    {
-      id: 'e1-2',
-      label: 'smoothstep edge',
-      type: 'smoothstep',
-      source: '1',
-      target: '2',
-      sourceHandle: 'a',
-      animated: true,
-    },
-    // { id: 'e1-3', type: 'smoothstep', source: '11', target: '2', animated: true }
-  ];
-
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
-
-  const [elements, setElements] = useState(initialElements);
   const [open, setOpen] = useState(false);
-
-  const onElementsRemove = (elementsToRemove) =>
-    //@ts-ignore
-    setElements((els) => removeElements(elementsToRemove, els));
-  //@ts-ignore
-  const onConnect = (params) => setElements((els) => addEdge(params, els));
-
   const [currentEntry, setCurrentEntry] = useState(null);
-
-  const onLoad = (_reactFlowInstance) => {
-    console.log('flow loaded:', _reactFlowInstance);
-    _reactFlowInstance.fitView();
-    setReactFlowInstance(_reactFlowInstance);
-  };
-
-  const onAdd = useCallback(() => {
-    const newNode = {
-      id: getNodeId(),
-      data: { label: 'Added node' },
-      position: {
-        x: Math.random() * window.innerWidth - 100,
-        y: Math.random() * window.innerHeight,
-      },
-    };
-    //@ts-ignore
-    setElements((els) => els.concat(newNode));
-  }, [setElements]);
-
-  const onDragOver = (event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
-  };
-  const onDrop = (event) => {
-    event.preventDefault();
-    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData('application/reactflow');
-    const position = reactFlowInstance.project({
-      x: event.clientX - reactFlowBounds.left,
-      y: event.clientY - reactFlowBounds.top,
-    });
-    const newNode = {
-      id: getId(),
-      type,
-      position,
-      data: { label: `${type} node` },
-    };
-    setElements((es) => es.concat(newNode));
-  };
-
-  function onClose() {
-    setOpen(false);
-    setCurrentEntry(false);
-  }
+  const reactFlowWrapper = React.useRef(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
   React.useEffect(() => {
     if (currentEntry) setOpen(true);
   }, [currentEntry]);
+
+  React.useEffect(() => {
+    if (!open) setCurrentEntry(false);
+  }, [open]);
+
+  function onInit(reactFlowInstance) {
+    console.log('flow loaded:', reactFlowInstance);
+    reactFlowInstance.fitView();
+    setReactFlowInstance(reactFlowInstance);
+  }
+
+  function onClose() {
+    setOpen(false);
+  }
+
+  function updateElements(element) {
+    // find the index of object from array that you want to update
+    const objIndex = nodes.findIndex((obj) => obj.id === element.id);
+    // make final new array of objects by combining updated object.
+    const updatedProjects = [
+      ...nodes.slice(0, objIndex),
+      element,
+      ...nodes.slice(objIndex + 1),
+    ];
+    setNodes(updatedProjects);
+  }
 
   const onElementClick = (event, element) => {
     console.log(element.type);
@@ -167,65 +233,76 @@ function Workflows() {
     }
   };
 
-  function updateElements(element) {
-    // find the index of object from array that you want to update
-    const objIndex = elements.findIndex((obj) => obj.id === element.id);
-    // make final new array of objects by combining updated object.
-    const updatedProjects = [
-      ...elements.slice(0, objIndex),
-      element,
-      ...elements.slice(objIndex + 1),
-    ];
-    setElements(updatedProjects);
-  }
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }, []);
+
+  let id = 0;
+  const getId = () => `dndnode_${id++}`;
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+      const type = event.dataTransfer.getData('application/reactflow');
+
+      // check if the dropped element is valid
+      if (typeof type === 'undefined' || !type) {
+        return;
+      }
+
+      const position = reactFlowInstance.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
+      const newNode = {
+        id: getId(),
+        type,
+        position,
+        data: { label: `${type} node` },
+      };
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance]
+  );
 
   return (
-    <div>
-      {/*
-        <div className="save__controls">
-        <button onClick={onAdd}>add node</button>
-        </div>
-      */}
-
+    <ReactFlowProvider>
       <Slide title={'s'} open={open} onClose={onClose}>
         {currentEntry && (
           <EditorRenderer data={currentEntry} update={updateElements} />
         )}
       </Slide>
 
-      <ReactFlowProvider>
-        <div className="flex">
-          <div
-            className="w-3/4 h-screen reactflow-wrapper"
-            ref={reactFlowWrapper}
+      <div className="flex">
+        <div className="flex-grow" ref={reactFlowWrapper}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onInit={onInit}
+            fitView
+            onNodeClick={true && onElementClick}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            //attributionPosition="top-right"
+            edgeTypes={edgeTypes}
+            nodeTypes={nodeTypes}
           >
-            <ReactFlow
-              elements={elements}
-              onElementsRemove={onElementsRemove}
-              onConnect={onConnect}
-              nodeTypes={nodeTypes}
-              onElementClick={true && onElementClick}
-              onLoad={onLoad}
-              snapToGrid={true}
-              snapGrid={[15, 15]}
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-              edgeTypes={edgeTypes}
-            >
-              <Background
-                className="bg-gray-50"
-                variant={BackgroundVariant.Dots}
-                gap={12}
-                size={0.6}
-              />
-              <Controls style={{ bottom: 60 }} />
-            </ReactFlow>
-          </div>
-          <Sidebar />
+            <MiniMap style={minimapStyle} zoomable pannable />
+            <Controls />
+            <Background color="#aaa" gap={16} />
+          </ReactFlow>
         </div>
-      </ReactFlowProvider>
-    </div>
+        <Sidebar />
+      </div>
+    </ReactFlowProvider>
   );
-}
+};
 
-export default Workflows;
+export default OverviewFlow;
