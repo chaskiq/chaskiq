@@ -48,7 +48,9 @@ function App() {
                       clientId={auth0ClientId}
                       redirectUri={window.location.origin}
                       audience={`https://${auth0Domain}/api/v2/`}
-                      scope="profile read:current_user update:current_user_metadata"
+                      scope="profile read:current_user update:current_user_metadata offline_access"
+                      useRefreshTokens={true}
+                      cacheLocation="localstorage"
                     >
                       <AppRouter {...props} />
                     </Auth0Provider>

@@ -449,7 +449,7 @@ class AppPackagesCatalog
       {
         name: "Cal",
         tag_list: ["editor"],
-        capability_list: ["conversations"],
+        capability_list: %w[conversations bots],
         description: "cal.com integration",
         icon: "https://logo.clearbit.com/cal.com",
         state: "enabled",
@@ -458,6 +458,13 @@ class AppPackagesCatalog
             name: "api_key",
             type: "string",
             required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "key",
+            type: "string",
+            label: "Optional for license key",
+            required: false,
             grid: { xs: "w-full", sm: "w-full" }
           },
           {

@@ -32,20 +32,31 @@ const Auth0Login = ({ dispatch, domain, currentUser, loading }) => {
       try {
         const accessToken = await getAccessTokenSilently({
           audience: `https://${domain}/api/v2/`,
-          scope: 'read:current_user',
+          scope: 'read:current_user offline_access',
+          ignoreCache: true,
+          detailedResponse: false,
         });
 
-        console.log(accessToken, user);
+        let refreshToken = null;
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key.includes('auth0')) {
+            refreshToken = JSON.parse(localStorage.getItem(key))?.body
+              ?.refresh_token;
+          }
+        }
+
+        // console.log(accessToken, user);
 
         if (!user) {
-          console.log('no suer');
+          console.log('no user');
           return;
         }
 
         dispatch(startAuthentication());
 
         dispatch(
-          authenticateFromAuth0(accessToken, () => {
+          authenticateFromAuth0(accessToken, refreshToken, () => {
             console.log('LOGGED IN!');
             dispatch(getCurrentUser());
           })

@@ -4,6 +4,13 @@ module MessageApis::Cal
     # Sent when an app has been inserted into a conversation, message or the home screen, so that you can render the app.
     def self.initialize_hook(params)
       button = {}
+
+      hidden = {
+        id: "event_type",
+        value: params[:ctx]["values"]["event_type"]["title"],
+        type: "hidden"
+      }
+
       button.merge!({
                       name: "book-meeting",
                       label: "schedule meeting",
@@ -23,7 +30,8 @@ module MessageApis::Cal
           style: "header",
           align: "center"
         },
-        button
+        button,
+        hidden
       ]
 
       {
@@ -123,6 +131,7 @@ module MessageApis::Cal
 
     def self.sheet_view(params)
       @user = params[:user]
+      @user.reload
       # @url = params.dig(:values, :url)
       # @conversation_key = params[:conversation_id]
       # @message_id = params[:message_id]
@@ -131,7 +140,12 @@ module MessageApis::Cal
 
       @message = ConversationPart.find_by(key: params[:message_key])
 
-      event_type = @message.message.data["event_type"]["title"]
+      event_type = if @message.message.data.present?
+                     @message.message.data.dig("event_type", "title")
+                   elsif ((t = @message.message.blocks["schema"].find { |o| o["id"] == "event_type" })) && t.present?
+                     t["value"]
+                   end
+
       calendar_name = params["package"].settings["calendar_name"]
       @cal_link = "#{calendar_name}/#{event_type}"
 
