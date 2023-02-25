@@ -12,6 +12,7 @@ module MessageApis::Cal
     def initialize(config:)
       @api_token = config["api_key"]
       @base_url = config["url"].presence || "https://api.cal.com/api/v1"
+      @key = config["key"]
       @package = config[:package]
 
       @conn = Faraday.new request: {
@@ -40,7 +41,8 @@ module MessageApis::Cal
     end
 
     def url(url)
-      "#{@base_url}#{url}?apiKey=#{@api_token}"
+      key_part = "&key=#{@key}"
+      "#{@base_url}#{url}?apiKey=#{@api_token}#{key_part}"
     end
 
     def trigger(event); end

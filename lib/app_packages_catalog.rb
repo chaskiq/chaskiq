@@ -461,6 +461,13 @@ class AppPackagesCatalog
             grid: { xs: "w-full", sm: "w-full" }
           },
           {
+            name: "key",
+            type: "string",
+            label: "Optional for license key",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
             name: "calendar_name",
             type: "string",
             hint: "which calendar to point, type \"mike\" for cal.com/mike ",
