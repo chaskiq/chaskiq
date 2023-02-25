@@ -55,7 +55,7 @@ export function authenticate(email, password, cb) {
 }
 
 // Auth0 Action Creators
-export function authenticateFromAuth0(accessToken, cb) {
+export function authenticateFromAuth0(accessToken, refreshToken, cb) {
   return (dispatch, getState) => {
     //if (getState().auth.loading) return;
 
@@ -72,6 +72,7 @@ export function authenticateFromAuth0(accessToken, cb) {
       data: {
         authenticity_token: crsfToken,
         access_token: accessToken,
+        refresh_token: refreshToken,
       },
     })
       .then((response) => {
