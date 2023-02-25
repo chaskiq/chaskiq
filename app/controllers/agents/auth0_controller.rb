@@ -24,7 +24,7 @@ class Agents::Auth0Controller < ApplicationController
 
     render json: {
       access_token: params[:access_token],
-      refresh_token: nil
+      refresh_token: params[:refresh_token]
     }
   end
 
