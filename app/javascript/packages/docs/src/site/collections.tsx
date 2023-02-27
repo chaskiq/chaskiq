@@ -53,11 +53,7 @@ export default function Collections({ lang, subdomain }) {
           <div className="m-4" key={card.id}>
             <Card
               title={
-                <Link
-                  className={'hover:underline'}
-                  color={'primary'}
-                  to={`${lang}/collections/${card.slug}`}
-                >
+                <div>
                   {card.icon && (
                     <div className="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
                       <img src={card.icon} />
@@ -65,9 +61,10 @@ export default function Collections({ lang, subdomain }) {
                   )}
 
                   <p className="mt-2 text-base">{translation(card.title)}</p>
-                </Link>
+                </div>
               }
               description={truncateOnWord(card.description, 120)}
+              url={`${lang}/collections/${card.slug}`}
             ></Card>
 
             {/* <Card className={classes.card}>

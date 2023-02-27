@@ -150,6 +150,7 @@ export default function CollectionsWithSections({ match, lang, subdomain }) {
               {article.description}
             </p>
           }
+          url={`/${lang}/articles/${article.slug}`}
         />
       </ListItem>
     );

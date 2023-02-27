@@ -137,6 +137,7 @@ function App({ dispatch, loading }) {
                         }
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}
                         description={a.tagline}
+                        url={`/apps/${a.key}`}
                       />
                     </div>
                   ))}
