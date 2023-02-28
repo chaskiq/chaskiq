@@ -68,7 +68,7 @@ module MessageApis::Cal
       end
 
       event_types = ctx[:package].message_api_klass.event_types.filter { |o| !o["hidden"] }
-      # Rails.logger.debug event_types
+
       {
         kind: "configure",
         definitions: [
@@ -149,6 +149,8 @@ module MessageApis::Cal
       calendar_name = params["package"].settings["calendar_name"]
       @cal_link = "#{calendar_name}/#{event_type}"
 
+      @cal_domain = params["package"].settings["domain_url"].presence || "https://cal.com"
+
       template = ERB.new <<~SHEET_VIEW
         <html lang="en">
           <head>
@@ -189,8 +191,8 @@ module MessageApis::Cal
                   }
                   p(cal, ar);
                 };
-              })(window, "https://cal.com/embed.js", "init");
-              Cal("init")
+              })(window, "#{@cal_domain}/embed/embed.js", "init");
+              Cal("init", {origin: "#{@cal_domain}"})
             </script>
           </head>
 
@@ -208,7 +210,7 @@ module MessageApis::Cal
                     email: "#{@user&.email}", // Prefill Email
                     // notes: "Chaskiq Meeting", // Prefill Notes
                     // guests: ["janedoe@gmail.com", "test@gmail.com"], // Prefill Guests
-                    theme: "light", // "dark" or "light" theme
+                    theme: "light", // "dark" or "light" theme,
                   },
                   //metadata: {
                   //  bb: 123,

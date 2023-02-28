@@ -11,9 +11,10 @@ module MessageApis::Cal
 
     def initialize(config:)
       @api_token = config["api_key"]
-      @base_url = config["url"].presence || "https://api.cal.com/api/v1"
+      @base_url = "https://api.cal.com/api/v1"
       @key = config["key"]
       @package = config[:package]
+      @domain_url = config["domain_url"].presence
 
       @conn = Faraday.new request: {
         params_encoder: Faraday::FlatParamsEncoder

@@ -475,9 +475,9 @@ class AppPackagesCatalog
             grid: { xs: "w-full", sm: "w-full" }
           },
           {
-            name: "url",
+            name: "domain_url",
             type: "string",
-            hint: "defaults to cal.com api",
+            hint: "instance domain url for embed defaults to cal.com",
             required: false,
             grid: { xs: "w-full", sm: "w-full" }
           }
