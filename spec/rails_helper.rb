@@ -40,6 +40,8 @@ require "database_cleaner/active_record"
 
 # DatabaseCleaner.strategy = :truncation
 
+# include ActiveSupport::Testing::TaggedLogging
+
 RSpec.configure do |config|
   # https://github.com/rspec/rspec-rails/issues/2410
   config.include ActiveSupport::Testing::Assertions

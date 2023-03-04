@@ -84,8 +84,11 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       # )
 
       @pkg = app.app_package_integrations.create(
-        api_secret: "sk-xxx",
-        app_package: app_package
+        app_package: app_package,
+        settings: {
+          main_prompt: "system prompt",
+          api_secret: "sk-xxx"
+        }
       )
     end
 
@@ -93,7 +96,8 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       it "receive message" do
         conversation.conversation_channels.create({
                                                     provider: "open_ai",
-                                                    provider_channel_id: conversation.id
+                                                    provider_channel_id: conversation.id,
+                                                    data: { prompt: "foofof" }
                                                   })
 
         channel = conversation.conversation_channels.find_by(provider: "open_ai")
@@ -111,7 +115,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         ).to receive(
           :get_gpt_response
         ).and_return(
-          { text: "yay", id: 1 }
+          { "id" => "xx", "choices" => [{ "message" => { "content" => "bla bla bla" } }] }
         )
 
         perform_enqueued_jobs do
@@ -125,8 +129,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         end
 
         expect(conversation.messages.last.authorable).to be_a(Agent)
-
-        expect(conversation.messages.last.messageable.html_content).to be == "yay"
+        expect(conversation.messages.last.messageable.html_content).to be == "bla bla bla"
       end
     end
   end
