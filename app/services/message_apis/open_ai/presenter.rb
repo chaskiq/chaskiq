@@ -4,7 +4,7 @@ module MessageApis::OpenAi
     # Sent when an app has been inserted into a conversation, message or
     # the home screen, so that you can render the app.
     def self.initialize_hook(kind:, ctx:)
-      record = PromptRecord.new(prompt: ctx.dig(:values, :prompt))
+      record = MessageApis::OpenAi::PromptRecord.new(prompt: ctx.dig(:values, :prompt))
       {
         kind: kind,
         # ctx: ctx,
@@ -21,9 +21,13 @@ module MessageApis::OpenAi
         message = ConversationPart.find_by(key: ctx["message_key"])
 
         conversation = message.conversation
+
+        prompt_field = message.message.blocks["schema"].find { |o| o["id"] == "prompt-value" }
+
         conversation.conversation_channels.create({
                                                     provider: "open_ai",
-                                                    provider_channel_id: conversation.id
+                                                    provider_channel_id: conversation.id,
+                                                    data: { prompt: prompt_field["value"] }
                                                   })
 
         return {
@@ -57,16 +61,12 @@ module MessageApis::OpenAi
       label = "epa"
       app = ctx[:package].app
 
-      default_prompt = <<~HEREDOC
-        The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
-        Human: Hello, who are you?
-        AI: I am an AI created by OpenAI. How can I help you today?
-      HEREDOC
+      default_prompt = ctx[:package].settings["main_prompt"]
 
       value = ctx.dig(:values, :prompt)
       value = default_prompt if ctx.dig(:field, :action, :type) != "submit"
 
-      record = PromptRecord.new(prompt: value)
+      record = MessageApis::OpenAi::PromptRecord.new(prompt: value)
       schema = record.default_schema
 
       if ctx.dig(:field, :action, :type) != "submit"
@@ -102,6 +102,101 @@ module MessageApis::OpenAi
     # Sent when a sheet has been submitted. A sheet is an iframe you’ve loaded in the Messenger that is closed and submitted when the Submit Sheets JS method is called.
     def self.sheet_hook(params)
       []
+    end
+  end
+
+  class PromptRecord
+    include ActiveModel::Model
+    include ActiveModel::Validations
+    attr_accessor :prompt
+
+    def initialize(prompt:)
+      self.prompt = prompt
+    end
+
+    def default_schema
+      [
+        { type: "text", text: "Open AI ChatGPT", style: "header" },
+        { type: "text", text: "Configure your bot", style: "muted" },
+        { type: "textarea",
+          id: "prompt",
+          name: "prompt",
+          label: "System prompt",
+          placeholder: "Enter prompt here...",
+          value: send(:prompt),
+          errors: errors[:prompt]&.uniq&.join(", ") },
+        {
+          type: "button",
+          id: "add-prompt",
+          variant: "outlined",
+          size: "small",
+          label: "save prompt",
+          action: {
+            type: "submit"
+          }
+        }
+      ]
+    end
+
+    def error_schema
+      [
+        { type: "text", text: "This is a header", style: "header" },
+        { type: "text", text: "This is a header", style: "muted" },
+        { type: "textarea",
+          id: "textarea-3",
+          name: "textarea-3",
+          label: "Error",
+          placeholder: "Enter text here...",
+          value: send(:prompt),
+          errors: errors[:prompt]&.uniq&.join(", ") },
+        {
+          type: "button",
+          id: "add-prompt",
+          variant: "outlined",
+          size: "small",
+          label: "save prompt",
+          action: {
+            type: "submit"
+          }
+        }
+      ]
+    end
+
+    def schema
+      [
+        { type: "text", text: "This is a header", style: "header" },
+        { type: "text", text: "This is a header", style: "muted" }
+      ]
+    end
+
+    def success_schema
+      [
+        { type: "text", text: "Open AI conversation", style: "header" },
+        { type: "text", text: "you are going to start a conversation with GPT-3 bot", style: "muted" },
+        { type: "hidden", value: send(:prompt), id: "prompt-value" },
+        {
+          type: "button",
+          id: "prompt-ok",
+          variant: "success",
+          align: "center",
+          size: "medium",
+          label: "Start chat",
+          action: {
+            type: "submit"
+          }
+        },
+        {
+          type: "button",
+          id: "prompt-no",
+          variant: "link",
+          size: "medium",
+          align: "center",
+          label: "Cancel",
+          action: {
+            type: "submit"
+          }
+        }
+      ]
     end
   end
 end

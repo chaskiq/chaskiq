@@ -4,7 +4,7 @@ module MessageApis::OpenAi
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
 
-    BASE_URL = "https://api.openai.com/v1"
+    BASE_URL = "https://api.openai.com"
     PROVIDER = "openai"
 
     attr_accessor :url, :api_secret, :conn
@@ -12,7 +12,7 @@ module MessageApis::OpenAi
     def initialize(config:)
       @api_secret = config["api_secret"]
 
-      @url = "#{BASE_URL}/engines/davinci/completions"
+      @url = "#{BASE_URL}/v1/chat/completions"
 
       @conn = Faraday.new(
         request: {
@@ -71,52 +71,39 @@ module MessageApis::OpenAi
     end
 
     def notify_message(conversation:, part:, channel:)
-      return if conversation.conversation_channels.blank?
+      gpt_channel = conversation.conversation_channels.find_by(provider: "open_ai")
+      return if gpt_channel.blank?
       return unless part.messageable.is_a?(ConversationPartContent)
       return true if locked_for_channel?(conversation, part)
       return if part.conversation_part_channel_sources.where(provider: "open_ai").any?
 
-      Rails.logger.info "ENTRA #{part.id}"
+      Rails.logger.info "NOTIFY MESSAGE OPEN AI #{part.id}"
 
       unless part.authorable.is_a?(Agent)
-        #####
-        ## cache this
-        messages = conversation.messages.where(
-          messageable_type: "ConversationPartContent"
-        ).where.not(id: part.id).order("id")
-        #####
 
-        # conversation.conversation_channels.find_by(provider_channel_id: channel)
-        # cache this thing:
-        previous = messages.map do |m|
-          {
-            text: m.message.text_from_serialized,
-            from: m.authorable_type
-          }
-        end
-        previous = previous.map do |item|
-          "#{item[:from] == 'Agent' ? "\nAI:" : "\nHuman:"}#{item[:text]}"
-        end.join("\n")
+        previous = previous_messages(conversation, part)
 
-        start_log = "'''The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.
-Human: Hello, who are you?
-AI: I am an AI created by OpenAI. How can I help you today?
-#{previous}
-Human:'''"
         parsed_content = part&.message&.parsed_content
         human_input = parsed_content["blocks"]
         human_input = human_input&.map do |o|
           o["text"]
         end&.join(" ")
 
-        prompt = "#{start_log}\nHuman: #{human_input}\nAI:"
+        messages = previous << { role: "user", content: human_input }
 
-        Rails.logger.info "PROMPT: #{prompt}"
-        data = prompt_settings(prompt)
+        Rails.cache.write("/conversation/#{conversation.key}/openai", messages)
 
-        gpt_result = get_gpt_response(data)
+        Rails.logger.info "PROMPT: #{messages}"
 
-        text = gpt_result[:text]
+        gpt_result = get_gpt_response(gpt_channel.data["prompt"], messages, part.authorable.id.to_s)
+
+        Rails.logger.info(gpt_result)
+        text = begin
+          gpt_result["choices"].first["message"]["content"]
+        rescue StandardError
+          nil
+        end
+
         return if text.nil?
 
         blocks = {
@@ -135,22 +122,20 @@ Human:'''"
       end
     end
 
-    def prompt_settings(prompt)
-      {
-        prompt: prompt,
-        stop: ["\n", "\nHuman:", "\nAI:"],
-        temperature: 0.9,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0.6,
-        best_of: 1,
-        max_tokens: 150
-        # frequency_penalty: 0
-        # length: 150
-        # presence_penalty: 0.6
-        # temperature: 0.9
-        # top_p: 1
-      }
+    def previous_messages(conversation, part)
+      Rails.cache.fetch("/conversation/#{conversation.key}/openai", expires_in: 1.hour) do
+        messages = conversation.messages.where(
+          messageable_type: "ConversationPartContent"
+        ).where.not(id: part.id)
+                               .order("id")
+
+        messages.map do |m|
+          {
+            "content" => m.message.text_from_serialized,
+            "role" => m.authorable_type == "Agent" ? "assistant" : "user"
+          }
+        end
+      end
     end
 
     def add_message(conversation:, from:, text:, blocks:, message_id:)
@@ -178,18 +163,21 @@ Human:'''"
       end
     end
 
-    def get_gpt_response(data)
-      response = post_data(@url, data)
+    def get_gpt_response(prompt, data, user_key)
+      system_prompt = { role: "system", content: prompt }
+      messages = []
+      messages << system_prompt
+      messages << data
 
-      return nil unless response.success?
+      message_data = {
+        model: "gpt-3.5-turbo",
+        messages: messages.flatten,
+        user: user_key
+      }
 
-      if (json_body = JSON.parse(response.body)) && json_body
-        json_body
-        Rails.logger.info "GOT RESPONSE FROM GPT-3: #{json_body}"
-      end
+      Rails.logger.debug message_data
 
-      text = json_body["choices"].map { |o| o["text"] }.join(" ")
-      { text: text, id: json_body["id"] }
+      JSON.parse(post_data(@url, message_data).body)
     end
 
     def process_event(params, package)
