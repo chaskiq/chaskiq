@@ -80,24 +80,8 @@ module MessageApis::OpenAi
       Rails.logger.info "NOTIFY MESSAGE OPEN AI #{part.id}"
 
       unless part.authorable.is_a?(Agent)
-        #####
-        ## cache this
-        messages = conversation.messages.where(
-          messageable_type: "ConversationPartContent"
-        ).where.not(id: part.id).order("id")
-        #####
 
-        # conversation.conversation_channels.find_by(provider_channel_id: channel)
-        # cache this thing:
-        previous = messages.map do |m|
-          {
-            text: m.message.text_from_serialized,
-            from: m.authorable_type
-          }
-        end
-        previous = previous.map do |item|
-          { role: item[:from] == "Agent" ? "assistant" : "user", content: item[:text] }
-        end
+        previous = previous_messages(conversation, part)
 
         parsed_content = part&.message&.parsed_content
         human_input = parsed_content["blocks"]
@@ -107,14 +91,19 @@ module MessageApis::OpenAi
 
         messages = previous << { role: "user", content: human_input }
 
-        # prompt = "#{start_log}\nHuman: #{human_input}\nAI:"
+        Rails.cache.write("/conversation/#{conversation.key}/openai", messages)
 
         Rails.logger.info "PROMPT: #{messages}"
-        # data = prompt_settings(prompt)
 
-        gpt_result = get_gpt_response(gpt_channel.data["prompt"], messages)
+        gpt_result = get_gpt_response(gpt_channel.data["prompt"], messages, part.authorable.id.to_s)
 
-        text = gpt_result["choices"].first["message"]["content"]
+        Rails.logger.info(gpt_result)
+        text = begin
+          gpt_result["choices"].first["message"]["content"]
+        rescue StandardError
+          nil
+        end
+
         return if text.nil?
 
         blocks = {
@@ -133,22 +122,20 @@ module MessageApis::OpenAi
       end
     end
 
-    def prompt_settings(prompt)
-      {
-        prompt: prompt,
-        stop: ["\n", "\nHuman:", "\nAI:"],
-        temperature: 0.9,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0.6,
-        best_of: 1,
-        max_tokens: 150
-        # frequency_penalty: 0
-        # length: 150
-        # presence_penalty: 0.6
-        # temperature: 0.9
-        # top_p: 1
-      }
+    def previous_messages(conversation, part)
+      Rails.cache.fetch("/conversation/#{conversation.key}/openai", expires_in: 1.hour) do
+        messages = conversation.messages.where(
+          messageable_type: "ConversationPartContent"
+        ).where.not(id: part.id)
+                               .order("id")
+
+        messages.map do |m|
+          {
+            "content" => m.message.text_from_serialized,
+            "role" => m.authorable_type == "Agent" ? "assistant" : "user"
+          }
+        end
+      end
     end
 
     def add_message(conversation:, from:, text:, blocks:, message_id:)
@@ -176,7 +163,7 @@ module MessageApis::OpenAi
       end
     end
 
-    def get_gpt_response(prompt, data)
+    def get_gpt_response(prompt, data, user_key)
       system_prompt = { role: "system", content: prompt }
       messages = []
       messages << system_prompt
@@ -184,7 +171,8 @@ module MessageApis::OpenAi
 
       message_data = {
         model: "gpt-3.5-turbo",
-        messages: messages.flatten
+        messages: messages.flatten,
+        user: user_key
       }
 
       Rails.logger.debug message_data
