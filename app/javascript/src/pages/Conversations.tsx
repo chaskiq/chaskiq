@@ -217,7 +217,7 @@ function Conversations({
 
     return (
       <React.Fragment>
-        <div className="items-center bg-white dark:bg-gray-800 px-3 py-4 border-b border-gray-200 dark:border-gray-700 sm:px-3 flex justify-between">
+        <div className="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
             value={conversations.filter}
@@ -308,7 +308,7 @@ function Conversations({
 
       <div
         className={
-          'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-800'
+          'w-full md:w-4/12 h-screen md:border-r hidden sm:block border-gray-200 dark:border-gray-900'
         }
       >
         {renderConversations()}
@@ -333,7 +333,7 @@ function Conversations({
         </Route>
 
         <Route exact path={`/apps/${app.key}/conversations/assignment_rules`}>
-          <div className="flex-grow bg-gray-50 dark:bg-gray-800 h-screen border-r w-1/12 dark:border-black">
+          <div className="flex-grow h-screen border-r w-1/12 dark:border-black">
             <AccessDenied section="assign_rules">
               <AssignmentRules />
             </AccessDenied>

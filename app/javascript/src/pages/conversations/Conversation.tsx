@@ -631,7 +631,7 @@ function Conversation({
     >
       {!isNew && (
         <div
-          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
+          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900"
           style={{ height: '63px' }}
         >
           <div className="flex items-center">

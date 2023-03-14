@@ -85,7 +85,7 @@ export default function ConversationItemList({ app, conversation, isActive }) {
       <div
         className={`${
           isActive ? 'bg-gray-100 dark:bg-gray-900' : ''
-        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 dark:hover:bg-gray-900`}
+        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 dark:hover:bg-gray-900`}
       >
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">

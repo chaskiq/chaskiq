@@ -160,7 +160,7 @@ function AppContainer({
       )}
 
       <div
-        className={` m-generalTop h-generalHeight flex overflow-hidden bg-white dark:bg-gray-800 dark:text-white`}
+        className={` m-generalTop h-generalHeight flex overflow-hidden bg-white dark:bg-black dark:text-white`}
       >
         {app && <Sidebar />}
 
