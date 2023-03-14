@@ -19,7 +19,8 @@ import styled from '@emotion/styled';
 
 import { ThemeProvider } from 'emotion-theming';
 
-import theme from '@chaskiq/components/src/components/textEditor/theme';
+import editorTheme from '@chaskiq/components/src/components/textEditor/theme';
+
 import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
 import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage';
 import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers';
@@ -43,7 +44,7 @@ export const ArticlePad = styled.div`
     margin-top: 18px !important;
   }
 
-  background: white;
+  /*background: white;*/
 
   padding: 2rem;
   margin: 2rem !important;
@@ -117,6 +118,7 @@ type ChatEditorProps = {
   insertComment: (val: any, cb: any) => void;
   saveContentCallback: (val: any) => void;
   app: any;
+  theme: any;
 };
 
 type ChatEditorState = {
@@ -354,10 +356,12 @@ export default class ChatEditor extends Component<
     const serializedContent = this.state.serialized
       ? this.state.serialized
       : null;
-
     return (
-      <ThemeProvider theme={theme}>
-        <EditorContainer className="flex">
+      <ThemeProvider theme={editorTheme}>
+        <EditorContainer
+          themeType={this.props.theme}
+          className="flex bg-gray-200 dark:bg-gray-800 dark:text-white text-black shadow-inner "
+        >
           {this.state.openPackagePanel && (
             <AppPackagePanel
               kind={'conversations'}
@@ -418,7 +422,7 @@ export default class ChatEditor extends Component<
             ) : (
               <TextEditor
                 allowedEditorFeature={this.allowedEditorFeature}
-                theme={theme}
+                theme={editorTheme}
                 inlineMenu={true}
                 tooltipsConfig={this.tooltipsConfig}
                 campaign={true}
