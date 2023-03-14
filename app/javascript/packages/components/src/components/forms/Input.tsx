@@ -83,8 +83,7 @@ const WrappedComponent = React.forwardRef(function Input(
     switch (variant) {
       case 'underline':
         return `border-dashed border-b-2 border-gray-400 
-        w-full py-2 px-3 text-gray-700
-        focus:outline-none focus:border-gray-600       dark:bg-gray-900 dark:text-white`;
+                w-full py-2 px-3 text-gray-700 focus:outline-none focus:border-gray-600 dark:bg-gray-900 dark:text-white`;
       default:
         return `shadow appearance-none border border-${borderColor(error)}-300 
         dark:border-${borderColor(error)}-700

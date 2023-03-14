@@ -47,11 +47,11 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
       {!open && (
         <div
           className={`md:block 
-          bg-gray-100 dark:bg-gray-900
+          bg-gray-100 dark:bg-black
           text-purple-lighter 
           flex-none w-23 
           p-2 
-          border-r border-gray-300 dark:border-gray-800 border-l`}
+          border-r border-gray-300 dark:border-gray-900 border-l`}
         >
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">

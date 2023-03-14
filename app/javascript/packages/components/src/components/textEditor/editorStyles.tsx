@@ -4,6 +4,7 @@ import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
 type NewEditorStylesProps = {
   theme: any;
+  themeType?: any;
   campaign?: boolean;
 };
 const NewEditorStyles = styled(EditorContainer)<NewEditorStylesProps>`
@@ -21,15 +22,25 @@ const NewEditorStyles = styled(EditorContainer)<NewEditorStylesProps>`
   }
 
   button.inlineTooltip-button.scale {
-    background: #fff;
+    ${({ themeType }) => {
+      return themeType === 'dark'
+        ? 'background: #000 !important; '
+        : 'background: #fff;';
+    }}
   }
 
   .inlineTooltip-button.control {
-    background: #fff;
+    ${({ themeType }) =>
+      themeType === 'dark'
+        ? 'background: #000 !important;'
+        : 'background: #fff;'}
   }
 
   button.inlineTooltip-button.control {
-    background: #fff;
+    ${({ themeType }) =>
+      themeType === 'dark'
+        ? 'background: #000 !important;'
+        : 'background: #fff;'}
   }
 
   .public-DraftEditorPlaceholder-root {

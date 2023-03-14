@@ -179,8 +179,8 @@ export default function definitions() {
         defaultClass: `
         hover:text-gray-600 
         hover:bg-gray-100
-        dark:bg-gray-800
-        dark:hover:bg-black
+        dark:bg-black
+        dark:hover:bg-900
         dark:hover:text-gray-300 
         dark:text-gray-100
         dark:focus:bg-black

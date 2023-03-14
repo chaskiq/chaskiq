@@ -153,6 +153,7 @@ function Conversation({
   isDark,
   history,
   reconnect,
+  theme,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
@@ -631,7 +632,7 @@ function Conversation({
     >
       {!isNew && (
         <div
-          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
+          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900"
           style={{ height: '63px' }}
         >
           <div className="flex items-center">
@@ -982,7 +983,7 @@ function Conversation({
 
       {!conversation.loading && (
         <div className="pb-3 px-4 flex-none mt-auto">
-          <div className="bg-white flex rounded-lg border border-grey-100 dark:border-gray-900 overflow-hidden-- shadow-lg">
+          <div className="flex rounded-lg border border-grey-100 dark:border-gray-900 overflow-hidden-- shadow-lg">
             {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
                 <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
                 </span> */}
@@ -994,6 +995,7 @@ function Conversation({
                 typingNotifier={typingNotifierDispatch}
                 insertNote={insertNoteDispatch}
                 isNew={isNew}
+                theme={theme}
                 initiatorChannels={initiatorChannels}
                 initiatorChannel={initiatorChannel}
                 setInitiatorChannel={setInitiatorChannel}
@@ -1003,7 +1005,7 @@ function Conversation({
 
             {conversation.blocked && (
               <div className="w-full">
-                <div className="rounded-md bg-gray-100 p-4 h-32">
+                <div className="rounded-md bg-gray-100 dark:bg-gray-900 p-4 h-32">
                   <div className="flex">
                     <div className="ml-3 flex-1 md:flex md:justify-between flex-col space-y-3">
                       <p className="text-sm text-gray-700 font-bold border-b-4 border-b-gray-900">
@@ -1519,6 +1521,7 @@ function mapStateToProps(state) {
     drawer,
     isAuthenticated,
     isDark,
+    theme,
     reconnect,
   };
 }
