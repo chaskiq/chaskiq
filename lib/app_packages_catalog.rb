@@ -313,7 +313,7 @@ class AppPackagesCatalog
                            label: "Slack channel for Leads and Visitors.",
                            hint: "If you leave this blank you will be using the primary channel for Leads.",
                            type: "string",
-                           required: true,
+                           required: false,
                            grid: { xs: "w-full", sm: "w-full" }
                          }
                        ]
@@ -332,7 +332,7 @@ class AppPackagesCatalog
                            label: "Slack channel for Leads and Visitors.",
                            hint: "If you leave this blank you will be using the primary channel for Leads.",
                            type: "string",
-                           required: true,
+                           required: false,
                            grid: { xs: "w-full", sm: "w-full" }
                          }
                        ]
@@ -872,8 +872,7 @@ class AppPackagesCatalog
     packages(dev_packages: dev_packages).each do |pkg|
       package = AppPackage.find_or_create_by(name: pkg[:name])
       package.update(pkg)
-
-      Rails.logger.debug { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?
+      Rails.logger.error { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?
     end
   end
 end

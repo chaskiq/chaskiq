@@ -708,7 +708,7 @@ module MessageApis::Slack
 
     def oauth_authorize(app, package)
       oauth_client.auth_code.authorize_url(
-        user_scope: "chat:write,channels:history,channels:write,groups:write,channels:read,groups:read,mpim:read,im:read",
+        user_scope: "channels:history,channels:write,channels:read", # chat:write,groups:read,groups:write,mpim:read,im:read",
         scope: "files:read,channels:history,channels:join,chat:write,channels:read,channels:manage,chat:write.customize,users:read,users:read.email",
         redirect_uri: package.oauth_url
       )
