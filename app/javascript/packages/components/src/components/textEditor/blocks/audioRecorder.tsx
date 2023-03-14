@@ -162,7 +162,7 @@ const AudioRecorderBlock = (props) => {
   return (
     <div>
       <div
-        className="flex space-x-2 bg-white justify-center items-center"
+        className="flex space-x-2 bg-white dark:bg-gray-800 justify-center items-center"
         contentEditable={false}
       >
         {!audioUrl && (
