@@ -45,7 +45,7 @@ class AppPolicy < ActionPolicy::Base
     %w[manage read write].each do |verb|
       define_method "can_#{verb}_#{namespace}?" do |*_my_arg|
         find_role_by_resource
-        return true if @owner
+        return true if @owner.is_a?(TrueClass)
 
         PermissionsService.allowed_access_to?(@role.role, namespace, verb)
       end
@@ -58,17 +58,17 @@ class AppPolicy < ActionPolicy::Base
 
   def find_role_by_resource
     if @record.is_a?(App)
-      return @owner = true if @record.owner_id == @user.id
+      return @owner ||= true if @record.owner_id == @user.id
 
-      @role = @record.roles.find_by(agent_id: @user.id)
+      @role ||= @record.roles.find_by(agent_id: @user.id)
     elsif @record.respond_to?(:app)
-      return @owner = true if @record.app.owner_id == @user.id
+      return @owner ||= true if @record.app.owner_id == @user.id
 
-      @role = @record.app.roles.find_by(agent_id: @user.id)
+      @role ||= @record.app.roles.find_by(agent_id: @user.id)
     elsif @app.present?
-      return @owner = true if @app.owner_id == @user.id
+      return @owner ||= true if @app.owner_id == @user.id
 
-      @role = @app.roles.find_by(agent_id: @user.id)
+      @role ||= @app.roles.find_by(agent_id: @user.id)
     end
   end
 
