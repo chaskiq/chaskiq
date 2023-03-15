@@ -153,7 +153,6 @@ function Conversation({
   isDark,
   history,
   reconnect,
-  theme,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
@@ -1521,7 +1520,6 @@ function mapStateToProps(state) {
     drawer,
     isAuthenticated,
     isDark,
-    theme,
     reconnect,
   };
 }
