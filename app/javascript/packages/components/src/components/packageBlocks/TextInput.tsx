@@ -26,7 +26,7 @@ type TextInputProps = {
 
 export const TextInput = styled.input<TextInputProps>`
   ${() =>
-    tw`border relative shadow-sm block w-full bg-gray-100 dark:bg-gray-900`}
+    tw`border dark:border-gray-800 relative shadow-sm block w-full bg-gray-100 dark:bg-gray-900`}
 
   ${(props) =>
     props.theme.size === 'sm'
@@ -71,8 +71,7 @@ export const TextInput = styled.input<TextInputProps>`
 
   ${(props) =>
     props.disabled
-      ? `background: #f6f4f4 !important;
-    color: #525252 !important;`
+      ? tw`dark:bg-gray-400! dark:text-gray-600! bg-gray-200! text-gray-400!`
       : ''}
 `;
 
@@ -116,7 +115,7 @@ const TextInputButton = styled.div<TextInputButtonProps>`
       ? `
       border: 1px solid #ccc;
       ${() =>
-        tw`border border-gray-300 text-gray-200 bg-gray-100 hover:text-gray-200 hover:bg-gray-100`}
+        tw`border border-gray-300! text-gray-200 bg-gray-100 hover:text-gray-200 hover:bg-gray-100`}
       ${() => tw`cursor-pointer`}
 
     `
