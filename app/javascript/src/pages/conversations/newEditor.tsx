@@ -360,7 +360,7 @@ export default class ChatEditor extends Component<
       <ThemeProvider theme={editorTheme}>
         <EditorContainer
           themeType={this.props.theme}
-          className="flex bg-gray-200 dark:bg-gray-800 dark:text-white text-black shadow-inner "
+          className="flex bg-gray-50 dark:bg-gray-800 dark:text-white text-black shadow-inner "
         >
           {this.state.openPackagePanel && (
             <AppPackagePanel
