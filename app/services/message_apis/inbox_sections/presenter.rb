@@ -233,6 +233,13 @@ module MessageApis::InboxSections
         end
 
         definitions << {
+          type: "text",
+          text: user.type,
+          style: "muted",
+          align: "center"
+        }
+
+        definitions << {
           id: "visit-user-profile",
           label: I18n.t("common.visit"),
           type: "button",
