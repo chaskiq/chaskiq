@@ -74,7 +74,7 @@ module MessageApis::Qualifier
 
       if record.valid? && ctx[:current_user].is_a?(AppUser)
         app = ctx[:current_user].app
-
+        params = params.except(:email)
         app.update_properties(ctx[:current_user], params)
       end
 
