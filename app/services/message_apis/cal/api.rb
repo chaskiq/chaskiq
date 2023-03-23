@@ -110,8 +110,11 @@ module MessageApis::Cal
       if response.success?
         JSON.parse(response.body)["event_types"]
       else
-        Rails.logger.debug response.body
-        nil
+        begin
+          JSON.parse(response.body)
+        rescue StandardError
+          nil
+        end
       end
     end
 

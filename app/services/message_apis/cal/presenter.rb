@@ -67,20 +67,39 @@ module MessageApis::Cal
         }
       end
 
-      event_types = ctx[:package].message_api_klass.event_types.filter { |o| !o["hidden"] }
-      # Rails.logger.debug event_types
+      event_types_response = ctx[:package].message_api_klass.event_types
+
+      if event_types_response.is_a?(Hash)
+        return {
+          kind: "configure",
+          definitions: [
+            {
+              type: "text",
+              style: "notice-error",
+              id: "checkbox-1",
+              text: event_types_response["message"]
+            }
+          ]
+        }
+      end
+
+      event_types = event_types_response.filter { |o| !o["hidden"] }
+
+      Rails.logger.debug event_types
       {
         kind: "configure",
         definitions: [
           {
-            type: "single-select",
+            type: "list",
             id: "checkbox-1",
             label: "Choose Event types",
-            options: event_types.map do |item|
+            items: event_types.map do |item|
               {
                 type: "option",
                 id: item["id"],
-                text: item["slug"],
+                title: item["title"],
+                text: item["link"],
+                tertiary_text: item["slug"],
                 action: {
                   type: "submit"
                 }
@@ -147,7 +166,7 @@ module MessageApis::Cal
                    end
 
       calendar_name = params["package"].settings["calendar_name"]
-      @cal_link = "#{calendar_name}/#{event_type}"
+      @cal_link = event_type.to_s.gsub("https://cal.com/", "")
 
       template = ERB.new <<~SHEET_VIEW
         <html lang="en">

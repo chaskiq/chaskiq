@@ -72,9 +72,9 @@ module MessageApis::Qualifier
       record.optional_fields = keys_to_bypass
       record.searcheable_fields = app.searcheable_fields
 
-      if record.valid? && ctx[:current_user].is_a?(AppUser)
+      if record.valid?
         app = ctx[:current_user].app
-        params = params.except(:email)
+        params = params.except(:email) if ctx[:current_user].is_a?(AppUser)
         app.update_properties(ctx[:current_user], params)
       end
 
