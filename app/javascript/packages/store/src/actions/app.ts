@@ -71,6 +71,13 @@ export function updateApp(appParams, cb = null) {
   };
 }
 
+export function appPackageEventReceived(data) {
+  return {
+    type: ActionTypes.AppPackageEvent,
+    data: data,
+  };
+}
+
 const initialState = null;
 
 // Reducer
@@ -78,6 +85,19 @@ export default function reducer(state = initialState, action: ActionType = {}) {
   switch (action.type) {
     case ActionTypes.GetApp: {
       return action.data;
+    }
+    case ActionTypes.AppPackageEvent: {
+      const inboxApps = state.inboxApps
+      const updatedInboxApps = inboxApps.map((inboxApp) => {
+        const targetAppPackage = action.data.app_package_id === inboxApp.id && action.data.command === "refresh"
+
+        if (!targetAppPackage) {
+          return inboxApp;
+        }
+        return { ...inboxApp };
+      });
+
+      return { ...state, inboxApps: updatedInboxApps };
     }
     default:
       return state;

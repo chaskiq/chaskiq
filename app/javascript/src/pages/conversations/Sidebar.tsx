@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
@@ -277,7 +277,11 @@ function AssigneeBlock({ conversation, app }) {
 
 export function AppItem({ app, object, conversation, app_user }) {
   const pkg = object;
-  const [definitions, setDefinitions] = React.useState(object.definitions);
+  const [definitions, setDefinitions] = React.useState([]);
+
+  React.useEffect(() => {
+    setDefinitions(object.definitions);
+  }, [object])
 
   function updatePackage(packageParams, cb) {
     if (packageParams.field.action.type === 'url') {
