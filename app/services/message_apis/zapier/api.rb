@@ -6,6 +6,8 @@ module MessageApis::Zapier
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
 
+    PROVIDER = "zapier"
+
     attr_accessor :url, :api_key, :conn
 
     def initialize(config:)
@@ -93,7 +95,17 @@ module MessageApis::Zapier
       when "users.created" then notify_user_created_trigger_hook(event: event)
       when "conversations.started", "conversations.assigned", "conversations.added", "conversations.closed"
         notify_conversation_trigger(event: event)
+      when "conversation.user.first.comment"
+        handle_channel_creation(event, subject)
       end
+    end
+
+    def handle_channel_creation(event, subject)
+      check_and_create_channel(subject, event) if @package.settings[:new_message].present?
+    end
+
+    def check_and_create_channel(subject, event)
+      subject.conversation_channels.find_or_create_by(provider: PROVIDER, provider_channel_id: subject.id)
     end
 
     def process_event(params, package)
@@ -103,8 +115,14 @@ module MessageApis::Zapier
     end
 
     def send_message(conversation, part)
-      return if part.private_note?
-      # TODO: implement event format
+      if ((url = @package.settings["new_message"])) && url.present?
+        a = post(url, serialized_message(part))
+        a if a.success?
+      end
+    end
+
+    def get_message_id(data)
+      data["id"]
     end
 
     def create_contact(app, params)
@@ -157,7 +175,19 @@ module MessageApis::Zapier
       when "new_contact", "user_created", "contact_created" then user_polling
       when "new_conversation", "conversation_started", "conversation_closed", "conversation_assigned"
         conversation_polling
+      when "new_message"
+        message_polling
       end
+    end
+
+    def message_polling
+      list = [
+        @package.app.conversation_parts.where(messageable_type: "ConversationPartContent").limit(2),
+        @package.app.conversation_parts.where(messageable_type: "ConversationPartBlock").limit(2),
+        @package.app.conversation_parts.where(messageable_type: "ConversationPartEvent").limit(2)
+      ].flatten.compact
+
+      serialized_message(list)
     end
 
     def user_polling
@@ -186,7 +216,9 @@ module MessageApis::Zapier
       return if event_identifier.blank?
       return if url.blank?
 
-      data = serialized_conversation(event.eventable)
+      subject = event.eventable
+
+      data = serialized_conversation(subject)
 
       post(url, data)
     end
@@ -223,6 +255,19 @@ module MessageApis::Zapier
           assignee
           main_participant
           state
+        ]
+      )
+    end
+
+    def serialized_message(object)
+      object.as_json(
+        only: %i[
+          key
+          conversation_id
+        ],
+        methods: %i[
+          messageable
+          authorable
         ]
       )
     end
