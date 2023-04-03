@@ -5,10 +5,9 @@
 ## Free & Source Available Messaging Platform for Marketing, Support & Sales
 ### The front line of your customer service.
 
+[![Push Docker Image](https://github.com/chaskiq/chaskiq/actions/workflows/dockerimage.yml/badge.svg)](https://github.com/chaskiq/chaskiq/actions/workflows/dockerimage.yml)
 
-<a href="https://travis-ci.org/chaskiq/chaskiq">
-  <img src="https://travis-ci.org/chaskiq/chaskiq.svg?branch=master" alt="CI">
-</a>
+[![CI](https://github.com/chaskiq/chaskiq/actions/workflows/ruby.yml/badge.svg)](https://github.com/chaskiq/chaskiq/actions/workflows/ruby.yml)
 
 <a href="https://hub.docker.com/r/chaskiq/chaskiq">
   <img src="https://img.shields.io/docker/pulls/chaskiq/chaskiq.svg" alt="CI">
