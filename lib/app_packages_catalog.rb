@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/MethodLength
 class AppPackagesCatalog
   def self.packages(dev_packages: false)
     development_packages = [
@@ -177,6 +178,33 @@ class AppPackagesCatalog
         description: "Open AI GPT-3 tasks",
         icon: "https://logo.clearbit.com/openai.com",
         state: "enabled",
+        capability_list: %w[conversations bots],
+        definitions: [
+          {
+            name: "api_secret",
+            label: "Auth Token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "main_prompt",
+            label: "Main prompt",
+            type: "textarea",
+            hint: "You can change this later, on demand",
+            placeholder: "You are the Chaskiq chatbot, you are friendly and playful.",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      },
+
+      {
+        name: "GoBot",
+        tag_list: ["email_changed", "conversation.user.first.comment"],
+        description: "CIENCE GO Chatbot",
+        icon: "https://logo.clearbit.com/cience.com",
+        state: Chaskiq::Config.get("CIENCE_GOBOT_URL").present? ? "enabled" : "disabled",
         capability_list: %w[conversations bots],
         definitions: [
           {
@@ -876,3 +904,4 @@ class AppPackagesCatalog
     end
   end
 end
+# rubocop:enable Metrics/MethodLength
