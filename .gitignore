@@ -21,6 +21,8 @@ dist
 !/log/.keep
 !/tmp/.keep
 
+app/services/message_apis/test_plugin
+
 /cypress
 /spec/cypress/screenshots
 
