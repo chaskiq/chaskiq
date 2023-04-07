@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AppPackagesCatalog
+  # rubocop:disable Metrics/MethodLength
   def self.packages(dev_packages: false)
     development_packages = [
       {
@@ -778,12 +779,14 @@ class AppPackagesCatalog
 
       {
         name: "Zapier",
+        capability_list: %w[inbox],
         tag_list: [
           "conversations.started",
           "conversations.assigned",
           "conversations.added",
           "conversations.closed",
-          "users.created"
+          "users.created",
+          "conversation.user.first.comment"
         ],
         description: "Interfaces Zapier template",
         icon: "https://logo.clearbit.com/zapier.com",
@@ -857,6 +860,7 @@ class AppPackagesCatalog
     collection = development_packages + collection if dev_packages
     collection
   end
+  # rubocop:enable Metrics/MethodLength
 
   def self.import
     AppPackage.create(packages)
