@@ -19,14 +19,14 @@ class MessageApis::GoBot::GoClient
     end
   end
 
-  def initiate_conversation(messages)
+  def initiate_conversation(messages, &)
     response = @conn.post("/conversation") do |req|
       req.headers["Content-Type"] = "application/json"
       req.headers["Accept"] = "text/event-stream"
       req.body = { messages: messages }
     end
 
-    handle_response(response)
+    handle_response(response, &)
   end
 
   private
@@ -34,17 +34,29 @@ class MessageApis::GoBot::GoClient
   def handle_response(response)
     case response.status
     when 200
-      event_data = response.body.each_line.map do |line|
-        data = line.strip.split(":", 2).last
-        next if data.blank?
+      if block_given?
+        response.body.each_line do |line|
+          data = line.strip.split(":", 2).last
+          next if data.blank?
 
-        # implement this with each not map
-        # event = JSON.parse(data)
-        # handle_event(event)
+          event = JSON.parse(data)
+          event["choices"].each do |choice|
+            yield choice["delta"]["content"]
+          end
+        end
+      else
+        event_data = response.body.each_line.map do |line|
+          data = line.strip.split(":", 2).last
+          next if data.blank?
 
-        data
+          # implement this with each not map
+          # event = JSON.parse(data)
+          # handle_event(event)
+
+          data
+        end
+        handle_whole_event(event_data)
       end
-      handle_whole_event(event_data)
     when 400
       Rails.logger.debug { "Error response: #{response.body}" }
     else

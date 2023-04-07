@@ -79,13 +79,53 @@ module MessageApis::GoBot
       end
     end
 
-    def get_gpt_response(prompt, data, user_key)
+    def get_response(prompt, data, user_key)
       system_prompt = { role: "system", content: prompt }
       messages = []
       messages << system_prompt
       messages << data
       Rails.logger.debug messages
       @client.initiate_conversation(messages.flatten)
+    end
+
+    def get_chunked_response(prompt, data, user_key, conversation)
+      system_prompt = { role: "system", content: prompt }
+      messages = []
+      messages << system_prompt
+      messages << data
+      # Rails.logger.debug messages
+
+      mid = nil
+      @client.initiate_conversation(messages.flatten) do |text|
+        return nil if text.nil?
+
+        if mid.blank?
+          Rails.logger.info(text)
+          blocks = {
+            blocks: [
+              serialized_block(text)
+            ].flatten.compact
+          }.to_json
+
+          a = add_message(
+            conversation: conversation,
+            from: conversation.app.agents.bots.first,
+            text: text,
+            blocks: blocks,
+            message_id: nil
+          )
+          mid = a.id
+        else
+          part = ConversationPart.find(mid)
+          blocks = JSON.parse(part.messageable.serialized_content)["blocks"]
+
+          previous_text = blocks.map { |o| o["text"] }.join
+
+          part.message.update(serialized_content: text_block(previous_text + text))
+
+          part.participant_socket_notify
+        end
+      end
     end
 
     def notify_message(conversation:, part:, channel:)
@@ -113,31 +153,36 @@ module MessageApis::GoBot
 
         Rails.logger.info "PROMPT: #{messages}"
 
-        gpt_result = get_gpt_response(gpt_channel.data["prompt"], messages, part.authorable.id.to_s)
-
-        Rails.logger.info(gpt_result)
-        text = gpt_result
-        # begin
-        #  gpt_result["choices"].first["message"]["content"]
-        # rescue StandardError
-        #  nil
-        # end
-
-        return if text.nil?
-
-        blocks = {
-          blocks: [
-            serialized_block(text)
-          ].flatten.compact
-        }.to_json
-
-        add_message(
-          conversation: conversation,
-          from: conversation.app.agents.bots.first,
-          text: text,
-          blocks: blocks,
-          message_id: nil
+        gpt_result = get_chunked_response(
+          gpt_channel.data["prompt"],
+          messages,
+          part.authorable.id.to_s,
+          conversation
         )
+
+        # Rails.logger.info(gpt_result)
+        # text = gpt_result
+        ## begin
+        ##  gpt_result["choices"].first["message"]["content"]
+        ## rescue StandardError
+        ##  nil
+        ## end
+
+        # return if text.nil?
+
+        # blocks = {
+        #  blocks: [
+        #    serialized_block(text)
+        #  ].flatten.compact
+        # }.to_json
+
+        # add_message(
+        #  conversation: conversation,
+        #  from: conversation.app.agents.bots.first,
+        #  text: text,
+        #  blocks: blocks,
+        #  message_id: nil
+        # )
       end
     end
 
