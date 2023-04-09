@@ -1,7 +1,6 @@
 require "app_packages_catalog"
 
 namespace :packages do
-
   task update: :environment do
     AppPackagesCatalog.update_all
   end
@@ -12,30 +11,30 @@ namespace :packages do
 
   # publish plugins to service (chaskiq only)
   task publish: :environment do
-    Rails.logger = Logger.new(STDOUT)
+    Rails.logger = Logger.new($stdout)
     require_relative Rails.root.join("app/services/plugin_subscriptions")
-    PluginSubscriptions::RemotePlugin.upload_list()
+    PluginSubscriptions::RemotePlugin.upload_list
   end
 
   # downloads and stores in plugin
   task download: :environment do
-    Rails.logger = Logger.new(STDOUT)
+    Rails.logger = Logger.new($stdout)
     require_relative Rails.root.join("app/services/plugin_subscriptions")
-    PluginSubscriptions::PluginDownloader.new.fetch_plugin_data()
-    #Plugin.save_all_plugins()
+    PluginSubscriptions::PluginDownloader.new.fetch_plugin_data
+    # Plugin.save_all_plugins()
   end
 
   # install downloaded plugins in FS
   task install: :environment do
-    Rails.logger = Logger.new(STDOUT)
-    Plugin.save_all_plugins()
+    Rails.logger = Logger.new($stdout)
+    Plugin.save_all_plugins
   end
 end
 
 namespace :owner_apps do
   task make_owner: :environment do
     # roles owners
-    App.all.each  do |o|
+    App.all.each do |o|
       o.owner = Agent.find_by(email: Chaskiq::Config.fetch("ADMIN_EMAIL", nil))
       o.save
     end
