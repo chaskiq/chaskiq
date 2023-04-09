@@ -1,6 +1,5 @@
 require_relative Rails.root.join("lib/app_packages_catalog.rb")
 
-
 ## PLugin remote service
 
 # upload to service, note that plugins on disk is needed.
@@ -82,7 +81,7 @@ module PluginSubscriptions
         plugin.update!(
           data: plugin_data,
           name: plugin_name,
-          definitions: package.settings[:defintions],
+          settings: package.settings,
           capabilities: package.capability_list
         )
 
