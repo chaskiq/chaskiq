@@ -1,33 +1,4 @@
 class Plugin < ApplicationRecord
-  # backup plugins
-  def self.store_plugin_files(plugin_name)
-    plugin = Plugin.find_or_initialize_by(name: plugin_name)
-    plugin_folder_path = Rails.root.join("app", "services", "message_apis", plugin_name)
-
-    if Dir.exist?(plugin_folder_path)
-      # Iterate over all files in the folder
-      plugin_data = Dir.glob("#{plugin_folder_path}/**/*").map do |file_path|
-        next if File.directory?(file_path)
-
-        # Extract the content of the file
-        file_content = File.read(file_path)
-
-        # Create or update the plugin in the database
-        plugin_file_name = File.basename(file_path, ".rb")
-
-        {
-          file: plugin_file_name,
-          content: file_content
-        }
-      end
-
-      plugin.update!(data: plugin_data, name: plugin_name)
-
-    else
-      Rails.logger.debug { "Folder not found: #{plugin_folder_path}" }
-    end
-  end
-
   # plugin = Plugin.find_by(name: 'your_plugin_name')
   # Plugin.save_plugin_files_to_folder(plugin) if plugin
   def self.save_plugin_files_to_folder(plugin_name)
