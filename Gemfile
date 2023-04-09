@@ -12,7 +12,7 @@ gem "grpc", force_ruby_platform: true
 gem "anycable-rails"
 gem "pg"
 gem "rails", "7.0.4" # , github: "rails/rails",
-gem "uri", "0.10.0"
+gem "uri", "0.10.0.1"
 
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
