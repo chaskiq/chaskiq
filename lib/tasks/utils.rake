@@ -16,7 +16,7 @@ namespace :packages do
     PluginSubscriptions::RemotePlugin.upload_list
   end
 
-  # downloads and stores in plugin
+  # downloads and stores in DB app package/plugin
   task download: :environment do
     Rails.logger = Logger.new($stdout)
     require_relative Rails.root.join("app/services/plugin_subscriptions")

@@ -5,6 +5,9 @@ class AppPackage < ApplicationRecord
   has_many :app_package_integrations, dependent: :destroy
   has_many :apps, through: :app_package_integrations
   belongs_to :author, class_name: "Agent", optional: true, foreign_key: :agent_id
+  has_one :plugin, dependent: :destroy
+
+  accepts_nested_attributes_for :plugin
 
   acts_as_taggable_on :tags, :capabilities
 

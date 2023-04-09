@@ -41,9 +41,19 @@ module PluginSubscriptions
 
     def download_plugins(plugin_data)
       plugin_data["data"].each do |o|
-        plugin = Plugin.find_or_initialize_by(name: o["name"])
-        plugin.assign_attributes(data: o["data"], name: o["name"])
-        plugin.save
+        app_package = AppPackage.find_or_initialize_by(name: o["name"])
+        app_package.assign_attributes(
+          name: o["name"].camelcase, 
+          settings: o["settings"], 
+          capability_list: o["capabilities"],
+          tag_list: o["tag_list"],
+          plugin_attributes: {data: o["data"]}
+        )
+        if app_package.save
+          Rails.logger.info("#{app_package.name} saved")
+        else
+          Rails.logger.error("Failed download to db on plugin #{o["name"]}")
+        end
       end
     end
   end
@@ -55,7 +65,7 @@ module PluginSubscriptions
     # backup plugins
     def self.store_plugin_files(plugin_name)
       plugin = find_or_initialize_by(name: plugin_name)
-      plugin_folder_path = Rails.root.join("app", "services", "message_apis", plugin_name)
+      plugin_folder_path = Rails.root.join("app", "services", "message_apis", plugin_name.underscore)
 
       if Dir.exist?(plugin_folder_path)
         # Iterate over all files in the folder
@@ -66,7 +76,7 @@ module PluginSubscriptions
           file_content = File.read(file_path)
 
           # Create or update the plugin in the database
-          plugin_file_name = File.basename(file_path, ".rb")
+          plugin_file_name = File.basename(file_path) #, ".rb")
 
           {
             file: plugin_file_name,
@@ -80,9 +90,11 @@ module PluginSubscriptions
 
         plugin.update!(
           data: plugin_data,
-          name: plugin_name,
+          name: package.name,
           settings: package.settings,
-          capabilities: package.capability_list
+          capabilities: package.capability_list,
+          tag_list: package.tag_list,
+          description: package.description
         )
 
         Rails.logger.info("processed #{plugin.name}")
@@ -93,7 +105,7 @@ module PluginSubscriptions
     end
 
     def self.upload_list
-      list = AppPackagesCatalog.packages(dev_packages: false).map { |o| o[:name].underscore }
+      list = AppPackagesCatalog.packages(dev_packages: false).map { |o| o[:name] }
 
       list.each do |plugin|
         store_plugin_files(plugin)
