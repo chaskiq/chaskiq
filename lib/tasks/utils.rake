@@ -1,12 +1,34 @@
 require "app_packages_catalog"
 
 namespace :packages do
+
   task update: :environment do
     AppPackagesCatalog.update_all
   end
 
   task attach: :environment do
     App.find_each { |a| a.attach_default_packages }
+  end
+
+  # publish plugins to service (chaskiq only)
+  task publish: :environment do
+    Rails.logger = Logger.new(STDOUT)
+    require_relative Rails.root.join("app/services/plugin_subscriptions")
+    PluginSubscriptions::RemotePlugin.upload_list()
+  end
+
+  # downloads and stores in plugin
+  task download: :environment do
+    Rails.logger = Logger.new(STDOUT)
+    require_relative Rails.root.join("app/services/plugin_subscriptions")
+    PluginSubscriptions::PluginDownloader.new.fetch_plugin_data()
+    #Plugin.save_all_plugins()
+  end
+
+  # install downloaded plugins in FS
+  task install: :environment do
+    Rails.logger = Logger.new(STDOUT)
+    Plugin.save_all_plugins()
   end
 end
 

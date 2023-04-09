@@ -1,5 +1,14 @@
 require_relative Rails.root.join("lib/app_packages_catalog.rb")
 
+
+## PLugin remote service
+
+# upload to service, note that plugins on disk is needed.
+# PluginSubscriptions::Plugin.upload_list()
+
+## downloads to the plugin local database.
+# PluginSubscriptions::PluginDownloader.new.fetch_plugin_data
+
 module PluginSubscriptions
   class PluginDownloader
     API_ENDPOINT = "http://localhost:8080/api/plugins-list".freeze
