@@ -50,6 +50,7 @@ class AppPackagesCatalog
       Zapier
       Messenger
       TelnyxSms
+      GoBot
     ]
 
     collection = development_packages + collection if dev_packages
