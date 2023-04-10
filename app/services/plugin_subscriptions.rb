@@ -35,7 +35,7 @@ module PluginSubscriptions
     def fetch_plugin_data
       response = @connection.get
       if response.status == 200
-        download_plugins(JSON.parse(response.body))
+        # download_plugins(JSON.parse(response.body))
       else
         raise "Error fetching plugin data: #{response.status} #{response.body}"
       end
@@ -60,8 +60,13 @@ module PluginSubscriptions
     end
   end
 
-  class RemotePlugin < ApplicationRecord
-    establish_connection :supabase
+  class SupabaseRecord < ApplicationRecord
+    self.abstract_class = true
+    connects_to database: { writing: :supabase, reading: :supabase }
+  end
+
+  class RemotePlugin < SupabaseRecord
+    # establish_connection :supabase
     self.table_name = "plugins"
 
     # backup plugins

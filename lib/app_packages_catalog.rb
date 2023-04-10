@@ -61,8 +61,7 @@ class AppPackagesCatalog
     AppPackage.create(packages)
   end
 
-  def self.update(kind)
-    pkg = packages.find { |o| o === kind }
+  def self.update(pkg)
     data = "MessageApis::#{pkg}::Api".constantize.definition_info
     pkg = AppPackage.find_or_create_by(name: data[:name])
     pkg.update(data) if pkg.present?
@@ -70,7 +69,7 @@ class AppPackagesCatalog
 
   def self.update_all(dev_packages: false)
     packages(dev_packages: dev_packages).each do |pkg|
-      package = AppPackage.find_or_create_by(name: pkg)
+      package = AppPackage.find_or_initialize_by(name: pkg)
       data = "MessageApis::#{pkg}::Api".constantize.definition_info
       package.update(data)
       Rails.logger.error { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?

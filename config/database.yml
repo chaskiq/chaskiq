@@ -29,8 +29,8 @@ development:
 supabase:
   prepared_statements: false
   adapter: postgresql
-  host: <%= ENV.fetch('SUPABASE_POSTGRES_HOST', 'chaskiq_dev') %>
-  database: <%= ENV.fetch('SUPABASE_POSTGRES_DATABASE', 'chaskiq_dev') %>
+  host: <%= ENV.fetch('SUPABASE_POSTGRES_HOST', 'chaskiq_dev_supabase') %>
+  database: <%= ENV.fetch('SUPABASE_POSTGRES_DATABASE', 'chaskiq_dev_supabase') %>
   username: <%= ENV.fetch('SUPABASE_POSTGRES_USERNAME', 'postgres') %>
   password: <%= ENV.fetch('SUPABASE_POSTGRES_PASSWORD', '') %>
   min_messages: warning

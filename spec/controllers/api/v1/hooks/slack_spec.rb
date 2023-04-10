@@ -594,5 +594,18 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
 
     it "send message" do
     end
+
+    it "create conversation will call slack app" do
+      app.conversations.delete_all
+
+      allow_any_instance_of(MessageApis::Slack::Api).to receive(:trigger).and_return(true)
+      perform_enqueued_jobs do
+        app.start_conversation(
+          message: { text_content: "aa" },
+          from: user
+        )
+      end
+      expect(app.conversations.count).to be == 1
+    end
   end
 end
