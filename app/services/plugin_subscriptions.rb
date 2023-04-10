@@ -35,15 +35,19 @@ module PluginSubscriptions
     def fetch_plugin_data
       response = @connection.get
       if response.status == 200
-        # download_plugins(JSON.parse(response.body))
+        download_plugins(JSON.parse(response.body))
       else
-        raise "Error fetching plugin data: #{response.status} #{response.body}"
+        raise "🔥 Error fetching plugin data: #{response.status} #{response.body}"
       end
     end
 
     def download_plugins(plugin_data)
       plugin_data["data"].each do |o|
         app_package = AppPackage.find_or_initialize_by(name: o["name"])
+        if app_package.frozen?
+          Rails.logger.info("🟡 #{app_package.name} was not downloaded because it's frozen")
+          next
+        end
         app_package.assign_attributes(
           name: o["name"].camelcase,
           settings: o["settings"],
@@ -52,9 +56,9 @@ module PluginSubscriptions
           plugin_attributes: { data: o["data"] }
         )
         if app_package.save
-          Rails.logger.info("#{app_package.name} saved")
+          Rails.logger.info("✅ #{app_package.name} saved ")
         else
-          Rails.logger.error("Failed download to db on plugin #{o['name']}")
+          Rails.logger.error("🔴 Failed download to db on plugin #{o['name']}")
         end
       end
     end
@@ -101,10 +105,10 @@ module PluginSubscriptions
           description: package.description
         )
 
-        Rails.logger.info("processed #{plugin.name}")
+        Rails.logger.info("✅ Processed #{plugin.name}")
 
       else
-        Rails.logger.debug { "Folder not found: #{plugin_folder_path}" }
+        Rails.logger.debug { "🟡 Folder not found: #{plugin_folder_path}" }
       end
     end
 
