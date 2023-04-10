@@ -10,7 +10,10 @@ require_relative Rails.root.join("lib/app_packages_catalog.rb")
 
 module PluginSubscriptions
   class PluginDownloader
-    API_ENDPOINT = Chaskiq::Config.fetch("CHASKIQ_APPSTORE_URL", "https://appstore.chaskiq.io/api/plugins-list")
+    API_ENDPOINT = Chaskiq::Config.fetch(
+      "CHASKIQ_APPSTORE_URL",
+      "https://appstore.chaskiq.io/api/plugins-list"
+    )
 
     # Use the PluginDownloader class to fetch and download plugins:
     # main.rb
@@ -64,14 +67,11 @@ module PluginSubscriptions
     end
   end
 
-  class SupabaseRecord < ApplicationRecord
-    self.abstract_class = true
-    connects_to database: { writing: :supabase, reading: :supabase }
-  end
-
-  class RemotePlugin < SupabaseRecord
+  class RemotePlugin < ApplicationRecord
     # establish_connection :supabase
     self.table_name = "plugins"
+
+    establish_connection(Chaskiq::Config.get("APPSTORE_DB_URL"))
 
     # backup plugins
     def self.store_plugin_files(package)
@@ -113,6 +113,8 @@ module PluginSubscriptions
     end
 
     def self.upload_list
+      raise "💥💥💥 No Supabase config detected!! 💥💥💥, please contact Chaskiq authors if you want to publish a plugin." if Chaskiq::Config.get("SUPABASE_PG_URL").blank?
+
       AppPackage.all.each do |app_package|
         store_plugin_files(app_package)
       end

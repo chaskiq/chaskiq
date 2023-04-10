@@ -71,6 +71,11 @@ jobs:
         run: |
           bundle exec rake assets:precompile
       - name: Build and run tests
+        env:
+          POSTGRES_DB: postgres
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
+          APPSTORE_DB_URL: "postgresql://postgres:postgres@localhost:5432/supabase_test"
+
         run: |
           bundle exec rspec ./spec
 
