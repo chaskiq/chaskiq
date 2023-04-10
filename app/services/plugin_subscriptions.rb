@@ -43,16 +43,16 @@ module PluginSubscriptions
       plugin_data["data"].each do |o|
         app_package = AppPackage.find_or_initialize_by(name: o["name"])
         app_package.assign_attributes(
-          name: o["name"].camelcase, 
-          settings: o["settings"], 
+          name: o["name"].camelcase,
+          settings: o["settings"],
           capability_list: o["capabilities"],
           tag_list: o["tag_list"],
-          plugin_attributes: {data: o["data"]}
+          plugin_attributes: { data: o["data"] }
         )
         if app_package.save
           Rails.logger.info("#{app_package.name} saved")
         else
-          Rails.logger.error("Failed download to db on plugin #{o["name"]}")
+          Rails.logger.error("Failed download to db on plugin #{o['name']}")
         end
       end
     end
@@ -76,7 +76,7 @@ module PluginSubscriptions
           file_content = File.read(file_path)
 
           # Create or update the plugin in the database
-          plugin_file_name = File.basename(file_path) #, ".rb")
+          plugin_file_name = File.basename(file_path) # , ".rb")
 
           {
             file: plugin_file_name,
@@ -105,7 +105,7 @@ module PluginSubscriptions
     end
 
     def self.upload_list
-      list = AppPackagesCatalog.packages(dev_packages: false).map { |o| o[:name] }
+      list = AppPackagesCatalog.packages(dev_packages: false).pluck(:name)
 
       list.each do |plugin|
         store_plugin_files(plugin)
