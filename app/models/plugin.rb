@@ -4,7 +4,9 @@ class Plugin < ApplicationRecord
   belongs_to :app_package
 
   def self.save_all_plugins
-    Plugin.all.find_each { |o| Plugin.save_plugin_files_to_folder(o.app_package.name) }
+    Plugin.all.find_each do |o|
+      Plugin.save_plugin_files_to_folder(o.app_package.name)
+    end
   end
 
   def self.save_plugin_files_to_folder(plugin_name)
