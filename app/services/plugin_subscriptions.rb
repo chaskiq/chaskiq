@@ -65,7 +65,8 @@ module PluginSubscriptions
     self.table_name = "plugins"
 
     # backup plugins
-    def self.store_plugin_files(plugin_name)
+    def self.store_plugin_files(package)
+      plugin_name = package.name
       plugin = find_or_initialize_by(name: plugin_name)
       plugin_folder_path = Rails.root.join("app", "services", "message_apis", plugin_name.underscore)
 
@@ -86,10 +87,6 @@ module PluginSubscriptions
           }
         end
 
-        package = AppPackage.find_by(name: plugin_name.camelcase)
-
-        raise "no app package found by #{plugin_name.camelcase}" if package.blank?
-
         plugin.update!(
           data: plugin_data,
           name: package.name,
@@ -107,10 +104,8 @@ module PluginSubscriptions
     end
 
     def self.upload_list
-      list = AppPackagesCatalog.packages(dev_packages: false).pluck(:name)
-
-      list.each do |plugin|
-        store_plugin_files(plugin)
+      AppPackage.all.each do |app_package|
+        store_plugin_files(app_package)
       end
     end
   end
