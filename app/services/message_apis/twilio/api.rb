@@ -27,6 +27,49 @@ module MessageApis::Twilio
       self
     end
 
+    def definition_info
+      {
+        name: "Twilio",
+        tag_list: ["conversations.added"],
+        capability_list: %w[conversations_initiator],
+        description: "Interfaces twillio",
+        icon: "https://logo.clearbit.com/twillio.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "user_id",
+            label: "Phone",
+            type: "string",
+            required: true,
+            hint: "The Twillio Whatsapp number (format: +14155231223)",
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "api_key",
+            label: "Account SID",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "api_secret",
+            label: "Auth Token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "new_conversations_after",
+            label: "Count messages as new conversations",
+            hint: "After a conversation is closed new messages will create a new conversation if there are received after this time period",
+            type: "number",
+            required: false,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def trigger(event)
       # case event.action
       # when 'email_changed' then register_contact(event.eventable)

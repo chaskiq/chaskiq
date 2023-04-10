@@ -30,6 +30,26 @@ module MessageApis::Telegram
       self
     end
 
+    def self.definition_info
+      {
+        name: "Telegram",
+        tag_list: ["conversations.added"],
+        description: "Interfaces Telegram Messaging",
+        icon: "https://logo.clearbit.com/Telegram",
+        state: "enabled",
+        capability_list: %w[conversations bots],
+        definitions: [
+          {
+            name: "access_token",
+            label: "Your Telegram Bot token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def register_webhook(app_package, integration)
       data = {
         url: integration.hook_url

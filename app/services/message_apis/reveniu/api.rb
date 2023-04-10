@@ -6,6 +6,16 @@ module MessageApis::Reveniu
       @config = config
     end
 
+    def self.definition_info
+      {
+        name: "Reveniu",
+        description: "Reveniu Payment buttons",
+        capability_list: %w[conversations bots],
+        state: "enabled",
+        definitions: []
+      }
+    end
+
     def process_event(params, package)
       # todo, here we can do so many things like make a pause and
       # analize conversation subject or classyficators

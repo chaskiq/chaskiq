@@ -22,7 +22,6 @@ dist
 !/tmp/.keep
 
 app/services/message_apis/**/*
-
 # ContentShowcase ArticleSearch Qualifier InboxSections ContactFields
 !app/services/message_apis/aticle_search
 !app/services/message_apis/audit_reports

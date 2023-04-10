@@ -56,6 +56,44 @@ module MessageApis::Twitter
       @keys["access_token_secret"] = config["access_token_secret"]
     end
 
+    def self.definition_info
+      {
+        name: "Twitter",
+        tag_list: ["channel"],
+        state: "enabled",
+        description: "Twitter acount activity integration",
+        icon: "https://logo.clearbit.com/twitter.com",
+        definitions: [
+          {
+            name: "api_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+
+          {
+            name: "access_token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+
+          {
+            name: "access_token_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     # API client object is created with the @base_url context,
     # then individual requests are made with specific URI paths passed in.
     def get_api_access

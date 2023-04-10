@@ -27,6 +27,53 @@ module MessageApis::TwilioPhone
       self
     end
 
+    def self.definition_info
+      {
+        name: "TwilioPhone",
+        capability_list: %w[fixed_sidebar inbox],
+        description: "Interfaces twilio telephony",
+        state: "enabled",
+        definitions: [
+          {
+            name: "account_sid",
+            hint: "Twilio API credentials, Found at https://www.twilio.com/console",
+            type: "string",
+            required: true
+          },
+          {
+            name: "application_sid",
+            hint: "You need to create a TwiML app to use this project. Create one at https://www.twilio.com/console/phone-numbers/dev-tools/twiml-apps",
+            type: "string",
+            required: true
+          },
+          {
+            name: "phone_number",
+            hint: "Get your number at, https://www.twilio.com/console/phone-numbers/incoming",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_key",
+            hint: "Your REST API Key, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "api_secret",
+            hint: "Your REST API Secret, https://www.twilio.com/console/project/api-keys",
+            type: "string",
+            required: true
+          },
+          {
+            name: "auth_token",
+            hint: "Find your Auth Token at twilio.com/console",
+            type: "string",
+            required: true
+          }
+        ]
+      }
+    end
+
     def register_webhook(app_package, integration); end
 
     def unregister(app_package, integration)

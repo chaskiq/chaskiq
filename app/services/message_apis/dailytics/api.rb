@@ -25,6 +25,36 @@ module MessageApis::Dailytics
       }
     end
 
+    def self.definition_info
+      {
+        name: "Dailytics",
+        tag_list: ["dashboard"],
+        description: "Print Dailytics stats on your dashboard",
+        icon: "https://logo.clearbit.com/dailytics.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "api_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "report_id",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def url(url)
       "#{BASE_URL}#{url}?app=#{@api_key}&access_token=#{@api_token}"
     end

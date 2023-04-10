@@ -17,6 +17,24 @@ module MessageApis::Pipedrive
       }
     end
 
+    def self.definition_info
+      {
+        name: "Pipedrive",
+        tag_list: ["leads.convert", "email_changed"],
+        description: "Pipedrive CRM integration, will insert contacts",
+        icon: "https://logo.clearbit.com/pipedrive.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_secret",
+            type: "string",
+            grid: { xs: "w-full", sm: "w-full" },
+            required: true
+          }
+        ]
+      }
+    end
+
     def url(url)
       "#{BASE_URL}#{url}?api_token=#{@api_token}"
     end

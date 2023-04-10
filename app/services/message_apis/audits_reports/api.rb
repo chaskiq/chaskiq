@@ -4,7 +4,16 @@ module MessageApis::AuditsReports
   class Api
     attr_accessor :secret
 
-    def initialize(config:); end
+    def self.definition_info
+      {
+        name: "AuditsReports",
+        # capability_list: %w[],
+        tag_list: ["dashboard"],
+        description: "App Audits log reports",
+        state: "enabled",
+        definitions: []
+      }
+    end
 
     # reports
     def report_kinds
