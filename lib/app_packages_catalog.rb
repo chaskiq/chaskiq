@@ -1,41 +1,8 @@
 # frozen_string_literal: true
 
 class AppPackagesCatalog
-  # rubocop:disable Metrics/MethodLength
-  def self.packages(dev_packages: false)
-    development_packages = [
-      {
-        name: "UiCatalog",
-        description: "Sample Chaskiq UI kit, development sample",
-        capability_list: %w[home conversations],
-        state: "enabled",
-        definitions: []
-      },
-
-      {
-        name: "ExternalExample",
-        tag_list: ["editor"],
-        capability_list: %w[conversations home],
-        description: "External example, development sample",
-        icon: "",
-        state: "enabled",
-        initialize_url: "https://chaskiq-externa-api.glitch.me/initialize",
-        configure_url: "https://chaskiq-externa-api.glitch.me/configure",
-        submit_url: "https://chaskiq-externa-api.glitch.me/submit",
-        sheet_url: "https://chaskiq-externa-api.glitch.me/sheet",
-        definitions: [
-          {
-            name: "api_key",
-            type: "string",
-            required: true,
-            grid: { xs: "w-full", sm: "w-full" }
-          }
-        ]
-      }
-    ]
-
+  def self.default_packages
     collection = [
-
       {
         name: "InboxSections",
         description: "Inbox base blocks for conversation sidebar",
@@ -69,13 +36,77 @@ class AppPackagesCatalog
       },
 
       {
+        name: "ContactFields",
+        description: "Inbox contact fields editor",
+        state: "enabled",
+        capability_list: ["inbox"],
+        definitions: []
+      },
+
+      {
+        name: "AuditsReports",
+        # capability_list: %w[],
+        tag_list: ["dashboard"],
+        description: "App Audits log reports",
+        state: "enabled",
+        definitions: []
+      },
+
+      {
+        name: "Csat",
+        capability_list: %w[conversations bot],
+        tag_list: ["conversations.closed", "dashboard"],
+        description: "Offers CSat capabilities",
+        state: "enabled",
+        definitions: []
+      }
+    ]
+  end
+
+  def self.packages(dev_packages: false)
+    default_packages
+  end
+
+  def self.packages_old(dev_packages: false)
+    development_packages = [
+      {
+        name: "UiCatalog",
+        description: "Sample Chaskiq UI kit, development sample",
+        capability_list: %w[home conversations],
+        state: "enabled",
+        definitions: []
+      },
+
+      {
+        name: "ExternalExample",
+        tag_list: ["editor"],
+        capability_list: %w[conversations home],
+        description: "External example, development sample",
+        icon: "",
+        state: "enabled",
+        initialize_url: "https://chaskiq-externa-api.glitch.me/initialize",
+        configure_url: "https://chaskiq-externa-api.glitch.me/configure",
+        submit_url: "https://chaskiq-externa-api.glitch.me/submit",
+        sheet_url: "https://chaskiq-externa-api.glitch.me/sheet",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    ]
+
+    collection = [
+      {
         name: "Reveniu",
         description: "Reveniu Payment buttons",
         capability_list: %w[conversations bots],
         state: "enabled",
         definitions: []
       },
-
       {
         name: "Gumroad",
         description: "Gumroad Payment buttons",
@@ -83,7 +114,6 @@ class AppPackagesCatalog
         state: "enabled",
         definitions: []
       },
-
       {
         name: "Stripe",
         description: "Stripe Payment buttons",
@@ -91,7 +121,6 @@ class AppPackagesCatalog
         state: "enabled",
         definitions: []
       },
-
       {
         name: "Counto",
         capability_list: %w[conversation_part],
@@ -112,16 +141,6 @@ class AppPackagesCatalog
           }
         ]
       },
-
-      {
-        name: "Csat",
-        capability_list: %w[conversations bot],
-        tag_list: ["conversations.closed", "dashboard"],
-        description: "Offers CSat capabilities",
-        state: "enabled",
-        definitions: []
-      },
-
       {
         name: "AuditsReports",
         # capability_list: %w[],
@@ -130,7 +149,6 @@ class AppPackagesCatalog
         state: "enabled",
         definitions: []
       },
-
       {
         name: "Clearbit",
         tag_list: ["enrichment"],
@@ -146,7 +164,6 @@ class AppPackagesCatalog
           }
         ]
       },
-
       {
         name: "FullContact",
         tag_list: ["enrichment"],
@@ -163,15 +180,6 @@ class AppPackagesCatalog
           }
         ]
       },
-
-      {
-        name: "ContactFields",
-        description: "Inbox contact fields editor",
-        state: "enabled",
-        capability_list: ["inbox"],
-        definitions: []
-      },
-
       {
         name: "OpenAi",
         tag_list: ["email_changed", "conversation.user.first.comment"],
@@ -198,7 +206,6 @@ class AppPackagesCatalog
           }
         ]
       },
-
       {
         tag_list: ["conversations.added"],
         capability_list: %w[conversations bots],
@@ -858,9 +865,8 @@ class AppPackagesCatalog
     ]
 
     collection = development_packages + collection if dev_packages
-    collection
+    collection + default_packages
   end
-  # rubocop:enable Metrics/MethodLength
 
   def self.import
     AppPackage.create(packages)

@@ -10,7 +10,7 @@ require_relative Rails.root.join("lib/app_packages_catalog.rb")
 
 module PluginSubscriptions
   class PluginDownloader
-    API_ENDPOINT = "http://localhost:8080/api/plugins-list".freeze
+    API_ENDPOINT = Chaskiq::Config.fetch("CHASKIQ_APPSTORE_URL", "https://appstore.chaskiq.io/api/plugins-list")
 
     # Use the PluginDownloader class to fetch and download plugins:
     # main.rb
@@ -21,10 +21,12 @@ module PluginSubscriptions
     # plugin_downloader = PluginDownloader.new(api_endpoint)
     # plugin_data = plugin_downloader.fetch_plugin_data
     # plugin_downloader.download_plugins(plugin_data)
-    # This implementation fetches the plugin data from the given API endpoint, and then downloads the plugins by creating the necessary directories and files. Make sure the API endpoint is accessible and returns the expected JSON format.
 
     def initialize
-      @connection = Faraday.new(url: API_ENDPOINT) do |conn|
+      token = Chaskiq::Config.get("CHASKIQ_APPSTORE_TOKEN")
+      raise "Token not present, please add CHASKIQ_APPSTORE_TOKEN to your env" if token.blank?
+
+      @connection = Faraday.new(url: API_ENDPOINT, params: { token: token }) do |conn|
         conn.headers["Content-Type"] = "application/json"
         conn.adapter Faraday.default_adapter
       end
