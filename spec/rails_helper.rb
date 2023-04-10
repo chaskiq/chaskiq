@@ -106,6 +106,13 @@ RSpec.configure do |config|
     # driven_by :rack_test
     # then, whenever you need to clean the DB
     # DatabaseCleaner.clean
+
+    # require_relative Rails.root.join("app/services/plugin_subscriptions")
+
+    PluginSubscriptions::PluginDownloader.new # .fetch_plugin_data
+    Plugin.save_all_plugins
+  rescue StandardError => e
+    Rails.logger.error("ERROR DOWNLOADING PLUGINS")
   end
 
   # Ensures that all javascript tests use :headless_chrome
