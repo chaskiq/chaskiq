@@ -15,14 +15,14 @@ class Plugin < ApplicationRecord
     plugin_data = plugin.data
 
     if plugin_data.present? && plugin_data.is_a?(Array)
-      plugin_folder_path = Rails.root.join("app", "services", "message_apis", plugin_name.underscore )
+      plugin_folder_path = Rails.root.join("app", "services", "message_apis", plugin_name.underscore)
 
       # Create the plugin folder if it doesn't exist
       FileUtils.mkdir_p(plugin_folder_path)
 
       plugin_data.each do |d|
         # Save the plugin file to the folder
-        file_path = plugin_folder_path.join("#{d['file']}")
+        file_path = plugin_folder_path.join((d["file"]).to_s)
         File.open(file_path, "w") do |file|
           file.write(d["content"])
           # Load the plugin file using Zeitwerk

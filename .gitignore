@@ -23,6 +23,8 @@ dist
 
 app/services/message_apis/test_plugin
 
+app/services/message_apis/.git
+
 /cypress
 /spec/cypress/screenshots
 
