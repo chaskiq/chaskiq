@@ -2,10 +2,12 @@ require "app_packages_catalog"
 
 namespace :packages do
   task update: :environment do
+    Rails.logger = Logger.new($stdout)
     AppPackagesCatalog.update_all
   end
 
   task attach: :environment do
+    Rails.logger = Logger.new($stdout)
     App.find_each { |a| a.attach_default_packages }
   end
 

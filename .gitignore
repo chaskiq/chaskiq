@@ -23,14 +23,14 @@ dist
 
 app/services/message_apis/**/*
 
-
-!app/services/message_apis/test_plugin
+# ContentShowcase ArticleSearch Qualifier InboxSections ContactFields
 !app/services/message_apis/aticle_search
 !app/services/message_apis/audit_reports
 !app/services/message_apis/contact_fields
 !app/services/message_apis/content_showcase
 !app/services/message_apis/inbox_sections
 !app/services/message_apis/qualifier
+!app/services/message_apis/csat
 
 
 
