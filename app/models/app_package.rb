@@ -23,6 +23,7 @@ class AppPackage < ApplicationRecord
     sheet_url
     oauth_url
     content_url
+    frozen
   ], coder: JSON
 
   validates :name, presence: true, uniqueness: true
@@ -116,5 +117,17 @@ class AppPackage < ApplicationRecord
   # message api
   def message_api_klass
     @message_api_klass ||= "MessageApis::#{name}::Api".constantize
+  end
+
+  def frozen?
+    frozen == true
+  end
+
+  def freeze!
+    update(frozen: true)
+  end
+
+  def unfreeze!
+    update(frozen: false)
   end
 end

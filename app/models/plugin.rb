@@ -13,6 +13,11 @@ class Plugin < ApplicationRecord
     app_package = AppPackage.find_by(name: plugin_name)
     plugin = app_package.plugin || app_package.build_plugin
 
+    if app_package.frozen?
+      Rails.logger.info("🟡 [#{app_package.name}] Skip installation because it's frozen")
+      return nil
+    end
+
     plugin_name = app_package.name
     plugin_data = plugin.data
 
@@ -27,17 +32,17 @@ class Plugin < ApplicationRecord
         file_path = plugin_folder_path.join((d["file"]).to_s)
         File.open(file_path, "w") do |file|
           file.write(d["content"])
-          # Load the plugin file using Zeitwerk
-          Rails.logger.info "Plugin file '#{d['file']}' saved to folder '#{plugin_folder_path}'."
+          Rails.logger.info "✅ [#{plugin_name}] Plugin file '#{d['file']}' saved to folder '#{plugin_folder_path}'."
         end
 
+        # Load the plugin file using Zeitwerk
         Rails.autoloaders.main.push_dir(plugin_folder_path)
         Rails.autoloaders.main.require_dependency(file_path.to_s)
-        Rails.logger.info("autoloaded #{plugin_folder_path}")
-        Rails.logger.info("autoloaded #{file_path}")
+        # Rails.logger.info("⚓ autoloaded #{plugin_folder_path}")
+        # Rails.logger.info("⚓ autoloaded #{file_path}")
       end
     else
-      Rails.logger.debug "Invalid plugin data format. Expected 'file' and 'content' keys."
+      Rails.logger.error "🔴 Invalid plugin data format. Expected 'file' and 'content' keys."
     end
   end
 end
