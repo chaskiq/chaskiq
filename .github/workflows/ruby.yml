@@ -53,6 +53,8 @@ jobs:
           bundle exec rake assets:precompile
       - name: Build and run tests
         run: |
+          bundle exec rails packages:download
+          bundle exec rails packages:install
           bundle exec rspec ./spec
 
       - name: Build and run E2E tests
@@ -60,6 +62,8 @@ jobs:
           echo "node version:"
           echo `node -v`
           # curl ifconfig.me
+          bundle exec rails packages:download
+          bundle exec rails packages:install
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
           yarn cypress:ga-ci
