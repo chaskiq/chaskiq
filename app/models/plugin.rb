@@ -45,4 +45,48 @@ class Plugin < ApplicationRecord
       Rails.logger.error "🔴 Invalid plugin data format. Expected 'file' and 'content' keys."
     end
   end
+
+  # will read the plugin files and store plugins locally on AppPackage / Plugin
+  def self.restore_plugins_from_fs
+    plugins_base_path = Rails.root.join("app/services/message_apis")
+
+    # Iterate over all plugin folders
+    Dir.glob("#{plugins_base_path}/*").each do |plugin_folder|
+      next unless File.directory?(plugin_folder)
+
+      load_plugin_and_create_packages_from_fs(plugin_folder)
+    end
+
+    Rails.logger.info "Process completed"
+  end
+
+  def self.load_plugin_and_create_packages_from_fs(plugin_folder)
+    plugin_name = File.basename(plugin_folder).camelize
+
+    files_data = Dir.glob("#{plugin_folder}/**/*").map do |file_path|
+      next if File.directory?(file_path)
+
+      # Read the contents of the file
+      file_content = File.read(file_path)
+      file_name = File.basename(file_path)
+
+      # Create a hash with the file name and content
+      { file: file_name, content: file_content }
+    end.compact
+
+    # Initialize the AppPackage
+    app_package = AppPackage.find_or_initialize_by(name: plugin_name)
+
+    # Set the definitions and plugin attributes
+    api_klass = "MessageApis::#{plugin_name}::Api".constantize
+    app_package.assign_attributes(api_klass.definition_info)
+    app_package.plugin_attributes = { data: files_data }
+
+    # Save the AppPackage
+    if app_package.save
+      Rails.logger.info "✅ [#{plugin_name}] Saved from source"
+    else
+      Rails.logger.error "🔴 [#{plugin_name}] Error"
+    end
+  end
 end

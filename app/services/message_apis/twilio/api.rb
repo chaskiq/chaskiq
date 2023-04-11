@@ -27,7 +27,7 @@ module MessageApis::Twilio
       self
     end
 
-    def definition_info
+    def self.definition_info
       {
         name: "Twilio",
         tag_list: ["conversations.added"],
