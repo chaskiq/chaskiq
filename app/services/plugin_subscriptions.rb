@@ -121,7 +121,7 @@ module PluginSubscriptions
     end
 
     def self.upload_list
-      raise "💥💥💥 No Supabase config detected!! 💥💥💥, please contact Chaskiq authors if you want to publish a plugin." if Chaskiq::Config.get("SUPABASE_PG_URL").blank?
+      raise "💥💥💥 No Supabase config detected!! 💥💥💥, please contact Chaskiq authors if you want to publish a plugin." if Chaskiq::Config.get("APPSTORE_DB_URL").blank?
 
       AppPackage.all.each do |app_package|
         store_plugin_files(app_package)
