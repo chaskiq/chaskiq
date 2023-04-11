@@ -9,8 +9,4 @@ apt-get update -qq \
     less \
     git \
     imagemagick \
-    zlib1g-dev \ 
-    sqlite3 \
-    libsqlite3-dev \
-    pkg-config \
-
+    zlib1g-dev
