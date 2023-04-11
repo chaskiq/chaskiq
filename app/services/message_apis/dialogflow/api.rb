@@ -25,6 +25,34 @@ module MessageApis::Dialogflow
       end
     end
 
+    def self.definition_info
+      {
+        tag_list: ["conversations.added"],
+        capability_list: %w[conversations bots],
+        name: "Dialogflow",
+        description: "Convesation Bot integration from dialogflow",
+        icon: "https://logo.clearbit.com/dialogflow.com",
+        state: Rails.env.production? ? "disabled" : "enabled",
+        definitions: [
+          {
+            name: "project_id",
+            label: "project id",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            label: "credentials",
+            hint: "JSON credential needed",
+            name: "credentials",
+            type: "textarea",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def validate_integration
       get_response_for(text: "hi", session_id: "test", lang: "en-US")
       nil

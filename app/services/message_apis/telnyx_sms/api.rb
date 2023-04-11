@@ -31,6 +31,38 @@ module MessageApis::TelnyxSms
       self
     end
 
+    def self.definition_info
+      {
+        name: "TelnyxSms",
+        description: "Interfaces Telnyx SMS",
+        icon: "https://logo.clearbit.com/telnyx.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "profile_id",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "phones",
+            label: "Numbers pool",
+            hint: "Desired format ie: +17777777777, add comma separated values for your phones, ie:. phone1,phone2,phone3",
+            type: "textarea",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+
+        ]
+      }
+    end
+
     def validate_integration
       # @package.settings[:phones].split(",").each do ||
     end

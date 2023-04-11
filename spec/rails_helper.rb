@@ -102,10 +102,16 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   # Ensures all non-javascript tests will use the faster :rack_test
-  config.before(:all, type: :system) do
+  config.before(:all) do # , type: :system) do
     # driven_by :rack_test
     # then, whenever you need to clean the DB
     # DatabaseCleaner.clean
+
+    # require_relative Rails.root.join("app/services/plugin_subscriptions")
+    # PluginSubscriptions::PluginDownloader.new.fetch_plugin_data
+    # Plugin.save_all_plugins
+  rescue StandardError => e
+    Rails.logger.error("ERROR DOWNLOADING PLUGINS")
   end
 
   # Ensures that all javascript tests use :headless_chrome

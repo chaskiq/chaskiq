@@ -23,6 +23,54 @@ module MessageApis::Zoom
       }
     end
 
+    def self.definition_info
+      {
+        name: "Zoom",
+        tag_list: ["editor"],
+        capability_list: ["conversations"],
+        description: "Zoom conference calls",
+        icon: "https://logo.clearbit.com/zoom.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "api_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "access_token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ],
+        editor_definitions: {
+          requires: [
+            { type: "input",
+              name: "src",
+              placeholder: "user email",
+              hint: "is the zoom owner email or zoom user id" }
+          ],
+          schema: [
+            {
+              name: "zoom",
+              type: "button",
+              label: "enter video call",
+              element: "button",
+              placeholder: "click button to open video call"
+            }
+          ]
+        }
+      }
+    end
+
     def url(url)
       "#{BASE_URL}#{url}"
     end

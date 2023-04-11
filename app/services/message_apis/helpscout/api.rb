@@ -16,6 +16,30 @@ module MessageApis::Helpscout
       }
     end
 
+    def self.definition_info
+      {
+        name: "Helpscout",
+        tag_list: ["crm"],
+        description: "Will insert contacts",
+        state: "disabled",
+        icon: "https://logo.clearbit.com/helpscout.shop",
+        definitions: [
+          {
+            name: "api_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "api_key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def self.tester
       MessageApis::Helpscout.new(
         key: Rails.application.credentials.integrations.dig(:helpscout, :key),

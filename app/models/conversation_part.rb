@@ -102,9 +102,13 @@ class ConversationPart < ApplicationRecord
   end
 
   def notify_to_channels(opts = {})
+    participant_socket_notify
+    enqueue_channel_notification unless opts[:disable_api_notification]
+  end
+
+  def participant_socket_notify
     notify_app_users unless private_note?
     notify_agents
-    enqueue_channel_notification unless opts[:disable_api_notification]
   end
 
   def notify_agents

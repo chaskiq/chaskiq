@@ -18,6 +18,29 @@ module MessageApis::Counto
       }
     end
 
+    def self.definition_info
+      {
+        name: "Counto",
+        capability_list: %w[conversation_part],
+        description: "Send conversation part data from Admin panel",
+        state: "enabled",
+        definitions: [
+          {
+            name: "api_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "endpoint_url",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def notify_conversation_part(conversation_part:, command:)
       info = begin
         JSON.parse(command)

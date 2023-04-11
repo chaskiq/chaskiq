@@ -22,6 +22,30 @@ module MessageApis::Messenger
       self
     end
 
+    def self.definition_info
+      {
+        name: "Messenger",
+        tag_list: ["conversations.added"],
+        description: "Interfaces Facebook Messenger",
+        icon: "https://logo.clearbit.com/messenger.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "access_token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "verify_token",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def trigger(event)
       # case event.action
       # when 'email_changed' then register_contact(event.eventable)

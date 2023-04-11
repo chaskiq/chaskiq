@@ -18,6 +18,25 @@ module MessageApis::FullContact
       self
     end
 
+    def self.definition_info
+      {
+        name: "FullContact",
+        tag_list: ["enrichment"],
+        description: "Data Enrichment service",
+        icon: "https://logo.clearbit.com/fullcontact.com",
+        state: "enabled",
+        capability_list: ["inbox"],
+        definitions: [
+          {
+            name: "api_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def authorize!
       @conn.request :authorization, :Bearer, @token
     end

@@ -35,6 +35,40 @@ module MessageApis::Dialog360
       self
     end
 
+    def self.definition_info
+      {
+        name: "Dialog360",
+        tag_list: ["conversations.added"],
+        description: "Interfaces 360 Dialog Whatsapp",
+        icon: "https://logo.clearbit.com/360 Dialog.com",
+        state: "enabled",
+        capability_list: %w[conversations bots conversations_initiator],
+        definitions: [
+          {
+            name: "user_id",
+            label: "Phone",
+            type: "string",
+            required: true,
+            hint: "The 360 Dialog Whatsapp number (format: 14155231223)",
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "api_key",
+            label: "Your 360Dialog API key",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          },
+          {
+            name: "sandbox",
+            label: "is sandbox",
+            type: "checkbox",
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def register_webhook(app_package, integration)
       data = {
         url: integration.hook_url # .gsub("http://localhost:3000", "https://chaskiq.sa.ngrok.io")

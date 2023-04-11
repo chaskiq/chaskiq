@@ -1,34 +1,30 @@
 # frozen_string_literal: true
 
-module MessageApis::OpenAi
+require "rack/mime"
+
+module MessageApis::GoBot
   class Api < MessageApis::BasePackage
     include MessageApis::Helpers
 
-    BASE_URL = "https://api.openai.com"
-    PROVIDER = "openai"
+    PROVIDER = "go_bot"
 
-    attr_accessor :url, :api_secret, :conn
+    attr_accessor :url, :api_key, :client
 
     def initialize(config:)
-      @api_secret = config["api_secret"]
+      @package = config[:package]
 
-      @url = "#{BASE_URL}/v1/chat/completions"
+      @client = MessageApis::GoBot::GoClient.new
 
-      @conn = Faraday.new(
-        request: {
-          params_encoder: Faraday::FlatParamsEncoder
-        }
-      )
       self
     end
 
     def self.definition_info
       {
-        name: "OpenAi",
+        name: "GoBot",
         tag_list: ["email_changed", "conversation.user.first.comment"],
-        description: "Open AI GPT-3 tasks",
-        icon: "https://logo.clearbit.com/openai.com",
-        state: "enabled",
+        description: "CIENCE GO Chatbot",
+        icon: "https://logo.clearbit.com/cience.com",
+        state: Chaskiq::Config.get("CIENCE_GOBOT_URL").present? ? "enabled" : "disabled",
         capability_list: %w[conversations bots],
         definitions: [
           {
@@ -51,8 +47,23 @@ module MessageApis::OpenAi
       }
     end
 
-    def authorize!
-      @conn.request :authorization, :Bearer, @api_secret
+    def register_webhook(app_package, integration); end
+
+    def unregister(app_package, integration)
+      # delete_webhooks
+    end
+
+    def process_event(params, package)
+      @package = package
+      current = params["current"]
+      process_message(params, @package)
+    end
+
+    def send_message(conversation, part)
+      return if part.private_note?
+
+      message = part.message.as_json
+      # TODO: implement event format
     end
 
     def trigger(event)
@@ -69,8 +80,6 @@ module MessageApis::OpenAi
     end
 
     def notify_added(conversation)
-      authorize!
-
       # TODO: handle this only on UI ?
       # add an option on app parent definition to add this by default??
 
@@ -81,7 +90,7 @@ module MessageApis::OpenAi
       # participant = conversation.main_participant
 
       # conversation.conversation_channels.create({
-      #  provider: 'open_ai',
+      #  provider: 'go_bot',
       #  provider_channel_id: conversation.id
       # })
     end
@@ -89,7 +98,7 @@ module MessageApis::OpenAi
     def locked_for_channel?(conversation, part)
       if part.authorable.is_a?(Agent) && !part.authorable.bot?
         conversation.conversation_channels.find_by({
-                                                     provider: "open_ai",
+                                                     provider: PROVIDER,
                                                      provider_channel_id: conversation.id
                                                    }).destroy
 
@@ -99,14 +108,63 @@ module MessageApis::OpenAi
       end
     end
 
+    def get_response(prompt, data, user_key)
+      system_prompt = { role: "system", content: prompt }
+      messages = []
+      messages << system_prompt
+      messages << data
+      Rails.logger.debug messages
+      @client.initiate_conversation(messages.flatten)
+    end
+
+    def get_chunked_response(prompt, data, user_key, conversation)
+      system_prompt = { role: "system", content: prompt }
+      messages = []
+      messages << system_prompt
+      messages << data
+      # Rails.logger.debug messages
+
+      mid = nil
+      @client.initiate_conversation(messages.flatten) do |text|
+        return nil if text.nil?
+
+        if mid.blank?
+          Rails.logger.info(text)
+          blocks = {
+            blocks: [
+              serialized_block(text)
+            ].flatten.compact
+          }.to_json
+
+          a = add_message(
+            conversation: conversation,
+            from: conversation.app.agents.bots.first,
+            text: text,
+            blocks: blocks,
+            message_id: nil
+          )
+          mid = a.id
+        else
+          part = ConversationPart.find(mid)
+          blocks = JSON.parse(part.messageable.serialized_content)["blocks"]
+
+          previous_text = blocks.map { |o| o["text"] }.join
+
+          part.message.update(serialized_content: text_block(previous_text + text))
+
+          part.participant_socket_notify
+        end
+      end
+    end
+
     def notify_message(conversation:, part:, channel:)
-      gpt_channel = conversation.conversation_channels.find_by(provider: "open_ai")
+      gpt_channel = conversation.conversation_channels.find_by(provider: PROVIDER)
       return if gpt_channel.blank?
       return unless part.messageable.is_a?(ConversationPartContent)
       return true if locked_for_channel?(conversation, part)
-      return if part.conversation_part_channel_sources.where(provider: "open_ai").any?
+      return if part.conversation_part_channel_sources.where(provider: PROVIDER).any?
 
-      Rails.logger.info "NOTIFY MESSAGE OPEN AI #{part.id}"
+      Rails.logger.info "NOTIFY MESSAGE #{PROVIDER} #{part.id}"
 
       unless part.authorable.is_a?(Agent)
 
@@ -120,39 +178,45 @@ module MessageApis::OpenAi
 
         messages = previous << { role: "user", content: human_input }
 
-        Rails.cache.write("/conversation/#{conversation.key}/openai", messages)
+        Rails.cache.write("/conversation/#{conversation.key}/#{PROVIDER}", messages)
 
         Rails.logger.info "PROMPT: #{messages}"
 
-        gpt_result = get_gpt_response(gpt_channel.data["prompt"], messages, part.authorable.id.to_s)
-
-        Rails.logger.info(gpt_result)
-        text = begin
-          gpt_result["choices"].first["message"]["content"]
-        rescue StandardError
-          nil
-        end
-
-        return if text.nil?
-
-        blocks = {
-          blocks: [
-            serialized_block(text)
-          ].flatten.compact
-        }.to_json
-
-        add_message(
-          conversation: conversation,
-          from: conversation.app.agents.bots.first,
-          text: text,
-          blocks: blocks,
-          message_id: gpt_result[:id]
+        gpt_result = get_chunked_response(
+          gpt_channel.data["prompt"],
+          messages,
+          part.authorable.id.to_s,
+          conversation
         )
+
+        # Rails.logger.info(gpt_result)
+        # text = gpt_result
+        ## begin
+        ##  gpt_result["choices"].first["message"]["content"]
+        ## rescue StandardError
+        ##  nil
+        ## end
+
+        # return if text.nil?
+
+        # blocks = {
+        #  blocks: [
+        #    serialized_block(text)
+        #  ].flatten.compact
+        # }.to_json
+
+        # add_message(
+        #  conversation: conversation,
+        #  from: conversation.app.agents.bots.first,
+        #  text: text,
+        #  blocks: blocks,
+        #  message_id: nil
+        # )
       end
     end
 
     def previous_messages(conversation, part)
-      Rails.cache.fetch("/conversation/#{conversation.key}/openai", expires_in: 1.hour) do
+      Rails.cache.fetch("/conversation/#{conversation.key}/#{PROVIDER}", expires_in: 1.hour) do
         messages = conversation.messages.where(
           messageable_type: "ConversationPartContent"
         ).where.not(id: part.id)
@@ -176,45 +240,11 @@ module MessageApis::OpenAi
             html_content: text,
             serialized_content: blocks
           },
-          provider: "open_ai",
+          provider: PROVIDER,
           message_source_id: message_id,
           check_assignment_rules: true
         )
       end
     end
-
-    def post_data(url, data)
-      authorize!
-      @conn.post do |req|
-        req.url url
-        req.headers["Content-Type"] = "application/json; charset=utf-8"
-        req.body = data.to_json
-      end
-    end
-
-    def get_gpt_response(prompt, data, user_key)
-      system_prompt = { role: "system", content: prompt }
-      messages = []
-      messages << system_prompt
-      messages << data
-
-      message_data = {
-        model: "gpt-3.5-turbo",
-        messages: messages.flatten,
-        user: user_key
-      }
-
-      Rails.logger.debug message_data
-
-      JSON.parse(post_data(@url, message_data).body)
-    end
-
-    def process_event(params, package)
-      # todo, here we can do so many things like make a pause and
-      # analize conversation subject or classyficators
-    end
-
-    # for display in replied message
-    def self.display_data(data); end
   end
 end

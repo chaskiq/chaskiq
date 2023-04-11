@@ -20,6 +20,24 @@ module MessageApis::Clearbit
       self
     end
 
+    def self.definition_info
+      {
+        name: "Clearbit",
+        tag_list: ["enrichment"],
+        description: "Clearbit data enrichment",
+        icon: "https://logo.clearbit.com/clearbit.com",
+        state: "disabled",
+        definitions: [
+          {
+            name: "api_secret",
+            type: "string",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+        ]
+      }
+    end
+
     def authorize!
       @conn.request :authorization, :Bearer, @token
     end
