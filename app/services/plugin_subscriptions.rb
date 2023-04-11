@@ -27,7 +27,7 @@ module PluginSubscriptions
 
     def initialize
       token = Chaskiq::Config.get("CHASKIQ_APPSTORE_TOKEN")
-      raise "Token not present, please add CHASKIQ_APPSTORE_TOKEN to your env" if token.blank?
+      raise "🔴 Token not present, please add CHASKIQ_APPSTORE_TOKEN to your env" if token.blank?
 
       @connection = Faraday.new(url: API_ENDPOINT, params: { token: token }) do |conn|
         conn.headers["Content-Type"] = "application/json"

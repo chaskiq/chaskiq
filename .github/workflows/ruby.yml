@@ -52,12 +52,17 @@ jobs:
           bundle exec rails db:prepare
           bundle exec rake assets:precompile
       - name: Build and run tests
+        env:
+          CHASKIQ_APPSTORE_TOKEN: ${{secrets.CHASKIQ_APPSTORE_TOKEN}}
+
         run: |
           bundle exec rails packages:download
           bundle exec rails packages:install
           bundle exec rspec ./spec
 
       - name: Build and run E2E tests
+        env:
+          CHASKIQ_APPSTORE_TOKEN: ${{secrets.CHASKIQ_APPSTORE_TOKEN}}
         run: |
           echo "node version:"
           echo `node -v`
@@ -67,6 +72,8 @@ jobs:
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
           yarn cypress:ga-ci
+
+
       #- name: Deploy to Heroku
       #  env:
       #    HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
