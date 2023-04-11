@@ -47,7 +47,7 @@ class AppPackage < ApplicationRecord
   def is_external?
     return true if author.present?
 
-    return false if plugin.new_record?
+    return false if plugin.present? && plugin.new_record?
 
     # will return true for non existing message_apply
     external = begin
