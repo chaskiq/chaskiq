@@ -6,10 +6,29 @@ if defined?(Rails::Server) || defined?(Rails::Console)
     Rails.application.eager_load!
 
     def plugin_autoloader
-      puts "PREPARE TO SAVE CHASKIQ PLUGINS"
-      Plugin.save_all_plugins unless Chaskiq::Config.get("DISABLE_AUTOLOAD_APPSTORE")
+      puts ascii()
+
+      unless Chaskiq::Config.get("DISABLE_AUTOLOAD_APPSTORE").present?
+        puts "⚡⚡⚡⚡ PREPARE TO SAVE CHASKIQ PLUGINS ⚡⚡⚡⚡⚡"
+        Plugin.save_all_plugins 
+      end
+      puts "🔥 Visit https://appstore.chaskiq.io for a comprehensive plugin list for your Chaskiq instance 🔥"
     end
 
     plugin_autoloader
+  end
+
+  def ascii()
+
+    a = <<~VIEW
+    ________               __   _      
+    / ____/ /_  ____ ______/ /__(_)___ _
+   / /   / __ \/ __ `/ ___/ //_/ / __ `/
+  / /___/ / / / /_/ (__  ) ,< / / /_/ / 
+  \____/_/ /_/\__,_/____/_/|_/_/\__, /  
+                                  /_/   
+    VIEW
+
+
   end
 end
