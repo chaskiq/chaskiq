@@ -27,6 +27,35 @@ module MessageApis::Zapier
       self
     end
 
+    def self.definition_info
+      {
+        name: "Zapier",
+        capability_list: %w[inbox],
+        tag_list: [
+          "conversations.started",
+          "conversations.assigned",
+          "conversations.added",
+          "conversations.closed",
+          "users.created",
+          "conversation.user.first.comment"
+        ],
+        description: "Interfaces Zapier template",
+        icon: "https://logo.clearbit.com/zapier.com",
+        state: "enabled",
+        definitions: [
+          {
+            name: "access_token",
+            type: "string",
+            label: "Password",
+            hint: "Put a password to be used in the Zapier auth",
+            required: true,
+            grid: { xs: "w-full", sm: "w-full" }
+          }
+
+        ]
+      }
+    end
+
     def create_hook_from_params
       { a: "olii" }
     end

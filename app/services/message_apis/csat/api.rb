@@ -10,6 +10,17 @@ module MessageApis::Csat
       @url = config["endpoint_url"]
     end
 
+    def self.definition_info
+      {
+        name: "Csat",
+        capability_list: %w[conversations bot],
+        tag_list: ["conversations.closed", "dashboard"],
+        description: "Offers CSat capabilities",
+        state: "enabled",
+        definitions: []
+      }
+    end
+
     # reports
     def report_kinds
       [
