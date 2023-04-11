@@ -76,7 +76,7 @@ module PluginSubscriptions
   class RemotePlugin < SupabaseRecord
     # APPSTORE_DB_URL = "sqlite3::memory:".freeze
 
-    establish_connection(Chaskiq::Config.fetch("APPSTORE_DB_URL", APPSTORE_DB_URL))
+    establish_connection(Chaskiq::Config.get("APPSTORE_DB_URL"))
 
     # establish_connection :supabase
     self.table_name = "plugins"
