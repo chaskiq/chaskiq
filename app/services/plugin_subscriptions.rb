@@ -27,7 +27,7 @@ module PluginSubscriptions
 
     def initialize
       token = Chaskiq::Config.get("CHASKIQ_APPSTORE_TOKEN")
-      raise "Token not present, please add CHASKIQ_APPSTORE_TOKEN to your env" if token.blank?
+      raise "🔴 Token not present, please add CHASKIQ_APPSTORE_TOKEN to your env" if token.blank?
 
       @connection = Faraday.new(url: API_ENDPOINT, params: { token: token }) do |conn|
         conn.headers["Content-Type"] = "application/json"
@@ -51,9 +51,10 @@ module PluginSubscriptions
           Rails.logger.info("🟡 #{app_package.name} was not downloaded because it's frozen")
           next
         end
+        settings = o["settings"].delete_if { |s| s["frozen"] }
         app_package.assign_attributes(
           name: o["name"].camelcase,
-          settings: o["settings"],
+          settings: settings,
           capability_list: o["capabilities"],
           tag_list: o["tag_list"],
           plugin_attributes: { data: o["data"] }
