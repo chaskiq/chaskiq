@@ -15,7 +15,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-
         ports: ['5432:5432']
         options: >-
           --health-cmd pg_isready
@@ -33,10 +32,6 @@ jobs:
       REDIS_URL: redis://localhost:6379/0
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      SUPABASE_POSTGRES_HOST: 'localhost'
-      SUPABASE_POSTGRES_DATABASE: 'supabase'
-      SUPABASE_POSTGRES_USERNAME: 'postgres'
-      SUPABASE_POSTGRES_PASSWORD: 'postgres'
     steps:
       - uses: actions/checkout@v1
       - uses: ruby/setup-ruby@v1
@@ -49,33 +44,14 @@ jobs:
           node-version: 16
           cache: 'yarn'
 
-
-      - name: Build
+      - name: Build and precompile
         run: |
           sudo apt-get -yqq install libpq-dev curl libgconf-2-4
           gem install bundler
           bundle install --jobs 4 --retry 3
-
-      - name: Set up primary database
-        env:
-          POSTGRES_DB: postgres
-          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
-        run: bin/rails db:prepare
-      #- name: Set up supabase database
-      #  env:
-      #    POSTGRES_DB: supabase_test
-      #    DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/supabase_test"
-      #  run: bin/rails db:prepare
-
-      - name: precompile
-        run: |
+          bundle exec rails db:prepare
           bundle exec rake assets:precompile
       - name: Build and run tests
-        env:
-          POSTGRES_DB: postgres
-          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
-          # APPSTORE_DB_URL: "postgresql://postgres:postgres@localhost:5432/supabase_test"
-
         run: |
           bundle exec rspec ./spec
 
