@@ -20,7 +20,7 @@ if defined?(Rails::Server) || defined?(Rails::Console)
 
   def ascii()
 
-    a = <<~VIEW
+    <<~VIEW
     ________               __   _      
     / ____/ /_  ____ ______/ /__(_)___ _
    / /   / __ \/ __ `/ ___/ //_/ / __ `/
