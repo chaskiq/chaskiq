@@ -601,6 +601,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite3 (1.6.2)
+      mini_portile2 (~> 2.8.0)
     stripe (6.5.0)
     strscan (3.0.4)
     strscan (3.0.4-java)
@@ -759,6 +761,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq (~> 6.5)
   spring
+  sqlite3
   stripe (~> 6.0)
   tailwindcss-rails
   timezone (~> 1.2)
