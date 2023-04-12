@@ -3,7 +3,7 @@ name: "Rubocop"
 
 on:
   push:
-    branches: [ master,  '!l10n_master2' ]
+    branches: [ main, master,  '!l10n_master2' ]
   schedule:
     - cron: '27 22 * * 2'
 

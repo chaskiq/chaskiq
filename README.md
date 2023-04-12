@@ -17,7 +17,7 @@
 
 <br/>
 
-<a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/master" alt="Deploy to Heroku">
+<a href="https://heroku.com/deploy?template=https://github.com/chaskiq/chaskiq/tree/main" alt="Deploy to Heroku">
     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
 </a>
 
@@ -120,7 +120,7 @@ Chaskiq is built for the *next* 10 years of the Internet, so our requirements ar
 - [PostgreSQL](https://www.postgresql.org/) &mdash; Our main data store is in Postgres.
 - [Redis](https://redis.io/) &mdash; We use Redis as a cache and for transient data.
 
-Plus *lots* of Ruby Gems, a complete list of which is at [/master/Gemfile](https://github.com/chaskiq/chaskiq/blob/master/Gemfile).
+Plus *lots* of Ruby Gems, a complete list of which is at [/main/Gemfile](https://github.com/chaskiq/chaskiq/blob/main/Gemfile).
 
 ## The Chaskiq Team
 
