@@ -145,3 +145,30 @@ namespace :upgrade_tasks do
     end
   end
 end
+
+namespace :repo do
+  def handle_run(limit: 500, status: "queued", action: "cancel")
+    o = `gh run list --limit 500 -R chaskiq/chaskiq --json databaseId,status --status #{status}`
+    oo = JSON.parse(o)
+    puts "#{oo.size} RUNS detected"
+
+    oo.each do |d|
+      puts d["databaseId"]
+      `gh run #{action} #{d["databaseId"]}`
+    end
+  end
+
+  #  -s, --status string     Filter runs by status: {queued|completed|in_progress|requested|waiting|action_required|cancelled|failure|neutral|skipped|stale|startup_failure|success|timed_out}
+
+  task delete_cancelled_runs: :environment do
+    handle_run(limit: 500, status: "cencelled", action: "delete")
+  end
+
+  task delete_failed_runs: :environment do
+    handle_run(limit: 500, status: "failure", action: "delete")
+  end
+
+  task cancel_queued_runs: :environment do
+    handle_run(limit: 500, status: "queued", action: "cancel")
+  end
+end
