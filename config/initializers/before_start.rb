@@ -8,9 +8,13 @@ if defined?(Rails::Server) || defined?(Rails::Console)
     def plugin_autoloader
       puts ascii()
 
-      unless Chaskiq::Config.get("DISABLE_AUTOLOAD_APPSTORE").present?
-        puts "⚡⚡⚡⚡ PREPARE TO SAVE CHASKIQ PLUGINS ⚡⚡⚡⚡⚡"
-        Plugin.save_all_plugins 
+      begin
+        unless Chaskiq::Config.get("DISABLE_AUTOLOAD_APPSTORE").present?
+          puts "⚡⚡⚡⚡ PREPARE TO SAVE CHASKIQ PLUGINS ⚡⚡⚡⚡⚡"
+          Plugin.save_all_plugins 
+        end
+        rescue => e
+          puts "ERROR saving plugins #{e.message}"
       end
       puts "🔥 Visit https://appstore.chaskiq.io for a comprehensive plugin list for your Chaskiq instance 🔥"
     end
