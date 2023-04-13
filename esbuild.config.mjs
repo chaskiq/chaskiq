@@ -42,23 +42,23 @@ let ctx = await esbuild.context({
   //chunkNames: '[name]-[hash].digested',
   //format: 'esm',
   banner: {
-      js: `
-        ${
-          watch ?
-            `
-              (
-                () => {
-                  const sse = new EventSource("http://localhost:3001/esbuild");
-                  sse.addEventListener("change", (e) => {
-                    console.log("Esbuild message:", e.data);
-                    location.reload();
-                  });
-                }
-              )();
-            `
-          : ''
-        }
-      `
+    js: `
+      ${
+        watch ?
+          `
+            (
+              () => {
+                const sse = new EventSource("http://localhost:3001/esbuild");
+                sse.addEventListener("change", (e) => {
+                  console.log("Esbuild message:", e.data);
+                  location.reload();
+                });
+              }
+            )();
+          `
+        : ''
+      }
+    `
   },
   outdir: 'app/assets/builds',
   plugins: [
