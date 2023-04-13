@@ -20,8 +20,8 @@ const watchOptions = {
     },
 }
 
-esbuild
-    .build({
+
+let ctx = await esbuild.context({
         logLevel: 'info',
         target: 'es2020',
         sourcemap: watch,
@@ -57,12 +57,23 @@ esbuild
             js: `
               ${
                 watch ?
-                  `(() => new EventSource("http://localhost:3001").onmessage = () => location.reload())();`
+                  `
+                    (
+                      () => {
+                        const sse = new EventSource("http://localhost:3001/esbuild");
+                        sse.addEventListener("change", (e) => {
+                          console.log("Esbuild message:", e.data);
+                          location.reload();
+                        });
+
+                      }
+                      
+                    )();
+                  `
                 : ''
               }
-            `,
+            `
         },
-        watch: watch && watchOptions,
         outdir: 'app/assets/builds',
         plugins: [
           babel({
@@ -70,31 +81,10 @@ esbuild
             })
         ]
     })
-    .then(result => {
-        console.log(result)
-        if (watch) {
-          console.log('Build finished, watching for changes...')
-        } else {
-          console.log('Build finished, Congrats')
-        }
 
-        if(metafile){
-           fs.writeFileSync('esbuild-meta.json', JSON.stringify(result.metafile))
-        }
-      }).catch(result => {
-        console.log(result)
-        process.exit(1)
-      })
+await ctx.watch()
 
-if( watch){
-    createServer((req, res) => {
-        return clients.push(
-            res.writeHead(200, {
-            "Content-Type": "text/event-stream",
-            "Cache-Control": "no-cache",
-            "Access-Control-Allow-Origin": "*",
-            Connection: "keep-alive",
-            }),
-        );
-        }).listen(3001);
-}
+let { host, port } = await ctx.serve({
+  port: 3001,
+  servedir: 'app/assets/builds',
+})
