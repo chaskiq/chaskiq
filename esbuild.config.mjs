@@ -84,7 +84,11 @@ let ctx = await esbuild.context({
 
 await ctx.watch()
 
-let { host, port } = await ctx.serve({
-  port: 3001,
-  servedir: 'app/assets/builds',
-})
+if( watch ){
+  let { host, port } = await ctx.serve({
+    port: 3001,
+    servedir: 'app/assets/builds',
+  })
+}
+
+
