@@ -11,11 +11,20 @@ namespace :packages do
     App.find_each { |a| a.attach_default_packages }
   end
 
-  # publish plugins to service (chaskiq only)
-  task publish: :environment do
+  task :publish, [:pkg_name] => :environment do |_task, args|
     Rails.logger = Logger.new($stdout)
+    pkg_name = args[:pkg_name]
     require_relative Rails.root.join("app/services/plugin_subscriptions")
-    PluginSubscriptions::RemotePlugin.upload_list
+    if pkg_name.present?
+      pkg = AppPackage.find_by(name: pkg_name)
+      if pkg.present?
+        PluginSubscriptions::RemotePlugin.store_plugin_files(pkg)
+      else
+        Rails.logger.error("🔴 No package with \"#{pkg_name}\" was found")
+      end
+    else
+      PluginSubscriptions::RemotePlugin.upload_list
+    end
   end
 
   # downloads and stores in DB app package/plugin
