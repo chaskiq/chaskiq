@@ -175,6 +175,7 @@
     "i18n:export": "i18n export --config config/i18n.yml --require config/environment.rb",
     "husky-install": "husky install",
     "dev": "NODE_ENV=development node ./esbuild.config.mjs --watch",
-    "heroku-postbuild": "rm -R node_modules;npm cache clean --force"
+    "heroku-postbuild": "rm -R node_modules;npm cache clean --force",
+    "chaskiq:dev": "./bin/dev"
   }
 }

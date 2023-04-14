@@ -52,9 +52,10 @@ module PluginSubscriptions
           next
         end
         settings = o["settings"].delete_if { |s| s["frozen"] }
+
         app_package.assign_attributes(
           name: o["name"].camelcase,
-          settings: settings,
+          settings: settings.slice("icon", "definitions", "name"),
           capability_list: o["capabilities"],
           tag_list: o["tag_list"],
           plugin_attributes: { data: o["data"] }
@@ -107,7 +108,7 @@ module PluginSubscriptions
         plugin.update!(
           data: plugin_data,
           name: package.name,
-          settings: package.settings,
+          settings: "MessageApis::#{plugin.name}::Api".constantize.definition_info.slice(:name, :icon, :definitions),
           capabilities: package.capability_list,
           tag_list: package.tag_list,
           description: package.description
