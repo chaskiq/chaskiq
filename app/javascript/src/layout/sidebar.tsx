@@ -25,6 +25,7 @@ import {
   DarkModeIcon,
   LightModeIcon,
   ChartsIcons,
+  LabIcon,
   KeyIcon,
   WriteIcon,
 } from '@chaskiq/components/src/components/icons';
@@ -108,13 +109,6 @@ function Sidebar({
   function isActivePage(page) {
     /// console.log("selected page", current_page , page)
     return current_page === page;
-  }
-
-  function handleSignout() {
-    //@ts-ignore
-    window?.chaskiqSupport?.shutdown();
-    if (auth0Domain) return history.push('/logout');
-    dispatch(signout());
   }
 
   const appid = `/apps/${app.key}`;
@@ -296,6 +290,14 @@ function Sidebar({
           url: `${appid}/messages/tours`,
           active: isActivePage('tours'),
           allowed: allowedAccessTo(app, 'campaigns'),
+        },
+        {
+          id: 'workflows',
+          label: I18n.t('navigator.childs.series'),
+          icon: <LabIcon />,
+          url: `${appid}/workflows`,
+          active: isActivePage('workflows'),
+          allowed: true, //allowedAccessTo(app, 'workflows'),
         },
       ],
     },

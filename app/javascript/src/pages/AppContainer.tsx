@@ -19,6 +19,7 @@ import AgentProfile from './AgentProfile';
 import Billing from './Billing';
 import Api from './Api';
 import Reports from './Reports';
+import Workflows from './workflows';
 
 import { connect } from 'react-redux';
 
@@ -306,6 +307,10 @@ function AppContainer({
                     <RestrictedArea section="billing">
                       <Billing />
                     </RestrictedArea>
+                  </Route>
+
+                  <Route path={`${match.url}/workflows`}>
+                    <Workflows />
                   </Route>
 
                   <Route path={`${match.url}/bots`}>

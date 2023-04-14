@@ -13553,6 +13553,7 @@
         "messenger_settings": "Messenger Settings",
         "new_conversations": "New Conversations",
         "outbound": "Outbound",
+        "series": "Series",
         "team": "Team",
         "webhooks": "Webhooks"
       },
@@ -15624,6 +15625,7 @@
         "messenger_settings": "Configuración de Messenger",
         "new_conversations": "Nuevas conversaciones",
         "outbound": "Salida",
+        "series": "Series",
         "team": "Equipo",
         "webhooks": "Webhooks"
       },
