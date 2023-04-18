@@ -18,6 +18,9 @@ import graphql from '@chaskiq/store/src/graphql/client';
 
 import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries';
 
+import { defaultTheme, darkTheme } from 'dante3/package/esm/styled/themes';
+import { ThemeProvider } from '@emotion/react';
+
 function QuickRepliesPanel(props) {
   const [open, setOpen] = React.useState(props.open);
   const [quickReply, setQuickReply] = React.useState(null);
@@ -28,6 +31,8 @@ function QuickRepliesPanel(props) {
   );
   const [_loading, setLoading] = React.useState(false);
   const [term, setTerm] = React.useState(null);
+
+  const theme = props.theme === 'dark' ? darkTheme : defaultTheme;
 
   React.useEffect(() => {
     getQuickReplies();
@@ -169,9 +174,7 @@ function QuickRepliesPanel(props) {
     return (
       quickReply && (
         <div className="my-4 h-32 border overflow-auto p-4 border-yellow-300 bg-yellow-100 rounded-md">
-          <EditorContainer>
-            <Renderer raw={JSON.parse(quickReply.content)} />
-          </EditorContainer>
+          <Renderer raw={JSON.parse(quickReply.content)} />
         </div>
       )
     );

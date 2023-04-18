@@ -36,14 +36,11 @@ export default class MessageContainer extends Component<MessageContainerProps> {
           {this.props.i18n.t('messenger.dismiss')}
         </MessageCloseBtn>
 
-        <ThemeProvider theme={editorTheme}>
-          <DanteContainer>
-            <Renderer
-              domain={this.props.domain}
-              raw={JSON.parse(this.props.availableMessage.serialized_content)}
-            />
-          </DanteContainer>
-        </ThemeProvider>
+        <Renderer
+          theme={editorTheme}
+          domain={this.props.domain}
+          raw={JSON.parse(this.props.availableMessage.serialized_content)}
+        />
       </Quest>
     );
   }

@@ -8,11 +8,8 @@ import { EmojiBlock } from './styles/emojimart';
 // import 'emoji-picker-react/dist/universal/style.scss'; // or any other way you consume scss files
 
 import GiphyPicker from './giphy';
-
-// import {Selector, ResultSort, Rating} from "react-giphy-selector";
-import { Map } from 'immutable';
-
-import { EditorState, convertToRaw } from 'draft-js'; // { compose
+import { generateJSON } from '@tiptap/html';
+import StarterKit from '@tiptap/starter-kit';
 
 import customHTML2Content from './html2Content'; // 'Dante2/package/es/utils/html2content.js'
 import Loader from './loader';
@@ -205,43 +202,13 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
   componentDidMount() {}
 
   convertToDraft(sampleMarkup) {
-    this.blockRenderMap = Map({
-      image: {
-        element: 'figure',
-      },
-      video: {
-        element: 'figure',
-      },
-      embed: {
-        element: 'div',
-      },
-      unstyled: {
-        wrapper: null,
-        element: 'div',
-      },
-      paragraph: {
-        wrapper: null,
-        element: 'div',
-      },
-      placeholder: {
-        wrapper: null,
-        element: 'div',
-      },
-      'code-block': {
-        element: 'pre',
-        wrapper: null,
-      },
-    });
+    const json = generateJSON(sampleMarkup, [StarterKit]);
 
-    const contentState = customHTML2Content(
-      sampleMarkup,
-      this.extendedBlockRenderMap
-    );
-    const fstate2 = EditorState.createWithContent(contentState);
-    const s = convertToRaw(fstate2.getCurrentContent());
+    console.log(json);
+
     return {
-      serialized_content: JSON.stringify(s),
-      text_content: contentState.getPlainText(),
+      serialized_content: JSON.stringify(json),
+      text_content: sampleMarkup, //contentState.getPlainText(),
     };
   }
 

@@ -125,13 +125,10 @@ function Article(props: ArticleProps) {
               </div>
             </div>
 
-            <ThemeProvider theme={theme}>
-              <NewEditorStyles>
-                <Renderer
-                  raw={JSON.parse(article.content.serialized_content)}
-                />
-              </NewEditorStyles>
-            </ThemeProvider>
+            <Renderer
+              theme={theme}
+              raw={JSON.parse(article.content.serialized_content)}
+            />
 
             <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
               {article.prevArticleUrl && (

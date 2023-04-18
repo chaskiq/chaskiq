@@ -747,16 +747,13 @@ class TourStep extends Component<TourStepProps> {
           <StepHeader></StepHeader>
 
           <StepMessage>
-            <ThemeProvider theme={theme}>
-              <DanteContainer>
-                {this.props.step.serialized_content && (
-                  <Renderer
-                    raw={JSON.parse(this.props.step.serialized_content)}
-                    domain={this.props.domain}
-                  />
-                )}
-              </DanteContainer>
-            </ThemeProvider>
+            {this.props.step.serialized_content && (
+              <Renderer
+                theme={theme}
+                raw={JSON.parse(this.props.step.serialized_content)}
+                domain={this.props.domain}
+              />
+            )}
           </StepMessage>
         </StepBody>
         <ConnectorStep />

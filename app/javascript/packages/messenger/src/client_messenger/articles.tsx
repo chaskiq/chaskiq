@@ -83,8 +83,9 @@ const Article = ({ i18n }) => {
               components={[renderDate()]}
             />*/}
           </ArticleMeta>
-
-          <ThemeProvider
+          <Renderer
+            domain={domain}
+            raw={article.serialized_content}
             theme={{
               ...theme,
               palette: {
@@ -92,11 +93,7 @@ const Article = ({ i18n }) => {
                 secondary: '#121212',
               },
             }}
-          >
-            <DanteContainerExtend>
-              <Renderer domain={domain} raw={article.serialized_content} />
-            </DanteContainerExtend>
-          </ThemeProvider>
+          />
         </ContentWrapper>
       )}
     </Panel>

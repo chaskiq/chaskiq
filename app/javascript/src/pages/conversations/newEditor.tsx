@@ -395,6 +395,7 @@ export default class ChatEditor extends Component<
 
         {this.state.openQuickReplyPanel && (
           <QuickReplyPanel
+            theme={this.props.theme}
             open={this.state.openQuickReplyPanel}
             close={() => {
               this.setState({ openQuickReplyPanel: false });
