@@ -7,7 +7,9 @@ import I18n from '../../shared/FakeI18n';
 import FormDialog from '@chaskiq/components/src/components/FormDialog';
 import Button from '@chaskiq/components/src/components/Button';
 import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+//import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import Tabs from '@chaskiq/components/src/components/Tabs';
 
 import { SeachIcon } from '@chaskiq/components/src/components/icons';
@@ -15,6 +17,9 @@ import { SeachIcon } from '@chaskiq/components/src/components/icons';
 import graphql from '@chaskiq/store/src/graphql/client';
 
 import { QUICK_REPLIES, QUICK_REPLY } from '@chaskiq/store/src/graphql/queries';
+
+import { defaultTheme, darkTheme } from 'dante3/package/esm/styled/themes';
+import { ThemeProvider } from '@emotion/react';
 
 function QuickRepliesPanel(props) {
   const [open, setOpen] = React.useState(props.open);
@@ -26,6 +31,8 @@ function QuickRepliesPanel(props) {
   );
   const [_loading, setLoading] = React.useState(false);
   const [term, setTerm] = React.useState(null);
+
+  const theme = props.theme === 'dark' ? darkTheme : defaultTheme;
 
   React.useEffect(() => {
     getQuickReplies();
@@ -167,9 +174,7 @@ function QuickRepliesPanel(props) {
     return (
       quickReply && (
         <div className="my-4 h-32 border overflow-auto p-4 border-yellow-300 bg-yellow-100 rounded-md">
-          <EditorContainer>
-            <DraftRenderer raw={JSON.parse(quickReply.content)} />
-          </EditorContainer>
+          <Renderer raw={JSON.parse(quickReply.content)} />
         </div>
       )
     );

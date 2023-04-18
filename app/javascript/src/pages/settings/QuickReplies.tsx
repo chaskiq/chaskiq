@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Hints from '@chaskiq/components/src/components/Hints';
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 import Button from '@chaskiq/components/src/components/Button';
 import EmptyView from '@chaskiq/components/src/components/EmptyView';
 import DeleteDialog from '@chaskiq/components/src/components/DeleteDialog';
@@ -423,7 +423,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
       statusButton: 'success',
       content: {
         html: content.html,
-        serialized: content.serialized,
+        serialized: JSON.stringify(content.serialized),
       },
     });
   };
@@ -457,9 +457,11 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
           lineHeight: '2em',
           fontSize: '1.2em',
         }}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log('get content', content);
-          this.saveContent(content);
+        updateState={(editor: any) => {
+          this.saveContent({
+            html: editor.getHTML(),
+            serialized: editor.getJSON(),
+          });
         }}
       />
     );

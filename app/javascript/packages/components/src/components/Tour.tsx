@@ -3,13 +3,14 @@ import styled from '@emotion/styled';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { directUpload } from './fileUploader'; // '../shared/fileUploader'
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import DanteContainer from './textEditor/editorStyles';
 import theme from './textEditor/theme';
 import { ThemeProvider } from '@emotion/react';
 import { DeleteForeverRounded, PlusIcon } from './icons';
 import Button from './Button';
-// import tw from "tailwind.macro";
 import tw from 'twin.macro';
 
 import graphql from '@chaskiq/store/src/graphql/client';
@@ -352,6 +353,7 @@ class TourStep extends Component<TourProps> {
   };
 
   render() {
+    console.log(this.props.step.serialized_content);
     return (
       <StepContainer onClick={this.enableEditMode}>
         <StepBody>
@@ -363,13 +365,12 @@ class TourStep extends Component<TourProps> {
 
           <StepMessage>
             <div className="contentWrap">
-              <ThemeProvider theme={theme}>
-                <DanteContainer>
-                  <DraftRenderer
-                    raw={JSON.parse(this.props.step.serialized_content)}
-                  />
-                </DanteContainer>
-              </ThemeProvider>
+              {this.props.step.serialized_content && (
+                <Renderer
+                  theme={theme}
+                  raw={JSON.parse(this.props.step.serialized_content)}
+                />
+              )}
             </div>
           </StepMessage>
         </StepBody>

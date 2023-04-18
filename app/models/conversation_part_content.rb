@@ -15,7 +15,8 @@ class ConversationPartContent < ApplicationRecord
   end
 
   def text_from_serialized
-    parsed_content["blocks"].map { |o| o["text"] }.join(" ")
+    DanteConvert.extract_plain_text(parsed_content["content"])
+    # parsed_content["blocks"].map { |o| o["text"] }.join(" ")
   rescue StandardError
     html_content
   end
