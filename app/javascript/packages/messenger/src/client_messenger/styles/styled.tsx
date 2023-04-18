@@ -881,7 +881,7 @@ export const MessageItem = styled.div<
 
       margin: 8px 13px 0px 5px;
       border-radius: 6px;
-      min-width: 80px;
+      min-width: 280px;
 
       line-height: 1.5;
       position: relative;
@@ -914,7 +914,7 @@ export const MessageItem = styled.div<
       );
       color: ${(props) => textColor(props.theme.palette.primary)};
 
-      min-width: 80px;
+      min-width: 280px;
       padding: 16px;
       margin: 5px;
       margin-right: 10px;
