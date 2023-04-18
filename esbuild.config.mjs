@@ -12,7 +12,7 @@ console.log("METAFILE: ", metafile)
 let ctx = await esbuild.context({
   logLevel: 'info',
   target: 'es2020',
-  sourcemap: watch,
+  sourcemap: watch ? 'inline' : false,
   define: { 
     'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
     'global': 'window',

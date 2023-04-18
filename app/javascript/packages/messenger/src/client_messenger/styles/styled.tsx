@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 
 import React from 'react';
 import StyledFrame from '../styledFrame';

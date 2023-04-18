@@ -6,7 +6,7 @@ import StyledFrame from './styledFrame';
 import DraftRenderer from './textEditor/draftRenderer';
 import DanteContainer from './textEditor/editorStyles';
 import theme from './textEditor/theme';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import Tour from 'reactour-emotion';
 import tw from 'twin.macro';
 

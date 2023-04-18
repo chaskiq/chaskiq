@@ -3,7 +3,7 @@ import DraftRenderer from './textEditor/draftRenderer';
 import { EditorStylesExtend } from './textEditor/tourStyles';
 import theme from './textEditor/theme';
 import styled from '@emotion/styled';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import GlobalStyle from './tour/globalStyle';
 

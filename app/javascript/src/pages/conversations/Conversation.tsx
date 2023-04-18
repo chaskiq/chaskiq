@@ -2,7 +2,7 @@ import React from 'react';
 
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import Tooltip from 'rc-tooltip';
 import I18n from '../../shared/FakeI18n';
 import { last, isEmpty } from 'lodash';
@@ -33,11 +33,12 @@ import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import theme from '@chaskiq/components/src/components/textEditor/theme';
 import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme';
 import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
 import styled from '@emotion/styled';
 import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView'; // './RtcWrapper'
 import TagDialog from '@chaskiq/components/src/components/TagDialog';
 import AppPackagePanel from './appPackagePanel';
+
+import { Renderer } from 'dante3/package/esm';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
@@ -422,10 +423,11 @@ function Conversation({
     const key = `conversation-${conversation.key}-message-${o.key}`;
 
     const content = messageContent.serializedContent ? (
-      <DraftRenderer
+      <Renderer
         key={key}
         raw={JSON.parse(messageContent.serializedContent)}
         html={messageContent.htmlContent}
+        theme={themeDark}
       />
     ) : (
       <div

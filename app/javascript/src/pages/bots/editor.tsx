@@ -8,7 +8,7 @@ import Segment from './segment';
 import BotTaskSetting from './taskSettings';
 import I18n from '../../shared/FakeI18n';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 import UpgradeButton from '@chaskiq/components/src/components/upgradeButton';
 import InplaceInputEditor from '@chaskiq/components/src/components/InplaceInputEditor';
 import SwitchControl from '@chaskiq/components/src/components/Switch';
@@ -1655,7 +1655,7 @@ const getListStyle = (_isDraggingOver) => ({
 });
 
 const getPathStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'transparent',
+  background: isDraggingOver ? 'sky' : 'transparent',
   padding: 2,
   // width: 250
 });

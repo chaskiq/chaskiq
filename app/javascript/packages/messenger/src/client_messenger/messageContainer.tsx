@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import DanteContainer from './textEditor/editorStyles';
 import DraftRenderer from './textEditor/draftRenderer';
 import theme from './textEditor/theme';

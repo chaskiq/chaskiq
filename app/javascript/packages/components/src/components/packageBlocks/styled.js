@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-import { keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 import React from 'react';
 
 const spin = keyframes`

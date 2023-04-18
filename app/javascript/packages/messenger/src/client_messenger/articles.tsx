@@ -4,7 +4,7 @@ import { FadeBottomAnimation } from './styles/styled';
 
 import Moment from 'react-moment';
 
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import theme from './textEditor/theme';
 
 import DraftRenderer from './textEditor/draftRenderer';

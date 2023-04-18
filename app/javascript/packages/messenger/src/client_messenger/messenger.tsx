@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { setCookie, getCookie, deleteCookie } from './cookies';
 
 // import styled from '@emotion/styled'
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 
 import { uniqBy } from 'lodash';
 import {
@@ -26,8 +26,11 @@ import {
 
 import UAParser from 'ua-parser-js';
 import DraftRenderer from './textEditor/draftRenderer';
-import Tour from './UserTour';
-import TourManager from './tourManager';
+
+// RESTORE THIS
+// import Tour from './UserTour';
+//import TourManager from './tourManager';
+
 import UrlPattern from 'url-pattern';
 //import { withTranslation } from 'react-i18next'
 //import i18n from './i18n'
@@ -1816,21 +1819,25 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             )}
           </EditorWrapper>
 
-          {this.state.tourManagerEnabled ? (
-            <TourManager
+          {this.state.tourManagerEnabled
+            ? {
+                /*<TourManager
               pushEvent={this.pushEvent}
               ev={this.state.ev}
               domain={this.props.domain}
-            />
-          ) : this.state.tours.length > 0 ? (
-            <Tour
+          />*/
+              }
+            : this.state.tours.length > 0
+            ? {
+                /*<Tour
               i18n={i18n}
               pushEvent={this.pushEvent}
               tours={this.state.tours}
               events={App.events}
               domain={this.props.domain}
-            />
-          ) : null}
+          />*/
+              }
+            : null}
 
           <div id="TourManager"></div>
 

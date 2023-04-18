@@ -6,7 +6,7 @@ import { directUpload } from './fileUploader'; // '../shared/fileUploader'
 import DraftRenderer from './textEditor/draftRenderer';
 import DanteContainer from './textEditor/editorStyles';
 import theme from './textEditor/theme';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { DeleteForeverRounded, PlusIcon } from './icons';
 import Button from './Button';
 // import tw from "tailwind.macro";

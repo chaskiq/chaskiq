@@ -1,7 +1,7 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import ErrorBoundary from '../ErrorBoundary';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { Loader } from './styled';
 
 import { ImageRenderer } from './Image';

@@ -25,7 +25,7 @@ import findEntities from 'Dante2/package/esm/editor/utils/find_entities';
 import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
 import Prism from 'prismjs';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
 import styled from '@emotion/styled';
 

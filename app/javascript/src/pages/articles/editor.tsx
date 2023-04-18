@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+// import TextEditor from '@chaskiq/components/src/components/textEditor';
+import TextEditor from '@chaskiq/components/src/components/danteEditor';
 
 type ArticleEditorProps = {
   updateState: (val: any) => void;
   uploadHandler: any;
   loading: boolean;
   article: any;
+  theme: any;
 };
 
 type ArticleEditorState = {
@@ -75,6 +77,7 @@ export default class ArticleEditor extends Component<
         data={{
           serialized_content: serializedContent,
         }}
+        theme={this.props.theme}
         styles={{
           lineHeight: '2em',
           fontSize: '1.2em',

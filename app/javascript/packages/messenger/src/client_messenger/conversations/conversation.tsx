@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 
 import theme from '../textEditor/theme';
 import themeDark from '../textEditor/darkTheme';

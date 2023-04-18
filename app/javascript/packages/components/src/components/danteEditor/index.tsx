@@ -1,47 +1,65 @@
 import React, { Component, CSSProperties } from 'react';
 
-import { convertToHTML } from 'draft-convert';
+//import { convertToHTML } from 'draft-convert';
 
-import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js';
-import MultiDecorator from 'draft-js-multidecorators';
+//import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js';
+//import MultiDecorator from 'draft-js-multidecorators';
 
-import DanteEditor from 'Dante2/package/esm/editor/components/core/editor';
-import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js';
-import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js';
-import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js';
-import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip.js';
-
-import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed';
-import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video';
-
-import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/placeholder.js';
-import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
-import { AudioRecorderBlockConfig } from './blocks/audioRecorder';
-
-import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
-import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
-import { FileBlockConfig } from 'Dante2/package/esm/editor/components/blocks/file';
 import {
-  LinkDecorator as Link,
-  PrismDraftDecorator,
-} from 'Dante2/package/esm/editor/components/decorators';
-import findEntities from 'Dante2/package/esm/editor/utils/find_entities';
-import EditorContainer from 'Dante2/package/esm/editor/styled/base';
+  Dante,
+  MenuBarConfig,
+  AddButtonConfig,
+  ImageBlockConfig,
+  CodeBlockConfig,
+  DividerBlockConfig,
+  FileBlockConfig,
+  EmbedBlockConfig,
+  PlaceholderBlockConfig,
+  VideoBlockConfig,
+  GiphyBlockConfig,
+  VideoRecorderBlockConfig,
+  AudioRecorderBlockConfig,
+  SpeechToTextBlockConfig,
+} from 'dante3/package/esm';
+
+//import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js';
+//import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js';
+//import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js';
+//import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip.js';
+
+//import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed';
+//import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video';
+
+//import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/placeholder.js';
+//import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
+//import { AudioRecorderBlockConfig } from './blocks/audioRecorder';
+
+//import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
+//import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
+//import { FileBlockConfig } from 'Dante2/package/esm/editor/components/blocks/file';
+//import {
+//  LinkDecorator as Link,
+//  PrismDraftDecorator,
+//} from 'Dante2/package/esm/editor/components/decorators';
+//import findEntities from 'Dante2/package/esm/editor/utils/find_entities';
+//import EditorContainer from 'Dante2/package/esm/editor/styled/base';
+import { defaultTheme, darkTheme } from 'dante3/package/esm/styled/themes';
+import Styled from 'dante3/package/esm/styled';
 
 //import Link from "Dante2/package/es/components/decorators/link";
 //import findEntities from "Dante2/package/es/utils/find_entities";
 import { ThemeProvider } from '@emotion/react';
 //import EditorStyles from "Dante2/package/es/styled/base";
-import { ImageBlockConfig } from './blocks/image';
+//import { ImageBlockConfig } from './blocks/image';
 
-import Prism from 'prismjs';
+//import Prism from 'prismjs';
 //import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
 
-import { GiphyBlockConfig } from './blocks/giphyBlock';
+//import { GiphyBlockConfig } from './blocks/giphyBlock';
 //import { SpeechToTextBlockConfig } from '../campaigns/article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 
-import theme from './theme';
+//import theme from './theme';
 import styled from '@emotion/styled';
 
 import { getFileMetadata, directUpload } from '../fileUploader';
@@ -56,6 +74,9 @@ import {
   CREATE_URL_UPLOAD,
   CREATE_DIRECT_UPLOAD,
 } from '@chaskiq/store/src/graphql/mutations';
+
+const theme = darkTheme; // defaultTheme
+const { EditorContainer } = Styled;
 
 const EditorStylesExtend = styled(EditorContainer)`
   line-height: ${(props) => props.styles.lineHeight || '2em'};
@@ -96,6 +117,7 @@ const EditorStylesExtend = styled(EditorContainer)`
       : ''}
 `;
 
+/*
 const defaultProps = {
   content: null,
   //read_only: false,
@@ -156,7 +178,7 @@ const defaultProps = {
     '==': 'unstyled',
     '` ': 'code-block',
   },
-};
+};*/
 
 type UploadeHandlerType = {
   signedBlobId: any;
@@ -193,14 +215,22 @@ type ArticleEditorProps = {
 type ArticleEditorState = {
   incomingSelectionPosition: any;
 };
+
 class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   initialContent: () => void;
   dante_editor: any;
   constructor(props) {
     super(props);
-    this.initialContent = this.defaultContent();
+    console.log('PROPS', props);
+    // this.initialContent = this.defaultContent();
   }
 
+  isEmptyDraftJs = () => {
+    console.log(this);
+    debugger;
+  };
+
+  /*
   isEmptyDraftJs = () => {
     if (!this.props.serializedContent) {
       // filter undefined and {}
@@ -241,6 +271,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     }
   };
 
+  
   tooltipsConfig = () => {
     const inlineMenu = {
       selectionElements: [
@@ -295,112 +326,9 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     //};
   };
 
-  /*
-  generateDecorator = (_highlightTerm) => {
-    //const regex = new RegExp(highlightTerm, "g");
-    return new CompositeDecorator([
-      {
-        strategy: (_contentBlock, _callback) => {
-          console.info(
-            'processing entity!',
-            this.state.incomingSelectionPosition.length
-          );
-          if (this.state.incomingSelectionPosition.length > 0) {
-          findSelectedBlockFromRemote(
-            this.state.incomingSelectionPosition,
-            contentBlock,
-            callback
-          )
-        }
-          if (highlightTerm !== '') {
-          findWithRegex(regex, contentBlock, callback);
-        }
-        },
-        component: this.searchHighlight,
-      },
-    ]);
-  };*/
-
   setDisabled = (val) => {
     this.props.setDisabled && this.props.setDisabled(val);
   };
-
-  uploadHandler = (file, imageBlock) => {
-    if (!file) {
-      if (imageBlock.file && imageBlock.file.constructor.name === 'Blob') {
-        let blob = imageBlock.file;
-        //A Blob() is almost a File() - it's just missing the two properties below which we will add
-        blob.lastModifiedDate = new Date();
-        blob.name = 'recorded';
-        return this.uploadFromFile(blob, imageBlock);
-      }
-      this.uploadFromUrl(file, imageBlock);
-    } else {
-      this.uploadFromFile(file, imageBlock);
-    }
-  };
-
-  uploadFromUrl = (file, imageBlock) => {
-    const url = imageBlock.props.blockProps.data.get('url');
-    this.setDisabled(true);
-    graphql(
-      CREATE_URL_UPLOAD,
-      { url: url },
-      {
-        success: (data) => {
-          const { signedBlobId, headers, url, serviceUrl } =
-            data.createUrlUpload.directUpload;
-          this.props.uploadHandler({
-            signedBlobId,
-            headers,
-            url,
-            serviceUrl,
-            imageBlock,
-          });
-          this.setDisabled(false);
-        },
-        error: () => {},
-      }
-    );
-  };
-
-  uploadFromFile = (file, imageBlock) => {
-    this.setDisabled(true);
-    getFileMetadata(file).then((input) => {
-      graphql(CREATE_DIRECT_UPLOAD, input, {
-        success: (data) => {
-          const { signedBlobId, headers, url, serviceUrl } =
-            data.createDirectUpload.directUpload;
-
-          directUpload(url, JSON.parse(headers), file).then(() => {
-            this.props.uploadHandler({
-              signedBlobId,
-              headers,
-              url,
-              serviceUrl,
-              imageBlock,
-            });
-          });
-        },
-        error: (error) => {
-          this.setDisabled(false);
-          console.log('error on signing blob', error);
-        },
-      });
-    });
-  };
-
-  /*
-    app_packages: true
-    attachments: true
-    embeds: true
-    giphy: true
-    images: true
-    link_embeds: true
-    quick_replies: true
-    routing_bots: true
-    video_recorder: true
-  */
 
   widgetsConfig = () => {
     let widgets = [CodeBlockConfig()];
@@ -496,7 +424,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
 
     return widgets;
   };
-
+  
   saveHandler = (context, content, cb) => {
     const exportedStyles = context.editor.styleExporter(
       context.editor.getEditorState()
@@ -531,23 +459,6 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
         if (block.type === 'blockquote') {
           return <blockquote className="graf graf--blockquote" />;
         }
-        /*if (block.type === "button" || block.type === "unsubscribe_button") {
-          const { href, buttonStyle, containerStyle, label } = block.data
-          const containerS = containerStyle ? styleString(containerStyle.toJS ? containerStyle.toJS() : containerStyle) : ''
-          const buttonS = containerStyle ? styleString(buttonStyle.toJS ? buttonStyle.toJS() : buttonStyle) : ''
-          return {
-            start: `<div style="width: 100%; margin: 18px 0px 47px 0px">
-                        <div 
-                          style="${containerS}">
-                          <a href="${href}"
-                            className="btn"
-                            target="_blank"
-                            ref="btn"
-                            style="${buttonS}">`,
-            end: `</a>
-                  </div>
-                </div>`}
-        }*/
         if (block.type === 'card') {
           return (
             <div className="graf graf--figure">
@@ -774,19 +685,219 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
     return EditorState.createWithContent(new_content);
   };
 
+  */
+
+  setDisabled = (val) => {
+    this.props.setDisabled && this.props.setDisabled(val);
+  };
+
+  uploadHandler = (file, imageBlock) => {
+    if (!file) {
+      if (imageBlock.file && imageBlock.file.constructor.name === 'Blob') {
+        let blob = imageBlock.file;
+        //A Blob() is almost a File() - it's just missing the two properties below which we will add
+        blob.lastModifiedDate = new Date();
+        blob.name = 'recorded';
+        return this.uploadFromFile(blob, imageBlock);
+      }
+      this.uploadFromUrl(file, imageBlock);
+    } else {
+      this.uploadFromFile(file, imageBlock);
+    }
+  };
+
+  uploadFromUrl = (file, imageBlock) => {
+    const url = imageBlock.props.blockProps.data.get('url');
+    this.setDisabled(true);
+    graphql(
+      CREATE_URL_UPLOAD,
+      { url: url },
+      {
+        success: (data) => {
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createUrlUpload.directUpload;
+          this.props.uploadHandler({
+            signedBlobId,
+            headers,
+            url,
+            serviceUrl,
+            imageBlock,
+          });
+          this.setDisabled(false);
+        },
+        error: () => {},
+      }
+    );
+  };
+
+  uploadFromFile = (file, imageBlock) => {
+    this.setDisabled(true);
+    getFileMetadata(file).then((input) => {
+      graphql(CREATE_DIRECT_UPLOAD, input, {
+        success: (data) => {
+          const { signedBlobId, headers, url, serviceUrl } =
+            data.createDirectUpload.directUpload;
+
+          directUpload(url, JSON.parse(headers), file).then(() => {
+            this.props.uploadHandler({
+              signedBlobId,
+              headers,
+              url,
+              serviceUrl,
+              imageBlock,
+            });
+          });
+        },
+        error: (error) => {
+          this.setDisabled(false);
+          console.log('error on signing blob', error);
+        },
+      });
+    });
+  };
+
+  widgetsConfig = () => {
+    let widgets = [CodeBlockConfig()];
+
+    if (this.props.allowedEditorFeature('images')) {
+      widgets.push(
+        ImageBlockConfig({
+          options: {
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+            upload_handler: this.uploadHandler,
+            image_caption_placeholder: 'type a caption (optional)',
+          },
+        })
+      );
+    }
+
+    if (this.props.allowedEditorFeature('attachments')) {
+      widgets.push(
+        FileBlockConfig({
+          options: {
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+            upload_handler: this.uploadHandler,
+            image_caption_placeholder: 'type a caption (optional)',
+          },
+        })
+      );
+    }
+
+    if (this.props.allowedEditorFeature('divider')) {
+      widgets.push(DividerBlockConfig());
+    }
+
+    if (this.props.allowedEditorFeature('link_embeds')) {
+      widgets.push(
+        EmbedBlockConfig({
+          breakOnContinuous: true,
+          editable: true,
+          options: {
+            placeholder: 'put an external links',
+            endpoint: `/oembed?url=`,
+          },
+        })
+      );
+    }
+
+    widgets.push(PlaceholderBlockConfig());
+
+    if (this.props.allowedEditorFeature('giphy')) {
+      widgets.push(GiphyBlockConfig());
+    }
+
+    if (!this.props.videoless) {
+      if (this.props.allowedEditorFeature('embeds')) {
+        widgets.push(
+          VideoBlockConfig({
+            breakOnContinuous: true,
+            options: {
+              placeholder:
+                'put embed link ie: youtube, vimeo, spotify, codepen, gist, etc..',
+              endpoint: `/oembed?url=`,
+              caption: 'optional caption',
+            },
+          })
+        );
+      }
+
+      widgets.push(
+        AudioRecorderBlockConfig({
+          options: {
+            seconds_to_record: 20000,
+            upload_handler: this.uploadHandler,
+            //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+          },
+        })
+      );
+
+      if (this.props.allowedEditorFeature('video_recorder')) {
+        widgets.push(
+          VideoRecorderBlockConfig({
+            options: {
+              mediaType: 'video/webm',
+              seconds_to_record: 20000,
+              upload_handler: this.uploadHandler,
+              //upload_url: `/attachments.json?id=${this.props.data.id}&app_id=${this.props.app.key}`,
+            },
+          })
+        );
+      }
+    }
+
+    if (this.props.appendWidgets)
+      widgets = widgets.concat(this.props.appendWidgets);
+
+    return widgets;
+  };
+
+  tooltipsConfig = () => {
+    const inlineMenu = {
+      selectionElements: [
+        'unstyled',
+        'blockquote',
+        'ordered-list',
+        'unordered-list',
+        'unordered-list-item',
+        'ordered-list-item',
+        'code-block',
+        'header-one',
+        'header-two',
+        'header-three',
+        'header-four',
+        'footer',
+        'column',
+        'jumbo',
+        'button',
+      ],
+    };
+
+    const menuConfig = Object.assign(
+      {},
+      MenuBarConfig(this.props.inlineTooltipConfig),
+      inlineMenu
+    );
+
+    return [AddButtonConfig(), menuConfig];
+  };
+
   render() {
     //const {forwardedRef, ...rest} = this.props;
     const { forwardedRef }: any = this.props;
+    console.log(this.props);
 
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider
+        theme={this.props.theme === 'dark' ? darkTheme : defaultTheme}
+      >
         <EditorStylesExtend
           campaign={true}
           inlineMenu={this.props.inlineMenu}
           styles={this.props.styles}
         >
           {!this.props.loading ? (
-            <DanteEditor
+            <>
+              {/*<DanteEditor
               {...{
                 ...defaultProps,
                 body_placeholder: I18n.t('common.type_message'),
@@ -830,7 +941,56 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
                   ]),
                 ]);
               }}
-            />
+            />*/}
+              <Dante
+                onChange={(e) => {
+                  console.log('EEE', e);
+                  //this.dante_editor = e;
+                }}
+                readOnly={this.props.read_only}
+                bodyPlaceholder={I18n.t('common.type_message')}
+                //handleReturn={(e) => {
+                //  console.log("HANDLE RETURN!")
+                //return (
+                //  this.props.handleReturn &&
+                //  this.props.handleReturn(e, this.isEmptyDraftJs(), this)
+                //);
+                //}}
+
+                editorProps={{
+                  handleKeyDown: (view, event) => {
+                    if (event.key === 'Enter') {
+                      return (
+                        this.props.handleReturn &&
+                        this.props.handleReturn(event, false, this)
+                      );
+                      //return this.props.handleReturn && this.props.handleReturn(event, this.isEmptyDraftJs(), this)
+                      console.log('YES!!');
+                      return false;
+                    }
+                    console.log(view, event);
+                  },
+                  //attributes: {
+                  //  class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+                  //},
+                  //transformPastedText(text) {
+                  //  return text.toUpperCase()
+                  //}
+                }}
+                onUpdate={this.props.updateState}
+                content={this.initialContent}
+                tooltips={
+                  this.props.tooltipsConfig
+                    ? this.props.tooltipsConfig()
+                    : this.tooltipsConfig()
+                }
+                widgets={
+                  this.props.widgetsConfig
+                    ? this.props.widgetsConfig()
+                    : this.widgetsConfig()
+                }
+              />
+            </>
           ) : (
             <CircularProgress />
           )}
