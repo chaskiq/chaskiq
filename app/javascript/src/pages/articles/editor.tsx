@@ -38,7 +38,7 @@ export default class ArticleEditor extends Component<
       statusButton: 'success',
       content: {
         html: content.html,
-        serialized: content.serialized,
+        serialized: JSON.stringify(content.serialized),
       },
     });
   };
@@ -53,7 +53,6 @@ export default class ArticleEditor extends Component<
     //  return <CircularProgress/>
 
     const content = this.props.article.content;
-
     const serializedContent = content ? content.serialized_content : null;
 
     return (
@@ -73,7 +72,6 @@ export default class ArticleEditor extends Component<
           sticky: true,
           placement: 'up',
         }}
-        serializedContent={serializedContent}
         data={{
           serialized_content: serializedContent,
         }}
@@ -82,10 +80,14 @@ export default class ArticleEditor extends Component<
           lineHeight: '2em',
           fontSize: '1.2em',
         }}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log('get content', content);
-          this.saveContent(content);
+
+        updateState={(editor: any) => {
+          this.saveContent({
+            html: editor.getHTML(),
+            serialized: editor.getJSON(),
+          });
         }}
+
       />
     );
   }

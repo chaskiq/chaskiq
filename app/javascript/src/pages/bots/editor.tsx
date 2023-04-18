@@ -1513,9 +1513,11 @@ const PathEditor = ({ step, message, path, updatePath }) => {
           fontSize: '1em',
         }}
         saveHandler={saveHandler}
-        updateState={({ _status, _statusButton, content }) => {
-          //console.log('get content', content);
-          saveContent(content);
+        updateState={(editor: any) => {
+          saveContent({
+            //html: editor.getHTML(),
+            serialized: JSON.stringify(editor.getJSON()),
+          });
         }}
       />
     </div>

@@ -350,19 +350,22 @@ export default class ChatEditor extends Component<
 
   isDocEmpty = (docJSON) => {
     const { content } = docJSON;
-    
+
     if (!content || content.length === 0) {
       return true;
     }
-  
+
     for (const node of content) {
-      if (node.type !== 'paragraph' || (node.content && node.content.length > 0)) {
+      if (
+        node.type !== 'paragraph' ||
+        (node.content && node.content.length > 0)
+      ) {
         return false;
       }
     }
-  
+
     return true;
-  }
+  };
 
   render() {
     const serializedContent = this.state.serialized
@@ -481,10 +484,9 @@ export default class ChatEditor extends Component<
               content={''}
               serializedContent={serializedContent}
               handleReturn={(e, isEmptyDraft, ctx) => {
-                
                 ///console.log("IS EMOT", this.isDocEmpty(this.state.serialized))
                 ///console.log("DIDIDI", this.isDisabled())
-                if ( this.isDocEmpty(this.state.serialized)) return  //|| this.isDisabled()) return;
+                if (this.isDocEmpty(this.state.serialized)) return; //|| this.isDisabled()) return;
                 if (
                   this.props.sendMode == 'enter'
                   //&&

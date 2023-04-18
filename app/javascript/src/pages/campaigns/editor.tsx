@@ -142,8 +142,6 @@ export default class CampaignEditor extends Component<
     });
   };
 
-  saveHandler = (_html3, _plain, _serialized) => {};
-
   uploadHandler = ({ serviceUrl, imageBlock }) => {
     imageBlock.uploadCompleted(serviceUrl);
   };
@@ -238,10 +236,11 @@ export default class CampaignEditor extends Component<
                     lineHeight: '2em',
                     fontSize: '1.2em',
                   }}
-                  saveHandler={this.saveHandler}
-                  updateState={({ _status, _statusButton, content }) => {
-                    // console.log("get content", content);
-                    this.saveContent(content);
+                  updateState={(editor: any) => {
+                    this.saveContent({
+                      //html: editor.getHTML(),
+                      serialized: JSON.stringify(editor.getJSON()),
+                    });
                   }}
                 />
               )}
@@ -285,10 +284,11 @@ export default class CampaignEditor extends Component<
                       lineHeight: '2em',
                       fontSize: '1.2em',
                     }}
-                    saveHandler={this.saveHandler}
-                    updateState={({ _status, _statusButton, content }) => {
-                      // console.log("get content", content);
-                      this.saveContent(content);
+                    updateState={(editor: any) => {
+                      this.saveContent({
+                        //html: editor.getHTML(),
+                        serialized: JSON.stringify(editor.getJSON()),
+                      });
                     }}
                   />
                 }

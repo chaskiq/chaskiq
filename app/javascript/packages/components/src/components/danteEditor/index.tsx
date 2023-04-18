@@ -70,17 +70,14 @@ const EditorStylesExtend = styled(EditorContainer)`
   }
 
   ${(props) =>
-    props.inlineMenu ?
-
-    `
+    props.inlineMenu
+      ? `
     .ProseMirror {
       padding-top: 1em;
       padding-bottom: 1em;
     }
-    ` : ''
-  }
-
-  
+    `
+      : ''}
 
   .inlineTooltip-button {
     background: white !important;
@@ -203,12 +200,19 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   constructor(props) {
     super(props);
     console.log('PROPS', props);
-    // this.initialContent = this.defaultContent();
+    this.initialContent = this.defaultContent();
   }
 
   isEmptyDraftJs = () => {
     console.log(this);
-    debugger;
+  };
+
+  defaultContent = () => {
+    try {
+      return JSON.parse(this.props.data.serialized_content) || null;
+    } catch (error) {
+      return null;
+    }
   };
 
   /*
@@ -865,6 +869,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   render() {
     //const {forwardedRef, ...rest} = this.props;
 
+    console.log("initialContent", this.initialContent)
     return (
       <ThemeProvider
         theme={this.props.theme === 'dark' ? darkTheme : defaultTheme}
