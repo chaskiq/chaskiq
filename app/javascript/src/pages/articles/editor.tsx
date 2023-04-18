@@ -80,14 +80,12 @@ export default class ArticleEditor extends Component<
           lineHeight: '2em',
           fontSize: '1.2em',
         }}
-
         updateState={(editor: any) => {
           this.saveContent({
             html: editor.getHTML(),
             serialized: editor.getJSON(),
           });
         }}
-
       />
     );
   }

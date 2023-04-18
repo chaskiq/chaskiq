@@ -869,7 +869,6 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   render() {
     //const {forwardedRef, ...rest} = this.props;
 
-    console.log("initialContent", this.initialContent)
     return (
       <ThemeProvider
         theme={this.props.theme === 'dark' ? darkTheme : defaultTheme}

@@ -132,7 +132,7 @@ const MessageItem = styled.div<MessageItemType>`
         ? tw`bg-gray-600 text-white dark:bg-gray-800 dark:border dark:border-black`
         : props.privateNote
         ? tw`bg-yellow-300 text-black`
-        : tw`bg-gray-800 text-white dark:bg-gray-900 dark:border dark:border-gray-800 dark:text-white`
+        : tw`bg-brand text-white dark:bg-brand dark:border dark:border-gray-800 dark:text-white`
 
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
