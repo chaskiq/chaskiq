@@ -1,10 +1,5 @@
 import React, { Component, CSSProperties } from 'react';
 
-//import { convertToHTML } from 'draft-convert';
-
-//import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js';
-//import MultiDecorator from 'draft-js-multidecorators';
-
 import {
   Dante,
   MenuBarConfig,
@@ -22,27 +17,6 @@ import {
   SpeechToTextBlockConfig,
 } from 'dante3/package/esm';
 
-//import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js';
-//import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js';
-//import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js';
-//import { DanteTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/toolTip.js';
-
-//import { EmbedBlockConfig } from 'Dante2/package/esm/editor/components/blocks/embed';
-//import { VideoBlockConfig } from 'Dante2/package/esm/editor/components/blocks/video';
-
-//import { PlaceholderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/placeholder.js';
-//import { VideoRecorderBlockConfig } from 'Dante2/package/esm/editor/components/blocks/videoRecorder/index';
-//import { AudioRecorderBlockConfig } from './blocks/audioRecorder';
-
-//import { CodeBlockConfig } from 'Dante2/package/esm/editor/components/blocks/code';
-//import { DividerBlockConfig } from 'Dante2/package/esm/editor/components/blocks/divider';
-//import { FileBlockConfig } from 'Dante2/package/esm/editor/components/blocks/file';
-//import {
-//  LinkDecorator as Link,
-//  PrismDraftDecorator,
-//} from 'Dante2/package/esm/editor/components/decorators';
-//import findEntities from 'Dante2/package/esm/editor/utils/find_entities';
-//import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 import { defaultTheme, darkTheme } from 'dante3/package/esm/styled/themes';
 import Styled from 'dante3/package/esm/styled';
 
@@ -50,13 +24,7 @@ import Styled from 'dante3/package/esm/styled';
 //import findEntities from "Dante2/package/es/utils/find_entities";
 import { ThemeProvider } from '@emotion/react';
 //import EditorStyles from "Dante2/package/es/styled/base";
-//import { ImageBlockConfig } from './blocks/image';
 
-//import Prism from 'prismjs';
-//import { PrismDraftDecorator } from "Dante2/package/es/components/decorators/prism";
-
-//import { GiphyBlockConfig } from './blocks/giphyBlock';
-//import { SpeechToTextBlockConfig } from '../campaigns/article/speechToTextBlock'
 //import { DanteMarkdownConfig } from './article/markdown'
 
 //import theme from './theme';
@@ -100,6 +68,19 @@ const EditorStylesExtend = styled(EditorContainer)`
   .dante-menu-buttons {
     overflow-x: auto;
   }
+
+  ${(props) =>
+    props.inlineMenu ?
+
+    `
+    .ProseMirror {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
+    ` : ''
+  }
+
+  
 
   .inlineTooltip-button {
     background: white !important;
@@ -883,8 +864,6 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
 
   render() {
     //const {forwardedRef, ...rest} = this.props;
-    const { forwardedRef }: any = this.props;
-    console.log(this.props);
 
     return (
       <ThemeProvider
@@ -968,7 +947,6 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
                       console.log('YES!!');
                       return false;
                     }
-                    console.log(view, event);
                   },
                   //attributes: {
                   //  class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',

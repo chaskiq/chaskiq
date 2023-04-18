@@ -10,9 +10,9 @@ import TextEditor from '@chaskiq/components/src/components/danteEditor';
 
 import styled from '@emotion/styled';
 
-import { ThemeProvider } from '@emotion/react';
-import editorTheme from '@chaskiq/components/src/components/textEditor/theme';
-import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
+//import { ThemeProvider } from '@emotion/react';
+//import editorTheme from '@chaskiq/components/src/components/textEditor/theme';
+//import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
 import { AppPackageBlockConfig } from '@chaskiq/components/src/components/danteEditor/appPackage';
 import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/danteEditor/onDemandTriggers';
 import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/danteEditor/quickReplies';
@@ -348,6 +348,22 @@ export default class ChatEditor extends Component<
     return widgets;
   };
 
+  isDocEmpty = (docJSON) => {
+    const { content } = docJSON;
+    
+    if (!content || content.length === 0) {
+      return true;
+    }
+  
+    for (const node of content) {
+      if (node.type !== 'paragraph' || (node.content && node.content.length > 0)) {
+        return false;
+      }
+    }
+  
+    return true;
+  }
+
   render() {
     const serializedContent = this.state.serialized
       ? this.state.serialized
@@ -355,7 +371,7 @@ export default class ChatEditor extends Component<
     return (
       <div
         //themeType={this.props.theme}
-        className="flex bg-gray-50 dark:bg-gray-800 dark:text-white text-black shadow-inner "
+        className="flex bg-gray-50 dark:bg-gray-800 dark:text-white text-black shadow-inner p-2"
       >
         {this.state.openPackagePanel && (
           <AppPackagePanel
@@ -454,8 +470,8 @@ export default class ChatEditor extends Component<
               //theme={editorTheme}
               //fixed={fixed}
               styles={{
-                lineHeight: '2em',
-                fontSize: '1.2em',
+                lineHeight: '1.2em',
+                fontSize: '1em',
               }}
               uploadHandler={this.uploadHandler}
               allowedEditorFeature={this.allowedEditorFeature}
@@ -465,7 +481,10 @@ export default class ChatEditor extends Component<
               content={''}
               serializedContent={serializedContent}
               handleReturn={(e, isEmptyDraft, ctx) => {
-                // if (isEmptyDraft || this.isDisabled()) return;
+                
+                ///console.log("IS EMOT", this.isDocEmpty(this.state.serialized))
+                ///console.log("DIDIDI", this.isDisabled())
+                if ( this.isDocEmpty(this.state.serialized)) return  //|| this.isDisabled()) return;
                 if (
                   this.props.sendMode == 'enter'
                   //&&

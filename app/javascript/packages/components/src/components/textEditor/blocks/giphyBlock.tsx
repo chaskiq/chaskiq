@@ -87,7 +87,6 @@ export default class GiphyBlock extends React.Component<
   }
 
   componentDidMount() {
-    console.log(this.props);
     this.props.blockProps.toggleEditable();
   }
 
