@@ -3,7 +3,9 @@ import { ThemeProvider } from '@emotion/react';
 
 import theme from '../textEditor/theme';
 import themeDark from '../textEditor/darkTheme';
-import DraftRenderer from '../textEditor/draftRenderer';
+//import DraftRenderer from '../textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import DanteContainer from '../textEditor/editorStyles';
 import styled from '@emotion/styled';
 import Moment from 'react-moment';
@@ -279,7 +281,7 @@ export function Conversation(props) {
 
             <ThemeProvider theme={themeforMessage}>
               <DanteStylesExtend>
-                <DraftRenderer
+                <Renderer
                   message={o}
                   domain={domain}
                   raw={JSON.parse(o.message.serializedContent)}

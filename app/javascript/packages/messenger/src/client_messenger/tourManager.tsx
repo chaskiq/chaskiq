@@ -3,7 +3,9 @@ import styled from '@emotion/styled';
 import { finder } from '@medv/finder';
 import TextEditor from './textEditor/index';
 import StyledFrame from './styledFrame';
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import DanteContainer from './textEditor/editorStyles';
 import theme from './textEditor/theme';
 import { ThemeProvider } from '@emotion/react';
@@ -241,7 +243,7 @@ export default class TourManager extends Component<TourManagerProps> {
     const scrollHandler = () => {
       if (!this.state.cssPath) return;
       if (!this.state.selectedCoords) return;
-      console.log('scrolleeen', this.state);
+      // console.log('scrolleeen', this.state);
       const target = document.querySelector(this.state.cssPath);
       if (!target) return;
       this.getElementShape(target);
@@ -342,7 +344,7 @@ export default class TourManager extends Component<TourManagerProps> {
   saveContent = (value, element) => {
     const newSteps = this.state.steps.map((o) => {
       if (o.target === element.target) {
-        o.serialized_content = value.serialized;
+        o.serialized_content = JSON.stringify(value.serialized);
         o.html = value.html;
         return o;
       } else {
@@ -360,7 +362,9 @@ export default class TourManager extends Component<TourManagerProps> {
       'message',
       (e) => {
         if (e.data.type === 'UPLOAD_COMPLETED') {
-          imageBlock.uploadCompleted(e.data.data.serviceUrl);
+          imageBlock.updateAttributes({
+            url: e.data.data.serviceUrl,
+          });
         }
       },
       false
@@ -502,10 +506,12 @@ export default class TourManager extends Component<TourManagerProps> {
         o.selector = o.target;
         o.content = (
           <EditorStylesForTour campaign={true}>
-            <DraftRenderer
-              domain={this.props.domain}
-              raw={JSON.parse(o.serialized_content)}
-            />
+            {o.serialized_content && (
+              <Renderer
+                domain={this.props.domain}
+                raw={JSON.parse(o.serialized_content)}
+              />
+            )}
           </EditorStylesForTour>
         );
         return o;
@@ -729,6 +735,8 @@ class TourStep extends Component<TourStepProps> {
   };
 
   render() {
+    console.log(this.props.step);
+
     return (
       <StepContainer>
         <StepBody onClick={this.enableEditMode}>
@@ -741,10 +749,12 @@ class TourStep extends Component<TourStepProps> {
           <StepMessage>
             <ThemeProvider theme={theme}>
               <DanteContainer>
-                <DraftRenderer
-                  raw={JSON.parse(this.props.step.serialized_content)}
-                  domain={this.props.domain}
-                />
+                {this.props.step.serialized_content && (
+                  <Renderer
+                    raw={JSON.parse(this.props.step.serialized_content)}
+                    domain={this.props.domain}
+                  />
+                )}
               </DanteContainer>
             </ThemeProvider>
           </StepMessage>

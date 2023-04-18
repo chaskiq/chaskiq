@@ -25,11 +25,12 @@ import {
 } from "./shared/absintheSubscription";*/
 
 import UAParser from 'ua-parser-js';
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
 
 // RESTORE THIS
-// import Tour from './UserTour';
-//import TourManager from './tourManager';
+import Tour from './UserTour';
+import TourManager from './tourManager';
 
 import UrlPattern from 'url-pattern';
 //import { withTranslation } from 'react-i18next'
@@ -1819,25 +1820,21 @@ class Messenger extends Component<MessengerProps, MessengerState> {
             )}
           </EditorWrapper>
 
-          {this.state.tourManagerEnabled
-            ? {
-                /*<TourManager
+          {this.state.tourManagerEnabled ? (
+            <TourManager
               pushEvent={this.pushEvent}
               ev={this.state.ev}
               domain={this.props.domain}
-          />*/
-              }
-            : this.state.tours.length > 0
-            ? {
-                /*<Tour
+            />
+          ) : this.state.tours.length > 0 ? (
+            <Tour
               i18n={i18n}
               pushEvent={this.pushEvent}
               tours={this.state.tours}
               events={App.events}
               domain={this.props.domain}
-          />*/
-              }
-            : null}
+            />
+          ) : null}
 
           <div id="TourManager"></div>
 
@@ -1852,7 +1849,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
               }}
               id={this.state.banner.id}
               serialized_content={
-                <DraftRenderer
+                <Renderer
                   domain={this.props.domain}
                   raw={JSON.parse(this.state.banner.serialized_content)}
                 />

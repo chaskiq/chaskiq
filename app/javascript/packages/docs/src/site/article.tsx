@@ -11,7 +11,8 @@ import { ARTICLE } from '@chaskiq/store/src/graphql/docsQueries';
 
 import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
 import Avatar from '@chaskiq/components/src/components/Avatar';
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+//import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
 
 import { Link } from 'react-router-dom';
 
@@ -126,7 +127,7 @@ function Article(props: ArticleProps) {
 
             <ThemeProvider theme={theme}>
               <NewEditorStyles>
-                <DraftRenderer
+                <Renderer
                   raw={JSON.parse(article.content.serialized_content)}
                 />
               </NewEditorStyles>

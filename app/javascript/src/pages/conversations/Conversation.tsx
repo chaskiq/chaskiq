@@ -90,14 +90,6 @@ import useDebounce from '@chaskiq/components/src/components/hooks/useDebounce';
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
   //justify-content: center;
-
-  // this is to fix the image on message bubbles
-  .aspect-ratio-fill {
-    display: none;
-  }
-  .aspectRatioPlaceholder.is-locked .graf-image {
-    position: inherit;
-  }
 `;
 
 type BgContainerProps = {

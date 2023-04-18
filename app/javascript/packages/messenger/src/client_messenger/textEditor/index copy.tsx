@@ -1,10 +1,12 @@
 import React, { Component, CSSProperties } from 'react';
 
-//import { convertToHTML } from 'draft-convert';
-//import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js';
-//import MultiDecorator from 'draft-js-multidecorators';
+import { convertToHTML } from 'draft-convert';
 
-/*import DanteEditor from 'Dante2/package/esm/editor/components/core/editor';
+import { CompositeDecorator, EditorState, convertFromRaw } from 'draft-js';
+import MultiDecorator from 'draft-js-multidecorators';
+
+import DanteEditor from 'Dante2/package/esm/editor/components/core/editor';
+
 import { DanteImagePopoverConfig } from 'Dante2/package/esm/editor/components/popovers/image.js';
 import { DanteAnchorPopoverConfig } from 'Dante2/package/esm/editor/components/popovers/link.js';
 import { DanteInlineTooltipConfig } from 'Dante2/package/esm/editor/components/popovers/addButton.js';
@@ -21,38 +23,16 @@ import {
   PrismDraftDecorator,
 } from 'Dante2/package/esm/editor/components/decorators';
 import findEntities from 'Dante2/package/esm/editor/utils/find_entities';
-import EditorContainer from 'Dante2/package/esm/editor/styled/base';*/
+import EditorContainer from 'Dante2/package/esm/editor/styled/base';
 
-import {
-  Dante,
-  MenuBarConfig,
-  AddButtonConfig,
-  ImageBlockConfig,
-  CodeBlockConfig,
-  DividerBlockConfig,
-  FileBlockConfig,
-  EmbedBlockConfig,
-  PlaceholderBlockConfig,
-  VideoBlockConfig,
-  GiphyBlockConfig,
-  VideoRecorderBlockConfig,
-  AudioRecorderBlockConfig,
-  SpeechToTextBlockConfig,
-} from 'dante3/package/esm';
-
-import Styled from 'dante3/package/esm/styled';
-import styled from '@emotion/styled';
-
+import Prism from 'prismjs';
 import { ThemeProvider } from '@emotion/react';
-import {
-  defaultTheme as theme,
-  darkTheme,
-} from 'dante3/package/esm/styled/themes';
+import theme from './theme';
+import styled from '@emotion/styled';
 
 import CircularProgress from '@chaskiq/components/src/components/Progress';
 import { getFileMetadata } from '@chaskiq/components/src/components/fileUploader';
 
-const { EditorContainer } = Styled;
 export const EditorStylesExtend = styled(EditorContainer)`
   @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
 
@@ -201,13 +181,32 @@ export default class ArticleEditor extends Component<ArticleEditorProps> {
       ],
     };
 
-    const menuConfig = Object.assign(
-      {},
-      MenuBarConfig(), //this.props.inlineTooltipConfig),
-      inlineMenu
-    );
+    const menuConfig = Object.assign({}, DanteTooltipConfig(), inlineMenu);
 
-    return [AddButtonConfig(), menuConfig];
+    return [
+      DanteImagePopoverConfig(),
+      DanteAnchorPopoverConfig(),
+      DanteInlineTooltipConfig(),
+      menuConfig,
+      // DanteMarkdownConfig()
+    ];
+  };
+
+  decorators = (context) => {
+    //return (context) => {
+    return new MultiDecorator([
+      PrismDraftDecorator({
+        prism: Prism,
+        defaultSyntax: 'javascript',
+      }),
+      new CompositeDecorator([
+        {
+          strategy: findEntities.bind(null, 'LINK', context),
+          component: Link,
+        },
+      ]),
+    ]);
+    //}
   };
 
   setDisabled = (val) => {
@@ -215,7 +214,6 @@ export default class ArticleEditor extends Component<ArticleEditorProps> {
   };
 
   uploadHandler = (file, imageBlock) => {
-    debugger;
     if (!file) {
       if (imageBlock.file && imageBlock.file.constructor.name === 'Blob') {
         const blob = imageBlock.file;
@@ -286,8 +284,7 @@ export default class ArticleEditor extends Component<ArticleEditorProps> {
     ];
   };
 
-  /*
-  saveHandlerOld = (context, content, cb) => {
+  saveHandler = (context, content, cb) => {
     const exportedStyles = context.editor.styleExporter(
       context.editor.getEditorState()
     );
@@ -528,8 +525,20 @@ export default class ArticleEditor extends Component<ArticleEditorProps> {
       return;
     }
 
-    
-  };*/
+    this.props.updateState &&
+      this.props.updateState({
+        status: 'saving...',
+        statusButton: 'success',
+        content: {
+          html: html,
+          serialized: serialized,
+        },
+      });
+
+    if (cb) {
+      cb(html, plain, serialized);
+    }
+  };
 
   decodeEditorContent = (raw_as_json) => {
     const new_content = convertFromRaw(raw_as_json);
@@ -541,29 +550,15 @@ export default class ArticleEditor extends Component<ArticleEditorProps> {
       <ThemeProvider theme={theme}>
         <EditorStylesExtend campaign={true} styles={this.props.styles}>
           {!this.props.loading ? (
-            <Dante
+            <DanteEditor
               {...defaultProps}
               debug={false}
-              //data_storage={{
-              //  url: '/',
-              //  save_handler: this.saveHandler,
-              //}}
-              //onChange={(e) => {
-              //  this.dante_editor = e;
-              //}}
-              onUpdate={(editor: any) => {
-                const html = editor.getHTML();
-                const serialized = editor.getJSON();
-
-                this.props.updateState &&
-                  this.props.updateState({
-                    status: 'saving...',
-                    statusButton: 'success',
-                    content: {
-                      html: html,
-                      serialized: serialized,
-                    },
-                  });
+              data_storage={{
+                url: '/',
+                save_handler: this.saveHandler,
+              }}
+              onChange={(e) => {
+                this.dante_editor = e;
               }}
               content={this.defaultContent()}
               tooltips={
@@ -576,6 +571,17 @@ export default class ArticleEditor extends Component<ArticleEditorProps> {
                   ? this.props.widgetsConfig()
                   : this.widgetsConfig()
               }
+              decorators={(context) => {
+                return new MultiDecorator([
+                  PrismDraftDecorator({ prism: Prism }),
+                  new CompositeDecorator([
+                    {
+                      strategy: findEntities.bind(null, 'LINK', context),
+                      component: Link,
+                    },
+                  ]),
+                ]);
+              }}
             />
           ) : (
             <CircularProgress />

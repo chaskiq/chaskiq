@@ -7,7 +7,9 @@ import Moment from 'react-moment';
 import { ThemeProvider } from '@emotion/react';
 import theme from './textEditor/theme';
 
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import DanteContainer from './textEditor/editorStyles';
 import Loader from './loader';
 
@@ -92,7 +94,7 @@ const Article = ({ i18n }) => {
             }}
           >
             <DanteContainerExtend>
-              <DraftRenderer domain={domain} raw={article.serialized_content} />
+              <Renderer domain={domain} raw={article.serialized_content} />
             </DanteContainerExtend>
           </ThemeProvider>
         </ContentWrapper>

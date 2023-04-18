@@ -7,7 +7,9 @@ import I18n from '../../shared/FakeI18n';
 import FormDialog from '@chaskiq/components/src/components/FormDialog';
 import Button from '@chaskiq/components/src/components/Button';
 import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+//import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import Tabs from '@chaskiq/components/src/components/Tabs';
 
 import { SeachIcon } from '@chaskiq/components/src/components/icons';
@@ -168,7 +170,7 @@ function QuickRepliesPanel(props) {
       quickReply && (
         <div className="my-4 h-32 border overflow-auto p-4 border-yellow-300 bg-yellow-100 rounded-md">
           <EditorContainer>
-            <DraftRenderer raw={JSON.parse(quickReply.content)} />
+            <Renderer raw={JSON.parse(quickReply.content)} />
           </EditorContainer>
         </div>
       )
