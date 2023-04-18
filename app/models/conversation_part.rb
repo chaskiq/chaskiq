@@ -190,20 +190,6 @@ class ConversationPart < ApplicationRecord
     end
   end
 
-  def extract_plain_text(nodes)
-    text = ""
-
-    nodes.each do |node|
-      if node["type"] == "text"
-        text += node["text"]
-      elsif node["content"]
-        text += extract_plain_text(node["content"])
-      end
-    end
-
-    text
-  end
-
   def assign_agent_by_rules
     return if conversation_part_content.blank?
 
@@ -217,7 +203,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def check_rules(serialized_content)
-    text = extract_plain_text(JSON.parse(serialized_content)["content"])
+    text = DanteConvert.extract_plain_text(JSON.parse(serialized_content)["content"])
 
     app = conversation.app
 
