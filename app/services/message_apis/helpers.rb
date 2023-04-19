@@ -125,6 +125,13 @@ module MessageApis
       # console.log result
     end
 
+    def attachment_block(blocks)
+      {
+        blocks: blocks,
+        entityMap: {}
+      }.to_json
+    end
+
     def direct_upload(file:, filename:, content_type:)
       blob = ActiveStorage::Blob.create_and_upload!(
         io: file,
@@ -200,6 +207,39 @@ module MessageApis
 
         participant
       end
+    end
+
+    # useed in controller hooks
+    def serialize_content_from_html(message)
+      message = sanitize(message, tags: %W[p br img a \n])
+      doc = Nokogiri::HTML.parse(message)
+
+      doc.css("br").each do |node|
+        node.replace(Nokogiri::XML::Text.new("\n", doc))
+      end
+
+      lines = doc.css("body").inner_html.gsub(%r{<p>|</p>}, "")
+      lines = lines.split("\n").delete_if(&:empty?)
+
+      {
+        blocks: lines.map do |o|
+          if o.include?("<img src=")
+            process_image_from_html(o)
+          else
+            serialized_block(o)
+          end
+        end,
+        entityMap: {}
+      }.to_json
+    end
+
+    def process_image_from_html(o)
+      img = Nokogiri::HTML.parse(o).css("img")
+      url = img.attr("src")&.value
+      w = img.attr("width")&.value
+      h = img.attr("height")&.value
+      title = img.attr("title")&.value
+      photo_block(url: url, text: title, w: w, h: h)
     end
   end
 end
