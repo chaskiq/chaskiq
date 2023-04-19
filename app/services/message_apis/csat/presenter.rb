@@ -68,7 +68,6 @@ module MessageApis::Csat
     def self.configure_hook(kind:, ctx:)
       api = ctx[:package].message_api_klass
       # conversation_part = ctx[:package].app.conversation_parts.find_by(key: ctx[:conversation_part])
-      # json = JSON.parse(conversation_part.message.serialized_content)["blocks"]
 
       definitions = [
 

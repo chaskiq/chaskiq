@@ -431,7 +431,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(message.html_content).to be == "one\ntwo\ntree\n✌️"
       expect(message.serialized_content).to be_present
 
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
 
       expect(blocks.size).to be == 4
     end
@@ -446,7 +446,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       perform_enqueued_jobs
       message = app.conversations.first.messages.first.messageable
 
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
       block  = blocks.first
       type = block["type"]
       expect(type).to be == "recorded-video"
@@ -461,7 +461,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ))
       perform_enqueued_jobs
       message = app.conversations.first.messages.first.messageable
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
       block  = blocks.first
       type = block["type"]
       expect(type).to be == "image"
