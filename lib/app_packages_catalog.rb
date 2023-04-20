@@ -68,11 +68,13 @@ class AppPackagesCatalog
   end
 
   def self.update_all(dev_packages: false)
-    packages(dev_packages: dev_packages).each do |pkg|
-      package = AppPackage.find_or_initialize_by(name: pkg)
-      data = "MessageApis::#{pkg}::Api".constantize.definition_info
-      package.update(data)
-      Rails.logger.error { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?
-    end
+    Plugin.restore_plugins_from_fs
+
+    # packages(dev_packages: dev_packages).each do |pkg|
+    #  package = AppPackage.find_or_initialize_by(name: pkg)
+    #  data = "MessageApis::#{pkg}::Api".constantize.definition_info
+    #  package.update(data)
+    #  Rails.logger.error { "PACKAGE #{package.name} errors: #{package.errors.full_messages.join(', ')}" } if package.errors.any?
+    # end
   end
 end
