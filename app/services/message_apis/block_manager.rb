@@ -32,6 +32,13 @@ class MessageApis::BlockManager
       content: [{ type: "text", text: text.to_s }]
     }.to_json
 
-    # "{\"blocks\": [{\"key\":\"bl82q\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}"
+    # key = ("a".."z").to_a.sample(8).join
+
+    # {
+    #  "blocks" => [
+    #    { "key" => key, "text" => text.to_s, "type" => "unstyled", "depth" => 0, "inlineStyleRanges" => [], "entityRanges" => [], "data" => {} }
+    #  ],
+    #  "entityMap" => {}
+    # }
   end
 end
