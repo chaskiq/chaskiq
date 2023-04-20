@@ -6,12 +6,22 @@ module MessageApis
       ("a".."z").to_a.sample(8).join
     end
 
-    def text_block(text)
-      lines = text.split("\n").delete_if(&:empty?)
+    def main_doc(blocks)
       {
-        blocks: lines.map { |o| serialized_block(o) },
-        entityMap: {}
-      }.to_json
+        type: "doc",
+        content: blocks
+      }
+    end
+
+    def text_block(text)
+      # lines = text.split("\n").delete_if(&:empty?)
+      # {
+      #  blocks: lines.map { |o| serialized_block(o) },
+      #  entityMap: {}
+      # }.to_json
+
+      lines = text.split("\n").delete_if(&:empty?)
+      main_doc(lines.map { |o| serialized_block(o) }).to_json
     end
 
     def gif_block(url:, text:)
@@ -45,14 +55,11 @@ module MessageApis
           height: h.to_i
         }
       end
+
       {
-        key: keygen,
-        text: text.to_s,
-        type: "image",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
+        type: "ImageBlock",
+        content: [],
+        attrs: {
           caption: text.to_s,
           forceUpload: false,
           url: url,
@@ -69,13 +76,9 @@ module MessageApis
 
     def file_block(url:, text:)
       {
-        key: keygen,
-        text: text.to_s,
-        type: "file",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {
+        type: "FileBlock",
+        content: [],
+        attrs: {
           caption: text.to_s,
           forceUpload: false,
           url: url,
@@ -89,15 +92,7 @@ module MessageApis
     end
 
     def serialized_block(text)
-      {
-        key: keygen,
-        text: text.to_s,
-        type: "unstyled",
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [],
-        data: {}
-      }
+      { type: "text", text: text.to_s }
     end
 
     def get_aspect_ratio(w, h)
@@ -126,10 +121,11 @@ module MessageApis
     end
 
     def attachment_block(blocks)
-      {
-        blocks: blocks,
-        entityMap: {}
-      }.to_json
+      # {
+      #  blocks: blocks,
+      #  entityMap: {}
+      # }.to_json
+      main_doc(blocks).to_json
     end
 
     def direct_upload(file:, filename:, content_type:)
@@ -221,16 +217,27 @@ module MessageApis
       lines = doc.css("body").inner_html.gsub(%r{<p>|</p>}, "")
       lines = lines.split("\n").delete_if(&:empty?)
 
-      {
-        blocks: lines.map do |o|
-          if o.include?("<img src=")
-            process_image_from_html(o)
-          else
-            serialized_block(o)
-          end
-        end,
-        entityMap: {}
-      }.to_json
+      # [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+
+      blocks = lines.map do |o|
+        if o.include?("<img src=")
+          process_image_from_html(o)
+        else
+          serialized_block(o)
+        end
+      end
+      main_doc(blocks).to_json
+
+      # {
+      #  blocks: lines.map do |o|
+      #    if o.include?("<img src=")
+      #      process_image_from_html(o)
+      #    else
+      #      serialized_block(o)
+      #    end
+      #  end,
+      #  entityMap: {}
+      # }.to_json
     end
 
     def process_image_from_html(o)

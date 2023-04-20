@@ -18,6 +18,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     "whatsapp:+2222"
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+    }.to_json
+  end
+
   def data_for(id:, sender:, recipient:, message_id: nil, message_data: {})
     {
       "SmsMessageSid" => message_id,
@@ -219,7 +226,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         opts = {
           from: Agent.first,
           message: {
-            serialized_content: { blocks: [] }.to_json,
+            serialized_content: serialized,
             html_content: "message"
           }
         }

@@ -13,13 +13,20 @@ RSpec.describe App, type: :model do
     FactoryBot.create :app
   end
 
+  # let(:default_content_draftjs) do
+  #  {
+  #    entityMap: {},
+  #    blocks: [
+  #      { key: "f1qmb", text: "", type: "unstyled", depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} }
+  #    ]
+  #  }.to_json.to_s
+  # end
+
   let(:default_content) do
     {
-      entityMap: {},
-      blocks: [
-        { key: "f1qmb", text: "", type: "unstyled", depth: 0, inlineStyleRanges: [], entityRanges: [], data: {} }
-      ]
-    }.to_json.to_s
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "" }] }]
+    }.to_json
   end
 
   it "create app" do

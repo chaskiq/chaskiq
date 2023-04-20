@@ -107,7 +107,7 @@ RSpec.describe Dante::Renderer do
       renderer = Dante::Renderer.new(raw: data)
       html_output = renderer.render
       parsed_html = Nokogiri::HTML(html_output)
-      puts html_output
+      # puts html_output
       h1 = parsed_html.at_css("p")
       expect(h1).not_to be_nil
     end
@@ -116,7 +116,6 @@ RSpec.describe Dante::Renderer do
       it "it converts" do
         draft_content = '{"blocks":[{"key":"6176l","text":"okokokok","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":8,"style":"CUSTOM_COLOR_#ce4444"},{"offset":0,"length":8,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}'
         data = Dante::Converter.draftjs_to_prosemirror(draft_content)
-
         html = Dante::Renderer.new(raw: data).render
         parsed_html = Nokogiri::HTML(html)
         h1 = parsed_html.at_css("strong")
@@ -129,7 +128,7 @@ RSpec.describe Dante::Renderer do
         html = Dante::Renderer.new(raw: data).render
         parsed_html = Nokogiri::HTML(html)
 
-        puts html
+        # puts html
         h1 = parsed_html.at_css("h1")
         expect(h1).not_to be_nil
         h1 = parsed_html.at_css("h3")
@@ -142,7 +141,7 @@ RSpec.describe Dante::Renderer do
       it "lists" do
         draft_content = '{"blocks":[{"key":"6176l","text":"lists ","type":"unordered-list-item","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"21a13","text":"dos","type":"unordered-list-item","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"fmj34","text":"tres","type":"unordered-list-item","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"46qi1","text":"otra","type":"ordered-list-item","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3be9j","text":"dos","type":"ordered-list-item","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
         data = Dante::Converter.draftjs_to_prosemirror(draft_content)
-        puts html = Dante::Renderer.new(raw: data).render
+        html = Dante::Renderer.new(raw: data).render
         parsed_html = Nokogiri::HTML(html)
         h1 = parsed_html.at_css("li")
         expect(h1).not_to be_nil
@@ -156,7 +155,7 @@ RSpec.describe Dante::Renderer do
         parsed_html = Nokogiri::HTML(html)
         h1 = parsed_html.at_css("a")
         expect(h1).not_to be_nil
-        puts html
+        # puts html
       end
 
       it "images" do
@@ -166,7 +165,7 @@ RSpec.describe Dante::Renderer do
         parsed_html = Nokogiri::HTML(html)
         h1 = parsed_html.at_css("img")
         expect(h1).not_to be_nil
-        puts html
+        # puts html
       end
     end
   end
