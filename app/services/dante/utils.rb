@@ -1,14 +1,15 @@
 class Dante::Utils
   def self.extract_plain_text(nodes)
-    text = ""
-    nodes.each do |node|
-      if node["type"] == "text"
-        text += "#{node['text']} "
-      elsif node["content"]
-        text += extract_plain_text(node["content"])
+    nodes.inject("") do |text, node|
+      case node["type"]
+      when "text"
+        text << "#{node['text']} "
+      else
+        node_content = node["content"]
+        text << extract_plain_text(node_content) if node_content
       end
-    end
-    text
+      text
+    end.strip
   end
 
   def self.get_blocks(serialized_content)

@@ -1,5 +1,4 @@
 import React from 'react';
-import Prism from 'prismjs';
 import { connect } from 'react-redux';
 
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
@@ -41,7 +40,7 @@ function VerificationView({ app }) {
         })(document,"script");
       </script>
     `;
-    return Prism.highlight(code, Prism.languages.javascript, 'javascript');
+    return <code>{code}</code>;
   }
 
   function keyGeneration() {

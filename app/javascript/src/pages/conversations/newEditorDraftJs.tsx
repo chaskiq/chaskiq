@@ -21,7 +21,7 @@ import { ThemeProvider } from '@emotion/react';
 
 import editorTheme from '@chaskiq/components/src/components/textEditor/theme';
 
-import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
+import EditorContainer from 'dante3/package/esm/styled/base.js';
 import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage';
 import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers';
 import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/quickReplies';

@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
-import prismStyle from './prismStyle';
-
-import EditorContainer from 'Dante2/package/esm/editor/styled/base';
+import EditorContainer from 'dante3/package/esm/styled/base.js';
 
 type NewEditorStylesType = {
   theme: any;
@@ -132,8 +130,6 @@ const NewEditorStyles = styled(EditorContainer)<NewEditorStylesType>`
   .imageCaption {
     word-break: break-word;
   }
-
-  ${prismStyle}
 `;
 
 export default NewEditorStyles;

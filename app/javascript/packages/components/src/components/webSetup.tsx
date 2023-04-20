@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import FormDialog from './FormDialog';
-import Prism from 'prismjs';
 
 import styled from '@emotion/styled';
 
@@ -75,7 +74,7 @@ function SimpleDialog(props) {
         })(document,"script");
       </script>
     `;
-    return Prism.highlight(code, Prism.languages.javascript, 'javascript');
+    return <code>{code}</code>;
   }
 
   return (

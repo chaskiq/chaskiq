@@ -2,7 +2,6 @@ import React, { Component, CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import Tabs from './tabs';
 import NewEditor from './newEditor';
-import 'draft-js/dist/Draft.css';
 import I18n from '../../shared/FakeI18n';
 import Dropdown from '@chaskiq/components/src/components/Dropdown';
 import Button from '@chaskiq/components/src/components/Button';
@@ -129,15 +128,14 @@ export default class ConversationEditor extends Component<
           note={opts.note}
           style={opts.note ? { background: 'lemonchiffon' } : {}}
         >
-          {!this.state.loading ? (
-            <NewEditor
-              insertAppBlockComment={this.props.insertAppBlockComment}
-              submitData={(formats) => this.submitData(formats, opts)}
-              saveContentCallback={(content) => this.handleTyping(content)}
-              sendMode={this.state.sendMode}
-              {...this.props}
-            />
-          ) : null}
+          {/*!this.state.loading ? // not sure why we hide the text editor when loading. */}
+          <NewEditor
+            insertAppBlockComment={this.props.insertAppBlockComment}
+            submitData={(formats) => this.submitData(formats, opts)}
+            saveContentCallback={(content) => this.handleTyping(content)}
+            sendMode={this.state.sendMode}
+            {...this.props}
+          />
         </EditorContainer>
       </EditorWrapper>
     );

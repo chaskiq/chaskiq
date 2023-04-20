@@ -3,7 +3,6 @@ import tw from 'twin.macro';
 import styled from '@emotion/styled';
 import StyledFrame from './styledFrame';
 import DanteContainer from './textEditor/editorStyles';
-import 'draft-js/dist/Draft.css';
 import theme from './textEditor/theme';
 import { ThemeProvider } from '@emotion/react';
 

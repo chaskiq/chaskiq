@@ -3,8 +3,7 @@ import Moment from 'react-moment';
 import styled from '@emotion/styled';
 
 import translation from './translation';
-import { ThemeProvider } from '@emotion/react';
-import EditorContainer from 'Dante2/package/esm/editor/styled/base';
+import EditorContainer from 'dante3/package/esm/styled/base.js';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 import { ARTICLE } from '@chaskiq/store/src/graphql/docsQueries';

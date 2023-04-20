@@ -5,14 +5,8 @@ import { MenuBarConfig, AddButtonConfig, Icons } from 'dante3/package/esm';
 
 //import Icons from 'Dante2/package/esm/editor/components/icons';
 
-//import TextEditor from '@chaskiq/components/src/components/textEditor';
 import TextEditor from '@chaskiq/components/src/components/danteEditor';
-
 import styled from '@emotion/styled';
-
-//import { ThemeProvider } from '@emotion/react';
-//import editorTheme from '@chaskiq/components/src/components/textEditor/theme';
-//import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
 import { AppPackageBlockConfig } from '@chaskiq/components/src/components/danteEditor/appPackage';
 import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/danteEditor/onDemandTriggers';
 import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/danteEditor/quickReplies';

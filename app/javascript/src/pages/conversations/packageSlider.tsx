@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 
 import React, { useState } from 'react';
-import { XIcon } from '@heroicons/react/outline';
 import { useHotkeys } from 'react-hotkeys-hook';
 import ErrorBoundary from '@chaskiq/components/src/components/ErrorBoundary';
 import { getPackage } from '@chaskiq/components/src/components/packageBlocks/utils';
 import { DefinitionRenderer } from '@chaskiq/components/src/components/packageBlocks/components';
 import { Link } from 'react-router-dom';
 import Tooltip from 'rc-tooltip';
-import { IntegrationsIcon } from '@chaskiq/components/src/components/icons';
+import {
+  IntegrationsIcon,
+  CloseIcon,
+} from '@chaskiq/components/src/components/icons';
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 import graphql from '@chaskiq/store/src/graphql/client';
 import { errorMessage } from '@chaskiq/store/src/actions/status_messages';
@@ -110,7 +112,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close panel</span>
-                    <XIcon className="h-6 w-6" aria-hidden="true" />
+                    <CloseIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
               </div>

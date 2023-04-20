@@ -6,8 +6,6 @@ import I18n from '../../shared/FakeI18n';
 
 import FormDialog from '@chaskiq/components/src/components/FormDialog';
 import Button from '@chaskiq/components/src/components/Button';
-import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
-//import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
 import { Renderer } from 'dante3/package/esm';
 
 import Tabs from '@chaskiq/components/src/components/Tabs';
