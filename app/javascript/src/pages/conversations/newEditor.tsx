@@ -487,6 +487,21 @@ export default class ChatEditor extends Component<
               handleReturn={(e, isEmptyDraft, ctx) => {
                 ///console.log("IS EMOT", this.isDocEmpty(this.state.serialized))
                 ///console.log("DIDIDI", this.isDisabled())
+                try {
+                  console.log(
+                    e.currentTarget.pmViewDesc.node.content.content[0].attrs
+                      .blockKind
+                  );
+                  const blockKind =
+                    e.currentTarget.pmViewDesc?.node?.content?.content[0]?.attrs
+                      ?.blockKind?.name;
+                  if (['EmbedBlock', 'VideoBlock'].includes(blockKind)) {
+                    return;
+                  }
+                } catch (error) {
+                  console.error(error);
+                }
+
                 if (this.isDocEmpty(this.state.serialized)) return; //|| this.isDisabled()) return;
                 if (
                   this.props.sendMode == 'enter'
