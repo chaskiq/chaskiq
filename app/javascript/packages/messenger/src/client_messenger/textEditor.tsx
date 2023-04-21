@@ -11,6 +11,12 @@ import GiphyPicker from './giphy';
 import { generateJSON } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
 
+import {
+  ImageBlockConfig,
+  FileBlockConfig,
+  extensionFactory,
+} from 'dante3/package/esm';
+
 import customHTML2Content from './html2Content'; // 'Dante2/package/es/utils/html2content.js'
 import Loader from './loader';
 //
@@ -201,8 +207,12 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
 
   componentDidMount() {}
 
-  convertToDraft(sampleMarkup) {
-    const json = generateJSON(sampleMarkup, [StarterKit]);
+  convertToSerializedContent(sampleMarkup) {
+    const json = generateJSON(sampleMarkup, [
+      StarterKit,
+      extensionFactory(ImageBlockConfig()),
+      extensionFactory(FileBlockConfig()),
+    ]);
 
     console.log(json);
 
@@ -248,7 +258,7 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
 
     const opts = {
       html_content: this.input.value,
-      ...this.convertToDraft(this.input.value),
+      ...this.convertToSerializedContent(this.input.value),
     };
 
     this.props.insertComment(opts, {
@@ -260,33 +270,61 @@ export default class UnicornEditor extends Component<EditorProps, EditorState> {
         this.props.onSent && this.props.onSent(opts);
         this.input.value = '';
       },
+    });
+  };
+
+  getImageDimensions = (url) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+
+      img.onload = function () {
+        const width = this.naturalWidth;
+        const height = this.naturalHeight;
+        resolve({ width, height });
+      };
+
+      img.onerror = function () {
+        reject(new Error('Failed to load image.'));
+      };
+
+      img.src = url;
     });
   };
 
   submitImage = (link, cb = null) => {
-    const html = `<img width=100% src="${link}" data-type="image"/>`;
-    const opts = {
-      html_content: html,
-      ...this.convertToDraft(html),
-    };
-    this.props.insertComment(opts, {
-      before: () => {
-        this.props.beforeSubmit && this.props.beforeSubmit(opts);
-        this.input.value = '';
-      },
-      sent: () => {
-        this.props.onSent && this.props.onSent(opts);
-        this.input.value = '';
-        cb && cb();
-      },
-    });
+    this.getImageDimensions(link)
+      .then((dimensions) => {
+        const html = `<img src="${link}" width="${dimensions.width}" height="${dimensions.height}" url="${link}" data-type="image"/>`;
+        const opts = {
+          html_content: html,
+          ...this.convertToSerializedContent(html),
+        };
+        this.props.insertComment(opts, {
+          before: () => {
+            this.props.beforeSubmit && this.props.beforeSubmit(opts);
+            this.input.value = '';
+          },
+          sent: () => {
+            this.props.onSent && this.props.onSent(opts);
+            this.input.value = '';
+            cb && cb();
+          },
+        });
+
+        console.log(
+          `Image width: ${dimensions.width}, Image height: ${dimensions.height}`
+        );
+      })
+      .catch((error) => {
+        console.error(`Error: ${error.message}`);
+      });
   };
 
   submitFile = (attrs, cb = null) => {
-    const html = `<img src="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`;
+    const html = `<file-block src="${attrs.link}" url="${attrs.link}" data-filename="${attrs.filename}" data-type="file" data-content-type="${attrs.content_type}"/>`;
     const opts = {
       html_content: html,
-      ...this.convertToDraft(html),
+      ...this.convertToSerializedContent(html),
     };
     this.props.insertComment(opts, {
       before: () => {

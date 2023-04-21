@@ -869,6 +869,10 @@ export const MessageItem = styled.div<
 
   font-size: 15px;
 
+  .graf:last-of-type {
+    // background-color: red;
+  }
+
   &.admin {
     align-self: flex-start;
     display: flex;
@@ -920,6 +924,7 @@ export const MessageItem = styled.div<
       margin-right: 10px;
       border-radius: 6px;
       min-width: 80px;
+      min-width: 200px;
       box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1),
         0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
@@ -937,7 +942,7 @@ export const MessageItem = styled.div<
 
     // hack on image from user, not use position absolute
     .graf-image {
-      position: inherit !important;
+      // position: inherit !important;
     }
 
     ${(props) =>

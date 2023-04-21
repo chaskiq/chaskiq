@@ -380,6 +380,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   };
 
   tooltipsConfig = () => {
+    // todo, defaults to heading, paragraph and we no need nothing else.
     const inlineMenu = {
       selectionElements: [
         'unstyled',
