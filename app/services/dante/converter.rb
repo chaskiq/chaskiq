@@ -88,7 +88,6 @@ class Dante::Converter
   end
 
   def self.convert_style_to_marks(style)
-    Rails.logger.debug "pasó por marks"
     marks = []
 
     marks << { type: "bold" } if style.include?("BOLD")

@@ -7,6 +7,7 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 require 'URLcrypt'
+require_relative 'middleware/maintenance_mode'
 
 Dotenv::Railtie.load if defined?(Dotenv::Railtie)
 
@@ -72,6 +73,10 @@ module Chaskiq
         origins global_cors_domain
         resource "*", headers: :any, methods: %i[get post put options]
       end
+    end
+
+    if Chaskiq::Config::get("MAINTENANCE_MODE") == "true"
+      config.middleware.insert_before Rack::Sendfile, Middleware::MaintenanceMode
     end
 
     URLcrypt.key = [Chaskiq::Config.get('SECRET_KEY_BASE')].pack('H*')

@@ -139,6 +139,13 @@ namespace :packages do
       id = args[:app_id]
       Dante::Migrator.migrate_tours(id: id)
     end
+
+    desc "Migrate App draft to pm"
+    task :app, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_app(id: id)
+    end
   end
 end
 
