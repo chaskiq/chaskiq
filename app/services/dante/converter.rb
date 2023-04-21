@@ -24,7 +24,7 @@ class Dante::Converter
       node[:attrs] = { level: a[block[:type].split("-").last] || 0 }
     end
 
-    node[:attrs] = block[:data] if %w[DividerBlock ImageBlock EmbedBlock VideoBlock VideoRecorderBlock].include?(node[:type])
+    node[:attrs] = block[:data] if %w[DividerBlock ImageBlock EmbedBlock VideoBlock VideoRecorderBlock AudioRecorderBlock].include?(node[:type])
 
     node
   end
@@ -47,7 +47,8 @@ class Dante::Converter
         marks << { type: "link", attrs: { href: entity[:data][:url] } } if entity[:type] == "LINK"
       end
 
-      next_position = [style.map { |s| s[:offset] + s[:length] }.min, entity_ranges.map { |range| range[:offset] + range[:length] }.min].compact.min || text.length
+      next_position_ranges = style.map { |s| s[:offset] + s[:length] } + entity_ranges.map { |range| range[:offset] + range[:length] }
+      next_position = next_position_ranges.select { |pos| pos > position }.min || text.length
       nodes << {
         type: "text",
         text: text[position...next_position],
@@ -71,12 +72,23 @@ class Dante::Converter
       "blockquote"
     when "image"
       "ImageBlock"
+    when "video"
+      "VideoBlock"
+    when "embed"
+      "EmbedBlock"
+    when "divider"
+      "DividerBlock"
+    when "video-recorder"
+      "VideoRecorderBlock"
+    when "audio-recorder"
+      "AudioRecorderBlock"
     else
       "paragraph"
     end
   end
 
   def self.convert_style_to_marks(style)
+    Rails.logger.debug "pasó por marks"
     marks = []
 
     marks << { type: "bold" } if style.include?("BOLD")

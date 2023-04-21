@@ -122,6 +122,15 @@ RSpec.describe Dante::Renderer do
         expect(h1).not_to be_nil
       end
 
+      it "test styles" do
+        draft_content = "{\"blocks\":[{\"key\":\"f1qmb\",\"text\":\"Hola \",\"type\":\"header-two\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"56tqd\",\"text\":\"mails you sent, spanning over approximately the last 1891.5 days. We expect our senders' complaint rates to remain below 0.1%. Senders with a complaint rate exceeding 0.5% risk a sending Pause. Learn more.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[{\"offset\":89,\"length\":15,\"style\":\"BOLD\"},{\"offset\":142,\"length\":14,\"style\":\"BOLD\"}],\"entityRanges\":[{\"offset\":194,\"length\":10,\"key\":0}],\"data\":{}},{\"key\":\"414rs\",\"text\":\"To learn more about reputation statuses please see Reputation Status Messages.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[{\"offset\":51,\"length\":26,\"key\":1}],\"data\":{}},{\"key\":\"1708b\",\"text\":\"To learn more about setting CloudWatch alarms please see How to create Reputation Monitoring Alarms.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[{\"offset\":57,\"length\":42,\"key\":2}],\"data\":{}},{\"key\":\"9fvug\",\"text\":\"\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"83n52\",\"text\":\"https://www.awesomefest.co/\",\"type\":\"embed\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{\"provisory_text\":\"https://www.awesomefest.co/\",\"endpoint\":\"/oembed?url=\",\"type\":\"embed\",\"embed_data\":{\"url\":\"https://www.awesomefest.co/\",\"title\":\"AwesomeFest 2020: El festival virtual de talento más grande de Latinoamérica\",\"description\":\"Vamos a celebrar el talento latino con un evento 100% virtual, 100% gratis, presentado por Get on Board.\",\"html\":null,\"provider_url\":\"https://www.awesomefest.co\",\"images\":[{\"url\":\"https://app.chaskiq.io/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaTREIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--b8a001901be76b18366e4cfa3e0478259e1b179e/foo-1606757926.jpg\"}],\"media\":{\"html\":null}},\"error\":\"\"}}],\"entityMap\":{\"0\":{\"type\":\"LINK\",\"mutability\":\"MUTABLE\",\"data\":{\"href\":\"https://docs.aws.amazon.com/console/ses/reputationdashboard-complaint\",\"target\":\"blank\",\"title\":\"Learn more\",\"url\":\"https://docs.aws.amazon.com/console/ses/reputationdashboard-complaint\"}},\"1\":{\"type\":\"LINK\",\"mutability\":\"MUTABLE\",\"data\":{\"href\":\"https://docs.aws.amazon.com/console/ses/reputationdashboard-account-status\",\"target\":\"blank\",\"url\":\"https://docs.aws.amazon.com/console/ses/reputationdashboard-account-status\"}},\"2\":{\"type\":\"LINK\",\"mutability\":\"MUTABLE\",\"data\":{\"href\":\"https://docs.aws.amazon.com/console/ses/reputationdashboard-cloudwatch-alarm\",\"target\":\"blank\",\"title\":\"CloudWath alarm creation\",\"url\":\"https://docs.aws.amazon.com/console/ses/reputationdashboard-cloudwatch-alarm\"}}}}"
+        data = Dante::Converter.draftjs_to_prosemirror(draft_content)
+        html = Dante::Renderer.new(raw: data).render
+        parsed_html = Nokogiri::HTML(html)
+        h1 = parsed_html.at_css("h2")
+        expect(h1).not_to be_nil
+      end
+
       it "basic styles" do
         draft_content = '{"blocks":[{"key":"6176l","text":"Heading 1","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"9a19j","text":"heading 2","type":"header-two","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"bv19a","text":"heading 3","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"luso","text":"Blockquote","type":"blockquote","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"20lot","text":"italic bold","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":11,"style":"ITALIC"},{"offset":7,"length":4,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}'
         data = Dante::Converter.draftjs_to_prosemirror(draft_content)
@@ -166,6 +175,15 @@ RSpec.describe Dante::Renderer do
         h1 = parsed_html.at_css("img")
         expect(h1).not_to be_nil
         # puts html
+      end
+
+      it "video embed" do
+        draft_content = '{"blocks":[{"key":"9oe8n","text":"bien , aqui les va el pitch !","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"2me4f","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"7uan6","text":"https://www.youtube.com/watch?v=89hiYejjza0","type":"video","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{"provisory_text":"https://www.youtube.com/watch?v=89hiYejjza0","endpoint":"/oembed?url=","type":"video","embed_data":{"url":"https://www.youtube.com/watch?v=89hiYejjza0","title":"Video el 29 11 20 a las 15 36","description":null,"html":"<iframe width=\"459\" height=\"344\" src=\"https://www.youtube.com/embed/89hiYejjza0?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>","provider_url":"https://www.youtube.com","images":[{"url":"https://app.chaskiq.io/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaXdEIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--bffc77e534f038521d173fbbe472060054865792/foo-1606684394.jpg"}],"media":{"html":"<iframe width=\"459\" height=\"344\" src=\"https://www.youtube.com/embed/89hiYejjza0?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"}}}}],"entityMap":{}}'
+        data = Dante::Converter.draftjs_to_prosemirror(draft_content)
+        html = Dante::Renderer.new(raw: data).render
+        parsed_html = Nokogiri::HTML(html)
+        h1 = parsed_html.at_css("iframe")
+        expect(h1).not_to be_nil
       end
     end
   end

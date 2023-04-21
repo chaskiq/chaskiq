@@ -81,6 +81,65 @@ namespace :packages do
       end
     end
   end
+
+  # migrate utils to port the draftjs to prosemirror
+  namespace :migrate do
+    desc "Migrate content parts from draft to pm"
+    task :conversations, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_conversation_parts(id: id)
+    end
+
+    desc "Migrate articles draft to pm"
+    task :articles, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_articles(id: id)
+    end
+
+    desc "Migrate bot tasks draft to pm"
+    task :bot_tasks, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_bot_tasks(id: id)
+    end
+
+    desc "Migrate banners draft to pm"
+    task :banners, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_banners(id: id)
+    end
+
+    desc "Migrate UserAutoMessages draft to pm"
+    task :user_auto_messages, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_user_auto_message(id: id)
+    end
+
+    desc "Migrate Campaigns draft to pm"
+    task :user_auto_messages, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_campaigns(id: id)
+    end
+
+    desc "Migrate QuickReplies draft to pm"
+    task :quick_replies, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_quick_replies(id: id)
+    end
+
+    desc "Migrate Tours draft to pm"
+    task :tours, [:app_id] => :environment do |_task, args|
+      Rails.logger = Logger.new($stdout)
+      id = args[:app_id]
+      Dante::Migrator.migrate_tours(id: id)
+    end
+  end
 end
 
 namespace :owner_apps do
