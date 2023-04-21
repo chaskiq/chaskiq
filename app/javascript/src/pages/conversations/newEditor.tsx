@@ -273,12 +273,15 @@ export default class ChatEditor extends Component<
   handleSubmit = () => {
     const { html, serialized } = this.state;
     this.props.submitData({ html, serialized: JSON.stringify(serialized) });
+    // this.editorRef.editor.commands.clearContent(true)
+    //@ts-ignore
+    this.editorRef?.commands?.clearContent(true);
+    return true;
   };
 
   saveHandler = (_html3, _plain, _serialized) => {};
 
   setDisabled = (val) => {
-    debugger;
     this.setState({ disabled: val });
   };
 
@@ -502,12 +505,15 @@ export default class ChatEditor extends Component<
                   //&&
                   //!e.nativeEvent.shiftKey
                 ) {
-                  return this.handleSubmit();
+                  this.handleSubmit();
+                  e.currentTarget.editor.commands.clearContent(true);
+                  return true;
                 }
               }}
               //style={{}}
               readOnly={false}
               updateState={(editor: any) => {
+                this.editorRef = editor;
                 this.saveContent({
                   html: editor.getHTML(),
                   serialized: editor.getJSON(),
@@ -529,7 +535,8 @@ export default class ChatEditor extends Component<
         {this.props.sendMode != 'enter' && (
           <SubmitButton
             onClick={this.handleSubmit}
-            disabled={this.state.disabled}
+            disabled={this.isDocEmpty(this.state.serialized)}
+            //disabled={this.state.disabled}
           />
         )}
       </div>
