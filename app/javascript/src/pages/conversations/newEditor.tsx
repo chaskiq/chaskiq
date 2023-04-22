@@ -160,19 +160,15 @@ export default class ChatEditor extends Component<
   tooltipsConfig = () => {
     const inlineMenu = {
       selectionElements: [
-        'unstyled',
+        'text',
         'blockquote',
         'ordered-list',
         'unordered-list',
         'unordered-list-item',
         'ordered-list-item',
         'code-block',
-        'header-one',
-        'header-two',
-        'footer',
-        'column',
-        'jumbo',
-        'button',
+        'heading',
+        'paragraph'
       ],
 
       widget_options: {
