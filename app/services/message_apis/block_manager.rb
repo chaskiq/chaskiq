@@ -20,10 +20,21 @@ class MessageApis::BlockManager
   # draft to pm
   def self.block_mapping(type)
     {
-      "file" => "FileBlock",
-      "recorded-audio" => "AudioRecorderBlock",
-      "image" => "ImageBlock"
+      "file" => "file",
+      "recorded-audio" => "recorded-audio",
+      "image" => "image",
+      "unstyled" => "unstyled",
+      "divider" => "divider",
+      "header-one" => "header-one",
+      "header-two" => "header-two",
+      "header-three" => "header-three",
+      "header-four" => "header-four"
     }[type]
+  end
+
+  def self.block_data(block)
+    block["data"]
+    # block["attrs"]
   end
 
   def self.serialized_text(text)
