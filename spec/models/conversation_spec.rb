@@ -37,6 +37,13 @@ RSpec.describe Conversation, type: :model do
     }
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+    }.to_json
+  end
+
   before do
     ActiveJob::Base.queue_adapter = :test
     ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
@@ -227,10 +234,6 @@ RSpec.describe Conversation, type: :model do
       expect(agent_role.agent.assignment_rules).to be_empty
       expect(agent_role2.agent.assignment_rules.count).to be_present
 
-      serialized = "{\"blocks\":
-      [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-      \"entityMap\":{}}"
-
       app.start_conversation(
         message: { text_content: "aa", serialized_content: serialized },
         from: app_user
@@ -239,10 +242,6 @@ RSpec.describe Conversation, type: :model do
     end
 
     it "content not eq rule" do
-      serialized = "{\"blocks\":
-      [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-      \"entityMap\":{}}"
-
       assignment_rule[[{
         "type" => "string",
         "value" => "foobar",
@@ -262,8 +261,6 @@ RSpec.describe Conversation, type: :model do
     end
 
     it "content eq rule" do
-      serialized = '{"blocks":[{"key":"bl82q","text":"foobar","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
-
       assignment_rule[[{
         "type" => "string",
         "value" => "foobar",
@@ -284,8 +281,6 @@ RSpec.describe Conversation, type: :model do
     end
 
     it "content eq rule match any" do
-      serialized = '{"blocks":[{"key":"bl82q","text":"foobar","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
-
       assignment_rule[
         [
           {
@@ -317,8 +312,6 @@ RSpec.describe Conversation, type: :model do
     end
 
     it "content eq rule match any" do
-      serialized = '{"blocks":[{"key":"bl82q","text":"foobar","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
-
       assignment_rule[
         [
           {
@@ -350,8 +343,6 @@ RSpec.describe Conversation, type: :model do
     end
 
     it "content eq rule match any" do
-      serialized = '{"blocks":[{"key":"bl82q","text":"foobar","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
-
       assignment_rule[
         [
           {

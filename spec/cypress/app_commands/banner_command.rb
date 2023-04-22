@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 app_key = command_options.delete("app_key")
-serialized_content = command_options.delete("serialized_content")
+message = command_options.delete("serialized_content")
+
+serialized_content = MessageApis::BlockManager.serialized_text(message)
+
 app = App.find_by(key: app_key)
 
 message = FactoryBot.create(:banner,

@@ -3,15 +3,15 @@ import Moment from 'react-moment';
 import styled from '@emotion/styled';
 
 import translation from './translation';
-import { ThemeProvider } from 'emotion-theming';
-import EditorContainer from 'Dante2/package/esm/editor/styled/base';
+import EditorContainer from 'dante3/package/esm/styled/base.js';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 import { ARTICLE } from '@chaskiq/store/src/graphql/docsQueries';
 
 import Breadcrumbs from '@chaskiq/components/src/components/Breadcrumbs';
 import Avatar from '@chaskiq/components/src/components/Avatar';
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+//import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
 
 import { Link } from 'react-router-dom';
 
@@ -124,13 +124,10 @@ function Article(props: ArticleProps) {
               </div>
             </div>
 
-            <ThemeProvider theme={theme}>
-              <NewEditorStyles>
-                <DraftRenderer
-                  raw={JSON.parse(article.content.serialized_content)}
-                />
-              </NewEditorStyles>
-            </ThemeProvider>
+            <Renderer
+              theme={theme}
+              raw={JSON.parse(article.content.serialized_content)}
+            />
 
             <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
               {article.prevArticleUrl && (

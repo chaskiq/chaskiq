@@ -25,6 +25,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     )
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+    }.to_json
+  end
+
   describe "triggers" do
     before do
       AppPackagesCatalog.update_all
@@ -54,9 +61,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
              .and_return(Time.zone.now)
 
       ConversationPartContent.any_instance.stub(:serialized_content)
-                             .and_return(
-                               '{"blocks": [{"key":"bl82q","text":"foobar","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
-                             )
+                             .and_return(serialized)
 
       perform_enqueued_jobs do
         conversation
@@ -106,9 +111,9 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
         #  channel: channel.provider_channel_id)
         # )
 
-        serialized = "{\"blocks\":
-        [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-        \"entityMap\":{}}"
+        # serialized = "{\"blocks\":
+        # [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
+        # \"entityMap\":{}}"
 
         allow_any_instance_of(
           MessageApis::OpenAi::Api

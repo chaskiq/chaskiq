@@ -4,17 +4,17 @@ class MessageApis::BlockManager
   include ActionView::Helpers::SanitizeHelper
 
   def self.get_blocks(serialized_content)
-    # Dante::Utils.get_blocks(serialized_content)
-    blocks = JSON.parse(
-      serialized_content
-    )["blocks"]
+    Dante::Utils.get_blocks(serialized_content)
+    # blocks = JSON.parse(
+    #  serialized_content
+    # )["blocks"]
   end
 
   def self.plain_text(blocks)
-    # Dante::Utils.extract_plain_text(blocks)
-    blocks.map do |o|
-      o["text"]
-    end.join("\r\n")
+    Dante::Utils.extract_plain_text(blocks)
+    # blocks.map do |o|
+    #  o["text"]
+    # end.join("\r\n")
   end
 
   # draft to pm
@@ -27,18 +27,18 @@ class MessageApis::BlockManager
   end
 
   def self.serialized_text(text)
-    # {
-    #  type: "doc",
-    #  content: [{ type: "text", text: text.to_s }]
-    # }.to_json
-
-    key = ("a".."z").to_a.sample(8).join
-
     {
-      "blocks" => [
-        { "key" => key, "text" => text.to_s, "type" => "unstyled", "depth" => 0, "inlineStyleRanges" => [], "entityRanges" => [], "data" => {} }
-      ],
-      "entityMap" => {}
-    }
+      type: "doc",
+      content: [{ type: "text", text: text.to_s }]
+    }.to_json
+
+    # key = ("a".."z").to_a.sample(8).join
+
+    # {
+    #  "blocks" => [
+    #    { "key" => key, "text" => text.to_s, "type" => "unstyled", "depth" => 0, "inlineStyleRanges" => [], "entityRanges" => [], "data" => {} }
+    #  ],
+    #  "entityMap" => {}
+    # }
   end
 end

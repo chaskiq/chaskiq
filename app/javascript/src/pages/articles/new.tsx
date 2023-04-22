@@ -59,6 +59,7 @@ type ArticlesNewProps = {
   history: any;
   settings: any;
   data: any;
+  theme: any;
 };
 
 type ArticlesNewState = {
@@ -531,7 +532,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
   };
 
   render() {
-    const { app } = this.props;
+    const { app, theme } = this.props;
 
     return (
       <main className="flex-1 relative focus:outline-none">
@@ -640,6 +641,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
                               article={this.state.article}
                               updateState={this.updateState}
                               loading={false}
+                              theme={this.props.theme}
                               uploadHandler={this.uploadHandler}
                             />
                           )}
@@ -707,12 +709,13 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
 }
 
 function mapStateToProps(state) {
-  const { auth, app } = state;
+  const { auth, app, theme } = state;
   const { isAuthenticated } = auth;
   // const { sort, filter, collection , meta, loading} = conversations
 
   return {
     app,
+    theme,
     isAuthenticated,
   };
 }

@@ -203,9 +203,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def check_rules(serialized_content)
-    text = JSON.parse(serialized_content)["blocks"].map do |o|
-      o["text"]
-    end.join(" ")
+    text = Dante::Utils.extract_plain_text(JSON.parse(serialized_content)["content"])
 
     app = conversation.app
 

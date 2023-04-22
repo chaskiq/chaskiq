@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { setCookie, getCookie, deleteCookie } from './cookies';
 
 // import styled from '@emotion/styled'
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 
 import { uniqBy } from 'lodash';
 import {
@@ -25,9 +25,13 @@ import {
 } from "./shared/absintheSubscription";*/
 
 import UAParser from 'ua-parser-js';
-import DraftRenderer from './textEditor/draftRenderer';
+//import DraftRenderer from './textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
+// RESTORE THIS
 import Tour from './UserTour';
 import TourManager from './tourManager';
+
 import UrlPattern from 'url-pattern';
 //import { withTranslation } from 'react-i18next'
 //import i18n from './i18n'
@@ -1845,7 +1849,7 @@ class Messenger extends Component<MessengerProps, MessengerState> {
               }}
               id={this.state.banner.id}
               serialized_content={
-                <DraftRenderer
+                <Renderer
                   domain={this.props.domain}
                   raw={JSON.parse(this.state.banner.serialized_content)}
                 />

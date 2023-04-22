@@ -1,9 +1,15 @@
 import React from 'react';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 
-import theme from '../textEditor/theme';
-import themeDark from '../textEditor/darkTheme';
-import DraftRenderer from '../textEditor/draftRenderer';
+//import theme from '../textEditor/theme';
+//import themeDark from '../textEditor/darkTheme';
+
+import theme from '@chaskiq/components/src/components/textEditor/theme';
+import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme';
+
+//import DraftRenderer from '../textEditor/draftRenderer';
+import { Renderer } from 'dante3/package/esm';
+
 import DanteContainer from '../textEditor/editorStyles';
 import styled from '@emotion/styled';
 import Moment from 'react-moment';
@@ -28,6 +34,8 @@ import AppPackageBlock from './appPackageBlock';
 import MessageItemWrapper from './messageItemWrapper';
 
 const DanteStylesExtend = styled(DanteContainer)`
+  font-size: 1rem !important;
+  line-height: 1.9;
   .graf--code {
     width: 242px;
     overflow: auto;
@@ -276,24 +284,20 @@ export function Conversation(props) {
             )}
 
             {/* render light theme on user or private note */}
+            <Renderer
+              message={o}
+              domain={domain}
+              theme={themeforMessage}
+              raw={JSON.parse(o.message.serializedContent)}
+            />
 
-            <ThemeProvider theme={themeforMessage}>
-              <DanteStylesExtend>
-                <DraftRenderer
-                  message={o}
-                  domain={domain}
-                  raw={JSON.parse(o.message.serializedContent)}
-                />
-
-                <span className="status">
-                  {o.readAt ? (
-                    <Moment fromNow>{o.readAt}</Moment>
-                  ) : (
-                    <span>{i18n.t('messenger.not_seen')}</span>
-                  )}
-                </span>
-              </DanteStylesExtend>
-            </ThemeProvider>
+            <span className="status">
+              {o.readAt ? (
+                <Moment fromNow>{o.readAt}</Moment>
+              ) : (
+                <span>{i18n.t('messenger.not_seen')}</span>
+              )}
+            </span>
           </div>
         </MessageItem>
       </MessageItemWrapper>

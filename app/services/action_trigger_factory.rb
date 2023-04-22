@@ -380,7 +380,8 @@ class ActionTriggerFactory
             id: agent.id,
             kind: "agent"
           },
-          serialized_content: "{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+          serialized_content: { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: text }] }] }.to_json,
+          # serialized_content: "{\"blocks\":[{\"key\":\"9oe8n\",\"text\":\"#{text}\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
           html_content: text
         }
       ]

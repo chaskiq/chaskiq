@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import EditorContainer from 'Dante2/package/esm/editor/styled/base';
+import EditorContainer from 'dante3/package/esm/styled/base.js';
 
 type NewEditorStylesProps = {
   theme: any;
