@@ -140,11 +140,20 @@ namespace :packages do
       Dante::Migrator.migrate_tours(id: id)
     end
 
-    desc "Migrate App draft to pm"
+    desc "Migrate App draft to pm rails packages:migrate:app[10]"
     task :app, [:app_id] => :environment do |_task, args|
       Rails.logger = Logger.new($stdout)
       id = args[:app_id]
       Dante::Migrator.migrate_app(id: id)
+    end
+
+    desc "Migrate App draft to pm rails packages:migrate:apps[10,200]"
+    task :apps, %i[start end] => :environment do |_t, args|
+      args.with_defaults(start: 10, end: 100)
+      Rails.logger = Logger.new($stdout)
+      start_number = args.start.to_i
+      end_number = args.end.to_i
+      Dante::Migrator.migrate_apps(ids: (start_number..end_number).to_a)
     end
   end
 end

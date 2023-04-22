@@ -160,6 +160,7 @@ class Dante::Migrator
   end
 
   def self.migrate_app(id: nil)
+    Rails.logger.info("RUNNING account #{id}")
     migrate_conversation_parts(id: id)
     migrate_articles(id: id)
     migrate_bot_tasks(id: id)
@@ -168,5 +169,11 @@ class Dante::Migrator
     migrate_campaigns(id: id)
     migrate_tours(id: id)
     migrate_quick_replies(id: id)
+  end
+
+  def self.migrate_apps(ids: nil)
+    ids.each do |id|
+      migrate_app(id: id)
+    end
   end
 end
