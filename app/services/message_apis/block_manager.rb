@@ -22,8 +22,19 @@ class MessageApis::BlockManager
     {
       "file" => "FileBlock",
       "recorded-audio" => "AudioRecorderBlock",
-      "image" => "ImageBlock"
+      "image" => "ImageBlock",
+      "unstyled" => "text",
+      "divider" => "DividerBlock",
+      "header-one" => "heading",
+      "header-two" => "heading",
+      "header-three" => "heading",
+      "header-four" => "heading"
     }[type]
+  end
+
+  def self.block_data(block)
+    # block["data"]
+    block["attrs"]
   end
 
   def self.serialized_text(text)
