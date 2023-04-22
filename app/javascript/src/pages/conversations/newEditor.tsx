@@ -168,7 +168,7 @@ export default class ChatEditor extends Component<
         'ordered-list-item',
         'code-block',
         'heading',
-        'paragraph'
+        'paragraph',
       ],
 
       widget_options: {
