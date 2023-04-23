@@ -57,7 +57,7 @@ jobs:
           APPSTORE_DB_URL: postgres://postgres:postgres@localhost:5432/test
 
         run: |
-          rails packages:download_and_install["2.0.0-rc"]
+          bundle exec rails packages:download_and_install["2.0.0-rc"]
           bundle exec rspec ./spec
 
       - name: Build and run E2E tests
@@ -68,7 +68,7 @@ jobs:
           echo "node version:"
           echo `node -v`
           # curl ifconfig.me
-          rails packages:download_and_install["2.0.0-rc"]
+          bundle exec rails packages:download_and_install["2.0.0-rc"]
           bundle exec rails server -e test -p 5002 -d
           ./node_modules/.bin/cypress install
           yarn cypress:ga-ci
