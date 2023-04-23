@@ -1,6 +1,14 @@
 require "app_packages_catalog"
 
+class Hammer < Thor
+  include Thor::Actions
+end
+
 namespace :packages do
+  def hammer(*args)
+    Hammer.new.send(*args)
+  end
+
   task update: :environment do
     Rails.logger = Logger.new($stdout)
     AppPackagesCatalog.update_all
@@ -18,21 +26,13 @@ namespace :packages do
     if pkg_name.present?
       pkg = AppPackage.find_by(name: pkg_name)
       if pkg.present?
-        PluginSubscriptions::RemotePlugin.store_plugin_files(pkg)
+        Plugins::RemotePlugin.store_plugin_files(pkg)
       else
         Rails.logger.error("🔴 No package with \"#{pkg_name}\" was found")
       end
     else
-      PluginSubscriptions::RemotePlugin.upload_list
+      Plugins::RemotePlugin.upload_list
     end
-  end
-
-  # downloads and stores in DB app package/plugin
-  task download: :environment do
-    Rails.logger = Logger.new($stdout)
-    require_relative Rails.root.join("app/services/plugin_subscriptions")
-    PluginSubscriptions::PluginDownloader.new.fetch_plugin_data
-    # Plugin.save_all_plugins()
   end
 
   # install downloaded plugins in FS
@@ -78,6 +78,59 @@ namespace :packages do
       else
         pkg.unfreeze!
         puts " ✅ AppPackage '#{pkg_name}' has been unfrozen."
+      end
+    end
+  end
+
+  task :download_and_install, [:version] => :environment do |_task, args|
+    Rails.logger = Logger.new($stdout)
+
+    version = args[:version]
+
+    downloader = Plugins::TarDownloader.new(tag: version)
+    if downloader.download_plugin
+      downloader.extract_plugin
+      # downloader.iterate_extracted_folders
+      downloader.copy_folders_to_destination
+    else
+      puts "Failed to download plugin"
+    end
+  end
+
+  desc "Downloads and install remote plugins"
+  task attach: :environment do
+    Rails.logger = Logger.new($stdout)
+
+    downloader = Plugins::TarDownloader.new
+    response = downloader.list_releases
+
+    if response.status == 200
+      tags = JSON.parse(response.body)["tags"]
+      puts "🏷️  Available release tags:"
+      tags_list = tags.each_with_index.map { |tag, index| { index: index + 1, tag: tag } }
+
+      tags_list.each { |t| puts "[#{t[:index]}] #{t[:tag]}" }
+      # Prompt user to select a tag
+      selected_index = hammer :ask, "Select a tag to download (1-#{tags.length}): "
+
+      selected_index = selected_index.to_i
+
+      if (selected_tag = tags_list.find { |o| o[:index] == selected_index })
+        # selected_index.between?(0, tags.length - 1)
+
+        Rails.logger.info "Invoke PluginDownloader with the selected tag #{selected_tag[:tag]}"
+
+        Rake::Task["packages:download_and_install"].invoke(selected_tag[:tag])
+
+      else
+        Rails.logger.info "Invalid selection"
+      end
+    else
+      Rails.logger.info "Failed to fetch release tags: #{response.status} #{response.reason_phrase}"
+      begin
+        Rails.logger.info JSON.parse(response.body)["error"]
+      rescue StandardError
+        nil
       end
     end
   end
