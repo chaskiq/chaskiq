@@ -60,7 +60,7 @@ class Plugin < ApplicationRecord
     Rails.logger.info "Process completed"
   end
 
-  def self.load_plugin_and_create_packages_from_fs(plugin_folder)
+  def self.load_plugin_and_create_packages_from_fs(plugin_folder, version = nil)
     plugin_name = File.basename(plugin_folder).camelize
 
     files_data = Dir.glob("#{plugin_folder}/**/*").map do |file_path|
@@ -80,7 +80,7 @@ class Plugin < ApplicationRecord
     # Set the definitions and plugin attributes
     api_klass = "MessageApis::#{plugin_name}::Api".constantize
     app_package.assign_attributes(api_klass.definition_info)
-    app_package.plugin_attributes = { data: files_data }
+    app_package.plugin_attributes = { data: files_data, version: version }
 
     # Save the AppPackage
     if app_package.save
