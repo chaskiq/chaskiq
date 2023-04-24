@@ -380,34 +380,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   };
 
   tooltipsConfig = () => {
-    // todo, defaults to heading, paragraph and we no need nothing else.
-    const inlineMenu = {
-      selectionElements: [
-        'unstyled',
-        'blockquote',
-        'ordered-list',
-        'unordered-list',
-        'unordered-list-item',
-        'ordered-list-item',
-        'code-block',
-        'header-one',
-        'header-two',
-        'header-three',
-        'header-four',
-        'footer',
-        'column',
-        'jumbo',
-        'button',
-      ],
-    };
-
-    const menuConfig = Object.assign(
-      {},
-      MenuBarConfig(this.props.inlineTooltipConfig),
-      inlineMenu
-    );
-
-    return [AddButtonConfig(), menuConfig];
+    return [AddButtonConfig(), MenuBarConfig(this.props.inlineTooltipConfig)];
   };
 
   render() {
