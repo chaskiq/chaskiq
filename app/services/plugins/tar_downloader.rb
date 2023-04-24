@@ -91,7 +91,7 @@ class Plugins::TarDownloader
 
       definition_info = "MessageApis::#{package_name}::Api".constantize.definition_info
 
-      Plugin.load_plugin_and_create_packages_from_fs(folder_name, @tag)
+      Plugin.load_plugin_and_create_packages_from_fs(destination_folder, @tag)
 
       # puts "Copied folder: #{folder} to #{destination_folder}"
     end

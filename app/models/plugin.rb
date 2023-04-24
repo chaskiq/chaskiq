@@ -41,6 +41,9 @@ class Plugin < ApplicationRecord
         # Rails.logger.info("⚓ autoloaded #{plugin_folder_path}")
         # Rails.logger.info("⚓ autoloaded #{file_path}")
       end
+
+      Rails.logger.debug { "✅ Installed #{plugin_name} to filesystem" }
+
     else
       Rails.logger.error "🔴 Invalid plugin data format. Expected 'file' and 'content' keys."
     end
