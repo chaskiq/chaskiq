@@ -1,6 +1,7 @@
 // https://tailwindcss.com/docs/theme/
-const colors = require('tailwindcss/colors');
-const grayColors = {};
+//const colors = require('tailwindcss/colors');
+const {colorTheme, grayColors, colors} = require('./tailwind/chaskiq')
+//const grayColors = {};
 
 module.exports = {
   darkMode: 'class',
@@ -48,23 +49,7 @@ module.exports = {
         cyan: '#9cdbff',
         gray: grayColors,
       },
-      colors: {
-        brand: '#2668eb',
-        'gradientHero': {
-            100: '#2668eb',
-            200: '#1e4abb',
-            DEFAULT: '#04309d',
-        },
-        transparent: 'transparent',
-        current: 'currentColor',
-        black: colors.black,
-        white: colors.white,
-        gray: colors.zinc,
-        indigo: colors.indigo,
-        red: colors.rose,
-        green: colors.emerald,
-        yellow: colors.amber,
-      },
+      colors: colorTheme,
       spacing: {
         px: '1px',
         0: '0',

@@ -452,11 +452,11 @@ function Sidebar({
       {app && layout.verticalSidebar.display && (
         <div
           className={`md:block 
-            bg-white dark:bg-black
+            bg-white dark:bg-gray-900
             text-purple-lighter 
             flex-none w-23 
             p-2 
-            border-r border-gray-300 dark:border-gray-900`}
+            border-r border-gray-300 dark:border-gray-800`}
         >
           <div className="cursor-pointer mb-4">
             <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
@@ -485,7 +485,7 @@ function Sidebar({
       )}
 
       {current_page && (
-        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-black bg-gray-100 shadow-inner">
+        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-800 dark:bg-gray-900 bg-gray-100 shadow-inner">
           <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-gray-800 dark:text-gray-200 border">
             <h3 className="font-semibold w-full text-xs">{app.name}</h3>
           </div>

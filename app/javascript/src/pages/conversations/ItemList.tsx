@@ -84,8 +84,8 @@ export default function ConversationItemList({ app, conversation, isActive }) {
       <div className={`block w-2 ${stateClass()}`}></div>
       <div
         className={`${
-          isActive ? 'bg-gray-100 dark:bg-gray-900' : ''
-        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 dark:hover:bg-gray-900`}
+          isActive ? 'bg-gray-100 dark:bg-black dark:hover:bg-black/10' : ''
+        } w-full px-4 py-4 whitespace-nowrap border-b border-gray-200 dark:border-gray-900 dark:hover:bg-gray-800`}
       >
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
@@ -146,7 +146,8 @@ export default function ConversationItemList({ app, conversation, isActive }) {
                     key={`${conversation.key}-${o}-${i}`}
                     className="mr-0.5 border inline-flex items-center px-2.5 py-0.5 
                     rounded-full text-xs font-medium bg-gray-100 
-                    text-blue-800 capitalize dark:bg-gray-900 dark:text-gray-100"
+                    dark:border-gray-700
+                    text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                   >
                     {o}
                   </div>

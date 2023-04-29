@@ -87,7 +87,7 @@ export function MainMenu({
     return `text-gray-700 dark:text-white
     rounded-md flex 
     justify-center 
-    cursor-pointer bg-gray-50 dark:bg-black
+    cursor-pointer bg-gray-50 dark:bg-gray-900
     hover:bg-gray-100 dark:hover:bg-gray-800 
     h-10 w-full 
     items-center 

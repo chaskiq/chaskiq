@@ -33,7 +33,7 @@ export default function ReportRenderer({
       case 'count':
         return (
           <div className={classes}>
-            <div className="bg-white dark:bg-gray-900 shadow overflow-hidden sm:rounded-lg p-4">
+            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg p-4">
               {renderDashboardItem()}
             </div>
           </div>
@@ -41,7 +41,7 @@ export default function ReportRenderer({
       case 'heatMap':
         return (
           <div className={classes}>
-            <div className="bg-white dark:bg-gray-900 shadow overflow-hidden sm:rounded-lg p-4">
+            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg p-4">
               <div className="mt-1 text-3xl leading-9 font-semibold text-gray-900 dark:text-gray-100">
                 {label}
               </div>
@@ -52,7 +52,7 @@ export default function ReportRenderer({
       case 'pie':
         return (
           <div className={classes}>
-            <div className="bg-white dark:bg-gray-900 shadow overflow-hidden  sm:rounded-lg p-4">
+            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden  sm:rounded-lg p-4">
               <DashboardCard title={label}>
                 {renderDashboardItem()}
               </DashboardCard>
