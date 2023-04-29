@@ -190,7 +190,7 @@ function DefaultRow({ children }) {
 
 function Pagination({ meta, search }) {
   return (
-    <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
+    <div className="py-3 flex items-center justify-between">
       {meta && (
         <div className="flex-1 flex justify-between items-center">
           <Button
@@ -226,7 +226,7 @@ function Pagination({ meta, search }) {
 
 function InfinitePaginate({ meta, search }) {
   return (
-    <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
+    <div className="py-3 flex items-center justify-between">
       {meta && (
         <div className="flex-1 flex justify-between items-center">
           {meta.next_page && (

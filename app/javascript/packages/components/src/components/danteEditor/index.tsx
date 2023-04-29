@@ -82,6 +82,7 @@ const EditorStylesExtend = styled(EditorContainer)`
   .inlineTooltip-button {
     background: white !important;
   }
+  
   ${(props) =>
     !props.inlineMenu
       ? `.tooltip-icon{

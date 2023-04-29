@@ -53,8 +53,8 @@ function Dashboard(props) {
       title: I18n.t('navigator.conversations'),
       href: `/apps/${app.key}/conversations`,
       icon: ConversationChatIcon,
-      iconForeground: 'text-sky-700',
-      iconBackground: 'bg-sky-50',
+      iconForeground: 'text-sky-700 dark:text-sky-300',
+      iconBackground: 'bg-sky-50 dark:bg-sky-700',
       allowed: allowedAccessTo(app, 'conversations'),
       render: () => (
         <div className="mt-2 text-sm text-gray-500">

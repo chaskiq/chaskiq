@@ -42,7 +42,7 @@ module.exports = {
       display: ['Inter', 'sans-serif'],
       body: ['Inter', 'sans-serif'],
     },
-    colors: colors,
+    colors: {...colors, gray: colors.stone},
 
     extend: {
       colorsDisabled: {

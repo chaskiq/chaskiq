@@ -625,7 +625,7 @@ function Conversation({
     >
       {!isNew && (
         <div
-          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-black dark:border-gray-900"
+          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-900 dark:border-gray-800"
           style={{ height: '63px' }}
         >
           <div className="flex items-center">
@@ -711,7 +711,7 @@ function Conversation({
                   ${
                     conversation.state === 'closed'
                       ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                      : 'bg-white hover:bg-gray-100 text-gray-800 dark:text-gray-100 dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600'
+                      : 'bg-white hover:bg-gray-100 text-gray-800 dark:text-gray-100 dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800'
                   }
                   `}
               >
@@ -732,7 +732,7 @@ function Conversation({
                   bg-white hover:bg-gray-100 text-gray-800
                   dark:text-gray-100
                   font-semibold border border-gray-400 shadow 
-                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600"
+                  dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800"
                 onClick={() => setVideoSession(!videoSession)}
               >
                 {videoSession ? (
@@ -784,7 +784,7 @@ function Conversation({
                 className="focus:outline-none outline-none mr-1 rounded-full 
                   bg-white hover:bg-gray-100 text-gray-800
                   dark:text-gray-100 
-                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                  dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800
                   font-semibold border border-gray-400 shadow"
               >
                 <PinIcon variant="rounded" />
@@ -802,7 +802,7 @@ function Conversation({
                   bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
                   dark:text-gray-100 
                   border-gray-400 shadow
-                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                  dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800
                   "
               >
                 <LabelIcon variant="rounded" />
@@ -840,7 +840,7 @@ function Conversation({
                         bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
                         dark:text-gray-100 
                         border shadow items-center justify-center
-                        dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                        dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800
                         "
                     >
                       {conversation.assignee && (
@@ -1152,7 +1152,7 @@ function NewConversationControls({
   }
 
   return (
-    <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700">
+    <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-900 dark:border-gray-800">
       <div className="flex items-start justify-between w-full">
         <div className="flex-grow pr-10">
           <ul className="flex flex-col space-y-2">

@@ -174,12 +174,19 @@ const BaseButton = styled.button<ButtonProps>`
       case 'danger':
         return tw`outline-none 
         rounded 
-        bg-red-400 
+        bg-red-500 
         text-white
-        hover:bg-red-500 
+        hover:bg-red-400 
         focus:outline-none 
-        focus:border-red-700 
+        focus:border-red-600 
         focus:shadow-outline
+
+        transition 
+        ease-out 
+        duration-200 
+        outline-none 
+        transition-all 
+        outline-0
         `;
       default:
         return tw`
