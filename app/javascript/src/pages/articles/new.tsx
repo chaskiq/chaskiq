@@ -635,7 +635,7 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
                           />
                         </div>
 
-                        <div className="relative z-0 p-6 shadow rounded border  bg-gray-50 dark:bg-gray-900 dark:border-gray-800 border-gray-100 mb-4 my-4">
+                        <div className="relative z-0 p-6 shadow rounded border  bg-gray-50 dark:bg-black dark:border-gray-800 border-gray-100 mb-4 my-4">
                           {!this.state.loading && this.state.article && (
                             <ArticleEditor
                               article={this.state.article}

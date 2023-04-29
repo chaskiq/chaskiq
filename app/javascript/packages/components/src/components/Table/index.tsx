@@ -134,7 +134,7 @@ export default function Table({
       <div className="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
+            <tr className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-600">
               {sortable && (
                 <th
                   key={'visible-col-dragit'}
