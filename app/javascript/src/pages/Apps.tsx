@@ -133,7 +133,7 @@ function App({ dispatch, loading }) {
                     >
                       <Card
                         className={
-                          'hover:bg-gray-100 border dark:border-gray-800 rounded overflow-hidden shadow-lg bg-white dark:bg-gray-900 dark:text-gray-100 h-full'
+                          'hover:bg-gray-100 border dark:border-gray-700 rounded overflow-hidden shadow-lg bg-white dark:bg-gray-800 dark:text-gray-100 h-full'
                         }
                         title={<Link to={`/apps/${a.key}`}>{a.name}</Link>}
                         description={a.tagline}
