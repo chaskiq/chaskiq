@@ -17,8 +17,9 @@ import {
   SpeechToTextBlockConfig,
 } from 'dante3/package/esm';
 
+import EditorStylesExtend from './container';
+
 import { defaultTheme, darkTheme } from 'dante3/package/esm/styled/themes';
-import Styled from 'dante3/package/esm/styled';
 
 //import Link from "Dante2/package/es/components/decorators/link";
 //import findEntities from "Dante2/package/es/utils/find_entities";
@@ -28,7 +29,6 @@ import { ThemeProvider } from '@emotion/react';
 //import { DanteMarkdownConfig } from './article/markdown'
 
 //import theme from './theme';
-import styled from '@emotion/styled';
 
 import { getFileMetadata, directUpload } from '../fileUploader';
 
@@ -44,57 +44,6 @@ import {
 } from '@chaskiq/store/src/graphql/mutations';
 
 // const theme = darkTheme; // defaultTheme
-const { EditorContainer } = Styled;
-
-const EditorStylesExtend = styled(EditorContainer)`
-  line-height: ${(props) => props.styles.lineHeight || '2em'};
-  font-size: ${(props) => props.styles.fontSize || '1.2em'};
-  color: inherit;
-  .graf--p {
-    line-height: ${(props) => props.styles.lineHeight || '2em'};
-    font-size: ${(props) => props.styles.fontSize || '1.2em'};
-    margin-bottom: 0px;
-  }
-  .dante-menu {
-    z-index: 2000;
-  }
-  blockquote {
-    margin-left: 20px;
-  }
-  .dante-menu-input {
-    background: #333333;
-  }
-
-  .dante-menu-buttons {
-    overflow-x: auto;
-  }
-
-  ${(props) =>
-    props.inlineMenu
-      ? `
-    .ProseMirror {
-      padding-top: 1em;
-      padding-bottom: 1em;
-    }
-    `
-      : ''}
-
-  .inlineTooltip-button {
-    background: white !important;
-  }
-  
-  ${(props) =>
-    !props.inlineMenu
-      ? `.tooltip-icon{
-      display: inline-block;
-    }
-  
-    .inlineTooltip-menu {
-      display: inline-block;
-      margin-left: 41px !important;
-    }`
-      : ''}
-`;
 
 /*
 const defaultProps = {
