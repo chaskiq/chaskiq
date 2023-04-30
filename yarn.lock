@@ -5022,13 +5022,11 @@ damerau-levenshtein@^1.0.7:
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
 
-dante3@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/dante3/-/dante3-1.2.5.tgz#54b45b5e2b49cc05ccae5ce1757db2fe568ea403"
-  integrity sha512-36962+WFS8S//lr9hDgHPWsoy2Idz2w2S9FZmGcAOKL+EWlrn9uROhHJkkT5cgmyMucaYqm9S7K6tYjFwUojfg==
+dante3@1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/dante3/-/dante3-1.2.8.tgz#aab8b855fc04064433cbc60c76a69485b2a898f3"
+  integrity sha512-I4MzfQXC3+p9kMJmc/eVVjAVhX6Vub4h9rWCGTf16ltS9nTgZ22pPmIivA7h7n6PRYRD5TKZgqOK4X/96IWhjA==
   dependencies:
-    "@emotion/react" "^11.10.6"
-    "@emotion/styled" "^11.10.6"
     "@tiptap/extension-code" "^2.0.3"
     "@tiptap/extension-code-block-lowlight" "^2.0.3"
     "@tiptap/extension-floating-menu" "^2.0.3"
