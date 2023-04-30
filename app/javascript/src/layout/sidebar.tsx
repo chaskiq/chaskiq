@@ -444,7 +444,7 @@ function Sidebar({
 
   const drawerClass = !drawer.open
     ? 'hidden'
-    : 'absolute flex md:flex-shrink-0 z-50 h-screen';
+    : 'fixed flex md:flex-shrink-0 z-50 h-full';
 
   const layout = layoutDefinitions();
   return (
