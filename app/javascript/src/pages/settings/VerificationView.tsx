@@ -45,8 +45,9 @@ function VerificationView({ app }) {
 
   function keyGeneration() {
     const code = optionsForFilter().find((o) => o.id === currentLang).code;
-
-    return Prism.highlight(code, Prism.languages.ruby, 'ruby');
+    console.log(code);
+    return code;
+    //Prism.highlight(code, Prism.languages.ruby, 'ruby');
   }
 
   function optionsForFilter() {
@@ -196,7 +197,9 @@ function VerificationView({ app }) {
         }}
       />
 
-      <CodeBox content={setupScript()} />
+      <pre className="p-3 bg-black rounded-md border-black border-2 dark:border-gray-100 text-white text-sm overflow-auto shadow-sm">
+        {setupScript()}
+      </pre>
     </div>
   );
 }

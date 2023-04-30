@@ -95,7 +95,7 @@ export const EditorPad = styled.div<EditorMessengerProps>`
 				justify-content: flex-end;
 				flex-flow: column;
 				height: 90vh;
-
+        ${tw`dark:bg-gray-900`}
 				.postContent {
 					height: 440px;
 					overflow: auto;

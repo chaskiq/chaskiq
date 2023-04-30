@@ -56,7 +56,7 @@ function PackageSlider({ fixedSlider, dispatch, app, current_user }) {
           border-r border-gray-300 dark:border-gray-900 border-l`}
         >
           <div className="cursor-pointer mb-4">
-            <div className="bg-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
+            <div className="bg-white dark:bg-gray-900 dark:text-white h-10 w-10 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
               <Tooltip placement="right" overlay={'Go to app packages'}>
                 <Link to={`/apps/${app.key}/integrations`}>
                   {<IntegrationsIcon />}

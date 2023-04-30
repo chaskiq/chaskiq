@@ -217,7 +217,7 @@ function Conversations({
 
     return (
       <React.Fragment>
-        <div className="items-center bg-white dark:bg-black px-3 py-4 border-b border-gray-200 dark:border-gray-900 sm:px-3 flex justify-between">
+        <div className="items-center bg-white dark:bg-gray-900 px-3 py-4 border-b border-gray-200 dark:border-gray-800 sm:px-3 flex justify-between">
           <FilterMenu
             options={filters}
             value={conversations.filter}
@@ -358,7 +358,7 @@ function Conversations({
       </Switch>
 
       {!isEmpty(conversation) && conversation.id && fixedSidebarOpen && (
-        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+        <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           {app_user && app_user.id ? (
             <ConversationSidebar toggleFixedSidebar={toggleFixedSidebar} />
           ) : (
@@ -368,7 +368,7 @@ function Conversations({
       )}
 
       {conversation && !conversation.id && fixedSidebarOpen && (
-        <div className="bg-gray-100 dark:bg-gray-800 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
+        <div className="bg-gray-100 dark:bg-gray-900 h-screen overflow-scroll fixed sm:relative right-0 sm:block sm:w-4/12 ">
           <div className="m-2">
             {conversation.mainParticipant ? (
               <AppUserEdit />

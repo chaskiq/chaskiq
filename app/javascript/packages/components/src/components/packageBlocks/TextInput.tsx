@@ -113,9 +113,8 @@ const TextInputButton = styled.div<TextInputButtonProps>`
   ${(props) =>
     props.disabled
       ? `
-      border: 1px solid #ccc;
       ${() =>
-        tw`border border-gray-300! text-gray-200 bg-gray-100 hover:text-gray-200 hover:bg-gray-100`}
+        tw`border border-gray-300! text-gray-200 dark:border-gray-500 dark:bg-gray-600! dark:hover:text-gray-700 bg-gray-100 hover:text-gray-200 hover:bg-gray-100`}
       ${() => tw`cursor-pointer`}
 
     `
@@ -138,10 +137,12 @@ const TextInputButton = styled.div<TextInputButtonProps>`
         color: ${textColor(props.theme.palette.primary)};
       }
       `
-      : tw`bg-blue-700 
+      : tw`dark:bg-blue-700 
       hover:bg-blue-600 
       active:bg-gray-100 
       active:text-gray-700
+      border-r border-t border-b 
+      border-gray-600
       `}
 
   ${(props) =>
