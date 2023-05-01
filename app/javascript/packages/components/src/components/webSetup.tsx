@@ -88,9 +88,7 @@ function SimpleDialog(props) {
       formComponent={
         <div className="space-y-2">
           <p>{I18n.t('dashboard.snippet')}</p>
-          <Pre>
-            <div dangerouslySetInnerHTML={{ __html: setupScript() }} />
-          </Pre>
+          <Pre>{setupScript()}</Pre>
         </div>
       }
     />
