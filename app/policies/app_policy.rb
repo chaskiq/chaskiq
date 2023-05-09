@@ -29,6 +29,7 @@ class AppPolicy < ActionPolicy::Base
     customize_inbox
     customize_home_apps
     platform_segments
+    assignment_rules
     users
     dashboard
     campaigns
