@@ -94,7 +94,7 @@ class ChatNotifierMailer < ApplicationMailer
 
   def serialized_to_html(serialized_content)
     content = JSON.parse(serialized_content)&.with_indifferent_access
-    DraftConvert.perform(content)
+    Dante::Renderer.new(raw: content).render
   rescue StandardError => e
     Rails.logger.error(e)
     Bugsnag.notify(e)
