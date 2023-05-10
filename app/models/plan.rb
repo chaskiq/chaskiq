@@ -44,6 +44,7 @@ class Plan
   end
 
   def allow_feature!(feature)
+    return true if Chaskiq::Config.get("SUBSCRIPTIONS_ENABLED") != "true"
     raise PlanError, { code: feature, message: "plan not meet on #{feature}" }.to_json unless enabled?(feature)
   end
 

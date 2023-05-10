@@ -76,8 +76,8 @@ const BaseButton = styled.button<ButtonProps>`
           border-transparent 
           rounded 
           text-gray-100 
-          bg-black
-          hover:bg-gray-800 
+          bg-gray-800
+          hover:bg-gray-700 
           focus:outline-none 
           focus:border-gray-700 
           active:bg-gray-800 
