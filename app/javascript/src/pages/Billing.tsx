@@ -336,7 +336,7 @@ function Billing({ current_user, dispatch, paddleSubscription, app }) {
         {app.subscriptionsEnabled && app.preferences.stripe_customer_id && (
           <div className="flex items-center justify-end">
             <button
-              className="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-gray-900 text-white hover:bg-gray-700"
+              className="inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-gray-800 text-white hover:bg-gray-700"
               onClick={manageSubscription}
               disabled={customerPortalLoading}
             >
@@ -928,7 +928,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
                 {subscriptionPlanListFeatures().map((k) => (
                   <tr
                     key={`mobile-feature-${k}`}
@@ -998,7 +998,7 @@ function PlanBoard({ appPlan, plans, openCheckout }) {
               ))}
             </tr>
           </thead>
-          <tbody className="border-t border-gray-200 divide-y divide-gray-200">
+          <tbody className="border-t border-gray-200 divide-y divide-gray-200 dark:divide-gray-600">
             <tr>
               <th
                 className="py-8 pl-6 pr-6 align-top text-sm font-medium text-gray-900 dark:text-gray-100 text-left"

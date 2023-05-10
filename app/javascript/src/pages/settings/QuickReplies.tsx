@@ -185,7 +185,7 @@ function QuickReplies({ app, _update, dispatch }) {
 
   function isSelected(o) {
     if (!quickReply) return '';
-    return o.id === quickReply.id ? 'bg-blue-100' : '';
+    return o.id === quickReply.id ? 'dark:bg-gray-900 bg-gray-100' : '';
   }
 
   function uploadHandler({ serviceUrl, _signedBlobId, imageBlock }) {
@@ -205,7 +205,7 @@ function QuickReplies({ app, _update, dispatch }) {
               <input
                 ref={inputRef}
                 defaultValue={quickReply.title}
-                className="dark:bg-gray-900 outline-none my-2 p-2 border-b form-input block w-full sm:text-sm sm:leading-5"
+                className="dark:bg-gray-700 outline-none my-2 p-2 border-b form-input block w-full sm:text-sm sm:leading-5"
                 placeholder="Quick reply title"
                 onChange={updateStateFromInput}
               />
@@ -295,7 +295,7 @@ function QuickReplies({ app, _update, dispatch }) {
                       <div className="min-w-0 flex-1 flex items-center">
                         <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
                           <div>
-                            <div className="text-sm leading-5 font-medium text-white truncate">
+                            <div className="text-sm leading-5 font-medium dark:text-white text-black truncate">
                               {o.title}
                             </div>
                           </div>

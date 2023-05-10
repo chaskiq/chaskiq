@@ -130,7 +130,7 @@ module Types
     field :outgoing_webhooks, [Types::JsonType], null: true
 
     def outgoing_webhooks
-      # object.plan.allow_feature!('OutgoingWebhooks')
+      object.plan.allow_feature!("OutgoingWebhooks")
       authorize! object, to: :can_read_outgoing_webhooks?, with: AppPolicy
       object.outgoing_webhooks
     end
@@ -183,6 +183,8 @@ module Types
     end
 
     def app_packages
+      object.plan.allow_feature!("Integrations")
+
       authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
       integrations = object.app_package_integrations.map(&:app_package_id)
@@ -207,7 +209,7 @@ module Types
     field :app_package_integrations, [Types::AppPackageIntegrationType], null: true
 
     def app_package_integrations
-      # object.plan.allow_feature!('Integrations')
+      object.plan.allow_feature!("Integrations")
       # authorize! object, to: :manage?, with: AppPolicy
       authorize! object, to: :can_manage_app_packages?, with: AppPolicy
 
@@ -246,7 +248,8 @@ module Types
     def conversations(per:, page:, filter:, sort:, agent_id: nil, tag: nil, term: nil, channel_id: nil)
       # rubocop:enable Metrics/ParameterLists
 
-      # object.plan.allow_feature!("Conversations")
+      object.blocked?
+      object.plan.allow_feature!("Conversations")
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_conversations?, with: AppPolicy
 
@@ -463,7 +466,7 @@ module Types
     end
 
     def articles(page:, per:, lang:, mode:, search:)
-      # object.plan.allow_feature!('Articles')
+      object.plan.allow_feature!("Articles")
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_help_center?, with: AppPolicy
 
@@ -507,7 +510,7 @@ module Types
     end
 
     def article(id:, lang:)
-      # object.plan.allow_feature!('Articles')
+      object.plan.allow_feature!("Articles")
       I18n.locale = lang
       authorize! object, to: :can_read_help_center?, with: AppPolicy
       # authorize! object, to: :show?, with: AppPolicy
@@ -551,7 +554,7 @@ module Types
     end
 
     def collections(lang:)
-      # object.plan.allow_feature!('Articles')
+      object.plan.allow_feature!("Articles")
       I18n.locale = lang.to_sym
       # authorize! object, to: :show?, with: AppPolicy
       authorize! object, to: :can_read_help_center?, with: AppPolicy
@@ -676,7 +679,7 @@ module Types
     # OAUTH
     field :oauth_applications, [OauthApplicationType], null: true
     def oauth_applications
-      # object.plan.allow_feature!('OauthApplications')
+      object.plan.allow_feature!("OauthApplications")
       # authorize! object, to: :manage?, with: AppPolicy
       authorize! object, to: :can_read_oauth_applications?, with: AppPolicy
       object.oauth_applications.ordered_by(:created_at)

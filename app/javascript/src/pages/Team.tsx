@@ -1218,7 +1218,10 @@ function TeamAgentEdit(props) {
             </div>
 
             <div className="border-b border-gray-200">
-              <ul role="list" className="divide-y divide-gray-200">
+              <ul
+                role="list"
+                className="divide-y divide-gray-200 dark:divide-gray-600"
+              >
                 {agents.map((agent) => (
                   <li className="flex py-4" key={`agent-team-id-${agent.id}`}>
                     <img

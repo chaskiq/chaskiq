@@ -172,19 +172,19 @@ subscriptions:
           count: unlimited
         - 
           name: BotTasks
-          active: true
+          active: false
           count: unlimited
         - 
           name: Integrations
-          active: true
+          active: false
           count: unlimited
         - 
           name: Campaigns
-          active: true
+          active: false
           count: unlimited
         - 
           name: Tours
-          active: true
+          active: false
           count: unlimited
         - 
           name: UserAutoMessages
@@ -192,11 +192,11 @@ subscriptions:
           count: unlimited
         - 
           name: OutgoingWebhooks
-          active: true
+          active: false
           count: unlimited
         - 
           name: OauthApplications
-          active: true
+          active: false
           count: unlimited
         - 
           name: Articles

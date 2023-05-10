@@ -213,7 +213,9 @@ function AppContainer({
               </button>
             </div>
 
-            {!isEmpty(upgradePages) && <UpgradePage page={upgradePages} />}
+            {!isEmpty(upgradePages) && (
+              <UpgradePage page={upgradePages} app={app} />
+            )}
 
             {app && isEmpty(upgradePages) && (
               <ErrorBoundary variant={'very-wrong'}>
