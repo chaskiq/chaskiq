@@ -909,7 +909,7 @@ function Conversation({
 
       <div
         ref={overflow}
-        className="overflow-y-scroll sm:h-[calc(100vh - 220px)] h-[57vh]"
+        className="overflow-y-scroll sm:h-[calc(100vh - 220px)] h-[71vh]"
         onScroll={handleScroll}
       >
         <div className="flex flex-col-reverse px-6 py-4">
