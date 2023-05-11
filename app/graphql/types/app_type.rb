@@ -267,7 +267,7 @@ module Types
       end
 
       @collection = filter_by_agent(agent_id) if agent_id.present?
-      @collection = @collection.page(page).per(per)
+      @collection = @collection.page(page).per(per).fast_page
       sort_conversations(sort)
       @collection = @collection.tagged_with(tag) if tag.present?
       if term
@@ -277,7 +277,7 @@ module Types
         ).result
       end
 
-      @collection
+      @collection.includes(assignee: { avatar_attachment: :blob }, latest_message: { authorable: { avatar_attachment: :blob } })
     end
 
     def conversations_counts

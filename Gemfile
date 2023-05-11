@@ -107,6 +107,7 @@ gem "ruby-oembed"
 gem "mustache"
 
 gem "chronic", "~> 0.10.2"
+gem "fast_page", "~> 0.1.5"
 gem "kaminari", "~> 1.2"
 
 gem "timezone", "~> 1.2"

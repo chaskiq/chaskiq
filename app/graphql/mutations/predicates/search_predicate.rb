@@ -11,6 +11,8 @@ module Mutations
       @app_users = @segment.execute_query
                            .page(page)
                            .per(per)
+                           .fast_page
+                           .includes(taggings: :tags)
     end
 
     argument :app_key, String, required: true
