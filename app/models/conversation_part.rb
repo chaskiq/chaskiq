@@ -5,7 +5,7 @@ class ConversationPart < ApplicationRecord
   include Redis::Objects
 
   has_many :conversation_part_channel_sources, dependent: :destroy
-  belongs_to :conversation, touch: true
+  belongs_to :conversation
   # belongs_to :app_user, optional: true # todo: to be removed
   belongs_to :message_source, optional: true,
                               class_name: "Message",
@@ -15,9 +15,12 @@ class ConversationPart < ApplicationRecord
   belongs_to :authorable, polymorphic: true, optional: true
 
   belongs_to :message_block, class_name: "ConversationPartBlock", foreign_key: :messageable_id, optional: true
+  belongs_to :message_event, class_name: "ConversationPartEvent", foreign_key: :messageable_id, optional: true
+  belongs_to :message_content, class_name: "ConversationPartContent", foreign_key: :messageable_id, optional: true
 
   # has_one :conversation_part_content, dependent: :destroy
 
+  before_save :touch_conversation
   after_create :assign_and_notify
 
   scope :visibles, -> { where(private_note: nil) }
@@ -27,6 +30,16 @@ class ConversationPart < ApplicationRecord
   attr_accessor :check_assignment_rules
 
   delegate :broadcast_key, to: :conversation
+
+  def touch_conversation
+    return if @touching_read
+
+    conversation.touch
+  end
+
+  def reset_read_touch
+    @touching_read = false
+  end
 
   def from_bot?
     trigger_id.present? && step_id.present?
@@ -70,6 +83,7 @@ class ConversationPart < ApplicationRecord
   def read!
     return if read?
 
+    @touching_read = true
     notify_read!
   end
 
@@ -90,9 +104,13 @@ class ConversationPart < ApplicationRecord
   end
 
   def notify_to_channels(opts = {})
+    participant_socket_notify
+    enqueue_channel_notification unless opts[:disable_api_notification]
+  end
+
+  def participant_socket_notify
     notify_app_users unless private_note?
     notify_agents
-    enqueue_channel_notification unless opts[:disable_api_notification]
   end
 
   def notify_agents
@@ -187,9 +205,7 @@ class ConversationPart < ApplicationRecord
   end
 
   def check_rules(serialized_content)
-    text = JSON.parse(serialized_content)["blocks"].map do |o|
-      o["text"]
-    end.join(" ")
+    text = Dante::Utils.extract_plain_text(JSON.parse(serialized_content)["content"])
 
     app = conversation.app
 

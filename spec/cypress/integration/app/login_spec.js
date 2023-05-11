@@ -1,5 +1,5 @@
 
-import { login } from '../../support/utils'
+import { login } from '../../support'
 
 describe('Login Spec', function () {
   beforeEach(() => {

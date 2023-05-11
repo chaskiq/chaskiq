@@ -44,6 +44,7 @@ interface ITable {
   onSort?: (oldIndex: number, newIndex: number) => void;
   disablePagination?: boolean;
   infinite?: boolean;
+  ts?: any;
 }
 
 export default function Table({
@@ -57,6 +58,7 @@ export default function Table({
   onSort,
   disablePagination,
   infinite,
+  ts,
 }: ITable) {
   const [tableColums, setTableColums] = React.useState(columns);
 
@@ -108,6 +110,11 @@ export default function Table({
     onSort && onSort(oldIndex, newIndex);
   };
 
+  React.useEffect(() => {
+    // reset columns
+    setTableColums(columns);
+  }, [ts]);
+
   return (
     <React.Fragment>
       <div className="flex justify-end">
@@ -127,7 +134,7 @@ export default function Table({
       <div className="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
+            <tr className="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-600">
               {sortable && (
                 <th
                   key={'visible-col-dragit'}
@@ -183,7 +190,7 @@ function DefaultRow({ children }) {
 
 function Pagination({ meta, search }) {
   return (
-    <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
+    <div className="py-3 flex items-center justify-between">
       {meta && (
         <div className="flex-1 flex justify-between items-center">
           <Button
@@ -219,7 +226,7 @@ function Pagination({ meta, search }) {
 
 function InfinitePaginate({ meta, search }) {
   return (
-    <div className="px-4 py-3 flex items-center justify-between sm:px-6--">
+    <div className="py-3 flex items-center justify-between">
       {meta && (
         <div className="flex-1 flex justify-between items-center">
           {meta.next_page && (

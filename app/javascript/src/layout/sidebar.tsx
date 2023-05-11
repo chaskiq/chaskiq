@@ -26,6 +26,7 @@ import {
   LightModeIcon,
   ChartsIcons,
   KeyIcon,
+  WriteIcon,
 } from '@chaskiq/components/src/components/icons';
 
 import { escapeHTML } from '@chaskiq/components/src/utils/htmlSanitize';
@@ -224,6 +225,14 @@ function Sidebar({
       url: `/apps/${app.key}/conversations`,
       allowed: allowedAccessTo(app, 'conversations'),
       children: [
+        {
+          id: 'NewConversation',
+          label: I18n.t('navigator.childs.conversations_new'),
+          icon: <WriteIcon />,
+          url: `/apps/${app.key}/conversations/new`,
+          active: false,
+          allowed: allowedAccessTo(app, 'conversations'),
+        },
         {
           id: 'Conversations',
           label: I18n.t('navigator.childs.conversations'),
@@ -435,7 +444,7 @@ function Sidebar({
 
   const drawerClass = !drawer.open
     ? 'hidden'
-    : 'absolute flex md:flex-shrink-0 z-50 h-screen';
+    : 'fixed flex md:flex-shrink-0 z-50 h-full';
 
   const layout = layoutDefinitions();
   return (
@@ -443,7 +452,7 @@ function Sidebar({
       {app && layout.verticalSidebar.display && (
         <div
           className={`md:block 
-            bg-white dark:bg-black
+            bg-white dark:bg-gray-900
             text-purple-lighter 
             flex-none w-23 
             p-2 
@@ -476,8 +485,8 @@ function Sidebar({
       )}
 
       {current_page && (
-        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-900 dark:bg-gray-900 bg-gray-100 shadow-inner">
-          <div className="py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-900 bg-yellow-50 dark:bg-gray-800 dark:text-gray-200 border">
+        <div className="md:flex flex-col w-56 border-r border-gray-200 dark:border-gray-800 dark:bg-gray-900 bg-gray-100 shadow-inner">
+          <div className="h-[63px] py-2 flex items-center flex-shrink-0 px-4 border-b border-gray-200 dark:border-gray-800 dark:text-gray-200 border">
             <h3 className="font-semibold w-full text-xs">{app.name}</h3>
           </div>
 
@@ -486,7 +495,7 @@ function Sidebar({
             current_section={current_section}
           />
 
-          <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 px-3 py-2">
+          <div className="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-900 px-3 py-2">
             <div className="flex-shrink-0 group block focus:outline-none">
               <div className="flex items-center">
                 <div>
@@ -498,8 +507,8 @@ function Sidebar({
                     height={40}
                   />
                 </div>
-                <div className="ml-3 w-1/3 flex flex-wrap">
-                  <p className="my-1 text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
+                <div className="ml-3 flex flex-col flex-wrap">
+                  <p className="my-1 w-[147px] text-sm leading-5 font-medium text-gray-700 dark:text-gray-50 dark:hover:text-gray-100 group-hover:text-gray-900 dark:group-hover:text-gray-300 truncate">
                     <Link to={`/apps/${app.key}/agents/${current_user.id}`}>
                       {current_user.email}
                     </Link>

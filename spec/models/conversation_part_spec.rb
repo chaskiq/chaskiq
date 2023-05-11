@@ -18,6 +18,13 @@ RSpec.describe ConversationPart, type: :model do
     app.add_agent({ email: "test2@test.cl" })
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "bar" }] }]
+    }.to_json
+  end
+
   context "conversation" do
     before :each do
       AppIdentity.new(app.key).delete
@@ -41,10 +48,6 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "add message from app user" do
-      serialized = "{\"blocks\":
-      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-      \"entityMap\":{}}"
-
       conversation.add_message(from: app.app_users.first, message: { html_content: "foo", serialized_content: serialized })
       expect(conversation.messages.count).to be == 1
       expect(conversation.messages.first.authorable).to be_present
@@ -53,10 +56,6 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "add message from agent" do
-      serialized = "{\"blocks\":
-      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-      \"entityMap\":{}}"
-
       conversation.add_message(from: app.agents.first, message: { html_content: "foo", serialized_content: serialized })
       expect(conversation.messages.count).to be == 1
       expect(conversation.messages.first.authorable).to be_present
@@ -72,10 +71,6 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "app user metrics incoming" do
-      serialized = "{\"blocks\":
-      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-      \"entityMap\":{}}"
-
       conversation.add_message(
         from: app.app_users.first,
         message: { html_content: "foo", serialized_content: serialized }
@@ -85,10 +80,6 @@ RSpec.describe ConversationPart, type: :model do
     end
 
     it "agent metrics outgoing" do
-      serialized = "{\"blocks\":
-      [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-      \"entityMap\":{}}"
-
       conversation.add_message(
         from: app.agents.first,
         message: {
@@ -98,6 +89,23 @@ RSpec.describe ConversationPart, type: :model do
       )
 
       expect(AppIdentity.new(app.key).outgoing_messages.get).to be_present
+    end
+
+    it "read does not touch conversations" do
+      conversation.add_message(from: app.agents.first, message: { html_content: "foo", serialized_content: serialized })
+      u1 = conversation.reload.updated_at
+      conversation.messages.first.read!
+      expect(conversation.reload.updated_at).to be == u1
+
+      conversation.messages.first.save
+      expect(conversation.reload.updated_at).to_not be == u1
+    end
+
+    it "a save does touch conversations" do
+      conversation.add_message(from: app.agents.first, message: { html_content: "foo", serialized_content: serialized })
+      u1 = conversation.reload.updated_at
+      conversation.messages.first.save
+      expect(conversation.reload.updated_at).to_not be == u1
     end
   end
 end

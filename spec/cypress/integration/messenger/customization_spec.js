@@ -1,4 +1,4 @@
-import { translations, openMessenger } from '../../support/utils';
+import { translations, openMessenger } from '../../support';
 
 const defaultPredicates = [
   {

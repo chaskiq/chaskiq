@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - main
       - stage
   release:
     types: [published]

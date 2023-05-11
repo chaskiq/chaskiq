@@ -83,7 +83,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
 
   renderVery() {
     return (
-      <div className="bg-white dark:bg-black">
+      <div className="">
         <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-extrabold text-black dark:text-white sm:text-4xl">
             <span className="block">{I18n.t('error_view.title')}</span>

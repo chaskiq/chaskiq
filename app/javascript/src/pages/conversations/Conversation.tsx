@@ -2,7 +2,7 @@ import React from 'react';
 
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import Tooltip from 'rc-tooltip';
 import I18n from '../../shared/FakeI18n';
 import { last, isEmpty } from 'lodash';
@@ -32,13 +32,13 @@ import {
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
 import theme from '@chaskiq/components/src/components/textEditor/theme';
 import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme';
-import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles';
-import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer';
+import EditorContainer from 'dante3/package/esm/styled/base.js';
 import styled from '@emotion/styled';
 import RtcDisplayWrapper from '@chaskiq/components/src/components/rtcView'; // './RtcWrapper'
 import TagDialog from '@chaskiq/components/src/components/TagDialog';
 import AppPackagePanel from './appPackagePanel';
-import layoutDefinitions from '../../layout/layoutDefinitions';
+
+import { Renderer } from 'dante3/package/esm';
 
 import graphql from '@chaskiq/store/src/graphql/client';
 
@@ -90,14 +90,6 @@ import useDebounce from '@chaskiq/components/src/components/hooks/useDebounce';
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
   //justify-content: center;
-
-  // this is to fix the image on message bubbles
-  .aspect-ratio-fill {
-    display: none;
-  }
-  .aspectRatioPlaceholder.is-locked .graf-image {
-    position: inherit;
-  }
 `;
 
 type BgContainerProps = {
@@ -132,7 +124,7 @@ const MessageItem = styled.div<MessageItemType>`
         ? tw`bg-gray-600 text-white dark:bg-gray-800 dark:border dark:border-black`
         : props.privateNote
         ? tw`bg-yellow-300 text-black`
-        : tw`bg-gray-800 text-white dark:bg-gray-900 dark:border dark:border-gray-800 dark:text-white`
+        : tw`bg-brand text-white dark:bg-brand dark:border dark:border-gray-800 dark:text-white`
 
     // `background: linear-gradient(45deg,#48d79b,#1dea94f2);` :
     // `background: linear-gradient(45deg,#202020,#000000e6)`
@@ -153,6 +145,7 @@ function Conversation({
   setFixedSidebarOpen,
   isDark,
   history,
+  reconnect,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
@@ -231,6 +224,17 @@ function Conversation({
     }
     setScrolling(false);
   }, [messagesLength]);
+
+  // reconnect strategy
+  React.useEffect(() => {
+    if (reconnect > 0) {
+      dispatch(
+        clearConversation(() => {
+          if (!isNew) getMessages(scrollToLastItem);
+        })
+      );
+    }
+  }, [reconnect]);
 
   function getChannelPackagesForNewConversations() {
     graphql(
@@ -411,10 +415,11 @@ function Conversation({
     const key = `conversation-${conversation.key}-message-${o.key}`;
 
     const content = messageContent.serializedContent ? (
-      <DraftRenderer
+      <Renderer
         key={key}
         raw={JSON.parse(messageContent.serializedContent)}
         html={messageContent.htmlContent}
+        theme={themeDark}
       />
     ) : (
       <div
@@ -580,7 +585,10 @@ function Conversation({
               </span>
             </span>
 
-            <p className="text-md text-center font-bold">
+            <p
+              className="text-md text-center font-bold word-break"
+              style={{ lineBreak: 'anywhere' }}
+            >
               {messageContent.action}{' '}
               {messageContent.data.name || messageContent.data.email}
             </p>
@@ -610,8 +618,6 @@ function Conversation({
     );
   };
 
-  const layout = layoutDefinitions();
-
   return (
     <BgContainer
       isDark={isDark}
@@ -619,7 +625,7 @@ function Conversation({
     >
       {!isNew && (
         <div
-          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700"
+          className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-900 dark:border-gray-800"
           style={{ height: '63px' }}
         >
           <div className="flex items-center">
@@ -705,7 +711,7 @@ function Conversation({
                   ${
                     conversation.state === 'closed'
                       ? 'bg-green-600 border-green-700 hover:bg-green-700 hover:border-green-800 text-gray-100'
-                      : 'bg-white hover:bg-gray-100 text-gray-800 dark:text-gray-100 dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600'
+                      : 'bg-white hover:bg-gray-100 text-gray-800 dark:text-gray-100 dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800'
                   }
                   `}
               >
@@ -726,7 +732,7 @@ function Conversation({
                   bg-white hover:bg-gray-100 text-gray-800
                   dark:text-gray-100
                   font-semibold border border-gray-400 shadow 
-                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600"
+                  dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800"
                 onClick={() => setVideoSession(!videoSession)}
               >
                 {videoSession ? (
@@ -778,7 +784,7 @@ function Conversation({
                 className="focus:outline-none outline-none mr-1 rounded-full 
                   bg-white hover:bg-gray-100 text-gray-800
                   dark:text-gray-100 
-                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                  dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800
                   font-semibold border border-gray-400 shadow"
               >
                 <PinIcon variant="rounded" />
@@ -796,7 +802,7 @@ function Conversation({
                   bg-white hover:bg-gray-100 text-gray-800 font-semibold border 
                   dark:text-gray-100 
                   border-gray-400 shadow
-                  dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                  dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800
                   "
               >
                 <LabelIcon variant="rounded" />
@@ -834,7 +840,7 @@ function Conversation({
                         bg-white hover:bg-gray-100 text-gray-800 border-gray-400 font-semibold
                         dark:text-gray-100 
                         border shadow items-center justify-center
-                        dark:hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-600
+                        dark:hover:bg-gray-800 dark:bg-gray-900 dark:border-gray-800
                         "
                     >
                       {conversation.assignee && (
@@ -903,11 +909,8 @@ function Conversation({
 
       <div
         ref={overflow}
-        className="overflow-y-scroll"
+        className="overflow-y-scroll sm:h-[calc(100vh - 220px)] h-[71vh]"
         onScroll={handleScroll}
-        style={{
-          height: 'calc(100vh - 220px)',
-        }}
       >
         <div className="flex flex-col-reverse px-6 py-4">
           <ErrorBoundary>
@@ -968,46 +971,45 @@ function Conversation({
         </div>
       </div>
 
-      {!conversation.loading && (
-        <div className="pb-3 px-4 flex-none mt-auto">
-          <div className="bg-white flex rounded-lg border border-grey-100 dark:border-gray-900 overflow-hidden-- shadow-lg">
-            {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
-                <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
-                </span> */}
+      <div className="pb-3 px-4 flex-none sm:mt-auto">
+        <div className="flex rounded-lg border border-grey-100 dark:border-gray-900 overflow-hidden-- shadow-lg">
+          {/* <span className="text-3xl text-grey border-r-2 border-grey p-2">
+              <svg className="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"></path></svg>
+              </span> */}
 
-            {!conversation.blocked && (
-              <ConversationEditor
-                insertAppBlockComment={insertAppBlockCommentDispatch}
-                insertComment={insertCommentDispatch}
-                typingNotifier={typingNotifierDispatch}
-                insertNote={insertNoteDispatch}
-                isNew={isNew}
-                initiatorChannels={initiatorChannels}
-                initiatorChannel={initiatorChannel}
-                setInitiatorChannel={setInitiatorChannel}
-                app={app}
-              />
-            )}
+          {!conversation.blocked && (
+            <ConversationEditor
+              insertAppBlockComment={insertAppBlockCommentDispatch}
+              insertComment={insertCommentDispatch}
+              typingNotifier={typingNotifierDispatch}
+              insertNote={insertNoteDispatch}
+              isNew={isNew}
+              theme={theme}
+              initiatorChannels={initiatorChannels}
+              initiatorChannel={initiatorChannel}
+              setInitiatorChannel={setInitiatorChannel}
+              app={app}
+            />
+          )}
 
-            {conversation.blocked && (
-              <div className="w-full">
-                <div className="rounded-md bg-gray-100 p-4 h-32">
-                  <div className="flex">
-                    <div className="ml-3 flex-1 md:flex md:justify-between flex-col space-y-3">
-                      <p className="text-sm text-gray-700 font-bold border-b-4 border-b-gray-900">
-                        Conversation locked
-                      </p>
-                      <p className="text-sm text-gray-700">
-                        {conversation.blockedReason || 'conversation blocked'}
-                      </p>
-                    </div>
+          {conversation.blocked && (
+            <div className="w-full">
+              <div className="rounded-md bg-gray-100 dark:bg-gray-900 p-4 h-32">
+                <div className="flex">
+                  <div className="ml-3 flex-1 md:flex md:justify-between flex-col space-y-3">
+                    <p className="text-sm text-gray-700 font-bold border-b-4 border-b-gray-900">
+                      Conversation locked
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      {conversation.blockedReason || 'conversation blocked'}
+                    </p>
                   </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       <QuickRepliesDialog
         closeHandler={() => setQuickReplyDialogOpen(null)}
@@ -1147,7 +1149,7 @@ function NewConversationControls({
   }
 
   return (
-    <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-800 dark:border-gray-700">
+    <div className="border-b flex px-6 py-3 items-center flex-none bg-white dark:bg-gray-900 dark:border-gray-800">
       <div className="flex items-start justify-between w-full">
         <div className="flex-grow pr-10">
           <ul className="flex flex-col space-y-2">
@@ -1481,8 +1483,16 @@ function RenderBlocks({ message, app, conversation, dispatch }) {
 }
 
 function mapStateToProps(state) {
-  const { auth, app, conversation, app_user, current_user, drawer, theme } =
-    state;
+  const {
+    auth,
+    app,
+    conversation,
+    app_user,
+    current_user,
+    drawer,
+    theme,
+    reconnect,
+  } = state;
   const { isAuthenticated } = auth;
   const { messages, loading } = conversation;
   const { jwt } = auth;
@@ -1499,6 +1509,7 @@ function mapStateToProps(state) {
     drawer,
     isAuthenticated,
     isDark,
+    reconnect,
   };
 }
 

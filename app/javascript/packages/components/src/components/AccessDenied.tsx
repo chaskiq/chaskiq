@@ -20,7 +20,7 @@ export function allowedAccessTo(app, section, verb = 'read') {
     role_definition['manage']?.includes(section) ||
     role_definition[verb]?.includes(section);
 
-  console.log('PERMISSION CHECK FOR:', verb, section, res);
+  // console.log('PERMISSION CHECK FOR:', verb, section, res);
   return res;
   // you can disable this behavior by returning true
   //return true

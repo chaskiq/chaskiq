@@ -8,12 +8,15 @@ module Mutations
     end
 
     def app_users(per, page)
+      @app_users = @segment.execute_query
       if Chaskiq::Config.get("SEARCHKICK_CLIENT")
         @app_users = @segment.es_search(page, per)
       else
         @segment.execute_query
                 .page(page)
                 .per(per)
+                .includes(taggings: :tags)
+                .fast_page
       end
     end
 

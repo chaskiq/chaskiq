@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - main
       - stage
   release:
     types: [published]
@@ -47,7 +48,7 @@ jobs:
           SHORT_SHA: ${{ steps.vars.outputs.short_sha }}
 
       - name: Tag LATEST and Push Docker image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           docker tag $GITHUB_REPOSITORY $GITHUB_REPOSITORY:latest
           docker push $GITHUB_REPOSITORY:latest

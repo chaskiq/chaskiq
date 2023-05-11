@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import Frame, { FrameContextConsumer } from 'react-frame-component';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import baseStyles from './styles/reset';
 
 type CssInjectorType = {
@@ -17,7 +17,7 @@ class CssInjector extends React.Component<CssInjectorType> {
     // const iframe = document.getElementsByTagName('iframe')[0]
     // const iframeHead = iframe.contentDocument.head
     const iframeHead = this.props.document.head;
-    this.cache = createCache({ container: iframeHead });
+    this.cache = createCache({ key: 'cache-emo', container: iframeHead });
   }
 
   render() {

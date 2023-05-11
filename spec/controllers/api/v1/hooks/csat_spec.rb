@@ -47,12 +47,15 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       )
     end
 
+    let(:serialized) do
+      {
+        type: "doc",
+        content: [{ type: "paragraph", content: [{ type: "text", text: "bar" }] }]
+      }.to_json
+    end
+
     describe "single hook" do
       it "receive message" do
-        serialized = "{\"blocks\":
-        [{\"key\":\"bl82q\",\"text\":\"bar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-        \"entityMap\":{}}"
-
         perform_enqueued_jobs do
           message = conversation.add_message(
             from: user,

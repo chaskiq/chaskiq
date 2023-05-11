@@ -342,17 +342,15 @@ export function assignAgent(id, cb) {
       ASSIGN_USER,
       {
         appKey: getState().app.key,
-        conversationId: getState().conversation.id,
+        conversationId: `${getState().conversation.id}`,
         appUserId: id,
       },
       {
         success: (data) => {
           const conversation = data.assignUser.conversation;
-          const newConversation = Object.assign(
-            {},
-            getState().conversation,
-            conversation
-          );
+          const newConversation = Object.assign({}, getState().conversation, {
+            assignee: conversation.assignee,
+          });
           dispatch(dispatchGetConversations(newConversation));
           if (cb) cb(data.assignUser.conversation);
         },

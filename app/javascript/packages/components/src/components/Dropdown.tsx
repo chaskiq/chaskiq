@@ -73,7 +73,7 @@ export default function Dropdown({
             <div
               className={
                 panelClass ||
-                'rounded-md bg-white dark:bg-gray-900 dark:text-gray-100 shadow-xs max-h-[85vh] overflow-y-auto'
+                'rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 shadow-xs max-h-[85vh] overflow-y-auto'
               }
             >
               {children}

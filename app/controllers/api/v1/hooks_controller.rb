@@ -62,15 +62,17 @@ class Api::V1::HooksController < ActionController::API
     to         = mail.to
     recipients = mail.recipients # ["messages+aaa@hermessenger.com"] de aqui sale el app y el mensaje!
 
+    mail.part # will convert plain into multipart
     # EmailReplyParser.parse_reply(mail.text_part.body.to_s)
     # message = EmailReplyParser.parse_reply(mail.text_part.body.to_s).gsub("\n", "<br/>").force_encoding(Encoding::UTF_8)
     body = mail&.text_part&.body&.to_s&.force_encoding(Encoding::UTF_8)
+
     return if body.blank?
     return if recipients.empty?
 
     message = EmailReplyTrimmer.trim(body).gsub("\n", "<br/>")
 
-    app, conversation, from = handle_conversation_part(mail)
+    app, conversation, from = handle_conversation_part(mail, json_message)
 
     messageId = json_message["mail"]["messageId"]
     # for now just skip the message
@@ -140,35 +142,7 @@ class Api::V1::HooksController < ActionController::API
   end
 
   def serialize_content(message)
-    message = sanitize(message, tags: %W[p br img \n])
-    doc = Nokogiri::HTML.parse(message)
-
-    doc.css("br").each do |node|
-      node.replace(Nokogiri::XML::Text.new("\n", doc))
-    end
-
-    lines = doc.css("body").inner_html.gsub(%r{<p>|</p>}, "")
-    lines = lines.split("\n").delete_if(&:empty?)
-
-    {
-      blocks: lines.map do |o|
-        if o.include?("<img src=")
-          process_image(o)
-        else
-          serialized_block(o)
-        end
-      end,
-      entityMap: {}
-    }.to_json
-  end
-
-  def process_image(o)
-    img = Nokogiri::HTML.parse(o).css("img")
-    url = img.attr("src")&.value
-    w = img.attr("width")&.value
-    h = img.attr("height")&.value
-    title = img.attr("title")&.value
-    photo_block(url: url, text: title, w: w, h: h)
+    serialize_content_from_html(message)
   end
 
   def handle_message_recipient(mail)
@@ -189,6 +163,15 @@ class Api::V1::HooksController < ActionController::API
     recipient = mail.recipients.first
     app, agent = decode_inbound_address(recipient)
     return if app.blank?
+    return unless app&.plan&.enabled?("InboundEmails")
+
+    create_conversation_from_incoming(app, mail)
+  end
+
+  def handle_inbound_recipient_from_forwarded(mail, val)
+    app, agent = decode_inbound_address(val)
+    return if app.blank?
+    return unless app&.plan&.enabled?("InboundEmails")
 
     create_conversation_from_incoming(app, mail)
   end
@@ -202,7 +185,7 @@ class Api::V1::HooksController < ActionController::API
     create_conversation_from_incoming(app, mail)
   end
 
-  def handle_conversation_part(mail)
+  def handle_conversation_part(mail, json_message)
     recipient = mail.recipients.first
     if recipient.starts_with?("messages+")
       handle_message_recipient(mail)
@@ -210,6 +193,8 @@ class Api::V1::HooksController < ActionController::API
       handle_inbound_recipient(mail)
     elsif recipient.starts_with?("campaigns+")
       handle_campaigns_recipient(mail)
+    elsif ((val = json_message["mail"]["headers"].find { |o| o["name"] == "X-Forwarded-To" }&.dig("value"))) && val.present? && val.starts_with?("inbound+")
+      handle_inbound_recipient_from_forwarded(mail, val)
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_05_144614) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_23_132840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -457,6 +457,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_144614) do
     t.bigint "conversation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "data"
     t.index ["conversation_id"], name: "index_conversation_channels_on_conversation_id"
     t.index ["provider"], name: "index_conversation_channels_on_provider"
     t.index ["provider_channel_id"], name: "index_conversation_channels_on_provider_channel_id"
@@ -666,6 +667,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_05_144614) do
     t.datetime "updated_at", null: false
     t.index ["app_id"], name: "index_outgoing_webhooks_on_app_id"
     t.index ["state"], name: "index_outgoing_webhooks_on_state"
+  end
+
+  create_table "plugins", force: :cascade do |t|
+    t.jsonb "data"
+    t.bigint "app_package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "version"
+    t.index ["app_package_id"], name: "index_plugins_on_app_package_id"
   end
 
   create_table "preview_cards", force: :cascade do |t|

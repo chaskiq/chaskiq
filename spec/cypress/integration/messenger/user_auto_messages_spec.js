@@ -7,6 +7,7 @@ describe('Conversation Spec', function () {
       const appKey = results.key
       cy.app('user_auto_message', {
         app_key: appKey,
+        text: "Hey",
         hidden_constraints: { hidden_constraints: ['open'] }
       }).then(() => {
         cy.visit(`/tester/${appKey}`).then(() => {
@@ -26,6 +27,7 @@ describe('Conversation Spec', function () {
       const appKey = results.key
       cy.app('user_auto_message', {
         app_key: appKey,
+        text: "Hey",
         hidden_constraints: { hidden_constraints: ['close'] }
       }).then(() => {
         cy.visit(`/tester/${appKey}`).then(() => {

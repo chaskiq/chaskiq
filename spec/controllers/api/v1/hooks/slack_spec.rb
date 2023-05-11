@@ -237,6 +237,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+    }.to_json
+  end
+
   def message_blocks(global: false, channel: nil, additional_data: nil, message: "the message")
     payload = {
       "team_id" => "TQUC0ASKT",
@@ -322,9 +329,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
              .and_return(Time.zone.now)
 
       ConversationPartContent.any_instance.stub(:serialized_content)
-                             .and_return(
-                               '{"blocks": [{"key":"bl82q","text":"foobar","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
-                             )
+                             .and_return(serialized)
 
       MessageApis::Slack::Api.any_instance.stub(:post_message).and_return({ foo: "stubbed" })
 
@@ -593,6 +598,19 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     end
 
     it "send message" do
+    end
+
+    it "create conversation will call slack app" do
+      app.conversations.delete_all
+
+      allow_any_instance_of(MessageApis::Slack::Api).to receive(:trigger).and_return(true)
+      perform_enqueued_jobs do
+        app.start_conversation(
+          message: { text_content: "aa" },
+          from: user
+        )
+      end
+      expect(app.conversations.count).to be == 1
     end
   end
 end

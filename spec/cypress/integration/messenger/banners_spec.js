@@ -6,7 +6,7 @@ describe('Banners Spec', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
       cy.app('banner_command', {
-        serialized_content: '{"blocks":[{"key":"f1qmb","text":"tatecallaoe","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        serialized_content: "tatecallaoe",
         app_key: appKey,
         url: '',
         mode: 'inline',
@@ -35,7 +35,7 @@ describe('Banners Spec', function () {
     cy.appEval('App.last').then((results) => {
       const appKey = results.key
       cy.app('banner_command', {
-        serialized_content: '{"blocks":[{"key":"f1qmb","text":"tatecallaoe","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        serialized_content: 'tatecallaoe',
         app_key: appKey,
         url: '',
         mode: 'inline',

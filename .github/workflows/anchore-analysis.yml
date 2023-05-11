@@ -3,6 +3,7 @@ name: Container Image CI
 on:
   push:
     branches-ignore:
+      - main
       - master
       - l10n_master2
 

@@ -202,6 +202,7 @@ ca:
         site_title: Títol del lloc
         site_description: Descripció del Lloc
         action: Acció
+        default_lang: Default Lang
     users:
       name: Nom
       email: Correu electrònic

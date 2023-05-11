@@ -11,11 +11,11 @@ gem "grpc", force_ruby_platform: true
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "anycable-rails"
 gem "pg"
-gem "rails", "7.0.4" # , github: "rails/rails",
-gem "uri", "0.10.0"
+gem "rails", "7.0.4.3" # , github: "rails/rails",
+gem "uri", "0.10.0.1"
 
 # Use sqlite3 as the database for Active Record
-# gem 'sqlite3'
+# gem "sqlite3", group: "test"
 # gem "sqlite3", "~> 1.3.6"
 # Use Puma as the app server
 gem "haml"
@@ -112,6 +112,7 @@ gem "ruby-oembed"
 gem "mustache"
 
 gem "chronic", "~> 0.10.2"
+gem "fast_page", "~> 0.1.5"
 gem "kaminari", "~> 1.2"
 
 gem "timezone", "~> 1.2"

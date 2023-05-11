@@ -207,7 +207,9 @@ export function ListRenderer({ field, handleAction }) {
           <ListItemText
             primary={<ItemListPrimaryContent>{o.title}</ItemListPrimaryContent>}
             secondary={
-              <ItemListSecondaryContent>{o.subtitle}</ItemListSecondaryContent>
+              <ItemListSecondaryContent>
+                {o.subtitle || o.text}
+              </ItemListSecondaryContent>
             }
             terciary={
               <React.Fragment>

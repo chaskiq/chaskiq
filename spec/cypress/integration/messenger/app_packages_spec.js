@@ -1,7 +1,7 @@
 import {
   translations,
   getIframeBody
-} from '../../support/utils'
+} from '../../support'
 
 function addHomeApp (namespace, definitions) {
   cy.appEval(`App.last.update(
@@ -17,8 +17,10 @@ function addAppPackage (app_package) {
   integration.save */
 
   cy.appEval(`
-    require 'app_packages_catalog'
-    AppPackagesCatalog.update_all(dev_packages: true)
+    # require 'app_packages_catalog'
+    # AppPackagesCatalog.update_all(dev_packages: true)
+    Plugin.restore_plugins_from_fs
+
   `)
 
   cy.appEval(`

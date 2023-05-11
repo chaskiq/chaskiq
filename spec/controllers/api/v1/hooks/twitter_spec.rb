@@ -53,6 +53,13 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
     }
   end
 
+  let(:serialized) do
+    {
+      type: "doc",
+      content: [{ type: "paragraph", content: [{ type: "text", text: "foobar" }] }]
+    }.to_json
+  end
+
   def message_for(sender_id, recipient_id, message_data = {}, message_id = "1")
     message = {
       "text" => "foobar",
@@ -364,10 +371,6 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
                                .stub(:make_post_request)
                                .and_return(event)
 
-      serialized = "{\"blocks\":
-      [{\"key\":\"bl82q\",\"text\":\"foobar\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],
-      \"entityMap\":{}}"
-
       perform_enqueued_jobs do
         message = app.conversations.last.add_message(
           from: user,
@@ -431,7 +434,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       expect(message.html_content).to be == "one\ntwo\ntree\n✌️"
       expect(message.serialized_content).to be_present
 
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
 
       expect(blocks.size).to be == 4
     end
@@ -446,7 +449,7 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       perform_enqueued_jobs
       message = app.conversations.first.messages.first.messageable
 
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
       block  = blocks.first
       type = block["type"]
       expect(type).to be == "recorded-video"
@@ -461,10 +464,10 @@ RSpec.describe Api::V1::Hooks::ProviderController, type: :controller do
       ))
       perform_enqueued_jobs
       message = app.conversations.first.messages.first.messageable
-      blocks = JSON.parse(message.serialized_content)["blocks"]
+      blocks = MessageApis::BlockManager.get_blocks(message.serialized_content)
       block  = blocks.first
       type = block["type"]
-      expect(type).to be == "image"
+      expect(type).to be == MessageApis::BlockManager.block_mapping("image")
     end
 
     # it "reply from agent locally" do

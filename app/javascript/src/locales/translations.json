@@ -336,6 +336,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -377,6 +378,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -1055,6 +1057,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -2075,6 +2078,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -2116,6 +2120,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -2798,6 +2803,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -3820,6 +3826,7 @@
         "oldest": "Més antic",
         "priority_first": "Prioritzat",
         "unfiltered": "Tots",
+        "updated": "Recently Updated",
         "waiting": "Esperant"
       },
       "start_conversation": "Start a conversation",
@@ -3861,6 +3868,7 @@
       "articles": {
         "settings": {
           "action": "Acció",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Descripció del Lloc",
           "site_title": "Títol del lloc"
@@ -4539,6 +4547,7 @@
         "bot_settings": "Tasques del bot",
         "collections": "Col·leccions",
         "conversations": "Converses",
+        "conversations_new": "Compose",
         "for_leads": "Per a clients potencials",
         "for_users": "Pels usuaris",
         "guided_tours": "Visites guiades",
@@ -5559,6 +5568,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -5600,6 +5610,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -6280,6 +6291,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -7309,6 +7321,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -7350,6 +7363,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -8028,6 +8042,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -9048,6 +9063,7 @@
         "oldest": "Älteste",
         "priority_first": "Priorisiert",
         "unfiltered": "Alle",
+        "updated": "Recently Updated",
         "waiting": "Wartend"
       },
       "start_conversation": "Start a conversation",
@@ -9089,6 +9105,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -9767,6 +9784,7 @@
         "bot_settings": "Bot-Aufgaben",
         "collections": "Sammlungen",
         "conversations": "Unterhaltungen",
+        "conversations_new": "Compose",
         "for_leads": "Für Leads",
         "for_users": "Für Benutzer",
         "guided_tours": "Geführte Touren",
@@ -10787,6 +10805,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -10828,6 +10847,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -11506,6 +11526,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -12533,6 +12554,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -12574,6 +12596,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -13520,6 +13543,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -14635,6 +14659,7 @@
         "oldest": "El más viejo",
         "priority_first": "Priorizado",
         "unfiltered": "Todo",
+        "updated": "Recently Updated",
         "waiting": "Esperando"
       },
       "start_conversation": "Inicia una conversación",
@@ -14676,6 +14701,7 @@
       "articles": {
         "settings": {
           "action": "Acción",
+          "default_lang": "Default Lang",
           "locale": "Configuración regional",
           "site_description": "Descripción del Sitio",
           "site_title": "Título del sitio"
@@ -15588,6 +15614,7 @@
         "bot_settings": "Tareas de bot",
         "collections": "Colecciones",
         "conversations": "Conversaciones",
+        "conversations_new": "Compose",
         "for_leads": "Para clientes potenciales",
         "for_users": "Para usuarios",
         "guided_tours": "Tours guiados",
@@ -16722,6 +16749,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -16763,6 +16791,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -17441,6 +17470,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -18461,6 +18491,7 @@
         "oldest": "Plus ancien",
         "priority_first": "Priorisé",
         "unfiltered": "Tous",
+        "updated": "Recently Updated",
         "waiting": "En attente"
       },
       "start_conversation": "Démarrer une conversation",
@@ -18502,6 +18533,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Local",
           "site_description": "Description du Site",
           "site_title": "Titre du Site"
@@ -19244,6 +19276,7 @@
         "bot_settings": "Tâches du bot",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "Pour les prospects",
         "for_users": "Pour les utilisateurs",
         "guided_tours": "Visites guidées",
@@ -20264,6 +20297,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -20305,6 +20339,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -20983,6 +21018,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -22003,6 +22039,7 @@
         "oldest": "Più Vecchi",
         "priority_first": "Priorizzato",
         "unfiltered": "Tutti",
+        "updated": "Recently Updated",
         "waiting": "In Attesa"
       },
       "start_conversation": "Inizia conversazione",
@@ -22044,6 +22081,7 @@
       "articles": {
         "settings": {
           "action": "Azione",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -22722,6 +22760,7 @@
         "bot_settings": "Attività Del Bot",
         "collections": "Collezioni",
         "conversations": "Conversazioni",
+        "conversations_new": "Compose",
         "for_leads": "Per potenziali clienti",
         "for_users": "Per utenti",
         "guided_tours": "Tour guidati",
@@ -23742,6 +23781,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -23783,6 +23823,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -24460,6 +24501,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -25480,6 +25522,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -25521,6 +25564,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -26198,6 +26242,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -27218,6 +27263,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -27259,6 +27305,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -27937,6 +27984,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -28957,6 +29005,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -28998,6 +29047,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -29676,6 +29726,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -30696,6 +30747,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -30737,6 +30789,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -31417,6 +31470,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -32437,6 +32491,7 @@
         "oldest": "Mais Antigo",
         "priority_first": "Priorizado",
         "unfiltered": "Todos",
+        "updated": "Recently Updated",
         "waiting": "Esperando"
       },
       "start_conversation": "Start a conversation",
@@ -32478,6 +32533,7 @@
       "articles": {
         "settings": {
           "action": "Acão",
+          "default_lang": "Default Lang",
           "locale": "Localidade",
           "site_description": "Descrição",
           "site_title": "Título da Área"
@@ -33156,6 +33212,7 @@
         "bot_settings": "Tarefas de bot",
         "collections": "Coleções",
         "conversations": "Conversas",
+        "conversations_new": "Compose",
         "for_leads": "Para Leads",
         "for_users": "Para Os Usuários",
         "guided_tours": "Tours guiados",
@@ -34176,6 +34233,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -34217,6 +34275,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -34896,6 +34955,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -35916,6 +35976,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -35957,6 +36018,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -36637,6 +36699,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -37657,6 +37720,7 @@
         "oldest": "Äldst",
         "priority_first": "Prioriterad",
         "unfiltered": "Alla",
+        "updated": "Recently Updated",
         "waiting": "Väntar"
       },
       "start_conversation": "Start a conversation",
@@ -37698,6 +37762,7 @@
       "articles": {
         "settings": {
           "action": "Åtgärder",
+          "default_lang": "Default Lang",
           "locale": "Språk",
           "site_description": "Webbplatsbeskrivning",
           "site_title": "Webbplatstitel"
@@ -38376,6 +38441,7 @@
         "bot_settings": "Botuppgifter",
         "collections": "Samlingar",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "För användare",
         "guided_tours": "Guided Tours",
@@ -39396,6 +39462,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -39437,6 +39504,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -40115,6 +40183,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -41135,6 +41204,7 @@
         "oldest": "Oldest",
         "priority_first": "Priorized",
         "unfiltered": "All",
+        "updated": "Recently Updated",
         "waiting": "Waiting"
       },
       "start_conversation": "Start a conversation",
@@ -41176,6 +41246,7 @@
       "articles": {
         "settings": {
           "action": "Action",
+          "default_lang": "Default Lang",
           "locale": "Locale",
           "site_description": "Site Description",
           "site_title": "Site Title"
@@ -41856,6 +41927,7 @@
         "bot_settings": "Bot Tasks",
         "collections": "Collections",
         "conversations": "Conversations",
+        "conversations_new": "Compose",
         "for_leads": "For Leads",
         "for_users": "For Users",
         "guided_tours": "Guided Tours",
@@ -42876,6 +42948,7 @@
         "oldest": "最早的",
         "priority_first": "已优先处理",
         "unfiltered": "全部",
+        "updated": "Recently Updated",
         "waiting": "等待"
       },
       "start_conversation": "开始会话",
@@ -42917,6 +42990,7 @@
       "articles": {
         "settings": {
           "action": "行为",
+          "default_lang": "Default Lang",
           "locale": "地点",
           "site_description": "网站说明",
           "site_title": "站点标题"
@@ -43594,6 +43668,7 @@
         "bot_settings": "Bot任务",
         "collections": "文档集",
         "conversations": "会话",
+        "conversations_new": "Compose",
         "for_leads": "为线索客户",
         "for_users": "为用户",
         "guided_tours": "Guided Tours",
