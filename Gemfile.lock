@@ -271,6 +271,9 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
+    fast_page (0.1.5)
+      activerecord
+      activesupport
     ffi (1.15.5)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
@@ -695,6 +698,7 @@ DEPENDENCIES
   factory_bot_rails
   faker!
   faraday
+  fast_page (~> 0.1.5)
   friendly_id (~> 5.2)
   geocoder (~> 1.6)
   geoip

@@ -47,6 +47,10 @@ module Types
 
     field :tag_list, [String], null: true
 
+    def tag_list
+      object.tags.collect(&:name)
+    end
+
     def state
       object.subscription_state
     end
