@@ -427,6 +427,6 @@ class AppUser < ApplicationRecord
   scope :search_import, -> { includes(:external_profiles) }
 
   def should_index?
-    Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true"
+    Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && app.searchkick_enabled?
   end
 end

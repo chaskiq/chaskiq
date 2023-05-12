@@ -66,7 +66,7 @@ gem "ransack"
 
 gem "searchkick"
 
-gem "elasticsearch", "7.12" # select one
+# gem "elasticsearch", "7.12" # select one
 gem "opensearch-ruby" # select one
 
 gem "browser", "~> 2.5"

@@ -469,6 +469,7 @@ class Segment < ApplicationRecord
     }
 
     query = {
+      track_total_hits: true,
       query: {
         bool: {
           must: (clause_group(q_predicates, :must) << nested_preds_group(:c, nested_preds)).compact.flatten,
