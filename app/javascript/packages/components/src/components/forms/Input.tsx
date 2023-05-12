@@ -60,6 +60,20 @@ interface IWrapperComponent {
   dispatch?: any;
 }
 
+export function themeForSelect(theme) {
+  if (theme === 'dark') {
+    return {
+      neutral0: 'black',
+      neutral5: '#777',
+      neutral10: '#777',
+      neutral80: '#999',
+      primary25: 'hotpink',
+      primary: '#666',
+    };
+  }
+  return {};
+}
+
 const WrappedComponent = React.forwardRef(function Input(
   {
     label,
@@ -121,20 +135,6 @@ const WrappedComponent = React.forwardRef(function Input(
     }
   }
 
-  function themeForSelect() {
-    if (theme === 'dark') {
-      return {
-        neutral0: 'black',
-        neutral5: '#777',
-        neutral10: '#777',
-        neutral80: '#999',
-        primary25: 'hotpink',
-        primary: '#666',
-      };
-    }
-    return {};
-  }
-
   function renderText() {
     const { labelMargin, ...options } = props;
     const { className, ...inputOptions } = options;
@@ -187,7 +187,7 @@ const WrappedComponent = React.forwardRef(function Input(
             borderRadius: 4,
             colors: {
               ...selectTheme.colors,
-              ...themeForSelect(),
+              ...themeForSelect(theme),
             },
           })}
         />

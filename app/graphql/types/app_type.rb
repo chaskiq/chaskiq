@@ -522,10 +522,18 @@ module Types
     end
 
     def contact_search(term:)
-      query_term = :last_name_or_first_name_or_name_or_email_or_phone_i_cont_any
-      @collection = object.app_users.limit(10).ransack(
-        query_term => term
-      ).result
+      if Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && object.searchkick_enabled?
+        AppUser.search(
+          term,
+          fields: %i[name last_name first_name email phone],
+          where: { app_id: object.id }
+        )
+      else
+        query_term = :last_name_or_first_name_or_name_or_email_or_phone_i_cont_any
+        @collection = object.app_users.limit(10).ransack(
+          query_term => term
+        ).result
+      end
     end
 
     field :contact_search_by_profile, Types::ExternalProfileType, null: true do

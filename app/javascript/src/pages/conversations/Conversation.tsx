@@ -86,6 +86,7 @@ import {
 import { APP_PACKAGES_BY_CAPABILITY } from '@chaskiq/store/src/graphql/queries';
 import { dispatchUpdateConversationData } from '@chaskiq/store/src/actions/conversation';
 import useDebounce from '@chaskiq/components/src/components/hooks/useDebounce';
+import { themeForSelect } from '@chaskiq/components/src/components/forms/Input';
 
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
@@ -146,6 +147,7 @@ function Conversation({
   isDark,
   history,
   reconnect,
+  theme,
 }) {
   const overflow = React.useRef<HTMLDivElement>(null);
   const matchId = match ? match.params.id : null;
@@ -880,6 +882,7 @@ function Conversation({
       {isNew && (
         <NewConversationControls
           app={app}
+          theme={theme}
           conversation={conversation}
           dispatch={dispatch}
           setFixedSidebarOpen={setFixedSidebarOpen}
@@ -1025,6 +1028,7 @@ function NewConversationControls({
   dispatch,
   toggleFixedSidebar,
   setFixedSidebarOpen,
+  theme,
 }) {
   const [elements, setElements] = React.useState([]);
   const [isLoading, setLoading] = React.useState(false);
@@ -1086,7 +1090,7 @@ function NewConversationControls({
 
   function displayElementList() {
     return elements.map((o) => ({
-      label: `${o.displayName} · ${o.email}`,
+      label: `${o.displayName} · ${o.email} (${o.kind})`,
       value: o.id,
     }));
   }
@@ -1141,10 +1145,10 @@ function NewConversationControls({
   function getMainParticipantValue() {
     const { mainParticipant } = conversation;
     if (!mainParticipant) return null;
-    const { displayName, email } = mainParticipant;
+    const { displayName, email, kind } = mainParticipant;
     return {
       id: mainParticipant.id,
-      label: `${displayName} · ${email}`,
+      label: `${displayName} · ${email} · (${kind})`,
     };
   }
 
@@ -1168,6 +1172,14 @@ function NewConversationControls({
                   placeholder="Search for a contact or enter a new one"
                   onInputChange={handleInputChange}
                   onCreateOption={handleCreate}
+                  theme={(selectTheme) => ({
+                    ...selectTheme,
+                    borderRadius: 4,
+                    colors: {
+                      ...selectTheme.colors,
+                      ...themeForSelect(theme),
+                    },
+                  })}
                 />
               </div>
             </li>
@@ -1177,7 +1189,7 @@ function NewConversationControls({
                 type="text"
                 value={conversation.subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="p-2 w-3/4"
+                className="p-2 w-3/4 dark:bg-gray-800 dark:text-gray-100"
                 placeholder="Add a subject for your email"
               />
             </li>
@@ -1510,6 +1522,7 @@ function mapStateToProps(state) {
     isAuthenticated,
     isDark,
     reconnect,
+    theme,
   };
 }
 

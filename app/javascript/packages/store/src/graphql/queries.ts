@@ -358,6 +358,7 @@ export const CONTACT_SEARCH = `
         id
         email
         displayName
+        kind
       }
     }
   }
