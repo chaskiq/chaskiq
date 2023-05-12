@@ -5,6 +5,8 @@ class ExternalProfile < ApplicationRecord
   after_commit :reindex_product
 
   def reindex_product
+    return unless app_user.should_index?
+
     app_user&.reindex
   end
 
