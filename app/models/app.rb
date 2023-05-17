@@ -138,6 +138,10 @@ class App < ApplicationRecord
     preferences[:outgoing_email_domain].presence || Chaskiq::Config.get("DEFAULT_OUTGOING_EMAIL_DOMAIN")
   end
 
+  def searchkick_enabled?
+    @searchkick_enabled ||= plan.enabled?("SearchIndex")
+  end
+
   def config_fields
     [
       {

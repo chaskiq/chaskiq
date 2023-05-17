@@ -7,12 +7,17 @@ module Mutations
       argument :per, Integer, required: false, default_value: 20
     end
 
-    def app_users(per, page)
+    def app_users(app, per, page)
       @app_users = @segment.execute_query
-                           .page(page)
-                           .per(per)
-                           .fast_page
-                           .includes(taggings: :tags)
+      if Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && app.searchkick_enabled?
+        @app_users = @segment.es_search(page, per).includes(taggings: :tag)
+      else
+        @segment.execute_query
+                .page(page)
+                .per(per)
+                .includes(taggings: :tags)
+                .fast_page
+      end
     end
 
     argument :app_key, String, required: true
@@ -33,7 +38,7 @@ module Mutations
         predicates: [:attribute, :comparison, :type, :value, { value: [] }]
       )
       @segment.assign_attributes(resource_params)
-      { app_users: app_users(per, page) }
+      { app_users: app_users(@app, per, page) }
     end
   end
 end

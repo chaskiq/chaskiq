@@ -4,6 +4,9 @@ subscriptions:
       name: "free"
       id: <%= ENV['STRIPE_PLAN_1'] %>
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -77,6 +80,9 @@ subscriptions:
       name: "rookie"
       id: <%= ENV['STRIPE_PLAN_2'] %>
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -150,6 +156,9 @@ subscriptions:
       name: "super"
       id: <%= ENV['STRIPE_PLAN_3'] %>
       features:
+        - name: SearchIndex
+          active: true
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -221,6 +230,9 @@ subscriptions:
       id: <%= ENV['STRIPE_PLAN_4'] %>
 
       features:
+        - name: SearchIndex
+          active: true
+          count: unlimited
         - 
           name: Agents
           active: true
@@ -291,6 +303,9 @@ subscriptions:
       name: "free"
       id: 618560
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         -
           name: Segments
           active: true
@@ -356,6 +371,9 @@ subscriptions:
       name: "rookie"
       id: 616249
       features:
+        - name: SearchIndex
+          active: false
+          count: unlimited
         -
           name: Segments
           active: true
