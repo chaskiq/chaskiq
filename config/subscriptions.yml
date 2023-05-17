@@ -172,11 +172,11 @@ subscriptions:
           count: unlimited
         - 
           name: BotTasks
-          active: false
+          active: true
           count: unlimited
         - 
           name: Integrations
-          active: false
+          active: true
           count: unlimited
         - 
           name: Campaigns

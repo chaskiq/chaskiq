@@ -19,6 +19,11 @@ const EditorStylesExtend = styled(EditorContainer)`
   .dante-menu {
     z-index: 2000;
   }
+
+  .graf--p a {
+    ${tw`font-medium text-brand underline dark:text-brand hover:no-underline`}
+  }
+
   blockquote {
     margin-left: 20px;
   }
