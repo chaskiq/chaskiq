@@ -13,7 +13,7 @@ development:
   prepared_statements: false
   adapter: postgresql
   database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq_dev') %>
-  #database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq-prod-local') %>
+  # database: <%= ENV.fetch('POSTGRES_DATABASE', 'chaskiq-prod-local') %>
   username: <%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>
   password: <%= ENV.fetch('POSTGRES_PASSWORD', '') %>
   min_messages: warning
