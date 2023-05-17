@@ -421,10 +421,14 @@ class AppUser < ApplicationRecord
                }
              },
              # locations: [:location],
-             callbacks: :async
+             callbacks: false
   # index_name: ["#{self.model_name.plural}_#{Rails.env}"]
 
   scope :search_import, -> { includes(:external_profiles) }
+
+  after_commit do
+    reindex(mode: :async) if !destroyed? && should_index?
+  end
 
   def should_index?
     Chaskiq::Config.get("SEARCHKICK_ENABLED") == "true" && app.searchkick_enabled?
