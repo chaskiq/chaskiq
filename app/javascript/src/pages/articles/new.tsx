@@ -387,7 +387,9 @@ class ArticlesNew extends Component<ArticlesNewProps, ArticlesNewState> {
       },
       {
         success: (_data) => {
-          imageBlock.uploadCompleted(serviceUrl);
+          imageBlock.updateAttributes({
+            url: serviceUrl,
+          });
         },
         error: (err) => {
           console.log('error on direct upload', err);
