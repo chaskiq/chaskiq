@@ -30,7 +30,7 @@ import {
 } from '@chaskiq/components/src/components/icons';
 
 import FilterMenu from '@chaskiq/components/src/components/FilterMenu';
-import theme from '@chaskiq/components/src/components/textEditor/theme';
+import lightTheme from '@chaskiq/components/src/components/textEditor/theme';
 import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme';
 import EditorContainer from 'dante3/package/esm/styled/base.js';
 import styled from '@emotion/styled';
@@ -937,7 +937,7 @@ function Conversation({
                     conversation={conversation}
                   >
                     <ThemeProvider
-                      theme={message.privateNote ? theme : themeDark}
+                      theme={message.privateNote ? lightTheme : themeDark}
                       /*theme={
                         userOrAdmin === 'admin'
                           ? message.privateNote
