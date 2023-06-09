@@ -342,6 +342,7 @@ export default class ChatEditor extends Component<
   };
 
   isDocEmpty = (docJSON) => {
+    if (!docJSON) return true;
     const { content } = docJSON;
 
     if (!content || content.length === 0) {
