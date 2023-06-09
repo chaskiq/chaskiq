@@ -20,7 +20,7 @@ gem "uri", "0.10.0.1"
 # Use Puma as the app server
 gem "haml"
 gem "jsbundling-rails"
-gem "kredis", "~> 1.1"
+gem "kredis", "~> 1.3"
 gem "propshaft"
 gem "puma", "~> 6.0"
 gem "sassc"
