@@ -102,7 +102,7 @@ module MessageApis::Csat
     def send_survey(subject)
       data = MessageApis::Csat::Presenter.csat_buttons
 
-      author = subject.app.agents.first
+      author = subject.app.agents.bots.first
 
       controls = {
         app_package: "Csat",
