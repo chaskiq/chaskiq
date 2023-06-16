@@ -33,7 +33,7 @@ module Chaskiq
 
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.0
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -43,9 +43,6 @@ module Chaskiq
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-
-    config.load_defaults '6.0'
-    
     config.encoding = 'utf-8'
 
     config.assets.css_compressor = nil
@@ -53,6 +50,8 @@ module Chaskiq
     config.i18n.fallbacks = [I18n.default_locale]
 
     config.action_cable.disable_request_forgery_protection = true
+
+    config.active_storage.variant_processor = :mini_magick
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
