@@ -83,7 +83,7 @@ gem "jwt"
 # AUTH
 # gem 'devise-jwt', '~> 0.5.9'
 gem "devise_invitable", "~> 2.0"
-gem "doorkeeper", "~> 5.5.0"
+gem "doorkeeper", "~> 5.6.6"
 gem "oauth", "~> 0.5.5"
 gem "omniauth-oauth2"
 

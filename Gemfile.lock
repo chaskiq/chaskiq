@@ -227,7 +227,7 @@ GEM
     diff-lcs (1.5.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    doorkeeper (5.5.4)
+    doorkeeper (5.6.6)
       railties (>= 5)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
@@ -694,7 +694,7 @@ DEPENDENCIES
   deep_cloneable
   devise
   devise_invitable (~> 2.0)
-  doorkeeper (~> 5.5.0)
+  doorkeeper (~> 5.6.6)
   dotenv-rails
   email_reply_trimmer
   emoji_data!
