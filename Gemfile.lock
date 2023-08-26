@@ -300,12 +300,12 @@ GEM
     google-cloud-env (1.5.0)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.2.0)
-    google-protobuf (3.22.2)
+    google-protobuf (3.23.3)
     googleapis-common-protos (1.3.12)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
       grpc (~> 1.27)
-    googleapis-common-protos-types (1.5.0)
+    googleapis-common-protos-types (1.6.0)
       google-protobuf (~> 3.14)
     googleauth (1.1.1)
       faraday (>= 0.17.3, < 2.0)
@@ -320,7 +320,7 @@ GEM
     graphql (1.13.16)
     groupdate (6.0.1)
       activesupport (>= 5.2)
-    grpc (1.52.0)
+    grpc (1.53.0)
       google-protobuf (~> 3.21)
       googleapis-common-protos-types (~> 1.0)
     haml (5.2.2)
@@ -640,7 +640,7 @@ GEM
     unf (0.1.4-java)
     unf_ext (0.0.8)
     unicode-display_width (2.3.0)
-    uri (0.10.0.1)
+    uri (0.10.3)
     urlcrypt (0.1.2)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -771,7 +771,7 @@ DEPENDENCIES
   truemail
   twilio-ruby (~> 5.58.1)
   tzinfo-data
-  uri (= 0.10.0.1)
+  uri (= 0.10.3)
   urlcrypt
   web-console (>= 3.3.0)
   webmock
