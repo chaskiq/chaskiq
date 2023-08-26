@@ -89,3 +89,5 @@ config/credentials/*.yml.enc
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+lib/tasks/wassap.rake
