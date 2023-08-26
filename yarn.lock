@@ -5022,10 +5022,10 @@ damerau-levenshtein@^1.0.7:
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
 
-dante3@1.2.8:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/dante3/-/dante3-1.2.8.tgz#aab8b855fc04064433cbc60c76a69485b2a898f3"
-  integrity sha512-I4MzfQXC3+p9kMJmc/eVVjAVhX6Vub4h9rWCGTf16ltS9nTgZ22pPmIivA7h7n6PRYRD5TKZgqOK4X/96IWhjA==
+dante3@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/dante3/-/dante3-1.3.0.tgz#98eb80e51ff73e9c9fc4dad69a74867417a0e2d3"
+  integrity sha512-j6x8wpEZNEIxOcUp+w4aruVohV5ZsyoZM0Qsv+YPWBXC+2HHJYY2YA3/56VGlnjdAKzy3chYgBBQBYxtGP244Q==
   dependencies:
     "@tiptap/extension-code" "^2.0.3"
     "@tiptap/extension-code-block-lowlight" "^2.0.3"
