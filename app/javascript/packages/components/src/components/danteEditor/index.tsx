@@ -172,7 +172,7 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
   uploadHandler = (file, imageBlock) => {
     if (!file) {
       if (imageBlock.file && imageBlock.file.constructor.name === 'Blob') {
-        let blob = imageBlock.file;
+        const blob = imageBlock.file;
         //A Blob() is almost a File() - it's just missing the two properties below which we will add
         blob.lastModifiedDate = new Date();
         blob.name = 'recorded';
@@ -347,51 +347,6 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
         >
           {!this.props.loading ? (
             <>
-              {/*<DanteEditor
-              {...{
-                ...defaultProps,
-                body_placeholder: I18n.t('common.type_message'),
-              }}
-              read_only={this.props.read_only}
-              toggleEditable={this.props.toggleEditable}
-              ref={forwardedRef}
-              debug={false}
-              data_storage={{
-                url: '/',
-                save_handler: this.saveHandler,
-              }}
-              handleReturn={(e) => {
-                return (
-                  this.props.handleReturn &&
-                  this.props.handleReturn(e, this.isEmptyDraftJs(), this)
-                );
-              }}
-              onChange={(e) => {
-                this.dante_editor = e;
-              }}
-              content={this.initialContent}
-              tooltips={
-                this.props.tooltipsConfig
-                  ? this.props.tooltipsConfig()
-                  : this.tooltipsConfig()
-              }
-              widgets={
-                this.props.widgetsConfig
-                  ? this.props.widgetsConfig()
-                  : this.widgetsConfig()
-              }
-              decorators={(context) => {
-                return new MultiDecorator([
-                  PrismDraftDecorator({ prism: Prism }),
-                  new CompositeDecorator([
-                    {
-                      strategy: findEntities.bind(null, 'LINK', context),
-                      component: Link,
-                    },
-                  ]),
-                ]);
-              }}
-            />*/}
               <Dante
                 onChange={(e) => {
                   console.log('EEE', e);
@@ -419,6 +374,42 @@ class ArticleEditor extends Component<ArticleEditorProps, ArticleEditorState> {
                       return false;
                     }
                   },
+                  handleDrop: function (view, event, slice, moved) {
+                    if (!moved && event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]) { 
+                      const file = event.dataTransfer.files[0];
+                      const filesize = ((file.size/1024)/1024).toFixed(4); 
+            
+                      const { schema } = view.state;
+                      const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY });
+                      
+                      const _URL = window.URL || window.webkitURL;
+
+                      if (file.type.startsWith("image/")) {
+                          const image = new Image();
+                          image.src = _URL.createObjectURL(file);
+
+                          const node = schema.nodes.ImageBlock.create({ url: image.src , file: file, forceUpload: true });
+                          const transaction = view.state.tr.insert(coordinates.pos, node);
+                          view.dispatch(transaction);
+                          
+                      /*} else if (file.type.startsWith("video/")) {
+                          const node = schema.nodes.VideoRecorderBlock.create({ url: _URL.createObjectURL(file) });
+                          const transaction = view.state.tr.insert(coordinates.pos, node);
+                          view.dispatch(transaction);
+                      } else if (file.type.startsWith("audio/")) {
+                          const node = schema.nodes.AudioRecorderBlock.create({ url: _URL.createObjectURL(file) });
+                          const transaction = view.state.tr.insert(coordinates.pos, node);
+                          view.dispatch(transaction);*/
+                      } else {
+                          const node = schema.nodes.FileBlock.create({ url: _URL.createObjectURL(file), forceUpload: true });
+                          const transaction = view.state.tr.insert(coordinates.pos, node);
+                          view.dispatch(transaction);
+                      }
+                      return true
+                    }
+            
+                    return false; // not handled use default behaviour
+                  }
                   //attributes: {
                   //  class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
                   //},
