@@ -24,7 +24,15 @@ module MessageApis
       main_doc(lines.map { |o| serialized_block(o) }).to_json
     end
 
-    def gif_block(url:, text:)
+    def gif_block(url:, text:, w: nil, h: nil)
+      data_options = {}
+      if w.present? && h.present?
+        data_options = {
+          aspect_ratio: get_aspect_ratio(w.to_f, h.to_f),
+          width: w.to_i,
+          height: h.to_i
+        }
+      end
       {
         type: "VideoRecorderBlock",
         content: [],
