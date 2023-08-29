@@ -4,9 +4,9 @@ import { render } from 'react-dom';
 import ConversationEditor from '../src/pages/conversations/Editor';
 import { post, FetchRequest } from '@rails/request.js';
 
-import { AppPackageBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/appPackage';
-import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/onDemandTriggers';
-import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/textEditor/blocks/quickReplies';
+import { AppPackageBlockConfig } from '@chaskiq/components/src/components/danteEditor/appPackage';
+import { OnDemandTriggersBlockConfig } from '@chaskiq/components/src/components/danteEditor/onDemandTriggers';
+import { QuickRepliesBlockConfig } from '@chaskiq/components/src/components/danteEditor/quickReplies';
 
 export default class extends Controller {
   //static targets = ['contentframe'];

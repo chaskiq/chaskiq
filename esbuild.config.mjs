@@ -1,5 +1,9 @@
 import esbuild from 'esbuild';
 import babel from './babel-esbuild.mjs';
+import rails from 'esbuild-rails'
+import {sassPlugin} from 'esbuild-sass-plugin'
+import postcss from 'postcss'
+import postCssConfig from './postcss.config.js'
 
 const watch = process.argv.includes('--watch')
 const minify = process.argv.includes('--minify')
@@ -22,6 +26,7 @@ let ctx = await esbuild.context({
   platform: 'browser',
   inject: ['./esbuild/process-shim.js'],
   entryPoints: [
+    "app/javascript/new_application.js",
     "app/javascript/application.js", 
     "app/javascript/embed.js",
     "app/javascript/article.js",
@@ -62,6 +67,14 @@ let ctx = await esbuild.context({
   },
   outdir: 'app/assets/builds',
   plugins: [
+    sassPlugin({
+      async transform(source, resolveDir) {
+        const {css} = await postcss(postCssConfig.plugins).process(source)
+        //console.log(css)
+        return css
+      }
+    }),
+    rails(),
     babel({
         filter: /\.([^cpj].*|c([^s].*)?|cs([^s].*)?|css.+|p([^n].*)?|pn([^g].*)?|png.+|j([^s].*)?|js([^o].*)?|jso([^n].*)?|json.+)$/,
       })

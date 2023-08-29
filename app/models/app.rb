@@ -379,6 +379,79 @@ class App < ApplicationRecord
     end
   end
 
+
+
+
+
+  ### JSON DATA OBJECTS ###
+  def lead_tasks_settings_objects
+    return LeadTasksSettings.new if lead_tasks_settings.blank?
+
+    @lead_tasks_settings_objects ||= LeadTasksSettings.new(lead_tasks_settings)
+  end
+
+  def user_tasks_settings_objects
+    return UserTasksSettings.new if user_tasks_settings.blank?
+
+    @user_tasks_settings_objects ||= UserTasksSettings.new(user_tasks_settings)
+  end
+
+  def team_schedule_objects
+    return [] if team_schedule.blank?
+
+    @team_schedule_objects ||= team_schedule.map { |o| ScheduleRecord.new(o) }
+  end
+
+  def team_schedule_objects_attributes=(attributes)
+    array = attributes.keys.map { |o| attributes[o] }
+    self.team_schedule = JSON.parse(array.map { |o| ScheduleRecord.new(o) }.to_json)
+    # array.map{|o| ScheduleRecord.new(o) }
+  end
+
+  def inbound_settings_objects
+    return [] if inbound_settings.blank?
+
+    @inbound_settings_objects ||= InboundSettingsRecord.new(inbound_settings)
+  end
+
+  def inbound_settings_attributes=(attributes)
+    # array = attributes.keys.map{|o| attributes[o] }
+    # self.inbound_settings = JSON.parse(array.map{|o| ScheduleRecord.new(o) }.to_json)
+    # array.map{|o| ScheduleRecord.new(o) }
+  end
+
+  def customization_colors_objects
+    @customization_colors_objects ||= CustomizationRecord.new(customization_colors)
+  end
+
+  def customization_colors_attributes=(attributes)
+    @customization_colors_objects = CustomizationRecord.new(attributes)
+    self.customization_colors = @customization_colors_objects.as_json
+  end
+
+  def tag_list_objects
+    return [] if tag_list.blank?
+
+    @tag_list_objects ||= tag_list.map { |o| TagListRecord.new(o) }
+  end
+
+  def tag_list_objects_attributes=(attributes)
+    array = attributes.keys.map { |o| attributes[o] }
+    self.tag_list = array.map { |o| TagListRecord.new(o) }.as_json
+  end
+
+  def custom_fields_objects
+    return [] if custom_fields.blank?
+
+    @custom_fields_objects ||= custom_fields.map { |o| CustomFieldRecord.new(o) }
+  end
+
+  def custom_fields_objects_attributes=(attributes)
+    array = attributes.keys.map { |o| attributes[o] }
+    self.custom_fields = array.map { |o| CustomFieldRecord.new(o) }.as_json
+  end
+
+
   private
 
   def init_app_segments
@@ -411,6 +484,8 @@ class App < ApplicationRecord
     end
     h
   end
+
+
 end
 
 class ScheduleRecord

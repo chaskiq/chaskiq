@@ -5,16 +5,17 @@ import './index.css'
 //
 import { Controller as BaseController } from "@hotwired/stimulus";
 
-import React from 'react'
+/*import React from 'react'
 import { render } from 'react-dom'
 import { post } from '@rails/request.js'
 import EditorContainer from '@chaskiq/components/src/components/textEditor/editorStyles'
 import DraftRenderer from '@chaskiq/components/src/components/textEditor/draftRenderer'
 import styled from '@emotion/styled'
-import { ThemeProvider } from 'emotion-theming'
-import theme from '@chaskiq/components/src/components/textEditor/theme'
+import { ThemeProvider } from '@emotion/react';
+import theme from '@chaskiq/components/src/components/textEditor/theme'*/
 import themeDark from '@chaskiq/components/src/components/textEditor/darkTheme'
 
+/*
 const EditorContainerMessageBubble = styled(EditorContainer)`
   //display: flex;
   //justify-content: center;
@@ -26,7 +27,7 @@ const EditorContainerMessageBubble = styled(EditorContainer)`
   .aspectRatioPlaceholder.is-locked .graf-image {
     position: inherit;
   }
-`
+`*/
 
 export default class Controller extends BaseController {
   connect() {
@@ -38,7 +39,7 @@ export default class Controller extends BaseController {
                           : theme
 
     console.log("MADAFAKASS")                     
-		render(
+		/*render(
 			<ThemeProvider theme={messageForTheme}>
 				<EditorContainerMessageBubble>
 					<DraftRenderer
@@ -48,7 +49,7 @@ export default class Controller extends BaseController {
 				</EditorContainerMessageBubble>
 			</ThemeProvider>,
       this.element
-    )
+    )*/
 
   }
   disconnect() {

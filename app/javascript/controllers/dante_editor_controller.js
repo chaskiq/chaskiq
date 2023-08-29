@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import TextEditor from '@chaskiq/components/src/components/textEditor';
+//import TextEditor from '@chaskiq/components/src/components/textEditor';
 
 import { Controller } from '@hotwired/stimulus';
 
@@ -12,6 +12,7 @@ export default class extends Controller {
     const serializedContent = this.element.dataset.content;
 
     console.log(serializedContent);
+    /*
     render(
       <TextEditor
         //campaign={true}
@@ -42,6 +43,7 @@ export default class extends Controller {
       />,
       this.containerTarget
     );
+    */
   }
 
   uploadHandler(a) {

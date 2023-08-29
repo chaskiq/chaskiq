@@ -13,7 +13,7 @@
     @apply flex justify-end;
   }
 
-  button {
+ & button {
     @apply transition duration-150 ease-in-out;
 
     &.xs {

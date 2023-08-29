@@ -34,10 +34,11 @@
 						<span class="truncate">
 							<% if latest.message.is_a?(ConversationPartContent)%>
 								<% #= latest.id %>
-								<%= JSON.parse(latest.message&.serialized_content)["blocks"].map{|o| 
-										o["text"] 
-									}.compact.join(" ") 
-								%>
+								<% if latest.message&.serialized_content.nil? %>
+									<%= latest.message.html_content %>
+								<% else %>
+								<%= Dante::Renderer.new(raw: JSON.parse(latest.message&.serialized_content).deep_symbolize_keys).render %>
+								<% end %>
 								<% #= JSON.parse(latest.message&.serialized_content)["blocks"].map{|o| o["text"] }.compact.join(", ") rescue %>
 							<% end %>
 
